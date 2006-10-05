@@ -32,7 +32,6 @@
 
 package com.jeantessier.dependency;
 
-import java.io.*;
 import java.util.*;
 
 import junit.framework.*;
@@ -42,20 +41,12 @@ public class TestGraphCopierWithFiltering extends TestCase {
     private RegularExpressionSelectionCriteria filterCriteria;
     private NodeFactory                        factory;
     
-    private Node a;
-    private Node a_A;
     private Node a_A_a;
-    
-    private Node b;
-    private Node b_B;
     private Node b_B_b;
-    
-    private Node c;
-    private Node c_C;
     private Node c_C_c;
 
-    private List includeFilter;
-    private List excludeFilter;
+    private List<String> includeFilter;
+    private List<String> excludeFilter;
 
     private GraphCopier copier;
 
@@ -64,22 +55,14 @@ public class TestGraphCopierWithFiltering extends TestCase {
         filterCriteria = new RegularExpressionSelectionCriteria();
         factory        = new NodeFactory();
 
-        a     = factory.createPackage("a");
-        a_A   = factory.createClass("a.A");
         a_A_a = factory.createFeature("a.A.a");
-        
-        b     = factory.createPackage("b");
-        b_B   = factory.createClass("b.B");
         b_B_b = factory.createFeature("b.B.b");
-        
-        c     = factory.createPackage("c");
-        c_C   = factory.createClass("c.C");
         c_C_c = factory.createFeature("c.C.c");
         
-        includeFilter = new LinkedList();
+        includeFilter = new LinkedList<String>();
         includeFilter.add("/^b/");
         
-        excludeFilter = new LinkedList();
+        excludeFilter = new LinkedList<String>();
         excludeFilter.add("/^c/");
 
         copier = new GraphCopier(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));

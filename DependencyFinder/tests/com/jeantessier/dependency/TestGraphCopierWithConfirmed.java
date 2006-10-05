@@ -32,9 +32,6 @@
 
 package com.jeantessier.dependency;
 
-import java.io.*;
-import java.util.*;
-
 import junit.framework.*;
 
 public class TestGraphCopierWithConfirmed extends TestCase {
@@ -82,13 +79,13 @@ public class TestGraphCopierWithConfirmed extends TestCase {
         
         b.accept(copier);
 
-        assertTrue(((Node) copier.getFilterFactory().getPackages().get("a")).isConfirmed());
+        assertTrue(copier.getFilterFactory().getPackages().get("a").isConfirmed());
         assertNull(copier.getFilterFactory().getClasses().get("a.A"));
         assertNull(copier.getFilterFactory().getFeatures().get("a.A.a"));
-        assertTrue(((Node) copier.getScopeFactory().getPackages().get("b")).isConfirmed());
-        assertFalse(((Node) copier.getScopeFactory().getClasses().get("b.B")).isConfirmed());
-        assertFalse(((Node) copier.getScopeFactory().getFeatures().get("b.B.b")).isConfirmed());
-        assertTrue(((Node) copier.getFilterFactory().getPackages().get("c")).isConfirmed());
+        assertTrue(copier.getScopeFactory().getPackages().get("b").isConfirmed());
+        assertFalse(copier.getScopeFactory().getClasses().get("b.B").isConfirmed());
+        assertFalse(copier.getScopeFactory().getFeatures().get("b.B.b").isConfirmed());
+        assertTrue(copier.getFilterFactory().getPackages().get("c").isConfirmed());
         assertNull(copier.getFilterFactory().getClasses().get("c.C"));
         assertNull(copier.getFilterFactory().getFeatures().get("c.C.c"));
     }
@@ -99,13 +96,13 @@ public class TestGraphCopierWithConfirmed extends TestCase {
 
         b.accept(copier);
 
-        assertFalse(((Node) copier.getFilterFactory().getPackages().get("a")).isConfirmed());
+        assertFalse(copier.getFilterFactory().getPackages().get("a").isConfirmed());
         assertNull(copier.getFilterFactory().getClasses().get("a.A"));
         assertNull(copier.getFilterFactory().getFeatures().get("a.A.a"));
-        assertFalse(((Node) copier.getScopeFactory().getPackages().get("b")).isConfirmed());
-        assertFalse(((Node) copier.getScopeFactory().getClasses().get("b.B")).isConfirmed());
-        assertFalse(((Node) copier.getScopeFactory().getFeatures().get("b.B.b")).isConfirmed());
-        assertFalse(((Node) copier.getFilterFactory().getPackages().get("c")).isConfirmed());
+        assertFalse(copier.getScopeFactory().getPackages().get("b").isConfirmed());
+        assertFalse(copier.getScopeFactory().getClasses().get("b.B").isConfirmed());
+        assertFalse(copier.getScopeFactory().getFeatures().get("b.B.b").isConfirmed());
+        assertFalse(copier.getFilterFactory().getPackages().get("c").isConfirmed());
         assertNull(copier.getFilterFactory().getClasses().get("c.C"));
         assertNull(copier.getFilterFactory().getFeatures().get("c.C.c"));
     }
@@ -120,14 +117,14 @@ public class TestGraphCopierWithConfirmed extends TestCase {
         
         b.accept(copier);
 
-        assertTrue(((Node) copier.getFilterFactory().getPackages().get("a")).isConfirmed());
-        assertTrue(((Node) copier.getFilterFactory().getClasses().get("a.A")).isConfirmed());
+        assertTrue(copier.getFilterFactory().getPackages().get("a").isConfirmed());
+        assertTrue(copier.getFilterFactory().getClasses().get("a.A").isConfirmed());
         assertNull(copier.getFilterFactory().getFeatures().get("a.A.a"));
-        assertTrue(((Node) copier.getScopeFactory().getPackages().get("b")).isConfirmed());
-        assertTrue(((Node) copier.getScopeFactory().getClasses().get("b.B")).isConfirmed());
-        assertFalse(((Node) copier.getScopeFactory().getFeatures().get("b.B.b")).isConfirmed());
-        assertTrue(((Node) copier.getFilterFactory().getPackages().get("c")).isConfirmed());
-        assertTrue(((Node) copier.getFilterFactory().getClasses().get("c.C")).isConfirmed());
+        assertTrue(copier.getScopeFactory().getPackages().get("b").isConfirmed());
+        assertTrue(copier.getScopeFactory().getClasses().get("b.B").isConfirmed());
+        assertFalse(copier.getScopeFactory().getFeatures().get("b.B.b").isConfirmed());
+        assertTrue(copier.getFilterFactory().getPackages().get("c").isConfirmed());
+        assertTrue(copier.getFilterFactory().getClasses().get("c.C").isConfirmed());
         assertNull(copier.getFilterFactory().getFeatures().get("c.C.c"));
     }
 
@@ -137,14 +134,14 @@ public class TestGraphCopierWithConfirmed extends TestCase {
 
         b.accept(copier);
 
-        assertFalse(((Node) copier.getFilterFactory().getPackages().get("a")).isConfirmed());
-        assertFalse(((Node) copier.getFilterFactory().getClasses().get("a.A")).isConfirmed());
+        assertFalse(copier.getFilterFactory().getPackages().get("a").isConfirmed());
+        assertFalse(copier.getFilterFactory().getClasses().get("a.A").isConfirmed());
         assertNull(copier.getFilterFactory().getFeatures().get("a.A.a"));
-        assertFalse(((Node) copier.getScopeFactory().getPackages().get("b")).isConfirmed());
-        assertFalse(((Node) copier.getScopeFactory().getClasses().get("b.B")).isConfirmed());
-        assertFalse(((Node) copier.getScopeFactory().getFeatures().get("b.B.b")).isConfirmed());
-        assertFalse(((Node) copier.getFilterFactory().getPackages().get("c")).isConfirmed());
-        assertFalse(((Node) copier.getFilterFactory().getClasses().get("c.C")).isConfirmed());
+        assertFalse(copier.getScopeFactory().getPackages().get("b").isConfirmed());
+        assertFalse(copier.getScopeFactory().getClasses().get("b.B").isConfirmed());
+        assertFalse(copier.getScopeFactory().getFeatures().get("b.B.b").isConfirmed());
+        assertFalse(copier.getFilterFactory().getPackages().get("c").isConfirmed());
+        assertFalse(copier.getFilterFactory().getClasses().get("c.C").isConfirmed());
         assertNull(copier.getFilterFactory().getFeatures().get("c.C.c"));
     }
 

@@ -40,21 +40,7 @@ public class TestGraphCopier extends TestCase {
     private RegularExpressionSelectionCriteria scopeCriteria;
     private RegularExpressionSelectionCriteria filterCriteria;
     private NodeFactory                        factory;
-    
-    private Node _package;
-    private Node test_class;
-    private Node test_main_method;
-    private Node test_Test_method;
-        
-    private Node java_lang_package;
-    private Node java_lang_Object_class;
-    private Node java_lang_Object_Object_method;
-    private Node java_lang_String_class;
-        
-    private Node java_util_package;
-    private Node java_util_Collections_class;
-    private Node java_util_Collections_singleton_method;
-    
+
     private GraphCopier copier;
 
     protected void setUp() throws Exception {
@@ -62,20 +48,16 @@ public class TestGraphCopier extends TestCase {
         filterCriteria = new RegularExpressionSelectionCriteria("//");
         factory        = new NodeFactory();
 
-        _package = factory.createPackage("");
-        test_class = factory.createClass("test");
-        test_main_method = factory.createFeature("test.main(String[])");
-        test_Test_method = factory.createFeature("test.Test()");
-        
-        java_lang_package = factory.createPackage("java.lang");
-        java_lang_Object_class = factory.createClass("java.lang.Object");
-        java_lang_Object_Object_method = factory.createFeature("java.lang.Object.Object()");
-        java_lang_String_class = factory.createClass("java.lang.String");
-        
-        java_util_package = factory.createPackage("java.util");
-        java_util_Collections_class = factory.createClass("java.util.Collections");
-        java_util_Collections_singleton_method = factory.createFeature("java.util.Collections.singleton(java.lang.Object)");
-        
+        Node test_class = factory.createClass("test");
+        Node test_main_method = factory.createFeature("test.main(String[])");
+        Node test_Test_method = factory.createFeature("test.Test()");
+
+        Node java_lang_Object_class = factory.createClass("java.lang.Object");
+        Node java_lang_Object_Object_method = factory.createFeature("java.lang.Object.Object()");
+        Node java_lang_String_class = factory.createClass("java.lang.String");
+
+        Node java_util_Collections_singleton_method = factory.createFeature("java.util.Collections.singleton(java.lang.Object)");
+
         test_class.addDependency(java_lang_Object_class);
         test_main_method.addDependency(java_lang_Object_class);
         test_main_method.addDependency(java_lang_Object_Object_method);
@@ -106,10 +88,10 @@ public class TestGraphCopier extends TestCase {
             Object key = i.next();
             assertEquals(factory.getPackages().get(key), copier.getScopeFactory().getPackages().get(key));
             assertTrue(factory.getPackages().get(key) != copier.getScopeFactory().getPackages().get(key));
-            assertEquals(((Node) factory.getPackages().get(key)).getInboundDependencies().size(),
-                         ((Node) copier.getScopeFactory().getPackages().get(key)).getInboundDependencies().size());
-            assertEquals(((Node) factory.getPackages().get(key)).getOutboundDependencies().size(),
-                         ((Node) copier.getScopeFactory().getPackages().get(key)).getOutboundDependencies().size());
+            assertEquals(factory.getPackages().get(key).getInboundDependencies().size(),
+                         copier.getScopeFactory().getPackages().get(key).getInboundDependencies().size());
+            assertEquals(factory.getPackages().get(key).getOutboundDependencies().size(),
+                         copier.getScopeFactory().getPackages().get(key).getOutboundDependencies().size());
         }
         
         i = factory.getClasses().keySet().iterator();
@@ -117,10 +99,10 @@ public class TestGraphCopier extends TestCase {
             Object key = i.next();
             assertEquals(factory.getClasses().get(key), copier.getScopeFactory().getClasses().get(key));
             assertTrue(factory.getClasses().get(key) != copier.getScopeFactory().getClasses().get(key));
-            assertEquals(((Node) factory.getClasses().get(key)).getInboundDependencies().size(),
-                         ((Node) copier.getScopeFactory().getClasses().get(key)).getInboundDependencies().size());
-            assertEquals(((Node) factory.getClasses().get(key)).getOutboundDependencies().size(),
-                         ((Node) copier.getScopeFactory().getClasses().get(key)).getOutboundDependencies().size());
+            assertEquals(factory.getClasses().get(key).getInboundDependencies().size(),
+                         copier.getScopeFactory().getClasses().get(key).getInboundDependencies().size());
+            assertEquals(factory.getClasses().get(key).getOutboundDependencies().size(),
+                         copier.getScopeFactory().getClasses().get(key).getOutboundDependencies().size());
         }
         
         i = factory.getFeatures().keySet().iterator();
@@ -128,10 +110,10 @@ public class TestGraphCopier extends TestCase {
             Object key = i.next();
             assertEquals(factory.getFeatures().get(key), copier.getScopeFactory().getFeatures().get(key));
             assertTrue(factory.getFeatures().get(key) != copier.getScopeFactory().getFeatures().get(key));
-            assertEquals(((Node) factory.getFeatures().get(key)).getInboundDependencies().size(),
-                         ((Node) copier.getScopeFactory().getFeatures().get(key)).getInboundDependencies().size());
-            assertEquals(((Node) factory.getFeatures().get(key)).getOutboundDependencies().size(),
-                         ((Node) copier.getScopeFactory().getFeatures().get(key)).getOutboundDependencies().size());
+            assertEquals(factory.getFeatures().get(key).getInboundDependencies().size(),
+                         copier.getScopeFactory().getFeatures().get(key).getInboundDependencies().size());
+            assertEquals(factory.getFeatures().get(key).getOutboundDependencies().size(),
+                         copier.getScopeFactory().getFeatures().get(key).getOutboundDependencies().size());
         }
     }
 
@@ -159,8 +141,8 @@ public class TestGraphCopier extends TestCase {
             Object key = i.next();
             assertEquals(factory.getPackages().get(key), copier.getScopeFactory().getPackages().get(key));
             assertTrue(factory.getPackages().get(key) != copier.getScopeFactory().getPackages().get(key));
-            assertTrue(((Node) copier.getScopeFactory().getPackages().get(key)).getInboundDependencies().isEmpty());
-            assertTrue(((Node) copier.getScopeFactory().getPackages().get(key)).getOutboundDependencies().isEmpty());
+            assertTrue(copier.getScopeFactory().getPackages().get(key).getInboundDependencies().isEmpty());
+            assertTrue(copier.getScopeFactory().getPackages().get(key).getOutboundDependencies().isEmpty());
         }
         
         i = factory.getClasses().keySet().iterator();
@@ -168,8 +150,8 @@ public class TestGraphCopier extends TestCase {
             Object key = i.next();
             assertEquals(factory.getClasses().get(key), copier.getScopeFactory().getClasses().get(key));
             assertTrue(factory.getClasses().get(key) != copier.getScopeFactory().getClasses().get(key));
-            assertTrue(((Node) copier.getScopeFactory().getClasses().get(key)).getInboundDependencies().isEmpty());
-            assertTrue(((Node) copier.getScopeFactory().getClasses().get(key)).getOutboundDependencies().isEmpty());
+            assertTrue(copier.getScopeFactory().getClasses().get(key).getInboundDependencies().isEmpty());
+            assertTrue(copier.getScopeFactory().getClasses().get(key).getOutboundDependencies().isEmpty());
         }
         
         i = factory.getFeatures().keySet().iterator();
@@ -177,8 +159,8 @@ public class TestGraphCopier extends TestCase {
             Object key = i.next();
             assertEquals(factory.getFeatures().get(key), copier.getScopeFactory().getFeatures().get(key));
             assertTrue(factory.getFeatures().get(key) != copier.getScopeFactory().getFeatures().get(key));
-            assertTrue(((Node) copier.getScopeFactory().getFeatures().get(key)).getInboundDependencies().isEmpty());
-            assertTrue(((Node) copier.getScopeFactory().getFeatures().get(key)).getOutboundDependencies().isEmpty());
+            assertTrue(copier.getScopeFactory().getFeatures().get(key).getInboundDependencies().isEmpty());
+            assertTrue(copier.getScopeFactory().getFeatures().get(key).getOutboundDependencies().isEmpty());
         }
     }
 
@@ -204,8 +186,8 @@ public class TestGraphCopier extends TestCase {
             Object key = i.next();
             assertEquals(factory.getPackages().get(key), copier.getScopeFactory().getPackages().get(key));
             assertTrue(factory.getPackages().get(key) != copier.getScopeFactory().getPackages().get(key));
-            assertTrue(((Node) copier.getScopeFactory().getPackages().get(key)).getInboundDependencies().isEmpty());
-            assertTrue(((Node) copier.getScopeFactory().getPackages().get(key)).getOutboundDependencies().isEmpty());
+            assertTrue(copier.getScopeFactory().getPackages().get(key).getInboundDependencies().isEmpty());
+            assertTrue(copier.getScopeFactory().getPackages().get(key).getOutboundDependencies().isEmpty());
         }
     }
 
@@ -233,8 +215,8 @@ public class TestGraphCopier extends TestCase {
             Object key = i.next();
             assertEquals(factory.getPackages().get(key), copier.getScopeFactory().getPackages().get(key));
             assertTrue(factory.getPackages().get(key) != copier.getScopeFactory().getPackages().get(key));
-            assertTrue(((Node) copier.getScopeFactory().getPackages().get(key)).getInboundDependencies().isEmpty());
-            assertTrue(((Node) copier.getScopeFactory().getPackages().get(key)).getOutboundDependencies().isEmpty());
+            assertTrue(copier.getScopeFactory().getPackages().get(key).getInboundDependencies().isEmpty());
+            assertTrue(copier.getScopeFactory().getPackages().get(key).getOutboundDependencies().isEmpty());
         }
         
         i = factory.getClasses().keySet().iterator();
@@ -242,8 +224,8 @@ public class TestGraphCopier extends TestCase {
             Object key = i.next();
             assertEquals(factory.getClasses().get(key), copier.getScopeFactory().getClasses().get(key));
             assertTrue(factory.getClasses().get(key) != copier.getScopeFactory().getClasses().get(key));
-            assertTrue(((Node) copier.getScopeFactory().getClasses().get(key)).getInboundDependencies().isEmpty());
-            assertTrue(((Node) copier.getScopeFactory().getClasses().get(key)).getOutboundDependencies().isEmpty());
+            assertTrue(copier.getScopeFactory().getClasses().get(key).getInboundDependencies().isEmpty());
+            assertTrue(copier.getScopeFactory().getClasses().get(key).getOutboundDependencies().isEmpty());
         }
     }
 
@@ -273,8 +255,8 @@ public class TestGraphCopier extends TestCase {
             Object key = i.next();
             assertEquals(factory.getPackages().get(key), copier.getScopeFactory().getPackages().get(key));
             assertTrue(factory.getPackages().get(key) != copier.getScopeFactory().getPackages().get(key));
-            assertTrue(((Node) copier.getScopeFactory().getPackages().get(key)).getInboundDependencies().isEmpty());
-            assertTrue(((Node) copier.getScopeFactory().getPackages().get(key)).getOutboundDependencies().isEmpty());
+            assertTrue(copier.getScopeFactory().getPackages().get(key).getInboundDependencies().isEmpty());
+            assertTrue(copier.getScopeFactory().getPackages().get(key).getOutboundDependencies().isEmpty());
         }
         
         i = copier.getScopeFactory().getClasses().keySet().iterator();
@@ -282,8 +264,8 @@ public class TestGraphCopier extends TestCase {
             Object key = i.next();
             assertEquals(factory.getClasses().get(key), copier.getScopeFactory().getClasses().get(key));
             assertTrue(factory.getClasses().get(key) != copier.getScopeFactory().getClasses().get(key));
-            assertTrue(((Node) copier.getScopeFactory().getClasses().get(key)).getInboundDependencies().isEmpty());
-            assertTrue(((Node) copier.getScopeFactory().getClasses().get(key)).getOutboundDependencies().isEmpty());
+            assertTrue(copier.getScopeFactory().getClasses().get(key).getInboundDependencies().isEmpty());
+            assertTrue(copier.getScopeFactory().getClasses().get(key).getOutboundDependencies().isEmpty());
         }
         
         i = copier.getScopeFactory().getFeatures().keySet().iterator();
@@ -291,8 +273,8 @@ public class TestGraphCopier extends TestCase {
             Object key = i.next();
             assertEquals(factory.getFeatures().get(key), copier.getScopeFactory().getFeatures().get(key));
             assertTrue(factory.getFeatures().get(key) != copier.getScopeFactory().getFeatures().get(key));
-            assertTrue(((Node) copier.getScopeFactory().getFeatures().get(key)).getInboundDependencies().isEmpty());
-            assertTrue(((Node) copier.getScopeFactory().getFeatures().get(key)).getOutboundDependencies().isEmpty());
+            assertTrue(copier.getScopeFactory().getFeatures().get(key).getInboundDependencies().isEmpty());
+            assertTrue(copier.getScopeFactory().getFeatures().get(key).getOutboundDependencies().isEmpty());
         }
     }
 
@@ -311,7 +293,6 @@ public class TestGraphCopier extends TestCase {
     public void testC2CasP2CSamePackage() {
         NodeFactory factory = new NodeFactory();
 
-        Node a   = factory.createPackage("a");
         Node a_A = factory.createClass("a.A");
         Node a_B = factory.createClass("a.B");
     
