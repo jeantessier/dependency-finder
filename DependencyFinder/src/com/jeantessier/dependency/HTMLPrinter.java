@@ -62,17 +62,20 @@ public class HTMLPrinter extends TextPrinter {
 
         for (Map.Entry<Node, Integer> entry : dependencies.entrySet()) {
             String rawName = entry.getKey().getName();
-            String name = rawName;
-            name = perl().substitute("s/\\(/\\\\(/g", name);
-            name = perl().substitute("s/\\)/\\\\)/g", name);
-            name = perl().substitute("s/\\$/\\\\\\$/g", name);
-            urlArgument[0] = name;
+            String escapedName = rawName;
+            escapedName = perl().substitute("s/\\(/\\\\(/g", escapedName);
+            escapedName = perl().substitute("s/\\)/\\\\)/g", escapedName);
+            escapedName = perl().substitute("s/\\$/\\\\\\$/g", escapedName);
+            urlArgument[0] = escapedName;
             if (entry.getValue() < 0) {
-                indent().append("&lt;-- <a href=\"").append(urlFormat.format(urlArgument)).append("\" id=\"").append(scopeNodeName).append("_from_").append(rawName).append("\">").printDependencyNodeName(entry.getKey()).append("</a>").eol();
+                String link = "<a href=\"" + urlFormat.format(urlArgument) + "\" id=\"" + scopeNodeName + "_from_" + rawName + "\">" + rawName + "</a>";
+                indent().append("&lt;-- ").printDependencyNodeName(entry.getKey(), link).eol();
             } else if (entry.getValue() > 0) {
-                indent().append("--&gt; <a href=\"").append(urlFormat.format(urlArgument)).append("\" id=\"").append(scopeNodeName).append("_to_").append(rawName).append("\">").printDependencyNodeName(entry.getKey()).append("</a>").eol();
+                String link = "<a href=\"" + urlFormat.format(urlArgument) + "\" id=\"" + scopeNodeName + "_to_" + rawName + "\">" + rawName + "</a>";
+                indent().append("--&gt; ").printDependencyNodeName(entry.getKey(), link).eol();
             } else {
-                indent().append("&lt;-&gt; <a href=\"").append(urlFormat.format(urlArgument)).append("\" id=\"").append(scopeNodeName).append("_bidirectional_").append(rawName).append("\">").printDependencyNodeName(entry.getKey()).append("</a>").eol();
+                String link = "<a href=\"" + urlFormat.format(urlArgument) + "\" id=\"" + scopeNodeName + "_bidirectional_" + rawName + "\">" + rawName + "</a>";
+                indent().append("&lt;-&gt; ").printDependencyNodeName(entry.getKey(), link).eol();
             }
         }
     }
