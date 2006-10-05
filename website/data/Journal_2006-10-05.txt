@@ -1,2 +1,3 @@
 Adjusted dependecy printout in =HTMLPrinter= so the '*' for inferred
-dependencies is not inside the =&lt;a&gt;= tag.
+dependencies is not inside the =&lt;a&gt;= tag.  Also used CSS to highlight
+scoped node names.

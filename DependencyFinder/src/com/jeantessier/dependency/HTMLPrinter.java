@@ -52,7 +52,7 @@ public class HTMLPrinter extends TextPrinter {
     }
 
     protected Printer printScopeNodeName(Node node, String name) {
-        return super.printNodeName(node, "<b>" + name + "</b>");
+        return super.printNodeName(node, "<span class=\"scope\">" + name + "</span>");
     }
 
     protected void printDependencies(Node node, Map<Node, Integer> dependencies) {
@@ -61,22 +61,39 @@ public class HTMLPrinter extends TextPrinter {
         String scopeNodeName = node.getName();
 
         for (Map.Entry<Node, Integer> entry : dependencies.entrySet()) {
-            String rawName = entry.getKey().getName();
+            Node dependency = entry.getKey();
+
+            String rawName = dependency.getName();
             String escapedName = rawName;
             escapedName = perl().substitute("s/\\(/\\\\(/g", escapedName);
             escapedName = perl().substitute("s/\\)/\\\\)/g", escapedName);
             escapedName = perl().substitute("s/\\$/\\\\\\$/g", escapedName);
             urlArgument[0] = escapedName;
+            String url = urlFormat.format(urlArgument);
+
+            String symbol;
+            String idConjunction;
             if (entry.getValue() < 0) {
-                String link = "<a href=\"" + urlFormat.format(urlArgument) + "\" id=\"" + scopeNodeName + "_from_" + rawName + "\">" + rawName + "</a>";
-                indent().append("&lt;-- ").printDependencyNodeName(entry.getKey(), link).eol();
+                symbol = "&lt;--";
+                idConjunction = "_from_";
             } else if (entry.getValue() > 0) {
-                String link = "<a href=\"" + urlFormat.format(urlArgument) + "\" id=\"" + scopeNodeName + "_to_" + rawName + "\">" + rawName + "</a>";
-                indent().append("--&gt; ").printDependencyNodeName(entry.getKey(), link).eol();
+                symbol = "--&gt;";
+                idConjunction = "_to_";
             } else {
-                String link = "<a href=\"" + urlFormat.format(urlArgument) + "\" id=\"" + scopeNodeName + "_bidirectional_" + rawName + "\">" + rawName + "</a>";
-                indent().append("&lt;-&gt; ").printDependencyNodeName(entry.getKey(), link).eol();
+                symbol = "&lt;-&gt;";
+                idConjunction = "_bidirectional_";
             }
+
+            StringBuffer link = new StringBuffer("<a");
+            link.append(" href=\"").append(url).append("\"");
+            link.append(" id=\"").append(scopeNodeName).append(idConjunction).append(rawName).append("\"");
+            link.append(">");
+            link.append(rawName);
+            link.append("</a>");
+
+            indent();
+            append(symbol).append(" ").printDependencyNodeName(dependency, link.toString());
+            eol();
         }
     }
 }
