@@ -52,7 +52,11 @@ public class HTMLPrinter extends TextPrinter {
     }
 
     protected Printer printScopeNodeName(Node node, String name) {
-        return super.printNodeName(node, "<span class=\"scope\">" + name + "</span>");
+        openPotentialInferredSpan(node);
+        printNodeName(node, "<span class=\"scope\">" + name + "</span>");
+        closePotentialInferredSpan(node);
+
+        return this;
     }
 
     protected void printDependencies(Node node, Map<Node, Integer> dependencies) {
@@ -85,6 +89,9 @@ public class HTMLPrinter extends TextPrinter {
             }
 
             StringBuffer link = new StringBuffer("<a");
+            if (isShowInferred() && !dependency.isConfirmed()) {
+                link.append(" class=\"inferred\"");
+            }
             link.append(" href=\"").append(url).append("\"");
             link.append(" id=\"").append(scopeNodeName).append(idConjunction).append(rawName).append("\"");
             link.append(">");
@@ -92,8 +99,22 @@ public class HTMLPrinter extends TextPrinter {
             link.append("</a>");
 
             indent();
+            openPotentialInferredSpan(dependency);
             append(symbol).append(" ").printDependencyNodeName(dependency, link.toString());
+            closePotentialInferredSpan(dependency);
             eol();
+        }
+    }
+
+    private void openPotentialInferredSpan(Node node) {
+        if (isShowInferred() && !node.isConfirmed()) {
+            append("<span class=\"inferred\">");
+        }
+    }
+
+    private void closePotentialInferredSpan(Node node) {
+        if (isShowInferred() && !node.isConfirmed()) {
+            append("</span>");
         }
     }
 }

@@ -60,6 +60,10 @@ pre a:hover {
     font-weight: bold;
 }
 
+.inferred {
+    color: gray;
+}
+
 .error {
     color: red;
 }

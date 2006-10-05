@@ -64,10 +64,10 @@ public class TestHTMLPrinter extends TestCase {
         int            lineNumber = 0;
         BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound</a> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">outbound</span> *", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound</a> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">outbound</span> *</span>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -104,9 +104,9 @@ public class TestHTMLPrinter extends TestCase {
         int            lineNumber = 0;
         BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">outbound</span> *", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">outbound</span> *</span>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -142,13 +142,13 @@ public class TestHTMLPrinter extends TestCase {
         int            lineNumber = 0;
         BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Outbound</span> *", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Outbound</span> *</span>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -188,12 +188,12 @@ public class TestHTMLPrinter extends TestCase {
         int            lineNumber = 0;
         BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Outbound</span> *", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Outbound</span> *</span>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -255,16 +255,16 @@ public class TestHTMLPrinter extends TestCase {
         int            lineNumber = 0;
         BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">empty()</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">inbound()</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">outbound()</span> *", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">empty()</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">inbound()</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">outbound()</span> *</span>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -307,15 +307,15 @@ public class TestHTMLPrinter extends TestCase {
         int            lineNumber = 0;
         BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">empty()</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">inbound()</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">outbound()</span> *", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">empty()</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">inbound()</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">outbound()</span> *</span>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -383,10 +383,10 @@ public class TestHTMLPrinter extends TestCase {
         int            lineNumber = 0;
         BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_to_inbound\">inbound</a> *", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_to_inbound\">inbound</a> *</span>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -423,9 +423,9 @@ public class TestHTMLPrinter extends TestCase {
         int            lineNumber = 0;
         BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">outbound</span> *", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">outbound</span> *</span>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -461,13 +461,13 @@ public class TestHTMLPrinter extends TestCase {
         int            lineNumber = 0;
         BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a> *", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a> *</span>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -507,12 +507,12 @@ public class TestHTMLPrinter extends TestCase {
         int            lineNumber = 0;
         BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Outbound</span> *", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Outbound</span> *</span>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -574,16 +574,16 @@ public class TestHTMLPrinter extends TestCase {
         int            lineNumber = 0;
         BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">empty()</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">inbound()</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">outbound()</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a> *", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">empty()</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">inbound()</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">outbound()</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a> *</span>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -626,15 +626,15 @@ public class TestHTMLPrinter extends TestCase {
         int            lineNumber = 0;
         BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">empty()</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">inbound()</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">outbound()</span> *", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">empty()</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">inbound()</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">outbound()</span> *</span>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -703,19 +703,19 @@ public class TestHTMLPrinter extends TestCase {
         int            lineNumber = 0;
         BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound</a> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">inbound()</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_to_inbound\">inbound</a> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">outbound()</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a> *", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound</a> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">inbound()</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_to_inbound\">inbound</a> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">outbound()</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a> *</span>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -793,18 +793,18 @@ public class TestHTMLPrinter extends TestCase {
         int            lineNumber = 0;
         BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound</a> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">inbound()</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_to_inbound\">inbound</a> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">outbound()</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a> *", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound</a> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">inbound()</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_to_inbound\">inbound</a> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">outbound()</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a> *</span>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -850,18 +850,18 @@ public class TestHTMLPrinter extends TestCase {
         int            lineNumber = 0;
         BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">inbound()</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">outbound()</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a> *", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">inbound()</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">outbound()</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a> *</span>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -906,16 +906,16 @@ public class TestHTMLPrinter extends TestCase {
         int            lineNumber = 0;
         BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">inbound()</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">outbound()</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a> *", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">inbound()</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">outbound()</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a> *</span>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -957,17 +957,17 @@ public class TestHTMLPrinter extends TestCase {
         int            lineNumber = 0;
         BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Empty</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">empty()</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">inbound()</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">outbound()</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a> *", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Empty</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">empty()</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">inbound()</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">outbound()</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a> *</span>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -1009,14 +1009,14 @@ public class TestHTMLPrinter extends TestCase {
         int            lineNumber = 0;
         BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Inbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">inbound()</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"scope\">outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"scope\">Outbound</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"scope\">outbound()</span> *", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a> *", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Inbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">inbound()</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><span class=\"scope\">outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><span class=\"scope\">Outbound</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><span class=\"scope\">outbound()</span> *</span>", in.readLine());
+        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a> *</span>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
     }
