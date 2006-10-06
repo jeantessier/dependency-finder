@@ -37,46 +37,34 @@ import java.util.*;
 import junit.framework.*;
 
 public class TestGraphSummarizerWithScoping extends TestCase {
-    private RegularExpressionSelectionCriteria scopeCriteria;
-    private RegularExpressionSelectionCriteria filterCriteria;
-    private NodeFactory                        factory;
-    
-    private Node a;
-    private Node a_A;
-    private Node a_A_a;
-    private Node a_A_b;
-    
+    private NodeFactory factory;
+
     private Node b;
-    private Node b_B;
-    private Node b_B_b;
-    
-    private List includeScope;
 
     private GraphSummarizer summarizer;
 
     protected void setUp() throws Exception {
-        scopeCriteria  = new RegularExpressionSelectionCriteria("//");
-        filterCriteria = new RegularExpressionSelectionCriteria("//");
         factory        = new NodeFactory();
 
-        a     = factory.createPackage("a");
-        a_A   = factory.createClass("a.A");
-        a_A_a = factory.createFeature("a.A.a");
-        a_A_b = factory.createFeature("a.A.b");
-        
+        Node a_A_a = factory.createFeature("a.A.a");
+        Node a_A_b = factory.createFeature("a.A.b");
+
         b     = factory.createPackage("b");
-        b_B   = factory.createClass("b.B");
-        b_B_b = factory.createFeature("b.B.b");
-        
+        Node b_B_b = factory.createFeature("b.B.b");
+
         a_A_a.addDependency(a_A_b);
         a_A_a.addDependency(b_B_b);
 
-        includeScope = new LinkedList();
+        List<String> includeScope = new LinkedList<String>();
         includeScope.add("/^a/");
+
+        RegularExpressionSelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria("//");
 
         scopeCriteria.setMatchingClasses(false);
         scopeCriteria.setMatchingFeatures(false);
         scopeCriteria.setGlobalIncludes(includeScope);
+
+        RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria("//");
         filterCriteria.setMatchingClasses(false);
         filterCriteria.setMatchingFeatures(false);
 

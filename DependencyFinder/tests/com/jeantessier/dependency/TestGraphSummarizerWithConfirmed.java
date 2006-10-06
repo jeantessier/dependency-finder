@@ -32,9 +32,6 @@
 
 package com.jeantessier.dependency;
 
-import java.io.*;
-import java.util.*;
-
 import junit.framework.*;
 
 public class TestGraphSummarizerWithConfirmed extends TestCase {
@@ -86,13 +83,13 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
         
         b.accept(summarizer);
 
-        assertTrue(((Node) summarizer.getFilterFactory().getPackages().get("a")).isConfirmed());
+        assertTrue(summarizer.getFilterFactory().getPackages().get("a").isConfirmed());
         assertNull(summarizer.getFilterFactory().getClasses().get("a.A"));
         assertNull(summarizer.getFilterFactory().getFeatures().get("a.A.a"));
-        assertTrue(((Node) summarizer.getScopeFactory().getPackages().get("b")).isConfirmed());
-        assertFalse(((Node) summarizer.getScopeFactory().getClasses().get("b.B")).isConfirmed());
-        assertFalse(((Node) summarizer.getScopeFactory().getFeatures().get("b.B.b")).isConfirmed());
-        assertTrue(((Node) summarizer.getFilterFactory().getPackages().get("c")).isConfirmed());
+        assertTrue(summarizer.getScopeFactory().getPackages().get("b").isConfirmed());
+        assertFalse(summarizer.getScopeFactory().getClasses().get("b.B").isConfirmed());
+        assertFalse(summarizer.getScopeFactory().getFeatures().get("b.B.b").isConfirmed());
+        assertTrue(summarizer.getFilterFactory().getPackages().get("c").isConfirmed());
         assertNull(summarizer.getFilterFactory().getClasses().get("c.C"));
         assertNull(summarizer.getFilterFactory().getFeatures().get("c.C.c"));
     }
@@ -103,13 +100,13 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
 
         b.accept(summarizer);
 
-        assertFalse(((Node) summarizer.getFilterFactory().getPackages().get("a")).isConfirmed());
+        assertFalse(summarizer.getFilterFactory().getPackages().get("a").isConfirmed());
         assertNull(summarizer.getFilterFactory().getClasses().get("a.A"));
         assertNull(summarizer.getFilterFactory().getFeatures().get("a.A.a"));
-        assertFalse(((Node) summarizer.getScopeFactory().getPackages().get("b")).isConfirmed());
-        assertFalse(((Node) summarizer.getScopeFactory().getClasses().get("b.B")).isConfirmed());
-        assertFalse(((Node) summarizer.getScopeFactory().getFeatures().get("b.B.b")).isConfirmed());
-        assertFalse(((Node) summarizer.getFilterFactory().getPackages().get("c")).isConfirmed());
+        assertFalse(summarizer.getScopeFactory().getPackages().get("b").isConfirmed());
+        assertFalse(summarizer.getScopeFactory().getClasses().get("b.B").isConfirmed());
+        assertFalse(summarizer.getScopeFactory().getFeatures().get("b.B.b").isConfirmed());
+        assertFalse(summarizer.getFilterFactory().getPackages().get("c").isConfirmed());
         assertNull(summarizer.getFilterFactory().getClasses().get("c.C"));
         assertNull(summarizer.getFilterFactory().getFeatures().get("c.C.c"));
     }
@@ -124,14 +121,14 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
         
         b.accept(summarizer);
 
-        assertTrue(((Node) summarizer.getFilterFactory().getPackages().get("a")).isConfirmed());
-        assertTrue(((Node) summarizer.getFilterFactory().getClasses().get("a.A")).isConfirmed());
+        assertTrue(summarizer.getFilterFactory().getPackages().get("a").isConfirmed());
+        assertTrue(summarizer.getFilterFactory().getClasses().get("a.A").isConfirmed());
         assertNull(summarizer.getFilterFactory().getFeatures().get("a.A.a"));
-        assertTrue(((Node) summarizer.getScopeFactory().getPackages().get("b")).isConfirmed());
-        assertTrue(((Node) summarizer.getScopeFactory().getClasses().get("b.B")).isConfirmed());
-        assertFalse(((Node) summarizer.getScopeFactory().getFeatures().get("b.B.b")).isConfirmed());
-        assertTrue(((Node) summarizer.getFilterFactory().getPackages().get("c")).isConfirmed());
-        assertTrue(((Node) summarizer.getFilterFactory().getClasses().get("c.C")).isConfirmed());
+        assertTrue(summarizer.getScopeFactory().getPackages().get("b").isConfirmed());
+        assertTrue(summarizer.getScopeFactory().getClasses().get("b.B").isConfirmed());
+        assertFalse(summarizer.getScopeFactory().getFeatures().get("b.B.b").isConfirmed());
+        assertTrue(summarizer.getFilterFactory().getPackages().get("c").isConfirmed());
+        assertTrue(summarizer.getFilterFactory().getClasses().get("c.C").isConfirmed());
         assertNull(summarizer.getFilterFactory().getFeatures().get("c.C.c"));
     }
 
@@ -141,14 +138,14 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
 
         b.accept(summarizer);
 
-        assertFalse(((Node) summarizer.getFilterFactory().getPackages().get("a")).isConfirmed());
-        assertFalse(((Node) summarizer.getFilterFactory().getClasses().get("a.A")).isConfirmed());
+        assertFalse(summarizer.getFilterFactory().getPackages().get("a").isConfirmed());
+        assertFalse(summarizer.getFilterFactory().getClasses().get("a.A").isConfirmed());
         assertNull(summarizer.getFilterFactory().getFeatures().get("a.A.a"));
-        assertFalse(((Node) summarizer.getScopeFactory().getPackages().get("b")).isConfirmed());
-        assertFalse(((Node) summarizer.getScopeFactory().getClasses().get("b.B")).isConfirmed());
-        assertFalse(((Node) summarizer.getScopeFactory().getFeatures().get("b.B.b")).isConfirmed());
-        assertFalse(((Node) summarizer.getFilterFactory().getPackages().get("c")).isConfirmed());
-        assertFalse(((Node) summarizer.getFilterFactory().getClasses().get("c.C")).isConfirmed());
+        assertFalse(summarizer.getScopeFactory().getPackages().get("b").isConfirmed());
+        assertFalse(summarizer.getScopeFactory().getClasses().get("b.B").isConfirmed());
+        assertFalse(summarizer.getScopeFactory().getFeatures().get("b.B.b").isConfirmed());
+        assertFalse(summarizer.getFilterFactory().getPackages().get("c").isConfirmed());
+        assertFalse(summarizer.getFilterFactory().getClasses().get("c.C").isConfirmed());
         assertNull(summarizer.getFilterFactory().getFeatures().get("c.C.c"));
     }
 
@@ -169,13 +166,13 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
         
         b.accept(summarizer);
 
-        assertTrue(((Node) summarizer.getFilterFactory().getPackages().get("a")).isConfirmed());
+        assertTrue(summarizer.getFilterFactory().getPackages().get("a").isConfirmed());
         assertNull(summarizer.getFilterFactory().getClasses().get("a.A"));
         assertNull(summarizer.getFilterFactory().getFeatures().get("a.A.a"));
-        assertTrue(((Node) summarizer.getScopeFactory().getPackages().get("b")).isConfirmed());
+        assertTrue(summarizer.getScopeFactory().getPackages().get("b").isConfirmed());
         assertNull(summarizer.getScopeFactory().getClasses().get("b.B"));
         assertNull(summarizer.getScopeFactory().getFeatures().get("b.B.b"));
-        assertTrue(((Node) summarizer.getFilterFactory().getPackages().get("c")).isConfirmed());
+        assertTrue(summarizer.getFilterFactory().getPackages().get("c").isConfirmed());
         assertNull(summarizer.getFilterFactory().getClasses().get("c.C"));
         assertNull(summarizer.getFilterFactory().getFeatures().get("c.C.c"));
     }
@@ -193,13 +190,13 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
 
         b.accept(summarizer);
 
-        assertFalse(((Node) summarizer.getFilterFactory().getPackages().get("a")).isConfirmed());
+        assertFalse(summarizer.getFilterFactory().getPackages().get("a").isConfirmed());
         assertNull(summarizer.getFilterFactory().getClasses().get("a.A"));
         assertNull(summarizer.getFilterFactory().getFeatures().get("a.A.a"));
-        assertFalse(((Node) summarizer.getScopeFactory().getPackages().get("b")).isConfirmed());
+        assertFalse(summarizer.getScopeFactory().getPackages().get("b").isConfirmed());
         assertNull(summarizer.getScopeFactory().getClasses().get("b.B"));
         assertNull(summarizer.getScopeFactory().getFeatures().get("b.B.b"));
-        assertFalse(((Node) summarizer.getFilterFactory().getPackages().get("c")).isConfirmed());
+        assertFalse(summarizer.getFilterFactory().getPackages().get("c").isConfirmed());
         assertNull(summarizer.getFilterFactory().getClasses().get("c.C"));
         assertNull(summarizer.getFilterFactory().getFeatures().get("c.C.c"));
     }
@@ -259,14 +256,14 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
         
         b.accept(summarizer);
 
-        assertTrue(((Node) summarizer.getFilterFactory().getPackages().get("a")).isConfirmed());
-        assertTrue(((Node) summarizer.getFilterFactory().getClasses().get("a.A")).isConfirmed());
+        assertTrue(summarizer.getFilterFactory().getPackages().get("a").isConfirmed());
+        assertTrue(summarizer.getFilterFactory().getClasses().get("a.A").isConfirmed());
         assertNull(summarizer.getFilterFactory().getFeatures().get("a.A.a"));
-        assertTrue(((Node) summarizer.getScopeFactory().getPackages().get("b")).isConfirmed());
-        assertTrue(((Node) summarizer.getScopeFactory().getClasses().get("b.B")).isConfirmed());
+        assertTrue(summarizer.getScopeFactory().getPackages().get("b").isConfirmed());
+        assertTrue(summarizer.getScopeFactory().getClasses().get("b.B").isConfirmed());
         assertNull(summarizer.getScopeFactory().getFeatures().get("b.B.b"));
-        assertTrue(((Node) summarizer.getFilterFactory().getPackages().get("c")).isConfirmed());
-        assertTrue(((Node) summarizer.getFilterFactory().getClasses().get("c.C")).isConfirmed());
+        assertTrue(summarizer.getFilterFactory().getPackages().get("c").isConfirmed());
+        assertTrue(summarizer.getFilterFactory().getClasses().get("c.C").isConfirmed());
         assertNull(summarizer.getFilterFactory().getFeatures().get("c.C.c"));
     }
 
@@ -283,14 +280,14 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
 
         b.accept(summarizer);
 
-        assertFalse(((Node) summarizer.getFilterFactory().getPackages().get("a")).isConfirmed());
-        assertFalse(((Node) summarizer.getFilterFactory().getClasses().get("a.A")).isConfirmed());
+        assertFalse(summarizer.getFilterFactory().getPackages().get("a").isConfirmed());
+        assertFalse(summarizer.getFilterFactory().getClasses().get("a.A").isConfirmed());
         assertNull(summarizer.getFilterFactory().getFeatures().get("a.A.a"));
-        assertFalse(((Node) summarizer.getScopeFactory().getPackages().get("b")).isConfirmed());
-        assertFalse(((Node) summarizer.getScopeFactory().getClasses().get("b.B")).isConfirmed());
+        assertFalse(summarizer.getScopeFactory().getPackages().get("b").isConfirmed());
+        assertFalse(summarizer.getScopeFactory().getClasses().get("b.B").isConfirmed());
         assertNull(summarizer.getScopeFactory().getFeatures().get("b.B.b"));
-        assertFalse(((Node) summarizer.getFilterFactory().getPackages().get("c")).isConfirmed());
-        assertFalse(((Node) summarizer.getFilterFactory().getClasses().get("c.C")).isConfirmed());
+        assertFalse(summarizer.getFilterFactory().getPackages().get("c").isConfirmed());
+        assertFalse(summarizer.getFilterFactory().getClasses().get("c.C").isConfirmed());
         assertNull(summarizer.getFilterFactory().getFeatures().get("c.C.c"));
     }
 
@@ -311,13 +308,13 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
         
         b.accept(summarizer);
 
-        assertTrue(((Node) summarizer.getFilterFactory().getPackages().get("a")).isConfirmed());
+        assertTrue(summarizer.getFilterFactory().getPackages().get("a").isConfirmed());
         assertNull(summarizer.getFilterFactory().getClasses().get("a.A"));
         assertNull(summarizer.getFilterFactory().getFeatures().get("a.A.a"));
-        assertTrue(((Node) summarizer.getScopeFactory().getPackages().get("b")).isConfirmed());
+        assertTrue(summarizer.getScopeFactory().getPackages().get("b").isConfirmed());
         assertNull(summarizer.getScopeFactory().getClasses().get("b.B"));
         assertNull(summarizer.getScopeFactory().getFeatures().get("b.B.b"));
-        assertTrue(((Node) summarizer.getFilterFactory().getPackages().get("c")).isConfirmed());
+        assertTrue(summarizer.getFilterFactory().getPackages().get("c").isConfirmed());
         assertNull(summarizer.getFilterFactory().getClasses().get("c.C"));
         assertNull(summarizer.getFilterFactory().getFeatures().get("c.C.c"));
     }
@@ -335,13 +332,13 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
 
         b.accept(summarizer);
 
-        assertFalse(((Node) summarizer.getFilterFactory().getPackages().get("a")).isConfirmed());
+        assertFalse(summarizer.getFilterFactory().getPackages().get("a").isConfirmed());
         assertNull(summarizer.getFilterFactory().getClasses().get("a.A"));
         assertNull(summarizer.getFilterFactory().getFeatures().get("a.A.a"));
-        assertFalse(((Node) summarizer.getScopeFactory().getPackages().get("b")).isConfirmed());
+        assertFalse(summarizer.getScopeFactory().getPackages().get("b").isConfirmed());
         assertNull(summarizer.getScopeFactory().getClasses().get("b.B"));
         assertNull(summarizer.getScopeFactory().getFeatures().get("b.B.b"));
-        assertFalse(((Node) summarizer.getFilterFactory().getPackages().get("c")).isConfirmed());
+        assertFalse(summarizer.getFilterFactory().getPackages().get("c").isConfirmed());
         assertNull(summarizer.getFilterFactory().getClasses().get("c.C"));
         assertNull(summarizer.getFilterFactory().getFeatures().get("c.C.c"));
     }
