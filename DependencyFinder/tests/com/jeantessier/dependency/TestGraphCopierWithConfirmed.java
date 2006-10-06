@@ -182,4 +182,25 @@ public class TestGraphCopierWithConfirmed extends TestCase {
         assertFalse(copier.getFilterFactory().createClass("c.C").isConfirmed());
         assertFalse(copier.getFilterFactory().createFeature("c.C.c").isConfirmed());
     }
+
+    public void testUnconfirmedFeatureInConfirmedClass2UnconfirmedFeature() {
+        a_A_a.addDependency(b_B_b);
+        b_B_b.addDependency(c_C_c);
+
+        factory.createClass("a.A", true);
+        factory.createClass("b.B", true);
+        factory.createClass("c.C", true);
+
+        b.accept(copier);
+
+        assertTrue(copier.getFilterFactory().createPackage("a").isConfirmed());
+        assertTrue(copier.getFilterFactory().createClass("a.A").isConfirmed());
+        assertFalse(copier.getFilterFactory().createFeature("a.A.a").isConfirmed());
+        assertTrue(copier.getScopeFactory().createPackage("b").isConfirmed());
+        assertTrue(copier.getScopeFactory().createClass("b.B").isConfirmed());
+        assertFalse(copier.getScopeFactory().createFeature("b.B.b").isConfirmed());
+        assertTrue(copier.getFilterFactory().createPackage("c").isConfirmed());
+        assertTrue(copier.getFilterFactory().createClass("c.C").isConfirmed());
+        assertFalse(copier.getFilterFactory().createFeature("c.C.c").isConfirmed());
+    }
 }

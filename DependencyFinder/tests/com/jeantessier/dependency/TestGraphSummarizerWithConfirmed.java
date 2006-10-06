@@ -342,4 +342,32 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
         assertNull(summarizer.getFilterFactory().getClasses().get("c.C"));
         assertNull(summarizer.getFilterFactory().getFeatures().get("c.C.c"));
     }
+
+    public void testUnconfirmedFeatureInConfirmedClass2UnconfirmedFeature() {
+        scopeSelector.setMatchingPackages(false);
+        scopeSelector.setMatchingClasses(false);
+        scopeSelector.setMatchingFeatures(true);
+        filterSelector.setMatchingPackages(false);
+        filterSelector.setMatchingClasses(false);
+        filterSelector.setMatchingFeatures(true);
+
+        a_A_a.addDependency(b_B_b);
+        b_B_b.addDependency(c_C_c);
+
+        factory.createClass("a.A", true);
+        factory.createClass("b.B", true);
+        factory.createClass("c.C", true);
+
+        b.accept(summarizer);
+
+        assertTrue(summarizer.getFilterFactory().createPackage("a").isConfirmed());
+        assertTrue(summarizer.getFilterFactory().createClass("a.A").isConfirmed());
+        assertFalse(summarizer.getFilterFactory().createFeature("a.A.a").isConfirmed());
+        assertTrue(summarizer.getScopeFactory().createPackage("b").isConfirmed());
+        assertTrue(summarizer.getScopeFactory().createClass("b.B").isConfirmed());
+        assertFalse(summarizer.getScopeFactory().createFeature("b.B.b").isConfirmed());
+        assertTrue(summarizer.getFilterFactory().createPackage("c").isConfirmed());
+        assertTrue(summarizer.getFilterFactory().createClass("c.C").isConfirmed());
+        assertFalse(summarizer.getFilterFactory().createFeature("c.C.c").isConfirmed());
+    }
 }
