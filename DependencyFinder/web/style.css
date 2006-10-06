@@ -51,7 +51,16 @@ pre a:visited {
     color: black;
 }
 
+pre a:visited.inferred {
+    color: gray;
+}
+
 pre a:hover {
+    text-decoration: underline;
+    color: blue;
+}
+
+pre a:hover.inferred {
     text-decoration: underline;
     color: blue;
 }
