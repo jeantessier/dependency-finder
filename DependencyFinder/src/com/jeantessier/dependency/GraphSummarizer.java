@@ -62,7 +62,7 @@ public class GraphSummarizer extends GraphCopier {
     public void visitInboundPackageNode(PackageNode node) {
         if (getCurrentNode() != null && filterCriteria.matchesPackageName(node.getName())) {
             if (filterCriteria.isMatchingPackages()) {
-                getFilterFactory().createPackage(node.getName(), node.isConfirmed()).addDependency(getCurrentNode());
+                copy(getFilterFactory(), node).addDependency(getCurrentNode());
             }
         }
     }
@@ -70,7 +70,7 @@ public class GraphSummarizer extends GraphCopier {
     public void visitOutboundPackageNode(PackageNode node) {
         if (getCurrentNode() != null && filterCriteria.matchesPackageName(node.getName())) {
             if (filterCriteria.isMatchingPackages()) {
-                getCurrentNode().addDependency(getFilterFactory().createPackage(node.getName(), node.isConfirmed()));
+                getCurrentNode().addDependency(copy(getFilterFactory(), node));
             }
         }
     }
@@ -94,9 +94,9 @@ public class GraphSummarizer extends GraphCopier {
     public void visitInboundClassNode(ClassNode node) {
         if (getCurrentNode() != null && filterCriteria.matchesClassName(node.getName())) {
             if (filterCriteria.isMatchingClasses()) {
-                getFilterFactory().createClass(node.getName(), node.isConfirmed()).addDependency(getCurrentNode());
+                copy(getFilterFactory(), node).addDependency(getCurrentNode());
             } else if (filterCriteria.isMatchingPackages()) {
-                getFilterFactory().createPackage(node.getPackageNode().getName(), node.getPackageNode().isConfirmed()).addDependency(getCurrentNode());
+                copy(getFilterFactory(), node.getPackageNode()).addDependency(getCurrentNode());
             }
         }
     }
@@ -104,9 +104,9 @@ public class GraphSummarizer extends GraphCopier {
     public void visitOutboundClassNode(ClassNode node) {
         if (getCurrentNode() != null && filterCriteria.matchesClassName(node.getName())) {
             if (filterCriteria.isMatchingClasses()) {
-                getCurrentNode().addDependency(getFilterFactory().createClass(node.getName(), node.isConfirmed()));
+                getCurrentNode().addDependency(copy(getFilterFactory(), node));
             } else if (filterCriteria.isMatchingPackages()) {
-                getCurrentNode().addDependency(getFilterFactory().createPackage(node.getPackageNode().getName(), node.getPackageNode().isConfirmed()));
+                getCurrentNode().addDependency(copy(getFilterFactory(), node.getPackageNode()));
             }
         }
     }
@@ -130,11 +130,11 @@ public class GraphSummarizer extends GraphCopier {
     public void visitInboundFeatureNode(FeatureNode node) {
         if (getCurrentNode() != null && filterCriteria.matchesFeatureName(node.getName())) {
             if (filterCriteria.isMatchingFeatures()) {
-                getFilterFactory().createFeature(node.getName(), node.isConfirmed()).addDependency(getCurrentNode());
+                copy(getFilterFactory(), node).addDependency(getCurrentNode());
             } else if (filterCriteria.isMatchingClasses()) {
-                getFilterFactory().createClass(node.getClassNode().getName(), node.getClassNode().isConfirmed()).addDependency(getCurrentNode());
+                copy(getFilterFactory(), node.getClassNode()).addDependency(getCurrentNode());
             } else if (filterCriteria.isMatchingPackages()) {
-                getFilterFactory().createPackage(node.getClassNode().getPackageNode().getName(), node.getClassNode().getPackageNode().isConfirmed()).addDependency(getCurrentNode());
+                copy(getFilterFactory(), node.getClassNode().getPackageNode()).addDependency(getCurrentNode());
             }
         }
     }
@@ -142,11 +142,11 @@ public class GraphSummarizer extends GraphCopier {
     public void visitOutboundFeatureNode(FeatureNode node) {
         if (getCurrentNode() != null && filterCriteria.matchesFeatureName(node.getName())) {
             if (filterCriteria.isMatchingFeatures()) {
-                getCurrentNode().addDependency(getFilterFactory().createFeature(node.getName(), node.isConfirmed()));
+                getCurrentNode().addDependency(copy(getFilterFactory(), node));
             } else if (filterCriteria.isMatchingClasses()) {
-                getCurrentNode().addDependency(getFilterFactory().createClass(node.getClassNode().getName(), node.getClassNode().isConfirmed()));
+                getCurrentNode().addDependency(copy(getFilterFactory(), node.getClassNode()));
             } else if (filterCriteria.isMatchingPackages()) {
-                getCurrentNode().addDependency(getFilterFactory().createPackage(node.getClassNode().getPackageNode().getName(), node.getClassNode().getPackageNode().isConfirmed()));
+                getCurrentNode().addDependency(copy(getFilterFactory(), node.getClassNode().getPackageNode()));
             }
         }
     }
