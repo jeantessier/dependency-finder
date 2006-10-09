@@ -52,8 +52,31 @@ public class HTMLPrinter extends TextPrinter {
     }
 
     protected Printer printScopeNodeName(Node node, String name) {
+        String fullName = node.getName();
+
+        String escapedName = fullName;
+        escapedName = perl().substitute("s/\\(/\\\\(/g", escapedName);
+        escapedName = perl().substitute("s/\\)/\\\\)/g", escapedName);
+        escapedName = perl().substitute("s/\\$/\\\\\\$/g", escapedName);
+
+        Object[] urlArgument = new Object[1];
+        urlArgument[0] = escapedName;
+        String url = urlFormat.format(urlArgument);
+
+        StringBuffer link = new StringBuffer("<a");
+        link.append(" class=\"scope");
+        if (isShowInferred() && !node.isConfirmed()) {
+            link.append(" inferred");
+        }
+        link.append("\"");
+        link.append(" href=\"").append(url).append("\"");
+        link.append(" id=\"").append(fullName).append("\"");
+        link.append(">");
+        link.append(name);
+        link.append("</a>");
+
         openPotentialInferredSpan(node);
-        printNodeName(node, "<span class=\"scope\">" + name + "</span>");
+        printNodeName(node, link.toString());
         closePotentialInferredSpan(node);
 
         return this;

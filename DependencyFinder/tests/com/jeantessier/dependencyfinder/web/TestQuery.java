@@ -164,11 +164,16 @@ public class TestQuery extends TestCase {
         assertNull("Unwanted link to " + rightClassName, response.getLinkWith(rightClassName));
         assertNull("Unwanted link to " + rightFeatureName, response.getLinkWith(rightFeatureName));
 
+        assertNotNull("Missing link foo", response.getLinkWithID(fooPackageName));
         assertNotNull("Missing link foo --> bar", response.getLinkWithID(fooPackageName + "_to_" + barPackageName));
+        assertNotNull("Missing link bar", response.getLinkWithID(barPackageName));
         assertNotNull("Missing link bar <-- foo", response.getLinkWithID(barPackageName + "_from_" + fooPackageName));
         assertNotNull("Missing link bar --> baz", response.getLinkWithID(barPackageName + "_to_" + bazPackageName));
+        assertNotNull("Missing link baz", response.getLinkWithID(bazPackageName));
         assertNotNull("Missing link baz <-- bar", response.getLinkWithID(bazPackageName + "_from_" + barPackageName));
+        assertNotNull("Missing link left", response.getLinkWithID(leftPackageName));
         assertNotNull("Missing link left <-> right", response.getLinkWithID(leftPackageName + "_bidirectional_" + rightPackageName));
+        assertNotNull("Missing link right", response.getLinkWithID(rightPackageName));
         assertNotNull("Missing link right <-> left", response.getLinkWithID(rightPackageName + "_bidirectional_" + leftPackageName));
     }
 

@@ -1,0 +1,11 @@
+Added hyperlinks on scoped node names in =HTMLPrinter= for the web app so the
+user can narrow down the scope to a single package, class, or feature.  It is
+not perfect, and sometimes behaves in surprising ways, but it is as good (or
+bad) as the hyperlink on dependency names.  Note that each link simply forces
+the =scope-includes= field to a certain prefix; it does not change the flags
+for what is in scope, whether it's packages, classes, and/or features.
+
+Suppose a display has lots of packages, classes, and features.  Clicking on a
+class name reduces the scope to entities that start with the class's name as a
+common prefix.  In the resulting display, if you click on the package's name,
+it expands the scope back to all entities in that package.
