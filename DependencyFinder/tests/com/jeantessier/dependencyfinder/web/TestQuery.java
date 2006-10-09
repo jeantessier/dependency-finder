@@ -3,9 +3,9 @@ package com.jeantessier.dependencyfinder.web;
 import java.io.*;
 import java.util.*;
 
+import com.jeantessier.dependency.*;
 import com.meterware.httpunit.*;
 import com.meterware.servletunit.*;
-import com.jeantessier.dependency.*;
 import junit.framework.*;
 import org.apache.log4j.*;
 
@@ -28,7 +28,6 @@ public class TestQuery extends TestCase {
     private String rightClassName;
     private String rightFeatureName;
 
-    private NodeFactory factory;
     FeatureNode foo;
     FeatureNode bar;
     FeatureNode baz;
@@ -62,27 +61,36 @@ public class TestQuery extends TestCase {
         rightClassName = rightPackageName + ".Right" + random.nextLong();
         rightFeatureName = rightClassName + ".right" + random.nextLong();
 
-        factory = new NodeFactory();
+        NodeFactory factory = new NodeFactory();
         foo = factory.createFeature(fooFeatureName);
         bar = factory.createFeature(barFeatureName);
         baz = factory.createFeature(bazFeatureName);
         left = factory.createFeature(leftFeatureName);
         right = factory.createFeature(rightFeatureName);
 
+        foo.addDependency(bar);
+        bar.addDependency(baz);
+        left.addDependency(right);
+        right.addDependency(left);
+
         ServletRunner runner = new ServletRunner(new File("web/WEB-INF/web.xml"), "/web");
         client = runner.newClient();
         request = new GetMethodWebRequest("http://localhost/web/query.jsp");
         context = client.newInvocation(request);
+
+        client.getSession(true).getServletContext().setAttribute("factory", factory);
     }
 
     public void testNoDependencyGraph() throws Exception {
+        client.getSession(true).getServletContext().removeAttribute("factory");
+
         context.service();
         WebResponse response = client.getResponse(request);
         assertTrue("Missing text \"" + NO_GRAPH_MESSAGE + "\"", response.getText().contains(NO_GRAPH_MESSAGE));
     }
 
     public void testEmptyDependencyGraph() throws Exception {
-        client.getSession(true).getServletContext().setAttribute("factory", factory);
+        client.getSession(true).getServletContext().setAttribute("factory", new NodeFactory());
 
         context.service();
         WebResponse response = client.getResponse(request);
@@ -90,20 +98,12 @@ public class TestQuery extends TestCase {
     }
 
     public void testTestDependencyGraph() throws Exception {
-        createDependencies();
-
-        client.getSession(true).getServletContext().setAttribute("factory", factory);
-
         context.service();
         WebResponse response = client.getResponse(request);
         assertFalse("Unexpected text \"" + NO_GRAPH_MESSAGE + "\"", response.getText().contains(NO_GRAPH_MESSAGE));
     }
 
     public void testFormSubmit() throws Exception {
-        createDependencies();
-
-        client.getSession(true).getServletContext().setAttribute("factory", factory);
-
         context.service();
         WebResponse response = client.getResponse(request);
 
@@ -132,10 +132,6 @@ public class TestQuery extends TestCase {
     }
 
     public void testDirectQuery() throws Exception {
-        createDependencies();
-
-        client.getSession(true).getServletContext().setAttribute("factory", factory);
-
         request.setParameter("scope-includes", "//");
         request.setParameter("package-scope", "on");
         request.setParameter("filter-includes", "//");
@@ -175,12 +171,5 @@ public class TestQuery extends TestCase {
         assertNotNull("Missing link left <-> right", response.getLinkWithID(leftPackageName + "_bidirectional_" + rightPackageName));
         assertNotNull("Missing link right", response.getLinkWithID(rightPackageName));
         assertNotNull("Missing link right <-> left", response.getLinkWithID(rightPackageName + "_bidirectional_" + leftPackageName));
-    }
-
-    private void createDependencies() {
-        foo.addDependency(bar);
-        bar.addDependency(baz);
-        left.addDependency(right);
-        right.addDependency(left);
     }
 }
