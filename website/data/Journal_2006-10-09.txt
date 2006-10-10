@@ -11,5 +11,5 @@ In the query result, if you click on the package's name, it will expand the
 scope of the query back to all elements in the package.
 
 Modified =advancedquery.jsp= so it uses =HTMLPrinter=.  Refactored =TestQuery=
-to share tests between =query.jsp= and =advancedquery.jsp=.  I need better
-tests that actually follow the hyperlinks to verify they do the right thing.
+to share tests between =query.jsp= and =advancedquery.jsp=.  I also added tests
+that actually follow the hyperlinks to verify they do the right thing.
