@@ -5,7 +5,11 @@ bad) as the hyperlink on dependency names.  Note that each link simply forces
 the =scope-includes= field to a certain prefix; it does not change the flags
 for what is in scope, whether it's packages, classes, and/or features.
 
-Suppose a display has lots of packages, classes, and features.  Clicking on a
-class name reduces the scope to entities that start with the class's name as a
-common prefix.  In the resulting display, if you click on the package's name,
-it expands the scope back to all entities in that package.
+Suppose a query result has lots of packages, classes, and features.  You can
+click on a class name reduces the scope to elements prefixed with that name.
+In the query result, if you click on the package's name, it will expand the
+scope of the query back to all elements in the package.
+
+Modified =advancedquery.jsp= so it uses =HTMLPrinter=.  Refactored =TestQuery=
+to share tests between =query.jsp= and =advancedquery.jsp=.  I need better
+tests that actually follow the hyperlinks to verify they do the right thing.

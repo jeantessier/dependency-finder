@@ -7,6 +7,7 @@ public class TestAll extends TestCase {
         TestSuite result = new TestSuite();
 
         result.addTestSuite(TestQuery.class);
+        result.addTestSuite(TestAdvancedQuery.class);
 
         return result;
     }
