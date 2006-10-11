@@ -32,111 +32,10 @@
 
 package com.jeantessier.dependencyfinder.web;
 
-import java.util.*;
-import java.io.*;
-
-import junit.framework.*;
+import com.meterware.httpunit.*;
 import org.apache.log4j.*;
 
-import com.jeantessier.dependency.*;
-
-import com.meterware.servletunit.*;
-import com.meterware.httpunit.*;
-
-public abstract class TestQueryBase extends TestCase {
-    private static final String NO_GRAPH_MESSAGE = "There is no dependency graph at this time.";
-
-    private String fooPackageName;
-    private String fooClassName;
-    private String fooFeatureName;
-    private String foo2ClassName;
-    private String foo2FeatureName;
-    private String barPackageName;
-    private String barClassName;
-    private String barFeatureName;
-    private String bazPackageName;
-    private String bazClassName;
-    private String bazFeatureName;
-    private String leftPackageName;
-    private String leftClassName;
-    private String leftFeatureName;
-    private String rightPackageName;
-    private String rightClassName;
-    private String rightFeatureName;
-
-    private NodeFactory factory;
-
-    private ServletUnitClient client;
-    private WebRequest request;
-    private InvocationContext context;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        Logger.getLogger(getClass()).setLevel(Level.ALL);
-
-        Random random = new Random();
-
-        fooPackageName = "foo" + random.nextLong();
-        fooClassName = fooPackageName + ".Foo" + random.nextLong();
-        fooFeatureName = fooClassName + ".foo" + random.nextLong();
-        foo2ClassName = fooPackageName + ".Foo2" + random.nextLong();
-        foo2FeatureName = foo2ClassName + ".foo2" + random.nextLong();
-        barPackageName = "bar" + random.nextLong();
-        barClassName = barPackageName + ".Bar" + random.nextLong();
-        barFeatureName = barClassName + ".bar" + random.nextLong();
-        bazPackageName = "baz" + random.nextLong();
-        bazClassName = bazPackageName + ".Baz" + random.nextLong();
-        bazFeatureName = bazClassName + ".baz" + random.nextLong();
-        leftPackageName = "left" + random.nextLong();
-        leftClassName = leftPackageName + ".Left" + random.nextLong();
-        leftFeatureName = leftClassName + ".left" + random.nextLong();
-        rightPackageName = "right" + random.nextLong();
-        rightClassName = rightPackageName + ".Right" + random.nextLong();
-        rightFeatureName = rightClassName + ".right" + random.nextLong();
-
-        factory = new NodeFactory();
-        FeatureNode foo = factory.createFeature(fooFeatureName);
-        FeatureNode bar = factory.createFeature(barFeatureName);
-        FeatureNode baz = factory.createFeature(bazFeatureName);
-        FeatureNode left = factory.createFeature(leftFeatureName);
-        FeatureNode right = factory.createFeature(rightFeatureName);
-
-        foo.addDependency(bar);
-        bar.addDependency(baz);
-        left.addDependency(right);
-        right.addDependency(left);
-
-        ServletRunner runner = new ServletRunner(new File("web/WEB-INF/web.xml"), "/web");
-        client = runner.newClient();
-        request = new GetMethodWebRequest(getStartUrl());
-        context = client.newInvocation(request);
-
-        client.getSession(true).getServletContext().setAttribute("factory", factory);
-    }
-
-    public void testNoDependencyGraph() throws Exception {
-        client.getSession(true).getServletContext().removeAttribute("factory");
-
-        context.service();
-        WebResponse response = client.getResponse(request);
-        assertTrue("Missing text \"" + NO_GRAPH_MESSAGE + "\"", response.getText().contains(NO_GRAPH_MESSAGE));
-    }
-
-    public void testEmptyDependencyGraph() throws Exception {
-        client.getSession(true).getServletContext().setAttribute("factory", new NodeFactory());
-
-        context.service();
-        WebResponse response = client.getResponse(request);
-        assertFalse("Unexpected text \"" + NO_GRAPH_MESSAGE + "\"", response.getText().contains(NO_GRAPH_MESSAGE));
-    }
-
-    public void testTestDependencyGraph() throws Exception {
-        context.service();
-        WebResponse response = client.getResponse(request);
-        assertFalse("Unexpected text \"" + NO_GRAPH_MESSAGE + "\"", response.getText().contains(NO_GRAPH_MESSAGE));
-    }
-
+public abstract class TestQueryBase extends TestBase {
     public void testFormSubmit() throws Exception {
         context.service();
         WebResponse response = client.getResponse(request);
@@ -286,6 +185,4 @@ public abstract class TestQueryBase extends TestCase {
         assertNull("Unwanted link left", response.getLinkWithID(leftPackageName));
         assertNull("Unwanted link right", response.getLinkWithID(rightPackageName));
     }
-
-    protected abstract String getStartUrl();
 }
