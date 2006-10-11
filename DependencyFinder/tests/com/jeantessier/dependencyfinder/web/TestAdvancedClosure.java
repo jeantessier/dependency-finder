@@ -32,17 +32,8 @@
 
 package com.jeantessier.dependencyfinder.web;
 
-import junit.framework.*;
-
-public class TestAll extends TestCase {
-    public static Test suite() {
-        TestSuite result = new TestSuite();
-
-        result.addTestSuite(TestQuery.class);
-        result.addTestSuite(TestAdvancedQuery.class);
-        result.addTestSuite(TestClosure.class);
-        result.addTestSuite(TestAdvancedClosure.class);
-
-        return result;
+public class TestAdvancedClosure extends TestClosureBase {
+    protected String getStartUrl() {
+        return "http://localhost/web/advancedclosure.jsp";
     }
 }
