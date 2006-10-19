@@ -33,7 +33,6 @@
 package com.jeantessier.dependencyfinder.web;
 
 import com.meterware.httpunit.*;
-import org.apache.log4j.*;
 
 public abstract class TestQueryBase extends TestBase {
     public void testFormSubmit() throws Exception {
@@ -171,8 +170,6 @@ public abstract class TestQueryBase extends TestBase {
         response = form.submit(form.getSubmitButtons()[0]);
         response = response.getLinkWithID(fooFeatureName).click();
         response = response.getLinkWithID(fooPackageName).click();
-
-        Logger.getLogger(getClass()).debug(response.getText());
 
         assertNotNull("Missing link foo", response.getLinkWithID(fooPackageName));
         assertNotNull("Missing link foo.Foo", response.getLinkWithID(fooClassName));
