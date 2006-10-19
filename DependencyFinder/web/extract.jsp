@@ -145,7 +145,7 @@
     perl.split(sources, "/,\\s*/", application.getInitParameter("source"));
 
     if (request.getParameter("launch") == null) {
-        if (Boolean.valueOf(application.getInitParameter("showSource")).booleanValue()) {
+        if (Boolean.valueOf(application.getInitParameter("showSource"))) {
 %>
 
     <tr>
@@ -309,12 +309,12 @@
 
         if (request.getParameter("update") == null) {
             application.setAttribute("extractStart",    formatter.format(start));
-            application.setAttribute("extractDuration", new Double(duration));
+            application.setAttribute("extractDuration", duration);
             application.removeAttribute("updateStart");
             application.removeAttribute("updateDuration");
         } else {
             application.setAttribute("updateStart",    formatter.format(start));
-            application.setAttribute("updateDuration", new Double(duration));
+            application.setAttribute("updateDuration", duration);
         }
 
         application.removeAttribute("loadStart");

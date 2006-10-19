@@ -107,7 +107,7 @@
     perl.split(files, "/,\\s*/", application.getInitParameter("file"));
 
     if (request.getParameter("launch") == null) {
-        if (Boolean.valueOf(application.getInitParameter("showFile")).booleanValue()) {
+        if (Boolean.valueOf(application.getInitParameter("showFile"))) {
 %>
 
     <tr>
@@ -228,7 +228,7 @@
 
         application.setAttribute("factory",      factory);
         application.setAttribute("loadStart",    formatter.format(start));
-        application.setAttribute("loadDuration", new Double(duration));
+        application.setAttribute("loadDuration", duration);
 
         application.removeAttribute("dispatcher");
         application.removeAttribute("monitor");
