@@ -35,7 +35,7 @@
         <pathelement location="${env.JUNIT_HOME}/junit.jar"/>
         <pathelement location="${tomcat.home}/common/lib/servlet-api.jar"/>
         <pathelement location="${tomcat.home}/common/lib/jsp-api.jar"/>
-        <pathelement location="${env.WEBWORK_HOME}/webwork-2.2.jar"/>
+        <pathelement location="${env.WEBWORK_HOME}/webwork-2.2.4.jar"/>
         <fileset dir="${env.WEBWORK_HOME}/lib/default">
             <include name="**/*.jar"/>
         </fileset>
