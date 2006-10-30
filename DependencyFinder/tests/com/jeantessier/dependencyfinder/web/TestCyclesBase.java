@@ -34,9 +34,6 @@ package com.jeantessier.dependencyfinder.web;
 
 import com.meterware.httpunit.*;
 
-/**
- *
- */
 public abstract class TestCyclesBase extends TestBase {
     public void testDirectQuery() throws Exception {
         request.setParameter("scope-includes", "//");
@@ -47,32 +44,22 @@ public abstract class TestCyclesBase extends TestBase {
         context.service();
         WebResponse response = client.getResponse(request);
 
-        assertNull("Unwanted link to " + fooPackageName, response.getLinkWith(fooPackageName));
-        assertNull("Unwanted link to " + fooClassName, response.getLinkWith(fooClassName));
         assertNull("Unwanted link to " + fooFeatureName, response.getLinkWith(fooFeatureName));
-        assertNull("Unwanted link to " + barPackageName, response.getLinkWith(barPackageName));
-        assertNull("Unwanted link to " + barClassName, response.getLinkWith(barClassName));
         assertNull("Unwanted link to " + barFeatureName, response.getLinkWith(barFeatureName));
-        assertNull("Unwanted link to " + bazPackageName, response.getLinkWith(bazPackageName));
-        assertNull("Unwanted link to " + bazClassName, response.getLinkWith(bazClassName));
         assertNull("Unwanted link to " + bazFeatureName, response.getLinkWith(bazFeatureName));
-        assertNotNull("Missing link to " + leftPackageName, response.getLinkWith(leftPackageName));
-        assertNull("Unwanted link to " + leftClassName, response.getLinkWith(leftClassName));
-        assertNull("Unwanted link to " + leftFeatureName, response.getLinkWith(leftFeatureName));
-        assertNull("Unwanted link to " + rightPackageName, response.getLinkWith(rightPackageName));
-        assertNull("Unwanted link to " + rightClassName, response.getLinkWith(rightClassName));
-        assertNull("Unwanted link to " + rightFeatureName, response.getLinkWith(rightFeatureName));
+        assertNotNull("Missing link to " + leftFeatureName, response.getLinkWith(leftFeatureName));
+        assertNotNull("Missing link to " + rightFeatureName, response.getLinkWith(rightFeatureName));
 
-        assertNull("Unwanted link foo", response.getLinkWithID(fooPackageName));
-        assertNull("Unwanted link foo --> bar", response.getLinkWithID(fooPackageName + "_to_" + barPackageName));
-        assertNull("Unwanted link bar", response.getLinkWithID(barPackageName));
-        assertNull("Unwanted link bar <-- foo", response.getLinkWithID(barPackageName + "_from_" + fooPackageName));
-        assertNull("Unwanted link bar --> baz", response.getLinkWithID(barPackageName + "_to_" + bazPackageName));
-        assertNull("Unwanted link baz", response.getLinkWithID(bazPackageName));
-        assertNull("Unwanted link baz <-- bar", response.getLinkWithID(bazPackageName + "_from_" + barPackageName));
-        assertNotNull("Missing link left", response.getLinkWithID(leftPackageName));
-        assertNotNull("Missing link left <-> right", response.getLinkWithID(leftPackageName + "_bidirectional_" + rightPackageName));
-        assertNull("Unwanted link right", response.getLinkWithID(rightPackageName));
-        assertNotNull("Missing link right <-> left", response.getLinkWithID(rightPackageName + "_bidirectional_" + leftPackageName));
+        assertNull("Unwanted link foo", response.getLinkWithID(fooFeatureName));
+        assertNull("Unwanted link foo --> bar", response.getLinkWithID(fooFeatureName + "_to_" + barFeatureName));
+        assertNull("Unwanted link bar", response.getLinkWithID(barFeatureName));
+        assertNull("Unwanted link bar <-- foo", response.getLinkWithID(barFeatureName + "_from_" + fooFeatureName));
+        assertNull("Unwanted link bar --> baz", response.getLinkWithID(barFeatureName + "_to_" + bazFeatureName));
+        assertNull("Unwanted link baz", response.getLinkWithID(bazFeatureName));
+        assertNull("Unwanted link baz <-- bar", response.getLinkWithID(bazFeatureName + "_from_" + barFeatureName));
+        assertNotNull("Missing link left", response.getLinkWithID(leftFeatureName));
+        assertNotNull("Missing link left --> right", response.getLinkWithID(leftFeatureName + "_to_" + rightFeatureName));
+        assertNull("Unwanted link right", response.getLinkWithID(rightFeatureName));
+        assertNotNull("Missing link right --> left", response.getLinkWithID(rightFeatureName + "_to_" + leftFeatureName));
     }
 }

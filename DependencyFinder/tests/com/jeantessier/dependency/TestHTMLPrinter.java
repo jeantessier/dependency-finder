@@ -37,18 +37,12 @@ import java.text.*;
 
 import junit.framework.*;
 
-public class TestHTMLPrinter extends TestCase {
-    private static final String PREFIX = "prefix (";
-    private static final String SUFFIX = ") suffix";
-    private static final MessageFormat FORMAT = new MessageFormat(PREFIX + "{0}" + SUFFIX);
-
-    private NodeFactory  factory;
-    private StringWriter out;
-    private HTMLPrinter  visitor;
+public class TestHTMLPrinter extends TestHTMLPrinterBase {
+    private HTMLPrinter visitor;
 
     protected void setUp() throws Exception {
-        factory = new NodeFactory();
-        out     = new StringWriter();
+        super.setUp();
+
         visitor = new HTMLPrinter(new PrintWriter(out), FORMAT);
     }
 

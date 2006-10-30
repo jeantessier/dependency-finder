@@ -81,9 +81,8 @@ public class XMLCyclePrinter implements CyclePrinter, Visitor {
     }
 
     public void traverseNodes(Collection<? extends Node> nodes) {
-        Iterator i = nodes.iterator();
-        while (i.hasNext()) {
-            ((Node) i.next()).accept(this);
+        for (Node node : nodes) {
+            node.accept(this);
         }
     }
 

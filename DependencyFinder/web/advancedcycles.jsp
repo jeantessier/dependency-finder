@@ -1,4 +1,4 @@
-<%@ page import="java.io.*, java.util.*, com.jeantessier.dependency.*" %>
+<%@ page import="java.io.*, java.text.*, java.util.*, com.jeantessier.dependency.*" %>
 <%@ page errorPage="errorpage.jsp" %>
 
 <!--
@@ -265,7 +265,31 @@
 
             detector.traverseNodes(((NodeFactory) application.getAttribute("factory")).getPackages().values());
 
-            CyclePrinter printer = new TextCyclePrinter(new PrintWriter(out));
+            StringBuffer urlPattern = new StringBuffer();
+            urlPattern.append(request.getRequestURI());
+            urlPattern.append("?");
+            Iterator entries = request.getParameterMap().entrySet().iterator();
+            while (entries.hasNext()) {
+                Map.Entry entry = (Map.Entry) entries.next();
+                if ("scope-includes".equals(entry.getKey())) {
+                    urlPattern.append(entry.getKey()).append("=/^{0}/");
+                } else {
+                    String[] values = (String[]) entry.getValue();
+                    for (int i=0; i<values.length; i++) {
+                        urlPattern.append(entry.getKey()).append("=").append(values[i]);
+                        if (i < values.length - 1) {
+                            urlPattern.append("&");
+                        }
+                    }
+                }
+                if (entries.hasNext()) {
+                    urlPattern.append("&");
+                }
+            }
+
+            MessageFormat urlFormat = new MessageFormat(urlPattern.toString());
+
+            CyclePrinter printer = new HTMLCyclePrinter(new PrintWriter(out), urlFormat);
             printer.visitCycles(detector.getCycles());
 
             Date stop = new Date();
