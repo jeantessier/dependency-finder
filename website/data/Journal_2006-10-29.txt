@@ -1,1 +1,3 @@
-More closure functional tests to test hyperlinks in the HTML.
+More closure functional tests to test hyperlinks in the HTML.  Also created
+some functional tests for cycle detection and metrics.  Now, I need an HTML
+version of =CyclePrinter=.
