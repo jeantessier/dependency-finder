@@ -74,4 +74,42 @@ public abstract class TestClosureBase extends TestBase {
         assertNull("Unwanted link right", response.getLinkWithID(rightPackageName));
         assertNull("Unwanted link right <-> left", response.getLinkWithID(rightPackageName + "_bidirectional_" + leftPackageName));
     }
+
+    public void testFollowDownstreamLink() throws Exception {
+        request.setParameter("start-includes", "/" + fooPackageName + "/");
+        request.setParameter("scope", "package");
+        request.setParameter("filter", "package");
+        request.setParameter("maximum-inbound-depth", "0");
+        request.setParameter("maximum-outbound-depth", "1");
+        request.setParameter("submit", "Run Query");
+
+        context.service();
+        WebResponse response = client.getResponse(request);
+
+        assertNotNull("Missing link to " + fooPackageName, response.getLinkWith(fooPackageName));
+        assertNotNull("Missing link to " + barPackageName, response.getLinkWith(barPackageName));
+        assertNull("Unwanted link to " + bazPackageName, response.getLinkWith(bazPackageName));
+
+        assertNotNull("Missing link foo", response.getLinkWithID(fooPackageName));
+        assertNotNull("Missing link foo --> bar", response.getLinkWithID(fooPackageName + "_to_" + barPackageName));
+        assertNotNull("Missing link bar", response.getLinkWithID(barPackageName));
+        assertNotNull("Missing link bar <-- foo", response.getLinkWithID(barPackageName + "_from_" + fooPackageName));
+        assertNull("Unwanted link bar --> baz", response.getLinkWithID(barPackageName + "_to_" + bazPackageName));
+        assertNull("Unwanted link baz", response.getLinkWithID(bazPackageName));
+        assertNull("Unwanted link baz <-- bar", response.getLinkWithID(bazPackageName + "_from_" + barPackageName));
+
+        response = response.getLinkWithID(fooPackageName + "_to_" + barPackageName).click();
+
+        assertNull("Unwanted link to " + fooPackageName, response.getLinkWith(fooPackageName));
+        assertNotNull("Missing link to " + barPackageName, response.getLinkWith(barPackageName));
+        assertNotNull("Missing link to " + bazPackageName, response.getLinkWith(bazPackageName));
+
+        assertNull("Unwanted link foo", response.getLinkWithID(fooPackageName));
+        assertNull("Unwanted link foo --> bar", response.getLinkWithID(fooPackageName + "_to_" + barPackageName));
+        assertNotNull("Missing link bar", response.getLinkWithID(barPackageName));
+        assertNull("Unwanted link bar <-- foo", response.getLinkWithID(barPackageName + "_from_" + fooPackageName));
+        assertNotNull("Missing link bar --> baz", response.getLinkWithID(barPackageName + "_to_" + bazPackageName));
+        assertNotNull("Missing link baz", response.getLinkWithID(bazPackageName));
+        assertNotNull("Missing link baz <-- bar", response.getLinkWithID(bazPackageName + "_from_" + barPackageName));
+    }
 }
