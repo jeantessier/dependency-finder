@@ -55,8 +55,7 @@ public class TestHTMLCyclePrinter extends TestHTMLPrinterBase {
     public void testEmptyCycles() throws IOException {
         visitor.visitCycles(Collections.EMPTY_LIST);
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        BufferedReader in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("End of file", null, in.readLine());
     }
@@ -69,8 +68,8 @@ public class TestHTMLCyclePrinter extends TestHTMLPrinterBase {
 
         visitor.visitCycles(Collections.singletonList(cycle));
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        int lineNumber = 0;
+        BufferedReader in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "a" + SUFFIX + "\" id=\"a\">a</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "b" + SUFFIX + "\" id=\"a_to_b\">b</a>", in.readLine());
@@ -88,8 +87,8 @@ public class TestHTMLCyclePrinter extends TestHTMLPrinterBase {
 
         visitor.visitCycles(Collections.singletonList(cycle));
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        int lineNumber = 0;
+        BufferedReader in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "a" + SUFFIX + "\" id=\"a\">a</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "b" + SUFFIX + "\" id=\"a_to_b\">b</a>", in.readLine());

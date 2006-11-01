@@ -53,15 +53,7 @@ public class HTMLCyclePrinter extends TextCyclePrinter {
 
     protected void printFirstNode(Node node) {
         String fullName = node.getName();
-
-        String escapedName = fullName;
-        escapedName = perl().substitute("s/\\(/\\\\(/g", escapedName);
-        escapedName = perl().substitute("s/\\)/\\\\)/g", escapedName);
-        escapedName = perl().substitute("s/\\$/\\\\\\$/g", escapedName);
-
-        Object[] urlArgument = new Object[1];
-        urlArgument[0] = escapedName;
-        String url = urlFormat.format(urlArgument);
+        String url = formatUrl(fullName);
 
         out.print("<a class=\"scope\" href=\"");
         out.print(url);
@@ -76,17 +68,8 @@ public class HTMLCyclePrinter extends TextCyclePrinter {
 
     protected void printNode(Node previousNode, Node currentNode) {
         String fullName = currentNode.getName();
+        String url = formatUrl(fullName);
 
-        String escapedName = fullName;
-        escapedName = perl().substitute("s/\\(/\\\\(/g", escapedName);
-        escapedName = perl().substitute("s/\\)/\\\\)/g", escapedName);
-        escapedName = perl().substitute("s/\\$/\\\\\\$/g", escapedName);
-
-        Object[] urlArgument = new Object[1];
-        urlArgument[0] = escapedName;
-        String url = urlFormat.format(urlArgument);
-
-        StringBuffer link = new StringBuffer();
         out.print("--&gt; <a href=\"");
         out.print(url);
         out.print("\" id=\"");
@@ -98,5 +81,15 @@ public class HTMLCyclePrinter extends TextCyclePrinter {
         out.print("</a>");
 
         out.println();
+    }
+
+    private String formatUrl(String fullName) {
+        String escapedName = fullName;
+        escapedName = perl().substitute("s/\\(/\\\\(/g", escapedName);
+        escapedName = perl().substitute("s/\\)/\\\\)/g", escapedName);
+        escapedName = perl().substitute("s/\\$/\\\\\\$/g", escapedName);
+
+        Object[] urlArgument = new Object[] {escapedName};
+        return urlFormat.format(urlArgument);
     }
 }
