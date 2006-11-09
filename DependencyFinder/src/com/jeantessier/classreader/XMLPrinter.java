@@ -441,7 +441,7 @@ public class XMLPrinter extends Printer {
         while (i.hasNext()) {
             Instruction instr = (Instruction) i.next();
             indent();
-            append("<instruction pc=\"").append(instr.getStart()).append("\" length=\"").append(instr.getLength()).append("\">");
+            append("<instruction pc=\"").append(instr.getStart()).append("\" length=\"").append(instr.getLength()).append("\"");
             switch (instr.getOpcode()) {
                 case 0x12: // ldc
                 case 0x13: // ldc_w
@@ -459,11 +459,13 @@ public class XMLPrinter extends Printer {
                 case 0xc0: // checkcast
                 case 0xc1: // instanceof
                 case 0xc5: // multianewarray
+                    append(" index=\"").append(instr.getIndex()).append("\">");
                     append(instr);
                     append(" ");
                     instr.getIndexedConstantPoolEntry().accept(this);
                     break;
                 default:
+                    append(">");
                     append(instr);
                     break;
             }

@@ -68,7 +68,7 @@ public class CodeDependencyCollector extends CollectorBase {
         current = getFactory().createClass(classfile.getClassName(), true);
 
         fireBeginClass(classfile.toString());
-        
+
         if (classfile.getSuperclassIndex() != 0) {
             classfile.getRawSuperclass().accept(this);
         }
@@ -172,7 +172,7 @@ public class CodeDependencyCollector extends CollectorBase {
         current = getFactory().createFeature(entry.getFullSignature(), true);
 
         processDescriptor(entry.getDescriptor());
-    
+
         super.visitField_info(entry);
     }
 
@@ -197,8 +197,10 @@ public class CodeDependencyCollector extends CollectorBase {
          *  We can skip the "new" (0xbb) instruction as it is always
          *  followed by a call to the constructor method.
          */
-        
+
         switch (helper.getOpcode()) {
+            case 0x12: // ldc
+            case 0x13: // ldc_w
             case 0xb2: // getstatic
             case 0xb3: // putstatic
             case 0xb4: // getfield
@@ -280,7 +282,7 @@ public class CodeDependencyCollector extends CollectorBase {
             listener.beginSession(event);
         }
     }
-    
+
     protected void fireBeginClass(String classname) {
         DependencyEvent event = new DependencyEvent(this, classname);
 

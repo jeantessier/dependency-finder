@@ -169,6 +169,7 @@
 <!ATTLIST instruction
           pc     CDATA #REQUIRED
           length CDATA #REQUIRED
+          index  CDATA #IMPLIED
 >
 
 <!ELEMENT exception-handlers (exception-handler*) >
