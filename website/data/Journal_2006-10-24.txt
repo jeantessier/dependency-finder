@@ -1,0 +1,3 @@
+Someone complained that the Tutorial only works on Microsoft products and I
+should move it to open source technologies.  I'll try
+[[http://openoffice.org/][OpenOffice]] when I have some time.
