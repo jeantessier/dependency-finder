@@ -1,0 +1,10 @@
+I want to write tests for the improvements I did to =XMLPrinter= for
+=Instruction= and to =CodeDependencyCollector=, but the classes in
+=com.jeantessier.classreader= were among the first I wrote for Dependency
+Finder and they are not easy to test.  Their constructor takes a
+=DataInputStream= with the binary data for a complete class.  This makes it
+very hard to get test data without building actual Java classes and compiling
+them.  Especially when trying to test specific instructions.  I will need to
+change all of them so I can construct temporary structures in tests, but that
+will take a while and I don't want to delay the upcoming release more than I
+have to.

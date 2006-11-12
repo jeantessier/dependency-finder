@@ -1,0 +1,3 @@
+I have half a mind to unify the HTML styles for dependency graphs in the webapp
+versus the XSLT transform used by the CLI and the Ant tasks.  I think the
+style in the webapp looks better in the end.
