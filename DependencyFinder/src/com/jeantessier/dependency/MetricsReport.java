@@ -125,21 +125,39 @@ public class MetricsReport {
     }
 
     public void process(MetricsGatherer metrics) {
-        out.println(metrics.getPackages().size() + " package(s) (" + countConfirmedNodes(metrics.getPackages()) + " confirmed, " + (countConfirmedNodes(metrics.getPackages()) / (double) metrics.getPackages().size()) + ")");
+        int nbPackages = metrics.getPackages().size();
+        out.print(nbPackages + " package(s)");
+        if (nbPackages > 0) {
+            int nbConfirmedPackages = countConfirmedNodes(metrics.getPackages());
+            out.print(" (" + nbConfirmedPackages + " confirmed, " + (nbConfirmedPackages / (double) nbPackages) + ")");
+        }
+        out.println();
         if (isListingElements()) {
             for (PackageNode packageNode : metrics.getPackages()) {
                 out.println("    " + packageNode);
             }
         }
 
-        out.println(metrics.getClasses().size() + " class(es) (" + countConfirmedNodes(metrics.getClasses()) + " confirmed, " + (countConfirmedNodes(metrics.getClasses()) / (double) metrics.getClasses().size()) + ")");
+        int nbClasses = metrics.getClasses().size();
+        out.print(nbClasses + " class(es)");
+        if (nbClasses > 0) {
+            int nbConfirmedClasses = countConfirmedNodes(metrics.getClasses());
+            out.print(" (" + nbConfirmedClasses + " confirmed, " + (nbConfirmedClasses / (double) nbClasses) + ")");
+        }
+        out.println();
         if (isListingElements()) {
             for (ClassNode classNode : metrics.getClasses()) {
                 out.println("    " + classNode);
             }
         }
 
-        out.println(metrics.getFeatures().size() + " feature(s) (" + countConfirmedNodes(metrics.getFeatures()) + " confirmed, " + (countConfirmedNodes(metrics.getFeatures()) / (double) metrics.getFeatures().size()) + ")");
+        int nbFeatures = metrics.getFeatures().size();
+        out.print(nbFeatures + " feature(s)");
+        if (nbFeatures > 0) {
+            int nbConfirmedFeatures = countConfirmedNodes(metrics.getFeatures());
+            out.print(" (" + nbConfirmedFeatures + " confirmed, " + (nbConfirmedFeatures / (double) nbFeatures) + ")");
+        }
+        out.println();
         if (isListingElements()) {
             for (FeatureNode featureNode : metrics.getFeatures()) {
                 out.println("    " + featureNode);
@@ -149,14 +167,50 @@ public class MetricsReport {
         out.println();
 
         out.println(metrics.getNbOutbound() + " outbound link(s)");
-        out.println("    " + metrics.getNbOutboundPackages() + " from package(s) (average " + (metrics.getNbOutboundPackages() / (double) metrics.getPackages().size()) + " per package)");
-        out.println("    " + metrics.getNbOutboundClasses() + " from class(es) (average " + (metrics.getNbOutboundClasses() / (double) metrics.getClasses().size()) + " per class)");
-        out.println("    " + metrics.getNbOutboundFeatures() + " from feature(s) (average " + (metrics.getNbOutboundFeatures() / (double) metrics.getFeatures().size()) + " per feature)");
+
+        long nbOutboundPackages = metrics.getNbOutboundPackages();
+        out.print("    " + nbOutboundPackages + " from package(s)");
+        if (nbOutboundPackages > 0 && nbPackages > 0) {
+            out.print(" (on average " + (nbOutboundPackages / (double) nbPackages) + " per package)");
+        }
+        out.println();
+
+        long nbOutboundClasses = metrics.getNbOutboundClasses();
+        out.print("    " + nbOutboundClasses + " from class(es)");
+        if (nbOutboundClasses > 0 && nbClasses > 0) {
+            out.print(" (on average " + (nbOutboundClasses / (double) nbClasses) + " per class)");
+        }
+        out.println();
+
+        long nbOutboundFeatures = metrics.getNbOutboundFeatures();
+        out.print("    " + nbOutboundFeatures + " from feature(s)");
+        if (nbOutboundFeatures > 0 && nbFeatures > 0) {
+            out.print(" (on average " + (nbOutboundFeatures / (double) nbFeatures) + " per feature)");
+        }
+        out.println();
 
         out.println(metrics.getNbInbound() + " inbound link(s)");
-        out.println("    " + metrics.getNbInboundPackages() + " to package(s) (average " + (metrics.getNbInboundPackages() / (double) metrics.getPackages().size()) + " per package)");
-        out.println("    " + metrics.getNbInboundClasses() + " to class(es) (average " + (metrics.getNbInboundClasses() / (double) metrics.getClasses().size()) + " per class)");
-        out.println("    " + metrics.getNbInboundFeatures() + " to feature(s) (average " + (metrics.getNbInboundFeatures() / (double) metrics.getFeatures().size()) + " per feature)");
+
+        long nbInboundPackages = metrics.getNbInboundPackages();
+        out.print("    " + nbInboundPackages + " to package(s)");
+        if (nbInboundPackages > 0 && nbPackages > 0) {
+            out.print(" (on average " + (nbInboundPackages / (double) nbPackages) + " per package)");
+        }
+        out.println();
+
+        long nbInboundClasses = metrics.getNbInboundClasses();
+        out.print("    " + nbInboundClasses + " to class(es)");
+        if (nbInboundClasses > 0 && nbClasses > 0) {
+            out.print(" (on average " + (nbInboundClasses / (double) nbClasses) + " per class)");
+        }
+        out.println();
+
+        long nbInboundFeatures = metrics.getNbInboundFeatures();
+        out.print("    " + nbInboundFeatures + " to feature(s)");
+        if (nbInboundFeatures > 0 && nbFeatures > 0) {
+            out.print(" (on average " + (nbInboundFeatures / (double) nbFeatures) + " per feature)");
+        }
+        out.println();
 
         if (isChartingClassesPerPackage()   ||
             isChartingFeaturesPerClass()    ||
