@@ -234,14 +234,6 @@ DTD.</p>
   </tr>
 
   <tr>
-    <td valign="top">all</td>
-    <td valign="top">shortcut for <code>packagescope</code>,
-    <code>classscope</code>, <code>featurescope</code>,
-    <code>packagefilter</code>, <code>classfilter</code>, and
-    <code>featurefilter</code>.</td>
-    <td valign="top" align="center">No</td>
-  </tr>
-  <tr>
     <td valign="top">p2p</td>
     <td valign="top">shortcut for <code>packagescope</code> and
     <code>packagefilter</code>.</td>
@@ -283,12 +275,6 @@ DTD.</p>
     <td valign="top">limits the report to dependencies that are actually in
     the source graph.  This will prevent the reporter from inferring implicit
     dependencies when possible.</td>
-    <td valign="top" align="center">No; defaults to false.</td>
-  </tr>
-  <tr>
-    <td valign="top">showall</td>
-    <td valign="top">shortcut for <code>showemptynodes</code>,
-    <code>showinbounds</code>, and <code>showoutbounds</code>.</td>
     <td valign="top" align="center">No; defaults to false.</td>
   </tr>
   <tr>
@@ -387,8 +373,7 @@ dependencies and save it to <code>dg.p2p.xml</code>:</p>
 
 <pre>  &lt;dependencyreporter srcfile=&quot;df.xml&quot;
                       destfile=&quot;df.p2p.xml&quot;
-                      p2p=&quot;yes&quot;
-                      showall=&quot;yes&quot;/&gt;</pre>
+                      p2p=&quot;yes&quot;/&gt;</pre>
 
 <p>To reduce the graph in <code>dg.xml</code> to package-to-package
 dependencies among <code>com.jeantessier.*</code> packages and save
@@ -397,7 +382,6 @@ it to <code>dg.p2p.xml</code>, and then convert it to HTML:</p>
 <pre>  &lt;dependencyreporter srcfile=&quot;df.xml&quot;
                       destfile=&quot;df.p2p.xml&quot;
                       p2p=&quot;yes&quot;
-                      showall=&quot;yes&quot;
                       includes=&quot;/jeantessier/&quot;/&gt;</pre>
 
 <p>To reduce the graph in <code>dg.xml</code> to package-to-package
@@ -406,7 +390,7 @@ dependencies and save it to <code>dg.p2p.xml</code>:</p>
 <pre>  &lt;dependencyreporter srcfile=&quot;df.xml&quot;
                       destfile=&quot;df.p2p.xml&quot;
                       p2p=&quot;yes&quot;
-                      showall=&quot;yes&quot;/&gt;
+                      includes=&quot;/jeantessier/&quot;/&gt;
   &lt;xslt style=&quot;${dependencyfinder.home}/etc/DependencyGraphToHTML.xsl&quot;
         in=&quot;df.p2p.xml&quot;
         out=&quot;df.p2p.html&quot;/&gt;</pre>

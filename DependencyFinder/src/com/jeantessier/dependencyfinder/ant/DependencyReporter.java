@@ -48,24 +48,24 @@ import com.jeantessier.dependency.*;
 public class DependencyReporter extends GraphTask {
     private String scopeIncludes = "//";
     private String scopeExcludes = "";
-    private boolean packageScope;
+    private boolean packageScope = false;
     private String packageScopeIncludes = "";
     private String packageScopeExcludes = "";
-    private boolean classScope;
+    private boolean classScope = false;
     private String classScopeIncludes = "";
     private String classScopeExcludes = "";
-    private boolean featureScope;
+    private boolean featureScope = false;
     private String featureScopeIncludes = "";
     private String featureScopeExcludes = "";
     private String filterIncludes = "//";
     private String filterExcludes = "";
-    private boolean packageFilter;
+    private boolean packageFilter = false;
     private String packageFilterIncludes = "";
     private String packageFilterExcludes = "";
-    private boolean classFilter;
+    private boolean classFilter = false;
     private String classFilterIncludes = "";
     private String classFilterExcludes = "";
-    private boolean featureFilter;
+    private boolean featureFilter = false;
     private String featureFilterIncludes = "";
     private String featureFilterExcludes = "";
 
@@ -260,15 +260,6 @@ public class DependencyReporter extends GraphTask {
 
     public void setFeaturefilterexcludes(String featureFilterExcludes) {
         this.featureFilterExcludes = featureFilterExcludes;
-    }
-
-    public void setAll(boolean value) {
-        setPackagescope(value);
-        setClassscope(value);
-        setFeaturescope(value);
-        setPackagefilter(value);
-        setClassfilter(value);
-        setFeaturefilter(value);
     }
 
     public void setP2p(boolean value) {
@@ -499,9 +490,11 @@ public class DependencyReporter extends GraphTask {
                 printer.setIndentText(getIndenttext());
             }
 
-            printer.setShowInbounds(getShowinbounds());
-            printer.setShowOutbounds(getShowoutbounds());
-            printer.setShowEmptyNodes(getShowemptynodes());
+            if (getShowinbounds() || getShowoutbounds() || getShowemptynodes()) {
+                printer.setShowInbounds(getShowinbounds());
+                printer.setShowOutbounds(getShowoutbounds());
+                printer.setShowEmptyNodes(getShowemptynodes());
+            }
 
             printer.traverseNodes(copier.getScopeFactory().getPackages().values());
 
@@ -542,9 +535,11 @@ public class DependencyReporter extends GraphTask {
     protected RegularExpressionSelectionCriteria createRegularExpressionScopeCriteria() throws BuildException {
         RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();
 
-        result.setMatchingPackages(getPackagescope());
-        result.setMatchingClasses(getClassscope());
-        result.setMatchingFeatures(getFeaturescope());
+        if (getPackagescope() || getClassscope() || getFeaturescope()) {
+            result.setMatchingPackages(getPackagescope());
+            result.setMatchingClasses(getClassscope());
+            result.setMatchingFeatures(getFeaturescope());
+        }
 
         result.setGlobalIncludes(getScopeincludes());
         result.setGlobalExcludes(getScopeexcludes());
@@ -561,9 +556,11 @@ public class DependencyReporter extends GraphTask {
     protected RegularExpressionSelectionCriteria createRegularExpressionFilterCriteria() throws BuildException {
         RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();
 
-        result.setMatchingPackages(getPackagefilter());
-        result.setMatchingClasses(getClassfilter());
-        result.setMatchingFeatures(getFeaturefilter());
+        if (getPackagefilter() || getClassfilter() || getFeaturefilter()) {
+            result.setMatchingPackages(getPackagefilter());
+            result.setMatchingClasses(getClassfilter());
+            result.setMatchingFeatures(getFeaturefilter());
+        }
 
         result.setGlobalIncludes(getFilterincludes());
         result.setGlobalExcludes(getFilterexcludes());

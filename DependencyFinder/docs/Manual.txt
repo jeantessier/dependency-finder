@@ -1535,7 +1535,7 @@ And narrow down the graph to class-to-class dependencies.
 
 <div class="highlight">
 
-    C:\>c2c -show-all -scope-includes /test/ test.xml
+    C:\>c2c -scope-includes /test/ test.xml
 
 </div>
 
@@ -1555,21 +1555,17 @@ following commands are equivalent.
 
 <div class="highlight">
 
-    C:\>c2c -show-all
-            -scope-includes /test/
+    C:\>c2c -scope-includes /test/
             test.xml
 
-    C:\>c2c -show-all
-            -class-scope-includes /test/
+    C:\>c2c -class-scope-includes /test/
             test.xml
 
     C:\>DependencyReporter -c2c
-                           -show-all
                            -class-scope-includes /test/
                            test.xml
 
-    C:\>DependencyReporter -show-all
-                           -class-scope
+    C:\>DependencyReporter -class-scope
                            -class-scope-includes /test/
                            -class-filter
                            test.xml
@@ -1589,21 +1585,17 @@ these commands are equivalent.
 
 <div class="highlight">
 
-    C:\>c2p -show-all
-            -scope-includes /test/
+    C:\>c2p -scope-includes /test/
             test.xml
 
-    C:\>c2p -show-all
-            -class-scope-includes /test/
+    C:\>c2p -class-scope-includes /test/
             test.xml
 
     C:\>DependencyReporter -c2p
-                           -show-all
                            -scope-includes /test/
                            test.xml
 
-    C:\>DependencyReporter -show-all
-                           -class-scope
+    C:\>DependencyReporter -class-scope
                            -class-scope-includes /test/
                            -package-filter
                            test.xml
@@ -1629,14 +1621,11 @@ equivalent.
 
 <div class="highlight">
 
-    C:\>p2p -show-all
-            test.xml
+    C:\>p2p test.xml
 
     C:\>DependencyReporter -p2p
-                           -show-all
                            test.xml
-    C:\>DependencyReporter -show-all
-                           -package-scope
+    C:\>DependencyReporter -package-scope
                            -package-filter
                            test.xml
 
@@ -2103,16 +2092,11 @@ effect through command-line switches.
 
 <div class="highlight">
 
-    C:\>DependencyReporter -show-all
-                           -package-scope
+    C:\>DependencyReporter -package-scope
                            -class-scope
                            -feature-scope
 
-    C:\>DependencyReporter -show-all
-                           -all
-
-    C:\>DependencyReporter -show-all
-                           -f2f
+    C:\>DependencyReporter -f2f
 
 </div>
 
@@ -2132,8 +2116,7 @@ switches.
 
 <div class="highlight">
 
-    C:\>DependencyReporter -show-all
-                           -scope-includes //
+    C:\>DependencyReporter -scope-includes //
                            -scope-excludes /Test/
 
 </div>
@@ -2383,19 +2366,15 @@ used in scoping feature nodes, if you use it along with =-feature-scope=.
 
 <div class="highlight">
 
-    C:\>DependencyReporter -show-all
-                           -package-scope
+    C:\>DependencyReporter -package-scope
                            -class-scope
                            -feature-scope
 
-    C:\>DependencyReporter -show-all -all
+    C:\>DependencyReporter -f2f
 
-    C:\>DependencyReporter -show-all -f2f
+    C:\>DependencyReporter -scope-includes //
 
-    C:\>DependencyReporter -show-all -scope-includes //
-
-    C:\>DependencyReporter -show-all
-                           -scope-includes //
+    C:\>DependencyReporter -scope-includes //
                            -scope-excludes /Test/
                            -feature-scope-includes /someMethod/
                            -feature-scope-includes /anotherMethod/
@@ -2617,8 +2596,8 @@ that node B also depends on node A, Dependency Finder writes it as:
 If you are using the command-line tools, =DependencyReporter= has switches
 matching the checkboxes from the GUI and web application.  You can use it with
 both =-show-inbounds= and =-show-outbounds=, with or without
-=-show-empty-nodes=.  If you want to use all three, you can save some typing by
-using =-show-all= instead.  The Ant task also has matching attribtues.
+=-show-empty-nodes=.  All three are on if you don't specify anything.  The Ant
+task also has matching attribtues.
 
 Another option with the command-line tools, what you have to work from is most
 likely a graph rendered in XML, either from =DependencyExtractor= or
@@ -2853,27 +2832,22 @@ intermediary graphs to generate small class-to-class graphs.
 <div class="highlight">
 
     % DependencyReporter -xml -out classreader.c2c.xml
-                         -show-all
                          *-c2c*
                          classreader.xml
 
     % DependencyReporter -xml -out dependency.c2c.xml
-                         -show-all
                          *-c2c*
                          dependency.xml
 
     % DependencyReporter -xml -out dependencyfinder.c2c.xml
-                         -show-all
                          *-c2c*
                          dependencyfinder.xml
 
     % DependencyReporter -xml -out diff.c2c.xml
-                         -show-all
                          *-c2c*
                          diff.xml
 
     % DependencyReporter -xml -out metrics.c2c.xml
-                         -show-all
                          *-c2c*
                          metrics.xml
 
@@ -3239,7 +3213,7 @@ class-to-class graph.
 
     C:\>DependencyExtractor -xml -out df.xml _classes_
     C:\>DependencyClosure -xml -out closureA.xml -start-includes /A/ -stop-includes /C/ df.xml
-    C:\>c2c -show-all closureA.xml
+    C:\>c2c closureA.xml
 
 </div>
 
@@ -3277,7 +3251,7 @@ different.
 <div class="highlight">
 
     C:\>DependencyExtractor -xml -out df.xml _classes_
-    C:\>c2c -xml -out df.c2c.xml -show-all df.xml
+    C:\>c2c -xml -out df.c2c.xml df.xml
     C:\>DependencyClosure -start-includes /A/ -stop-includes /C/ df.c2c.xml
 
 </div>
@@ -3413,7 +3387,7 @@ So first, process the complete graph.
 <div class="highlight">
 
     C:\>DependencyExtractor -xml -out df.xml _classes_
-    C:\>c2c -xml -out df.c2c.xml -show-all df.xml
+    C:\>c2c -xml -out df.c2c.xml df.xml
     C:\>ListFullyQualifiedNames -in df.c2c.xml -out df.c2c.symbols.txt
 
 </div>
@@ -3434,7 +3408,7 @@ Next, compute the closure.
 <div class="highlight">
 
     C:\>DependencyClosure -xml -out closure.xml -maximum-outbound-depth -start-includes /a.A.a/ df.xml
-    C:\>c2c -xml -out closure.c2c.xml -show-all closure.xml
+    C:\>c2c -xml -out closure.c2c.xml closure.xml
     C:\>ListFullyQualifiedNames -in closure.c2c.xml -out closure.c2c.symbols.txt
 
 </div>

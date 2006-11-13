@@ -54,12 +54,7 @@ public class DependencyCycles {
     public static void showError(CommandLineUsage clu) {
         System.err.println(clu);
         System.err.println();
-        System.err.println("-all shorthand for the combination:");
-        System.err.println("    -package-scope");
-        System.err.println("    -class-scope");
-        System.err.println("    -feature-scope");
-        System.err.println();
-        System.err.println("Defaults is text output to the console.");
+        System.err.println("Default is text output to the console.");
         System.err.println();
     }
 
@@ -97,8 +92,6 @@ public class DependencyCycles {
         commandLine.addToggleSwitch("feature-scope");
         commandLine.addMultipleValuesSwitch("feature-scope-includes");
         commandLine.addMultipleValuesSwitch("feature-scope-excludes");
-
-        commandLine.addToggleSwitch("all");
 
         commandLine.addMultipleValuesSwitch("scope-includes-list");
         commandLine.addMultipleValuesSwitch("scope-excludes-list");
@@ -150,12 +143,6 @@ public class DependencyCycles {
             }
         }
 
-        if (commandLine.getToggleSwitch("all")) {
-            commandLine.getSwitch("package-scope").setValue(true);
-            commandLine.getSwitch("class-scope").setValue(true);
-            commandLine.getSwitch("feature-scope").setValue(true);
-        }
-
         if (DependencyCycles.hasScopeRegularExpressionSwitches(commandLine) && DependencyCycles.hasScopeListSwitches(commandLine)) {
             DependencyCycles.showError(usage, "You can use switches for regular expressions or lists for scope, but not at the same time");
         }
@@ -187,21 +174,9 @@ public class DependencyCycles {
             RegularExpressionSelectionCriteria regularExpressionScopeCriteria = new RegularExpressionSelectionCriteria();
 
             if (commandLine.isPresent("package-scope") || commandLine.isPresent("class-scope") || commandLine.isPresent("feature-scope")) {
-                regularExpressionScopeCriteria.setMatchingPackages(false);
-                regularExpressionScopeCriteria.setMatchingClasses(false);
-                regularExpressionScopeCriteria.setMatchingFeatures(false);
-            }
-
-            if (commandLine.isPresent("package-scope")) {
-                regularExpressionScopeCriteria.setMatchingPackages(true);
-            }
-
-            if (commandLine.isPresent("class-scope")) {
-                regularExpressionScopeCriteria.setMatchingClasses(true);
-            }
-
-            if (commandLine.isPresent("feature-scope")) {
-                regularExpressionScopeCriteria.setMatchingFeatures(true);
+                regularExpressionScopeCriteria.setMatchingPackages(commandLine.isPresent("package-scope"));
+                regularExpressionScopeCriteria.setMatchingClasses(commandLine.isPresent("class-scope"));
+                regularExpressionScopeCriteria.setMatchingFeatures(commandLine.isPresent("feature-scope"));
             }
 
             if (commandLine.isPresent("scope-includes") || (!commandLine.isPresent("package-scope-includes") && !commandLine.isPresent("class-scope-includes") && !commandLine.isPresent("feature-scope-includes"))) {
