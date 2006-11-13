@@ -175,6 +175,11 @@ public class DependencyMetrics {
         commandLine.addMultipleValuesSwitch("includes",                DEFAULT_INCLUDES);
         commandLine.addMultipleValuesSwitch("excludes");
 
+        commandLine.addMultipleValuesSwitch("scope-includes-list");
+        commandLine.addMultipleValuesSwitch("scope-excludes-list");
+        commandLine.addMultipleValuesSwitch("filter-includes-list");
+        commandLine.addMultipleValuesSwitch("filter-excludes-list");
+
         commandLine.addToggleSwitch("list");
         commandLine.addToggleSwitch("chart-classes-per-package");
         commandLine.addToggleSwitch("chart-features-per-class");
@@ -228,6 +233,40 @@ public class DependencyMetrics {
                 verboseListener.setWriter(System.out);
             } else {
                 verboseListener.setWriter(new FileWriter(commandLine.getOptionalSwitch("verbose")));
+            }
+        }
+
+        if (commandLine.getToggleSwitch("p2p")) {
+            commandLine.getSwitch("package-scope").setValue(true);
+            commandLine.getSwitch("package-filter").setValue(true);
+        }
+
+        if (commandLine.getToggleSwitch("c2p")) {
+            commandLine.getSwitch("class-scope").setValue(true);
+            commandLine.getSwitch("package-filter").setValue(true);
+        }
+
+        if (commandLine.getToggleSwitch("c2c")) {
+            commandLine.getSwitch("class-scope").setValue(true);
+            commandLine.getSwitch("class-filter").setValue(true);
+        }
+
+        if (commandLine.getToggleSwitch("f2f")) {
+            commandLine.getSwitch("feature-scope").setValue(true);
+            commandLine.getSwitch("feature-filter").setValue(true);
+        }
+
+        if (commandLine.isPresent("includes")) {
+            for (String value : commandLine.getMultipleSwitch("includes")) {
+                commandLine.getSwitch("scope-includes").setValue(value);
+                commandLine.getSwitch("filter-includes").setValue(value);
+            }
+        }
+
+        if (commandLine.isPresent("excludes")) {
+            for (String value : commandLine.getMultipleSwitch("excludes")) {
+                commandLine.getSwitch("scope-excludes").setValue(value);
+                commandLine.getSwitch("filter-excludes").setValue(value);
             }
         }
 
@@ -311,74 +350,60 @@ public class DependencyMetrics {
             reporter.setChartingOutboundsPerFeature(true);
         }
 
-        RegularExpressionSelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria();
-        
-        if (commandLine.isPresent("package-scope") || commandLine.isPresent("class-scope") || commandLine.isPresent("feature-scope")) {
-            scopeCriteria.setMatchingPackages(commandLine.getToggleSwitch("package-scope"));
-            scopeCriteria.setMatchingClasses(commandLine.getToggleSwitch("class-scope"));
-            scopeCriteria.setMatchingFeatures(commandLine.getToggleSwitch("feature-scope"));
+        SelectionCriteria scopeCriteria = new ComprehensiveSelectionCriteria();
+
+        if (hasScopeRegularExpressionSwitches(commandLine)) {
+            RegularExpressionSelectionCriteria regularExpressionScopeCriteria = new RegularExpressionSelectionCriteria();
+
+            if (commandLine.isPresent("package-scope") || commandLine.isPresent("class-scope") || commandLine.isPresent("feature-scope")) {
+                regularExpressionScopeCriteria.setMatchingPackages(commandLine.getToggleSwitch("package-scope"));
+                regularExpressionScopeCriteria.setMatchingClasses(commandLine.getToggleSwitch("class-scope"));
+                regularExpressionScopeCriteria.setMatchingFeatures(commandLine.getToggleSwitch("feature-scope"));
+            }
+
+            if (commandLine.isPresent("scope-includes") || (!commandLine.isPresent("package-scope-includes") && !commandLine.isPresent("class-scope-includes") && !commandLine.isPresent("feature-scope-includes"))) {
+                // Only use the default if nothing else has been specified.
+                regularExpressionScopeCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("scope-includes"));
+            }
+            regularExpressionScopeCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("scope-excludes"));
+            regularExpressionScopeCriteria.setPackageIncludes(commandLine.getMultipleSwitch("package-scope-includes"));
+            regularExpressionScopeCriteria.setPackageExcludes(commandLine.getMultipleSwitch("package-scope-excludes"));
+            regularExpressionScopeCriteria.setClassIncludes(commandLine.getMultipleSwitch("class-scope-includes"));
+            regularExpressionScopeCriteria.setClassExcludes(commandLine.getMultipleSwitch("class-scope-excludes"));
+            regularExpressionScopeCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-scope-includes"));
+            regularExpressionScopeCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-scope-excludes"));
+
+            scopeCriteria = regularExpressionScopeCriteria;
+        } else if (hasScopeListSwitches(commandLine)) {
+            scopeCriteria = createCollectionSelectionCriteria(commandLine.getMultipleSwitch("scope-includes-list"), commandLine.getMultipleSwitch("scope-excludes-list"));
         }
 
-        if (commandLine.isPresent("scope-includes") || (!commandLine.isPresent("package-scope-includes") && !commandLine.isPresent("class-scope-includes") && !commandLine.isPresent("feature-scope-includes"))) {
-            // Only use the default if nothing else has been specified.
-            scopeCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("scope-includes"));
-        }
-        scopeCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("scope-excludes"));
-        scopeCriteria.setPackageIncludes(commandLine.getMultipleSwitch("package-scope-includes"));
-        scopeCriteria.setPackageExcludes(commandLine.getMultipleSwitch("package-scope-excludes"));
-        scopeCriteria.setClassIncludes(commandLine.getMultipleSwitch("class-scope-includes"));
-        scopeCriteria.setClassExcludes(commandLine.getMultipleSwitch("class-scope-excludes"));
-        scopeCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-scope-includes"));
-        scopeCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-scope-excludes"));
+        SelectionCriteria filterCriteria = new ComprehensiveSelectionCriteria();
 
-        RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
+        if (hasFilterRegularExpressionSwitches(commandLine)) {
+            RegularExpressionSelectionCriteria regularExpressionFilterCriteria = new RegularExpressionSelectionCriteria();
 
-        if (commandLine.isPresent("package-filter") || commandLine.isPresent("class-filter") || commandLine.isPresent("feature-filter")) {
-            filterCriteria.setMatchingPackages(commandLine.getToggleSwitch("package-filter"));
-            filterCriteria.setMatchingClasses(commandLine.getToggleSwitch("class-filter"));
-            filterCriteria.setMatchingFeatures(commandLine.getToggleSwitch("feature-filter"));
-        }
-        
-        if (commandLine.isPresent("filter-includes") || (!commandLine.isPresent("package-filter-includes") && !commandLine.isPresent("class-filter-includes") && !commandLine.isPresent("feature-filter-includes"))) {
-            // Only use the default if nothing else has been specified.
-            filterCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("filter-includes"));
-        }
-        filterCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("filter-excludes"));
-        filterCriteria.setPackageIncludes(commandLine.getMultipleSwitch("package-filter-includes"));
-        filterCriteria.setPackageExcludes(commandLine.getMultipleSwitch("package-filter-excludes"));
-        filterCriteria.setClassIncludes(commandLine.getMultipleSwitch("class-filter-includes"));
-        filterCriteria.setClassExcludes(commandLine.getMultipleSwitch("class-filter-excludes"));
-        filterCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-filter-includes"));
-        filterCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-filter-excludes"));
+            if (commandLine.isPresent("package-filter") || commandLine.isPresent("class-filter") || commandLine.isPresent("feature-filter")) {
+                regularExpressionFilterCriteria.setMatchingPackages(commandLine.getToggleSwitch("package-filter"));
+                regularExpressionFilterCriteria.setMatchingClasses(commandLine.getToggleSwitch("class-filter"));
+                regularExpressionFilterCriteria.setMatchingFeatures(commandLine.getToggleSwitch("feature-filter"));
+            }
 
-        if (commandLine.getToggleSwitch("p2p")) {
-            scopeCriteria.setMatchingPackages(true);
-            filterCriteria.setMatchingPackages(true);
-        }
-    
-        if (commandLine.getToggleSwitch("c2p")) {
-            scopeCriteria.setMatchingClasses(true);
-            filterCriteria.setMatchingPackages(true);
-        }
-    
-        if (commandLine.getToggleSwitch("c2c")) {
-            scopeCriteria.setMatchingClasses(true);
-            filterCriteria.setMatchingClasses(true);
-        }
-    
-        if (commandLine.getToggleSwitch("f2f")) {
-            scopeCriteria.setMatchingFeatures(true);
-            filterCriteria.setMatchingFeatures(true);
-        }
-    
-        if (commandLine.isPresent("includes")) {
-            scopeCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("includes"));
-            filterCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("includes"));
-        }
-    
-        if (commandLine.isPresent("excludes")) {
-            scopeCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("excludes"));
-            filterCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("excludes"));
+            if (commandLine.isPresent("filter-includes") || (!commandLine.isPresent("package-filter-includes") && !commandLine.isPresent("class-filter-includes") && !commandLine.isPresent("feature-filter-includes"))) {
+                // Only use the default if nothing else has been specified.
+                regularExpressionFilterCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("filter-includes"));
+            }
+            regularExpressionFilterCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("filter-excludes"));
+            regularExpressionFilterCriteria.setPackageIncludes(commandLine.getMultipleSwitch("package-filter-includes"));
+            regularExpressionFilterCriteria.setPackageExcludes(commandLine.getMultipleSwitch("package-filter-excludes"));
+            regularExpressionFilterCriteria.setClassIncludes(commandLine.getMultipleSwitch("class-filter-includes"));
+            regularExpressionFilterCriteria.setClassExcludes(commandLine.getMultipleSwitch("class-filter-excludes"));
+            regularExpressionFilterCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-filter-includes"));
+            regularExpressionFilterCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-filter-excludes"));
+
+            filterCriteria = regularExpressionFilterCriteria;
+        } else if (hasFilterListSwitches(commandLine)) {
+            filterCriteria = createCollectionSelectionCriteria(commandLine.getMultipleSwitch("filter-includes-list"), commandLine.getMultipleSwitch("filter-excludes-list"));
         }
 
         Logger.getLogger(DependencyMetrics.class).info("Reporting on " + factory.getPackages().size() + " package(s) ...");
@@ -397,5 +422,91 @@ public class DependencyMetrics {
         }
 
         verboseListener.close();
+    }
+
+    private static boolean hasScopeRegularExpressionSwitches(CommandLine commandLine) {
+        Collection<String> switches = commandLine.getPresentSwitches();
+
+        return
+            switches.contains("scope-includes") ||
+            switches.contains("scope-excludes") ||
+            switches.contains("package-scope") ||
+            switches.contains("package-scope-includes") ||
+            switches.contains("package-scope-excludes") ||
+            switches.contains("class-scope") ||
+            switches.contains("class-scope-includes") ||
+            switches.contains("class-scope-excludes") ||
+            switches.contains("feature-scope") ||
+            switches.contains("feature-scope-includes") ||
+            switches.contains("feature-scope-excludes");
+    }
+
+    private static boolean hasScopeListSwitches(CommandLine commandLine) {
+        Collection<String> switches = commandLine.getPresentSwitches();
+
+        return
+            switches.contains("scope-includes-list") ||
+            switches.contains("scope-excludes-list");
+    }
+
+    private static boolean hasFilterRegularExpressionSwitches(CommandLine commandLine) {
+        Collection<String> switches = commandLine.getPresentSwitches();
+
+        return
+            switches.contains("filter-includes") ||
+            switches.contains("filter-excludes") ||
+            switches.contains("package-filter") ||
+            switches.contains("package-filter-includes") ||
+            switches.contains("package-filter-excludes") ||
+            switches.contains("class-filter") ||
+            switches.contains("class-filter-includes") ||
+            switches.contains("class-filter-excludes") ||
+            switches.contains("feature-filter") ||
+            switches.contains("feature-filter-includes") ||
+            switches.contains("feature-filter-excludes");
+    }
+
+    private static boolean hasFilterListSwitches(CommandLine commandLine) {
+        Collection<String> switches = commandLine.getPresentSwitches();
+
+        return
+            switches.contains("filter-includes-list") ||
+            switches.contains("filter-excludes-list");
+    }
+
+    private static CollectionSelectionCriteria createCollectionSelectionCriteria(Collection<String> includes, Collection<String> excludes) {
+        return new CollectionSelectionCriteria(loadCollection(includes), loadCollection(excludes));
+    }
+
+    private static Collection<String> loadCollection(Collection<String> filenames) {
+        Collection<String> result = null;
+
+        if (!filenames.isEmpty()) {
+            result = new HashSet<String>();
+
+            for (String filename : filenames) {
+                BufferedReader reader = null;
+                try {
+                    reader = new BufferedReader(new FileReader(filename));
+
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        result.add(line);
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(DependencyReporter.class).error("Couldn't read file " + filename, ex);
+                } finally {
+                    try {
+                        if (reader != null) {
+                            reader.close();
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(DependencyReporter.class).error("Couldn't close file " + filename, ex);
+                    }
+                }
+            }
+        }
+
+        return result;
     }
 }

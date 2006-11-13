@@ -149,7 +149,7 @@ public class CommandLine implements Visitable {
 
         CommandLineSwitch cls = map.get(name);
         if (cls != null) {
-            result = ((Boolean) cls.getValue()).booleanValue();
+            result = (Boolean) cls.getValue();
         }
 
         return result;

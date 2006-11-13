@@ -3332,7 +3332,9 @@ number of entering vertices, and number of exiting vertices.
         [-feature-scope-excludes value]*
         [-feature-scope-includes value]*
         [-filter-excludes value]*
+        [-filter-excludes-list filename]*
         [-filter-includes value]*
+        [-filter-includes-list filename]*
         [-help]
         [-includes value]*
         [-list]
@@ -3345,7 +3347,9 @@ number of entering vertices, and number of exiting vertices.
         [-package-scope-excludes value]*
         [-package-scope-includes value]*
         [-scope-excludes value]*
+        [-scope-excludes-list filename]*
         [-scope-includes value]*
+        [-scope-includes-list filename]*
         [-time]
         [-validate]
         [-verbose [filename]]
@@ -3877,6 +3881,24 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
+---++++ =-filter-excludes-list filename=
+
+<blockquote>
+
+The name of a package, class, or feature at the other end of the dependency
+must NOT match any of the entries in _filename_ for the dependency to be
+included in the results.
+
+If there are multiples of this switch, the name must not be in any of them.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 ---++++ =-filter-includes value=
 
 <blockquote>
@@ -3891,6 +3913,24 @@ If there are multiples of this switch, the name must at least one of them.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
 <tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-filter-includes-list filename=
+
+<blockquote>
+
+The name of a package, class, or feature at the other end of the dependency
+must match match an entry in _filename_ for the dependency to be included in the
+results.
+
+If there are multiples of this switch, the name must be in at least one of them.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>
@@ -4087,6 +4127,23 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
+---++++ =-scope-excludes-list filename=
+
+<blockquote>
+
+The name of a package, class, or feature must NOT match any of the entries in
+_filename_ for it to be included in the query's focus.
+
+If there are multiples of this switch, the name must not be in any of them.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 ---++++ =-scope-includes value=
 
 <blockquote>
@@ -4100,6 +4157,23 @@ If there are multiples of this switch, the name must at least one of them.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
 <tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-scope-includes-list filename=
+
+<blockquote>
+
+The name of a package, class, or feature must match an entry in _filename_ for
+it to be included in the query's focus.
+
+If there are multiples of this switch, the name must be in at least one of them.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>

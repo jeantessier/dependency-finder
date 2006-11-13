@@ -193,24 +193,38 @@ public class DependencyReporter {
             }
         }
 
-        if (commandLine.getToggleSwitch("p2p")) {
+        if (commandLine.isPresent("p2p")) {
             commandLine.getSwitch("package-scope").setValue(true);
             commandLine.getSwitch("package-filter").setValue(true);
         }
 
-        if (commandLine.getToggleSwitch("c2p")) {
+        if (commandLine.isPresent("c2p")) {
             commandLine.getSwitch("class-scope").setValue(true);
             commandLine.getSwitch("package-filter").setValue(true);
         }
 
-        if (commandLine.getToggleSwitch("c2c")) {
+        if (commandLine.isPresent("c2c")) {
             commandLine.getSwitch("class-scope").setValue(true);
             commandLine.getSwitch("class-filter").setValue(true);
         }
 
-        if (commandLine.getToggleSwitch("f2f")) {
+        if (commandLine.isPresent("f2f")) {
             commandLine.getSwitch("feature-scope").setValue(true);
             commandLine.getSwitch("feature-filter").setValue(true);
+        }
+
+        if (commandLine.isPresent("includes")) {
+            for (String value : commandLine.getMultipleSwitch("includes")) {
+                commandLine.getSwitch("scope-includes").setValue(value);
+                commandLine.getSwitch("filter-includes").setValue(value);
+            }
+        }
+
+        if (commandLine.isPresent("excludes")) {
+            for (String value : commandLine.getMultipleSwitch("excludes")) {
+                commandLine.getSwitch("scope-excludes").setValue(value);
+                commandLine.getSwitch("filter-excludes").setValue(value);
+            }
         }
 
         if (commandLine.getToggleSwitch("maximize") && commandLine.getToggleSwitch("minimize")) {
@@ -237,9 +251,9 @@ public class DependencyReporter {
             RegularExpressionSelectionCriteria regularExpressionScopeCriteria = new RegularExpressionSelectionCriteria();
 
             if (commandLine.isPresent("package-scope") || commandLine.isPresent("class-scope") || commandLine.isPresent("feature-scope")) {
-                regularExpressionScopeCriteria.setMatchingPackages(commandLine.isPresent("package-scope"));
-                regularExpressionScopeCriteria.setMatchingClasses(commandLine.isPresent("class-scope"));
-                regularExpressionScopeCriteria.setMatchingFeatures(commandLine.isPresent("feature-scope"));
+                regularExpressionScopeCriteria.setMatchingPackages(commandLine.getToggleSwitch("package-scope"));
+                regularExpressionScopeCriteria.setMatchingClasses(commandLine.getToggleSwitch("class-scope"));
+                regularExpressionScopeCriteria.setMatchingFeatures(commandLine.getToggleSwitch("feature-scope"));
             }
 
             if (commandLine.isPresent("scope-includes") || (!commandLine.isPresent("package-scope-includes") && !commandLine.isPresent("class-scope-includes") && !commandLine.isPresent("feature-scope-includes"))) {
@@ -254,14 +268,6 @@ public class DependencyReporter {
             regularExpressionScopeCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-scope-includes"));
             regularExpressionScopeCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-scope-excludes"));
 
-            if (commandLine.isPresent("includes")) {
-                regularExpressionScopeCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("includes"));
-            }
-            
-            if (commandLine.isPresent("excludes")) {
-                regularExpressionScopeCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("excludes"));
-            }
-
             scopeCriteria = regularExpressionScopeCriteria;
         } else if (hasScopeListSwitches(commandLine)) {
             scopeCriteria = createCollectionSelectionCriteria(commandLine.getMultipleSwitch("scope-includes-list"), commandLine.getMultipleSwitch("scope-excludes-list"));
@@ -273,9 +279,9 @@ public class DependencyReporter {
             RegularExpressionSelectionCriteria regularExpressionFilterCriteria = new RegularExpressionSelectionCriteria();
             
             if (commandLine.isPresent("package-filter") || commandLine.isPresent("class-filter") || commandLine.isPresent("feature-filter")) {
-                regularExpressionFilterCriteria.setMatchingPackages(commandLine.isPresent("package-filter"));
-                regularExpressionFilterCriteria.setMatchingClasses(commandLine.isPresent("class-filter"));
-                regularExpressionFilterCriteria.setMatchingFeatures(commandLine.isPresent("feature-filter"));
+                regularExpressionFilterCriteria.setMatchingPackages(commandLine.getToggleSwitch("package-filter"));
+                regularExpressionFilterCriteria.setMatchingClasses(commandLine.getToggleSwitch("class-filter"));
+                regularExpressionFilterCriteria.setMatchingFeatures(commandLine.getToggleSwitch("feature-filter"));
             }
             
             if (commandLine.isPresent("filter-includes") || (!commandLine.isPresent("package-filter-includes") && !commandLine.isPresent("class-filter-includes") && !commandLine.isPresent("feature-filter-includes"))) {
@@ -289,14 +295,6 @@ public class DependencyReporter {
             regularExpressionFilterCriteria.setClassExcludes(commandLine.getMultipleSwitch("class-filter-excludes"));
             regularExpressionFilterCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-filter-includes"));
             regularExpressionFilterCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-filter-excludes"));
-
-            if (commandLine.isPresent("includes")) {
-                regularExpressionFilterCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("includes"));
-            }
-            
-            if (commandLine.isPresent("excludes")) {
-                regularExpressionFilterCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("excludes"));
-            }
 
             filterCriteria = regularExpressionFilterCriteria;
         } else if (hasFilterListSwitches(commandLine)) {
@@ -388,13 +386,7 @@ public class DependencyReporter {
             switches.contains("class-scope-excludes") ||
             switches.contains("feature-scope") ||
             switches.contains("feature-scope-includes") ||
-            switches.contains("feature-scope-excludes") ||
-            switches.contains("p2p") ||
-            switches.contains("c2p") ||
-            switches.contains("c2c") ||
-            switches.contains("f2f") ||
-            switches.contains("includes") ||
-            switches.contains("excludes");
+            switches.contains("feature-scope-excludes");
     }
 
     private static boolean hasScopeListSwitches(CommandLine commandLine) {
@@ -419,13 +411,7 @@ public class DependencyReporter {
             switches.contains("class-filter-excludes") ||
             switches.contains("feature-filter") ||
             switches.contains("feature-filter-includes") ||
-            switches.contains("feature-filter-excludes") ||
-            switches.contains("p2p") ||
-            switches.contains("c2p") ||
-            switches.contains("c2c") ||
-            switches.contains("f2f") ||
-            switches.contains("includes") ||
-            switches.contains("excludes");
+            switches.contains("feature-filter-excludes");
     }
 
     private static boolean hasFilterListSwitches(CommandLine commandLine) {

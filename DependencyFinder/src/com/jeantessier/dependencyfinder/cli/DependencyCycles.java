@@ -174,9 +174,9 @@ public class DependencyCycles {
             RegularExpressionSelectionCriteria regularExpressionScopeCriteria = new RegularExpressionSelectionCriteria();
 
             if (commandLine.isPresent("package-scope") || commandLine.isPresent("class-scope") || commandLine.isPresent("feature-scope")) {
-                regularExpressionScopeCriteria.setMatchingPackages(commandLine.isPresent("package-scope"));
-                regularExpressionScopeCriteria.setMatchingClasses(commandLine.isPresent("class-scope"));
-                regularExpressionScopeCriteria.setMatchingFeatures(commandLine.isPresent("feature-scope"));
+                regularExpressionScopeCriteria.setMatchingPackages(commandLine.getToggleSwitch("package-scope"));
+                regularExpressionScopeCriteria.setMatchingClasses(commandLine.getToggleSwitch("class-scope"));
+                regularExpressionScopeCriteria.setMatchingFeatures(commandLine.getToggleSwitch("feature-scope"));
             }
 
             if (commandLine.isPresent("scope-includes") || (!commandLine.isPresent("package-scope-includes") && !commandLine.isPresent("class-scope-includes") && !commandLine.isPresent("feature-scope-includes"))) {
@@ -190,14 +190,6 @@ public class DependencyCycles {
             regularExpressionScopeCriteria.setClassExcludes(commandLine.getMultipleSwitch("class-scope-excludes"));
             regularExpressionScopeCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-scope-includes"));
             regularExpressionScopeCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-scope-excludes"));
-
-            if (commandLine.isPresent("includes")) {
-                regularExpressionScopeCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("includes"));
-            }
-
-            if (commandLine.isPresent("excludes")) {
-                regularExpressionScopeCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("excludes"));
-            }
 
             scopeCriteria = regularExpressionScopeCriteria;
         } else if (DependencyCycles.hasScopeListSwitches(commandLine)) {
@@ -259,14 +251,7 @@ public class DependencyCycles {
             switches.contains("class-scope-excludes") ||
             switches.contains("feature-scope") ||
             switches.contains("feature-scope-includes") ||
-            switches.contains("feature-scope-excludes") ||
-            switches.contains("all") ||
-            switches.contains("p2p") ||
-            switches.contains("c2p") ||
-            switches.contains("c2c") ||
-            switches.contains("f2f") ||
-            switches.contains("includes") ||
-            switches.contains("excludes");
+            switches.contains("feature-scope-excludes");
     }
 
     private static boolean hasScopeListSwitches(CommandLine commandLine) {

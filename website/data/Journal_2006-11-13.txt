@@ -1,0 +1,4 @@
+Simplified the command-line switch processing for =DependencyFinder=,
+=DependencyCycles=, and =DependencyMetrics=.  I need to build aliasing support
+in =com.jeantessier.commandline= instead of handling aliases in each CLI tool's
+=main()= method.
