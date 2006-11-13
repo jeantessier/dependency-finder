@@ -3301,7 +3301,6 @@ number of entering vertices, and number of exiting vertices.
 ---+++ Synopsis
 
     DependencyMetrics
-        [-all]
         [-c2c]
         [-c2p]
         [-chart-all]
@@ -3358,36 +3357,15 @@ number of entering vertices, and number of exiting vertices.
 
 <blockquote>
 
-This is a simple tally of how many dependencies there are in a graph.  It
-can give you a rough idea of the complexity of a given codebase, but it is
-not as powerful as the metrics computed by =[[#OOMetrics][OOMetrics]]=.
+This is a simple tally of how many dependencies there are in a graph.  It can
+give you a rough idea of the complexity of a given codebase, but it is not as
+powerful as the metrics computed by =[[#OOMetrics][OOMetrics]]=.
 
 </blockquote>
 
 ---+++ Switches
 
 <blockquote>
-
----++++ =-all=
-
-<blockquote>
-
-Shorthand for the combination of:
-
-   * =-package-scope=
-   * =-class-scope=
-   * =-feature-scope=
-   * =-package-filter=
-   * =-class-filter=
-   * =-feature-filter=
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
 
 ---++++ =-c2c=
 
@@ -4217,7 +4195,7 @@ Here is a sample output:
 <div class="highlight">
 
     DependencyExtractor -xml -out test.xml classes\test.class
-    DependencyMetrics -all test.xml
+    DependencyMetrics test.xml
 
 </div>
 

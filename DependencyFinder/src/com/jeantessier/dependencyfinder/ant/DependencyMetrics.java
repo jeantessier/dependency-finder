@@ -252,15 +252,6 @@ public class DependencyMetrics extends GraphTask {
         this.featureFilterExcludes = featureFilterExcludes;
     }
 
-    public void setAll(boolean value) {
-        setPackagescope(value);
-        setClassscope(value);
-        setFeaturescope(value);
-        setPackagefilter(value);
-        setClassfilter(value);
-        setFeaturefilter(value);
-    }
-        
     public void setP2p(boolean value) {
         setPackagescope(value);
         setPackagefilter(value);
@@ -456,9 +447,11 @@ public class DependencyMetrics extends GraphTask {
     private SelectionCriteria getScopeCriteria() throws BuildException {
         RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();
 
-        result.setMatchingPackages(getPackagescope());
-        result.setMatchingClasses(getClassscope());
-        result.setMatchingFeatures(getFeaturescope());
+        if (getPackagescope() || getClassscope() || getFeaturescope()) {
+            result.setMatchingPackages(getPackagescope());
+            result.setMatchingClasses(getClassscope());
+            result.setMatchingFeatures(getFeaturescope());
+        }
 
         result.setGlobalIncludes(getScopeincludes());
         result.setGlobalExcludes(getScopeexcludes());
@@ -475,9 +468,11 @@ public class DependencyMetrics extends GraphTask {
     private SelectionCriteria getFilterCriteria() throws BuildException {
         RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();
 
-        result.setMatchingPackages(getPackagefilter());
-        result.setMatchingClasses(getClassfilter());
-        result.setMatchingFeatures(getFeaturefilter());
+        if (getPackagefilter() || getClassfilter() || getFeaturefilter()) {
+            result.setMatchingPackages(getPackagefilter());
+            result.setMatchingClasses(getClassfilter());
+            result.setMatchingFeatures(getFeaturefilter());
+        }
 
         result.setGlobalIncludes(getFilterincludes());
         result.setGlobalExcludes(getFilterexcludes());

@@ -1,0 +1,11 @@
+Removed =-all= and =-show-all= switches from =DependencyReporter=,
+=DependencyMetrics=, and =DependencyCycles=.  I also removed their equivalent
+in the matching Ant tasks (=DependencyCycles= doesn't have an Ant task yet).
+Now, they act as if =-all= is on unless the user explicitly specifies at least
+one of the scope or filter switches (=-package-scope=, etc.).  The same logic
+applies to =-show-all=: =DependencyReporter= will show everything unless the
+user explicitly requests only certain things.  This means that if you give now
+switches to =DependencyReporter=, it will print out the input graph as is (but
+in text instead of XML).  I believe these defaults make more sense than the
+previous ones that would print nothing unless you remembered to actually ask
+for something.

@@ -55,14 +55,6 @@ public class DependencyMetrics {
     public static void showError(CommandLineUsage clu) {
         System.err.println(clu);
         System.err.println();
-        System.err.println("-all shorthand for the combination:");
-        System.err.println("    -package-scope");
-        System.err.println("    -class-scope");
-        System.err.println("    -feature-scope");
-        System.err.println("    -package-filter");
-        System.err.println("    -class-filter");
-        System.err.println("    -feature-filter");
-        System.err.println();
         System.err.println("-p2p shorthand for the combination:");
         System.err.println("    -package-scope");
         System.err.println("    -package-filter");
@@ -126,7 +118,7 @@ public class DependencyMetrics {
         System.err.println("If file is a directory, it is recusively scanned for files");
         System.err.println("ending in \".class\".");
         System.err.println();
-        System.err.println("Defaults is text output to the console.");
+        System.err.println("Default is text output to the console.");
         System.err.println();
     }
 
@@ -176,7 +168,6 @@ public class DependencyMetrics {
         commandLine.addMultipleValuesSwitch("feature-filter-includes");
         commandLine.addMultipleValuesSwitch("feature-filter-excludes");
 
-        commandLine.addToggleSwitch("all");
         commandLine.addToggleSwitch("p2p");
         commandLine.addToggleSwitch("c2p");
         commandLine.addToggleSwitch("c2c");
@@ -322,9 +313,11 @@ public class DependencyMetrics {
 
         RegularExpressionSelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria();
         
-        scopeCriteria.setMatchingPackages(commandLine.getToggleSwitch("package-scope"));
-        scopeCriteria.setMatchingClasses(commandLine.getToggleSwitch("class-scope"));
-        scopeCriteria.setMatchingFeatures(commandLine.getToggleSwitch("feature-scope"));
+        if (commandLine.isPresent("package-scope") || commandLine.isPresent("class-scope") || commandLine.isPresent("feature-scope")) {
+            scopeCriteria.setMatchingPackages(commandLine.getToggleSwitch("package-scope"));
+            scopeCriteria.setMatchingClasses(commandLine.getToggleSwitch("class-scope"));
+            scopeCriteria.setMatchingFeatures(commandLine.getToggleSwitch("feature-scope"));
+        }
 
         if (commandLine.isPresent("scope-includes") || (!commandLine.isPresent("package-scope-includes") && !commandLine.isPresent("class-scope-includes") && !commandLine.isPresent("feature-scope-includes"))) {
             // Only use the default if nothing else has been specified.
@@ -340,9 +333,11 @@ public class DependencyMetrics {
 
         RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
 
-        filterCriteria.setMatchingPackages(commandLine.getToggleSwitch("package-filter"));
-        filterCriteria.setMatchingClasses(commandLine.getToggleSwitch("class-filter"));
-        filterCriteria.setMatchingFeatures(commandLine.getToggleSwitch("feature-filter"));
+        if (commandLine.isPresent("package-filter") || commandLine.isPresent("class-filter") || commandLine.isPresent("feature-filter")) {
+            filterCriteria.setMatchingPackages(commandLine.getToggleSwitch("package-filter"));
+            filterCriteria.setMatchingClasses(commandLine.getToggleSwitch("class-filter"));
+            filterCriteria.setMatchingFeatures(commandLine.getToggleSwitch("feature-filter"));
+        }
         
         if (commandLine.isPresent("filter-includes") || (!commandLine.isPresent("package-filter-includes") && !commandLine.isPresent("class-filter-includes") && !commandLine.isPresent("feature-filter-includes"))) {
             // Only use the default if nothing else has been specified.
@@ -355,16 +350,7 @@ public class DependencyMetrics {
         filterCriteria.setClassExcludes(commandLine.getMultipleSwitch("class-filter-excludes"));
         filterCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-filter-includes"));
         filterCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-filter-excludes"));
-    
-        if (commandLine.getToggleSwitch("all")) {
-            scopeCriteria.setMatchingPackages(true);
-            scopeCriteria.setMatchingClasses(true);
-            scopeCriteria.setMatchingFeatures(true);
-            filterCriteria.setMatchingPackages(true);
-            filterCriteria.setMatchingClasses(true);
-            filterCriteria.setMatchingFeatures(true);
-        }
-    
+
         if (commandLine.getToggleSwitch("p2p")) {
             scopeCriteria.setMatchingPackages(true);
             filterCriteria.setMatchingPackages(true);
