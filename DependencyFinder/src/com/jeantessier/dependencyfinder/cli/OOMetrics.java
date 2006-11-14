@@ -97,7 +97,6 @@ public class OOMetrics {
         commandLine.addSingleValueSwitch("encoding",               com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING);
         commandLine.addSingleValueSwitch("dtd-prefix",             com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX);
         commandLine.addSingleValueSwitch("indent-text");
-        commandLine.addToggleSwitch("all");
         commandLine.addToggleSwitch("project");
         commandLine.addToggleSwitch("groups");
         commandLine.addToggleSwitch("classes");
@@ -143,9 +142,20 @@ public class OOMetrics {
             System.exit(1);
         }
 
-        if (!commandLine.getToggleSwitch("all") && !commandLine.getToggleSwitch("project") && !commandLine.getToggleSwitch("groups") && !commandLine.getToggleSwitch("classes") && !commandLine.getToggleSwitch("methods")) {
-            showError(usage, "Must have at least one of -all, -project, -groups, -classes, or -methods");
-            System.exit(1);
+        VerboseListener verboseListener = new VerboseListener();
+        if (commandLine.isPresent("verbose")) {
+            if ("System.out".equals(commandLine.getOptionalSwitch("verbose"))) {
+                verboseListener.setWriter(System.out);
+            } else {
+                verboseListener.setWriter(new FileWriter(commandLine.getOptionalSwitch("verbose")));
+            }
+        }
+
+        if (!commandLine.isPresent("project") && !commandLine.isPresent("groups") && !commandLine.isPresent("classes") && !commandLine.isPresent("methods")) {
+            commandLine.getSwitch("project").setValue(true);
+            commandLine.getSwitch("groups").setValue(true);
+            commandLine.getSwitch("classes").setValue(true);
+            commandLine.getSwitch("methods").setValue(true);
         }
 
         int modeSwitch = 0;
@@ -162,15 +172,6 @@ public class OOMetrics {
         if (modeSwitch != 1) {
             showError(usage, "Must have one and only one of -csv, -txt, or -xml");
             System.exit(1);
-        }
-
-        VerboseListener verboseListener = new VerboseListener();
-        if (commandLine.isPresent("verbose")) {
-            if ("System.out".equals(commandLine.getOptionalSwitch("verbose"))) {
-                verboseListener.setWriter(System.out);
-            } else {
-                verboseListener.setWriter(new FileWriter(commandLine.getOptionalSwitch("verbose")));
-            }
         }
 
         /*
@@ -280,18 +281,18 @@ public class OOMetrics {
             comparator.reverse();
         }
 
-        List                            metrics;
+        List<Metrics> metrics;
         com.jeantessier.metrics.Printer printer;
-        PrintWriter                     out     = new PrintWriter(new OutputStreamWriter(System.out));
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 
-        if (commandLine.getToggleSwitch("project") || commandLine.getToggleSwitch("all")) {
+        if (commandLine.getToggleSwitch("project")) {
             if (commandLine.isPresent("out")) {
                 out = new PrintWriter(new FileWriter(commandLine.getSingleSwitch("out") + "_project.csv"));
             } else {
                 out.println("Project:");
             }
             
-            metrics = new ArrayList(factory.getProjectMetrics());
+            metrics = new ArrayList<Metrics>(factory.getProjectMetrics());
             Collections.sort(metrics, comparator);
             printer = new com.jeantessier.metrics.CSVPrinter(out, factory.getConfiguration().getProjectMeasurements());
             printer.setShowEmptyMetrics(commandLine.isPresent("show-empty-metrics"));
@@ -309,14 +310,14 @@ public class OOMetrics {
             }
         }
 
-        if (commandLine.getToggleSwitch("groups") || commandLine.getToggleSwitch("all")) {
+        if (commandLine.getToggleSwitch("groups")) {
             if (commandLine.isPresent("out")) {
                 out = new PrintWriter(new FileWriter(commandLine.getSingleSwitch("out") + "_groups.csv"));
             } else {
                 out.println("Packages:");
             }
 
-            metrics = new ArrayList(factory.getGroupMetrics());
+            metrics = new ArrayList<Metrics>(factory.getGroupMetrics());
             Collections.sort(metrics, comparator);
             printer = new com.jeantessier.metrics.CSVPrinter(out, factory.getConfiguration().getGroupMeasurements());
             printer.setShowEmptyMetrics(commandLine.isPresent("show-empty-metrics"));
@@ -334,14 +335,14 @@ public class OOMetrics {
             }
         }
 
-        if (commandLine.getToggleSwitch("classes") || commandLine.getToggleSwitch("all")) {
+        if (commandLine.getToggleSwitch("classes")) {
             if (commandLine.isPresent("out")) {
                 out = new PrintWriter(new FileWriter(commandLine.getSingleSwitch("out") + "_classes.csv"));
             } else {
                 out.println("Classes:");
             }
 
-            metrics = new ArrayList(factory.getClassMetrics());
+            metrics = new ArrayList<Metrics>(factory.getClassMetrics());
             Collections.sort(metrics, comparator);
             printer = new com.jeantessier.metrics.CSVPrinter(out, factory.getConfiguration().getClassMeasurements());
             printer.setShowEmptyMetrics(commandLine.isPresent("show-empty-metrics"));
@@ -359,14 +360,14 @@ public class OOMetrics {
             }
         }
 
-        if (commandLine.getToggleSwitch("methods") || commandLine.getToggleSwitch("all")) {
+        if (commandLine.getToggleSwitch("methods")) {
             if (commandLine.isPresent("out")) {
                 out = new PrintWriter(new FileWriter(commandLine.getSingleSwitch("out") + "_methods.csv"));
             } else {
                 out.println("Methods:");
             }
 
-            metrics = new ArrayList(factory.getMethodMetrics());
+            metrics = new ArrayList<Metrics>(factory.getMethodMetrics());
             Collections.sort(metrics, comparator);
             printer = new com.jeantessier.metrics.CSVPrinter(out, factory.getConfiguration().getMethodMeasurements());
             printer.setShowEmptyMetrics(commandLine.isPresent("show-empty-metrics"));
@@ -396,12 +397,12 @@ public class OOMetrics {
             comparator.reverse();
         }
 
-        List               metrics;
+        List<Metrics> metrics;
 
-        if (commandLine.getToggleSwitch("project") || commandLine.getToggleSwitch("all")) {
+        if (commandLine.getToggleSwitch("project")) {
             out.println("Project metrics");
             out.println("---------------");
-            metrics = new ArrayList(factory.getProjectMetrics());
+            metrics = new ArrayList<Metrics>(factory.getProjectMetrics());
             Collections.sort(metrics, comparator);
             com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.getConfiguration().getProjectMeasurements());
             printer.setExpandCollectionMeasurements(commandLine.getToggleSwitch("expand"));
@@ -416,10 +417,10 @@ public class OOMetrics {
             out.println();
         }
 
-        if (commandLine.getToggleSwitch("groups") || commandLine.getToggleSwitch("all")) {
+        if (commandLine.getToggleSwitch("groups")) {
             out.println("Group metrics");
             out.println("-------------");
-            metrics = new ArrayList(factory.getGroupMetrics());
+            metrics = new ArrayList<Metrics>(factory.getGroupMetrics());
             Collections.sort(metrics, comparator);
             com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.getConfiguration().getGroupMeasurements());
             printer.setExpandCollectionMeasurements(commandLine.getToggleSwitch("expand"));
@@ -434,10 +435,10 @@ public class OOMetrics {
             out.println();
         }
 
-        if (commandLine.getToggleSwitch("classes") || commandLine.getToggleSwitch("all")) {
+        if (commandLine.getToggleSwitch("classes")) {
             out.println("Class metrics");
             out.println("-------------");
-            metrics = new ArrayList(factory.getClassMetrics());
+            metrics = new ArrayList<Metrics>(factory.getClassMetrics());
             Collections.sort(metrics, comparator);
             com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.getConfiguration().getClassMeasurements());
             printer.setExpandCollectionMeasurements(commandLine.getToggleSwitch("expand"));
@@ -452,10 +453,10 @@ public class OOMetrics {
             out.println();
         }
         
-        if (commandLine.getToggleSwitch("methods") || commandLine.getToggleSwitch("all")) {
+        if (commandLine.getToggleSwitch("methods")) {
             out.println("Method metrics");
             out.println("--------------");
-            metrics = new ArrayList(factory.getMethodMetrics());
+            metrics = new ArrayList<Metrics>(factory.getMethodMetrics());
             Collections.sort(metrics, comparator);
             com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.getConfiguration().getMethodMeasurements());
             printer.setExpandCollectionMeasurements(commandLine.getToggleSwitch("expand"));
@@ -486,10 +487,10 @@ public class OOMetrics {
             comparator.reverse();
         }
 
-        List                            metrics;
+        List<Metrics> metrics;
         com.jeantessier.metrics.Printer printer;
 
-        metrics = new ArrayList(factory.getProjectMetrics());
+        metrics = new ArrayList<Metrics>(factory.getProjectMetrics());
         Collections.sort(metrics, comparator);
         printer = new com.jeantessier.metrics.XMLPrinter(out, factory.getConfiguration(), commandLine.getSingleSwitch("encoding"), commandLine.getSingleSwitch("dtd-prefix"));
         printer.setShowEmptyMetrics(commandLine.isPresent("show-empty-metrics"));

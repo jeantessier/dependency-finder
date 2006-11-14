@@ -34,7 +34,7 @@ package com.jeantessier.metrics;
 
 import java.util.*;
 
-public class MetricsComparator implements Comparator {
+public class MetricsComparator implements Comparator<Metrics> {
     public static final int DESCENDING = -1;
     public static final int ASCENDING  =  1;
     
@@ -90,11 +90,8 @@ public class MetricsComparator implements Comparator {
         direction *= -1;
     }
     
-    public int compare(Object o1, Object o2) {
+    public int compare(Metrics metrics1, Metrics metrics2) {
         int result;
-
-        Metrics metrics1 = (Metrics) o1;
-        Metrics metrics2 = (Metrics) o2;
 
         if ("name".equals(name)) {
             result = metrics1.getName().compareTo(metrics2.getName());

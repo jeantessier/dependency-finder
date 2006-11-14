@@ -32,8 +32,6 @@
 
 package com.jeantessier.metrics;
 
-import java.util.*;
-
 import junit.framework.*;
 
 public class TestMetricsComparator extends TestCase {
