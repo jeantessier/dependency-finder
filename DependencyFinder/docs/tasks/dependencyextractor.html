@@ -18,6 +18,18 @@ all the dependencies.  You can use the various <code>XXXToText</code> and
 <code>XXXToHTML</code> XSL transformations to render the graph as text or HTML
 for human reading.</p>
 
+<p>Refer to the <a target="_top" href="../Manual.html#Reporting">Reporting</a>
+section of the manual for an explanation of the various <code>filter</code>
+attributes.  Basically, filtering refers to the selection of links to or from
+the classes and methods under extraction.</p>
+
+<p>In practical terms, you filter in or out the dependencies stemming (whether
+inbound or outbound) from the scoped nodes.</p>
+
+<p>The <code>filterexcludes</code> attribute is where you typically filter out
+large swaths of links that you do not want in the report, such as
+"<code>/^java.*/,/^org.*/</code>".</p>
+
 <p>The normal output is the resulting dependency graph, rendered as text.</p>
 
 <p>With the <code>xml</code> attribute, it converts the entire dependency
@@ -39,6 +51,92 @@ DTD.</p>
     it is created.  If it already exists, its content is overwritten.</td>
     <td valign="top" align="center">Yes</td>
   </tr>
+  <tr>
+    <td valign="top">filterincludes</td>
+    <td valign="top">the name of a package, class, or feature at the other
+    end of the dependency must match the regular expressions for the
+    dependency to be included in the results.</td>
+    <td valign="top" align="center">No</td>
+  </tr>
+  <tr>
+    <td valign="top">filterexcludes</td>
+    <td valign="top">the name of a package, class, or feature at the other
+    end of the dependency must NOT match the regular expressions for the
+    dependency to be included in the results.</td>
+    <td valign="top" align="center">No</td>
+  </tr>
+  <tr>
+    <td valign="top">packagefilter</td>
+    <td valign="top">show dependencies to and/or from packages.</td>
+    <td valign="top" align="center">No</td>
+  </tr>
+  <tr>
+    <td valign="top">packagefilterincludes</td>
+    <td valign="top">the name of a package at the other
+    end of the dependency must match the regular expressions for the
+    dependency to be included in the results.</td>
+    <td valign="top" align="center">No</td>
+  </tr>
+  <tr>
+    <td valign="top">packagefilterexcludes</td>
+    <td valign="top">the name of a package at the other
+    end of the dependency must NOT match the regular expressions for the
+    dependency to be included in the results.</td>
+    <td valign="top" align="center">No</td>
+  </tr>
+  <tr>
+    <td valign="top">classfilter</td>
+    <td valign="top">show dependencies to and/or from classes.</td>
+    <td valign="top" align="center">No</td>
+  </tr>
+  <tr>
+    <td valign="top">classfilterincludes</td>
+    <td valign="top">the name of a class at the other
+    end of the dependency must match the regular expressions for the
+    dependency to be included in the results.</td>
+    <td valign="top" align="center">No</td>
+  </tr>
+  <tr>
+    <td valign="top">classfilterexcludes</td>
+    <td valign="top">the name of a class at the other
+    end of the dependency must NOT match the regular expressions for the
+    dependency to be included in the results.</td>
+    <td valign="top" align="center">No</td>
+  </tr>
+  <tr>
+    <td valign="top">featurefilter</td>
+    <td valign="top">show dependencies to and/or from features.</td>
+    <td valign="top" align="center">No</td>
+  </tr>
+  <tr>
+    <td valign="top">featurefilterincludes</td>
+    <td valign="top">the name of a feature at the other
+    end of the dependency must match the regular expressions for the
+    dependency to be included in the results.</td>
+    <td valign="top" align="center">No</td>
+  </tr>
+  <tr>
+    <td valign="top">featurefilterexcludes</td>
+    <td valign="top">the name of a feature at the other
+    end of the dependency must NOT match the regular expressions for the
+    dependency to be included in the results.</td>
+    <td valign="top" align="center">No</td>
+  </tr>
+  <tr>
+    <td valign="top">filterincludeslist</td>
+    <td valign="top">the name of a package, class, or feature at the other end
+    of the dependency must match match an entry in the named files for the
+    dependency to be included in the results.</td>
+    <td valign="top" align="center">No</td>
+  </tr>
+  <tr>
+    <td valign="top">filterexcludeslist</td>
+    <td valign="top">the name of a package, class, or feature at the other end
+    of the dependency must NOT match any of the entries in the named files for
+    the dependency to be included in the results.</td>
+    <td valign="top" align="center">No</td>
+  </tr>
+
   <tr>
     <td valign="top">xml</td>
     <td valign="top">writes the dependency graph as an XML document with the
@@ -85,6 +183,20 @@ give directory names, the tool will search it for <code>.class</code> files
 and read them.  It is a
 <a href="http://ant.apache.com/manual/using.html#path">path-like structures</a>.</p>
 
+<h4>filterincludeslist</h4>
+
+<p><code>&lt;dependencyextractor&gt;</code>'s <code>filterincludeslist</code>
+attribute is a <a href="http://ant.apache.com/manual/using.html#path">path-like
+structures</a> and can also be set via a nested <code>&lt;src&gt;</code>
+element.</p>
+
+<h4>filterexcludeslist</h4>
+
+<p><code>&lt;dependencyextractor&gt;</code>'s <code>filterexcludeslist</code>
+attribute is a <a href="http://ant.apache.com/manual/using.html#path">path-like
+structures</a> and can also be set via a nested <code>&lt;src&gt;</code>
+element.</p>
+
 <h3>Examples</h3>
 
 <p>To scan the current directory and its subdirectories for
@@ -102,6 +214,18 @@ graph to <code>df.xml</code>:</p>
 to <code>df.xml</code>:</p>
 
 <pre>  &lt;dependencyextractor destfile=&quot;df.xml&quot; xml=&quot;yes&quot;&gt;
+    &lt;path&gt;
+      &lt;pathelement location=&quot;DependencyFinder.jar&quot;/&gt;
+      &lt;pathelement location=&quot;rt.jar&quot;/&gt;
+    &lt;/path&gt;
+  &lt;/dependencyextractor&gt;</pre>
+
+<p>To scan <code>DependencyFinder.jar</code> and <code>rt.jar</code> for
+<code>.class</code> files to analyze and save the resulting dependency graph
+to <code>df.xml</code> without any dependencies on <code>java.*</code>:</p>
+
+<pre>  &lt;dependencyextractor destfile=&quot;df.xml&quot; xml=&quot;yes&quot;
+                       filter-excludes=&quot;/^java\./&quot;&gt;
     &lt;path&gt;
       &lt;pathelement location=&quot;DependencyFinder.jar&quot;/&gt;
       &lt;pathelement location=&quot;rt.jar&quot;/&gt;

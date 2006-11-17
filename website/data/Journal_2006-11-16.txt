@@ -1,0 +1,5 @@
+Added filtering to =DependencyExtractor=.  This came at the suggestion of a
+user that it might help deal with very large graphs by removing dependencies
+that do not really bring new information, like dependencies on classes in the
+JDK for instance.  I added the functionality to both the CLI and the Ant task,
+but I will also need to do something about the webapp and the GUI.

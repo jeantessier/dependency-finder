@@ -35,12 +35,15 @@ package com.jeantessier.dependencyfinder.cli;
 import java.io.*;
 import java.util.*;
 
+import org.apache.log4j.*;
+
 import com.jeantessier.classreader.*;
 import com.jeantessier.commandline.*;
 import com.jeantessier.dependency.*;
 import com.jeantessier.dependencyfinder.*;
 
 public class DependencyExtractor {
+    public static final String DEFAULT_FILTER_INCLUDES = "//";
     public static final String DEFAULT_LOGFILE = "System.out";
 
     public static void showError(CommandLineUsage clu, String msg) {
@@ -83,6 +86,21 @@ public class DependencyExtractor {
     public static void main(String[] args) throws Exception {
         // Parsing the command line
         CommandLine commandLine = new CommandLine();
+        commandLine.addMultipleValuesSwitch("filter-includes",         DEFAULT_FILTER_INCLUDES);
+        commandLine.addMultipleValuesSwitch("filter-excludes");
+        commandLine.addToggleSwitch("package-filter");
+        commandLine.addMultipleValuesSwitch("package-filter-includes");
+        commandLine.addMultipleValuesSwitch("package-filter-excludes");
+        commandLine.addToggleSwitch("class-filter");
+        commandLine.addMultipleValuesSwitch("class-filter-includes");
+        commandLine.addMultipleValuesSwitch("class-filter-excludes");
+        commandLine.addToggleSwitch("feature-filter");
+        commandLine.addMultipleValuesSwitch("feature-filter-includes");
+        commandLine.addMultipleValuesSwitch("feature-filter-excludes");
+
+        commandLine.addMultipleValuesSwitch("filter-includes-list");
+        commandLine.addMultipleValuesSwitch("filter-excludes-list");
+
         commandLine.addToggleSwitch("xml");
         commandLine.addToggleSwitch("maximize");
         commandLine.addToggleSwitch("minimize");
@@ -135,13 +153,41 @@ public class DependencyExtractor {
 
         Date start = new Date();
 
+        SelectionCriteria filterCriteria = new ComprehensiveSelectionCriteria();
+
+        if (hasFilterRegularExpressionSwitches(commandLine)) {
+            RegularExpressionSelectionCriteria regularExpressionFilterCriteria = new RegularExpressionSelectionCriteria();
+
+            if (commandLine.isPresent("package-filter") || commandLine.isPresent("class-filter") || commandLine.isPresent("feature-filter")) {
+                regularExpressionFilterCriteria.setMatchingPackages(commandLine.getToggleSwitch("package-filter"));
+                regularExpressionFilterCriteria.setMatchingClasses(commandLine.getToggleSwitch("class-filter"));
+                regularExpressionFilterCriteria.setMatchingFeatures(commandLine.getToggleSwitch("feature-filter"));
+            }
+
+            if (commandLine.isPresent("filter-includes") || (!commandLine.isPresent("package-filter-includes") && !commandLine.isPresent("class-filter-includes") && !commandLine.isPresent("feature-filter-includes"))) {
+                // Only use the default if nothing else has been specified.
+                regularExpressionFilterCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("filter-includes"));
+            }
+            regularExpressionFilterCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("filter-excludes"));
+            regularExpressionFilterCriteria.setPackageIncludes(commandLine.getMultipleSwitch("package-filter-includes"));
+            regularExpressionFilterCriteria.setPackageExcludes(commandLine.getMultipleSwitch("package-filter-excludes"));
+            regularExpressionFilterCriteria.setClassIncludes(commandLine.getMultipleSwitch("class-filter-includes"));
+            regularExpressionFilterCriteria.setClassExcludes(commandLine.getMultipleSwitch("class-filter-excludes"));
+            regularExpressionFilterCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-filter-includes"));
+            regularExpressionFilterCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-filter-excludes"));
+
+            filterCriteria = regularExpressionFilterCriteria;
+        } else if (hasFilterListSwitches(commandLine)) {
+            filterCriteria = createCollectionSelectionCriteria(commandLine.getMultipleSwitch("filter-includes-list"), commandLine.getMultipleSwitch("filter-excludes-list"));
+        }
+
         List<String> parameters = commandLine.getParameters();
         if (parameters.size() == 0) {
             parameters.add(".");
         }
 
         NodeFactory factory = new NodeFactory();
-        CodeDependencyCollector collector = new CodeDependencyCollector(factory);
+        CodeDependencyCollector collector = new CodeDependencyCollector(factory, filterCriteria);
         
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(new LoadListenerVisitorAdapter(collector));
@@ -187,5 +233,66 @@ public class DependencyExtractor {
         }
 
         verboseListener.close();
+    }
+
+    private static boolean hasFilterRegularExpressionSwitches(CommandLine commandLine) {
+        Collection<String> switches = commandLine.getPresentSwitches();
+
+        return
+            switches.contains("filter-includes") ||
+            switches.contains("filter-excludes") ||
+            switches.contains("package-filter") ||
+            switches.contains("package-filter-includes") ||
+            switches.contains("package-filter-excludes") ||
+            switches.contains("class-filter") ||
+            switches.contains("class-filter-includes") ||
+            switches.contains("class-filter-excludes") ||
+            switches.contains("feature-filter") ||
+            switches.contains("feature-filter-includes") ||
+            switches.contains("feature-filter-excludes");
+    }
+
+    private static boolean hasFilterListSwitches(CommandLine commandLine) {
+        Collection<String> switches = commandLine.getPresentSwitches();
+
+        return
+            switches.contains("filter-includes-list") ||
+            switches.contains("filter-excludes-list");
+    }
+
+    private static CollectionSelectionCriteria createCollectionSelectionCriteria(Collection<String> includes, Collection<String> excludes) {
+        return new CollectionSelectionCriteria(loadCollection(includes), loadCollection(excludes));
+    }
+
+    private static Collection<String> loadCollection(Collection<String> filenames) {
+        Collection<String> result = null;
+
+        if (!filenames.isEmpty()) {
+            result = new HashSet<String>();
+
+            for (String filename : filenames) {
+                BufferedReader reader = null;
+                try {
+                    reader = new BufferedReader(new FileReader(filename));
+
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        result.add(line);
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(DependencyExtractor.class).error("Couldn't read file " + filename, ex);
+                } finally {
+                    try {
+                        if (reader != null) {
+                            reader.close();
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(DependencyExtractor.class).error("Couldn't close file " + filename, ex);
+                    }
+                }
+            }
+        }
+
+        return result;
     }
 }

@@ -45,6 +45,8 @@ import com.jeantessier.classreader.*;
  */
 public class CodeDependencyCollector extends CollectorBase {
     private NodeFactory factory;
+    private SelectionCriteria filterCriteria;
+
     private Node current;
     private HashSet<DependencyListener> dependencyListeners = new HashSet<DependencyListener>();
 
@@ -53,7 +55,12 @@ public class CodeDependencyCollector extends CollectorBase {
     }
 
     public CodeDependencyCollector(NodeFactory factory) {
+        this(factory, new ComprehensiveSelectionCriteria());
+    }
+
+    public CodeDependencyCollector(NodeFactory factory, SelectionCriteria filterCriteria) {
         this.factory = factory;
+        this.filterCriteria = filterCriteria;
     }
 
     public NodeFactory getFactory() {
@@ -89,15 +96,16 @@ public class CodeDependencyCollector extends CollectorBase {
     }
 
     public void visitClass_info(Class_info entry) {
+        String classname = entry.getName();
         if (Logger.getLogger(getClass()).isDebugEnabled()) {
             Logger.getLogger(getClass()).debug("VisitClass_info():");
-            Logger.getLogger(getClass()).debug("    name = \"" + entry.getName() + "\"");
+            Logger.getLogger(getClass()).debug("    name = \"" + classname + "\"");
         }
 
-        if (entry.getName().startsWith("[")) {
-            processDescriptor(entry.getName());
-        } else {
-            Node other = getFactory().createClass(entry.getName());
+        if (classname.startsWith("[")) {
+            processDescriptor(classname);
+        } else if (filterCriteria.isMatchingClasses() && filterCriteria.matchesClassName(classname)) {
+            Node other = getFactory().createClass(classname);
             current.addDependency(other);
             if (Logger.getLogger(getClass()).isDebugEnabled()) {
                 Logger.getLogger(getClass()).info("Class_info dependency: " + current + " --> " + other);
@@ -114,12 +122,15 @@ public class CodeDependencyCollector extends CollectorBase {
             Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
         }
 
-        Node other = getFactory().createFeature(entry.getFullSignature());
-        current.addDependency(other);
-        if (Logger.getLogger(getClass()).isDebugEnabled()) {
-            Logger.getLogger(getClass()).info("FieldRef_info dependency: " + current + " --> " + other);
+        String signature = entry.getFullSignature();
+        if (filterCriteria.isMatchingFeatures() && filterCriteria.matchesFeatureName(signature)) {
+            Node other = getFactory().createFeature(signature);
+            current.addDependency(other);
+            if (Logger.getLogger(getClass()).isDebugEnabled()) {
+                Logger.getLogger(getClass()).info("FieldRef_info dependency: " + current + " --> " + other);
+            }
+            fireDependency(current, other);
         }
-        fireDependency(current, other);
 
         processDescriptor(entry.getRawNameAndType().getType());
     }
@@ -133,12 +144,15 @@ public class CodeDependencyCollector extends CollectorBase {
         }
 
         if (!entry.isStaticInitializer()) {
-            Node other  = getFactory().createFeature(entry.getFullSignature());
-            current.addDependency(other);
-            if (Logger.getLogger(getClass()).isDebugEnabled()) {
-                Logger.getLogger(getClass()).info("MethodRef_info dependency: " + current + " --> " + other);
+            String signature = entry.getFullSignature();
+            if (filterCriteria.isMatchingFeatures() && filterCriteria.matchesFeatureName(signature)) {
+                Node other  = getFactory().createFeature(signature);
+                current.addDependency(other);
+                if (Logger.getLogger(getClass()).isDebugEnabled()) {
+                    Logger.getLogger(getClass()).info("MethodRef_info dependency: " + current + " --> " + other);
+                }
+                fireDependency(current, other);
             }
-            fireDependency(current, other);
 
             processDescriptor(entry.getRawNameAndType().getType());
         }
@@ -152,12 +166,15 @@ public class CodeDependencyCollector extends CollectorBase {
             Logger.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
         }
 
-        Node other  = getFactory().createFeature(entry.getFullSignature());
-        current.addDependency(other);
-        if (Logger.getLogger(getClass()).isDebugEnabled()) {
-            Logger.getLogger(getClass()).info("InterfaceMethodRef_info dependency: " + current + " --> " + other);
+        String signature = entry.getFullSignature();
+        if (filterCriteria.isMatchingFeatures() && filterCriteria.matchesFeatureName(signature)) {
+            Node other  = getFactory().createFeature(signature);
+            current.addDependency(other);
+            if (Logger.getLogger(getClass()).isDebugEnabled()) {
+                Logger.getLogger(getClass()).info("InterfaceMethodRef_info dependency: " + current + " --> " + other);
+            }
+            fireDependency(current, other);
         }
-        fireDependency(current, other);
 
         processDescriptor(entry.getRawNameAndType().getType());
     }
@@ -242,15 +259,17 @@ public class CodeDependencyCollector extends CollectorBase {
         while ((startPos = str.indexOf('L', currentPos)) != -1) {
             if ((endPos = str.indexOf(';', startPos)) != -1) {
                 String classname = SignatureHelper.path2ClassName(str.substring(startPos + 1, endPos));
-                if (Logger.getLogger(getClass()).isDebugEnabled()) {
-                    Logger.getLogger(getClass()).debug("    Adding \"" + classname + "\"");
+                if (filterCriteria.isMatchingClasses() && filterCriteria.matchesClassName(classname)) {
+                    if (Logger.getLogger(getClass()).isDebugEnabled()) {
+                        Logger.getLogger(getClass()).debug("    Adding \"" + classname + "\"");
+                    }
+                    Node other = getFactory().createClass(classname);
+                    current.addDependency(other);
+                    if (Logger.getLogger(getClass()).isDebugEnabled()) {
+                        Logger.getLogger(getClass()).info("descriptor dependency: " + current + " --> " + other);
+                    }
+                    fireDependency(current, other);
                 }
-                Node other = getFactory().createClass(classname);
-                current.addDependency(other);
-                if (Logger.getLogger(getClass()).isDebugEnabled()) {
-                    Logger.getLogger(getClass()).info("descriptor dependency: " + current + " --> " + other);
-                }
-                fireDependency(current, other);
                 currentPos = endPos + 1;
             } else {
                 currentPos = startPos + 1;

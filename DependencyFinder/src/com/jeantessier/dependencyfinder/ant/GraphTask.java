@@ -33,12 +33,9 @@
 package com.jeantessier.dependencyfinder.ant;
 
 import java.io.*;
-import java.util.*;
 
 import org.apache.tools.ant.*;
 import org.apache.tools.ant.types.*;
-
-import com.jeantessier.dependency.*;
 
 public abstract class GraphTask extends Task {
     private boolean validate = false;

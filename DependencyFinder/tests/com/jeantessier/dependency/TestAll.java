@@ -61,6 +61,7 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestNodeHandler.class);
         result.addTestSuite(TestNodeLoader.class);
         result.addTestSuite(TestCodeDependencyCollector.class);
+        result.addTestSuite(TestCodeDependencyCollectorWithFiltering.class);
         result.addTestSuite(TestDependencyExtractor.class);
         result.addTestSuite(TestGraphCopier.class);
         result.addTestSuite(TestGraphCopierWithFiltering.class);
