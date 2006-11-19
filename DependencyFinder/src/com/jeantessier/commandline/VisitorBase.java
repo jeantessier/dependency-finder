@@ -32,23 +32,16 @@
 
 package com.jeantessier.commandline;
 
-import java.io.*;
+import java.util.*;
 
-import junit.framework.*;
+public abstract class VisitorBase implements Visitor {
+    public void visitCommandLine(CommandLine commandLine) {
+        for (String name : getSwitchNames(commandLine)) {
+            commandLine.getSwitch(name).accept(this);
+        }
 
-public class TestCommandLineUsage extends TestCase {
-    public void testToggleSwitch() throws CommandLineException, IOException {
-        CommandLine commandLine = new CommandLine(new NullParameterStrategy());
-        commandLine.addToggleSwitch("switch");
-
-        CommandLineUsage commandLineUsage = new CommandLineUsage(getName());
-        commandLine.accept(commandLineUsage);
-
-        BufferedReader in = new BufferedReader(new StringReader(commandLineUsage.toString()));
-        int i = 1;
-        assertEquals("line " + i++, "USAGE:", in.readLine());
-        assertEquals("line " + i++, "    " + getName(), in.readLine());
-        assertEquals("line " + i++, "        [-switch] (defaults to false)", in.readLine());
-        assertEquals("line " + i++, null, in.readLine());
+        commandLine.getParameterStrategy().accept(this);
     }
+
+    protected abstract Set<String> getSwitchNames(CommandLine commandLine);
 }

@@ -39,12 +39,8 @@ public class TextPrinter extends Printer {
         append(command).eol();
     }
 
-    public void visitCommandLine(CommandLine cl) {
-        raiseIndent();
-        for (String name : cl.getPresentSwitches()) {
-            cl.getSwitch(name).accept(this);
-        }
-        lowerIndent();
+    protected Set<String> getSwitchNames(CommandLine commandLine) {
+        return commandLine.getPresentSwitches();
     }
 
     public void visitToggleSwitch(ToggleSwitch cls) {

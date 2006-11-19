@@ -32,7 +32,7 @@
 
 package com.jeantessier.commandline;
 
-public abstract class Printer implements Visitor {
+public abstract class Printer extends VisitorBase {
     private final static String EOL = System.getProperty("line.separator", "\n");
 
     private StringBuffer buffer = new StringBuffer();
@@ -111,6 +111,12 @@ public abstract class Printer implements Visitor {
 
     protected void lowerIndent() {
         indentLevel--;
+    }
+
+    public void visitCommandLine(CommandLine commandLine) {
+        raiseIndent();
+        super.visitCommandLine(commandLine);
+        lowerIndent();
     }
 
     public String toString() {

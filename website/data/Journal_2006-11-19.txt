@@ -1,3 +1,7 @@
+Refactored =com.jentessier.commandline= to simplify printers for usage and
+echo of parsed command-line.  The latter still doesn't echo parameters; it
+only does switches at this time.
+
 Upgraded the following development components:
 
 <blockquote>

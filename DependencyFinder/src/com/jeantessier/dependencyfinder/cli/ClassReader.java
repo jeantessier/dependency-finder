@@ -36,6 +36,8 @@ import java.io.*;
 import java.util.*;
 
 import com.jeantessier.classreader.*;
+import com.jeantessier.classreader.Printer;
+import com.jeantessier.classreader.TextPrinter;
 import com.jeantessier.commandline.*;
 import com.jeantessier.dependencyfinder.*;
 

@@ -39,6 +39,8 @@ import org.apache.log4j.*;
 
 import com.jeantessier.commandline.*;
 import com.jeantessier.dependency.*;
+import com.jeantessier.dependency.Printer;
+import com.jeantessier.dependency.TextPrinter;
 import com.jeantessier.dependencyfinder.*;
 
 public class DependencyReporter {
