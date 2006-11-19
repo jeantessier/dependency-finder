@@ -40,36 +40,36 @@ import java.util.*;
  *  the command-line and you retrieve them as a single <code>java.util.List</code>.
  */
 public class MultipleValuesSwitch extends CommandLineSwitchBase {
-    public MultipleValuesSwitch() {
-        this(new LinkedList<String>(), false);
+    public MultipleValuesSwitch(String name) {
+        this(name, new LinkedList<String>(), false);
     }
 
-    public MultipleValuesSwitch(String defaultValue) {
-        this(Collections.singletonList(defaultValue), false);
+    public MultipleValuesSwitch(String name, String defaultValue) {
+        this(name, Collections.singletonList(defaultValue), false);
     }
 
-    public MultipleValuesSwitch(String[] defaultValue) {
-        this(Arrays.asList(defaultValue), false);
+    public MultipleValuesSwitch(String name, String[] defaultValue) {
+        this(name, Arrays.asList(defaultValue), false);
     }
 
-    public MultipleValuesSwitch(List<String> defaultValue) {
-        this(defaultValue, false);
+    public MultipleValuesSwitch(String name, List<String> defaultValue) {
+        this(name, defaultValue, false);
     }
 
-    public MultipleValuesSwitch(boolean mandatory) {
-        this(new LinkedList<String>(), mandatory);
+    public MultipleValuesSwitch(String name, boolean mandatory) {
+        this(name, new LinkedList<String>(), mandatory);
     }
 
-    public MultipleValuesSwitch(String defaultValue, boolean mandatory) {
-        this(Collections.singletonList(defaultValue), mandatory);
+    public MultipleValuesSwitch(String name, String defaultValue, boolean mandatory) {
+        this(name, Collections.singletonList(defaultValue), mandatory);
     }
 
-    public MultipleValuesSwitch(String[] defaultValue, boolean mandatory) {
-        this(Arrays.asList(defaultValue), mandatory);
+    public MultipleValuesSwitch(String name, String[] defaultValue, boolean mandatory) {
+        this(name, Arrays.asList(defaultValue), mandatory);
     }
 
-    public MultipleValuesSwitch(List<String> defaultValue, boolean mandatory) {
-        super(new LinkedList<String>(defaultValue), mandatory);
+    public MultipleValuesSwitch(String name, List<String> defaultValue, boolean mandatory) {
+        super(name, new LinkedList<String>(defaultValue), mandatory);
 
         this.value = new LinkedList();
     }
@@ -89,9 +89,9 @@ public class MultipleValuesSwitch extends CommandLineSwitchBase {
         super.setValue(this.value);
     }
 
-    public int parse(String name, String value) throws CommandLineException {
+    public int parse(String value) throws CommandLineException {
         if (value == null) {
-            throw new CommandLineException("Missing mandatory value for switch \"" + name + "\"");
+            throw new CommandLineException("Missing mandatory value for switch \"" + getName() + "\"");
         }
 
         setValue(value);

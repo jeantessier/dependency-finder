@@ -85,59 +85,59 @@ public class CommandLine implements Visitable {
     }
 
     public void addToggleSwitch(String name) {
-        addSwitch(name, new ToggleSwitch());
+        addSwitch(name, new ToggleSwitch(name));
     }
 
     public void addToggleSwitch(String name, boolean defaultValue) {
-        addSwitch(name, new ToggleSwitch(defaultValue));
+        addSwitch(name, new ToggleSwitch(name, defaultValue));
     }
 
     public void addSingleValueSwitch(String name) {
-        addSwitch(name, new SingleValueSwitch());
+        addSwitch(name, new SingleValueSwitch(name));
     }
 
     public void addSingleValueSwitch(String name, boolean mandatory) {
-        addSwitch(name, new SingleValueSwitch(mandatory));
+        addSwitch(name, new SingleValueSwitch(name, mandatory));
     }
 
     public void addSingleValueSwitch(String name, String defaultValue) {
-        addSwitch(name, new SingleValueSwitch(defaultValue));
+        addSwitch(name, new SingleValueSwitch(name, defaultValue));
     }
 
     public void addSingleValueSwitch(String name, String defaultValue, boolean mandatory) {
-        addSwitch(name, new SingleValueSwitch(defaultValue, mandatory));
+        addSwitch(name, new SingleValueSwitch(name, defaultValue, mandatory));
     }
 
     public void addOptionalValueSwitch(String name) {
-        addSwitch(name, new OptionalValueSwitch());
+        addSwitch(name, new OptionalValueSwitch(name));
     }
 
     public void addOptionalValueSwitch(String name, boolean mandatory) {
-        addSwitch(name, new OptionalValueSwitch(mandatory));
+        addSwitch(name, new OptionalValueSwitch(name, mandatory));
     }
 
     public void addOptionalValueSwitch(String name, String defaultValue) {
-        addSwitch(name, new OptionalValueSwitch(defaultValue));
+        addSwitch(name, new OptionalValueSwitch(name, defaultValue));
     }
 
     public void addOptionalValueSwitch(String name, String defaultValue, boolean mandatory) {
-        addSwitch(name, new OptionalValueSwitch(defaultValue, mandatory));
+        addSwitch(name, new OptionalValueSwitch(name, defaultValue, mandatory));
     }
 
     public void addMultipleValuesSwitch(String name) {
-        map.put(name, new MultipleValuesSwitch());
+        map.put(name, new MultipleValuesSwitch(name));
     }
 
     public void addMultipleValuesSwitch(String name, boolean mandatory) {
-        map.put(name, new MultipleValuesSwitch(mandatory));
+        map.put(name, new MultipleValuesSwitch(name, mandatory));
     }
 
     public void addMultipleValuesSwitch(String name, String defaultValue) {
-        map.put(name, new MultipleValuesSwitch(defaultValue));
+        map.put(name, new MultipleValuesSwitch(name, defaultValue));
     }
 
     public void addMultipleValuesSwitch(String name, String defaultValue, boolean mandatory) {
-        map.put(name, new MultipleValuesSwitch(defaultValue, mandatory));
+        map.put(name, new MultipleValuesSwitch(name, defaultValue, mandatory));
     }
 
     public CommandLineSwitch getSwitch(String name) {
@@ -182,7 +182,7 @@ public class CommandLine implements Visitable {
         List<String> result = null;
 
         CommandLineSwitch cls = map.get(name);
-        if (cls != null && cls.getValue() instanceof List) {
+        if (cls != null && cls.getValue() instanceof List<String>) {
             result =  (List<String>) cls.getValue();
         }
 
@@ -241,12 +241,12 @@ public class CommandLine implements Visitable {
                     if (isStrict()) {
                         throw new CommandLineException("Unknown switch \"" + args[i] + "\"");
                     } else {
-                        cls = new OptionalValueSwitch();
+                        cls = new OptionalValueSwitch(name);
                         map.put(name, cls);
                     }
                 }
 
-                i += cls.parse(name, value);
+                i += cls.parse(value);
             } else if (parameterStrategy.accept(args[i])) {
                 parameters.add(args[i]);
                 i++;

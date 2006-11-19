@@ -40,7 +40,6 @@ public class CommandLineUsage implements Visitor {
 
     private String command;
     private StringBuffer usage = new StringBuffer();
-    private String switchName;
 
     public CommandLineUsage(String command) {
         this.command = command;
@@ -50,8 +49,7 @@ public class CommandLineUsage implements Visitor {
         usage.append("USAGE: ").append(command).append(EOL);
 
         for (String name : commandLine.getKnownSwitches()) {
-            switchName = name;
-            commandLine.getSwitch(switchName).accept(this);
+            commandLine.getSwitch(name).accept(this);
         }
 
         commandLine.getParameterStrategy().accept(this);
@@ -59,33 +57,33 @@ public class CommandLineUsage implements Visitor {
 
     public void visitToggleSwitch(ToggleSwitch cls) {
         if (cls.isMandatory()) {
-            usage.append("       -").append(switchName).append(" (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
+            usage.append("       -").append(cls.getName()).append(" (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
         } else {
-            usage.append("       [-").append(switchName).append("] (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
+            usage.append("       [-").append(cls.getName()).append("] (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
         }
     }
 
     public void visitSingleValueSwitch(SingleValueSwitch cls) {
         if (cls.isMandatory()) {
-            usage.append("       -").append(switchName).append(" value (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
+            usage.append("       -").append(cls.getName()).append(" value (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
         } else {
-            usage.append("       [-").append(switchName).append(" value] (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
+            usage.append("       [-").append(cls.getName()).append(" value] (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
         }
     }
 
     public void visitOptionalValueSwitch(OptionalValueSwitch cls) {
         if (cls.isMandatory()) {
-            usage.append("       -").append(switchName).append(" [value] (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
+            usage.append("       -").append(cls.getName()).append(" [value] (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
         } else {
-            usage.append("       [-").append(switchName).append(" [value]] (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
+            usage.append("       [-").append(cls.getName()).append(" [value]] (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
         }
     }
 
     public void visitMultipleValuesSwitch(MultipleValuesSwitch cls) {
         if (cls.isMandatory()) {
-            usage.append("       (-").append(switchName).append(" value)+ (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
+            usage.append("       (-").append(cls.getName()).append(" value)+ (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
         } else {
-            usage.append("       (-").append(switchName).append(" value)* (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
+            usage.append("       (-").append(cls.getName()).append(" value)* (defaults to ").append(cls.getDefaultValue()).append(")").append(EOL);
         }
     }
 

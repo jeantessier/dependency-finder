@@ -37,23 +37,23 @@ package com.jeantessier.commandline;
  *  appear once on the command-line.
  */
 public class OptionalValueSwitch extends CommandLineSwitchBase {
-    public OptionalValueSwitch() {
-        this("", false);
+    public OptionalValueSwitch(String name) {
+        this(name, "", false);
     }
 
-    public OptionalValueSwitch(String defaultValue) {
-        this(defaultValue, false);
+    public OptionalValueSwitch(String name, String defaultValue) {
+        this(name, defaultValue, false);
     }
 
-    public OptionalValueSwitch(boolean mandatory) {
-        this("", mandatory);
+    public OptionalValueSwitch(String name, boolean mandatory) {
+        this(name, "", mandatory);
     }
 
-    public OptionalValueSwitch(String defaultValue, boolean mandatory) {
-        super(defaultValue, mandatory);
+    public OptionalValueSwitch(String name, String defaultValue, boolean mandatory) {
+        super(name, defaultValue, mandatory);
     }
 
-    public int parse(String name, String value) throws CommandLineException {
+    public int parse(String value) throws CommandLineException {
         int result = 1;
 
         setValue(value);

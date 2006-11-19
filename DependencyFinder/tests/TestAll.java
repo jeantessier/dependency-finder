@@ -36,6 +36,7 @@ public class TestAll extends TestCase {
     public static Test suite() {
         TestSuite result = new TestSuite();
 
+        result.addTest(com.jeantessier.commandline.TestAll.suite());
         result.addTest(com.jeantessier.classreader.TestAll.suite());
         result.addTest(com.jeantessier.text.TestAll.suite());
         result.addTest(com.jeantessier.dependency.TestAll.suite());

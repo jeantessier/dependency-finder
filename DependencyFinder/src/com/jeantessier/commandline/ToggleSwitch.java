@@ -37,19 +37,19 @@ package com.jeantessier.commandline;
  *  absent or true if present on the command-line.
  */
 public class ToggleSwitch extends CommandLineSwitchBase {
-    public ToggleSwitch() {
-        this(false, false);
+    public ToggleSwitch(String name) {
+        this(name, false, false);
     }
 
-    public ToggleSwitch(boolean defaultValue) {
-        this(defaultValue, false);
+    public ToggleSwitch(String name, boolean defaultValue) {
+        this(name, defaultValue, false);
     }
 
-    public ToggleSwitch(boolean defaultValue, boolean mandatory) {
-        super(defaultValue, mandatory);
+    public ToggleSwitch(String name, boolean defaultValue, boolean mandatory) {
+        super(name, defaultValue, mandatory);
     }
 
-    public int parse(String name, String value) throws CommandLineException {
+    public int parse(String value) throws CommandLineException {
         setValue(true);
     
         return 1;
