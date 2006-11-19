@@ -182,7 +182,7 @@ public class CommandLine implements Visitable {
         List<String> result = null;
 
         CommandLineSwitch cls = map.get(name);
-        if (cls != null && cls.getValue() instanceof List<String>) {
+        if (cls != null && cls.getValue() instanceof List) {
             result =  (List<String>) cls.getValue();
         }
 
