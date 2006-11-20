@@ -36,7 +36,6 @@ import java.io.*;
 import java.util.*;
 
 import org.apache.tools.ant.*;
-import org.apache.tools.ant.types.*;
 
 import com.jeantessier.diff.*;
 
@@ -101,7 +100,7 @@ public class ListDiff extends Task {
     }
     
     public String getEncoding() {
-        return dtdPrefix;
+        return encoding;
     }
     
     public void setEncoding(String encoding) {
@@ -163,13 +162,11 @@ public class ListDiff extends Task {
             throw new BuildException("destfile must be set!");
         }
 
-        VerboseListener verboseListener = new VerboseListener(this);
-
         try {
             String line;
             
             log("Loading old list from " + getOld().getAbsolutePath());
-            Collection oldAPI = new TreeSet();
+            Collection<String> oldAPI = new TreeSet<String>();
             BufferedReader oldIn = new BufferedReader(new FileReader(getOld()));
             while((line = oldIn.readLine()) != null) {
                 oldAPI.add(line);
@@ -177,7 +174,7 @@ public class ListDiff extends Task {
             oldIn.close();
             
             log("Loading new list from " + getNew().getAbsolutePath());
-            Collection newAPI = new TreeSet();
+            Collection<String> newAPI = new TreeSet<String>();
             BufferedReader newIn = new BufferedReader(new FileReader(getNew()));
             while((line = newIn.readLine()) != null) {
                 newAPI.add(line);
@@ -193,22 +190,16 @@ public class ListDiff extends Task {
             if (getIndenttext() != null) {
                 printer.setIndentText(getIndenttext());
             }
-            
-            Iterator i;
-            
-            i = oldAPI.iterator();
-            while (i.hasNext()) {
-                line = (String) i.next();
-                if (!newAPI.contains(line)) {
-                    printer.remove(line);
+
+            for (String name : oldAPI) {
+                if (!newAPI.contains(name)) {
+                    printer.remove(name);
                 }
             }
-            
-            i = newAPI.iterator();
-            while (i.hasNext()) {
-                line = (String) i.next();
-                if (!oldAPI.contains(line)) {
-                    printer.add(line);
+
+            for (String name : newAPI) {
+                if (!oldAPI.contains(name)) {
+                    printer.add(name);
                 }
             }
 

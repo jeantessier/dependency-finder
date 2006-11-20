@@ -39,7 +39,6 @@ import org.apache.tools.ant.*;
 import org.apache.tools.ant.types.*;
 
 import com.jeantessier.classreader.*;
-import com.jeantessier.dependencyfinder.*;
 
 public class ListSymbols extends Task {
     private boolean classNames  = false;
@@ -156,12 +155,9 @@ public class ListSymbols extends Task {
         
         try {
             PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
-
-            Iterator i = collector.getCollection().iterator();
-            while (i.hasNext()) {
-                out.println(i.next());
+            for (String symbol : collector.getCollection()) {
+                out.println(symbol);
             }
-            
             out.close();
         } catch (IOException ex) {
             throw new BuildException(ex);

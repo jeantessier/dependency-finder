@@ -7,6 +7,8 @@ Refactored =com.jentessier.commandline= to store parameters in the
 values are stored in the =CommandLineSwitch= objects, now the parameters are
 also store outside the =CommandLine= object.
 
+Cleaned up classes in the CLI and Ant tasks packages.
+
 Upgraded the following development components:
 
 <blockquote>

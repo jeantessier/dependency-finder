@@ -218,8 +218,8 @@ public class JarJarDiff {
             try {
                 Constructor constructor;
                 try {
-                    constructor = Class.forName(level).getConstructor(new Class[] {DifferenceStrategy.class});
-                    result = (DifferenceStrategy) constructor.newInstance(new Object[] {baseStrategy});
+                    constructor = Class.forName(level).getConstructor(DifferenceStrategy.class);
+                    result = (DifferenceStrategy) constructor.newInstance(baseStrategy);
                 } catch (NoSuchMethodException ex) {
                     result = (DifferenceStrategy) Class.forName(level).newInstance();
                 }

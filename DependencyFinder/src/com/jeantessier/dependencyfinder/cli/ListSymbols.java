@@ -175,9 +175,8 @@ public class ListSymbols {
             out = new PrintWriter(new OutputStreamWriter(System.out));
         }
 
-        Iterator i = collector.getCollection().iterator();
-        while (i.hasNext()) {
-            out.println(i.next());
+        for (String symbol : collector.getCollection()) {
+            out.println(symbol);
         }
 
         Date end = new Date();

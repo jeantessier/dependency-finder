@@ -35,25 +35,13 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public abstract class CollectorBase extends VisitorBase implements Collector {
-    private Collection collection;
+    private Collection<String> collection = new TreeSet<String>();
 
-    public CollectorBase() {
-        this(new TreeSet());
+    protected void add(String name) {
+        collection.add(name);
     }
 
-    public CollectorBase(Collection collection) {
-        this.collection = collection;
-    }
-
-    protected void add(Object obj) {
-        collection.add(obj);
-    }
-
-    protected void remove(Object obj) {
-        collection.remove(obj);
-    }
-
-    public Collection getCollection() {
+    public Collection<String> getCollection() {
         return collection;
     }
 }

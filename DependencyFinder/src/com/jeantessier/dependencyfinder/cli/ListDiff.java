@@ -126,13 +126,13 @@ public class ListDiff {
         
         Logger.getLogger(ListDiff.class).info("Loading data ...");
         
-        Collection oldAPI = new TreeSet();
+        Collection<String> oldAPI = new TreeSet<String>();
         BufferedReader oldIn = new BufferedReader(new FileReader(commandLine.getSingleSwitch("old")));
         while((line = oldIn.readLine()) != null) {
             oldAPI.add(line);
         }
         
-        Collection newAPI = new TreeSet();
+        Collection<String> newAPI = new TreeSet<String>();
         BufferedReader newIn = new BufferedReader(new FileReader(commandLine.getSingleSwitch("new")));
         while((line = newIn.readLine()) != null) {
             newAPI.add(line);
@@ -145,22 +145,16 @@ public class ListDiff {
         if (commandLine.isPresent("indent-text")) {
             printer.setIndentText(commandLine.getSingleSwitch("indent-text"));
         }
-        
-        Iterator i;
 
-        i = oldAPI.iterator();
-        while (i.hasNext()) {
-            line = (String) i.next();
-            if (!newAPI.contains(line)) {
-                printer.remove(line);
+        for (String name : oldAPI) {
+            if (!newAPI.contains(name)) {
+                printer.remove(name);
             }
         }
 
-        i = newAPI.iterator();
-        while (i.hasNext()) {
-            line = (String) i.next();
-            if (!oldAPI.contains(line)) {
-                printer.add(line);
+        for (String name : newAPI) {
+            if (!oldAPI.contains(name)) {
+                printer.add(name);
             }
         }
 

@@ -157,17 +157,15 @@ public class ClassMetrics {
 
         out.println(metrics.getClasses().size() + " class(es)");
         if (list) {
-            Iterator j = metrics.getClasses().iterator();
-            while (j.hasNext()) {
-                out.println("        " + j.next());
+            for (Object o : metrics.getClasses()) {
+                out.println("        " + o);
             }
         }
 
         out.println(metrics.getInterfaces().size() + " interface(s)");
         if (list) {
-            Iterator j = metrics.getInterfaces().iterator();
-            while (j.hasNext()) {
-                out.println("        " + j.next());
+            for (Object o : metrics.getInterfaces()) {
+                out.println("        " + o);
             }
         }
 
@@ -189,41 +187,36 @@ public class ClassMetrics {
 
         out.println(metrics.getSynchronizedMethods().size() + " synchronized method(s)");
         if (list) {
-            Iterator j = metrics.getSynchronizedMethods().iterator();
-            while (j.hasNext()) {
-                out.println("        " + j.next());
+            for (Object o : metrics.getSynchronizedMethods()) {
+                out.println("        " + o);
             }
         }
 
         out.println(metrics.getNativeMethods().size() + " native method(s)");
         if (list) {
-            Iterator j = metrics.getNativeMethods().iterator();
-            while (j.hasNext()) {
-                out.println("        " + j.next());
+            for (Object o : metrics.getNativeMethods()) {
+                out.println("        " + o);
             }
         }
 
         out.println(metrics.getVolatileFields().size() + " volatile field(s)");
         if (list) {
-            Iterator j = metrics.getVolatileFields().iterator();
-            while (j.hasNext()) {
-                out.println("        " + j.next());
+            for (Object o : metrics.getVolatileFields()) {
+                out.println("        " + o);
             }
         }
 
         out.println(metrics.getTransientFields().size() + " transient field(s)");
         if (list) {
-            Iterator j = metrics.getTransientFields().iterator();
-            while (j.hasNext()) {
-                out.println("        " + j.next());
+            for (Object o : metrics.getTransientFields()) {
+                out.println("        " + o);
             }
         }
 
         out.println(metrics.getCustomAttributes().size() + " custom attribute(s)");
         if (list) {
-            Iterator j = metrics.getCustomAttributes().iterator();
-            while (j.hasNext()) {
-                out.println("        " + j.next());
+            for (Object o : metrics.getCustomAttributes()) {
+                out.println("        " + o);
             }
         }
 
@@ -253,24 +246,19 @@ public class ClassMetrics {
                      methods.size() +
                      innerClasses.size()) + label);
         if (list) {
-            Iterator j;
-
             out.println("    " + classes.size() + " class(es)");
-            j = classes.iterator();
-            while (j.hasNext()) {
-                out.println("        " + j.next());
+            for (Object aClass : classes) {
+                out.println("        " + aClass);
             }
 
             out.println("    " + methods.size() + " method(s)");
-            j = methods.iterator();
-            while (j.hasNext()) {
-                out.println("        " + j.next());
+            for (Object method : methods) {
+                out.println("        " + method);
             }
 
             out.println("    " + innerClasses.size() + " inner class(es)");
-            j = innerClasses.iterator();
-            while (j.hasNext()) {
-                out.println("        " + j.next());
+            for (Object innerClass : innerClasses) {
+                out.println("        " + innerClass);
             }
         } else {
             out.println("    " + classes.size() + " class(es)");
@@ -285,30 +273,24 @@ public class ClassMetrics {
                      methods.size() +
                      innerClasses.size()) + label);
         if (list) {
-            Iterator j;
-
             out.println("    " + classes.size() + " class(es)");
-            j = classes.iterator();
-            while (j.hasNext()) {
-                out.println("        " + j.next());
+            for (Object aClass : classes) {
+                out.println("        " + aClass);
             }
 
             out.println("    " + fields.size() + " field(s)");
-            j = fields.iterator();
-            while (j.hasNext()) {
-                out.println("        " + j.next());
+            for (Object field : fields) {
+                out.println("        " + field);
             }
 
             out.println("    " + methods.size() + " method(s)");
-            j = methods.iterator();
-            while (j.hasNext()) {
-                out.println("        " + j.next());
+            for (Object method : methods) {
+                out.println("        " + method);
             }
 
             out.println("    " + innerClasses.size() + " inner class(es)");
-            j = innerClasses.iterator();
-            while (j.hasNext()) {
-                out.println("        " + j.next());
+            for (Object innerClass : innerClasses) {
+                out.println("        " + innerClass);
             }
         } else {
             out.println("    " + classes.size() + " class(es)");
@@ -323,24 +305,19 @@ public class ClassMetrics {
                      fields.size() +
                      methods.size()) + label);
         if (list) {
-            Iterator j;
-
             out.println("    " + classes.size() + " class(es)");
-            j = classes.iterator();
-            while (j.hasNext()) {
-                out.println("        " + j.next());
+            for (Object aClass : classes) {
+                out.println("        " + aClass);
             }
 
             out.println("    " + fields.size() + " field(s)");
-            j = fields.iterator();
-            while (j.hasNext()) {
-                out.println("        " + j.next());
+            for (Object field : fields) {
+                out.println("        " + field);
             }
 
             out.println("    " + methods.size() + " method(s)");
-            j = methods.iterator();
-            while (j.hasNext()) {
-                out.println("        " + j.next());
+            for (Object method : methods) {
+                out.println("        " + method);
             }
         } else {
             out.println("    " + classes.size() + " class(es)");
@@ -354,24 +331,19 @@ public class ClassMetrics {
                      methods.size() +
                      innerClasses.size()) + label);
         if (list) {
-            Iterator j;
-
             out.println("    " + fields.size() + " field(s)");
-            j = fields.iterator();
-            while (j.hasNext()) {
-                out.println("        " + j.next());
+            for (Object field : fields) {
+                out.println("        " + field);
             }
 
             out.println("    " + methods.size() + " method(s)");
-            j = methods.iterator();
-            while (j.hasNext()) {
-                out.println("        " + j.next());
+            for (Object method : methods) {
+                out.println("        " + method);
             }
 
             out.println("    " + innerClasses.size() + " inner class(es)");
-            j = innerClasses.iterator();
-            while (j.hasNext()) {
-                out.println("        " + j.next());
+            for (Object innerClass : innerClasses) {
+                out.println("        " + innerClass);
             }
         } else {
             out.println("    " + fields.size() + " fields(s)");

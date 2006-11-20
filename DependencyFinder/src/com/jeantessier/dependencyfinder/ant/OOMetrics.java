@@ -372,7 +372,7 @@ public class OOMetrics extends Task {
         }
     }
 
-    private Collection createCollection(Path includes, Path excludes) throws IOException {
+    private Collection<String> createCollection(Path includes, Path excludes) throws IOException {
         Collection<String> result = new HashSet<String>();
 
         if (includes != null) {

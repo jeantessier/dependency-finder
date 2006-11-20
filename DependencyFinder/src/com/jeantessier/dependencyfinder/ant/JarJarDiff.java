@@ -247,8 +247,8 @@ public class JarJarDiff extends Task {
             try {
                 Constructor constructor;
                 try {
-                    constructor = Class.forName(level).getConstructor(new Class[] {DifferenceStrategy.class});
-                    strategy = (DifferenceStrategy) constructor.newInstance(new Object[] {baseStrategy});
+                    constructor = Class.forName(level).getConstructor(DifferenceStrategy.class);
+                    strategy = (DifferenceStrategy) constructor.newInstance(baseStrategy);
                 } catch (NoSuchMethodException ex) {
                     strategy = (DifferenceStrategy) Class.forName(level).newInstance();
                 }

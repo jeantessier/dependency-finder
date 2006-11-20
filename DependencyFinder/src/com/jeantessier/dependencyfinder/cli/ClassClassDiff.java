@@ -169,8 +169,8 @@ public class ClassClassDiff {
             try {
                 Constructor constructor;
                 try {
-                    constructor = Class.forName(level).getConstructor(new Class[] {DifferenceStrategy.class});
-                    strategy = (DifferenceStrategy) constructor.newInstance(new Object[] {strategy});
+                    constructor = Class.forName(level).getConstructor(DifferenceStrategy.class);
+                    strategy = (DifferenceStrategy) constructor.newInstance(strategy);
                 } catch (NoSuchMethodException ex) {
                     strategy = (DifferenceStrategy) Class.forName(level).newInstance();
                 }
