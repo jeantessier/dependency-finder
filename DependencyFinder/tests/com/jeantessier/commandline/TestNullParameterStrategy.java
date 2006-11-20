@@ -34,19 +34,25 @@ package com.jeantessier.commandline;
 
 import junit.framework.*;
 
-public class TestAll extends TestCase {
-    public static Test suite() {
-        TestSuite result = new TestSuite();
+public class TestNullParameterStrategy extends TestCase {
+    private ParameterStrategy strategy;
 
-        result.addTestSuite(TestNullParameterStrategy.class);
-        result.addTestSuite(TestCollectingParameterStrategy.class);
-        result.addTestSuite(TestAtLeastParameterStrategy.class);
-        result.addTestSuite(TestExactlyParameterStrategy.class);
-        result.addTestSuite(TestAtMostParameterStrategy.class);
-        result.addTestSuite(TestCommandLine.class);
-        result.addTestSuite(TestCommandLineUsage.class);
-        result.addTestSuite(TestTextPrinter.class);
+    protected void setUp() throws Exception {
+        super.setUp();
 
-        return result;
+        strategy = new NullParameterStrategy();
+    }
+
+    public void testAccept() throws CommandLineException {
+        try {
+            strategy.accept("value");
+            fail("Strategy accepted a value");
+        } catch (CommandLineException ex) {
+            // Expected
+        }
+    }
+
+    public void testIsSatisfied() throws CommandLineException {
+        assertTrue(strategy.isSatisfied());
     }
 }

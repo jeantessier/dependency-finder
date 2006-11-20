@@ -41,7 +41,7 @@ public interface Visitor {
     public void visitMultipleValuesSwitch(MultipleValuesSwitch cls);
 
     public void visitNullParameterStrategy(NullParameterStrategy strategy);
-    public void visitAnyParameterStrategy(AnyParameterStrategy strategy);
+    public void visitCollectingParameterStrategy(CollectingParameterStrategy strategy);
     public void visitAtLeastParameterStrategy(AtLeastParameterStrategy strategy);
     public void visitExactlyParameterStrategy(ExactlyParameterStrategy strategy);
     public void visitAtMostParameterStrategy(AtMostParameterStrategy strategy);

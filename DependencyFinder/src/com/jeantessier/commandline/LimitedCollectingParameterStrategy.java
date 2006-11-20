@@ -32,22 +32,20 @@
 
 package com.jeantessier.commandline;
 
+import java.util.*;
+
 /**
- *  No restrictions, the command-line can include any number of parameters,
- *  including none at all.
- *
- *  This is the default strategy for CommandLine when you do not specify one.
+ *  A <code>ParameterStrategy</code> that counts the number of parameters
+ *  on the command-line.
  */
-public class AnyParameterStrategy implements ParameterStrategy {
-    public boolean accept(String param) {
-        return true;
+public abstract class LimitedCollectingParameterStrategy extends CollectingParameterStrategy {
+    private int limit;
+
+    public LimitedCollectingParameterStrategy(int limit) {
+        this.limit = limit;
     }
 
-    public boolean isSatisfied() {
-        return true;
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitAnyParameterStrategy(this);
+    public int getLimit() {
+        return limit;
     }
 }

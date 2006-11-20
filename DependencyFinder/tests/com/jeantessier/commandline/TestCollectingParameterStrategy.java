@@ -34,19 +34,27 @@ package com.jeantessier.commandline;
 
 import junit.framework.*;
 
-public class TestAll extends TestCase {
-    public static Test suite() {
-        TestSuite result = new TestSuite();
+public class TestCollectingParameterStrategy extends TestCase {
+    private ParameterStrategy strategy;
 
-        result.addTestSuite(TestNullParameterStrategy.class);
-        result.addTestSuite(TestCollectingParameterStrategy.class);
-        result.addTestSuite(TestAtLeastParameterStrategy.class);
-        result.addTestSuite(TestExactlyParameterStrategy.class);
-        result.addTestSuite(TestAtMostParameterStrategy.class);
-        result.addTestSuite(TestCommandLine.class);
-        result.addTestSuite(TestCommandLineUsage.class);
-        result.addTestSuite(TestTextPrinter.class);
+    protected void setUp() throws Exception {
+        super.setUp();
 
-        return result;
+        strategy = new CollectingParameterStrategy();
+    }
+
+    public void testAccept() throws CommandLineException {
+        String value1 = new String("value1");
+        String value2 = new String("value2");
+        assertEquals(1, strategy.accept(value1));
+        assertEquals(1, strategy.accept(value2));
+        assertSame("Returned different value", value1, strategy.getParameters().get(0));
+        assertSame("Returned different value", value2, strategy.getParameters().get(1));
+    }
+
+    public void testIsSatisfied() throws CommandLineException {
+        assertTrue(strategy.isSatisfied());
+        strategy.accept("value");
+        assertTrue(strategy.isSatisfied());
     }
 }

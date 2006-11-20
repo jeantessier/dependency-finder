@@ -36,32 +36,13 @@ package com.jeantessier.commandline;
  *  The command-line must include at least a certain number of parameters
  *  or the framework will find the command-line invalid.
  */
-public class AtLeastParameterStrategy implements CountingParameterStrategy {
-    private int nbParameters;
-    private int count;
-
+public class AtLeastParameterStrategy extends LimitedCollectingParameterStrategy {
     public AtLeastParameterStrategy(int nbParameters) {
-        this.nbParameters = nbParameters;
-
-        this.count = 0;
-    }
-
-    public boolean accept(String param) {
-        count++;
-
-        return true;
+        super(nbParameters);
     }
 
     public boolean isSatisfied() {
-        return count >= nbParameters;
-    }
-
-    public int getNbParameters() {
-        return nbParameters;
-    }
-
-    public int getCount() {
-        return count;
+        return getParameters().size() >= getLimit();
     }
 
     public void accept(Visitor visitor) {

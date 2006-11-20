@@ -36,32 +36,21 @@ package com.jeantessier.commandline;
  *  The command-line must include an exact number of parameters or the
  *  framework will find the command-line invalid.
  */
-public class ExactlyParameterStrategy implements CountingParameterStrategy {
-    private int nbParameters;
-    private int count;
-
+public class ExactlyParameterStrategy extends LimitedCollectingParameterStrategy {
     public ExactlyParameterStrategy(int nbParameters) {
-        this.nbParameters = nbParameters;
-
-        this.count = 0;
+        super(nbParameters);
     }
 
-    public boolean accept(String param) {
-        count++;
-
-        return count <= nbParameters;
+    public int accept(String param) throws CommandLineException {
+        if (getParameters().size() < getLimit()) {
+            return super.accept(param);
+        } else {
+            throw new CommandLineException("Exceeding " + getLimit() + " parameter(s).");
+        }
     }
 
     public boolean isSatisfied() {
-        return count == nbParameters;
-    }
-
-    public int getNbParameters() {
-        return nbParameters;
-    }
-
-    public int getCount() {
-        return count;
+        return getParameters().size() == getLimit();
     }
 
     public void accept(Visitor visitor) {

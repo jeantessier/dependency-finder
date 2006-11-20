@@ -66,17 +66,28 @@ public class TextPrinter extends Printer {
     }
 
     public void visitNullParameterStrategy(NullParameterStrategy strategy) {
+        visitParameterStrategy(strategy);
     }
 
-    public void visitAnyParameterStrategy(AnyParameterStrategy strategy) {
+    public void visitCollectingParameterStrategy(CollectingParameterStrategy strategy) {
+        visitParameterStrategy(strategy);
     }
 
     public void visitAtLeastParameterStrategy(AtLeastParameterStrategy strategy) {
+        visitParameterStrategy(strategy);
     }
 
     public void visitExactlyParameterStrategy(ExactlyParameterStrategy strategy) {
+        visitParameterStrategy(strategy);
     }
 
     public void visitAtMostParameterStrategy(AtMostParameterStrategy strategy) {
+        visitParameterStrategy(strategy);
+    }
+
+    private void visitParameterStrategy(ParameterStrategy strategy) {
+        for (String value : strategy.getParameters()) {
+            indent().append(value).eol();
+        }
     }
 }

@@ -39,20 +39,18 @@ import java.util.*;
  */
 public class CommandLine implements Visitable {
     private static final boolean DEFAULT_STRICT = true;
-    private static final ParameterStrategy DEFAULT_PARAMETER_STRATEGY = new AnyParameterStrategy();
 
     private boolean strict;
     private ParameterStrategy parameterStrategy;
 
-    private List<String> parameters = new LinkedList<String>();
     private Map<String, CommandLineSwitch> map = new TreeMap<String, CommandLineSwitch>();
 
     public CommandLine() {
-        this(DEFAULT_STRICT, DEFAULT_PARAMETER_STRATEGY);
+        this(DEFAULT_STRICT, new CollectingParameterStrategy());
     }
 
     public CommandLine(boolean strict) {
-        this(strict, DEFAULT_PARAMETER_STRATEGY);
+        this(strict, new CollectingParameterStrategy());
     }
 
     public CommandLine(ParameterStrategy parameterStrategy) {
@@ -219,12 +217,10 @@ public class CommandLine implements Visitable {
     }
 
     public List<String> getParameters() {
-        return parameters;
+        return parameterStrategy.getParameters();
     }
 
     public void parse(String args[]) throws CommandLineException {
-        parameters.clear();
-
         int i=0;
         while (i < args.length) {
             if (args[i].startsWith("-")) {
@@ -247,11 +243,8 @@ public class CommandLine implements Visitable {
                 }
 
                 i += cls.parse(value);
-            } else if (parameterStrategy.accept(args[i])) {
-                parameters.add(args[i]);
-                i++;
             } else {
-                throw new CommandLineException("Invalid parameter \"" + args[i] + "\"");
+                i += parameterStrategy.accept(args[i]);
             }
         }
 

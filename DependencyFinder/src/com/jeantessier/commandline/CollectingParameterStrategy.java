@@ -32,21 +32,25 @@
 
 package com.jeantessier.commandline;
 
-import junit.framework.*;
+import java.util.*;
 
-public class TestAll extends TestCase {
-    public static Test suite() {
-        TestSuite result = new TestSuite();
+public class CollectingParameterStrategy implements ParameterStrategy {
+    private List<String> parameters = new LinkedList<String>();
 
-        result.addTestSuite(TestNullParameterStrategy.class);
-        result.addTestSuite(TestCollectingParameterStrategy.class);
-        result.addTestSuite(TestAtLeastParameterStrategy.class);
-        result.addTestSuite(TestExactlyParameterStrategy.class);
-        result.addTestSuite(TestAtMostParameterStrategy.class);
-        result.addTestSuite(TestCommandLine.class);
-        result.addTestSuite(TestCommandLineUsage.class);
-        result.addTestSuite(TestTextPrinter.class);
+    public int accept(String param) throws CommandLineException {
+        parameters.add(param);
+        return 1;
+    }
 
-        return result;
+    public List<String> getParameters() {
+        return Collections.unmodifiableList(parameters);
+    }
+
+    public boolean isSatisfied() {
+        return true;
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitCollectingParameterStrategy(this);
     }
 }

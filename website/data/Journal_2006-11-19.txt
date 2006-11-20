@@ -2,6 +2,11 @@ Refactored =com.jentessier.commandline= to simplify printers for usage and
 echo of parsed command-line.  The latter still doesn't echo parameters; it
 only does switches at this time.
 
+Refactored =com.jentessier.commandline= to store parameters in the
+=ParameterStrategy= instances instead of the =CommandLine=.  Just like switch
+values are stored in the =CommandLineSwitch= objects, now the parameters are
+also store outside the =CommandLine= object.
+
 Upgraded the following development components:
 
 <blockquote>

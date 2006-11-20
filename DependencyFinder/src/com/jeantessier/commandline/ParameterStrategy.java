@@ -32,11 +32,14 @@
 
 package com.jeantessier.commandline;
 
+import java.util.*;
+
 /**
  *  How the <code>CommandLine</code> parses and validates the parameters
  *  on the command-line.
  */
 public interface ParameterStrategy extends Visitable {
-    public boolean accept(String param);
+    public int accept(String param) throws CommandLineException;
+    public List<String> getParameters();
     public boolean isSatisfied();
 }

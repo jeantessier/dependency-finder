@@ -84,12 +84,12 @@ public class CommandLineUsage extends Printer {
     public void visitNullParameterStrategy(NullParameterStrategy strategy) {
     }
 
-    public void visitAnyParameterStrategy(AnyParameterStrategy strategy) {
+    public void visitCollectingParameterStrategy(CollectingParameterStrategy strategy) {
         indent().append("[param ...]").eol();
     }
 
     public void visitAtLeastParameterStrategy(AtLeastParameterStrategy strategy) {
-        for (int i=1; i<=strategy.getNbParameters(); i++) {
+        for (int i=1; i<=strategy.getLimit(); i++) {
             indent().append("param").append(i).eol();
         }
 
@@ -97,7 +97,7 @@ public class CommandLineUsage extends Printer {
     }
 
     public void visitExactlyParameterStrategy(ExactlyParameterStrategy strategy) {
-        for (int i=1; i<=strategy.getNbParameters(); i++) {
+        for (int i=1; i<=strategy.getLimit(); i++) {
             indent().append("param").append(i).eol();
         }
     }
@@ -105,14 +105,14 @@ public class CommandLineUsage extends Printer {
     public void visitAtMostParameterStrategy(AtMostParameterStrategy strategy) {
         indent();
 
-        for (int i=1; i<=strategy.getNbParameters(); i++) {
+        for (int i=1; i<=strategy.getLimit(); i++) {
             append("[param").append(i);
-            if (i < strategy.getNbParameters()) {
+            if (i < strategy.getLimit()) {
                 append(" ");
             }
         }
 
-        for (int i=1; i<=strategy.getNbParameters(); i++) {
+        for (int i=1; i<=strategy.getLimit(); i++) {
             append("]");
         }
 

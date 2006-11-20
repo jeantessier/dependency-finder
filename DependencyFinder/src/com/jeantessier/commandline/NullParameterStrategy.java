@@ -32,20 +32,23 @@
 
 package com.jeantessier.commandline;
 
+import java.util.*;
+
 /**
  *  The command-line cannot include any parameters or the framework will
  *  find the command-line invalid.
  */
 public class NullParameterStrategy implements ParameterStrategy {
-    private boolean satisfied = true;
+    public int accept(String param) throws CommandLineException {
+        throw new CommandLineException("No parameters allowed.");
+    }
 
-    public boolean accept(String param) {
-        satisfied = false;
-        return false;
+    public List<String> getParameters() {
+        return Collections.EMPTY_LIST;
     }
 
     public boolean isSatisfied() {
-        return satisfied;
+        return true;
     }
 
     public void accept(Visitor visitor) {

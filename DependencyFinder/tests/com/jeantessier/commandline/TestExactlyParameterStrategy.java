@@ -34,19 +34,35 @@ package com.jeantessier.commandline;
 
 import junit.framework.*;
 
-public class TestAll extends TestCase {
-    public static Test suite() {
-        TestSuite result = new TestSuite();
+public class TestExactlyParameterStrategy extends TestCase {
+    private ParameterStrategy strategy;
 
-        result.addTestSuite(TestNullParameterStrategy.class);
-        result.addTestSuite(TestCollectingParameterStrategy.class);
-        result.addTestSuite(TestAtLeastParameterStrategy.class);
-        result.addTestSuite(TestExactlyParameterStrategy.class);
-        result.addTestSuite(TestAtMostParameterStrategy.class);
-        result.addTestSuite(TestCommandLine.class);
-        result.addTestSuite(TestCommandLineUsage.class);
-        result.addTestSuite(TestTextPrinter.class);
+    protected void setUp() throws Exception {
+        super.setUp();
 
-        return result;
+        strategy = new ExactlyParameterStrategy(2);
+    }
+
+    public void testAccept() throws CommandLineException {
+        assertEquals(1, strategy.accept("value"));
+    }
+
+    public void testOverload() throws CommandLineException {
+        strategy.accept("value1");
+        strategy.accept("value2");
+        try {
+            strategy.accept("value3");
+            fail("Strategy accepted too many values");
+        } catch (CommandLineException ex) {
+            // Expected
+        }
+    }
+
+    public void testIsSatisfied() throws CommandLineException {
+        assertFalse(strategy.isSatisfied());
+        strategy.accept("value1");
+        assertFalse(strategy.isSatisfied());
+        strategy.accept("value2");
+        assertTrue(strategy.isSatisfied());
     }
 }

@@ -37,14 +37,20 @@ import java.io.*;
 import junit.framework.*;
 
 public class TestTextPrinter extends TestCase {
+    private CommandLine commandLine;
+    private TextPrinter printer;
+
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        commandLine = new CommandLine(false);
+        printer = new TextPrinter(getName());
+    }
+
     public void testNoArgs() throws CommandLineException, IOException {
-        CommandLine commandLine = new CommandLine();
         commandLine.addToggleSwitch("switch1");
         commandLine.addToggleSwitch("switch2");
-
         commandLine.parse(new String[0]);
-
-        Printer printer = new TextPrinter(getName());
         commandLine.accept(printer);
 
         BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
@@ -54,13 +60,9 @@ public class TestTextPrinter extends TestCase {
     }
 
     public void testPartialSwitches() throws CommandLineException, IOException {
-        CommandLine commandLine = new CommandLine();
         commandLine.addToggleSwitch("switch1");
         commandLine.addToggleSwitch("switch2");
-
         commandLine.parse(new String[] {"-switch1"});
-
-        Printer printer = new TextPrinter(getName());
         commandLine.accept(printer);
 
         BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
@@ -71,12 +73,8 @@ public class TestTextPrinter extends TestCase {
     }
 
     public void testToggleSwitch() throws CommandLineException, IOException {
-        CommandLine commandLine = new CommandLine();
         commandLine.addToggleSwitch("switch1");
-
         commandLine.parse(new String[] {"-switch1"});
-
-        Printer printer = new TextPrinter(getName());
         commandLine.accept(printer);
 
         BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
@@ -87,12 +85,8 @@ public class TestTextPrinter extends TestCase {
     }
 
     public void testSingleValueSwitch() throws CommandLineException, IOException {
-        CommandLine commandLine = new CommandLine();
         commandLine.addSingleValueSwitch("switch1");
-
         commandLine.parse(new String[] {"-switch1", "value"});
-
-        Printer printer = new TextPrinter(getName());
         commandLine.accept(printer);
 
         BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
@@ -103,12 +97,8 @@ public class TestTextPrinter extends TestCase {
     }
 
     public void testOptionalValueSwitchWithNoValue() throws CommandLineException, IOException {
-        CommandLine commandLine = new CommandLine();
         commandLine.addOptionalValueSwitch("switch1");
-
         commandLine.parse(new String[] {"-switch1"});
-
-        Printer printer = new TextPrinter(getName());
         commandLine.accept(printer);
 
         BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
@@ -119,12 +109,8 @@ public class TestTextPrinter extends TestCase {
     }
 
     public void testOptionalValueSwitchWithOneValue() throws CommandLineException, IOException {
-        CommandLine commandLine = new CommandLine();
         commandLine.addOptionalValueSwitch("switch1");
-
         commandLine.parse(new String[] {"-switch1", "value"});
-
-        Printer printer = new TextPrinter(getName());
         commandLine.accept(printer);
 
         BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
@@ -135,12 +121,8 @@ public class TestTextPrinter extends TestCase {
     }
 
     public void testMultipleValuesSwitchWithOneValue() throws CommandLineException, IOException {
-        CommandLine commandLine = new CommandLine();
         commandLine.addMultipleValuesSwitch("switch1");
-
         commandLine.parse(new String[] {"-switch1", "value"});
-
-        Printer printer = new TextPrinter(getName());
         commandLine.accept(printer);
 
         BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
@@ -151,12 +133,8 @@ public class TestTextPrinter extends TestCase {
     }
 
     public void testMultipleValuesSwitchWithMultipleValues() throws CommandLineException, IOException {
-        CommandLine commandLine = new CommandLine();
         commandLine.addMultipleValuesSwitch("switch1");
-
         commandLine.parse(new String[] {"-switch1", "value1", "-switch1", "value2"});
-
-        Printer printer = new TextPrinter(getName());
         commandLine.accept(printer);
 
         BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
@@ -168,17 +146,48 @@ public class TestTextPrinter extends TestCase {
     }
 
     public void testUnknownSwitch() throws CommandLineException, IOException {
-        CommandLine commandLine = new CommandLine(false);
-
         commandLine.parse(new String[] {"-switch1"});
-
-        Printer printer = new TextPrinter(getName());
         commandLine.accept(printer);
 
         BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
         int i = 1;
         assertEquals("line " + i++, getName(), in.readLine());
         assertEquals("line " + i++, "    -switch1", in.readLine());
+        assertEquals("line " + i++, null, in.readLine());
+    }
+
+    public void testOneParameter() throws CommandLineException, IOException {
+        commandLine.parse(new String[] {"param"});
+        commandLine.accept(printer);
+
+        BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
+        int i = 1;
+        assertEquals("line " + i++, getName(), in.readLine());
+        assertEquals("line " + i++, "    param", in.readLine());
+        assertEquals("line " + i++, null, in.readLine());
+    }
+
+    public void testMultipleParameter() throws CommandLineException, IOException {
+        commandLine.parse(new String[] {"param1", "param2"});
+        commandLine.accept(printer);
+
+        BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
+        int i = 1;
+        assertEquals("line " + i++, getName(), in.readLine());
+        assertEquals("line " + i++, "    param1", in.readLine());
+        assertEquals("line " + i++, "    param2", in.readLine());
+        assertEquals("line " + i++, null, in.readLine());
+    }
+
+    public void testSingleValueSwitchAndParameter() throws CommandLineException, IOException {
+        commandLine.parse(new String[] {"-switch", "value", "param"});
+        commandLine.accept(printer);
+
+        BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
+        int i = 1;
+        assertEquals("line " + i++, getName(), in.readLine());
+        assertEquals("line " + i++, "    -switch value", in.readLine());
+        assertEquals("line " + i++, "    param", in.readLine());
         assertEquals("line " + i++, null, in.readLine());
     }
 }

@@ -36,32 +36,21 @@ package com.jeantessier.commandline;
  *  The command-line can include at most a certain number of parameters or
  *  the framework will find the command-line invalid.
  */
-public class AtMostParameterStrategy implements CountingParameterStrategy {
-    private int nbParameters;
-    private int count;
-
-    public AtMostParameterStrategy(int nbParameters) {
-        this.nbParameters = nbParameters;
-
-        this.count = 0;
+public class AtMostParameterStrategy extends LimitedCollectingParameterStrategy {
+    public AtMostParameterStrategy(int limit) {
+        super(limit);
     }
 
-    public boolean accept(String param) {
-        count++;
-
-        return count <= nbParameters;
+    public int accept(String param) throws CommandLineException {
+        if (getParameters().size() < getLimit()) {
+            return super.accept(param);
+        } else {
+            throw new CommandLineException("Exceeding " + getLimit() + " parameter(s).");
+        }
     }
 
     public boolean isSatisfied() {
-        return count <= nbParameters;
-    }
-
-    public int getNbParameters() {
-        return nbParameters;
-    }
-
-    public int getCount() {
-        return count;
+        return getParameters().size() <= getLimit();
     }
 
     public void accept(Visitor visitor) {
