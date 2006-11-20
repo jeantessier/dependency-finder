@@ -67,8 +67,8 @@ public class CodeDependencyCollector extends CollectorBase {
         return factory;
     }
 
-    public Collection getCollection() {
-        return getFactory().getPackages().values();
+    public Collection<String> getCollection() {
+        return getFactory().getPackages().keySet();
     }
 
     public void visitClassfile(Classfile classfile) {
