@@ -46,72 +46,79 @@ public class DependencyExtractor {
     public static final String DEFAULT_FILTER_INCLUDES = "//";
     public static final String DEFAULT_LOGFILE = "System.out";
 
-    public static void showError(CommandLineUsage clu, String msg) {
-        System.err.println(msg);
-        showError(clu);
+    private CommandLine commandLine = new CommandLine();
+
+    public DependencyExtractor() {
+        getCommandLine().addMultipleValuesSwitch("filter-includes",         DEFAULT_FILTER_INCLUDES);
+        getCommandLine().addMultipleValuesSwitch("filter-excludes");
+        getCommandLine().addToggleSwitch("package-filter");
+        getCommandLine().addMultipleValuesSwitch("package-filter-includes");
+        getCommandLine().addMultipleValuesSwitch("package-filter-excludes");
+        getCommandLine().addToggleSwitch("class-filter");
+        getCommandLine().addMultipleValuesSwitch("class-filter-includes");
+        getCommandLine().addMultipleValuesSwitch("class-filter-excludes");
+        getCommandLine().addToggleSwitch("feature-filter");
+        getCommandLine().addMultipleValuesSwitch("feature-filter-includes");
+        getCommandLine().addMultipleValuesSwitch("feature-filter-excludes");
+
+        getCommandLine().addMultipleValuesSwitch("filter-includes-list");
+        getCommandLine().addMultipleValuesSwitch("filter-excludes-list");
+
+        getCommandLine().addToggleSwitch("xml");
+        getCommandLine().addToggleSwitch("maximize");
+        getCommandLine().addToggleSwitch("minimize");
+        getCommandLine().addSingleValueSwitch("encoding",    com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING);
+        getCommandLine().addSingleValueSwitch("dtd-prefix",  com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX);
+        getCommandLine().addSingleValueSwitch("indent-text");
+        getCommandLine().addToggleSwitch("time");
+        getCommandLine().addSingleValueSwitch("out");
+        getCommandLine().addToggleSwitch("help");
+        getCommandLine().addOptionalValueSwitch("verbose",   DEFAULT_LOGFILE);
+        getCommandLine().addToggleSwitch("version");
     }
 
-    public static void showError(CommandLineUsage clu) {
-        System.err.println(clu);
-        System.err.println();
-        System.err.println("If no files are specified, it processes the current directory.");
-        System.err.println();
-        System.err.println("If file is a directory, it is recusively scanned for files");
-        System.err.println("ending in \".class\".");
-        System.err.println();
-        System.err.println("Defaults is text output to the console.");
-        System.err.println();
+    public void showError(CommandLineUsage clu, String msg, PrintStream out) {
+        out.println(msg);
+        showError(clu, out);
     }
 
-    public static void showVersion() {
+    public void showError(CommandLineUsage clu, PrintStream out) {
+        out.println(clu);
+        out.println();
+        out.println("If no files are specified, it processes the current directory.");
+        out.println();
+        out.println("If file is a directory, it is recusively scanned for files");
+        out.println("ending in \".class\".");
+        out.println();
+        out.println("Defaults is text output to the console.");
+        out.println();
+    }
+
+    public void showVersion(PrintStream out) {
         Version version = new Version();
         
-        System.err.print(version.getImplementationTitle());
-        System.err.print(" ");
-        System.err.print(version.getImplementationVersion());
-        System.err.print(" (c) ");
-        System.err.print(version.getCopyrightDate());
-        System.err.print(" ");
-        System.err.print(version.getCopyrightHolder());
-        System.err.println();
+        out.print(version.getImplementationTitle());
+        out.print(" ");
+        out.print(version.getImplementationVersion());
+        out.print(" (c) ");
+        out.print(version.getCopyrightDate());
+        out.print(" ");
+        out.print(version.getCopyrightHolder());
+        out.println();
         
-        System.err.print(version.getImplementationURL());
-        System.err.println();
+        out.print(version.getImplementationURL());
+        out.println();
         
-        System.err.print("Compiled on ");
-        System.err.print(version.getImplementationDate());
-        System.err.println();
+        out.print("Compiled on ");
+        out.print(version.getImplementationDate());
+        out.println();
     }
 
     public static void main(String[] args) throws Exception {
+        DependencyExtractor command = new DependencyExtractor();
+
         // Parsing the command line
-        CommandLine commandLine = new CommandLine();
-        commandLine.addMultipleValuesSwitch("filter-includes",         DEFAULT_FILTER_INCLUDES);
-        commandLine.addMultipleValuesSwitch("filter-excludes");
-        commandLine.addToggleSwitch("package-filter");
-        commandLine.addMultipleValuesSwitch("package-filter-includes");
-        commandLine.addMultipleValuesSwitch("package-filter-excludes");
-        commandLine.addToggleSwitch("class-filter");
-        commandLine.addMultipleValuesSwitch("class-filter-includes");
-        commandLine.addMultipleValuesSwitch("class-filter-excludes");
-        commandLine.addToggleSwitch("feature-filter");
-        commandLine.addMultipleValuesSwitch("feature-filter-includes");
-        commandLine.addMultipleValuesSwitch("feature-filter-excludes");
-
-        commandLine.addMultipleValuesSwitch("filter-includes-list");
-        commandLine.addMultipleValuesSwitch("filter-excludes-list");
-
-        commandLine.addToggleSwitch("xml");
-        commandLine.addToggleSwitch("maximize");
-        commandLine.addToggleSwitch("minimize");
-        commandLine.addSingleValueSwitch("encoding",    com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING);
-        commandLine.addSingleValueSwitch("dtd-prefix",  com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX);
-        commandLine.addSingleValueSwitch("indent-text");
-        commandLine.addToggleSwitch("time");
-        commandLine.addSingleValueSwitch("out");
-        commandLine.addToggleSwitch("help");
-        commandLine.addOptionalValueSwitch("verbose",   DEFAULT_LOGFILE);
-        commandLine.addToggleSwitch("version");
+        CommandLine commandLine = command.getCommandLine();
 
         CommandLineUsage usage = new CommandLineUsage("DependencyExtractor");
         commandLine.accept(usage);
@@ -119,19 +126,19 @@ public class DependencyExtractor {
         try {
             commandLine.parse(args);
         } catch (IllegalArgumentException ex) {
-            showError(usage, ex.toString());
+            command.showError(usage, ex.toString(), System.err);
             System.exit(1);
         } catch (CommandLineException ex) {
-            showError(usage, ex.toString());
+            command.showError(usage, ex.toString(), System.err);
             System.exit(1);
         }
 
         if (commandLine.getToggleSwitch("help")) {
-            showError(usage);
+            command.showError(usage, System.err);
         }
         
         if (commandLine.getToggleSwitch("version")) {
-            showVersion();
+            command.showVersion(System.err);
         }
 
         if (commandLine.getToggleSwitch("help") || commandLine.getToggleSwitch("version")) {
@@ -294,5 +301,9 @@ public class DependencyExtractor {
         }
 
         return result;
+    }
+
+    public CommandLine getCommandLine() {
+        return commandLine;
     }
 }

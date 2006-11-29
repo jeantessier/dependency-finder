@@ -202,6 +202,10 @@ public class CommandLine implements Visitable {
         return map.keySet();
     }
 
+    public Collection<CommandLineSwitch> getSwitches() {
+        return map.values();
+    }
+
     public Set<String> getPresentSwitches() {
         Set<String> result = new TreeSet<String>();
 
