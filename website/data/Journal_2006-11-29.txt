@@ -1,0 +1,2 @@
+Better use of the facilities in FitLibrary to minimize the amount of fixture
+code and maximize reuse.

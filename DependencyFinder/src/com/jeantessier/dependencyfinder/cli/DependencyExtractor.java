@@ -42,11 +42,9 @@ import com.jeantessier.commandline.*;
 import com.jeantessier.dependency.*;
 import com.jeantessier.dependencyfinder.*;
 
-public class DependencyExtractor {
+public class DependencyExtractor extends Command {
     public static final String DEFAULT_FILTER_INCLUDES = "//";
     public static final String DEFAULT_LOGFILE = "System.out";
-
-    private CommandLine commandLine = new CommandLine();
 
     public DependencyExtractor() {
         getCommandLine().addMultipleValuesSwitch("filter-includes",         DEFAULT_FILTER_INCLUDES);
@@ -303,7 +301,4 @@ public class DependencyExtractor {
         return result;
     }
 
-    public CommandLine getCommandLine() {
-        return commandLine;
-    }
 }
