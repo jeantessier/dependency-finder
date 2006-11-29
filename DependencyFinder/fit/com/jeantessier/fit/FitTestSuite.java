@@ -62,7 +62,9 @@ public class FitTestSuite extends TestSuite {
 
         suite.addTest(new FitTestSuite("classreader"));
         suite.addTest(new FitTestSuite("dependency"));
+        suite.addTest(new FitTestSuite("dependency" + File.separator + "closure"));
         suite.addTest(new FitTestSuite("dependency" + File.separator + "cycles"));
+        suite.addTest(new FitTestSuite("dependencyfinder" + File.separator + "cli"));
         suite.addTest(new FitTestSuite("metrics"));
 
         return suite;
