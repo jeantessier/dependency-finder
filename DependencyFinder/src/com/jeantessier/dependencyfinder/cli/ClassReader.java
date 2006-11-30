@@ -38,135 +38,49 @@ import java.util.*;
 import com.jeantessier.classreader.*;
 import com.jeantessier.classreader.Printer;
 import com.jeantessier.classreader.TextPrinter;
-import com.jeantessier.commandline.*;
-import com.jeantessier.dependencyfinder.*;
 
-public class ClassReader {
-    public static final String DEFAULT_LOGFILE = "System.out";
-
-    public static void showError(CommandLineUsage clu, String msg) {
-        System.err.println(msg);
-        showError(clu);
+public class ClassReader extends Command {
+    public ClassReader() {
+        super("ClassReader");
     }
 
-    public static void showError(CommandLineUsage clu) {
-        System.err.println(clu);
-        System.err.println();
-        System.err.println("If no files are specified, it processes the current directory.");
-        System.err.println();
+    protected void populateCommandLineSwitches() {
+        super.populateCommandLineSwitches();
+        populateCommandLineSwitchesForXMLOutput(XMLPrinter.DEFAULT_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
     }
 
-    public static void showVersion() {
-        Version version = new Version();
-        
-        System.err.print(version.getImplementationTitle());
-        System.err.print(" ");
-        System.err.print(version.getImplementationVersion());
-        System.err.print(" (c) ");
-        System.err.print(version.getCopyrightDate());
-        System.err.print(" ");
-        System.err.print(version.getCopyrightHolder());
-        System.err.println();
-        
-        System.err.print(version.getImplementationURL());
-        System.err.println();
-        
-        System.err.print("Compiled on ");
-        System.err.print(version.getImplementationDate());
-        System.err.println();
+    public void showSpecificUsage(PrintStream out) {
+        out.println();
+        out.println("If no files are specified, it processes the current directory.");
+        out.println();
     }
 
-    public static void main(String[] args) throws Exception {
-        // Parsing the command line
-        CommandLine commandLine = new CommandLine(new AtLeastParameterStrategy(1));
-        commandLine.addToggleSwitch("xml");
-        commandLine.addSingleValueSwitch("encoding",   XMLPrinter.DEFAULT_ENCODING);
-        commandLine.addSingleValueSwitch("dtd-prefix", XMLPrinter.DEFAULT_DTD_PREFIX);
-        commandLine.addSingleValueSwitch("indent-text");
-        commandLine.addToggleSwitch("time");
-        commandLine.addSingleValueSwitch("out");
-        commandLine.addToggleSwitch("help");
-        commandLine.addOptionalValueSwitch("verbose", DEFAULT_LOGFILE);
-        commandLine.addToggleSwitch("version");
-
-        CommandLineUsage usage = new CommandLineUsage("ClassReader");
-        commandLine.accept(usage);
-
-        try {
-            commandLine.parse(args);
-        } catch (IllegalArgumentException ex) {
-            showError(usage, ex.toString());
-            System.exit(1);
-        } catch (CommandLineException ex) {
-            showError(usage, ex.toString());
-            System.exit(1);
-        }
-
-        if (commandLine.getToggleSwitch("help")) {
-            showError(usage);
-        }
-        
-        if (commandLine.getToggleSwitch("version")) {
-            showVersion();
-        }
-
-        if (commandLine.getToggleSwitch("help") || commandLine.getToggleSwitch("version")) {
-            System.exit(1);
-        }
-
-        VerboseListener verboseListener = new VerboseListener();
-        if (commandLine.isPresent("verbose")) {
-            if ("System.out".equals(commandLine.getOptionalSwitch("verbose"))) {
-                verboseListener.setWriter(System.out);
-            } else {
-                verboseListener.setWriter(new FileWriter(commandLine.getOptionalSwitch("verbose")));
-            }
-        }
-
-        /*
-         *  Beginning of main processing
-         */
-
-        Date start = new Date();
-
-        List<String> parameters = commandLine.getParameters();
+    protected void doProcessing() throws IOException {
+        List<String> parameters = getCommandLine().getParameters();
         if (parameters.size() == 0) {
             parameters.add(".");
         }
 
-        PrintWriter out;
-        if (commandLine.isPresent("out")) {
-            out = new PrintWriter(new FileWriter(commandLine.getSingleSwitch("out")));
-        } else {
-            out = new PrintWriter(new OutputStreamWriter(System.out));
-        }
-
         ClassfileLoader loader = new AggregatingClassfileLoader();
-        loader.addLoadListener(verboseListener);
+        loader.addLoadListener(getVerboseListener());
         loader.load(parameters);
 
         Printer printer;
         
-        if (commandLine.getToggleSwitch("xml")) {
-            printer = new XMLPrinter(out, commandLine.getSingleSwitch("encoding"), commandLine.getSingleSwitch("dtd-prefix"));
+        if (getCommandLine().getToggleSwitch("xml")) {
+            printer = new XMLPrinter(out, getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
         } else {
             printer = new TextPrinter(out);
         }
-        
-        if (commandLine.isPresent("indent-text")) {
-            printer.setIndentText(commandLine.getSingleSwitch("indent-text"));
+
+        if (getCommandLine().isPresent("indent-text")) {
+            printer.setIndentText(getCommandLine().getSingleSwitch("indent-text"));
         }
 
         printer.visitClassfiles(loader.getAllClassfiles());
+    }
 
-        Date end = new Date();
-
-        if (commandLine.getToggleSwitch("time")) {
-            System.err.println(ClassReader.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
-        }
-
-        out.close();
-
-        verboseListener.close();
+    public static void main(String[] args) throws Exception {
+        new ClassReader().run(args);
     }
 }
