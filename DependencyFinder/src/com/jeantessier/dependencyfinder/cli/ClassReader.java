@@ -47,6 +47,8 @@ public class ClassReader extends Command {
     protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
         populateCommandLineSwitchesForXMLOutput(XMLPrinter.DEFAULT_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
+
+        getCommandLine().addToggleSwitch("xml");
     }
 
     public void showSpecificUsage(PrintStream out) {
@@ -66,7 +68,7 @@ public class ClassReader extends Command {
         loader.load(parameters);
 
         Printer printer;
-        
+
         if (getCommandLine().getToggleSwitch("xml")) {
             printer = new XMLPrinter(out, getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
         } else {

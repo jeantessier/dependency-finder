@@ -1,0 +1,4 @@
+Fixed test for =ClassClassDiff=.  Had to move =-xml= switch out of =Command=
+and back into =ClassReader= and =DependencyExtractor= to account for tools that
+will not support multiple output formats, namely =ClassClassDiff= and
+=JarJarDiff= that only output XML.

@@ -50,6 +50,8 @@ public class DependencyExtractor extends Command {
 
         getCommandLine().addToggleSwitch("maximize");
         getCommandLine().addToggleSwitch("minimize");
+
+        getCommandLine().addToggleSwitch("xml");
     }
 
     protected void showSpecificUsage(PrintStream out) {

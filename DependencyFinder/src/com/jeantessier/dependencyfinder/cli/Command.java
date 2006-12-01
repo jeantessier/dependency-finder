@@ -51,7 +51,6 @@ public abstract class Command {
     }
 
     protected void populateCommandLineSwitchesForXMLOutput(String defaultEncoding, String defaultDTDPrefix) {
-        getCommandLine().addToggleSwitch("xml");
         getCommandLine().addSingleValueSwitch("encoding", defaultEncoding);
         getCommandLine().addSingleValueSwitch("dtd-prefix", defaultDTDPrefix);
         getCommandLine().addSingleValueSwitch("indent-text");
