@@ -1,0 +1,5 @@
+Tried to run the code coverage analysis with
+[[http://jcoverage.com][jcoverage]], but my version (1.0.5) does not generate
+valid Java 5 code when it instruments the code.  I was not able to find a more
+recent version; the jcoverage website only mentions Eclipse plugins.  I am
+going to try using [[http://emma.sourceforge.net][Emma]] instead.
