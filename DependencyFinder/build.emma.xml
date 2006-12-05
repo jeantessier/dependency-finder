@@ -1,0 +1,120 @@
+<project name="emma" default="run" basedir=".">
+
+    <property environment="env"/>
+
+    <path id="emma.lib" >
+        <fileset dir="${env.EMMA_HOME}/lib">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <taskdef resource="emma_ant.properties" classpathref="emma.lib"/>
+
+    <target name="emma" description="turns on EMMA instrumentation/reporting">
+        <property name="emma.enabled" value="true"/>
+        <!-- EMMA instr class output directory: -->
+        <property name="out.instr.dir" value="outinstr"/>
+        <mkdir dir="${out.instr.dir}"/>
+    </target>
+
+    <target name="init">
+
+        <!-- root directory for the example source code: -->
+        <property name="src.dir" value="src"/>
+        <property name="tests.dir" value="tests"/>
+
+        <!-- javac class output directory: -->
+        <property name="out.dir" value="classes"/>
+        <mkdir dir="${out.dir}"/>
+
+        <!-- javac class output directory: -->
+        <property name="coverage.dir" value="emma"/>
+        <mkdir dir="${coverage.dir}"/>
+
+        <path id="run.classpath">
+            <pathelement location="${out.dir}"/>
+            <pathelement location="classes"/>
+            <fileset dir="lib">
+                <include name="**/*.jar"/>
+            </fileset>
+            <pathelement location="${env.JUNIT_HOME}/junit.jar"/>
+            <fileset dir="${env.CATALINA_HOME}/bin">
+                <include name="**/commons-*.jar"/>
+            </fileset>
+            <fileset dir="${env.CATALINA_HOME}/common/lib">
+                <include name="**/*.jar"/>
+            </fileset>
+            <fileset dir="${env.CATALINA_HOME}/server/lib">
+                <include name="**/*.jar"/>
+            </fileset>
+            <pathelement location="${env.WEBWORK_HOME}/webwork-2.2.4.jar"/>
+            <fileset dir="${env.WEBWORK_HOME}/lib/default">
+                <include name="**/*.jar"/>
+            </fileset>
+            <pathelement location="${env.FITLIBRARY_HOME}/fitlibraryRunner.jar"/>
+            <fileset dir="${env.HTTPUNIT_HOME}/jars">
+                <include name="**/*.jar"/>
+            </fileset>
+            <fileset dir="${env.HTTPUNIT_HOME}/lib">
+                <include name="**/*.jar"/>
+            </fileset>
+        </path>
+    </target>
+
+    <target name="instrument" depends="init">
+        <emma enabled="${emma.enabled}">
+            <instr instrpath="${out.dir}"
+                   destdir="${out.instr.dir}"
+                   metadatafile="${coverage.dir}/metadata.emma"
+                   merge="true"/>
+        </emma>
+    </target>
+
+    <target name="run" depends="init" description="runs the examples">
+        <junit fork="true">
+            <formatter type="plain" usefile="no"/>
+            <test name="TestAll"/>
+            <classpath>
+                <pathelement location="${out.instr.dir}"/>
+                <path refid="run.classpath"/>
+                <path refid="emma.lib"/>
+            </classpath>
+            <jvmarg value="-Demma.coverage.out.file=${coverage.dir}/coverage.emma"/>
+            <jvmarg value="-Demma.coverage.out.merge=true"/>
+        </junit>
+
+        <junit fork="true">
+            <formatter type="plain" usefile="no"/>
+            <test name="com.jeantessier.fitlibrary.TestAll"/>
+            <classpath>
+                <pathelement location="${out.instr.dir}"/>
+                <path refid="run.classpath"/>
+                <path refid="emma.lib"/>
+            </classpath>
+            <jvmarg value="-Demma.coverage.out.file=${coverage.dir}/coverage.emma"/>
+            <jvmarg value="-Demma.coverage.out.merge=true"/>
+        </junit>
+    </target>
+
+    <target name="report" depends="init">
+        <emma enabled="${emma.enabled}">
+            <report>
+                <fileset dir="${coverage.dir}">
+                    <include name="*.emma"/>
+                </fileset>
+                <sourcepath>
+                    <pathelement location="${src.dir}"/>
+                    <pathelement location="${tests.dir}"/>
+                </sourcepath>
+                <txt outfile="${coverage.dir}/coverage.txt"/>
+                <html outfile="${coverage.dir}/coverage.html"/>
+            </report>
+        </emma>
+    </target>
+
+    <target name="realclean">
+        <delete dir="${out.instr.dir}"/>
+        <delete dir="${coverage.dir}"/>
+    </target>
+
+</project>

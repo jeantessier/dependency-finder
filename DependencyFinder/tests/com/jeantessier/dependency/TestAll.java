@@ -58,6 +58,7 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestTextPrinter.class);
         result.addTestSuite(TestHTMLPrinter.class);
         result.addTestSuite(TestXMLPrinter.class);
+        result.addTestSuite(TestNodeNamePrinter.class);
         result.addTestSuite(TestNodeHandler.class);
         result.addTestSuite(TestNodeLoader.class);
         result.addTestSuite(TestCodeDependencyCollector.class);
@@ -83,6 +84,7 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestClosureStartSelector.class);
         result.addTestSuite(TestClosureOutboundSelector.class);
         result.addTestSuite(TestClosureInboundSelector.class);
+        result.addTestSuite(TestClosureStopSelector.class);
         result.addTestSuite(TestTransitiveClosureEngine.class);
         result.addTestSuite(TestMetricsGatherer.class);
 

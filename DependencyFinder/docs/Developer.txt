@@ -1085,4 +1085,23 @@ To publish the results:
     1 Use =ssh= to login to SourceForge
     1 extract the archive in the root of the website
 
+---++++ Emma
+
+You can use [[http://emma.sourceforge.net/][Emma]] and the build file in
+=build.emma.xml=.
+
+    1 =ant realclean compiletests=
+    1 =ant -f build.emma.xml realclean=
+    1 =ant -f build.emma.xml emma instrumentation=
+    1 =ant tests=
+    1 =ant -f build.emma.xml run=
+    1 =ant -f build.emma.xml report=
+
+To publish the results:
+
+    1 archive the =emma= directory
+    1 Use =scp= to transfer the archive to SourceForge
+    1 Use =ssh= to login to SourceForge
+    1 extract the archive in the root of the website
+
 ----
