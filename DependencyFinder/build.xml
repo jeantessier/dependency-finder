@@ -11,41 +11,66 @@
     <property environment="env"/>
 
     <property file="tomcat.properties"/>
+    <path id="classpath.tomcat">
+        <fileset dir="${tomcat.home}/bin">
+            <include name="**/commons-*.jar"/>
+        </fileset>
+        <fileset dir="${tomcat.home}/common/lib">
+            <include name="**/*.jar"/>
+        </fileset>
+        <fileset dir="${tomcat.home}/server/lib">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
     <taskdef resource="org/apache/catalina/ant/catalina.tasks">
-        <classpath>
-            <fileset dir="${tomcat.home}/bin">
-                <include name="**/commons-*.jar"/>
-            </fileset>
-            <fileset dir="${tomcat.home}/common/lib">
-                <include name="**/*.jar"/>
-            </fileset>
-            <fileset dir="${tomcat.home}/server/lib">
-                <include name="**/*.jar"/>
-            </fileset>
-        </classpath>
+        <classpath refid="classpath.tomcat"/>
     </taskdef>
 
     <property file="cvs.properties"/>
 
-    <path id="libs">
+    <path id="classpath.dependencyfinder">
+        <pathelement location="classes"/>
         <fileset dir="lib">
             <include name="**/*.jar"/>
         </fileset>
-        <pathelement location="classes"/>
+    </path>
+
+    <path id="classpath.junit">
         <pathelement location="${env.JUNIT_HOME}/junit.jar"/>
+    </path>
+
+    <path id="classpath.servlet">
         <pathelement location="${tomcat.home}/common/lib/servlet-api.jar"/>
         <pathelement location="${tomcat.home}/common/lib/jsp-api.jar"/>
+    </path>
+
+    <path id="classpath.webwork">
         <pathelement location="${env.WEBWORK_HOME}/webwork-2.2.4.jar"/>
         <fileset dir="${env.WEBWORK_HOME}/lib/default">
             <include name="**/*.jar"/>
         </fileset>
+    </path>
+
+    <path id="classpath.fitlibrary">
         <pathelement location="${env.FITLIBRARY_HOME}/fitlibraryRunner.jar"/>
+    </path>
+
+    <path id="classpath.httpunit">
         <fileset dir="${env.HTTPUNIT_HOME}/jars">
             <include name="**/*.jar"/>
         </fileset>
         <fileset dir="${env.HTTPUNIT_HOME}/lib">
             <include name="**/*.jar"/>
         </fileset>
+    </path>
+
+    <path id="libs">
+        <path refid="classpath.dependencyfinder"/>
+        <path refid="classpath.junit"/>
+        <path refid="classpath.servlet"/>
+        <path refid="classpath.webwork"/>
+        <path refid="classpath.fitlibrary"/>
+        <path refid="classpath.httpunit"/>
     </path>
 
     <target name="init">
@@ -100,7 +125,11 @@
             description="Compiles all classes">
         <javac destdir="${classesDir}" debug="on">
             <src path="${srcDir}"/>
-            <classpath refid="libs"/>
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.servlet"/>
+                <path refid="classpath.webwork"/>
+            </classpath>
             <patternset refid="all.sources"/>
         </javac>
     </target>
@@ -109,14 +138,22 @@
             description="Compiles all classes and JUnit tests with debug flags (default)">
         <javac destdir="${classesDir}" debug="on">
             <src path="${testsDir}"/>
-            <classpath refid="libs"/>
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.junit"/>
+                <path refid="classpath.webwork"/>
+                <path refid="classpath.httpunit"/>
+            </classpath>
             <patternset refid="all.sources"/>
 	        <exclude name="JarJarDiff/**"/>
 	        <exclude name="Metrics/**"/>
         </javac>
         <javac destdir="${classesDir}" debug="on">
             <src path="${fitDir}"/>
-            <classpath refid="libs"/>
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.fitlibrary"/>
+            </classpath>
             <patternset refid="all.sources"/>
         </javac>
     </target>
@@ -150,15 +187,32 @@
     <target name="deprecation" depends="init">
         <javac destdir="${classesDir}" deprecation="yes">
             <src path="${srcDir}"/>
-            <classpath refid="libs"/>
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.servlet"/>
+                <path refid="classpath.webwork"/>
+            </classpath>
             <patternset refid="all.sources"/>
         </javac>
         <javac destdir="${classesDir}" deprecation="yes">
             <src path="${testsDir}"/>
-            <classpath refid="libs"/>
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.junit"/>
+                <path refid="classpath.webwork"/>
+                <path refid="classpath.httpunit"/>
+            </classpath>
             <patternset refid="all.sources"/>
-	    <exclude name="JarJarDiff/**"/>
-	    <exclude name="Metrics/**"/>
+            <exclude name="JarJarDiff/**"/>
+            <exclude name="Metrics/**"/>
+        </javac>
+        <javac destdir="${classesDir}" deprecation="yes">
+            <src path="${fitDir}"/>
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.fitlibrary"/>
+            </classpath>
+            <patternset refid="all.sources"/>
         </javac>
     </target>
 
@@ -344,18 +398,31 @@
         <mkdir dir="${reportsDir}"/>
         <junit>
             <classpath>
-                <path refid="libs"/>
-                <path location="${classesDir}"/>
+                <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.servlet"/>
+                <path refid="classpath.webwork"/>
+                <!--<path refid="classpath.httpunit"/>-->
             </classpath>
             <formatter type="xml"/>
             <batchtest todir="${reportsDir}">
                 <fileset dir="${testsDir}">
                     <include name="com/**/Test*.java"/>
-                    <exclude name="**/TestClassfileLoader.java"/>
-                    <exclude name="**/TestDifferencesFactoryBase.java"/>
                     <exclude name="**/TestAll.java"/>
+                    <exclude name="**/classreader/TestClassfileLoaderBase.java"/>
+                    <exclude name="**/dependency/TestHTMLPrinterBase.java"/>
+                    <exclude name="**/dependencyfinder/web/Test*Base.java"/>
+                    <exclude name="**/diff/TestDifferencesFactoryBase.java"/>
                 </fileset>
             </batchtest>
+        </junit>
+        <junit>
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.fitlibrary"/>
+            </classpath>
+            <formatter type="xml"/>
+            <!--<test todir="${reportsDir}" name="com.jeantessier.fitlibrary.TestAll"/>-->
+            <test todir="${reportsDir}" name="com.jeantessier.fit.FitTestSuite"/>
         </junit>
         <junitreport todir="${reportsDir}">
             <fileset dir="reports">
