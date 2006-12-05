@@ -36,7 +36,6 @@ import junit.framework.*;
 
 public class TestNullSelectionCriteria extends TestCase {
     private NullSelectionCriteria criteria;
-    private NodeFactory           factory;
 
     private PackageNode a;
     private ClassNode a_A;
@@ -52,7 +51,8 @@ public class TestNullSelectionCriteria extends TestCase {
 
     protected void setUp() throws Exception {
         criteria = new NullSelectionCriteria();
-        factory  = new NodeFactory();
+
+        NodeFactory factory = new NodeFactory();
 
         a     = factory.createPackage("a");
         a_A   = factory.createClass("a.A");
