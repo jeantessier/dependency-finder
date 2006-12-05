@@ -39,31 +39,31 @@ import junit.framework.*;
 
 import org.apache.log4j.*;
 
-public abstract class TestClassfileLoader extends TestCase implements LoadListener {
+public abstract class TestClassfileLoaderBase extends TestCase implements LoadListener {
     public static final String TEST_DIR = "tests" + File.separator + "JarJarDiff";
 
-    private LinkedList beginSessionEvents;
-    private LinkedList beginGroupEvents;
-    private LinkedList beginFileEvents;
-    private LinkedList beginClassfileEvents;
-    private LinkedList endClassfileEvents;
-    private LinkedList endFileEvents;
-    private LinkedList endGroupEvents;
-    private LinkedList endSessionEvents;
+    private LinkedList<LoadEvent> beginSessionEvents;
+    private LinkedList<LoadEvent> beginGroupEvents;
+    private LinkedList<LoadEvent> beginFileEvents;
+    private LinkedList<LoadEvent> beginClassfileEvents;
+    private LinkedList<LoadEvent> endClassfileEvents;
+    private LinkedList<LoadEvent> endFileEvents;
+    private LinkedList<LoadEvent> endGroupEvents;
+    private LinkedList<LoadEvent> endSessionEvents;
     
     protected void setUp() throws Exception {
         super.setUp();
         
         Logger.getLogger(getClass()).info("Starting test: " + getName());
 
-        beginSessionEvents   = new LinkedList();
-        beginGroupEvents     = new LinkedList();
-        beginFileEvents      = new LinkedList();
-        beginClassfileEvents = new LinkedList();
-        endClassfileEvents   = new LinkedList();
-        endFileEvents        = new LinkedList();
-        endGroupEvents       = new LinkedList();
-        endSessionEvents     = new LinkedList();
+        beginSessionEvents   = new LinkedList<LoadEvent>();
+        beginGroupEvents     = new LinkedList<LoadEvent>();
+        beginFileEvents      = new LinkedList<LoadEvent>();
+        beginClassfileEvents = new LinkedList<LoadEvent>();
+        endClassfileEvents   = new LinkedList<LoadEvent>();
+        endFileEvents        = new LinkedList<LoadEvent>();
+        endGroupEvents       = new LinkedList<LoadEvent>();
+        endSessionEvents     = new LinkedList<LoadEvent>();
     }
 
     protected void tearDown() throws Exception {
@@ -72,35 +72,35 @@ public abstract class TestClassfileLoader extends TestCase implements LoadListen
         super.tearDown();
     }
 
-    protected LinkedList getBeginSessionEvents() {
+    protected LinkedList<LoadEvent> getBeginSessionEvents() {
         return beginSessionEvents;
     }
 
-    protected LinkedList getBeginGroupEvents() {
+    protected LinkedList<LoadEvent> getBeginGroupEvents() {
         return beginGroupEvents;
     }
 
-    protected LinkedList getBeginFileEvents() {
+    protected LinkedList<LoadEvent> getBeginFileEvents() {
         return beginFileEvents;
     }
 
-    protected LinkedList getBeginClassfileEvents() {
+    protected LinkedList<LoadEvent> getBeginClassfileEvents() {
         return beginClassfileEvents;
     }
 
-    protected LinkedList getEndClassfileEvents() {
+    protected LinkedList<LoadEvent> getEndClassfileEvents() {
         return endClassfileEvents;
     }
 
-    protected LinkedList getEndFileEvents() {
+    protected LinkedList<LoadEvent> getEndFileEvents() {
         return endFileEvents;
     }
 
-    protected LinkedList getEndGroupEvents() {
+    protected LinkedList<LoadEvent> getEndGroupEvents() {
         return endGroupEvents;
     }
 
-    protected LinkedList getEndSessionEvents() {
+    protected LinkedList<LoadEvent> getEndSessionEvents() {
         return endSessionEvents;
     }
     

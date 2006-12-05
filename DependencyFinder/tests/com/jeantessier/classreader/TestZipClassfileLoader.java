@@ -33,11 +33,8 @@
 package com.jeantessier.classreader;
 
 import java.io.*;
-import java.util.*;
 
-import junit.framework.*;
-
-public class TestZipClassfileLoader extends TestClassfileLoader {
+public class TestZipClassfileLoader extends TestClassfileLoaderBase {
     private ClassfileLoader loader;
     
     protected void setUp() throws Exception {
@@ -63,7 +60,7 @@ public class TestZipClassfileLoader extends TestClassfileLoader {
         assertEquals("End Group",        1, getEndGroupEvents().size());
         assertEquals("End Session",      0, getEndSessionEvents().size());
 
-        assertEquals("Group size", 31, ((LoadEvent) getBeginGroupEvents().getFirst()).getSize());
+        assertEquals("Group size", 31, getBeginGroupEvents().getFirst().getSize());
     }
 
     public void testLoadFileWrongName() {
@@ -81,7 +78,7 @@ public class TestZipClassfileLoader extends TestClassfileLoader {
         assertEquals("End Group",        1, getEndGroupEvents().size());
         assertEquals("End Session",      0, getEndSessionEvents().size());
 
-        assertEquals("Group size", 31, ((LoadEvent) getBeginGroupEvents().getFirst()).getSize());
+        assertEquals("Group size", 31, getBeginGroupEvents().getFirst().getSize());
     }
 
     public void testLoadWrongFile() {
@@ -115,7 +112,7 @@ public class TestZipClassfileLoader extends TestClassfileLoader {
         assertEquals("End Group",        1, getEndGroupEvents().size());
         assertEquals("End Session",      0, getEndSessionEvents().size());
 
-        assertEquals("Group size", -1, ((LoadEvent) getBeginGroupEvents().getFirst()).getSize());
+        assertEquals("Group size", -1, getBeginGroupEvents().getFirst().getSize());
     }
 
     public void testLoadInputStreamWrongName() throws IOException {
@@ -133,7 +130,7 @@ public class TestZipClassfileLoader extends TestClassfileLoader {
         assertEquals("End Group",        1, getEndGroupEvents().size());
         assertEquals("End Session",      0, getEndSessionEvents().size());
 
-        assertEquals("Group size", -1, ((LoadEvent) getBeginGroupEvents().getFirst()).getSize());
+        assertEquals("Group size", -1, getBeginGroupEvents().getFirst().getSize());
     }
 
     public void testLoadWrongInputStream() throws IOException {

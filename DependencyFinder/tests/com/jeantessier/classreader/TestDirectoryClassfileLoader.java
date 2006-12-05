@@ -33,9 +33,8 @@
 package com.jeantessier.classreader;
 
 import java.io.*;
-import java.util.*;
 
-public class TestDirectoryClassfileLoader extends TestClassfileLoader {
+public class TestDirectoryClassfileLoader extends TestClassfileLoaderBase {
     public static final String TEST_CLASS          = "test";
     public static final String TEST_FILENAME       = "classes" + File.separator + "test.class";
     public static final String BOGUS_TEST_FILENAME = "classes" + File.separator + "bogus" + File.separator + "test.class";
@@ -64,8 +63,8 @@ public class TestDirectoryClassfileLoader extends TestClassfileLoader {
         assertEquals("End Group",       1, getEndGroupEvents().size());
         assertEquals("End Session",     0, getEndSessionEvents().size());
 
-        assertEquals(TEST_FILENAME, ((LoadEvent) getEndClassfileEvents().getLast()).getGroupName());
-        assertNotNull("Classfile", ((LoadEvent) getEndClassfileEvents().getLast()).getClassfile());
+        assertEquals(TEST_FILENAME, getEndClassfileEvents().getLast().getGroupName());
+        assertNotNull("Classfile", getEndClassfileEvents().getLast().getClassfile());
     }
 
     public void testLoadClassInputStream() throws IOException {

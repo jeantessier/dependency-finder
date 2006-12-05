@@ -35,7 +35,7 @@ package com.jeantessier.classreader;
 import java.io.*;
 import java.util.*;
 
-public class TestClassfileLoaderPermissiveDispatcher extends TestClassfileLoader {
+public class TestClassfileLoaderPermissiveDispatcher extends TestClassfileLoaderBase {
     public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
 
     private ClassfileLoader loader;
@@ -62,7 +62,7 @@ public class TestClassfileLoaderPermissiveDispatcher extends TestClassfileLoader
         assertEquals("End Group",       1, getEndGroupEvents().size());
         assertEquals("End Session",     1, getEndSessionEvents().size());
 
-        assertEquals("Group size", 1, ((LoadEvent) getBeginGroupEvents().getFirst()).getSize());
+        assertEquals("Group size", 1, getBeginGroupEvents().getFirst().getSize());
     }
 
     public void testOneLevelZip() {
@@ -80,7 +80,7 @@ public class TestClassfileLoaderPermissiveDispatcher extends TestClassfileLoader
         assertEquals("End Group",        1, getEndGroupEvents().size());
         assertEquals("End Session",      1, getEndSessionEvents().size());
 
-        assertEquals("Group size", 31, ((LoadEvent) getBeginGroupEvents().getFirst()).getSize());
+        assertEquals("Group size", 31, getBeginGroupEvents().getFirst().getSize());
     }
 
     public void testOneLevelJar() {
@@ -98,7 +98,7 @@ public class TestClassfileLoaderPermissiveDispatcher extends TestClassfileLoader
         assertEquals("End Group",        1, getEndGroupEvents().size());
         assertEquals("End Session",      1, getEndSessionEvents().size());
 
-        assertEquals("Group size", 33, ((LoadEvent) getBeginGroupEvents().getFirst()).getSize());
+        assertEquals("Group size", 33, getBeginGroupEvents().getFirst().getSize());
     }
     
     public void testOneLevelMiscellaneous() {
