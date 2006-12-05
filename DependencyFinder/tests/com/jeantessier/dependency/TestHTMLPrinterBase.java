@@ -37,7 +37,7 @@ import java.io.*;
 
 import junit.framework.*;
 
-public class TestHTMLPrinterBase extends TestCase {
+public abstract class TestHTMLPrinterBase extends TestCase {
     protected static final String PREFIX = "prefix (";
     protected static final String SUFFIX = ") suffix";
     protected static final MessageFormat FORMAT = new MessageFormat(PREFIX + "{0}" + SUFFIX);
