@@ -1,4 +1,4 @@
-<project name="emma" default="run" basedir=".">
+<project name="Emma" default="run" basedir=".">
 
     <property environment="env"/>
 
@@ -61,6 +61,10 @@
         </path>
     </target>
 
+    <target name="main.realclean">
+        <ant antfile="build.xml" target="realclean" inheritAll="false"/>
+    </target>
+
     <target name="instrument" depends="init">
         <emma enabled="${emma.enabled}">
             <instr instrpath="${out.dir}"
@@ -112,7 +116,8 @@
         </emma>
     </target>
 
-    <target name="realclean">
+    <target name="clean" depends="init, main.realclean"
+            description="Removes all produced files">
         <delete dir="${out.instr.dir}"/>
         <delete dir="${coverage.dir}"/>
     </target>

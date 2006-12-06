@@ -1,0 +1,66 @@
+<project name="CVS" default="reports" basedir=".">
+
+    <description>
+        CVS reports for Dependency Finder, JarJarDiff, and OOMetrics
+    </description>
+
+    <property file="cvs.properties"/>
+
+    <target name="init">
+        <tstamp>
+            <format property="NOW_CVS" pattern="yyyy-MM-dd hh:mm:ss"/>
+        </tstamp>
+    </target>
+
+    <target name="report.last" depends="init"
+            description="CVSDiff from previous full release until last full release">
+        <cvstagdiff cvsroot="${cvsroot}"
+                    package="DependencyFinder"
+                    startTag="release-${previous.release.tag}"
+                    endTag="release-${last.release.tag}"
+                    destFile="${previous.release}-${last.release}.xml"/>
+        <style in="${previous.release}-${last.release}.xml"
+               out="${previous.release}-${last.release}.html"
+               style="${ant.home}/etc/tagdiff.xsl">
+            <param name="title"  expression="Dependency Finder"/>
+            <param name="module" expression="${cvsmodule}"/>
+            <param name="cvsweb" expression="${cvsweb}"/>
+        </style>
+    </target>
+
+    <target name="report.current" depends="init"
+            description="CVSDiff from last beta release until now">
+        <cvstagdiff cvsroot="${cvsroot}"
+                    package="DependencyFinder"
+                    startTag="release-${last.release.tag}"
+                    endDate="${NOW_CVS}"
+                    destFile="${last.release}-now.xml"/>
+        <style in="${last.release}-now.xml"
+               out="${last.release}-now.html"
+               style="${ant.home}/etc/tagdiff.xsl">
+            <param name="title"  expression="Dependency Finder"/>
+            <param name="module" expression="${cvsmodule}"/>
+            <param name="cvsweb" expression="${cvsweb}"/>
+        </style>
+    </target>
+
+    <target name="report.cumulative" depends="init"
+            description="CVSDiff from last full release until now">
+        <cvstagdiff cvsroot="${cvsroot}"
+                    package="DependencyFinder"
+                    startTag="release-${last.full.release.tag}"
+                    endDate="${NOW_CVS}"
+                    destFile="${last.full.release}-now.xml"/>
+        <style in="${last.full.release}-now.xml"
+               out="${last.full.release}-now.html"
+               style="${ant.home}/etc/tagdiff.xsl">
+            <param name="title"  expression="Dependency Finder"/>
+            <param name="module" expression="${cvsmodule}"/>
+            <param name="cvsweb" expression="${cvsweb}"/>
+        </style>
+    </target>
+
+    <target name="reports" depends="report.current, report.cumulative"
+            description="Current and cumulative CVSDiff reports"/>
+
+</project>

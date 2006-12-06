@@ -1,0 +1,325 @@
+<project name="Tests" default="compile" basedir=".">
+
+    <description>
+        Tests for Dependency Finder, JarJarDiff, and OOMetrics
+    </description>
+
+    <patternset id="all.sources">
+        <include name="**/*.java"/>
+    </patternset>
+
+    <property environment="env"/>
+
+    <property file="tomcat.properties"/>
+    <path id="classpath.tomcat">
+        <fileset dir="${tomcat.home}/bin">
+            <include name="**/commons-*.jar"/>
+        </fileset>
+        <fileset dir="${tomcat.home}/common/lib">
+            <include name="**/*.jar"/>
+        </fileset>
+        <fileset dir="${tomcat.home}/server/lib">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <path id="classpath.dependencyfinder">
+        <pathelement location="classes"/>
+        <fileset dir="lib">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <path id="classpath.junit">
+        <pathelement location="${env.JUNIT_HOME}/junit.jar"/>
+    </path>
+
+    <path id="classpath.servlet">
+        <pathelement location="${tomcat.home}/common/lib/servlet-api.jar"/>
+        <pathelement location="${tomcat.home}/common/lib/jsp-api.jar"/>
+    </path>
+
+    <path id="classpath.webwork">
+        <pathelement location="${env.WEBWORK_HOME}/webwork-2.2.4.jar"/>
+        <fileset dir="${env.WEBWORK_HOME}/lib/default">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <path id="classpath.fitlibrary">
+        <pathelement location="${env.FITLIBRARY_HOME}/fitlibraryRunner.jar"/>
+    </path>
+
+    <path id="classpath.httpunit">
+        <fileset dir="${env.HTTPUNIT_HOME}/jars">
+            <include name="**/*.jar"/>
+        </fileset>
+        <fileset dir="${env.HTTPUNIT_HOME}/lib">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="init">
+        <property name="srcDir"        value="src"/>
+        <property name="testsDir"      value="tests"/>
+        <property name="fitDir"        value="fit"/>
+        <property name="classesDir"    value="classes"/>
+        <property name="libDir"        value="lib"/>
+        <property name="reportsDir"    value="reports"/>
+        <property name="fitDir"        value="fit"/>
+        <property name="fitReportsDir" value="${fitDir}/reports"/>
+    </target>
+
+    <target name="main.compile">
+        <ant antfile="build.xml" target="compile" inheritAll="false"/>
+    </target>
+
+    <target name="main.realclean">
+        <ant antfile="build.xml" target="realclean" inheritAll="false"/>
+    </target>
+
+    <target name="compile" depends="init, main.compile"
+            description="Compiles all classes and JUnit tests with debug flags (default)">
+        <javac destdir="${classesDir}" debug="on">
+            <src path="${testsDir}"/>
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.junit"/>
+                <path refid="classpath.webwork"/>
+                <path refid="classpath.httpunit"/>
+            </classpath>
+            <patternset refid="all.sources"/>
+	        <exclude name="JarJarDiff/**"/>
+	        <exclude name="Metrics/**"/>
+        </javac>
+        <javac destdir="${classesDir}" debug="on">
+            <src path="${fitDir}"/>
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.junit"/>
+                <path refid="classpath.fitlibrary"/>
+            </classpath>
+            <patternset refid="all.sources"/>
+        </javac>
+    </target>
+
+    <target name="deprecation" depends="init">
+        <javac destdir="${classesDir}" deprecation="yes">
+            <src path="${testsDir}"/>
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.junit"/>
+                <path refid="classpath.webwork"/>
+                <path refid="classpath.httpunit"/>
+            </classpath>
+            <patternset refid="all.sources"/>
+            <exclude name="JarJarDiff/**"/>
+            <exclude name="Metrics/**"/>
+        </javac>
+        <javac destdir="${classesDir}" deprecation="yes">
+            <src path="${fitDir}"/>
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.fitlibrary"/>
+            </classpath>
+            <patternset refid="all.sources"/>
+        </javac>
+    </target>
+
+    <target name="log4j.config" depends="init">
+        <copy file="${srcDir}/log4j.properties" tofile="${classesDir}/log4j.properties"/>
+    </target>
+
+    <target name="tests" depends="compile, log4j.config"
+            description="Compiles everything required to run all the tests">
+        <ant dir="tests/JarJarDiff" inheritAll="false"/>
+        <ant dir="tests/Metrics" inheritAll="false"/>
+    </target>
+
+    <target name="run" depends="tests.classreader, tests.commandline, tests.dependency, tests.dependencyfinder.cli, tests.dependencyfinder.web, tests.dependencyfinder.webwork, tests.diff, tests.metrics, tests.text, tests.fit, tests.report"
+            description="Runs all unit tests and generates a test run report"/>
+
+    <target name="tests.init" depends="init">
+        <mkdir dir="${reportsDir}"/>
+    </target>
+
+    <target name="tests.classreader" depends="tests.init">
+        <junit fork="true">
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+            </classpath>
+            <formatter type="xml"/>
+            <batchtest todir="${reportsDir}">
+                <fileset dir="${testsDir}">
+                    <include name="com/jeantessier/classreader/**/Test*.java"/>
+                    <exclude name="**/TestAll.java"/>
+                    <exclude name="**/classreader/TestClassfileLoaderBase.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="tests.commandline" depends="tests.init">
+        <junit fork="true">
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+            </classpath>
+            <formatter type="xml"/>
+            <batchtest todir="${reportsDir}">
+                <fileset dir="${testsDir}">
+                    <include name="com/jeantessier/commandline/**/Test*.java"/>
+                    <exclude name="**/TestAll.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="tests.dependency" depends="tests.init">
+        <junit fork="true">
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+            </classpath>
+            <formatter type="xml"/>
+            <batchtest todir="${reportsDir}">
+                <fileset dir="${testsDir}">
+                    <include name="com/jeantessier/dependency/**/Test*.java"/>
+                    <exclude name="**/TestAll.java"/>
+                    <exclude name="**/dependency/TestHTMLPrinterBase.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="tests.dependencyfinder.cli" depends="tests.init">
+        <junit fork="true">
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+            </classpath>
+            <formatter type="xml"/>
+            <batchtest todir="${reportsDir}">
+                <fileset dir="${testsDir}">
+                    <include name="com/jeantessier/dependencyfinder/cli/**/Test*.java"/>
+                    <exclude name="**/TestAll.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="tests.dependencyfinder.web" depends="tests.init">
+        <junit fork="true">
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.tomcat"/>
+                <path refid="classpath.httpunit"/>
+            </classpath>
+            <formatter type="xml"/>
+            <batchtest todir="${reportsDir}">
+                <fileset dir="${testsDir}">
+                    <include name="com/jeantessier/dependencyfinder/web/**/Test*.java"/>
+                    <exclude name="**/TestAll.java"/>
+                    <exclude name="**/dependencyfinder/web/Test*Base.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="tests.dependencyfinder.webwork" depends="tests.init">
+        <junit fork="true">
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.tomcat"/>
+                <path refid="classpath.webwork"/>
+                <path refid="classpath.httpunit"/>
+            </classpath>
+            <formatter type="xml"/>
+            <batchtest todir="${reportsDir}">
+                <fileset dir="${testsDir}">
+                    <include name="com/jeantessier/dependencyfinder/webwork/**/Test*.java"/>
+                    <exclude name="**/TestAll.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="tests.diff" depends="tests.init">
+        <junit fork="true">
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.tomcat"/>
+                <path refid="classpath.webwork"/>
+                <path refid="classpath.httpunit"/>
+            </classpath>
+            <formatter type="xml"/>
+            <batchtest todir="${reportsDir}">
+                <fileset dir="${testsDir}">
+                    <include name="com/jeantessier/diff/**/Test*.java"/>
+                    <exclude name="**/TestAll.java"/>
+                    <exclude name="**/diff/TestDifferencesFactoryBase.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="tests.metrics" depends="tests.init">
+        <junit fork="true">
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+            </classpath>
+            <formatter type="xml"/>
+            <batchtest todir="${reportsDir}">
+                <fileset dir="${testsDir}">
+                    <include name="com/jeantessier/metrics/**/Test*.java"/>
+                    <exclude name="**/TestAll.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="tests.text" depends="tests.init">
+        <junit fork="true">
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+            </classpath>
+            <formatter type="xml"/>
+            <batchtest todir="${reportsDir}">
+                <fileset dir="${testsDir}">
+                    <include name="com/jeantessier/text/**/Test*.java"/>
+                    <exclude name="**/TestAll.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="tests.fit" depends="tests.init">
+        <junit fork="true">
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.fitlibrary"/>
+            </classpath>
+            <formatter type="xml"/>
+            <test todir="${reportsDir}" name="com.jeantessier.fit.FitTestSuite"/>
+        </junit>
+    </target>
+
+    <target name="tests.report" depends="tests.init">
+        <junitreport todir="${reportsDir}">
+            <fileset dir="reports">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${reportsDir}/html"/>
+        </junitreport>
+    </target>
+
+    <target name="clean" depends="init, main.realclean"
+            description="Removes all produced files">
+        <delete dir="${reportsDir}"
+                includeEmptyDirs="true"
+                verbose="true"/>
+        <delete dir="${fitReportsDir}"
+                includeEmptyDirs="true"
+                verbose="true"/>
+        <ant dir="tests/JarJarDiff" target="clean" inheritAll="false"/>
+        <ant dir="tests/Metrics" target="clean" inheritAll="false"/>
+    </target>
+
+</project>
