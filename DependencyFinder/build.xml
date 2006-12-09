@@ -1,4 +1,4 @@
-<project name="Dependency Finder" default="compile" basedir=".">
+<project name="DependencyFinder" default="compile" basedir=".">
 
     <description>
         Dependency Finder, JarJarDiff, and OOMetrics
@@ -417,71 +417,6 @@
             <doclet name="com.jollem.doclint.DocLint"
                     path="C:\language\Java\doclint-1.0a2\doclint.jar"/>
           </javadoc>
-    </target>
-
-    <!--
-        UMLDoclet produces UML class diagrams in HTML next to
-        a class's javadoc documentation.  The diagrams are
-        simplistic and ugly.  Not very useful.
-        "docletPath" does not work in this version of Ant.
-    -->
-    <target name="umldoclet">
-        <javadoc sourcepath="${srcDir}"
-                 destdir="${apiDir}"
-                 packagenames="${packageNames}"
-                 version="no"
-                 author="no"
-                 doclet="JP.co.esm.caddies.doclets.UMLDoclet"
-                 docletPath="C:\language\Java\UMLDoclet"/>
-    </target>
-
-    <!--
-        RedDoclet produces petal files for Rational Rose.
-        But the resulting petal files do not model interfaces
-        properly (abstract classes instead of Interface
-        stereotype).
-        "docletPath" does not work in this version of Ant.
-    -->
-    <target name="reddoclet">
-        <javadoc sourcepath="${srcDir}"
-                 packagenames="${packageNames}"
-                 version="no"
-                 author="no"
-                 doclet="JP.co.esm.caddies.doclets.RedDoclet"
-                 docletPath="D:\language\Java\java2rose"/>
-    </target>
-
-    <!--
-        Dependency Finder
-    -->
-
-    <!-- "docletPath" does not work in this version of Ant. -->
-    <target name="listdocumentedelements" depends="init">
-        <javadoc packagenames="${packageNames}"
-                 version="no"
-                 author="no"
-                 maxmemory="128m">
-            <sourcepath path="src"/>
-            <classpath refid="classpath.dependencyfinder"/>
-            <doclet name="com.jeantessier.diff.ListDocumentedElements"
-                    path="${classesDir}">
-                <param name="-tag" value="level"/>
-                <param name="-invalid" value="developer"/>
-                <param name="-out" value="df.txt"/>
-            </doclet>
-        </javadoc>
-    </target>
-
-    <target name="extract" depends="jar">
-        <taskdef name="extractor" classname="com.jeantessier.dependencyfinder.ant.DependencyExtractor">
-            <classpath refid="classpath.dependencyfinder"/>
-        </taskdef>
-        <extractor xml="yes" destfile="${release}.xml">
-            <path>
-                <pathelement location="${jarFile}"/>
-            </path>
-        </extractor>
-        <xslt style="etc/DependenciesToHTML.xsl" in="${release}.xml" out="${release}.html"/>
     </target>
 
     <!--
