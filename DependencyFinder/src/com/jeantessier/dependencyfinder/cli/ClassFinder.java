@@ -36,113 +36,38 @@ import java.io.*;
 import java.util.*;
 
 import com.jeantessier.classreader.*;
-import com.jeantessier.commandline.*;
-import com.jeantessier.dependencyfinder.*;
 
-public class ClassFinder {
+public class ClassFinder extends Command {
     public static final String DEFAULT_INCLUDES = "//";
-    public static final String DEFAULT_LOGFILE  = "System.out";
 
-    public static void showError(CommandLineUsage clu, String msg) {
-        System.err.println(msg);
-        showError(clu);
+    public ClassFinder() {
+        super("ClassFinder");
     }
 
-    public static void showError(CommandLineUsage clu) {
-        System.err.println(clu);
-        System.err.println();
-        System.err.println("If no files are specified, it processes the current directory.");
-        System.err.println();
+    protected void populateCommandLineSwitches() {
+        super.populateCommandLineSwitches();
+
+        getCommandLine().addMultipleValuesSwitch("includes", DEFAULT_INCLUDES);
+        getCommandLine().addMultipleValuesSwitch("excludes");
     }
 
-    public static void showVersion() {
-        Version version = new Version();
-        
-        System.err.print(version.getImplementationTitle());
-        System.err.print(" ");
-        System.err.print(version.getImplementationVersion());
-        System.err.print(" (c) ");
-        System.err.print(version.getCopyrightDate());
-        System.err.print(" ");
-        System.err.print(version.getCopyrightHolder());
-        System.err.println();
-        
-        System.err.print(version.getImplementationURL());
-        System.err.println();
-        
-        System.err.print("Compiled on ");
-        System.err.print(version.getImplementationDate());
-        System.err.println();
+    public void showSpecificUsage(PrintStream out) {
+        out.println();
+        out.println("If no files are specified, it processes the current directory.");
+        out.println();
     }
 
-    public static void main(String[] args) throws Exception {
-        // Parsing the command line
-        CommandLine commandLine = new CommandLine();
-        commandLine.addMultipleValuesSwitch("includes", DEFAULT_INCLUDES);
-        commandLine.addMultipleValuesSwitch("excludes");
-        commandLine.addToggleSwitch("time");
-        commandLine.addSingleValueSwitch("out");
-        commandLine.addToggleSwitch("help");
-        commandLine.addOptionalValueSwitch("verbose",   DEFAULT_LOGFILE);
-        commandLine.addToggleSwitch("version");
-
-        CommandLineUsage usage = new CommandLineUsage("ClassFinder");
-        commandLine.accept(usage);
-
-        try {
-            commandLine.parse(args);
-        } catch (IllegalArgumentException ex) {
-            showError(usage, ex.toString());
-            System.exit(1);
-        } catch (CommandLineException ex) {
-            showError(usage, ex.toString());
-            System.exit(1);
-        }
-
-        if (commandLine.getToggleSwitch("help")) {
-            showError(usage);
-        }
-        
-        if (commandLine.getToggleSwitch("version")) {
-            showVersion();
-        }
-
-        if (commandLine.getToggleSwitch("help") || commandLine.getToggleSwitch("version")) {
-            System.exit(1);
-        }
-
-        VerboseListener verboseListener = new VerboseListener();
-        if (commandLine.isPresent("verbose")) {
-            if ("System.out".equals(commandLine.getOptionalSwitch("verbose"))) {
-                verboseListener.setWriter(System.out);
-            } else {
-                verboseListener.setWriter(new FileWriter(commandLine.getOptionalSwitch("verbose")));
-            }
-        }
-
-        /*
-         *  Beginning of main processing
-         */
-
-        Date start = new Date();
-
-        PrintWriter out;
-        if (commandLine.isPresent("out")) {
-            out = new PrintWriter(new FileWriter(commandLine.getSingleSwitch("out")));
-        } else {
-            out = new PrintWriter(new OutputStreamWriter(System.out));
-        }
-
-        List<String> parameters = commandLine.getParameters();
+    public void doProcessing() throws IOException {
+        List<String> parameters = getCommandLine().getParameters();
         if (parameters.size() == 0) {
             parameters.add(".");
         }
 
-        ClassMatcher matcher = new ClassMatcher(commandLine.getMultipleSwitch("includes"), commandLine.getMultipleSwitch("excludes"));
-        
+        ClassMatcher matcher = new ClassMatcher(getCommandLine().getMultipleSwitch("includes"), getCommandLine().getMultipleSwitch("excludes"));
+
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(matcher);
-        loader.addLoadListener(verboseListener);
+        loader.addLoadListener(getVerboseListener());
         loader.load(parameters);
 
         for (Map.Entry<String, List<String>> entry : matcher.getResults().entrySet())
@@ -160,15 +85,9 @@ public class ClassFinder {
 
             out.println();
         }
-        
-        Date end = new Date();
+    }
 
-        if (commandLine.getToggleSwitch("time")) {
-            System.err.println(ClassFinder.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
-        }
-
-        out.close();
-
-        verboseListener.close();
+    public static void main(String[] args) throws Exception {
+        new ClassFinder().run(args);
     }
 }
