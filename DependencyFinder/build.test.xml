@@ -74,8 +74,8 @@
         <ant antfile="build.xml" target="compile" inheritAll="false"/>
     </target>
 
-    <target name="main.realclean">
-        <ant antfile="build.xml" target="realclean" inheritAll="false"/>
+    <target name="main.clean">
+        <ant antfile="build.xml" target="clean" inheritAll="false"/>
     </target>
 
     <target name="compile" depends="init, main.compile"
@@ -310,7 +310,7 @@
         </junitreport>
     </target>
 
-    <target name="clean" depends="init, main.realclean"
+    <target name="clean" depends="init, main.clean"
             description="Removes all produced files">
         <delete dir="${reportsDir}"
                 includeEmptyDirs="true"

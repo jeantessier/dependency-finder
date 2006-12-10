@@ -1090,9 +1090,8 @@ To publish the results:
 You can use [[http://emma.sourceforge.net/][Emma]] and the build file in
 =build.emma.xml=.
 
-    1 =ant -f build.test.xml realclean compile=
-    1 =ant -f build.emma.xml realclean=
-    1 =ant -f build.emma.xml emma instrumentation=
+    1 =set CLASSPATH%3D%JUNIT_HOME%\junit.jar=
+    1 =ant -f build.emma.xml emma clean instrument=
     1 =ant -f build.test.xml tests=
     1 =ant -f build.emma.xml emma run report=
 

@@ -5,3 +5,5 @@ JAR file had a space in its name.  Yuck!  So I changed the name back to
 "DependencyFinder", without the space.
 
 Refactored =ClassFinder= and =ClassList= as part of the grand CLI refactoring.
+
+Cleaned up dependencies between Ant targets for Emma coverage analysis.

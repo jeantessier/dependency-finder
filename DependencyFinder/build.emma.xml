@@ -61,11 +61,16 @@
         </path>
     </target>
 
-    <target name="main.realclean">
-        <ant antfile="build.xml" target="realclean" inheritAll="false"/>
+    <target name="tests.compile">
+        <ant antfile="build.test.xml" target="compile" inheritAll="false"/>
     </target>
 
-    <target name="instrument" depends="init">
+    <target name="tests.clean">
+        <ant antfile="build.test.xml" target="clean" inheritAll="false"/>
+    </target>
+
+    <target name="instrument" depends="init, tests.compile"
+            description="instruments the bytecode">
         <emma enabled="${emma.enabled}">
             <instr instrpath="${out.dir}"
                    destdir="${out.instr.dir}"
@@ -74,7 +79,8 @@
         </emma>
     </target>
 
-    <target name="run" depends="init" description="runs the examples">
+    <target name="run" depends="init"
+            description="runs the tests">
         <junit fork="true">
             <formatter type="plain" usefile="no"/>
             <test name="TestAll"/>
@@ -100,7 +106,8 @@
         </junit>
     </target>
 
-    <target name="report" depends="init">
+    <target name="report" depends="init"
+            description="Produces the coverate report">
         <emma enabled="${emma.enabled}">
             <report>
                 <fileset dir="${coverage.dir}">
@@ -116,7 +123,7 @@
         </emma>
     </target>
 
-    <target name="clean" depends="init, main.realclean"
+    <target name="clean" depends="init, tests.clean"
             description="Removes all produced files">
         <delete dir="${out.instr.dir}"/>
         <delete dir="${coverage.dir}"/>
