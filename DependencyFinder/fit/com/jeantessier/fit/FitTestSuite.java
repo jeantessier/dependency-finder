@@ -40,7 +40,7 @@ import junit.framework.*;
 
 public class FitTestSuite extends TestSuite {
     protected static final String SOURCE_PATHNAME = "fit" + File.separator + "tests";
-    protected static final String OUTPUT_PATHNAME = "fit" + File.separator + "reports";
+    protected static final String OUTPUT_PATHNAME = "reports" + File.separator + "fit";
 
     private static final File SOURCE_DIR = new File(SOURCE_PATHNAME);
     private static final File OUTPUT_DIR = new File(OUTPUT_PATHNAME);

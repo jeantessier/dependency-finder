@@ -1028,6 +1028,8 @@ or
 
     C:\>ant -f build.test.xml run
 
+All test reports are written to the =reports= directory.
+
 ---+++ Making a Release
 
     1 =cvs tag release-20030101=
@@ -1097,7 +1099,7 @@ You can use [[http://emma.sourceforge.net/][Emma]] and the build file in
 
 To publish the results:
 
-    1 archive the =emma= directory
+    1 archive the =reports/emma= directory
     1 Use =scp= to transfer the archive to SourceForge
     1 Use =ssh= to login to SourceForge
     1 extract the archive in the root of the website

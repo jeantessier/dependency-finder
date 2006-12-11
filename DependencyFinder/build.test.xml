@@ -60,14 +60,14 @@
     </path>
 
     <target name="init">
-        <property name="srcDir"        value="src"/>
-        <property name="testsDir"      value="tests"/>
-        <property name="fitDir"        value="fit"/>
-        <property name="classesDir"    value="classes"/>
-        <property name="libDir"        value="lib"/>
-        <property name="reportsDir"    value="reports"/>
-        <property name="fitDir"        value="fit"/>
-        <property name="fitReportsDir" value="${fitDir}/reports"/>
+        <property name="srcDir"         value="src"/>
+        <property name="testsDir"       value="tests"/>
+        <property name="fitDir"         value="fit"/>
+        <property name="classesDir"     value="classes"/>
+        <property name="libDir"         value="lib"/>
+        <property name="reportsDir"     value="reports"/>
+        <property name="testReportsDir" value="${reportsDir}/tests"/>
+        <property name="fitReportsDir"  value="${reportsDir}/fit"/>
     </target>
 
     <target name="main.compile">
@@ -140,7 +140,7 @@
             description="Runs all unit tests and generates a test run report"/>
 
     <target name="tests.init" depends="init">
-        <mkdir dir="${reportsDir}"/>
+        <mkdir dir="${testReportsDir}"/>
     </target>
 
     <target name="tests.classreader" depends="tests.init">
@@ -149,7 +149,7 @@
                 <path refid="classpath.dependencyfinder"/>
             </classpath>
             <formatter type="xml"/>
-            <batchtest todir="${reportsDir}">
+            <batchtest todir="${testReportsDir}">
                 <fileset dir="${testsDir}">
                     <include name="com/jeantessier/classreader/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
@@ -165,7 +165,7 @@
                 <path refid="classpath.dependencyfinder"/>
             </classpath>
             <formatter type="xml"/>
-            <batchtest todir="${reportsDir}">
+            <batchtest todir="${testReportsDir}">
                 <fileset dir="${testsDir}">
                     <include name="com/jeantessier/commandline/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
@@ -180,7 +180,7 @@
                 <path refid="classpath.dependencyfinder"/>
             </classpath>
             <formatter type="xml"/>
-            <batchtest todir="${reportsDir}">
+            <batchtest todir="${testReportsDir}">
                 <fileset dir="${testsDir}">
                     <include name="com/jeantessier/dependency/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
@@ -196,7 +196,7 @@
                 <path refid="classpath.dependencyfinder"/>
             </classpath>
             <formatter type="xml"/>
-            <batchtest todir="${reportsDir}">
+            <batchtest todir="${testReportsDir}">
                 <fileset dir="${testsDir}">
                     <include name="com/jeantessier/dependencyfinder/cli/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
@@ -213,7 +213,7 @@
                 <path refid="classpath.httpunit"/>
             </classpath>
             <formatter type="xml"/>
-            <batchtest todir="${reportsDir}">
+            <batchtest todir="${testReportsDir}">
                 <fileset dir="${testsDir}">
                     <include name="com/jeantessier/dependencyfinder/web/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
@@ -232,7 +232,7 @@
                 <path refid="classpath.httpunit"/>
             </classpath>
             <formatter type="xml"/>
-            <batchtest todir="${reportsDir}">
+            <batchtest todir="${testReportsDir}">
                 <fileset dir="${testsDir}">
                     <include name="com/jeantessier/dependencyfinder/webwork/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
@@ -250,7 +250,7 @@
                 <path refid="classpath.httpunit"/>
             </classpath>
             <formatter type="xml"/>
-            <batchtest todir="${reportsDir}">
+            <batchtest todir="${testReportsDir}">
                 <fileset dir="${testsDir}">
                     <include name="com/jeantessier/diff/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
@@ -266,7 +266,7 @@
                 <path refid="classpath.dependencyfinder"/>
             </classpath>
             <formatter type="xml"/>
-            <batchtest todir="${reportsDir}">
+            <batchtest todir="${testReportsDir}">
                 <fileset dir="${testsDir}">
                     <include name="com/jeantessier/metrics/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
@@ -281,7 +281,7 @@
                 <path refid="classpath.dependencyfinder"/>
             </classpath>
             <formatter type="xml"/>
-            <batchtest todir="${reportsDir}">
+            <batchtest todir="${testReportsDir}">
                 <fileset dir="${testsDir}">
                     <include name="com/jeantessier/text/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
@@ -297,25 +297,23 @@
                 <path refid="classpath.fitlibrary"/>
             </classpath>
             <formatter type="xml"/>
-            <test todir="${reportsDir}" name="com.jeantessier.fit.FitTestSuite"/>
+            <test todir="${testReportsDir}" name="com.jeantessier.fit.FitTestSuite"/>
+            <test todir="${testReportsDir}" name="com.jeantessier.fitlibrary.TestAll"/>
         </junit>
     </target>
 
     <target name="tests.report" depends="tests.init">
-        <junitreport todir="${reportsDir}">
-            <fileset dir="reports">
+        <junitreport todir="${testReportsDir}">
+            <fileset dir="${testReportsDir}">
                 <include name="TEST-*.xml"/>
             </fileset>
-            <report format="frames" todir="${reportsDir}/html"/>
+            <report format="frames" todir="${testReportsDir}/html"/>
         </junitreport>
     </target>
 
     <target name="clean" depends="init, main.clean"
             description="Removes all produced files">
         <delete dir="${reportsDir}"
-                includeEmptyDirs="true"
-                verbose="true"/>
-        <delete dir="${fitReportsDir}"
                 includeEmptyDirs="true"
                 verbose="true"/>
         <ant dir="tests/JarJarDiff" target="clean" inheritAll="false"/>

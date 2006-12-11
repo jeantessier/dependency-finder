@@ -18,18 +18,23 @@
     </target>
 
     <target name="init">
-
         <!-- root directory for the example source code: -->
         <property name="src.dir" value="src"/>
         <property name="tests.dir" value="tests"/>
+        <property name="fit.dir" value="fit"/>
 
         <!-- javac class output directory: -->
         <property name="out.dir" value="classes"/>
         <mkdir dir="${out.dir}"/>
 
-        <!-- javac class output directory: -->
+        <!-- class coverage output directory: -->
         <property name="coverage.dir" value="emma"/>
         <mkdir dir="${coverage.dir}"/>
+
+        <!-- class coverage output directory: -->
+        <property name="reports.dir" value="reports"/>
+        <property name="emma.reports.dir" value="${reports.dir}/emma"/>
+        <mkdir dir="${emma.reports.dir}"/>
 
         <path id="run.classpath">
             <pathelement location="${out.dir}"/>
@@ -104,6 +109,18 @@
             <jvmarg value="-Demma.coverage.out.file=${coverage.dir}/coverage.emma"/>
             <jvmarg value="-Demma.coverage.out.merge=true"/>
         </junit>
+
+        <junit fork="true">
+            <formatter type="plain" usefile="no"/>
+            <test name="com.jeantessier.fit.FitTestSuite"/>
+            <classpath>
+                <pathelement location="${out.instr.dir}"/>
+                <path refid="run.classpath"/>
+                <path refid="emma.lib"/>
+            </classpath>
+            <jvmarg value="-Demma.coverage.out.file=${coverage.dir}/coverage.emma"/>
+            <jvmarg value="-Demma.coverage.out.merge=true"/>
+        </junit>
     </target>
 
     <target name="report" depends="init"
@@ -116,9 +133,10 @@
                 <sourcepath>
                     <pathelement location="${src.dir}"/>
                     <pathelement location="${tests.dir}"/>
+                    <pathelement location="${fit.dir}"/>
                 </sourcepath>
-                <txt outfile="${coverage.dir}/coverage.txt"/>
-                <html outfile="${coverage.dir}/coverage.html"/>
+                <txt outfile="${emma.reports.dir}/coverage.txt"/>
+                <html outfile="${emma.reports.dir}/coverage.html"/>
             </report>
         </emma>
     </target>
