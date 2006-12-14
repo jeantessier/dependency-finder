@@ -33,21 +33,14 @@
 package com.jeantessier.dependencyfinder.cli;
 
 import java.io.*;
-import java.util.*;
-
 import javax.xml.parsers.*;
 
 import org.apache.log4j.*;
 import org.xml.sax.*;
 
-import com.jeantessier.commandline.*;
 import com.jeantessier.dependency.*;
-import com.jeantessier.dependency.Printer;
-import com.jeantessier.dependency.TextPrinter;
 
 public class DependencyClosure extends Command {
-    public static final String DEFAULT_START_INCLUDES = "//";
-
     public DependencyClosure() {
         super("DependencyClosure");
     }
@@ -62,27 +55,8 @@ public class DependencyClosure extends Command {
         super.populateCommandLineSwitches();
         populateCommandLineSwitchesForXMLOutput(XMLPrinter.DEFAULT_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
 
-        getCommandLine().addMultipleValuesSwitch("start-includes", DEFAULT_START_INCLUDES);
-        getCommandLine().addMultipleValuesSwitch("start-excludes");
-        getCommandLine().addMultipleValuesSwitch("package-start-includes");
-        getCommandLine().addMultipleValuesSwitch("package-start-excludes");
-        getCommandLine().addMultipleValuesSwitch("class-start-includes");
-        getCommandLine().addMultipleValuesSwitch("class-start-excludes");
-        getCommandLine().addMultipleValuesSwitch("feature-start-includes");
-        getCommandLine().addMultipleValuesSwitch("feature-start-excludes");
-        getCommandLine().addMultipleValuesSwitch("stop-includes");
-        getCommandLine().addMultipleValuesSwitch("stop-excludes");
-        getCommandLine().addMultipleValuesSwitch("package-stop-includes");
-        getCommandLine().addMultipleValuesSwitch("package-stop-excludes");
-        getCommandLine().addMultipleValuesSwitch("class-stop-includes");
-        getCommandLine().addMultipleValuesSwitch("class-stop-excludes");
-        getCommandLine().addMultipleValuesSwitch("feature-stop-includes");
-        getCommandLine().addMultipleValuesSwitch("feature-stop-excludes");
-
-        getCommandLine().addMultipleValuesSwitch("start-includes-list");
-        getCommandLine().addMultipleValuesSwitch("start-excludes-list");
-        getCommandLine().addMultipleValuesSwitch("stop-includes-list");
-        getCommandLine().addMultipleValuesSwitch("stop-excludes-list");
+        populateCommandLineSwitchesForStartCondition();
+        populateCommandLineSwitchesForStopCondition();
 
         getCommandLine().addOptionalValueSwitch("maximum-inbound-depth");
         getCommandLine().addOptionalValueSwitch("maximum-outbound-depth");
@@ -116,50 +90,7 @@ public class DependencyClosure extends Command {
             }
         }
 
-        SelectionCriteria startCriteria;
-        if (hasStartRegularExpressionSwitches(getCommandLine())) {
-            RegularExpressionSelectionCriteria regularExpressionStartCriteria = new RegularExpressionSelectionCriteria();
-
-            if (getCommandLine().isPresent("start-includes") || (!getCommandLine().isPresent("package-start-includes") && !getCommandLine().isPresent("class-start-includes") && !getCommandLine().isPresent("feature-start-includes"))) {
-                // Only use the default if nothing else has been specified.
-                regularExpressionStartCriteria.setGlobalIncludes(getCommandLine().getMultipleSwitch("start-includes"));
-            }
-            regularExpressionStartCriteria.setGlobalExcludes(getCommandLine().getMultipleSwitch("start-excludes"));
-            regularExpressionStartCriteria.setPackageIncludes(getCommandLine().getMultipleSwitch("package-start-includes"));
-            regularExpressionStartCriteria.setPackageExcludes(getCommandLine().getMultipleSwitch("package-start-excludes"));
-            regularExpressionStartCriteria.setClassIncludes(getCommandLine().getMultipleSwitch("class-start-includes"));
-            regularExpressionStartCriteria.setClassExcludes(getCommandLine().getMultipleSwitch("class-start-excludes"));
-            regularExpressionStartCriteria.setFeatureIncludes(getCommandLine().getMultipleSwitch("feature-start-includes"));
-            regularExpressionStartCriteria.setFeatureExcludes(getCommandLine().getMultipleSwitch("feature-start-excludes"));
-
-            startCriteria = regularExpressionStartCriteria;
-        } else if (hasStartListSwitches(getCommandLine())) {
-            startCriteria = createCollectionSelectionCriteria(getCommandLine().getMultipleSwitch("start-includes-list"), getCommandLine().getMultipleSwitch("start-excludes-list"));
-        } else {
-            startCriteria = new ComprehensiveSelectionCriteria();
-        }
-
-        SelectionCriteria stopCriteria;
-        if (hasStopRegularExpressionSwitches(getCommandLine())) {
-            RegularExpressionSelectionCriteria regularExpressionStopCriteria = new RegularExpressionSelectionCriteria();
-
-            regularExpressionStopCriteria.setGlobalIncludes(getCommandLine().getMultipleSwitch("stop-includes"));
-            regularExpressionStopCriteria.setGlobalExcludes(getCommandLine().getMultipleSwitch("stop-excludes"));
-            regularExpressionStopCriteria.setPackageIncludes(getCommandLine().getMultipleSwitch("package-stop-includes"));
-            regularExpressionStopCriteria.setPackageExcludes(getCommandLine().getMultipleSwitch("package-stop-excludes"));
-            regularExpressionStopCriteria.setClassIncludes(getCommandLine().getMultipleSwitch("class-stop-includes"));
-            regularExpressionStopCriteria.setClassExcludes(getCommandLine().getMultipleSwitch("class-stop-excludes"));
-            regularExpressionStopCriteria.setFeatureIncludes(getCommandLine().getMultipleSwitch("feature-stop-includes"));
-            regularExpressionStopCriteria.setFeatureExcludes(getCommandLine().getMultipleSwitch("feature-stop-excludes"));
-
-            stopCriteria = regularExpressionStopCriteria;
-        } else if (hasStopListSwitches(getCommandLine())) {
-            stopCriteria = createCollectionSelectionCriteria(getCommandLine().getMultipleSwitch("stop-includes-list"), getCommandLine().getMultipleSwitch("stop-excludes-list"));
-        } else {
-            stopCriteria = new NullSelectionCriteria();
-        }
-
-        TransitiveClosure selector = new TransitiveClosure(startCriteria, stopCriteria);
+        TransitiveClosure selector = new TransitiveClosure(getStartCriteria(), getStopCriteria());
 
         try {
             if (getCommandLine().isPresent("maximum-inbound-depth")) {
@@ -197,50 +128,6 @@ public class DependencyClosure extends Command {
         }
 
         printer.traverseNodes(selector.getFactory().getPackages().values());
-    }
-
-    private static boolean hasStartRegularExpressionSwitches(CommandLine commandLine) {
-        Collection<String> switches = commandLine.getPresentSwitches();
-
-        return
-            switches.contains("start-includes") ||
-            switches.contains("start-excludes") ||
-            switches.contains("package-start-includes") ||
-            switches.contains("package-start-excludes") ||
-            switches.contains("class-start-includes") ||
-            switches.contains("class-start-excludes") ||
-            switches.contains("feature-start-includes") ||
-            switches.contains("feature-start-excludes");
-    }
-
-    private static boolean hasStartListSwitches(CommandLine commandLine) {
-        Collection<String> switches = commandLine.getPresentSwitches();
-
-        return
-            switches.contains("start-includes-list") ||
-            switches.contains("start-excludes-list");
-    }
-
-    private static boolean hasStopRegularExpressionSwitches(CommandLine commandLine) {
-        Collection<String> switches = commandLine.getPresentSwitches();
-
-        return
-            switches.contains("stop-includes") ||
-            switches.contains("stop-excludes") ||
-            switches.contains("package-stop-includes") ||
-            switches.contains("package-stop-excludes") ||
-            switches.contains("class-stop-includes") ||
-            switches.contains("class-stop-excludes") ||
-            switches.contains("feature-stop-includes") ||
-            switches.contains("feature-stop-excludes");
-    }
-
-    private static boolean hasStopListSwitches(CommandLine commandLine) {
-        Collection<String> switches = commandLine.getPresentSwitches();
-
-        return
-            switches.contains("stop-includes-list") ||
-            switches.contains("stop-excludes-list");
     }
 
     public static void main(String[] args) throws Exception {

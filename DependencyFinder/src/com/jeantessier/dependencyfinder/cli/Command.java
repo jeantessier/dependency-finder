@@ -10,7 +10,7 @@ import org.apache.log4j.*;
 
 public abstract class Command {
     public static final String DEFAULT_LOGFILE = "System.out";
-    public static final String DEFAULT_FILTER_INCLUDES = "//";
+    public static final String DEFAULT_INCLUDES = "//";
 
     private CommandLine commandLine;
     private CommandLineUsage commandLineUsage;
@@ -185,76 +185,121 @@ public abstract class Command {
     }
 
     protected void populateCommandLineSwitchesForFiltering() {
-        getCommandLine().addMultipleValuesSwitch("filter-includes", DEFAULT_FILTER_INCLUDES);
-        getCommandLine().addMultipleValuesSwitch("filter-excludes");
-        getCommandLine().addToggleSwitch("package-filter");
-        getCommandLine().addMultipleValuesSwitch("package-filter-includes");
-        getCommandLine().addMultipleValuesSwitch("package-filter-excludes");
-        getCommandLine().addToggleSwitch("class-filter");
-        getCommandLine().addMultipleValuesSwitch("class-filter-includes");
-        getCommandLine().addMultipleValuesSwitch("class-filter-excludes");
-        getCommandLine().addToggleSwitch("feature-filter");
-        getCommandLine().addMultipleValuesSwitch("feature-filter-includes");
-        getCommandLine().addMultipleValuesSwitch("feature-filter-excludes");
+        populateRegularExpressionCommandLineSwitches("filter", true, DEFAULT_INCLUDES);
+        populateListCommandLineSwitches("filter");
+    }
 
-        getCommandLine().addMultipleValuesSwitch("filter-includes-list");
-        getCommandLine().addMultipleValuesSwitch("filter-excludes-list");
+    protected void populateCommandLineSwitchesForStartCondition() {
+        populateRegularExpressionCommandLineSwitches("start", false, DEFAULT_INCLUDES);
+        populateListCommandLineSwitches("start");
+    }
+
+    protected void populateCommandLineSwitchesForStopCondition() {
+        populateRegularExpressionCommandLineSwitches("stop", false, null);
+        populateListCommandLineSwitches("stop");
+    }
+
+    protected void populateRegularExpressionCommandLineSwitches(String name, boolean addToggles, String defaultIncludes) {
+        if (defaultIncludes != null) {
+            getCommandLine().addMultipleValuesSwitch(name + "-includes", defaultIncludes);
+        } else {
+            getCommandLine().addMultipleValuesSwitch(name + "-includes");
+        }
+        getCommandLine().addMultipleValuesSwitch(name + "-excludes");
+        getCommandLine().addMultipleValuesSwitch("package-" + name + "-includes");
+        getCommandLine().addMultipleValuesSwitch("package-" + name + "-excludes");
+        getCommandLine().addMultipleValuesSwitch("class-" + name + "-includes");
+        getCommandLine().addMultipleValuesSwitch("class-" + name + "-excludes");
+        getCommandLine().addMultipleValuesSwitch("feature-" + name + "-includes");
+        getCommandLine().addMultipleValuesSwitch("feature-" + name + "-excludes");
+
+        if (addToggles) {
+            getCommandLine().addToggleSwitch("package-" + name);
+            getCommandLine().addToggleSwitch("class-" + name);
+            getCommandLine().addToggleSwitch("feature-" + name);
+        }
+    }
+
+    protected void populateListCommandLineSwitches(String name) {
+        getCommandLine().addMultipleValuesSwitch(name + "-includes-list");
+        getCommandLine().addMultipleValuesSwitch(name + "-excludes-list");
     }
 
     protected SelectionCriteria getFilterCriteria() {
-        SelectionCriteria result = new ComprehensiveSelectionCriteria();
+        return getSelectionCriteria("filter", new ComprehensiveSelectionCriteria());
+    }
 
-        if (hasFilterRegularExpressionSwitches(getCommandLine())) {
+    protected SelectionCriteria getStartCriteria() {
+        return getSelectionCriteria("start", new ComprehensiveSelectionCriteria());
+    }
+
+    protected SelectionCriteria getStopCriteria() {
+        return getSelectionCriteria("stop", new NullSelectionCriteria());
+    }
+
+    protected SelectionCriteria getSelectionCriteria(String name, SelectionCriteria defaultSelectionCriteria) {
+        SelectionCriteria result = defaultSelectionCriteria;
+
+        if (hasRegularExpressionSwitches(getCommandLine(), name)) {
             RegularExpressionSelectionCriteria regularExpressionFilterCriteria = new RegularExpressionSelectionCriteria();
 
-            if (getCommandLine().isPresent("package-filter") || getCommandLine().isPresent("class-filter") || getCommandLine().isPresent("feature-filter")) {
-                regularExpressionFilterCriteria.setMatchingPackages(getCommandLine().getToggleSwitch("package-filter"));
-                regularExpressionFilterCriteria.setMatchingClasses(getCommandLine().getToggleSwitch("class-filter"));
-                regularExpressionFilterCriteria.setMatchingFeatures(getCommandLine().getToggleSwitch("feature-filter"));
+            if (getCommandLine().isPresent("package-" + name) || getCommandLine().isPresent("class-" + name) || getCommandLine().isPresent("feature-" + name)) {
+                regularExpressionFilterCriteria.setMatchingPackages(getCommandLine().getToggleSwitch("package-" + name));
+                regularExpressionFilterCriteria.setMatchingClasses(getCommandLine().getToggleSwitch("class-" + name));
+                regularExpressionFilterCriteria.setMatchingFeatures(getCommandLine().getToggleSwitch("feature-" + name));
             }
 
-            if (getCommandLine().isPresent("filter-includes") || (!getCommandLine().isPresent("package-filter-includes") && !getCommandLine().isPresent("class-filter-includes") && !getCommandLine().isPresent("feature-filter-includes"))) {
+            if (getCommandLine().isPresent(name + "-includes") || (!getCommandLine().isPresent("package-" + name + "-includes") && !getCommandLine().isPresent("class-" + name + "-includes") && !getCommandLine().isPresent("feature-" + name + "-includes"))) {
                 // Only use the default if nothing else has been specified.
-                regularExpressionFilterCriteria.setGlobalIncludes(getCommandLine().getMultipleSwitch("filter-includes"));
+                regularExpressionFilterCriteria.setGlobalIncludes(getCommandLine().getMultipleSwitch(name + "-includes"));
             }
-            regularExpressionFilterCriteria.setGlobalExcludes(getCommandLine().getMultipleSwitch("filter-excludes"));
-            regularExpressionFilterCriteria.setPackageIncludes(getCommandLine().getMultipleSwitch("package-filter-includes"));
-            regularExpressionFilterCriteria.setPackageExcludes(getCommandLine().getMultipleSwitch("package-filter-excludes"));
-            regularExpressionFilterCriteria.setClassIncludes(getCommandLine().getMultipleSwitch("class-filter-includes"));
-            regularExpressionFilterCriteria.setClassExcludes(getCommandLine().getMultipleSwitch("class-filter-excludes"));
-            regularExpressionFilterCriteria.setFeatureIncludes(getCommandLine().getMultipleSwitch("feature-filter-includes"));
-            regularExpressionFilterCriteria.setFeatureExcludes(getCommandLine().getMultipleSwitch("feature-filter-excludes"));
+            regularExpressionFilterCriteria.setGlobalExcludes(getCommandLine().getMultipleSwitch(name + "-excludes"));
+            regularExpressionFilterCriteria.setPackageIncludes(getCommandLine().getMultipleSwitch("package-" + name + "-includes"));
+            regularExpressionFilterCriteria.setPackageExcludes(getCommandLine().getMultipleSwitch("package-" + name + "-excludes"));
+            regularExpressionFilterCriteria.setClassIncludes(getCommandLine().getMultipleSwitch("class-" + name + "-includes"));
+            regularExpressionFilterCriteria.setClassExcludes(getCommandLine().getMultipleSwitch("class-" + name + "-excludes"));
+            regularExpressionFilterCriteria.setFeatureIncludes(getCommandLine().getMultipleSwitch("feature-" + name + "-includes"));
+            regularExpressionFilterCriteria.setFeatureExcludes(getCommandLine().getMultipleSwitch("feature-" + name + "-excludes"));
 
             result = regularExpressionFilterCriteria;
-        } else if (hasFilterListSwitches(getCommandLine())) {
-            result = createCollectionSelectionCriteria(getCommandLine().getMultipleSwitch("filter-includes-list"), getCommandLine().getMultipleSwitch("filter-excludes-list"));
+        } else if (hasListSwitches(getCommandLine(), name)) {
+            result = createCollectionSelectionCriteria(getCommandLine().getMultipleSwitch(name + "-includes-list"), getCommandLine().getMultipleSwitch(name + "-excludes-list"));
         }
+        
         return result;
     }
 
     protected boolean hasFilterRegularExpressionSwitches(CommandLine commandLine) {
+        return hasRegularExpressionSwitches(commandLine,  "filter");
+    }
+
+    protected boolean hasRegularExpressionSwitches(CommandLine commandLine, String name) {
         Collection<String> switches = commandLine.getPresentSwitches();
 
         return
-            switches.contains("filter-includes") ||
-            switches.contains("filter-excludes") ||
-            switches.contains("package-filter") ||
-            switches.contains("package-filter-includes") ||
-            switches.contains("package-filter-excludes") ||
-            switches.contains("class-filter") ||
-            switches.contains("class-filter-includes") ||
-            switches.contains("class-filter-excludes") ||
-            switches.contains("feature-filter") ||
-            switches.contains("feature-filter-includes") ||
-            switches.contains("feature-filter-excludes");
+            switches.contains(name + "-includes") ||
+            switches.contains(name + "-excludes") ||
+            switches.contains("package-" + name) ||
+            switches.contains("package-" + name + "-includes") ||
+            switches.contains("package-" + name + "-excludes") ||
+            switches.contains("class-" + name) ||
+            switches.contains("class-" + name + "-includes") ||
+            switches.contains("class-" + name + "-excludes") ||
+            switches.contains("feature-" + name) ||
+            switches.contains("feature-" + name + "-includes") ||
+            switches.contains("feature-" + name + "-excludes");
     }
 
     protected boolean hasFilterListSwitches(CommandLine commandLine) {
+        return hasListSwitches(commandLine,  "filter");
+    }
+
+    protected boolean hasListSwitches(CommandLine commandLine, String name) {
         Collection<String> switches = commandLine.getPresentSwitches();
 
         return
-            switches.contains("filter-includes-list") ||
-            switches.contains("filter-excludes-list");
+            switches.contains(name + "-includes-list") ||
+            switches.contains(name + "-excludes-list");
     }
 
     protected CollectionSelectionCriteria createCollectionSelectionCriteria(Collection<String> includes, Collection<String> excludes) {

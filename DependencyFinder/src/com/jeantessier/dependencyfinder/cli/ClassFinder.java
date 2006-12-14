@@ -38,8 +38,6 @@ import java.util.*;
 import com.jeantessier.classreader.*;
 
 public class ClassFinder extends Command {
-    public static final String DEFAULT_INCLUDES = "//";
-
     public ClassFinder() {
         super("ClassFinder");
     }

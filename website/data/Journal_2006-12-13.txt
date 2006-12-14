@@ -11,3 +11,6 @@ My Emma-related Ant tasks are dedicated to doing code coverage, so I end up
 always calling them with =emma= on the command-line.  Since I never turn the
 flag off, I removed it altogether and got rid of the =emma= target.  Now, I
 will be able to trigger the code coverage targets from within IntelliJ.
+
+Refactored =Command= to remove duplication when populating groups of related
+switches, such as for start and stop criteria and for filtering.
