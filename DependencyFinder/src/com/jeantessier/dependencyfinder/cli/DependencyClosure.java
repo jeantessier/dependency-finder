@@ -35,183 +35,126 @@ package com.jeantessier.dependencyfinder.cli;
 import java.io.*;
 import java.util.*;
 
+import javax.xml.parsers.*;
+
 import org.apache.log4j.*;
+import org.xml.sax.*;
 
 import com.jeantessier.commandline.*;
 import com.jeantessier.dependency.*;
 import com.jeantessier.dependency.Printer;
 import com.jeantessier.dependency.TextPrinter;
-import com.jeantessier.dependencyfinder.*;
 
-public class DependencyClosure {
-    public static final String DEFAULT_START_INCLUDES  = "//";
-    public static final String DEFAULT_LOGFILE         = "System.out";
+public class DependencyClosure extends Command {
+    public static final String DEFAULT_START_INCLUDES = "//";
 
-    public static void showError(CommandLineUsage clu, String msg) {
-        System.err.println(msg);
-        showError(clu);
+    public DependencyClosure() {
+        super("DependencyClosure");
     }
 
-    public static void showError(CommandLineUsage clu) {
-        System.err.println(clu);
-        System.err.println();
-        System.err.println("Defaults is text output to the console.");
-        System.err.println();
+    protected void showSpecificUsage(PrintStream out) {
+        out.println();
+        out.println("Defaults is text output to the console.");
+        out.println();
     }
 
-    public static void showVersion() {
-        Version version = new Version();
-        
-        System.err.print(version.getImplementationTitle());
-        System.err.print(" ");
-        System.err.print(version.getImplementationVersion());
-        System.err.print(" (c) ");
-        System.err.print(version.getCopyrightDate());
-        System.err.print(" ");
-        System.err.print(version.getCopyrightHolder());
-        System.err.println();
-        
-        System.err.print(version.getImplementationURL());
-        System.err.println();
-        
-        System.err.print("Compiled on ");
-        System.err.print(version.getImplementationDate());
-        System.err.println();
+    protected void populateCommandLineSwitches() {
+        super.populateCommandLineSwitches();
+        populateCommandLineSwitchesForXMLOutput(XMLPrinter.DEFAULT_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
+
+        getCommandLine().addMultipleValuesSwitch("start-includes", DEFAULT_START_INCLUDES);
+        getCommandLine().addMultipleValuesSwitch("start-excludes");
+        getCommandLine().addMultipleValuesSwitch("package-start-includes");
+        getCommandLine().addMultipleValuesSwitch("package-start-excludes");
+        getCommandLine().addMultipleValuesSwitch("class-start-includes");
+        getCommandLine().addMultipleValuesSwitch("class-start-excludes");
+        getCommandLine().addMultipleValuesSwitch("feature-start-includes");
+        getCommandLine().addMultipleValuesSwitch("feature-start-excludes");
+        getCommandLine().addMultipleValuesSwitch("stop-includes");
+        getCommandLine().addMultipleValuesSwitch("stop-excludes");
+        getCommandLine().addMultipleValuesSwitch("package-stop-includes");
+        getCommandLine().addMultipleValuesSwitch("package-stop-excludes");
+        getCommandLine().addMultipleValuesSwitch("class-stop-includes");
+        getCommandLine().addMultipleValuesSwitch("class-stop-excludes");
+        getCommandLine().addMultipleValuesSwitch("feature-stop-includes");
+        getCommandLine().addMultipleValuesSwitch("feature-stop-excludes");
+
+        getCommandLine().addMultipleValuesSwitch("start-includes-list");
+        getCommandLine().addMultipleValuesSwitch("start-excludes-list");
+        getCommandLine().addMultipleValuesSwitch("stop-includes-list");
+        getCommandLine().addMultipleValuesSwitch("stop-excludes-list");
+
+        getCommandLine().addOptionalValueSwitch("maximum-inbound-depth");
+        getCommandLine().addOptionalValueSwitch("maximum-outbound-depth");
+
+        getCommandLine().addToggleSwitch("xml");
+        getCommandLine().addToggleSwitch("validate");
     }
 
-    public static void main(String[] args) throws Exception {
-        // Parsing the command line
-        CommandLine commandLine = new CommandLine(new AtLeastParameterStrategy(1));
-        commandLine.addMultipleValuesSwitch("start-includes",          DEFAULT_START_INCLUDES);
-        commandLine.addMultipleValuesSwitch("start-excludes");
-        commandLine.addMultipleValuesSwitch("package-start-includes");
-        commandLine.addMultipleValuesSwitch("package-start-excludes");
-        commandLine.addMultipleValuesSwitch("class-start-includes");
-        commandLine.addMultipleValuesSwitch("class-start-excludes");
-        commandLine.addMultipleValuesSwitch("feature-start-includes");
-        commandLine.addMultipleValuesSwitch("feature-start-excludes");
-        commandLine.addMultipleValuesSwitch("stop-includes");
-        commandLine.addMultipleValuesSwitch("stop-excludes");
-        commandLine.addMultipleValuesSwitch("package-stop-includes");
-        commandLine.addMultipleValuesSwitch("package-stop-excludes");
-        commandLine.addMultipleValuesSwitch("class-stop-includes");
-        commandLine.addMultipleValuesSwitch("class-stop-excludes");
-        commandLine.addMultipleValuesSwitch("feature-stop-includes");
-        commandLine.addMultipleValuesSwitch("feature-stop-excludes");
-
-        commandLine.addMultipleValuesSwitch("start-includes-list");
-        commandLine.addMultipleValuesSwitch("start-excludes-list");
-        commandLine.addMultipleValuesSwitch("stop-includes-list");
-        commandLine.addMultipleValuesSwitch("stop-excludes-list");
-
-        commandLine.addOptionalValueSwitch("maximum-inbound-depth");
-        commandLine.addOptionalValueSwitch("maximum-outbound-depth");
-        
-        commandLine.addToggleSwitch("xml");
-        commandLine.addToggleSwitch("validate");
-        commandLine.addSingleValueSwitch("encoding",                   XMLPrinter.DEFAULT_ENCODING);
-        commandLine.addSingleValueSwitch("dtd-prefix",                 XMLPrinter.DEFAULT_DTD_PREFIX);
-        commandLine.addSingleValueSwitch("indent-text");
-        commandLine.addToggleSwitch("time");
-        commandLine.addSingleValueSwitch("out");
-        commandLine.addToggleSwitch("help");
-        commandLine.addOptionalValueSwitch("verbose",                  DEFAULT_LOGFILE);
-        commandLine.addToggleSwitch("version");
-
-        CommandLineUsage usage = new CommandLineUsage("DependencyClosure");
-        commandLine.accept(usage);
-
-        try {
-            commandLine.parse(args);
-        } catch (IllegalArgumentException ex) {
-            showError(usage, ex.toString());
-            System.exit(1);
-        } catch (CommandLineException ex) {
-            showError(usage, ex.toString());
-            System.exit(1);
-        }
-
-        if (commandLine.getToggleSwitch("help")) {
-            showError(usage);
-        }
-        
-        if (commandLine.getToggleSwitch("version")) {
-            showVersion();
-        }
-
-        if (commandLine.getToggleSwitch("help") || commandLine.getToggleSwitch("version")) {
-            System.exit(1);
-        }
-
-        VerboseListener verboseListener = new VerboseListener();
-        if (commandLine.isPresent("verbose")) {
-            if ("System.out".equals(commandLine.getOptionalSwitch("verbose"))) {
-                verboseListener.setWriter(System.out);
-            } else {
-                verboseListener.setWriter(new FileWriter(commandLine.getOptionalSwitch("verbose")));
-            }
-        }
-
-        /*
-         *  Beginning of main processing
-         */
-
-        Date start = new Date();
-
+    protected void doProcessing() throws IOException {
         NodeFactory factory = new NodeFactory();
 
-        for (String filename : commandLine.getParameters()) {
-            Logger.getLogger(DependencyClosure.class).info("Reading " + filename);
-            verboseListener.print("Reading " + filename);
-
+        for (String filename : getCommandLine().getParameters()) {
             if (filename.endsWith(".xml")) {
-                NodeLoader loader = new NodeLoader(factory, commandLine.getToggleSwitch("validate"));
-                loader.addDependencyListener(verboseListener);
-                loader.load(filename);
+                getVerboseListener().print("Reading " + filename);
+                try {
+                    NodeLoader loader = new NodeLoader(factory, getCommandLine().getToggleSwitch("validate"));
+                    loader.addDependencyListener(getVerboseListener());
+                    loader.load(filename);
+                } catch (SAXException e) {
+                    String message = "Problem with " + filename;
+                    getVerboseListener().print(message + ": " + e.getMessage());
+                    Logger.getLogger(getClass()).error(message, e);
+                } catch (ParserConfigurationException e) {
+                    String message = "Problem with " + filename;
+                    getVerboseListener().print(message + ": " + e.getMessage());
+                    Logger.getLogger(getClass()).error(message, e);
+                }
+                getVerboseListener().print("Read \"" + filename + "\".");
+            } else {
+                getVerboseListener().print("Skipping \"" + filename + "\".");
             }
-
-            Logger.getLogger(DependencyClosure.class).info("Read \"" + filename + "\".");
         }
 
         SelectionCriteria startCriteria;
-        if (hasStartRegularExpressionSwitches(commandLine)) {
+        if (hasStartRegularExpressionSwitches(getCommandLine())) {
             RegularExpressionSelectionCriteria regularExpressionStartCriteria = new RegularExpressionSelectionCriteria();
 
-            if (commandLine.isPresent("start-includes") || (!commandLine.isPresent("package-start-includes") && !commandLine.isPresent("class-start-includes") && !commandLine.isPresent("feature-start-includes"))) {
+            if (getCommandLine().isPresent("start-includes") || (!getCommandLine().isPresent("package-start-includes") && !getCommandLine().isPresent("class-start-includes") && !getCommandLine().isPresent("feature-start-includes"))) {
                 // Only use the default if nothing else has been specified.
-                regularExpressionStartCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("start-includes"));
+                regularExpressionStartCriteria.setGlobalIncludes(getCommandLine().getMultipleSwitch("start-includes"));
             }
-            regularExpressionStartCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("start-excludes"));
-            regularExpressionStartCriteria.setPackageIncludes(commandLine.getMultipleSwitch("package-start-includes"));
-            regularExpressionStartCriteria.setPackageExcludes(commandLine.getMultipleSwitch("package-start-excludes"));
-            regularExpressionStartCriteria.setClassIncludes(commandLine.getMultipleSwitch("class-start-includes"));
-            regularExpressionStartCriteria.setClassExcludes(commandLine.getMultipleSwitch("class-start-excludes"));
-            regularExpressionStartCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-start-includes"));
-            regularExpressionStartCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-start-excludes"));
+            regularExpressionStartCriteria.setGlobalExcludes(getCommandLine().getMultipleSwitch("start-excludes"));
+            regularExpressionStartCriteria.setPackageIncludes(getCommandLine().getMultipleSwitch("package-start-includes"));
+            regularExpressionStartCriteria.setPackageExcludes(getCommandLine().getMultipleSwitch("package-start-excludes"));
+            regularExpressionStartCriteria.setClassIncludes(getCommandLine().getMultipleSwitch("class-start-includes"));
+            regularExpressionStartCriteria.setClassExcludes(getCommandLine().getMultipleSwitch("class-start-excludes"));
+            regularExpressionStartCriteria.setFeatureIncludes(getCommandLine().getMultipleSwitch("feature-start-includes"));
+            regularExpressionStartCriteria.setFeatureExcludes(getCommandLine().getMultipleSwitch("feature-start-excludes"));
 
             startCriteria = regularExpressionStartCriteria;
-        } else if (hasStartListSwitches(commandLine)) {
-            startCriteria = createCollectionSelectionCriteria(commandLine.getMultipleSwitch("start-includes-list"), commandLine.getMultipleSwitch("start-excludes-list"));
+        } else if (hasStartListSwitches(getCommandLine())) {
+            startCriteria = createCollectionSelectionCriteria(getCommandLine().getMultipleSwitch("start-includes-list"), getCommandLine().getMultipleSwitch("start-excludes-list"));
         } else {
             startCriteria = new ComprehensiveSelectionCriteria();
         }
 
         SelectionCriteria stopCriteria;
-        if (hasStopRegularExpressionSwitches(commandLine)) {
+        if (hasStopRegularExpressionSwitches(getCommandLine())) {
             RegularExpressionSelectionCriteria regularExpressionStopCriteria = new RegularExpressionSelectionCriteria();
 
-            regularExpressionStopCriteria.setGlobalIncludes(commandLine.getMultipleSwitch("stop-includes"));
-            regularExpressionStopCriteria.setGlobalExcludes(commandLine.getMultipleSwitch("stop-excludes"));
-            regularExpressionStopCriteria.setPackageIncludes(commandLine.getMultipleSwitch("package-stop-includes"));
-            regularExpressionStopCriteria.setPackageExcludes(commandLine.getMultipleSwitch("package-stop-excludes"));
-            regularExpressionStopCriteria.setClassIncludes(commandLine.getMultipleSwitch("class-stop-includes"));
-            regularExpressionStopCriteria.setClassExcludes(commandLine.getMultipleSwitch("class-stop-excludes"));
-            regularExpressionStopCriteria.setFeatureIncludes(commandLine.getMultipleSwitch("feature-stop-includes"));
-            regularExpressionStopCriteria.setFeatureExcludes(commandLine.getMultipleSwitch("feature-stop-excludes"));
+            regularExpressionStopCriteria.setGlobalIncludes(getCommandLine().getMultipleSwitch("stop-includes"));
+            regularExpressionStopCriteria.setGlobalExcludes(getCommandLine().getMultipleSwitch("stop-excludes"));
+            regularExpressionStopCriteria.setPackageIncludes(getCommandLine().getMultipleSwitch("package-stop-includes"));
+            regularExpressionStopCriteria.setPackageExcludes(getCommandLine().getMultipleSwitch("package-stop-excludes"));
+            regularExpressionStopCriteria.setClassIncludes(getCommandLine().getMultipleSwitch("class-stop-includes"));
+            regularExpressionStopCriteria.setClassExcludes(getCommandLine().getMultipleSwitch("class-stop-excludes"));
+            regularExpressionStopCriteria.setFeatureIncludes(getCommandLine().getMultipleSwitch("feature-stop-includes"));
+            regularExpressionStopCriteria.setFeatureExcludes(getCommandLine().getMultipleSwitch("feature-stop-excludes"));
 
             stopCriteria = regularExpressionStopCriteria;
-        } else if (hasStopListSwitches(commandLine)) {
-            stopCriteria = createCollectionSelectionCriteria(commandLine.getMultipleSwitch("stop-includes-list"), commandLine.getMultipleSwitch("stop-excludes-list"));
+        } else if (hasStopListSwitches(getCommandLine())) {
+            stopCriteria = createCollectionSelectionCriteria(getCommandLine().getMultipleSwitch("stop-includes-list"), getCommandLine().getMultipleSwitch("stop-excludes-list"));
         } else {
             stopCriteria = new NullSelectionCriteria();
         }
@@ -219,58 +162,41 @@ public class DependencyClosure {
         TransitiveClosure selector = new TransitiveClosure(startCriteria, stopCriteria);
 
         try {
-            if (commandLine.isPresent("maximum-inbound-depth")) {
-                selector.setMaximumInboundDepth(Long.parseLong(commandLine.getSingleSwitch("maximum-inbound-depth")));
+            if (getCommandLine().isPresent("maximum-inbound-depth")) {
+                selector.setMaximumInboundDepth(Long.parseLong(getCommandLine().getSingleSwitch("maximum-inbound-depth")));
             }
         } catch (NumberFormatException ex) {
             selector.setMaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
         }
 
         try {
-            if (commandLine.isPresent("maximum-outbound-depth")) {
-                selector.setMaximumOutboundDepth(Long.parseLong(commandLine.getSingleSwitch("maximum-outbound-depth")));
+            if (getCommandLine().isPresent("maximum-outbound-depth")) {
+                selector.setMaximumOutboundDepth(Long.parseLong(getCommandLine().getSingleSwitch("maximum-outbound-depth")));
             }
         } catch (NumberFormatException ex) {
             selector.setMaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
         }
 
-        Logger.getLogger(DependencyClosure.class).info("Operating on " + factory.getPackages().values().size() + " package(s) ...");
+        Logger.getLogger(getClass()).info("Operating on " + factory.getPackages().values().size() + " package(s) ...");
 
         selector.traverseNodes(factory.getPackages().values());
 
-        Logger.getLogger(DependencyClosure.class).info("Reporting " + selector.getFactory().getPackages().values().size() + " package(s) ...");
-    
-        verboseListener.print("Printing the graph ...");
+        Logger.getLogger(getClass()).info("Reporting " + selector.getFactory().getPackages().values().size() + " package(s) ...");
 
-        PrintWriter out;
-        if (commandLine.isPresent("out")) {
-            out = new PrintWriter(new FileWriter(commandLine.getSingleSwitch("out")));
-        } else {
-            out = new PrintWriter(System.out);
-        }
+        getVerboseListener().print("Printing the graph ...");
 
         Printer printer;
-        if (commandLine.isPresent("xml")) {
-            printer = new XMLPrinter(out, commandLine.getSingleSwitch("encoding"), commandLine.getSingleSwitch("dtd-prefix"));
+        if (getCommandLine().isPresent("xml")) {
+            printer = new XMLPrinter(out, getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
         } else {
             printer = new TextPrinter(out);
         }
 
-        if (commandLine.isPresent("indent-text")) {
-            printer.setIndentText(commandLine.getSingleSwitch("indent-text"));
+        if (getCommandLine().isPresent("indent-text")) {
+            printer.setIndentText(getCommandLine().getSingleSwitch("indent-text"));
         }
 
         printer.traverseNodes(selector.getFactory().getPackages().values());
-
-        out.close();
-
-        Date end = new Date();
-
-        if (commandLine.getToggleSwitch("time")) {
-            System.err.println(DependencyClosure.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
-        }
-
-        verboseListener.close();
     }
 
     private static boolean hasStartRegularExpressionSwitches(CommandLine commandLine) {
@@ -317,39 +243,7 @@ public class DependencyClosure {
             switches.contains("stop-excludes-list");
     }
 
-    private static CollectionSelectionCriteria createCollectionSelectionCriteria(Collection<String> includes, Collection<String> excludes) {
-        return new CollectionSelectionCriteria(loadCollection(includes), loadCollection(excludes));
-    }
-
-    private static Collection<String> loadCollection(Collection<String> filenames) {
-        Collection<String> result = null;
-
-        if (!filenames.isEmpty()) {
-            result = new HashSet<String>();
-
-            for (String filename : filenames) {
-                BufferedReader reader = null;
-                try {
-                    reader = new BufferedReader(new FileReader(filename));
-
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        result.add(line);
-                    }
-                } catch (IOException ex) {
-                    Logger.getLogger(DependencyReporter.class).error("Couldn't read file " + filename, ex);
-                } finally {
-                    try {
-                        if (reader != null) {
-                            reader.close();
-                        }
-                    } catch (IOException ex) {
-                        Logger.getLogger(DependencyReporter.class).error("Couldn't close file " + filename, ex);
-                    }
-                }
-            }
-        }
-
-        return result;
+    public static void main(String[] args) throws Exception {
+        new DependencyClosure().run(args);
     }
 }
