@@ -142,11 +142,11 @@ public class DependencyReporter extends Command {
             showError(System.err, "Only one of -maximize or -minimize allowed");
         }
 
-        if (hasScopeRegularExpressionSwitches(getCommandLine()) && hasScopeListSwitches(getCommandLine())) {
+        if (hasScopeRegularExpressionSwitches() && hasScopeListSwitches()) {
             showError(System.err, "You can use switches for regular expressions or lists for scope, but not at the same time");
         }
 
-        if (hasFilterRegularExpressionSwitches(getCommandLine()) && hasFilterListSwitches(getCommandLine())) {
+        if (hasFilterRegularExpressionSwitches() && hasFilterListSwitches()) {
             showError(System.err, "You can use switches for regular expressions or lists for filter, but not at the same time");
         }
 

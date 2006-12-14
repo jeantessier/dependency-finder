@@ -249,7 +249,7 @@ public abstract class Command {
     protected SelectionCriteria getSelectionCriteria(String name, SelectionCriteria defaultSelectionCriteria) {
         SelectionCriteria result = defaultSelectionCriteria;
 
-        if (hasRegularExpressionSwitches(getCommandLine(), name)) {
+        if (hasRegularExpressionSwitches(name)) {
             RegularExpressionSelectionCriteria regularExpressionFilterCriteria = new RegularExpressionSelectionCriteria();
 
             if (getCommandLine().isPresent("package-" + name) || getCommandLine().isPresent("class-" + name) || getCommandLine().isPresent("feature-" + name)) {
@@ -271,23 +271,23 @@ public abstract class Command {
             regularExpressionFilterCriteria.setFeatureExcludes(getCommandLine().getMultipleSwitch("feature-" + name + "-excludes"));
 
             result = regularExpressionFilterCriteria;
-        } else if (hasListSwitches(getCommandLine(), name)) {
+        } else if (hasListSwitches(name)) {
             result = createCollectionSelectionCriteria(getCommandLine().getMultipleSwitch(name + "-includes-list"), getCommandLine().getMultipleSwitch(name + "-excludes-list"));
         }
         
         return result;
     }
 
-    protected boolean hasScopeRegularExpressionSwitches(CommandLine commandLine) {
-        return hasRegularExpressionSwitches(commandLine,  "scope");
+    protected boolean hasScopeRegularExpressionSwitches() {
+        return hasRegularExpressionSwitches("scope");
     }
 
-    protected boolean hasFilterRegularExpressionSwitches(CommandLine commandLine) {
-        return hasRegularExpressionSwitches(commandLine,  "filter");
+    protected boolean hasFilterRegularExpressionSwitches() {
+        return hasRegularExpressionSwitches("filter");
     }
 
-    protected boolean hasRegularExpressionSwitches(CommandLine commandLine, String name) {
-        Collection<String> switches = commandLine.getPresentSwitches();
+    protected boolean hasRegularExpressionSwitches(String name) {
+        Collection<String> switches = getCommandLine().getPresentSwitches();
 
         return
             switches.contains(name + "-includes") ||
@@ -303,16 +303,16 @@ public abstract class Command {
             switches.contains("feature-" + name + "-excludes");
     }
 
-    protected boolean hasScopeListSwitches(CommandLine commandLine) {
-        return hasListSwitches(commandLine,  "scope");
+    protected boolean hasScopeListSwitches() {
+        return hasListSwitches("scope");
     }
 
-    protected boolean hasFilterListSwitches(CommandLine commandLine) {
-        return hasListSwitches(commandLine,  "filter");
+    protected boolean hasFilterListSwitches() {
+        return hasListSwitches("filter");
     }
 
-    protected boolean hasListSwitches(CommandLine commandLine, String name) {
-        Collection<String> switches = commandLine.getPresentSwitches();
+    protected boolean hasListSwitches(String name) {
+        Collection<String> switches = getCommandLine().getPresentSwitches();
 
         return
             switches.contains(name + "-includes-list") ||
