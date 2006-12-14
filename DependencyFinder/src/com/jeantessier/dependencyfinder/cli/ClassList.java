@@ -46,7 +46,7 @@ public class ClassList extends Command {
         // Do nothing
     }
 
-    public void doProcessing() throws IOException {
+    public void doProcessing() throws Exception {
         List<String> parameters = getCommandLine().getParameters();
         if (parameters.size() == 0) {
             parameters.add(".");

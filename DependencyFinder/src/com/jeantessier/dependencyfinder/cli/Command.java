@@ -82,7 +82,7 @@ public abstract class Command {
         }
     }
 
-    private void process() throws IOException {
+    private void process() throws Exception {
         startProcessing();
         doProcessing();
         stopProcessing();
@@ -94,7 +94,7 @@ public abstract class Command {
         startOutput();
     }
 
-    protected abstract void doProcessing() throws IOException;
+    protected abstract void doProcessing() throws Exception;
 
     private void stopProcessing() {
         stopTimer();
@@ -184,6 +184,11 @@ public abstract class Command {
         out.println();
     }
 
+    protected void populateCommandLineSwitchesForScoping() {
+        populateRegularExpressionCommandLineSwitches("scope", true, DEFAULT_INCLUDES);
+        populateListCommandLineSwitches("scope");
+    }
+
     protected void populateCommandLineSwitchesForFiltering() {
         populateRegularExpressionCommandLineSwitches("filter", true, DEFAULT_INCLUDES);
         populateListCommandLineSwitches("filter");
@@ -223,6 +228,10 @@ public abstract class Command {
     protected void populateListCommandLineSwitches(String name) {
         getCommandLine().addMultipleValuesSwitch(name + "-includes-list");
         getCommandLine().addMultipleValuesSwitch(name + "-excludes-list");
+    }
+
+    protected SelectionCriteria getScopeCriteria() {
+        return getSelectionCriteria("scope", new ComprehensiveSelectionCriteria());
     }
 
     protected SelectionCriteria getFilterCriteria() {
@@ -269,6 +278,10 @@ public abstract class Command {
         return result;
     }
 
+    protected boolean hasScopeRegularExpressionSwitches(CommandLine commandLine) {
+        return hasRegularExpressionSwitches(commandLine,  "scope");
+    }
+
     protected boolean hasFilterRegularExpressionSwitches(CommandLine commandLine) {
         return hasRegularExpressionSwitches(commandLine,  "filter");
     }
@@ -288,6 +301,10 @@ public abstract class Command {
             switches.contains("feature-" + name) ||
             switches.contains("feature-" + name + "-includes") ||
             switches.contains("feature-" + name + "-excludes");
+    }
+
+    protected boolean hasScopeListSwitches(CommandLine commandLine) {
+        return hasListSwitches(commandLine,  "scope");
     }
 
     protected boolean hasFilterListSwitches(CommandLine commandLine) {

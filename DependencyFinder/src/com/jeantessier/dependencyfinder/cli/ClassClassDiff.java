@@ -67,7 +67,7 @@ public class ClassClassDiff extends Command {
         getCommandLine().addSingleValueSwitch("level", DEFAULT_LEVEL);
     }
 
-    public void doProcessing() throws IOException {
+    public void doProcessing() throws Exception {
         // Collecting data, first classfiles from JARs,
         // then package/class trees using NodeFactory.
 

@@ -57,7 +57,7 @@ public class ClassReader extends Command {
         out.println();
     }
 
-    protected void doProcessing() throws IOException {
+    protected void doProcessing() throws Exception {
         List<String> parameters = getCommandLine().getParameters();
         if (parameters.size() == 0) {
             parameters.add(".");

@@ -65,7 +65,7 @@ public class DependencyExtractor extends Command {
         out.println();
     }
 
-    protected void doProcessing() throws IOException {
+    protected void doProcessing() throws Exception {
         SelectionCriteria filterCriteria = getFilterCriteria();
 
         List<String> parameters = getCommandLine().getParameters();

@@ -63,7 +63,7 @@ public class ClassMetrics extends Command {
         getCommandLine().addToggleSwitch("instruction-counts");
     }
 
-    public void doProcessing() throws IOException {
+    public void doProcessing() throws Exception {
         list = getCommandLine().getToggleSwitch("list");
 
         List<String> parameters = getCommandLine().getParameters();

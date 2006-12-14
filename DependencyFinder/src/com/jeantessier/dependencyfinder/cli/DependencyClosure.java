@@ -33,10 +33,8 @@
 package com.jeantessier.dependencyfinder.cli;
 
 import java.io.*;
-import javax.xml.parsers.*;
 
 import org.apache.log4j.*;
-import org.xml.sax.*;
 
 import com.jeantessier.dependency.*;
 
@@ -65,25 +63,17 @@ public class DependencyClosure extends Command {
         getCommandLine().addToggleSwitch("validate");
     }
 
-    protected void doProcessing() throws IOException {
+    protected void doProcessing() throws Exception {
         NodeFactory factory = new NodeFactory();
 
         for (String filename : getCommandLine().getParameters()) {
             if (filename.endsWith(".xml")) {
                 getVerboseListener().print("Reading " + filename);
-                try {
-                    NodeLoader loader = new NodeLoader(factory, getCommandLine().getToggleSwitch("validate"));
-                    loader.addDependencyListener(getVerboseListener());
-                    loader.load(filename);
-                } catch (SAXException e) {
-                    String message = "Problem with " + filename;
-                    getVerboseListener().print(message + ": " + e.getMessage());
-                    Logger.getLogger(getClass()).error(message, e);
-                } catch (ParserConfigurationException e) {
-                    String message = "Problem with " + filename;
-                    getVerboseListener().print(message + ": " + e.getMessage());
-                    Logger.getLogger(getClass()).error(message, e);
-                }
+
+                NodeLoader loader = new NodeLoader(factory, getCommandLine().getToggleSwitch("validate"));
+                loader.addDependencyListener(getVerboseListener());
+                loader.load(filename);
+
                 getVerboseListener().print("Read \"" + filename + "\".");
             } else {
                 getVerboseListener().print("Skipping \"" + filename + "\".");

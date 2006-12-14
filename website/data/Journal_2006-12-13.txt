@@ -1,4 +1,5 @@
-Refactored =DependencyClosure= as part of the grand CLI refactoring.
+Refactored =DependencyClosure= and =DependencyReporter= as part of the grand
+CLI refactoring.
 
 [[http://emma.sourceforge.net][Emma]] recommends that you use an =enabled=
 attribute on =&lt;emma&gt;= tags to control whether instrumentation is done or not.
