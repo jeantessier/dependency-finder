@@ -1093,9 +1093,9 @@ You can use [[http://emma.sourceforge.net/][Emma]] and the build file in
 =build.emma.xml=.
 
     1 =set CLASSPATH%3D%JUNIT_HOME%\junit.jar=
-    1 =ant -f build.emma.xml emma clean instrument=
+    1 =ant -f build.emma.xml clean instrument=
     1 =ant -f build.test.xml tests=
-    1 =ant -f build.emma.xml emma run report=
+    1 =ant -f build.emma.xml run report=
 
 To publish the results:
 

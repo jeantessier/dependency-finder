@@ -10,13 +10,6 @@
 
     <taskdef resource="emma_ant.properties" classpathref="emma.lib"/>
 
-    <target name="emma" description="turns on EMMA instrumentation/reporting">
-        <property name="emma.enabled" value="true"/>
-        <!-- EMMA instr class output directory: -->
-        <property name="out.instr.dir" value="outinstr"/>
-        <mkdir dir="${out.instr.dir}"/>
-    </target>
-
     <target name="init">
         <!-- root directory for the example source code: -->
         <property name="src.dir" value="src"/>
@@ -26,6 +19,10 @@
         <!-- javac class output directory: -->
         <property name="out.dir" value="classes"/>
         <mkdir dir="${out.dir}"/>
+
+        <!-- EMMA instr class output directory: -->
+        <property name="out.instr.dir" value="outinstr"/>
+        <mkdir dir="${out.instr.dir}"/>
 
         <!-- class coverage output directory: -->
         <property name="coverage.dir" value="emma"/>
@@ -76,7 +73,7 @@
 
     <target name="instrument" depends="init, tests.compile"
             description="instruments the bytecode">
-        <emma enabled="${emma.enabled}">
+        <emma>
             <instr instrpath="${out.dir}"
                    destdir="${out.instr.dir}"
                    metadatafile="${coverage.dir}/metadata.emma"
@@ -125,7 +122,7 @@
 
     <target name="report" depends="init"
             description="Produces the coverate report">
-        <emma enabled="${emma.enabled}">
+        <emma>
             <report>
                 <fileset dir="${coverage.dir}">
                     <include name="*.emma"/>
