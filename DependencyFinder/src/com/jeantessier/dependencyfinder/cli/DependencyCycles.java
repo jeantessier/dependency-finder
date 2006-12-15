@@ -61,11 +61,15 @@ public class DependencyCycles extends Command {
         getCommandLine().addToggleSwitch("validate");
     }
 
-    protected void doProcessing() throws Exception {
-        if (hasScopeRegularExpressionSwitches() && hasScopeListSwitches()) {
-            showError(System.err, "You can use switches for regular expressions or lists for scope, but not at the same time");
-        }
+    protected boolean validateCommandLine(PrintStream out) throws IOException {
+        boolean result = super.validateCommandLine(out);
 
+        result &= validateCommandLineForScoping(out);
+
+        return result;
+    }
+
+    protected void doProcessing() throws Exception {
         NodeFactory factory = new NodeFactory();
 
         for (String filename : getCommandLine().getParameters()) {

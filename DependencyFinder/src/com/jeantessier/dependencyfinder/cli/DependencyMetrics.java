@@ -143,7 +143,12 @@ public class DependencyMetrics extends Command {
         getCommandLine().addToggleSwitch("validate");
     }
 
-    public void doProcessing() throws Exception {
+    protected boolean validateCommandLine(PrintStream out) throws IOException {
+        boolean result = super.validateCommandLine(out);
+
+        result &= validateCommandLineForScoping(out);
+        result &= validateCommandLineForFiltering(out);
+
         if (getCommandLine().getToggleSwitch("p2p")) {
             getCommandLine().getSwitch("package-scope").setValue(true);
             getCommandLine().getSwitch("package-filter").setValue(true);
@@ -178,6 +183,10 @@ public class DependencyMetrics extends Command {
             }
         }
 
+        return result;
+    }
+
+    public void doProcessing() throws Exception {
         NodeFactory factory = new NodeFactory();
 
         for (String filename : getCommandLine().getParameters()) {

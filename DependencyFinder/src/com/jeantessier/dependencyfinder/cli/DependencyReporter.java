@@ -103,7 +103,9 @@ public class DependencyReporter extends Command {
         new DependencyReporter().run(args);
     }
 
-    protected void doProcessing() throws Exception {
+    protected boolean validateCommandLine(PrintStream out) throws IOException {
+        boolean result = super.validateCommandLine(out);
+
         if (getCommandLine().isPresent("p2p")) {
             getCommandLine().getSwitch("package-scope").setValue(true);
             getCommandLine().getSwitch("package-filter").setValue(true);
@@ -138,18 +140,18 @@ public class DependencyReporter extends Command {
             }
         }
 
+        result &= validateCommandLineForScoping(out);
+        result &= validateCommandLineForFiltering(out);
+
         if (getCommandLine().getToggleSwitch("maximize") && getCommandLine().getToggleSwitch("minimize")) {
-            showError(System.err, "Only one of -maximize or -minimize allowed");
+            showError(out, "Only one of -maximize or -minimize is allowed");
+            result = false;
         }
 
-        if (hasScopeRegularExpressionSwitches() && hasScopeListSwitches()) {
-            showError(System.err, "You can use switches for regular expressions or lists for scope, but not at the same time");
-        }
+        return result;
+    }
 
-        if (hasFilterRegularExpressionSwitches() && hasFilterListSwitches()) {
-            showError(System.err, "You can use switches for regular expressions or lists for filter, but not at the same time");
-        }
-
+    protected void doProcessing() throws Exception {
         SelectionCriteria scopeCriteria = getScopeCriteria();
         SelectionCriteria filterCriteria = getFilterCriteria();
 

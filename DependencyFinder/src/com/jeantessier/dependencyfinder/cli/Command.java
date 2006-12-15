@@ -35,11 +35,17 @@ public abstract class Command {
         return verboseListener;
     }
 
-    public void run(String[] args) throws Exception {
-        parseCommandLine(args);
-        validateCommandLine();
-
-        process();
+    public void run(String[] args) {
+        try {
+            parseCommandLine(args);
+            if (validateCommandLine(System.err)) {
+                process();
+            } else {
+                System.exit(1);
+            }
+        } catch (Exception e) {
+            Logger.getLogger(getClass()).error(e);
+        }
     }
 
     protected void populateCommandLineSwitches() {
@@ -56,30 +62,46 @@ public abstract class Command {
         getCommandLine().addSingleValueSwitch("indent-text");
     }
 
-    protected void parseCommandLine(String[] args) {
-        try {
-            getCommandLine().parse(args);
-        } catch (IllegalArgumentException ex) {
-            showError(ex.toString());
-            System.exit(1);
-        } catch (CommandLineException ex) {
-            showError(ex.toString());
-            System.exit(1);
-        }
+    protected void parseCommandLine(String[] args) throws CommandLineException {
+        getCommandLine().parse(args);
     }
 
-    protected void validateCommandLine() throws IOException {
+    protected boolean validateCommandLine(PrintStream out) throws IOException {
+        boolean result = true;
+
         if (getCommandLine().getToggleSwitch("help")) {
-            showError();
+            showError(out);
+            result = false;
         }
 
         if (getCommandLine().getToggleSwitch("version")) {
-            showVersion();
+            showVersion(out);
+            result = false;
         }
 
-        if (getCommandLine().getToggleSwitch("help") || getCommandLine().getToggleSwitch("version")) {
-            System.exit(1);
+        return result;
+    }
+
+    protected boolean validateCommandLineForScoping(PrintStream out) {
+        boolean result = true;
+
+        if (hasScopeRegularExpressionSwitches() && hasScopeListSwitches()) {
+            showError(out, "You can use switches for regular expressions or lists for scope, but not at the same time");
+            result = false;
         }
+
+        return result;
+    }
+
+    protected boolean validateCommandLineForFiltering(PrintStream out) {
+        boolean result = true;
+
+        if (hasFilterRegularExpressionSwitches() && hasFilterListSwitches()) {
+            showError(out, "You can use switches for regular expressions or lists for filter, but not at the same time");
+            result = false;
+        }
+
+        return result;
     }
 
     private void process() throws Exception {

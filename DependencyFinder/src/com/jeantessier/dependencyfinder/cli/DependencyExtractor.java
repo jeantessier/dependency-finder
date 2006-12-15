@@ -43,6 +43,17 @@ public class DependencyExtractor extends Command {
         super("DependencyExtractor");
     }
 
+    protected void showSpecificUsage(PrintStream out) {
+        out.println();
+        out.println("If no files are specified, it processes the current directory.");
+        out.println();
+        out.println("If file is a directory, it is recusively scanned for files");
+        out.println("ending in \".class\".");
+        out.println();
+        out.println("Defaults is text output to the console.");
+        out.println();
+    }
+
     protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
         populateCommandLineSwitchesForXMLOutput(com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING, com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX);
@@ -54,15 +65,12 @@ public class DependencyExtractor extends Command {
         getCommandLine().addToggleSwitch("xml");
     }
 
-    protected void showSpecificUsage(PrintStream out) {
-        out.println();
-        out.println("If no files are specified, it processes the current directory.");
-        out.println();
-        out.println("If file is a directory, it is recusively scanned for files");
-        out.println("ending in \".class\".");
-        out.println();
-        out.println("Defaults is text output to the console.");
-        out.println();
+    protected boolean validateCommandLine(PrintStream out) throws IOException {
+        boolean result = super.validateCommandLine(out);
+
+        result &= validateCommandLineForFiltering(out);
+
+        return result;
     }
 
     protected void doProcessing() throws Exception {
