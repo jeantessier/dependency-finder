@@ -103,4 +103,8 @@ public abstract class CommandLineSwitchBase implements CommandLineSwitch {
     public String toString() {
         return getValue().toString();
     }
+
+    public boolean isSatisfied() {
+        return !isMandatory() || isPresent();
+    }
 }

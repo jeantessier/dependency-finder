@@ -35,8 +35,11 @@ package com.jeantessier.commandline;
 import junit.framework.*;
 
 public class TestCommandLine extends TestCase {
-    private CommandLine commandLine;
+    private static final String SWITCH_NAME = "switch";
+    private static final String SWITCH_DEFAULT_VALUE = "default value";
+    private static final String SWITCH_VALUE = "value";
 
+    private CommandLine commandLine;
 
     protected void setUp() throws Exception {
         super.setUp();
@@ -45,10 +48,43 @@ public class TestCommandLine extends TestCase {
     }
 
     public void testAddToggleSwitch() {
-        commandLine.addToggleSwitch("switch");
-        CommandLineSwitch cls = commandLine.getSwitch("switch");
+        commandLine.addToggleSwitch(SWITCH_NAME);
+        CommandLineSwitch cls = commandLine.getSwitch(SWITCH_NAME);
         assertTrue("Wrong type", cls instanceof ToggleSwitch);
-        assertEquals("name", "switch", cls.getName());
+        assertEquals("name", SWITCH_NAME, cls.getName());
         assertFalse("is present", cls.isPresent());
+    }
+
+    public void testParseToggleSwitchTwice() throws CommandLineException {
+        commandLine.addToggleSwitch(SWITCH_NAME);
+        String cls = "-" + SWITCH_NAME;
+        commandLine.parse(new String[] {cls, cls});
+        assertTrue("Missing switch", commandLine.isPresent(SWITCH_NAME));
+    }
+
+    public void testParseSingleValueSwitchTwice() throws CommandLineException {
+        commandLine.addSingleValueSwitch(SWITCH_NAME);
+        String cls = "-" + SWITCH_NAME;
+        commandLine.parse(new String[] {cls, SWITCH_VALUE, cls, SWITCH_VALUE});
+        assertTrue("Missing switch", commandLine.isPresent(SWITCH_NAME));
+        assertEquals("Single value switch value", SWITCH_VALUE, commandLine.getSingleSwitch(SWITCH_NAME));
+    }
+
+    public void testParseOptionalValueSwitchTwice() throws CommandLineException {
+        commandLine.addOptionalValueSwitch(SWITCH_NAME, SWITCH_DEFAULT_VALUE);
+        String cls = "-" + SWITCH_NAME;
+        commandLine.parse(new String[] {cls, SWITCH_VALUE, cls});
+        assertTrue("Missing switch", commandLine.isPresent(SWITCH_NAME));
+        assertEquals("Optional value switch value", SWITCH_DEFAULT_VALUE, commandLine.getOptionalSwitch(SWITCH_NAME));
+    }
+
+    public void testParseMultipleValueSwitchTwice() throws CommandLineException {
+        commandLine.addMultipleValuesSwitch(SWITCH_NAME, SWITCH_DEFAULT_VALUE);
+        String cls = "-" + SWITCH_NAME;
+        commandLine.parse(new String[] {cls, SWITCH_VALUE, cls, SWITCH_VALUE});
+        assertTrue("Missing switch", commandLine.isPresent(SWITCH_NAME));
+        assertEquals("Multiple value switch value size", 2, commandLine.getMultipleSwitch(SWITCH_NAME).size());
+        assertEquals("Multiple value switch value 0", SWITCH_VALUE, commandLine.getMultipleSwitch(SWITCH_NAME).get(0));
+        assertEquals("Multiple value switch value 1", SWITCH_VALUE, commandLine.getMultipleSwitch(SWITCH_NAME).get(1));
     }
 }
