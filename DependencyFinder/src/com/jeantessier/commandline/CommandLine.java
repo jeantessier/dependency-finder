@@ -253,11 +253,9 @@ public class CommandLine implements Visitable {
         }
 
         // Checking that all manadatory switches are present
-        for (String name : map.keySet()) {
-            CommandLineSwitch cls = map.get(name);
-
-            if (cls.isMandatory() && !cls.isPresent()) {
-                throw new CommandLineException("Missing mandatory switch \"" + name + "\"");
+        for (CommandLineSwitch cls : map.values()) {
+            if (!cls.isSatisfied()) {
+                throw new CommandLineException("Missing mandatory switch \"" + cls.getName() + "\"");
             }
         }
 
