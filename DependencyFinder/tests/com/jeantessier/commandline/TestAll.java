@@ -41,6 +41,7 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestToggleSwitch.class);
         result.addTestSuite(TestSingleValueSwitch.class);
         result.addTestSuite(TestOptionalValueSwitch.class);
+        result.addTestSuite(TestMultipleValuesSwitch.class);
         result.addTestSuite(TestNullParameterStrategy.class);
         result.addTestSuite(TestCollectingParameterStrategy.class);
         result.addTestSuite(TestAtLeastParameterStrategy.class);
