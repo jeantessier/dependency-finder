@@ -17,10 +17,9 @@ public class CommandFixture extends DoFixture {
     }
 
     public boolean parseAndValidate(String args) throws CommandLineException, IOException {
-        getCommand().parseCommandLine(args.split("\\s+"));
+        parse(args);
 
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        PrintStream printStream = new PrintStream(out);
+        PrintStream printStream = new PrintStream(new ByteArrayOutputStream());
         try {
             return getCommand().validateCommandLine(printStream);
         } finally {
