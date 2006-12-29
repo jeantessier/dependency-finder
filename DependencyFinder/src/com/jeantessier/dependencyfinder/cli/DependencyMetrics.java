@@ -40,69 +40,11 @@ import com.jeantessier.commandline.*;
 import org.apache.log4j.*;
 
 public class DependencyMetrics extends Command {
-    public DependencyMetrics() {
+    public DependencyMetrics() throws CommandLineException {
         super("DependencyMetrics");
     }
 
     protected void showSpecificUsage(PrintStream out) {
-        out.println();
-        out.println("-p2p shorthand for the combination:");
-        out.println("    -package-scope");
-        out.println("    -package-filter");
-        out.println();
-        out.println("-c2p shorthand for the combination:");
-        out.println("    -class-scope");
-        out.println("    -package-filter");
-        out.println();
-        out.println("-c2c shorthand for the combination:");
-        out.println("    -class-scope");
-        out.println("    -class-filter");
-        out.println();
-        out.println("-f2f shorthand for the combination:");
-        out.println("    -feature-scope");
-        out.println("    -feature-filter");
-        out.println();
-        out.println("-includes \"str\" shorthand for the combination:");
-        out.println("    -scope-includes \"str\"");
-        out.println("    -filter-includes \"str\"");
-        out.println();
-        out.println("-excludes \"str\" shorthand for the combination:");
-        out.println("    -scope-excludes \"str\"");
-        out.println("    -filter-excludes \"str\"");
-        out.println();
-        out.println("-chart-all shorthand for the combination:");
-        out.println("    -chart-classes-per-package");
-        out.println("    -chart-features-per-class");
-        out.println("    -chart-inbounds-per-package");
-        out.println("    -chart-outbounds-per-package");
-        out.println("    -chart-inbounds-per-class");
-        out.println("    -chart-outbounds-per-class");
-        out.println("    -chart-inbounds-per-feature");
-        out.println("    -chart-outbounds-per-feature");
-        out.println();
-        out.println("-chart-inbounds shorthand for the combination:");
-        out.println("    -chart-inbounds-per-package");
-        out.println("    -chart-inbounds-per-class");
-        out.println("    -chart-inbounds-per-feature");
-        out.println();
-        out.println("-chart-outbounds shorthand for the combination:");
-        out.println("    -chart-outbounds-per-package");
-        out.println("    -chart-outbounds-per-class");
-        out.println("    -chart-outbounds-per-feature");
-        out.println();
-        out.println("-chart-packages shorthand for the combination:");
-        out.println("    -chart-classes-per-package");
-        out.println("    -chart-inbounds-per-package");
-        out.println("    -chart-outbounds-per-package");
-        out.println();
-        out.println("-chart-classes shorthand for the combination:");
-        out.println("    -chart-features-per-class");
-        out.println("    -chart-inbounds-per-class");
-        out.println("    -chart-outbounds-per-class");
-        out.println();
-        out.println("-chart-features shorthand for the combination:");
-        out.println("    -chart-inbounds-per-feature");
-        out.println("    -chart-outbounds-per-feature");
         out.println();
         out.println("If no files are specified, it processes the current directory.");
         out.println();
@@ -113,18 +55,18 @@ public class DependencyMetrics extends Command {
         out.println();
     }
 
-    protected void populateCommandLineSwitches() {
+    protected void populateCommandLineSwitches() throws CommandLineException {
         super.populateCommandLineSwitches();
 
         populateCommandLineSwitchesForScoping();
         populateCommandLineSwitchesForFiltering();
 
-        getCommandLine().addToggleSwitch("p2p");
-        getCommandLine().addToggleSwitch("c2p");
-        getCommandLine().addToggleSwitch("c2c");
-        getCommandLine().addToggleSwitch("f2f");
-        getCommandLine().addMultipleValuesSwitch("includes", DEFAULT_INCLUDES);
-        getCommandLine().addMultipleValuesSwitch("excludes");
+        getCommandLine().addAliasSwitch("p2p", "package-scope", "package-filter");
+        getCommandLine().addAliasSwitch("c2p", "class-scope", "package-filter");
+        getCommandLine().addAliasSwitch("c2c", "class-scope", "class-filter");
+        getCommandLine().addAliasSwitch("f2f", "feature-scope", "feature-filter");
+        getCommandLine().addAliasSwitch("includes", "scope-includes", "filter-includes");
+        getCommandLine().addAliasSwitch("excludes", "scope-excludes", "filter-excludes");
 
         getCommandLine().addToggleSwitch("list");
         getCommandLine().addToggleSwitch("chart-classes-per-package");
@@ -135,12 +77,13 @@ public class DependencyMetrics extends Command {
         getCommandLine().addToggleSwitch("chart-outbounds-per-class");
         getCommandLine().addToggleSwitch("chart-inbounds-per-feature");
         getCommandLine().addToggleSwitch("chart-outbounds-per-feature");
-        getCommandLine().addToggleSwitch("chart-inbounds");
-        getCommandLine().addToggleSwitch("chart-outbounds");
-        getCommandLine().addToggleSwitch("chart-packages");
-        getCommandLine().addToggleSwitch("chart-classes");
-        getCommandLine().addToggleSwitch("chart-features");
-        getCommandLine().addToggleSwitch("chart-all");
+
+        getCommandLine().addAliasSwitch("chart-inbounds", "chart-inbounds-per-package", "chart-inbounds-per-class", "chart-inbounds-per-feature");
+        getCommandLine().addAliasSwitch("chart-outbounds", "chart-outbounds-per-package", "chart-outbounds-per-class", "chart-outbounds-per-feature");
+        getCommandLine().addAliasSwitch("chart-packages", "chart-classes-per-package", "chart-inbounds-per-package", "chart-outbounds-per-package");
+        getCommandLine().addAliasSwitch("chart-classes", "chart-features-per-class", "chart-inbounds-per-class", "chart-outbounds-per-class");
+        getCommandLine().addAliasSwitch("chart-features", "chart-inbounds-per-feature", "chart-outbounds-per-feature");
+        getCommandLine().addAliasSwitch("chart-all", "chart-classes-per-package", "chart-features-per-class", "chart-inbounds-per-package", "chart-outbounds-per-package", "chart-inbounds-per-class", "chart-outbounds-per-class", "chart-inbounds-per-feature", "chart-outbounds-per-feature");
 
         getCommandLine().addToggleSwitch("validate");
     }
@@ -150,40 +93,6 @@ public class DependencyMetrics extends Command {
 
         result &= validateCommandLineForScoping(out);
         result &= validateCommandLineForFiltering(out);
-
-        if (getCommandLine().getToggleSwitch("p2p")) {
-            getCommandLine().getSwitch("package-scope").setValue(true);
-            getCommandLine().getSwitch("package-filter").setValue(true);
-        }
-
-        if (getCommandLine().getToggleSwitch("c2p")) {
-            getCommandLine().getSwitch("class-scope").setValue(true);
-            getCommandLine().getSwitch("package-filter").setValue(true);
-        }
-
-        if (getCommandLine().getToggleSwitch("c2c")) {
-            getCommandLine().getSwitch("class-scope").setValue(true);
-            getCommandLine().getSwitch("class-filter").setValue(true);
-        }
-
-        if (getCommandLine().getToggleSwitch("f2f")) {
-            getCommandLine().getSwitch("feature-scope").setValue(true);
-            getCommandLine().getSwitch("feature-filter").setValue(true);
-        }
-
-        if (getCommandLine().isPresent("includes")) {
-            for (String value : getCommandLine().getMultipleSwitch("includes")) {
-                getCommandLine().getSwitch("scope-includes").setValue(value);
-                getCommandLine().getSwitch("filter-includes").setValue(value);
-            }
-        }
-
-        if (getCommandLine().isPresent("excludes")) {
-            for (String value : getCommandLine().getMultipleSwitch("excludes")) {
-                getCommandLine().getSwitch("scope-excludes").setValue(value);
-                getCommandLine().getSwitch("filter-excludes").setValue(value);
-            }
-        }
 
         return result;
     }
@@ -215,46 +124,6 @@ public class DependencyMetrics extends Command {
         reporter.setChartingOutboundsPerClass(getCommandLine().getToggleSwitch("chart-outbounds-per-class"));
         reporter.setChartingInboundsPerFeature(getCommandLine().getToggleSwitch("chart-inbounds-per-feature"));
         reporter.setChartingOutboundsPerFeature(getCommandLine().getToggleSwitch("chart-outbounds-per-feature"));
-
-        if (getCommandLine().getToggleSwitch("chart-all")) {
-            reporter.setChartingClassesPerPackage(true);
-            reporter.setChartingFeaturesPerClass(true);
-            reporter.setChartingInboundsPerPackage(true);
-            reporter.setChartingOutboundsPerPackage(true);
-            reporter.setChartingInboundsPerClass(true);
-            reporter.setChartingOutboundsPerClass(true);
-            reporter.setChartingInboundsPerFeature(true);
-            reporter.setChartingOutboundsPerFeature(true);
-        }
-
-        if (getCommandLine().getToggleSwitch("chart-inbounds")) {
-            reporter.setChartingInboundsPerPackage(true);
-            reporter.setChartingInboundsPerClass(true);
-            reporter.setChartingInboundsPerFeature(true);
-        }
-
-        if (getCommandLine().getToggleSwitch("chart-outbounds")) {
-            reporter.setChartingOutboundsPerPackage(true);
-            reporter.setChartingOutboundsPerClass(true);
-            reporter.setChartingOutboundsPerFeature(true);
-        }
-
-        if (getCommandLine().getToggleSwitch("chart-packages")) {
-            reporter.setChartingClassesPerPackage(true);
-            reporter.setChartingInboundsPerPackage(true);
-            reporter.setChartingOutboundsPerPackage(true);
-        }
-
-        if (getCommandLine().getToggleSwitch("chart-classes")) {
-            reporter.setChartingFeaturesPerClass(true);
-            reporter.setChartingInboundsPerClass(true);
-            reporter.setChartingOutboundsPerClass(true);
-        }
-
-        if (getCommandLine().getToggleSwitch("chart-features")) {
-            reporter.setChartingInboundsPerFeature(true);
-            reporter.setChartingOutboundsPerFeature(true);
-        }
 
         SelectionCriteria scopeCriteria = getScopeCriteria();
         SelectionCriteria filterCriteria = getFilterCriteria();

@@ -43,53 +43,29 @@ import com.jeantessier.dependency.TextPrinter;
 import com.jeantessier.commandline.*;
 
 public class DependencyReporter extends Command {
-    public DependencyReporter() {
+    public DependencyReporter() throws CommandLineException {
         super("DependencyReporter");
     }
 
     protected void showSpecificUsage(PrintStream out) {
         out.println();
-        out.println("-p2p shorthand for the combination:");
-        out.println("    -package-scope");
-        out.println("    -package-filter");
-        out.println();
-        out.println("-c2p shorthand for the combination:");
-        out.println("    -class-scope");
-        out.println("    -package-filter");
-        out.println();
-        out.println("-c2c shorthand for the combination:");
-        out.println("    -class-scope");
-        out.println("    -class-filter");
-        out.println();
-        out.println("-f2f shorthand for the combination:");
-        out.println("    -feature-scope");
-        out.println("    -feature-filter");
-        out.println();
-        out.println("-includes \"str\" shorthand for the combination:");
-        out.println("    -scope-includes \"str\"");
-        out.println("    -filter-includes \"str\"");
-        out.println();
-        out.println("-excludes \"str\" shorthand for the combination:");
-        out.println("    -scope-excludes \"str\"");
-        out.println("    -filter-excludes \"str\"");
-        out.println();
         out.println("Default is text output to the console.");
         out.println();
     }
 
-    protected void populateCommandLineSwitches() {
+    protected void populateCommandLineSwitches() throws CommandLineException {
         super.populateCommandLineSwitches();
         populateCommandLineSwitchesForXMLOutput(XMLPrinter.DEFAULT_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
 
         populateCommandLineSwitchesForScoping();
         populateCommandLineSwitchesForFiltering();
 
-        getCommandLine().addToggleSwitch("p2p");
-        getCommandLine().addToggleSwitch("c2p");
-        getCommandLine().addToggleSwitch("c2c");
-        getCommandLine().addToggleSwitch("f2f");
-        getCommandLine().addMultipleValuesSwitch("includes", DEFAULT_INCLUDES);
-        getCommandLine().addMultipleValuesSwitch("excludes");
+        getCommandLine().addAliasSwitch("p2p", "package-scope", "package-filter");
+        getCommandLine().addAliasSwitch("c2p", "class-scope", "package-filter");
+        getCommandLine().addAliasSwitch("c2c", "class-scope", "class-filter");
+        getCommandLine().addAliasSwitch("f2f", "feature-scope", "feature-filter");
+        getCommandLine().addAliasSwitch("includes", "scope-includes", "filter-includes");
+        getCommandLine().addAliasSwitch("excludes", "scope-excludes", "filter-excludes");
 
         getCommandLine().addToggleSwitch("show-inbounds");
         getCommandLine().addToggleSwitch("show-outbounds");
@@ -108,40 +84,6 @@ public class DependencyReporter extends Command {
 
     protected boolean validateCommandLine(PrintStream out) throws IOException, CommandLineException {
         boolean result = super.validateCommandLine(out);
-
-        if (getCommandLine().isPresent("p2p")) {
-            getCommandLine().getSwitch("package-scope").setValue(true);
-            getCommandLine().getSwitch("package-filter").setValue(true);
-        }
-
-        if (getCommandLine().isPresent("c2p")) {
-            getCommandLine().getSwitch("class-scope").setValue(true);
-            getCommandLine().getSwitch("package-filter").setValue(true);
-        }
-
-        if (getCommandLine().isPresent("c2c")) {
-            getCommandLine().getSwitch("class-scope").setValue(true);
-            getCommandLine().getSwitch("class-filter").setValue(true);
-        }
-
-        if (getCommandLine().isPresent("f2f")) {
-            getCommandLine().getSwitch("feature-scope").setValue(true);
-            getCommandLine().getSwitch("feature-filter").setValue(true);
-        }
-
-        if (getCommandLine().isPresent("includes")) {
-            for (String value : getCommandLine().getMultipleSwitch("includes")) {
-                getCommandLine().getSwitch("scope-includes").setValue(value);
-                getCommandLine().getSwitch("filter-includes").setValue(value);
-            }
-        }
-
-        if (getCommandLine().isPresent("excludes")) {
-            for (String value : getCommandLine().getMultipleSwitch("excludes")) {
-                getCommandLine().getSwitch("scope-excludes").setValue(value);
-                getCommandLine().getSwitch("filter-excludes").setValue(value);
-            }
-        }
 
         result &= validateCommandLineForScoping(out);
         result &= validateCommandLineForFiltering(out);

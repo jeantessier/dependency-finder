@@ -18,11 +18,13 @@
     </tr>
 </table>
 
+<h2>Checking known switches.</h2>
+
 <table border="1">
     <tr><td colspan="3">switches</td></tr>
     <tr><td>name</td><td>default value</td><td>mandatory</td></tr>
-    <tr><td>c2c</td><td>false</td><td>false</td></tr>
-    <tr><td>c2p</td><td>false</td><td>false</td></tr>
+    <tr><td>c2c</td><td></td><td>false</td></tr>
+    <tr><td>c2p</td><td></td><td>false</td></tr>
     <tr><td>class-filter</td><td>false</td><td>false</td></tr>
     <tr><td>class-filter-excludes</td><td>[]</td><td>false</td></tr>
     <tr><td>class-filter-includes</td><td>[]</td><td>false</td></tr>
@@ -32,8 +34,8 @@
     <tr><td>copy-only</td><td>false</td><td>false</td></tr>
     <tr><td>dtd-prefix</td><td>http://depfind.sourceforge.net/dtd</td><td>false</td></tr>
     <tr><td>encoding</td><td>utf-8</td><td>false</td></tr>
-    <tr><td>excludes</td><td>[]</td><td>false</td></tr>
-    <tr><td>f2f</td><td>false</td><td>false</td></tr>
+    <tr><td>excludes</td><td></td><td>false</td></tr>
+    <tr><td>f2f</td><td></td><td>false</td></tr>
     <tr><td>feature-filter</td><td>false</td><td>false</td></tr>
     <tr><td>feature-filter-excludes</td><td>[]</td><td>false</td></tr>
     <tr><td>feature-filter-includes</td><td>[]</td><td>false</td></tr>
@@ -45,12 +47,12 @@
     <tr><td>filter-includes</td><td>[//]</td><td>false</td></tr>
     <tr><td>filter-includes-list</td><td>[]</td><td>false</td></tr>
     <tr><td>help</td><td>false</td><td>false</td></tr>
-    <tr><td>includes</td><td>[//]</td><td>false</td></tr>
+    <tr><td>includes</td><td></td><td>false</td></tr>
     <tr><td>indent-text</td><td></td><td>false</td></tr>
     <tr><td>maximize</td><td>false</td><td>false</td></tr>
     <tr><td>minimize</td><td>false</td><td>false</td></tr>
     <tr><td>out</td><td></td><td>false</td></tr>
-    <tr><td>p2p</td><td>false</td><td>false</td></tr>
+    <tr><td>p2p</td><td></td><td>false</td></tr>
     <tr><td>package-filter</td><td>false</td><td>false</td></tr>
     <tr><td>package-filter-excludes</td><td>[]</td><td>false</td></tr>
     <tr><td>package-filter-includes</td><td>[]</td><td>false</td></tr>
@@ -69,6 +71,64 @@
     <tr><td>verbose</td><td>System.out</td><td>false</td></tr>
     <tr><td>version</td><td>false</td><td>false</td></tr>
     <tr><td>xml</td><td>false</td><td>false</td></tr>
+</table>
+
+<h2>Checking aliases.</h2>
+
+<table border="1">
+    <tr><td>parse</td><td colspan="4">-p2p -c2c -f2f</td></tr>
+    <tr><td>check</td><td>is</td><td>package-scope</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>is</td><td>class-scope</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>is</td><td>feature-scope</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>is</td><td>package-filter</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>is</td><td>class-filter</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>is</td><td>feature-filter</td><td>present</td><td>true</td></tr>
+</table>
+
+<table border="1">
+    <tr><td>parse</td><td colspan="4">-p2p</td></tr>
+    <tr><td>check</td><td>is</td><td>package-scope</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>is</td><td>class-scope</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>feature-scope</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>package-filter</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>is</td><td>class-filter</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>feature-filter</td><td>present</td><td>false</td></tr>
+</table>
+
+<table border="1">
+    <tr><td>parse</td><td colspan="4"></td></tr>
+    <tr><td>check</td><td>is</td><td>scope-includes</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>get</td><td>scope-includes</td><td>multiple switch</td><td>//</td></tr>
+    <tr><td>check</td><td>is</td><td>scope-excludes</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>get</td><td>scope-excludes</td><td>multiple switch</td><td></td></tr>
+    <tr><td>check</td><td>is</td><td>filter-includes</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>get</td><td>filter-includes</td><td>multiple switch</td><td>//</td></tr>
+    <tr><td>check</td><td>is</td><td>filter-excludes</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>get</td><td>filter-excludes</td><td>multiple switch</td><td></td></tr>
+</table>
+
+<table border="1">
+    <tr><td>parse</td><td colspan="4">-includes /foobar/</td></tr>
+    <tr><td>check</td><td>is</td><td>scope-includes</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>get</td><td>scope-includes</td><td>multiple switch</td><td>/foobar/</td></tr>
+    <tr><td>check</td><td>is</td><td>scope-excludes</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>get</td><td>scope-excludes</td><td>multiple switch</td><td></td></tr>
+    <tr><td>check</td><td>is</td><td>filter-includes</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>get</td><td>filter-includes</td><td>multiple switch</td><td>/foobar/</td></tr>
+    <tr><td>check</td><td>is</td><td>filter-excludes</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>get</td><td>filter-excludes</td><td>multiple switch</td><td></td></tr>
+</table>
+
+<table border="1">
+    <tr><td>parse</td><td colspan="4">-excludes /foobar/</td></tr>
+    <tr><td>check</td><td>is</td><td>scope-includes</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>get</td><td>scope-includes</td><td>multiple switch</td><td>//</td></tr>
+    <tr><td>check</td><td>is</td><td>scope-excludes</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>get</td><td>scope-excludes</td><td>multiple switch</td><td>/foobar/</td></tr>
+    <tr><td>check</td><td>is</td><td>filter-includes</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>get</td><td>filter-includes</td><td>multiple switch</td><td>//</td></tr>
+    <tr><td>check</td><td>is</td><td>filter-excludes</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>get</td><td>filter-excludes</td><td>multiple switch</td><td>/foobar/</td></tr>
 </table>
 
 </body>

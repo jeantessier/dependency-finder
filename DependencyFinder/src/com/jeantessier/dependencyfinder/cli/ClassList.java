@@ -36,9 +36,10 @@ import java.io.*;
 import java.util.*;
 
 import com.jeantessier.classreader.*;
+import com.jeantessier.commandline.*;
 
 public class ClassList extends Command {
-    public ClassList() {
+    public ClassList() throws CommandLineException {
         super("ClassList");
     }
 

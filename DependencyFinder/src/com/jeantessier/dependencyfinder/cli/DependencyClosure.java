@@ -37,9 +37,12 @@ import java.io.*;
 import org.apache.log4j.*;
 
 import com.jeantessier.dependency.*;
+import com.jeantessier.dependency.Printer;
+import com.jeantessier.dependency.TextPrinter;
+import com.jeantessier.commandline.*;
 
 public class DependencyClosure extends Command {
-    public DependencyClosure() {
+    public DependencyClosure() throws CommandLineException {
         super("DependencyClosure");
     }
 
@@ -49,7 +52,7 @@ public class DependencyClosure extends Command {
         out.println();
     }
 
-    protected void populateCommandLineSwitches() {
+    protected void populateCommandLineSwitches() throws CommandLineException {
         super.populateCommandLineSwitches();
         populateCommandLineSwitchesForXMLOutput(XMLPrinter.DEFAULT_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
 

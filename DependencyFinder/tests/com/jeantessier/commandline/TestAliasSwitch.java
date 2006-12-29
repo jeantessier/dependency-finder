@@ -84,19 +84,6 @@ public class TestAliasSwitch extends TestCase {
         assertFalse("Present", aliasSwitch.isPresent());
     }
 
-    public void testIsStatisfied() {
-        aliasSwitch.setValue(SWITCH_VALUE);
-        assertTrue("Switch1 not satisfied", switch1.isSatisfied());
-        assertTrue("Switch2 not satisfied", switch2.isSatisfied());
-        assertTrue("Not satisfied", aliasSwitch.isSatisfied());
-    }
-
-    public void testIsStatisfiedWithNoSwitches() {
-        aliasSwitch = new AliasSwitch(SWITCH_NAME);
-        aliasSwitch.setValue(SWITCH_VALUE);
-        assertFalse("satisfied", aliasSwitch.isSatisfied());
-    }
-
     public void testParseNull() throws CommandLineException {
         aliasSwitch = new AliasSwitch(SWITCH_NAME, switch2);
         int step = aliasSwitch.parse(null);
@@ -119,6 +106,18 @@ public class TestAliasSwitch extends TestCase {
         assertEquals("step", 2, step);
         assertEquals("Switch1 not new value", SWITCH_VALUE, switch1.getValue());
         assertEquals("Switch2 not new value", SWITCH_VALUE, switch2.getValue());
+    }
+
+    public void testParseNullWithNoSwitches() throws CommandLineException {
+        aliasSwitch = new AliasSwitch(SWITCH_NAME);
+        int step = aliasSwitch.parse(null);
+        assertEquals("step", 1, step);
+    }
+
+    public void testParseValueWithNoSwitches() throws CommandLineException {
+        aliasSwitch = new AliasSwitch(SWITCH_NAME);
+        int step = aliasSwitch.parse(SWITCH_VALUE);
+        assertEquals("step", 1, step);
     }
 
     public void testAccept() {

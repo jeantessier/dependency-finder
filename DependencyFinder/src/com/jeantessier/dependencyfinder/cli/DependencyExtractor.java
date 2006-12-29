@@ -40,7 +40,7 @@ import com.jeantessier.dependency.*;
 import com.jeantessier.commandline.*;
 
 public class DependencyExtractor extends Command {
-    public DependencyExtractor() {
+    public DependencyExtractor() throws CommandLineException {
         super("DependencyExtractor");
     }
 
@@ -55,7 +55,7 @@ public class DependencyExtractor extends Command {
         out.println();
     }
 
-    protected void populateCommandLineSwitches() {
+    protected void populateCommandLineSwitches() throws CommandLineException {
         super.populateCommandLineSwitches();
         populateCommandLineSwitchesForXMLOutput(com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING, com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX);
         populateCommandLineSwitchesForFiltering();

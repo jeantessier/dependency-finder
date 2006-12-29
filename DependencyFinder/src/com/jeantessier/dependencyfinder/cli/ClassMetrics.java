@@ -37,11 +37,12 @@ import java.util.*;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.text.*;
+import com.jeantessier.commandline.*;
 
 public class ClassMetrics extends Command {
     private boolean list;
 
-    public ClassMetrics() {
+    public ClassMetrics() throws CommandLineException {
         super("ClassMetrics");
     }
 
@@ -56,7 +57,7 @@ public class ClassMetrics extends Command {
         System.err.println();
     }
 
-    protected void populateCommandLineSwitches() {
+    protected void populateCommandLineSwitches() throws CommandLineException {
         super.populateCommandLineSwitches();
 
         getCommandLine().addToggleSwitch("list");

@@ -40,7 +40,7 @@ import com.jeantessier.dependency.*;
 import com.jeantessier.commandline.*;
 
 public class DependencyCycles extends Command {
-    public DependencyCycles() {
+    public DependencyCycles() throws CommandLineException {
         super("DependencyCycles");
     }
 
@@ -50,7 +50,7 @@ public class DependencyCycles extends Command {
         out.println();
     }
 
-    protected void populateCommandLineSwitches() {
+    protected void populateCommandLineSwitches() throws CommandLineException {
         super.populateCommandLineSwitches();
         populateCommandLineSwitchesForXMLOutput(XMLPrinter.DEFAULT_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
 

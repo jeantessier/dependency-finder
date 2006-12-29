@@ -19,12 +19,16 @@ public abstract class Command {
     private VerboseListener verboseListener;
     protected PrintWriter out;
 
-    public Command(String name) {
-        commandLine = new CommandLine();
-        populateCommandLineSwitches();
+    public Command(String name) throws CommandLineException {
+        resetCommandLine();
 
         commandLineUsage = new CommandLineUsage(name);
         getCommandLine().accept(commandLineUsage);
+    }
+
+    private void resetCommandLine() throws CommandLineException {
+        commandLine = new CommandLine();
+        populateCommandLineSwitches();
     }
 
     protected CommandLine getCommandLine() {
@@ -48,7 +52,7 @@ public abstract class Command {
         }
     }
 
-    protected void populateCommandLineSwitches() {
+    protected void populateCommandLineSwitches() throws CommandLineException {
         getCommandLine().addToggleSwitch("time");
         getCommandLine().addSingleValueSwitch("out");
         getCommandLine().addToggleSwitch("help");
@@ -63,6 +67,7 @@ public abstract class Command {
     }
 
     protected void parseCommandLine(String[] args) throws CommandLineException {
+        resetCommandLine();
         getCommandLine().parse(args);
     }
 

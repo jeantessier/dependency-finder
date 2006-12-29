@@ -1,7 +1,9 @@
 New =AliasSwitch= to handle command-line switches that are simply an alias for
 a collection of other switches.  This way, =com.jeantessier.commandline= can
 handle aliases and their rendering in usage messages instead of each individual
-CLI command.
+CLI command.  I modified =DependencyReporter= and =DependencyMetrics= to use
+the new aliasing mechanism.  I had to modify =CommandFixture= so I could test
+ocmmand-line parsing and alias configurations as part of the Fit tests.
 
 I refactored the buffer handling in =com.jeantessier.commandline.Printer= to a
 new class =com.jeantessier.text.PrinterBuffer=.  Other printers will be able

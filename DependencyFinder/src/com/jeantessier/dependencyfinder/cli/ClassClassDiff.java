@@ -35,9 +35,11 @@ package com.jeantessier.dependencyfinder.cli;
 import java.io.*;
 import java.lang.reflect.*;
 
-import com.jeantessier.classreader.*;
-import com.jeantessier.diff.*;
 import org.apache.log4j.*;
+
+import com.jeantessier.classreader.*;
+import com.jeantessier.commandline.*;
+import com.jeantessier.diff.*;
 
 public class ClassClassDiff extends Command {
     public static final String API_STRATEGY = "api";
@@ -45,7 +47,7 @@ public class ClassClassDiff extends Command {
 
     public static final String DEFAULT_LEVEL = API_STRATEGY;
 
-    public ClassClassDiff() {
+    public ClassClassDiff() throws CommandLineException {
         super("ClassClassDiff");
     }
 
@@ -55,7 +57,7 @@ public class ClassClassDiff extends Command {
         out.println();
     }
 
-    protected void populateCommandLineSwitches() {
+    protected void populateCommandLineSwitches() throws CommandLineException {
         super.populateCommandLineSwitches();
         populateCommandLineSwitchesForXMLOutput(Report.DEFAULT_ENCODING, Report.DEFAULT_DTD_PREFIX);
 

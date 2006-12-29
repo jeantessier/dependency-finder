@@ -55,7 +55,7 @@ public class AliasSwitch implements CommandLineSwitch {
     }
 
     public Object getDefaultValue() {
-        return null;
+        return "";
     }
 
     public Object getValue() {
@@ -83,17 +83,11 @@ public class AliasSwitch implements CommandLineSwitch {
     }
 
     public boolean isSatisfied() {
-        boolean result = !getSwitches().isEmpty();
-
-        for (CommandLineSwitch commandLineSwitch : getSwitches()) {
-            result = result && commandLineSwitch.isSatisfied();
-        }
-
-        return result;
+        return true;
     }
 
     public int parse(String value) throws CommandLineException {
-        int result = 0;
+        int result = 1;
 
         for (CommandLineSwitch commandLineSwitch : getSwitches()) {
             result = Math.max(result, commandLineSwitch.parse(value));

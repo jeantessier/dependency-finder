@@ -36,13 +36,14 @@ import java.io.*;
 import java.util.*;
 
 import com.jeantessier.classreader.*;
+import com.jeantessier.commandline.*;
 
 public class ClassFinder extends Command {
-    public ClassFinder() {
+    public ClassFinder() throws CommandLineException {
         super("ClassFinder");
     }
 
-    protected void populateCommandLineSwitches() {
+    protected void populateCommandLineSwitches() throws CommandLineException {
         super.populateCommandLineSwitches();
 
         getCommandLine().addMultipleValuesSwitch("includes", DEFAULT_INCLUDES);
