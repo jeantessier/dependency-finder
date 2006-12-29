@@ -50,6 +50,7 @@ public class TestPrinterBuffer extends TestCase {
         assertSame("float", buffer, buffer.append(1F));
         assertSame("double", buffer, buffer.append(1D));
         assertSame("char", buffer, buffer.append('c'));
+        assertSame("char[]", buffer, buffer.append("string".toCharArray(), 0, 1));
         assertSame("char[]", buffer, buffer.append("string".toCharArray()));
         assertSame("String", buffer, buffer.append("string"));
     }

@@ -7,7 +7,10 @@ ocmmand-line parsing and alias configurations as part of the Fit tests.
 
 I refactored the buffer handling in =com.jeantessier.commandline.Printer= to a
 new class =com.jeantessier.text.PrinterBuffer=.  Other printers will be able
-to use it too to remove code duplication between them.
+to use it too to remove code duplication between them.  I already modified
+=com.jeantessier.diff.Printer= and =com.jeantessier.diff.ListDiffPrinter=.
+Other printers will take longer since they are wrappers around =PrintWriter=
+instead of =StringBuffer=.
 
 Figured out how to exclude sample classes that are only test data from Emma
 reports.  I cleaned up =build.emma.xml= and the procedure for running the

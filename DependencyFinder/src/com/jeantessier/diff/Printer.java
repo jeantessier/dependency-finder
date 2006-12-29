@@ -32,18 +32,17 @@
 
 package com.jeantessier.diff;
 
-public abstract class Printer extends VisitorBase {
-    private StringBuffer buffer = new StringBuffer();
+import com.jeantessier.text.*;
 
-    private String indentText  = "    ";
-    private int    indentLevel = 0;
+public abstract class Printer extends VisitorBase {
+    private PrinterBuffer buffer = new PrinterBuffer();
 
     public String getIndentText() {
-        return indentText;
+        return buffer.getIndentText();
     }
 
     public void setIndentText(String indentText) {
-        this.indentText = indentText;
+        buffer.setIndentText(indentText);
     }
 
     protected Printer append(boolean b) {
@@ -97,23 +96,21 @@ public abstract class Printer extends VisitorBase {
     }
 
     protected Printer indent() {
-        for (int i=0; i<indentLevel; i++) {
-            append(getIndentText());
-        }
-
+        buffer.indent();
         return this;
     }
 
     protected Printer eol() {
-        return append(System.getProperty("line.separator", "\n"));
+        buffer.eol();
+        return this;
     }
 
     protected void raiseIndent() {
-        indentLevel++;
+        buffer.raiseIndent();
     }
 
     protected void lowerIndent() {
-        indentLevel--;
+        buffer.lowerIndent();
     }
 
     public String toString() {

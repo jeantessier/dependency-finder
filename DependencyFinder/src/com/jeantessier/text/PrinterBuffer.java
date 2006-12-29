@@ -39,7 +39,7 @@ public class PrinterBuffer {
     private String indentText = "    ";
     private int indentLevel = 0;
 
-    private String getIndentText() {
+    public String getIndentText() {
         return indentText;
     }
 
@@ -54,6 +54,11 @@ public class PrinterBuffer {
 
     public PrinterBuffer append(char c) {
         buffer.append(c);
+        return this;
+    }
+
+    public PrinterBuffer append(char[] str, int offset, int len) {
+        buffer.append(str, offset, len);
         return this;
     }
 

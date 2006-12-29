@@ -36,24 +36,24 @@ import java.util.*;
 
 import org.apache.oro.text.perl.*;
 
+import com.jeantessier.text.*;
+
 public class ListDiffPrinter {
-    public static final boolean DEFAULT_COMPRESS    = false;
-    public static final String  DEFAULT_ENCODING    = "utf-8";
-    public static final String  DEFAULT_DTD_PREFIX  = "http://depfind.sourceforge.net/dtd";
+    public static final boolean DEFAULT_COMPRESS = false;
+    public static final String DEFAULT_ENCODING = "utf-8";
+    public static final String DEFAULT_DTD_PREFIX  = "http://depfind.sourceforge.net/dtd";
 
     private static final Perl5Util perl = new Perl5Util();
     
-    private StringBuffer buffer = new StringBuffer();
+    private PrinterBuffer buffer = new PrinterBuffer();
 
-    private String  indentText  = "    ";
-    private int     indentLevel = 0;
     private boolean compress;
 
-    private String     name       = "";
-    private String     oldVersion = "";
-    private String     newVersion = "";
-    private Collection removed    = new TreeSet();
-    private Collection added      = new TreeSet();
+    private String name = "";
+    private String oldVersion = "";
+    private String newVersion = "";
+    private Collection<String> removed = new TreeSet<String>();
+    private Collection<String> added = new TreeSet<String>();
     
     public ListDiffPrinter() {
         this(DEFAULT_COMPRESS, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);
@@ -73,12 +73,8 @@ public class ListDiffPrinter {
         appendHeader(encoding, dtdPrefix);
     }
 
-    public String getIndentText() {
-        return indentText;
-    }
-
     public void setIndentText(String indentText) {
-        this.indentText = indentText;
+        buffer.setIndentText(indentText);
     }
 
     private void appendHeader(String encoding, String dtdPrefix) {
@@ -112,26 +108,18 @@ public class ListDiffPrinter {
         this.newVersion = newVersion;
     }
     
-    public Collection getRemoved() {
+    public Collection<String> getRemoved() {
         return Collections.unmodifiableCollection(removed);
     }
-    
-    public void removeAll(Collection removed) {
-        this.removed.addAll(removed);
-    }
-    
+
     public void remove(String line) {
         this.removed.add(line);
     }
     
-    public Collection getAdded() {
+    public Collection<String> getAdded() {
         return Collections.unmodifiableCollection(added);
     }
 
-    public void addAll(Collection added) {
-        this.added.addAll(added);
-    }
-    
     public void add(String line) {
         this.added.add(line);
     }
@@ -146,13 +134,13 @@ public class ListDiffPrinter {
         return this;
     }
 
-    protected ListDiffPrinter append(char[] str) {
-        buffer.append(str);
+    protected ListDiffPrinter append(char[] str, int offset, int len) {
+        buffer.append(str, offset, len);
         return this;
     }
 
-    protected ListDiffPrinter append(char[] str, int offset, int len) {
-        buffer.append(str, offset, len);
+    protected ListDiffPrinter append(char[] str) {
+        buffer.append(str);
         return this;
     }
 
@@ -187,23 +175,21 @@ public class ListDiffPrinter {
     }
 
     protected ListDiffPrinter indent() {
-        for (int i=0; i<indentLevel; i++) {
-            append(getIndentText());
-        }
-
+        buffer.indent();
         return this;
     }
 
     protected ListDiffPrinter eol() {
-        return append(System.getProperty("line.separator", "\n"));
+        buffer.eol();
+        return this;
     }
 
     protected void raiseIndent() {
-        indentLevel++;
+        buffer.raiseIndent();
     }
 
     protected void lowerIndent() {
-        indentLevel--;
+        buffer.lowerIndent();
     }
 
     public String toString() {
@@ -232,11 +218,8 @@ public class ListDiffPrinter {
         return buffer.toString();
     }
 
-    private void printLines(Collection lines) {
-        Iterator i = lines.iterator();
-        while (i.hasNext()) {
-            String line = (String) i.next();
-
+    private void printLines(Collection<String> lines) {
+        for (String line : lines) {
             int pos = line.lastIndexOf(" [");
             if (pos != -1) {
                 indent().append("<line>").append(line.substring(0, pos)).append("</line>").eol();
@@ -246,30 +229,27 @@ public class ListDiffPrinter {
         }
     }
 
-    private Collection compress(Collection lines) {
-        Collection result = new TreeSet();
+    private Collection<String> compress(Collection<String> lines) {
+        Collection<String> result = new TreeSet<String>();
 
-        Iterator i = lines.iterator();
-        while (i.hasNext()) {
-            String line = (String) i.next();
-
+        for (String line : lines) {
             boolean add = true;
             if (line.endsWith(" [C]")) {
                 String packageName = extractPackageName(line);
-                
+
                 add = !lines.contains(packageName + " [P]");
             } else if (line.endsWith(" [F]")) {
-                String className   = extractClassName(line);
+                String className = extractClassName(line);
                 String packageName = extractPackageName(className);
 
                 add = !lines.contains(packageName + " [P]") && !lines.contains(className + " [C]");
             }
-            
+
             if (add) {
                 result.add(line);
             }
         }
-        
+
         return result;
     }
 
