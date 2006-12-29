@@ -34,6 +34,15 @@ package com.jeantessier.commandline;
 
 public class MockVisitor implements Visitor {
     private boolean visitWasCalled;
+    private boolean visitAliasSwitchWasCalled;
+
+    public boolean visitWasCalled() {
+        return visitWasCalled;
+    }
+
+    public boolean visitAliasSwitchWasCalled() {
+        return visitAliasSwitchWasCalled;
+    }
 
     public void visitCommandLine(CommandLine cl) {
         visitWasCalled = true;
@@ -55,6 +64,10 @@ public class MockVisitor implements Visitor {
         visitWasCalled = true;
     }
 
+    public void visitAliasSwitch(AliasSwitch cls) {
+        visitAliasSwitchWasCalled = true;
+    }
+
     public void visitNullParameterStrategy(NullParameterStrategy strategy) {
         visitWasCalled = true;
     }
@@ -73,9 +86,5 @@ public class MockVisitor implements Visitor {
 
     public void visitAtMostParameterStrategy(AtMostParameterStrategy strategy) {
         visitWasCalled = true;
-    }
-
-    public boolean visitWasCalled() {
-        return visitWasCalled;
     }
 }

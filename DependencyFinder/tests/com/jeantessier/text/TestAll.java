@@ -40,6 +40,7 @@ public class TestAll extends TestCase {
 
         result.addTestSuite(TestMaximumCapacityPatternCache.class);
         result.addTestSuite(TestHex.class);
+        result.addTestSuite(TestPrinterBuffer.class);
 
         return result;
     }

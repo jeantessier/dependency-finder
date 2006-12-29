@@ -32,19 +32,13 @@
 
 package com.jeantessier.commandline;
 
+import com.jeantessier.text.*;
+
 public abstract class Printer extends VisitorBase {
-    private final static String EOL = System.getProperty("line.separator", "\n");
-
-    private StringBuffer buffer = new StringBuffer();
-    private String indentText = "    ";
-    private int indentLevel = 0;
-
-    public String getIndentText() {
-        return indentText;
-    }
+    private PrinterBuffer buffer = new PrinterBuffer();
 
     public void setIndentText(String indentText) {
-        this.indentText = indentText;
+        buffer.setIndentText(indentText);
     }
 
     protected Printer append(boolean b) {
@@ -93,24 +87,21 @@ public abstract class Printer extends VisitorBase {
     }
 
     protected Printer indent() {
-        for (int i=0; i<indentLevel; i++) {
-            append(getIndentText());
-        }
-
+        buffer.indent();
         return this;
     }
 
     protected Printer eol() {
-        buffer.append(EOL);
+        buffer.eol();
         return this;
     }
 
     protected void raiseIndent() {
-        indentLevel++;
+        buffer.raiseIndent();
     }
 
     protected void lowerIndent() {
-        indentLevel--;
+        buffer.lowerIndent();
     }
 
     public void visitCommandLine(CommandLine commandLine) {

@@ -78,68 +78,93 @@ public class CommandLine implements Visitable {
         this.parameterStrategy = parameterStrategy;
     }
 
-    public void addSwitch(String name, CommandLineSwitch cls) {
-        map.put(name, cls);
+    public ToggleSwitch addToggleSwitch(String name) {
+        return addSwitch(new ToggleSwitch(name));
     }
 
-    public void addToggleSwitch(String name) {
-        addSwitch(name, new ToggleSwitch(name));
+    public ToggleSwitch addToggleSwitch(String name, boolean defaultValue) {
+        return addSwitch(new ToggleSwitch(name, defaultValue));
     }
 
-    public void addToggleSwitch(String name, boolean defaultValue) {
-        addSwitch(name, new ToggleSwitch(name, defaultValue));
+    public SingleValueSwitch addSingleValueSwitch(String name) {
+        return addSwitch(new SingleValueSwitch(name));
     }
 
-    public void addSingleValueSwitch(String name) {
-        addSwitch(name, new SingleValueSwitch(name));
+    public SingleValueSwitch addSingleValueSwitch(String name, boolean mandatory) {
+        return addSwitch(new SingleValueSwitch(name, mandatory));
     }
 
-    public void addSingleValueSwitch(String name, boolean mandatory) {
-        addSwitch(name, new SingleValueSwitch(name, mandatory));
+    public SingleValueSwitch addSingleValueSwitch(String name, String defaultValue) {
+        return addSwitch(new SingleValueSwitch(name, defaultValue));
     }
 
-    public void addSingleValueSwitch(String name, String defaultValue) {
-        addSwitch(name, new SingleValueSwitch(name, defaultValue));
+    public SingleValueSwitch addSingleValueSwitch(String name, String defaultValue, boolean mandatory) {
+        return addSwitch(new SingleValueSwitch(name, defaultValue, mandatory));
     }
 
-    public void addSingleValueSwitch(String name, String defaultValue, boolean mandatory) {
-        addSwitch(name, new SingleValueSwitch(name, defaultValue, mandatory));
+    public OptionalValueSwitch addOptionalValueSwitch(String name) {
+        return addSwitch(new OptionalValueSwitch(name));
     }
 
-    public void addOptionalValueSwitch(String name) {
-        addSwitch(name, new OptionalValueSwitch(name));
+    public OptionalValueSwitch addOptionalValueSwitch(String name, boolean mandatory) {
+        return addSwitch(new OptionalValueSwitch(name, mandatory));
     }
 
-    public void addOptionalValueSwitch(String name, boolean mandatory) {
-        addSwitch(name, new OptionalValueSwitch(name, mandatory));
+    public OptionalValueSwitch addOptionalValueSwitch(String name, String defaultValue) {
+        return addSwitch(new OptionalValueSwitch(name, defaultValue));
     }
 
-    public void addOptionalValueSwitch(String name, String defaultValue) {
-        addSwitch(name, new OptionalValueSwitch(name, defaultValue));
+    public OptionalValueSwitch addOptionalValueSwitch(String name, String defaultValue, boolean mandatory) {
+        return addSwitch(new OptionalValueSwitch(name, defaultValue, mandatory));
     }
 
-    public void addOptionalValueSwitch(String name, String defaultValue, boolean mandatory) {
-        addSwitch(name, new OptionalValueSwitch(name, defaultValue, mandatory));
+    public MultipleValuesSwitch addMultipleValuesSwitch(String name) {
+        return addSwitch(new MultipleValuesSwitch(name));
     }
 
-    public void addMultipleValuesSwitch(String name) {
-        map.put(name, new MultipleValuesSwitch(name));
+    public MultipleValuesSwitch addMultipleValuesSwitch(String name, boolean mandatory) {
+        return addSwitch(new MultipleValuesSwitch(name, mandatory));
     }
 
-    public void addMultipleValuesSwitch(String name, boolean mandatory) {
-        map.put(name, new MultipleValuesSwitch(name, mandatory));
+    public MultipleValuesSwitch addMultipleValuesSwitch(String name, String defaultValue) {
+        return addSwitch(new MultipleValuesSwitch(name, defaultValue));
     }
 
-    public void addMultipleValuesSwitch(String name, String defaultValue) {
-        map.put(name, new MultipleValuesSwitch(name, defaultValue));
+    public MultipleValuesSwitch addMultipleValuesSwitch(String name, String defaultValue, boolean mandatory) {
+        return addSwitch(new MultipleValuesSwitch(name, defaultValue, mandatory));
     }
 
-    public void addMultipleValuesSwitch(String name, String defaultValue, boolean mandatory) {
-        map.put(name, new MultipleValuesSwitch(name, defaultValue, mandatory));
+    public AliasSwitch addAliasSwitch(String name, String ... switchNames) throws CommandLineException {
+        CommandLineSwitch[] switches = new CommandLineSwitch[switchNames.length];
+        for (int i = 0; i < switchNames.length; i++) {
+            switches[i] = getSwitch(switchNames[i], true);
+
+        }
+        return addSwitch(new AliasSwitch(name, switches));
     }
 
-    public CommandLineSwitch getSwitch(String name) {
-        return map.get(name);
+    private <T extends CommandLineSwitch> T addSwitch(T cls) {
+        map.put(cls.getName(), cls);
+        return cls;
+    }
+
+    public CommandLineSwitch getSwitch(String name) throws CommandLineException {
+        return getSwitch(name, isStrict());
+    }
+
+    public CommandLineSwitch getSwitch(String name, boolean strict) throws CommandLineException {
+        CommandLineSwitch cls = map.get(name);
+
+        if (cls == null) {
+            if (strict) {
+                throw new CommandLineException("Unknown switch \"" + name + "\"");
+            } else {
+                cls = new OptionalValueSwitch(name);
+                addSwitch(cls);
+            }
+        }
+
+        return cls;
     }
 
     public boolean getToggleSwitch(String name) {
@@ -235,18 +260,7 @@ public class CommandLine implements Visitable {
                     value = args[i+1];
                 }
 
-                CommandLineSwitch cls = map.get(name);
-
-                if (cls == null) {
-                    if (isStrict()) {
-                        throw new CommandLineException("Unknown switch \"" + args[i] + "\"");
-                    } else {
-                        cls = new OptionalValueSwitch(name);
-                        map.put(name, cls);
-                    }
-                }
-
-                i += cls.parse(value);
+                i += getSwitch(name).parse(value);
             } else {
                 i += parameterStrategy.accept(args[i]);
             }

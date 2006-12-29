@@ -38,6 +38,9 @@ import java.util.*;
 import org.apache.log4j.*;
 
 import com.jeantessier.dependency.*;
+import com.jeantessier.dependency.Printer;
+import com.jeantessier.dependency.TextPrinter;
+import com.jeantessier.commandline.*;
 
 public class DependencyReporter extends Command {
     public DependencyReporter() {
@@ -103,7 +106,7 @@ public class DependencyReporter extends Command {
         new DependencyReporter().run(args);
     }
 
-    protected boolean validateCommandLine(PrintStream out) throws IOException {
+    protected boolean validateCommandLine(PrintStream out) throws IOException, CommandLineException {
         boolean result = super.validateCommandLine(out);
 
         if (getCommandLine().isPresent("p2p")) {

@@ -35,6 +35,8 @@ package com.jeantessier.dependencyfinder.cli;
 import java.io.*;
 
 import com.jeantessier.dependency.*;
+import com.jeantessier.commandline.*;
+
 import org.apache.log4j.*;
 
 public class DependencyMetrics extends Command {
@@ -143,7 +145,7 @@ public class DependencyMetrics extends Command {
         getCommandLine().addToggleSwitch("validate");
     }
 
-    protected boolean validateCommandLine(PrintStream out) throws IOException {
+    protected boolean validateCommandLine(PrintStream out) throws IOException, CommandLineException {
         boolean result = super.validateCommandLine(out);
 
         result &= validateCommandLineForScoping(out);

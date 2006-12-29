@@ -124,6 +124,7 @@ public class TestAliasSwitch extends TestCase {
     public void testAccept() {
         MockVisitor visitor = new MockVisitor();
         aliasSwitch.accept(visitor);
+        assertTrue("visitAliasSwitch() was called", visitor.visitAliasSwitchWasCalled());
         assertFalse("visit() was called", visitor.visitWasCalled());
     }
 }

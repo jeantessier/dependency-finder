@@ -37,6 +37,7 @@ import java.io.*;
 import org.apache.log4j.*;
 
 import com.jeantessier.dependency.*;
+import com.jeantessier.commandline.*;
 
 public class DependencyCycles extends Command {
     public DependencyCycles() {
@@ -61,7 +62,7 @@ public class DependencyCycles extends Command {
         getCommandLine().addToggleSwitch("validate");
     }
 
-    protected boolean validateCommandLine(PrintStream out) throws IOException {
+    protected boolean validateCommandLine(PrintStream out) throws IOException, CommandLineException {
         boolean result = super.validateCommandLine(out);
 
         result &= validateCommandLineForScoping(out);

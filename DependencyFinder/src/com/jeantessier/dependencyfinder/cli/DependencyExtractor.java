@@ -37,6 +37,7 @@ import java.util.*;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.dependency.*;
+import com.jeantessier.commandline.*;
 
 public class DependencyExtractor extends Command {
     public DependencyExtractor() {
@@ -65,7 +66,7 @@ public class DependencyExtractor extends Command {
         getCommandLine().addToggleSwitch("xml");
     }
 
-    protected boolean validateCommandLine(PrintStream out) throws IOException {
+    protected boolean validateCommandLine(PrintStream out) throws IOException, CommandLineException {
         boolean result = super.validateCommandLine(out);
 
         result &= validateCommandLineForFiltering(out);

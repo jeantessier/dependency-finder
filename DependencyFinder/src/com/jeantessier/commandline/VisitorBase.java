@@ -34,10 +34,16 @@ package com.jeantessier.commandline;
 
 import java.util.*;
 
+import org.apache.log4j.*;
+
 public abstract class VisitorBase implements Visitor {
     public void visitCommandLine(CommandLine commandLine) {
         for (String name : getSwitchNames(commandLine)) {
-            commandLine.getSwitch(name).accept(this);
+            try {
+                commandLine.getSwitch(name).accept(this);
+            } catch (CommandLineException ex) {
+                Logger.getLogger(getClass()).error("Unexpected when traversing switches by name", ex);
+            }
         }
 
         commandLine.getParameterStrategy().accept(this);

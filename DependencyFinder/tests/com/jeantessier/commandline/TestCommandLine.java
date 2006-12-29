@@ -48,11 +48,29 @@ public class TestCommandLine extends TestCase {
     }
 
     public void testAddToggleSwitch() {
-        commandLine.addToggleSwitch(SWITCH_NAME);
-        CommandLineSwitch cls = commandLine.getSwitch(SWITCH_NAME);
+        CommandLineSwitch cls = commandLine.addToggleSwitch(SWITCH_NAME);
         assertTrue("Wrong type", cls instanceof ToggleSwitch);
         assertEquals("name", SWITCH_NAME, cls.getName());
         assertFalse("is present", cls.isPresent());
+    }
+
+    public void addAliasSwitch() throws CommandLineException {
+        ToggleSwitch toggle1 = commandLine.addToggleSwitch("toggle1");
+        ToggleSwitch toggle2 = commandLine.addToggleSwitch("toggle2");
+
+        AliasSwitch aliasSwitch = commandLine.addAliasSwitch(SWITCH_NAME, "toogle1", "toggle2");
+        assertEquals("Nb switches", 2, aliasSwitch.getSwitches().size());
+        assertTrue("Missing toggle1", aliasSwitch.getSwitches().contains(toggle1));
+        assertTrue("Missing toggle2", aliasSwitch.getSwitches().contains(toggle2));
+    }
+
+    public void addAliasToNonExistingSwitch() {
+        try {
+            commandLine.addAliasSwitch(SWITCH_NAME, "foobar");
+            fail("Added alias to non-existing switch");
+        } catch (CommandLineException e) {
+            // Expected
+        }
     }
 
     public void testParseToggleSwitchTwice() throws CommandLineException {
@@ -86,5 +104,16 @@ public class TestCommandLine extends TestCase {
         assertEquals("Multiple value switch value size", 2, commandLine.getMultipleSwitch(SWITCH_NAME).size());
         assertEquals("Multiple value switch value 0", SWITCH_VALUE, commandLine.getMultipleSwitch(SWITCH_NAME).get(0));
         assertEquals("Multiple value switch value 1", SWITCH_VALUE, commandLine.getMultipleSwitch(SWITCH_NAME).get(1));
+    }
+
+    public void testParseAliasSwitch() throws CommandLineException {
+        commandLine.addToggleSwitch("toggle1");
+        commandLine.addToggleSwitch("toggle2");
+        commandLine.addAliasSwitch(SWITCH_NAME, "toggle1", "toggle2");
+
+        String cls = "-" + SWITCH_NAME;
+        commandLine.parse(new String[] {cls});
+        assertTrue("Missing toggle1", commandLine.isPresent("toggle1"));
+        assertTrue("Missing toggle2", commandLine.isPresent("toggle2"));
     }
 }

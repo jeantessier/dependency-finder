@@ -65,6 +65,10 @@ public class TextPrinter extends Printer {
         }
     }
 
+    public void visitAliasSwitch(AliasSwitch cls) {
+        // Do nothing
+    }
+
     public void visitNullParameterStrategy(NullParameterStrategy strategy) {
         visitParameterStrategy(strategy);
     }

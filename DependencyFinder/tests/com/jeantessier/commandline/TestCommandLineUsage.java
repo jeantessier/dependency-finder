@@ -51,4 +51,27 @@ public class TestCommandLineUsage extends TestCase {
         assertEquals("line " + i++, "        [-switch] (defaults to false)", in.readLine());
         assertEquals("line " + i++, null, in.readLine());
     }
+
+    public void testAliasSwitch() throws CommandLineException, IOException {
+        CommandLine commandLine = new CommandLine(new NullParameterStrategy());
+        commandLine.addToggleSwitch("toggle1");
+        commandLine.addToggleSwitch("toggle2");
+        commandLine.addAliasSwitch("alias", "toggle1", "toggle2");
+
+        CommandLineUsage commandLineUsage = new CommandLineUsage(getName());
+        commandLine.accept(commandLineUsage);
+
+        BufferedReader in = new BufferedReader(new StringReader(commandLineUsage.toString()));
+        int i = 1;
+        assertEquals("line " + i++, "USAGE:", in.readLine());
+        assertEquals("line " + i++, "    " + getName(), in.readLine());
+        assertEquals("line " + i++, "        [-alias]", in.readLine());
+        assertEquals("line " + i++, "        [-toggle1] (defaults to false)", in.readLine());
+        assertEquals("line " + i++, "        [-toggle2] (defaults to false)", in.readLine());
+        assertEquals("line " + i++, "", in.readLine());
+        assertEquals("line " + i++, "-alias is shorthand for the combination:", in.readLine());
+        assertEquals("line " + i++, "    -toggle1", in.readLine());
+        assertEquals("line " + i++, "    -toggle2", in.readLine());
+        assertEquals("line " + i++, null, in.readLine());
+    }
 }

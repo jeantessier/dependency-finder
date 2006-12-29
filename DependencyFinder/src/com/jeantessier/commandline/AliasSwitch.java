@@ -103,5 +103,6 @@ public class AliasSwitch implements CommandLineSwitch {
     }
 
     public void accept(Visitor visitor) {
+        visitor.visitAliasSwitch(this);
     }
 }

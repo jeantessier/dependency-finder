@@ -66,7 +66,7 @@ public abstract class Command {
         getCommandLine().parse(args);
     }
 
-    protected boolean validateCommandLine(PrintStream out) throws IOException {
+    protected boolean validateCommandLine(PrintStream out) throws IOException, CommandLineException {
         boolean result = true;
 
         if (getCommandLine().getToggleSwitch("help")) {

@@ -34,15 +34,35 @@ package com.jeantessier.commandline;
 
 import java.util.*;
 
+import com.jeantessier.text.*;
+
 /**
  *  Generates summary information about the command-line specification.
  */
 public class CommandLineUsage extends Printer {
-    public CommandLineUsage(String command) {
-        indent().append("USAGE:").eol();
+    private String command;
+    private PrinterBuffer extraText = new PrinterBuffer();
 
+    public CommandLineUsage(String command) {
+        this.command = command;
         raiseIndent();
-        indent().append(command).eol();
+    }
+
+    public String toString() {
+        PrinterBuffer buffer = new PrinterBuffer();
+
+        buffer.indent().append("USAGE:").eol();
+        buffer.raiseIndent();
+        buffer.indent().append(command).eol();
+        buffer.lowerIndent();
+
+        buffer.append(super.toString());
+
+        if (extraText.length() > 0) {
+            buffer.append(extraText);
+        }
+
+        return buffer.toString();
     }
 
     protected Set<String> getSwitchNames(CommandLine commandLine) {
@@ -81,7 +101,21 @@ public class CommandLineUsage extends Printer {
         }
     }
 
+    public void visitAliasSwitch(AliasSwitch cls) {
+        indent().append("[-").append(cls.getName()).append("]").eol();
+
+        extraText.eol();
+        extraText.indent().append("-").append(cls.getName()).append(" is shorthand for the combination:").eol();
+
+        extraText.raiseIndent();
+        for (CommandLineSwitch commandLineSwitch : cls.getSwitches()) {
+            extraText.indent().append("-").append(commandLineSwitch.getName()).eol();
+        }
+        extraText.lowerIndent();
+    }
+
     public void visitNullParameterStrategy(NullParameterStrategy strategy) {
+        // Do nothing
     }
 
     public void visitCollectingParameterStrategy(CollectingParameterStrategy strategy) {
