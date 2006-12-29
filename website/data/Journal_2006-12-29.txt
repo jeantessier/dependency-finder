@@ -1,0 +1,2 @@
+Validate =-maximize= and =-minimize= switches to =DependencyExtractor=, just
+like in =DependencyReporter=, complete with Fit tests.

@@ -71,6 +71,11 @@ public class DependencyExtractor extends Command {
 
         result &= validateCommandLineForFiltering(out);
 
+        if (getCommandLine().getToggleSwitch("maximize") && getCommandLine().getToggleSwitch("minimize")) {
+            showError(out, "Only one of -maximize or -minimize is allowed");
+            result = false;
+        }
+
         return result;
     }
 
@@ -90,10 +95,10 @@ public class DependencyExtractor extends Command {
         loader.addLoadListener(getVerboseListener());
         loader.load(parameters);
 
-        if (getCommandLine().isPresent("minimize")) {
+        if (getCommandLine().getToggleSwitch("minimize")) {
             LinkMinimizer minimizer = new LinkMinimizer();
             minimizer.traverseNodes(factory.getPackages().values());
-        } else if (getCommandLine().isPresent("maximize")) {
+        } else if (getCommandLine().getToggleSwitch("maximize")) {
             LinkMaximizer maximizer = new LinkMaximizer();
             maximizer.traverseNodes(factory.getPackages().values());
         }

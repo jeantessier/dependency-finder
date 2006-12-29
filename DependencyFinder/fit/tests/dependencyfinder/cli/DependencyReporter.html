@@ -131,6 +131,28 @@
     <tr><td>check</td><td>get</td><td>filter-excludes</td><td>multiple switch</td><td>/foobar/</td></tr>
 </table>
 
+<h2>Checking validation rules</h2>
+
+<table border="1">
+    <tr><td>check</td><td>parse</td><td>-scope-includes /foobar/ -scope-includes-list foobar</td><td>and validate</td><td>false</td></tr>
+</table>
+
+<table border="1">
+    <tr><td>check</td><td>parse</td><td>-scope-includes /foobar/ -filter-includes-list foobar</td><td>and validate</td><td>true</td></tr>
+</table>
+
+<table border="1">
+    <tr><td>check</td><td>parse</td><td>-filter-includes /foobar/ -scope-includes-list foobar</td><td>and validate</td><td>true</td></tr>
+</table>
+
+<table border="1">
+    <tr><td>check</td><td>parse</td><td>-filter-includes /foobar/ -filter-includes-list foobar</td><td>and validate</td><td>false</td></tr>
+</table>
+
+<table border="1">
+    <tr><td>check</td><td>parse</td><td>-maximize -minimize</td><td>and validate</td><td>false</td></tr>
+</table>
+
 </body>
 
 </html>
