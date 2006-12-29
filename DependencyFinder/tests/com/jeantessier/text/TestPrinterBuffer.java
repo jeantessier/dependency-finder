@@ -44,7 +44,7 @@ public class TestPrinterBuffer extends TestCase {
     }
 
     public void testAppendReturnsSelf() {
-        assertSame("bool", buffer, buffer.append(true));
+        assertSame("boolean", buffer, buffer.append(true));
         assertSame("int", buffer, buffer.append(1));
         assertSame("long", buffer, buffer.append(1L));
         assertSame("float", buffer, buffer.append(1F));
