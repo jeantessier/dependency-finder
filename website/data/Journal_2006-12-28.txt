@@ -9,7 +9,7 @@ I refactored the buffer handling in =com.jeantessier.commandline.Printer= to a
 new class =com.jeantessier.text.PrinterBuffer=.  Other printers will be able
 to use it too to remove code duplication between them.  I already modified
 =com.jeantessier.diff.Printer= and =com.jeantessier.diff.ListDiffPrinter=.
-Other printers will take longer since they are wrappers around =PrintWriter=
+Other printers will take longer because they are wrappers around =PrintWriter=
 instead of =StringBuffer=.
 
 Figured out how to exclude sample classes that are only test data from Emma
