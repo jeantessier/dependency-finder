@@ -78,8 +78,12 @@
         <ant antfile="build.xml" target="clean" inheritAll="false"/>
     </target>
 
-    <target name="compile" depends="init, main.compile"
-            description="Compiles all classes and JUnit tests with debug flags (default)">
+    <target name="log4j.config" depends="init">
+        <copy file="${srcDir}/log4j.properties" tofile="${classesDir}/log4j.properties"/>
+    </target>
+
+    <target name="compile" depends="init, main.compile, log4j.config"
+            description="Compiles everything required to run all the tests">
         <javac destdir="${classesDir}" debug="on">
             <src path="${testsDir}"/>
             <classpath>
@@ -101,6 +105,8 @@
             </classpath>
             <patternset refid="all.sources"/>
         </javac>
+        <ant dir="tests/JarJarDiff" inheritAll="false"/>
+        <ant dir="tests/Metrics" inheritAll="false"/>
     </target>
 
     <target name="deprecation" depends="init">
@@ -124,16 +130,6 @@
             </classpath>
             <patternset refid="all.sources"/>
         </javac>
-    </target>
-
-    <target name="log4j.config" depends="init">
-        <copy file="${srcDir}/log4j.properties" tofile="${classesDir}/log4j.properties"/>
-    </target>
-
-    <target name="tests" depends="compile, log4j.config"
-            description="Compiles everything required to run all the tests">
-        <ant dir="tests/JarJarDiff" inheritAll="false"/>
-        <ant dir="tests/Metrics" inheritAll="false"/>
     </target>
 
     <target name="run" depends="tests.classreader, tests.commandline, tests.dependency, tests.dependencyfinder.cli, tests.dependencyfinder.web, tests.dependencyfinder.webwork, tests.diff, tests.metrics, tests.text, tests.fit, tests.report"

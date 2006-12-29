@@ -1020,7 +1020,7 @@ retrieve parameters, if any, with the =Parameters()= method.
 
 ---+++ Testing the Build
 
-    C:\>ant -f build.test.xml tests
+    C:\>ant -f build.test.xml
     C:\>textjunit TestAll
     C:\>textjunit com.jeantessier.fitlibrary.TestAll
 
@@ -1049,6 +1049,8 @@ All test reports are written to the =reports= directory.
 
 ---++++ jcoverage
 
+_These instructions are deprecated.  Use [[#Emma][Emma]] instead._
+
 You can use [[http://www.jcoverage.com/][jcoverage]] and the build file in
 =build.jcoverage.xml=.
 
@@ -1069,6 +1071,8 @@ To publish the results:
     1 extract the archive in the root of the website
 
 ---++++ Clover
+
+_These instructions are currently broken and will be fixed eventually._
 
 You can use [[http://www.cenqua.com/clover/][clover]] and the build file in
 =build.clover.xml=.
@@ -1093,9 +1097,7 @@ You can use [[http://emma.sourceforge.net/][Emma]] and the build file in
 =build.emma.xml=.
 
     1 =set CLASSPATH%3D%JUNIT_HOME%\junit.jar=
-    1 =ant -f build.emma.xml clean instrument=
-    1 =ant -f build.test.xml tests=
-    1 =ant -f build.emma.xml run report=
+    1 =ant -f build.emma.xml clean report=
 
 To publish the results:
 

@@ -1,4 +1,4 @@
-<project name="Emma" default="run" basedir=".">
+<project name="Emma" default="report" basedir=".">
 
     <property environment="env"/>
 
@@ -64,7 +64,7 @@
     </target>
 
     <target name="tests.compile">
-        <ant antfile="build.test.xml" target="compile" inheritAll="false"/>
+        <ant antfile="build.test.xml" inheritAll="false"/>
     </target>
 
     <target name="tests.clean">
@@ -77,11 +77,14 @@
             <instr instrpath="${out.dir}"
                    destdir="${out.instr.dir}"
                    metadatafile="${coverage.dir}/metadata.emma"
-                   merge="true"/>
+                   merge="true">
+                <filter includes="com.jeantessier.*"
+                        excludes="*.TestAll"/>
+            </instr>
         </emma>
     </target>
 
-    <target name="run" depends="init"
+    <target name="run" depends="instrument"
             description="runs the tests">
         <junit fork="true">
             <formatter type="plain" usefile="no"/>
@@ -120,7 +123,7 @@
         </junit>
     </target>
 
-    <target name="report" depends="init"
+    <target name="report" depends="run"
             description="Produces the coverate report">
         <emma>
             <report>
