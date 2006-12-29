@@ -35,14 +35,39 @@ package com.jeantessier.text;
 import junit.framework.*;
 
 public class TestPrinterBuffer extends TestCase {
-    public void testAppend() {
-        PrinterBuffer buffer = new PrinterBuffer();
+    private PrinterBuffer buffer;
+
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        buffer = new PrinterBuffer();
+    }
+
+    public void testAppendReturnsSelf() {
         assertSame("bool", buffer, buffer.append(true));
         assertSame("int", buffer, buffer.append(1));
         assertSame("long", buffer, buffer.append(1L));
         assertSame("float", buffer, buffer.append(1F));
         assertSame("double", buffer, buffer.append(1D));
         assertSame("char", buffer, buffer.append('c'));
+        assertSame("char[]", buffer, buffer.append("string".toCharArray()));
         assertSame("String", buffer, buffer.append("string"));
+    }
+
+    public void testSetIndentText() {
+        String expectedText = "****";
+        buffer.setIndentText(expectedText);
+        buffer.raiseIndent();
+        buffer.indent();
+        assertEquals("Indent text", expectedText, buffer.toString());
+    }
+    
+    public void testIndent() {
+        String expectedText = "*";
+        buffer.setIndentText(expectedText);
+        buffer.raiseIndent();
+        buffer.raiseIndent();
+        buffer.indent();
+        assertEquals("Indent text", expectedText + expectedText, buffer.toString());
     }
 }
