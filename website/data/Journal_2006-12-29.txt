@@ -1,2 +1,9 @@
 Validate =-maximize= and =-minimize= switches to =DependencyExtractor=, just
 like in =DependencyReporter=, complete with Fit tests.
+
+Clean up Ant targets across build files and clean up documentation.  In the
+process, I found a typo where a '*' was not escaped properly and the HTML
+generator could not replace the encoded sequence with a '*' in the output.
+
+Listed third-party packages in the Developer Guide, including some tentative
+version numbers that are known to work with Dependency Finder.

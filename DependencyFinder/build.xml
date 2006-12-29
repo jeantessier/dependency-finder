@@ -1,4 +1,4 @@
-<project name="DependencyFinder" default="compile" basedir=".">
+<project name="DependencyFinder" default="all" basedir=".">
 
     <description>
         Dependency Finder, JarJarDiff, and OOMetrics
@@ -33,39 +33,39 @@
 
     <target name="init">
         <tstamp>
-            <format property="NOW"     pattern="yyyy-MM-dd HH:mm:ss"/>
+            <format property="NOW" pattern="yyyy-MM-dd HH:mm:ss"/>
         </tstamp>
 
-        <property name="release"       value="1.1.2-beta1"/>
+        <property name="release"        value="1.1.2-beta1"/>
 
-        <property name="packageNames"  value="com.jeantessier.*"/>
+        <property name="packageNames"   value="com.jeantessier.*"/>
 
-        <property name="srcDir"        value="src"/>
-        <property name="testsDir"      value="tests"/>
-        <property name="fitDir"        value="fit"/>
-        <property name="binDir"        value="bin"/>
-        <property name="classesDir"    value="classes"/>
-        <property name="libDir"        value="lib"/>
-        <property name="etcDir"        value="etc"/>
-        <property name="webDir"        value="web"/>
-        <property name="docsDir"       value="docs"/>
-        <property name="apiDir"        value="${docsDir}/api"/>
-        <property name="logsDir"       value="logs"/>
-        <property name="distDir"       value="dist"/>
+        <property name="srcDir"         value="src"/>
+        <property name="testsDir"       value="tests"/>
+        <property name="fitDir"         value="fit"/>
+        <property name="binDir"         value="bin"/>
+        <property name="classesDir"     value="classes"/>
+        <property name="libDir"         value="lib"/>
+        <property name="etcDir"         value="etc"/>
+        <property name="webDir"         value="web"/>
+        <property name="docsDir"        value="docs"/>
+        <property name="apiDir"         value="${docsDir}/api"/>
+        <property name="logsDir"        value="logs"/>
+        <property name="distDir"        value="dist"/>
 
-        <property name="srcFiles"      value="${srcDir}/**"/>
-        <property name="testsFiles"    value="${testsDir}/**"/>
-        <property name="fitFiles"      value="${fitDir}/**"/>
-        <property name="binFiles"      value="${binDir}/**"/>
-        <property name="libFiles"      value="${libDir}/**"/>
-        <property name="etcFiles"      value="${etcDir}/**"/>
-        <property name="webFiles"      value="${webDir}/**"/>
-        <property name="docsFiles"     value="${docsDir}/**"/>
+        <property name="srcFiles"       value="${srcDir}/**"/>
+        <property name="testsFiles"     value="${testsDir}/**"/>
+        <property name="fitFiles"       value="${fitDir}/**"/>
+        <property name="binFiles"       value="${binDir}/**"/>
+        <property name="libFiles"       value="${libDir}/**"/>
+        <property name="etcFiles"       value="${etcDir}/**"/>
+        <property name="webFiles"       value="${webDir}/**"/>
+        <property name="docsFiles"      value="${docsDir}/**"/>
 
-        <property name="jarFile"       value="${libDir}/${ant.project.name}.jar"/>
-        <property name="warFile"       value="${distDir}/${ant.project.name}-${release}.war"/>
-        <property name="srcArchive"    value="${distDir}/${ant.project.name}-${release}.src"/>
-        <property name="binArchive"    value="${distDir}/${ant.project.name}-${release}.bin"/>
+        <property name="jarFile"        value="${libDir}/${ant.project.name}.jar"/>
+        <property name="warFile"        value="${distDir}/${ant.project.name}-${release}.war"/>
+        <property name="srcArchive"     value="${distDir}/${ant.project.name}-${release}.src"/>
+        <property name="binArchive"     value="${distDir}/${ant.project.name}-${release}.bin"/>
 
         <property name="webworkWarFile" value="${ant.project.name}-${release}.webwork.war"/>
         <property name="webworkDir"     value="webwork"/>
@@ -74,6 +74,13 @@
         <mkdir dir="${apiDir}"/>
         <mkdir dir="${logsDir}"/>
     </target>
+
+    <target name="all" depends="distclean, dist"
+            description="Makes a clean distribution"/>
+
+    <!--
+        Compilation
+    -->
 
     <target name="compile" depends="init"
             description="Compiles all classes">
@@ -87,6 +94,25 @@
             <patternset refid="all.sources"/>
         </javac>
     </target>
+
+    <target name="deprecation" depends="init">
+        <javac destdir="${classesDir}" deprecation="yes">
+            <src path="${srcDir}"/>
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.servlet"/>
+                <path refid="classpath.webwork"/>
+            </classpath>
+            <patternset refid="all.sources"/>
+        </javac>
+    </target>
+
+    <!--
+        Executable environment
+    -->
+
+    <target name="exec" depends="jar, generatebin, log4j.config"
+            description="Compiles a version that works inplace"/>
 
     <target name="generatebin" depends="init">
         <exec executable="perl"
@@ -105,66 +131,16 @@
         <copy file="${srcDir}/log4j.properties" tofile="${classesDir}/log4j.properties"/>
     </target>
 
-    <target name="exec" depends="jar, generatebin, log4j.config"
-            description="Compiles a version that works inplace"/>
-
-    <target name="deprecation" depends="init">
-        <javac destdir="${classesDir}" deprecation="yes">
-            <src path="${srcDir}"/>
-            <classpath>
-                <path refid="classpath.dependencyfinder"/>
-                <path refid="classpath.servlet"/>
-                <path refid="classpath.webwork"/>
-            </classpath>
-            <patternset refid="all.sources"/>
-        </javac>
-    </target>
-
-    <target name="jar" depends="compile"
-            description="Builds the main application JAR file">
-        <jar jarfile="${jarFile}">
-            <manifest>
-                <attribute name="Specification-Vendor"   value="Jean Tessier"/>
-                <attribute name="Specification-Title"    value="Dependency Finder"/>
-                <attribute name="Specification-Version"  value="${release}"/>
-                <attribute name="Specification-Date"     value="${NOW}"/>
-                <attribute name="Implementation-Vendor"  value="Jean Tessier"/>
-                <attribute name="Implementation-Title"   value="Dependency Finder"/>
-                <attribute name="Implementation-Version" value="${release}"/>
-                <attribute name="Implementation-Date"    value="${NOW}"/>
-                <attribute name="Implementation-URL"     value="http://depfind.sourceforge.net/"/>
-                <attribute name="Copyright-Holder"       value="Jean Tessier"/>
-                <attribute name="Copyright-Date"         value="2001-2006"/>
-                <attribute name="Compiler-Vendor"        value="${java.vendor}"/>
-                <attribute name="Compiler-Title"         value="${java.runtime.name}"/>
-                <attribute name="Compiler-Version"       value="${java.version}"/>
-                <section name="com/jeantessier/dependencyfinder/Version.class">
-                    <attribute name="Java-Bean" value="True"/>
-                </section>
-            </manifest>
-            <zipfileset dir="${classesDir}"
-                        prefix=""
-                        includes="**/*.class"/>
-            <zipfileset dir="${srcDir}"
-                        prefix="">
-                <include name="dependencyfindertasks.properties"/>
-                <include name="**/*.gif"/>
-                <include name="**/*.jpg"/>
-                <exclude name="**/doc-files/**"/>
-            </zipfileset>
-        </jar>
-    </target>
-
     <!--
         Distribution
     -->
 
+    <target name="dist" depends="dist.init, src, docs, bin, war"
+            description="Compiles and builds the binary distributions"/>
+
     <target name="dist.init" depends="init">
         <mkdir dir="${distDir}"/>
     </target>
-
-    <target name="dist" depends="dist.init, src, docs, bin, war"
-            description="Compiles and builds the binary distributions"/>
 
     <target name="ftp" depends="init"
             description="Uploads the distribution files to SourceForge">
@@ -179,7 +155,7 @@
     </target>
 
     <!--
-        Packaged files
+        Packaging files
     -->
 
     <target name="src" depends="src.zip, src.tar.gz, src.tar.bz2"/>
@@ -320,6 +296,41 @@
                 </patternset>
             </tarfileset>
         </tar>
+    </target>
+
+    <target name="jar" depends="compile"
+            description="Builds the main application JAR file">
+        <jar jarfile="${jarFile}">
+            <manifest>
+                <attribute name="Specification-Vendor"   value="Jean Tessier"/>
+                <attribute name="Specification-Title"    value="Dependency Finder"/>
+                <attribute name="Specification-Version"  value="${release}"/>
+                <attribute name="Specification-Date"     value="${NOW}"/>
+                <attribute name="Implementation-Vendor"  value="Jean Tessier"/>
+                <attribute name="Implementation-Title"   value="Dependency Finder"/>
+                <attribute name="Implementation-Version" value="${release}"/>
+                <attribute name="Implementation-Date"    value="${NOW}"/>
+                <attribute name="Implementation-URL"     value="http://depfind.sourceforge.net/"/>
+                <attribute name="Copyright-Holder"       value="Jean Tessier"/>
+                <attribute name="Copyright-Date"         value="2001-2006"/>
+                <attribute name="Compiler-Vendor"        value="${java.vendor}"/>
+                <attribute name="Compiler-Title"         value="${java.runtime.name}"/>
+                <attribute name="Compiler-Version"       value="${java.version}"/>
+                <section name="com/jeantessier/dependencyfinder/Version.class">
+                    <attribute name="Java-Bean" value="True"/>
+                </section>
+            </manifest>
+            <zipfileset dir="${classesDir}"
+                        prefix=""
+                        includes="**/*.class"/>
+            <zipfileset dir="${srcDir}"
+                        prefix="">
+                <include name="dependencyfindertasks.properties"/>
+                <include name="**/*.gif"/>
+                <include name="**/*.jpg"/>
+                <exclude name="**/doc-files/**"/>
+            </zipfileset>
+        </jar>
     </target>
 
     <target name="war" depends="jar">

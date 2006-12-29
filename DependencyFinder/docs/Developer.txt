@@ -15,6 +15,35 @@ by Jean Tessier
 ----
 
 ---++ Installation
+
+---+++ Third-Party Packages
+
+Dependency Finder uses a number of third-party packages, especially for
+testing.  Everything you need to run Dependency Finder is in the distribution
+files, but you will need additional software if you want to compile your own
+custom version and/or run the test suite.  The tables below list those
+third-party packages, where you can find them, and which version we have tried
+Dependency Finder with.  Older or newer version have a good change of working
+too, but these are tried and true.
+
+For simple compilation:
+
+<table>
+    <tr><th>Name</th><th>Location</th><th>Working Version</th></tr>
+    <tr><td>Tomcat</td><td>[[http://tomcat.apache.org/][tomcat.apache.org]]</td><td align="center">5.5.17</td></tr>
+    <tr><td>WebWork</td><td>[[http://www.opensymphony.org/webwork/][www.opensymphony.org/webwork]]</td><td align="center">2.2.4</td></tr>
+</table>
+
+For testing:
+
+<table>
+    <tr><th>Name</th><th>Location</th><th>Working Version</th></tr>
+    <tr><td>JUnit</td><td>[[http://junit.org/][junit.org]]</td><td align="center">3.8.2</td></tr>
+    <tr><td>FitLibrary</td><td>[[http://fitlibrary.sourceforge.net/][fitlibrary.sourceforge.net]]</td><td align="center">2006-01-16</td></tr>
+    <tr><td>HttpUnit</td><td>[[http://httpunit.sourceforge.net/][httpunit.sourceforge.net]]</td><td align="center">1.6.2</td></tr>
+    <tr><td>Emma</td><td>[[http://emma.sourceforge.net/][emma.sourceforge.net]]</td><td align="center">2.0.5312</td></tr>
+</table>
+
 ---+++ Java Application
 ---++++ =JAVA_HOME=
 ---++++ =DEPENDENCYFINDER_HOME=
@@ -688,13 +717,13 @@ definitions.
 
     protected void preprocessPackageNode(PackageNode node) {
         super.preprocessPackageNode(node);
-        /%3A Custom processing ... %3A/
+        /%2A Custom processing ... %2A/
     }
 
-    /%3A ... %3A/
+    /%2A ... %2A/
 
     protected void postprocessPackageNode(PackageNode node) {
-        /%3A Custom processing ... %3A/
+        /%2A Custom processing ... %2A/
         super.postprocessPackageNode(node);
     }
 
@@ -1012,30 +1041,62 @@ retrieve parameters, if any, with the =Parameters()= method.
 
 ---++ Building Dependency Finder
 
-    C:\>ant
+Before you can compile Dependency Finder, you need to set the following
+environment variables:
+
+    * =CATALINA_HOME= to your [[http://tomcat.apache.org/][Tomcat]] installation
+    * =WEBWORK_HOME= to your [[http://www.opensymphony.com/webwork/][WebWork]] installation
+
+---+++ Building an Executable
+
+    =ant exec=
+
+This target will create everything you need to run Dependency Finder in-place.
+If you make a change and you simply want to refresh the executable, simply run:
+
+    =and jar=
+
+---+++ Building the Documentation
+
+    =ant docs=
+
+This target will create both Javadocs and the various manuals.
 
 ---+++ Compiling a Build
 
-    C:\>ant realclean dist
+    =ant=
+
+This target will create a set of distribution files from a clean build.
 
 ---+++ Testing the Build
 
-    C:\>ant -f build.test.xml
-    C:\>textjunit TestAll
-    C:\>textjunit com.jeantessier.fitlibrary.TestAll
+Before you can compile and run the tests, you need to set the following
+environment variables in addition to those for compiling Dependency Finder:
 
-or
+    * =JUNIT_HOME= to your [[http://junit.org/][JUnit]] installation
+    * =FITLIBRARY_HOME= to your [[http://fitlibrary.sourceforge.net/][FitLibrary]] installation
+    * =HTTPUNIT_HOME= to your [[http://httpunit.sourceforge.net/][HttpUnit]] installation
 
-    C:\>ant -f build.test.xml run
+To run all tests and generate test reports in the =reports= directory:
 
-All test reports are written to the =reports= directory.
+    1 =set CLASSPATH%3D%JUNIT_HOME%\junit.jar=
+    1 =ant -f build.test.xml=
+
+or, to run tests manually:
+
+    1 =set CLASSPATH%3D%JUNIT_HOME%\junit.jar=
+    1 =ant -f build.test.xml compile=
+    1 =textjunit TestAll=
+    1 =textjunit com.jeantessier.fitlibrary.TestAll=
 
 ---+++ Making a Release
 
-    1 =cvs tag release-20030101=
+_These instructions need to be updated to account for Subversion instead of CVS._
+
+    1 =cvs tag release-1.2.0=
     1 =ant realclean dist=
     1 =ant ftp=
-    1 =cvs log -rrelease-20020711:release-20030101=
+    1 =cvs log -rrelease-1.1.1:release-1.2.0=
     1 Create new release on SourceForge.net
     1 Notify monitoring people
     1 Close bugs
@@ -1047,35 +1108,40 @@ All test reports are written to the =reports= directory.
 
 ---+++ Computing Code Coverage
 
----++++ jcoverage
+---++++ Emma
 
-_These instructions are deprecated.  Use [[#Emma][Emma]] instead._
+You can use [[http://emma.sourceforge.net/][Emma]] and the build file in
+=build.emma.xml=.
 
-You can use [[http://www.jcoverage.com/][jcoverage]] and the build file in
-=build.jcoverage.xml=.
+Before you can run Emma, you need to set the following environment variable in
+addition to those for testing and compiling Dependency Finder:
 
-    1 =set CLASSPATH%3D%JUNIT_HOME%\junit.jar=
-    1 =ant realclean=
-    1 =ant -f build.jcoverage.xml realclean=
-    1 =ant -f build.test.xml compile=
-    1 =ant -f build.jcoverage.xml instrument=
-    1 =ant -f build.test.xml tests=
-    1 =ant -f build.jcoverage.xml tests=
-    1 =ant -f build.jcoverage.xml report=
+    * =EMMA_HOME= to your [[http://emma.sourceforge.net/][Emma]] installation
+
+To run the tests and generate code coverage reports:
+
+    =ant -f build.emma.xml=
 
 To publish the results:
 
-    1 archive the =jcoverage= directory
+    1 Archive the =reports/emma= directory
     1 Use =scp= to transfer the archive to SourceForge
     1 Use =ssh= to login to SourceForge
-    1 extract the archive in the root of the website
+    1 Extract the archive in the root of the website
 
 ---++++ Clover
 
-_These instructions are currently broken and will be fixed eventually._
-
-You can use [[http://www.cenqua.com/clover/][clover]] and the build file in
+You can use [[http://www.cenqua.com/clover/][Clover]] and the build file in
 =build.clover.xml=.
+
+Before you can run Emma, you need to set the following environment variable in
+addition to those for testing and compiling Dependency Finder:
+
+    * =CLOVER_HOME= to your [[http://www.cenqua.com/clover/][Clover]] installation
+
+To run the tests and generate code coverage reports:
+
+_These instructions are currently broken and will get fixed eventually._
 
     1 =set CLASSPATH%3D%JUNIT_HOME%\junit.jar;%CLOVER%5FHOME%\lib;%CLOVER%5FHOME%\lib\clover.jar=
     1 =ant -f build.clover.xml realclean=
@@ -1086,24 +1152,9 @@ You can use [[http://www.cenqua.com/clover/][clover]] and the build file in
 
 To publish the results:
 
-    1 archive the =clover= directory
+    1 Archive the =clover= directory
     1 Use =scp= to transfer the archive to SourceForge
     1 Use =ssh= to login to SourceForge
-    1 extract the archive in the root of the website
-
----++++ Emma
-
-You can use [[http://emma.sourceforge.net/][Emma]] and the build file in
-=build.emma.xml=.
-
-    1 =set CLASSPATH%3D%JUNIT_HOME%\junit.jar=
-    1 =ant -f build.emma.xml clean report=
-
-To publish the results:
-
-    1 archive the =reports/emma= directory
-    1 Use =scp= to transfer the archive to SourceForge
-    1 Use =ssh= to login to SourceForge
-    1 extract the archive in the root of the website
+    1 Extract the archive in the root of the website
 
 ----

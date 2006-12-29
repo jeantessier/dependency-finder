@@ -1,4 +1,4 @@
-<project name="Tests" default="compile" basedir=".">
+<project name="Tests" default="all" basedir=".">
 
     <description>
         Tests for Dependency Finder, JarJarDiff, and OOMetrics
@@ -78,11 +78,23 @@
         <ant antfile="build.xml" target="clean" inheritAll="false"/>
     </target>
 
-    <target name="log4j.config" depends="init">
-        <copy file="${srcDir}/log4j.properties" tofile="${classesDir}/log4j.properties"/>
+    <target name="main.log4j.config" depends="init">
+        <ant antfile="build.xml" target="log4j.config" inheritAll="false"/>
     </target>
 
-    <target name="compile" depends="init, main.compile, log4j.config"
+    <target name="all" depends="clean, compile, run"
+            description="Makes a clean compile and runs all tests"/>
+
+    <target name="clean" depends="init, main.clean"
+            description="Removes all produced files">
+        <delete dir="${reportsDir}"
+                includeEmptyDirs="true"
+                verbose="true"/>
+        <ant dir="tests/JarJarDiff" target="clean" inheritAll="false"/>
+        <ant dir="tests/Metrics" target="clean" inheritAll="false"/>
+    </target>
+
+    <target name="compile" depends="init, main.compile, main.log4j.config"
             description="Compiles everything required to run all the tests">
         <javac destdir="${classesDir}" debug="on">
             <src path="${testsDir}"/>
@@ -305,15 +317,6 @@
             </fileset>
             <report format="frames" todir="${testReportsDir}/html"/>
         </junitreport>
-    </target>
-
-    <target name="clean" depends="init, main.clean"
-            description="Removes all produced files">
-        <delete dir="${reportsDir}"
-                includeEmptyDirs="true"
-                verbose="true"/>
-        <ant dir="tests/JarJarDiff" target="clean" inheritAll="false"/>
-        <ant dir="tests/Metrics" target="clean" inheritAll="false"/>
     </target>
 
 </project>

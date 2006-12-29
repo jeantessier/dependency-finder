@@ -21,27 +21,23 @@
     </taskdef>
 
     <target name="init">
-        <property name="release"       value="1.1.2-beta1"/>
+        <property name="release"        value="1.1.2-beta1"/>
 
-        <property name="distDir"       value="dist"/>
+        <property name="distDir"        value="dist"/>
 
-        <property name="warFile"       value="${distDir}/${ant.project.name}-${release}.war"/>
+        <property name="warFile"        value="${distDir}/${ant.project.name}-${release}.war"/>
         <property name="webworkWarFile" value="${ant.project.name}-${release}.webwork.war"/>
     </target>
 
-    <target name="jar">
-        <ant antfile="build.xml" target="jar" inheritall="false"/>
-    </target>
-
-    <target name="war">
+    <target name="main.war">
         <ant antfile="build.xml" target="war" inheritall="false"/>
     </target>
 
-    <target name="webwork.war">
+    <target name="main.webwork.war">
         <ant antfile="build.xml" target="webwork.war" inheritall="false"/>
     </target>
 
-    <target name="webapp.deploy" depends="war"
+    <target name="webapp.deploy" depends="main.war"
             description="Deploys the web application to a Tomcat container">
         <deploy url="${tomcat.manager.url}"
                 username="${tomcat.manager.username}"
@@ -91,7 +87,7 @@
         WebWork
     -->
 
-    <target name="webwork.deploy" depends="webwork.war"
+    <target name="webwork.deploy" depends="main.webwork.war"
             description="Deploys the web application to a Tomcat container">
         <deploy url="${tomcat.manager.url}"
                 username="${tomcat.manager.username}"

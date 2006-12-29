@@ -1,4 +1,4 @@
-<project name="Emma" default="report" basedir=".">
+<project name="Emma" default="all" basedir=".">
 
     <property environment="env"/>
 
@@ -64,15 +64,24 @@
     </target>
 
     <target name="tests.compile">
-        <ant antfile="build.test.xml" inheritAll="false"/>
+        <ant antfile="build.test.xml" target="compile" inheritAll="false"/>
     </target>
 
     <target name="tests.clean">
         <ant antfile="build.test.xml" target="clean" inheritAll="false"/>
     </target>
 
+    <target name="all" depends="clean, instrument, run, report"
+            description="Makes a clean compile and runs code coverage analysis"/>
+
+    <target name="clean" depends="init, tests.clean"
+            description="Removes all produced files">
+        <delete dir="${out.instr.dir}"/>
+        <delete dir="${coverage.dir}"/>
+    </target>
+
     <target name="instrument" depends="init, tests.compile"
-            description="instruments the bytecode">
+            description="Instruments the bytecode">
         <emma>
             <instr instrpath="${out.dir}"
                    destdir="${out.instr.dir}"
@@ -84,8 +93,8 @@
         </emma>
     </target>
 
-    <target name="run" depends="instrument"
-            description="runs the tests">
+    <target name="run" depends="init"
+            description="Runs the tests">
         <junit fork="true">
             <formatter type="plain" usefile="no"/>
             <test name="TestAll"/>
@@ -123,7 +132,7 @@
         </junit>
     </target>
 
-    <target name="report" depends="run"
+    <target name="report" depends="init"
             description="Produces the coverate report">
         <emma>
             <report>
@@ -139,12 +148,6 @@
                 <html outfile="${emma.reports.dir}/coverage.html"/>
             </report>
         </emma>
-    </target>
-
-    <target name="clean" depends="init, tests.clean"
-            description="Removes all produced files">
-        <delete dir="${out.instr.dir}"/>
-        <delete dir="${coverage.dir}"/>
     </target>
 
 </project>
