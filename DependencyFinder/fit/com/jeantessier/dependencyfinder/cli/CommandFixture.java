@@ -31,7 +31,7 @@ public class CommandFixture extends DoFixture {
         return (Command) getSystemUnderTest();
     }
 
-    private CommandLine getCommandLine() {
+    public CommandLine getCommandLine() {
         return (getCommand()).getCommandLine();
     }
 }

@@ -78,10 +78,6 @@ public class DependencyReporter extends Command {
         getCommandLine().addToggleSwitch("copy-only");
     }
 
-    public static void main(String[] args) throws Exception {
-        new DependencyReporter().run(args);
-    }
-
     protected boolean validateCommandLine(PrintStream out) throws IOException, CommandLineException {
         boolean result = super.validateCommandLine(out);
 
@@ -131,7 +127,7 @@ public class DependencyReporter extends Command {
         }
 
         Logger.getLogger(DependencyReporter.class).info("Reporting " + copier.getScopeFactory().getPackages().values().size() + " package(s) ...");
-    
+
         getVerboseListener().print("Printing the graph ...");
 
         Printer printer;
@@ -140,7 +136,7 @@ public class DependencyReporter extends Command {
         } else {
             printer = new TextPrinter(out);
         }
-            
+
         if (getCommandLine().isPresent("indent-text")) {
             printer.setIndentText(getCommandLine().getSingleSwitch("indent-text"));
         }
@@ -152,5 +148,9 @@ public class DependencyReporter extends Command {
         }
 
         printer.traverseNodes(copier.getScopeFactory().getPackages().values());
+    }
+
+    public static void main(String[] args) throws Exception {
+        new DependencyReporter().run(args);
     }
 }

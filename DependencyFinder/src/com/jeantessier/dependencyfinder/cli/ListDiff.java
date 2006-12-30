@@ -35,144 +35,76 @@ package com.jeantessier.dependencyfinder.cli;
 import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
-
 import com.jeantessier.commandline.*;
-import com.jeantessier.dependencyfinder.*;
 import com.jeantessier.diff.*;
 
-public class ListDiff {
-    public static void showError(CommandLineUsage clu, String msg) {
-        System.err.println(msg);
-        showError(clu);
+public class ListDiff extends Command {
+    public ListDiff() throws CommandLineException {
+        super("ListDiff");
     }
 
-    public static void showError(CommandLineUsage clu) {
-        System.err.println(clu);
-        System.err.println();
-        System.err.println("Defaults is text output to the console.");
-        System.err.println();
-    }
-
-    public static void showVersion() {
-        Version version = new Version();
-        
-        System.err.print(version.getImplementationTitle());
-        System.err.print(" ");
-        System.err.print(version.getImplementationVersion());
-        System.err.print(" (c) ");
-        System.err.print(version.getCopyrightDate());
-        System.err.print(" ");
-        System.err.print(version.getCopyrightHolder());
-        System.err.println();
-        
-        System.err.print(version.getImplementationURL());
-        System.err.println();
-        
-        System.err.print("Compiled on ");
-        System.err.print(version.getImplementationDate());
-        System.err.println();
+    protected void showSpecificUsage(PrintStream out) {
+        out.println();
+        out.println("Defaults is text output to the console.");
+        out.println();
     }
 
     public static void main(String[] args) throws Exception {
-        // Parsing the command line
-        CommandLine commandLine = new CommandLine(new NullParameterStrategy());
-        commandLine.addSingleValueSwitch("name");
-        commandLine.addSingleValueSwitch("old-label");
-        commandLine.addSingleValueSwitch("old", true);
-        commandLine.addSingleValueSwitch("new-label");
-        commandLine.addSingleValueSwitch("new", true);
-        commandLine.addToggleSwitch("compress");
-        commandLine.addSingleValueSwitch("encoding",   ListDiffPrinter.DEFAULT_ENCODING);
-        commandLine.addSingleValueSwitch("dtd-prefix", ListDiffPrinter.DEFAULT_DTD_PREFIX);
-        commandLine.addSingleValueSwitch("indent-text");
-        commandLine.addToggleSwitch("time");
-        commandLine.addSingleValueSwitch("out");
-        commandLine.addToggleSwitch("help");
-        commandLine.addToggleSwitch("version");
+        new ListDiff().run(args);
+    }
 
-        CommandLineUsage usage = new CommandLineUsage("ListDiff");
-        commandLine.accept(usage);
+    protected void populateCommandLineSwitches() throws CommandLineException {
+        super.populateCommandLineSwitches();
+        populateCommandLineSwitchesForXMLOutput(ListDiffPrinter.DEFAULT_ENCODING,  ListDiffPrinter.DEFAULT_DTD_PREFIX);
 
-        try {
-            commandLine.parse(args);
-        } catch (IllegalArgumentException ex) {
-            showError(usage, ex.toString());
-            System.exit(1);
-        } catch (CommandLineException ex) {
-            showError(usage, ex.toString());
-            System.exit(1);
-        }
+        getCommandLine().addSingleValueSwitch("name");
+        getCommandLine().addSingleValueSwitch("old-label");
+        getCommandLine().addSingleValueSwitch("old", true);
+        getCommandLine().addSingleValueSwitch("new-label");
+        getCommandLine().addSingleValueSwitch("new", true);
+        getCommandLine().addToggleSwitch("compress");
+    }
 
-        if (commandLine.getToggleSwitch("help")) {
-            showError(usage);
-        }
-        
-        if (commandLine.getToggleSwitch("version")) {
-            showVersion();
-        }
-
-        if (commandLine.getToggleSwitch("help") || commandLine.getToggleSwitch("version")) {
-            System.exit(1);
-        }
-
-        /*
-         *  Beginning of main processing
-         */
-        
-        Date start = new Date();
-        
+    protected void doProcessing() throws Exception {
         String line;
         
-        Logger.getLogger(ListDiff.class).info("Loading data ...");
-        
+        getVerboseListener().print("Loading old list ...");
         Collection<String> oldAPI = new TreeSet<String>();
-        BufferedReader oldIn = new BufferedReader(new FileReader(commandLine.getSingleSwitch("old")));
+        BufferedReader oldIn = new BufferedReader(new FileReader(getCommandLine().getSingleSwitch("old")));
         while((line = oldIn.readLine()) != null) {
             oldAPI.add(line);
         }
         
+        getVerboseListener().print("Loading new list ...");
         Collection<String> newAPI = new TreeSet<String>();
-        BufferedReader newIn = new BufferedReader(new FileReader(commandLine.getSingleSwitch("new")));
+        BufferedReader newIn = new BufferedReader(new FileReader(getCommandLine().getSingleSwitch("new")));
         while((line = newIn.readLine()) != null) {
             newAPI.add(line);
         }
         
-        ListDiffPrinter printer = new ListDiffPrinter(commandLine.getToggleSwitch("compress"), commandLine.getSingleSwitch("encoding"), commandLine.getSingleSwitch("dtd-prefix"));
-        printer.setName(commandLine.getSingleSwitch("name"));
-        printer.setOldVersion(commandLine.getSingleSwitch("old-label"));
-        printer.setNewVersion(commandLine.getSingleSwitch("new-label"));
-        if (commandLine.isPresent("indent-text")) {
-            printer.setIndentText(commandLine.getSingleSwitch("indent-text"));
+        ListDiffPrinter printer = new ListDiffPrinter(getCommandLine().getToggleSwitch("compress"), getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
+        printer.setName(getCommandLine().getSingleSwitch("name"));
+        printer.setOldVersion(getCommandLine().getSingleSwitch("old-label"));
+        printer.setNewVersion(getCommandLine().getSingleSwitch("new-label"));
+        if (getCommandLine().isPresent("indent-text")) {
+            printer.setIndentText(getCommandLine().getSingleSwitch("indent-text"));
         }
 
+        getVerboseListener().print("Computing removed elements ...");
         for (String name : oldAPI) {
             if (!newAPI.contains(name)) {
                 printer.remove(name);
             }
         }
 
+        getVerboseListener().print("Computing added elements ...");
         for (String name : newAPI) {
             if (!oldAPI.contains(name)) {
                 printer.add(name);
             }
         }
 
-        Logger.getLogger(ListDiff.class).info("Printing results ...");
-        
-        PrintWriter out;
-        if (commandLine.isPresent("out")) {
-            out = new PrintWriter(new FileWriter(commandLine.getSingleSwitch("out")));
-        } else {
-            out = new PrintWriter(new OutputStreamWriter(System.out));
-        }
+        getVerboseListener().print("Printing results ...");
         out.print(printer);
-        out.close();
-
-        Date end = new Date();
-
-        if (commandLine.getToggleSwitch("time")) {
-            System.err.println(ListDiff.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
-        }
     }
 }

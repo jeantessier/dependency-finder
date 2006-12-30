@@ -109,7 +109,7 @@
 
         <junit fork="true">
             <formatter type="plain" usefile="no"/>
-            <test name="com.jeantessier.fitlibrary.TestAll"/>
+            <test name="com.jeantessier.fit.FitTestSuite"/>
             <classpath>
                 <pathelement location="${out.instr.dir}"/>
                 <path refid="run.classpath"/>
@@ -121,7 +121,7 @@
 
         <junit fork="true">
             <formatter type="plain" usefile="no"/>
-            <test name="com.jeantessier.fit.FitTestSuite"/>
+            <test name="com.jeantessier.fitlibrary.TestAll"/>
             <classpath>
                 <pathelement location="${out.instr.dir}"/>
                 <path refid="run.classpath"/>

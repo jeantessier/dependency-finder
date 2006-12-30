@@ -1,0 +1,68 @@
+<html>
+
+<head>
+<title>List Symbols</title>
+</head>
+
+<body>
+
+<h1>List Symbols</h1>
+
+<table border="1">
+    <tr>
+        <td colspan="2">com.jeantessier.dependencyfinder.cli.CommandFixture</td>
+    </tr>
+    <tr>
+        <td>start</td>
+        <td>com.jeantessier.dependencyfinder.cli.ListSymbols</td>
+    </tr>
+</table>
+
+<h2>Checking known switches.</h2>
+
+<table border="1">
+    <tr><td colspan="3">switches</td></tr>
+    <tr><td>name</td><td>default value</td><td>mandatory</td></tr>
+    <tr><td>class-names</td><td>false</td><td>false</td></tr>
+    <tr><td>field-names</td><td>false</td><td>false</td></tr>
+    <tr><td>help</td><td>false</td><td>false</td></tr>
+    <tr><td>local-names</td><td>false</td><td>false</td></tr>
+    <tr><td>method-names</td><td>false</td><td>false</td></tr>
+    <tr><td>out</td><td></td><td>false</td></tr>
+    <tr><td>time</td><td>false</td><td>false</td></tr>
+    <tr><td>verbose</td><td>System.out</td><td>false</td></tr>
+    <tr><td>version</td><td>false</td><td>false</td></tr>
+</table>
+
+<h2>Checking aliases.</h2>
+
+<table border="1">
+    <tr><td>parse</td><td colspan="3"></td><td>and validate</td></tr>
+    <tr><td colspan="5">command line</td></tr>
+    <tr><td>check</td><td>is</td><td>class-names</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>is</td><td>field-names</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>is</td><td>method-names</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>is</td><td>local-names</td><td>present</td><td>true</td></tr>
+</table>
+
+<table border="1">
+    <tr><td>parse</td><td colspan="3">-class-names</td><td>and validate</td></tr>
+    <tr><td colspan="5">command line</td></tr>
+    <tr><td>check</td><td>is</td><td>class-names</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>is</td><td>field-names</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>method-names</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>local-names</td><td>present</td><td>false</td></tr>
+</table>
+
+<table border="1">
+    <tr><td>parse</td><td colspan="3">-method-names -field-names</td><td>and validate</td></tr>
+    <tr><td colspan="5">command line</td></tr>
+    <tr><td>check</td><td>is</td><td>class-names</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>field-names</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>is</td><td>method-names</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>is</td><td>local-names</td><td>present</td><td>false</td></tr>
+</table>
+
+</body>
+
+</html>

@@ -37,119 +37,33 @@ import java.util.*;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.commandline.*;
-import com.jeantessier.dependencyfinder.*;
 
-public class ListDeprecatedElements {
-    public static final String DEFAULT_LOGFILE = "System.out";
-
-    public static void showError(CommandLineUsage clu, String msg) {
-        System.err.println(msg);
-        showError(clu);
+public class ListDeprecatedElements extends Command {
+    public ListDeprecatedElements() throws CommandLineException {
+        super("ListDeprecatedElements");
     }
 
-    public static void showError(CommandLineUsage clu) {
-        System.err.println(clu);
-        System.err.println();
-        System.err.println("If no files are specified, it processes the current directory.");
-        System.err.println();
+    protected void showSpecificUsage(PrintStream out) {
+        out.println();
+        out.println("If no files are specified, it processes the current directory.");
+        out.println();
     }
 
-    public static void showVersion() {
-        Version version = new Version();
-        
-        System.err.print(version.getImplementationTitle());
-        System.err.print(" ");
-        System.err.print(version.getImplementationVersion());
-        System.err.print(" (c) ");
-        System.err.print(version.getCopyrightDate());
-        System.err.print(" ");
-        System.err.print(version.getCopyrightHolder());
-        System.err.println();
-        
-        System.err.print(version.getImplementationURL());
-        System.err.println();
-        
-        System.err.print("Compiled on ");
-        System.err.print(version.getImplementationDate());
-        System.err.println();
-    }
-
-    public static void main(String[] args) throws Exception {
-        // Parsing the command line
-        CommandLine commandLine = new CommandLine();
-        commandLine.addToggleSwitch("time");
-        commandLine.addSingleValueSwitch("out");
-        commandLine.addToggleSwitch("help");
-        commandLine.addOptionalValueSwitch("verbose", DEFAULT_LOGFILE);
-        commandLine.addToggleSwitch("version");
-
-        CommandLineUsage usage = new CommandLineUsage("ListDeprecatedElements");
-        commandLine.accept(usage);
-
-        try {
-            commandLine.parse(args);
-        } catch (IllegalArgumentException ex) {
-            showError(usage, ex.toString());
-            System.exit(1);
-        } catch (CommandLineException ex) {
-            showError(usage, ex.toString());
-            System.exit(1);
-        }
-
-        if (commandLine.getToggleSwitch("help")) {
-            showError(usage);
-        }
-        
-        if (commandLine.getToggleSwitch("version")) {
-            showVersion();
-        }
-
-        if (commandLine.getToggleSwitch("help") || commandLine.getToggleSwitch("version")) {
-            System.exit(1);
-        }
-
-        VerboseListener verboseListener = new VerboseListener();
-        if (commandLine.isPresent("verbose")) {
-            if ("System.out".equals(commandLine.getOptionalSwitch("verbose"))) {
-                verboseListener.setWriter(System.out);
-            } else {
-                verboseListener.setWriter(new FileWriter(commandLine.getOptionalSwitch("verbose")));
-            }
-        }
-
-        /*
-         *  Beginning of main processing
-         */
-
-        Date start = new Date();
-
-        List<String> parameters = commandLine.getParameters();
+    protected void doProcessing() throws Exception {
+        List<String> parameters = getCommandLine().getParameters();
         if (parameters.size() == 0) {
             parameters.add(".");
         }
 
-        PrintWriter out;
-        if (commandLine.isPresent("out")) {
-            out = new PrintWriter(new FileWriter(commandLine.getSingleSwitch("out")));
-        } else {
-            out = new PrintWriter(new OutputStreamWriter(System.out));
-        }
-
         DeprecationPrinter printer = new DeprecationPrinter(out);
-        
+
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(new LoadListenerVisitorAdapter(printer));
-        loader.addLoadListener(verboseListener);
+        loader.addLoadListener(getVerboseListener());
         loader.load(parameters);
+    }
 
-        Date end = new Date();
-
-        if (commandLine.getToggleSwitch("time")) {
-            System.err.println(ListDeprecatedElements.class.getName() + ": " + ((end.getTime() - (double) start.getTime()) / 1000) + " secs.");
-        }
-
-        out.close();
-
-        verboseListener.close();
+    public static void main(String[] args) throws Exception {
+        new ListDeprecatedElements().run(args);
     }
 }

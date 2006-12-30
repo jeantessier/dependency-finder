@@ -1,0 +1,2 @@
+Finished refactoring the CLI commands.  Made some fixed to the tools
+documentation in the process.
