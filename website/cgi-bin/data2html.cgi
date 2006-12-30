@@ -33,19 +33,19 @@
 #   
 
 %MONTH = (
-	  "01" => "January",
-	  "02" => "February",
-	  "03" => "March",
-	  "04" => "April",
-	  "05" => "May",
-	  "06" => "June",
-	  "07" => "July",
-	  "08" => "August",
-	  "09" => "September",
-	  "10" => "October",
-	  "11" => "November",
-	  "12" => "December",
-	  );
+          "01" => "January",
+          "02" => "February",
+          "03" => "March",
+          "04" => "April",
+          "05" => "May",
+          "06" => "June",
+          "07" => "July",
+          "08" => "August",
+          "09" => "September",
+          "10" => "October",
+          "11" => "November",
+          "12" => "December",
+          );
 
 $DIRNAME = "data";
 
@@ -84,17 +84,17 @@ sub PrintDocumentHeader {
     print "\n";
     print"<script type=\"text/javascript\" language=\"JavaScript\">\n";
     print"<!--\n";
-    print"    google_rc = new Object();\n";
-    print"    google_rc['width'] = 728;\n";
-    print"    google_rc['height'] = 90;\n";
-    print"    google_rc['modules'] = ['searches','pages','news'];\n";
-    print"    google_rc['color_line'] = '000000';\n";
-    print"    google_rc['color_link'] = '336633';\n";
-    print"    google_rc['color_bg'] = 'ffffff';\n";
-    print"    google_rc['color_text'] = '000000';\n";
-    print"    google_rc['color_source'] = '999999';\n";
-    print"    google_rc['color_header'] = 'BAF0BA';\n";
-    print"    google_rc['color_footer'] = 'BAF0BA';\n";
+    print"      google_rc = new Object();\n";
+    print"      google_rc['width'] = 728;\n";
+    print"      google_rc['height'] = 90;\n";
+    print"      google_rc['modules'] = ['searches','pages','news'];\n";
+    print"      google_rc['color_line'] = '000000';\n";
+    print"      google_rc['color_link'] = '336633';\n";
+    print"      google_rc['color_bg'] = 'ffffff';\n";
+    print"      google_rc['color_text'] = '000000';\n";
+    print"      google_rc['color_source'] = '999999';\n";
+    print"      google_rc['color_header'] = 'BAF0BA';\n";
+    print"      google_rc['color_footer'] = 'BAF0BA';\n";
     print"//-->\n";
     print"</script>\n";
     print"<script type=\"text/javascript\" language=\"JavaScript\" src=\"http://www.googlesyndication.com/relcontent/show_rc.js\"></script>\n";
@@ -117,7 +117,7 @@ sub PrintDocumentParts {
     closedir(DIRHANDLE);
 
     foreach $file (reverse sort @files) {
-	&PrintDocumentPart("$DIRNAME/$file");
+        &PrintDocumentPart("$DIRNAME/$file");
     }
 }
 
@@ -126,9 +126,9 @@ sub PrintDocumentPart {
 
     local ($year, $month, $day);
     if ($filename =~ /(\d{4})-(\d{2})-(\d{2})/) {
-	$year = $1;
-	$month = $2;
-	$day = $3;
+        $year = $1;
+        $month = $2;
+        $day = $3;
     }
 
     print "<dt>$MONTH{$month} $day, $year</dt>\n";
@@ -140,76 +140,76 @@ sub PrintDocumentPart {
 
     local ($line);
     while ($line = <FILEHANDLE>) {
-	if ($line =~ /^\s*$/) {
-	    if ($in_paragraph) {
-		$in_paragraph = !$in_paragraph;
-		print "</p>\n";
-	    } elsif ($in_quote) {
-		$in_quote = !$in_quote;
-		print "</pre>\n";
-	    } elsif ($in_ordered_list) {
-		$in_ordered_list = !$in_ordered_list;
-		print "</ol>\n";
-	    } elsif ($in_unordered_list) {
-		$in_unordered_list = !$in_unordered_list;
-		print "</ul>\n";
-	    } elsif ($in_html) {
-		$in_html = !$in_html;
-	    }
-	} elsif ($line =~ /^(\s*)((\S+)\s*(\S.*))/) {
-	    local ($indent, $text, $marker, $content) = ($1, $2, $3, $4);
-	    
-	    local ($indent_level) = length $indent;
-	    chomp $text;
-	    chomp $content;
-	    
-	    if (!$in_paragraph && !$in_quote && !$in_html && ($marker =~ /^\d+$/ || $marker eq "*")) {
-		$line = "<li>$content</li>\n";
-	    }
-	    
-	    if (!$in_paragraph && !$in_quote && !$in_html && !$in_ordered_list && !$in_unordered_list && !$in_html) {
-		if ($indent_level) {
-		    if ($marker =~ /^\d+$/ && !$in_ordered_list) {
-			$in_ordered_list = !$in_ordered_list;
-			print "<ol>\n";
-		    } elsif ($marker eq "*" && !$in_unordered_list) {
-			$in_unordered_list = !$in_unordered_list;
-			print "<ul>\n";
-		    } elsif (!$in_quote) {
-			$in_quote = !$in_quote;
-			print "<pre>\n";
-		    }
-		} elsif ($line =~ /^</) {
-		    $in_html = !$in_html;
-		} else {
-		    $in_paragraph = !$in_paragraph;
-		    print "<p>\n";
-		}
-	    }
-	}
-	
-	$line =~ s/=([^=]*)=/<code>\1<\/code>/g;
-	$line =~ s/_([^_]*)_/<i>\1<\/i>/g;
-	$line =~ s/\*([^*]*)\*/<b>\1<\/b>/g;
-	$line =~ s/\[\[([^\]]*)\]\[(.*\.((gif)|(jpg)))\]\]/<a target="_blank" href="\1"><img border="0" src="\2" \/><\/a><br \/>/gi;
-	$line =~ s/\[\[([^\]]*\.((gif)|(jpg)))\]\]/<img src="\1" \/><br \/>/gi;
-	$line =~ s/\[\[([^\]]*)\]\[(.*)\]\]/<a target="_blank" href="\1">\2<\/a>/g;
-	
-	$line =~ s/%2A/\*/gi;
-	$line =~ s/%3D/=/gi;
-	$line =~ s/%5F/_/gi;
-	
-	print $line;
+        if ($line =~ /^\s*$/) {
+            if ($in_paragraph) {
+                $in_paragraph = !$in_paragraph;
+                print "</p>\n";
+            } elsif ($in_quote) {
+                $in_quote = !$in_quote;
+                print "</pre>\n";
+            } elsif ($in_ordered_list) {
+                $in_ordered_list = !$in_ordered_list;
+                print "</ol>\n";
+            } elsif ($in_unordered_list) {
+                $in_unordered_list = !$in_unordered_list;
+                print "</ul>\n";
+            } elsif ($in_html) {
+                $in_html = !$in_html;
+            }
+        } elsif ($line =~ /^(\s*)((\S+)\s*(\S.*))/) {
+            local ($indent, $text, $marker, $content) = ($1, $2, $3, $4);
+
+            local ($indent_level) = length $indent;
+            chomp $text;
+            chomp $content;
+
+            if (!$in_paragraph && !$in_quote && !$in_html && ($marker =~ /^\d+$/ || $marker eq "*")) {
+                $line = "<li>$content</li>\n";
+            }
+
+            if (!$in_paragraph && !$in_quote && !$in_html && !$in_ordered_list && !$in_unordered_list && !$in_html) {
+                if ($indent_level) {
+                    if ($marker =~ /^\d+$/ && !$in_ordered_list) {
+                        $in_ordered_list = !$in_ordered_list;
+                        print "<ol>\n";
+                    } elsif ($marker eq "*" && !$in_unordered_list) {
+                        $in_unordered_list = !$in_unordered_list;
+                        print "<ul>\n";
+                    } elsif (!$in_quote) {
+                        $in_quote = !$in_quote;
+                        print "<pre>\n";
+                    }
+                } elsif ($line =~ /^</) {
+                    $in_html = !$in_html;
+                } else {
+                    $in_paragraph = !$in_paragraph;
+                    print "<p>\n";
+                }
+            }
+        }
+
+        $line =~ s/=([^=]*)=/<code>\1<\/code>/g;
+        $line =~ s/_([^_]*)_/<i>\1<\/i>/g;
+        $line =~ s/\*([^*]*)\*/<b>\1<\/b>/g;
+        $line =~ s/\[\[([^\]]*)\]\[(.*\.((gif)|(jpg)))\]\]/<a target="_blank" href="\1"><img border="0" src="\2" \/><\/a><br \/>/gi;
+        $line =~ s/\[\[([^\]]*\.((gif)|(jpg)))\]\]/<img src="\1" \/><br \/>/gi;
+        $line =~ s/\[\[([^\]]*)\]\[(.*)\]\]/<a target="_blank" href="\1">\2<\/a>/g;
+        
+        $line =~ s/%2A/\*/gi;
+        $line =~ s/%3D/=/gi;
+        $line =~ s/%5F/_/gi;
+        
+        print $line;
     }
 
     if ($in_paragraph) {
-	print "</p>\n";
+        print "</p>\n";
     } elsif ($in_quote) {
-	print "</pre>\n";
+        print "</pre>\n";
     } elsif ($in_ordered_list) {
-	print "</ol>\n";
+        print "</ol>\n";
     } elsif ($in_unordered_list) {
-	print "</ul>\n";
+        print "</ul>\n";
     }
 
     close(FILEHANDLE);
