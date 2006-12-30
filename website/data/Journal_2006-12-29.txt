@@ -8,5 +8,9 @@ generator could not replace the encoded sequence with a '*' in the output.
 Listed third-party packages in the Developer Guide, including some tentative
 version numbers that are known to work with Dependency Finder.
 
+Looked at fixing the Clover code coverage build file.  Got rid of the section
+on jcoverage, since I can't seem to find a version of it that does not require
+Eclipse.
+
 Added a link to my LinkedIn profile at the top of my "Jean's Journal" blog.
 [[http://www.linkedin.com/in/jeantessier][http://www.linkedin.com/img/webpromo/btn%5Fliprofile%5Fblue%5F80x15.gif]]
