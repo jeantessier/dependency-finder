@@ -118,18 +118,6 @@
             <jvmarg value="-Demma.coverage.out.file=${coverage.dir}/coverage.emma"/>
             <jvmarg value="-Demma.coverage.out.merge=true"/>
         </junit>
-
-        <junit fork="true">
-            <formatter type="plain" usefile="no"/>
-            <test name="com.jeantessier.fitlibrary.TestAll"/>
-            <classpath>
-                <pathelement location="${out.instr.dir}"/>
-                <path refid="run.classpath"/>
-                <path refid="emma.lib"/>
-            </classpath>
-            <jvmarg value="-Demma.coverage.out.file=${coverage.dir}/coverage.emma"/>
-            <jvmarg value="-Demma.coverage.out.merge=true"/>
-        </junit>
     </target>
 
     <target name="report" depends="init"
