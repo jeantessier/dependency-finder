@@ -7,3 +7,6 @@ generator could not replace the encoded sequence with a '*' in the output.
 
 Listed third-party packages in the Developer Guide, including some tentative
 version numbers that are known to work with Dependency Finder.
+
+Added a link to my LinkedIn profile at the top of my "Jean's Journal" blog.
+[[http://www.linkedin.com/in/jeantessier][http://www.linkedin.com/img/webpromo/btn_liprofile_blue_80x15.gif]]

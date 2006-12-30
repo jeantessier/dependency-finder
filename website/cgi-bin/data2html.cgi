@@ -67,7 +67,7 @@ sub PrintDocumentHeader {
     local ($document) = @_;
 
     open(FILEHANDLE, "$DIRNAME/${document}_title.txt");
-    local ($title) = <FILEHANDLE>;
+    local ($title, @subtitle) = <FILEHANDLE>;
     close(FILEHANDLE);
 
     print "<!doctype html PUBLIC \"-//W3C//DTD HTML 4.01//EN\">\n";
@@ -99,7 +99,12 @@ sub PrintDocumentHeader {
     print"</script>\n";
     print"<script type=\"text/javascript\" language=\"JavaScript\" src=\"http://www.googlesyndication.com/relcontent/show_rc.js\"></script>\n";
     print "\n";
-    print "<h2>$title</h2>\n";
+    print "<table width=\"728\" cellpadding=\"0\" cellspacing=\"0\"><tr>\n";
+    print "<td align=\"left\"><h2>$title</h2></td>\n";
+    print "<td align=\"right\">\n";
+    print @subtitle;
+    print "</td>\n";
+    print "</tr></table>\n";
     print "\n";
     print "<dl>\n";
 }
