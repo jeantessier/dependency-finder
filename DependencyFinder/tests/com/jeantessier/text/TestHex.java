@@ -40,14 +40,29 @@ public class TestHex extends TestCase {
     private StringWriter sw;
     private PrintWriter pw;
 
+    private ByteArrayOutputStream baos;
+    private PrintStream ps;
+
     protected void setUp() throws Exception {
         super.setUp();
 
         sw = new StringWriter();
         pw = new PrintWriter(sw);
+
+        baos = new ByteArrayOutputStream();
+        ps = new PrintStream(baos);
     }
 
-    public void testPrintNull() {
+    protected void tearDown() throws Exception {
+        try {
+            pw.close();
+            ps.close();
+        } finally {
+            super.tearDown();
+        }
+    }
+
+    public void testPrintNullToWriter() {
         try {
             Hex.print(pw, null);
             fail("Printed null byte array");
@@ -56,40 +71,85 @@ public class TestHex extends TestCase {
         }
     }
 
-    public void testPrintEmpty() {
+    public void testPrintNullToStream() {
+        try {
+            Hex.print(ps, null);
+            fail("Printed null byte array");
+        } catch (NullPointerException ex) {
+            // Expected
+        }
+    }
+
+    public void testPrintEmptyToWriter() {
         Hex.print(pw, new byte[0]);
         pw.close();
         assertEquals("", sw.toString());
     }
 
-    public void testPrintOneByte() {
+    public void testPrintEmptyToStream() {
+        Hex.print(ps, new byte[0]);
+        pw.close();
+        assertEquals("", baos.toString());
+    }
+
+    public void testPrintOneByteToWriter() {
         Hex.print(pw, new byte[] {0});
         pw.close();
         assertEquals("00", sw.toString());
     }
 
-    public void testPrintFourBits() {
+    public void testPrintOneByteToStream() {
+        Hex.print(ps, new byte[] {0});
+        pw.close();
+        assertEquals("00", baos.toString());
+    }
+
+    public void testPrintFourBitsToWriter() {
         Hex.print(pw, new byte[] {7});
         pw.close();
         assertEquals("07", sw.toString());
     }
 
-    public void testPrintGeneratesCapitals() {
+    public void testPrintFourBitsToStream() {
+        Hex.print(ps, new byte[] {7});
+        pw.close();
+        assertEquals("07", baos.toString());
+    }
+
+    public void testPrintGeneratesCapitalsToWriter() {
         Hex.print(pw, new byte[] {10});
         pw.close();
         assertEquals("0A", sw.toString());
     }
 
-    public void testPrintEightBits() {
+    public void testPrintGeneratesCapitalsToStream() {
+        Hex.print(ps, new byte[] {10});
+        pw.close();
+        assertEquals("0A", baos.toString());
+    }
+
+    public void testPrintEightBitsToWriter() {
         Hex.print(pw, new byte[] {(byte) 255});
         pw.close();
         assertEquals("FF", sw.toString());
     }
 
-    public void testPrintTwoBytes() {
+    public void testPrintEightBitsToStream() {
+        Hex.print(ps, new byte[] {(byte) 255});
+        pw.close();
+        assertEquals("FF", baos.toString());
+    }
+
+    public void testPrintTwoBytesToWriter() {
         Hex.print(pw, new byte[] {0, 1});
         pw.close();
         assertEquals("0001", sw.toString());
+    }
+
+    public void testPrintTwoBytesToStream() {
+        Hex.print(ps, new byte[] {0, 1});
+        pw.close();
+        assertEquals("0001", baos.toString());
     }
 
     public void testNullToString() {

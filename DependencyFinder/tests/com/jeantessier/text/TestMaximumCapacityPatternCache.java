@@ -72,11 +72,57 @@ public class TestMaximumCapacityPatternCache extends TestCase {
         assertSame("add twice returns different", pattern1, pattern2);
     }
 
+    public void testAddPatternWithOption() throws MalformedPatternException {
+        Object pattern = cache.addPattern("/foo/", Perl5Compiler.CASE_INSENSITIVE_MASK);
+        assertNotNull("add returns null", pattern);
+    }
+
+    public void testAddMalformedPattern() throws MalformedPatternException {
+        try {
+            cache.addPattern("foo(");
+            fail("Added a malformed pattern");
+        } catch (MalformedPatternException e) {
+            // expected
+        }
+    }
+
+    public void testAddMalformedPatternWithOption() throws MalformedPatternException {
+        try {
+            cache.addPattern("foo(", Perl5Compiler.CASE_INSENSITIVE_MASK);
+            fail("Added a malformed pattern");
+        } catch (MalformedPatternException e) {
+            // expected
+        }
+    }
+
     public void testGetPattern() throws MalformedCachePatternException {
         Object pattern1 = cache.getPattern("/foo/");
         assertNotNull("get returns null", pattern1);
         
         Object pattern2 = cache.getPattern("/foo/");
         assertSame("get twice returns different", pattern1, pattern2);
+    }
+
+    public void testGetPatternWithOption() throws MalformedCachePatternException {
+        Object pattern = cache.getPattern("/foo/", Perl5Compiler.CASE_INSENSITIVE_MASK);
+        assertNotNull("get returns null", pattern);
+    }
+
+    public void testGetMalformedPattern() throws MalformedCachePatternException {
+        try {
+            cache.getPattern("foo(");
+            fail("Got malformed pattern");
+        } catch (MalformedCachePatternException e) {
+            // Expected
+        }
+    }
+
+    public void testGetMalformedPatternWithOption() throws MalformedCachePatternException {
+        try {
+            cache.getPattern("foo(", Perl5Compiler.CASE_INSENSITIVE_MASK);
+            fail("Got malformed pattern");
+        } catch (MalformedCachePatternException e) {
+            // Expected
+        }
     }
 }
