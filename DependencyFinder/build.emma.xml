@@ -1,5 +1,9 @@
 <project name="Emma" default="all" basedir=".">
 
+    <description>
+        Code coverage with Emma for Dependency Finder
+    </description>
+
     <property environment="env"/>
 
     <path id="emma.lib" >
