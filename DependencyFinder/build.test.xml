@@ -71,7 +71,7 @@
     </target>
 
     <target name="main.compile">
-        <ant antfile="build.xml" target="compile" inheritAll="false"/>
+        <ant antfile="build.xml" target="compile" inheritAll="true"/>
     </target>
 
     <target name="main.clean">

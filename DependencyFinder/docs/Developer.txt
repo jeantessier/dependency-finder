@@ -1141,18 +1141,11 @@ addition to those for testing and compiling Dependency Finder:
 
 To run the tests and generate code coverage reports:
 
-_These instructions are currently broken and will get fixed eventually._
-
-    1 =set CLASSPATH%3D%JUNIT_HOME%\junit.jar;%CLOVER%5FHOME%\lib;%CLOVER%5FHOME%\lib\clover.jar=
-    1 =ant -f build.clover.xml realclean=
-    1 =ant -f build.clover.xml with.clover compiletests=
-    1 =ant -f build.test.xml tests=
-    1 =ant -f build.clover.xml alltests=
-    1 =ant -f build.clover.xml report.html=
+    =ant -f build.clover.xml=
 
 To publish the results:
 
-    1 Archive the =clover= directory
+    1 Archive the =reports/clover/html= directory
     1 Use =scp= to transfer the archive to SourceForge
     1 Use =ssh= to login to SourceForge
     1 Extract the archive in the root of the website

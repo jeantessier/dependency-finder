@@ -1,14 +1,12 @@
-<project name="Emma" default="all" basedir=".">
+<project name="Clover" default="all" basedir=".">
+
+    <description>
+        Code coverage with Clover for Dependency Finder
+    </description>
 
     <property environment="env"/>
 
-    <path id="emma.lib" >
-        <fileset dir="${env.EMMA_HOME}/lib">
-            <include name="**/*.jar"/>
-        </fileset>
-    </path>
-
-    <taskdef resource="emma_ant.properties" classpathref="emma.lib"/>
+    <taskdef resource="clovertasks"/>
 
     <target name="init">
         <!-- root directory for the example source code: -->
@@ -21,17 +19,13 @@
         <mkdir dir="${out.dir}"/>
 
         <!-- class coverage output directory: -->
-        <property name="coverage.dir" value="emma"/>
+        <property name="coverage.dir" value="clover"/>
         <mkdir dir="${coverage.dir}"/>
-
-        <!-- EMMA instr class output directory: -->
-        <property name="out.instr.dir" value="${coverage.dir}/outinstr"/>
-        <mkdir dir="${out.instr.dir}"/>
 
         <!-- class coverage output directory: -->
         <property name="reports.dir" value="reports"/>
-        <property name="emma.reports.dir" value="${reports.dir}/emma"/>
-        <mkdir dir="${emma.reports.dir}"/>
+        <property name="clover.reports.dir" value="${reports.dir}/clover"/>
+        <mkdir dir="${clover.reports.dir}"/>
 
         <path id="run.classpath">
             <pathelement location="${out.dir}"/>
@@ -61,36 +55,25 @@
                 <include name="**/*.jar"/>
             </fileset>
         </path>
+
+        <clover-setup initString="${coverage.dir}/df_coverage.db" source="1.5"/>
     </target>
 
     <target name="tests.compile">
-        <ant antfile="build.test.xml" target="compile" inheritAll="false"/>
+        <mkdir dir="${coverage.dir}"/>
+        <ant antfile="build.test.xml" target="compile" inheritAll="true"/>
     </target>
 
     <target name="tests.clean">
         <ant antfile="build.test.xml" target="clean" inheritAll="false"/>
     </target>
 
-    <target name="all" depends="clean, instrument, run, report"
+    <target name="all" depends="clean, init, tests.compile, run, clover.html, clover.xml, clover.pdf"
             description="Makes a clean compile and runs code coverage analysis"/>
 
     <target name="clean" depends="init, tests.clean"
             description="Removes all produced files">
-        <delete dir="${out.instr.dir}"/>
         <delete dir="${coverage.dir}"/>
-    </target>
-
-    <target name="instrument" depends="init, tests.compile"
-            description="Instruments the bytecode">
-        <emma>
-            <instr instrpath="${out.dir}"
-                   destdir="${out.instr.dir}"
-                   metadatafile="${coverage.dir}/metadata.emma"
-                   merge="true">
-                <filter includes="com.jeantessier.*"
-                        excludes="*.TestAll"/>
-            </instr>
-        </emma>
     </target>
 
     <target name="run" depends="init"
@@ -99,43 +82,60 @@
             <formatter type="plain" usefile="no"/>
             <test name="TestAll"/>
             <classpath>
-                <pathelement location="${out.instr.dir}"/>
                 <path refid="run.classpath"/>
-                <path refid="emma.lib"/>
+                <pathelement location="${env.CLOVER_HOME}/lib/clover.jar"/>
             </classpath>
-            <jvmarg value="-Demma.coverage.out.file=${coverage.dir}/coverage.emma"/>
-            <jvmarg value="-Demma.coverage.out.merge=true"/>
         </junit>
 
         <junit fork="true">
             <formatter type="plain" usefile="no"/>
             <test name="com.jeantessier.fit.FitTestSuite"/>
             <classpath>
-                <pathelement location="${out.instr.dir}"/>
                 <path refid="run.classpath"/>
-                <path refid="emma.lib"/>
+                <pathelement location="${env.CLOVER_HOME}/lib/clover.jar"/>
             </classpath>
-            <jvmarg value="-Demma.coverage.out.file=${coverage.dir}/coverage.emma"/>
-            <jvmarg value="-Demma.coverage.out.merge=true"/>
         </junit>
     </target>
 
-    <target name="report" depends="init"
-            description="Produces the coverate report">
-        <emma>
-            <report>
-                <fileset dir="${coverage.dir}">
-                    <include name="*.emma"/>
-                </fileset>
-                <sourcepath>
-                    <pathelement location="${src.dir}"/>
-                    <pathelement location="${tests.dir}"/>
-                    <pathelement location="${fit.dir}"/>
-                </sourcepath>
-                <txt outfile="${emma.reports.dir}/coverage.txt"/>
-                <html outfile="${emma.reports.dir}/coverage.html"/>
-            </report>
-        </emma>
+    <target name="clover.swing" depends="init">
+        <clover-view/>
+    </target>
+
+    <target name="clover.html" depends="init">
+        <clover-report>
+            <current outfile="${clover.reports.dir}/html" title="Dependency Finder">
+                <format type="html"/>
+                <fileset dir="${src.dir}" includes="com/jeantessier/**"/>
+                <fileset dir="${tests.dir}" includes="com/jeantessier/**"/>
+                <fileset dir="${fit.dir}" includes="com/jeantessier/**"/>
+            </current>
+        </clover-report>
+    </target>
+
+    <target name="clover.xml" depends="init">
+        <clover-report>
+            <current outfile="${clover.reports.dir}/coverage.xml" title="Dependency Finder">
+                <format type="xml"/>
+                <fileset dir="${src.dir}" includes="com/jeantessier/**"/>
+                <fileset dir="${tests.dir}" includes="com/jeantessier/**"/>
+                <fileset dir="${fit.dir}" includes="com/jeantessier/**"/>
+            </current>
+        </clover-report>
+    </target>
+
+    <target name="clover.pdf" depends="init">
+        <clover-report>
+            <current outfile="${clover.reports.dir}/coverage.pdf" title="Dependency Finder" summary="true">
+                <format type="pdf"/>
+                <fileset dir="${src.dir}" includes="com/jeantessier/**"/>
+                <fileset dir="${tests.dir}" includes="com/jeantessier/**"/>
+                <fileset dir="${fit.dir}" includes="com/jeantessier/**"/>
+            </current>
+        </clover-report>
+    </target>
+
+    <target name="clover.log" depends="init">
+        <clover-log/>
     </target>
 
 </project>
