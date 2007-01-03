@@ -1077,6 +1077,13 @@ environment variables in addition to those for compiling Dependency Finder:
     * =FITLIBRARY_HOME= to your [[http://fitlibrary.sourceforge.net/][FitLibrary]] installation
     * =HTTPUNIT_HOME= to your [[http://httpunit.sourceforge.net/][HttpUnit]] installation
 
+You will also need to put =junit.jar= on Ant's =CLASSPATH=.  For this, you can
+either set the =CLASSPATH= environment variable, or with Ant 1.6 and above, you
+can copy =junit.jar= to =${user.home}/.ant/lib=, where =${user.home}= is the
+home directory for the current user.  This depends on your operating system.
+On Unix, it is =$HOME= and is typically =/home/_username_=.  On Windows, it is
+typically =C:\Documents&nbsp;and&nbsp;Settings\_username_=.
+
 To run all tests and generate test reports in the =reports= directory:
 
     1 =set CLASSPATH%3D%JUNIT_HOME%\junit.jar=
@@ -1138,6 +1145,11 @@ Before you can run Emma, you need to set the following environment variable in
 addition to those for testing and compiling Dependency Finder:
 
     * =CLOVER_HOME= to your [[http://www.cenqua.com/clover/][Clover]] installation
+
+You will also need to put =clover.jar= and =clover.license= on Ant's
+=CLASSPATH=.  For this, you can either set the =CLASSPATH= environment
+variable, or with Ant 1.6 and above, you can copy =clover.jar= and
+=clover.license= to =${user.home}/.ant/lib= (see above).
 
 To run the tests and generate code coverage reports:
 

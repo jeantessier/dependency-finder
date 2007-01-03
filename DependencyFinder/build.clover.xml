@@ -68,7 +68,7 @@
         <ant antfile="build.test.xml" target="clean" inheritAll="false"/>
     </target>
 
-    <target name="all" depends="clean, init, tests.compile, run, clover.html, clover.xml, clover.pdf"
+    <target name="all" depends="clean, init, tests.compile, run, report"
             description="Makes a clean compile and runs code coverage analysis"/>
 
     <target name="clean" depends="init, tests.clean"
@@ -101,6 +101,9 @@
             </classpath>
         </junit>
     </target>
+
+    <target name="report" depends="clover.html, clover.xml, clover.pdf"
+            description="Produces the coverate reports"/>
 
     <target name="clover.swing" depends="init">
         <clover-view/>
