@@ -80,8 +80,12 @@
 
     <target name="clean" depends="init, tests.clean"
             description="Removes all produced files">
-        <delete dir="${out.instr.dir}"/>
-        <delete dir="${coverage.dir}"/>
+        <delete dir="${coverage.dir}"
+                includeEmptyDirs="true"
+                verbose="true"/>
+        <delete dir="${emma.reports.dir}"
+                includeEmptyDirs="true"
+                verbose="true"/>
     </target>
 
     <target name="instrument" depends="init, tests.compile"

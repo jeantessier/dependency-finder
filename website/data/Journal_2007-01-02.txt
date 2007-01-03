@@ -1,0 +1,2 @@
+Fixed some of the build files so running Clover analysis doesn't clear Emma
+reports, or vice versa.

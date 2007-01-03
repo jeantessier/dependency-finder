@@ -67,7 +67,6 @@
         <property name="libDir"         value="lib"/>
         <property name="reportsDir"     value="reports"/>
         <property name="testReportsDir" value="${reportsDir}/tests"/>
-        <property name="fitReportsDir"  value="${reportsDir}/fit"/>
     </target>
 
     <target name="main.compile">
@@ -76,6 +75,10 @@
 
     <target name="main.clean">
         <ant antfile="build.xml" target="clean" inheritAll="false"/>
+    </target>
+
+    <target name="main.realclean">
+        <ant antfile="build.xml" target="realclean" inheritAll="false"/>
     </target>
 
     <target name="main.log4j.config" depends="init">
@@ -87,7 +90,7 @@
 
     <target name="clean" depends="init, main.clean"
             description="Removes all produced files">
-        <delete dir="${reportsDir}"
+        <delete dir="${testReportsDir}"
                 includeEmptyDirs="true"
                 verbose="true"/>
         <ant dir="tests/JarJarDiff" target="clean" inheritAll="false"/>
@@ -317,6 +320,13 @@
             </fileset>
             <report format="frames" todir="${testReportsDir}/html"/>
         </junitreport>
+    </target>
+
+    <target name="realclean" depends="init, main.realclean, clean"
+            description="Removes all produced files">
+        <delete dir="${reportsDir}"
+                includeEmptyDirs="true"
+                verbose="true"/>
     </target>
 
 </project>
