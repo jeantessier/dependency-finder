@@ -1,0 +1,2 @@
+Added sample graphs as XML documents for one example in the Developer Guide and
+for the graph used by the webapp tests.

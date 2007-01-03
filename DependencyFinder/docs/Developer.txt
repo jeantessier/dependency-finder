@@ -742,7 +742,8 @@ about this distinction, like =TextPrinter= for example.
 
 Here is an example showing the sequence of calls betweeen a visitor
 implementation based on =VisitorBase=, its =TraversalStrategy=, and a sample
-dependency graphs.
+dependency graph.  You can find the graph in
+[[SampleGraph.xml][SampleGraph.xml]].
 
 Here is the sample graph, magnified so you can see what is going on.  The focus
 will be placed on package =P1=, class =C1=, and feature =f1=.  Even-numbered

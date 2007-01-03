@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE dependencies SYSTEM "http://depfind.sourceforge.net/dtd/dependencies.dtd">
+
+<dependencies>
+    <package confirmed="yes">
+        <name>p2</name>
+        <class confirmed="yes">
+            <name>p2.C4</name>
+            <outbound type="class" confirmed="yes">p1.C1</outbound>
+            <feature confirmed="yes">
+                <name>p2.C4.f6</name>
+                <outbound type="class" confirmed="yes">p1.C1</outbound>
+                <outbound type="feature" confirmed="yes">p1.C1.f1</outbound>
+            </feature>
+        </class>
+    </package>
+    <package confirmed="yes">
+        <name>p1</name>
+        <class confirmed="yes">
+            <name>p1.C2</name>
+            <outbound type="class" confirmed="yes">p1.C1</outbound>
+            <feature confirmed="yes">
+                <name>p1.C2.f4</name>
+                <outbound type="class" confirmed="yes">p1.C1</outbound>
+                <outbound type="feature" confirmed="yes">p1.C1.f1</outbound>
+            </feature>
+        </class>
+        <class confirmed="yes">
+            <name>p1.C1</name>
+            <inbound type="class" confirmed="yes">p1.C2</inbound>
+            <inbound type="feature" confirmed="yes">p1.C2.f4</inbound>
+            <inbound type="class" confirmed="yes">p2.C4</inbound>
+            <inbound type="feature" confirmed="yes">p2.C4.f6</inbound>
+            <outbound type="class" confirmed="no">p1.C3</outbound>
+            <outbound type="class" confirmed="no">p3.C5</outbound>
+            <feature confirmed="yes">
+                <name>p1.C1.f2</name>
+                <outbound type="feature" confirmed="yes">p1.C1.f1</outbound>
+            </feature>
+            <feature confirmed="yes">
+                <name>p1.C1.f1</name>
+                <inbound type="feature" confirmed="yes">p1.C1.f2</inbound>
+                <inbound type="feature" confirmed="yes">p1.C2.f4</inbound>
+                <inbound type="feature" confirmed="yes">p2.C4.f6</inbound>
+                <outbound type="feature" confirmed="yes">p1.C1.f3</outbound>
+                <outbound type="class" confirmed="no">p1.C3</outbound>
+                <outbound type="feature" confirmed="no">p1.C3.f5</outbound>
+                <outbound type="class" confirmed="no">p3.C5</outbound>
+                <outbound type="feature" confirmed="no">p3.C5.f7</outbound>
+            </feature>
+            <feature confirmed="yes">
+                <name>p1.C1.f3</name>
+                <inbound type="feature" confirmed="yes">p1.C1.f1</inbound>
+            </feature>
+        </class>
+        <class confirmed="no">
+            <name>p1.C3</name>
+            <inbound type="class" confirmed="yes">p1.C1</inbound>
+            <inbound type="feature" confirmed="yes">p1.C1.f1</inbound>
+            <feature confirmed="no">
+                <name>p1.C3.f5</name>
+                <inbound type="feature" confirmed="yes">p1.C1.f1</inbound>
+            </feature>
+        </class>
+    </package>
+    <package confirmed="no">
+        <name>p3</name>
+        <class confirmed="no">
+            <name>p3.C5</name>
+            <inbound type="class" confirmed="yes">p1.C1</inbound>
+            <inbound type="feature" confirmed="yes">p1.C1.f1</inbound>
+            <feature confirmed="no">
+                <name>p3.C5.f7</name>
+                <inbound type="feature" confirmed="yes">p1.C1.f1</inbound>
+            </feature>
+        </class>
+    </package>
+</dependencies>

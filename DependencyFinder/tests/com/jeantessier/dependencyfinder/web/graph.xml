@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE dependencies SYSTEM "http://depfind.sourceforge.net/dtd/dependencies.dtd">
+
+<dependencies>
+    <package confirmed="yes">
+        <name>foo</name>
+        <class confirmed="yes">
+            <name>foo.Foo</name>
+            <feature confirmed="yes">
+                <name>foo.Foo.foo()</name>
+                <outbound type="feature" confirmed="yes">bar.Bar.bar()</outbound>
+            </feature>
+        </class>
+        <class confirmed="yes">
+            <name>foo.Foo2</name>
+            <feature confirmed="yes">
+                <name>foo.Foo2.foo2()</name>
+            </feature>
+        </class>
+    </package>
+    <package confirmed="yes">
+        <name>bar</name>
+        <class confirmed="yes">
+            <name>bar.Bar</name>
+            <feature confirmed="yes">
+                <name>bar.Bar.bar()</name>
+                <inbound type="feature" confirmed="yes">foo.Foo.foo()</inbound>
+                <outbound type="feature" confirmed="yes">baz.Baz.baz()</outbound>
+            </feature>
+        </class>
+    </package>
+    <package confirmed="yes">
+        <name>baz</name>
+        <class confirmed="yes">
+            <name>baz.Baz</name>
+            <feature confirmed="yes">
+                <name>baz.Baz.baz()</name>
+                <inbound type="feature" confirmed="yes">bar.Bar.bar()</inbound>
+            </feature>
+        </class>
+    </package>
+    <package confirmed="yes">
+        <name>left</name>
+        <class confirmed="yes">
+            <name>left.Left</name>
+            <feature confirmed="yes">
+                <name>left.Left.left()</name>
+                <inbound type="feature" confirmed="yes">right.Right.right()</inbound>
+                <outbound type="feature" confirmed="yes">right.Right.right()</outbound>
+            </feature>
+        </class>
+    </package>
+    <package confirmed="yes">
+        <name>right</name>
+        <class confirmed="yes">
+            <name>right.Right</name>
+            <feature confirmed="yes">
+                <name>right.Right.right()</name>
+                <inbound type="feature" confirmed="yes">left.Left.left()</inbound>
+                <outbound type="feature" confirmed="yes">left.Left.left()</outbound>
+            </feature>
+        </class>
+    </package>
+</dependencies>

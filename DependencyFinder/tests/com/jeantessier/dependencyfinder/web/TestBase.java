@@ -41,6 +41,9 @@ import com.jeantessier.dependency.*;
 import com.meterware.servletunit.*;
 import com.meterware.httpunit.*;
 
+/**
+ * Sets up a dependency graph like the one in <a href="graph.xml">graph.xml</a>.
+ */
 public abstract class TestBase extends TestCase {
     private static final String NO_GRAPH_MESSAGE = "There is no dependency graph at this time.";
 
