@@ -1101,7 +1101,7 @@ or, to run tests manually:
 
 _These instructions need to be updated to account for Subversion instead of CVS._
 
-    1 =cvs tag release-1.2.0=
+    1 =svn copy https://depfind.svn.sourceforge.net/svnroot/depfind/trunk https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.0 -m "Tagging the 1.2.0 release of Dependency Finder"=
     1 =ant realclean dist=
     1 =ant ftp=
     1 =cvs log -rrelease-1.1.1:release-1.2.0=
