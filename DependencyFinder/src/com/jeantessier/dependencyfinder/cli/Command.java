@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.*;
 
 import com.jeantessier.commandline.*;
+import com.jeantessier.commandline.Printer;
+import com.jeantessier.commandline.TextPrinter;
 import com.jeantessier.dependencyfinder.*;
 import com.jeantessier.dependency.*;
 import org.apache.log4j.*;
@@ -53,9 +55,10 @@ public abstract class Command {
     }
 
     protected void populateCommandLineSwitches() throws CommandLineException {
-        getCommandLine().addToggleSwitch("time");
-        getCommandLine().addSingleValueSwitch("out");
+        getCommandLine().addToggleSwitch("echo");
         getCommandLine().addToggleSwitch("help");
+        getCommandLine().addSingleValueSwitch("out");
+        getCommandLine().addToggleSwitch("time");
         getCommandLine().addOptionalValueSwitch("verbose", DEFAULT_LOGFILE);
         getCommandLine().addToggleSwitch("version");
     }
@@ -73,6 +76,11 @@ public abstract class Command {
 
     protected boolean validateCommandLine(PrintStream out) throws IOException, CommandLineException {
         boolean result = true;
+
+        if (getCommandLine().getToggleSwitch("echo")) {
+            echo(out);
+            result = false;
+        }
 
         if (getCommandLine().getToggleSwitch("help")) {
             showError(out);
@@ -165,6 +173,16 @@ public abstract class Command {
 
     private void stopOutput() {
         out.close();
+    }
+
+    protected void echo() {
+        echo(System.err);
+    }
+
+    protected void echo(PrintStream out) {
+        Printer printer = new TextPrinter(getClass().getName());
+        getCommandLine().accept(printer);
+        out.println(printer);
     }
 
     protected void showError() {
