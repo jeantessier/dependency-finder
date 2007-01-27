@@ -197,6 +197,7 @@ For each class it could find, prints where it found it.
 ---+++ Synopsis
 
     ClassFinder
+        [-echo]
         [-excludes value]*
         [-help]
         [-includes value]*
@@ -225,6 +226,20 @@ classes that interested you.
 ---+++ Switches
 
 <blockquote>
+
+---++++ =-echo=
+
+<blockquote>
+
+Prints the command-line, as seen by the tool.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
 
 ---++++ =-excludes value=
 
@@ -443,6 +458,7 @@ Lists all classes it could find, based on parameters.
 ---+++ Synopsis
 
     ClassList
+        [-echo]
         [-help]
         [-out filename]
         [-time]
@@ -464,6 +480,20 @@ print the fully qualified name of the class in it.
 ---+++ Switches
 
 <blockquote>
+
+---++++ =-echo=
+
+<blockquote>
+
+Prints the command-line, as seen by the tool.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
 
 ---++++ =-help=
 
@@ -651,6 +681,7 @@ synchronized, or abstract methods, etc.
 ---+++ Synopsis
 
     ClassMetrics
+        [-echo]
         [-help]
         [-instruction-counts]
         [-list]
@@ -674,6 +705,20 @@ give you a rough idea of the size and complexity of a piece of software.
 ---+++ Switches
 
 <blockquote>
+
+---++++ =-echo=
+
+<blockquote>
+
+Prints the command-line, as seen by the tool.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
 
 ---++++ =-help=
 
@@ -891,6 +936,7 @@ Takes a compiled Java _.class_ file and writes out its structure.
 
     ClassReader
         [-dtd-prefix uri]
+        [-echo]
         [-encoding name]
         [-help]
         [-indent-text text]
@@ -926,6 +972,20 @@ The prefix of the DTD URL for the XML output document.  Only useful with =-xml=.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>=http://depfind.sourceforge.net/dtd=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-echo=
+
+<blockquote>
+
+Prints the command-line, as seen by the tool.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>
@@ -1704,6 +1764,7 @@ point to either a specified end point or depth.
         [-class-stop-excludes value]*
         [-class-stop-includes value]*
         [-dtd-prefix uri]
+        [-echo]
         [-encoding name]
         [-feature-start-excludes value]*
         [-feature-start-includes value]*
@@ -1858,6 +1919,20 @@ The prefix of the DTD URL for the XML output document.  Only useful with =-xml=.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>=http://depfind.sourceforge.net/dtd=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-echo=
+
+<blockquote>
+
+Prints the command-line, as seen by the tool.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>
@@ -2427,6 +2502,7 @@ Extracts dependencies from compiled classes.
         [-class-filter-excludes value]*
         [-class-filter-includes value]*
         [-dtd-prefix uri]
+        [-echo]
         [-encoding name]
         [-feature-filter]
         [-feature-filter-excludes value]*
@@ -2536,6 +2612,20 @@ The prefix of the DTD URL for the XML output document.  Only useful with =-xml=.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>=http://depfind.sourceforge.net/dtd=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-echo=
+
+<blockquote>
+
+Prints the command-line, as seen by the tool.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>
@@ -3568,6 +3658,7 @@ number of entering vertices, and number of exiting vertices.
         [-class-scope]
         [-class-scope-excludes value]*
         [-class-scope-includes value]*
+        [-echo]
         [-excludes value]*
         [-f2f]
         [-feature-filter]
@@ -3971,6 +4062,20 @@ If there are multiples of this switch, the name must at least one of them.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-echo=
+
+<blockquote>
+
+Prints the command-line, as seen by the tool.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
 </table>
 
@@ -4612,6 +4717,7 @@ Summarizes a dependency graph according to user-specified criteria.
         [-class-scope-includes value]*
         [-copy-only]
         [-dtd-prefix uri]
+        [-echo]
         [-encoding name]
         [-excludes value]*
         [-f2f]
@@ -4858,6 +4964,20 @@ The prefix of the DTD URL for the XML output document.  Only useful with =-xml=.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>=http://depfind.sourceforge.net/dtd=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-echo=
+
+<blockquote>
+
+Prints the command-line, as seen by the tool.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>
@@ -6625,6 +6745,7 @@ Computes API differences between two versions of a codebase.
     JarJarDiff
         [-code]
         [-dtd-prefix uri]
+        [-echo]
         [-encoding name]
         [-filter filename]
         [-help]
@@ -6682,6 +6803,20 @@ The prefix of the DTD URL for the XML output document.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>=http://depfind.sourceforge.net/dtd=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-echo=
+
+<blockquote>
+
+Prints the command-line, as seen by the tool.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>
@@ -6976,6 +7111,7 @@ Lists programming elements that are deprecated.
 ---+++ Synopsis
 
     ListDocumentedElements
+        [-echo]
         [-help]
         [-out filename]
         [-time]
@@ -6996,6 +7132,20 @@ will list all its constructors, fields, and methods too.
 ---+++ Switches
 
 <blockquote>
+
+---++++ =-echo=
+
+<blockquote>
+
+Prints the command-line, as seen by the tool.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
 
 ---++++ =-help=
 
@@ -7134,6 +7284,7 @@ Compares two lists of programming elements and computes differences.
     ListDiff
         [-compress]
         [-dtd-prefix uri]
+        [-echo]
         [-encoding name]
         [-help]
         [-indent-text text]
@@ -7188,6 +7339,20 @@ The prefix of the DTD URL for the XML output document.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>=http://depfind.sourceforge.net/dtd=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-echo=
+
+<blockquote>
+
+Prints the command-line, as seen by the tool.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>
@@ -7947,6 +8112,7 @@ Lists all symbols it could find, based on parameters.
 
     ListSymbols
         [-class-names]
+        [-echo]
         [-field-names]
         [-help]
         [-local-names]
@@ -7978,6 +8144,20 @@ will list, for each method, its parameters and local variables.
 <blockquote>
 
 Lists names of classes.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-echo=
+
+<blockquote>
+
+Prints the command-line, as seen by the tool.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -8543,6 +8723,7 @@ Computes object-oriented metrics on a codebase.
         [-csv]
         -default-configuration filename
         [-dtd-prefix uri]
+        [-echo]
         [-encoding name]
         [-expand]
         [-filter-excludes-list filename]*
@@ -8676,6 +8857,20 @@ Only useful with =-xml=.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>=http://depfind.sourceforge.net/dtd=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-echo=
+
+<blockquote>
+
+Prints the command-line, as seen by the tool.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>
