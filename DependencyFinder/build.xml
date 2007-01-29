@@ -36,7 +36,7 @@
             <format property="NOW" pattern="yyyy-MM-dd HH:mm:ss"/>
         </tstamp>
 
-        <property name="release"        value="1.1.2-beta1"/>
+        <property name="release"        value="1.2.0"/>
 
         <property name="packageNames"   value="com.jeantessier.*"/>
 

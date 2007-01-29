@@ -1,0 +1,2 @@
+Changed the next version number from 1.1.2 to 1.2.0.  The scope of changes
+warrants a higher version number.
