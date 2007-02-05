@@ -1,4 +1,4 @@
 Found another competitor, and curiously enough, they're called
 [[http://jarjar.sourceforge.net/][JarJar]].  There are even
-[[http://www.sixlegs.com/blog/java/depfind.html][instructions]] on how to use
-it to find JAR-to-JAR dependecies.
+instructions on how to use it to find
+[[http://www.sixlegs.com/blog/java/depfind.html][JAR-to-JAR dependencies]].
