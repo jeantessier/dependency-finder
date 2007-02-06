@@ -997,28 +997,32 @@ ship with Dependency Finder.
 </dl>
 </blockquote>
 
-Once you have a parser, you can add switch definitions to it.  There are four
+Once you have a parser, you can add switch definitions to it.  There are five
 types of switches described below.
 
 <blockquote>
 <dl>
+    <dt>=ToggleSwitch=</dt>
+    <dd>The switch be followed by a value.  It acts as a boolean, =false= if
+    absent or =true= if present on the command-line.</dd>
+    <dt>=SingleValueSwitch=</dt>
+    <dd>The switch must be followed by a value.  It can only appear once on the
+    command-line.</dd>
+    <dt>=OptionalValueSwitch=</dt>
+    <dd>The switch can appear by itself or followed by a value.  It can only
+    appear once on the command-line.</dd>
     <dt>=MultipleValuesSwitch=</dt>
     <dd>The switch must be followed by a value, but it can occur multiple times
     on the command-line.  The values are accumulated in the same order as on
     the command-line and you retrieve them as a single =List=.</dd>
-    <dt>=OptionalValueSwitch=</dt>
-    <dd>The switch can appear by itself or followed by a value.  It can only
-    appear once on the command-line.</dd>
-    <dt>=SingleValueSwitch=</dt>
-    <dd>The switch must be followed by a value.  It can only appear once on the
-    command-line.</dd>
-    <dt>=ToggleSwitch=</dt>
-    <dd>The switch be followed by a value.  It acts as a boolean, =false= if
-    absent or =true= if present on the command-line.</dd>
+    <dt>=AliasSwitch=</dt>
+    <dd>An alias swich passes its values to the switches it is an alias for.
+    You can use an alias switch to group many switches together so you can set
+    them all at once with just one name.</dd>
 </dl>
 </blockquote>
 
-You add switches with the matching =AddSwitch()= methods on =CommandLine=.  You
+You add switches with the matching =addSwitch()= methods on =CommandLine=.  You
 can supply switches with default values and specify if they are mandatory (must
 appear on the command-line) or not.
 

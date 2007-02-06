@@ -33,8 +33,8 @@
 package com.jeantessier.commandline;
 
 /**
- *  The switch be followed by a value.  It acts as a boolean, false if
- *  absent or true if present on the command-line.
+ * The switch may not be followed by any value.  It acts as a boolean, false
+ * if absent or true if present on the command-line.
  */
 public class ToggleSwitch extends CommandLineSwitchBase {
     public ToggleSwitch(String name) {

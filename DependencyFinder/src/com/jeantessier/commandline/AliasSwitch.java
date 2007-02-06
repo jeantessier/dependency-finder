@@ -34,6 +34,10 @@ package com.jeantessier.commandline;
 
 import java.util.*;
 
+/**
+ * Passes its values to the switches it is an alias for.  Use an alias switch
+ * to group many switches together and set them all at once with just one name.
+ */
 public class AliasSwitch implements CommandLineSwitch {
     private Collection<CommandLineSwitch> switches = new LinkedList<CommandLineSwitch>();
 
