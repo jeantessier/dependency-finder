@@ -6898,9 +6898,10 @@ come with Dependency Finder:
 </dl>
 </blockquote>
 
-If _value_ is not one of the special values above, it treated as a class name.
-The tool will try to instantiate it using a default constructor as pass it as a
-=DifferenceStrategy=.  If that fails, it will fall back on the default value.
+If _value_ is not one of the special values above, it is treated as the name of
+a class.  =JarJarDiff= will try to instantiate this class using a default
+constructor and cast it to =DifferenceStrategy=.  If this fails anywhere along
+the way, it will fall back on the default value listed below.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
