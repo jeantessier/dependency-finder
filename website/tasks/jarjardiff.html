@@ -197,7 +197,14 @@ report to HTML, keeping only modifications to the public API:</p>
   &lt;/jarjardiff&gt;
   &lt;xslt style=&quot;${dependencyfinder.home}/etc/PublishedDiffToHTML.xsl&quot;
         in=&quot;xerces.xml&quot;
-        out=&quot;xerces.html&quot;/></pre>
+        out=&quot;xerces.html&quot;
+        classpathref=&quot;dependencyfinder&quot;/></pre>
+
+<p>You may need to add the Xalan JAR that ships with Dependency Finder to
+<code>&lt;path id=&quot;dependencyfinder&quot;/&gt;</code> for
+<code>PublishedDiffToHTML.xsl</code> to work correctly.  It is possible that it
+will not be compatible with the version of Xalan that is included in your
+JDK.</p>
 
 <hr>
 

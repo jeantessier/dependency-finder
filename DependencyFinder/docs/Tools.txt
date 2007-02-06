@@ -6892,6 +6892,11 @@ come with Dependency Finder:
     <dt>=api=</dt>
     <dd>Shows all API differences.  Same as
     =com.jeantessier.diff.APIDifferenceStrategy=.</dd>
+    <dt>=code=</dt>
+    <dd>Shows all API differences and includes whether the bytecode for the
+    method has changed or not.  This level will report a method where the
+    declaration was not changed but the bytecode is different.  Same as
+    =com.jeantessier.diff.CodeDifferenceStrategy=.</dd>
     <dt>=incompatible=</dt>
     <dd>Shows only differences that would be incompatible with the old version.
     Same as =com.jeantessier.diff.IncompatibleDifferenceStrategy=.</dd>
