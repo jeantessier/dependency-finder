@@ -327,6 +327,28 @@ There are four context parameters that you can adjust:
     </tr>
     <tr>
         <td valign="top">
+            *=filterIncludes=*
+        </td>
+        <td>
+            Use this variable to tell Dependency Finder's =extract.jsp= which
+            dependencies to include in the extracted graph.  You can separate
+            multiple regular expressions by using commas.  A dependency must
+            match at least one of them for it to be included in the graph.
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            *=filterExcludes=*
+        </td>
+        <td>
+            Use this variable to tell Dependency Finder's =extract.jsp= which
+            dependencies to exclude in the extracted graph.  You can separate
+            multiple regular expressions by using commas.  A dependency must
+            not match any one of them in order to be included in the graph.
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
             *=file=*
         </td>
         <td>
@@ -335,7 +357,7 @@ There are four context parameters that you can adjust:
             separate multiple locations by using commas.  Each location
             should contain an XML document, such as the ones produced by
             =DependencyExtractor=.  If you specify more than one file, their
-	    contents will be merged together.
+            contents will be merged together.
         </td>
     </tr>
     <tr>

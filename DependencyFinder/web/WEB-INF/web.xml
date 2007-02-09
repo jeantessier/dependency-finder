@@ -56,11 +56,27 @@
     </context-param>
     <context-param>
         <param-name>showSource</param-name>
-        <param-value>false</param-value>
+        <param-value>true</param-value>
         <description>Whether or not to display the value of the "source"
         parameter on extract.jsp.  This may expose sensitive information, so
         the starting value is "false", but you can change it to "true" to show
         the entries in "source" as a bullet list on extract.jsp.</description>
+    </context-param>
+    <context-param>
+        <param-name>filterIncludes</param-name>
+        <param-value>//</param-value>
+        <description>The name of a package, class, or feature that the elements
+        being analyzed depend on must match at least one of the comma-separated
+        regular expressions for the dependency to be included in the dependency
+        graph.</description>
+    </context-param>
+    <context-param>
+        <param-name>filterExcludes</param-name>
+        <param-value>/^java/, /^org/</param-value>
+        <description>The name of a package, class, or feature that the elements
+        being analyzed depend on must not match any of the comma-separated
+        regular expressions for the dependency to be included in the dependency
+        graph.</description>
     </context-param>
     <context-param>
         <param-name>file</param-name>
@@ -71,7 +87,7 @@
     </context-param>
     <context-param>
         <param-name>showFile</param-name>
-        <param-value>false</param-value>
+        <param-value>true</param-value>
         <description>Whether or not to display the value of the "file"
         parameter on load.jsp.  This may expose sensitive information, so the
         starting value is "false", but you can change it to "true" to show the

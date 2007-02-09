@@ -170,6 +170,10 @@
 %>
 
             </ul>
+
+            It will include dependencies on [<code><%= application.getInitParameter("filterIncludes") %></code>].
+            <br />
+            But it will exclude dependencies on [<code><%= application.getInitParameter("filterExcludes") %></code>].
         </td>
     </tr>
 
@@ -279,8 +283,12 @@
 
         Monitor monitor = (Monitor) application.getAttribute("monitor");
         if (monitor == null || request.getParameter("update") == null) {
-            CodeDependencyCollector collector       = new CodeDependencyCollector(factory);
-            DeletingVisitor         deletingVisitor = new DeletingVisitor(factory);
+            RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
+            filterCriteria.setGlobalIncludes(application.getInitParameter("filterIncludes"));
+            filterCriteria.setGlobalExcludes(application.getInitParameter("filterExcludes"));
+
+            CodeDependencyCollector collector = new CodeDependencyCollector(factory, filterCriteria);
+            DeletingVisitor deletingVisitor = new DeletingVisitor(factory);
 
             monitor = new Monitor(collector, deletingVisitor);
         }

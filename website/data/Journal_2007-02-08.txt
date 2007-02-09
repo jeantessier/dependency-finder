@@ -1,0 +1,2 @@
+Modified =extract.jsp= so the webapp can filter out dependencies at extraction
+time too.
