@@ -39,9 +39,14 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 /**
- *  Traverses a Classfile and extracts dependencies from its code.
- *  Does not see dependencies on static final simple constants
- *  (basic type or String) and does not look at local variables.
+ * <p>Traverses a Classfile and extracts dependencies from its code.</p>
+ *
+ * <p>Known limitations:</p>
+ * <ul>
+ *     <li>Does not see dependencies on <code>static final</code> constants of
+ *         primitive types or String</li>
+ *     <li>Does not look at local variables</li>
+ * </ul>
  */
 public class CodeDependencyCollector extends CollectorBase {
     private NodeFactory factory;
