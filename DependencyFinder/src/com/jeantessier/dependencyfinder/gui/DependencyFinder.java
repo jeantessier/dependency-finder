@@ -166,9 +166,9 @@ public class DependencyFinder extends JFrame {
         String fontName = "Monospaced";
         
         String[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-        for (int i=0; i<fontNames.length; i++) {
-            if (fontNames[i].indexOf("Courier") != -1) {
-                fontName = fontNames[i];
+        for (String fontName1 : fontNames) {
+            if (fontName1.indexOf("Courier") != -1) {
+                fontName = fontName1;
             }
         }
 
@@ -229,7 +229,7 @@ public class DependencyFinder extends JFrame {
         inputFiles.add(file.toString());
     }
 
-    public Collection getPackages() {
+    public Collection<PackageNode> getPackages() {
         return getNodeFactory().getPackages().values();
     }
 
@@ -251,8 +251,8 @@ public class DependencyFinder extends JFrame {
 
     private void buildMenus(CommandLine commandLine) {
         buildFileMenu(commandLine);
-        buildViewMenu(commandLine);
-        buildHelpMenu(commandLine);
+        buildViewMenu();
+        buildHelpMenu();
 
         this.setJMenuBar(menuBar);
     }
@@ -351,7 +351,7 @@ public class DependencyFinder extends JFrame {
         menuItem.setMnemonic('x');
     }
     
-    private void buildViewMenu(CommandLine commandLine) {
+    private void buildViewMenu() {
         menuBar.add(viewMenu);
 
         viewMenu.setText("View");
@@ -369,7 +369,7 @@ public class DependencyFinder extends JFrame {
         viewMenu.add(menuItem);
     }
 
-    private void buildHelpMenu(CommandLine commandLine) {
+    private void buildHelpMenu() {
         menuBar.add(helpMenu);
 
         helpMenu.setText("Help");

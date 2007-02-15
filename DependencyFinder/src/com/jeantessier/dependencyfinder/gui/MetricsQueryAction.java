@@ -67,12 +67,10 @@ public class MetricsQueryAction extends AbstractAction implements Runnable {
             
             model.getStatusLine().showInfo("Metrics query done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
         } catch (MalformedPerl5PatternException ex) {
-            JOptionPane dialog = new JOptionPane();
-            dialog.showMessageDialog(model, ex.getMessage(), "Malformed pattern", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(model, ex.getMessage(), "Malformed pattern", JOptionPane.ERROR_MESSAGE);
             model.getStatusLine().showInfo("Ready.");
         } catch (Exception ex) {
-            JOptionPane dialog = new JOptionPane();
-            dialog.showMessageDialog(model, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(model, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             model.getStatusLine().showInfo("Ready.");
         }
     }

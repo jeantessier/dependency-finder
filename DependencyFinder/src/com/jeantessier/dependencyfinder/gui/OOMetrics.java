@@ -35,20 +35,14 @@ package com.jeantessier.dependencyfinder.gui;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.util.*;
-
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.*;
 import javax.swing.text.*;
 
-import org.apache.log4j.*;
-
-import org.xml.sax.*;
-
-import com.jeantessier.classreader.*;
 import com.jeantessier.commandline.*;
 import com.jeantessier.metrics.*;
+import org.apache.log4j.*;
 
 public class OOMetrics extends JFrame {
     private static final TableCellRenderer RENDERER = new MeasurementTableCellRenderer();
@@ -71,7 +65,7 @@ public class OOMetrics extends JFrame {
     
     private File inputFile = new File(".");
 
-    public OOMetrics(CommandLine commandLine, MetricsFactory factory) {
+    public OOMetrics(MetricsFactory factory) {
         this.factory = factory;
         
         this.setSize(new Dimension(800, 600));
@@ -84,7 +78,7 @@ public class OOMetrics extends JFrame {
         classesModel = new OOMetricsTableModel(factory.getConfiguration().getClassMeasurements());
         methodsModel = new OOMetricsTableModel(factory.getConfiguration().getMethodMeasurements());
         
-        buildMenus(commandLine);
+        buildMenus();
         buildUI();
 
         try {
@@ -141,14 +135,14 @@ public class OOMetrics extends JFrame {
         return progressBar;
     }
     
-    private void buildMenus(CommandLine commandLine) {
-        buildFileMenu(commandLine);
-        buildHelpMenu(commandLine);
+    private void buildMenus() {
+        buildFileMenu();
+        buildHelpMenu();
 
         this.setJMenuBar(menuBar);
     }
     
-    private void buildFileMenu(CommandLine commandLine) {
+    private void buildFileMenu() {
         menuBar.add(fileMenu);
 
         fileMenu.setText("File");
@@ -185,7 +179,7 @@ public class OOMetrics extends JFrame {
         this.setJMenuBar(menuBar);
     }
 
-    private void buildHelpMenu(CommandLine commandLine) {
+    private void buildHelpMenu() {
         menuBar.add(helpMenu);
 
         helpMenu.setText("Help");
@@ -349,7 +343,7 @@ public class OOMetrics extends JFrame {
             // Ignore
         }
 
-        OOMetrics model = new OOMetrics(commandLine, factory);
+        OOMetrics model = new OOMetrics(factory);
         model.setVisible(true);
     }
 }

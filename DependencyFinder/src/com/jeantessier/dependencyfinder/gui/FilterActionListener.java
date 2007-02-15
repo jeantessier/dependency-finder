@@ -34,13 +34,10 @@ package com.jeantessier.dependencyfinder.gui;
 
 import java.awt.event.*;
 import java.util.*;
-
 import javax.swing.*;
 
-import org.apache.oro.text.perl.*;
-
-import com.jeantessier.classreader.*;
 import com.jeantessier.metrics.*;
+import org.apache.oro.text.perl.*;
 
 public class FilterActionListener implements Runnable, ActionListener {
     private static final Perl5Util perl = new Perl5Util();
@@ -69,23 +66,18 @@ public class FilterActionListener implements Runnable, ActionListener {
             model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
             model.setTitle("OO Metrics - Extractor");
         } catch (MalformedPerl5PatternException ex) {
-            JOptionPane dialog = new JOptionPane();
-            dialog.showMessageDialog(model, ex.getMessage(), "Malformed pattern", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(model, ex.getMessage(), "Malformed pattern", JOptionPane.ERROR_MESSAGE);
             model.getStatusLine().showInfo("Ready.");
         } catch (Exception ex) {
-            JOptionPane dialog = new JOptionPane();
-            dialog.showMessageDialog(model, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(model, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             model.getStatusLine().showInfo("Ready.");
         }
     }
 
-    private Collection getFilterMetrics(Collection metricsList) {
-        Collection result = new ArrayList(metricsList.size());
+    private Collection<Metrics> getFilterMetrics(Collection<Metrics> metricsList) {
+        Collection<Metrics> result = new ArrayList<Metrics>(metricsList.size());
 
-        Iterator i = metricsList.iterator();
-        while (i.hasNext()) {
-            Metrics metrics = (Metrics) i.next();
-
+        for (Metrics metrics : metricsList) {
             if (perl.match(model.getFilterField().getText(), metrics.getName())) {
                 result.add(metrics);
             }

@@ -65,8 +65,8 @@ public class MeasurementTableCellRenderer extends DefaultTableCellRenderer {
                 formatAsHighlightedCell(isSelected, row, result);
             }
 
-            String text    = "";
-            int    dispose = ((OOMetricsTableModel) table.getModel()).getRawColumnDispose(column);
+            String text;
+            int dispose = ((OOMetricsTableModel) table.getModel()).getRawColumnDispose(column);
             
             if (measurement instanceof StatisticalMeasurement) {
                 StatisticalMeasurement stat    = (StatisticalMeasurement) measurement;

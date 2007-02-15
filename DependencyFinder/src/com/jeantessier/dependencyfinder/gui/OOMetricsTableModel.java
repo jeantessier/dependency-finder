@@ -33,23 +33,22 @@
 package com.jeantessier.dependencyfinder.gui;
 
 import java.util.*;
-
 import javax.swing.table.*;
 
 import com.jeantessier.metrics.*;
 
 public class OOMetricsTableModel extends AbstractTableModel {
-    private static final Integer LOCAL_DISPOSE_IGNORE             = new Integer(StatisticalMeasurement.DISPOSE_IGNORE);
-    private static final Integer LOCAL_DISPOSE_MINIMUM            = new Integer(StatisticalMeasurement.DISPOSE_MINIMUM);
-    private static final Integer LOCAL_DISPOSE_MEDIAN             = new Integer(StatisticalMeasurement.DISPOSE_MEDIAN);
-    private static final Integer LOCAL_DISPOSE_AVERAGE            = new Integer(StatisticalMeasurement.DISPOSE_AVERAGE);
-    private static final Integer LOCAL_DISPOSE_STANDARD_DEVIATION = new Integer(StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION);
-    private static final Integer LOCAL_DISPOSE_MAXIMUM            = new Integer(StatisticalMeasurement.DISPOSE_MAXIMUM);
-    private static final Integer LOCAL_DISPOSE_SUM                = new Integer(StatisticalMeasurement.DISPOSE_SUM);
-    private static final Integer LOCAL_DISPOSE_NB_DATA_POINTS     = new Integer(StatisticalMeasurement.DISPOSE_NB_DATA_POINTS);
+    private static final Integer LOCAL_DISPOSE_IGNORE             = StatisticalMeasurement.DISPOSE_IGNORE;
+    private static final Integer LOCAL_DISPOSE_MINIMUM            = StatisticalMeasurement.DISPOSE_MINIMUM;
+    private static final Integer LOCAL_DISPOSE_MEDIAN             = StatisticalMeasurement.DISPOSE_MEDIAN;
+    private static final Integer LOCAL_DISPOSE_AVERAGE            = StatisticalMeasurement.DISPOSE_AVERAGE;
+    private static final Integer LOCAL_DISPOSE_STANDARD_DEVIATION = StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;
+    private static final Integer LOCAL_DISPOSE_MAXIMUM            = StatisticalMeasurement.DISPOSE_MAXIMUM;
+    private static final Integer LOCAL_DISPOSE_SUM                = StatisticalMeasurement.DISPOSE_SUM;
+//    private static final Integer LOCAL_DISPOSE_NB_DATA_POINTS     = StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
 
-    private List   descriptors;
-    private List   metricsList;
+    private List<MeasurementDescriptor> descriptors;
+    private List<Metrics> metricsList;
     
     private String[]                measurementNames;
     private MeasurementDescriptor[] measurementDescriptors;
@@ -58,15 +57,15 @@ public class OOMetricsTableModel extends AbstractTableModel {
 
     private MetricsComparator comparator = new MetricsComparator("name");
 
-    public OOMetricsTableModel(List descriptors) {
+    public OOMetricsTableModel(List<MeasurementDescriptor> descriptors) {
         this.descriptors = descriptors;
         
         buildMetricNames();
         buildMetricValues();
     }
     
-    public void setMetrics(Collection metricsList) {
-        this.metricsList = new ArrayList(metricsList);
+    public void setMetrics(Collection<Metrics> metricsList) {
+        this.metricsList = new ArrayList<Metrics>(metricsList);
         
         if (metricsList.isEmpty()) {
             buildMetricValues();
@@ -82,8 +81,8 @@ public class OOMetricsTableModel extends AbstractTableModel {
         return measurementDescriptors[column];
     }
     
-    public void updateMetrics(Collection metricsList) {
-        this.metricsList = new ArrayList(metricsList);
+    public void updateMetrics(Collection<Metrics> metricsList) {
+        this.metricsList = new ArrayList<Metrics>(metricsList);
         
         if (metricsList.isEmpty()) {
             buildMetricValues();
@@ -105,19 +104,16 @@ public class OOMetricsTableModel extends AbstractTableModel {
     }
 
     private void buildMetricNames() {
-        List names = new LinkedList();
+        List<String> names = new LinkedList<String>();
         names.add("name");
 
-        List columnDescriptors = new LinkedList();
+        List<MeasurementDescriptor> columnDescriptors = new LinkedList<MeasurementDescriptor>();
         columnDescriptors.add(null);
 
-        List dispose = new LinkedList();
+        List<Integer> dispose = new LinkedList<Integer>();
         dispose.add(LOCAL_DISPOSE_IGNORE);
 
-        Iterator i = descriptors.iterator();
-        while (i.hasNext()) {
-            MeasurementDescriptor descriptor = (MeasurementDescriptor) i.next();
-
+        for (MeasurementDescriptor descriptor : descriptors) {
             if (descriptor.isVisible()) {
                 if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
                     names.add(descriptor.getShortName());
@@ -145,12 +141,12 @@ public class OOMetricsTableModel extends AbstractTableModel {
                 }
             }
         }
-        
-        measurementNames = (String[]) names.toArray(new String[0]);
-        measurementDescriptors  = (MeasurementDescriptor[]) columnDescriptors.toArray(new MeasurementDescriptor[0]);
+
+        measurementNames = names.toArray(new String[0]);
+        measurementDescriptors = columnDescriptors.toArray(new MeasurementDescriptor[0]);
         measurementDispose = new int[dispose.size()];
         for (int j=0; j<dispose.size(); j++) {
-            measurementDispose[j] = ((Integer) dispose.get(j)).intValue();
+            measurementDispose[j] = dispose.get(j);
         }
     }
 
@@ -158,42 +154,38 @@ public class OOMetricsTableModel extends AbstractTableModel {
         measurementValues  = new Object[0][];
     }
 
-    private void buildMetricValues(Collection metricsList) {
-        List values = new ArrayList(metricsList.size());
-        
-        Iterator i = metricsList.iterator();
-        while (i.hasNext()) {
-            Metrics currentMetrics = (Metrics) i.next();
-            
-            Collection currentValues = new ArrayList(measurementNames.length);
-            values.add(currentValues);
-            
-            currentValues.add(currentMetrics);
-            
-            Iterator j = descriptors.iterator();
-            while (j.hasNext()) {
-                MeasurementDescriptor descriptor = (MeasurementDescriptor) j.next();
+    private void buildMetricValues(Collection<Metrics> metricsList) {
+        measurementValues = new Object[metricsList.size()][];
 
+        int i = 0;
+        for (Metrics currentMetrics : metricsList) {
+            List<Measurement> measurements = new ArrayList<Measurement>(measurementNames.length);
+            for (MeasurementDescriptor descriptor : descriptors) {
                 if (descriptor.isVisible()) {
                     Measurement measurement = currentMetrics.getMeasurement(descriptor.getShortName());
-                    
+
                     if (measurement instanceof StatisticalMeasurement) {
-                        currentValues.add(measurement);
-                        currentValues.add(measurement);
-                        currentValues.add(measurement);
-                        currentValues.add(measurement);
-                        currentValues.add(measurement);
-                        currentValues.add(measurement);
+                        measurements.add(measurement);
+                        measurements.add(measurement);
+                        measurements.add(measurement);
+                        measurements.add(measurement);
+                        measurements.add(measurement);
+                        measurements.add(measurement);
                     } else {
-                        currentValues.add(measurement);
+                        measurements.add(measurement);
                     }
                 }
             }
-        }
-        
-        measurementValues = new Object[values.size()][];
-        for (int j=0; j<values.size(); j++) {
-            measurementValues[j] = ((Collection) values.get(j)).toArray();
+
+            measurementValues[i] = new Object[measurements.size() + 1];
+
+            int j = 0;
+            measurementValues[i][j++] = currentMetrics;
+            for (Measurement measurement : measurements) {
+                measurementValues[i][j++] = measurement;
+            }
+
+            i++;
         }
     }
     
