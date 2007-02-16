@@ -2418,7 +2418,7 @@ Filenames of the XML documents containing the dependency graphs.  The tool
 merges the graphs together into a single dependency graph.
 
 <table border="0">
-<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
 </table>
@@ -2951,7 +2951,7 @@ Filenames of the XML documents containing the dependency graphs.  The tool
 merges the graphs together into a single dependency graph.
 
 <table border="0">
-<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
 </table>
@@ -2962,7 +2962,7 @@ merges the graphs together into a single dependency graph.
 
 <blockquote>
 
-The normal output is the resulting dependency graph, rendered as text.
+The normal output is the resulting dependency cycles, rendered as text.
 
 With =-xml=, it converts the cycles into an XML document that follows the
 =[[http://depfind.sourceforge.net/dtd/cycles.dtd][cycles]]= DTD.
@@ -2973,52 +2973,39 @@ With =-xml=, it converts the cycles into an XML document that follows the
 
 <blockquote>
 
-This command reduces the graph to package-to-package dependencies and shows
-only packages that have "jeantessier" in the name.
+Here is an example that uses the following dependency graph:
+
+    Empty
+    &nbsp;
+    Bidirectional1 <---> Bidirectional2
+    &nbsp;
+    n1 ----> n2 ----> n3 ----> n4
+     ^                          |
+     |                          |
+     \--------------------------/
+
+Running this tool on that graph yields this output:
 
 <div class="highlight">
 
-    DependencyCycles -p2p -includes /jeantessier/ df.xml
+    DependencyCycles sample.xml
 
 </div>
 
 <div class="lowlight">
 
-    com.jeantessier.classreader
-        <-- com.jeantessier.dependency
-        <-- com.jeantessier.dependencyfinder.cli
-        <-- com.jeantessier.dependencyfinder.gui
-        <-- com.jeantessier.diff
-        <-- com.jeantessier.metrics
-    com.jeantessier.commandline
-        <-- com.jeantessier.dependencyfinder.cli
-        <-- com.jeantessier.dependencyfinder.gui
-    com.jeantessier.dependency
-        --> com.jeantessier.classreader
-        <-- com.jeantessier.dependencyfinder.cli
-        <-- com.jeantessier.dependencyfinder.gui
-        <-- com.jeantessier.diff
-    com.jeantessier.dependencyfinder.cli
-        --> com.jeantessier.classreader
-        --> com.jeantessier.commandline
-        --> com.jeantessier.dependency
-        --> com.jeantessier.diff
-        --> com.jeantessier.metrics
-    com.jeantessier.dependencyfinder.gui
-        --> com.jeantessier.classreader
-        --> com.jeantessier.commandline
-        --> com.jeantessier.dependency
-        --> com.jeantessier.metrics
-    com.jeantessier.diff
-        --> com.jeantessier.classreader
-        --> com.jeantessier.dependency
-        <-- com.jeantessier.dependencyfinder.cli
-    com.jeantessier.metrics
-        --> com.jeantessier.classreader
-        <-- com.jeantessier.dependencyfinder.cli
-        <-- com.jeantessier.dependencyfinder.gui
+    Bidirectional1
+        --> Bidirectional2
+            --> Bidirectional1
+    n1
+        --> n2
+            --> n3
+                --> n4
+                    --> n1
 
 </div>
+
+It tried each node in turn, looking for paths that made cycles.
 
 </blockquote>
 
@@ -5140,7 +5127,7 @@ Filenames of the XML documents containing the dependency graphs.  The tool
 merges the graphs together into a single dependency graph.
 
 <table border="0">
-<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
 </table>
@@ -6149,7 +6136,7 @@ Filenames of the XML documents containing the dependency graphs.  The tool
 merges the graphs together into a single dependency graph.
 
 <table border="0">
-<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
 </table>
