@@ -2979,10 +2979,10 @@ Here is an example that uses the following dependency graph:
     &nbsp;
     Bidirectional1 <---> Bidirectional2
     &nbsp;
-    n1 ----> n2 ----> n3 ----> n4
-     ^                          |
-     |                          |
-     \--------------------------/
+    Node1 ----> Node2 ----> Node3 ----> Node4
+      ^                                   |
+      |                                   |
+      \-----------------------------------/
 
 Running this tool on that graph yields this output:
 
@@ -2997,11 +2997,11 @@ Running this tool on that graph yields this output:
     Bidirectional1
         --> Bidirectional2
             --> Bidirectional1
-    n1
-        --> n2
-            --> n3
-                --> n4
-                    --> n1
+    Node1
+        --> Node2
+            --> Node3
+                --> Node4
+                    --> Node1
 
 </div>
 
