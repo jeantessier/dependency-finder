@@ -2511,7 +2511,7 @@ Looks for cycles in a dependency graph starting from a given starting point.
         [-feature-scope-includes value]*
         [-help]
         [-indent-text text]
-        [-maximum-cycle-length]
+        [-maximum-cycle-length value]
         [-out filename]
         [-package-scope]
         [-package-scope-excludes value]*
@@ -2538,9 +2538,6 @@ dependencies to look for cycles.  The result is a list of cycles that it found
 in the graph.  Each cycle lists the dependencies that make it in their proper
 order.
 
-You can use the various XXXToText and XXXToHTML scripts to render the graph as
-text or HTML for human reading.
-
 This tool can read multiple graphs.  It will merge them together before it
 starts looking for cycles.
 
@@ -2550,20 +2547,8 @@ looking for cycles.
 
 See also:
 
-   * [[#DependencyGraphToHTML][DependencyGraphToHTML]]
-   * [[#DependencyGraphToText][DependencyGraphToText]]
-   * [[#DependablesToHTML][DependablesToHTML]]
-   * [[#DependablesToText][DependablesToText]]
-   * [[#DependentsToHTML][DependentsToHTML]]
-   * [[#DependentsToText][DependentsToText]]
-   * [[#HideOutboundDependenciesToHTML][HideOutboundDependenciesToHTML]]
-   * [[#HideOutboundDependenciesToText][HideOutboundDependenciesToText]]
-   * [[#HideInboundDependenciesToHTML][HideInboundDependenciesToHTML]]
-   * [[#HideInboundDependenciesToText][HideInboundDependenciesToText]]
-   * [[#c2c][c2c]]
-   * [[#c2p][c2p]]
-   * [[#f2f][f2f]]
-   * [[#p2p][p2p]]
+   * [[#DependencyCyclesToHTML][DependencyCyclesToHTML]]
+   * [[#DependencyCyclesToText][DependencyCyclesToText]]
 
 </blockquote>
 
@@ -2575,7 +2560,7 @@ See also:
 
 <blockquote>
 
-Select classes (with their package) as part of the query's focus.
+Select classes (with their package) as part of the starting point.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2590,7 +2575,7 @@ Select classes (with their package) as part of the query's focus.
 <blockquote>
 
 The name of a class must NOT match the regular expression in _value_ for it
-to be included in the query's focus.
+to be included in the starting point.
 
 If there are multiples of this switch, the name must not match any of them.
 
@@ -2607,7 +2592,7 @@ If there are multiples of this switch, the name must not match any of them.
 <blockquote>
 
 The name of a class must match the regular expression in _value_ for it
-to be included in the query's focus.
+to be included in the starting point.
 
 If there are multiples of this switch, the name must at least one of them.
 
@@ -2665,7 +2650,7 @@ The encoding used for the XML output document.  Only useful with =-xml=.
 
 <blockquote>
 
-Select features (with their class and package) as part of the query's focus.
+Select features (with their class and package) as part of the starting point.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2680,7 +2665,7 @@ Select features (with their class and package) as part of the query's focus.
 <blockquote>
 
 The name of a feature must NOT match the regular expression in _value_ for it
-to be included in the query's focus.
+to be included in the starting point.
 
 If there are multiples of this switch, the name must not match any of them.
 
@@ -2697,7 +2682,7 @@ If there are multiples of this switch, the name must not match any of them.
 <blockquote>
 
 The name of a feature must match the regular expression in _value_ for it
-to be included in the query's focus.
+to be included in the starting point.
 
 If there are multiples of this switch, the name must at least one of them.
 
@@ -2737,11 +2722,13 @@ Uses _text_ for each indentation level in textual and XML output.
 
 </blockquote>
 
----++++ =-maximum-cycle-length=
+---++++ =-maximum-cycle-length value=
 
 <blockquote>
 
-Maximize the dependency graph before outputing it.
+Only looks for cycles at most =value= long.  If the graph is big, the tool
+might spend a lot of time following very long chains of dependencies, looking
+for cycles.  Use this switch to restrict it to something manageable.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2770,7 +2757,7 @@ it is created.  If it already exists, its content is overwritten.
 
 <blockquote>
 
-Select packages as part of the query's focus.
+Select packages as part of the starting point.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2785,7 +2772,7 @@ Select packages as part of the query's focus.
 <blockquote>
 
 The name of a package must NOT match the regular expression in _value_ for it
-to be included in the query's focus.
+to be included in the starting point.
 
 If there are multiples of this switch, the name must not match any of them.
 
@@ -2802,7 +2789,7 @@ If there are multiples of this switch, the name must not match any of them.
 <blockquote>
 
 The name of a package must match the regular expression in _value_ for it
-to be included in the query's focus.
+to be included in the starting point.
 
 If there are multiples of this switch, the name must at least one of them.
 
@@ -2819,7 +2806,7 @@ If there are multiples of this switch, the name must at least one of them.
 <blockquote>
 
 The name of a package, class, or feature must NOT match the regular expression
-in _value_ for it to be included in the query's focus.
+in _value_ for it to be included in the starting point.
 
 If there are multiples of this switch, the name must not match any of them.
 
@@ -2836,7 +2823,7 @@ If there are multiples of this switch, the name must not match any of them.
 <blockquote>
 
 The name of a package, class, or feature must NOT match any of the entries in
-_filename_ for it to be included in the query's focus.
+_filename_ for it to be included in the starting point.
 
 If there are multiples of this switch, the name must not be in any of them.
 
@@ -2853,7 +2840,7 @@ If there are multiples of this switch, the name must not be in any of them.
 <blockquote>
 
 The name of a package, class, or feature must match the regular expression
-in _value_ for it to be included in the query's focus.
+in _value_ for it to be included in the starting point.
 
 If there are multiples of this switch, the name must match at least one of them.
 
@@ -2870,7 +2857,7 @@ If there are multiples of this switch, the name must match at least one of them.
 <blockquote>
 
 The name of a package, class, or feature must match an entry in _filename_ for
-it to be included in the query's focus.
+it to be included in the starting point.
 
 If there are multiples of this switch, the name must be in at least one of them.
 
@@ -2943,8 +2930,8 @@ Prints version information.
 
 <blockquote>
 
-Writes the dependency graph as an XML document with the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD.
+Writes the cycles as an XML document with the
+=[[http://depfind.sourceforge.net/dtd/cycles.dtd][cycles]]= DTD.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2977,9 +2964,8 @@ merges the graphs together into a single dependency graph.
 
 The normal output is the resulting dependency graph, rendered as text.
 
-With =-xml=, it converts the resulting dependency graph into an XML document
-that follows the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD.
+With =-xml=, it converts the cycles into an XML document that follows the
+=[[http://depfind.sourceforge.net/dtd/cycles.dtd][cycles]]= DTD.
 
 </blockquote>
 
