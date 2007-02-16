@@ -96,13 +96,6 @@ public class DependencyCycles extends Command {
 
         getVerboseListener().print("Printing the graph ...");
 
-        PrintWriter out;
-        if (getCommandLine().isPresent("out")) {
-            out = new PrintWriter(new FileWriter(getCommandLine().getSingleSwitch("out")));
-        } else {
-            out = new PrintWriter(System.out);
-        }
-
         CyclePrinter printer;
         if (getCommandLine().isPresent("xml")) {
             printer = new XMLCyclePrinter(out, getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));

@@ -1,0 +1,2 @@
+Fixed a bug in =DependencyCycles= where it was opening its own writer instead
+of using the one setup by its superclass.
