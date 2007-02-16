@@ -59,7 +59,7 @@ public class OOMetrics extends Command {
         out.println();
     }
 
-    protected void populateCommandLineSwitches() throws CommandLineException {
+    protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
         populateCommandLineSwitchesForXMLOutput(com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING, com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX);
 
@@ -86,7 +86,7 @@ public class OOMetrics extends Command {
         getCommandLine().addToggleSwitch("reverse");
     }
 
-    protected boolean validateCommandLine(PrintStream out) throws IOException, CommandLineException {
+    protected boolean validateCommandLine(PrintStream out) {
         boolean result = super.validateCommandLine(out);
 
         if (!getCommandLine().isPresent("project") && !getCommandLine().isPresent("groups") && !getCommandLine().isPresent("classes") && !getCommandLine().isPresent("methods")) {

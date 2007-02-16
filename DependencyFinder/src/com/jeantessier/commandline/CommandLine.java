@@ -134,12 +134,22 @@ public class CommandLine implements Visitable {
         return addSwitch(new MultipleValuesSwitch(name, defaultValue, mandatory));
     }
 
-    public AliasSwitch addAliasSwitch(String name, String ... switchNames) throws CommandLineException {
+    /**
+     * Returns an {@link AliasSwitch} mapping name to switchNames.
+     *
+     * @param name the name of the new alias.
+     * @param switchNames the switches that the alias maps to.
+     * @return an AliasSwitch for the new alias.
+     * @throws IllegalArgumentException if any switch name is unknown.
+     *
+     * @see AliasSwitch
+     */
+    public AliasSwitch addAliasSwitch(String name, String ... switchNames) {
         CommandLineSwitch[] switches = new CommandLineSwitch[switchNames.length];
         for (int i = 0; i < switchNames.length; i++) {
             switches[i] = getSwitch(switchNames[i], true);
-
         }
+
         return addSwitch(new AliasSwitch(name, switches));
     }
 
@@ -148,16 +158,33 @@ public class CommandLine implements Visitable {
         return cls;
     }
 
-    public CommandLineSwitch getSwitch(String name) throws CommandLineException {
+    /**
+     * Returns a {@link CommandLineSwitch} matching name, if any.
+     *
+     * @param name the name of the switch to lookup.
+     * @return a switch matching name.
+     * @throws IllegalArgumentException if this CommandLine is strict and name is unknown.
+     *
+     * @see CommandLineSwitch
+     */
+    public CommandLineSwitch getSwitch(String name) {
         return getSwitch(name, isStrict());
     }
 
-    public CommandLineSwitch getSwitch(String name, boolean strict) throws CommandLineException {
+    /**
+     * Returns a {@link CommandLineSwitch} matching name, if any.
+     *
+     * @param name the name of the CommandLineSwitch to lookup.
+     * @param strict if true, will throw an exception if name is unknown.
+     * @return a CommandLineSwitch matching name.
+     * @throws IllegalArgumentException if strict is true and name is unknown.
+     */
+    public CommandLineSwitch getSwitch(String name, boolean strict) {
         CommandLineSwitch cls = map.get(name);
 
         if (cls == null) {
             if (strict) {
-                throw new CommandLineException("Unknown switch \"" + name + "\"");
+                throw new IllegalArgumentException("Unknown switch \"" + name + "\"");
             } else {
                 cls = new OptionalValueSwitch(name);
                 addSwitch(cls);

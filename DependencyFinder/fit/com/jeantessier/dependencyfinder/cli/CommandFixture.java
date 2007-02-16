@@ -16,7 +16,7 @@ public class CommandFixture extends DoFixture {
         return getCommandLine();
     }
 
-    public boolean parseAndValidate(String args) throws CommandLineException, IOException {
+    public boolean parseAndValidate(String args) throws CommandLineException {
         parse(args);
 
         PrintStream printStream = new PrintStream(new ByteArrayOutputStream());

@@ -53,7 +53,7 @@ public class DependencyReporter extends Command {
         out.println();
     }
 
-    protected void populateCommandLineSwitches() throws CommandLineException {
+    protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
         populateCommandLineSwitchesForXMLOutput(XMLPrinter.DEFAULT_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
 
@@ -78,7 +78,7 @@ public class DependencyReporter extends Command {
         getCommandLine().addToggleSwitch("copy-only");
     }
 
-    protected boolean validateCommandLine(PrintStream out) throws IOException, CommandLineException {
+    protected boolean validateCommandLine(PrintStream out) {
         boolean result = super.validateCommandLine(out);
 
         result &= validateCommandLineForScoping(out);

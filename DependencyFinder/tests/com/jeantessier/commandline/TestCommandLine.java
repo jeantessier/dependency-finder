@@ -64,11 +64,11 @@ public class TestCommandLine extends TestCase {
         assertTrue("Missing toggle2", aliasSwitch.getSwitches().contains(toggle2));
     }
 
-    public void addAliasToNonExistingSwitch() {
+    public void testAddAliasForNonExistingSwitch() {
         try {
             commandLine.addAliasSwitch(SWITCH_NAME, "foobar");
             fail("Added alias to non-existing switch");
-        } catch (CommandLineException e) {
+        } catch (IllegalArgumentException e) {
             // Expected
         }
     }

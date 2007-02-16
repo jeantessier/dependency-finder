@@ -55,7 +55,7 @@ public class JarJarDiff extends Command {
         out.println();
     }
 
-    protected void populateCommandLineSwitches() throws CommandLineException {
+    protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
         populateCommandLineSwitchesForXMLOutput(Report.DEFAULT_ENCODING, Report.DEFAULT_DTD_PREFIX);
 
@@ -100,8 +100,8 @@ public class JarJarDiff extends Command {
         getVerboseListener().print("Comparing ...");
 
         String name = getCommandLine().getSingleSwitch("name");
-        String oldLabel = getCommandLine().isPresent("old-label") ? getCommandLine().getSingleSwitch("old-label") : getCommandLine().getSwitch("old").toString();
-        String newLabel = getCommandLine().isPresent("new-label") ? getCommandLine().getSingleSwitch("new-label") : getCommandLine().getSwitch("new").toString();
+        String oldLabel = getCommandLine().isPresent("old-label") ? getCommandLine().getSingleSwitch("old-label") : getCommandLine().getMultipleSwitch("old").toString();
+        String newLabel = getCommandLine().isPresent("new-label") ? getCommandLine().getSingleSwitch("new-label") : getCommandLine().getMultipleSwitch("new").toString();
 
         DifferencesFactory factory = new DifferencesFactory(strategy);
         Differences differences = factory.createProjectDifferences(name, oldLabel, oldPackages, newLabel, newPackages);

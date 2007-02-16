@@ -14,6 +14,7 @@ public abstract class Command {
     public static final String DEFAULT_LOGFILE = "System.out";
     public static final String DEFAULT_INCLUDES = "//";
 
+    private String name;
     private CommandLine commandLine;
     private CommandLineUsage commandLineUsage;
 
@@ -22,19 +23,33 @@ public abstract class Command {
     protected PrintWriter out;
 
     public Command(String name) throws CommandLineException {
-        resetCommandLine();
-
-        commandLineUsage = new CommandLineUsage(name);
-        getCommandLine().accept(commandLineUsage);
+        this.name = name;
     }
 
-    private void resetCommandLine() throws CommandLineException {
+    public String getName() {
+        return name;
+    }
+
+    private void resetCommandLine() {
         commandLine = new CommandLine();
         populateCommandLineSwitches();
     }
 
     protected CommandLine getCommandLine() {
+        if (commandLine == null) {
+            resetCommandLine();
+        }
+
         return commandLine;
+    }
+
+    public CommandLineUsage getCommandLineUsage() {
+        if (commandLineUsage == null) {
+            commandLineUsage = new CommandLineUsage(getName());
+            getCommandLine().accept(commandLineUsage);
+        }
+
+        return commandLineUsage;
     }
 
     protected VerboseListener getVerboseListener() {
@@ -54,7 +69,7 @@ public abstract class Command {
         }
     }
 
-    protected void populateCommandLineSwitches() throws CommandLineException {
+    protected void populateCommandLineSwitches() {
         getCommandLine().addToggleSwitch("echo");
         getCommandLine().addToggleSwitch("help");
         getCommandLine().addSingleValueSwitch("out");
@@ -74,7 +89,7 @@ public abstract class Command {
         getCommandLine().parse(args);
     }
 
-    protected boolean validateCommandLine(PrintStream out) throws IOException, CommandLineException {
+    protected boolean validateCommandLine(PrintStream out) {
         boolean result = true;
 
         if (getCommandLine().getToggleSwitch("echo")) {

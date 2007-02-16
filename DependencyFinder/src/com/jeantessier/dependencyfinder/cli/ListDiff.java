@@ -53,7 +53,7 @@ public class ListDiff extends Command {
         new ListDiff().run(args);
     }
 
-    protected void populateCommandLineSwitches() throws CommandLineException {
+    protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
         populateCommandLineSwitchesForXMLOutput(ListDiffPrinter.DEFAULT_ENCODING,  ListDiffPrinter.DEFAULT_DTD_PREFIX);
 

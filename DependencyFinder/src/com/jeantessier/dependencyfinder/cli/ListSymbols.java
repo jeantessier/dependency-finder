@@ -49,7 +49,7 @@ public class ListSymbols extends Command {
         out.println();
     }
 
-    protected void populateCommandLineSwitches() throws CommandLineException {
+    protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
 
         getCommandLine().addToggleSwitch("class-names");
@@ -58,7 +58,7 @@ public class ListSymbols extends Command {
         getCommandLine().addToggleSwitch("local-names");
     }
 
-    protected boolean validateCommandLine(PrintStream out) throws IOException, CommandLineException {
+    protected boolean validateCommandLine(PrintStream out) {
         if (!getCommandLine().isPresent("class-names") && !getCommandLine().isPresent("field-names") && !getCommandLine().isPresent("method-names") && !getCommandLine().isPresent("local-names")) {
             getCommandLine().getSwitch("class-names").setValue(true);
             getCommandLine().getSwitch("field-names").setValue(true);

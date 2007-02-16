@@ -43,7 +43,7 @@ public class ClassFinder extends Command {
         super("ClassFinder");
     }
 
-    protected void populateCommandLineSwitches() throws CommandLineException {
+    protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
 
         getCommandLine().addMultipleValuesSwitch("includes", DEFAULT_INCLUDES);

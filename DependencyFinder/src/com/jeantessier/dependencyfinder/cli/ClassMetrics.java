@@ -57,7 +57,7 @@ public class ClassMetrics extends Command {
         System.err.println();
     }
 
-    protected void populateCommandLineSwitches() throws CommandLineException {
+    protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
 
         getCommandLine().addToggleSwitch("list");

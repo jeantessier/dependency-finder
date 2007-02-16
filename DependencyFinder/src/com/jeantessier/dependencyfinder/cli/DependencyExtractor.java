@@ -55,7 +55,7 @@ public class DependencyExtractor extends Command {
         out.println();
     }
 
-    protected void populateCommandLineSwitches() throws CommandLineException {
+    protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
         populateCommandLineSwitchesForXMLOutput(com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING, com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX);
         populateCommandLineSwitchesForFiltering();
@@ -66,7 +66,7 @@ public class DependencyExtractor extends Command {
         getCommandLine().addToggleSwitch("xml");
     }
 
-    protected boolean validateCommandLine(PrintStream out) throws IOException, CommandLineException {
+    protected boolean validateCommandLine(PrintStream out) {
         boolean result = super.validateCommandLine(out);
 
         result &= validateCommandLineForFiltering(out);

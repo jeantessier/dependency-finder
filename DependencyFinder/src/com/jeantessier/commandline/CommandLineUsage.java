@@ -40,11 +40,11 @@ import com.jeantessier.text.*;
  *  Generates summary information about the command-line specification.
  */
 public class CommandLineUsage extends Printer {
-    private String command;
+    private String commandName;
     private PrinterBuffer extraText = new PrinterBuffer();
 
-    public CommandLineUsage(String command) {
-        this.command = command;
+    public CommandLineUsage(String commandName) {
+        this.commandName = commandName;
         raiseIndent();
     }
 
@@ -53,7 +53,7 @@ public class CommandLineUsage extends Printer {
 
         buffer.indent().append("USAGE:").eol();
         buffer.raiseIndent();
-        buffer.indent().append(command).eol();
+        buffer.indent().append(commandName).eol();
         buffer.lowerIndent();
 
         buffer.append(super.toString());

@@ -55,7 +55,7 @@ public class DependencyMetrics extends Command {
         out.println();
     }
 
-    protected void populateCommandLineSwitches() throws CommandLineException {
+    protected void populateCommandLineSwitches()  {
         super.populateCommandLineSwitches();
 
         populateCommandLineSwitchesForScoping();
@@ -88,7 +88,7 @@ public class DependencyMetrics extends Command {
         getCommandLine().addToggleSwitch("validate");
     }
 
-    protected boolean validateCommandLine(PrintStream out) throws IOException, CommandLineException {
+    protected boolean validateCommandLine(PrintStream out) {
         boolean result = super.validateCommandLine(out);
 
         result &= validateCommandLineForScoping(out);
