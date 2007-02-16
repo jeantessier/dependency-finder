@@ -141,7 +141,7 @@ public abstract class Command {
         verboseListener = new VerboseListener();
         if (commandLine.isPresent("verbose")) {
             if (DEFAULT_LOGFILE.equals(commandLine.getOptionalSwitch("verbose"))) {
-                verboseListener.setWriter(System.out);
+                verboseListener.setWriter(new OutputStreamWriter(System.out));
             } else {
                 verboseListener.setWriter(new FileWriter(commandLine.getOptionalSwitch("verbose")));
             }

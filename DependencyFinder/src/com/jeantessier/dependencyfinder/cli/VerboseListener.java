@@ -46,10 +46,6 @@ public class VerboseListener extends VerboseListenerBase implements DependencyLi
         return writer;
     }
 
-    public void setWriter(OutputStream stream) {
-        setWriter(new PrintWriter(stream));
-    }
-
     public void setWriter(Writer writer) {
         setWriter(new PrintWriter(writer));
     }

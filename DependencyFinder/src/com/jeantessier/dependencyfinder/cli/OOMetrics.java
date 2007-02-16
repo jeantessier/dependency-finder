@@ -213,7 +213,6 @@ public class OOMetrics extends Command {
 
         List<Metrics> metrics;
         com.jeantessier.metrics.Printer printer;
-        PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 
         if (getCommandLine().getToggleSwitch("project")) {
             if (getCommandLine().isPresent("out")) {
@@ -315,13 +314,6 @@ public class OOMetrics extends Command {
     }
 
     private void printTextFile(MetricsFactory factory) throws IOException {
-        PrintWriter out;
-        if (getCommandLine().isPresent("out")) {
-            out = new PrintWriter(new FileWriter(getCommandLine().getSingleSwitch("out") + ".txt"));
-        } else {
-            out = new PrintWriter(new OutputStreamWriter(System.out));
-        }
-
         MetricsComparator comparator = new MetricsComparator(getCommandLine().getSingleSwitch("sort"));
         if (getCommandLine().getToggleSwitch("reverse")) {
             comparator.reverse();
@@ -405,13 +397,6 @@ public class OOMetrics extends Command {
     }
 
     private void printXMLFile(MetricsFactory factory) throws IOException {
-        PrintWriter out;
-        if (getCommandLine().isPresent("out")) {
-            out = new PrintWriter(new FileWriter(getCommandLine().getSingleSwitch("out") + ".xml"));
-        } else {
-            out = new PrintWriter(System.out);
-        }
-
         MetricsComparator comparator = new MetricsComparator(getCommandLine().getSingleSwitch("sort"));
         if (getCommandLine().getToggleSwitch("reverse")) {
             comparator.reverse();

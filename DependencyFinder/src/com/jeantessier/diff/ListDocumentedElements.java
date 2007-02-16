@@ -38,10 +38,10 @@ import java.util.*;
 import com.sun.javadoc.*;
 
 public class ListDocumentedElements {
-    private static String      tagName       = null;
-    private static Collection  validValues   = new HashSet();
-    private static Collection  invalidValues = new HashSet();
-    private static PrintWriter out           = new PrintWriter(System.out);
+    private static String tagName = null;
+    private static Collection<String> validValues = new HashSet<String>();
+    private static Collection<String> invalidValues = new HashSet<String>();
+    private static PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
     
     public static boolean start(RootDoc root) {
         process(root.specifiedPackages());
@@ -101,8 +101,8 @@ public class ListDocumentedElements {
     }
     
     private static void process(PackageDoc[] docs) {
-        for (int i = 0; i < docs.length; ++i) {
-            process(docs[i]);
+        for (PackageDoc doc : docs) {
+            process(doc);
         }
     }
     
@@ -112,8 +112,8 @@ public class ListDocumentedElements {
     }
     
     private static void process(ProgramElementDoc[] docs) {
-        for (int i = 0; i < docs.length; ++i) {
-            process(docs[i]);
+        for (ProgramElementDoc doc : docs) {
+            process(doc);
         }
     }
 
@@ -126,15 +126,15 @@ public class ListDocumentedElements {
             if (!validValues.isEmpty()) {
                 // If it contains at least one valid value, then it will be visible
                 isVisible = false;
-                for (int i = 0; i < tags.length; ++i) {
-                    if (validValues.contains(tags[i].text())) {
+                for (Tag tag : tags) {
+                    if (validValues.contains(tag.text())) {
                         isVisible = true;
                     }
                 }
             } else if (!invalidValues.isEmpty()) {
                 // Else if it contains at least one invalid value, then it will not be visible
-                for (int i = 0; i < tags.length; ++i) {
-                    if (invalidValues.contains(tags[i].text())) {
+                for (Tag tag : tags) {
+                    if (invalidValues.contains(tag.text())) {
                         isVisible = false;
                     }
                 }

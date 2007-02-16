@@ -1,2 +1,2 @@
 Fixed a bug in =DependencyCycles= where it was opening its own writer instead
-of using the one setup by its superclass.
+of using the one setup by its superclass.  Revised all writer usage across CLI.

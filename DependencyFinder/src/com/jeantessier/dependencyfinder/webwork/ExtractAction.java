@@ -59,7 +59,7 @@ public class ExtractAction extends ActionBase implements ServletResponseAware {
 
     public void setServletResponse(HttpServletResponse response) {
         try {
-            out = new PrintWriter(response.getOutputStream(), true);
+            out = new PrintWriter(new OutputStreamWriter(response.getOutputStream()));
         } catch (IOException e) {
             // Ignore
         }
