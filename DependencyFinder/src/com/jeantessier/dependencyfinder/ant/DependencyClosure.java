@@ -251,15 +251,14 @@ public class DependencyClosure extends GraphTask {
 
         try {
             NodeFactory factory = new NodeFactory();
-        
-            String[] filenames = getSrc().list();
-            for (int i=0; i<filenames.length; i++) {
-                log("Reading graph from " + filenames[i]);
-                
-                if (filenames[i].endsWith(".xml")) {
+
+            for (String filename : getSrc().list()) {
+                log("Reading graph from " + filename);
+
+                if (filename.endsWith(".xml")) {
                     NodeLoader loader = new NodeLoader(factory, getValidate());
                     loader.addDependencyListener(verboseListener);
-                    loader.load(filenames[i]);
+                    loader.load(filename);
                 }
             }
 

@@ -1,4 +1,5 @@
-Tech doc for CLI version of =DependencyCycles=.
+Tech doc for CLI version of =DependencyCycles=.  Changed _scope_
+switches / attributes to _start_ ones instead, similar to =DependencyClosure=.
 
 Changed =CommandLine.getSwitch()= to throw an =IllegalArgumentException=
 instead of a checked =CommandLineException= when it cannot resolve a switch

@@ -54,7 +54,7 @@ public class DependencyCycles extends Command {
         super.populateCommandLineSwitches();
         populateCommandLineSwitchesForXMLOutput(XMLPrinter.DEFAULT_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
 
-        populateCommandLineSwitchesForScoping();
+        populateCommandLineSwitchesForStartCondition();
 
         getCommandLine().addSingleValueSwitch("maximum-cycle-length");
 
@@ -86,7 +86,7 @@ public class DependencyCycles extends Command {
             Logger.getLogger(DependencyMetrics.class).info("Read \"" + filename + "\".");
         }
 
-        CycleDetector detector = new CycleDetector(getScopeCriteria());
+        CycleDetector detector = new CycleDetector(getStartCriteria());
 
         if (getCommandLine().isPresent("maximum-cycle-length")) {
             detector.setMaximumCycleLength(Integer.parseInt(getCommandLine().getSingleSwitch("maximum-cycle-length")));

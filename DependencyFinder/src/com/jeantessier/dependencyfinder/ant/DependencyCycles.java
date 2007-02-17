@@ -45,144 +45,111 @@ import org.xml.sax.*;
 import com.jeantessier.dependency.*;
 
 public class DependencyCycles extends GraphTask {
-    private String scopeIncludes = "//";
-    private String scopeExcludes = "";
-    private boolean packageScope;
-    private String packageScopeIncludes = "";
-    private String packageScopeExcludes = "";
-    private boolean classScope;
-    private String classScopeIncludes = "";
-    private String classScopeExcludes = "";
-    private boolean featureScope;
-    private String featureScopeIncludes = "";
-    private String featureScopeExcludes = "";
+    private String startIncludes = "//";
+    private String startExcludes = "";
+    private String packageStartIncludes = "";
+    private String packageStartExcludes = "";
+    private String classStartIncludes = "";
+    private String classStartExcludes = "";
+    private String featureStartIncludes = "";
+    private String featureStartExcludes = "";
 
-    private Path scopeIncludesList;
-    private Path scopeExcludesList;
+    private Path startIncludesList;
+    private Path startExcludesList;
 
     private String  maximumCycleLenth  = "";
 
-    private boolean xml                  = false;
-    private String  encoding             = XMLPrinter.DEFAULT_ENCODING;
-    private String  dtdPrefix            = XMLPrinter.DEFAULT_DTD_PREFIX;
-    private String  indentText;
+    private boolean xml = false;
+    private String encoding = XMLPrinter.DEFAULT_ENCODING;
+    private String dtdPrefix = XMLPrinter.DEFAULT_DTD_PREFIX;
+    private String indentText;
 
-    public String getScopeincludes() {
-        return scopeIncludes;
+    public String getStartincludes() {
+        return startIncludes;
     }
 
-    public void setScopeincludes(String scopeIncludes) {
-        this.scopeIncludes = scopeIncludes;
+    public void setStartincludes(String startIncludes) {
+        this.startIncludes = startIncludes;
     }
 
-    public String getScopeexcludes() {
-        return scopeExcludes;
+    public String getStartexcludes() {
+        return startExcludes;
     }
 
-    public void setScopeexcludes(String scopeExcludes) {
-        this.scopeExcludes = scopeExcludes;
+    public void setStartexcludes(String startExcludes) {
+        this.startExcludes = startExcludes;
     }
 
-    public boolean getPackagescope() {
-        return packageScope;
+    public String getPackagestartincludes() {
+        return packageStartIncludes;
     }
 
-    public void setPackagescope(boolean packageScope) {
-        this.packageScope = packageScope;
+    public void setPackagestartincludes(String packageStartIncludes) {
+        this.packageStartIncludes = packageStartIncludes;
     }
 
-    public String getPackagescopeincludes() {
-        return packageScopeIncludes;
+    public String getPackagestartexcludes() {
+        return packageStartExcludes;
     }
 
-    public void setPackagescopeincludes(String packageScopeIncludes) {
-        this.packageScopeIncludes = packageScopeIncludes;
+    public void setPackagestartexcludes(String packageStartExcludes) {
+        this.packageStartExcludes = packageStartExcludes;
     }
 
-    public String getPackagescopeexcludes() {
-        return packageScopeExcludes;
+    public String getClassstartincludes() {
+        return classStartIncludes;
     }
 
-    public void setPackagescopeexcludes(String packageScopeExcludes) {
-        this.packageScopeExcludes = packageScopeExcludes;
+    public void setClassstartincludes(String classStartIncludes) {
+        this.classStartIncludes = classStartIncludes;
     }
 
-    public boolean getClassscope() {
-        return classScope;
+    public String getClassstartexcludes() {
+        return classStartExcludes;
     }
 
-    public void setClassscope(boolean classScope) {
-        this.classScope = classScope;
+    public void setClassstartexcludes(String classStartExcludes) {
+        this.classStartExcludes = classStartExcludes;
     }
 
-    public String getClassscopeincludes() {
-        return classScopeIncludes;
+    public String getFeaturestartincludes() {
+        return featureStartIncludes;
     }
 
-    public void setClassscopeincludes(String classScopeIncludes) {
-        this.classScopeIncludes = classScopeIncludes;
+    public void setFeaturestartincludes(String featureStartIncludes) {
+        this.featureStartIncludes = featureStartIncludes;
     }
 
-    public String getClassscopeexcludes() {
-        return classScopeExcludes;
+    public String getFeaturestartexcludes() {
+        return featureStartExcludes;
     }
 
-    public void setClassscopeexcludes(String classScopeExcludes) {
-        this.classScopeExcludes = classScopeExcludes;
+    public void setFeaturestartexcludes(String featureStartExcludes) {
+        this.featureStartExcludes = featureStartExcludes;
     }
 
-    public boolean getFeaturescope() {
-        return featureScope;
-    }
-
-    public void setFeaturescope(boolean featureScope) {
-        this.featureScope = featureScope;
-    }
-
-    public String getFeaturescopeincludes() {
-        return featureScopeIncludes;
-    }
-
-    public void setFeaturescopeincludes(String featureScopeIncludes) {
-        this.featureScopeIncludes = featureScopeIncludes;
-    }
-
-    public String getFeaturescopeexcludes() {
-        return featureScopeExcludes;
-    }
-
-    public void setFeaturescopeexcludes(String featureScopeExcludes) {
-        this.featureScopeExcludes = featureScopeExcludes;
-    }
-
-    public void setAll(boolean value) {
-        setPackagescope(value);
-        setClassscope(value);
-        setFeaturescope(value);
-    }
-
-    public Path createScopeincludeslist() {
-        if (scopeIncludesList == null) {
-            scopeIncludesList = new Path(getProject());
+    public Path createStartincludeslist() {
+        if (startIncludesList == null) {
+            startIncludesList = new Path(getProject());
         }
 
-        return scopeIncludesList;
+        return startIncludesList;
     }
 
-    public Path getScopeincludeslist() {
-        return scopeIncludesList;
+    public Path getStartincludeslist() {
+        return startIncludesList;
     }
 
-    public Path createScopeexcludeslist() {
-        if (scopeExcludesList == null) {
-            scopeExcludesList = new Path(getProject());
+    public Path createStartexcludeslist() {
+        if (startExcludesList == null) {
+            startExcludesList = new Path(getProject());
         }
 
-        return scopeExcludesList;
+        return startExcludesList;
     }
 
-    public Path getScopeexcludeslist() {
-        return scopeExcludesList;
+    public Path getStartexcludeslist() {
+        return startExcludesList;
     }
 
     public String getMaximumcyclelength() {
@@ -228,8 +195,8 @@ public class DependencyCycles extends GraphTask {
     protected void validateParameters() throws BuildException {
         super.validateParameters();
 
-        if (hasScopeRegularExpressionSwitches() && hasScopeListSwitches()) {
-            throw new BuildException("Cannot have scope attributes for regular expressions and lists at the same time!");
+        if (hasStartRegularExpressionSwitches() && hasStartListSwitches()) {
+            throw new BuildException("Cannot have start attributes for regular expressions and lists at the same time!");
         }
     }
 
@@ -242,18 +209,17 @@ public class DependencyCycles extends GraphTask {
         try {
             NodeFactory factory = new NodeFactory();
 
-            String[] filenames = getSrc().list();
-            for (int i=0; i<filenames.length; i++) {
-                log("Reading graph from " + filenames[i]);
+            for (String filename : getSrc().list()) {
+                log("Reading graph from " + filename);
 
-                if (filenames[i].endsWith(".xml")) {
+                if (filename.endsWith(".xml")) {
                     NodeLoader loader = new NodeLoader(factory, getValidate());
                     loader.addDependencyListener(verboseListener);
-                    loader.load(filenames[i]);
+                    loader.load(filename);
                 }
             }
 
-            CycleDetector detector = new CycleDetector(getScopeCriteria());
+            CycleDetector detector = new CycleDetector(getStartCriteria());
 
             if (getMaximumcyclelength() != null) {
                 detector.setMaximumCycleLength(Integer.parseInt(getMaximumcyclelength()));
@@ -288,33 +254,29 @@ public class DependencyCycles extends GraphTask {
         }
     }
 
-    protected SelectionCriteria getScopeCriteria() throws BuildException {
+    protected SelectionCriteria getStartCriteria() throws BuildException {
         SelectionCriteria result = new ComprehensiveSelectionCriteria();
 
-        if (hasScopeRegularExpressionSwitches()) {
-            result = createRegularExpressionScopeCriteria();
-        } else if (hasScopeListSwitches()) {
-            result = createCollectionSelectionCriteria(getScopeincludeslist(), getScopeexcludeslist());
+        if (hasStartRegularExpressionSwitches()) {
+            result = createRegularExpressionStartCriteria();
+        } else if (hasStartListSwitches()) {
+            result = createCollectionSelectionCriteria(getStartincludeslist(), getStartexcludeslist());
         }
 
         return result;
     }
 
-    protected RegularExpressionSelectionCriteria createRegularExpressionScopeCriteria() throws BuildException {
+    protected RegularExpressionSelectionCriteria createRegularExpressionStartCriteria() throws BuildException {
         RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();
 
-        result.setMatchingPackages(getPackagescope());
-        result.setMatchingClasses(getClassscope());
-        result.setMatchingFeatures(getFeaturescope());
-
-        result.setGlobalIncludes(getScopeincludes());
-        result.setGlobalExcludes(getScopeexcludes());
-        result.setPackageIncludes(getPackagescopeincludes());
-        result.setPackageExcludes(getPackagescopeexcludes());
-        result.setClassIncludes(getClassscopeincludes());
-        result.setClassExcludes(getClassscopeexcludes());
-        result.setFeatureIncludes(getFeaturescopeincludes());
-        result.setFeatureExcludes(getFeaturescopeexcludes());
+        result.setGlobalIncludes(getStartincludes());
+        result.setGlobalExcludes(getStartexcludes());
+        result.setPackageIncludes(getPackagestartincludes());
+        result.setPackageExcludes(getPackagestartexcludes());
+        result.setClassIncludes(getClassstartincludes());
+        result.setClassExcludes(getClassstartexcludes());
+        result.setFeatureIncludes(getFeaturestartincludes());
+        result.setFeatureExcludes(getFeaturestartexcludes());
 
         return result;
     }
@@ -323,25 +285,22 @@ public class DependencyCycles extends GraphTask {
         return new CollectionSelectionCriteria(loadCollection(includes), loadCollection(excludes));
     }
 
-    private boolean hasScopeRegularExpressionSwitches() {
+    private boolean hasStartRegularExpressionSwitches() {
         return
-                !getScopeincludes().equals("//") ||
-                !getScopeexcludes().equals("") ||
-                getPackagescope() ||
-                !getPackagescopeincludes().equals("") ||
-                !getPackagescopeexcludes().equals("") ||
-                getClassscope() ||
-                !getClassscopeincludes().equals("") ||
-                !getClassscopeexcludes().equals("") ||
-                getFeaturescope() ||
-                !getFeaturescopeincludes().equals("") ||
-                !getFeaturescopeexcludes().equals("");
+                !getStartincludes().equals("//") ||
+                !getStartexcludes().equals("") ||
+                !getPackagestartincludes().equals("") ||
+                !getPackagestartexcludes().equals("") ||
+                !getClassstartincludes().equals("") ||
+                !getClassstartexcludes().equals("") ||
+                !getFeaturestartincludes().equals("") ||
+                !getFeaturestartexcludes().equals("");
     }
 
-    private boolean hasScopeListSwitches() {
+    private boolean hasStartListSwitches() {
         return
-                getScopeincludeslist() != null ||
-                getScopeexcludeslist() != null;
+                getStartincludeslist() != null ||
+                getStartexcludeslist() != null;
     }
 
     private Collection<String> loadCollection(Path path) {
@@ -350,25 +309,24 @@ public class DependencyCycles extends GraphTask {
         if (path != null) {
             result = new HashSet<String>();
 
-            String[] filenames = path.list();
-            for (int i = 0; i < filenames.length; i++) {
+            for (String filename : path.list()) {
                 BufferedReader reader = null;
                 String line;
 
                 try {
-                    reader = new BufferedReader(new FileReader(filenames[i]));
+                    reader = new BufferedReader(new FileReader(filename));
                     while ((line = reader.readLine()) != null) {
                         result.add(line);
                     }
                 } catch (IOException ex) {
-                    Logger.getLogger(getClass()).error("Couldn't read file " + filenames[i], ex);
+                    Logger.getLogger(getClass()).error("Couldn't read file " + filename, ex);
                 } finally {
                     try {
                         if (reader != null) {
                             reader.close();
                         }
                     } catch (IOException ex) {
-                        Logger.getLogger(getClass()).error("Couldn't close file " + filenames[i], ex);
+                        Logger.getLogger(getClass()).error("Couldn't close file " + filename, ex);
                     }
                 }
             }

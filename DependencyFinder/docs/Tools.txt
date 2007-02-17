@@ -2500,26 +2500,23 @@ Looks for cycles in a dependency graph starting from a given starting point.
 ---+++ Synopsis
 
     DependencyCycles
-        [-class-scope]
-        [-class-scope-excludes value]*
-        [-class-scope-includes value]*
+        [-class-start-excludes value]*
+        [-class-start-includes value]*
         [-dtd-prefix uri]
         [-echo]
         [-encoding name]
-        [-feature-scope]
-        [-feature-scope-excludes value]*
-        [-feature-scope-includes value]*
+        [-feature-start-excludes value]*
+        [-feature-start-includes value]*
         [-help]
         [-indent-text text]
         [-maximum-cycle-length value]
         [-out filename]
-        [-package-scope]
-        [-package-scope-excludes value]*
-        [-package-scope-includes value]*
-        [-scope-excludes value]*
-        [-scope-excludes-list filename]*
-        [-scope-includes value]*
-        [-scope-includes-list filename]*
+        [-package-start-excludes value]*
+        [-package-start-includes value]*
+        [-start-excludes value]*
+        [-start-excludes-list filename]*
+        [-start-includes value]*
+        [-start-includes-list filename]*
         [-time]
         [-validate]
         [-verbose [filename]]
@@ -2547,8 +2544,8 @@ looking for cycles.
 
 See also:
 
-   * [[#DependencyCyclesToHTML][DependencyCyclesToHTML]]
-   * [[#DependencyCyclesToText][DependencyCyclesToText]]
+   * [[#CyclesToHTML][CyclesToHTML]]
+   * [[#CyclesToText][CyclesToText]]
 
 </blockquote>
 
@@ -2556,21 +2553,7 @@ See also:
 
 <blockquote>
 
----++++ =-class-scope=
-
-<blockquote>
-
-Select classes (with their package) as part of the starting point.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
----++++ =-class-scope-excludes value=
+---++++ =-class-start-excludes value=
 
 <blockquote>
 
@@ -2587,7 +2570,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
----++++ =-class-scope-includes value=
+---++++ =-class-start-includes value=
 
 <blockquote>
 
@@ -2646,21 +2629,7 @@ The encoding used for the XML output document.  Only useful with =-xml=.
 
 </blockquote>
 
----++++ =-feature-scope=
-
-<blockquote>
-
-Select features (with their class and package) as part of the starting point.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
----++++ =-feature-scope-excludes value=
+---++++ =-feature-start-excludes value=
 
 <blockquote>
 
@@ -2677,7 +2646,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
----++++ =-feature-scope-includes value=
+---++++ =-feature-start-includes value=
 
 <blockquote>
 
@@ -2753,21 +2722,7 @@ it is created.  If it already exists, its content is overwritten.
 
 </blockquote>
 
----++++ =-package-scope=
-
-<blockquote>
-
-Select packages as part of the starting point.
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
-
----++++ =-package-scope-excludes value=
+---++++ =-package-start-excludes value=
 
 <blockquote>
 
@@ -2784,7 +2739,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
----++++ =-package-scope-includes value=
+---++++ =-package-start-includes value=
 
 <blockquote>
 
@@ -2801,7 +2756,7 @@ If there are multiples of this switch, the name must at least one of them.
 
 </blockquote>
 
----++++ =-scope-excludes value=
+---++++ =-start-excludes value=
 
 <blockquote>
 
@@ -2818,7 +2773,7 @@ If there are multiples of this switch, the name must not match any of them.
 
 </blockquote>
 
----++++ =-scope-excludes-list filename=
+---++++ =-start-excludes-list filename=
 
 <blockquote>
 
@@ -2835,7 +2790,7 @@ If there are multiples of this switch, the name must not be in any of them.
 
 </blockquote>
 
----++++ =-scope-includes value=
+---++++ =-start-includes value=
 
 <blockquote>
 
@@ -2852,7 +2807,7 @@ If there are multiples of this switch, the name must match at least one of them.
 
 </blockquote>
 
----++++ =-scope-includes-list filename=
+---++++ =-start-includes-list filename=
 
 <blockquote>
 

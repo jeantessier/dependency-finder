@@ -452,16 +452,15 @@ public class DependencyReporter extends GraphTask {
                 copier = new GraphSummarizer(getScopeCriteria(), getFilterCriteria());
             }
 
-            String[] filenames = getSrc().list();
-            for (int i = 0; i < filenames.length; i++) {
-                log("Reading graph from " + filenames[i]);
+            for (String filename : getSrc().list()) {
+                log("Reading graph from " + filename);
 
                 Collection<PackageNode> packages = Collections.emptyList();
 
-                if (filenames[i].endsWith(".xml")) {
+                if (filename.endsWith(".xml")) {
                     NodeLoader loader = new NodeLoader(getValidate());
                     loader.addDependencyListener(verboseListener);
-                    packages = loader.load(filenames[i]).getPackages().values();
+                    packages = loader.load(filename).getPackages().values();
                 }
 
                 if (getMaximize()) {
@@ -630,25 +629,24 @@ public class DependencyReporter extends GraphTask {
         if (path != null) {
             result = new HashSet<String>();
 
-            String[] filenames = path.list();
-            for (int i = 0; i < filenames.length; i++) {
+            for (String filename : path.list()) {
                 BufferedReader reader = null;
                 String line;
 
                 try {
-                    reader = new BufferedReader(new FileReader(filenames[i]));
+                    reader = new BufferedReader(new FileReader(filename));
                     while ((line = reader.readLine()) != null) {
                         result.add(line);
                     }
                 } catch (IOException ex) {
-                    Logger.getLogger(getClass()).error("Couldn't read file " + filenames[i], ex);
+                    Logger.getLogger(getClass()).error("Couldn't read file " + filename, ex);
                 } finally {
                     try {
                         if (reader != null) {
                             reader.close();
                         }
                     } catch (IOException ex) {
-                        Logger.getLogger(getClass()).error("Couldn't close file " + filenames[i], ex);
+                        Logger.getLogger(getClass()).error("Couldn't close file " + filename, ex);
                     }
                 }
             }

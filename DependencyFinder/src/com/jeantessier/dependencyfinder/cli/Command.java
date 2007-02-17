@@ -205,7 +205,7 @@ public abstract class Command {
     }
 
     protected void showError(PrintStream out) {
-        out.println(commandLineUsage);
+        out.println(getCommandLineUsage());
         showSpecificUsage(out);
     }
 
