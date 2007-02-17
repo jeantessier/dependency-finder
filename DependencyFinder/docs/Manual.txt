@@ -3366,7 +3366,7 @@ Next, we compute the closure and get a list of the symbols in the closure.
 </div>
 
 Finally, we get the difference between the two lists using =ListDiff=.  The
-=<removed>= tag lists the symbols in the negative closure.
+=&lt;removed&gt;= tag lists the symbols in the negative closure.
 
 <div class="highlight">
 
@@ -3397,7 +3397,7 @@ Finally, we get the difference between the two lists using =ListDiff=.  The
 </div>
 
 If you want only the class-to-class negative closure, simply reduce the initial
-graph and the transitive cloure before you extract symbols from them.
+graph and the transitive closure before you extract symbols from them.
 
 <div align="center">
 [[images/NegativeClosureSourceC2C.gif]]
@@ -3445,7 +3445,7 @@ Next, compute the closure.
 </div>
 
 Finally, we get the difference between the two lists using =ListDiff=.  The
-=<removed>= tag lists the symbols in the negative closure.
+=&lt;removed&gt;= tag lists the symbols in the negative closure.
 
 <div class="highlight">
 
@@ -3472,6 +3472,14 @@ Finally, we get the difference between the two lists using =ListDiff=.  The
 So at the class level, the negative closure is only class =c.C=.  Even though
 feature =b.B.b2= is not in the closure, its class, =b.B=, is part of it and
 therefore not in the negative closure.
+
+---+++ Dependency Cycles
+
+Many books recommend against circular dependencies between components.
+Dependency Finder lets you find cycles between packages, classes, or even
+features.  The last two are less useful since tight coupling within a class or
+within a package is usually desirable, but dependency cycles between packages
+can be an indicator of circular dependencies between higher-level components.
 
 ---+++ Dependency Metrics
 
