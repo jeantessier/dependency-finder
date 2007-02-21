@@ -1,0 +1,3 @@
+Created a launch script for Log4J's Chainsaw.  Between times that I actually
+need to look at logs to debug something, I keep forgettting how to start it.
+This way, I don't have to remember anything.
