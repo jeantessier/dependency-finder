@@ -52,6 +52,10 @@ public class ClassReader extends Command {
         getCommandLine().addToggleSwitch("xml");
     }
 
+    protected ParameterStrategy getParameterStrategy() {
+        return new AtLeastParameterStrategy(1);
+    }
+
     public void showSpecificUsage(PrintStream out) {
         out.println();
         out.println("If no files are specified, it processes the current directory.");

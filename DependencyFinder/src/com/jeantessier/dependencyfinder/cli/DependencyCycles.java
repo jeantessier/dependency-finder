@@ -62,6 +62,10 @@ public class DependencyCycles extends Command {
         getCommandLine().addToggleSwitch("validate");
     }
 
+    protected ParameterStrategy getParameterStrategy() {
+        return new AtLeastParameterStrategy(1);
+    }
+
     protected boolean validateCommandLine(PrintStream out) {
         boolean result = super.validateCommandLine(out);
 

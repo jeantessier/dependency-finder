@@ -66,6 +66,10 @@ public class DependencyClosure extends Command {
         getCommandLine().addToggleSwitch("validate");
     }
 
+    protected ParameterStrategy getParameterStrategy() {
+        return new AtLeastParameterStrategy(1);
+    }
+
     protected void doProcessing() throws Exception {
         NodeFactory factory = new NodeFactory();
 

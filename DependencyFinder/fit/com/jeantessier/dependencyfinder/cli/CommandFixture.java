@@ -11,8 +11,12 @@ public class CommandFixture extends DoFixture {
         return new ArrayFixture(getCommandLine().getSwitches());
     }
 
-    public CommandLine parse(String args) throws CommandLineException {
-        getCommand().parseCommandLine(args.split("\\s+"));
+    public CommandLine parse(String argString) throws CommandLineException {
+        String[] args = argString.split("\\s+");
+        if ("".equals(argString)) {
+            args = new String[0];
+        }
+        getCommand().parseCommandLine(args);
         return getCommandLine();
     }
 
@@ -32,6 +36,6 @@ public class CommandFixture extends DoFixture {
     }
 
     public CommandLine getCommandLine() {
-        return (getCommand()).getCommandLine();
+        return getCommand().getCommandLine();
     }
 }

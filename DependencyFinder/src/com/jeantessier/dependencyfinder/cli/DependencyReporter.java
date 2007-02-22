@@ -78,6 +78,10 @@ public class DependencyReporter extends Command {
         getCommandLine().addToggleSwitch("copy-only");
     }
 
+    protected ParameterStrategy getParameterStrategy() {
+        return new AtLeastParameterStrategy(1);
+    }
+
     protected boolean validateCommandLine(PrintStream out) {
         boolean result = super.validateCommandLine(out);
 

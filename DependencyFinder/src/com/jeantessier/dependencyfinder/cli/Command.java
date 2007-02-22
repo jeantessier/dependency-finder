@@ -31,8 +31,12 @@ public abstract class Command {
     }
 
     private void resetCommandLine() {
-        commandLine = new CommandLine();
+        commandLine = new CommandLine(getParameterStrategy());
         populateCommandLineSwitches();
+    }
+
+    protected ParameterStrategy getParameterStrategy() {
+        return new CollectingParameterStrategy();
     }
 
     protected CommandLine getCommandLine() {
