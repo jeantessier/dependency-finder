@@ -356,8 +356,8 @@ Prints version information.
 <blockquote>
 
 File names for JAR files, Zip files, and =.class= files for the tool to read.
-You can also give directory names, the tool will search it for =.class= files
-and read them.
+You can also give directory names, the tool will search them for =.class= files
+and read those.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -576,8 +576,8 @@ Prints version information.
 <blockquote>
 
 File names for JAR files, Zip files, and =.class= files for the tool to read.
-You can also give directory names, the tool will search it for =.class= files
-and read them.
+You can also give directory names, the tool will search them for =.class= files
+and read those.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -830,8 +830,8 @@ Prints version information.
 <blockquote>
 
 File names for JAR files, Zip files, and =.class= files for the tool to read.
-You can also give directory names, the tool will search it for =.class= files
-and read them.
+You can also give directory names, the tool will search them for =.class= files
+and read those.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3439,8 +3439,8 @@ Writes the dependency graph as an XML document with the
 <blockquote>
 
 File names for JAR files, Zip files, and =.class= files for the tool to read.
-You can also give directory names, the tool will search it for =.class= files
-and read them.
+You can also give directory names, the tool will search them for =.class= files
+and read those.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -7422,8 +7422,8 @@ Project name for the report.
 <blockquote>
 
 File names for JAR files, Zip files, and =.class= files for the tool to read.
-You can also give directory names, the tool will search it for =.class= files
-and read them.  These make up the _new_ version of the codebase.
+You can also give directory names, the tool will search them for =.class= files
+and read those.  They make up the _new_ version of the codebase.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -7452,8 +7452,8 @@ Version name for the report.
 <blockquote>
 
 File names for JAR files, Zip files, and =.class= files for the tool to read.
-You can also give directory names, the tool will search it for =.class= files
-and read them.  These make up the _old_ version of the codebase.
+You can also give directory names, the tool will search them for =.class= files
+and read those.  They make up the _old_ version of the codebase.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -7719,8 +7719,8 @@ Prints version information.
 <blockquote>
 
 File names for JAR files, Zip files, and =.class= files for the tool to read.
-You can also give directory names, the tool will search it for =.class= files
-and read them.
+You can also give directory names, the tool will search them for =.class= files
+and read those.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -8781,8 +8781,8 @@ Prints version information.
 <blockquote>
 
 File names for JAR files, Zip files, and =.class= files for the tool to read.
-You can also give directory names, the tool will search it for =.class= files
-and read them.
+You can also give directory names, the tool will search them for =.class= files
+and read those.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -9737,8 +9737,8 @@ Writes the metrics report as an XML document with the
 <blockquote>
 
 File names for JAR files, Zip files, and =.class= files for the tool to read.
-You can also give directory names, the tool will search it for =.class= files
-and read them.
+You can also give directory names, the tool will search them for =.class= files
+and read those.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
