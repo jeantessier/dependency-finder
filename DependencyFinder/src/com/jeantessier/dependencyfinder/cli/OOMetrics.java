@@ -86,8 +86,8 @@ public class OOMetrics extends Command {
         getCommandLine().addToggleSwitch("reverse");
     }
 
-    protected boolean validateCommandLine(PrintStream out) {
-        boolean result = super.validateCommandLine(out);
+    protected Collection<CommandLineException> parseCommandLine(String[] args) {
+        Collection<CommandLineException> exceptions = super.parseCommandLine(args);
 
         if (!getCommandLine().isPresent("project") && !getCommandLine().isPresent("groups") && !getCommandLine().isPresent("classes") && !getCommandLine().isPresent("methods")) {
             getCommandLine().getSwitch("project").setValue(true);
@@ -108,11 +108,10 @@ public class OOMetrics extends Command {
             modeSwitch++;
         }
         if (modeSwitch != 1) {
-            showError(out, "Must have one and only one of -csv, -txt, or -xml");
-            result = false;
+            exceptions.add(new CommandLineException("Must have one and only one of -csv, -txt, or -xml"));
         }
 
-        return result;
+        return exceptions;
     }
 
     protected void doProcessing() throws Exception {

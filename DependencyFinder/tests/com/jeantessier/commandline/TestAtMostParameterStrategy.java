@@ -57,9 +57,9 @@ public class TestAtMostParameterStrategy extends TestCase {
         }
     }
     
-    public void testIsSatisfied() throws CommandLineException {
-        assertTrue(strategy.isSatisfied());
+    public void testValidate() throws CommandLineException {
+        strategy.validate();
         strategy.accept("value1");
-        assertTrue(strategy.isSatisfied());
+        strategy.validate();
     }
 }

@@ -52,16 +52,21 @@ public class TestToggleSwitch extends TestCase {
         assertEquals(true, commandLineSwitch.getValue());
     }
 
-    public void testIsSatisfiedWhenNotMandatory() throws CommandLineException {
-        assertTrue(commandLineSwitch.isSatisfied());
+    public void testValidateWhenNotMandatory() throws CommandLineException {
+        commandLineSwitch.validate();
         commandLineSwitch.parse(null);
-        assertTrue(commandLineSwitch.isSatisfied());
+        commandLineSwitch.validate();
     }
 
-    public void testIsSatisfiedWhenMandatory() throws CommandLineException {
+    public void testValidateWhenMandatory() throws CommandLineException {
         commandLineSwitch = new ToggleSwitch("switch", false, true);
-        assertFalse(commandLineSwitch.isSatisfied());
+        try {
+            commandLineSwitch.validate();
+            fail("Missing mandatory switch should not validate.");
+        } catch (CommandLineException e) {
+            // Expected
+        }
         commandLineSwitch.parse(null);
-        assertTrue(commandLineSwitch.isSatisfied());
+        commandLineSwitch.validate();
     }
 }

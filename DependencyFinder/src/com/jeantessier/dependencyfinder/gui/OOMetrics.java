@@ -315,9 +315,6 @@ public class OOMetrics extends JFrame {
         } catch (IllegalArgumentException ex) {
             showError(usage, ex.toString());
             System.exit(1);
-        } catch (CommandLineException ex) {
-            showError(usage, ex.toString());
-            System.exit(1);
         }
 
         if (commandLine.getToggleSwitch("help")) {

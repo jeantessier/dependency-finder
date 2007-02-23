@@ -47,8 +47,8 @@ public class NullParameterStrategy implements ParameterStrategy {
         return Collections.EMPTY_LIST;
     }
 
-    public boolean isSatisfied() {
-        return true;
+    public void validate() throws CommandLineException {
+        // Do nothing
     }
 
     public void accept(Visitor visitor) {

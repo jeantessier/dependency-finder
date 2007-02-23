@@ -41,5 +41,5 @@ import java.util.*;
 public interface ParameterStrategy extends Visitable {
     public int accept(String param) throws CommandLineException;
     public List<String> getParameters();
-    public boolean isSatisfied();
+    public void validate() throws CommandLineException;
 }

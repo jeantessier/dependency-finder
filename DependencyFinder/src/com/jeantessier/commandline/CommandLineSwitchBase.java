@@ -100,11 +100,13 @@ public abstract class CommandLineSwitchBase implements CommandLineSwitch {
         return mandatory;
     }
 
-    public String toString() {
-        return getValue().toString();
+    public void validate() throws CommandLineException {
+        if (isMandatory() && !isPresent()) {
+            throw new CommandLineException("Missing mandatory switch \"" + getName() + "\"");            
+        }
     }
 
-    public boolean isSatisfied() {
-        return !isMandatory() || isPresent();
+    public String toString() {
+        return getValue().toString();
     }
 }

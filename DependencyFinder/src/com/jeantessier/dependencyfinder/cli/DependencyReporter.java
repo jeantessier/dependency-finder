@@ -82,18 +82,17 @@ public class DependencyReporter extends Command {
         return new AtLeastParameterStrategy(1);
     }
 
-    protected boolean validateCommandLine(PrintStream out) {
-        boolean result = super.validateCommandLine(out);
+    protected Collection<CommandLineException> parseCommandLine(String[] args) {
+        Collection<CommandLineException> exceptions = super.parseCommandLine(args);
 
-        result &= validateCommandLineForScoping(out);
-        result &= validateCommandLineForFiltering(out);
+        exceptions.addAll(validateCommandLineForScoping());
+        exceptions.addAll(validateCommandLineForFiltering());
 
         if (getCommandLine().getToggleSwitch("maximize") && getCommandLine().getToggleSwitch("minimize")) {
-            showError(out, "Only one of -maximize or -minimize is allowed");
-            result = false;
+            exceptions.add(new CommandLineException("Only one of -maximize or -minimize is allowed"));
         }
 
-        return result;
+        return exceptions;
     }
 
     protected void doProcessing() throws Exception {

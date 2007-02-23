@@ -86,8 +86,8 @@ public class AliasSwitch implements CommandLineSwitch {
         return false;
     }
 
-    public boolean isSatisfied() {
-        return true;
+    public void validate() throws CommandLineException {
+        // Do nothing
     }
 
     public int parse(String value) throws CommandLineException {

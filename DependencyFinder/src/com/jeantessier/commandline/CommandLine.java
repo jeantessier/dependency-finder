@@ -276,34 +276,46 @@ public class CommandLine implements Visitable {
         return parameterStrategy.getParameters();
     }
 
-    public void parse(String args[]) throws CommandLineException {
+    public Collection<CommandLineException> parse(String args[]) {
+        Collection<CommandLineException> exceptions = new ArrayList<CommandLineException>();
+
         int i=0;
         while (i < args.length) {
-            if (args[i].startsWith("-")) {
-                String name  = args[i].substring(1);
-                String value = null;
+            try {
+                if (args[i].startsWith("-")) {
+                    String name  = args[i].substring(1);
+                    String value = null;
 
-                if (i+1 < args.length && !map.containsKey(args[i+1].substring(1))) {
-                    value = args[i+1];
+                    if (i+1 < args.length && !map.containsKey(args[i+1].substring(1))) {
+                        value = args[i+1];
+                    }
+
+                    i += getSwitch(name).parse(value);
+                } else {
+                    i += parameterStrategy.accept(args[i]);
                 }
-
-                i += getSwitch(name).parse(value);
-            } else {
-                i += parameterStrategy.accept(args[i]);
+            } catch (CommandLineException e) {
+                exceptions.add(e);
             }
         }
 
         // Checking that all manadatory switches are present
         for (CommandLineSwitch cls : map.values()) {
-            if (!cls.isSatisfied()) {
-                throw new CommandLineException("Missing mandatory switch \"" + cls.getName() + "\"");
+            try {
+                cls.validate();
+            } catch (CommandLineException e) {
+                exceptions.add(e);
             }
         }
 
         // Checking that all mandatory parameters are present
-        if (!parameterStrategy.isSatisfied()) {
-            throw new CommandLineException("Missing mandatory parameters");
+        try {
+            parameterStrategy.validate();
+        } catch (CommandLineException e) {
+            exceptions.add(e);
         }
+
+        return exceptions;
     }
 
     public void accept(Visitor visitor) {

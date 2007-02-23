@@ -60,16 +60,11 @@ public abstract class Command {
         return verboseListener;
     }
 
-    public void run(String[] args) {
-        try {
-            parseCommandLine(args);
-            if (validateCommandLine(System.err)) {
-                process();
-            } else {
-                System.exit(1);
-            }
-        } catch (Exception e) {
-            Logger.getLogger(getClass()).error(e);
+    public void run(String[] args) throws Exception {
+        if (validateCommandLine(args, System.err)) {
+            process();
+        } else {
+            System.exit(1);
         }
     }
 
@@ -88,16 +83,18 @@ public abstract class Command {
         getCommandLine().addSingleValueSwitch("indent-text");
     }
 
-    protected void parseCommandLine(String[] args) throws CommandLineException {
+    protected Collection<CommandLineException> parseCommandLine(String[] args) {
         resetCommandLine();
-        getCommandLine().parse(args);
+        return getCommandLine().parse(args);
     }
 
-    protected boolean validateCommandLine(PrintStream out) {
+    protected boolean validateCommandLine(String[] args, PrintStream out) {
         boolean result = true;
 
-        if (getCommandLine().getToggleSwitch("echo")) {
-            echo(out);
+        Collection<CommandLineException> exceptions = parseCommandLine(args);
+
+        if (getCommandLine().getToggleSwitch("version")) {
+            showVersion(out);
             result = false;
         }
 
@@ -106,34 +103,39 @@ public abstract class Command {
             result = false;
         }
 
-        if (getCommandLine().getToggleSwitch("version")) {
-            showVersion(out);
+        if (getCommandLine().getToggleSwitch("echo")) {
+            echo(out);
             result = false;
+        }
+
+        if (result) {
+            for (CommandLineException exception : exceptions) {
+                result = false;
+                Logger.getLogger(getClass()).error(exception);
+            }
         }
 
         return result;
     }
 
-    protected boolean validateCommandLineForScoping(PrintStream out) {
-        boolean result = true;
+    protected Collection<CommandLineException> validateCommandLineForScoping() {
+        Collection<CommandLineException> exceptions = new ArrayList<CommandLineException>();
 
         if (hasScopeRegularExpressionSwitches() && hasScopeListSwitches()) {
-            showError(out, "You can use switches for regular expressions or lists for scope, but not at the same time");
-            result = false;
+            exceptions.add(new CommandLineException("You can use switches for regular expressions or lists for scope, but not at the same time"));
         }
 
-        return result;
+        return exceptions;
     }
 
-    protected boolean validateCommandLineForFiltering(PrintStream out) {
-        boolean result = true;
+    protected Collection<CommandLineException> validateCommandLineForFiltering() {
+        Collection<CommandLineException> exceptions = new ArrayList<CommandLineException>();
 
         if (hasFilterRegularExpressionSwitches() && hasFilterListSwitches()) {
-            showError(out, "You can use switches for regular expressions or lists for filter, but not at the same time");
-            result = false;
+            exceptions.add(new CommandLineException("You can use switches for regular expressions or lists for filter, but not at the same time"));
         }
 
-        return result;
+        return exceptions;
     }
 
     private void process() throws Exception {
@@ -199,7 +201,10 @@ public abstract class Command {
     }
 
     protected void echo(PrintStream out) {
-        Printer printer = new TextPrinter(getClass().getName());
+        String className = getClass().getName();
+        className = className.substring(className.lastIndexOf(".") + 1);
+        
+        Printer printer = new TextPrinter(className);
         getCommandLine().accept(printer);
         out.println(printer);
     }

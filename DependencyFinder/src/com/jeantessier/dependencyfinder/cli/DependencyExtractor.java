@@ -66,17 +66,16 @@ public class DependencyExtractor extends Command {
         getCommandLine().addToggleSwitch("xml");
     }
 
-    protected boolean validateCommandLine(PrintStream out) {
-        boolean result = super.validateCommandLine(out);
+    protected Collection<CommandLineException> parseCommandLine(String[] args) {
+        Collection<CommandLineException> exceptions = super.parseCommandLine(args);
 
-        result &= validateCommandLineForFiltering(out);
+        exceptions.addAll(validateCommandLineForFiltering());
 
         if (getCommandLine().getToggleSwitch("maximize") && getCommandLine().getToggleSwitch("minimize")) {
-            showError(out, "Only one of -maximize or -minimize is allowed");
-            result = false;
+            exceptions.add(new CommandLineException("Only one of -maximize or -minimize is allowed"));
         }
 
-        return result;
+        return exceptions;
     }
 
     protected void doProcessing() throws Exception {

@@ -44,17 +44,17 @@ public class TestCollectingParameterStrategy extends TestCase {
     }
 
     public void testAccept() throws CommandLineException {
-        String value1 = new String("value1");
-        String value2 = new String("value2");
+        String value1 = "value1";
+        String value2 = "value2";
         assertEquals(1, strategy.accept(value1));
         assertEquals(1, strategy.accept(value2));
         assertSame("Returned different value", value1, strategy.getParameters().get(0));
         assertSame("Returned different value", value2, strategy.getParameters().get(1));
     }
 
-    public void testIsSatisfied() throws CommandLineException {
-        assertTrue(strategy.isSatisfied());
+    public void testValidate() throws CommandLineException {
+        strategy.validate();
         strategy.accept("value");
-        assertTrue(strategy.isSatisfied());
+        strategy.validate();
     }
 }

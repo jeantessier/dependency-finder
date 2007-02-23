@@ -46,8 +46,8 @@ public class CollectingParameterStrategy implements ParameterStrategy {
         return Collections.unmodifiableList(parameters);
     }
 
-    public boolean isSatisfied() {
-        return true;
+    public void validate() throws CommandLineException {
+        // Do nothing
     }
 
     public void accept(Visitor visitor) {

@@ -33,6 +33,7 @@
 package com.jeantessier.dependencyfinder.cli;
 
 import java.io.*;
+import java.util.*;
 
 import com.jeantessier.dependency.*;
 import com.jeantessier.commandline.*;
@@ -92,13 +93,13 @@ public class DependencyMetrics extends Command {
         return new AtLeastParameterStrategy(1);
     }
 
-    protected boolean validateCommandLine(PrintStream out) {
-        boolean result = super.validateCommandLine(out);
+    protected Collection<CommandLineException> parseCommandLine(String[] args) {
+        Collection<CommandLineException> exceptions = super.parseCommandLine(args);
 
-        result &= validateCommandLineForScoping(out);
-        result &= validateCommandLineForFiltering(out);
+        exceptions.addAll(validateCommandLineForScoping());
+        exceptions.addAll(validateCommandLineForFiltering());
 
-        return result;
+        return exceptions;
     }
 
     public void doProcessing() throws Exception {

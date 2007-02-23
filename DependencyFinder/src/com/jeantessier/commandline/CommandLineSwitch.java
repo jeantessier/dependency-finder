@@ -43,6 +43,6 @@ public interface CommandLineSwitch extends Visitable {
     public void setValue(Object value);
     public boolean isPresent();
     public boolean isMandatory();
-    public boolean isSatisfied();
+    public void validate() throws CommandLineException;
     public int parse(String value) throws CommandLineException;
 }

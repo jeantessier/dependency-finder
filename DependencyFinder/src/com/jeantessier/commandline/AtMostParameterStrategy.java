@@ -49,8 +49,10 @@ public class AtMostParameterStrategy extends LimitedCollectingParameterStrategy 
         }
     }
 
-    public boolean isSatisfied() {
-        return getParameters().size() <= getLimit();
+    public void validate() throws CommandLineException {
+        if (getParameters().size() > getLimit()) {
+            throw new CommandLineException("Number of parameters (" + getParameters().size() + ") cannot exceed " + getLimit());
+        }
     }
 
     public void accept(Visitor visitor) {

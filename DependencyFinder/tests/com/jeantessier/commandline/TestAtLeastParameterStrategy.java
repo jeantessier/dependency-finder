@@ -47,13 +47,23 @@ public class TestAtLeastParameterStrategy extends TestCase {
         assertEquals(1, strategy.accept("value"));
     }
     
-    public void testIsSatisfied() throws CommandLineException {
-        assertFalse(strategy.isSatisfied());
+    public void testValidate() throws CommandLineException {
+        try {
+            strategy.validate();
+            fail("Strategy accepted too many values");
+        } catch (CommandLineException e) {
+            // Expected
+        }
         strategy.accept("value1");
-        assertFalse(strategy.isSatisfied());
+        try {
+            strategy.validate();
+            fail("Strategy accepted too many values");
+        } catch (CommandLineException e) {
+            // Expected
+        }
         strategy.accept("value2");
-        assertTrue(strategy.isSatisfied());
+        strategy.validate();
         strategy.accept("value3");
-        assertTrue(strategy.isSatisfied());
+        strategy.validate();
     }
 }

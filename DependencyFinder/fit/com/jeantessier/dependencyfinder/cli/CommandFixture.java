@@ -12,20 +12,14 @@ public class CommandFixture extends DoFixture {
     }
 
     public CommandLine parse(String argString) throws CommandLineException {
-        String[] args = argString.split("\\s+");
-        if ("".equals(argString)) {
-            args = new String[0];
-        }
-        getCommand().parseCommandLine(args);
+        getCommand().parseCommandLine(safeSplit(argString));
         return getCommandLine();
     }
 
     public boolean parseAndValidate(String args) throws CommandLineException {
-        parse(args);
-
         PrintStream printStream = new PrintStream(new ByteArrayOutputStream());
         try {
-            return getCommand().validateCommandLine(printStream);
+            return getCommand().validateCommandLine(safeSplit(args), printStream);
         } finally {
             printStream.close();
         }
@@ -37,5 +31,13 @@ public class CommandFixture extends DoFixture {
 
     public CommandLine getCommandLine() {
         return getCommand().getCommandLine();
+    }
+
+    private String[] safeSplit(String argString) {
+        String[] args = argString.split("\\s+");
+        if ("".equals(argString)) {
+            args = new String[0];
+        }
+        return args;
     }
 }

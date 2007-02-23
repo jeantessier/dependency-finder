@@ -52,7 +52,7 @@ public class TestNullParameterStrategy extends TestCase {
         }
     }
 
-    public void testIsSatisfied() throws CommandLineException {
-        assertTrue(strategy.isSatisfied());
+    public void testValidate() throws CommandLineException {
+        strategy.validate();
     }
 }

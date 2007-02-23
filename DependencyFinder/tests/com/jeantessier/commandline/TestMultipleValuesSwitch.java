@@ -76,18 +76,23 @@ public class TestMultipleValuesSwitch extends TestCase {
         assertEquals(EXPECTED_VALUE, commandLineSwitch.getValue());
     }
 
-    public void testIsSatisfiedWhenNotMandatory() throws CommandLineException {
-        assertTrue(commandLineSwitch.isSatisfied());
+    public void testValidateWhenNotMandatory() throws CommandLineException {
+        commandLineSwitch.validate();
         commandLineSwitch.parse(EXPECTED_VALUE1);
         commandLineSwitch.parse(EXPECTED_VALUE2);
-        assertTrue(commandLineSwitch.isSatisfied());
+        commandLineSwitch.validate();
     }
 
-    public void testIsSatisfiedWhenMandatory() throws CommandLineException {
+    public void testValidateWhenMandatory() throws CommandLineException {
         commandLineSwitch = new MultipleValuesSwitch("switch", "default", true);
-        assertFalse(commandLineSwitch.isSatisfied());
+        try {
+            commandLineSwitch.validate();
+            fail("Missing mandatory switch should not validate.");
+        } catch (CommandLineException e) {
+            // Expected
+        }
         commandLineSwitch.parse(EXPECTED_VALUE1);
         commandLineSwitch.parse(EXPECTED_VALUE2);
-        assertTrue(commandLineSwitch.isSatisfied());
+        commandLineSwitch.validate();
     }
 }

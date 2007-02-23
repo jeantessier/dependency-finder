@@ -41,8 +41,10 @@ public class AtLeastParameterStrategy extends LimitedCollectingParameterStrategy
         super(nbParameters);
     }
 
-    public boolean isSatisfied() {
-        return getParameters().size() >= getLimit();
+    public void validate() throws CommandLineException {
+        if (getParameters().size() < getLimit()) {
+            throw new CommandLineException("Number of parameters (" + getParameters().size() + ") must be at least " + getLimit());
+        }
     }
 
     public void accept(Visitor visitor) {

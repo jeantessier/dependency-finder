@@ -49,8 +49,10 @@ public class ExactlyParameterStrategy extends LimitedCollectingParameterStrategy
         }
     }
 
-    public boolean isSatisfied() {
-        return getParameters().size() == getLimit();
+    public void validate() throws CommandLineException {
+        if (getParameters().size() != getLimit()) {
+            throw new CommandLineException("Number of parameters (" + getParameters().size() + ") must be exactly " + getLimit());
+        }
     }
 
     public void accept(Visitor visitor) {

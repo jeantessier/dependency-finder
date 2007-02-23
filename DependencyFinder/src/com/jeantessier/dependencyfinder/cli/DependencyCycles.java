@@ -33,6 +33,7 @@
 package com.jeantessier.dependencyfinder.cli;
 
 import java.io.*;
+import java.util.*;
 
 import org.apache.log4j.*;
 
@@ -66,12 +67,12 @@ public class DependencyCycles extends Command {
         return new AtLeastParameterStrategy(1);
     }
 
-    protected boolean validateCommandLine(PrintStream out) {
-        boolean result = super.validateCommandLine(out);
+    protected Collection<CommandLineException> parseCommandLine(String[] args) {
+        Collection<CommandLineException> exceptions = super.parseCommandLine(args);
 
-        result &= validateCommandLineForScoping(out);
+        exceptions.addAll(validateCommandLineForScoping());
 
-        return result;
+        return exceptions;
     }
 
     protected void doProcessing() throws Exception {
