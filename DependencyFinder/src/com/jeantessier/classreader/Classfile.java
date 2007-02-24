@@ -167,6 +167,10 @@ public class Classfile implements Deprecatable, Visitable {
         return getRawClass().toString();
     }
 
+    public String getSimpleName() {
+        return getClassName().substring(getClassName().lastIndexOf(".") + 1);
+    }
+
     public int getSuperclassIndex() {
         return superclassIndex;
     }

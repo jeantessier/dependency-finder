@@ -137,7 +137,7 @@ public class TextPrinter extends Printer {
         
         if (shouldShowClassNode(node) || !dependencies.isEmpty()) {
             lowerIndent();
-            indent().printScopeNodeName(node, node.getName().substring(node.getName().lastIndexOf('.') + 1)).eol();
+            indent().printScopeNodeName(node, node.getSimpleName()).eol();
             raiseIndent();
         }
 

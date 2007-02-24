@@ -42,9 +42,9 @@ public class ClassDump {
             System.out.println(ClassDump.class.getName() + ":");
             dumpClass(ClassDump.class);
         } else {
-            for (int i=0; i<args.length; i++) {
-                System.out.println(args[i] + ":");
-                dumpClass(args[i]);
+            for (String arg : args) {
+                System.out.println(arg + ":");
+                dumpClass(arg);
             }
         }
     }
@@ -54,7 +54,7 @@ public class ClassDump {
     }
 
     public static void dumpClass(Class c) {
-        String resource = c.getName().substring(c.getName().lastIndexOf(".") + 1) + ".class";
+        String resource = c.getSimpleName() + ".class";
         System.out.println(resource + " -> " + c.getResource(resource));
         dumpClass(c.getResourceAsStream(resource));
     }

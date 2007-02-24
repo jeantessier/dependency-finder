@@ -51,7 +51,7 @@ public class MethodRef_info extends FeatureRef_info {
         String result = null;
 
         if (isConstructor()) {
-            result = getClassName().substring(getClassName().lastIndexOf(".") + 1);
+            result = getClassSimpleName();
         } else if (isStaticInitializer()) {
             result = "static {}";
         } else {

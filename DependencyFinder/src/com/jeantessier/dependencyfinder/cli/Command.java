@@ -201,10 +201,7 @@ public abstract class Command {
     }
 
     protected void echo(PrintStream out) {
-        String className = getClass().getName();
-        className = className.substring(className.lastIndexOf(".") + 1);
-        
-        Printer printer = new TextPrinter(className);
+        Printer printer = new TextPrinter(getClass().getSimpleName());
         getCommandLine().accept(printer);
         out.println(printer);
     }

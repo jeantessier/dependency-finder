@@ -57,6 +57,10 @@ public abstract class FeatureRef_info extends ConstantPoolEntry {
         return getRawClass().toString();
     }
 
+    public String getClassSimpleName() {
+        return getRawClass().getSimpleName();
+    }
+
     public int getNameAndTypeIndex() {
         return nameAndTypeIndex;
     }

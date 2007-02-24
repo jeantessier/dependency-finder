@@ -43,6 +43,10 @@ public class ClassNode extends Node {
         this.parent = parent;
     }
 
+    public String getSimpleName() {
+        return getName().substring(getName().lastIndexOf('.') + 1);
+    }
+
     // Only to be used by NodeFactory and DeletingVisitor
     void setConfirmed(boolean confirmed) {
         if (!confirmed) {

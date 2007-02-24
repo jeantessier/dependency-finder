@@ -89,7 +89,7 @@ public class Method_info extends Feature_info {
         StringBuffer result = new StringBuffer();
 
         if (isConstructor()) {
-            result.append(getClassfile().getClassName().substring(getClassfile().getClassName().lastIndexOf(".") + 1));
+            result.append(getClassfile().getSimpleName());
             result.append(SignatureHelper.getSignature(getDescriptor()));
         } else if (isStaticInitializer()) {
             result.append("static {}");

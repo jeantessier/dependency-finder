@@ -40,7 +40,7 @@ import org.apache.oro.text.perl.*;
 public final class SignatureHelper {
     private static final Perl5Util perl = new Perl5Util();
 
-    private static Map conversion = new HashMap();
+    private static Map<String, String> conversion = new HashMap<String, String>();
 
     static {
         conversion.put("B", "byte");
@@ -60,7 +60,7 @@ public final class SignatureHelper {
         Logger.getLogger(SignatureHelper.class).debug("Begin Convert(\"" + type + "\")");
 
         if (type.length() == 1) {
-            result = (String) conversion.get(type);
+            result = conversion.get(type);
         } else if (type.charAt(0) == 'L') {
             result = path2ClassName(type.substring(1, type.indexOf(';')));
         } else if (type.charAt(0) == '[') {
@@ -73,7 +73,7 @@ public final class SignatureHelper {
     }
 
     public static String convertClassName(String type) {
-        String result = null;
+        String result;
 
         if (type.charAt(0) == 'L' && type.indexOf(';') > 0) {
             result = path2ClassName(type.substring(1, type.indexOf(';')));

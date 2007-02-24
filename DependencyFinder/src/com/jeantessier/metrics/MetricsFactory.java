@@ -181,12 +181,11 @@ public class MetricsFactory {
 
     private Metrics buildClassMetrics(String name) {
         String packageName = "";
-        String className = "";
         int pos = name.lastIndexOf('.');
         if (pos != -1) {
             packageName = name.substring(0, pos);
         }
-        className = name.substring(pos + 1);
+        String className = name.substring(pos + 1);
         Metrics packageMetrics = createGroupMetrics(packageName);
         Metrics result         = new Metrics(packageMetrics, name);
         
