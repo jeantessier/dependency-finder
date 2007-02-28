@@ -1,1 +1,4 @@
-Tech docs.
+Tech docs.  Still needs to document:
+
+    * =ClassClassDiff=
+    * =DependencyGraphToRDF=
