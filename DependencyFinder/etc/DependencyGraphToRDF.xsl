@@ -36,8 +36,7 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     version="1.0"
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-    xmlns="http://www.fi.muni.cz#">
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
 
     <xsl:output method="html" indent="yes"/>
     <xsl:strip-space elements="*"/> 

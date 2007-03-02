@@ -3,5 +3,5 @@ Tech docs.  Still needs to document:
     * =ClassClassDiff=
     * =DependencyGraphToRDF=
 
-=DependencyGraphToRDF= appears broken and I have to way to verify the validity
+=DependencyGraphToRDF= appears broken and I have no way to verify the validity
 of its output.
