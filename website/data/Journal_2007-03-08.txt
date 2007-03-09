@@ -1,0 +1,5 @@
+Added documentation for =ClassClassDiff= and =DependencyGraphToRDF= to the
+Tools docs.
+
+Refactored common parts of =ClassClassDiff= and =JarJarDiff= into a new
+abstract base class.
