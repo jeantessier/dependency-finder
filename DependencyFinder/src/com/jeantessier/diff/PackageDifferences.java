@@ -40,7 +40,7 @@ import org.apache.log4j.*;
  *  Documents the difference, if any, for a given package.
  */
 public class PackageDifferences extends RemovableDifferences {
-    private Collection classDifferences = new LinkedList();
+    private Collection<Differences> classDifferences = new LinkedList<Differences>();
 
     /**
      *  Only the DifferencesFactory can create instances of this class.
@@ -63,7 +63,7 @@ public class PackageDifferences extends RemovableDifferences {
         }
     }
 
-    public Collection getClassDifferences() {
+    public Collection<Differences> getClassDifferences() {
         return classDifferences;
     }
 

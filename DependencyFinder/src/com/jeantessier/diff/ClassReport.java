@@ -39,41 +39,39 @@ import com.jeantessier.classreader.*;
 public class ClassReport extends Printer implements Comparable {
     private ClassDifferences differences;
 
-    private Collection removedFields            = new TreeSet();
-    private Collection removedConstructors      = new TreeSet();
-    private Collection removedMethods           = new TreeSet();
+    private Collection<FeatureDifferences> removedFields = new TreeSet<FeatureDifferences>();
+    private Collection<FeatureDifferences> removedConstructors = new TreeSet<FeatureDifferences>();
+    private Collection<FeatureDifferences> removedMethods = new TreeSet<FeatureDifferences>();
 
-    private Collection deprecatedFields         = new TreeSet();
-    private Collection deprecatedConstructors   = new TreeSet();
-    private Collection deprecatedMethods        = new TreeSet();
+    private Collection<FeatureDifferences> deprecatedFields = new TreeSet<FeatureDifferences>();
+    private Collection<FeatureDifferences> deprecatedConstructors = new TreeSet<FeatureDifferences>();
+    private Collection<FeatureDifferences> deprecatedMethods = new TreeSet<FeatureDifferences>();
 
-    private Collection modifiedFields           = new TreeSet();
-    private Collection modifiedConstructors     = new TreeSet();
-    private Collection modifiedMethods          = new TreeSet();
+    private Collection<FieldDifferences> modifiedFields = new TreeSet<FieldDifferences>();
+    private Collection<CodeDifferences> modifiedConstructors = new TreeSet<CodeDifferences>();
+    private Collection<CodeDifferences> modifiedMethods = new TreeSet<CodeDifferences>();
 
-    private Collection undeprecatedFields       = new TreeSet();
-    private Collection undeprecatedConstructors = new TreeSet();
-    private Collection undeprecatedMethods      = new TreeSet();
+    private Collection<FeatureDifferences> undeprecatedFields = new TreeSet<FeatureDifferences>();
+    private Collection<FeatureDifferences> undeprecatedConstructors = new TreeSet<FeatureDifferences>();
+    private Collection<FeatureDifferences> undeprecatedMethods = new TreeSet<FeatureDifferences>();
 
-    private Collection newFields                = new TreeSet();
-    private Collection newConstructors          = new TreeSet();
-    private Collection newMethods               = new TreeSet();
+    private Collection<FeatureDifferences> newFields = new TreeSet<FeatureDifferences>();
+    private Collection<FeatureDifferences> newConstructors = new TreeSet<FeatureDifferences>();
+    private Collection<FeatureDifferences> newMethods = new TreeSet<FeatureDifferences>();
 
     public void visitClassDifferences(ClassDifferences differences) {
         this.differences = differences;
 
-        Iterator i = differences.getFeatureDifferences().iterator();
-        while (i.hasNext()) {
-            ((Differences) i.next()).accept(this);
+        for (Differences featureDifference : differences.getFeatureDifferences()) {
+            featureDifference.accept(this);
         }
     }
 
     public void visitInterfaceDifferences(InterfaceDifferences differences) {
         this.differences = differences;
 
-        Iterator i = differences.getFeatureDifferences().iterator();
-        while (i.hasNext()) {
-            ((Differences) i.next()).accept(this);
+        for (Differences featureDifference : differences.getFeatureDifferences()) {
+            featureDifference.accept(this);
         }
     }
 
@@ -167,9 +165,7 @@ public class ClassReport extends Printer implements Comparable {
             indent().append("<removed-fields>").eol();
             raiseIndent();
 
-            Iterator i = removedFields.iterator();
-            while (i.hasNext()) {
-                FeatureDifferences fd = (FeatureDifferences) i.next();
+            for (FeatureDifferences fd : removedFields) {
                 indent().append("<declaration").append(breakdownDeclaration((Field_info) fd.getOldFeature())).append(fd.isInherited() ? " inherited=\"yes\"" : "").append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
             }
 
@@ -181,9 +177,7 @@ public class ClassReport extends Printer implements Comparable {
             indent().append("<removed-constructors>").eol();
             raiseIndent();
 
-            Iterator i = removedConstructors.iterator();
-            while (i.hasNext()) {
-                FeatureDifferences fd = (FeatureDifferences) i.next();
+            for (FeatureDifferences fd : removedConstructors) {
                 indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getOldFeature())).append(fd.isInherited() ? " inherited=\"yes\"" : "").append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
             }
 
@@ -195,9 +189,7 @@ public class ClassReport extends Printer implements Comparable {
             indent().append("<removed-methods>").eol();
             raiseIndent();
 
-            Iterator i = removedMethods.iterator();
-            while (i.hasNext()) {
-                FeatureDifferences fd = (FeatureDifferences) i.next();
+            for (FeatureDifferences fd : removedMethods) {
                 indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getOldFeature())).append(fd.isInherited() ? " inherited=\"yes\"" : "").append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
             }
 
@@ -209,9 +201,7 @@ public class ClassReport extends Printer implements Comparable {
             indent().append("<deprecated-fields>").eol();
             raiseIndent();
 
-            Iterator i = deprecatedFields.iterator();
-            while (i.hasNext()) {
-                FeatureDifferences fd = (FeatureDifferences) i.next();
+            for (FeatureDifferences fd : deprecatedFields) {
                 indent().append("<declaration").append(breakdownDeclaration((Field_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
             }
 
@@ -223,9 +213,7 @@ public class ClassReport extends Printer implements Comparable {
             indent().append("<deprecated-constructors>").eol();
             raiseIndent();
 
-            Iterator i = deprecatedConstructors.iterator();
-            while (i.hasNext()) {
-                FeatureDifferences fd = (FeatureDifferences) i.next();
+            for (FeatureDifferences fd : deprecatedConstructors) {
                 indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
             }
 
@@ -237,9 +225,7 @@ public class ClassReport extends Printer implements Comparable {
             indent().append("<deprecated-methods>").eol();
             raiseIndent();
 
-            Iterator i = deprecatedMethods.iterator();
-            while (i.hasNext()) {
-                FeatureDifferences fd = (FeatureDifferences) i.next();
+            for (FeatureDifferences fd : deprecatedMethods) {
                 indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
             }
 
@@ -251,13 +237,10 @@ public class ClassReport extends Printer implements Comparable {
             indent().append("<modified-fields>").eol();
             raiseIndent();
 
-            Iterator i = modifiedFields.iterator();
-            while (i.hasNext()) {
-                FieldDifferences fd = (FieldDifferences) i.next();
-
+            for (FieldDifferences fd : modifiedFields) {
                 indent().append("<feature>").eol();
                 raiseIndent();
-        
+
                 indent().append("<name>").append(fd.getName()).append("</name>").eol();
 
                 indent().append("<modified-declaration>").eol();
@@ -288,10 +271,7 @@ public class ClassReport extends Printer implements Comparable {
             indent().append("<modified-constructors>").eol();
             raiseIndent();
 
-            Iterator i = modifiedConstructors.iterator();
-            while (i.hasNext()) {
-                CodeDifferences cd = (CodeDifferences) i.next();
-
+            for (CodeDifferences cd : modifiedConstructors) {
                 indent().append("<feature>").eol();
                 raiseIndent();
 
@@ -322,13 +302,10 @@ public class ClassReport extends Printer implements Comparable {
             indent().append("<modified-methods>").eol();
             raiseIndent();
 
-            Iterator i = modifiedMethods.iterator();
-            while (i.hasNext()) {
-                CodeDifferences md = (CodeDifferences) i.next();
-
+            for (CodeDifferences md : modifiedMethods) {
                 indent().append("<feature>").eol();
                 raiseIndent();
-        
+
                 indent().append("<name>").append(md.getName()).append("</name>").eol();
 
                 if (!md.getOldDeclaration().equals(md.getNewDeclaration())) {
@@ -356,9 +333,7 @@ public class ClassReport extends Printer implements Comparable {
             indent().append("<undeprecated-fields>").eol();
             raiseIndent();
 
-            Iterator i = undeprecatedFields.iterator();
-            while (i.hasNext()) {
-                FeatureDifferences fd = (FeatureDifferences) i.next();
+            for (FeatureDifferences fd : undeprecatedFields) {
                 indent().append("<declaration").append(breakdownDeclaration((Field_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
             }
 
@@ -370,9 +345,7 @@ public class ClassReport extends Printer implements Comparable {
             indent().append("<undeprecated-constructors>").eol();
             raiseIndent();
 
-            Iterator i = undeprecatedConstructors.iterator();
-            while (i.hasNext()) {
-                FeatureDifferences fd = (FeatureDifferences) i.next();
+            for (FeatureDifferences fd : undeprecatedConstructors) {
                 indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
             }
 
@@ -384,9 +357,7 @@ public class ClassReport extends Printer implements Comparable {
             indent().append("<undeprecated-methods>").eol();
             raiseIndent();
 
-            Iterator i = undeprecatedMethods.iterator();
-            while (i.hasNext()) {
-                FeatureDifferences fd = (FeatureDifferences) i.next();
+            for (FeatureDifferences fd : undeprecatedMethods) {
                 indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
             }
 
@@ -398,9 +369,7 @@ public class ClassReport extends Printer implements Comparable {
             indent().append("<new-fields>").eol();
             raiseIndent();
 
-            Iterator i = newFields.iterator();
-            while (i.hasNext()) {
-                FeatureDifferences fd = (FeatureDifferences) i.next();
+            for (FeatureDifferences fd : newFields) {
                 indent().append("<declaration").append(breakdownDeclaration((Field_info) fd.getNewFeature())).append(">").append(fd.getNewDeclaration()).append("</declaration>").eol();
             }
 
@@ -412,9 +381,7 @@ public class ClassReport extends Printer implements Comparable {
             indent().append("<new-constructors>").eol();
             raiseIndent();
 
-            Iterator i = newConstructors.iterator();
-            while (i.hasNext()) {
-                FeatureDifferences fd = (FeatureDifferences) i.next();
+            for (FeatureDifferences fd : newConstructors) {
                 indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getNewDeclaration()).append("</declaration>").eol();
             }
 
@@ -426,9 +393,7 @@ public class ClassReport extends Printer implements Comparable {
             indent().append("<new-methods>").eol();
             raiseIndent();
 
-            Iterator i = newMethods.iterator();
-            while (i.hasNext()) {
-                FeatureDifferences fd = (FeatureDifferences) i.next();
+            for (FeatureDifferences fd : newMethods) {
                 indent().append("<declaration").append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(">").append(fd.getNewDeclaration()).append("</declaration>").eol();
             }
 
@@ -442,7 +407,7 @@ public class ClassReport extends Printer implements Comparable {
         return super.toString();
     }
 
-    private static final String breakdownDeclaration(Classfile element) {
+    private String breakdownDeclaration(Classfile element) {
         StringBuffer result = new StringBuffer();
 
         if (element != null) {
@@ -487,7 +452,7 @@ public class ClassReport extends Printer implements Comparable {
         return result.toString();
     }
 
-    private static final String breakdownDeclaration(Field_info element) {
+    private String breakdownDeclaration(Field_info element) {
         StringBuffer result = new StringBuffer();
 
         if (element != null) {
@@ -515,7 +480,7 @@ public class ClassReport extends Printer implements Comparable {
         return result.toString();
     }
 
-    private static String breakdownDeclaration(Method_info element) {
+    private String breakdownDeclaration(Method_info element) {
         StringBuffer result = new StringBuffer();
 
         if (element != null) {

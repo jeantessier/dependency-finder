@@ -44,24 +44,24 @@ public class Report extends Printer {
     private String oldVersion;
     private String newVersion;
 
-    private Collection removedPackages        = new TreeSet();
+    private Collection<Differences> removedPackages = new TreeSet<Differences>();
 
-    private Collection removedInterfaces      = new TreeSet();
-    private Collection removedClasses         = new TreeSet();
+    private Collection<ClassDifferences> removedInterfaces = new TreeSet<ClassDifferences>();
+    private Collection<ClassDifferences> removedClasses = new TreeSet<ClassDifferences>();
 
-    private Collection deprecatedInterfaces   = new TreeSet();
-    private Collection deprecatedClasses      = new TreeSet();
+    private Collection<ClassDifferences> deprecatedInterfaces = new TreeSet<ClassDifferences>();
+    private Collection<ClassDifferences> deprecatedClasses = new TreeSet<ClassDifferences>();
     
-    private Collection modifiedInterfaces     = new TreeSet();
-    private Collection modifiedClasses        = new TreeSet();
+    private Collection<ClassReport> modifiedInterfaces = new TreeSet<ClassReport>();
+    private Collection<ClassReport> modifiedClasses = new TreeSet<ClassReport>();
 
-    private Collection undeprecatedInterfaces = new TreeSet();
-    private Collection undeprecatedClasses    = new TreeSet();
+    private Collection<ClassDifferences> undeprecatedInterfaces = new TreeSet<ClassDifferences>();
+    private Collection<ClassDifferences> undeprecatedClasses = new TreeSet<ClassDifferences>();
     
-    private Collection newPackages            = new TreeSet();
+    private Collection<Differences> newPackages = new TreeSet<Differences>();
 
-    private Collection newInterfaces          = new TreeSet();
-    private Collection newClasses             = new TreeSet();
+    private Collection<ClassDifferences> newInterfaces = new TreeSet<ClassDifferences>();
+    private Collection<ClassDifferences> newClasses = new TreeSet<ClassDifferences>();
 
     public Report() {
         this(DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);
@@ -69,6 +69,18 @@ public class Report extends Printer {
     
     public Report(String encoding, String dtdPrefix) {
         appendHeader(encoding, dtdPrefix);
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setOldVersion(String oldVersion) {
+        this.oldVersion = oldVersion;
+    }
+
+    public void setNewVersion(String newVersion) {
+        this.newVersion = newVersion;
     }
 
     private void appendHeader(String encoding, String dtdPrefix) {
@@ -79,13 +91,12 @@ public class Report extends Printer {
     }
 
     public void visitProjectDifferences(ProjectDifferences differences) {
-        name       = differences.getName();
-        oldVersion = differences.getOldVersion();
-        newVersion = differences.getNewVersion();
+        setName(differences.getName());
+        setOldVersion(differences.getOldVersion());
+        setNewVersion(differences.getNewVersion());
 
-        Iterator i = differences.getPackageDifferences().iterator();
-        while (i.hasNext()) {
-            ((Differences) i.next()).accept(this);
+        for (Differences packageDifference : differences.getPackageDifferences()) {
+            packageDifference.accept(this);
         }
     }
 
@@ -94,9 +105,8 @@ public class Report extends Printer {
             removedPackages.add(differences);
         }
     
-        Iterator i = differences.getClassDifferences().iterator();
-        while (i.hasNext()) {
-            ((Differences) i.next()).accept(this);
+        for (Differences classDiffenrence : differences.getClassDifferences()) {
+            classDiffenrence.accept(this);
         }
 
         if (differences.isNew()) {
@@ -135,10 +145,10 @@ public class Report extends Printer {
         }
     
         if (differences.isModified()) {
-            ClassReport visitor = new ClassReport();
-            visitor.setIndentText(getIndentText());
-            differences.accept(visitor);
-            modifiedInterfaces.add(visitor);
+            ClassReport classReport = new ClassReport();
+            classReport.setIndentText(getIndentText());
+            differences.accept(classReport);
+            modifiedInterfaces.add(classReport);
         }
     
         if (differences.isNew()) {
@@ -166,9 +176,8 @@ public class Report extends Printer {
             indent().append("<removed-packages>").eol();
             raiseIndent();
 
-            Iterator i = removedPackages.iterator();
-            while (i.hasNext()) {
-                indent().append("<name>").append(i.next()).append("</name>").eol();
+            for (Differences removedPackage : removedPackages) {
+                indent().append("<name>").append(removedPackage).append("</name>").eol();
             }
 
             lowerIndent();
@@ -179,9 +188,7 @@ public class Report extends Printer {
             indent().append("<removed-interfaces>").eol();
             raiseIndent();
 
-            Iterator i = removedInterfaces.iterator();
-            while (i.hasNext()) {
-                ClassDifferences cd = (ClassDifferences) i.next();
+            for (ClassDifferences cd : removedInterfaces) {
                 indent().append("<name").append(breakdownDeclaration(cd.getOldClass())).append(">").append(cd).append("</name>").eol();
             }
 
@@ -193,9 +200,7 @@ public class Report extends Printer {
             indent().append("<removed-classes>").eol();
             raiseIndent();
 
-            Iterator i = removedClasses.iterator();
-            while (i.hasNext()) {
-                ClassDifferences cd = (ClassDifferences) i.next();
+            for (ClassDifferences cd : removedClasses) {
                 indent().append("<name").append(breakdownDeclaration(cd.getOldClass())).append(">").append(cd).append("</name>").eol();
             }
 
@@ -207,9 +212,7 @@ public class Report extends Printer {
             indent().append("<deprecated-interfaces>").eol();
             raiseIndent();
 
-            Iterator i = deprecatedInterfaces.iterator();
-            while (i.hasNext()) {
-                ClassDifferences cd = (ClassDifferences) i.next();
+            for (ClassDifferences cd : deprecatedInterfaces) {
                 indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
             }
 
@@ -221,9 +224,7 @@ public class Report extends Printer {
             indent().append("<deprecated-classes>").eol();
             raiseIndent();
 
-            Iterator i = deprecatedClasses.iterator();
-            while (i.hasNext()) {
-                ClassDifferences cd = (ClassDifferences) i.next();
+            for (ClassDifferences cd : deprecatedClasses) {
                 indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
             }
 
@@ -235,9 +236,8 @@ public class Report extends Printer {
             indent().append("<modified-interfaces>").eol();
             raiseIndent();
 
-            Iterator i = modifiedInterfaces.iterator();
-            while (i.hasNext()) {
-                append(i.next());
+            for (ClassReport modifiedInterface : modifiedInterfaces) {
+                append(modifiedInterface);
             }
 
             lowerIndent();
@@ -248,9 +248,8 @@ public class Report extends Printer {
             indent().append("<modified-classes>").eol();
             raiseIndent();
 
-            Iterator i = modifiedClasses.iterator();
-            while (i.hasNext()) {
-                append(i.next());
+            for (ClassReport modifiedClass : modifiedClasses) {
+                append(modifiedClass);
             }
 
             lowerIndent();
@@ -261,9 +260,7 @@ public class Report extends Printer {
             indent().append("<undeprecated-interfaces>").eol();
             raiseIndent();
 
-            Iterator i = undeprecatedInterfaces.iterator();
-            while (i.hasNext()) {
-                ClassDifferences cd = (ClassDifferences) i.next();
+            for (ClassDifferences cd : undeprecatedInterfaces) {
                 indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
             }
 
@@ -275,9 +272,7 @@ public class Report extends Printer {
             indent().append("<undeprecated-classes>").eol();
             raiseIndent();
 
-            Iterator i = undeprecatedClasses.iterator();
-            while (i.hasNext()) {
-                ClassDifferences cd = (ClassDifferences) i.next();
+            for (ClassDifferences cd : undeprecatedClasses) {
                 indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
             }
 
@@ -289,9 +284,8 @@ public class Report extends Printer {
             indent().append("<new-packages>").eol();
             raiseIndent();
 
-            Iterator i = newPackages.iterator();
-            while (i.hasNext()) {
-                indent().append("<name>").append(i.next()).append("</name>").eol();
+            for (Differences newPackage : newPackages) {
+                indent().append("<name>").append(newPackage).append("</name>").eol();
             }
 
             lowerIndent();
@@ -302,9 +296,7 @@ public class Report extends Printer {
             indent().append("<new-interfaces>").eol();
             raiseIndent();
 
-            Iterator i = newInterfaces.iterator();
-            while (i.hasNext()) {
-                ClassDifferences cd = (ClassDifferences) i.next();
+            for (ClassDifferences cd : newInterfaces) {
                 indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
             }
 
@@ -316,9 +308,7 @@ public class Report extends Printer {
             indent().append("<new-classes>").eol();
             raiseIndent();
 
-            Iterator i = newClasses.iterator();
-            while (i.hasNext()) {
-                ClassDifferences cd = (ClassDifferences) i.next();
+            for (ClassDifferences cd : newClasses) {
                 indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
             }
 
@@ -332,7 +322,7 @@ public class Report extends Printer {
         return super.toString();
     }
 
-    private static final String breakdownDeclaration(Classfile element) {
+    private String breakdownDeclaration(Classfile element) {
         StringBuffer result = new StringBuffer();
 
         if (element != null) {

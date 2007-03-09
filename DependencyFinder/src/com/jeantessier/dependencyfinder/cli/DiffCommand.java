@@ -29,7 +29,9 @@ public abstract class DiffCommand extends Command {
 
         getCommandLine().addSingleValueSwitch("name");
         getCommandLine().addMultipleValuesSwitch("old", true);
+        getCommandLine().addSingleValueSwitch("old-label");
         getCommandLine().addMultipleValuesSwitch("new", true);
+        getCommandLine().addSingleValueSwitch("new-label");
         getCommandLine().addSingleValueSwitch("filter");
         getCommandLine().addToggleSwitch("code");
         getCommandLine().addSingleValueSwitch("level", DEFAULT_LEVEL);

@@ -42,7 +42,7 @@ public class ProjectDifferences implements Differences {
     private String oldVersion;
     private String newVersion;
 
-    private Collection packageDifferences = new LinkedList();
+    private Collection<Differences> packageDifferences = new LinkedList<Differences>();
 
     /**
      *  Only the DifferencesFactory can create instances of this class.
@@ -65,7 +65,7 @@ public class ProjectDifferences implements Differences {
         return newVersion;
     }
 
-    public Collection getPackageDifferences() {
+    public Collection<Differences> getPackageDifferences() {
         return packageDifferences;
     }
 

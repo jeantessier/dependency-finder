@@ -20,6 +20,7 @@ For Dependency Finder version <VERSION />.
 <li><a href="#DependencyExtractor">DependencyExtractor</a></li>
 <li><a href="#DependencyReporter">DependencyReporter</a></li>
 <li><a href="#DependencyGraphToHTML">DependencyGraphToHTML</a></li>
+<li><a href="#DependencyGraphToRDF">DependencyGraphToRDF</a></li>
 <li><a href="#DependencyGraphToText">DependencyGraphToText</a></li>
 <li><a href="#DependablesToHTML">DependablesToHTML</a></li>
 <li><a href="#DependablesToText">DependablesToText</a></li>
@@ -56,6 +57,7 @@ For Dependency Finder version <VERSION />.
 <b>API Differences</b>
 <ul>
 <li><a href="#JarJarDiff">JarJarDiff</a></li>
+<li><a href="#ClassClassDiff">ClassClassDiff</a></li>
 <li><a href="#DiffToHTML">DiffToHTML</a></li>
 <p></p>
 <li><a href="#ListDocumentedElements">ListDocumentedElements</a></li>
@@ -84,7 +86,7 @@ For Dependency Finder version <VERSION />.
 
 <blockquote>
 
-Computes API differences between two versions of a codebase.
+Computes API differences between two classes.
 
 </blockquote>
 
@@ -101,7 +103,9 @@ Computes API differences between two versions of a codebase.
         [-level value]
         [-name value]
         [-new filename]+
+        [-new-label value]
         [-old filename]+
+        [-old-label value]
         [-out filename]
         [-time]
         [-verbose [filename]]
@@ -111,12 +115,18 @@ Computes API differences between two versions of a codebase.
 
 <blockquote>
 
-Takes two JAR files and computes the API changes between them.  The first JAR
-file is considered the "old" code and the second JAR file is considered the
-"new" code.  The result is an XML document listing the changes.  You can
-use [[#DiffToHTML][DiffToHTML]] to render the report in HTML.  The second one
-is more restrictive as to what gets included in the report, so you can limit
-the report to "public" changes.
+Takes two classes and computes the API changes between them.  The first class
+is considered the "old" code and the second class is considered the "new" code.
+The result is an XML document listing the changes.  You can use
+[[#DiffToHTML][DiffToHTML]] to render the report in HTML.
+
+Sometimes, as you are doing refactoring, you might wonder what the impact will
+be on some class.  You can save it under a different name, make the changes,
+compile both the original and new versions together, and use this tool to
+compare them.
+
+You can use =-level incompatible= to have an analysis that list only "public"
+changes that might not be backwards compatible.
 
 </blockquote>
 
@@ -292,6 +302,20 @@ and read those.  They make up the _new_ version of the codebase.
 
 </blockquote>
 
+---++++ =-new-label value=
+
+<blockquote>
+
+Version name for the report.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 ---++++ =-old filename=
 
 <blockquote>
@@ -304,6 +328,20 @@ and read those.  They make up the _old_ version of the codebase.
 <tr><td>Mandatory:</td><td>yes</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
 <tr><td>Default value:</td><td>=true=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-old-label value=
+
+<blockquote>
+
+Version name for the report.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>
@@ -390,21 +428,11 @@ It writes all differences into an XML document that follows the
 <blockquote>
 
 This will compare =OldClass.class= to =NewClass.class= and write the report
-to =result.xml=.  The title will say "null to null".
+to =result.xml=.  The title will say "Version OldClass to Version NewClass".
 
 <div class="highlight">
 
     ClassClassDiff -old OldClass.class -new NewClass.class -out report.xml
-    DiffToHTML -in report.xml -out report.html
-
-</div>
-
-Because DOS only allows 9 parameters to =.bat= files, we cannot use =-out= in
-the following and we must use output redirection (the ">") instead.
-
-<div class="highlight">
-
-    ClassClassDiff -code -dtd-prefix . -indent-text xx -old OldClass.class -new NewClass.class > report.xml
     DiffToHTML -in report.xml -out report.html
 
 </div>
@@ -7708,10 +7736,11 @@ Computes API differences between two versions of a codebase.
 
 Takes two JAR files and computes the API changes between them.  The first JAR
 file is considered the "old" code and the second JAR file is considered the
-"new" code.  The result is an XML document listing the changes.  You can
-use [[#DiffToHTML][DiffToHTML]] to render the report in HTML.  The second one
-is more restrictive as to what gets included in the report, so you can limit
-the report to "public" changes.
+"new" code.  The result is an XML document listing the changes.  You can use
+[[#DiffToHTML][DiffToHTML]] to render the report in HTML.
+
+You can use =-level incompatible= to have an analysis that list only "public"
+changes that might not be backwards compatible.
 
 </blockquote>
 
@@ -8012,25 +8041,13 @@ It writes all differences into an XML document that follows the
 
 <blockquote>
 
-This will compare =old.jar= to =new.jar= and write the report
-to =result.xml=.  The title will say "Version old.jar to Version
-new.jar".  You can adjust the title by supplying =-old-label= and
-=-new-label= to JarJarDiff.
+This will compare =old.jar= to =new.jar= and write the report to =result.xml=.
+The title will say "Version old.jar to Version new.jar".  You can adjust the
+title by supplying =-old-label= and =-new-label= to JarJarDiff.
 
 <div class="highlight">
 
     JarJarDiff -old old.jar -new new.jar -out report.xml
-    DiffToHTML -in report.xml -out report.html
-
-</div>
-
-Because DOS only allows 9 parameters to =.bat= files, we
-cannot use =-out= in the following and we must use output
-redirection (the ">") instead.
-
-<div class="highlight">
-
-    JarJarDiff -old old.jar -old-label 3.0.2 -new new.jar -new-label 3.5 > report.xml
     DiffToHTML -in report.xml -out report.html
 
 </div>

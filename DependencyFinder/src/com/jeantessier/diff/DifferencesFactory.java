@@ -62,27 +62,24 @@ public class DifferencesFactory {
 
         Logger.getLogger(getClass()).debug("      Collecting packages ...");
 
-        Collection packageNames = new TreeSet();
+        Collection<String> packageNames = new TreeSet<String>();
         packageNames.addAll(oldPackages.getPackageNames());
         packageNames.addAll(newPackages.getPackageNames());
 
         Logger.getLogger(getClass()).debug("      Diff'ing packages ...");
 
-        Iterator i = packageNames.iterator();
-        while (i.hasNext()) {
-            String packageName = (String) i.next();
-
-            Map oldPackage = oldPackages.getPackage(packageName);
+        for (String packageName : packageNames) {
+            Map<String, Classfile> oldPackage = oldPackages.getPackage(packageName);
             if (oldPackage == null) {
                 oldPackage = Collections.EMPTY_MAP;
             }
 
-            Map newPackage = newPackages.getPackage(packageName);
+            Map<String, Classfile> newPackage = newPackages.getPackage(packageName);
             if (newPackage == null) {
                 newPackage = Collections.EMPTY_MAP;
             }
 
-            if (strategy.isPackageDifferent(oldPackage,  newPackage)) {
+            if (strategy.isPackageDifferent(oldPackage, newPackage)) {
                 projectDifferences.getPackageDifferences().add(createPackageDifferences(packageName, oldPackage, newPackage));
             }
         }
@@ -92,7 +89,7 @@ public class DifferencesFactory {
         return projectDifferences;
     }
 
-    public Differences createPackageDifferences(String name, Map oldPackage, Map newPackage) {
+    public Differences createPackageDifferences(String name, Map<String, Classfile> oldPackage, Map<String, Classfile> newPackage) {
         Logger.getLogger(getClass()).debug("Begin " + name);
 
         PackageDifferences packageDifferences = new PackageDifferences(name, oldPackage, newPackage);
@@ -100,16 +97,13 @@ public class DifferencesFactory {
         if (oldPackage != null && !oldPackage.isEmpty() && newPackage != null && !newPackage.isEmpty()) {
             Logger.getLogger(getClass()).debug("      Diff'ing classes ...");
 
-            Collection classNames = new TreeSet();
+            Collection<String> classNames = new TreeSet<String>();
             classNames.addAll(oldPackage.keySet());
             classNames.addAll(newPackage.keySet());
 
-            Iterator i = classNames.iterator();
-            while (i.hasNext()) {
-                String className = (String) i.next();
-
-                Classfile oldClass = (Classfile) oldPackage.get(className);
-                Classfile newClass = (Classfile) newPackage.get(className);
+            for (String className : classNames) {
+                Classfile oldClass = oldPackage.get(className);
+                Classfile newClass = newPackage.get(className);
 
                 if (strategy.isClassDifferent(oldClass, newClass)) {
                     packageDifferences.getClassDifferences().add(createClassDifferences(className, oldClass, newClass));
@@ -146,27 +140,20 @@ public class DifferencesFactory {
         if (oldClass != null && newClass != null) {
             Logger.getLogger(getClass()).debug("      Collecting fields ...");
 
-            Map fieldLevel = new TreeMap();
-            Iterator i;
+            Map<String, String> fieldLevel = new TreeMap<String, String>();
 
-            i = oldClass.getAllFields().iterator();
-            while (i.hasNext()) {
-                Field_info field = (Field_info) i.next();
+            for (Field_info field : oldClass.getAllFields()) {
                 fieldLevel.put(field.getName(), field.getFullSignature());
             }
 
-            i = newClass.getAllFields().iterator();
-            while (i.hasNext()) {
-                Field_info field = (Field_info) i.next();
+            for (Field_info field : newClass.getAllFields()) {
                 fieldLevel.put(field.getName(), field.getFullSignature());
             }
 
             Logger.getLogger(getClass()).debug("      Diff'ing fields ...");
 
-            i = fieldLevel.keySet().iterator();
-            while (i.hasNext()) {
-                String fieldName     = (String) i.next();
-                String fieldFullName = (String) fieldLevel.get(fieldName);
+            for (String fieldName : fieldLevel.keySet()) {
+                String fieldFullName = fieldLevel.get(fieldName);
 
                 Field_info oldField = oldClass.getField(fieldName);
                 Field_info newField = newClass.getField(fieldName);
@@ -178,26 +165,20 @@ public class DifferencesFactory {
 
             Logger.getLogger(getClass()).debug("      Collecting methods ...");
 
-            Map methodLevel = new TreeMap();
+            Map<String, String> methodLevel = new TreeMap<String, String>();
 
-            i = oldClass.getAllMethods().iterator();
-            while (i.hasNext()) {
-                Method_info method = (Method_info) i.next();
+            for (Method_info method : oldClass.getAllMethods()) {
                 methodLevel.put(method.getSignature(), method.getFullSignature());
             }
 
-            i = newClass.getAllMethods().iterator();
-            while (i.hasNext()) {
-                Method_info method = (Method_info) i.next();
+            for (Method_info method : newClass.getAllMethods()) {
                 methodLevel.put(method.getSignature(), method.getFullSignature());
             }
 
             Logger.getLogger(getClass()).debug("      Diff'ing methods ...");
 
-            i = methodLevel.keySet().iterator();
-            while (i.hasNext()) {
-                String methodName     = (String) i.next();
-                String methodFullName = (String) methodLevel.get(methodName);
+            for (String methodName : methodLevel.keySet()) {
+                String methodFullName = methodLevel.get(methodName);
 
                 Method_info oldMethod = oldClass.getMethod(methodName);
                 Method_info newMethod = newClass.getMethod(methodName);
@@ -206,7 +187,7 @@ public class DifferencesFactory {
                     classDifferences.getFeatureDifferences().add(createFeatureDifferences(methodFullName, oldMethod, newMethod));
                 }
             }
-            
+
             Logger.getLogger(getClass()).debug(name + " has " + classDifferences.getFeatureDifferences().size() + " feature(s) that changed.");
 
             if (oldClass.isDeprecated() != newClass.isDeprecated()) {

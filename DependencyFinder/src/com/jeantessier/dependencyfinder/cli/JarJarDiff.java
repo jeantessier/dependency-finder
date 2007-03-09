@@ -42,13 +42,6 @@ public class JarJarDiff extends DiffCommand {
         super("JarJarDiff");
     }
 
-    protected void populateCommandLineSwitches() {
-        super.populateCommandLineSwitches();
-
-        getCommandLine().addSingleValueSwitch("old-label");
-        getCommandLine().addSingleValueSwitch("new-label");
-    }
-
     protected void doProcessing() throws Exception {
         // Collecting data, first classfiles from JARs,
         // then package/class trees using NodeFactory.

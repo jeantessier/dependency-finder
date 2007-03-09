@@ -35,30 +35,30 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public class PackageMapper implements LoadListener {
-    private Map map = new HashMap();
+    private Map<String, Map<String, Classfile>> map = new HashMap<String, Map<String, Classfile>>();
 
-    public Collection getPackageNames() {
+    public Collection<String> getPackageNames() {
         return map.keySet();
     }
 
-    public Map getPackage(String packageName) {
-        return (Map) map.get(packageName);
+    public Map<String, Classfile> getPackage(String packageName) {
+        return map.get(packageName);
     }
 
     public void beginSession(LoadEvent event) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        // Do noting
     }
 
     public void beginGroup(LoadEvent event) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        // Do noting
     }
 
     public void beginFile(LoadEvent event) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        // Do noting
     }
 
     public void beginClassfile(LoadEvent event) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        // Do noting
     }
 
     public void endClassfile(LoadEvent event) {
@@ -70,9 +70,9 @@ public class PackageMapper implements LoadListener {
             packageName = classfile.getClassName().substring(0, pos);
         }
 
-        Map map = (Map) this.map.get(packageName);
+        Map<String, Classfile> map = this.map.get(packageName);
         if (map == null) {
-            map = new HashMap();
+            map = new HashMap<String, Classfile>();
             this.map.put(packageName, map);
         }
 
@@ -80,14 +80,14 @@ public class PackageMapper implements LoadListener {
     }
 
     public void endFile(LoadEvent event) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        // Do noting
     }
 
     public void endGroup(LoadEvent event) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        // Do noting
     }
 
     public void endSession(LoadEvent event) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        // Do noting
     }
 }
