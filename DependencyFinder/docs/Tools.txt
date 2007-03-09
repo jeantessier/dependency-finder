@@ -80,6 +80,347 @@ For Dependency Finder version <VERSION />.
 
 ----
 
+---++ ClassClassDiff
+
+<blockquote>
+
+Computes API differences between two versions of a codebase.
+
+</blockquote>
+
+---+++ Synopsis
+
+    ClassClassDiff
+        [-code]
+        [-dtd-prefix uri]
+        [-echo]
+        [-encoding name]
+        [-filter filename]
+        [-help]
+        [-indent-text text]
+        [-level value]
+        [-name value]
+        [-new filename]+
+        [-old filename]+
+        [-out filename]
+        [-time]
+        [-verbose [filename]]
+        [-version]
+
+---+++ Description
+
+<blockquote>
+
+Takes two JAR files and computes the API changes between them.  The first JAR
+file is considered the "old" code and the second JAR file is considered the
+"new" code.  The result is an XML document listing the changes.  You can
+use [[#DiffToHTML][DiffToHTML]] to render the report in HTML.  The second one
+is more restrictive as to what gets included in the report, so you can limit
+the report to "public" changes.
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-code=
+
+<blockquote>
+
+Show differences that only appear in code but did not impact the API, such as
+bytecode changes or different constant values.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-dtd-prefix uri=
+
+<blockquote>
+
+The prefix of the DTD URL for the XML output document.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=http://depfind.sourceforge.net/dtd=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-echo=
+
+<blockquote>
+
+Prints the command-line, as seen by the tool.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-encoding name=
+
+<blockquote>
+
+The encoding used for the XML output document.  Only useful with =-xml=.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=utf-8=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-filter filename=
+
+<blockquote>
+
+Location of the file with the list of programming elements that the tool should
+limit itself to.  If omitted, the tool reports on all programming elements.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+Prints synopsis.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-indent-text text=
+
+<blockquote>
+
+Uses _text_ for each indentation level in XML output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>Four spaces, "=&nbsp;&nbsp;&nbsp;&nbsp;="</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-level value=
+
+<blockquote>
+
+Tells =JarJarDiff= which strategy to use to determine differences.
+
+There are two special values for the predefined values for the strategies that
+come with Dependency Finder:
+
+<blockquote>
+<dl>
+    <dt>=api=</dt>
+    <dd>Shows all API differences.  Same as
+    =com.jeantessier.diff.APIDifferenceStrategy=.</dd>
+    <dt>=code=</dt>
+    <dd>Shows all API differences and includes whether the bytecode for the
+    method has changed or not.  This level will report a method where the
+    declaration was not changed but the bytecode is different.  Same as
+    =com.jeantessier.diff.CodeDifferenceStrategy=.</dd>
+    <dt>=incompatible=</dt>
+    <dd>Shows only differences that would be incompatible with the old version.
+    Same as =com.jeantessier.diff.IncompatibleDifferenceStrategy=.</dd>
+</dl>
+</blockquote>
+
+If _value_ is not one of the special values above, it is treated as the name of
+a class.  =JarJarDiff= will try to instantiate this class using a default
+constructor and cast it to =DifferenceStrategy=.  If this fails anywhere along
+the way, it will fall back on the default value listed below.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=api=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-name value=
+
+<blockquote>
+
+Project name for the report.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-new filename=
+
+<blockquote>
+
+File names for JAR files, Zip files, and =.class= files for the tool to read.
+You can also give directory names, the tool will search them for =.class= files
+and read those.  They make up the _new_ version of the codebase.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-old filename=
+
+<blockquote>
+
+File names for JAR files, Zip files, and =.class= files for the tool to read.
+You can also give directory names, the tool will search them for =.class= files
+and read those.  They make up the _old_ version of the codebase.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=true=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out filename=
+
+<blockquote>
+
+Writes the output to _filename_.  If _filename_ does not exists,
+it is created.  If it already exists, its content is overwritten.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-time=
+
+<blockquote>
+
+Prints how long it took to run the command.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [filename]=
+
+<blockquote>
+
+Writes summary processing information to _filename_.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-version=
+
+<blockquote>
+
+Prints version information.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Parameters
+
+<blockquote>
+
+_none_
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+It writes all differences into an XML document that follows the
+=[[http://depfind.sourceforge.net/dtd/differences.dtd][differences]]= DTD.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+This will compare =OldClass.class= to =NewClass.class= and write the report
+to =result.xml=.  The title will say "null to null".
+
+<div class="highlight">
+
+    ClassClassDiff -old OldClass.class -new NewClass.class -out report.xml
+    DiffToHTML -in report.xml -out report.html
+
+</div>
+
+Because DOS only allows 9 parameters to =.bat= files, we cannot use =-out= in
+the following and we must use output redirection (the ">") instead.
+
+<div class="highlight">
+
+    ClassClassDiff -code -dtd-prefix . -indent-text xx -old OldClass.class -new NewClass.class > report.xml
+    DiffToHTML -in report.xml -out report.html
+
+</div>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.cli.ClassClassDiff=
+
+</blockquote>
+
+----
+
 ---++ ClassDump
 
 <blockquote>
@@ -3944,6 +4285,119 @@ This HTML file shows both outbound and inbound dependencies.
 <blockquote>
 
 =_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependencyGraphToHTML.xsl=
+
+</blockquote>
+
+----
+
+---++ DependencyGraphToRDF
+
+<blockquote>
+
+Translates the whole graph to RDF.
+
+</blockquote>
+
+---+++ Synopsis
+
+    DependencyGraphToRDF
+        -in input_file.xml
+        [-out output_file.html]
+
+---+++ Description
+
+<blockquote>
+
+Translates both outbound and inbound dependencies to RDF.
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-in input_file.xml=
+
+<blockquote>
+
+The XML file to be translated.  The document has to follow the
+=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+such as the output of [[#DependencyExtractor][DependencyExtractor]],
+[[#DependencyReporter][DependencyReporter]], or
+[[#DependencyClosure][DependencyClosure]].
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out output_file.html=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Parameters
+
+<blockquote>
+
+_none_
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-out= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+To convert the dependency graph in =dg.xml= to a hyperlinked
+HTML file, for ease of use:
+
+<div class="highlight">
+
+    DependencyGraphToHTML -in dg.xml -out dependencies.html
+
+</div>
+
+This HTML file shows both outbound and inbound dependencies.
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+---+++ XSL Stylesheet
+
+<blockquote>
+
+=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependencyGraphToRDF.xsl=
 
 </blockquote>
 
