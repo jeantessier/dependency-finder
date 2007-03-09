@@ -32,41 +32,21 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import java.io.*;
-import java.lang.reflect.*;
-
 import com.jeantessier.classreader.*;
 import com.jeantessier.commandline.*;
 import com.jeantessier.diff.*;
 import org.apache.log4j.*;
 
-public class JarJarDiff extends Command {
-    public static final String API_STRATEGY = "api";
-    public static final String INCOMPATIBLE_STRATEGY = "incompatible";
-    public static final String DEFAULT_LEVEL = API_STRATEGY;
-
+public class JarJarDiff extends DiffCommand {
     public JarJarDiff() throws CommandLineException {
         super("JarJarDiff");
     }
 
-    protected void showSpecificUsage(PrintStream out) {
-        out.println();
-        out.println("Defaults is text output to the console.");
-        out.println();
-    }
-
     protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
-        populateCommandLineSwitchesForXMLOutput(Report.DEFAULT_ENCODING, Report.DEFAULT_DTD_PREFIX);
 
-        getCommandLine().addSingleValueSwitch("name");
-        getCommandLine().addMultipleValuesSwitch("old", true);
         getCommandLine().addSingleValueSwitch("old-label");
-        getCommandLine().addMultipleValuesSwitch("new", true);
         getCommandLine().addSingleValueSwitch("new-label");
-        getCommandLine().addSingleValueSwitch("filter");
-        getCommandLine().addToggleSwitch("code");
-        getCommandLine().addSingleValueSwitch("level", DEFAULT_LEVEL);
     }
 
     protected void doProcessing() throws Exception {
@@ -96,7 +76,7 @@ public class JarJarDiff extends Command {
         // then descending to class level for packages
         // that are in both the old and the new codebase.
 
-        Logger.getLogger(JarJarDiff.class).info("Comparing ...");
+        Logger.getLogger(getClass()).info("Comparing ...");
         getVerboseListener().print("Comparing ...");
 
         String name = getCommandLine().getSingleSwitch("name");
@@ -106,7 +86,7 @@ public class JarJarDiff extends Command {
         DifferencesFactory factory = new DifferencesFactory(strategy);
         Differences differences = factory.createProjectDifferences(name, oldLabel, oldPackages, newLabel, newPackages);
 
-        Logger.getLogger(JarJarDiff.class).info("Printing results ...");
+        Logger.getLogger(getClass()).info("Printing results ...");
         getVerboseListener().print("Printing results ...");
 
         com.jeantessier.diff.Printer printer = new Report(getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
@@ -116,59 +96,6 @@ public class JarJarDiff extends Command {
 
         differences.accept(printer);
         out.print(printer);
-    }
-
-    private static DifferenceStrategy getStrategy(String level, DifferenceStrategy baseStrategy) {
-        DifferenceStrategy result;
-
-        if (API_STRATEGY.equals(level)) {
-            result = new APIDifferenceStrategy(baseStrategy);
-        } else if (INCOMPATIBLE_STRATEGY.equals(level)) {
-            result = new IncompatibleDifferenceStrategy(baseStrategy);
-        } else {
-            try {
-                Constructor constructor;
-                try {
-                    constructor = Class.forName(level).getConstructor(DifferenceStrategy.class);
-                    result = (DifferenceStrategy) constructor.newInstance(baseStrategy);
-                } catch (NoSuchMethodException ex) {
-                    result = (DifferenceStrategy) Class.forName(level).newInstance();
-                }
-            } catch (InvocationTargetException ex) {
-                Logger.getLogger(JarJarDiff.class).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
-                result = getDefaultStrategy(baseStrategy);
-            } catch (InstantiationException ex) {
-                Logger.getLogger(JarJarDiff.class).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
-                result = getDefaultStrategy(baseStrategy);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(JarJarDiff.class).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
-                result = getDefaultStrategy(baseStrategy);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(JarJarDiff.class).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
-                result = getDefaultStrategy(baseStrategy);
-            } catch (ClassCastException ex) {
-                Logger.getLogger(JarJarDiff.class).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
-                result = getDefaultStrategy(baseStrategy);
-            }
-        }
-
-        return result;
-    }
-
-    private static DifferenceStrategy getBaseStrategy(boolean useCode) {
-        DifferenceStrategy result;
-
-        if (useCode) {
-            result = new CodeDifferenceStrategy();
-        } else {
-            result = new NoDifferenceStrategy();
-        }
-
-        return result;
-    }
-
-    private static DifferenceStrategy getDefaultStrategy(DifferenceStrategy strategy) {
-        return new APIDifferenceStrategy(strategy);
     }
 
     public static void main(String[] args) throws Exception {
