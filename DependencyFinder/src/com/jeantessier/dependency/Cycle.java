@@ -6,12 +6,10 @@ import java.util.*;
  * TODO Class comment
  */
 public class Cycle implements Comparable {
-    private Set<Node> nodes;
     private List<Node> path;
 
     public Cycle(List<Node> path) {
-        this.nodes = new TreeSet<Node>(path);
-
+        Set<Node> nodes = new TreeSet<Node>(path);
         Node first = nodes.iterator().next();
         LinkedList<Node> rawPath = new LinkedList<Node>(path);
         while (!rawPath.getFirst().equals(first)) {
@@ -26,7 +24,7 @@ public class Cycle implements Comparable {
     }
 
     public int getLength() {
-        return path.size();
+        return getPath().size();
     }
 
     public boolean equals(Object object) {
@@ -45,7 +43,7 @@ public class Cycle implements Comparable {
     }
 
     public int hashCode() {
-        return nodes.hashCode();
+        return getPath().hashCode();
     }
 
     public int compareTo(Object object) {
@@ -69,5 +67,9 @@ public class Cycle implements Comparable {
         }
 
         return result;
+    }
+
+    public String toString() {
+        return getPath().toString();
     }
 }

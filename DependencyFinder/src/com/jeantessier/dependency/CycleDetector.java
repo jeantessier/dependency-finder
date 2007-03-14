@@ -2,6 +2,8 @@ package com.jeantessier.dependency;
 
 import java.util.*;
 
+import org.apache.log4j.*;
+
 /**
  * TODO Class comment
  */
@@ -32,13 +34,13 @@ public class CycleDetector extends VisitorBase {
     protected void preprocessPackageNode(PackageNode node) {
         super.preprocessPackageNode(node);
 
-        currentPath.addLast(node);
+        pushNodeOnCurrentPath(node);
     }
 
     protected void preprocessAfterDependenciesPackageNode(PackageNode node) {
         super.preprocessAfterDependenciesPackageNode(node);
 
-        currentPath.removeLast();
+        popNodeFromCurrentPath(node);
     }
 
     public void visitOutboundPackageNode(PackageNode node) {
@@ -46,13 +48,12 @@ public class CycleDetector extends VisitorBase {
 
         if (getStrategy().isInFilter(node)) {
             if (currentPath.getFirst().equals(node) && currentPath.size() <= getMaximumCycleLength()) {
-                Cycle cycle = new Cycle(currentPath);
-                cycles.add(cycle);
+                addCycle();
             } else if (!currentPath.contains(node)){
-                currentPath.addLast(node);
+                pushNodeOnCurrentPath(node);
                 traverseOutbound(node.getOutboundDependencies());
                 traverseOutbound(node.getClasses());
-                currentPath.removeLast();
+                popNodeFromCurrentPath(node);
             }
         }
     }
@@ -60,13 +61,13 @@ public class CycleDetector extends VisitorBase {
     protected void preprocessClassNode(ClassNode node) {
         super.preprocessClassNode(node);
 
-        currentPath.addLast(node);
+        pushNodeOnCurrentPath(node);
     }
 
     protected void preprocessAfterDependenciesClassNode(ClassNode node) {
         super.preprocessAfterDependenciesClassNode(node);
 
-        currentPath.removeLast();
+        popNodeFromCurrentPath(node);
     }
 
     public void visitOutboundClassNode(ClassNode node) {
@@ -74,13 +75,12 @@ public class CycleDetector extends VisitorBase {
 
         if (getStrategy().isInFilter(node)) {
             if (currentPath.getFirst().equals(node) && currentPath.size() <= getMaximumCycleLength()) {
-                Cycle cycle = new Cycle(currentPath);
-                cycles.add(cycle);
+                addCycle();
             } else if (!currentPath.contains(node)){
-                currentPath.addLast(node);
+                pushNodeOnCurrentPath(node);
                 traverseOutbound(node.getOutboundDependencies());
                 traverseOutbound(node.getFeatures());
-                currentPath.removeLast();
+                popNodeFromCurrentPath(node);
             }
         }
     }
@@ -88,13 +88,13 @@ public class CycleDetector extends VisitorBase {
     protected void preprocessFeatureNode(FeatureNode node) {
         super.preprocessFeatureNode(node);
 
-        currentPath.addLast(node);
+        pushNodeOnCurrentPath(node);
     }
 
     protected void postprocessFeatureNode(FeatureNode node) {
         super.postprocessFeatureNode(node);
 
-        currentPath.removeLast();
+        popNodeFromCurrentPath(node);
     }
 
     public void visitOutboundFeatureNode(FeatureNode node) {
@@ -102,13 +102,28 @@ public class CycleDetector extends VisitorBase {
 
         if (getStrategy().isInFilter(node)) {
             if (currentPath.getFirst().equals(node) && currentPath.size() <= getMaximumCycleLength()) {
-                Cycle cycle = new Cycle(currentPath);
-                cycles.add(cycle);
+                addCycle();
             } else if (!currentPath.contains(node)){
-                currentPath.addLast(node);
+                pushNodeOnCurrentPath(node);
                 traverseOutbound(node.getOutboundDependencies());
-                currentPath.removeLast();
+                popNodeFromCurrentPath(node);
             }
         }
+    }
+
+    private void addCycle() {
+        Cycle cycle = new Cycle(currentPath);
+        cycles.add(cycle);
+        Logger.getLogger(getClass()).debug("Found cycle " + cycle);
+    }
+
+    private void pushNodeOnCurrentPath(Node node) {
+        currentPath.addLast(node);
+        Logger.getLogger(getClass()).debug("Pushed " + node + " on currentPath: " + currentPath);
+    }
+
+    private void popNodeFromCurrentPath(Node node) {
+        Node popedNode = currentPath.removeLast();
+        Logger.getLogger(getClass()).debug("Popped " + node + " (" + popedNode + ") from currentPath: " + currentPath);
     }
 }
