@@ -68,14 +68,14 @@ public class NodeFactoryFixture extends DoFixture {
     }
 
     public Node findNode(String s) {
-        Node result = ((NodeFactory) systemUnderTest).getPackages().get(s);
+        Node result = ((NodeFactory) getSystemUnderTest()).getPackages().get(s);
 
         if (result == null) {
-            result = ((NodeFactory) systemUnderTest).getClasses().get(s);
+            result = ((NodeFactory) getSystemUnderTest()).getClasses().get(s);
         }
 
         if (result == null) {
-            result = ((NodeFactory) systemUnderTest).getFeatures().get(s);
+            result = ((NodeFactory) getSystemUnderTest()).getFeatures().get(s);
         }
 
         return result;

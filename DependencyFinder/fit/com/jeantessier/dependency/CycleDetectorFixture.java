@@ -61,7 +61,7 @@ public class CycleDetectorFixture extends NodeFactoryFixture {
     }
 
     private void doDetectCycles(Visitor visitor) {
-        visitor.traverseNodes(((NodeFactory) systemUnderTest).getPackages().values());
+        visitor.traverseNodes(((NodeFactory) getSystemUnderTest()).getPackages().values());
         setSystemUnderTest(visitor);
     }
 
@@ -75,7 +75,7 @@ public class CycleDetectorFixture extends NodeFactoryFixture {
         filterCriteria.setMatchingClasses(true);
         filterCriteria.setMatchingFeatures(false);
         GraphSummarizer summarizer = new GraphSummarizer(scopeCriteria, filterCriteria);
-        summarizer.traverseNodes(((NodeFactory) systemUnderTest).getPackages().values());
+        summarizer.traverseNodes(((NodeFactory) getSystemUnderTest()).getPackages().values());
         setSystemUnderTest(summarizer.getScopeFactory());
     }
 
@@ -103,7 +103,7 @@ public class CycleDetectorFixture extends NodeFactoryFixture {
     }
 
     private Cycle getCycle(int pos) {
-        CycleDetector detector = (CycleDetector) systemUnderTest;
+        CycleDetector detector = (CycleDetector) getSystemUnderTest();
         ArrayList<Cycle> cycles = new ArrayList<Cycle>(detector.getCycles());
         return cycles.get(pos);
     }

@@ -35,7 +35,7 @@ package com.jeantessier.dependency;
 public class MetricsGathererFixture extends NodeFactoryFixture {
     public void computeMetrics() {
         MetricsGatherer gatherer = new MetricsGatherer();
-        gatherer.traverseNodes(((NodeFactory) systemUnderTest).getPackages().values());
+        gatherer.traverseNodes(((NodeFactory) getSystemUnderTest()).getPackages().values());
         setSystemUnderTest(gatherer);
     }
 }
