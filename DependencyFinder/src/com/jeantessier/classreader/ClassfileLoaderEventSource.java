@@ -51,7 +51,7 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     private LinkedList<String> groupNames = new LinkedList<String>();
     private LinkedList<Integer> groupSizes = new LinkedList<Integer>();
 
-    private int previousDispatch;
+    private ClassfileLoaderDispatcher.Action previousDispatch;
     
     public ClassfileLoaderEventSource() {
         this(DEFAULT_DISPATCHER);
@@ -62,27 +62,27 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     }
     
     protected void load(String filename) {
-        int dispatch = dispatcher.dispatch(filename);
+        ClassfileLoaderDispatcher.Action dispatch = dispatcher.dispatch(filename);
 
         previousDispatch = dispatch;
         
         switch (dispatch) {
-            case ClassfileLoaderDispatcher.ACTION_IGNORE:
+            case IGNORE:
                 Logger.getLogger(getClass()).debug("IGNORE \"" + filename + "\"");
                 break;
 
-            case ClassfileLoaderDispatcher.ACTION_CLASS:
-            case ClassfileLoaderDispatcher.ACTION_DIRECTORY:
+            case CLASS:
+            case DIRECTORY:
                 Logger.getLogger(getClass()).debug("DIRECTORY or CLASS \"" + filename + "\"");
                 dirLoader.load(filename);
                 break;
 
-            case ClassfileLoaderDispatcher.ACTION_ZIP:
+            case ZIP:
                 Logger.getLogger(getClass()).debug("ZIP \"" + filename + "\"");
                 zipLoader.load(filename);
                 break;
 
-            case ClassfileLoaderDispatcher.ACTION_JAR:
+            case JAR:
                 Logger.getLogger(getClass()).debug("JAR \"" + filename + "\"");
                 jarLoader.load(filename);
                 break;
@@ -94,33 +94,33 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     }
 
     protected void load(String filename, InputStream in) {
-        int dispatch = dispatcher.dispatch(filename);
+        ClassfileLoaderDispatcher.Action dispatch = dispatcher.dispatch(filename);
 
-        if (dispatch == ClassfileLoaderDispatcher.ACTION_IGNORE && getTopGroupSize() == 1 &&  filename.equals(getTopGroupName())) {
+        if (dispatch == ClassfileLoaderDispatcher.Action.IGNORE && getTopGroupSize() == 1 &&  filename.equals(getTopGroupName())) {
             dispatch = previousDispatch;
         }
         
         switch (dispatch) {
-            case ClassfileLoaderDispatcher.ACTION_IGNORE:
+            case IGNORE:
                 Logger.getLogger(getClass()).debug("IGNORE \"" + filename + "\"");
                 break;
 
-            case ClassfileLoaderDispatcher.ACTION_DIRECTORY:
+            case DIRECTORY:
                 Logger.getLogger(getClass()).debug("DIRECTORY \"" + filename + "\"");
                 dirLoader.load(filename, in);
                 break;
 
-            case ClassfileLoaderDispatcher.ACTION_ZIP:
+            case ZIP:
                 Logger.getLogger(getClass()).debug("ZIP \"" + filename + "\"");
                 zipLoader.load(filename, in);
                 break;
 
-            case ClassfileLoaderDispatcher.ACTION_JAR:
+            case JAR:
                 Logger.getLogger(getClass()).debug("JAR \"" + filename + "\"");
                 jarLoader.load(filename, in);
                 break;
 
-            case ClassfileLoaderDispatcher.ACTION_CLASS:
+            case CLASS:
                 Logger.getLogger(getClass()).debug("CLASS \"" + filename + "\"");
                 try {
                     fireBeginClassfile(filename);

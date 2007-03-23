@@ -37,20 +37,20 @@ import java.io.*;
 import org.apache.log4j.*;
 
 public class PermissiveDispatcher implements ClassfileLoaderDispatcher {
-    public int dispatch(String filename) {
-        int result;
+    public Action dispatch(String filename) {
+        Action result;
   
         if (filename.endsWith(".zip")) {
-            result = ACTION_ZIP;
+            result = Action.ZIP;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_ZIP");
         } else if (filename.endsWith(".jar")) {
-            result = ACTION_JAR;
+            result = Action.JAR;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_JAR");
         } else if (filename.endsWith(".class")) {
-            result = ACTION_CLASS;
+            result = Action.CLASS;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_CLASS");
         } else if (new File(filename).isDirectory()) {
-            result = ACTION_DIRECTORY;
+            result = Action.DIRECTORY;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_DIRECTORY");
         } else if (filename.endsWith("/")           ||
                    filename.endsWith(".bat")        ||
@@ -70,10 +70,10 @@ public class PermissiveDispatcher implements ClassfileLoaderDispatcher {
                    filename.endsWith(".txt")        ||
                    filename.endsWith(".xml")        ||
                    filename.endsWith(".xsl")) {
-            result = ACTION_IGNORE;
+            result = Action.IGNORE;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_IGNORE");
         } else {
-            result = ACTION_ZIP;
+            result = Action.ZIP;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_ZIP");
         }
   

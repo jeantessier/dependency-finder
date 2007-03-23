@@ -33,11 +33,13 @@
 package com.jeantessier.classreader;
 
 public interface ClassfileLoaderDispatcher {
-    public static final int ACTION_IGNORE    = 1;
-    public static final int ACTION_DIRECTORY = 2;
-    public static final int ACTION_ZIP       = 3;
-    public static final int ACTION_JAR       = 4;
-    public static final int ACTION_CLASS     = 5;
+    public enum Action {
+        IGNORE,
+        DIRECTORY,
+        ZIP,
+        JAR,
+        CLASS,
+    }
 
-    public int dispatch(String filename);
+    public Action dispatch(String filename);
 }
