@@ -13,5 +13,12 @@ Upgraded the following development components:
         <td>-></td>
         <td>1.2.14</td>
     </tr>
+    <tr>
+        <td>Tomcat</td>
+        <td>:</td>
+        <td>5.5.17</td>
+        <td>-></td>
+        <td>6.0.10</td>
+    </tr>
 </table>
 </blockquote>

@@ -12,14 +12,9 @@
 
     <property file="tomcat.properties"/>
     <path id="classpath.tomcat">
-        <fileset dir="${tomcat.home}/bin">
-            <include name="**/commons-*.jar"/>
-        </fileset>
-        <fileset dir="${tomcat.home}/common/lib">
-            <include name="**/*.jar"/>
-        </fileset>
-        <fileset dir="${tomcat.home}/server/lib">
-            <include name="**/*.jar"/>
+        <fileset dir="${tomcat.home}">
+            <include name="bin/*.jar"/>
+            <include name="lib/*.jar"/>
         </fileset>
     </path>
 
@@ -35,14 +30,17 @@
     </path>
 
     <path id="classpath.servlet">
-        <pathelement location="${tomcat.home}/common/lib/servlet-api.jar"/>
-        <pathelement location="${tomcat.home}/common/lib/jsp-api.jar"/>
+        <fileset dir="${tomcat.home}">
+            <include name="**/lib/servlet-api.jar"/>
+            <include name="**/lib/jsp-api.jar"/>
+        </fileset>
     </path>
 
     <path id="classpath.webwork">
-        <pathelement location="${env.WEBWORK_HOME}/webwork-2.2.4.jar"/>
-        <fileset dir="${env.WEBWORK_HOME}/lib/default">
-            <include name="**/*.jar"/>
+        <fileset dir="${env.WEBWORK_HOME}">
+            <include name="webwork-*.jar"/>
+            <exclude name="webwork-src*.jar"/>
+            <include name="lib/default/*.jar"/>
         </fileset>
     </path>
 
@@ -51,11 +49,9 @@
     </path>
 
     <path id="classpath.httpunit">
-        <fileset dir="${env.HTTPUNIT_HOME}/jars">
-            <include name="**/*.jar"/>
-        </fileset>
-        <fileset dir="${env.HTTPUNIT_HOME}/lib">
-            <include name="**/*.jar"/>
+        <fileset dir="${env.HTTPUNIT_HOME}">
+            <include name="**/jars/*.jar"/>
+            <include name="**/lib/*.jar"/>
         </fileset>
     </path>
 

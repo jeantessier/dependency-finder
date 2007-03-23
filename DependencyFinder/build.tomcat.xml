@@ -8,14 +8,9 @@
 
     <property file="tomcat.properties"/>
     <path id="classpath.tomcat">
-        <fileset dir="${tomcat.home}/bin">
-            <include name="**/commons-*.jar"/>
-        </fileset>
-        <fileset dir="${tomcat.home}/common/lib">
-            <include name="**/*.jar"/>
-        </fileset>
-        <fileset dir="${tomcat.home}/server/lib">
-            <include name="**/*.jar"/>
+        <fileset dir="${tomcat.home}">
+            <include name="bin/*.jar"/>
+            <include name="lib/*.jar"/>
         </fileset>
     </path>
     <taskdef resource="org/apache/catalina/ant/catalina.tasks">

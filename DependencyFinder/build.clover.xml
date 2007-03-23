@@ -34,25 +34,19 @@
                 <include name="**/*.jar"/>
             </fileset>
             <pathelement location="${env.JUNIT_HOME}/junit.jar"/>
-            <fileset dir="${env.CATALINA_HOME}/bin">
-                <include name="**/commons-*.jar"/>
+            <fileset dir="${env.CATALINA_HOME}">
+                <include name="bin/*.jar"/>
+                <include name="lib/*.jar"/>
             </fileset>
-            <fileset dir="${env.CATALINA_HOME}/common/lib">
-                <include name="**/*.jar"/>
-            </fileset>
-            <fileset dir="${env.CATALINA_HOME}/server/lib">
-                <include name="**/*.jar"/>
-            </fileset>
-            <pathelement location="${env.WEBWORK_HOME}/webwork-2.2.4.jar"/>
-            <fileset dir="${env.WEBWORK_HOME}/lib/default">
-                <include name="**/*.jar"/>
+            <fileset dir="${env.WEBWORK_HOME}">
+                <include name="webwork-*.jar"/>
+                <exclude name="webwork-src*.jar"/>
+                <include name="lib/default/*.jar"/>
             </fileset>
             <pathelement location="${env.FITLIBRARY_HOME}/fitlibraryRunner.jar"/>
-            <fileset dir="${env.HTTPUNIT_HOME}/jars">
-                <include name="**/*.jar"/>
-            </fileset>
-            <fileset dir="${env.HTTPUNIT_HOME}/lib">
-                <include name="**/*.jar"/>
+            <fileset dir="${env.HTTPUNIT_HOME}">
+                <include name="**/jars/*.jar"/>
+                <include name="**/lib/*.jar"/>
             </fileset>
         </path>
 

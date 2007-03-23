@@ -20,14 +20,17 @@
     </path>
 
     <path id="classpath.servlet">
-        <pathelement location="${tomcat.home}/common/lib/servlet-api.jar"/>
-        <pathelement location="${tomcat.home}/common/lib/jsp-api.jar"/>
+        <fileset dir="${tomcat.home}">
+            <include name="**/lib/servlet-api.jar"/>
+            <include name="**/lib/jsp-api.jar"/>
+        </fileset>
     </path>
 
     <path id="classpath.webwork">
-        <pathelement location="${env.WEBWORK_HOME}/webwork-2.2.4.jar"/>
-        <fileset dir="${env.WEBWORK_HOME}/lib/default">
-            <include name="**/*.jar"/>
+        <fileset dir="${env.WEBWORK_HOME}">
+            <include name="webwork-*.jar"/>
+            <exclude name="webwork-src*.jar"/>
+            <include name="lib/default/*.jar"/>
         </fileset>
     </path>
 
