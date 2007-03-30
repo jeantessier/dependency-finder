@@ -124,8 +124,11 @@ public class Metrics {
     }
     
     /**
-     *  @param name The name of the element being measured
-     *              (e.g., class name, method name).
+     * @param parent The context for this metrics (e.g., methods's class, class'
+     *               package).  You may pass <code>null</code> to create
+     *               top-level metrics.
+     * @param name The name of the element being measured
+     *             (e.g., class name, method name).
      */
     public Metrics(Metrics parent, String name) {
         this.parent = parent;
