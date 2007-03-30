@@ -180,7 +180,7 @@ public class OOMetricsTableModel extends AbstractTableModel {
             measurementValues[i] = new Object[measurements.size() + 1];
 
             int j = 0;
-            measurementValues[i][j++] = currentMetrics;
+            measurementValues[i][j++] = currentMetrics.getName();
             for (Measurement measurement : measurements) {
                 measurementValues[i][j++] = measurement;
             }
