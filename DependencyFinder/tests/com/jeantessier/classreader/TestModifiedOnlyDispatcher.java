@@ -92,7 +92,7 @@ public class TestModifiedOnlyDispatcher extends TestCase {
         assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
 
         try {
-            Thread.sleep(50);
+            Thread.sleep(1000);
         } catch (InterruptedException ex) {
             // Ignore
         }
