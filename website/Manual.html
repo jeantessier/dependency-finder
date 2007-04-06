@@ -14,7 +14,7 @@
 <h1>The Dependency Finder User Manual</h1>
 
 <p>
-For Dependency Finder version 1.1.1.
+For Dependency Finder version 1.2.0.
 </p>
 
 <p>
@@ -112,7 +112,9 @@ by Jean Tessier
 <li><a href="#TransitiveClosure">Transitive Closure</a></li>
 <ul>
 <li><a href="#TrickyBehavior">Tricky Behavior</a></li>
+<li><a href="#NegativeClosure">Negative Closure</a></li>
 </ul>
+<li><a href="#DependencyCycles">Dependency Cycles</a></li>
 <li><a href="#DependencyMetrics">Dependency Metrics</a></li>
 </ul>
 <li><a href="#OOMetrics">OO Metrics</a></li>
@@ -148,14 +150,24 @@ by Jean Tessier
 <ul>
 <li><a href="#ExtractingWiththeCLIXX">Extracting With the CLI</a></li>
 <li><a href="#ExtractingWithAntXX">Extracting With Ant</a></li>
+<li><a href="#PrettyPrintingtheReports">Pretty Printing the Reports</a></li>
 </ul>
-<li><a href="#ReportingX">Reporting</a></li>
+<li><a href="#CustomizingtheReports">Customizing the Reports</a></li>
 <ul>
-<li><a href="#FullList">Full List</a></li>
-<li><a href="#PublicList">Public List</a></li>
-<li><a href="#Filtering">Filtering</a></li>
-<li><a href="#ListingPublishedDocumentationChanges">Listing Published Documentation Changes</a></li>
+<li><a href="#ReportingChangesintheCode">Reporting Changes in the Code</a></li>
+<li><a href="#ControlingtheLevelofReporting">Controling the Level of Reporting</a></li>
+<ul>
+<li><a href="#ShowingAllChanges">Showing All Changes</a></li>
+<li><a href="#ShowingOnlyIncompatibleChanges">Showing Only Incompatible Changes</a></li>
+<li><a href="#CustomizingtheListofChanges">Customizing the List of Changes</a></li>
 </ul>
+<li><a href="#Filtering">Filtering</a></li>
+</ul>
+</ul>
+<li><a href="#ListingthePublishedAPI">Listing the Published API</a></li>
+<ul>
+<li><a href="#Extraction">Extraction</a></li>
+<li><a href="#ListingPublishedDocumentationChanges">Listing Published Documentation Changes</a></li>
 </ul>
 <li><a href="#BringingItAllTogether">Bringing It All Together</a></li>
 <ul>
@@ -666,6 +678,28 @@ There are four context parameters that you can adjust:
     </tr>
     <tr>
         <td valign="top">
+            <b><code>filterIncludes</code></b>
+        </td>
+        <td>
+            Use this variable to tell Dependency Finder's <code>extract.jsp</code> which
+            dependencies to include in the extracted graph.  You can separate
+            multiple regular expressions by using commas.  A dependency must
+            match at least one of them for it to be included in the graph.
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <b><code>filterExcludes</code></b>
+        </td>
+        <td>
+            Use this variable to tell Dependency Finder's <code>extract.jsp</code> which
+            dependencies to exclude in the extracted graph.  You can separate
+            multiple regular expressions by using commas.  A dependency must
+            not match any one of them in order to be included in the graph.
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
             <b><code>file</code></b>
         </td>
         <td>
@@ -674,7 +708,7 @@ There are four context parameters that you can adjust:
             separate multiple locations by using commas.  Each location
             should contain an XML document, such as the ones produced by
             <code>DependencyExtractor</code>.  If you specify more than one file, their
-	    contents will be merged together.
+            contents will be merged together.
         </td>
     </tr>
     <tr>
@@ -2082,7 +2116,7 @@ And narrow down the graph to class-to-class dependencies.
 <div class="highlight">
 
 <pre>
-    C:\>c2c -show-all -scope-includes /test/ test.xml
+    C:\>c2c -scope-includes /test/ test.xml
 </pre>
 
 </div>
@@ -2108,27 +2142,23 @@ following commands are equivalent.
 <div class="highlight">
 
 <pre>
-    C:\>c2c -show-all
-            -scope-includes /test/
+    C:\>c2c -scope-includes /test/
             test.xml
 </pre>
 
 <pre>
-    C:\>c2c -show-all
-            -class-scope-includes /test/
+    C:\>c2c -class-scope-includes /test/
             test.xml
 </pre>
 
 <pre>
     C:\>DependencyReporter -c2c
-                           -show-all
                            -class-scope-includes /test/
                            test.xml
 </pre>
 
 <pre>
-    C:\>DependencyReporter -show-all
-                           -class-scope
+    C:\>DependencyReporter -class-scope
                            -class-scope-includes /test/
                            -class-filter
                            test.xml
@@ -2154,27 +2184,23 @@ these commands are equivalent.
 <div class="highlight">
 
 <pre>
-    C:\>c2p -show-all
-            -scope-includes /test/
+    C:\>c2p -scope-includes /test/
             test.xml
 </pre>
 
 <pre>
-    C:\>c2p -show-all
-            -class-scope-includes /test/
+    C:\>c2p -class-scope-includes /test/
             test.xml
 </pre>
 
 <pre>
     C:\>DependencyReporter -c2p
-                           -show-all
                            -scope-includes /test/
                            test.xml
 </pre>
 
 <pre>
-    C:\>DependencyReporter -show-all
-                           -class-scope
+    C:\>DependencyReporter -class-scope
                            -class-scope-includes /test/
                            -package-filter
                            test.xml
@@ -2206,16 +2232,13 @@ equivalent.
 <div class="highlight">
 
 <pre>
-    C:\>p2p -show-all
-            test.xml
+    C:\>p2p test.xml
 </pre>
 
 <pre>
     C:\>DependencyReporter -p2p
-                           -show-all
                            test.xml
-    C:\>DependencyReporter -show-all
-                           -package-scope
+    C:\>DependencyReporter -package-scope
                            -package-filter
                            test.xml
 </pre>
@@ -2775,20 +2798,13 @@ effect through command-line switches.
 <div class="highlight">
 
 <pre>
-    C:\>DependencyReporter -show-all
-                           -package-scope
+    C:\>DependencyReporter -package-scope
                            -class-scope
                            -feature-scope
 </pre>
 
 <pre>
-    C:\>DependencyReporter -show-all
-                           -all
-</pre>
-
-<pre>
-    C:\>DependencyReporter -show-all
-                           -f2f
+    C:\>DependencyReporter -f2f
 </pre>
 
 </div>
@@ -2814,8 +2830,7 @@ switches.
 <div class="highlight">
 
 <pre>
-    C:\>DependencyReporter -show-all
-                           -scope-includes //
+    C:\>DependencyReporter -scope-includes //
                            -scope-excludes /Test/
 </pre>
 
@@ -3097,27 +3112,21 @@ used in scoping feature nodes, if you use it along with <code>-feature-scope</co
 <div class="highlight">
 
 <pre>
-    C:\>DependencyReporter -show-all
-                           -package-scope
+    C:\>DependencyReporter -package-scope
                            -class-scope
                            -feature-scope
 </pre>
 
 <pre>
-    C:\>DependencyReporter -show-all -all
+    C:\>DependencyReporter -f2f
 </pre>
 
 <pre>
-    C:\>DependencyReporter -show-all -f2f
+    C:\>DependencyReporter -scope-includes //
 </pre>
 
 <pre>
-    C:\>DependencyReporter -show-all -scope-includes //
-</pre>
-
-<pre>
-    C:\>DependencyReporter -show-all
-                           -scope-includes //
+    C:\>DependencyReporter -scope-includes //
                            -scope-excludes /Test/
                            -feature-scope-includes /someMethod/
                            -feature-scope-includes /anotherMethod/
@@ -3402,8 +3411,8 @@ that node B also depends on node A, Dependency Finder writes it as:
 If you are using the command-line tools, <code>DependencyReporter</code> has switches
 matching the checkboxes from the GUI and web application.  You can use it with
 both <code>-show-inbounds</code> and <code>-show-outbounds</code>, with or without
-<code>-show-empty-nodes</code>.  If you want to use all three, you can save some typing by
-using <code>-show-all</code> instead.  The Ant task also has matching attribtues.
+<code>-show-empty-nodes</code>.  All three are on if you don't specify anything.  The Ant
+task also has matching attribtues.
 </p>
 
 <p>
@@ -3687,35 +3696,30 @@ intermediary graphs to generate small class-to-class graphs.
 
 <pre>
     % DependencyReporter -xml -out classreader.c2c.xml
-                         -show-all
                          <b>-c2c</b>
                          classreader.xml
 </pre>
 
 <pre>
     % DependencyReporter -xml -out dependency.c2c.xml
-                         -show-all
                          <b>-c2c</b>
                          dependency.xml
 </pre>
 
 <pre>
     % DependencyReporter -xml -out dependencyfinder.c2c.xml
-                         -show-all
                          <b>-c2c</b>
                          dependencyfinder.xml
 </pre>
 
 <pre>
     % DependencyReporter -xml -out diff.c2c.xml
-                         -show-all
                          <b>-c2c</b>
                          diff.xml
 </pre>
 
 <pre>
     % DependencyReporter -xml -out metrics.c2c.xml
-                         -show-all
                          <b>-c2c</b>
                          metrics.xml
 </pre>
@@ -4093,8 +4097,8 @@ A transitive closure only keeps the shortest path between two nodes.
 
 <p>
 The way Dependency Finder computes a closure is highly sensitive to the data it
-has to work from.  It requires a path to follow between nodes in order to
-include nodes in the closure.
+has to work from.  There has to be a path between two nodes in order to include
+them in the closure.
 </p>
 
 <p>
@@ -4120,7 +4124,7 @@ class-to-class graph.
 <pre>
     C:\>DependencyExtractor -xml -out df.xml <i>classes</i>
     C:\>DependencyClosure -xml -out closureA.xml -start-includes /A/ -stop-includes /C/ df.xml
-    C:\>c2c -show-all closureA.xml
+    C:\>c2c closureA.xml
 </pre>
 
 </div>
@@ -4140,8 +4144,8 @@ class-to-class graph.
 </div>
 
 <p>
-What happens is that <code>DependencyClosure</code> follows all dependencies coming from
-<code>a.A</code> and its features.  It stops after <code>b.B.b1</code> because there are no
+What happened was that <code>DependencyClosure</code> followed all dependencies coming from
+<code>a.A</code> and its features.  It stopped after <code>b.B.b1</code> because there were no
 dependencies leading from it.
 </p>
 
@@ -4151,7 +4155,7 @@ dependencies leading from it.
 </div>
 
 <p>
-<code>c2c</code> then reduces the closure to it's class-to-class equivalent.
+<code>c2c</code> then reduced the closure to it's class-to-class equivalent.
 </p>
 
 <div align="center">
@@ -4160,14 +4164,15 @@ dependencies leading from it.
 </div>
 
 <p>
-If instead you reduce the graph first, the result ends up being different.
+If instead you had reduced the graph first, the result would have ended up
+different.
 </p>
 
 <div class="highlight">
 
 <pre>
     C:\>DependencyExtractor -xml -out df.xml <i>classes</i>
-    C:\>c2c -xml -out df.c2c.xml -show-all df.xml
+    C:\>c2c -xml -out df.c2c.xml df.xml
     C:\>DependencyClosure -start-includes /A/ -stop-includes /C/ df.c2c.xml
 </pre>
 
@@ -4192,9 +4197,9 @@ If instead you reduce the graph first, the result ends up being different.
 </div>
 
 <p>
-This time, <code>c2c</code> removes the fact that the two feature-level dependencies are
-not related and <code>DependencyClosure</code> is able to follow from <code>a.A</code> to <code>c.C</code> by
-going through <code>b.B</code>.
+<code>c2c</code> would have removed the fact that the two feature-level dependencies were
+not related and <code>DependencyClosure</code> would have been able to follow from <code>a.A</code> to
+<code>c.C</code> by going through <code>b.B</code>.
 </p>
 
 <div align="center">
@@ -4207,6 +4212,227 @@ Note that the first closure is still a valid transitive closure for <code>a.A</c
 since it does not use any of the parts of <code>b.B</code> that require <code>c.C</code>.  At
 runtime, all that is required for <code>a.A</code> to run properly is <code>b.B</code>.  It does not
 need to have <code>c.C</code> anywhere on the <code>CLASSPATH</code>.
+</p>
+
+<a name="NegativeClosure"></a>
+<h4>Negative Closure</h4>
+
+<p>
+Sometimes, you want the reverse of a closure.  You want everything that is not
+used through some starting point such as <code>main()</code>.  You need to use a few tools
+together to get this <i>negative closure</i>.
+</p>
+
+<p>
+Take the following graph for example, we highlighted the transitive closure from
+<code>a.A.a</code>.  Everything not in the highlighted section is the negative closure.
+</p>
+
+<div align="center">
+<img src="images/NegativeClosureSource.gif" /><br />
+<b>Source Graph</b>
+</div>
+
+<p>
+First, we extract the complete graph and get a list of all the symbols in it.
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>DependencyExtractor -xml -out df.xml <i>classes</i>
+    C:\>ListFullyQualifiedNames -in df.xml -out df.symbols.txt
+</pre>
+
+</div>
+
+<div class="lowlight">
+
+<pre>
+    a&nbsp;
+    a.A
+    a.A.a
+    b
+    b.B
+    b.B.b1
+    b.B.b2
+    c
+    c.C
+</pre>
+
+</div>
+
+<p>
+Next, we compute the closure and get a list of the symbols in the closure.
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>DependencyClosure -xml -out closure.xml -maximum-outbound-depth -start-includes /a.A.a/ df.xml
+    C:\>ListFullyQualifiedNames -in closure.xml -out closure.symbols.txt
+</pre>
+
+</div>
+
+<div class="lowlight">
+
+<pre>
+    a&nbsp;
+    a.A
+    a.A.a
+    b
+    b.B
+    b.B.b1
+</pre>
+
+</div>
+
+<p>
+Finally, we get the difference between the two lists using <code>ListDiff</code>.  The
+<code>&lt;removed&gt;</code> tag lists the symbols in the negative closure.
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>ListDiff -out symbols.diff.xml -old df.symbols.txt -new closure.symbols.txt
+</pre>
+
+</div>
+
+<div class="lowlight">
+
+<pre>
+    &lt;list-diff&gt;
+        &lt;name&gt;&lt;/name&gt;
+        &lt;old&gt;&lt;/old&gt;
+        &lt;new&gt;&lt;/new&gt;
+        &lt;removed&gt;
+            &lt;line&gt;b.B.b2&lt;/line&gt;
+            &lt;line&gt;c&lt;/line&gt;
+            &lt;line&gt;c.C&lt;/line&gt;
+        &lt;/removed&gt;
+        &lt;added&gt;
+        &lt;/added&gt;
+    &lt;/list-diff&gt;
+</pre>
+
+</div>
+
+<div align="center">
+<img src="images/NegativeClosure.gif" /><br />
+<b>Negative Closure</b>
+</div>
+
+<p>
+If you want only the class-to-class negative closure, simply reduce the initial
+graph and the transitive closure before you extract symbols from them.
+</p>
+
+<div align="center">
+<img src="images/NegativeClosureSourceC2C.gif" /><br />
+<b>Class-to-class Source Graph</b>
+</div>
+
+<p>
+So first, process the complete graph.
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>DependencyExtractor -xml -out df.xml <i>classes</i>
+    C:\>c2c -xml -out df.c2c.xml df.xml
+    C:\>ListFullyQualifiedNames -in df.c2c.xml -out df.c2c.symbols.txt
+</pre>
+
+</div>
+
+<div class="lowlight">
+
+<pre>
+    a&nbsp;
+    a.A
+    b
+    b.B
+    c
+    c.C
+</pre>
+
+</div>
+
+<p>
+Next, compute the closure.
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>DependencyClosure -xml -out closure.xml -maximum-outbound-depth -start-includes /a.A.a/ df.xml
+    C:\>c2c -xml -out closure.c2c.xml closure.xml
+    C:\>ListFullyQualifiedNames -in closure.c2c.xml -out closure.c2c.symbols.txt
+</pre>
+
+</div>
+
+<div class="lowlight">
+
+<pre>
+    a&nbsp;
+    a.A
+    b
+    b.B
+</pre>
+
+</div>
+
+<p>
+Finally, we get the difference between the two lists using <code>ListDiff</code>.  The
+<code>&lt;removed&gt;</code> tag lists the symbols in the negative closure.
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>ListDiff -out c2c.symbols.diff.xml -old df.c2c.symbols.txt -new closure.c2c.symbols.txt
+</pre>
+
+</div>
+
+<div class="lowlight">
+
+<pre>
+    &lt;list-diff&gt;
+        &lt;name&gt;&lt;/name&gt;
+        &lt;old&gt;&lt;/old&gt;
+        &lt;new&gt;&lt;/new&gt;
+        &lt;removed&gt;
+            &lt;line&gt;c&lt;/line&gt;
+            &lt;line&gt;c.C&lt;/line&gt;
+        &lt;/removed&gt;
+        &lt;added&gt;
+        &lt;/added&gt;
+    &lt;/list-diff&gt;
+</pre>
+
+</div>
+
+<p>
+So at the class level, the negative closure is only class <code>c.C</code>.  Even though
+feature <code>b.B.b2</code> is not in the closure, its class, <code>b.B</code>, is part of it and
+therefore not in the negative closure.
+</p>
+
+<a name="DependencyCycles"></a>
+<h3>Dependency Cycles</h3>
+
+<p>
+Many books recommend against circular dependencies between components.
+Dependency Finder lets you find cycles between packages, classes, or even
+features.  The last two are less useful since tight coupling within a class or
+within a package is usually desirable, but dependency cycles between packages
+can be an indicator of circular dependencies between higher-level components.
 </p>
 
 <a name="DependencyMetrics"></a>
@@ -4320,6 +4546,10 @@ The following are simple numerical measurements taken against the method.
 
 <blockquote>
 <dl>
+    <dt>Name Character Count (MNCC)</dt>
+    <dd>Number of characters in the method's name.</dd>
+    <dt>Name Word Count (MNWC)</dt>
+    <dd>Number of words that make up the method's name.</dd>
     <dt>Parameters (PARAM)</dt>
     <dd>Number of parameters for the method.  Very long signatures are often
     seen as a sign of poor design.</dd>
@@ -4373,6 +4603,10 @@ The following are simple numerical measurements taken against the class.
 
 <blockquote>
 <dl>
+    <dt>Name Character Count (CNCC)</dt>
+    <dd>Number of characters in the class's name.</dd>
+    <dt>Name Word Count (CNWC)</dt>
+    <dd>Number of words that make up the class's name.</dd>
     <dt>Single Line of Code (SLOC)</dt>
     <dd>Number of code lines in the class.  Comments and empty lines are not
     counted.  Large classes are usually a sign of poor design.</dd>
@@ -4429,6 +4663,10 @@ package-related groups.
 
 <blockquote>
 <dl>
+    <dt>Name Character Count (GNCC)</dt>
+    <dd>Number of characters in the group's name.</dd>
+    <dt>Name Word Count (GNWC)</dt>
+    <dd>Number of words that make up the group's name.</dd>
     <dt>Classes (C)</dt>
     <dd>Number of classes in this group.</dd>
     <dt>Interfaces (I)</dt>
@@ -5278,26 +5516,78 @@ Dependency Finder classes.    There is a special
 <h2>API Differences</h2>
 
 <p>
-If you are developing libraries or frameworks, that is, software that will
-be used and/or extended by others, you need to know what changed from
-version to version.  Your clients depend on your published set of APIs for
-their own development efforts.  It becomes important, as you release new
-revisions of your software, to keep track of which parts of the published
-API changed, so that you can tell your clients how to upgrade their code.
-The <code>JarJarDiff</code> tool can compute differences automatically, so you can
-quickly know what you might have broken in your customer's code.
+Either you write software that is used by other programmers to build their own
+software, or you write software for non-programmers to use as is.  Sometimes,
+you are your own customer, but that is still in a programmer or non-programmer
+capacity.  In all cases, you want to use <code>JarJarDiff</code> to keep track of changes
+in your API, either for your own sanity or that of others.
 </p>
 
 <p>
-Even if this is not your case, it is still a good practive to have a
-look at what changed across your software since the latest baseline.
-This allows you to keep track of changes to the classes and methods
-and verify that they are evolving in the right direction, whichever
-way you decide that is.
+If you are developing libraries or frameworks, that is, software that will be
+used and/or extended by other programmers, you need to know what changed from
+version to version.  Your clients depend on your published set of APIs for
+their own development efforts.  It becomes important, as you release new
+revisions of your software, to keep track of which parts of the published API
+changed, so that you can tell your clients how to upgrade their code.
+<code>JarJarDiff</code> can compute differences automatically, so you can quickly know
+what you might have broken in your customer's code.  Maybe you can even just
+hand them the report from <code>JarJarDiff</code>.
+</p>
+
+<p>
+If you are developing end-user applications, it is still a good practive to
+have a look at what changed across your software between baselines.  It lets
+you keep track of changes to the classes and methods and verify that they are
+evolving in the right direction, whichever way that is for you.  Keeping your
+software evolution under control frees you up to focus on developing the
+features your clients want, instead of fighting your own code to wedge in new
+functionality.
 </p>
 
 <a name="ExtractingXX"></a>
 <h3>Extracting</h3>
+
+<p>
+You can use <code>JarJarDiff</code> straight from the command-line or you can make it an
+integral part of your build through its Ant integration.  I will address each
+one in turn.
+</p>
+
+<p>
+In the following discussion, I will use the following notation to distinguish
+between things <b>you</b> have to provide, what comes with the JDK, and what
+Dependency Finder gives you.
+</p>
+
+<table>
+    <caption align="left"><b>Key</b></caption>
+    <tr>
+        <td align="right">
+            <img src="images/SourceFiles.gif" /><br />
+        </td>
+        <td>
+            Source files that <b>you</b> write.
+        </td>
+    </tr>
+    <tr>
+        <td align="right">
+            <img src="images/JDKWorkflow.gif" /><br />
+        </td>
+        <td>
+            JDK tools and the files they generate.
+        </td>
+    </tr>
+    <tr>
+        <td align="right">
+            <img src="images/DependencyFinderWorkflow.gif" /><br />
+        </td>
+        <td>
+            Dependency Finder tools and files they generate,
+            based on <b>your</b> code.
+        </td>
+    </tr>
+</table>
 
 <a name="ExtractingWiththeCLIXX"></a>
 <h4>Extracting With the CLI</h4>
@@ -5315,57 +5605,27 @@ files.
 <b>Compilation Workflow</b>
 </div>
 
-<table>
-    <caption align="left"><b>Key</b></caption>
-    <tr>
-        <td align="right">
-            <img src="images/SourceFiles.gif" /><br />
-        </td>
-        <td>
-            Source files that <b>you</b> write.
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <img src="images/JDKWorkflow.gif" /><br />
-        </td>
-        <td>
-            JDK tools and files they generate.
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <img src="images/DependencyFinderWorkflow.gif" /><br />
-        </td>
-        <td>
-            Dependency Finder tools and files they generate,
-            based on <b>your</b> code.
-        </td>
-    </tr>
-</table>
-
 <p>
-The tools in Dependency Finder work from the executable code, either in
-JAR files or in individual <code>.class</code> files; they do not work from either the
-source code or the generated javadoc.
+The tools in Dependency Finder work from the compiled code, either in JAR files
+or in individual <code>.class</code> files; they do not work from either the source code
+or the generated javadoc (except <code>ListDocumentedElements</code>, as we'll see later).
 </p>
 
 <p>
 You use <code>JarJarDiff</code> to extract API differences.  The following command
-computes the API differences between versions <i>Old</i> and <i>New</i> of
-<i>My Project</i>.  The differences are saved as an XML document in the file
-<code>diff.xml</code>.
+computes the API differences between versions <i>Old</i> and <i>New</i> of <i>My Project</i>.
+The differences are saved as an XML document in the file <code>diff.xml</code>.
 </p>
 
 <div class="highlight">
 
 <pre>
-    C:\>JarJarDiff -out diff.xml
+    C:\>JarJarDiff -out <b>diff.xml</b>
                    -name "My Project"
                    -old-label Old
-                   -old old.jar
+                   -old <b>old.jar</b>
                    -new-label New
-                   -new new.jar
+                   -new <b>new.jar</b>
 </pre>
 
 </div>
@@ -5376,133 +5636,278 @@ computes the API differences between versions <i>Old</i> and <i>New</i> of
 </div>
 
 <p>
-You use <code>-old</code> switches to tell it where the <i>old</i>, or base version is
-located.  Each <code>-old</code> switch can point to either a JAR file, a Zip file,
-or a directory that will be searched for <code>.class</code> files.  You can
-specify a label for the version with the <code>-old-label</code> switch.  If you
-do not provide a label, the tool with create one by concatenating the
-parameters to <code>-old</code> switches.
+You use <code>-old</code> switches to tell it where the <i>old</i>, or base, version is
+located.  You can use multiple <code>-old</code> switches if it is spread across multiple
+locations.  If an <code>-old</code> switch points to a directory, it will be searched for
+possible compiled Java code.  This means <code>JarJarDiff</code> will include any JAR,
+EAR, WAR, or Zip files it encounters in that directory or any of its
+subdirectories, in addition to any <code>.class</code> files it encounters.  You can
+include a label for the version with the <code>-old-label</code> switch.  If you do not
+provide a label, the tool will create one by for you by concatenating the
+values of the <code>-old</code> switches.  In the example above, it would have created the
+label <i>old.jar</i> if we had not given it one already.
 </p>
 
 <p>
-You use <code>-new</code> switches to tell it where the <i>new</i>, or modified version
-is located.  Each <code>-new</code> switch can point to either a JAR file, a Zip
-file, or a directory that will be searched for <code>.class</code> files.  You can
-specify a label for the version with the <code>-new-label</code> switch.  If you
-do not provide a label, the tool with create one by concatenating the
-parameters to <code>-new</code> switches.
+You use <code>-new</code> switches to tell it where the <i>new</i>, or modified, version is
+located.  You can use multiple <code>-new</code> switches if it is spread across multiple
+locations.  If an <code>-new</code> switch points to a directory, it will be searched for
+possible compiled Java code.  This means <code>JarJarDiff</code> will include any JAR,
+EAR, WAR, or Zip files it encounters in that directory or any of its
+subdirectories, in addition to any <code>.class</code> files it encounters.  You can
+include a label for the version with the <code>-new-label</code> switch.  If you do not
+provide a label, the tool will create one for you by concatenating the
+values of the <code>-new</code> switches.  In the example above, it would have created the
+label <i>new.jar</i> if we had not given it one already.
 </p>
 
 <p>
-By default, the raw results are written in XML to the standard output
-stream (i.e., <code>System.out</code>).  You can write it to a file by using the
-<code>-out</code> switch.
+By default, the raw results are written in XML to the standard output stream
+(i.e., <code>System.out</code>).  You can have it write to a file by using the <code>-out</code>
+switch.
 </p>
 
 <a name="ExtractingWithAntXX"></a>
 <h4>Extracting With Ant</h4>
 
 <p>
-You can also do the extraction from your build script if you use Ant.
-You use the <code>com.jeantessier.dependencyfinder.ant.JarJarDiff</code> task to compute
-differences and produce a report.  You need to associate the class to a tag
-using Ant's <code>&lt;taskdef&gt;</code> task.  You also need to tell Ant where to find
-the Dependency Finder classes.    There is a special
-<a href="tasks/index.html">help page</a> on how to do this.
+You can also do the extraction from your build script if you use Ant.  The
+special task <code>&lt;JarJarDiff&gt;</code> computes differences and writes a report.
+You need to tell Ant where to find Dependency Finder, there is a special
+<a href="tasks/index.html">help page</a> detailing how to do this.
 </p>
 
 <div class="highlight">
 
 <pre>
-    &lt;jarjardiff destfile="xerces.xml"
+    &lt;jarjardiff destfile="<b>diff.xml</b>"
                 name="My Project"
                 oldlabel="Old"
                 newlabel="New"&gt;
         &lt;old&gt;
-            &lt;pathelement location="old.jar"/&gt;
+            &lt;pathelement location="<b>old.jar</b>"/&gt;
         &lt;/old&gt;
         &lt;new&gt;
-            &lt;pathelement location="new.jar"/&gt;
+            &lt;pathelement location="<b>new.jar</b>"/&gt;
         &lt;/new&gt;
     &lt;/jarjardiff&gt;
     &lt;xslt style="${dependencyfinder.home}/etc/PublishedDiffToHTML.xsl"
-          in="xerces.xml"
-          out="xerces.html"/&gt;
+          in="<b>diff.xml</b>"
+          out="<b>diff.html</b>"/&gt;
 </pre>
 
 </div>
 
-<a name="ReportingX"></a>
-<h3>Reporting</h3>
+<a name="PrettyPrintingtheReports"></a>
+<h4>Pretty Printing the Reports</h4>
 
 <p>
-Dependency Finder includes XSL stylesheets for representing differences
-using HTML.  The stylesheets include:
+Dependency Finder includes XSL stylesheets for representing differences using
+HTML.
+</p>
+
+<div align="center">
+    <img src="images/PrettyPrint.gif" /><br />
+<b>Differences as HTML</b>
+</div>
+
+<p>
+There are two stylesheets:
 </p>
 
 <ul>
-<li>DiffToHTML.xsl</li>
-<li>PublishedDiffToHTML.xsl</li>
-<li>ListDocumentationDiffToText.xsl</li>
-<li>ListDocumentationDiffToHTML.xsl</li>
-<li>ListInheritanceDiffToText.xsl</li>
+<li><code>DiffToHTML.xsl</code></li>
+<li><code>ListInheritanceDiffToText.xsl</code></li>
 </ul>
 
 <p>
-You can run them using the script of the same name and the <code>-in</code> and
-<code>-out</code> switches.  The scripts call <code>XSLTProcess</code> and specify the XSL
-stylesheet with the <code>-xsl</code> switch.  You can do the same, if you want,
-with either our stylesheets or your own.
+<code>DiffToHTML</code> simply renders the whole report as HTML.
+<code>ListInheritanceDiffToText</code> only shows changes in the inheritance hierarchy.
 </p>
 
-<a name="FullList"></a>
-<h4>Full List</h4>
+<p>
+You can run them using the scripts of the same names and their <code>-in</code> and <code>-out</code>
+switches.  The scripts call <code>XSLTProcess</code> and specify the XSL stylesheet with
+the <code>-xsl</code> switch.  You can convert the reports yourself, if you want to,
+either with Dependency Finder's stylesheets or any others that understand the
+internal structure of the reports.  See the <a href="Developer.html">Developer Guide</a>
+for more details on writing your own stylesheets.
+</p>
+
+<a name="CustomizingtheReports"></a>
+<h3>Customizing the Reports</h3>
 
 <p>
-You use <code>DiffToHTML</code> to convert all API differences to HTML.  The
-following command produces a full report from the output of the previous
-<code>JarJarDiff</code> command.
+Various switches impact what <code>JarJarDiff</code> includes in the report and what it
+leaves out.
+</p>
+
+<a name="ReportingChangesintheCode"></a>
+<h4>Reporting Changes in the Code</h4>
+
+<p>
+By default, <code>JarJarDiff</code> only reports API changes, that is, changes in the
+definition of programming elements.  It does not report on changes in their
+implementation.
+</p>
+
+<p>
+You can use the <code>-code</code> switch to tell it to also flag methods with a different
+implementation or constants with a different value.  This is regardless of
+whether their definition has changed.  A method could have exactly the same
+declaration but some change in its implementation and it will be included in
+the report.
 </p>
 
 <div class="highlight">
 
 <pre>
-    C:\>DiffToHTML -in diff.xml
-                   -out fullreport.html
+    C:\>JarJarDiff <b>-code</b>
+                   -old old.jar
+                   -new new.jar
+                   -out codediff.xml
+    C:\>DiffToHTML -in  codediff.xml
+                   -out <b>codediff.html</b>
 </pre>
 
 </div>
 
-<div align="center">
-    <img src="images/CompleteList.gif" /><br />
-<b>Full List</b>
-</div>
-
-<a name="PublicList"></a>
-<h4>Public List</h4>
+<a name="ControlingtheLevelofReporting"></a>
+<h4>Controling the Level of Reporting</h4>
 
 <p>
-You use <code>PublishedDiffToHTML</code> to convert only public API differences
-to HTML.  The following command produces a full report from the output
-of the previous <code>JarJarDiff</code> command.
+You can control what kind of changes are in the report with the <code>-level</code>
+switch.
+</p>
+
+<a name="ShowingAllChanges"></a>
+<h5>Showing All Changes</h5>
+
+<p>
+By default, <code>JarJarDiff</code> lists all API differences, whether they are on public
+or private elements, or anything in between.  These reports can be quite
+lengthy and include internal details of your API.  They are useful for internal
+use, monitoring the evolution of the codebase, but not all that useful to
+third parties.
+</p>
+
+<p>
+The following commands produce a full report from the output of <code>JarJarDiff</code>.
+Note that <code>-level api</code> is the default, so technically, you don't need to
+specify it.  I include it here so you can better compare with the other
+options.
 </p>
 
 <div class="highlight">
 
 <pre>
-    C:\>PublishedDiffToHTML -in diff.xml
-                            -out publishedAPIreport.html
+    C:\>JarJarDiff -level <b>api</b>
+                   -old old.jar
+                   -new new.jar
+                   -out fulldiff.xml
+    C:\>DiffToHTML -in  fulldiff.xml
+                   -out <b>fulldiff.html</b>
 </pre>
 
 </div>
 
-<div align="center">
-    <img src="images/PublicList.gif" /><br />
-<b>Public List</b>
+<a name="ShowingOnlyIncompatibleChanges"></a>
+<h5>Showing Only Incompatible Changes</h5>
+
+<p>
+You can limit the report to changes that would break backwards compatibility
+of your code.  In this mode, <code>JarJarDiff</code> limits itself to public and protected
+members of public classes and it does not report changes that would not break
+client code.  It does not need to report on private or package-level members
+because client code should not refer to it to begin with.  The same goes for
+package-level classes.
+</p>
+
+<p>
+It will report a method that went from non-final to final because that would
+potentially break subclasses that tried to override that method.  But it will
+not report a method that went from final to non-final since that couldn't
+possibly break client code: subclasses would not have been able to override it
+since it was marked final.
+</p>
+
+<p>
+Similarily, <code>JarJarDiff</code> will report on removed members and classes, but not on
+new ones.  See the javadocs for
+<code>com.jeantessier.diff.IncompatibleDifferenceStrategy</code> for a complete list of
+what's in the report and what is not.
+</p>
+
+<p>
+The following commands produce a full report from the output of <code>JarJarDiff</code>.
+This time, the switch <code>-level incompatible</code> is no longer optional.
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>JarJarDiff -level <b>incompatible</b>
+                   -old old.jar
+                   -new new.jar
+                   -out incompatdiff.xml
+    C:\>DiffToHTML -in  incompatdiff.xml
+                   -out <b>incompatdiff.html</b>
+</pre>
+
 </div>
+
+<a name="CustomizingtheListofChanges"></a>
+<h5>Customizing the List of Changes</h5>
+
+<p>
+You can customize the report by providing the name of your own implementation
+of the <code>com.jeantessier.diff.DifferenceStrategy</code> interface as the value to the
+<code>-level</code> switch.  See the <a href="Developer.html">Developer Guide</a> for the details
+of implementing this interface.
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>JarJarDiff -level <b>com.acme.MyCustomDifferenceStrategy</b>
+                   -old old.jar
+                   -new new.jar
+                   -out customdiff.xml
+    C:\>DiffToHTML -in  customdiff.xml
+                   -out <b>customdiff.html</b>
+</pre>
+
+</div>
+
+<p>
+Your custom class will need to be somewhere on your <code>CLASSPATH</code> in order for
+<code>JarJarDiff</code> to find it.
+</p>
 
 <a name="Filtering"></a>
 <h4>Filtering</h4>
+
+<p>
+You can limit the reports to an explicit list of symbols.  Simply list the
+fully-qualified targets, one per line, in a simple text file and pass it to
+<code>JarJarDiff</code>.
+</p>
+
+<div class="highlight">
+
+<pre>
+    C:\>JarJarDiff -filter <b>filter.txt</b>
+                   -old old.jar
+                   -new new.jar
+                   -out filterdiff.xml
+    C:\>DiffToHTML -in  filterdiff.xml
+                   -out <b>filterdiff.html</b>
+</pre>
+
+</div>
+
+<a name="ListingthePublishedAPI"></a>
+<h2>Listing the Published API</h2>
 
 <p>
 <code>ListDocumentedElements</code> is a Java doclet that can list all packages, classes,
@@ -5510,21 +5915,21 @@ interfaces, fields, constructors, and methods in a given set of Java source
 files.  You can run this tool on the "old version" source files to get the list
 of everything in it (old list), and on the "new version" to get the list of
 everything in the "new version" (new list).  All you have left to do is compare
-the two lists, either yourself or with the <code>ListDiff</code> tool.  This will show you
-the names of all the additions and removals between the two versions.
+the two lists, either yourself or with the <code>ListDiff</code> tool, to have the names
+of all the additions and removals between the two versions.
 </p>
 
 <p>
-You can also limit the reporting to specific programming elements that have
-been earmarked using special javadoc tags.  You get the list of earmarked
-elements with <code>ListDocumentedElements</code>.  The following commands run this doclet
-on the old as well as the new codebases, saving the results in individual text
-files.
+You can use these lists with the <code>-filter</code> switch to <code>JarJarDiff</code> to limit the
+reporting to specific programming elements that have been earmarked using
+special javadoc tags.
 </p>
 
+<a name="Extraction"></a>
+<h3>Extraction</h3>
+
 <p>
-In this first case, the command will only list elements that you marked as
-<code>@level published</code>.
+This command will only list elements that you marked as <code>@level published</code>.
 </p>
 
 <div class="highlight">
@@ -5543,6 +5948,11 @@ In this first case, the command will only list elements that you marked as
                                new.java
 </pre>
 
+</div>
+
+<div align="center">
+    <img src="images/ListDocumentedElements.gif" /><br />
+<b>Extracting Documented Elements</b>
 </div>
 
 <p>
@@ -5594,8 +6004,8 @@ Or, as an Ant task:
 </div>
 
 <p>
-In this second case, the command will only list elements that you did marked
-not mark as <code>@level developer</code>.
+This command will only list elements that you did <b>not</b> mark as
+<code>@level developer</code>.
 </p>
 
 <div class="highlight">
@@ -5616,85 +6026,13 @@ not mark as <code>@level developer</code>.
 
 </div>
 
-<div align="center">
-    <img src="images/ListDocumentedElements.gif" /><br />
-<b>Extracting Documented Elements</b>
-</div>
-
-<p>
-You then feed the output from the doclet to <code>JarJarDiff</code>.  In the diagram
-below, we show both <code>.class</code> and JAR files being fed to <code>JarJarDiff</code>, but you
-only need to do either, not both.  Dependency Finder tools can read JAR files
-just as well as <code>.class</code> files.
-</p>
-
-<div class="highlight">
-
-<pre>
-    C:\>JarJarDiff -out diff.xml
-                   -name "My Project"
-                   -old-label Old
-                   -old old.jar
-                   -old-documentation old-list.txt
-                   -new-label New
-                   -new new.jar
-                   -new-documentation new-list.txt
-</pre>
-
-</div>
-
-<div align="center">
-    <img src="images/ExtractingDifferencesAndDocumentationChanges.gif" /><br />
-<b>Extracting Differences on Documented Elements</b>
-</div>
-
-<p>
-The full list will include special sections that highlight
-changes in what is no more part of the documentation and what
-was newly added to the documentation.
-</p>
-
-<div class="highlight">
-
-<pre>
-    C:\>DiffToHTML -in diff.xml
-                   -out fullreport.html
-</pre>
-
-</div>
-
-<div align="center">
-    <img src="images/CompleteListOfDocumentedElements.gif" /><br />
-<b>Full List Of Documented Elements</b>
-</div>
-
-<p>
-The list can also be fed to <code>PublishedDiffToHTML</code> to further
-limit the changes to the published public API.
-</p>
-
-<div class="highlight">
-
-<pre>
-    C:\>PublishedDiffToHTML -in diff.xml
-                            -out publishedAPIreport.html
-                            -param validation-list new-list.txt
-</pre>
-
-</div>
-
-<div align="center">
-    <img src="images/PublicListOfDocumentedElements.gif" /><br />
-<b>Public List Of Documented Elements</b>
-</div>
-
 <a name="ListingPublishedDocumentationChanges"></a>
-<h4>Listing Published Documentation Changes</h4>
+<h3>Listing Published Documentation Changes</h3>
 
 <p>
-You use <code>ListDiff</code> to list changes in what is considered part of the
-published API.  It only needs the lists generated by the doclet.  No
-source or bytecode required.
+You use <code>ListDiff</code> to list changes in what is considered part of the published
+API.  It only needs the lists generated by the doclet.  No source or bytecode
+required.
 </p>
 
 <div class="highlight">
@@ -5717,9 +6055,8 @@ source or bytecode required.
 </div>
 
 <p>
-<code>ListDiff</code> writes in XML and you can convert this XML
-into HTML with <code>ListDiffToHTML</code>, or to text with
-<code>ListDiffToText</code>.
+<code>ListDiff</code> writes in XML and you can convert this XML into HTML with
+<code>ListDiffToHTML</code>, or to text with <code>ListDiffToText</code>.
 </p>
 
 <div class="highlight">
@@ -5735,14 +6072,6 @@ into HTML with <code>ListDiffToHTML</code>, or to text with
     <img src="images/ListDiff2HTML.gif" /><br />
 <b>Report on Differences in Documented Elements</b>
 </div>
-
-<dl>
-    <dt>NOTE:</dt>
-    <dd><i>You can also use <code>ListDocumentationDiffToText</code> and
-    <code>ListDocumentationDiffToHTML</code> to extract similar information from the
-    output of <code>JarJarDiff</code>.  The list is written in HTML.  But we recommend
-    that you use <code>ListDiff</code> instead; it is faster and simpler.</i></dd>
-</dl>
 
 <hr />
 
@@ -6453,49 +6782,45 @@ that has all the symbols across all third-party libraries.
 
 <p>
 Now, <code><i>S</i>-<i>L</i>.symbols.txt</code> has the list of all elements from <i>L</i> used in <i>S</i>.
-You can pass it to <code>JarJarDiff</code> and <code>PublishedDiffToHTML</code> to limit the report
-to these elements only.
+You can pass it to <code>JarJarDiff</code> to limit the report to these elements only.
 </p>
 
 <p>
-Step 4: Get the differences between <i>L</i> and <i>L'</i>.
+Step 4: Get the differences between <i>L</i> and <i>L'</i>, narrowed down the differences
+to what is used by <i>S</i>.
 </p>
 
 <div class="highlight">
 
 <pre>
-    C:\>JarJarDiff -out <i>L</i>-<i>L'</i>.diff.xml
+    C:\>JarJarDiff -filter <b><i>S</i>-<i>L</i>.symbols.txt</b>
                    -name L
                    -old-label L
                    -old <i>L</i>
                    -new-label L'
                    -new <i>L'</i>
+                   -out <i>L</i>-<i>L'</i>.diff.xml
 </pre>
 
 </div>
 
 <p>
-Step 5: Narrow down the differences to what is used by <i>S</i>.
+Step 5: Convert to HTML
 </p>
 
 <div class="highlight">
 
 <pre>
-    C:\>PublishedDiffToHTML -in <i>L</i>-<i>L'</i>.diff.xml
-                            -out <i>S</i>-<i>L</i>-<i>L'</i>.diff.html
-                            -param validation-list <b><i>S</i>-<i>L</i>.symbols.txt</b>
+    C:\>DiffToHTML -in <i>L</i>-<i>L'</i>.diff.xml
+                   -out <i>L</i>-<i>L'</i>.diff.html
 </pre>
 
 </div>
 
 <p>
-The level of detail in the final report depends on which stylesheet you use and
-what parameters you give to it.  If you run <code>DiffToHTML</code> instead of
-<code>PublishedDiffToHTML</code>, you will get a complete report on what changed in <i>L</i>.
-If you run <code>PublishedDiffToHTML</code> without a validation list, you will get a
-report that covers the entire public API of <i>L</i>.  The example shown above, with
-the validation list, focuses exclusively on those parts of the <i>L</i> that you are
-actually using in <i>S</i>.
+The level of detail in the final report depends on which what parameters you
+use with <code>JarJarDiff</code>.  This example focuses exclusively on those parts of the
+<i>L</i> that you are actually using in <i>S</i>.
 </p>
 
 <a name="ComputingtheD'Metric"></a>

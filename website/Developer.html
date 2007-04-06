@@ -5,7 +5,7 @@
 <head>
 <link rel="stylesheet" type="text/css" href="style.css" />
 <link rel="shortcut icon" href="images/logoicon.gif" type="image/gif" />
-<title>The Dependency Finder Developer Guide</title
+<title>The Dependency Finder Developer Guide</title>
 
 </head>
 
@@ -14,7 +14,7 @@
 <h1>The Dependency Finder Developer Guide</h1>
 
 <p>
-For Dependency Finder version 1.1.1.
+For Dependency Finder version 1.2.0.
 </p>
 
 <p>
@@ -28,6 +28,7 @@ by Jean Tessier
 <li><a href="#Introduction">Introduction</a></li>
 <li><a href="#Installation">Installation</a></li>
 <ul>
+<li><a href="#Third-PartyPackages">Third-Party Packages</a></li>
 <li><a href="#JavaApplication">Java Application</a></li>
 <ul>
 <li><a href="#JAVA_HOME"><code>JAVA_HOME</code></a></li>
@@ -77,12 +78,14 @@ by Jean Tessier
 <li><a href="#Command-LineParsing">Command-Line Parsing</a></li>
 <li><a href="#BuildingDependencyFinder">Building Dependency Finder</a></li>
 <ul>
+<li><a href="#BuildinganExecutable">Building an Executable</a></li>
+<li><a href="#BuildingtheDocumentation">Building the Documentation</a></li>
 <li><a href="#CompilingaBuild">Compiling a Build</a></li>
 <li><a href="#TestingtheBuild">Testing the Build</a></li>
 <li><a href="#MakingaRelease">Making a Release</a></li>
 <li><a href="#ComputingCodeCoverage">Computing Code Coverage</a></li>
 <ul>
-<li><a href="#jcoverage">jcoverage</a></li>
+<li><a href="#Emma">Emma</a></li>
 <li><a href="#Clover">Clover</a></li>
 </ul>
 </ul>
@@ -98,6 +101,42 @@ by Jean Tessier
 
 <a name="Installation"></a>
 <h2>Installation</h2>
+
+<a name="Third-PartyPackages"></a>
+<h3>Third-Party Packages</h3>
+
+<p>
+Dependency Finder uses a number of third-party packages, especially for
+testing.  Everything you need to run Dependency Finder is in the distribution
+files, but you will need additional software if you want to compile your own
+custom version and/or run the test suite.  The tables below list those
+third-party packages, where you can find them, and which version we have tried
+Dependency Finder with.  Older or newer version have a good change of working
+too, but these are tried and true.
+</p>
+
+<p>
+For simple compilation:
+</p>
+
+<table>
+    <tr><th>Name</th><th>Location</th><th>Working Version</th></tr>
+    <tr><td>Tomcat</td><td><a href="http://tomcat.apache.org/">tomcat.apache.org</a></td><td align="center">5.5.17</td></tr>
+    <tr><td>WebWork</td><td><a href="http://www.opensymphony.org/webwork/">www.opensymphony.org/webwork</a></td><td align="center">2.2.4</td></tr>
+</table>
+
+<p>
+For testing:
+</p>
+
+<table>
+    <tr><th>Name</th><th>Location</th><th>Working Version</th></tr>
+    <tr><td>JUnit</td><td><a href="http://junit.org/">junit.org</a></td><td align="center">3.8.2</td></tr>
+    <tr><td>FitLibrary</td><td><a href="http://fitlibrary.sourceforge.net/">fitlibrary.sourceforge.net</a></td><td align="center">2006-01-16</td></tr>
+    <tr><td>HttpUnit</td><td><a href="http://httpunit.sourceforge.net/">httpunit.sourceforge.net</a></td><td align="center">1.6.2</td></tr>
+    <tr><td>Emma</td><td><a href="http://emma.sourceforge.net/">emma.sourceforge.net</a></td><td align="center">2.0.5312</td></tr>
+</table>
+
 <a name="JavaApplication"></a>
 <h3>Java Application</h3>
 <a name="JAVA_HOME"></a>
@@ -667,10 +706,10 @@ have changed and adjust the graph accordingly.
 <h3><code>extract.jsp</code></h3>
 
 <p>
-Let's take a look at <code>DependencyExtractor</code> and see how it uses what we've seen
-so far to generate a dependency graph.  Here is the core part of the <code>main()</code>
-method from <code>com.jeantessier.dependencyfinder.cli.DependencyExtractor</code>.  The
-Ant equivalent is very similar.
+Let's take a look at <code>extract.jsp</code> and see how it generates a dependency graph
+and how it differs from what we saw for <code>DependencyExtractor</code>.  Here is the
+core part of the JSP.  The GUI equivalent is very similar, if spread across
+multiple classes in the <code>com.jeantessier.dependencyfinder.gui</code> package.
 </p>
 
 <div class="highlight">
@@ -1007,7 +1046,8 @@ about this distinction, like <code>TextPrinter</code> for example.
 <p>
 Here is an example showing the sequence of calls betweeen a visitor
 implementation based on <code>VisitorBase</code>, its <code>TraversalStrategy</code>, and a sample
-dependency graphs.
+dependency graph.  You can find the graph in
+<a href="SampleGraph.xml">SampleGraph.xml</a>.
 </p>
 
 <p>
@@ -1313,30 +1353,34 @@ ship with Dependency Finder.
 </blockquote>
 
 <p>
-Once you have a parser, you can add switch definitions to it.  There are four
+Once you have a parser, you can add switch definitions to it.  There are five
 types of switches described below.
 </p>
 
 <blockquote>
 <dl>
+    <dt><code>ToggleSwitch</code></dt>
+    <dd>The switch be followed by a value.  It acts as a boolean, <code>false</code> if
+    absent or <code>true</code> if present on the command-line.</dd>
+    <dt><code>SingleValueSwitch</code></dt>
+    <dd>The switch must be followed by a value.  It can only appear once on the
+    command-line.</dd>
+    <dt><code>OptionalValueSwitch</code></dt>
+    <dd>The switch can appear by itself or followed by a value.  It can only
+    appear once on the command-line.</dd>
     <dt><code>MultipleValuesSwitch</code></dt>
     <dd>The switch must be followed by a value, but it can occur multiple times
     on the command-line.  The values are accumulated in the same order as on
     the command-line and you retrieve them as a single <code>List</code>.</dd>
-    <dt><code>OptionalValueSwitch</code></dt>
-    <dd>The switch can appear by itself or followed by a value.  It can only
-    appear once on the command-line.</dd>
-    <dt><code>SingleValueSwitch</code></dt>
-    <dd>The switch must be followed by a value.  It can only appear once on the
-    command-line.</dd>
-    <dt><code>ToggleSwitch</code></dt>
-    <dd>The switch be followed by a value.  It acts as a boolean, <code>false</code> if
-    absent or <code>true</code> if present on the command-line.</dd>
+    <dt><code>AliasSwitch</code></dt>
+    <dd>An alias swich passes its values to the switches it is an alias for.
+    You can use an alias switch to group many switches together so you can set
+    them all at once with just one name.</dd>
 </dl>
 </blockquote>
 
 <p>
-You add switches with the matching <code>AddSwitch()</code> methods on <code>CommandLine</code>.  You
+You add switches with the matching <code>addSwitch()</code> methods on <code>CommandLine</code>.  You
 can supply switches with default values and specify if they are mandatory (must
 appear on the command-line) or not.
 </p>
@@ -1368,45 +1412,109 @@ retrieve parameters, if any, with the <code>Parameters()</code> method.
 <a name="BuildingDependencyFinder"></a>
 <h2>Building Dependency Finder</h2>
 
+<p>
+Before you can compile Dependency Finder, you need to set the following
+environment variables:
+</p>
+
+<ul>
+<li><code>CATALINA_HOME</code> to your <a href="http://tomcat.apache.org/">Tomcat</a> installation</li>
+<li><code>WEBWORK_HOME</code> to your <a href="http://www.opensymphony.com/webwork/">WebWork</a> installation</li>
+</ul>
+
+<a name="BuildinganExecutable"></a>
+<h3>Building an Executable</h3>
+
 <pre>
-    C:\>ant
+    <code>ant exec</code>
 </pre>
+
+<p>
+This target will create everything you need to run Dependency Finder in-place.
+If you make a change and you simply want to refresh the executable, simply run:
+</p>
+
+<pre>
+    <code>and jar</code>
+</pre>
+
+<a name="BuildingtheDocumentation"></a>
+<h3>Building the Documentation</h3>
+
+<pre>
+    <code>ant docs</code>
+</pre>
+
+<p>
+This target will create both Javadocs and the various manuals.
+</p>
 
 <a name="CompilingaBuild"></a>
 <h3>Compiling a Build</h3>
 
 <pre>
-    C:\>ant realclean
-    C:\>ant src
-    C:\>ant docs
-    C:\>ant dist
-    C:\>ant war
+    <code>ant</code>
 </pre>
 
 <p>
-or
+This target will create a set of distribution files from a clean build.
 </p>
-
-<pre>
-    C:\>ant realclean src docs dist war
-</pre>
 
 <a name="TestingtheBuild"></a>
 <h3>Testing the Build</h3>
 
-<pre>
-    C:\>ant tests
-    C:\>textjunit TestAll
-</pre>
+<p>
+Before you can compile and run the tests, you need to set the following
+environment variables in addition to those for compiling Dependency Finder:
+</p>
+
+<ul>
+<li><code>JUNIT_HOME</code> to your <a href="http://junit.org/">JUnit</a> installation</li>
+<li><code>FITLIBRARY_HOME</code> to your <a href="http://fitlibrary.sourceforge.net/">FitLibrary</a> installation</li>
+<li><code>HTTPUNIT_HOME</code> to your <a href="http://httpunit.sourceforge.net/">HttpUnit</a> installation</li>
+</ul>
+
+<p>
+You will also need to put <code>junit.jar</code> on Ant's <code>CLASSPATH</code>.  For this, you can
+either set the <code>CLASSPATH</code> environment variable, or with Ant 1.6 and above, you
+can copy <code>junit.jar</code> to <code>${user.home}/.ant/lib</code>, where <code>${user.home}</code> is the
+home directory for the current user.  This depends on your operating system.
+On Unix, it is <code>$HOME</code> and is typically <code>/home/<i>username</i></code>.  On Windows, it is
+typically <code>C:\Documents&nbsp;and&nbsp;Settings\<i>username</i></code>.
+</p>
+
+<p>
+To run all tests and generate test reports in the <code>reports</code> directory:
+</p>
+
+<ol>
+<li><code>set CLASSPATH=%JUNIT_HOME%\junit.jar</code></li>
+<li><code>ant -f build.test.xml</code></li>
+</ol>
+
+<p>
+or, to run tests manually:
+</p>
+
+<ol>
+<li><code>set CLASSPATH=%JUNIT_HOME%\junit.jar</code></li>
+<li><code>ant -f build.test.xml compile</code></li>
+<li><code>textjunit TestAll</code></li>
+<li><code>textjunit com.jeantessier.fitlibrary.TestAll</code></li>
+</ol>
 
 <a name="MakingaRelease"></a>
 <h3>Making a Release</h3>
 
+<p>
+<i>These instructions need to be updated to account for Subversion instead of CVS.</i>
+</p>
+
 <ol>
-<li><code>cvs tag release-20030101</code></li>
-<li><code>ant realclean docs dist war realclean src</code></li>
+<li><code>svn copy https://depfind.svn.sourceforge.net/svnroot/depfind/trunk https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.0 -m "Tagging the 1.2.0 release of Dependency Finder"</code></li>
+<li><code>ant realclean dist</code></li>
 <li><code>ant ftp</code></li>
-<li><code>cvs log -rrelease-20020711:release-20030101</code></li>
+<li><code>cvs log -rrelease-1.1.1:release-1.2.0</code></li>
 <li>Create new release on SourceForge.net</li>
 <li>Notify monitoring people</li>
 <li>Close bugs</li>
@@ -1420,62 +1528,83 @@ or
 <a name="ComputingCodeCoverage"></a>
 <h3>Computing Code Coverage</h3>
 
-<a name="jcoverage"></a>
-<h4>jcoverage</h4>
+<a name="Emma"></a>
+<h4>Emma</h4>
 
 <p>
-You can use <a href="http://www.jcoverage.com/">jcoverage</a> and the build file in
-<code>build.jcoverage.xml</code>.
+You can use <a href="http://emma.sourceforge.net/">Emma</a> and the build file in
+<code>build.emma.xml</code>.
 </p>
 
-<ol>
-<li><code>set CLASSPATH=%JUNIT_HOME%\junit.jar</code></li>
-<li><code>ant realclean</code></li>
-<li><code>ant -f build.jcoverage.xml realclean</code></li>
-<li><code>ant</code></li>
-<li><code>ant -f build.jcoverage.xml instrument</code></li>
-<li><code>ant tests</code></li>
-<li><code>ant -f build.jcoverage.xml tests</code></li>
-<li><code>ant -f build.jcoverage.xml report</code></li>
-</ol>
+<p>
+Before you can run Emma, you need to set the following environment variable in
+addition to those for testing and compiling Dependency Finder:
+</p>
+
+<ul>
+<li><code>EMMA_HOME</code> to your <a href="http://emma.sourceforge.net/">Emma</a> installation</li>
+</ul>
+
+<p>
+To run the tests and generate code coverage reports:
+</p>
+
+<pre>
+    <code>ant -f build.emma.xml</code>
+</pre>
 
 <p>
 To publish the results:
 </p>
 
 <ol>
-<li>archive the <code>jcoverage</code> directory</li>
+<li>Archive the <code>reports/emma</code> directory</li>
 <li>Use <code>scp</code> to transfer the archive to SourceForge</li>
 <li>Use <code>ssh</code> to login to SourceForge</li>
-<li>extract the archive in the root of the website</li>
+<li>Extract the archive in the root of the website</li>
 </ol>
 
 <a name="Clover"></a>
 <h4>Clover</h4>
 
 <p>
-You can use <a href="http://www.cenqua.com/clover/">clover</a> and the build file in
+You can use <a href="http://www.cenqua.com/clover/">Clover</a> and the build file in
 <code>build.clover.xml</code>.
 </p>
 
-<ol>
-<li><code>set CLASSPATH=%JUNIT_HOME%\junit.jar;%CLOVER_HOME%\lib;%CLOVER_HOME%\lib\clover.jar</code></li>
-<li><code>ant -f build.clover.xml realclean</code></li>
-<li><code>ant -f build.clover.xml with.clover compiletests</code></li>
-<li><code>ant tests</code></li>
-<li><code>ant -f build.clover.xml alltests</code></li>
-<li><code>ant -f build.clover.xml report.html</code></li>
-</ol>
+<p>
+Before you can run Emma, you need to set the following environment variable in
+addition to those for testing and compiling Dependency Finder:
+</p>
+
+<ul>
+<li><code>CLOVER_HOME</code> to your <a href="http://www.cenqua.com/clover/">Clover</a> installation</li>
+</ul>
+
+<p>
+You will also need to put <code>clover.jar</code> and <code>clover.license</code> on Ant's
+<code>CLASSPATH</code>.  For this, you can either set the <code>CLASSPATH</code> environment
+variable, or with Ant 1.6 and above, you can copy <code>clover.jar</code> and
+<code>clover.license</code> to <code>${user.home}/.ant/lib</code> (see above).
+</p>
+
+<p>
+To run the tests and generate code coverage reports:
+</p>
+
+<pre>
+    <code>ant -f build.clover.xml</code>
+</pre>
 
 <p>
 To publish the results:
 </p>
 
 <ol>
-<li>archive the <code>clover</code> directory</li>
+<li>Archive the <code>reports/clover/html</code> directory</li>
 <li>Use <code>scp</code> to transfer the archive to SourceForge</li>
 <li>Use <code>ssh</code> to login to SourceForge</li>
-<li>extract the archive in the root of the website</li>
+<li>Extract the archive in the root of the website</li>
 </ol>
 
 <hr />
