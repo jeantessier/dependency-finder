@@ -1136,6 +1136,11 @@ To run the tests and generate code coverage reports:
 
 To publish the results:
 
+    1 =ssh depfind.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/emma=
+    1 =scp reports/emma depfind.sourceforge.net:/home/groups/d/de/depfind/htdocs=
+
+Or use an archive:
+
     1 Archive the =reports/emma= directory
     1 Use =scp= to transfer the archive to SourceForge
     1 Use =ssh= to login to SourceForge
@@ -1161,6 +1166,11 @@ To run the tests and generate code coverage reports:
     =ant -f build.clover.xml=
 
 To publish the results:
+
+    1 =ssh depfind.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/clover=
+    1 =scp reports/clover/html depfind.sourceforge.net:/home/groups/d/de/depfind/htdocs/clover=
+
+Or use an archive:
 
     1 Archive the =reports/clover/html= directory
     1 Use =scp= to transfer the archive to SourceForge
