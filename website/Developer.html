@@ -1558,6 +1558,15 @@ To publish the results:
 </p>
 
 <ol>
+<li><code>ssh depfind.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/emma</code></li>
+<li><code>scp reports/emma depfind.sourceforge.net:/home/groups/d/de/depfind/htdocs</code></li>
+</ol>
+
+<p>
+Or use an archive:
+</p>
+
+<ol>
 <li>Archive the <code>reports/emma</code> directory</li>
 <li>Use <code>scp</code> to transfer the archive to SourceForge</li>
 <li>Use <code>ssh</code> to login to SourceForge</li>
@@ -1598,6 +1607,15 @@ To run the tests and generate code coverage reports:
 
 <p>
 To publish the results:
+</p>
+
+<ol>
+<li><code>ssh depfind.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/clover</code></li>
+<li><code>scp reports/clover/html depfind.sourceforge.net:/home/groups/d/de/depfind/htdocs/clover</code></li>
+</ol>
+
+<p>
+Or use an archive:
 </p>
 
 <ol>
