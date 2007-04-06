@@ -13,3 +13,5 @@ Finally, the Mac OS X has timestamps on files with a resolution to the second.
 One test was waiting only 50msec and so was failing on this platform.  I've
 raised the sleep time to a full second, but I'm a little concerned at making
 the tests take even longer.
+
+Released version 1.2.0.
