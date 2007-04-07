@@ -1511,7 +1511,8 @@ or, to run tests manually:
 </p>
 
 <ol>
-<li><code>svn copy https://depfind.svn.sourceforge.net/svnroot/depfind/trunk https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.0 -m "Tagging the 1.2.0 release of Dependency Finder"</code></li>
+<li><code>svn mkdir https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.1 -m "Tagging the 1.2.1 release of Dependency Finder"</code></li>
+<li><code>svn copy https://depfind.svn.sourceforge.net/svnroot/depfind/trunk/DependencyFinder https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-121/DependencyFinder -m "Tagging the 1.2.1 release of Dependency Finder"</code></li>
 <li><code>ant realclean dist</code></li>
 <li><code>ant ftp</code></li>
 <li><code>cvs log -rrelease-1.1.1:release-1.2.0</code></li>
