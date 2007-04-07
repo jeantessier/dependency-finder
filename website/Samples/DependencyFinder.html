@@ -7,6 +7,7 @@
 <h1>Dependency Finder - API Change History</h1>
 
 <ul>
+<li><a href="#1.2.0">1.1.1 to 1.2.0</a></li>
 <li><a href="#1.1.1">1.1.0 to 1.1.1</a></li>
 <li><a href="#1.1.0">1.1.0-beta3 to 1.1.0</a></li>
 <li><a href="#1.1.0 beta 3">1.1.0 beta 2 to 1.1.0 beta 3</a></li>
@@ -24,9 +25,4265 @@
 
 <hr>
 
+<a name="1.2.0"></a>
+<h2>1.1.1 to 1.2.0</h2>
+<li>
+<nobr><code>Dependency Finder</code></nobr>
+</li>
+<h3>Removed Interfaces:</h3>
+<ul>
+<li>
+<nobr><code>com.jeantessier.commandline.CountingParameterStrategy</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.Validator</code></nobr>
+</li>
+</ul>
+<h3>Removed Classes:</h3>
+<ul>
+<li>
+<nobr><code>com.jeantessier.commandline.AnyParameterStrategy</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.Hex</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.cli.NullPrintWriter</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.DocumentableDifferences</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.JarDifferences</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.ListBasedValidator</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.PackageValidator</code></nobr>
+</li>
+</ul>
+<h3>Modified Interfaces:</h3>
+<blockquote>
+<h4>
+<code>com.jeantessier.classreader.ClassfileLoaderDispatcher</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final int ACTION_CLASS</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ACTION_DIRECTORY</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ACTION_IGNORE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ACTION_JAR</code></nobr>
+</li>
+<li>
+<nobr><code>public static final int ACTION_ZIP</code></nobr>
+</li>
+</ul>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract int dispatch(java.lang.String)<br>
+<b>new:</b>public abstract com.jeantessier.classreader.ClassfileLoaderDispatcher$Action dispatch(java.lang.String)</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.Visitor</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void visitInstruction(com.jeantessier.classreader.Instruction)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.commandline.CommandLineSwitch</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract int parse(java.lang.String, java.lang.String) throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract java.lang.String getName()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract int parse(java.lang.String) throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void validate() throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.commandline.ParameterStrategy</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract boolean isSatisfied()</code></nobr>
+</li>
+</ul>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public abstract boolean accept(java.lang.String)<br>
+<b>new:</b>public abstract int accept(java.lang.String) throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract java.util.List getParameters()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void validate() throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.commandline.Visitor</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void visitAnyParameterStrategy(com.jeantessier.commandline.AnyParameterStrategy)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void visitAliasSwitch(com.jeantessier.commandline.AliasSwitch)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void visitCollectingParameterStrategy(com.jeantessier.commandline.CollectingParameterStrategy)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.Differences</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract boolean isEmpty()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.Visitor</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void visitDocumentableDifferences(com.jeantessier.diff.DocumentableDifferences)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void visitJarDifferences(com.jeantessier.diff.JarDifferences)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void visitProjectDifferences(com.jeantessier.diff.ProjectDifferences)</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+<h3>Modified Classes:</h3>
+<blockquote>
+<h4>
+<code>com.jeantessier.classreader.AttributeFactory</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$classreader$AttributeFactory</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.Attribute_info</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void accept(com.jeantessier.classreader.Visitor)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.ClassDependencyCollector</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void visitCode_attribute(com.jeantessier.classreader.Code_attribute)</code></nobr>
+</li>
+<li>
+<nobr><code>public void visitExceptions_attribute(com.jeantessier.classreader.Exceptions_attribute)</code></nobr>
+</li>
+<li>
+<nobr><code>public void visitInnerClasses_attribute(com.jeantessier.classreader.InnerClasses_attribute)</code></nobr>
+</li>
+<li>
+<nobr><code>public void visitLineNumberTable_attribute(com.jeantessier.classreader.LineNumberTable_attribute)</code></nobr>
+</li>
+<li>
+<nobr><code>public void visitLocalVariableTable_attribute(com.jeantessier.classreader.LocalVariableTable_attribute)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.Class_info</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean equals(java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getSimpleName()</code></nobr>
+</li>
+<li>
+<nobr><code>public int hashCode()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.Classfile</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.String getSimpleName()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.ClassfileLoaderEventSource</code>
+</h4>
+<blockquote>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private int previousDispatch<br>
+<b>new:</b>private com.jeantessier.classreader.ClassfileLoaderDispatcher$Action previousDispatch</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.CodeIterator</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public CodeIterator(byte[])</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private byte[] code<br>
+<b>new:</b>private com.jeantessier.classreader.Code_attribute code</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private byte[] bytecode</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public CodeIterator(com.jeantessier.classreader.Code_attribute, byte[])</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.CollectorBase</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public CollectorBase(java.util.Collection)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void add(java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void remove(java.lang.Object)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void add(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.ConstantPoolEntry</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void accept(com.jeantessier.classreader.Visitor)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.ConstantValue_attribute</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean equals(java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>public int hashCode()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.DirectoryExplorer</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.util.Collection collection</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.util.Collection getCollection()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.util.Collection files</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.util.Collection getFiles()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.Double_info</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean equals(java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>public int hashCode()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.FeatureDependencyCollector</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void visitCode_attribute(com.jeantessier.classreader.Code_attribute)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void visitInstruction(com.jeantessier.classreader.Instruction)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.FeatureRef_info</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean equals(java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getClassSimpleName()</code></nobr>
+</li>
+<li>
+<nobr><code>public int hashCode()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.Feature_info</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void accept(com.jeantessier.classreader.Visitor)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.Field_info</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public com.jeantessier.classreader.ConstantValue_attribute getConstantValue()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getFullDeclaration()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.Float_info</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean equals(java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>public int hashCode()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.InnerClasses_attribute</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.util.Collection getClasses()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.util.Collection getInnerClasses()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.Instruction</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.classreader.Instruction extends java.lang.Object<br>
+<b>new:</b>public class com.jeantessier.classreader.Instruction extends java.lang.Object implements com.jeantessier.classreader.Visitable</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public Instruction(byte[], int)</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private byte[] code<br>
+<b>new:</b>private com.jeantessier.classreader.Code_attribute code</code></nobr>
+</p>
+</blockquote>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public byte[] getCode()<br>
+<b>new:</b>public com.jeantessier.classreader.Code_attribute getCode()</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private byte[] bytecode</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public Instruction(com.jeantessier.classreader.Code_attribute, byte[], int)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void accept(com.jeantessier.classreader.Visitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean equals(java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>public byte[] getBytecode()</code></nobr>
+</li>
+<li>
+<nobr><code>public int getIndex()</code></nobr>
+</li>
+<li>
+<nobr><code>public com.jeantessier.classreader.ConstantPoolEntry getIndexedConstantPoolEntry()</code></nobr>
+</li>
+<li>
+<nobr><code>public int hashCode()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.Integer_info</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean equals(java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>public int hashCode()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.Long_info</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean equals(java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>public int hashCode()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.Method_info</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public com.jeantessier.classreader.Code_attribute getCode()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.MetricsGatherer</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void visitCode_attribute(com.jeantessier.classreader.Code_attribute)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void visitInstruction(com.jeantessier.classreader.Instruction)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.ModifiedOnlyDispatcher</code>
+</h4>
+<blockquote>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public int dispatch(java.lang.String)<br>
+<b>new:</b>public com.jeantessier.classreader.ClassfileLoaderDispatcher$Action dispatch(java.lang.String)</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.NameAndType_info</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean equals(java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>public int hashCode()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.PermissiveDispatcher</code>
+</h4>
+<blockquote>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public int dispatch(java.lang.String)<br>
+<b>new:</b>public com.jeantessier.classreader.ClassfileLoaderDispatcher$Action dispatch(java.lang.String)</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.SignatureHelper</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$classreader$SignatureHelper</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>static java.lang.String convert(java.lang.String)<br>
+<b>new:</b>public static java.lang.String convert(java.lang.String)</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static java.lang.String convertClassName(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.StrictDispatcher</code>
+</h4>
+<blockquote>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public int dispatch(java.lang.String)<br>
+<b>new:</b>public com.jeantessier.classreader.ClassfileLoaderDispatcher$Action dispatch(java.lang.String)</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.String_info</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean equals(java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>public int hashCode()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.UTF8_info</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean equals(java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>public int hashCode()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.classreader.VisitorBase</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void raiseCount()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void incrementCount()</code></nobr>
+</li>
+<li>
+<nobr><code>public void visitInstruction(com.jeantessier.classreader.Instruction)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.commandline.AtLeastParameterStrategy</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.commandline.AtLeastParameterStrategy extends java.lang.Object implements com.jeantessier.commandline.CountingParameterStrategy<br>
+<b>new:</b>public class com.jeantessier.commandline.AtLeastParameterStrategy extends com.jeantessier.commandline.LimitedCollectingParameterStrategy</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private int count</code></nobr>
+</li>
+<li>
+<nobr><code>private int nbParameters</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean accept(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public int getCount()</code></nobr>
+</li>
+<li>
+<nobr><code>public int getNbParameters()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isSatisfied()</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void validate() throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.commandline.AtMostParameterStrategy</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.commandline.AtMostParameterStrategy extends java.lang.Object implements com.jeantessier.commandline.CountingParameterStrategy<br>
+<b>new:</b>public class com.jeantessier.commandline.AtMostParameterStrategy extends com.jeantessier.commandline.LimitedCollectingParameterStrategy</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private int count</code></nobr>
+</li>
+<li>
+<nobr><code>private int nbParameters</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int getCount()</code></nobr>
+</li>
+<li>
+<nobr><code>public int getNbParameters()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isSatisfied()</code></nobr>
+</li>
+</ul>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public boolean accept(java.lang.String)<br>
+<b>new:</b>public int accept(java.lang.String) throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void validate() throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.commandline.CommandLine</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final com.jeantessier.commandline.ParameterStrategy DEFAULT_PARAMETER_STRATEGY</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.List parameters</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void addSwitch(java.lang.String, com.jeantessier.commandline.CommandLineSwitch)</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void addMultipleValuesSwitch(java.lang.String)<br>
+<b>new:</b>public com.jeantessier.commandline.MultipleValuesSwitch addMultipleValuesSwitch(java.lang.String)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void addMultipleValuesSwitch(java.lang.String, boolean)<br>
+<b>new:</b>public com.jeantessier.commandline.MultipleValuesSwitch addMultipleValuesSwitch(java.lang.String, boolean)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void addMultipleValuesSwitch(java.lang.String, java.lang.String)<br>
+<b>new:</b>public com.jeantessier.commandline.MultipleValuesSwitch addMultipleValuesSwitch(java.lang.String, java.lang.String)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void addMultipleValuesSwitch(java.lang.String, java.lang.String, boolean)<br>
+<b>new:</b>public com.jeantessier.commandline.MultipleValuesSwitch addMultipleValuesSwitch(java.lang.String, java.lang.String, boolean)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void addOptionalValueSwitch(java.lang.String)<br>
+<b>new:</b>public com.jeantessier.commandline.OptionalValueSwitch addOptionalValueSwitch(java.lang.String)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void addOptionalValueSwitch(java.lang.String, boolean)<br>
+<b>new:</b>public com.jeantessier.commandline.OptionalValueSwitch addOptionalValueSwitch(java.lang.String, boolean)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void addOptionalValueSwitch(java.lang.String, java.lang.String)<br>
+<b>new:</b>public com.jeantessier.commandline.OptionalValueSwitch addOptionalValueSwitch(java.lang.String, java.lang.String)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void addOptionalValueSwitch(java.lang.String, java.lang.String, boolean)<br>
+<b>new:</b>public com.jeantessier.commandline.OptionalValueSwitch addOptionalValueSwitch(java.lang.String, java.lang.String, boolean)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void addSingleValueSwitch(java.lang.String)<br>
+<b>new:</b>public com.jeantessier.commandline.SingleValueSwitch addSingleValueSwitch(java.lang.String)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void addSingleValueSwitch(java.lang.String, boolean)<br>
+<b>new:</b>public com.jeantessier.commandline.SingleValueSwitch addSingleValueSwitch(java.lang.String, boolean)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void addSingleValueSwitch(java.lang.String, java.lang.String)<br>
+<b>new:</b>public com.jeantessier.commandline.SingleValueSwitch addSingleValueSwitch(java.lang.String, java.lang.String)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void addSingleValueSwitch(java.lang.String, java.lang.String, boolean)<br>
+<b>new:</b>public com.jeantessier.commandline.SingleValueSwitch addSingleValueSwitch(java.lang.String, java.lang.String, boolean)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void addToggleSwitch(java.lang.String)<br>
+<b>new:</b>public com.jeantessier.commandline.ToggleSwitch addToggleSwitch(java.lang.String)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void addToggleSwitch(java.lang.String, boolean)<br>
+<b>new:</b>public com.jeantessier.commandline.ToggleSwitch addToggleSwitch(java.lang.String, boolean)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void parse(java.lang.String[]) throws com.jeantessier.commandline.CommandLineException<br>
+<b>new:</b>public java.util.Collection parse(java.lang.String[])</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public com.jeantessier.commandline.AliasSwitch addAliasSwitch(java.lang.String, java.lang.String[])</code></nobr>
+</li>
+<li>
+<nobr><code>private com.jeantessier.commandline.CommandLineSwitch addSwitch(com.jeantessier.commandline.CommandLineSwitch)</code></nobr>
+</li>
+<li>
+<nobr><code>public com.jeantessier.commandline.CommandLineSwitch getSwitch(java.lang.String, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public java.util.Collection getSwitches()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.commandline.CommandLineSwitchBase</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public CommandLineSwitchBase()</code></nobr>
+</li>
+<li>
+<nobr><code>public CommandLineSwitchBase(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public CommandLineSwitchBase(java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>public CommandLineSwitchBase(java.lang.Object, boolean)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void accept(com.jeantessier.commandline.Visitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract int parse(java.lang.String, java.lang.String) throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.lang.String name</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public CommandLineSwitchBase(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public CommandLineSwitchBase(java.lang.String, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public CommandLineSwitchBase(java.lang.String, java.lang.Object)</code></nobr>
+</li>
+<li>
+<nobr><code>public CommandLineSwitchBase(java.lang.String, java.lang.Object, boolean)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.String getName()</code></nobr>
+</li>
+<li>
+<nobr><code>public void validate() throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.commandline.CommandLineUsage</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.commandline.CommandLineUsage extends java.lang.Object implements com.jeantessier.commandline.Visitor<br>
+<b>new:</b>public class com.jeantessier.commandline.CommandLineUsage extends com.jeantessier.commandline.Printer</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final java.lang.String EOL</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String command</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String switchName</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.StringBuffer usage</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+<li>
+<nobr><code>public void visitAnyParameterStrategy(com.jeantessier.commandline.AnyParameterStrategy)</code></nobr>
+</li>
+<li>
+<nobr><code>public void visitCommandLine(com.jeantessier.commandline.CommandLine)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.lang.String commandName</code></nobr>
+</li>
+<li>
+<nobr><code>private com.jeantessier.text.PrinterBuffer extraText</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected java.util.Set getSwitchNames(com.jeantessier.commandline.CommandLine)</code></nobr>
+</li>
+<li>
+<nobr><code>public void visitAliasSwitch(com.jeantessier.commandline.AliasSwitch)</code></nobr>
+</li>
+<li>
+<nobr><code>public void visitCollectingParameterStrategy(com.jeantessier.commandline.CollectingParameterStrategy)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.commandline.ExactlyParameterStrategy</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.commandline.ExactlyParameterStrategy extends java.lang.Object implements com.jeantessier.commandline.CountingParameterStrategy<br>
+<b>new:</b>public class com.jeantessier.commandline.ExactlyParameterStrategy extends com.jeantessier.commandline.LimitedCollectingParameterStrategy</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private int count</code></nobr>
+</li>
+<li>
+<nobr><code>private int nbParameters</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int getCount()</code></nobr>
+</li>
+<li>
+<nobr><code>public int getNbParameters()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isSatisfied()</code></nobr>
+</li>
+</ul>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public boolean accept(java.lang.String)<br>
+<b>new:</b>public int accept(java.lang.String) throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void validate() throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.commandline.MultipleValuesSwitch</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public MultipleValuesSwitch()</code></nobr>
+</li>
+<li>
+<nobr><code>public MultipleValuesSwitch(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public MultipleValuesSwitch(java.lang.String[])</code></nobr>
+</li>
+<li>
+<nobr><code>public MultipleValuesSwitch(java.lang.String[], boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public MultipleValuesSwitch(java.util.List)</code></nobr>
+</li>
+<li>
+<nobr><code>public MultipleValuesSwitch(java.util.List, boolean)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int parse(java.lang.String, java.lang.String) throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public MultipleValuesSwitch(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public MultipleValuesSwitch(java.lang.String, java.lang.String, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public MultipleValuesSwitch(java.lang.String, java.lang.String[])</code></nobr>
+</li>
+<li>
+<nobr><code>public MultipleValuesSwitch(java.lang.String, java.lang.String[], boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public MultipleValuesSwitch(java.lang.String, java.util.List)</code></nobr>
+</li>
+<li>
+<nobr><code>public MultipleValuesSwitch(java.lang.String, java.util.List, boolean)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int parse(java.lang.String) throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.commandline.NullParameterStrategy</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean satisfied</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean isSatisfied()</code></nobr>
+</li>
+</ul>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public boolean accept(java.lang.String)<br>
+<b>new:</b>public int accept(java.lang.String) throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.util.List getParameters()</code></nobr>
+</li>
+<li>
+<nobr><code>public void validate() throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.commandline.OptionalValueSwitch</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public OptionalValueSwitch()</code></nobr>
+</li>
+<li>
+<nobr><code>public OptionalValueSwitch(boolean)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int parse(java.lang.String, java.lang.String) throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public OptionalValueSwitch(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public OptionalValueSwitch(java.lang.String, java.lang.String, boolean)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int parse(java.lang.String) throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.commandline.SingleValueSwitch</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public SingleValueSwitch()</code></nobr>
+</li>
+<li>
+<nobr><code>public SingleValueSwitch(boolean)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int parse(java.lang.String, java.lang.String) throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public SingleValueSwitch(java.lang.String, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public SingleValueSwitch(java.lang.String, java.lang.String, boolean)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int parse(java.lang.String) throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.commandline.ToggleSwitch</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public ToggleSwitch()</code></nobr>
+</li>
+<li>
+<nobr><code>public ToggleSwitch(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public ToggleSwitch(boolean, boolean)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int parse(java.lang.String, java.lang.String) throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public ToggleSwitch(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public ToggleSwitch(java.lang.String, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public ToggleSwitch(java.lang.String, boolean, boolean)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int parse(java.lang.String) throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.ClassNode</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.String getSimpleName()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.ClosureSelector</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void visitClassNode(com.jeantessier.dependency.ClassNode)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void visitFeatureNode(com.jeantessier.dependency.FeatureNode)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void visitInboundClassNode(com.jeantessier.dependency.ClassNode)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void visitInboundFeatureNode(com.jeantessier.dependency.FeatureNode)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void visitInboundPackageNode(com.jeantessier.dependency.PackageNode)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void visitOutboundClassNode(com.jeantessier.dependency.ClassNode)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void visitOutboundFeatureNode(com.jeantessier.dependency.FeatureNode)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void visitOutboundPackageNode(com.jeantessier.dependency.PackageNode)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void visitPackageNode(com.jeantessier.dependency.PackageNode)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.CodeDependencyCollector</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void visitCode_attribute(com.jeantessier.classreader.Code_attribute)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private com.jeantessier.dependency.SelectionCriteria filterCriteria</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public CodeDependencyCollector(com.jeantessier.dependency.NodeFactory, com.jeantessier.dependency.SelectionCriteria)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void visitInstruction(com.jeantessier.classreader.Instruction)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.CompositeSelectionCriteria</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract boolean isMatchingClasses()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean isMatchingFeatures()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean isMatchingPackages()</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean matches(com.jeantessier.dependency.ClassNode)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean matches(com.jeantessier.dependency.FeatureNode)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean matches(com.jeantessier.dependency.PackageNode)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean matchesClassName(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean matchesFeatureName(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean matchesPackageName(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.GraphCopier</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected com.jeantessier.dependency.ClassNode copy(com.jeantessier.dependency.NodeFactory, com.jeantessier.dependency.ClassNode)</code></nobr>
+</li>
+<li>
+<nobr><code>protected com.jeantessier.dependency.FeatureNode copy(com.jeantessier.dependency.NodeFactory, com.jeantessier.dependency.FeatureNode)</code></nobr>
+</li>
+<li>
+<nobr><code>protected com.jeantessier.dependency.PackageNode copy(com.jeantessier.dependency.NodeFactory, com.jeantessier.dependency.PackageNode)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.GraphSummarizer</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void visitClassNode(com.jeantessier.dependency.ClassNode)</code></nobr>
+</li>
+<li>
+<nobr><code>public void visitFeatureNode(com.jeantessier.dependency.FeatureNode)</code></nobr>
+</li>
+<li>
+<nobr><code>public void visitPackageNode(com.jeantessier.dependency.PackageNode)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected boolean isInScope(com.jeantessier.dependency.ClassNode)</code></nobr>
+</li>
+<li>
+<nobr><code>protected boolean isInScope(com.jeantessier.dependency.FeatureNode)</code></nobr>
+</li>
+<li>
+<nobr><code>protected boolean isInScope(com.jeantessier.dependency.PackageNode)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.MetricsReport</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private int countConfirmedNodes(java.util.Collection)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.NodeHandler</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private com.jeantessier.dependency.ClassNode currentClass</code></nobr>
+</li>
+<li>
+<nobr><code>private com.jeantessier.dependency.FeatureNode currentFeature</code></nobr>
+</li>
+<li>
+<nobr><code>private com.jeantessier.dependency.PackageNode currentPackage</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.NodeLoader</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final java.lang.String DEFAULT_READER_CLASS_NAME</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String readerClassName</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public NodeLoader(com.jeantessier.dependency.NodeFactory, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public NodeLoader(com.jeantessier.dependency.NodeFactory, java.lang.String, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public NodeLoader(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public NodeLoader(java.lang.String, boolean)</code></nobr>
+</li>
+</ul>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public com.jeantessier.dependency.NodeFactory load(java.io.InputStream) throws java.io.IOException, org.xml.sax.SAXException<br>
+<b>new:</b>public com.jeantessier.dependency.NodeFactory load(java.io.InputStream) throws java.io.IOException, javax.xml.parsers.ParserConfigurationException, org.xml.sax.SAXException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public com.jeantessier.dependency.NodeFactory load(java.io.Reader) throws java.io.IOException, org.xml.sax.SAXException<br>
+<b>new:</b>public com.jeantessier.dependency.NodeFactory load(java.io.Reader) throws java.io.IOException, javax.xml.parsers.ParserConfigurationException, org.xml.sax.SAXException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public com.jeantessier.dependency.NodeFactory load(java.lang.String) throws java.io.IOException, org.xml.sax.SAXException<br>
+<b>new:</b>public com.jeantessier.dependency.NodeFactory load(java.lang.String) throws java.io.IOException, org.xml.sax.SAXException, javax.xml.parsers.ParserConfigurationException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public com.jeantessier.dependency.NodeFactory load(org.xml.sax.InputSource) throws java.io.IOException, org.xml.sax.SAXException<br>
+<b>new:</b>public com.jeantessier.dependency.NodeFactory load(org.xml.sax.InputSource) throws java.io.IOException, javax.xml.parsers.ParserConfigurationException, org.xml.sax.SAXException</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.Printer</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected com.jeantessier.dependency.Printer printNodeName(com.jeantessier.dependency.Node)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected final com.jeantessier.dependency.Printer printDependencyNodeName(com.jeantessier.dependency.Node)</code></nobr>
+</li>
+<li>
+<nobr><code>protected com.jeantessier.dependency.Printer printDependencyNodeName(com.jeantessier.dependency.Node, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected final com.jeantessier.dependency.Printer printScopeNodeName(com.jeantessier.dependency.Node)</code></nobr>
+</li>
+<li>
+<nobr><code>protected com.jeantessier.dependency.Printer printScopeNodeName(com.jeantessier.dependency.Node, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.RegularExpressionSelectionCriteria</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$dependency$RegularExpressionSelectionCriteria</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public RegularExpressionSelectionCriteria(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.TextPrinter</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void printDependencies(java.util.Map)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void printDependencies(com.jeantessier.dependency.Node, java.util.Map)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.VisitorBase</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.util.SortedSet scope</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected boolean isInScope(com.jeantessier.dependency.ClassNode)</code></nobr>
+</li>
+<li>
+<nobr><code>protected boolean isInScope(com.jeantessier.dependency.FeatureNode)</code></nobr>
+</li>
+<li>
+<nobr><code>protected boolean isInScope(com.jeantessier.dependency.PackageNode)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependency.XMLPrinter</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected com.jeantessier.dependency.Printer printNodeName(com.jeantessier.dependency.Node, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected com.jeantessier.dependency.Printer printScopeNodeName(com.jeantessier.dependency.Node, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.VersionBeanInfo</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$dependencyfinder$Version</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.ant.DependencyExtractor</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean classFilter</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String classFilterExcludes</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String classFilterIncludes</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean featureFilter</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String featureFilterExcludes</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String featureFilterIncludes</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String filterExcludes</code></nobr>
+</li>
+<li>
+<nobr><code>private org.apache.tools.ant.types.Path filterExcludesList</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String filterIncludes</code></nobr>
+</li>
+<li>
+<nobr><code>private org.apache.tools.ant.types.Path filterIncludesList</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean packageFilter</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String packageFilterExcludes</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String packageFilterIncludes</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private com.jeantessier.dependency.CollectionSelectionCriteria createCollectionSelectionCriteria(org.apache.tools.ant.types.Path, org.apache.tools.ant.types.Path)</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.tools.ant.types.Path createFilterexcludeslist()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.tools.ant.types.Path createFilterincludeslist()</code></nobr>
+</li>
+<li>
+<nobr><code>protected com.jeantessier.dependency.RegularExpressionSelectionCriteria createRegularExpressionFilterCriteria() throws org.apache.tools.ant.BuildException</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getClassfilter()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getClassfilterexcludes()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getClassfilterincludes()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getFeaturefilter()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getFeaturefilterexcludes()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getFeaturefilterincludes()</code></nobr>
+</li>
+<li>
+<nobr><code>protected com.jeantessier.dependency.SelectionCriteria getFilterCriteria() throws org.apache.tools.ant.BuildException</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getFilterexcludes()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.tools.ant.types.Path getFilterexcludeslist()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getFilterincludes()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.tools.ant.types.Path getFilterincludeslist()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean getPackagefilter()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getPackagefilterexcludes()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getPackagefilterincludes()</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean hasFilterListSwitches()</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean hasFilterRegularExpressionSwitches()</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection loadCollection(org.apache.tools.ant.types.Path)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setClassfilter(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setClassfilterexcludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setClassfilterincludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setFeaturefilter(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setFeaturefilterexcludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setFeaturefilterincludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setFilterexcludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setFilterincludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setPackagefilter(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setPackagefilterexcludes(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setPackagefilterincludes(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.ant.DependencyMetrics</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void setAll(boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.ant.DependencyReporter</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean showAll</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void setAll(boolean)</code></nobr>
+</li>
+</ul>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private com.jeantessier.dependency.CollectionSelectionCriteria createCollectionSelectionCriteria(org.apache.tools.ant.types.Path, org.apache.tools.ant.types.Path) throws java.io.IOException<br>
+<b>new:</b>private com.jeantessier.dependency.CollectionSelectionCriteria createCollectionSelectionCriteria(org.apache.tools.ant.types.Path, org.apache.tools.ant.types.Path)</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.ant.JarJarDiff</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.io.File newDocumentation</code></nobr>
+</li>
+<li>
+<nobr><code>private java.io.File oldDocumentation</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.io.File getNewdocumentation()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.io.File getOlddocumentation()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setNewdocumentation(java.io.File)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setOlddocumentation(java.io.File)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String API_STRATEGY</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_LEVEL</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String INCOMPATIBLE_STRATEGY</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean code</code></nobr>
+</li>
+<li>
+<nobr><code>private java.io.File filter</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String level</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean getCode()</code></nobr>
+</li>
+<li>
+<nobr><code>private com.jeantessier.diff.DifferenceStrategy getDefaultStrategy(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>private com.jeantessier.diff.APIDifferenceStrategy getDefaultStrategy(com.jeantessier.diff.DifferenceStrategy)</code></nobr>
+</li>
+<li>
+<nobr><code>public java.io.File getFilter()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getLevel()</code></nobr>
+</li>
+<li>
+<nobr><code>private com.jeantessier.diff.DifferenceStrategy getStrategy(java.lang.String, com.jeantessier.diff.DifferenceStrategy)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setCode(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setLevel(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setfilter(java.io.File)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.ClassClassDiff</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.dependencyfinder.cli.ClassClassDiff extends java.lang.Object<br>
+<b>new:</b>public class com.jeantessier.dependencyfinder.cli.ClassClassDiff extends com.jeantessier.dependencyfinder.cli.DiffCommand</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_LOGFILE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_NEW_DOCUMENTATION</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_OLD_DOCUMENTATION</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$dependencyfinder$cli$JarJarDiff</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showVersion() throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>Constructor Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public ClassClassDiff()<br>
+<b>new:</b>public ClassClassDiff() throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void doProcessing() throws java.lang.Exception</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.ClassDump</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$dependencyfinder$cli$ClassDump</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static void dumpClass(java.io.InputStream) throws java.io.IOException<br>
+<b>new:</b>public static void dumpClass(java.io.InputStream)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static void dumpClass(java.lang.Class) throws java.io.IOException<br>
+<b>new:</b>public static void dumpClass(java.lang.Class)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static void dumpClass(java.lang.String) throws java.lang.ClassNotFoundException, java.io.IOException<br>
+<b>new:</b>public static void dumpClass(java.lang.String) throws java.lang.ClassNotFoundException</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.ClassFinder</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.dependencyfinder.cli.ClassFinder extends java.lang.Object<br>
+<b>new:</b>public class com.jeantessier.dependencyfinder.cli.ClassFinder extends com.jeantessier.dependencyfinder.cli.Command</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_INCLUDES</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_LOGFILE</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$dependencyfinder$cli$ClassFinder</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showVersion() throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>Constructor Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public ClassFinder()<br>
+<b>new:</b>public ClassFinder() throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void doProcessing() throws java.lang.Exception</code></nobr>
+</li>
+<li>
+<nobr><code>protected void populateCommandLineSwitches()</code></nobr>
+</li>
+<li>
+<nobr><code>public void showSpecificUsage(java.io.PrintStream)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.ClassList</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.dependencyfinder.cli.ClassList extends java.lang.Object<br>
+<b>new:</b>public class com.jeantessier.dependencyfinder.cli.ClassList extends com.jeantessier.dependencyfinder.cli.Command</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_LOGFILE</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$dependencyfinder$cli$ClassList</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showVersion() throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>Constructor Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public ClassList()<br>
+<b>new:</b>public ClassList() throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void doProcessing() throws java.lang.Exception</code></nobr>
+</li>
+<li>
+<nobr><code>protected void showSpecificUsage(java.io.PrintStream)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.ClassMetrics</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.dependencyfinder.cli.ClassMetrics extends java.lang.Object<br>
+<b>new:</b>public class com.jeantessier.dependencyfinder.cli.ClassMetrics extends com.jeantessier.dependencyfinder.cli.Command</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_LOGFILE</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$dependencyfinder$cli$ClassMetrics</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>private static void printCFM(java.io.PrintWriter, java.lang.String, java.util.Collection, java.util.Collection, java.util.Collection, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>private static void printCFMIC(java.io.PrintWriter, java.lang.String, java.util.Collection, java.util.Collection, java.util.Collection, java.util.Collection, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>private static void printCMIC(java.io.PrintWriter, java.lang.String, java.util.Collection, java.util.Collection, java.util.Collection, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>private static void printFMIC(java.io.PrintWriter, java.lang.String, java.util.Collection, java.util.Collection, java.util.Collection, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showVersion() throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>Constructor Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public ClassMetrics()<br>
+<b>new:</b>public ClassMetrics() throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean list</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void doProcessing() throws java.lang.Exception</code></nobr>
+</li>
+<li>
+<nobr><code>protected void populateCommandLineSwitches()</code></nobr>
+</li>
+<li>
+<nobr><code>private void printCFM(java.lang.String, java.util.Collection, java.util.Collection, java.util.Collection)</code></nobr>
+</li>
+<li>
+<nobr><code>private void printCFMIC(java.lang.String, java.util.Collection, java.util.Collection, java.util.Collection, java.util.Collection)</code></nobr>
+</li>
+<li>
+<nobr><code>private void printCMIC(java.lang.String, java.util.Collection, java.util.Collection, java.util.Collection)</code></nobr>
+</li>
+<li>
+<nobr><code>private void printFMIC(java.lang.String, java.util.Collection, java.util.Collection, java.util.Collection)</code></nobr>
+</li>
+<li>
+<nobr><code>protected void showSpecificUsage(java.io.PrintStream)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.ClassReader</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.dependencyfinder.cli.ClassReader extends java.lang.Object<br>
+<b>new:</b>public class com.jeantessier.dependencyfinder.cli.ClassReader extends com.jeantessier.dependencyfinder.cli.Command</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_LOGFILE</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$dependencyfinder$cli$ClassReader</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showVersion() throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>Constructor Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public ClassReader()<br>
+<b>new:</b>public ClassReader() throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void doProcessing() throws java.lang.Exception</code></nobr>
+</li>
+<li>
+<nobr><code>protected com.jeantessier.commandline.ParameterStrategy getParameterStrategy()</code></nobr>
+</li>
+<li>
+<nobr><code>protected void populateCommandLineSwitches()</code></nobr>
+</li>
+<li>
+<nobr><code>public void showSpecificUsage(java.io.PrintStream)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.DependencyClosure</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.dependencyfinder.cli.DependencyClosure extends java.lang.Object<br>
+<b>new:</b>public class com.jeantessier.dependencyfinder.cli.DependencyClosure extends com.jeantessier.dependencyfinder.cli.Command</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_LOGFILE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_START_INCLUDES</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$dependencyfinder$cli$DependencyClosure</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showVersion() throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>Constructor Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public DependencyClosure()<br>
+<b>new:</b>public DependencyClosure() throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void doProcessing() throws java.lang.Exception</code></nobr>
+</li>
+<li>
+<nobr><code>protected com.jeantessier.commandline.ParameterStrategy getParameterStrategy()</code></nobr>
+</li>
+<li>
+<nobr><code>protected void populateCommandLineSwitches()</code></nobr>
+</li>
+<li>
+<nobr><code>protected void showSpecificUsage(java.io.PrintStream)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.DependencyExtractor</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.dependencyfinder.cli.DependencyExtractor extends java.lang.Object<br>
+<b>new:</b>public class com.jeantessier.dependencyfinder.cli.DependencyExtractor extends com.jeantessier.dependencyfinder.cli.Command</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_LOGFILE</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$dependencyfinder$cli$DependencyExtractor</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showVersion() throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>Constructor Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public DependencyExtractor()<br>
+<b>new:</b>public DependencyExtractor() throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void doProcessing() throws java.lang.Exception</code></nobr>
+</li>
+<li>
+<nobr><code>protected java.util.Collection parseCommandLine(java.lang.String[])</code></nobr>
+</li>
+<li>
+<nobr><code>protected void populateCommandLineSwitches()</code></nobr>
+</li>
+<li>
+<nobr><code>protected void showSpecificUsage(java.io.PrintStream)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.DependencyMetrics</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.dependencyfinder.cli.DependencyMetrics extends java.lang.Object<br>
+<b>new:</b>public class com.jeantessier.dependencyfinder.cli.DependencyMetrics extends com.jeantessier.dependencyfinder.cli.Command</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_FILTER_INCLUDES</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_INCLUDES</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_LOGFILE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_SCOPE_INCLUDES</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$dependencyfinder$cli$DependencyMetrics</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showVersion() throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>Constructor Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public DependencyMetrics()<br>
+<b>new:</b>public DependencyMetrics() throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void doProcessing() throws java.lang.Exception</code></nobr>
+</li>
+<li>
+<nobr><code>protected com.jeantessier.commandline.ParameterStrategy getParameterStrategy()</code></nobr>
+</li>
+<li>
+<nobr><code>protected java.util.Collection parseCommandLine(java.lang.String[])</code></nobr>
+</li>
+<li>
+<nobr><code>protected void populateCommandLineSwitches()</code></nobr>
+</li>
+<li>
+<nobr><code>protected void showSpecificUsage(java.io.PrintStream)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.DependencyReporter</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.dependencyfinder.cli.DependencyReporter extends java.lang.Object<br>
+<b>new:</b>public class com.jeantessier.dependencyfinder.cli.DependencyReporter extends com.jeantessier.dependencyfinder.cli.Command</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_FILTER_INCLUDES</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_INCLUDES</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_LOGFILE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_SCOPE_INCLUDES</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$dependencyfinder$cli$DependencyReporter</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>private static com.jeantessier.dependency.CollectionSelectionCriteria createCollectionSelectionCriteria(java.util.Collection, java.util.Collection) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>private static boolean hasFilterListSwitches(com.jeantessier.commandline.CommandLine)</code></nobr>
+</li>
+<li>
+<nobr><code>private static boolean hasFilterRegularExpressionSwitches(com.jeantessier.commandline.CommandLine)</code></nobr>
+</li>
+<li>
+<nobr><code>private static boolean hasScopeListSwitches(com.jeantessier.commandline.CommandLine)</code></nobr>
+</li>
+<li>
+<nobr><code>private static boolean hasScopeRegularExpressionSwitches(com.jeantessier.commandline.CommandLine)</code></nobr>
+</li>
+<li>
+<nobr><code>private static java.util.Collection loadCollection(java.util.Collection)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showVersion() throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>Constructor Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public DependencyReporter()<br>
+<b>new:</b>public DependencyReporter() throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void doProcessing() throws java.lang.Exception</code></nobr>
+</li>
+<li>
+<nobr><code>protected com.jeantessier.commandline.ParameterStrategy getParameterStrategy()</code></nobr>
+</li>
+<li>
+<nobr><code>protected java.util.Collection parseCommandLine(java.lang.String[])</code></nobr>
+</li>
+<li>
+<nobr><code>protected void populateCommandLineSwitches()</code></nobr>
+</li>
+<li>
+<nobr><code>protected void showSpecificUsage(java.io.PrintStream)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.JarJarDiff</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.dependencyfinder.cli.JarJarDiff extends java.lang.Object<br>
+<b>new:</b>public class com.jeantessier.dependencyfinder.cli.JarJarDiff extends com.jeantessier.dependencyfinder.cli.DiffCommand</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_LOGFILE</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_NEW_DOCUMENTATION</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_OLD_DOCUMENTATION</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$dependencyfinder$cli$JarJarDiff</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showVersion() throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>Constructor Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public JarJarDiff()<br>
+<b>new:</b>public JarJarDiff() throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void doProcessing() throws java.lang.Exception</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.ListDeprecatedElements</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.dependencyfinder.cli.ListDeprecatedElements extends java.lang.Object<br>
+<b>new:</b>public class com.jeantessier.dependencyfinder.cli.ListDeprecatedElements extends com.jeantessier.dependencyfinder.cli.Command</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_LOGFILE</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$dependencyfinder$cli$ListDeprecatedElements</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showVersion() throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>Constructor Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public ListDeprecatedElements()<br>
+<b>new:</b>public ListDeprecatedElements() throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void doProcessing() throws java.lang.Exception</code></nobr>
+</li>
+<li>
+<nobr><code>protected void showSpecificUsage(java.io.PrintStream)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.ListDiff</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.dependencyfinder.cli.ListDiff extends java.lang.Object<br>
+<b>new:</b>public class com.jeantessier.dependencyfinder.cli.ListDiff extends com.jeantessier.dependencyfinder.cli.Command</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$dependencyfinder$cli$ListDiff</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showVersion() throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>Constructor Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public ListDiff()<br>
+<b>new:</b>public ListDiff() throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void doProcessing() throws java.lang.Exception</code></nobr>
+</li>
+<li>
+<nobr><code>protected void populateCommandLineSwitches()</code></nobr>
+</li>
+<li>
+<nobr><code>protected void showSpecificUsage(java.io.PrintStream)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.ListSymbols</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.dependencyfinder.cli.ListSymbols extends java.lang.Object<br>
+<b>new:</b>public class com.jeantessier.dependencyfinder.cli.ListSymbols extends com.jeantessier.dependencyfinder.cli.Command</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_LOGFILE</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$dependencyfinder$cli$ListSymbols</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showVersion() throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>Constructor Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public ListSymbols()<br>
+<b>new:</b>public ListSymbols() throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void doProcessing() throws java.lang.Exception</code></nobr>
+</li>
+<li>
+<nobr><code>protected java.util.Collection parseCommandLine(java.lang.String[])</code></nobr>
+</li>
+<li>
+<nobr><code>protected void populateCommandLineSwitches()</code></nobr>
+</li>
+<li>
+<nobr><code>protected void showSpecificUsage(java.io.PrintStream)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.OOMetrics</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.dependencyfinder.cli.OOMetrics extends java.lang.Object<br>
+<b>new:</b>public class com.jeantessier.dependencyfinder.cli.OOMetrics extends com.jeantessier.dependencyfinder.cli.Command</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String DEFAULT_LOGFILE</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$dependencyfinder$cli$OOMetrics</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>private static void printCSVFiles(java.util.Date, com.jeantessier.commandline.CommandLine, com.jeantessier.metrics.MetricsFactory) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>private static void printTextFile(java.util.Date, com.jeantessier.commandline.CommandLine, com.jeantessier.metrics.MetricsFactory) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>private static void printXMLFile(java.util.Date, com.jeantessier.commandline.CommandLine, com.jeantessier.metrics.MetricsFactory) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showError(com.jeantessier.commandline.CommandLineUsage, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void showVersion() throws java.io.IOException</code></nobr>
+</li>
+</ul>
+<h5>Constructor Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public OOMetrics()<br>
+<b>new:</b>public OOMetrics() throws com.jeantessier.commandline.CommandLineException</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void doProcessing() throws java.lang.Exception</code></nobr>
+</li>
+<li>
+<nobr><code>protected java.util.Collection parseCommandLine(java.lang.String[])</code></nobr>
+</li>
+<li>
+<nobr><code>protected void populateCommandLineSwitches()</code></nobr>
+</li>
+<li>
+<nobr><code>private void printCSVFiles(com.jeantessier.metrics.MetricsFactory) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>private void printTextFile(com.jeantessier.metrics.MetricsFactory) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>private void printXMLFile(com.jeantessier.metrics.MetricsFactory) throws java.io.IOException</code></nobr>
+</li>
+<li>
+<nobr><code>protected void showSpecificUsage(java.io.PrintStream)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.cli.VerboseListener</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void setWriter(java.io.OutputStream)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.DependencyFinder</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$dependencyfinder$gui$DependencyFinder</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void addInputFiles(java.util.Collection)</code></nobr>
+</li>
+<li>
+<nobr><code>private void buildHelpMenu(com.jeantessier.commandline.CommandLine)</code></nobr>
+</li>
+<li>
+<nobr><code>private void buildViewMenu(com.jeantessier.commandline.CommandLine)</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public static void main(java.lang.String[]) throws java.lang.Exception<br>
+<b>new:</b>public static void main(java.lang.String[])</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void addInputFile(java.io.File)</code></nobr>
+</li>
+<li>
+<nobr><code>private void buildHelpMenu()</code></nobr>
+</li>
+<li>
+<nobr><code>private void buildViewMenu()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.MetricsExtractAction</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.io.File[] files</code></nobr>
+</li>
+<li>
+<nobr><code>private com.jeantessier.classreader.ClassfileLoader loader</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.util.Collection filenames</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.OOMetrics</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$dependencyfinder$gui$OOMetrics</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$java$lang$Object</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public OOMetrics(com.jeantessier.commandline.CommandLine, com.jeantessier.metrics.MetricsFactory)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void buildFileMenu(com.jeantessier.commandline.CommandLine)</code></nobr>
+</li>
+<li>
+<nobr><code>private void buildHelpMenu(com.jeantessier.commandline.CommandLine)</code></nobr>
+</li>
+<li>
+<nobr><code>private void buildMenus(com.jeantessier.commandline.CommandLine)</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public OOMetrics(com.jeantessier.metrics.MetricsFactory)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void buildFileMenu()</code></nobr>
+</li>
+<li>
+<nobr><code>private void buildHelpMenu()</code></nobr>
+</li>
+<li>
+<nobr><code>private void buildMenus()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.OOMetricsTableModel</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final java.lang.Integer LOCAL_DISPOSE_NB_DATA_POINTS</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$metrics$StatisticalMeasurement</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.dependencyfinder.gui.TableHeaderListener</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$metrics$StatisticalMeasurement</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.ClassDifferences</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean declarationModified</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean isDeclarationModified()</code></nobr>
+</li>
+<li>
+<nobr><code>void setDeclarationModified(boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.ClassReport</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.util.Collection documentedConstructors</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection documentedFields</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection documentedMethods</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection undocumentedConstructors</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection undocumentedFields</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection undocumentedMethods</code></nobr>
+</li>
+</ul>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static final java.lang.String breakdownDeclaration(com.jeantessier.classreader.Classfile)<br>
+<b>new:</b>private java.lang.String breakdownDeclaration(com.jeantessier.classreader.Classfile)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static final java.lang.String breakdownDeclaration(com.jeantessier.classreader.Field_info)<br>
+<b>new:</b>private java.lang.String breakdownDeclaration(com.jeantessier.classreader.Field_info)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static java.lang.String breakdownDeclaration(com.jeantessier.classreader.Method_info)<br>
+<b>new:</b>private java.lang.String breakdownDeclaration(com.jeantessier.classreader.Method_info)</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.ConstructorDifferences</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.diff.ConstructorDifferences extends com.jeantessier.diff.FeatureDifferences<br>
+<b>new:</b>public class com.jeantessier.diff.ConstructorDifferences extends com.jeantessier.diff.CodeDifferences</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>ConstructorDifferences(java.lang.String, com.jeantessier.classreader.Feature_info, com.jeantessier.classreader.Feature_info)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>ConstructorDifferences(java.lang.String, com.jeantessier.classreader.Method_info, com.jeantessier.classreader.Method_info)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.DecoratorDifferences</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void accept(com.jeantessier.diff.Visitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract boolean isEmpty()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.DeprecatableDifferences</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean isEmpty()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.DifferencesFactory</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private com.jeantessier.classreader.ClassfileLoader newJar</code></nobr>
+</li>
+<li>
+<nobr><code>private com.jeantessier.diff.Validator newValidator</code></nobr>
+</li>
+<li>
+<nobr><code>private com.jeantessier.classreader.ClassfileLoader oldJar</code></nobr>
+</li>
+<li>
+<nobr><code>private com.jeantessier.diff.Validator oldValidator</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public DifferencesFactory(com.jeantessier.diff.Validator, com.jeantessier.diff.Validator)</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public com.jeantessier.diff.Differences createJarDifferences(java.lang.String, java.lang.String, com.jeantessier.classreader.ClassfileLoader, java.lang.String, com.jeantessier.classreader.ClassfileLoader)</code></nobr>
+</li>
+<li>
+<nobr><code>public com.jeantessier.diff.Differences createPackageDifferences(java.lang.String, com.jeantessier.dependency.PackageNode, com.jeantessier.dependency.PackageNode)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private com.jeantessier.diff.DifferenceStrategy strategy</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>DifferencesFactory()</code></nobr>
+</li>
+<li>
+<nobr><code>public DifferencesFactory(com.jeantessier.diff.DifferenceStrategy)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public com.jeantessier.diff.Differences createPackageDifferences(java.lang.String, java.util.Map, java.util.Map)</code></nobr>
+</li>
+<li>
+<nobr><code>public com.jeantessier.diff.Differences createProjectDifferences(java.lang.String, java.lang.String, com.jeantessier.classreader.PackageMapper, java.lang.String, com.jeantessier.classreader.PackageMapper)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.FieldDifferences</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>FieldDifferences(java.lang.String, com.jeantessier.classreader.Feature_info, com.jeantessier.classreader.Feature_info)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean constantValueDifference</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>FieldDifferences(java.lang.String, com.jeantessier.classreader.Field_info, com.jeantessier.classreader.Field_info)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean isConstantValueDifference()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isModified()</code></nobr>
+</li>
+<li>
+<nobr><code>void setConstantValueDifference(boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.ListDiffPrinter</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private int indentLevel</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String indentText</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void addAll(java.util.Collection)</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getIndentText()</code></nobr>
+</li>
+<li>
+<nobr><code>private void printLines(java.lang.StringBuffer, java.util.Collection)</code></nobr>
+</li>
+<li>
+<nobr><code>public void removeAll(java.util.Collection)</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private java.lang.StringBuffer buffer<br>
+<b>new:</b>private com.jeantessier.text.PrinterBuffer buffer</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void printLines(java.util.Collection)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.MethodDifferences</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class com.jeantessier.diff.MethodDifferences extends com.jeantessier.diff.FeatureDifferences<br>
+<b>new:</b>public class com.jeantessier.diff.MethodDifferences extends com.jeantessier.diff.CodeDifferences</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>MethodDifferences(java.lang.String, com.jeantessier.classreader.Feature_info, com.jeantessier.classreader.Feature_info)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>MethodDifferences(java.lang.String, com.jeantessier.classreader.Method_info, com.jeantessier.classreader.Method_info)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.PackageDifferences</code>
+</h4>
+<blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>PackageDifferences(java.lang.String, com.jeantessier.dependency.PackageNode, com.jeantessier.dependency.PackageNode)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>PackageDifferences(java.lang.String, java.util.Map, java.util.Map)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.Printer</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private int indentLevel</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String indentText</code></nobr>
+</li>
+</ul>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private java.lang.StringBuffer buffer<br>
+<b>new:</b>private com.jeantessier.text.PrinterBuffer buffer</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.RemovableDifferences</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void accept(com.jeantessier.diff.Visitor)</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isEmpty()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.Report</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.util.Collection documentedClasses</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection documentedInterfaces</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection documentedPackages</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection undocumentedClasses</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection undocumentedInterfaces</code></nobr>
+</li>
+<li>
+<nobr><code>private java.util.Collection undocumentedPackages</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void visitJarDifferences(com.jeantessier.diff.JarDifferences)</code></nobr>
+</li>
+</ul>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static final java.lang.String breakdownDeclaration(com.jeantessier.classreader.Classfile)<br>
+<b>new:</b>private java.lang.String breakdownDeclaration(com.jeantessier.classreader.Classfile)</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void setName(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setNewVersion(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setOldVersion(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public void visitProjectDifferences(com.jeantessier.diff.ProjectDifferences)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.diff.VisitorBase</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private int documentableLevel</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean[] documented</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean[] undocumented</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean isDocumented()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean isUndocumented()</code></nobr>
+</li>
+<li>
+<nobr><code>private void lowerDocumentableLevel()</code></nobr>
+</li>
+<li>
+<nobr><code>private void raiseDocumentableLevel()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setDocumented(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public void setUndocumented(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void visitClassDifferences(com.jeantessier.diff.ClassDifferences)</code></nobr>
+</li>
+<li>
+<nobr><code>public void visitDocumentableDifferences(com.jeantessier.diff.DocumentableDifferences)</code></nobr>
+</li>
+<li>
+<nobr><code>public abstract void visitInterfaceDifferences(com.jeantessier.diff.InterfaceDifferences)</code></nobr>
+</li>
+<li>
+<nobr><code>public void visitJarDifferences(com.jeantessier.diff.JarDifferences)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void visitProjectDifferences(com.jeantessier.diff.ProjectDifferences)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.CSVPrinter</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$metrics$StatisticalMeasurement</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.MeasurementBase</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void accept(com.jeantessier.metrics.MeasurementVisitor)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.MeasurementDescriptor</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$metrics$MeasurementDescriptor</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$com$jeantessier$metrics$Metrics</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$java$lang$String</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.Metrics</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final java.lang.String CLASS_NAME_CHARACTER_COUNT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String CLASS_NAME_WORD_COUNT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String GROUP_NAME_CHARACTER_COUNT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String GROUP_NAME_WORD_COUNT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String METHOD_NAME_CHARACTER_COUNT</code></nobr>
+</li>
+<li>
+<nobr><code>public static final java.lang.String METHOD_NAME_WORD_COUNT</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.MetricsComparator</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public int compare(com.jeantessier.metrics.Metrics, com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.MetricsConfigurationLoader</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final java.lang.String DEFAULT_READER_CLASSNAME</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String readerClassname</code></nobr>
+</li>
+</ul>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public MetricsConfigurationLoader(com.jeantessier.metrics.MetricsConfiguration, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public MetricsConfigurationLoader(com.jeantessier.metrics.MetricsConfiguration, java.lang.String, boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>public MetricsConfigurationLoader(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public MetricsConfigurationLoader(java.lang.String, boolean)</code></nobr>
+</li>
+</ul>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public com.jeantessier.metrics.MetricsConfiguration load(java.io.InputStream) throws java.io.IOException, org.xml.sax.SAXException<br>
+<b>new:</b>public com.jeantessier.metrics.MetricsConfiguration load(java.io.InputStream) throws java.io.IOException, org.xml.sax.SAXException, javax.xml.parsers.ParserConfigurationException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public com.jeantessier.metrics.MetricsConfiguration load(java.io.Reader) throws java.io.IOException, org.xml.sax.SAXException<br>
+<b>new:</b>public com.jeantessier.metrics.MetricsConfiguration load(java.io.Reader) throws java.io.IOException, org.xml.sax.SAXException, javax.xml.parsers.ParserConfigurationException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public com.jeantessier.metrics.MetricsConfiguration load(java.lang.String) throws java.io.IOException, org.xml.sax.SAXException<br>
+<b>new:</b>public com.jeantessier.metrics.MetricsConfiguration load(java.lang.String) throws java.io.IOException, org.xml.sax.SAXException, javax.xml.parsers.ParserConfigurationException</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public com.jeantessier.metrics.MetricsConfiguration load(org.xml.sax.InputSource) throws java.io.IOException, org.xml.sax.SAXException<br>
+<b>new:</b>public com.jeantessier.metrics.MetricsConfiguration load(org.xml.sax.InputSource) throws java.io.IOException, org.xml.sax.SAXException, javax.xml.parsers.ParserConfigurationException</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.MetricsFactory</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private com.jeantessier.metrics.WordCounter counter</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void computeClassNameCharacterCount(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+<li>
+<nobr><code>private void computeClassNameWordCount(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+<li>
+<nobr><code>private void computeMethodNameCharacterCount(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+<li>
+<nobr><code>private void computeMethodNameWordCount(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+<li>
+<nobr><code>private void computePackageNameCharacterCount(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+<li>
+<nobr><code>private void computePackageNameWordCount(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+<li>
+<nobr><code>private void initializeClassMetrics(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+<li>
+<nobr><code>private void initializeGroupMetrics(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+<li>
+<nobr><code>private void initializeMethodMetrics(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.MetricsGatherer</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void visitCode_attribute(com.jeantessier.classreader.Code_attribute)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void visitInstruction(com.jeantessier.classreader.Instruction)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>com.jeantessier.metrics.Printer</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public abstract void visitStatisticalMeasurement(com.jeantessier.metrics.StatisticalMeasurement)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>jsp.advancedclosure_jsp</code>
+</h4>
+<blockquote>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static java.util.Vector _jspx_dependants<br>
+<b>new:</b>private static java.util.List _jspx_dependants</code></nobr>
+</p>
+</blockquote>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public java.util.List getDependants()<br>
+<b>new:</b>public java.lang.Object getDependants()</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private javax.el.ExpressionFactory _el_expressionfactory</code></nobr>
+</li>
+<li>
+<nobr><code>private org.apache.AnnotationProcessor _jsp_annotationprocessor</code></nobr>
+</li>
+<li>
+<nobr><code>private static final javax.servlet.jsp.JspFactory _jspxFactory</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void _jspDestroy()</code></nobr>
+</li>
+<li>
+<nobr><code>public void _jspInit()</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>jsp.advancedmetrics_jsp</code>
+</h4>
+<blockquote>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static java.util.Vector _jspx_dependants<br>
+<b>new:</b>private static java.util.List _jspx_dependants</code></nobr>
+</p>
+</blockquote>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public java.util.List getDependants()<br>
+<b>new:</b>public java.lang.Object getDependants()</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private javax.el.ExpressionFactory _el_expressionfactory</code></nobr>
+</li>
+<li>
+<nobr><code>private org.apache.AnnotationProcessor _jsp_annotationprocessor</code></nobr>
+</li>
+<li>
+<nobr><code>private static final javax.servlet.jsp.JspFactory _jspxFactory</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void _jspDestroy()</code></nobr>
+</li>
+<li>
+<nobr><code>public void _jspInit()</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>jsp.advancedquery_jsp</code>
+</h4>
+<blockquote>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static java.util.Vector _jspx_dependants<br>
+<b>new:</b>private static java.util.List _jspx_dependants</code></nobr>
+</p>
+</blockquote>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public java.util.List getDependants()<br>
+<b>new:</b>public java.lang.Object getDependants()</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private javax.el.ExpressionFactory _el_expressionfactory</code></nobr>
+</li>
+<li>
+<nobr><code>private org.apache.AnnotationProcessor _jsp_annotationprocessor</code></nobr>
+</li>
+<li>
+<nobr><code>private static final javax.servlet.jsp.JspFactory _jspxFactory</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void _jspDestroy()</code></nobr>
+</li>
+<li>
+<nobr><code>public void _jspInit()</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>jsp.closure_jsp</code>
+</h4>
+<blockquote>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static java.util.Vector _jspx_dependants<br>
+<b>new:</b>private static java.util.List _jspx_dependants</code></nobr>
+</p>
+</blockquote>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public java.util.List getDependants()<br>
+<b>new:</b>public java.lang.Object getDependants()</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private javax.el.ExpressionFactory _el_expressionfactory</code></nobr>
+</li>
+<li>
+<nobr><code>private org.apache.AnnotationProcessor _jsp_annotationprocessor</code></nobr>
+</li>
+<li>
+<nobr><code>private static final javax.servlet.jsp.JspFactory _jspxFactory</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void _jspDestroy()</code></nobr>
+</li>
+<li>
+<nobr><code>public void _jspInit()</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>jsp.errorpage_jsp</code>
+</h4>
+<blockquote>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static java.util.Vector _jspx_dependants<br>
+<b>new:</b>private static java.util.List _jspx_dependants</code></nobr>
+</p>
+</blockquote>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public java.util.List getDependants()<br>
+<b>new:</b>public java.lang.Object getDependants()</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private javax.el.ExpressionFactory _el_expressionfactory</code></nobr>
+</li>
+<li>
+<nobr><code>private org.apache.AnnotationProcessor _jsp_annotationprocessor</code></nobr>
+</li>
+<li>
+<nobr><code>private static final javax.servlet.jsp.JspFactory _jspxFactory</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void _jspDestroy()</code></nobr>
+</li>
+<li>
+<nobr><code>public void _jspInit()</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>jsp.extract_jsp</code>
+</h4>
+<blockquote>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static java.util.Vector _jspx_dependants<br>
+<b>new:</b>private static java.util.List _jspx_dependants</code></nobr>
+</p>
+</blockquote>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public java.util.List getDependants()<br>
+<b>new:</b>public java.lang.Object getDependants()</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private javax.el.ExpressionFactory _el_expressionfactory</code></nobr>
+</li>
+<li>
+<nobr><code>private org.apache.AnnotationProcessor _jsp_annotationprocessor</code></nobr>
+</li>
+<li>
+<nobr><code>private static final javax.servlet.jsp.JspFactory _jspxFactory</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void _jspDestroy()</code></nobr>
+</li>
+<li>
+<nobr><code>public void _jspInit()</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>jsp.extract_jsp$VerboseListener</code>
+</h4>
+<blockquote>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private final jsp.extract_jsp this$0<br>
+<b>new:</b>final jsp.extract_jsp this$0</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>jsp.footer_jsp</code>
+</h4>
+<blockquote>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static java.util.Vector _jspx_dependants<br>
+<b>new:</b>private static java.util.List _jspx_dependants</code></nobr>
+</p>
+</blockquote>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public java.util.List getDependants()<br>
+<b>new:</b>public java.lang.Object getDependants()</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private javax.el.ExpressionFactory _el_expressionfactory</code></nobr>
+</li>
+<li>
+<nobr><code>private org.apache.AnnotationProcessor _jsp_annotationprocessor</code></nobr>
+</li>
+<li>
+<nobr><code>private static final javax.servlet.jsp.JspFactory _jspxFactory</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void _jspDestroy()</code></nobr>
+</li>
+<li>
+<nobr><code>public void _jspInit()</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>jsp.load_jsp</code>
+</h4>
+<blockquote>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static java.util.Vector _jspx_dependants<br>
+<b>new:</b>private static java.util.List _jspx_dependants</code></nobr>
+</p>
+</blockquote>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public java.util.List getDependants()<br>
+<b>new:</b>public java.lang.Object getDependants()</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private javax.el.ExpressionFactory _el_expressionfactory</code></nobr>
+</li>
+<li>
+<nobr><code>private org.apache.AnnotationProcessor _jsp_annotationprocessor</code></nobr>
+</li>
+<li>
+<nobr><code>private static final javax.servlet.jsp.JspFactory _jspxFactory</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void _jspDestroy()</code></nobr>
+</li>
+<li>
+<nobr><code>public void _jspInit()</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>jsp.load_jsp$VerboseListener</code>
+</h4>
+<blockquote>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private final jsp.load_jsp this$0<br>
+<b>new:</b>final jsp.load_jsp this$0</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>jsp.metrics_jsp</code>
+</h4>
+<blockquote>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static java.util.Vector _jspx_dependants<br>
+<b>new:</b>private static java.util.List _jspx_dependants</code></nobr>
+</p>
+</blockquote>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public java.util.List getDependants()<br>
+<b>new:</b>public java.lang.Object getDependants()</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private javax.el.ExpressionFactory _el_expressionfactory</code></nobr>
+</li>
+<li>
+<nobr><code>private org.apache.AnnotationProcessor _jsp_annotationprocessor</code></nobr>
+</li>
+<li>
+<nobr><code>private static final javax.servlet.jsp.JspFactory _jspxFactory</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void _jspDestroy()</code></nobr>
+</li>
+<li>
+<nobr><code>public void _jspInit()</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>jsp.query_jsp</code>
+</h4>
+<blockquote>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static java.util.Vector _jspx_dependants<br>
+<b>new:</b>private static java.util.List _jspx_dependants</code></nobr>
+</p>
+</blockquote>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public java.util.List getDependants()<br>
+<b>new:</b>public java.lang.Object getDependants()</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private javax.el.ExpressionFactory _el_expressionfactory</code></nobr>
+</li>
+<li>
+<nobr><code>private org.apache.AnnotationProcessor _jsp_annotationprocessor</code></nobr>
+</li>
+<li>
+<nobr><code>private static final javax.servlet.jsp.JspFactory _jspxFactory</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void _jspDestroy()</code></nobr>
+</li>
+<li>
+<nobr><code>public void _jspInit()</code></nobr>
+</li>
+<li>
+<nobr><code>static static {}</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+<h3>New Packages:</h3>
+<ul>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.webwork</code></nobr>
+</li>
+</ul>
+<h3>New Interfaces:</h3>
+<ul>
+<li>
+<nobr><code>com.jeantessier.dependency.CyclePrinter</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.DifferenceStrategy</code></nobr>
+</li>
+</ul>
+<h3>New Classes:</h3>
+<ul>
+<li>
+<nobr><code>com.jeantessier.classreader.ClassfileLoaderDispatcher$Action</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.classreader.ClassfileLoaderEventSource$1</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.classreader.PackageMapper</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.commandline.AliasSwitch</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.commandline.CollectingParameterStrategy</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.commandline.LimitedCollectingParameterStrategy</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.commandline.Printer</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.commandline.TextPrinter</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.commandline.VisitorBase</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependency.Cycle</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependency.CycleComparator</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependency.CycleDetector</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependency.HTMLCyclePrinter</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependency.HTMLPrinter</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependency.NodeNamePrinter</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependency.TextCyclePrinter</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependency.XMLCyclePrinter</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.NullPrintWriter</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.ant.DependencyCycles</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.cli.Command</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.cli.DependencyCycles</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.cli.DiffCommand</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.dependencyfinder.cli.XSLTProcess</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.APIDifferenceStrategy</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.CodeDifferenceStrategy</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.CodeDifferences</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.DifferenceStrategyDecorator</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.IncompatibleDifferenceStrategy</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.ListBasedDifferenceStrategy</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.NoDifferenceStrategy</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.diff.ProjectDifferences</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.metrics.WordCounter</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.text.Hex</code></nobr>
+</li>
+<li>
+<nobr><code>com.jeantessier.text.PrinterBuffer</code></nobr>
+</li>
+<li>
+<nobr><code>jsp.advancedcycles_jsp</code></nobr>
+</li>
+<li>
+<nobr><code>jsp.cycles_jsp</code></nobr>
+</li>
+</ul>
+
+<hr>
+
 <a name="1.1.1"></a>
 <h2>1.1.0 to 1.1.1</h2>
-
 <h3>Removed Classes:</h3>
 <ul>
 <li>
