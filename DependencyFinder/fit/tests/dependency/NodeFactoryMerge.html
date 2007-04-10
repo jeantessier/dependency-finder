@@ -1,0 +1,210 @@
+<html>
+
+<head>
+<title>Graph Merge Tests</title>
+</head>
+
+<body>
+
+<h1>Graph Merge Tests</h1>
+
+<table border="1">
+    <tr>
+        <td>com.jeantessier.dependency.NodeFactoryFixture</td>
+    </tr>
+</table>
+
+<h3>Set up.</h3>
+
+<table border="1">
+    <tr>
+        <td>create</td>
+        <td>foo.Foo.foo</td>
+        <td>feature</td>
+        <td>false</td>
+    </tr>
+</table>
+
+<h3>Check start state</h3>
+
+<p>Packages</p>
+
+<table border="1">
+    <tr>
+        <td colspan="3">packages</td>
+    </tr>
+    <tr>
+        <td><i>name</i></td>
+        <td><i>confirmed</i></td>
+    </tr>
+    <tr>
+        <td>foo</td>
+        <td>false</td>
+    </tr>
+</table>
+
+<p>Classes</p>
+
+<table border="1">
+    <tr>
+        <td colspan="3">classes</td>
+    </tr>
+    <tr>
+        <td><i>name</i></td>
+        <td><i>confirmed</i></td>
+    </tr>
+    <tr>
+        <td>foo.Foo</td>
+        <td>false</td>
+    </tr>
+</table>
+
+<p>Features</p>
+
+<table border="1">
+    <tr>
+        <td colspan="3">features</td>
+    </tr>
+    <tr>
+        <td><i>name</i></td>
+        <td><i>confirmed</i></td>
+    </tr>
+    <tr>
+        <td>foo.Foo.foo</td>
+        <td>false</td>
+    </tr>
+</table>
+
+<h3>Merge in confirmed class</h3>
+
+<table border="1">
+    <tr>
+        <td>create</td>
+        <td>foo.Foo</td>
+        <td>class</td>
+        <td>true</td>
+    </tr>
+</table>
+
+<h3>Check start state</h3>
+
+<p>Packages</p>
+
+<table border="1">
+    <tr>
+        <td colspan="3">packages</td>
+    </tr>
+    <tr>
+        <td><i>name</i></td>
+        <td><i>confirmed</i></td>
+    </tr>
+    <tr>
+        <td>foo</td>
+        <td>true</td>
+    </tr>
+</table>
+
+<p>Classes</p>
+
+<table border="1">
+    <tr>
+        <td colspan="3">classes</td>
+    </tr>
+    <tr>
+        <td><i>name</i></td>
+        <td><i>confirmed</i></td>
+    </tr>
+    <tr>
+        <td>foo.Foo</td>
+        <td>true</td>
+    </tr>
+</table>
+
+<p>Features</p>
+
+<table border="1">
+    <tr>
+        <td colspan="3">features</td>
+    </tr>
+    <tr>
+        <td><i>name</i></td>
+        <td><i>confirmed</i></td>
+    </tr>
+    <tr>
+        <td>foo.Foo.foo</td>
+        <td>false</td>
+    </tr>
+</table>
+
+<h3>Merge in unconfirmed class</h3>
+
+<table border="1">
+    <tr>
+        <td>create</td>
+        <td>foo.Foo</td>
+        <td>class</td>
+        <td>false</td>
+    </tr>
+</table>
+
+<h3>Check start state</h3>
+
+<p>Packages</p>
+
+<table border="1">
+    <tr>
+        <td colspan="3">packages</td>
+    </tr>
+    <tr>
+        <td><i>name</i></td>
+        <td><i>confirmed</i></td>
+    </tr>
+    <tr>
+        <td>foo</td>
+        <td>true</td>
+    </tr>
+</table>
+
+<p>Classes</p>
+
+<table border="1">
+    <tr>
+        <td colspan="3">classes</td>
+    </tr>
+    <tr>
+        <td><i>name</i></td>
+        <td><i>confirmed</i></td>
+    </tr>
+    <tr>
+        <td>foo.Foo</td>
+        <td>true</td>
+    </tr>
+</table>
+
+<p>Features</p>
+
+<table border="1">
+    <tr>
+        <td colspan="3">features</td>
+    </tr>
+    <tr>
+        <td><i>name</i></td>
+        <td><i>confirmed</i></td>
+    </tr>
+    <tr>
+        <td>foo.Foo.foo</td>
+        <td>false</td>
+    </tr>
+</table>
+
+<hr/>
+
+<table border="1">
+    <tr>
+        <td colspan="3">fit.Summary</td>
+    </tr>
+</table>
+
+</body>
+
+</html>
