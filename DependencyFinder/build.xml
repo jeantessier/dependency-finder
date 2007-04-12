@@ -70,7 +70,7 @@
         <property name="srcArchive"     value="${distDir}/${ant.project.name}-${release}.src"/>
         <property name="binArchive"     value="${distDir}/${ant.project.name}-${release}.bin"/>
 
-        <property name="webworkWarFile" value="${ant.project.name}-${release}.webwork.war"/>
+        <property name="webworkWarFile" value="${distDir}/${ant.project.name}-${release}.webwork.war"/>
         <property name="webworkDir"     value="webwork"/>
 
         <mkdir dir="${classesDir}"/>

@@ -25,7 +25,7 @@
         <property name="distDir" value="dist"/>
 
         <property name="warFile" value="${distDir}/${main.project.name}-${release}.war"/>
-        <property name="webworkWarFile" value="${main.project.name}-${release}.webwork.war"/>
+        <property name="webworkWarFile" value="${distDir}/${main.project.name}-${release}.webwork.war"/>
     </target>
 
     <target name="main.war">
