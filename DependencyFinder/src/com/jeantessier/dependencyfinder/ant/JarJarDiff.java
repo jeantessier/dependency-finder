@@ -200,13 +200,6 @@ public class JarJarDiff extends Task {
             newJar.addLoadListener(verboseListener);
             newJar.load(Arrays.asList(getNew().list()));
 
-            DifferenceStrategy baseStrategy = getDefaultStrategy(getCode());
-            DifferenceStrategy strategy = getStrategy(getLevel(), baseStrategy);
-
-            if (getFilter() != null) {
-                strategy = new ListBasedDifferenceStrategy(strategy, getFilter());
-            }
-
             // Starting to compare, first at package level,
             // then descending to class level for packages
             // that are in both the old and the new codebase.
@@ -217,8 +210,7 @@ public class JarJarDiff extends Task {
             String oldLabel = (getOldlabel() != null) ? getOldlabel() : getOld().toString();
             String newLabel = (getNewlabel() != null) ? getNewlabel() : getNew().toString();
 
-            DifferencesFactory factory = new DifferencesFactory(strategy);
-            Differences differences = factory.createProjectDifferences(name, oldLabel, oldPackages, newLabel, newPackages);
+            Differences differences = getDifferencesFactory().createProjectDifferences(name, oldLabel, oldPackages, newLabel, newPackages);
 
             log("Saving difference report to " + getDestfile().getAbsolutePath());
 
@@ -235,6 +227,27 @@ public class JarJarDiff extends Task {
         } catch (IOException ex) {
             throw new BuildException(ex);
         }
+    }
+
+    private DifferencesFactory getDifferencesFactory() throws IOException {
+        DifferenceStrategy baseStrategy = getBaseStrategy(getCode());
+        DifferenceStrategy strategy = getStrategy(getLevel(), baseStrategy);
+
+        if (getFilter() != null) {
+            strategy = new ListBasedDifferenceStrategy(strategy, getFilter());
+        }
+
+        return new DifferencesFactory(strategy);
+    }
+
+    private DifferenceStrategy getBaseStrategy(boolean useCode) {
+        DifferenceStrategy baseStrategy;
+        if (useCode) {
+            baseStrategy = new CodeDifferenceStrategy();
+        } else {
+            baseStrategy = new NoDifferenceStrategy();
+        }
+        return baseStrategy;
     }
 
     private DifferenceStrategy getStrategy(String level, DifferenceStrategy baseStrategy) {
@@ -270,16 +283,6 @@ public class JarJarDiff extends Task {
             }
         }
         return strategy;
-    }
-
-    private DifferenceStrategy getDefaultStrategy(boolean useCode) {
-        DifferenceStrategy baseStrategy;
-        if (useCode) {
-            baseStrategy = new CodeDifferenceStrategy();
-        } else {
-            baseStrategy = new NoDifferenceStrategy();
-        }
-        return baseStrategy;
     }
 
     private APIDifferenceStrategy getDefaultStrategy(DifferenceStrategy baseStrategy) {

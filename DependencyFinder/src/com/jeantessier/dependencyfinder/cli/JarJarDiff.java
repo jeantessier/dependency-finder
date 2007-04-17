@@ -32,10 +32,11 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
+import org.apache.log4j.*;
+
 import com.jeantessier.classreader.*;
 import com.jeantessier.commandline.*;
 import com.jeantessier.diff.*;
-import org.apache.log4j.*;
 
 public class JarJarDiff extends DiffCommand {
     public JarJarDiff() throws CommandLineException {
@@ -58,13 +59,6 @@ public class JarJarDiff extends DiffCommand {
         newJar.addLoadListener(getVerboseListener());
         newJar.load(getCommandLine().getMultipleSwitch("new"));
 
-        DifferenceStrategy baseStrategy = getBaseStrategy(getCommandLine().getToggleSwitch("code"));
-        DifferenceStrategy strategy = getStrategy(getCommandLine().getSingleSwitch("level"), baseStrategy);
-
-        if (getCommandLine().isPresent("filter")) {
-            strategy = new ListBasedDifferenceStrategy(strategy, getCommandLine().getSingleSwitch("filter"));
-        }
-
         // Starting to compare, first at package level,
         // then descending to class level for packages
         // that are in both the old and the new codebase.
@@ -76,8 +70,7 @@ public class JarJarDiff extends DiffCommand {
         String oldLabel = getCommandLine().isPresent("old-label") ? getCommandLine().getSingleSwitch("old-label") : getCommandLine().getMultipleSwitch("old").toString();
         String newLabel = getCommandLine().isPresent("new-label") ? getCommandLine().getSingleSwitch("new-label") : getCommandLine().getMultipleSwitch("new").toString();
 
-        DifferencesFactory factory = new DifferencesFactory(strategy);
-        Differences differences = factory.createProjectDifferences(name, oldLabel, oldPackages, newLabel, newPackages);
+        Differences differences = getDifferencesFactory().createProjectDifferences(name, oldLabel, oldPackages, newLabel, newPackages);
 
         Logger.getLogger(getClass()).info("Printing results ...");
         getVerboseListener().print("Printing results ...");

@@ -37,7 +37,30 @@ public abstract class DiffCommand extends Command {
         getCommandLine().addSingleValueSwitch("level", DEFAULT_LEVEL);
     }
 
-    protected DifferenceStrategy getStrategy(String level, DifferenceStrategy baseStrategy) {
+    protected DifferencesFactory getDifferencesFactory() throws IOException {
+        DifferenceStrategy baseStrategy = getBaseStrategy(getCommandLine().getToggleSwitch("code"));
+        DifferenceStrategy strategy = getStrategy(getCommandLine().getSingleSwitch("level"), baseStrategy);
+
+        if (getCommandLine().isPresent("filter")) {
+            strategy = new ListBasedDifferenceStrategy(strategy, getCommandLine().getSingleSwitch("filter"));
+        }
+
+        return new DifferencesFactory(strategy);
+    }
+
+    private DifferenceStrategy getBaseStrategy(boolean useCode) {
+        DifferenceStrategy result;
+
+        if (useCode) {
+            result = new CodeDifferenceStrategy();
+        } else {
+            result = new NoDifferenceStrategy();
+        }
+
+        return result;
+    }
+
+    private DifferenceStrategy getStrategy(String level, DifferenceStrategy baseStrategy) {
         DifferenceStrategy result;
 
         if (API_STRATEGY.equals(level)) {
@@ -69,18 +92,6 @@ public abstract class DiffCommand extends Command {
                 Logger.getLogger(getClass()).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
                 result = getDefaultStrategy(baseStrategy);
             }
-        }
-
-        return result;
-    }
-
-    protected DifferenceStrategy getBaseStrategy(boolean useCode) {
-        DifferenceStrategy result;
-
-        if (useCode) {
-            result = new CodeDifferenceStrategy();
-        } else {
-            result = new NoDifferenceStrategy();
         }
 
         return result;

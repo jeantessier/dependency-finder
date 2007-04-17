@@ -54,13 +54,6 @@ public class ClassClassDiff extends DiffCommand {
         newJar.addLoadListener(getVerboseListener());
         newJar.load(getCommandLine().getMultipleSwitch("new"));
 
-        DifferenceStrategy baseStrategy = getBaseStrategy(getCommandLine().getToggleSwitch("code"));
-        DifferenceStrategy strategy = getStrategy(getCommandLine().getSingleSwitch("level"), baseStrategy);
-
-        if (getCommandLine().isPresent("filter")) {
-            strategy = new ListBasedDifferenceStrategy(strategy, getCommandLine().getSingleSwitch("filter"));
-        }
-
         // Starting to compare, first at class level,
         // then descending to feature level.
 
@@ -74,8 +67,7 @@ public class ClassClassDiff extends DiffCommand {
         Classfile oldClass = oldJar.getAllClassfiles().iterator().next();
         Classfile newClass = newJar.getAllClassfiles().iterator().next();
 
-        DifferencesFactory factory = new DifferencesFactory(strategy);
-        Differences differences = factory.createClassDifferences(name, oldClass, newClass);
+        Differences differences = getDifferencesFactory().createClassDifferences(name, oldClass, newClass);
 
         Logger.getLogger(getClass()).info("Printing results ...");
         getVerboseListener().print("Printing results ...");

@@ -13,3 +13,9 @@ switch.  This base strategy is wrapped by the strategy specified by the
 ought to be an easier way to provision an arbitrary stack of strategies, where
 the user can specify the strategy at each layer as well as the number of layers
 itself.
+
+I refactored the code that provisions the =DifferenceStrategy=, and also where
+the tools get their =DifferencesFactory=.  This way, I can to better isolate
+this particular pain point until the day I can actually change it to something
+ better.
+ 
