@@ -1,0 +1,15 @@
+Someone found a documentation error with =JarJarDiff=.  I documented that the
+=-level= switch could take an argument of "code" to show code-level differences
+when that's actually the =-code= switch instead.  I will need to fix the
+documentation for =JarJarDiff= (both CLI and Ant task) and =ClassClassDiff=.
+
+As I was investigating this, I noticed that the code to select the strategy is
+rather convoluted.  This stems in part from me using the Decorator pattern to
+implement and combine strategies.  There is a base strategy that can be either
+=CodeDifferenceStrategy= or =NoDifferenceStrategy=, according to the =-code=
+switch.  This base strategy is wrapped by the strategy specified by the
+=-level= switch.  The result is then optionally wrapped one more with a
+=ListBasedDifferenceStrategy= if the user used the =-filter= switch.  There
+ought to be an easier way to provision an arbitrary stack of strategies, where
+the user can specify the strategy at each layer as well as the number of layers
+itself.
