@@ -17,5 +17,5 @@ itself.
 I refactored the code that provisions the =DifferenceStrategy=, and also where
 the tools get their =DifferencesFactory=.  This way, I can to better isolate
 this particular pain point until the day I can actually change it to something
- better.
+better.
  
