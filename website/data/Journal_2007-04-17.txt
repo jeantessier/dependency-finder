@@ -1,21 +1,3 @@
-Someone found a documentation error with =JarJarDiff=.  I documented that the
-=-level= switch could take an argument of "code" to show code-level differences
-when that's actually the =-code= switch instead.  I will need to fix the
-documentation for =JarJarDiff= (both CLI and Ant task) and =ClassClassDiff=.
-
-As I was investigating this, I noticed that the code to select the strategy is
-rather convoluted.  This stems in part from me using the Decorator pattern to
-implement and combine strategies.  There is a base strategy that can be either
-=CodeDifferenceStrategy= or =NoDifferenceStrategy=, according to the =-code=
-switch.  This base strategy is wrapped by the strategy specified by the
-=-level= switch.  The result is then optionally wrapped one more with a
-=ListBasedDifferenceStrategy= if the user used the =-filter= switch.  There
-ought to be an easier way to provision an arbitrary stack of strategies, where
-the user can specify the strategy at each layer as well as the number of layers
-itself.
-
-I refactored the code that provisions the =DifferenceStrategy=, and also where
-the tools get their =DifferencesFactory=.  This way, I can to better isolate
-this particular pain point until the day I can actually change it to something
-better.
- 
+Fixed the documentation for =JarJarDiff= (both CLI and Ant task) and
+=ClassClassDiff=.  I also realized I had not updated the documentation of the
+Ant tasks that is on the website, so I fixed it too.
