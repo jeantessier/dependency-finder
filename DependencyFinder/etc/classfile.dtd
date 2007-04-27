@@ -155,7 +155,7 @@
 
 <!ELEMENT signature (#PCDATA) >
 
-<!ELEMENT attributes (constant-value-attribute | code-attribute | exceptions-attribute | inner-classes-attribute | synthetic-attribute | source-file-attribute | line-number-table-attribute | local-variable-table-attribute | deprecated-attribute)* >
+<!ELEMENT attributes (constant-value-attribute | code-attribute | exceptions-attribute | inner-classes-attribute | synthetic-attribute | source-file-attribute | line-number-table-attribute | local-variable-table-attribute | deprecated-attribute | custom-attribute)* >
 
 <!ELEMENT constant-value-attribute (#PCDATA) >
 
@@ -222,3 +222,8 @@
 <!ELEMENT descriptor (#PCDATA) >
 
 <!ELEMENT deprecated-attribute EMPTY >
+
+<!ELEMENT custom-attribute (#PCDATA) >
+<!ATTLIST custom-attribute
+          name CDATA #REQUIRED
+>

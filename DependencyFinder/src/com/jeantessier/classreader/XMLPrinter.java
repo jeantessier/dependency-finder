@@ -37,6 +37,8 @@ import java.util.*;
 
 import org.apache.oro.text.perl.*;
 
+import com.jeantessier.text.*;
+
 public class XMLPrinter extends Printer {
     public static final String DEFAULT_ENCODING   = "utf-8";
     public static final String DEFAULT_DTD_PREFIX = "http://depfind.sourceforge.net/dtd";
@@ -559,6 +561,10 @@ public class XMLPrinter extends Printer {
 
     public void visitDeprecated_attribute(Deprecated_attribute attribute) {
         indent().append("<deprecated-attribute/>").eol();
+    }
+
+    public void visitCustom_attribute(Custom_attribute attribute) {
+        indent().append("<custom-attribute name=\"").append(attribute.getName()).append("\">").append(Hex.toString(attribute.getInfo())).append("</custom-attribute>").eol();
     }
 
     public void visitExceptionHandler(ExceptionHandler helper) {
