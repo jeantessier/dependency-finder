@@ -114,9 +114,8 @@ public abstract class VisitorBase implements Visitor {
 
     public void visitCode_attribute(Code_attribute attribute) {
         Logger.getLogger(getClass()).debug("Visiting instruction(s) ...");
-        Iterator i = attribute.iterator();
-        while (i.hasNext()) {
-            ((Instruction) i.next()).accept(this);
+        for (Instruction instruction : attribute) {
+            instruction.accept(this);
         }
 
         Logger.getLogger(getClass()).debug("Visiting " + attribute.getExceptionHandlers().size() + " exception handler(s) ...");

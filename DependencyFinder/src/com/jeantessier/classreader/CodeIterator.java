@@ -34,7 +34,7 @@ package com.jeantessier.classreader;
 
 import java.util.*;
 
-public class CodeIterator implements Iterator {
+public class CodeIterator implements Iterator<Instruction> {
     private Code_attribute code;
     private byte[] bytecode;
     private int    pc;
@@ -49,7 +49,7 @@ public class CodeIterator implements Iterator {
         return pc < bytecode.length;
     }
 
-    public Object next() {
+    public Instruction next() {
         Instruction result;
 
         if (hasNext()) {

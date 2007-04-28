@@ -439,12 +439,10 @@ public class XMLPrinter extends Printer {
 
         indent().append("<instructions>").eol();
         raiseIndent();
-        Iterator i = attribute.iterator();
-        while (i.hasNext()) {
-            Instruction instr = (Instruction) i.next();
+        for (Instruction instruction : attribute) {
             indent();
-            append("<instruction pc=\"").append(instr.getStart()).append("\" length=\"").append(instr.getLength()).append("\"");
-            switch (instr.getOpcode()) {
+            append("<instruction pc=\"").append(instruction.getStart()).append("\" length=\"").append(instruction.getLength()).append("\"");
+            switch (instruction.getOpcode()) {
                 case 0x12: // ldc
                 case 0x13: // ldc_w
                 case 0x14: // ldc2_w
@@ -461,14 +459,14 @@ public class XMLPrinter extends Printer {
                 case 0xc0: // checkcast
                 case 0xc1: // instanceof
                 case 0xc5: // multianewarray
-                    append(" index=\"").append(instr.getIndex()).append("\">");
-                    append(instr);
+                    append(" index=\"").append(instruction.getIndex()).append("\">");
+                    append(instruction);
                     append(" ");
-                    instr.getIndexedConstantPoolEntry().accept(this);
+                    instruction.getIndexedConstantPoolEntry().accept(this);
                     break;
                 default:
                     append(">");
-                    append(instr);
+                    append(instruction);
                     break;
             }
             append("</instruction>").eol();

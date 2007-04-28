@@ -75,8 +75,7 @@ public class TestVisitorBase extends TestCase {
     }
 
     public void testVisitInstruction() {
-        Iterator i = classfile.getMethod("main(java.lang.String[])").getCode().iterator();
-        Instruction instruction = (Instruction) i.next();
+        Instruction instruction = classfile.getMethod("main(java.lang.String[])").getCode().iterator().next();
 
         instruction.accept(visitor);
 

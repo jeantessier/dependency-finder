@@ -39,7 +39,7 @@ import org.apache.log4j.*;
 
 import com.jeantessier.text.*;
 
-public class Code_attribute extends Attribute_info {
+public class Code_attribute extends Attribute_info implements Iterable<Instruction> {
     private int        maxStack;
     private int        maxLocals;
     private byte[]     code;
@@ -67,9 +67,7 @@ public class Code_attribute extends Attribute_info {
         if (Logger.getLogger(getClass()).isDebugEnabled()) {
             Logger.getLogger(getClass()).debug("Read " + bytesRead + " byte(s): " + Hex.toString(code));
 
-            Iterator ci = iterator();
-            while (ci.hasNext()) {
-                Instruction instr = (Instruction) ci.next();
+            for (Instruction instr : this) {
                 int         start = instr.getStart();
                 int         index = instr.getIndex();
 
@@ -126,7 +124,7 @@ public class Code_attribute extends Attribute_info {
         return code;
     }
 
-    public Iterator iterator() {
+    public Iterator<Instruction> iterator() {
         return new CodeIterator(this, code);
     }
 

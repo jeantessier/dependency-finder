@@ -67,29 +67,29 @@ public class TestInstructionWithDifferentConstantPool extends TestCase {
             assertEquals("byte " + i, oldBytecode[i], newBytecode[i]);
         }
 
-        Iterator oldIterator = oldCode.iterator();
-        Iterator newIterator = newCode.iterator();
+        Iterator<Instruction> oldIterator = oldCode.iterator();
+        Iterator<Instruction> newIterator = newCode.iterator();
 
         Instruction oldInstruction;
         Instruction newInstruction;
 
         // Instruction 0: aload_0
-        oldInstruction = (Instruction) oldIterator.next();
-        newInstruction = (Instruction) newIterator.next();
+        oldInstruction = oldIterator.next();
+        newInstruction = newIterator.next();
         assertEquals("aload_0", oldInstruction.getOpcode(), newInstruction.getOpcode());
         assertEquals("aload_0", oldInstruction, newInstruction);
         assertEquals("aload_0", oldInstruction.hashCode(), newInstruction.hashCode());
 
         // Instruction 1: invokespecial
-        oldInstruction = (Instruction) oldIterator.next();
-        newInstruction = (Instruction) newIterator.next();
+        oldInstruction = oldIterator.next();
+        newInstruction = newIterator.next();
         assertEquals("invokespecial", oldInstruction.getOpcode(), newInstruction.getOpcode());
         assertEquals("invokespecial", oldInstruction, newInstruction);
         assertEquals("invokespecial", oldInstruction.hashCode(), newInstruction.hashCode());
 
         // Instruction 2: return
-        oldInstruction = (Instruction) oldIterator.next();
-        newInstruction = (Instruction) newIterator.next();
+        oldInstruction = oldIterator.next();
+        newInstruction = newIterator.next();
         assertEquals("return", oldInstruction.getOpcode(), newInstruction.getOpcode());
         assertEquals("return", oldInstruction, newInstruction);
         assertEquals("return", oldInstruction.hashCode(), newInstruction.hashCode());
@@ -116,15 +116,15 @@ public class TestInstructionWithDifferentConstantPool extends TestCase {
             assertEquals("byte " + i, oldBytecode[i], newBytecode[i]);
         }
 
-        Iterator oldIterator = oldCode.iterator();
-        Iterator newIterator = newCode.iterator();
+        Iterator<Instruction> oldIterator = oldCode.iterator();
+        Iterator<Instruction> newIterator = newCode.iterator();
 
         Instruction oldInstruction;
         Instruction newInstruction;
 
         // Instruction 0: return
-        oldInstruction = (Instruction) oldIterator.next();
-        newInstruction = (Instruction) newIterator.next();
+        oldInstruction = oldIterator.next();
+        newInstruction = newIterator.next();
         assertEquals("return", oldInstruction.getOpcode(), newInstruction.getOpcode());
         assertEquals("return", oldInstruction, newInstruction);
         assertEquals("return", oldInstruction.hashCode(), newInstruction.hashCode());
@@ -153,29 +153,29 @@ public class TestInstructionWithDifferentConstantPool extends TestCase {
         }
         assertFalse("Bytes are identical", same);
 
-        Iterator oldIterator = oldCode.iterator();
-        Iterator newIterator = newCode.iterator();
+        Iterator<Instruction> oldIterator = oldCode.iterator();
+        Iterator<Instruction> newIterator = newCode.iterator();
 
         Instruction oldInstruction;
         Instruction newInstruction;
 
         // Instruction 0: aload_0
-        oldInstruction = (Instruction) oldIterator.next();
-        newInstruction = (Instruction) newIterator.next();
+        oldInstruction = oldIterator.next();
+        newInstruction = newIterator.next();
         assertEquals("aload_0", oldInstruction.getOpcode(), newInstruction.getOpcode());
         assertEquals("aload_0", oldInstruction, newInstruction);
         assertEquals("aload_0", oldInstruction.hashCode(), newInstruction.hashCode());
 
         // Instruction 1: invokevirtual
-        oldInstruction = (Instruction) oldIterator.next();
-        newInstruction = (Instruction) newIterator.next();
+        oldInstruction = oldIterator.next();
+        newInstruction = newIterator.next();
         assertEquals("invokevirtual", oldInstruction.getOpcode(), newInstruction.getOpcode());
         assertEquals("invokevirtual", oldInstruction, newInstruction);
         assertEquals("invokevirtual", oldInstruction.hashCode(), newInstruction.hashCode());
 
         // Instruction 2: return
-        oldInstruction = (Instruction) oldIterator.next();
-        newInstruction = (Instruction) newIterator.next();
+        oldInstruction = oldIterator.next();
+        newInstruction = newIterator.next();
         assertEquals("return", oldInstruction.getOpcode(), newInstruction.getOpcode());
         assertEquals("return", oldInstruction, newInstruction);
         assertEquals("return", oldInstruction.hashCode(), newInstruction.hashCode());

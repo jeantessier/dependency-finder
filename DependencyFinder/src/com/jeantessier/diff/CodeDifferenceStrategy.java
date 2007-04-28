@@ -81,12 +81,12 @@ public class CodeDifferenceStrategy implements DifferenceStrategy {
         if (oldCode != null && newCode != null) {
             result = oldCode.getCode().length != newCode.getCode().length;
 
-            Iterator oldIterator = oldCode.iterator();
-            Iterator newIterator = newCode.iterator();
+            Iterator<Instruction> oldIterator = oldCode.iterator();
+            Iterator<Instruction> newIterator = newCode.iterator();
 
             while (!result && oldIterator.hasNext() && newIterator.hasNext()) {
-                Instruction oldInstruction = (Instruction) oldIterator.next();
-                Instruction newInstruction = (Instruction) newIterator.next();
+                Instruction oldInstruction = oldIterator.next();
+                Instruction newInstruction = newIterator.next();
                 result = !oldInstruction.equals(newInstruction);
             }
 
