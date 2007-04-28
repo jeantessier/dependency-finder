@@ -48,7 +48,7 @@ public class AttributeFactory {
     private static final String DEPRECATED           = "Deprecated";
 
     public static Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
-        Attribute_info result = null;
+        Attribute_info result;
 
         int nameIndex = in.readUnsignedShort();
         if (nameIndex > 0) {
