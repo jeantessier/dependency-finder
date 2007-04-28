@@ -1,2 +1,5 @@
 Made =Code_attribute= implement =Iterable= so I can use Java 1.5's for-each
 loop to iterate over instructions.
+
+Moved processing of =Instruction= in =XMLPrinter= from =visitCode_attribute()=
+to where it belonged: =visitInstruction()=.

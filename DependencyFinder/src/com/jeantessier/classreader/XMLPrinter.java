@@ -440,36 +440,7 @@ public class XMLPrinter extends Printer {
         indent().append("<instructions>").eol();
         raiseIndent();
         for (Instruction instruction : attribute) {
-            indent();
-            append("<instruction pc=\"").append(instruction.getStart()).append("\" length=\"").append(instruction.getLength()).append("\"");
-            switch (instruction.getOpcode()) {
-                case 0x12: // ldc
-                case 0x13: // ldc_w
-                case 0x14: // ldc2_w
-                case 0xb2: // getstatic
-                case 0xb3: // putstatic
-                case 0xb4: // getfield
-                case 0xb5: // putfield
-                case 0xb6: // invokevirtual
-                case 0xb7: // invokespecial
-                case 0xb8: // invokestatic
-                case 0xb9: // invokeinterface
-                case 0xbb: // new
-                case 0xbd: // anewarray
-                case 0xc0: // checkcast
-                case 0xc1: // instanceof
-                case 0xc5: // multianewarray
-                    append(" index=\"").append(instruction.getIndex()).append("\">");
-                    append(instruction);
-                    append(" ");
-                    instruction.getIndexedConstantPoolEntry().accept(this);
-                    break;
-                default:
-                    append(">");
-                    append(instruction);
-                    break;
-            }
-            append("</instruction>").eol();
+            instruction.accept(this);
         }
         lowerIndent();
         indent().append("</instructions>").eol();
@@ -563,6 +534,39 @@ public class XMLPrinter extends Printer {
 
     public void visitCustom_attribute(Custom_attribute attribute) {
         indent().append("<custom-attribute name=\"").append(attribute.getName()).append("\">").append(Hex.toString(attribute.getInfo())).append("</custom-attribute>").eol();
+    }
+
+    public void visitInstruction(Instruction instruction) {
+        indent();
+        append("<instruction pc=\"").append(instruction.getStart()).append("\" length=\"").append(instruction.getLength()).append("\"");
+        switch (instruction.getOpcode()) {
+            case 0x12: // ldc
+            case 0x13: // ldc_w
+            case 0x14: // ldc2_w
+            case 0xb2: // getstatic
+            case 0xb3: // putstatic
+            case 0xb4: // getfield
+            case 0xb5: // putfield
+            case 0xb6: // invokevirtual
+            case 0xb7: // invokespecial
+            case 0xb8: // invokestatic
+            case 0xb9: // invokeinterface
+            case 0xbb: // new
+            case 0xbd: // anewarray
+            case 0xc0: // checkcast
+            case 0xc1: // instanceof
+            case 0xc5: // multianewarray
+                append(" index=\"").append(instruction.getIndex()).append("\">");
+                append(instruction);
+                append(" ");
+                instruction.getIndexedConstantPoolEntry().accept(this);
+                break;
+            default:
+                append(">");
+                append(instruction);
+                break;
+        }
+        append("</instruction>").eol();
     }
 
     public void visitExceptionHandler(ExceptionHandler helper) {
