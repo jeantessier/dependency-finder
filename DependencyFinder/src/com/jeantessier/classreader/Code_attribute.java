@@ -40,9 +40,9 @@ import org.apache.log4j.*;
 import com.jeantessier.text.*;
 
 public class Code_attribute extends Attribute_info implements Iterable<Instruction> {
-    private int        maxStack;
-    private int        maxLocals;
-    private byte[]     code;
+    private int maxStack;
+    private int maxLocals;
+    private byte[] code;
     private Collection<ExceptionHandler> exceptionHandlers = new LinkedList<ExceptionHandler>();
     private Collection<Attribute_info> attributes = new LinkedList<Attribute_info>();
 
@@ -68,8 +68,8 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
             Logger.getLogger(getClass()).debug("Read " + bytesRead + " byte(s): " + Hex.toString(code));
 
             for (Instruction instr : this) {
-                int         start = instr.getStart();
-                int         index = instr.getIndex();
+                int start = instr.getStart();
+                int index = instr.getIndex();
 
                 switch (instr.getOpcode()) {
                     case 0x12: // ldc
