@@ -2,7 +2,7 @@ package com.jeantessier.classreader;
 
 import java.io.*;
 
-public enum AttributeNames {
+public enum AttributeType {
     CONSTANT_VALUE("ConstantValue") {
         public Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
             return new ConstantValue_attribute(classfile, owner, in);
@@ -59,16 +59,16 @@ public enum AttributeNames {
 
     private final String name;
 
-    AttributeNames(String name) {
+    AttributeType(String name) {
         this.name = name;
     }
 
     public abstract Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException;
 
-    public static AttributeNames forName(String name) {
-        AttributeNames result = null;
+    public static AttributeType forName(String name) {
+        AttributeType result = null;
 
-        for (AttributeNames attributeName : values()) {
+        for (AttributeType attributeName : values()) {
             if (attributeName.name.equals(name)) {
                 result = attributeName;
             }

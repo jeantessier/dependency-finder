@@ -48,9 +48,9 @@ public class AttributeFactory {
                 String name = ((UTF8_info) entry).getValue();
                 Logger.getLogger(AttributeFactory.class).debug("Attribute name index: " + nameIndex + " (" + name + ")");
 
-                AttributeNames attributeNames = AttributeNames.forName(name);
-                if (attributeNames != null) {
-                    result = attributeNames.create(classfile, owner, in);
+                AttributeType attributeType = AttributeType.forName(name);
+                if (attributeType != null) {
+                    result = attributeType.create(classfile, owner, in);
                 } else {
                     Logger.getLogger(AttributeFactory.class).warn("Unknown attribute name \"" + name + "\"");
                     result = new Custom_attribute(name, classfile, owner, in);
