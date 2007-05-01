@@ -1,0 +1,5 @@
+Changed =AttributeFactory= to use a Java enum instead of string constants when
+deciding which =Attribute_info= subclass to instantiate.  Right now, the enum
+is a public standalone enum and =AttributeFactory= is only one static method.
+I'm thinking of combining them somehow, maybe make the enum a private enum of
+=AttributeFactory=.
