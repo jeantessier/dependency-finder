@@ -76,7 +76,7 @@ public class XMLPrinter extends Printer {
     }
     
     public void visitClassfile(Classfile classfile) {
-        indent().append("<classfile magic-number=\"").append(classfile.getMagicNumber()).append("\" minor-version=\"").append(classfile.getMinorVersion()).append("\" major-version=\"").append(classfile.getMajorVersion()).append("\" access-flag=\"").append(format.format(classfile.getAccessFlag())).append("\">").eol();
+        indent().append("<classfile magic-number=\"0x").append(Integer.toHexString(classfile.getMagicNumber()).toUpperCase()).append("\" minor-version=\"").append(classfile.getMinorVersion()).append("\" major-version=\"").append(classfile.getMajorVersion()).append("\" access-flag=\"").append(format.format(classfile.getAccessFlag())).append("\">").eol();
         raiseIndent();
 
         top = true;

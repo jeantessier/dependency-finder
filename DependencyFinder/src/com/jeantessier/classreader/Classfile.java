@@ -38,21 +38,24 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public class Classfile implements Deprecatable, Visitable {
-    public static final int ACC_PUBLIC    = 0x0001;
-    public static final int ACC_FINAL     = 0x0010;
-    public static final int ACC_SUPER     = 0x0020;
+    public static final int ACC_PUBLIC = 0x0001;
+    public static final int ACC_FINAL = 0x0010;
+    public static final int ACC_SUPER = 0x0020;
     public static final int ACC_INTERFACE = 0x0200;
-    public static final int ACC_ABSTRACT  = 0x0400;
+    public static final int ACC_ABSTRACT = 0x0400;
+    public static final int ACC_SYNTHETIC = 0x1000;
+    public static final int ACC_ANNOTATION = 0x2000;
+    public static final int ACC_ENUM = 0x4000;
 
     private ClassfileLoader loader;
 
-    private int          magicNumber;
-    private int          minorVersion;
-    private int          majorVersion;
+    private int magicNumber;
+    private int minorVersion;
+    private int majorVersion;
     private ConstantPool constantPool;
-    private int          accessFlag;
-    private int          classIndex;
-    private int          superclassIndex;
+    private int accessFlag;
+    private int classIndex;
+    private int superclassIndex;
     private Map<String, Class_info> interfaces = new TreeMap<String, Class_info>();
     private Map<String, Field_info> fields = new TreeMap<String, Field_info>();
     private Map<String, Method_info> methods = new TreeMap<String, Method_info>();
@@ -66,7 +69,7 @@ public class Classfile implements Deprecatable, Visitable {
         this.loader = loader;
 
         magicNumber = in.readInt();
-        Logger.getLogger(getClass()).debug("magic number = " + magicNumber);
+        Logger.getLogger(getClass()).debug("magic number = 0x" + Integer.toHexString(magicNumber).toUpperCase());
 
         if (magicNumber != 0xCAFEBABE) {
             throw new IOException("Bad magic number");
@@ -295,14 +298,30 @@ public class Classfile implements Deprecatable, Visitable {
         return (getAccessFlag() & ACC_ABSTRACT) != 0;
     }
 
+    public boolean isAnnotation() {
+        return (getAccessFlag() & ACC_ANNOTATION) != 0;
+    }
+
+    public boolean isEnum() {
+        return (getAccessFlag() & ACC_ENUM) != 0;
+    }
+
     public boolean isSynthetic() {
+        return isSyntheticFromAccessFlag() || isSyntheticFromAttribute();
+    }
+
+    private boolean isSyntheticFromAccessFlag() {
+        return (getAccessFlag() & ACC_SYNTHETIC) != 0;
+    }
+
+    private boolean isSyntheticFromAttribute() {
         boolean result = false;
 
         Iterator i = getAttributes().iterator();
         while (!result && i.hasNext()) {
             result = i.next() instanceof Synthetic_attribute;
         }
-    
+
         return result;
     }
 
