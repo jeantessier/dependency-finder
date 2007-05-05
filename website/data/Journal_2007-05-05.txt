@@ -1,0 +1,2 @@
+Renamed the test data class =TestEnum= to =testenum= to highlight that it is
+not a regular class but just a construct to test parsing of =.class= files.
