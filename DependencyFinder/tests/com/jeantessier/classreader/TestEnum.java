@@ -29,9 +29,9 @@ public class TestEnum extends TestCase {
     }
 
     public void testIsEnum() {
-        assertTrue("test", !loader.getClassfile("test").isEnum());
-        assertTrue("testenum", loader.getClassfile("testenum").isEnum());
-        assertTrue("testenum.VALUE1", loader.getClassfile("testenum$1").isEnum());
-        assertTrue("testenum.VALUE2", loader.getClassfile("testenum$2").isEnum());
+        assertTrue(TEST_CLASS, !loader.getClassfile(TEST_CLASS).isEnum());
+        assertTrue(TEST_ENUM_CLASS, loader.getClassfile(TEST_ENUM_CLASS).isEnum());
+        assertTrue("testenum.VALUE1", loader.getClassfile(TEST_ENUM_VALUE1_CLASS).isEnum());
+        assertTrue("testenum.VALUE2", loader.getClassfile(TEST_ENUM_VALUE2_CLASS).isEnum());
     }
 }
