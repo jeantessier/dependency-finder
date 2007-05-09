@@ -1,0 +1,2 @@
+Added a test for =Classfile.isAnnotation()=, including a sample annotation
+class that the tests can use.

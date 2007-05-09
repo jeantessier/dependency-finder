@@ -63,6 +63,7 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestLoadListenerVisitorAdapter.class);
         result.addTestSuite(TestMonitor.class);
         result.addTestSuite(TestSymbolGatherer.class);
+        result.addTestSuite(TestAnnotation.class);
         result.addTestSuite(TestEnum.class);
 
         return result;
