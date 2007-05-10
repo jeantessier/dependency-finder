@@ -40,6 +40,7 @@ public class MockVisitor extends VisitorBase {
     private List<Code_attribute> visitedCode_attributes = new LinkedList<Code_attribute>();
     private List<Exceptions_attribute> visitedExceptions_attributes = new LinkedList<Exceptions_attribute>();
     private List<InnerClasses_attribute> visitedInnerClasses_attributes = new LinkedList<InnerClasses_attribute>();
+    private List<EnclosingMethod_attribute> visitedEnclosingMethod_attributes = new LinkedList<EnclosingMethod_attribute>();
     private List<Synthetic_attribute> visitedSynthetic_attributes = new LinkedList<Synthetic_attribute>();
     private List<SourceFile_attribute> visitedSourceFile_attributes = new LinkedList<SourceFile_attribute>();
     private List<LineNumberTable_attribute> visitedLineNumberTable_attributes = new LinkedList<LineNumberTable_attribute>();
@@ -70,6 +71,11 @@ public class MockVisitor extends VisitorBase {
 
     public List<InnerClasses_attribute> getVisitedInnerClasses_attributes() {
         return visitedInnerClasses_attributes;
+    }
+
+
+    public List<EnclosingMethod_attribute> getVisitedEnclosingMethod_attributes() {
+        return visitedEnclosingMethod_attributes;
     }
 
     public List<Synthetic_attribute> getVisitedSynthetic_attributes() {
@@ -144,6 +150,12 @@ public class MockVisitor extends VisitorBase {
         visitedInnerClasses_attributes.add(attribute);
 
         super.visitInnerClasses_attribute(attribute);
+    }
+
+    public void visitEnclosingMethod_attribute(EnclosingMethod_attribute attribute) {
+        visitedEnclosingMethod_attributes.add(attribute);
+
+        super.visitEnclosingMethod_attribute(attribute);
     }
 
     public void visitSynthetic_attribute(Synthetic_attribute attribute) {

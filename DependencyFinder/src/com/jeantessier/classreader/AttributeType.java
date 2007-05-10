@@ -27,6 +27,12 @@ public enum AttributeType {
         }
     },
 
+    ENCLOSING_METHOD("EnclosingMethod") {
+        public Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+            return new EnclosingMethod_attribute(classfile, owner, in);
+        }
+    },
+
     SYNTHETIC("Synthetic") {
         public Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
             return new Synthetic_attribute(classfile, owner, in);

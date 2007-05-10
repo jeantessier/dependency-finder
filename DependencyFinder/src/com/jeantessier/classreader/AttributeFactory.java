@@ -46,25 +46,25 @@ public class AttributeFactory {
 
             if (entry instanceof UTF8_info) {
                 String name = ((UTF8_info) entry).getValue();
-                Logger.getLogger(AttributeFactory.class).debug("Attribute name index: " + nameIndex + " (" + name + ")");
+                Logger.getLogger(AttributeFactory.class).debug("Attribute name index: " + nameIndex + " (" + name + ") in class \"" + classfile + "\"");
 
                 AttributeType attributeType = AttributeType.forName(name);
                 if (attributeType != null) {
                     result = attributeType.create(classfile, owner, in);
                 } else {
-                    Logger.getLogger(AttributeFactory.class).warn("Unknown attribute name \"" + name + "\"");
+                    Logger.getLogger(AttributeFactory.class).warn("Unknown attribute name \"" + name + "\" in class \"" + classfile + "\"");
                     result = new Custom_attribute(name, classfile, owner, in);
                 }
             } else {
                 Logger.getLogger(AttributeFactory.class).debug("Attribute name: " + entry);
 
-                Logger.getLogger(AttributeFactory.class).warn("Unknown attribute with invalid name");
+                Logger.getLogger(AttributeFactory.class).warn("Unknown attribute with invalid name in class \"" + classfile + "\"");
                 result = new Custom_attribute(classfile, owner, in);
             }
         } else {
             Logger.getLogger(AttributeFactory.class).debug("Attribute name index: " + nameIndex);
 
-            Logger.getLogger(AttributeFactory.class).warn("Unknown attribute with no name");
+            Logger.getLogger(AttributeFactory.class).warn("Unknown attribute with no name in class \"" + classfile + "\"");
             result = new Custom_attribute(classfile, owner, in);
         }
 

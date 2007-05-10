@@ -496,6 +496,24 @@ public class XMLPrinter extends Printer {
         indent().append("</inner-classes-attribute>").eol();
     }
 
+    public void visitEnclosingMethod_attribute(EnclosingMethod_attribute attribute) {
+        indent().append("<enclosing-method-attribute>").eol();
+        raiseIndent();
+
+        indent().append("<class>");
+        attribute.getRawClassInfo().accept(this);
+        append("</class>").eol();
+
+        indent().append("<method>");
+        if (attribute.getMethodIndex() != 0) {
+            attribute.getRawMethod().accept(this);
+        }
+        append("</method>").eol();
+
+        lowerIndent();
+        indent().append("</enclosing-method-attribute>").eol();
+    }
+
     public void visitSynthetic_attribute(Synthetic_attribute attribute) {
         indent().append("<synthetic-attribute/>").eol();
     }

@@ -145,7 +145,11 @@ public class TestLoadListenerVisitorAdapter extends TestCase implements Visitor 
     public void visitInnerClasses_attribute(InnerClasses_attribute attribute) {
         // Do nothing
     }
-    
+
+    public void visitEnclosingMethod_attribute(EnclosingMethod_attribute attribute) {
+        // Do nothing
+    }
+
     public void visitSynthetic_attribute(Synthetic_attribute attribute) {
         // Do nothing
     }

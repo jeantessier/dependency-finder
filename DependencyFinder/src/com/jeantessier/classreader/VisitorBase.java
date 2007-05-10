@@ -144,7 +144,11 @@ public abstract class VisitorBase implements Visitor {
             innerClass.accept(this);
         }
     }
-    
+
+    public void visitEnclosingMethod_attribute(EnclosingMethod_attribute attribute) {
+        // Do nothing
+    }
+
     public void visitSynthetic_attribute(Synthetic_attribute attribute) {
         // Do nothing
     }
