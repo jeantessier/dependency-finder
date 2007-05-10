@@ -398,6 +398,8 @@ public class MetricsGatherer extends VisitorBase {
          */
 
         switch (helper.getOpcode()) {
+            case 0x12: // ldc
+            case 0x13: // ldc_w
             case 0xb2: // getstatic
             case 0xb3: // putstatic
             case 0xb4: // getfield

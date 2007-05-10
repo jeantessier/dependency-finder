@@ -37,9 +37,9 @@ import java.util.*;
 import javax.xml.parsers.*;
 
 import junit.framework.*;
+
 import org.apache.oro.text.perl.*;
 import org.xml.sax.*;
-import sun.tools.asm.*;
 
 public class TestXMLPrinter extends TestCase implements ErrorHandler {
     private static final String TEST_CLASS     = "test";
@@ -210,19 +210,6 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         } catch (IOException ex) {
             fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
         }
-    }
-
-    public void testLdcWithIntConstant() {
-        loader.load(Collections.singleton(TEST_FILENAME));
-
-        Classfile classfile = loader.getClassfile(TEST_CLASS);
-        Method_info method = classfile.getMethod("main(java.lang.String[])");
-        Code_attribute code = method.getCode();
-
-        byte[] bytecode = new byte[] {(byte) 0x12, (byte) 0x00};
-
-
-        Instruction ldc = new Instruction(code, bytecode, 0);
     }
 
     public void error(SAXParseException ex) {

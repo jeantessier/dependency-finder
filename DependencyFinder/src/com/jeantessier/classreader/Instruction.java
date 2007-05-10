@@ -33,8 +33,10 @@
 package com.jeantessier.classreader;
 
 public class Instruction implements Visitable {
-    private static String[] opcode = new String[256];
-    private static int[]    length = new int[256];
+    private static final int NB_OPCODES = 0x100;
+
+    private static String[] opcode = new String[NB_OPCODES];
+    private static int[] length = new int[NB_OPCODES];
 
     static {
         opcode[0x00] = "nop";
@@ -568,11 +570,11 @@ public class Instruction implements Visitable {
 
     private Code_attribute code;
     private byte[] bytecode;
-    private int    start;
+    private int start;
 
     public Instruction(Code_attribute code, byte[] bytecode, int start) {
         this.code = code;
-        this.bytecode  = bytecode;
+        this.bytecode = bytecode;
         this.start = start;
     }
 
@@ -616,12 +618,12 @@ public class Instruction implements Visitable {
                 // tableswitch
                 padding = 3 - (start % 4);
                 low =
-                    ((bytecode[start+padding+5] & 0xff) << 24) |
-                    ((bytecode[start+padding+6] & 0xff) << 16) |
-                    ((bytecode[start+padding+7] & 0xff) << 8)  |
-                    ((bytecode[start+padding+8] & 0xff));
+                    ((bytecode[start+padding+5]  & 0xff) << 24) |
+                    ((bytecode[start+padding+6]  & 0xff) << 16) |
+                    ((bytecode[start+padding+7]  & 0xff) << 8)  |
+                    ((bytecode[start+padding+8]  & 0xff));
                 high =
-                    ((bytecode[start+padding+9] & 0xff)  << 24) |
+                    ((bytecode[start+padding+9]  & 0xff) << 24) |
                     ((bytecode[start+padding+10] & 0xff) << 16) |
                     ((bytecode[start+padding+11] & 0xff) << 8)  |
                     ((bytecode[start+padding+12] & 0xff));
