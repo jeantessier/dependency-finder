@@ -46,17 +46,17 @@ public class ModifiedOnlyDispatcher implements ClassfileLoaderDispatcher {
         this.delegate = delegate;
     }
 
-    public Action dispatch(String filename) {
-        Action result = delegate.dispatch(filename);
+    public ClassfileLoaderAction dispatch(String filename) {
+        ClassfileLoaderAction result = delegate.dispatch(filename);
 
-        if (result == Action.CLASS) {
+        if (result == ClassfileLoaderAction.CLASS) {
             Long timestamp = timestamps.get(filename);
             Logger.getLogger(getClass()).debug(filename + " has timestamp " + timestamp);
 
             File file = new File(filename);
             if (timestamp != null && timestamp >= file.lastModified()) {
                 Logger.getLogger(getClass()).debug("Already dispatched \"" + filename + "\": IGNORE");
-                result = Action.IGNORE;
+                result = ClassfileLoaderAction.IGNORE;
             } else {
                 Logger.getLogger(getClass()).debug("Delegating ...");
                 timestamp = file.lastModified();

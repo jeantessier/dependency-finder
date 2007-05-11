@@ -51,7 +51,7 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     private LinkedList<String> groupNames = new LinkedList<String>();
     private LinkedList<Integer> groupSizes = new LinkedList<Integer>();
 
-    private ClassfileLoaderDispatcher.Action previousDispatch;
+    private ClassfileLoaderAction previousDispatch;
     
     public ClassfileLoaderEventSource() {
         this(DEFAULT_DISPATCHER);
@@ -62,7 +62,7 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     }
     
     protected void load(String filename) {
-        ClassfileLoaderDispatcher.Action dispatch = dispatcher.dispatch(filename);
+        ClassfileLoaderAction dispatch = dispatcher.dispatch(filename);
 
         previousDispatch = dispatch;
         
@@ -94,9 +94,9 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     }
 
     protected void load(String filename, InputStream in) {
-        ClassfileLoaderDispatcher.Action dispatch = dispatcher.dispatch(filename);
+        ClassfileLoaderAction dispatch = dispatcher.dispatch(filename);
 
-        if (dispatch == ClassfileLoaderDispatcher.Action.IGNORE && getTopGroupSize() == 1 &&  filename.equals(getTopGroupName())) {
+        if (dispatch == ClassfileLoaderAction.IGNORE && getTopGroupSize() == 1 &&  filename.equals(getTopGroupName())) {
             dispatch = previousDispatch;
         }
         

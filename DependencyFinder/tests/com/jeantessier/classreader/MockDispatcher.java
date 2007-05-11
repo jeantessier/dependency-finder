@@ -37,17 +37,17 @@ import java.util.*;
 public class MockDispatcher implements ClassfileLoaderDispatcher {
     private Map<String, Integer> counts = new HashMap<String, Integer>();
 
-    private Action returnedAction = Action.CLASS;
+    private ClassfileLoaderAction returnedAction = ClassfileLoaderAction.CLASS;
 
-    public Action getReturnedAction() {
+    public ClassfileLoaderAction getReturnedAction() {
         return returnedAction;
     }
 
-    public void setReturnedAction(Action returnedAction) {
+    public void setReturnedAction(ClassfileLoaderAction returnedAction) {
         this.returnedAction = returnedAction;
     }
 
-    public Action dispatch(String filename) {
+    public ClassfileLoaderAction dispatch(String filename) {
         Integer count = counts.get(filename);
 
         if (count != null) {

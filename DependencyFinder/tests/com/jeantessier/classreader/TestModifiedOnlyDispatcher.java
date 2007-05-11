@@ -67,7 +67,7 @@ public class TestModifiedOnlyDispatcher extends TestCase {
 
     public void testDispatchNewClassFile() throws IOException {
         createFile();
-        mockDispatcher.setReturnedAction(ClassfileLoaderDispatcher.Action.CLASS);
+        mockDispatcher.setReturnedAction(ClassfileLoaderAction.CLASS);
 
         assertEquals("dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
         assertEquals("delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
@@ -75,18 +75,18 @@ public class TestModifiedOnlyDispatcher extends TestCase {
     
     public void testDispatchIdenticalClassFile() throws IOException {
         createFile();
-        mockDispatcher.setReturnedAction(ClassfileLoaderDispatcher.Action.CLASS);
+        mockDispatcher.setReturnedAction(ClassfileLoaderAction.CLASS);
 
         assertEquals("first dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
         assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
 
-        assertEquals("repeat dispatch action", ClassfileLoaderDispatcher.Action.IGNORE, dispatcher.dispatch(testFilename));
+        assertEquals("repeat dispatch action", ClassfileLoaderAction.IGNORE, dispatcher.dispatch(testFilename));
         assertEquals("repeat delegated calls", 2, mockDispatcher.getDispatchCount(testFilename));
     }
 
     public void testDispatchModifiedClassFile() throws IOException {
         createFile();
-        mockDispatcher.setReturnedAction(ClassfileLoaderDispatcher.Action.CLASS);
+        mockDispatcher.setReturnedAction(ClassfileLoaderAction.CLASS);
 
         assertEquals("first dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
         assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
@@ -103,7 +103,7 @@ public class TestModifiedOnlyDispatcher extends TestCase {
     }
 
     public void testDispatchDirectory() {
-        mockDispatcher.setReturnedAction(ClassfileLoaderDispatcher.Action.DIRECTORY);
+        mockDispatcher.setReturnedAction(ClassfileLoaderAction.DIRECTORY);
 
         assertEquals("first dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testDirname));
         assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testDirname));
@@ -114,7 +114,7 @@ public class TestModifiedOnlyDispatcher extends TestCase {
 
     public void testDispatchIdenticalZipFile() throws IOException {
         createFile();
-        mockDispatcher.setReturnedAction(ClassfileLoaderDispatcher.Action.ZIP);
+        mockDispatcher.setReturnedAction(ClassfileLoaderAction.ZIP);
 
         assertEquals("first dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
         assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
@@ -125,7 +125,7 @@ public class TestModifiedOnlyDispatcher extends TestCase {
 
     public void testDispatchIdenticalJarFile() throws IOException {
         createFile();
-        mockDispatcher.setReturnedAction(ClassfileLoaderDispatcher.Action.JAR);
+        mockDispatcher.setReturnedAction(ClassfileLoaderAction.JAR);
 
         assertEquals("first dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
         assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));

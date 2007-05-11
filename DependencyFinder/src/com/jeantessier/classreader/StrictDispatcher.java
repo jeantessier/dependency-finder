@@ -37,23 +37,23 @@ import java.io.*;
 import org.apache.log4j.*;
 
 public class StrictDispatcher implements ClassfileLoaderDispatcher {
-    public Action dispatch(String filename) {
-        Action result;
+    public ClassfileLoaderAction dispatch(String filename) {
+        ClassfileLoaderAction result;
         
         if (filename.endsWith(".jar")) {
-            result = Action.JAR;
+            result = ClassfileLoaderAction.JAR;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_JAR");
         } else if (filename.endsWith(".zip")) {
-            result = Action.ZIP;
+            result = ClassfileLoaderAction.ZIP;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_ZIP");
         } else if (filename.endsWith(".class")) {
-            result = Action.CLASS;
+            result = ClassfileLoaderAction.CLASS;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_CLASS");
         } else if (new File(filename).exists()) {
-            result = Action.DIRECTORY;
+            result = ClassfileLoaderAction.DIRECTORY;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_DIRECTORY");
         } else {
-            result = Action.IGNORE;
+            result = ClassfileLoaderAction.IGNORE;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_IGNORE");
         }
         

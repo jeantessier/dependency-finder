@@ -37,20 +37,20 @@ import java.io.*;
 import org.apache.log4j.*;
 
 public class PermissiveDispatcher implements ClassfileLoaderDispatcher {
-    public Action dispatch(String filename) {
-        Action result;
+    public ClassfileLoaderAction dispatch(String filename) {
+        ClassfileLoaderAction result;
   
         if (filename.endsWith(".zip")) {
-            result = Action.ZIP;
+            result = ClassfileLoaderAction.ZIP;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_ZIP");
         } else if (filename.endsWith(".jar")) {
-            result = Action.JAR;
+            result = ClassfileLoaderAction.JAR;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_JAR");
         } else if (filename.endsWith(".class")) {
-            result = Action.CLASS;
+            result = ClassfileLoaderAction.CLASS;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_CLASS");
         } else if (new File(filename).isDirectory()) {
-            result = Action.DIRECTORY;
+            result = ClassfileLoaderAction.DIRECTORY;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_DIRECTORY");
         } else if (filename.endsWith("/")           ||
                    filename.endsWith(".bat")        ||
@@ -70,10 +70,10 @@ public class PermissiveDispatcher implements ClassfileLoaderDispatcher {
                    filename.endsWith(".txt")        ||
                    filename.endsWith(".xml")        ||
                    filename.endsWith(".xsl")) {
-            result = Action.IGNORE;
+            result = ClassfileLoaderAction.IGNORE;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_IGNORE");
         } else {
-            result = Action.ZIP;
+            result = ClassfileLoaderAction.ZIP;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_ZIP");
         }
   
