@@ -38,6 +38,7 @@ import java.util.*;
 public class Field_info extends Feature_info {
     public static final int ACC_VOLATILE  = 0x0040;
     public static final int ACC_TRANSIENT = 0x0080;
+    public static final int ACC_ENUM = 0x4000;
 
     public Field_info(Classfile classfile, DataInputStream in) throws IOException {
         super(classfile, in);
@@ -53,6 +54,10 @@ public class Field_info extends Feature_info {
 
     public boolean isTransient() {
         return (getAccessFlag() & ACC_TRANSIENT) != 0;
+    }
+
+    public boolean isEnum() {
+        return (getAccessFlag() & ACC_ENUM) != 0;
     }
 
     public String getType() {

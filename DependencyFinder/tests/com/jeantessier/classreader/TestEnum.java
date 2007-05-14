@@ -28,10 +28,17 @@ public class TestEnum extends TestCase {
         loader.load(Collections.singleton(TEST_ENUM_VALUE2_FILENAME));
     }
 
-    public void testIsEnum() {
+    public void testClassfileIsEnum() {
         assertTrue(TEST_CLASS, !loader.getClassfile(TEST_CLASS).isEnum());
         assertTrue(TEST_ENUM_CLASS, loader.getClassfile(TEST_ENUM_CLASS).isEnum());
         assertTrue("testenum.VALUE1", loader.getClassfile(TEST_ENUM_VALUE1_CLASS).isEnum());
         assertTrue("testenum.VALUE2", loader.getClassfile(TEST_ENUM_VALUE2_CLASS).isEnum());
+    }
+
+    public void testFieldIsEnum() {
+        Classfile testenum = loader.getClassfile(TEST_ENUM_CLASS);
+
+        assertTrue(TEST_ENUM_CLASS + ".$VALUES", !testenum.getField("$VALUES").isEnum());
+        assertTrue(TEST_ENUM_CLASS + ".VALUE1", testenum.getField("VALUE1").isEnum());
     }
 }
