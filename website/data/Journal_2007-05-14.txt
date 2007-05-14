@@ -1,0 +1,4 @@
+Removed extra-class dependencies on access level constants in =Feature_info=
+and =Classfile= and used accessors instead.
+
+Used specialized generics in =ClassMetrics=.

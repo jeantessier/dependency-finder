@@ -37,200 +37,200 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public class MetricsGatherer extends VisitorBase {
-    private Collection classes                = new LinkedList();
-    private Collection interfaces             = new LinkedList();
-    private Collection methods                = new LinkedList();
-    private Collection fields                 = new LinkedList();
-    private Collection syntheticClasses       = new LinkedList();
-    private Collection syntheticFields        = new LinkedList();
-    private Collection syntheticMethods       = new LinkedList();
-    private Collection deprecatedClasses      = new LinkedList();
-    private Collection deprecatedFields       = new LinkedList();
-    private Collection deprecatedMethods      = new LinkedList();
-    private Collection publicClasses          = new LinkedList();
-    private Collection publicFields           = new LinkedList();
-    private Collection publicMethods          = new LinkedList();
-    private Collection publicInnerClasses     = new LinkedList();
-    private Collection protectedFields        = new LinkedList();
-    private Collection protectedMethods       = new LinkedList();
-    private Collection protectedInnerClasses  = new LinkedList();
-    private Collection privateFields          = new LinkedList();
-    private Collection privateMethods         = new LinkedList();
-    private Collection privateInnerClasses    = new LinkedList();
-    private Collection packageClasses         = new LinkedList();
-    private Collection packageFields          = new LinkedList();
-    private Collection packageMethods         = new LinkedList();
-    private Collection packageInnerClasses    = new LinkedList();
-    private Collection abstractClasses        = new LinkedList();
-    private Collection abstractMethods        = new LinkedList();
-    private Collection abstractInnerClasses   = new LinkedList();
-    private Collection staticFields           = new LinkedList();
-    private Collection staticMethods          = new LinkedList();
-    private Collection staticInnerClasses     = new LinkedList();
-    private Collection finalClasses           = new LinkedList();
-    private Collection finalFields            = new LinkedList();
-    private Collection finalMethods           = new LinkedList();
-    private Collection finalInnerClasses      = new LinkedList();
-    private Collection synchronizedMethods    = new LinkedList();
-    private Collection nativeMethods          = new LinkedList();
-    private Collection volatileFields         = new LinkedList();
-    private Collection transientFields        = new LinkedList();
-    private Collection customAttributes       = new LinkedList();
-    private long[]     instructionCounts           = new long[256];
+    private Collection<Object> classes = new LinkedList<Object>();
+    private Collection<Object> interfaces = new LinkedList<Object>();
+    private Collection<Method_info> methods = new LinkedList<Method_info>();
+    private Collection<Field_info> fields = new LinkedList<Field_info>();
+    private Collection<Classfile> syntheticClasses = new LinkedList<Classfile>();
+    private Collection<Field_info> syntheticFields = new LinkedList<Field_info>();
+    private Collection<Method_info> syntheticMethods = new LinkedList<Method_info>();
+    private Collection<Classfile> deprecatedClasses = new LinkedList<Classfile>();
+    private Collection<Field_info> deprecatedFields = new LinkedList<Field_info>();
+    private Collection<Method_info> deprecatedMethods = new LinkedList<Method_info>();
+    private Collection<Classfile> publicClasses = new LinkedList<Classfile>();
+    private Collection<Field_info> publicFields = new LinkedList<Field_info>();
+    private Collection<Method_info> publicMethods = new LinkedList<Method_info>();
+    private Collection<InnerClass> publicInnerClasses = new LinkedList<InnerClass>();
+    private Collection<Field_info> protectedFields = new LinkedList<Field_info>();
+    private Collection<Method_info> protectedMethods = new LinkedList<Method_info>();
+    private Collection<InnerClass> protectedInnerClasses = new LinkedList<InnerClass>();
+    private Collection<Field_info> privateFields = new LinkedList<Field_info>();
+    private Collection<Method_info> privateMethods = new LinkedList<Method_info>();
+    private Collection<InnerClass> privateInnerClasses = new LinkedList<InnerClass>();
+    private Collection<Classfile> packageClasses = new LinkedList<Classfile>();
+    private Collection<Field_info> packageFields = new LinkedList<Field_info>();
+    private Collection<Method_info> packageMethods = new LinkedList<Method_info>();
+    private Collection<InnerClass> packageInnerClasses = new LinkedList<InnerClass>();
+    private Collection<Classfile> abstractClasses = new LinkedList<Classfile>();
+    private Collection<Method_info> abstractMethods = new LinkedList<Method_info>();
+    private Collection<InnerClass> abstractInnerClasses = new LinkedList<InnerClass>();
+    private Collection<Field_info> staticFields = new LinkedList<Field_info>();
+    private Collection<Method_info> staticMethods = new LinkedList<Method_info>();
+    private Collection<InnerClass> staticInnerClasses = new LinkedList<InnerClass>();
+    private Collection<Classfile> finalClasses = new LinkedList<Classfile>();
+    private Collection<Field_info> finalFields = new LinkedList<Field_info>();
+    private Collection<Method_info> finalMethods = new LinkedList<Method_info>();
+    private Collection<InnerClass> finalInnerClasses = new LinkedList<InnerClass>();
+    private Collection<Method_info> synchronizedMethods = new LinkedList<Method_info>();
+    private Collection<Method_info> nativeMethods = new LinkedList<Method_info>();
+    private Collection<Field_info> volatileFields = new LinkedList<Field_info>();
+    private Collection<Field_info> transientFields = new LinkedList<Field_info>();
+    private Collection<Custom_attribute> customAttributes = new LinkedList<Custom_attribute>();
+    private long[] instructionCounts = new long[256];
     
-    public Collection getClasses() {
+    public Collection<Object> getClasses() {
         return classes;
     }
 
-    public Collection getInterfaces() {
+    public Collection<Object> getInterfaces() {
         return interfaces;
     }
 
-    public Collection getMethods() {
+    public Collection<Method_info> getMethods() {
         return methods;
     }
 
-    public Collection getFields() {
+    public Collection<Field_info> getFields() {
         return fields;
     }
 
-    public Collection getSyntheticClasses() {
+    public Collection<Classfile> getSyntheticClasses() {
         return syntheticClasses;
     }
 
-    public Collection getSyntheticFields() {
+    public Collection<Field_info> getSyntheticFields() {
         return syntheticFields;
     }
 
-    public Collection getSyntheticMethods() {
+    public Collection<Method_info> getSyntheticMethods() {
         return syntheticMethods;
     }
 
-    public Collection getDeprecatedClasses() {
+    public Collection<Classfile> getDeprecatedClasses() {
         return deprecatedClasses;
     }
 
-    public Collection getDeprecatedFields() {
+    public Collection<Field_info> getDeprecatedFields() {
         return deprecatedFields;
     }
 
-    public Collection getDeprecatedMethods() {
+    public Collection<Method_info> getDeprecatedMethods() {
         return deprecatedMethods;
     }
 
-    public Collection getPublicClasses() {
+    public Collection<Classfile> getPublicClasses() {
         return publicClasses;
     }
 
-    public Collection getPublicFields() {
+    public Collection<Field_info> getPublicFields() {
         return publicFields;
     }
 
-    public Collection getPublicMethods() {
+    public Collection<Method_info> getPublicMethods() {
         return publicMethods;
     }
 
-    public Collection getPublicInnerClasses() {
+    public Collection<InnerClass> getPublicInnerClasses() {
         return publicInnerClasses;
     }
 
-    public Collection getProtectedFields() {
+    public Collection<Field_info> getProtectedFields() {
         return protectedFields;
     }
 
-    public Collection getProtectedMethods() {
+    public Collection<Method_info> getProtectedMethods() {
         return protectedMethods;
     }
 
-    public Collection getProtectedInnerClasses() {
+    public Collection<InnerClass> getProtectedInnerClasses() {
         return protectedInnerClasses;
     }
 
-    public Collection getPrivateFields() {
+    public Collection<Field_info> getPrivateFields() {
         return privateFields;
     }
 
-    public Collection getPrivateMethods() {
+    public Collection<Method_info> getPrivateMethods() {
         return privateMethods;
     }
 
-    public Collection getPrivateInnerClasses() {
+    public Collection<InnerClass> getPrivateInnerClasses() {
         return privateInnerClasses;
     }
 
-    public Collection getPackageClasses() {
+    public Collection<Classfile> getPackageClasses() {
         return packageClasses;
     }
 
-    public Collection getPackageFields() {
+    public Collection<Field_info> getPackageFields() {
         return packageFields;
     }
 
-    public Collection getPackageMethods() {
+    public Collection<Method_info> getPackageMethods() {
         return packageMethods;
     }
 
-    public Collection getPackageInnerClasses() {
+    public Collection<InnerClass> getPackageInnerClasses() {
         return packageInnerClasses;
     }
 
-    public Collection getAbstractClasses() {
+    public Collection<Classfile> getAbstractClasses() {
         return abstractClasses;
     }
 
-    public Collection getAbstractMethods() {
+    public Collection<Method_info> getAbstractMethods() {
         return abstractMethods;
     }
 
-    public Collection getAbstractInnerClasses() {
+    public Collection<InnerClass> getAbstractInnerClasses() {
         return abstractInnerClasses;
     }
 
-    public Collection getStaticFields() {
+    public Collection<Field_info> getStaticFields() {
         return staticFields;
     }
 
-    public Collection getStaticMethods() {
+    public Collection<Method_info> getStaticMethods() {
         return staticMethods;
     }
 
-    public Collection getStaticInnerClasses() {
+    public Collection<InnerClass> getStaticInnerClasses() {
         return staticInnerClasses;
     }
 
-    public Collection getFinalClasses() {
+    public Collection<Classfile> getFinalClasses() {
         return finalClasses;
     }
 
-    public Collection getFinalFields() {
+    public Collection<Field_info> getFinalFields() {
         return finalFields;
     }
 
-    public Collection getFinalMethods() {
+    public Collection<Method_info> getFinalMethods() {
         return finalMethods;
     }
 
-    public Collection getFinalInnerClasses() {
+    public Collection<InnerClass> getFinalInnerClasses() {
         return finalInnerClasses;
     }
 
-    public Collection getSynchronizedMethods() {
+    public Collection<Method_info> getSynchronizedMethods() {
         return synchronizedMethods;
     }
 
-    public Collection getNativeMethods() {
+    public Collection<Method_info> getNativeMethods() {
         return nativeMethods;
     }
 
-    public Collection getVolatileFields() {
+    public Collection<Field_info> getVolatileFields() {
         return volatileFields;
     }
 
-    public Collection getTransientFields() {
+    public Collection<Field_info> getTransientFields() {
         return transientFields;
     }
 
-    public Collection getCustomAttributes() {
+    public Collection<Custom_attribute> getCustomAttributes() {
         return customAttributes;
     }
 
@@ -267,29 +267,29 @@ public class MetricsGatherer extends VisitorBase {
     public void visitField_info(Field_info entry) {
         fields.add(entry);
 
-        if ((entry.getAccessFlag() & Field_info.ACC_PUBLIC) != 0) {
+        if (entry.isPublic()) {
             publicFields.add(entry);
-        } else if ((entry.getAccessFlag() & Field_info.ACC_PRIVATE) != 0) {
+        } else if (entry.isPrivate()) {
             privateFields.add(entry);
-        } else if ((entry.getAccessFlag() & Field_info.ACC_PROTECTED) != 0) {
+        } else if (entry.isProtected()) {
             protectedFields.add(entry);
         } else {
             packageFields.add(entry);
         }
 
-        if ((entry.getAccessFlag() & Field_info.ACC_STATIC) != 0) {
+        if (entry.isStatic()) {
             staticFields.add(entry);
         }
 
-        if ((entry.getAccessFlag() & Field_info.ACC_FINAL) != 0) {
+        if (entry.isFinal()) {
             finalFields.add(entry);
         }
 
-        if ((entry.getAccessFlag() & Field_info.ACC_VOLATILE) != 0) {
+        if (entry.isVolatile()) {
             volatileFields.add(entry);
         }
 
-        if ((entry.getAccessFlag() & Field_info.ACC_TRANSIENT) != 0) {
+        if (entry.isTransient()) {
             transientFields.add(entry);
         }
 
@@ -299,33 +299,33 @@ public class MetricsGatherer extends VisitorBase {
     public void visitMethod_info(Method_info entry) {
         methods.add(entry);
 
-        if ((entry.getAccessFlag() & Method_info.ACC_PUBLIC) != 0) {
+        if (entry.isPublic()) {
             publicMethods.add(entry);
-        } else if ((entry.getAccessFlag() & Method_info.ACC_PRIVATE) != 0) {
+        } else if (entry.isPrivate()) {
             privateMethods.add(entry);
-        } else if ((entry.getAccessFlag() & Method_info.ACC_PROTECTED) != 0) {
+        } else if (entry.isProtected()) {
             protectedMethods.add(entry);
         } else {
             packageMethods.add(entry);
         }
 
-        if ((entry.getAccessFlag() & Method_info.ACC_STATIC) != 0) {
+        if (entry.isStatic()) {
             staticMethods.add(entry);
         }
 
-        if ((entry.getAccessFlag() & Method_info.ACC_FINAL) != 0) {
+        if (entry.isFinal()) {
             finalMethods.add(entry);
         }
 
-        if ((entry.getAccessFlag() & Method_info.ACC_SYNCHRONIZED) != 0) {
+        if (entry.isSynchronized()) {
             synchronizedMethods.add(entry);
         }
 
-        if ((entry.getAccessFlag() & Method_info.ACC_NATIVE) != 0) {
+        if (entry.isNative()) {
             nativeMethods.add(entry);
         }
 
-        if ((entry.getAccessFlag() & Method_info.ACC_ABSTRACT) != 0) {
+        if (entry.isAbstract()) {
             abstractMethods.add(entry);
         }
 
@@ -337,11 +337,11 @@ public class MetricsGatherer extends VisitorBase {
         Object owner = attribute.getOwner();
     
         if (owner instanceof Classfile) {
-            syntheticClasses.add(owner);
+            syntheticClasses.add((Classfile) owner);
         } else if (owner instanceof Field_info) {
-            syntheticFields.add(owner);
+            syntheticFields.add((Field_info) owner);
         } else if (owner instanceof Method_info) {
-            syntheticMethods.add(owner);
+            syntheticMethods.add((Method_info) owner);
         } else {
             Logger.getLogger(getClass()).warn("Synthetic attribute on unknown Visitable: " + owner.getClass().getName());
         }
@@ -351,11 +351,11 @@ public class MetricsGatherer extends VisitorBase {
         Object owner = attribute.getOwner();
     
         if (owner instanceof Classfile) {
-            deprecatedClasses.add(owner);
+            deprecatedClasses.add((Classfile) owner);
         } else if (owner instanceof Field_info) {
-            deprecatedFields.add(owner);
+            deprecatedFields.add((Field_info) owner);
         } else if (owner instanceof Method_info) {
-            deprecatedMethods.add(owner);
+            deprecatedMethods.add((Method_info) owner);
         } else {
             Logger.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: " + owner.getClass().getName());
         }
@@ -373,31 +373,31 @@ public class MetricsGatherer extends VisitorBase {
     }
 
     public void visitInnerClass(InnerClass helper) {
-        if ((helper.getAccessFlag() & InnerClass.ACC_PUBLIC) != 0) {
+        if (helper.isPublic()) {
             publicInnerClasses.add(helper);
-        } else if ((helper.getAccessFlag() & InnerClass.ACC_PRIVATE) != 0) {
+        } else if (helper.isPrivate()) {
             privateInnerClasses.add(helper);
-        } else if ((helper.getAccessFlag() & InnerClass.ACC_PROTECTED) != 0) {
+        } else if (helper.isProtected()) {
             protectedInnerClasses.add(helper);
         } else {
             packageInnerClasses.add(helper);
         }
 
-        if ((helper.getAccessFlag() & InnerClass.ACC_STATIC) != 0) {
+        if (helper.isStatic()) {
             staticInnerClasses.add(helper);
         }
 
-        if ((helper.getAccessFlag() & InnerClass.ACC_FINAL) != 0) {
+        if (helper.isFinal()) {
             finalInnerClasses.add(helper);
         }
 
-        if ((helper.getAccessFlag() & InnerClass.ACC_INTERFACE) != 0) {
+        if (helper.isInterface()) {
             interfaces.add(helper);
         } else {
             classes.add(helper);
         }
 
-        if ((helper.getAccessFlag() & InnerClass.ACC_ABSTRACT) != 0) {
+        if (helper.isAbstract()) {
             abstractInnerClasses.add(helper);
         }
     }

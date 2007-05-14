@@ -113,36 +113,36 @@ public class ClassMetrics extends Command {
 
         out.println(metrics.getSynchronizedMethods().size() + " synchronized method(s)");
         if (list) {
-            for (Object o : metrics.getSynchronizedMethods()) {
-                out.println("        " + o);
+            for (Method_info method : metrics.getSynchronizedMethods()) {
+                out.println("        " + method);
             }
         }
 
         out.println(metrics.getNativeMethods().size() + " native method(s)");
         if (list) {
-            for (Object o : metrics.getNativeMethods()) {
-                out.println("        " + o);
+            for (Method_info method : metrics.getNativeMethods()) {
+                out.println("        " + method);
             }
         }
 
         out.println(metrics.getVolatileFields().size() + " volatile field(s)");
         if (list) {
-            for (Object o : metrics.getVolatileFields()) {
-                out.println("        " + o);
+            for (Field_info field : metrics.getVolatileFields()) {
+                out.println("        " + field);
             }
         }
 
         out.println(metrics.getTransientFields().size() + " transient field(s)");
         if (list) {
-            for (Object o : metrics.getTransientFields()) {
-                out.println("        " + o);
+            for (Field_info field : metrics.getTransientFields()) {
+                out.println("        " + field);
             }
         }
 
         out.println(metrics.getCustomAttributes().size() + " custom attribute(s)");
         if (list) {
-            for (Object o : metrics.getCustomAttributes()) {
-                out.println("        " + o);
+            for (Custom_attribute attribute : metrics.getCustomAttributes()) {
+                out.println("        " + attribute);
             }
         }
 
@@ -157,23 +157,23 @@ public class ClassMetrics extends Command {
         }
     }
 
-    private void printCMIC(String label, Collection classes, Collection methods, Collection innerClasses) {
+    private void printCMIC(String label, Collection<Classfile> classes, Collection<Method_info> methods, Collection<InnerClass> innerClasses) {
         out.println((classes.size() +
                      methods.size() +
                      innerClasses.size()) + label);
         if (list) {
             out.println("    " + classes.size() + " class(es)");
-            for (Object aClass : classes) {
+            for (Classfile aClass : classes) {
                 out.println("        " + aClass);
             }
 
             out.println("    " + methods.size() + " method(s)");
-            for (Object method : methods) {
+            for (Method_info method : methods) {
                 out.println("        " + method);
             }
 
             out.println("    " + innerClasses.size() + " inner class(es)");
-            for (Object innerClass : innerClasses) {
+            for (InnerClass innerClass : innerClasses) {
                 out.println("        " + innerClass);
             }
         } else {
@@ -183,29 +183,29 @@ public class ClassMetrics extends Command {
         }
     }
 
-    private void printCFMIC(String label, Collection classes, Collection fields, Collection methods, Collection innerClasses) {
+    private void printCFMIC(String label, Collection<Classfile> classes, Collection<Field_info> fields, Collection<Method_info> methods, Collection<InnerClass> innerClasses) {
         out.println((classes.size() +
                      fields.size() +
                      methods.size() +
                      innerClasses.size()) + label);
         if (list) {
             out.println("    " + classes.size() + " class(es)");
-            for (Object aClass : classes) {
+            for (Classfile aClass : classes) {
                 out.println("        " + aClass);
             }
 
             out.println("    " + fields.size() + " field(s)");
-            for (Object field : fields) {
+            for (Field_info field : fields) {
                 out.println("        " + field);
             }
 
             out.println("    " + methods.size() + " method(s)");
-            for (Object method : methods) {
+            for (Method_info method : methods) {
                 out.println("        " + method);
             }
 
             out.println("    " + innerClasses.size() + " inner class(es)");
-            for (Object innerClass : innerClasses) {
+            for (InnerClass innerClass : innerClasses) {
                 out.println("        " + innerClass);
             }
         } else {
@@ -216,23 +216,23 @@ public class ClassMetrics extends Command {
         }
     }
 
-    private void printCFM(String label, Collection classes, Collection fields, Collection methods) {
+    private void printCFM(String label, Collection<Classfile> classes, Collection<Field_info> fields, Collection<Method_info> methods) {
         out.println((classes.size() +
                      fields.size() +
                      methods.size()) + label);
         if (list) {
             out.println("    " + classes.size() + " class(es)");
-            for (Object aClass : classes) {
+            for (Classfile aClass : classes) {
                 out.println("        " + aClass);
             }
 
             out.println("    " + fields.size() + " field(s)");
-            for (Object field : fields) {
+            for (Field_info field : fields) {
                 out.println("        " + field);
             }
 
             out.println("    " + methods.size() + " method(s)");
-            for (Object method : methods) {
+            for (Method_info method : methods) {
                 out.println("        " + method);
             }
         } else {
@@ -242,23 +242,23 @@ public class ClassMetrics extends Command {
         }
     }
 
-    private void printFMIC(String label, Collection fields, Collection methods, Collection innerClasses) {
+    private void printFMIC(String label, Collection<Field_info> fields, Collection<Method_info> methods, Collection<InnerClass> innerClasses) {
         out.println((fields.size() +
                      methods.size() +
                      innerClasses.size()) + label);
         if (list) {
             out.println("    " + fields.size() + " field(s)");
-            for (Object field : fields) {
+            for (Field_info field : fields) {
                 out.println("        " + field);
             }
 
             out.println("    " + methods.size() + " method(s)");
-            for (Object method : methods) {
+            for (Method_info method : methods) {
                 out.println("        " + method);
             }
 
             out.println("    " + innerClasses.size() + " inner class(es)");
-            for (Object innerClass : innerClasses) {
+            for (InnerClass innerClass : innerClasses) {
                 out.println("        " + innerClass);
             }
         } else {

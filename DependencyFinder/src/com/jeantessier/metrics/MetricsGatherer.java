@@ -245,39 +245,39 @@ public class MetricsGatherer extends VisitorBase {
         Logger.getLogger(getClass()).debug("VisitField_info(" + entry.getFullSignature() + ")");
         Logger.getLogger(getClass()).debug("Current class: " + getCurrentClass().getName());
         Logger.getLogger(getClass()).debug("Access flag: " + entry.getAccessFlag());
-        Logger.getLogger(getClass()).debug("Public: " + (entry.getAccessFlag() & Method_info.ACC_PUBLIC));
-        Logger.getLogger(getClass()).debug("Private: " + (entry.getAccessFlag() & Method_info.ACC_PRIVATE));
-        Logger.getLogger(getClass()).debug("Protected: " + (entry.getAccessFlag() & Method_info.ACC_PROTECTED));
-        Logger.getLogger(getClass()).debug("Static: " + (entry.getAccessFlag() & Method_info.ACC_STATIC));
+        Logger.getLogger(getClass()).debug("Public: " + entry.isPublic());
+        Logger.getLogger(getClass()).debug("Private: " + entry.isPrivate());
+        Logger.getLogger(getClass()).debug("Protected: " + entry.isProtected());
+        Logger.getLogger(getClass()).debug("Static: " + entry.isStatic());
         
-        if ((entry.getAccessFlag() & Field_info.ACC_PUBLIC) != 0) {
+        if (entry.isPublic()) {
             getCurrentClass().addToMeasurement(Metrics.PUBLIC_ATTRIBUTES);
-        } else if ((entry.getAccessFlag() & Field_info.ACC_PRIVATE) != 0) {
+        } else if (entry.isPrivate()) {
             getCurrentClass().addToMeasurement(Metrics.PRIVATE_ATTRIBUTES);
-        } else if ((entry.getAccessFlag() & Field_info.ACC_PROTECTED) != 0) {
+        } else if (entry.isProtected()) {
             getCurrentClass().addToMeasurement(Metrics.PROTECTED_ATTRIBUTES);
         } else {
             getCurrentClass().addToMeasurement(Metrics.PACKAGE_ATTRIBUTES);
         }
 
-        if ((entry.getAccessFlag() & Field_info.ACC_STATIC) != 0) {
+        if (entry.isStatic()) {
             getCurrentClass().addToMeasurement(Metrics.STATIC_ATTRIBUTES);
         }
 
-        if ((entry.getAccessFlag() & Field_info.ACC_FINAL) != 0) {
+        if (entry.isFinal()) {
             getCurrentClass().addToMeasurement(Metrics.FINAL_ATTRIBUTES);
         }
 
-        if ((entry.getAccessFlag() & Field_info.ACC_VOLATILE) != 0) {
+        if (entry.isVolatile()) {
             getCurrentClass().addToMeasurement(Metrics.VOLATILE_ATTRIBUTES);
         }
 
-        if ((entry.getAccessFlag() & Field_info.ACC_TRANSIENT) != 0) {
+        if (entry.isTransient()) {
             getCurrentClass().addToMeasurement(Metrics.TRANSIENT_ATTRIBUTES);
         }
 
         sloc = 1;
-        isSynthetic = false;
+        isSynthetic = entry.isSynthetic();
         
         super.visitField_info(entry);
         
@@ -297,41 +297,41 @@ public class MetricsGatherer extends VisitorBase {
         Logger.getLogger(getClass()).debug("VisitMethod_info(" + entry.getFullSignature() + ")");
         Logger.getLogger(getClass()).debug("Current class: " + getCurrentClass().getName());
         Logger.getLogger(getClass()).debug("Access flag: " + entry.getAccessFlag());
-        Logger.getLogger(getClass()).debug("Public: " + (entry.getAccessFlag() & Method_info.ACC_PUBLIC));
-        Logger.getLogger(getClass()).debug("Private: " + (entry.getAccessFlag() & Method_info.ACC_PRIVATE));
-        Logger.getLogger(getClass()).debug("Protected: " + (entry.getAccessFlag() & Method_info.ACC_PROTECTED));
-        Logger.getLogger(getClass()).debug("Static: " + (entry.getAccessFlag() & Method_info.ACC_STATIC));
+        Logger.getLogger(getClass()).debug("Public: " + entry.isPublic());
+        Logger.getLogger(getClass()).debug("Private: " + entry.isPrivate());
+        Logger.getLogger(getClass()).debug("Protected: " + entry.isProtected());
+        Logger.getLogger(getClass()).debug("Static: " + entry.isStatic());
 
         sloc = 0;
-        isSynthetic = false;
+        isSynthetic = entry.isSynthetic();
         
-        if ((entry.getAccessFlag() & Method_info.ACC_PUBLIC) != 0) {
+        if (entry.isPublic()) {
             getCurrentClass().addToMeasurement(Metrics.PUBLIC_METHODS);
-        } else if ((entry.getAccessFlag() & Method_info.ACC_PRIVATE) != 0) {
+        } else if (entry.isPrivate()) {
             getCurrentClass().addToMeasurement(Metrics.PRIVATE_METHODS);
-        } else if ((entry.getAccessFlag() & Method_info.ACC_PROTECTED) != 0) {
+        } else if (entry.isProtected()) {
             getCurrentClass().addToMeasurement(Metrics.PROTECTED_METHODS);
         } else {
             getCurrentClass().addToMeasurement(Metrics.PACKAGE_METHODS);
         }
 
-        if ((entry.getAccessFlag() & Method_info.ACC_STATIC) != 0) {
+        if (entry.isStatic()) {
             getCurrentClass().addToMeasurement(Metrics.STATIC_METHODS);
         }
 
-        if ((entry.getAccessFlag() & Method_info.ACC_FINAL) != 0) {
+        if (entry.isFinal()) {
             getCurrentClass().addToMeasurement(Metrics.FINAL_METHODS);
         }
 
-        if ((entry.getAccessFlag() & Method_info.ACC_SYNCHRONIZED) != 0) {
+        if (entry.isSynchronized()) {
             getCurrentClass().addToMeasurement(Metrics.SYNCHRONIZED_METHODS);
         }
 
-        if ((entry.getAccessFlag() & Method_info.ACC_NATIVE) != 0) {
+        if (entry.isNative()) {
             getCurrentClass().addToMeasurement(Metrics.NATIVE_METHODS);
         }
 
-        if ((entry.getAccessFlag() & Method_info.ACC_ABSTRACT) != 0) {
+        if (entry.isAbstract()) {
             getCurrentClass().addToMeasurement(Metrics.ABSTRACT_METHODS);
             sloc = 1;
         }
