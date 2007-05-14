@@ -1,1 +1,4 @@
 Added =Field_info.isEnum()=.
+
+Fixed =Feature_info= to account for the new "synthetic" access flag for fields
+and methods.

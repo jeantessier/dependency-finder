@@ -43,6 +43,7 @@ public abstract class Feature_info implements Deprecatable, Visitable {
     public static final int ACC_PROTECTED = 0x0004;
     public static final int ACC_STATIC    = 0x0008;
     public static final int ACC_FINAL     = 0x0010;
+    public static final int ACC_SYNTHETIC = 0x1000;
 
     private Classfile  classfile;
     private int        accessFlag;
@@ -135,13 +136,21 @@ public abstract class Feature_info implements Deprecatable, Visitable {
     }
 
     public boolean isSynthetic() {
+        return isSyntheticFromAccessFlag() || isSyntheticFromAttribute();
+    }
+
+    private boolean isSyntheticFromAccessFlag() {
+        return (getAccessFlag() & ACC_SYNTHETIC) != 0;
+    }
+
+    private boolean isSyntheticFromAttribute() {
         boolean result = false;
 
         Iterator i = getAttributes().iterator();
         while (!result && i.hasNext()) {
             result = i.next() instanceof Synthetic_attribute;
         }
-    
+
         return result;
     }
 
