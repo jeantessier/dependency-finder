@@ -1,1 +1,3 @@
 Fixed the copyright notice that was missing from some of the newest files.
+
+Added =Signature_attribute= to support generics.

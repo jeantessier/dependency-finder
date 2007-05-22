@@ -518,6 +518,12 @@ public class XMLPrinter extends Printer {
         indent().append("<synthetic-attribute/>").eol();
     }
 
+    public void visitSignature_attribute(Signature_attribute attribute) {
+        indent().append("<signature-attribute>");
+        attribute.getRawSignature().accept(this);
+        append("</signature-attribute>").eol();
+    }
+
     public void visitSourceFile_attribute(SourceFile_attribute attribute) {
         indent().append("<source-file-attribute>").append(attribute.getSourceFile()).append("</source-file-attribute>").eol();
     }

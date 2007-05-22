@@ -71,6 +71,12 @@ public enum AttributeType {
         }
     },
 
+    SIGNATURE("Signature") {
+        public Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+            return new Signature_attribute(classfile, owner, in);
+        }
+    },
+
     SOURCE_FILE("SourceFile") {
         public Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
             return new SourceFile_attribute(classfile, owner, in);

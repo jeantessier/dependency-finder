@@ -152,11 +152,15 @@ public abstract class VisitorBase implements Visitor {
     public void visitSynthetic_attribute(Synthetic_attribute attribute) {
         // Do nothing
     }
-    
+
+    public void visitSignature_attribute(Signature_attribute attribute) {
+        // Do nothing
+    }
+
     public void visitSourceFile_attribute(SourceFile_attribute attribute) {
         // Do nothing
     }
-    
+
     public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
         Logger.getLogger(getClass()).debug("Visiting " + attribute.getLineNumbers().size() + " line number(s) ...");
 

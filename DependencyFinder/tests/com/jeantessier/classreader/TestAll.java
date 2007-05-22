@@ -67,6 +67,7 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestAnnotation.class);
         result.addTestSuite(TestEnum.class);
         result.addTestSuite(TestEnclosingMethodAttribute.class);
+        result.addTestSuite(TestSignatureAttribute.class);
 
         return result;
     }

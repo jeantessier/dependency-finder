@@ -42,6 +42,7 @@ public class MockVisitor extends VisitorBase {
     private List<InnerClasses_attribute> visitedInnerClasses_attributes = new LinkedList<InnerClasses_attribute>();
     private List<EnclosingMethod_attribute> visitedEnclosingMethod_attributes = new LinkedList<EnclosingMethod_attribute>();
     private List<Synthetic_attribute> visitedSynthetic_attributes = new LinkedList<Synthetic_attribute>();
+    private List<Signature_attribute> visitedSignature_attributes = new LinkedList<Signature_attribute>();
     private List<SourceFile_attribute> visitedSourceFile_attributes = new LinkedList<SourceFile_attribute>();
     private List<LineNumberTable_attribute> visitedLineNumberTable_attributes = new LinkedList<LineNumberTable_attribute>();
     private List<LocalVariableTable_attribute> visitedLocalVariableTable_attributes = new LinkedList<LocalVariableTable_attribute>();
@@ -80,6 +81,10 @@ public class MockVisitor extends VisitorBase {
 
     public List<Synthetic_attribute> getVisitedSynthetic_attributes() {
         return visitedSynthetic_attributes;
+    }
+
+    public List<Signature_attribute> getVisitedSignature_attributes() {
+        return visitedSignature_attributes;
     }
 
     public List<SourceFile_attribute> getVisitedSourceFile_attributes() {
@@ -162,6 +167,12 @@ public class MockVisitor extends VisitorBase {
         visitedSynthetic_attributes.add(attribute);
 
         super.visitSynthetic_attribute(attribute);
+    }
+
+    public void visitSignature_attribute(Signature_attribute attribute) {
+        visitedSignature_attributes.add(attribute);
+
+        super.visitSignature_attribute(attribute);
     }
 
     public void visitSourceFile_attribute(SourceFile_attribute attribute) {
