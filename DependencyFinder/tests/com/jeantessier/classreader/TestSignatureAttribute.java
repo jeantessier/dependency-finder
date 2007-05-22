@@ -111,4 +111,20 @@ public class TestSignatureAttribute extends TestCase {
         assertNotNull("Signature attribute missing", signatureAttribute);
         assertEquals("Signature", "(TT;)TT;", signatureAttribute.getSignature());
     }
+
+    public void testFieldHasSignatureAttribute() {
+        Classfile genericClass = loader.getClassfile(TEST_GENERIC_CLASS_CLASS);
+        Field_info field = genericClass.getField("testfield");
+
+        Signature_attribute signatureAttribute = null;
+        for (Attribute_info attribute : field.getAttributes()) {
+            if (attribute instanceof Signature_attribute) {
+                signatureAttribute = (Signature_attribute) attribute;
+
+            }
+        }
+
+        assertNotNull("Signature attribute missing", signatureAttribute);
+        assertEquals("Signature", "TT;", signatureAttribute.getSignature());
+    }
 }
