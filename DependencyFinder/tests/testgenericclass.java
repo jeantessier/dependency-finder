@@ -30,8 +30,8 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-public class testldc {
-    public static final int INT_CONSTANT = 4;
-    public static final String STRING_CONSTANT = "4";
-    public static final Class CLASS_CONSTANT = String.class;
+public class testgenericclass<T> {
+    private T testfield;
+    public testgenericclass(T t) {}
+    public T testmethod(T t) {return null;}
 }
