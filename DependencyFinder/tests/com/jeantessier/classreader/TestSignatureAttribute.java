@@ -66,10 +66,10 @@ public class TestSignatureAttribute extends TestCase {
     }
 
     public void testClassHasSignatureAttribute() {
-        Classfile enumValue1Class = loader.getClassfile(TEST_GENERIC_CLASS_CLASS);
+        Classfile genericClass = loader.getClassfile(TEST_GENERIC_CLASS_CLASS);
 
         Signature_attribute signatureAttribute = null;
-        for (Attribute_info attribute : enumValue1Class.getAttributes()) {
+        for (Attribute_info attribute : genericClass.getAttributes()) {
             if (attribute instanceof Signature_attribute) {
                 signatureAttribute = (Signature_attribute) attribute;
 
@@ -77,5 +77,38 @@ public class TestSignatureAttribute extends TestCase {
         }
 
         assertNotNull("Signature attribute missing", signatureAttribute);
+        assertEquals("Signature", "<T:Ljava/lang/Object;>Ljava/lang/Object;", signatureAttribute.getSignature());
+    }
+
+    public void testConstructorHasSignatureAttribute() {
+        Classfile genericClass = loader.getClassfile(TEST_GENERIC_CLASS_CLASS);
+        Method_info method = genericClass.getMethod(TEST_GENERIC_CLASS_CLASS + "(java.lang.Object)");
+
+        Signature_attribute signatureAttribute = null;
+        for (Attribute_info attribute : method.getAttributes()) {
+            if (attribute instanceof Signature_attribute) {
+                signatureAttribute = (Signature_attribute) attribute;
+
+            }
+        }
+
+        assertNotNull("Signature attribute missing", signatureAttribute);
+        assertEquals("Signature", "(TT;)V", signatureAttribute.getSignature());
+    }
+
+    public void testMethodHasSignatureAttribute() {
+        Classfile genericClass = loader.getClassfile(TEST_GENERIC_CLASS_CLASS);
+        Method_info method = genericClass.getMethod("testmethod(java.lang.Object)");
+
+        Signature_attribute signatureAttribute = null;
+        for (Attribute_info attribute : method.getAttributes()) {
+            if (attribute instanceof Signature_attribute) {
+                signatureAttribute = (Signature_attribute) attribute;
+
+            }
+        }
+
+        assertNotNull("Signature attribute missing", signatureAttribute);
+        assertEquals("Signature", "(TT;)TT;", signatureAttribute.getSignature());
     }
 }
