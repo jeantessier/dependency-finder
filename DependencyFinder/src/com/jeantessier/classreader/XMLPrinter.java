@@ -552,6 +552,18 @@ public class XMLPrinter extends Printer {
         indent().append("</local-variable-table-attribute>").eol();
     }
 
+    public void visitLocalVariableTypeTable_attribute(LocalVariableTypeTable_attribute attribute) {
+        indent().append("<local-variable-type-table-attribute>").eol();
+        raiseIndent();
+
+        for (LocalVariableType localVariableType : attribute.getLocalVariableTypes()) {
+            localVariableType.accept(this);
+        }
+
+        lowerIndent();
+        indent().append("</local-variable-type-table-attribute>").eol();
+    }
+
     public void visitDeprecated_attribute(Deprecated_attribute attribute) {
         indent().append("<deprecated-attribute/>").eol();
     }
@@ -663,6 +675,19 @@ public class XMLPrinter extends Printer {
         
         append("<type>").append(SignatureHelper.getType(helper.getDescriptor())).append("</type>");
         append("</local-variable>").eol();
+    }
+
+    public void visitLocalVariableType(LocalVariableType helper) {
+        indent();
+        append("<local-variable-type pc=\"").append(helper.getStartPC()).append("\" length=\"").append(helper.getLength()).append("\">");
+        append("<name>");
+        helper.getRawName().accept(this);
+        append("</name>");
+
+        append("<signature>");
+        helper.getRawSignature().accept(this);
+        append("</signature>");
+        append("</local-variable-type>").eol();
     }
 
     private String escapeXMLCharacters(String text) {

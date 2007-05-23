@@ -176,7 +176,15 @@ public abstract class VisitorBase implements Visitor {
             localVariable.accept(this);
         }
     }
-    
+
+    public void visitLocalVariableTypeTable_attribute(LocalVariableTypeTable_attribute attribute) {
+        Logger.getLogger(getClass()).debug("Visiting " + attribute.getLocalVariableTypes().size() + " local variable type(s) ...");
+
+        for (LocalVariableType localVariableType : attribute.getLocalVariableTypes()) {
+            localVariableType.accept(this);
+        }
+    }
+
     public void visitDeprecated_attribute(Deprecated_attribute attribute) {
         // Do nothing
     }
@@ -191,4 +199,5 @@ public abstract class VisitorBase implements Visitor {
     public void visitInnerClass(InnerClass helper) {}
     public void visitLineNumber(LineNumber helper) {}
     public void visitLocalVariable(LocalVariable helper) {}
+    public void visitLocalVariableType(LocalVariableType helper) {}
 }

@@ -155,7 +155,7 @@
 
 <!ELEMENT signature (#PCDATA) >
 
-<!ELEMENT attributes (constant-value-attribute | code-attribute | exceptions-attribute | inner-classes-attribute | enclosing-method-attribute | synthetic-attribute | signature-attribute | source-file-attribute | line-number-table-attribute | local-variable-table-attribute | deprecated-attribute | custom-attribute)* >
+<!ELEMENT attributes (constant-value-attribute | code-attribute | exceptions-attribute | inner-classes-attribute | enclosing-method-attribute | synthetic-attribute | signature-attribute | source-file-attribute | line-number-table-attribute | local-variable-table-attribute | local-variable-type-table-attribute | deprecated-attribute | custom-attribute)* >
 
 <!ELEMENT constant-value-attribute (#PCDATA) >
 
@@ -223,6 +223,14 @@
 
 <!ELEMENT local-variable (name, type) >
 <!ATTLIST local-variable
+          pc     CDATA #REQUIRED
+          length CDATA #REQUIRED
+>
+
+<!ELEMENT local-variable-type-table-attribute (local-variable-type*) >
+
+<!ELEMENT local-variable-type (name, signature) >
+<!ATTLIST local-variable-type
           pc     CDATA #REQUIRED
           length CDATA #REQUIRED
 >

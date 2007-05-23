@@ -46,6 +46,7 @@ public class MockVisitor extends VisitorBase {
     private List<SourceFile_attribute> visitedSourceFile_attributes = new LinkedList<SourceFile_attribute>();
     private List<LineNumberTable_attribute> visitedLineNumberTable_attributes = new LinkedList<LineNumberTable_attribute>();
     private List<LocalVariableTable_attribute> visitedLocalVariableTable_attributes = new LinkedList<LocalVariableTable_attribute>();
+    private List<LocalVariableTypeTable_attribute> visitedLocalVariableTypeTable_attributes = new LinkedList<LocalVariableTypeTable_attribute>();
     private List<Deprecated_attribute> visitedDeprecated_attributes = new LinkedList<Deprecated_attribute>();
     private List<Custom_attribute> visitedCustom_attributes = new LinkedList<Custom_attribute>();
     private List<Instruction> visitedInstructions = new LinkedList<Instruction>();
@@ -53,6 +54,7 @@ public class MockVisitor extends VisitorBase {
     private List<InnerClass> visitedInnerClasses = new LinkedList<InnerClass>();
     private List<LineNumber> visitedLineNumbers = new LinkedList<LineNumber>();
     private List<LocalVariable> visitedLocalVariables = new LinkedList<LocalVariable>();
+    private List<LocalVariableType> visitedLocalVariableTypes = new LinkedList<LocalVariableType>();
 
     public List<Classfile> getVisitedClassfiles() {
         return visitedClassfiles;
@@ -99,6 +101,10 @@ public class MockVisitor extends VisitorBase {
         return visitedLocalVariableTable_attributes;
     }
 
+    public List<LocalVariableTypeTable_attribute> getVisitedLocalVariableTypeTable_attributes() {
+        return visitedLocalVariableTypeTable_attributes;
+    }
+
     public List<Deprecated_attribute> getVisitedDeprecated_attributes() {
         return visitedDeprecated_attributes;
     }
@@ -125,6 +131,10 @@ public class MockVisitor extends VisitorBase {
 
     public List<LocalVariable> getVisitedLocalVariables() {
         return visitedLocalVariables;
+    }
+
+    public List<LocalVariableType> getVisitedLocalVariableTypes() {
+        return visitedLocalVariableTypes;
     }
 
     public void visitClassfile(Classfile classfile) {
@@ -193,6 +203,12 @@ public class MockVisitor extends VisitorBase {
         super.visitLocalVariableTable_attribute(attribute);
     }
 
+    public void visitLocalVariableTypeTable_attribute(LocalVariableTypeTable_attribute attribute) {
+        visitedLocalVariableTypeTable_attributes.add(attribute);
+
+        super.visitLocalVariableTypeTable_attribute(attribute);
+    }
+
     public void visitDeprecated_attribute(Deprecated_attribute attribute) {
         visitedDeprecated_attributes.add(attribute);
 
@@ -233,6 +249,12 @@ public class MockVisitor extends VisitorBase {
         visitedLocalVariables.add(helper);
 
         super.visitLocalVariable(helper);
+    }
+
+    public void visitLocalVariableType(LocalVariableType helper) {
+        visitedLocalVariableTypes.add(helper);
+
+        super.visitLocalVariableType(helper);
     }
 
     public void reset() {

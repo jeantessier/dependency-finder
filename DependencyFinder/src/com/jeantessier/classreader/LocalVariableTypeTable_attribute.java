@@ -33,18 +33,29 @@
 package com.jeantessier.classreader;
 
 import java.io.*;
+import java.util.*;
 
 import org.apache.log4j.*;
 
 public class LocalVariableTypeTable_attribute extends Attribute_info {
+    private Collection<LocalVariableType> localVariableTypes = new LinkedList<LocalVariableType>();
+
     public LocalVariableTypeTable_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
         super(classfile, owner);
 
         int byteCount = in.readInt();
         Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
-        byte[] info = new byte[byteCount];
-        int bytesRead = in.read(info);
+        int localVariableTableTypeLength = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Reading " + localVariableTableTypeLength + " local variable type(s) ...");
+        for (int i=0; i<localVariableTableTypeLength; i++) {
+            Logger.getLogger(getClass()).debug("Local variable type " + i + ":");
+            localVariableTypes.add(new LocalVariableType(this, in));
+        }
+    }
+
+    public Collection<LocalVariableType> getLocalVariableTypes() {
+        return localVariableTypes;
     }
 
     public String toString() {
@@ -52,6 +63,6 @@ public class LocalVariableTypeTable_attribute extends Attribute_info {
     }
 
     public void accept(Visitor visitor) {
-//        visitor.visitLocalVariableTypeTable_attribute(this);
+        visitor.visitLocalVariableTypeTable_attribute(this);
     }
 }

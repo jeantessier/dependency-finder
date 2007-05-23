@@ -169,7 +169,11 @@ public class TestLoadListenerVisitorAdapter extends TestCase implements Visitor 
     public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
         // Do nothing
     }
-    
+
+    public void visitLocalVariableTypeTable_attribute(LocalVariableTypeTable_attribute attribute) {
+        // Do nothing
+    }
+
     public void visitDeprecated_attribute(Deprecated_attribute attribute) {
         // Do nothing
     }
@@ -196,5 +200,9 @@ public class TestLoadListenerVisitorAdapter extends TestCase implements Visitor 
     
     public void visitLocalVariable(LocalVariable helper) {
         // Do nothing
-    }    
+    }
+
+    public void visitLocalVariableType(LocalVariableType helper) {
+        // Do nothing
+    }
 }

@@ -68,6 +68,7 @@ public interface Visitor {
     public void visitSourceFile_attribute(SourceFile_attribute attribute);
     public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute);
     public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute);
+    public void visitLocalVariableTypeTable_attribute(LocalVariableTypeTable_attribute attribute);
     public void visitDeprecated_attribute(Deprecated_attribute attribute);
     public void visitCustom_attribute(Custom_attribute attribute);
 
@@ -77,4 +78,5 @@ public interface Visitor {
     public void visitInnerClass(InnerClass helper);
     public void visitLineNumber(LineNumber helper);
     public void visitLocalVariable(LocalVariable helper);
+    public void visitLocalVariableType(LocalVariableType helper);
 }
