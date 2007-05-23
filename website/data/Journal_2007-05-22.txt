@@ -1,4 +1,4 @@
 Fixed the copyright notice that was missing from some of the newest files.
 
-Added =Signature_attribute= and =LocalVariableTypeTable_attribute= to support
+Added =Signature%5Fattribute= and =LocalVariableTypeTable%5Fattribute= to support
 generics.
