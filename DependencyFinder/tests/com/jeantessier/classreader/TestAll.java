@@ -42,6 +42,8 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestInstruction.class);
         result.addTestSuite(TestInstructionWithConstantPool.class);
         result.addTestSuite(TestInstructionWithDifferentConstantPool.class);
+        result.addTestSuite(TestClassNameHelper.class);
+        result.addTestSuite(TestDescriptorHelper.class);
         result.addTestSuite(TestSignatureHelper.class);
         result.addTestSuite(TestVisitorBase.class);
         result.addTestSuite(TestDirectoryExplorer.class);

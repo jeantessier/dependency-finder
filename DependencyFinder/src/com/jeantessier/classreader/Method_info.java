@@ -90,19 +90,19 @@ public class Method_info extends Feature_info {
 
         if (isConstructor()) {
             result.append(getClassfile().getSimpleName());
-            result.append(SignatureHelper.getSignature(getDescriptor()));
+            result.append(DescriptorHelper.getSignature(getDescriptor()));
         } else if (isStaticInitializer()) {
             result.append("static {}");
         } else {
             result.append(getName());
-            result.append(SignatureHelper.getSignature(getDescriptor()));
+            result.append(DescriptorHelper.getSignature(getDescriptor()));
         }
 
         return result.toString();
     }
 
     public String getReturnType() {
-        return SignatureHelper.getReturnType(getDescriptor());
+        return DescriptorHelper.getReturnType(getDescriptor());
     }
 
     public String getDeclaration() {

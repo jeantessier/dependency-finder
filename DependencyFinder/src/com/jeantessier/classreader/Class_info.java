@@ -52,7 +52,7 @@ public class Class_info extends ConstantPoolEntry {
     }
 
     public String getName() {
-        return SignatureHelper.convertClassName(getRawName().toString());
+        return ClassNameHelper.convertClassName(getRawName().toString());
     }
 
     public String getSimpleName() {

@@ -66,7 +66,7 @@ public class MethodRef_info extends FeatureRef_info {
 
         result.append(getName());
         if (!isStaticInitializer()) {
-            result.append(SignatureHelper.getSignature(getRawNameAndType().getType()));
+            result.append(DescriptorHelper.getSignature(getRawNameAndType().getType()));
         }
 
         return result.toString();

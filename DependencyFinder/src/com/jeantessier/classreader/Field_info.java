@@ -61,7 +61,7 @@ public class Field_info extends Feature_info {
     }
 
     public String getType() {
-        return SignatureHelper.getType(getDescriptor());
+        return DescriptorHelper.getType(getDescriptor());
     }
 
     public String getDeclaration() {

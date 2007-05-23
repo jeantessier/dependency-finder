@@ -200,7 +200,7 @@ public class XMLPrinter extends Printer {
             append("</field-ref-info>").eol();
             top = true;
         } else {
-            append(SignatureHelper.getType(nat.getType()));
+            append(DescriptorHelper.getType(nat.getType()));
             append(" ");
             append(entry.getFullSignature());
         }
@@ -227,7 +227,7 @@ public class XMLPrinter extends Printer {
             top = true;
         } else {
             if (!entry.isConstructor() && !entry.isStaticInitializer()) {
-                append(SignatureHelper.getReturnType(nat.getType())).append(" ");
+                append(DescriptorHelper.getReturnType(nat.getType())).append(" ");
             }
             append(entry.getFullSignature());
         }
@@ -253,7 +253,7 @@ public class XMLPrinter extends Printer {
             append("</interface-method-ref-info>").eol();
             top = true;
         } else {
-            append(SignatureHelper.getReturnType(nat.getType()));
+            append(DescriptorHelper.getReturnType(nat.getType()));
             append(" ");
             append(entry.getFullSignature());
         }
@@ -673,7 +673,7 @@ public class XMLPrinter extends Printer {
         helper.getRawName().accept(this);
         append("</name>");
         
-        append("<type>").append(SignatureHelper.getType(helper.getDescriptor())).append("</type>");
+        append("<type>").append(DescriptorHelper.getType(helper.getDescriptor())).append("</type>");
         append("</local-variable>").eol();
     }
 

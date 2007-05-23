@@ -263,7 +263,7 @@ public class CodeDependencyCollector extends CollectorBase {
 
         while ((startPos = str.indexOf('L', currentPos)) != -1) {
             if ((endPos = str.indexOf(';', startPos)) != -1) {
-                String classname = SignatureHelper.path2ClassName(str.substring(startPos + 1, endPos));
+                String classname = ClassNameHelper.path2ClassName(str.substring(startPos + 1, endPos));
                 if (filterCriteria.isMatchingClasses() && filterCriteria.matchesClassName(classname)) {
                     if (Logger.getLogger(getClass()).isDebugEnabled()) {
                         Logger.getLogger(getClass()).debug("    Adding \"" + classname + "\"");

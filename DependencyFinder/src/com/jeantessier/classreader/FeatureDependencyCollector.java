@@ -98,7 +98,7 @@ public class FeatureDependencyCollector extends CollectorBase {
             if ((endPos = str.indexOf(';', startPos)) != -1) {
                 String candidate = str.substring(startPos + 1, endPos);
                 if (!thisClass.getName().equals(candidate)) {
-                    add(SignatureHelper.path2ClassName(candidate));
+                    add(ClassNameHelper.path2ClassName(candidate));
                 }
                 currentPos = endPos + 1;
             } else {

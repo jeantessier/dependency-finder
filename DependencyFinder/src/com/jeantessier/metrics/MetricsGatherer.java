@@ -336,7 +336,7 @@ public class MetricsGatherer extends VisitorBase {
             sloc = 1;
         }
 
-        getCurrentMethod().addToMeasurement(Metrics.PARAMETERS, SignatureHelper.getParameterCount(entry.getDescriptor()));
+        getCurrentMethod().addToMeasurement(Metrics.PARAMETERS, DescriptorHelper.getParameterCount(entry.getDescriptor()));
         
         super.visitMethod_info(entry);
         
@@ -503,7 +503,7 @@ public class MetricsGatherer extends VisitorBase {
 
         while ((startPos = str.indexOf('L', currentPos)) != -1) {
             if ((endPos = str.indexOf(';', startPos)) != -1) {
-                String classname = SignatureHelper.path2ClassName(str.substring(startPos + 1, endPos));
+                String classname = ClassNameHelper.path2ClassName(str.substring(startPos + 1, endPos));
                 result.add(classname);
                 currentPos = endPos + 1;
             } else {

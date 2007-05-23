@@ -1,22 +1,22 @@
 /*
  *  Copyright (c) 2001-2007, Jean Tessier
  *  All rights reserved.
- *  
+ *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
  *  are met:
- *  
+ *
  *      * Redistributions of source code must retain the above copyright
  *        notice, this list of conditions and the following disclaimer.
- *  
+ *
  *      * Redistributions in binary form must reproduce the above copyright
  *        notice, this list of conditions and the following disclaimer in the
  *        documentation and/or other materials provided with the distribution.
- *  
+ *
  *      * Neither the name of Jean Tessier nor the names of his contributors
  *        may be used to endorse or promote products derived from this software
  *        without specific prior written permission.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -32,27 +32,26 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
+import org.apache.oro.text.perl.*;
 
-public class InterfaceMethodRef_info extends FeatureRef_info {
-    public InterfaceMethodRef_info(ConstantPool constantPool, DataInputStream in) throws IOException {
-        super(constantPool, in);
+public class ClassNameHelper {
+    public static final Perl5Util perl = new Perl5Util();
+
+    public static String path2ClassName(String path) {
+        return perl.substitute("s/\\//./g", path);
     }
 
-    public String getName() {
-        return getRawNameAndType().getName();
-    }
+    public static String convertClassName(String type) {
+        String result;
 
-    public String getSignature() {
-        StringBuffer result = new StringBuffer();
+        if (type.charAt(0) == 'L' && type.indexOf(';') > 0) {
+            result = path2ClassName(type.substring(1, type.indexOf(';')));
+        } else if (type.charAt(0) == '[') {
+            result = convertClassName(type.substring(1)) + "[]";
+        } else {
+            result = path2ClassName(type);
+        }
 
-        result.append(getRawNameAndType().getName());
-        result.append(DescriptorHelper.getSignature(getRawNameAndType().getType()));
-
-        return result.toString();
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitInterfaceMethodRef_info(this);
+        return result;
     }
 }
