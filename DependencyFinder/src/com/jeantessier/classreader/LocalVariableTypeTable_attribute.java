@@ -30,8 +30,28 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-public class testgenericmethods {
-    public <T> testgenericmethods(T t) {}
-    public <T> T testmethod(T t) {return null;}
-    public void testregularmethod(Class<testgenericmethods> cls) {}
+package com.jeantessier.classreader;
+
+import java.io.*;
+
+import org.apache.log4j.*;
+
+public class LocalVariableTypeTable_attribute extends Attribute_info {
+    public LocalVariableTypeTable_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+        super(classfile, owner);
+
+        int byteCount = in.readInt();
+        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+
+        byte[] info = new byte[byteCount];
+        int bytesRead = in.read(info);
+    }
+
+    public String toString() {
+        return "Local Variable Type Table";
+    }
+
+    public void accept(Visitor visitor) {
+//        visitor.visitLocalVariableTypeTable_attribute(this);
+    }
 }

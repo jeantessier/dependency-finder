@@ -95,6 +95,12 @@ public enum AttributeType {
         }
     },
 
+    LOCAL_VARIABLE_TYPE_TABLE("LocalVariableTypeTable") {
+        public Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+            return new LocalVariableTypeTable_attribute(classfile, owner, in);
+        }
+    },
+
     DEPRECATED("Deprecated") {
         public Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
             return new Deprecated_attribute(classfile, owner, in);
