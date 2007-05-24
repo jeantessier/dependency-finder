@@ -8,6 +8,6 @@ represent information about type parameters of generics.  Since my previous
 
 I took this opportunity to move some of the functionality that only dealt with
 class names to the new helper =ClassNameHelper=.  I suspect that
-=SignatureHelper= will need it to, so it makes sense to have it in some shared
+=SignatureHelper= will need it too, so it makes sense to have it in some shared
 location instead of tying =DescriptorHelper= and =SignatureHelper= together
 somehow.
