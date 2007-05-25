@@ -55,7 +55,7 @@ If I compile it using JDK 1.4 and then run =DependencyExtractor= on it, I get:
                 --> test.Test.class$(java.lang.String)
                 --> test.Test.class$java$lang$String
 
-The compiler created synthetic features to store the refenrence to
+The compiler created synthetic features to store the reference to
 =String.class=.  All this machinery adds a lot of complexity to the dependency
 graph.
 
