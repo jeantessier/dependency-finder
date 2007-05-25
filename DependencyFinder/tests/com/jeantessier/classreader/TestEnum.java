@@ -73,4 +73,20 @@ public class TestEnum extends TestCase {
         assertTrue(TEST_ENUM_CLASS + ".$VALUES", !testenum.getField("$VALUES").isEnum());
         assertTrue(TEST_ENUM_CLASS + ".VALUE1", testenum.getField("VALUE1").isEnum());
     }
+
+    public void testInnerClassIsEnum() {
+        Classfile testenum = loader.getClassfile(TEST_ENUM_CLASS);
+
+        boolean found = false;
+        for (Attribute_info attribute : testenum.getAttributes()) {
+            if (attribute instanceof InnerClasses_attribute) {
+                found = true;
+                for (InnerClass innerClass : ((InnerClasses_attribute) attribute).getInnerClasses()) {
+                    assertTrue(innerClass.getInnerClassInfo(), innerClass.isEnum());
+                }
+            }
+        }
+
+        assertTrue("Did not find any InnerClass structures in " + TEST_ENUM_CLASS, found);
+    }
 }

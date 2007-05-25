@@ -1,0 +1,2 @@
+Added =isSynthetic()=, =isAnnotation()=, and =isEnum()= to =InnerClass=.  I was
+even able to test =isEnum()=!
