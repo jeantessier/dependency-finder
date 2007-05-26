@@ -49,10 +49,10 @@ public class InnerClass implements Visitable {
     public static final int ACC_ENUM = 0x4000;
 
     private InnerClasses_attribute innerClasses;
-    private int                    innerClassInfoIndex;
-    private int                    outerClassInfoIndex;
-    private int                    innerNameIndex;
-    private int                    accessFlag;
+    private int innerClassInfoIndex;
+    private int outerClassInfoIndex;
+    private int innerNameIndex;
+    private int accessFlag;
 
     public InnerClass(InnerClasses_attribute innerClasses, DataInputStream in) throws IOException {
         this.innerClasses = innerClasses;
