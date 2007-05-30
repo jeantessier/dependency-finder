@@ -578,8 +578,8 @@ For each class it could find, prints where it found it.
 <blockquote>
 
 Lists all the classes in a group of JAR file, Zip file, and directories along
-with the location(s) of each class.  Similar to [[#ClassList]], this one shows
-where the class can be found, which JAR or directory.
+with the location(s) of each class.  Similar to [[#ClassList][ClassList]], this
+one shows where the class can be found, which JAR or directory.
 
 You can also give it a =.class= file, but that would be trivial.  It will just
 print the fully qualified name of the class in it.
