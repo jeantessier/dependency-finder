@@ -48,7 +48,7 @@ for f in $HTTPUNIT_HOME/lib/*.jar $HTTPUNIT_HOME/jars/*.jar
 do
     LOCAL_CLASSPATH=$LOCAL_CLASSPATH:$f
 done
-for f in $CATALINA_HOME/bin/commons-*.jar $CATALINA_HOME/common/lib/*.jar $CATALINA_HOME/server/lib/*.jar
+for f in $CATALINA_HOME/bin/*.jar $CATALINA_HOME/lib/*.jar
 do
     LOCAL_CLASSPATH=$LOCAL_CLASSPATH:$f
 done
@@ -56,7 +56,7 @@ for f in $WEBWORK_HOME/lib/default/*.jar $WEBWORK_HOME/lib/freemarker/*.jar
 do
     LOCAL_CLASSPATH=$LOCAL_CLASSPATH:$f
 done
-LOCAL_CLASSPATH=$LOCAL_CLASSPATH:$WEBWORK_HOME/webwork-2.2.jar
+LOCAL_CLASSPATH=$LOCAL_CLASSPATH:$WEBWORK_HOME/webwork-2.2.4.jar
 
 echo $JAVA_HOME/bin/java $DEPENDENCYFINDER_OPTS -DDEPENDENCYFINDER_TESTS_VALIDATE=$DF_VALIDATE -classpath $LOCAL_CLASSPATH junit.swingui.TestRunner $*
 $JAVA_HOME/bin/java $DEPENDENCYFINDER_OPTS -DDEPENDENCYFINDER_TESTS_VALIDATE=$DF_VALIDATE -classpath $LOCAL_CLASSPATH junit.swingui.TestRunner $*
