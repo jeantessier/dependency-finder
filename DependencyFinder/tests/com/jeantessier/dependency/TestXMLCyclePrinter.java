@@ -55,9 +55,11 @@ public class TestXMLCyclePrinter extends TestCase implements ErrorHandler {
     private Node c_package;
 
     protected void setUp() throws Exception {
+	boolean validate = Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE");
+
         reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
-        reader.setFeature("http://xml.org/sax/features/validation", true);
-        reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true);
+        reader.setFeature("http://xml.org/sax/features/validation", validate);
+        reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", validate);
         reader.setErrorHandler(this);
 
         perl = new Perl5Util();
