@@ -221,6 +221,13 @@ sub PrintDocumentFooter {
     print "\n";
     print "</dl>\n";
     print "\n";
+    print "<script src=\"http://www.google-analytics.com/urchin.js\" type=\"text/javascript\">\n";
+    print "</script>\n";
+    print "<script type=\"text/javascript\">\n";
+    print "_uacct = \"UA-2083086-2\";\n";
+    print "urchinTracker();\n";
+    print "</script>\n";
+    print "\n";
     print "</body>\n";
     print "\n";
     print "</html>\n";
