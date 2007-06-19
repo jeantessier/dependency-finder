@@ -146,6 +146,13 @@ $TEXT .= $_;
 
 END {
     $TEXT .= "\n";
+    $TEXT .= "<script src=\"http://www.google-analytics.com/urchin.js\" type=\"text/javascript\">\n";
+    $TEXT .= "</script>\n";
+    $TEXT .= "<script type=\"text/javascript\">\n";
+    $TEXT .= "_uacct = \"UA-2083086-2\";\n";
+    $TEXT .= "urchinTracker();\n";
+    $TEXT .= "</script>\n";
+    $TEXT .= "\n";
     $TEXT .= "</body>\n";
     $TEXT .= "\n";
     $TEXT .= "</html>\n";
