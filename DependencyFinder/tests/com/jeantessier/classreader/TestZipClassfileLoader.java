@@ -34,15 +34,30 @@ package com.jeantessier.classreader;
 
 import java.io.*;
 
+import org.apache.log4j.*;
+
 public class TestZipClassfileLoader extends TestClassfileLoaderBase {
     private ClassfileLoader loader;
-    
+    private Level oldLoggingLevel;
+
     protected void setUp() throws Exception {
         super.setUp();
 
         ClassfileLoader eventSource = new TransientClassfileLoader();
         eventSource.addLoadListener(this);
         loader = new ZipClassfileLoader(eventSource);
+
+        // Disable logging during tests
+        oldLoggingLevel = Logger.getLogger(ZipClassfileLoader.class).getLevel();
+        Logger.getLogger(ZipClassfileLoader.class).setLevel(Level.FATAL);
+    }
+
+    protected void tearDown() throws Exception {
+        try {
+            Logger.getLogger(ZipClassfileLoader.class).setLevel(oldLoggingLevel);
+        } finally {
+            super.tearDown();
+        }
     }
 
     public void testLoadFile() {
