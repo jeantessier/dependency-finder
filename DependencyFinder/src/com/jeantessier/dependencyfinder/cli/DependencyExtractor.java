@@ -78,13 +78,22 @@ public class DependencyExtractor extends Command {
         return exceptions;
     }
 
+    protected boolean validateCommandLine(String[] args, PrintStream out) {
+        boolean result = super.validateCommandLine(args, out);
+
+        if (result && getCommandLine().getParameters().isEmpty()) {
+            try {
+                getCommandLine().getParameterStrategy().accept(".");
+            } catch (CommandLineException e) {
+                result = false;
+            }
+        }
+
+        return result;
+    }
+
     protected void doProcessing() throws Exception {
         SelectionCriteria filterCriteria = getFilterCriteria();
-
-        List<String> parameters = getCommandLine().getParameters();
-        if (parameters.size() == 0) {
-            parameters.add(".");
-        }
 
         NodeFactory factory = new NodeFactory();
         CodeDependencyCollector collector = new CodeDependencyCollector(factory, filterCriteria);
@@ -92,7 +101,7 @@ public class DependencyExtractor extends Command {
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(new LoadListenerVisitorAdapter(collector));
         loader.addLoadListener(getVerboseListener());
-        loader.load(parameters);
+        loader.load(getCommandLine().getParameters());
 
         if (getCommandLine().getToggleSwitch("minimize")) {
             LinkMinimizer minimizer = new LinkMinimizer();

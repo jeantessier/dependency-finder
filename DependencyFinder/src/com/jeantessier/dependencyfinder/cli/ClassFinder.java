@@ -50,24 +50,33 @@ public class ClassFinder extends Command {
         getCommandLine().addMultipleValuesSwitch("excludes");
     }
 
-    public void showSpecificUsage(PrintStream out) {
+    protected void showSpecificUsage(PrintStream out) {
         out.println();
         out.println("If no files are specified, it processes the current directory.");
         out.println();
     }
 
-    public void doProcessing() throws Exception {
-        List<String> parameters = getCommandLine().getParameters();
-        if (parameters.size() == 0) {
-            parameters.add(".");
+    protected boolean validateCommandLine(String[] args, PrintStream out) {
+        boolean result = super.validateCommandLine(args, out);
+
+        if (result && getCommandLine().getParameters().isEmpty()) {
+            try {
+                getCommandLine().getParameterStrategy().accept(".");
+            } catch (CommandLineException e) {
+                result = false;
+            }
         }
 
+        return result;
+    }
+
+    public void doProcessing() throws Exception {
         ClassMatcher matcher = new ClassMatcher(getCommandLine().getMultipleSwitch("includes"), getCommandLine().getMultipleSwitch("excludes"));
 
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(matcher);
         loader.addLoadListener(getVerboseListener());
-        loader.load(parameters);
+        loader.load(getCommandLine().getParameters());
 
         for (Map.Entry<String, List<String>> entry : matcher.getResults().entrySet())
         {

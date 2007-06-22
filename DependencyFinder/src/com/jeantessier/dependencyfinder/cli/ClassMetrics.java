@@ -64,20 +64,29 @@ public class ClassMetrics extends Command {
         getCommandLine().addToggleSwitch("instruction-counts");
     }
 
+    protected boolean validateCommandLine(String[] args, PrintStream out) {
+        boolean result = super.validateCommandLine(args, out);
+
+        if (result && getCommandLine().getParameters().isEmpty()) {
+            try {
+                getCommandLine().getParameterStrategy().accept(".");
+            } catch (CommandLineException e) {
+                result = false;
+            }
+        }
+
+        return result;
+    }
+
     public void doProcessing() throws Exception {
         list = getCommandLine().getToggleSwitch("list");
-
-        List<String> parameters = getCommandLine().getParameters();
-        if (parameters.size() == 0) {
-            parameters.add(".");
-        }
 
         MetricsGatherer metrics = new MetricsGatherer();
 
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(getVerboseListener());
         loader.addLoadListener(new LoadListenerVisitorAdapter(metrics));
-        loader.load(parameters);
+        loader.load(getCommandLine().getParameters());
 
         getVerboseListener().print("Printing report ...");
 

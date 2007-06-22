@@ -47,13 +47,22 @@ public class ClassList extends Command {
         // Do nothing
     }
 
-    public void doProcessing() throws Exception {
-        List<String> parameters = getCommandLine().getParameters();
-        if (parameters.size() == 0) {
-            parameters.add(".");
+    protected boolean validateCommandLine(String[] args, PrintStream out) {
+        boolean result = super.validateCommandLine(args, out);
+
+        if (result && getCommandLine().getParameters().isEmpty()) {
+            try {
+                getCommandLine().getParameterStrategy().accept(".");
+            } catch (CommandLineException e) {
+                result = false;
+            }
         }
 
-        for (String filename : parameters) {
+        return result;
+    }
+
+    public void doProcessing() throws Exception {
+        for (String filename : getCommandLine().getParameters()) {
             out.println(filename + ":");
 
             ClassfileLoader loader = new AggregatingClassfileLoader();

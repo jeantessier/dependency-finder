@@ -56,21 +56,14 @@ public class ClassReader extends Command {
         return new AtLeastParameterStrategy(1);
     }
 
-    public void showSpecificUsage(PrintStream out) {
-        out.println();
-        out.println("If no files are specified, it processes the current directory.");
-        out.println();
+    protected void showSpecificUsage(PrintStream out) {
+        // Do nothing
     }
 
     protected void doProcessing() throws Exception {
-        List<String> parameters = getCommandLine().getParameters();
-        if (parameters.size() == 0) {
-            parameters.add(".");
-        }
-
         ClassfileLoader loader = new AggregatingClassfileLoader();
         loader.addLoadListener(getVerboseListener());
-        loader.load(parameters);
+        loader.load(getCommandLine().getParameters());
 
         Printer printer;
 

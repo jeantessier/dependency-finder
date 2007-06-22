@@ -114,18 +114,27 @@ public class OOMetrics extends Command {
         return exceptions;
     }
 
+    protected boolean validateCommandLine(String[] args, PrintStream out) {
+        boolean result = super.validateCommandLine(args, out);
+
+        if (result && getCommandLine().getParameters().isEmpty()) {
+            try {
+                getCommandLine().getParameterStrategy().accept(".");
+            } catch (CommandLineException e) {
+                result = false;
+            }
+        }
+
+        return result;
+    }
+
     protected void doProcessing() throws Exception {
         Logger.getLogger(OOMetrics.class).debug("Reading sources ...");
         getVerboseListener().print("Reading sources ...");
 
-        List<String> parameters = getCommandLine().getParameters();
-        if (parameters.size() == 0) {
-            parameters.add(".");
-        }
-
         ClassfileLoader loader = new AggregatingClassfileLoader();
         loader.addLoadListener(getVerboseListener());
-        loader.load(parameters);
+        loader.load(getCommandLine().getParameters());
 
         Logger.getLogger(OOMetrics.class).debug("Reading configuration ...");
         getVerboseListener().print("Reading configuration ...");

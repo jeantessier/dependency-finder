@@ -71,12 +71,21 @@ public class ListSymbols extends Command {
         return exceptions;
     }
 
-    protected void doProcessing() throws Exception {
-        List<String> parameters = getCommandLine().getParameters();
-        if (parameters.size() == 0) {
-            parameters.add(".");
+    protected boolean validateCommandLine(String[] args, PrintStream out) {
+        boolean result = super.validateCommandLine(args, out);
+
+        if (result && getCommandLine().getParameters().isEmpty()) {
+            try {
+                getCommandLine().getParameterStrategy().accept(".");
+            } catch (CommandLineException e) {
+                result = false;
+            }
         }
 
+        return result;
+    }
+
+    protected void doProcessing() throws Exception {
         SymbolGatherer collector = new SymbolGatherer();
         collector.setCollectingClassNames(getCommandLine().getToggleSwitch("class-names"));
         collector.setCollectingFieldNames(getCommandLine().getToggleSwitch("field-names"));
@@ -86,7 +95,7 @@ public class ListSymbols extends Command {
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(new LoadListenerVisitorAdapter(collector));
         loader.addLoadListener(getVerboseListener());
-        loader.load(parameters);
+        loader.load(getCommandLine().getParameters());
 
         for (String symbol : collector.getCollection()) {
             out.println(symbol);
