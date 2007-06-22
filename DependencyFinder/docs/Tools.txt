@@ -6,7 +6,7 @@ For Dependency Finder version <VERSION />.
 
 <h2>Table of Contents</h2>
 <table width="100%"><tr>
-<td width"50%"
+<td width="50%"
     valign="top">
 <b>Alphabetical</b>
 <SHORT-TOC />
@@ -1063,7 +1063,7 @@ synchronized, or abstract methods, etc.
 
 This is a simple tally of how many classses, interfaces, methods, publics,
 statics, finals, etc. there are in a given codebase.  These tallies are
-not as powerful as the metrics of =[[#OOmetrics][OOMetrics]]=, but they can
+not as powerful as the metrics of =[[#OOMetrics][OOMetrics]]=, but they can
 give you a rough idea of the size and complexity of a piece of software.
 
 </blockquote>
