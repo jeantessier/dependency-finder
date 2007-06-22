@@ -33,7 +33,6 @@
 package com.jeantessier.dependencyfinder.cli;
 
 import java.io.*;
-import java.util.*;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.classreader.Printer;
