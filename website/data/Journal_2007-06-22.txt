@@ -3,7 +3,7 @@ is supposed to start exploring the current directory.  Instead of that, I am
 getting a =UnsupportedOperationException= in =Collection.add()= when the tool
 adds "." to the parameters when the parameter list is empty.  I opened a bug
 against it:
-[[http://sourceforge.net/tracker/index.php?func=detail&aid=1741810&group_id=43305&atid=435884][Bug #1741810]].
+[[http://sourceforge.net/tracker/index.php?func%3Ddetail&aid%3D1741810&group_id%3D43305&atid%3D435884][Bug #1741810]].
 
 This impacts quite a few tools:
 
