@@ -23,3 +23,8 @@ this duality has been present for a long time, so I kept the
 =AtLeastParameterStrategy=.  =ClassReader= is not meant to run against a large
 set of classes, it is intended for use against a small set so we can inspect
 their internals.
+
+The Tools page refers to two scripts that do not exist yet: =CyclesToHTML= and
+=CyclesToText=.  Either I never wrote them or I somehow forgot them in some
+Subversion client somewhere.  I will have to dig around for them or write them
+from scratch eventually.
