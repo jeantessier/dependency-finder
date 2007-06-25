@@ -32,25 +32,18 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import java.io.*;
 import java.util.*;
 
 import org.apache.log4j.*;
 
+import com.jeantessier.commandline.*;
 import com.jeantessier.dependency.*;
 import com.jeantessier.dependency.Printer;
 import com.jeantessier.dependency.TextPrinter;
-import com.jeantessier.commandline.*;
 
-public class DependencyReporter extends Command {
+public class DependencyReporter extends DependencyGraphCommand {
     public DependencyReporter() throws CommandLineException {
         super("DependencyReporter");
-    }
-
-    protected void showSpecificUsage(PrintStream out) {
-        out.println();
-        out.println("Default is text output to the console.");
-        out.println();
     }
 
     protected void populateCommandLineSwitches() {
@@ -128,8 +121,6 @@ public class DependencyReporter extends Command {
 
             copier.traverseNodes(packages);
         }
-
-        Logger.getLogger(DependencyReporter.class).info("Reporting " + copier.getScopeFactory().getPackages().values().size() + " package(s) ...");
 
         getVerboseListener().print("Printing the graph ...");
 

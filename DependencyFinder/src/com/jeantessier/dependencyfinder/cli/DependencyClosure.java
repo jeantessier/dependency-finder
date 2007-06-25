@@ -32,24 +32,14 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import java.io.*;
-
-import org.apache.log4j.*;
-
-import com.jeantessier.dependency.*;
+import com.jeantessier.commandline.*;
 import com.jeantessier.dependency.Printer;
 import com.jeantessier.dependency.TextPrinter;
-import com.jeantessier.commandline.*;
+import com.jeantessier.dependency.*;
 
-public class DependencyClosure extends Command {
+public class DependencyClosure extends DependencyGraphCommand {
     public DependencyClosure() throws CommandLineException {
         super("DependencyClosure");
-    }
-
-    protected void showSpecificUsage(PrintStream out) {
-        out.println();
-        out.println("Defaults is text output to the console.");
-        out.println();
     }
 
     protected void populateCommandLineSwitches() {
@@ -71,22 +61,6 @@ public class DependencyClosure extends Command {
     }
 
     protected void doProcessing() throws Exception {
-        NodeFactory factory = new NodeFactory();
-
-        for (String filename : getCommandLine().getParameters()) {
-            if (filename.endsWith(".xml")) {
-                getVerboseListener().print("Reading " + filename);
-
-                NodeLoader loader = new NodeLoader(factory, getCommandLine().getToggleSwitch("validate"));
-                loader.addDependencyListener(getVerboseListener());
-                loader.load(filename);
-
-                getVerboseListener().print("Read \"" + filename + "\".");
-            } else {
-                getVerboseListener().print("Skipping \"" + filename + "\".");
-            }
-        }
-
         TransitiveClosure selector = new TransitiveClosure(getStartCriteria(), getStopCriteria());
 
         try {
@@ -105,11 +79,7 @@ public class DependencyClosure extends Command {
             selector.setMaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
         }
 
-        Logger.getLogger(getClass()).info("Operating on " + factory.getPackages().values().size() + " package(s) ...");
-
-        selector.traverseNodes(factory.getPackages().values());
-
-        Logger.getLogger(getClass()).info("Reporting " + selector.getFactory().getPackages().values().size() + " package(s) ...");
+        selector.traverseNodes(loadGraphs().getPackages().values());
 
         getVerboseListener().print("Printing the graph ...");
 

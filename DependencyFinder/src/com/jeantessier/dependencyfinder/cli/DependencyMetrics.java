@@ -32,28 +32,14 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import java.io.*;
 import java.util.*;
 
-import com.jeantessier.dependency.*;
 import com.jeantessier.commandline.*;
+import com.jeantessier.dependency.*;
 
-import org.apache.log4j.*;
-
-public class DependencyMetrics extends Command {
+public class DependencyMetrics extends DependencyGraphCommand {
     public DependencyMetrics() throws CommandLineException {
         super("DependencyMetrics");
-    }
-
-    protected void showSpecificUsage(PrintStream out) {
-        out.println();
-        out.println("If no files are specified, it processes the current directory.");
-        out.println();
-        out.println("If file is a directory, it is recusively scanned for files");
-        out.println("ending in \".class\".");
-        out.println();
-        out.println("Default is text output to the console.");
-        out.println();
     }
 
     protected void populateCommandLineSwitches()  {
@@ -103,21 +89,6 @@ public class DependencyMetrics extends Command {
     }
 
     public void doProcessing() throws Exception {
-        NodeFactory factory = new NodeFactory();
-
-        for (String filename : getCommandLine().getParameters()) {
-            Logger.getLogger(getClass()).info("Reading " + filename);
-            getVerboseListener().print("Reading " + filename);
-
-            if (filename.endsWith(".xml")) {
-                NodeLoader loader = new NodeLoader(factory, getCommandLine().getToggleSwitch("validate"));
-                loader.addDependencyListener(getVerboseListener());
-                loader.load(filename);
-            }
-
-            Logger.getLogger(getClass()).info("Read \"" + filename + "\".");
-        }
-
         MetricsReport reporter = new MetricsReport(out);
 
         reporter.setListingElements(getCommandLine().getToggleSwitch("list"));
@@ -133,11 +104,10 @@ public class DependencyMetrics extends Command {
         SelectionCriteria scopeCriteria = getScopeCriteria();
         SelectionCriteria filterCriteria = getFilterCriteria();
 
-        Logger.getLogger(getClass()).info("Reporting on " + factory.getPackages().size() + " package(s) ...");
-        getVerboseListener().print("Reporting on " + factory.getPackages().size() + " package(s) ...");
+        getVerboseListener().print("Generating report ...");
 
         MetricsGatherer metrics = new MetricsGatherer(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));
-        metrics.traverseNodes(factory.getPackages().values());
+        metrics.traverseNodes(loadGraphs().getPackages().values());
         reporter.process(metrics);
     }
 

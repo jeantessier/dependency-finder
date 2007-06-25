@@ -32,23 +32,14 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import java.io.*;
 import java.util.*;
-
-import org.apache.log4j.*;
 
 import com.jeantessier.dependency.*;
 import com.jeantessier.commandline.*;
 
-public class DependencyCycles extends Command {
+public class DependencyCycles extends DependencyGraphCommand {
     public DependencyCycles() throws CommandLineException {
         super("DependencyCycles");
-    }
-
-    protected void showSpecificUsage(PrintStream out) {
-        out.println();
-        out.println("Default is text output to the console.");
-        out.println();
     }
 
     protected void populateCommandLineSwitches() {
@@ -76,28 +67,13 @@ public class DependencyCycles extends Command {
     }
 
     protected void doProcessing() throws Exception {
-        NodeFactory factory = new NodeFactory();
-
-        for (String filename : getCommandLine().getParameters()) {
-            Logger.getLogger(DependencyMetrics.class).info("Reading " + filename);
-            getVerboseListener().print("Reading " + filename);
-
-            if (filename.endsWith(".xml")) {
-                NodeLoader loader = new NodeLoader(factory, getCommandLine().getToggleSwitch("validate"));
-                loader.addDependencyListener(getVerboseListener());
-                loader.load(filename);
-            }
-
-            Logger.getLogger(DependencyMetrics.class).info("Read \"" + filename + "\".");
-        }
-
         CycleDetector detector = new CycleDetector(getStartCriteria());
 
         if (getCommandLine().isPresent("maximum-cycle-length")) {
             detector.setMaximumCycleLength(Integer.parseInt(getCommandLine().getSingleSwitch("maximum-cycle-length")));
         }
 
-        detector.traverseNodes(factory.getPackages().values());
+        detector.traverseNodes(loadGraphs().getPackages().values());
 
         getVerboseListener().print("Printing the graph ...");
 
