@@ -65,7 +65,6 @@ public class DependencyReporter extends DependencyGraphCommand {
         getCommandLine().addToggleSwitch("show-empty-nodes");
 
         getCommandLine().addToggleSwitch("xml");
-        getCommandLine().addToggleSwitch("validate");
         getCommandLine().addToggleSwitch("minimize");
         getCommandLine().addToggleSwitch("maximize");
         getCommandLine().addToggleSwitch("copy-only");

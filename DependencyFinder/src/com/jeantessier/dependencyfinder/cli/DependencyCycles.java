@@ -51,7 +51,6 @@ public class DependencyCycles extends DependencyGraphCommand {
         getCommandLine().addSingleValueSwitch("maximum-cycle-length");
 
         getCommandLine().addToggleSwitch("xml");
-        getCommandLine().addToggleSwitch("validate");
     }
 
     protected ParameterStrategy getParameterStrategy() {

@@ -16,6 +16,12 @@ public abstract class DependencyGraphCommand extends Command {
         super(name);
     }
 
+    protected void populateCommandLineSwitches() {
+        super.populateCommandLineSwitches();
+
+        getCommandLine().addToggleSwitch("validate");
+    }
+
     protected void showSpecificUsage(PrintStream out) {
         out.println();
         out.println("Default is text output to the console.");

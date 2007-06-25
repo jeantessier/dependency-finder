@@ -71,8 +71,6 @@ public class DependencyMetrics extends DependencyGraphCommand {
         getCommandLine().addAliasSwitch("chart-classes", "chart-features-per-class", "chart-inbounds-per-class", "chart-outbounds-per-class");
         getCommandLine().addAliasSwitch("chart-features", "chart-inbounds-per-feature", "chart-outbounds-per-feature");
         getCommandLine().addAliasSwitch("chart-all", "chart-classes-per-package", "chart-features-per-class", "chart-inbounds-per-package", "chart-outbounds-per-package", "chart-inbounds-per-class", "chart-outbounds-per-class", "chart-inbounds-per-feature", "chart-outbounds-per-feature");
-
-        getCommandLine().addToggleSwitch("validate");
     }
 
     protected ParameterStrategy getParameterStrategy() {

@@ -53,7 +53,6 @@ public class DependencyClosure extends DependencyGraphCommand {
         getCommandLine().addOptionalValueSwitch("maximum-outbound-depth");
 
         getCommandLine().addToggleSwitch("xml");
-        getCommandLine().addToggleSwitch("validate");
     }
 
     protected ParameterStrategy getParameterStrategy() {
