@@ -34,8 +34,6 @@ package com.jeantessier.dependencyfinder.cli;
 
 import java.util.*;
 
-import org.apache.log4j.*;
-
 import com.jeantessier.commandline.*;
 import com.jeantessier.dependency.*;
 import com.jeantessier.dependency.Printer;
@@ -99,18 +97,19 @@ public class DependencyReporter extends DependencyGraphCommand {
         }
 
         for (String filename : getCommandLine().getParameters()) {
-            Logger.getLogger(DependencyReporter.class).info("Reading " + filename);
-            getVerboseListener().print("Reading " + filename);
-
             Collection<PackageNode> packages = Collections.emptyList();
 
             if (filename.endsWith(".xml")) {
+                getVerboseListener().print("Reading " + filename);
+
                 NodeLoader loader = new NodeLoader(getCommandLine().getToggleSwitch("validate"));
                 loader.addDependencyListener(getVerboseListener());
                 packages = loader.load(filename).getPackages().values();
-            }
 
-            Logger.getLogger(DependencyReporter.class).info("Read in " + packages.size() + " package(s) from \"" + filename + "\".");
+                getVerboseListener().print("Read \"" + filename + "\".");
+            } else {
+                getVerboseListener().print("Skipping \"" + filename + "\".");
+            }
 
             if (getCommandLine().getToggleSwitch("maximize")) {
                 new LinkMaximizer().traverseNodes(packages);
