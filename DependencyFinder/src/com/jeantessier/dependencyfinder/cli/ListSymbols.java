@@ -32,21 +32,14 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import java.io.*;
 import java.util.*;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.commandline.*;
 
-public class ListSymbols extends Command {
+public class ListSymbols extends DirectoryExplorerCommand {
     public ListSymbols() throws CommandLineException {
         super("ListSymbols");
-    }
-
-    protected void showSpecificUsage(PrintStream out) {
-        out.println();
-        out.println("If no files are specified, it processes the current directory.");
-        out.println();
     }
 
     protected void populateCommandLineSwitches() {
@@ -69,20 +62,6 @@ public class ListSymbols extends Command {
         }
 
         return exceptions;
-    }
-
-    protected boolean validateCommandLine(String[] args, PrintStream out) {
-        boolean result = super.validateCommandLine(args, out);
-
-        if (result && getCommandLine().getParameters().isEmpty()) {
-            try {
-                getCommandLine().getParameterStrategy().accept(".");
-            } catch (CommandLineException e) {
-                result = false;
-            }
-        }
-
-        return result;
     }
 
     protected void doProcessing() throws Exception {

@@ -32,34 +32,12 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import java.io.*;
-
 import com.jeantessier.classreader.*;
 import com.jeantessier.commandline.*;
 
-public class ListDeprecatedElements extends Command {
+public class ListDeprecatedElements extends DirectoryExplorerCommand {
     public ListDeprecatedElements() throws CommandLineException {
         super("ListDeprecatedElements");
-    }
-
-    protected void showSpecificUsage(PrintStream out) {
-        out.println();
-        out.println("If no files are specified, it processes the current directory.");
-        out.println();
-    }
-
-    protected boolean validateCommandLine(String[] args, PrintStream out) {
-        boolean result = super.validateCommandLine(args, out);
-
-        if (result && getCommandLine().getParameters().isEmpty()) {
-            try {
-                getCommandLine().getParameterStrategy().accept(".");
-            } catch (CommandLineException e) {
-                result = false;
-            }
-        }
-
-        return result;
     }
 
     protected void doProcessing() throws Exception {

@@ -1,0 +1,1 @@
+Extracted common code from =ClassList= and cie into =DirectoryExplorerCommand=.

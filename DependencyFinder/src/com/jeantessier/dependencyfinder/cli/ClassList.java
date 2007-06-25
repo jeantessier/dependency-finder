@@ -32,33 +32,14 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import java.io.*;
 import java.util.*;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.commandline.*;
 
-public class ClassList extends Command {
+public class ClassList extends DirectoryExplorerCommand {
     public ClassList() throws CommandLineException {
         super("ClassList");
-    }
-
-    protected void showSpecificUsage(PrintStream out) {
-        // Do nothing
-    }
-
-    protected boolean validateCommandLine(String[] args, PrintStream out) {
-        boolean result = super.validateCommandLine(args, out);
-
-        if (result && getCommandLine().getParameters().isEmpty()) {
-            try {
-                getCommandLine().getParameterStrategy().accept(".");
-            } catch (CommandLineException e) {
-                result = false;
-            }
-        }
-
-        return result;
     }
 
     public void doProcessing() throws Exception {

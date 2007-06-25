@@ -32,13 +32,12 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import java.io.*;
 import java.util.*;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.commandline.*;
 
-public class ClassFinder extends Command {
+public class ClassFinder extends DirectoryExplorerCommand {
     public ClassFinder() throws CommandLineException {
         super("ClassFinder");
     }
@@ -48,26 +47,6 @@ public class ClassFinder extends Command {
 
         getCommandLine().addMultipleValuesSwitch("includes", DEFAULT_INCLUDES);
         getCommandLine().addMultipleValuesSwitch("excludes");
-    }
-
-    protected void showSpecificUsage(PrintStream out) {
-        out.println();
-        out.println("If no files are specified, it processes the current directory.");
-        out.println();
-    }
-
-    protected boolean validateCommandLine(String[] args, PrintStream out) {
-        boolean result = super.validateCommandLine(args, out);
-
-        if (result && getCommandLine().getParameters().isEmpty()) {
-            try {
-                getCommandLine().getParameterStrategy().accept(".");
-            } catch (CommandLineException e) {
-                result = false;
-            }
-        }
-
-        return result;
     }
 
     public void doProcessing() throws Exception {

@@ -32,29 +32,17 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import java.io.*;
 import java.util.*;
 
 import com.jeantessier.classreader.*;
-import com.jeantessier.text.*;
 import com.jeantessier.commandline.*;
+import com.jeantessier.text.*;
 
-public class ClassMetrics extends Command {
+public class ClassMetrics extends DirectoryExplorerCommand {
     private boolean list;
 
     public ClassMetrics() throws CommandLineException {
         super("ClassMetrics");
-    }
-
-    protected void showSpecificUsage(PrintStream out) {
-        System.err.println();
-        System.err.println("If no files are specified, it processes the current directory.");
-        System.err.println();
-        System.err.println("If file is a directory, it is recusively scanned for files");
-        System.err.println("ending in \".class\".");
-        System.err.println();
-        System.err.println("Defaults is text output to the console.");
-        System.err.println();
     }
 
     protected void populateCommandLineSwitches() {
@@ -62,20 +50,6 @@ public class ClassMetrics extends Command {
 
         getCommandLine().addToggleSwitch("list");
         getCommandLine().addToggleSwitch("instruction-counts");
-    }
-
-    protected boolean validateCommandLine(String[] args, PrintStream out) {
-        boolean result = super.validateCommandLine(args, out);
-
-        if (result && getCommandLine().getParameters().isEmpty()) {
-            try {
-                getCommandLine().getParameterStrategy().accept(".");
-            } catch (CommandLineException e) {
-                result = false;
-            }
-        }
-
-        return result;
     }
 
     public void doProcessing() throws Exception {
