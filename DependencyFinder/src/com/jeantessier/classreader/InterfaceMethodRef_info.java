@@ -34,22 +34,9 @@ package com.jeantessier.classreader;
 
 import java.io.*;
 
-public class InterfaceMethodRef_info extends FeatureRef_info {
+public class InterfaceMethodRef_info extends MethodRef_info {
     public InterfaceMethodRef_info(ConstantPool constantPool, DataInputStream in) throws IOException {
         super(constantPool, in);
-    }
-
-    public String getName() {
-        return getRawNameAndType().getName();
-    }
-
-    public String getSignature() {
-        StringBuffer result = new StringBuffer();
-
-        result.append(getRawNameAndType().getName());
-        result.append(DescriptorHelper.getSignature(getRawNameAndType().getType()));
-
-        return result.toString();
     }
 
     public void accept(Visitor visitor) {

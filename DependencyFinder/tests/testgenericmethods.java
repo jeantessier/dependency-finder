@@ -33,6 +33,6 @@
 public class testgenericmethods {
     public <T> testgenericmethods(T t) {}
     public <T> T testmethod(T t) {return null;}
-    public <T> void testmixedmethod(T t, int i, String s) {}
+    public <T> void testmixedparametersmethod(T t, int i, String s) {}
     public void testregularmethod(Class<testgenericmethods> cls) {}
 }

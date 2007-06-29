@@ -33,7 +33,6 @@
 package com.jeantessier.classreader;
 
 import java.io.*;
-import java.util.*;
 
 public class TextPrinter extends Printer {
     private boolean top = true;
@@ -63,79 +62,50 @@ public class TextPrinter extends Printer {
             top = false;
             append(currentCount()).append(": ");
             append("Class ");
-            entry.getRawName().accept(this);
+            append(entry);
             eol();
             top = true;
         } else {
-            entry.getRawName().accept(this);
+            append(entry);
         }
     }
 
     public void visitFieldRef_info(FieldRef_info entry) {
-        Class_info       c   = entry.getRawClass();
-        NameAndType_info nat = entry.getRawNameAndType();
-
         if (top) {
             top = false;
             append(currentCount()).append(": ");
             append("Field ");
-            nat.getRawType().accept(this);
-            append(" ");
-            c.accept(this);
-            append(".");
-            nat.getRawName().accept(this);
+            append(entry);
             eol();
             top = true;
         } else {
-            nat.getRawType().accept(this);
-            append(" ");
-            c.accept(this);
-            append(".");
-            nat.getRawName().accept(this);
+            append(entry);
         }
     }
 
     public void visitMethodRef_info(MethodRef_info entry) {
-        Class_info       c   = entry.getRawClass();
-        NameAndType_info nat = entry.getRawNameAndType();
-
         if (top) {
             top = false;
             append(currentCount()).append(": ");
             append("Method ");
-            c.accept(this);
-            append(".");
-            nat.getRawName().accept(this);
-            nat.getRawType().accept(this);
+            append(entry);
             eol();
             top = true;
         } else {
-            c.accept(this);
-            append(".");
-            nat.getRawName().accept(this);
-            nat.getRawType().accept(this);
+            append(entry);
         }
     }
 
     public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
-        Class_info       c   = entry.getRawClass();
-        NameAndType_info nat = entry.getRawNameAndType();
-
         if (top) {
             top = false;
             append(currentCount()).append(": ");
             append("Interface Method ");
-            c.accept(this);
-            append(".");
-            nat.getRawName().accept(this);
-            nat.getRawType().accept(this);
+            append(entry);
             eol();
             top = true;
         } else {
-            c.accept(this);
-            append(".");
-            nat.getRawName().accept(this);
-            nat.getRawType().accept(this);
+            append(entry);
         }
     }
 

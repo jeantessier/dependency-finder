@@ -40,13 +40,11 @@ public class FieldRef_info extends FeatureRef_info {
     }
 
     public String getNameAndType() {
-        StringBuffer result = new StringBuffer();
+        return getType() + " " + getName();
+    }
 
-        NameAndType_info nat = getRawNameAndType();
-
-        result.append(nat.getType()).append(" ").append(nat.getName());
-
-        return result.toString();
+    public String getType() {
+        return DescriptorHelper.getReturnType(getRawNameAndType().getType());
     }
 
     public String getName() {
@@ -54,18 +52,11 @@ public class FieldRef_info extends FeatureRef_info {
     }
 
     public String getSignature() {
-        return getRawNameAndType().getName();
+        return getName();
     }
 
     public String toString() {
-        StringBuffer result = new StringBuffer();
-
-        Class_info       c   = getRawClass();
-        NameAndType_info nat = getRawNameAndType();
-
-        result.append(nat.getType()).append(" ").append(c).append(".").append(nat.getName());
-
-        return result.toString();
+        return getType() + " " + getFullName();
     }
 
     public void accept(Visitor visitor) {

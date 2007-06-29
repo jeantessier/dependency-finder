@@ -47,8 +47,12 @@ public class MethodRef_info extends FeatureRef_info {
         return getRawNameAndType().getName().equals("<clinit>");
     }
 
+    public String getReturnType() {
+        return DescriptorHelper.getReturnType(getRawNameAndType().getType());
+    }
+
     public String getName() {
-        String result = null;
+        String result;
 
         if (isConstructor()) {
             result = getClassSimpleName();
@@ -62,7 +66,7 @@ public class MethodRef_info extends FeatureRef_info {
     }
 
     public String getSignature() {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         result.append(getName());
         if (!isStaticInitializer()) {
@@ -74,5 +78,17 @@ public class MethodRef_info extends FeatureRef_info {
 
     public void accept(Visitor visitor) {
         visitor.visitMethodRef_info(this);
+    }
+
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+
+        if (!isConstructor() && !isStaticInitializer()) {
+            result.append(getReturnType());
+            result.append(" ");
+        }
+        result.append(getFullSignature());
+
+        return result.toString();
     }
 }
