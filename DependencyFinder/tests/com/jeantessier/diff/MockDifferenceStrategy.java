@@ -72,7 +72,7 @@ public class MockDifferenceStrategy extends DifferenceStrategyDecorator {
         return codeDifferentCount;
     }
 
-    public boolean isPackageDifferent(Map oldPackage, Map newPackage) {
+    public boolean isPackageDifferent(Map<String, Classfile> oldPackage, Map<String, Classfile> newPackage) {
         packageDifferentCount++;
 
         return super.isPackageDifferent(oldPackage, newPackage);

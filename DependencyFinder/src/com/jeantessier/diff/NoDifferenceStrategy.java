@@ -40,7 +40,7 @@ import com.jeantessier.classreader.*;
  * TODO class comments
  */
 public class NoDifferenceStrategy implements DifferenceStrategy {
-    public boolean isPackageDifferent(Map oldPackage, Map newPackage) {
+    public boolean isPackageDifferent(Map<String, Classfile> oldPackage, Map<String, Classfile> newPackage) {
         return false;
     }
 

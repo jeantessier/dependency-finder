@@ -62,24 +62,20 @@ public class IncompatibleDifferenceStrategy extends APIDifferenceStrategy {
                isDeclarationModified(oldMethod, newMethod);
     }
 
-    public boolean isPackageDifferent(Map oldPackage, Map newPackage) {
+    public boolean isPackageDifferent(Map<String, Classfile> oldPackage, Map<String, Classfile> newPackage) {
         return isPackageRemoved(oldPackage, newPackage) ||
                (!isPackageNew(oldPackage, newPackage) &&
                 isPackageModified(oldPackage, newPackage));
     }
 
     public boolean isDeclarationModified(Classfile oldClass, Classfile newClass) {
-        boolean result = false;
-
-        result = oldClass != null && newClass != null &&
-                 ((oldClass.isPublic() && !newClass.isPublic()) ||
-                  (oldClass.isInterface() != newClass.isInterface()) ||
-                  (!oldClass.isAbstract() && newClass.isAbstract()) ||
-                  (!oldClass.isFinal() && newClass.isFinal()) ||
-                  isExtendsClauseModified(oldClass, newClass) ||
-                  isImplementsClauseModified(oldClass, newClass));
-
-        return result;
+        return oldClass != null && newClass != null &&
+               ((oldClass.isPublic() && !newClass.isPublic()) ||
+                (oldClass.isInterface() != newClass.isInterface()) ||
+                (!oldClass.isAbstract() && newClass.isAbstract()) ||
+                (!oldClass.isFinal() && newClass.isFinal()) ||
+                isExtendsClauseModified(oldClass, newClass) ||
+                isImplementsClauseModified(oldClass, newClass));
     }
 
     private boolean isExtendsClauseModified(Classfile oldClass, Classfile newClass) {

@@ -38,7 +38,7 @@ import java.util.*;
 import com.jeantessier.classreader.*;
 
 public class ListBasedDifferenceStrategy extends DifferenceStrategyDecorator {
-    private Collection allowedElements = new HashSet();
+    private Collection<String> allowedElements = new HashSet<String>();
 
     public ListBasedDifferenceStrategy(DifferenceStrategy delegate, String filename) throws IOException {
         super(delegate);
@@ -115,9 +115,9 @@ public class ListBasedDifferenceStrategy extends DifferenceStrategyDecorator {
         return allowedElements.contains(name);
     }
 
-    public boolean isPackageDifferent(Map oldPackage, Map newPackage) {
-        Map nonEmptyPackage = oldPackage.isEmpty() ? newPackage : oldPackage;
-        String className = (String) nonEmptyPackage.keySet().iterator().next();
+    public boolean isPackageDifferent(Map<String, Classfile> oldPackage, Map<String, Classfile> newPackage) {
+        Map<String, Classfile> nonEmptyPackage = oldPackage.isEmpty() ? newPackage : oldPackage;
+        String className = nonEmptyPackage.keySet().iterator().next();
         String packageName = "";
         int pos = className.lastIndexOf('.');
         if (pos != -1) {

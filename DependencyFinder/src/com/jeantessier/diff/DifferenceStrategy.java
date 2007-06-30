@@ -40,7 +40,7 @@ import com.jeantessier.classreader.*;
  * TODO class comment
  */
 public interface DifferenceStrategy {
-    public boolean isPackageDifferent(Map oldPackage, Map newPackage);
+    public boolean isPackageDifferent(Map<String, Classfile> oldPackage, Map<String, Classfile> newPackage);
     public boolean isClassDifferent(Classfile oldClass, Classfile newClass);
     public boolean isDeclarationModified(Classfile oldClass, Classfile newClass);
     public boolean isFieldDifferent(Field_info oldField, Field_info newField);

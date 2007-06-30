@@ -43,7 +43,7 @@ public class DifferenceStrategyDecorator implements DifferenceStrategy {
         this.delegate = delegate;
     }
 
-    public boolean isPackageDifferent(Map oldPackage, Map newPackage) {
+    public boolean isPackageDifferent(Map<String, Classfile> oldPackage, Map<String, Classfile> newPackage) {
         return delegate.isPackageDifferent(oldPackage, newPackage);
     }
 

@@ -68,21 +68,21 @@ public class APIDifferenceStrategy extends DifferenceStrategyDecorator {
     private boolean checkForDifferentFields(Classfile oldClass, Classfile newClass) {
         boolean result = false;
 
-        Set fieldNameSet = new HashSet();
+        Set<String> fieldNameSet = new HashSet<String>();
 
-        Iterator fields;
+        Iterator<Field_info> fields;
         fields = oldClass.getAllFields().iterator();
         while (fields.hasNext()) {
-            fieldNameSet.add(((Field_info) fields.next()).getName());
+            fieldNameSet.add(fields.next().getName());
         }
         fields = newClass.getAllFields().iterator();
         while (fields.hasNext()) {
-            fieldNameSet.add(((Field_info) fields.next()).getName());
+            fieldNameSet.add(fields.next().getName());
         }
 
-        Iterator fieldNames = fieldNameSet.iterator();
+        Iterator<String> fieldNames = fieldNameSet.iterator();
         while (!result && fieldNames.hasNext()) {
-            String fieldName = (String) fieldNames.next();
+            String fieldName = fieldNames.next();
             Field_info oldField = oldClass.getField(fieldName);
             Field_info newField = newClass.getField(fieldName);
 
@@ -95,21 +95,21 @@ public class APIDifferenceStrategy extends DifferenceStrategyDecorator {
     private boolean checkForDifferentMethods(Classfile oldClass, Classfile newClass) {
         boolean result = false;
 
-        Set methodSignatureSet = new HashSet();
+        Set<String> methodSignatureSet = new HashSet<String>();
 
-        Iterator methods;
+        Iterator<Method_info> methods;
         methods = oldClass.getAllMethods().iterator();
         while (methods.hasNext()) {
-            methodSignatureSet.add(((Method_info) methods.next()).getSignature());
+            methodSignatureSet.add(methods.next().getSignature());
         }
         methods = newClass.getAllMethods().iterator();
         while (methods.hasNext()) {
-            methodSignatureSet.add(((Method_info) methods.next()).getSignature());
+            methodSignatureSet.add(methods.next().getSignature());
         }
 
-        Iterator methodSignatures = methodSignatureSet.iterator();
+        Iterator<String> methodSignatures = methodSignatureSet.iterator();
         while (!result && methodSignatures.hasNext()) {
-            String methodSignature = (String) methodSignatures.next();
+            String methodSignature = methodSignatures.next();
             Method_info oldMethod = oldClass.getMethod(methodSignature);
             Method_info newMethod = newClass.getMethod(methodSignature);
 
@@ -151,37 +151,37 @@ public class APIDifferenceStrategy extends DifferenceStrategyDecorator {
         return oldElement == null && newElement != null;
     }
 
-    public boolean isPackageDifferent(Map oldPackage, Map newPackage) {
+    public boolean isPackageDifferent(Map<String, Classfile> oldPackage, Map<String, Classfile> newPackage) {
         return isPackageRemoved(oldPackage, newPackage) ||
                isPackageNew(oldPackage, newPackage) ||
                isPackageModified(oldPackage, newPackage);
     }
 
-    protected boolean isPackageRemoved(Map oldPackage, Map newPackage) {
+    protected boolean isPackageRemoved(Map<String, Classfile> oldPackage, Map<String, Classfile> newPackage) {
         return !oldPackage.isEmpty() && newPackage.isEmpty();
     }
 
-    protected boolean isPackageNew(Map oldPackage, Map newPackage) {
+    protected boolean isPackageNew(Map<String, Classfile> oldPackage, Map<String, Classfile> newPackage) {
         return oldPackage.isEmpty() && !newPackage.isEmpty();
     }
 
-    protected boolean isPackageModified(Map oldPackage, Map newPackage) {
+    protected boolean isPackageModified(Map<String, Classfile> oldPackage, Map<String, Classfile> newPackage) {
         return oldPackage.size() != newPackage.size() ||
                checkForDifferentClasses(oldPackage, newPackage);
     }
 
-    private boolean checkForDifferentClasses(Map oldPackage, Map newPackage) {
+    private boolean checkForDifferentClasses(Map<String, Classfile> oldPackage, Map<String, Classfile> newPackage) {
         boolean result = false;
 
-        Set classNames = new HashSet();
+        Set<String> classNames = new HashSet<String>();
         classNames.addAll(oldPackage.keySet());
         classNames.addAll(newPackage.keySet());
 
-        Iterator i = classNames.iterator();
+        Iterator<String> i = classNames.iterator();
         while (!result && i.hasNext()) {
-            String    className = (String) i.next();
-            Classfile oldClass  = (Classfile) oldPackage.get(className);
-            Classfile newClass  = (Classfile) newPackage.get(className);
+            String    className = i.next();
+            Classfile oldClass  = oldPackage.get(className);
+            Classfile newClass  = newPackage.get(className);
 
             result = isClassDifferent(oldClass, newClass);
         }
