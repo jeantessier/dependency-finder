@@ -35,9 +35,9 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public class MockRemoveVisitor implements RemoveVisitor {
-    private List visitedClasses = new LinkedList();
+    private List<String> visitedClasses = new LinkedList<String>();
 
-    public List getVisitedClasses() {
+    public List<String> getVisitedClasses() {
         return visitedClasses;
     }
     

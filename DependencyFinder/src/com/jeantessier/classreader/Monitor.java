@@ -36,15 +36,18 @@ import java.util.*;
 
 import org.apache.log4j.*;
 
+/**
+ * TODO Class comments
+ */
 public class Monitor extends LoadListenerVisitorAdapter {
     private RemoveVisitor removeVisitor;
     
-    private Map fileToClass = new HashMap();
+    private Map<String, String> fileToClass = new HashMap<String, String>();
     private boolean closedSession = true;
 
     // Package-level access for tests only
-    Collection previousFiles = new TreeSet();
-    Collection currentFiles  = new TreeSet();
+    Collection<String> previousFiles = new TreeSet<String>();
+    Collection<String> currentFiles = new TreeSet<String>();
     
     public Monitor(Visitor addVisitor, RemoveVisitor removeVisitor) {
         super(addVisitor);
@@ -100,9 +103,8 @@ public class Monitor extends LoadListenerVisitorAdapter {
 
 
     private void removeUnreadFiles() {
-        Iterator i = previousFiles.iterator();
-        while (i.hasNext()) {
-            String classname = (String) fileToClass.get(i.next());
+        for (String previousFile : previousFiles) {
+            String classname = fileToClass.get(previousFile);
             Logger.getLogger(getClass()).debug("Removing " + classname + " ...");
             removeVisitor.removeClass(classname);
         }
@@ -110,6 +112,6 @@ public class Monitor extends LoadListenerVisitorAdapter {
 
     private void closeSession() {
         previousFiles = currentFiles;
-        currentFiles  = new TreeSet();
+        currentFiles = new TreeSet<String>();
     }
 }

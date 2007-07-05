@@ -33,7 +33,6 @@
 package com.jeantessier.classreader;
 
 import java.io.*;
-import java.util.*;
 
 import junit.framework.*;
 
@@ -205,27 +204,57 @@ public class TestMonitor extends TestCase {
         monitor.beginClassfile(new LoadEvent(this, null, TEST_FILENAME, null));
         monitor.endClassfile(new LoadEvent(this, null, TEST_FILENAME, testClassfile));
 
-        assertEquals("added", 1, addVisitor.getVisitedClassfiles().size());
-        assertTrue("added missed " + TEST_CLASS, addVisitor.getVisitedClassfiles().contains(testClassfile));
-        assertEquals("removed", 0, removeVisitor.getVisitedClasses().size());
+        assertAdditionsAndRemovals(1, 0);
     }
 
     public void testRepeatInSession() {
+        // Begin session
         monitor.beginSession(new LoadEvent(this, null, null, null));
+
+        // See file for the first time
         monitor.beginGroup(new LoadEvent(this, null, null, null));
         monitor.beginFile(new LoadEvent(this, null, TEST_FILENAME, null));
         monitor.beginClassfile(new LoadEvent(this, null, TEST_FILENAME, null));
         monitor.endClassfile(new LoadEvent(this, null, TEST_FILENAME, testClassfile));
         monitor.endFile(new LoadEvent(this, null, TEST_FILENAME, null));
+        monitor.endGroup(new LoadEvent(this, null, null, null));
+
+        // See file for the second time
+        monitor.beginGroup(new LoadEvent(this, null, null, null));
         monitor.beginFile(new LoadEvent(this, null, TEST_FILENAME, null));
         monitor.beginClassfile(new LoadEvent(this, null, TEST_FILENAME, null));
         monitor.endClassfile(new LoadEvent(this, null, TEST_FILENAME, testClassfile));
+        monitor.endFile(new LoadEvent(this, null, TEST_FILENAME, null));
+        monitor.endGroup(new LoadEvent(this, null, null, null));
 
-        assertEquals("added", 2, addVisitor.getVisitedClassfiles().size());
-        Iterator i = addVisitor.getVisitedClassfiles().iterator();
-        assertEquals("added 1", testClassfile, i.next());
-        assertEquals("added 2", testClassfile, i.next());
-        assertEquals("removed", 0, removeVisitor.getVisitedClasses().size());
+        // Finish session
+        monitor.endSession(new LoadEvent(this, null, null, null));
+
+        assertAdditionsAndRemovals(2, 0);
+    }
+
+    public void testRepeatInGroup() {
+        // Begin session
+        monitor.beginSession(new LoadEvent(this, null, null, null));
+        monitor.beginGroup(new LoadEvent(this, null, null, null));
+
+        // See file for the first time
+        monitor.beginFile(new LoadEvent(this, null, TEST_FILENAME, null));
+        monitor.beginClassfile(new LoadEvent(this, null, TEST_FILENAME, null));
+        monitor.endClassfile(new LoadEvent(this, null, TEST_FILENAME, testClassfile));
+        monitor.endFile(new LoadEvent(this, null, TEST_FILENAME, null));
+
+        // See file for the second time
+        monitor.beginFile(new LoadEvent(this, null, TEST_FILENAME, null));
+        monitor.beginClassfile(new LoadEvent(this, null, TEST_FILENAME, null));
+        monitor.endClassfile(new LoadEvent(this, null, TEST_FILENAME, testClassfile));
+        monitor.endFile(new LoadEvent(this, null, TEST_FILENAME, null));
+
+        // Finish session
+        monitor.endGroup(new LoadEvent(this, null, null, null));
+        monitor.endSession(new LoadEvent(this, null, null, null));
+
+        assertAdditionsAndRemovals(2, 0);
     }
 
     public void testRepeatAcrossSessions() {
@@ -243,13 +272,11 @@ public class TestMonitor extends TestCase {
         monitor.beginFile(new LoadEvent(this, null, TEST_FILENAME, null));
         monitor.beginClassfile(new LoadEvent(this, null, TEST_FILENAME, null));
         monitor.endClassfile(new LoadEvent(this, null, TEST_FILENAME, testClassfile));
+        monitor.endFile(new LoadEvent(this, null, TEST_FILENAME, null));
+        monitor.endGroup(new LoadEvent(this, null, null, null));
+        monitor.endSession(new LoadEvent(this, null, null, null));
 
-        assertEquals("added", 2, addVisitor.getVisitedClassfiles().size());
-        Iterator i = addVisitor.getVisitedClassfiles().iterator();
-        assertEquals("added 1", testClassfile, i.next());
-        assertEquals("added 2", testClassfile, i.next());
-        assertEquals("removed", 1, removeVisitor.getVisitedClasses().size());
-        assertTrue("removed missed " + TEST_CLASS, removeVisitor.getVisitedClasses().contains(TEST_CLASS));
+        assertAdditionsAndRemovals(2, 1);
     }
 
     public void testRemoval() {
@@ -261,16 +288,13 @@ public class TestMonitor extends TestCase {
         monitor.endFile(new LoadEvent(this, null, TEST_FILENAME, null));
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
-        
+
         monitor.beginSession(new LoadEvent(this, null, null, null));
         monitor.beginGroup(new LoadEvent(this, null, null, null));
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
 
-        assertEquals("added", 1, addVisitor.getVisitedClassfiles().size());
-        assertTrue("added missed " + TEST_CLASS, addVisitor.getVisitedClassfiles().contains(testClassfile));
-        assertEquals("removed", 1, removeVisitor.getVisitedClasses().size());
-        assertTrue("removed missed " + TEST_CLASS, removeVisitor.getVisitedClasses().contains(TEST_CLASS));
+        assertAdditionsAndRemovals(1, 1);
     }
 
     public void testSkip() {
@@ -282,7 +306,7 @@ public class TestMonitor extends TestCase {
         monitor.endFile(new LoadEvent(this, null, TEST_FILENAME, null));
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
-        
+
         monitor.beginSession(new LoadEvent(this, null, null, null));
         monitor.beginGroup(new LoadEvent(this, null, null, null));
         monitor.beginFile(new LoadEvent(this, null, TEST_FILENAME, null));
@@ -290,14 +314,12 @@ public class TestMonitor extends TestCase {
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
 
-        assertEquals("added", 1, addVisitor.getVisitedClassfiles().size());
-        assertTrue("added missed " + TEST_CLASS, addVisitor.getVisitedClassfiles().contains(testClassfile));
-        assertEquals("removed", 0, removeVisitor.getVisitedClasses().size());
+        assertAdditionsAndRemovals(1, 0);
     }
 
     public void testOpenSession() {
         monitor.setClosedSession(false);
-        
+
         monitor.beginSession(new LoadEvent(this, null, null, null));
         monitor.beginGroup(new LoadEvent(this, null, null, null));
         monitor.beginFile(new LoadEvent(this, null, TEST_FILENAME, null));
@@ -306,20 +328,18 @@ public class TestMonitor extends TestCase {
         monitor.endFile(new LoadEvent(this, null, TEST_FILENAME, null));
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
-        
+
         monitor.beginSession(new LoadEvent(this, null, null, null));
         monitor.beginGroup(new LoadEvent(this, null, null, null));
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
 
-        assertEquals("added", 1, addVisitor.getVisitedClassfiles().size());
-        assertTrue("added missed " + TEST_CLASS, addVisitor.getVisitedClassfiles().contains(testClassfile));
-        assertEquals("removed", 0, removeVisitor.getVisitedClasses().size());
+        assertAdditionsAndRemovals(1, 0);
     }
 
     public void testExtractAgainInOpenSession() {
         monitor.setClosedSession(false);
-        
+
         monitor.beginSession(new LoadEvent(this, null, null, null));
         monitor.beginGroup(new LoadEvent(this, null, null, null));
         monitor.beginFile(new LoadEvent(this, null, TEST_FILENAME, null));
@@ -331,7 +351,7 @@ public class TestMonitor extends TestCase {
 
         addVisitor.reset();
         removeVisitor.reset();
-        
+
         monitor.beginSession(new LoadEvent(this, null, null, null));
         monitor.beginGroup(new LoadEvent(this, null, null, null));
         monitor.beginFile(new LoadEvent(this, null, TEST_FILENAME, null));
@@ -341,14 +361,12 @@ public class TestMonitor extends TestCase {
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
 
-        assertEquals("added", 1, addVisitor.getVisitedClassfiles().size());
-        assertTrue("added missed " + TEST_CLASS, addVisitor.getVisitedClassfiles().contains(testClassfile));
-        assertEquals("removed", 0, removeVisitor.getVisitedClasses().size());
+        assertAdditionsAndRemovals(1, 0);
     }
 
     public void testReloadAfterClosingSessionSession() {
         monitor.setClosedSession(false);
-        
+
         monitor.beginSession(new LoadEvent(this, null, null, null));
         monitor.beginGroup(new LoadEvent(this, null, null, null));
         monitor.beginFile(new LoadEvent(this, null, TEST_FILENAME, null));
@@ -362,7 +380,7 @@ public class TestMonitor extends TestCase {
 
         addVisitor.reset();
         removeVisitor.reset();
-        
+
         monitor.beginSession(new LoadEvent(this, null, null, null));
         monitor.beginGroup(new LoadEvent(this, null, null, null));
         monitor.beginFile(new LoadEvent(this, null, TEST_FILENAME, null));
@@ -372,9 +390,25 @@ public class TestMonitor extends TestCase {
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
 
-        assertEquals("added", 1, addVisitor.getVisitedClassfiles().size());
-        assertTrue("added missed " + TEST_CLASS, addVisitor.getVisitedClassfiles().contains(testClassfile));
-        assertEquals("removed", 1, removeVisitor.getVisitedClasses().size());
-        assertTrue("removed missed " + TEST_CLASS, removeVisitor.getVisitedClasses().contains(TEST_CLASS));
+        assertAdditionsAndRemovals(1, 1);
+    }
+
+    private void assertAdditionsAndRemovals(int expectedAdded, int expectedRemoved) {
+        assertAddedClasses(expectedAdded);
+        assertRemovedClasses(expectedRemoved);
+    }
+
+    private void assertAddedClasses(int expectedSize) {
+        assertEquals("added", expectedSize, addVisitor.getVisitedClassfiles().size());
+        for (Classfile addedClassfile : addVisitor.getVisitedClassfiles()) {
+            assertEquals("added", testClassfile, addedClassfile);
+        }
+    }
+
+    private void assertRemovedClasses(int expectedSize) {
+        assertEquals("removed", expectedSize, removeVisitor.getVisitedClasses().size());
+        for (String removedClassName : removeVisitor.getVisitedClasses()) {
+            assertEquals("removed", TEST_CLASS, removedClassName);
+        }
     }
 }

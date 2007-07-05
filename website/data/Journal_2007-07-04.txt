@@ -1,0 +1,12 @@
+=Monitor= is too aggressive when multiple versions of a class show up in a
+codebase.  This can happen on large projects that depend on many third-party
+software that each depend, in turn, on some popular package.  For example, both
+GWT and HttpUnit come with their own version of Xerces; if my project uses
+both, =Monitor= is going to see Xerces classes twice when I try to analyze my
+project.  When I designed =Monitor=, I was assuming that it wouldn't see the
+same class name twice within a session.  Now, I probably want to merge
+dependencies within a session and still remove everything between sessions,
+regardless of whether =Monitor= is setup for open or closed sessions.
+
+Refactored =Monitor= to use parameterized generics.  Removed code duplication
+in =TestMonitor=.
