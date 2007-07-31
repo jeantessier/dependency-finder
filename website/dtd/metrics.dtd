@@ -52,7 +52,7 @@
 
 <!ELEMENT value (#PCDATA) >
 
-<!ELEMENT members (members*) >
+<!ELEMENT members (member*) >
 
 <!ELEMENT minimum (#PCDATA) >
 
