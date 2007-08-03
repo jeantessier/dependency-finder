@@ -47,5 +47,4 @@ public interface DifferenceStrategy {
     public boolean isConstantValueDifferent(ConstantValue_attribute oldValue, ConstantValue_attribute newValue);
     public boolean isMethodDifferent(Method_info oldMethod, Method_info newMethod);
     public boolean isCodeDifferent(Code_attribute oldCode, Code_attribute newCode);
-
 }
