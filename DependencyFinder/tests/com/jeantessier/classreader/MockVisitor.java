@@ -44,6 +44,7 @@ public class MockVisitor extends VisitorBase {
     private List<Synthetic_attribute> visitedSynthetic_attributes = new LinkedList<Synthetic_attribute>();
     private List<Signature_attribute> visitedSignature_attributes = new LinkedList<Signature_attribute>();
     private List<SourceFile_attribute> visitedSourceFile_attributes = new LinkedList<SourceFile_attribute>();
+    private List<SourceDebugExtension_attribute> visitedSourceDebugExtension_attributes = new LinkedList<SourceDebugExtension_attribute>();
     private List<LineNumberTable_attribute> visitedLineNumberTable_attributes = new LinkedList<LineNumberTable_attribute>();
     private List<LocalVariableTable_attribute> visitedLocalVariableTable_attributes = new LinkedList<LocalVariableTable_attribute>();
     private List<LocalVariableTypeTable_attribute> visitedLocalVariableTypeTable_attributes = new LinkedList<LocalVariableTypeTable_attribute>();
@@ -91,6 +92,10 @@ public class MockVisitor extends VisitorBase {
 
     public List<SourceFile_attribute> getVisitedSourceFile_attributes() {
         return visitedSourceFile_attributes;
+    }
+
+    public List<SourceDebugExtension_attribute> getVisitedSourceDebugExtension_attribute() {
+        return visitedSourceDebugExtension_attributes;
     }
 
     public List<LineNumberTable_attribute> getVisitedLineNumberTable_attributes() {
@@ -189,6 +194,12 @@ public class MockVisitor extends VisitorBase {
         visitedSourceFile_attributes.add(attribute);
 
         super.visitSourceFile_attribute(attribute);
+    }
+
+    public void visitSourceDebugExtension_attribute(SourceDebugExtension_attribute attribute) {
+        visitedSourceDebugExtension_attributes.add(attribute);
+
+        super.visitSourceDebugExtension_attribute(attribute);
     }
 
     public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute) {

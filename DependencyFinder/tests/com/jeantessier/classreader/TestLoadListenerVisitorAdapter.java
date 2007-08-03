@@ -162,6 +162,10 @@ public class TestLoadListenerVisitorAdapter extends TestCase implements Visitor 
         // Do nothing
     }
 
+    public void visitSourceDebugExtension_attribute(SourceDebugExtension_attribute attribute) {
+        // Do nothing
+    }
+
     public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
         // Do nothing
     }

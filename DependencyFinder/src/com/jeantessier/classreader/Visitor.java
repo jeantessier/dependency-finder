@@ -66,6 +66,7 @@ public interface Visitor {
     public void visitSynthetic_attribute(Synthetic_attribute attribute);
     public void visitSignature_attribute(Signature_attribute attribute);
     public void visitSourceFile_attribute(SourceFile_attribute attribute);
+    public void visitSourceDebugExtension_attribute(SourceDebugExtension_attribute attribute);
     public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute);
     public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute);
     public void visitLocalVariableTypeTable_attribute(LocalVariableTypeTable_attribute attribute);

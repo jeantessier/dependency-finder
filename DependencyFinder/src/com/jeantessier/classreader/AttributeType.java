@@ -83,6 +83,12 @@ public enum AttributeType {
         }
     },
 
+    SOURCE_DEBUG_EXTENSION("SourceDebugExtension") {
+        public Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+            return new SourceDebugExtension_attribute(classfile, owner, in);
+        }
+    },
+
     LINE_NUMBER_TABLE("LineNumberTable") {
         public Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
             return new LineNumberTable_attribute(classfile, owner, in);
@@ -118,9 +124,9 @@ public enum AttributeType {
     public static AttributeType forName(String name) {
         AttributeType result = null;
 
-        for (AttributeType attributeName : values()) {
-            if (attributeName.name.equals(name)) {
-                result = attributeName;
+        for (AttributeType attributeType : values()) {
+            if (attributeType.name.equals(name)) {
+                result = attributeType;
             }
         }
         
