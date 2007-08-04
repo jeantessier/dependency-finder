@@ -75,9 +75,17 @@ public class MetricsGatherer extends VisitorBase {
     private Collection<Method_info> nativeMethods = new LinkedList<Method_info>();
     private Collection<Field_info> volatileFields = new LinkedList<Field_info>();
     private Collection<Field_info> transientFields = new LinkedList<Field_info>();
+    private Map<String, Long> attributeCounts = new HashMap<String, Long>();
     private Collection<Custom_attribute> customAttributes = new LinkedList<Custom_attribute>();
     private long[] instructionCounts = new long[256];
-    
+
+    public MetricsGatherer() {
+        for (AttributeType attributeType : AttributeType.values()) {
+            attributeCounts.put(attributeType.getAttributeName(), 0L);
+        }
+        attributeCounts.put("custom", 0L);
+    }
+
     public Collection<Object> getClasses() {
         return classes;
     }
@@ -230,6 +238,10 @@ public class MetricsGatherer extends VisitorBase {
         return transientFields;
     }
 
+    public Map<String, Long> getAttributeCounts() {
+        return attributeCounts;
+    }
+
     public Collection<Custom_attribute> getCustomAttributes() {
         return customAttributes;
     }
@@ -333,9 +345,37 @@ public class MetricsGatherer extends VisitorBase {
     }
 
     // Attributes
+    public void visitConstantValue_attribute(ConstantValue_attribute attribute) {
+        super.visitConstantValue_attribute(attribute);
+        visitAttribute("ConstantValue");
+    }
+
+    public void visitCode_attribute(Code_attribute attribute) {
+        super.visitCode_attribute(attribute);
+        visitAttribute("Code");
+    }
+
+    public void visitExceptions_attribute(Exceptions_attribute attribute) {
+        super.visitExceptions_attribute(attribute);
+        visitAttribute("Exceptions");
+    }
+
+    public void visitInnerClasses_attribute(InnerClasses_attribute attribute) {
+        super.visitInnerClasses_attribute(attribute);
+        visitAttribute("InnerClasses");
+    }
+
+    public void visitEnclosingMethod_attribute(EnclosingMethod_attribute attribute) {
+        super.visitEnclosingMethod_attribute(attribute);
+        visitAttribute("EnclosingMethod");
+    }
+
     public void visitSynthetic_attribute(Synthetic_attribute attribute) {
+        super.visitSynthetic_attribute(attribute);
+        visitAttribute("Synthetic");
+
         Object owner = attribute.getOwner();
-    
+
         if (owner instanceof Classfile) {
             syntheticClasses.add((Classfile) owner);
         } else if (owner instanceof Field_info) {
@@ -347,9 +387,42 @@ public class MetricsGatherer extends VisitorBase {
         }
     }
 
+    public void visitSignature_attribute(Signature_attribute attribute) {
+        super.visitSignature_attribute(attribute);
+        visitAttribute("Signature");
+    }
+
+    public void visitSourceFile_attribute(SourceFile_attribute attribute) {
+        super.visitSourceFile_attribute(attribute);
+        visitAttribute("SourceFile");
+    }
+
+    public void visitSourceDebugExtension_attribute(SourceDebugExtension_attribute attribute) {
+        super.visitSourceDebugExtension_attribute(attribute);
+        visitAttribute("SourceDebugExtension");
+    }
+
+    public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
+        super.visitLineNumberTable_attribute(attribute);
+        visitAttribute("LineNumberTable");
+    }
+
+    public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
+        super.visitLocalVariableTable_attribute(attribute);
+        visitAttribute("LocalVariableTable");
+    }
+
+    public void visitLocalVariableType(LocalVariableType helper) {
+        super.visitLocalVariableType(helper);
+        visitAttribute("LocalVariableTypeTable");
+    }
+
     public void visitDeprecated_attribute(Deprecated_attribute attribute) {
+        super.visitDeprecated_attribute(attribute);
+        visitAttribute("Deprecated");
+
         Object owner = attribute.getOwner();
-    
+
         if (owner instanceof Classfile) {
             deprecatedClasses.add((Classfile) owner);
         } else if (owner instanceof Field_info) {
@@ -362,7 +435,13 @@ public class MetricsGatherer extends VisitorBase {
     }
 
     public void visitCustom_attribute(Custom_attribute attribute) {
+        super.visitCustom_attribute(attribute);
+        visitAttribute("custom");
         customAttributes.add(attribute);
+    }
+
+    private void visitAttribute(String attributeName) {
+        attributeCounts.put(attributeName, attributeCounts.get(attributeName) + 1);
     }
 
     // Attribute helpers

@@ -122,6 +122,10 @@ public class ClassMetrics extends DirectoryExplorerCommand {
             }
         }
 
+        for (AttributeType attributeType : AttributeType.values()) {
+            out.println(metrics.getAttributeCounts().get(attributeType.getAttributeName()) + " " + attributeType.getAttributeName() + " attribute(s)");
+        }
+
         out.println(metrics.getCustomAttributes().size() + " custom attribute(s)");
         if (list) {
             for (Custom_attribute attribute : metrics.getCustomAttributes()) {

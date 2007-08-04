@@ -167,7 +167,11 @@ public class ClassMetrics extends Task {
                     out.println("        " + field);
                 }
             }
-            
+
+            for (AttributeType attributeType : AttributeType.values()) {
+                out.println(metrics.getAttributeCounts().get(attributeType.getAttributeName()) + " " + attributeType.getAttributeName() + " attribute(s)");
+            }
+
             out.println(metrics.getCustomAttributes().size() + " custom attribute(s)");
             if (getList()) {
                 for (Custom_attribute attribute : metrics.getCustomAttributes()) {

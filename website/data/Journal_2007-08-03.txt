@@ -1,1 +1,3 @@
 Added =SourceDebugExtension_attribute=.
+
+Added counts for the various attribute types in =ClassMetrics=.

@@ -113,19 +113,23 @@ public enum AttributeType {
         }
     };
 
-    private final String name;
+    private final String attributeName;
 
-    AttributeType(String name) {
-        this.name = name;
+    AttributeType(String attributeName) {
+        this.attributeName = attributeName;
+    }
+
+    public String getAttributeName() {
+        return attributeName;
     }
 
     public abstract Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException;
 
-    public static AttributeType forName(String name) {
+    public static AttributeType forName(String attributeName) {
         AttributeType result = null;
 
         for (AttributeType attributeType : values()) {
-            if (attributeType.name.equals(name)) {
+            if (attributeType.attributeName.equals(attributeName)) {
                 result = attributeType;
             }
         }
