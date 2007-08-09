@@ -57,14 +57,22 @@ import org.apache.log4j.*;
  *  </pre>
  */
 public class NbSubMetricsMeasurement extends MeasurementBase {
-    private static final String OPERATORS = "/(<=)|(<)|(>=)|(>)|(==)|(!=)/";
-
-    private static final String LESSER_THAN           = "<";
-    private static final String LESSER_THAN_OR_EQUAL  = "<=";
-    private static final String GREATER_THAN          = ">";
+    private static final String LESSER_THAN = "<";
+    private static final String LESSER_THAN_OR_EQUAL = "<=";
+    private static final String GREATER_THAN = ">";
     private static final String GREATER_THAN_OR_EQUAL = ">=";
-    private static final String EQUALS                = "==";
-    private static final String NOT_EQUALS            = "!=";
+    private static final String EQUALS = "==";
+    private static final String NOT_EQUALS = "!=";
+
+    private static final String OPERATORS_REGULAR_EXPRESSION =
+        "/" +
+        "(" + LESSER_THAN_OR_EQUAL + ")|" +
+        "(" + LESSER_THAN + ")|" +
+        "(" + GREATER_THAN_OR_EQUAL + ")|" +
+        "(" + GREATER_THAN + ")|" +
+        "(" + EQUALS + ")|" +
+        "(" + NOT_EQUALS + ")" +
+        "/";
 
     private static final double DELTA = 0.1;
 
@@ -148,7 +156,7 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
         Logger.getLogger(getClass()).debug("EvaluateTerm(\"" + term + "\", " + metrics + ")");
         
         List<String> elements = new ArrayList<String>();
-        perl().split(elements, OPERATORS, term);
+        perl().split(elements, OPERATORS_REGULAR_EXPRESSION, term);
 
         result = (elements.size() > 0) && ((elements.size() % 2) == 1);
         
