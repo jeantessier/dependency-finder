@@ -42,24 +42,24 @@ import org.apache.oro.text.perl.*;
 import org.xml.sax.*;
 
 public class TestXMLPrinter extends TestCase implements ErrorHandler {
-    private static final String TEST_CLASS     = "test";
-    private static final String TEST_FILENAME  = "classes" + File.separator + "test.class";
+    private static final String TEST_CLASS = "test";
+    private static final String TEST_FILENAME = "classes" + File.separator + "test.class";
     private static final String TEST_DIRECTORY = "tests" + File.separator + "JarJarDiff" + File.separator + "new";
 
-    private static final String SPECIFIC_ENCODING   = "iso-latin-1";
+    private static final String SPECIFIC_ENCODING = "iso-latin-1";
     private static final String SPECIFIC_DTD_PREFIX = "./etc";
 
     private ClassfileLoader loader;
-    private StringWriter    buffer;
-    private Visitor         printer;
-    private XMLReader       reader;
+    private StringWriter buffer;
+    private Visitor printer;
+    private XMLReader reader;
 
     private Perl5Util perl;
 
     protected void setUp() throws Exception {
         loader = new AggregatingClassfileLoader();
 
-        buffer  = new StringWriter();
+        buffer = new StringWriter();
         printer = new XMLPrinter(new PrintWriter(buffer), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
 	boolean validate = Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE");
@@ -73,7 +73,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
     }
     
     public void testDefaultDTDPrefix() {
-        buffer  = new StringWriter();
+        buffer = new StringWriter();
         printer = new XMLPrinter(new PrintWriter(buffer));
 
         String xmlDocument = buffer.toString();
@@ -91,7 +91,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
     }
     
     public void testSpecificDTDPrefix() {
-        buffer  = new StringWriter();
+        buffer = new StringWriter();
         printer = new XMLPrinter(new PrintWriter(buffer), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
         String xmlDocument = buffer.toString();
@@ -109,7 +109,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
     }
 
     public void testDefaultEncoding() {
-        buffer  = new StringWriter();
+        buffer = new StringWriter();
         printer = new XMLPrinter(new PrintWriter(buffer));
 
         String xmlDocument = buffer.toString();
@@ -127,7 +127,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
     }
 
     public void testSpecificEncoding() {
-        buffer  = new StringWriter();
+        buffer = new StringWriter();
         printer = new XMLPrinter(new PrintWriter(buffer), SPECIFIC_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
 
         String xmlDocument = buffer.toString();
@@ -212,6 +212,24 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         } catch (IOException ex) {
             fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
         }
+    }
+
+    public void testXMLEncoding() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream out = new DataOutputStream(baos);
+        out.writeUTF("<");
+        out.close();
+
+        DataInputStream in = new DataInputStream(new ByteArrayInputStream(baos.toByteArray()));
+        UTF8_info utf8_info = new UTF8_info(null, in);
+
+        printer.visitUTF8_info(utf8_info);
+
+        BufferedReader result = new BufferedReader(new StringReader(buffer.toString()));
+        for (int i=0; i < 4; i++) {
+            result.readLine();
+        }
+        assertEquals("<utf8-info id=\"0\">&lt;</utf8-info>", result.readLine());
     }
 
     public void error(SAXParseException ex) {
