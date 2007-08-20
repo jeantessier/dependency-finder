@@ -54,7 +54,7 @@ public class ConstantValue_attribute extends Attribute_info {
     }
 
     public ConstantPoolEntry getRawValue() {
-        return (ConstantPoolEntry) getClassfile().getConstantPool().get(getValueIndex());
+        return getClassfile().getConstantPool().get(getValueIndex());
     }
 
     public String toString() {
