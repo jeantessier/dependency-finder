@@ -1,0 +1,9 @@
+Tried to use [[http://jmock.org/][jMock]] to mock parts of an API difference
+structure so I can test that =ClassReport.breakdownDeclaration(Field_info)=
+does the proper encoding of XML characters in values of string constants.  I am
+struggling quite a bit.  The method I want to test is private, so I have to go
+through a path inside =ClassReport= that calls it, and that path makes quite a
+few calls on other structures around the =Field_info=.  Setting up the mocks is
+a little ugly and takes over 75% of the test method.  Plus, it looks like jMock
+never mocks calls to =toString()=.  Maybe there is something that I don't quite
+get.
