@@ -32,8 +32,6 @@
 
 package com.jeantessier.diff;
 
-import java.util.*;
-
 import com.jeantessier.classreader.*;
 
 public class TestDifferencesFactoryWithAPIAndCodeDifferenceStrategy extends TestDifferencesFactoryBase {
@@ -53,9 +51,7 @@ public class TestDifferencesFactoryWithAPIAndCodeDifferenceStrategy extends Test
         ClassDifferences classDifferences = (ClassDifferences) factory.createClassDifferences(className, oldClass, newClass);
 
         FieldDifferences fieldDifferences = null;
-        Iterator i = classDifferences.getFeatureDifferences().iterator();
-        while (i.hasNext()) {
-            Differences differences = (Differences) i.next();
+        for (Differences differences : classDifferences.getFeatureDifferences()) {
             if (differences.getName().equals(className + ".modifiedField")) {
                 fieldDifferences = (FieldDifferences) differences;
             }
@@ -73,9 +69,7 @@ public class TestDifferencesFactoryWithAPIAndCodeDifferenceStrategy extends Test
         ClassDifferences classDifferences = (ClassDifferences) factory.createClassDifferences(className, oldClass, newClass);
 
         FieldDifferences fieldDifferences = null;
-        Iterator i = classDifferences.getFeatureDifferences().iterator();
-        while (i.hasNext()) {
-            Differences differences = (Differences) i.next();
+        for (Differences differences : classDifferences.getFeatureDifferences()) {
             if (differences.getName().equals(className + ".modifiedValueField")) {
                 fieldDifferences = (FieldDifferences) differences;
             }
@@ -94,9 +88,7 @@ public class TestDifferencesFactoryWithAPIAndCodeDifferenceStrategy extends Test
         ClassDifferences classDifferences = (ClassDifferences) factory.createClassDifferences(className, oldClass, newClass);
 
         ConstructorDifferences constructorDifferences = null;
-        Iterator i = classDifferences.getFeatureDifferences().iterator();
-        while (i.hasNext()) {
-            Differences differences = (Differences) i.next();
+        for (Differences differences : classDifferences.getFeatureDifferences()) {
             if (differences.getName().equals(className + ".ModifiedClass(int, int, int)")) {
                 constructorDifferences = (ConstructorDifferences) differences;
             }
@@ -113,9 +105,7 @@ public class TestDifferencesFactoryWithAPIAndCodeDifferenceStrategy extends Test
         ClassDifferences classDifferences = (ClassDifferences) factory.createClassDifferences(className, oldClass, newClass);
 
         ConstructorDifferences constructorDifferences = null;
-        Iterator i = classDifferences.getFeatureDifferences().iterator();
-        while (i.hasNext()) {
-            Differences differences = (Differences) i.next();
+        for (Differences differences : classDifferences.getFeatureDifferences()) {
             if (differences.getName().equals(className + ".ModifiedClass(float)")) {
                 constructorDifferences = (ConstructorDifferences) differences;
             }
@@ -132,9 +122,7 @@ public class TestDifferencesFactoryWithAPIAndCodeDifferenceStrategy extends Test
         ClassDifferences classDifferences = (ClassDifferences) factory.createClassDifferences(className, oldClass, newClass);
 
         MethodDifferences methodDifferences = null;
-        Iterator i = classDifferences.getFeatureDifferences().iterator();
-        while (i.hasNext()) {
-            Differences differences = (Differences) i.next();
+        for (Differences differences : classDifferences.getFeatureDifferences()) {
             if (differences.getName().equals(className + ".modifiedMethod()")) {
                 methodDifferences = (MethodDifferences) differences;
             }
@@ -151,9 +139,7 @@ public class TestDifferencesFactoryWithAPIAndCodeDifferenceStrategy extends Test
         ClassDifferences classDifferences = (ClassDifferences) factory.createClassDifferences(className, oldClass, newClass);
 
         MethodDifferences methodDifferences = null;
-        Iterator i = classDifferences.getFeatureDifferences().iterator();
-        while (i.hasNext()) {
-            Differences differences = (Differences) i.next();
+        for (Differences differences : classDifferences.getFeatureDifferences()) {
             if (differences.getName().equals(className + ".modifiedCodeMethod()")) {
                 methodDifferences = (MethodDifferences) differences;
             }
