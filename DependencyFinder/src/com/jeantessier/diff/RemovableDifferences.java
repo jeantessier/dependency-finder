@@ -43,9 +43,6 @@ import org.apache.log4j.*;
 public abstract class RemovableDifferences implements Differences, Comparable {
     private String name;
 
-    private String oldDeclaration = null;
-    private String newDeclaration = null;
-
     protected RemovableDifferences(String name) {
         this.name = name;
     }
@@ -54,21 +51,8 @@ public abstract class RemovableDifferences implements Differences, Comparable {
         return name;
     }
 
-    public String getOldDeclaration() {
-        return oldDeclaration;
-    }
-
-    public void setOldDeclaration(String oldDeclaration) {
-        this.oldDeclaration = oldDeclaration;
-    }
-
-    public String getNewDeclaration() {
-        return newDeclaration;
-    }
-
-    public void setNewDeclaration(String newDeclaration) {
-        this.newDeclaration = newDeclaration;
-    }
+    public abstract String getOldDeclaration();
+    public abstract String getNewDeclaration();
 
     public boolean isRemoved() {
         boolean result = (getOldDeclaration() != null) && (getNewDeclaration() == null);

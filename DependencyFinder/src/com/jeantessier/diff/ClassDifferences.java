@@ -61,14 +61,6 @@ public class ClassDifferences extends RemovableDifferences {
         setOldClass(oldClass);
         setNewClass(newClass);
 
-        if (oldClass != null) {
-            setOldDeclaration(oldClass.getDeclaration());
-        }
-
-        if (newClass != null) {
-            setNewDeclaration(newClass.getDeclaration());
-        }
-
         if (isModified()) {
             Logger.getLogger(getClass()).debug(getName() + " declaration has been modified.");
         } else {
@@ -90,6 +82,26 @@ public class ClassDifferences extends RemovableDifferences {
 
     protected void setNewClass(Classfile newClass) {
         this.newClass = newClass;
+    }
+
+    public String getOldDeclaration() {
+        String result = null;
+
+        if (getOldClass() != null) {
+            result = getOldClass().getDeclaration();
+        }
+
+        return result;
+    }
+
+    public String getNewDeclaration() {
+        String result = null;
+
+        if (getNewClass() != null) {
+            result = getNewClass().getDeclaration();
+        }
+
+        return result;
     }
 
     public boolean isDeclarationModified() {

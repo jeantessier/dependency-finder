@@ -42,6 +42,9 @@ import org.apache.log4j.*;
 public class PackageDifferences extends RemovableDifferences {
     private Collection<Differences> classDifferences = new LinkedList<Differences>();
 
+    private String oldDeclaration = null;
+    private String newDeclaration = null;
+
     /**
      *  Only the DifferencesFactory can create instances of this class.
      */
@@ -49,11 +52,11 @@ public class PackageDifferences extends RemovableDifferences {
         super(name);
 
         if (oldPackage != null && !oldPackage.isEmpty()) {
-            setOldDeclaration(name);
+            oldDeclaration = name;
         }
 
         if (newPackage != null && !newPackage.isEmpty()) {
-            setNewDeclaration(name);
+            newDeclaration = name;
         }
     
         if (isModified()) {
@@ -65,6 +68,14 @@ public class PackageDifferences extends RemovableDifferences {
 
     public Collection<Differences> getClassDifferences() {
         return classDifferences;
+    }
+
+    public String getOldDeclaration() {
+        return oldDeclaration;
+    }
+
+    public String getNewDeclaration() {
+        return newDeclaration;
     }
 
     public boolean isModified() {

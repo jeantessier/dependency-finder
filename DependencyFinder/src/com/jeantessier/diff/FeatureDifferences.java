@@ -58,14 +58,6 @@ public abstract class FeatureDifferences extends RemovableDifferences {
         setOldFeature(oldFeature);
         setNewFeature(newFeature);
 
-        if (oldFeature != null) {
-            setOldDeclaration(oldFeature.getDeclaration());
-        }
-
-        if (newFeature != null) {
-            setNewDeclaration(newFeature.getDeclaration());
-        }
-
         if (isModified()) {
             Logger.getLogger(getClass()).debug(getName() + " declaration has been modified.");
         } else {
@@ -87,6 +79,26 @@ public abstract class FeatureDifferences extends RemovableDifferences {
 
     protected void setNewFeature(Feature_info newFeature) {
         this.newFeature = newFeature;
+    }
+
+    public String getOldDeclaration() {
+        String result = null;
+
+        if (getOldFeature() != null) {
+            result = getOldFeature().getDeclaration();
+        }
+
+        return result;
+    }
+
+    public String getNewDeclaration() {
+        String result = null;
+
+        if (getNewFeature() != null) {
+            result = getNewFeature().getDeclaration();
+        }
+
+        return result;
     }
 
     public boolean isInherited() {

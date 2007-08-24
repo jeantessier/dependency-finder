@@ -11,3 +11,12 @@ output format than to blindly assume one.  Still, =Report= and =ClassReport=
 both join two responsibilities: organizing differences and rendering them in
 XML.  These should be split into separate classes, which would open the door to
 rendering the reports in something other than XML without the need for XSLT.
+
+I also refactored the =RemovableDifferences= hierarchy.  The concrete classes
+used protected setters to save values in the state of the superclass.  Instead,
+I made the getters abstract so each subclass can implement it based on its own
+state instead of polluting the state of the superclass.  This way, I could get
+rid of the setters altogether.  Some of these getters, such as
+=ClassDifferences.get(Old|New)Declaration()= and
+=FeatureDifferences.get(Old|New)Declaration()=, are now slightly less efficient
+but I hope it won't impact overall performance too much.
