@@ -237,7 +237,7 @@ public class Report extends Printer {
             raiseIndent();
 
             for (ClassReport modifiedInterface : modifiedInterfaces) {
-                append(modifiedInterface);
+                append(modifiedInterface.render());
             }
 
             lowerIndent();
@@ -249,7 +249,7 @@ public class Report extends Printer {
             raiseIndent();
 
             for (ClassReport modifiedClass : modifiedClasses) {
-                append(modifiedClass);
+                append(modifiedClass.render());
             }
 
             lowerIndent();

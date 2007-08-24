@@ -1,0 +1,13 @@
+Redesigning the =Classfile= hierarchy is proving more complex than I even
+thought.  For now, the easiest thing to do is for me to just add constants with
+"illegal" values in the =JarJarDiff= test data folder and write tests that read
+=.class= files from the filesystem.  I'll revisit jMock or EasyMock for
+something else at some other time.
+
+I modified =ClassReport= to be a =com.jeantessier.classreader.Visitor= so I can
+use double dispatch to escape string values but not numeric values.  It makes
+more sense to have a specific visitor choose the proper rendering based on the
+output format than to blindly assume one.  Still, =Report= and =ClassReport=
+both join two responsibilities: organizing differences and rendering them in
+XML.  These should be split into separate classes, which would open the door to
+rendering the reports in something other than XML without the need for XSLT.

@@ -34,9 +34,13 @@ package com.jeantessier.diff;
 
 import java.util.*;
 
+import org.apache.oro.text.perl.*;
+
 import com.jeantessier.classreader.*;
 
-public class ClassReport extends Printer implements Comparable {
+public class ClassReport extends Printer implements Comparable, com.jeantessier.classreader.Visitor {
+    private static final Perl5Util perl = new Perl5Util();
+
     private ClassDifferences differences;
 
     private Collection<FeatureDifferences> removedFields = new TreeSet<FeatureDifferences>();
@@ -141,7 +145,171 @@ public class ClassReport extends Printer implements Comparable {
         }
     }
 
-    public String toString() {
+    public void visitClassfiles(Collection<Classfile> classfiles) {
+        // Do nothing
+    }
+
+    public void visitClassfile(Classfile classfile) {
+        // Do nothing
+    }
+
+    public void visitConstantPool(ConstantPool constantPool) {
+        // Do nothing
+    }
+
+    public void visitClass_info(Class_info entry) {
+        // Do nothing
+    }
+
+    public void visitFieldRef_info(FieldRef_info entry) {
+        // Do nothing
+    }
+
+    public void visitMethodRef_info(MethodRef_info entry) {
+        // Do nothing
+    }
+
+    public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
+        // Do nothing
+    }
+
+    public void visitString_info(String_info entry) {
+        entry.getRawValue().accept(this);
+    }
+
+    public void visitInteger_info(Integer_info entry) {
+        append(entry.getValue());
+    }
+
+    public void visitFloat_info(Float_info entry) {
+        append(entry.getValue());
+    }
+
+    public void visitLong_info(Long_info entry) {
+        append(entry.getValue());
+    }
+
+    public void visitDouble_info(Double_info entry) {
+        append(entry.getValue());
+    }
+
+    public void visitNameAndType_info(NameAndType_info entry) {
+        // Do nothing
+    }
+
+    public void visitUTF8_info(UTF8_info entry) {
+        append(escapeXMLCharacters(entry.getValue()));
+    }
+
+    public void visitField_info(Field_info entry) {
+        if (entry.isPublic())     append(" visibility=\"public\"");
+        if (entry.isProtected())  append(" visibility=\"protected\"");
+        if (entry.isPackage())    append(" visibility=\"package\"");
+        if (entry.isPrivate())    append(" visibility=\"private\"");
+        if (entry.isStatic())     append(" static=\"yes\"");
+        if (entry.isFinal())      append(" final=\"yes\"");
+        if (entry.isVolatile())   append(" volatile=\"yes\"");
+        if (entry.isTransient())  append(" transient=\"yes\"");
+        if (entry.isSynthetic())  append(" synthetic=\"yes\"");
+        if (entry.isDeprecated()) append(" deprecated=\"yes\"");
+
+        append(" type=\"").append(entry.getType()).append("\"");
+        append(" name=\"").append(entry.getName()).append("\"");
+        append(" signature=\"").append(entry.getSignature()).append("\"");
+        append(" full-signature=\"").append(entry.getFullSignature()).append("\"");
+
+        if (entry.getConstantValue() != null) {
+            append(" value=\"");
+            entry.getConstantValue().accept(this);
+            append("\"");
+        }
+    }
+
+    public void visitMethod_info(Method_info entry) {
+        // Do nothing
+    }
+
+    public void visitConstantValue_attribute(ConstantValue_attribute attribute) {
+        attribute.getRawValue().accept(this);
+    }
+
+    public void visitCode_attribute(Code_attribute attribute) {
+        // Do nothing
+    }
+
+    public void visitExceptions_attribute(Exceptions_attribute attribute) {
+        // Do nothing
+    }
+
+    public void visitInnerClasses_attribute(InnerClasses_attribute attribute) {
+        // Do nothing
+    }
+
+    public void visitEnclosingMethod_attribute(EnclosingMethod_attribute attribute) {
+        // Do nothing
+    }
+
+    public void visitSynthetic_attribute(Synthetic_attribute attribute) {
+        // Do nothing
+    }
+
+    public void visitSignature_attribute(Signature_attribute attribute) {
+        // Do nothing
+    }
+
+    public void visitSourceFile_attribute(SourceFile_attribute attribute) {
+        // Do nothing
+    }
+
+    public void visitSourceDebugExtension_attribute(SourceDebugExtension_attribute attribute) {
+        // Do nothing
+    }
+
+    public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
+        // Do nothing
+    }
+
+    public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
+        // Do nothing
+    }
+
+    public void visitLocalVariableTypeTable_attribute(LocalVariableTypeTable_attribute attribute) {
+        // Do nothing
+    }
+
+    public void visitDeprecated_attribute(Deprecated_attribute attribute) {
+        // Do nothing
+    }
+
+    public void visitCustom_attribute(Custom_attribute attribute) {
+        // Do nothing
+    }
+
+    public void visitInstruction(Instruction instruction) {
+        // Do nothing
+    }
+
+    public void visitExceptionHandler(ExceptionHandler helper) {
+        // Do nothing
+    }
+
+    public void visitInnerClass(InnerClass helper) {
+        // Do nothing
+    }
+
+    public void visitLineNumber(LineNumber helper) {
+        // Do nothing
+    }
+
+    public void visitLocalVariable(LocalVariable helper) {
+        // Do nothing
+    }
+
+    public void visitLocalVariableType(LocalVariableType helper) {
+        // Do nothing
+    }
+
+    public String render() {
         raiseIndent();
         raiseIndent();
 
@@ -166,7 +334,16 @@ public class ClassReport extends Printer implements Comparable {
             raiseIndent();
 
             for (FeatureDifferences fd : removedFields) {
-                indent().append("<declaration").append(breakdownDeclaration((Field_info) fd.getOldFeature())).append(fd.isInherited() ? " inherited=\"yes\"" : "").append(">").append(fd.getOldDeclaration()).append("</declaration>").eol();
+                indent();
+                append("<declaration");
+                fd.getOldFeature().accept(this);
+                if (fd.isInherited()) {
+                    append(" inherited=\"yes\"");
+                }
+                append(">");
+                append(fd.getOldDeclaration());
+                append("</declaration>");
+                eol();
             }
 
             lowerIndent();
@@ -370,7 +547,13 @@ public class ClassReport extends Printer implements Comparable {
             raiseIndent();
 
             for (FeatureDifferences fd : newFields) {
-                indent().append("<declaration").append(breakdownDeclaration((Field_info) fd.getNewFeature())).append(">").append(fd.getNewDeclaration()).append("</declaration>").eol();
+                indent();
+                append("<declaration");
+                fd.getNewFeature().accept(this);
+                append(">");
+                append(fd.getNewDeclaration());
+                append("</declaration>");
+                eol();
             }
 
             lowerIndent();
@@ -404,6 +587,9 @@ public class ClassReport extends Printer implements Comparable {
         lowerIndent();
         indent().append("</class>").eol();
 
+        lowerIndent();
+        lowerIndent();
+
         return super.toString();
     }
 
@@ -422,7 +608,7 @@ public class ClassReport extends Printer implements Comparable {
 
             if (element.isInterface()) {
                 result.append(" interface=\"yes\"");
-        
+
                 result.append(" extends=\"");
                 Iterator i = element.getAllInterfaces().iterator();
                 while (i.hasNext()) {
@@ -434,9 +620,9 @@ public class ClassReport extends Printer implements Comparable {
                 result.append("\"");
             } else {
                 if (element.isAbstract()) result.append(" abstract=\"yes\"");
-        
+
                 result.append(" extends=\"").append(element.getSuperclassName()).append("\"");
-        
+
                 result.append(" implements=\"");
                 Iterator i = element.getAllInterfaces().iterator();
                 while (i.hasNext()) {
@@ -526,6 +712,18 @@ public class ClassReport extends Printer implements Comparable {
         } else {
             throw new ClassCastException("Unable to compare ClassReport to " + other.getClass().getName());
         }
+
+        return result;
+    }
+
+    private String escapeXMLCharacters(String text) {
+        String result = text;
+
+        result = perl.substitute("s/&/&amp;/g", result);
+        result = perl.substitute("s/</&lt;/g", result);
+        result = perl.substitute("s/>/&gt;/g", result);
+        result = perl.substitute("s/\"/&quot;/g", result);
+        result = perl.substitute("s/'/&apos;/g", result);
 
         return result;
     }

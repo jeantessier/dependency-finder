@@ -34,3 +34,6 @@ Action items:
 That should make things easier to work with and speed up some of the tests.  I
 will be able to build a graph of model objects for the tests instead of reading
 dummy =.class= files from disk.
+
+I've started by renaming =ClassReport.toString()= to =ClassReport.render()=.  I
+still not completely satisfied with it, but it will do as a stop-gap measure.

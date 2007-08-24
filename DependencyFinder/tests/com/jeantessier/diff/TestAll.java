@@ -51,6 +51,7 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestDifferencesFactoryWithAPIAndCodeDifferenceStrategy.class);
         result.addTestSuite(TestDifferencesFactoryWithIncompatibleDifferenceStrategy.class);
         result.addTestSuite(TestDifferencesFactoryForCompatibleClassWithIncompatibleMethod.class);
+        result.addTestSuite(TestClassReport.class);
         result.addTestSuite(TestReport.class);
         result.addTestSuite(TestListDiffPrinter.class);
 
