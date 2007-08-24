@@ -721,7 +721,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
     }
 
     public int compareTo(Object other) {
-        int result = 0;
+        int result;
 
         if (other instanceof ClassReport) {
             result = differences.compareTo(((ClassReport) other).differences);
