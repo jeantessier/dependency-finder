@@ -81,7 +81,7 @@ public class ClassClassDiff extends DiffCommand {
         report.setNewVersion(newLabel);
 
         differences.accept(report);
-        out.print(report);
+        out.print(report.render());
     }
 
     public static void main(String[] args) throws Exception {

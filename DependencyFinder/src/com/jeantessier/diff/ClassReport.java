@@ -198,7 +198,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
     }
 
     public void visitUTF8_info(UTF8_info entry) {
-        append(escapeXMLCharacters(entry.getValue()));
+        append(escapeXMLCharactersInAttributeValue(entry.getValue()));
     }
 
     public void visitField_info(Field_info entry) {
@@ -424,14 +424,30 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
                 raiseIndent();
 
                 Field_info oldField = (Field_info) fd.getOldFeature();
-                Field_info newField = (Field_info) fd.getNewFeature();
+                indent();
+                append("<old-declaration");
+                oldField.accept(this);
+                append(">");
                 if (fd.isConstantValueDifference()) {
-                    indent().append("<old-declaration").append(breakdownDeclaration(oldField)).append(">").append(oldField.getFullDeclaration()).append("</old-declaration>").eol();
-                    indent().append("<new-declaration").append(breakdownDeclaration(newField)).append(">").append(newField.getFullDeclaration()).append("</new-declaration>").eol();
+                    append(escapeXMLCharactersInTagContent(oldField.getFullDeclaration()));
                 } else {
-                    indent().append("<old-declaration").append(breakdownDeclaration(oldField)).append(">").append(oldField.getDeclaration()).append("</old-declaration>").eol();
-                    indent().append("<new-declaration").append(breakdownDeclaration(newField)).append(">").append(newField.getDeclaration()).append("</new-declaration>").eol();
+                    append(oldField.getDeclaration());
                 }
+                append("</old-declaration>");
+                eol();
+
+                Field_info newField = (Field_info) fd.getNewFeature();
+                indent();
+                append("<new-declaration");
+                newField.accept(this);
+                append(">");
+                if (fd.isConstantValueDifference()) {
+                    append(escapeXMLCharactersInTagContent(newField.getFullDeclaration()));
+                } else {
+                    append(newField.getDeclaration());
+                }
+                append("</new-declaration>");
+                eol();
 
                 lowerIndent();
                 indent().append("</modified-declaration>").eol();
@@ -716,12 +732,19 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
         return result;
     }
 
-    private String escapeXMLCharacters(String text) {
+    private String escapeXMLCharactersInTagContent(String text) {
         String result = text;
 
         result = perl.substitute("s/&/&amp;/g", result);
         result = perl.substitute("s/</&lt;/g", result);
         result = perl.substitute("s/>/&gt;/g", result);
+
+        return result;
+    }
+
+    private String escapeXMLCharactersInAttributeValue(String text) {
+        String result = escapeXMLCharactersInTagContent(text);
+
         result = perl.substitute("s/\"/&quot;/g", result);
         result = perl.substitute("s/'/&apos;/g", result);
 

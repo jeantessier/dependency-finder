@@ -75,13 +75,13 @@ public class JarJarDiff extends DiffCommand {
         Logger.getLogger(getClass()).info("Printing results ...");
         getVerboseListener().print("Printing results ...");
 
-        com.jeantessier.diff.Printer printer = new Report(getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
+        Report report = new Report(getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
         if (getCommandLine().isPresent("indent-text")) {
-            printer.setIndentText(getCommandLine().getSingleSwitch("indent-text"));
+            report.setIndentText(getCommandLine().getSingleSwitch("indent-text"));
         }
 
-        differences.accept(printer);
-        out.print(printer);
+        differences.accept(report);
+        out.print(report.render());
     }
 
     public static void main(String[] args) throws Exception {

@@ -43,23 +43,23 @@ import com.jeantessier.classreader.*;
 import com.jeantessier.diff.*;
 
 public class JarJarDiff extends Task {
-    public static final String API_STRATEGY          = "api";
+    public static final String API_STRATEGY = "api";
     public static final String INCOMPATIBLE_STRATEGY = "incompatible";
 
     public static final String DEFAULT_LEVEL = API_STRATEGY;
 
-    private String  name      = "";
-    private Path    oldPath;
-    private String  oldLabel;
-    private Path    newPath;
-    private String  newLabel;
-    private File    filter;
-    private String  level     = DEFAULT_LEVEL;
+    private String name = "";
+    private Path oldPath;
+    private String oldLabel;
+    private Path newPath;
+    private String newLabel;
+    private File filter;
+    private String level = DEFAULT_LEVEL;
     private boolean code;
-    private String  encoding  = Report.DEFAULT_ENCODING;
-    private String  dtdPrefix = Report.DEFAULT_DTD_PREFIX;
-    private String  indentText;
-    private File    destfile;
+    private String encoding = Report.DEFAULT_ENCODING;
+    private String dtdPrefix = Report.DEFAULT_DTD_PREFIX;
+    private String indentText;
+    private File destfile;
 
     public String getName() {
         return name;
@@ -214,15 +214,15 @@ public class JarJarDiff extends Task {
 
             log("Saving difference report to " + getDestfile().getAbsolutePath());
 
-            com.jeantessier.diff.Printer printer = new Report(getEncoding(), getDtdprefix());
+            Report report = new Report(getEncoding(), getDtdprefix());
             if (getIndenttext() != null) {
-                printer.setIndentText(getIndenttext());
+                report.setIndentText(getIndenttext());
             }
 
-            differences.accept(printer);
+            differences.accept(report);
 
             PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
-            out.print(printer);
+            out.print(report.render());
             out.close();
         } catch (IOException ex) {
             throw new BuildException(ex);

@@ -70,9 +70,9 @@ public class TestReport extends TestCase implements ErrorHandler {
     }
 
     public void testDefaultDTDPrefix() {
-        Visitor printer = new Report();
+        Report report = new Report();
 
-        String xmlDocument = printer.toString();
+        String xmlDocument = report.render();
         assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
         assertTrue("DTD \"" + perl.group(1) + "\" does not have prefix \"" + Report.DEFAULT_DTD_PREFIX + "\"", perl.group(1).startsWith(Report.DEFAULT_DTD_PREFIX));
         
@@ -86,9 +86,9 @@ public class TestReport extends TestCase implements ErrorHandler {
     }
     
     public void testSpecificDTDPrefix() {
-        Visitor printer = new Report(Report.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        Report report = new Report(Report.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
-        String xmlDocument = printer.toString();
+        String xmlDocument = report.render();
         assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
         assertTrue("DTD \"" + perl.group(1) + "\" does not have prefix \"./etc\"", perl.group(1).startsWith(SPECIFIC_DTD_PREFIX));
         
@@ -102,9 +102,9 @@ public class TestReport extends TestCase implements ErrorHandler {
     }
 
     public void testDefaultEncoding() {
-        Visitor printer = new Report();
+        Report report = new Report();
 
-        String xmlDocument = printer.toString();
+        String xmlDocument = report.render();
         assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
         assertEquals("Encoding", Report.DEFAULT_ENCODING, perl.group(1));
         
@@ -118,9 +118,9 @@ public class TestReport extends TestCase implements ErrorHandler {
     }
 
     public void testSpecificEncoding() {
-        Visitor printer = new Report(SPECIFIC_ENCODING, Report.DEFAULT_DTD_PREFIX);
+        Report report = new Report(SPECIFIC_ENCODING, Report.DEFAULT_DTD_PREFIX);
 
-        String xmlDocument = printer.toString();
+        String xmlDocument = report.render();
         assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
         assertEquals("Encoding", SPECIFIC_ENCODING, perl.group(1));
         
@@ -147,10 +147,10 @@ public class TestReport extends TestCase implements ErrorHandler {
         DifferencesFactory factory = new DifferencesFactory();
         ProjectDifferences projectDifferences = (ProjectDifferences) factory.createProjectDifferences("test", "old", oldPackages, "new", newPackages);
 
-        Visitor printer = new Report(Report.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-        projectDifferences.accept(printer);
+        Report report = new Report(Report.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        projectDifferences.accept(report);
 
-        String xmlDocument = printer.toString();
+        String xmlDocument = report.render();
 
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));
@@ -182,10 +182,10 @@ public class TestReport extends TestCase implements ErrorHandler {
         DifferencesFactory factory = new DifferencesFactory(new IncompatibleDifferenceStrategy(new NoDifferenceStrategy()));
         ProjectDifferences projectDifferences = (ProjectDifferences) factory.createProjectDifferences("test", "old", oldPackages, "new", newPackages);
 
-        Visitor printer = new Report(Report.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-        projectDifferences.accept(printer);
+        Report report = new Report(Report.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        projectDifferences.accept(report);
 
-        String xmlDocument = printer.toString();
+        String xmlDocument = report.render();
 
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));

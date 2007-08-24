@@ -164,7 +164,7 @@ public class Report extends Printer {
         }
     }
 
-    public String toString() {
+    public String render() {
         indent().append("<differences>").eol();
         raiseIndent();
 
