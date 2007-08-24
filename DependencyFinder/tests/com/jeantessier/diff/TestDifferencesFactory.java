@@ -121,7 +121,7 @@ public class TestDifferencesFactory extends TestDifferencesFactoryBase {
         assertNotNull(name, differences);
 
         assertEquals(name, differences.getName());
-        assertEquals(name + ".FeatureDifferences", 17, differences.getFeatureDifferences().size());
+        assertEquals(name + ".FeatureDifferences", 35, differences.getFeatureDifferences().size());
         assertTrue(name + ".IsRemoved()",  !differences.isRemoved());
         assertTrue(name + ".IsModified()",  differences.isModified());
         assertTrue(name + ".IsNew()",      !differences.isNew());

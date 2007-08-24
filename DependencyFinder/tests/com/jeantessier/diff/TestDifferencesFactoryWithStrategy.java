@@ -63,8 +63,8 @@ public class TestDifferencesFactoryWithStrategy extends TestDifferencesFactoryBa
 
         assertEquals("package count",   4, strategy.getPackageDifferentCount());
         assertEquals("class count",    13, strategy.getClassDifferentCount());
-        assertEquals("field count",    15, strategy.getFieldDifferentCount());
-        assertEquals("constant count",  7, strategy.getConstantValueDifferentCount());
+        assertEquals("field count",    33, strategy.getFieldDifferentCount());
+        assertEquals("constant count", 13, strategy.getConstantValueDifferentCount());
         assertEquals("method count",   31, strategy.getMethodDifferentCount());
         assertEquals("code count",     11, strategy.getCodeDifferentCount());
     }
