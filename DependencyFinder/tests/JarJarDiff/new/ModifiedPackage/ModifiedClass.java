@@ -10,12 +10,26 @@ public class ModifiedClass {
     
     public float modifiedField;
 
+    public static final String MODIFIED_LESS_THAN_STRING = "<";
+    public static final String MODIFIED_AMPERSAND_STRING = "&";
+    public static final String MODIFIED_GREATER_THAN_STRING = ">";
+    public static final String MODIFIED_QUOTE_STRING = "\"";
+    public static final String MODIFIED_APOSTROPHE_STRING = "'";
+    public static final String MODIFIED_NON_ASCII_STRING = "¥";
+
     /** @level public */
     public int documentedField;
 
     public int undeprecatedField;
 
     public int newField;
+
+    public static final String NEW_LESS_THAN_STRING = "<";
+    public static final String NEW_AMPERSAND_STRING = "&";
+    public static final String NEW_GREATER_THAN_STRING = ">";
+    public static final String NEW_QUOTE_STRING = "\"";
+    public static final String NEW_APOSTROPHE_STRING = "'";
+    public static final String NEW_NON_ASCII_STRING = "¥";
 
     /**
      *  Deprecated Constructor

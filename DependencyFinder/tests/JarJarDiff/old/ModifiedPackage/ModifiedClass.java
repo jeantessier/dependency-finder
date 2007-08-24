@@ -4,12 +4,26 @@ package ModifiedPackage;
 public class ModifiedClass {
     public int removedField;
 
+    public static final String REMOVED_LESS_THAN_STRING = "<";
+    public static final String REMOVED_AMPERSAND_STRING = "&";
+    public static final String REMOVED_GREATER_THAN_STRING = ">";
+    public static final String REMOVED_QUOTE_STRING = "\"";
+    public static final String REMOVED_APOSTROPHE_STRING = "'";
+    public static final String REMOVED_NON_ASCII_STRING = "¥";
+
     public int deprecatedField;
 
     /** @level public */
     public int undocumentedField;
     
     public int modifiedField;
+
+    public static final char MODIFIED_LESS_THAN_STRING = '<';
+    public static final char MODIFIED_AMPERSAND_STRING = '&';
+    public static final char MODIFIED_GREATER_THAN_STRING = '>';
+    public static final char MODIFIED_QUOTE_STRING = '"';
+    public static final char MODIFIED_APOSTROPHE_STRING = '\'';
+    public static final char MODIFIED_NON_ASCII_STRING = '¥';
 
     /** @level private */
     public int documentedField;
