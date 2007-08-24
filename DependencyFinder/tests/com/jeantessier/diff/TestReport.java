@@ -35,10 +35,10 @@ package com.jeantessier.diff;
 import java.io.*;
 import java.util.*;
 import javax.xml.parsers.*;
-import javax.xml.transform.*;
+import javax.xml.xpath.*;
 
-import com.sun.org.apache.xpath.internal.*;
 import junit.framework.*;
+
 import org.apache.oro.text.perl.*;
 import org.w3c.dom.*;
 import org.xml.sax.*;
@@ -133,7 +133,7 @@ public class TestReport extends TestCase implements ErrorHandler {
         }
     }
 
-    public void testContent() throws IOException, ParserConfigurationException, SAXException, TransformerException {
+    public void testContent() throws Exception {
         PackageMapper oldPackages = new PackageMapper();
         ClassfileLoader oldJar = new AggregatingClassfileLoader();
         oldJar.addLoadListener(oldPackages);
@@ -160,15 +160,16 @@ public class TestReport extends TestCase implements ErrorHandler {
             fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
         }
 
-        InputSource in  = new InputSource(new StringReader(xmlDocument));
-        Document    doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(in);
+        XPath xPath = XPathFactory.newInstance().newXPath();
+        InputSource in = new InputSource(new StringReader(xmlDocument));
+        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(in);
 
-        assertNotNull("//differences", XPathAPI.selectSingleNode(doc, "//differences"));
-        assertNotNull("*/old[text()='old']", XPathAPI.selectSingleNode(doc, "*/old[text()='old']"));
-        assertEquals("*/modified-classes/class", 3, XPathAPI.selectNodeList(doc, "*/modified-classes/class").getLength());
+        assertNotNull("//differences", xPath.evaluate("//differences", doc));
+        assertNotNull("*/old[text()='old']", xPath.evaluate("*/old[text()='old']", doc));
+        assertEquals("*/modified-classes/class", 3, ((NodeList) xPath.evaluate("*/modified-classes/class", doc, XPathConstants.NODESET)).getLength());
     }
 
-    public void testIncompatibleContent() throws IOException, ParserConfigurationException, SAXException, TransformerException {
+    public void testIncompatibleContent() throws Exception {
         PackageMapper oldPackages = new PackageMapper();
         ClassfileLoader oldJar = new AggregatingClassfileLoader();
         oldJar.addLoadListener(oldPackages);
@@ -195,15 +196,16 @@ public class TestReport extends TestCase implements ErrorHandler {
             fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
         }
 
+        XPath xPath = XPathFactory.newInstance().newXPath();
         InputSource in  = new InputSource(new StringReader(xmlDocument));
-        Document    doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(in);
+        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(in);
 
-        assertNotNull("//differences", XPathAPI.selectSingleNode(doc, "//differences"));
-        assertNotNull("*/old[text()='old']", XPathAPI.selectSingleNode(doc, "*/old[text()='old']"));
-        assertEquals("*/modified-classes/class", 1, XPathAPI.selectNodeList(doc, "*/modified-classes/class").getLength());
-        assertNull("*/modified-classes/class/modified-declaration", XPathAPI.selectSingleNode(doc, "*/modified-classes/class/modified-declaration"));
-        assertEquals("*/modified-classes/class/modified-methods/feature", 1, XPathAPI.selectNodeList(doc, "*/modified-classes/class/modified-methods/feature").getLength());
-        assertNotNull("*/modified-classes/class/modified-methods/feature/modified-declaration", XPathAPI.selectSingleNode(doc, "*/modified-classes/class/modified-methods/feature/modified-declaration"));
+        assertNotNull("//differences", xPath.evaluate("//differences", doc));
+        assertNotNull("*/old[text()='old']", xPath.evaluate("*/old[text()='old']", doc));
+        assertEquals("*/modified-classes/class", 1, ((NodeList) xPath.evaluate("*/modified-classes/class", doc, XPathConstants.NODESET)).getLength());
+        assertEquals("*/modified-classes/class/modified-declaration", "", xPath.evaluate("*/modified-classes/class/modified-declaration", doc));
+        assertEquals("*/modified-classes/class/modified-methods/feature", 1, ((NodeList) xPath.evaluate("*/modified-classes/class/modified-methods/feature", doc, XPathConstants.NODESET)).getLength());
+        assertNotNull("*/modified-classes/class/modified-methods/feature/modified-declaration", xPath.evaluate("*/modified-classes/class/modified-methods/feature/modified-declaration", doc));
     }
 
     public void error(SAXParseException ex) {

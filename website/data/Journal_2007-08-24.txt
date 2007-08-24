@@ -11,3 +11,7 @@ the content is more human-readable if I don't.  So I split
 =ClassReport.escapeXMLCharactersInTagContent()= for tag content and
 =ClassReport.escapeXMLCharactersInAttributeValue()=, a more thorough version
 for attribute values.
+
+Replaced of dependency on =com.sun.org.apache.xpath.internal.XPathAPI=, which
+is internal and was giving me compiler warnings, with =javax.xml.xpath=.  The
+code is just as clear and this time uses supported interfaces.

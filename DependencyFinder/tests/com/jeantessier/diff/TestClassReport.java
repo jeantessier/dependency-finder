@@ -1,13 +1,10 @@
 package com.jeantessier.diff;
 
 import java.io.*;
-
 import javax.xml.parsers.*;
+import javax.xml.xpath.*;
 
 import org.xml.sax.*;
-import org.w3c.dom.*;
-
-import com.sun.org.apache.xpath.internal.*;
 
 import com.jeantessier.classreader.*;
 
@@ -234,13 +231,12 @@ public class TestClassReport extends TestDifferencesFactoryBase implements Error
             fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
         }
 
-        InputSource in  = new InputSource(new StringReader(xmlDocument));
-        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(in);
+        XPath xPath = XPathFactory.newInstance().newXPath();
+        InputSource in = new InputSource(new StringReader(xmlDocument));
 
         String xPathExpression = "*/" + nodeName + "[@name='" + nameAttribute + "']/@value";
-        Node node = XPathAPI.selectSingleNode(doc, xPathExpression);
-        assertNotNull("XPath \"" + xPathExpression + "\" not in \n" + xmlDocument, node);
-        assertEquals("XPath \"" + xPathExpression + "\" in \n" + xmlDocument, valueAttribute, node.getNodeValue());
+        String result = xPath.evaluate(xPathExpression, in);
+        assertEquals("XPath \"" + xPathExpression + "\" in \n" + xmlDocument, valueAttribute, result);
     }
 
     public void error(SAXParseException ex) {

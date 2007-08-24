@@ -35,15 +35,13 @@ package com.jeantessier.classreader;
 import java.io.*;
 import java.util.*;
 import javax.xml.parsers.*;
-import javax.xml.transform.*;
+import javax.xml.xpath.*;
 
 import junit.framework.*;
 
 import org.apache.oro.text.perl.*;
-import org.xml.sax.*;
 import org.w3c.dom.*;
-
-import com.sun.org.apache.xpath.internal.*;
+import org.xml.sax.*;
 
 public class TestXMLPrinter extends TestCase implements ErrorHandler {
     private static final String TEST_CLASS = "test";
@@ -182,22 +180,11 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         assertXPath(xmlDocument, "*/classfile", loader.getAllClassfiles().size());
     }
 
-    private void assertXPath(String xmlDocument, String xPathExpression, int i) throws SAXException, IOException, ParserConfigurationException, TransformerException {
-        try {
-            reader.parse(new InputSource(new StringReader(xmlDocument)));
-        } catch (SAXException ex) {
-            fail("Could not parse XML Document: " + ex.getMessage() + "\n" + xmlDocument);
-        } catch (IOException ex) {
-            fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
-        }
-
+    private void assertXPath(String xmlDocument, String xPathExpression, int i) throws Exception {
+        XPath xPath = XPathFactory.newInstance().newXPath();
         InputSource in = new InputSource(new StringReader(xmlDocument));
-        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(in);
 
-        assertEquals("DOCTYPE", SPECIFIC_DTD_PREFIX + "/classfile.dtd", doc.getDoctype().getSystemId());
-        assertEquals("DOCTYPE", "classfiles", doc.getDoctype().getName());
-
-        NodeList nodeList = XPathAPI.selectNodeList(doc, xPathExpression);
+        NodeList nodeList = (NodeList) xPath.evaluate(xPathExpression, in, XPathConstants.NODESET);
         assertEquals("XPath \"" + xPathExpression + "\" in \n" + xmlDocument, i, nodeList.getLength());
     }
 
