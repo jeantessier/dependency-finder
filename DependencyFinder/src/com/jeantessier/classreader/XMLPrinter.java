@@ -569,7 +569,7 @@ public class XMLPrinter extends Printer {
     }
 
     public void visitCustom_attribute(Custom_attribute attribute) {
-        indent().append("<custom-attribute name=\"").append(attribute.getName()).append("\">").append(Hex.toString(attribute.getInfo())).append("</custom-attribute>").eol();
+        indent().append("<custom-attribute name=\"").append(escapeXMLCharacters(attribute.getName())).append("\">").append(Hex.toString(attribute.getInfo())).append("</custom-attribute>").eol();
     }
 
     public void visitInstruction(Instruction instruction) {

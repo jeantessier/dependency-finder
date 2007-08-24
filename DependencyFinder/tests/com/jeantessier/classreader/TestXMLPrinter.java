@@ -35,11 +35,15 @@ package com.jeantessier.classreader;
 import java.io.*;
 import java.util.*;
 import javax.xml.parsers.*;
+import javax.xml.transform.*;
 
 import junit.framework.*;
 
 import org.apache.oro.text.perl.*;
 import org.xml.sax.*;
+import org.w3c.dom.*;
+
+import com.sun.org.apache.xpath.internal.*;
 
 public class TestXMLPrinter extends TestCase implements ErrorHandler {
     private static final String TEST_CLASS = "test";
@@ -126,7 +130,7 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         }
     }
 
-    public void testSpecificEncoding() {
+    public void testSpecificEncoding() throws Exception {
         buffer = new StringWriter();
         printer = new XMLPrinter(new PrintWriter(buffer), SPECIFIC_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
 
@@ -144,67 +148,41 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         }
     }
 
-    public void testSingleClassfile() {
+    public void testSingleClassfile() throws Exception {
         loader.load(Collections.singleton(TEST_FILENAME));
 
         loader.getClassfile(TEST_CLASS).accept(printer);
 
         String xmlDocument = buffer.toString();
-        assertTrue(xmlDocument + "Missing DOCTYPE", perl.match("/DOCTYPE (\\w+) SYSTEM/", xmlDocument));
-        assertEquals("DOCTYPE", "classfiles", perl.group(1));
-
-        try {
-            reader.parse(new InputSource(new StringReader(xmlDocument)));
-        } catch (SAXException ex) {
-            fail("Could not parse XML Document: " + ex.getMessage() + "\n" + xmlDocument);
-        } catch (IOException ex) {
-            fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
-        }
+        assertXPath(xmlDocument, "classfile[this-class='" + TEST_CLASS + "']", 1);
     }
-    
-    public void testZeroClassfile() {
+
+    public void testZeroClassfile() throws Exception {
         printer.visitClassfiles(Collections.EMPTY_LIST);
 
         String xmlDocument = buffer.toString();
-        assertTrue(xmlDocument + "Missing DOCTYPE", perl.match("/DOCTYPE (\\w+) SYSTEM/", xmlDocument));
-        assertEquals("DOCTYPE", "classfiles", perl.group(1));
-
-        try {
-            reader.parse(new InputSource(new StringReader(xmlDocument)));
-        } catch (SAXException ex) {
-            fail("Could not parse XML Document: " + ex.getMessage() + "\n" + xmlDocument);
-        } catch (IOException ex) {
-            fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
-        }
+        assertXPath(xmlDocument, "*/classfile[this-class='" + TEST_CLASS + "']", 0);
     }
-    
-    public void testOneClassfile() {
+
+    public void testOneClassfile() throws Exception {
         loader.load(Collections.singleton(TEST_FILENAME));
 
         printer.visitClassfiles(loader.getAllClassfiles());
 
         String xmlDocument = buffer.toString();
-        assertTrue(xmlDocument + "Missing DOCTYPE", perl.match("/DOCTYPE (\\w+) SYSTEM/", xmlDocument));
-        assertEquals("DOCTYPE", "classfiles", perl.group(1));
-
-        try {
-            reader.parse(new InputSource(new StringReader(xmlDocument)));
-        } catch (SAXException ex) {
-            fail("Could not parse XML Document: " + ex.getMessage() + "\n" + xmlDocument);
-        } catch (IOException ex) {
-            fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
-        }
+        assertXPath(xmlDocument, "*/classfile", loader.getAllClassfiles().size());
     }
 
-    public void testMultipleClassfiles() {
+    public void testMultipleClassfiles() throws Exception {
         loader.load(Collections.singleton(TEST_DIRECTORY));
 
         printer.visitClassfiles(loader.getAllClassfiles());
 
         String xmlDocument = buffer.toString();
-        assertTrue(xmlDocument + "Missing DOCTYPE", perl.match("/DOCTYPE (\\w+) SYSTEM/", xmlDocument));
-        assertEquals("DOCTYPE", "classfiles", perl.group(1));
-        
+        assertXPath(xmlDocument, "*/classfile", loader.getAllClassfiles().size());
+    }
+
+    private void assertXPath(String xmlDocument, String xPathExpression, int i) throws SAXException, IOException, ParserConfigurationException, TransformerException {
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));
         } catch (SAXException ex) {
@@ -212,24 +190,15 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         } catch (IOException ex) {
             fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
         }
-    }
 
-    public void testXMLEncoding() throws Exception {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        DataOutputStream out = new DataOutputStream(baos);
-        out.writeUTF("<");
-        out.close();
+        InputSource in = new InputSource(new StringReader(xmlDocument));
+        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(in);
 
-        DataInputStream in = new DataInputStream(new ByteArrayInputStream(baos.toByteArray()));
-        UTF8_info utf8_info = new UTF8_info(null, in);
+        assertEquals("DOCTYPE", SPECIFIC_DTD_PREFIX + "/classfile.dtd", doc.getDoctype().getSystemId());
+        assertEquals("DOCTYPE", "classfiles", doc.getDoctype().getName());
 
-        printer.visitUTF8_info(utf8_info);
-
-        BufferedReader result = new BufferedReader(new StringReader(buffer.toString()));
-        for (int i=0; i < 4; i++) {
-            result.readLine();
-        }
-        assertEquals("<utf8-info id=\"0\">&lt;</utf8-info>", result.readLine());
+        NodeList nodeList = XPathAPI.selectNodeList(doc, xPathExpression);
+        assertEquals("XPath \"" + xPathExpression + "\" in \n" + xmlDocument, i, nodeList.getLength());
     }
 
     public void error(SAXParseException ex) {
