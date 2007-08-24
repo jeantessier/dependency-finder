@@ -27,5 +27,5 @@ expressions to test the contents of the generated XML.  Since it already loaded
 and processed the test data folder for =JarJarDiff=, it indirectly tests the
 proper escaping of special characters.  I find that I don't need to encode '"'
 or ''' since all string values are in the body of tags and never in attributes.
-The only exception is the name of custom attributes and I doubt these will
+The only exception is the name of custom attributes and I doubt these will use
 quotes or apostrophes.
