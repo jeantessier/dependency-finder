@@ -52,7 +52,9 @@ public class MetricsGathererFixture extends DoFixture {
     }
 
     public void loadClassesFrom(String classpath) {
-        loader = new AggregatingClassfileLoader();
+        if (loader == null) {
+            loader = new AggregatingClassfileLoader();
+        }
         loader.load(Collections.singleton(classpath));
     }
 
@@ -91,7 +93,7 @@ public class MetricsGathererFixture extends DoFixture {
 
         for (String name : metrics.getMeasurementNames()) {
             Measurement measurement = metrics.getMeasurement(name);
-            results.add(new SingleMeasurement(measurement.getShortName(), measurement.getLongName(), measurement.getValue().doubleValue()));
+            results.add(new SingleMeasurement(measurement.getShortName(), measurement.getLongName(), measurement.getValue().doubleValue(), measurement.isInRange()));
         }
 
         return results;

@@ -1,0 +1,15 @@
+Someone was asking for a tool to track public methods that are not used outside
+their package.  They could use such a tool to narrow down the exposed interface
+of a library.  I started thinking how I could do this using Dependency Finder.
+One problem is that most tools don't record the access level of programming
+elements.  =JarJarDiff= does it, but it doesn't know about dependencies.
+=OOMetrics= keeps a count by access level, but does not keep track of the acces
+level of individual methods.  One possibility would be to get a list of public
+and protected methods, maybe with =ListSymbols=, and pass them to =OOMetrics=
+somehow.  The =-scope-includes-list= switch to =OOMetrics= controls which
+dependencies it tracks, not which metrics are reported.  With the
+=-show-empty-metrics= switch and a
+=&lt;lower-threshold&gt;1&lt;/lower-threshold&gt;= in the
+configuration for the =IEPM= measurement, any method without any extra-package
+dependency would stand out, but right now that includes private and package
+methods.

@@ -36,10 +36,12 @@ public class SingleMeasurement extends Object {
     public final String shortName;
     public final String longName;
     public final double value;
+    public final boolean isInRange;
 
-    public SingleMeasurement(String shortName, String longName, double value) {
+    public SingleMeasurement(String shortName, String longName, double value, boolean isInRange) {
         this.shortName = shortName;
         this.longName = longName;
         this.value = value;
+        this.isInRange = isInRange;
     }
 }
