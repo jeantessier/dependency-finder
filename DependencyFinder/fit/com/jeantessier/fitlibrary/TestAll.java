@@ -47,6 +47,6 @@ public class TestAll extends TestCase {
         Report report = runner.run(FIT_TESTS, FIT_REPORTS);
         String counts = report.getCounts();
         int pos = counts.indexOf(RIGHT_MARKER) + RIGHT_MARKER.length();
-        assertEquals("errors, see " + FIT_TESTS + File.separator + FolderRunner.INDEX_HTML, "0 wrong, 0 ignored, 0 exceptions", counts.substring(pos));
+        assertEquals("errors, see " + FIT_REPORTS + File.separator + FolderRunner.INDEX_HTML, "0 wrong, 0 ignored, 0 exceptions", counts.substring(pos));
     }
 }
