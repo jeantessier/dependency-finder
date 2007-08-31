@@ -71,47 +71,47 @@ application to keep the data in memory and play with it a while.
 
 ---+++ Java Application on Windows
 
-Dependency Finder comes as a ZIP file that includes everything you need
-to run it.  The file is named =DependencyFinder-_&lt;version&gt;_.bin.zip=.
+Dependency Finder comes as a ZIP file that includes everything you need to run
+it.  The file is named =DependencyFinder-<VERSION />.bin.zip=.
 
 ---++++ Step 1: Java Virtual Machine
 
-You need to have a Java Virtual Machine installed.  You can get one for
-free from [[http://java.sun.com/][Sun Microsytems]].  Make sure you define
-the =JAVA_HOME= environment variable.
+You need to have a Java Virtual Machine installed.  You can get one for free
+from [[http://java.sun.com/][Sun Microsytems]].  Make sure you define the
+=JAVA_HOME= environment variable.
 
-For example, if you installed JDK 1.4.2 in =C:\jdk1.4.2=:
+For example, if you installed JDK 1.5.0 in =C:\jdk1.5.0=:
 
-    SET JAVA_HOME=C:\jdk1.4.2
+    SET JAVA_HOME=C:\jdk1.5.0
 
-You can either add this line to your =AUTOEXEC.BAT= file, or on Windows
-NT/XP, use Start | Settings | Control Panel | System and select the
-Environment tab to create and edit variables.
+You can either add this line to your =AUTOEXEC.BAT= file, or on Windows NT/XP,
+use Start | Settings | Control Panel | System and select the Environment tab to
+create and edit variables.
 
 ---++++ Step 2: Deploy Dependency Finder
 
-Extract the ZIP file to some directory you like.  The extraction will
-create a subdirectory named "DependencyFinder" that is the root of the
+Extract the ZIP file to some directory you like.  The extraction will create a
+subdirectory named "DependencyFinder-<VERSION />" that is the root of the
 package.
 
-For example, if you extract it to =C:\=, you will endup with a
-directory called =C:\DependencyFinder\=.
+For example, if you extract it to =C:\=, you will endup with a directory called
+=C:\DependencyFinder-<VERSION />\=.
 
 ---++++ Step 3: Environment Variables
 
 <i>This is only required on Win95/98.  Under Windows NT/XP, the scripts are
 smart enough to find out on their own where you installed Dependency Finder.</i>
 
-Create an environment variable named =DEPENDENCYFINDER_HOME= and have it
-point to the directory where you installed Dependency Finder.
+Create an environment variable named =DEPENDENCYFINDER_HOME= and have it point
+to the directory where you installed Dependency Finder.
 
 For example, if you extracted the ZIP file in =C:\=
 
-    SET DEPENDENCYFINDER_HOME=C:\DependencyFinder
+    SET DEPENDENCYFINDER_HOME=C:\DependencyFinder-<VERSION />
 
 You can either enter this line in your =AUTOEXEC.BAT= file, or on Windows NT/XP
-use Start | Settings | Control Panel | System and select the Environment
-tab to create and edit variables.
+use Start | Settings | Control Panel | System and select the Environment tab to
+create and edit variables.
 
 ---++++ Step 4: =PATH=
 
@@ -119,7 +119,7 @@ Add the "bin" subdirectory to your =PATH= variable.
 
 For example, if you extracted the ZIP file in =C:\=
 
-    SET PATH=C:\DependencyFinder\bin;%PATH%
+    SET PATH=C:\DependencyFinder-<VERSION />\bin;%PATH%
 
 ---++++ Step 5: Reboot
 
@@ -135,8 +135,8 @@ If the any of the tools run out of memory, try setting the
 
     SET DEPENDENCYFINDER_OPTS=-Xmx128m
 
-If you get the message "Out of environment space" while running the scripts
-on a Windows machine, you will need to add the following line to your
+If you get the message "Out of environment space" while running the scripts on
+a Windows machine, you will need to add the following line to your
 =C:\CONFIG.SYS= file and then reboot.
 
     shell=command.com /e:8192 /p
@@ -151,20 +151,22 @@ for more details.
 ---+++ Java Application on Unix
 
 Dependency Finder comes as one of two compressed TAR file that includes
-everything you need to run it.  The files are named
-=DependencyFinder-_&lt;version&gt;_.bin.tar.gz= and
-=DependencyFinder-_&lt;version&gt;_.bin.tar.bz2=.  Their contents are identical
-except of the compression algorithm used.
+everything you need to run it.  The files are:
+
+    * =DependencyFinder-<VERSION />.bin.tar.gz=
+    * =DependencyFinder-<VERSION />.bin.tar.bz2=
+
+Their contents are identical except of the compression algorithm used.
 
 Tar files in the distribution contain long file names, and may require gnu tar
 to do the extraction.
 
 ---++++ Step 1: Java Virtual Machine
 
-You need to have a Java Virtual Machine installed.  You can get one for
-free from Linux or Solaris from [[http://java.sun.com/][Sun Microsytems]].
-Make sure you define the =JAVA_HOME= environment variable.  There are
-distributions of Java for most operating systems, including MacOS X.
+You need to have a Java Virtual Machine installed.  You can get one for free
+from Linux or Solaris from [[http://java.sun.com/][Sun Microsytems]].  Make
+sure you define the =JAVA_HOME= environment variable.  There are distributions
+of Java for most operating systems, including MacOS X.
 
 Suppose you installed JDK 1.3 in =/usr/java=.
 
@@ -187,26 +189,25 @@ You can put this line in your =.cshrc= file.
 
 ---++++ Step 2: Deploy Dependency Finder
 
-Extract the TAR file to some directory you like.  The extraction will
-create a subdirectory named "DependencyFinder" that is the root of the
-package.
+Extract the TAR file to some directory you like.  The extraction will create a
+subdirectory named "DependencyFinder" that is the root of the package.
 
-    $ tar xvzf DependencyFinder-_&lt;version&gt;_.tar.gz
+    $ tar xvzf DependencyFinder-<VERSION />.bin.tar.gz
 
 or
 
-    $ bunzip2 DependencyFinder-_&lt;version&gt;_.tar.bz2 | tar xvf -
+    $ bunzip2 DependencyFinder-<VERSION />.bin.tar.bz2 | tar xvf -
 
-For example, if you extract it to =$HOME=, you will endup with a
-directory called =$HOME/DependencyFinder/=.
+For example, if you extract it to =$HOME=, you will endup with a directory
+called =$HOME/DependencyFinder-<VERSION />=.
 
 ---++++ Step 3: Environment Variables
 
 <i>This is seldom required.  The scripts are smart enough to find out on their
 own where you installed Dependency Finder.</i>
 
-Create an environment variable named =DEPENDENCYFINDER_HOME= and have it
-point to the directory where you installed Dependency Finder.
+Create an environment variable named =DEPENDENCYFINDER_HOME= and have it point
+to the directory where you installed Dependency Finder.
 
 If the any of the tools run out of memory, try modifying the
 =DEPENDENCYFINDER_OPTS= environment variable to allocate more memory to the JVM.
@@ -215,21 +216,21 @@ Suppose you extracted the TAR file in =$HOME=.
 
 For sh:
 
-    DEPENDENCYFINDER_HOME=$HOME/DependencyFinder
+    DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-<VERSION />
     export DEPENDENCYFINDER_HOME
     DEPENDENCYFINDER_OPTS=-Xmx128m
     export DEPENDENCYFINDER_OPTS
 
 For bash:
 
-    export DEPENDENCYFINDER_HOME=$HOME/DependencyFinder
+    export DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-<VERSION />
     export DEPENDENCYFINDER_OPTS=-Xmx128m
 
 You can put these lines in your =.profile= file.
 
 For csh or tcsh:
 
-    setenv DEPENDENCYFINDER_HOME $HOME/DependencyFinder
+    setenv DEPENDENCYFINDER_HOME $HOME/DependencyFinder-<VERSION />
     setenv DEPENDENCYFINDER_OPTS -Xmx128m
 
 You can put these lines in your =.cshrc= file.
@@ -249,7 +250,7 @@ For bash:
 
     export PATH=$DEPENDENCYFINDER_HOME/bin:$PATH
 
-You can put these lines in your =.profile= file.
+You can put these lines in your =.profile= or =.bashrc= file.
 
 For csh or tcsh:
 
@@ -259,16 +260,16 @@ You can put this line in your =.cshrc= file.
 
 ---+++ Web Application
 
-Dependency Finder also comes as a web application that you can easily deploy
-in just about any J2EE servlet container.  Most containers have their own way
-to deploy and manage web applications, so you will need to adjust these
+Dependency Finder also comes as a web application that you can easily deploy in
+just about any J2EE servlet container.  Most containers have their own way to
+deploy and manage web applications, so you will need to adjust these
 instructions to your particular circumstances.
 
 ---++++ Step 1: Deploy WAR File
 
-Use your favorite servlet container to deploy the WAR file.  Most of them
-have tools for deploying WAR files.  For some of them, it can be as simple
-as copying the WAR file to a specific directory.
+Use your favorite servlet container to deploy the WAR file.  Most of them have
+tools for deploying WAR files.  For some of them, it can be as simple as
+copying the WAR file to a specific directory.
 
 For instance, using Tomcat on Windows, you can do the following:
 
@@ -276,7 +277,7 @@ For instance, using Tomcat on Windows, you can do the following:
 
     C:\>%CATALINA_HOME%\bin\shutdown
 
-    C:\>copy DependencyFinder.war %CATALINA_HOME%\webapps
+    C:\>copy DependencyFinder-<VERSION />.war %CATALINA_HOME%\webapps
 
     C:\>%CATALINA_HOME%\bin\startup
 
@@ -298,7 +299,7 @@ a copy of the compiled Java code on the server running the web application.
 This is often impractical, so you can generate the graph on your build machine
 instead and transfer only the resulting XML document.
 
-There are four context parameters that you can adjust:
+There are six context parameters that you can adjust:
 
 <blockquote>
 <table border="0"
@@ -308,9 +309,9 @@ There are four context parameters that you can adjust:
             *=name=*
         </td>
         <td>
-            Used in the JSPs to tell the users what that are looking at.
-            Put the name of the application that you are extracting from
-            here, it will be shown in titles by the JSPs.
+            Used in the JSPs to tell the users what that are looking at.  Put
+            the name of the application that you are extracting from here, it
+            will be shown in titles by the JSPs.
         </td>
     </tr>
     <tr>
@@ -320,9 +321,9 @@ There are four context parameters that you can adjust:
         <td>
             Use this variable to tell Dependency Finder's =extract.jsp= where
             to locate classes from which to extract a dependency graph.  You
-            can separate multiple locations by using commas.  Each location
-            can either be a JAR file, a ZIP file, a =.class= file, or a
-            directory that will be recursively searched for =.class= files.
+            can separate multiple locations by using commas.  Each location can
+            either be a JAR file, a ZIP file, a =.class= file, or a directory
+            that will be recursively searched for =.class= files.
         </td>
     </tr>
     <tr>
@@ -354,8 +355,8 @@ There are four context parameters that you can adjust:
         <td>
             Use this variable to tell Dependency Finder's =load.jsp= where to
             locate files which contain extracted dependency graphs.  You can
-            separate multiple locations by using commas.  Each location
-            should contain an XML document, such as the ones produced by
+            separate multiple locations by using commas.  Each location should
+            contain an XML document, such as the ones produced by
             =DependencyExtractor=.  If you specify more than one file, their
             contents will be merged together.
         </td>
@@ -366,23 +367,23 @@ There are four context parameters that you can adjust:
         </td>
         <td>
             Optional.  Tells Dependency Finder whether to _minimize_ or
-            _maximize_ the resulting graph, or just leave it alone (_raw_,
-            the default value).  See below for the implications of
-            minimizing or maximizing a graph.
+            _maximize_ the resulting graph, or just leave it alone (_raw_, the
+            default value).  See below for the implications of minimizing or
+            maximizing a graph.
         </td>
     </tr>
 </table>
 </blockquote>
 
-Under some servlet containers, for example Tomcat, you will need to restart
-the servlet container for the changes to take effect.  Other application
-servers may allow you to simply restart the web application itself.
+Under some servlet containers, for example Tomcat, you will need to restart the
+servlet container for the changes to take effect.  Other application servers
+may allow you to simply restart the web application itself.
 
 <div class="highlight">
 
     C:\>%CATALINA_HOME%\bin\shutdown
 
-    C:\>notepad %CATALINA_HOME%\webapps\DependencyFinder\WEB-INF\web.xml
+    C:\>notepad %CATALINA_HOME%\webapps\DependencyFinder-<VERSION />\WEB-INF\web.xml
 
     C:\>%CATALINA_HOME%\bin\startup
 

@@ -164,15 +164,15 @@ END {
     
     $TOC =~ s/=\b([^=]*)\b=/<code>\1<\/code>/g;
 
-    $TEXT =~ s/<TOC \/>/$TOC/;
+    $TEXT =~ s/<TOC \/>/$TOC/g;
 
     $SHORT_TOC .= "</ul>\n";
 
-    $TEXT =~ s/<SHORT-TOC \/>/$SHORT_TOC/;
+    $TEXT =~ s/<SHORT-TOC \/>/$SHORT_TOC/g;
 
-    $TEXT =~ s/<TITLE \/>/$TITLE/;
+    $TEXT =~ s/<TITLE \/>/$TITLE/g;
 
-    $TEXT =~ s/<VERSION \/>/$ENV{"TXT2HTML_VERSION"}/;
+    $TEXT =~ s/<VERSION \/>/$ENV{"TXT2HTML_VERSION"}/g;
 
     print $TEXT;
 }

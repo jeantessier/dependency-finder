@@ -165,7 +165,7 @@
 
     <target name="src.zip" depends="init">
         <zip zipfile="${srcArchive}.zip">
-            <zipfileset dir="." prefix="${ant.project.name}">
+            <zipfileset dir="." prefix="${ant.project.name}-${release}">
                 <patternset>
                     <include name="build.xml"/>
                     <include name="license.txt"/>
@@ -185,7 +185,7 @@
 
     <target name="src.tar.gz" depends="init">
         <tar destfile="${srcArchive}.tar.gz" compression="gzip">
-            <tarfileset dir="." prefix="${ant.project.name}">
+            <tarfileset dir="." prefix="${ant.project.name}-${release}">
                 <patternset>
                     <include name="build.xml"/>
                     <include name="license.txt"/>
@@ -205,7 +205,7 @@
 
     <target name="src.tar.bz2" depends="init">
         <tar destfile="${srcArchive}.tar.bz2" compression="bzip2">
-            <tarfileset dir="." prefix="${ant.project.name}">
+            <tarfileset dir="." prefix="${ant.project.name}-${release}">
                 <patternset>
                     <include name="build.xml"/>
                     <include name="license.txt"/>
@@ -227,7 +227,7 @@
 
     <target name="bin.zip" depends="jar">
         <zip zipfile="${binArchive}.zip">
-            <zipfileset dir="." prefix="${ant.project.name}">
+            <zipfileset dir="." prefix="${ant.project.name}-${release}">
                 <patternset>
                     <include name="license.txt"/>
                     <include name="readme.txt"/>
@@ -239,7 +239,7 @@
                     <exclude name="${docsDir}/**/*.txt"/>
                 </patternset>
             </zipfileset>
-            <zipfileset dir="${srcDir}" prefix="${ant.project.name}/${classesDir}">
+            <zipfileset dir="${srcDir}" prefix="${ant.project.name}-${release}/${classesDir}">
                 <patternset>
                     <include name="**/*.properties"/>
                 </patternset>
@@ -249,7 +249,7 @@
 
     <target name="bin.tar.gz" depends="jar">
         <tar destfile="${binArchive}.tar.gz" compression="gzip">
-            <tarfileset dir="." prefix="${ant.project.name}">
+            <tarfileset dir="." prefix="${ant.project.name}-${release}">
                 <patternset>
                     <include name="license.txt"/>
                     <include name="readme.txt"/>
@@ -260,13 +260,13 @@
                     <exclude name="${docsDir}/**/*.txt"/>
                 </patternset>
             </tarfileset>
-            <tarfileset dir="." prefix="${ant.project.name}" mode="755">
+            <tarfileset dir="." prefix="${ant.project.name}-${release}" mode="755">
                 <patternset>
                     <include name="${binFiles}"/>
                     <exclude name="${binDir}/**/*.*"/>
                 </patternset>
             </tarfileset>
-            <tarfileset dir="${srcDir}" prefix="${ant.project.name}/${classesDir}">
+            <tarfileset dir="${srcDir}" prefix="${ant.project.name}-${release}/${classesDir}">
                 <patternset>
                     <include name="**/*.properties"/>
                 </patternset>
@@ -276,7 +276,7 @@
 
     <target name="bin.tar.bz2" depends="jar">
         <tar destfile="${binArchive}.tar.bz2" compression="bzip2">
-            <tarfileset dir="." prefix="${ant.project.name}">
+            <tarfileset dir="." prefix="${ant.project.name}-${release}">
                 <patternset>
                     <include name="license.txt"/>
                     <include name="readme.txt"/>
@@ -287,13 +287,13 @@
                     <exclude name="${docsDir}/**/*.txt"/>
                 </patternset>
             </tarfileset>
-            <tarfileset dir="." prefix="${ant.project.name}" mode="755">
+            <tarfileset dir="." prefix="${ant.project.name}-${release}" mode="755">
                 <patternset>
                     <include name="${binFiles}"/>
                     <exclude name="${binDir}/**/*.*"/>
                 </patternset>
             </tarfileset>
-            <tarfileset dir="${srcDir}" prefix="${ant.project.name}/${classesDir}">
+            <tarfileset dir="${srcDir}" prefix="${ant.project.name}-${release}/${classesDir}">
                 <patternset>
                     <include name="**/*.properties"/>
                 </patternset>
