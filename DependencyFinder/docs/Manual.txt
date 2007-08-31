@@ -191,11 +191,11 @@ Extract the TAR file to some directory you like.  The extraction will
 create a subdirectory named "DependencyFinder" that is the root of the
 package.
 
-    $ tar xvzf DependencyFinder-_&lt;version&t;_.tar.gz
+    $ tar xvzf DependencyFinder-_&lt;version&gt;_.tar.gz
 
 or
 
-    $ bunzip2 DependencyFinder-_&lt;version&t;_.tar.bz2 | tar xvf -
+    $ bunzip2 DependencyFinder-_&lt;version&gt;_.tar.bz2 | tar xvf -
 
 For example, if you extract it to =$HOME=, you will endup with a
 directory called =$HOME/DependencyFinder/=.
@@ -4247,8 +4247,7 @@ depends on the switches on the command-line.
 
 <div class="highlight">
 
-    C:\>OOMetrics -all
-                  -txt
+    C:\>OOMetrics -txt
                   classes
                   %JAVA_HOME%\JRE\lib\rt.jar
 
@@ -4299,7 +4298,6 @@ and ends with the "=.csv=" suffix.
 <div class="highlight">
 
     C:\>OOMetrics -out df
-                  -all
                   -txt
                   %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar
 

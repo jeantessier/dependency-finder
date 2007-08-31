@@ -1,0 +1,2 @@
+Fixed the documentation for =OOMetrics= to remove references to the old =-all=
+switch in the CLI.
