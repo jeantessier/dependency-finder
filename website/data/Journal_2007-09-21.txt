@@ -1,0 +1,3 @@
+Found a bug in the web app where elements with =[= or =]= in them, like
+=main(String[])= for example, are not escaped correctly when creating likes to
+them to refine queries and generate exceptions.
