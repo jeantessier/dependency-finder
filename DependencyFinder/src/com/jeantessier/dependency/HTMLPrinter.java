@@ -59,7 +59,7 @@ public class HTMLPrinter extends TextPrinter {
         String fullName = node.getName();
 
         Object[] urlArgument = new Object[1];
-        urlArgument[0] = urlEscapeName(fullName);
+        urlArgument[0] = perlEscapeName(fullName);
         String url = urlFormat.format(urlArgument);
 
         StringBuffer link = new StringBuffer("<a");
@@ -90,7 +90,7 @@ public class HTMLPrinter extends TextPrinter {
             Node dependency = entry.getKey();
 
             String rawName = dependency.getName();
-            urlArgument[0] = urlEscapeName(rawName);
+            urlArgument[0] = perlEscapeName(rawName);
             String url = urlFormat.format(urlArgument);
 
             String symbol;
@@ -136,7 +136,7 @@ public class HTMLPrinter extends TextPrinter {
         }
     }
 
-    private String urlEscapeName(String name) {
+    private String perlEscapeName(String name) {
         String result = name;
 
         result = perl().substitute("s/\\(/\\\\(/g", result);
