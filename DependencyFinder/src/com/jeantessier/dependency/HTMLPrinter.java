@@ -37,6 +37,10 @@ import java.util.*;
 import java.text.*;
 
 public class HTMLPrinter extends TextPrinter {
+    private static final String FROM = "&lt;--";
+    private static final String TO = "--&gt;";
+    private static final String BIDIRECTIONAL = "&lt;-&gt;";
+
     private MessageFormat urlFormat;
 
     public HTMLPrinter(PrintWriter out, MessageFormat format) {
@@ -54,13 +58,8 @@ public class HTMLPrinter extends TextPrinter {
     protected Printer printScopeNodeName(Node node, String name) {
         String fullName = node.getName();
 
-        String escapedName = fullName;
-        escapedName = perl().substitute("s/\\(/\\\\(/g", escapedName);
-        escapedName = perl().substitute("s/\\)/\\\\)/g", escapedName);
-        escapedName = perl().substitute("s/\\$/\\\\\\$/g", escapedName);
-
         Object[] urlArgument = new Object[1];
-        urlArgument[0] = escapedName;
+        urlArgument[0] = urlEscapeName(fullName);
         String url = urlFormat.format(urlArgument);
 
         StringBuffer link = new StringBuffer("<a");
@@ -91,23 +90,19 @@ public class HTMLPrinter extends TextPrinter {
             Node dependency = entry.getKey();
 
             String rawName = dependency.getName();
-            String escapedName = rawName;
-            escapedName = perl().substitute("s/\\(/\\\\(/g", escapedName);
-            escapedName = perl().substitute("s/\\)/\\\\)/g", escapedName);
-            escapedName = perl().substitute("s/\\$/\\\\\\$/g", escapedName);
-            urlArgument[0] = escapedName;
+            urlArgument[0] = urlEscapeName(rawName);
             String url = urlFormat.format(urlArgument);
 
             String symbol;
             String idConjunction;
             if (entry.getValue() < 0) {
-                symbol = "&lt;--";
+                symbol = FROM;
                 idConjunction = "_from_";
             } else if (entry.getValue() > 0) {
-                symbol = "--&gt;";
+                symbol = TO;
                 idConjunction = "_to_";
             } else {
-                symbol = "&lt;-&gt;";
+                symbol = BIDIRECTIONAL;
                 idConjunction = "_bidirectional_";
             }
 
@@ -139,5 +134,15 @@ public class HTMLPrinter extends TextPrinter {
         if (isShowInferred() && !node.isConfirmed()) {
             append("</span>");
         }
+    }
+
+    private String urlEscapeName(String name) {
+        String result = name;
+
+        result = perl().substitute("s/\\(/\\\\(/g", result);
+        result = perl().substitute("s/\\)/\\\\)/g", result);
+        result = perl().substitute("s/\\$/\\\\\\$/g", result);
+
+        return result;
     }
 }
