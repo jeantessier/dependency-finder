@@ -36,6 +36,7 @@ import java.util.*;
 
 import org.apache.log4j.*;
 import org.apache.oro.text.perl.*;
+import org.apache.oro.text.*;
 
 import com.jeantessier.text.*;
 
@@ -215,12 +216,22 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
 
         i = globalRegularExpressions.iterator();
         while (!found && i.hasNext()) {
-            found = perl.match(i.next(), name);
+            String regex = i.next();
+            try {
+                found = perl.match(regex, name);
+            } catch (MalformedCachePatternException ex) {
+                throw new MatchException(regex, ex);
+            }
         }
 
         i = regularExpressions.iterator();
         while (!found && i.hasNext()) {
-            found = perl.match(i.next(), name);
+            String regex = i.next();
+            try {
+                found = perl.match(regex, name);
+            } catch (MalformedCachePatternException ex) {
+                throw new MatchException(regex, ex);
+            }
         }
 
         return found;

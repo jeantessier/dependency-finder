@@ -36,8 +36,10 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
-import com.jeantessier.metrics.*;
+import org.apache.oro.text.*;
 import org.apache.oro.text.perl.*;
+
+import com.jeantessier.metrics.*;
 
 public class FilterActionListener implements Runnable, ActionListener {
     private static final Perl5Util perl = new Perl5Util();
@@ -65,7 +67,7 @@ public class FilterActionListener implements Runnable, ActionListener {
             
             model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
             model.setTitle("OO Metrics - Extractor");
-        } catch (MalformedPerl5PatternException ex) {
+        } catch (MalformedCachePatternException ex) {
             JOptionPane.showMessageDialog(model, ex.getMessage(), "Malformed pattern", JOptionPane.ERROR_MESSAGE);
             model.getStatusLine().showInfo("Ready.");
         } catch (Exception ex) {

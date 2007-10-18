@@ -34,10 +34,9 @@ package com.jeantessier.dependencyfinder.gui;
 
 import java.awt.event.*;
 import java.util.*;
-
 import javax.swing.*;
 
-import org.apache.oro.text.perl.*;
+import com.jeantessier.dependency.*;
 
 public class ClosureQueryAction extends AbstractAction implements Runnable {
     private DependencyFinder model = null;
@@ -66,8 +65,8 @@ public class ClosureQueryAction extends AbstractAction implements Runnable {
             Date stop = new Date();
             
             model.getStatusLine().showInfo("Closure query done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
-        } catch (MalformedPerl5PatternException ex) {
-            JOptionPane.showMessageDialog(model, ex.getMessage(), "Malformed pattern", JOptionPane.ERROR_MESSAGE);
+        } catch (MatchException ex) {
+            JOptionPane.showMessageDialog(model, ex.getMessage() + ": " + ex.getCause().getMessage(), "Malformed pattern", JOptionPane.ERROR_MESSAGE);
             model.getStatusLine().showInfo("Ready.");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(model, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

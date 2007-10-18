@@ -1,0 +1,9 @@
+More work on
+[[http://sourceforge.net/tracker/index.php?func=detail&aid=1800017&group_id=43305&atid=435884][bug 1800017]].
+
+In the process, I made the error reporting for bad regular expressions a little
+more user-friendly.  I tried using a checked exception at first, but the change
+quickly spread everywhere.  The exception class was in
+=com.jeantessier.dependency= and as a result, every package suddenly depended
+on it, including =com.jeantessier.classreader=, creating a circular dependency.
+So I went back to an unchecked exception for the time being.

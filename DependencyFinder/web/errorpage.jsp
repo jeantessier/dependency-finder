@@ -1,5 +1,6 @@
 <%@ page isErrorPage="true" %>
 <%@ page import="java.io.*" %>
+<%@ page import="com.jeantessier.dependency.*" %>
 
 <!--
     Copyright (c) 2001-2007, Jean Tessier
@@ -47,9 +48,22 @@
 
 <h1>Error:</h1>
 
+<% if (exception instanceof MatchException) { %>
+
+<p>Problem with regular expression</p>
+
+<blockquote>
+<p><b><code><%= exception.getMessage() %></code></b></p>
+<p><%= exception.getCause().getMessage() %></p>
+</blockquote>
+
+<% } else { %>
+
 <pre>
 <% exception.printStackTrace(new PrintWriter(out)); %>
 </pre>
+
+<% } %>
 
 <jsp:include page="footer.jsp"/>
 
