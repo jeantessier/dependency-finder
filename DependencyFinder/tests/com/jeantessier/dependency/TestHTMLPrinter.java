@@ -33,9 +33,6 @@
 package com.jeantessier.dependency;
 
 import java.io.*;
-import java.text.*;
-
-import junit.framework.*;
 
 public class TestHTMLPrinter extends TestHTMLPrinterBase {
     private HTMLPrinter visitor;
