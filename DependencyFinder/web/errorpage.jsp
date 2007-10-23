@@ -1,6 +1,5 @@
 <%@ page isErrorPage="true" %>
-<%@ page import="java.io.*" %>
-<%@ page import="com.jeantessier.dependency.*" %>
+<%@ page import="java.io.*, com.jeantessier.dependency.*" %>
 
 <!--
     Copyright (c) 2001-2007, Jean Tessier
