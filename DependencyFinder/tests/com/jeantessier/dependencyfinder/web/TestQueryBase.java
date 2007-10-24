@@ -182,4 +182,25 @@ public abstract class TestQueryBase extends TestBase {
         assertNull("Unwanted link left", response.getLinkWithID(leftPackageName));
         assertNull("Unwanted link right", response.getLinkWithID(rightPackageName));
     }
+
+    public void testEscapeSquareBrackets() throws Exception {
+        String mainFeatureName = fooClassName + ".main(java.lang.String[])";
+        factory.createFeature(mainFeatureName);
+
+        context.service();
+        WebResponse response = client.getResponse(request);
+
+        WebForm form = response.getForms()[0];
+        form.setCheckbox("package-scope", false);
+        form.setCheckbox("feature-scope", true);
+        form.setCheckbox("package-filter", false);
+        form.setCheckbox("feature-filter", true);
+        form.setParameter("scope-includes", "/\\[/");
+
+        response = form.submit(form.getSubmitButtons()[0]);
+        WebLink webLink = response.getLinkWithID(mainFeatureName);
+        assertNotNull("Missing link for " + mainFeatureName, webLink);
+        response = webLink.click();
+        assertEquals("response code", 200, response.getResponseCode());
+    }
 }

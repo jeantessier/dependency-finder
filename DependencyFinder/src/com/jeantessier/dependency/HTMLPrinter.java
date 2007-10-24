@@ -142,6 +142,8 @@ public class HTMLPrinter extends TextPrinter {
         result = perl().substitute("s/\\(/\\\\(/g", result);
         result = perl().substitute("s/\\)/\\\\)/g", result);
         result = perl().substitute("s/\\$/\\\\\\$/g", result);
+        result = perl().substitute("s/\\[/\\\\[/g", result);
+        result = perl().substitute("s/\\]/\\\\]/g", result);
 
         return result;
     }
