@@ -1,0 +1,1 @@
+Finished tests in =TestClassReport= for non-ASCII characters.
