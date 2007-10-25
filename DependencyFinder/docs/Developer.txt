@@ -29,15 +29,15 @@ too, but these are tried and true.
 For simple compilation:
 
 <table>
-    <tr><th>Name</th><th>Location</th><th>Working Version</th></tr>
+    <tr><th>Name</th><th>Location</th><th>Tested Version</th></tr>
     <tr><td>Tomcat</td><td>[[http://tomcat.apache.org/][tomcat.apache.org]]</td><td align="center">5.5.17</td></tr>
-    <tr><td>WebWork</td><td>[[http://www.opensymphony.org/webwork/][www.opensymphony.org/webwork]]</td><td align="center">2.2.4</td></tr>
+    <tr><td>WebWork</td><td>[[http://www.opensymphony.org/webwork/][www.opensymphony.org/webwork]]</td><td align="center">2.2.4</td><td style%3D"font-size: small">You may need to change the JAR's name in <code>[text]junit[.bat]</code>.</td></tr>
 </table>
 
 For testing:
 
 <table>
-    <tr><th>Name</th><th>Location</th><th>Working Version</th></tr>
+    <tr><th>Name</th><th>Location</th><th>Tested Version</th></tr>
     <tr><td>JUnit</td><td>[[http://junit.org/][junit.org]]</td><td align="center">3.8.2</td></tr>
     <tr><td>FitLibrary</td><td>[[http://fitlibrary.sourceforge.net/][fitlibrary.sourceforge.net]]</td><td align="center">2006-01-16</td></tr>
     <tr><td>HttpUnit</td><td>[[http://httpunit.sourceforge.net/][httpunit.sourceforge.net]]</td><td align="center">1.6.2</td></tr>
