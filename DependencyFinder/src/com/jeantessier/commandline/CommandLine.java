@@ -296,6 +296,7 @@ public class CommandLine implements Visitable {
                 }
             } catch (CommandLineException e) {
                 exceptions.add(e);
+                i++;
             }
         }
 

@@ -116,4 +116,11 @@ public class TestCommandLine extends TestCase {
         assertTrue("Missing toggle1", commandLine.isPresent("toggle1"));
         assertTrue("Missing toggle2", commandLine.isPresent("toggle2"));
     }
+
+    public void testParseMissingValueFollowedBySwitch() throws CommandLineException {
+        commandLine.addSingleValueSwitch(SWITCH_NAME);
+
+        String cls = "-" + SWITCH_NAME;
+        commandLine.parse(new String[] {cls, cls, SWITCH_VALUE});
+    }
 }
