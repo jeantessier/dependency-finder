@@ -36,4 +36,8 @@ public final class SignatureHelper {
     private SignatureHelper() {
         // Prevent instantiation
     }
+
+    public static String getSignature(String s) {
+        return null;
+    }
 }
