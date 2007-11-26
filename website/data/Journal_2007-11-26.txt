@@ -1,0 +1,7 @@
+Found out Dependency Finder is shipped as part of
+[[http://xradar.sourceforge.net][XRadar]].  Cool!
+
+A user contacted me because they are using Dependency Finder from behind a
+firewall and the doctype of generated XML documents points to a =SYSTEM= DTD
+that they cannot reach.  They suggest using a =PUBLIC= DTD instead.  I will
+have to look into how that works and what the implications would be.
