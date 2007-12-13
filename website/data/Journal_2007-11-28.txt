@@ -1,0 +1,5 @@
+Took a quick look at [[http://xradar.sourceforge.net][XRadar]] and how it uses
+Dependency Finder.  Interestingly, XRadar is implemented as a series of Ant
+tasks and XSL stylesheets.  One of the Ant tasks uses =DependencyExtractor=
+and its output is processed by a specific XSL stylesheet.  They are well
+insulated from any API changes on my part.
