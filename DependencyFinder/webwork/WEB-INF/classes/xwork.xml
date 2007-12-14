@@ -42,9 +42,6 @@
 
 	<!-- Configuration for the default package. -->
 	<package name="default" extends="webwork-default">
-        <!-- Default interceptor stack. -->
-        <default-interceptor-ref name="defaultStack" />
-
         <!-- Extract --> 
         <action name="extract" class="com.jeantessier.dependencyfinder.webwork.ExtractAction">
             <result name="input" type="dispatcher">extract.jsp</result>

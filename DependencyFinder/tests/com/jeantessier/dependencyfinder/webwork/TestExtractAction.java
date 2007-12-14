@@ -43,14 +43,14 @@ import com.jeantessier.classreader.*;
 import com.opensymphony.xwork.*;
 
 public class TestExtractAction extends TestCase {
-    private Map application;
+    private Map<String, Object> application;
 
     private ExtractAction action;
 
     protected void setUp() throws Exception {
         super.setUp();
 
-        application = new HashMap();
+        application = new HashMap<String, Object>();
         application.put("source", "classes" + File.separator + "test.class");
 
         action = new ExtractAction();
