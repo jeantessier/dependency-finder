@@ -37,8 +37,6 @@ import java.util.*;
 
 import junit.framework.*;
 
-import org.apache.log4j.*;
-
 public class TestSymbolGatherer extends TestCase {
     public static final String TEST_CLASS    = "test";
     public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
