@@ -4,8 +4,8 @@ import junit.framework.*;
 
 public class TestSignatureHelper extends TestCase {
     public void testGetSignature() {
-        assertEquals("(T)V", SignatureHelper.getSignature("<T:Ljava/lang/Object;>(TT;)V"));
-        assertEquals("(T, int, java.lang.String)V", SignatureHelper.getSignature("<T:Ljava/lang/Object;>(TT;ILjava/lang/String;)V"));
+        assertEquals("(T)", SignatureHelper.getSignature("<T:Ljava/lang/Object;>(TT;)V"));
+        assertEquals("(T, int, java.lang.String)", SignatureHelper.getSignature("<T:Ljava/lang/Object;>(TT;ILjava/lang/String;)V"));
 //        assertEquals("(int)", SignatureHelper.getSignature("(I)V"));
 //        assertEquals("(int, int)", SignatureHelper.getSignature("(II)V"));
 //        assertEquals("(int[])", SignatureHelper.getSignature("([I)V"));
