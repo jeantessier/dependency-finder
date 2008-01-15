@@ -122,7 +122,7 @@ public abstract class VisitorBase implements Visitor {
         for (ExceptionHandler exceptionHandler : attribute.getExceptionHandlers()) {
             exceptionHandler.accept(this);
         }
-        
+
         Logger.getLogger(getClass()).debug("Visiting " + attribute.getAttributes().size() + " code attribute(s) ...");
         for (Attribute_info attribute_info : attribute.getAttributes()) {
             attribute_info.accept(this);
@@ -136,7 +136,7 @@ public abstract class VisitorBase implements Visitor {
             exception.accept(this);
         }
     }
-    
+
     public void visitInnerClasses_attribute(InnerClasses_attribute attribute) {
         Logger.getLogger(getClass()).debug("Visiting " + attribute.getInnerClasses().size() + " inner class(es) ...");
 
@@ -172,7 +172,7 @@ public abstract class VisitorBase implements Visitor {
             lineNumber.accept(this);
         }
     }
-    
+
     public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
         Logger.getLogger(getClass()).debug("Visiting " + attribute.getLocalVariables().size() + " local variable(s) ...");
 
@@ -192,7 +192,7 @@ public abstract class VisitorBase implements Visitor {
     public void visitDeprecated_attribute(Deprecated_attribute attribute) {
         // Do nothing
     }
-    
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         // Do nothing
     }
