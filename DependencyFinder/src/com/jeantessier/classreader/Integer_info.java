@@ -52,7 +52,7 @@ public class Integer_info extends ConstantPoolEntry {
     }
 
     public int hashCode() {
-        return new Integer(getValue()).hashCode();
+        return Integer.valueOf(getValue()).hashCode();
     }
 
     public boolean equals(Object object) {

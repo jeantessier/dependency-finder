@@ -52,7 +52,7 @@ public class Long_info extends ConstantPoolEntry {
     }
 
     public int hashCode() {
-        return new Long(getValue()).hashCode();
+        return Long.valueOf(getValue()).hashCode();
     }
 
     public boolean equals(Object object) {

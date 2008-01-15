@@ -52,7 +52,7 @@ public class Double_info extends ConstantPoolEntry {
     }
 
     public int hashCode() {
-        return new Double(getValue()).hashCode();
+        return Double.valueOf(getValue()).hashCode();
     }
 
     public boolean equals(Object object) {

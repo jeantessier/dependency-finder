@@ -1,0 +1,5 @@
+Ran Dependency Finder through [[http://findbugs.sf.net][FindBugs]] and found a
+few quick fixes, including one clear bug in
+=com.jeantessier.dependencyfinder.cli.ListDiff= where I was not closing a stream
+when reading in a file.  Twice.  And two constants in =TransitiveClosure= that
+were not marked =final=.  But there were quite a few false positives too.

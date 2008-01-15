@@ -42,8 +42,8 @@ import java.util.*;
  *  of the explicit dependencies.
  */
 public class TransitiveClosure {
-    public static long DO_NOT_FOLLOW = -1;
-    public static long UNBOUNDED_DEPTH = Long.MAX_VALUE;
+    public static final long DO_NOT_FOLLOW = -1;
+    public static final long UNBOUNDED_DEPTH = Long.MAX_VALUE;
     
     private long maximumInboundDepth = DO_NOT_FOLLOW;
     private long maximumOutboundDepth = UNBOUNDED_DEPTH;

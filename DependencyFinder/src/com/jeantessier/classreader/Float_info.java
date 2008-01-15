@@ -52,7 +52,7 @@ public class Float_info extends ConstantPoolEntry {
     }
 
     public int hashCode() {
-        return new Float(getValue()).hashCode();
+        return Float.valueOf(getValue()).hashCode();
     }
 
     public boolean equals(Object object) {

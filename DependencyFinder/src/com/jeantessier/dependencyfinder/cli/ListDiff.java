@@ -74,14 +74,16 @@ public class ListDiff extends Command {
         while((line = oldIn.readLine()) != null) {
             oldAPI.add(line);
         }
-        
+        oldIn.close();
+
         getVerboseListener().print("Loading new list ...");
         Collection<String> newAPI = new TreeSet<String>();
         BufferedReader newIn = new BufferedReader(new FileReader(getCommandLine().getSingleSwitch("new")));
         while((line = newIn.readLine()) != null) {
             newAPI.add(line);
         }
-        
+        newIn.close();
+
         ListDiffPrinter printer = new ListDiffPrinter(getCommandLine().getToggleSwitch("compress"), getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
         printer.setName(getCommandLine().getSingleSwitch("name"));
         printer.setOldVersion(getCommandLine().getSingleSwitch("old-label"));

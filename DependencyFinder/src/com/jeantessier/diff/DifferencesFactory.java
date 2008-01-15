@@ -152,14 +152,12 @@ public class DifferencesFactory {
 
             Logger.getLogger(getClass()).debug("      Diff'ing fields ...");
 
-            for (String fieldName : fieldLevel.keySet()) {
-                String fieldFullName = fieldLevel.get(fieldName);
-
-                Field_info oldField = oldClass.getField(fieldName);
-                Field_info newField = newClass.getField(fieldName);
+            for (Map.Entry<String, String> fieldEntry : fieldLevel.entrySet()) {
+                Field_info oldField = oldClass.getField(fieldEntry.getKey());
+                Field_info newField = newClass.getField(fieldEntry.getKey());
 
                 if (strategy.isFieldDifferent(oldField, newField)) {
-                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(fieldFullName, oldField, newField));
+                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(fieldEntry.getValue(), oldField, newField));
                 }
             }
 
@@ -177,14 +175,12 @@ public class DifferencesFactory {
 
             Logger.getLogger(getClass()).debug("      Diff'ing methods ...");
 
-            for (String methodName : methodLevel.keySet()) {
-                String methodFullName = methodLevel.get(methodName);
-
-                Method_info oldMethod = oldClass.getMethod(methodName);
-                Method_info newMethod = newClass.getMethod(methodName);
+            for (Map.Entry<String, String> methodEntry : methodLevel.entrySet()) {
+                Method_info oldMethod = oldClass.getMethod(methodEntry.getKey());
+                Method_info newMethod = newClass.getMethod(methodEntry.getKey());
 
                 if (strategy.isMethodDifferent(oldMethod, newMethod)) {
-                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(methodFullName, oldMethod, newMethod));
+                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(methodEntry.getValue(), oldMethod, newMethod));
                 }
             }
 
