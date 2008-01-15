@@ -70,6 +70,7 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestEnum.class);
         result.addTestSuite(TestEnclosingMethodAttribute.class);
         result.addTestSuite(TestSignatureAttribute.class);
+        result.addTestSuite(TestLocalVariableTypeTableAttribute.class);
 
         return result;
     }
