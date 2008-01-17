@@ -38,12 +38,12 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public abstract class Feature_info implements Deprecatable, Visitable {
-    public static final int ACC_PUBLIC    = 0x0001;
-    public static final int ACC_PRIVATE   = 0x0002;
-    public static final int ACC_PROTECTED = 0x0004;
-    public static final int ACC_STATIC    = 0x0008;
-    public static final int ACC_FINAL     = 0x0010;
-    public static final int ACC_SYNTHETIC = 0x1000;
+    private static final int ACC_PUBLIC    = 0x0001;
+    private static final int ACC_PRIVATE   = 0x0002;
+    private static final int ACC_PROTECTED = 0x0004;
+    private static final int ACC_STATIC    = 0x0008;
+    private static final int ACC_FINAL     = 0x0010;
+    private static final int ACC_SYNTHETIC = 0x1000;
 
     private Classfile  classfile;
     private int        accessFlag;

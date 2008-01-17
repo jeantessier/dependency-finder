@@ -252,23 +252,23 @@ public class MetricsGatherer extends VisitorBase {
     
     // Classfile
     public void visitClassfile(Classfile classfile) {
-        if ((classfile.getAccessFlag() & Classfile.ACC_PUBLIC) != 0) {
+        if (classfile.isPublic()) {
             publicClasses.add(classfile);
         } else {
             packageClasses.add(classfile);
         }
 
-        if ((classfile.getAccessFlag() & Classfile.ACC_FINAL) != 0) {
+        if (classfile.isFinal()) {
             finalClasses.add(classfile);
         }
 
-        if ((classfile.getAccessFlag() & Classfile.ACC_INTERFACE) != 0) {
+        if (classfile.isInterface()) {
             interfaces.add(classfile);
         } else {
             classes.add(classfile);
         }
 
-        if ((classfile.getAccessFlag() & Classfile.ACC_ABSTRACT) != 0) {
+        if (classfile.isAbstract()) {
             abstractClasses.add(classfile);
         }
 

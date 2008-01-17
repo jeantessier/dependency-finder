@@ -45,10 +45,10 @@ import com.jeantessier.classreader.*;
  *  by the compiler.
  */
 public class MetricsGatherer extends VisitorBase {
-    private String         projectName;
+    private String projectName;
     private MetricsFactory factory;
 
-    private Collection<String> scope  = null;
+    private Collection<String> scope = null;
     private Collection<String> filter = null;
     
     private Metrics currentProject;
@@ -56,14 +56,14 @@ public class MetricsGatherer extends VisitorBase {
     private Metrics currentClass;
     private Metrics currentMethod;
 
-    private int     sloc;
+    private int sloc;
     private boolean isSynthetic;
     
     private HashSet<MetricsListener> metricsListeners = new HashSet<MetricsListener>();
 
     public MetricsGatherer(String projectName, MetricsFactory factory) {
         this.projectName = projectName;
-        this.factory     = factory;
+        this.factory = factory;
 
         setCurrentProject(getMetricsFactory().createProjectMetrics(getProjectName()));
     }
@@ -142,22 +142,22 @@ public class MetricsGatherer extends VisitorBase {
 
         getCurrentProject().addToMeasurement(Metrics.PACKAGES, getCurrentGroup().getName());
 
-        if ((classfile.getAccessFlag() & Classfile.ACC_PUBLIC) != 0) {
+        if (classfile.isPublic()) {
             getCurrentProject().addToMeasurement(Metrics.PUBLIC_CLASSES);
             getCurrentGroup().addToMeasurement(Metrics.PUBLIC_CLASSES);
         }
 
-        if ((classfile.getAccessFlag() & Classfile.ACC_FINAL) != 0) {
+        if (classfile.isPublic()) {
             getCurrentProject().addToMeasurement(Metrics.FINAL_CLASSES);
             getCurrentGroup().addToMeasurement(Metrics.FINAL_CLASSES);
         }
 
-        if ((classfile.getAccessFlag() & Classfile.ACC_INTERFACE) != 0) {
+        if (classfile.isInterface()) {
             getCurrentProject().addToMeasurement(Metrics.INTERFACES);
             getCurrentGroup().addToMeasurement(Metrics.INTERFACES);
         }
 
-        if ((classfile.getAccessFlag() & Classfile.ACC_ABSTRACT) != 0) {
+        if (classfile.isAbstract()) {
             getCurrentProject().addToMeasurement(Metrics.ABSTRACT_CLASSES);
             getCurrentGroup().addToMeasurement(Metrics.ABSTRACT_CLASSES);
         }
@@ -433,15 +433,15 @@ public class MetricsGatherer extends VisitorBase {
             getCurrentGroup().addToMeasurement(Metrics.INNER_CLASSES);
             getCurrentClass().addToMeasurement(Metrics.INNER_CLASSES);
         
-            if ((helper.getAccessFlag() & InnerClass.ACC_PUBLIC) != 0) {
+            if (helper.isPublic()) {
                 getCurrentProject().addToMeasurement(Metrics.PUBLIC_INNER_CLASSES);
                 getCurrentGroup().addToMeasurement(Metrics.PUBLIC_INNER_CLASSES);
                 getCurrentClass().addToMeasurement(Metrics.PUBLIC_INNER_CLASSES);
-            } else if ((helper.getAccessFlag() & InnerClass.ACC_PRIVATE) != 0) {
+            } else if (helper.isPrivate()) {
                 getCurrentProject().addToMeasurement(Metrics.PRIVATE_INNER_CLASSES);
                 getCurrentGroup().addToMeasurement(Metrics.PRIVATE_INNER_CLASSES);
                 getCurrentClass().addToMeasurement(Metrics.PRIVATE_INNER_CLASSES);
-            } else if ((helper.getAccessFlag() & InnerClass.ACC_PROTECTED) != 0) {
+            } else if (helper.isProtected()) {
                 getCurrentProject().addToMeasurement(Metrics.PROTECTED_INNER_CLASSES);
                 getCurrentGroup().addToMeasurement(Metrics.PROTECTED_INNER_CLASSES);
                 getCurrentClass().addToMeasurement(Metrics.PROTECTED_INNER_CLASSES);
@@ -451,19 +451,19 @@ public class MetricsGatherer extends VisitorBase {
                 getCurrentClass().addToMeasurement(Metrics.PACKAGE_INNER_CLASSES);
             }
 
-            if ((helper.getAccessFlag() & InnerClass.ACC_STATIC) != 0) {
+            if (helper.isStatic()) {
                 getCurrentProject().addToMeasurement(Metrics.STATIC_INNER_CLASSES);
                 getCurrentGroup().addToMeasurement(Metrics.STATIC_INNER_CLASSES);
                 getCurrentClass().addToMeasurement(Metrics.STATIC_INNER_CLASSES);
             }
 
-            if ((helper.getAccessFlag() & InnerClass.ACC_FINAL) != 0) {
+            if (helper.isFinal()) {
                 getCurrentProject().addToMeasurement(Metrics.FINAL_INNER_CLASSES);
                 getCurrentGroup().addToMeasurement(Metrics.FINAL_INNER_CLASSES);
                 getCurrentClass().addToMeasurement(Metrics.FINAL_INNER_CLASSES);
             }
 
-            if ((helper.getAccessFlag() & InnerClass.ACC_ABSTRACT) != 0) {
+            if (helper.isAbstract()) {
                 getCurrentProject().addToMeasurement(Metrics.ABSTRACT_INNER_CLASSES);
                 getCurrentGroup().addToMeasurement(Metrics.ABSTRACT_INNER_CLASSES);
                 getCurrentClass().addToMeasurement(Metrics.ABSTRACT_INNER_CLASSES);
@@ -612,79 +612,51 @@ public class MetricsGatherer extends VisitorBase {
 
     protected void fireBeginSession(int size) {
         MetricsEvent event = new MetricsEvent(this, size);
-
-        HashSet<MetricsListener> listeners;
-        synchronized(metricsListeners) {
-            listeners = (HashSet<MetricsListener>) metricsListeners.clone();
-        }
-
-        for (MetricsListener listener : listeners) {
+        for (MetricsListener listener : cloneListeners()) {
             listener.beginSession(event);
         }
     }
 
     protected void fireBeginClass(Classfile classfile) {
         MetricsEvent event = new MetricsEvent(this, classfile);
-
-        HashSet<MetricsListener> listeners;
-        synchronized(metricsListeners) {
-            listeners = (HashSet<MetricsListener>) metricsListeners.clone();
-        }
-
-        for (MetricsListener listener : listeners) {
+        for (MetricsListener listener : cloneListeners()) {
             listener.beginClass(event);
         }
     }
 
     protected void fireBeginMethod(Method_info method) {
         MetricsEvent event = new MetricsEvent(this, method);
-
-        HashSet<MetricsListener> listeners;
-        synchronized(metricsListeners) {
-            listeners = (HashSet<MetricsListener>) metricsListeners.clone();
-        }
-
-        for (MetricsListener listener : listeners) {
+        for (MetricsListener listener : cloneListeners()) {
             listener.beginMethod(event);
         }
     }
 
     protected void fireEndMethod(Method_info method, Metrics metrics) {
         MetricsEvent event = new MetricsEvent(this, method, metrics);
-
-        HashSet<MetricsListener> listeners;
-        synchronized(metricsListeners) {
-            listeners = (HashSet<MetricsListener>) metricsListeners.clone();
-        }
-
-        for (MetricsListener listener : listeners) {
+        for (MetricsListener listener : cloneListeners()) {
             listener.endMethod(event);
         }
     }
 
     protected void fireEndClass(Classfile classfile, Metrics metrics) {
         MetricsEvent event = new MetricsEvent(this, classfile, metrics);
-
-        HashSet<MetricsListener> listeners;
-        synchronized(metricsListeners) {
-            listeners = (HashSet<MetricsListener>) metricsListeners.clone();
-        }
-
-        for (MetricsListener listener : listeners) {
+        for (MetricsListener listener : cloneListeners()) {
             listener.endClass(event);
         }
     }
 
     protected void fireEndSession() {
         MetricsEvent event = new MetricsEvent(this);
-
-        HashSet<MetricsListener> listeners;
-        synchronized(metricsListeners) {
-            listeners = (HashSet<MetricsListener>) metricsListeners.clone();
-        }
-
-        for (MetricsListener listener : listeners) {
+        for (MetricsListener listener : cloneListeners()) {
             listener.endSession(event);
         }
+    }
+
+    private Collection<MetricsListener> cloneListeners() {
+        Collection<MetricsListener> result;
+        synchronized(metricsListeners) {
+            result = (Collection<MetricsListener>) metricsListeners.clone();
+        }
+        return result;
     }
 }

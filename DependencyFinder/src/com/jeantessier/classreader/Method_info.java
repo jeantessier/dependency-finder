@@ -36,10 +36,10 @@ import java.io.*;
 import java.util.*;
 
 public class Method_info extends Feature_info {
-    public static final int ACC_SYNCHRONIZED = 0x0020;
-    public static final int ACC_NATIVE       = 0x0100;
-    public static final int ACC_ABSTRACT     = 0x0400;
-    public static final int ACC_STRICT       = 0x0800;
+    private static final int ACC_SYNCHRONIZED = 0x0020;
+    private static final int ACC_NATIVE       = 0x0100;
+    private static final int ACC_ABSTRACT     = 0x0400;
+    private static final int ACC_STRICT       = 0x0800;
 
     public Method_info(Classfile classfile, DataInputStream in) throws IOException {
         super(classfile, in);

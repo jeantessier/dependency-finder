@@ -1,0 +1,1 @@
+Clamped down on public constants for access modes in =.class= files structures.
