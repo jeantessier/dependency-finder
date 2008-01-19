@@ -32,148 +32,38 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
+public interface Feature_info extends Deprecatable, Visitable {
+    public Classfile getClassfile();
 
-public abstract class Feature_info implements Deprecatable, Visitable {
-    private static final int ACC_PUBLIC    = 0x0001;
-    private static final int ACC_PRIVATE   = 0x0002;
-    private static final int ACC_PROTECTED = 0x0004;
-    private static final int ACC_STATIC    = 0x0008;
-    private static final int ACC_FINAL     = 0x0010;
-    private static final int ACC_SYNTHETIC = 0x1000;
+    public int getAccessFlag();
 
-    private Classfile  classfile;
-    private int        accessFlag;
-    private int        nameIndex;
-    private int        descriptorIndex;
-    private Collection<Attribute_info> attributes = new LinkedList<Attribute_info>();
+    public boolean isPublic();
+    public boolean isProtected();
+    public boolean isPrivate();
+    public boolean isPackage();
 
-    public Feature_info(Classfile classfile, DataInputStream in) throws IOException {
-        this.classfile = classfile;
+    public boolean isStatic();
+    public boolean isFinal();
 
-        accessFlag = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug(getFeatureType() + " access flag: " + accessFlag);
+    public int getNameIndex();
+    public UTF8_info getRawName();
+    public String getName();
+    public String getFullName();
 
-        nameIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug(getFeatureType() + " name: " + nameIndex + " (" + getName() + ")");
+    public int getDescriptorIndex();
+    public UTF8_info getRawDescriptor();
+    public String getDescriptor();
 
-        descriptorIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug(getFeatureType() + " Descriptor: " + descriptorIndex + " (" + getDescriptor() + ")");
+    public Collection<? extends Attribute_info> getAttributes();
 
-        int attributeCount = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + attributeCount + " " + getFeatureType() + " attribute(s)");
-        for (int i=0; i<attributeCount; i++) {
-            Logger.getLogger(getClass()).debug(getFeatureType() + " attribute " + i + ":");
-            attributes.add(AttributeFactory.create(getClassfile(), this, in));
-        }
-    }
+    public boolean isSynthetic();
+    public boolean isDeprecated();
 
-    public Classfile getClassfile() {
-        return classfile;
-    }
+    public String getFeatureType();
+    public String getDeclaration();
+    public String getSignature();
 
-    public int getAccessFlag() {
-        return accessFlag;
-    }
-
-    public boolean isPublic() {
-        return (getAccessFlag() & ACC_PUBLIC) != 0;
-    }
-
-    public boolean isProtected() {
-        return (getAccessFlag() & ACC_PROTECTED) != 0;
-    }
-
-    public boolean isPrivate() {
-        return (getAccessFlag() & ACC_PRIVATE) != 0;
-    }
-
-    public boolean isPackage() {
-        return (getAccessFlag() & (ACC_PUBLIC | ACC_PROTECTED | ACC_PRIVATE)) == 0;
-    }
-
-    public boolean isStatic() {
-        return (getAccessFlag() & ACC_STATIC) != 0;
-    }
-
-    public boolean isFinal() {
-        return (getAccessFlag() & ACC_FINAL) != 0;
-    }
-
-    public int getNameIndex() {
-        return nameIndex;
-    }
-
-    public UTF8_info getRawName() {
-        return (UTF8_info) getClassfile().getConstantPool().get(nameIndex);
-    }
-
-    public String getName() {
-        return getRawName().toString();
-    }
-
-    public String getFullName() {
-        return getClassfile().getClassName() + "." + getName();
-    }
-
-    public int getDescriptorIndex() {
-        return descriptorIndex;
-    }
-
-    public UTF8_info getRawDescriptor() {
-        return (UTF8_info) getClassfile().getConstantPool().get(descriptorIndex);
-    }
-
-    public String getDescriptor() {
-        return getRawDescriptor().toString();
-    }
-
-    public Collection<Attribute_info> getAttributes() {
-        return attributes;
-    }
-
-    public boolean isSynthetic() {
-        return isSyntheticFromAccessFlag() || isSyntheticFromAttribute();
-    }
-
-    private boolean isSyntheticFromAccessFlag() {
-        return (getAccessFlag() & ACC_SYNTHETIC) != 0;
-    }
-
-    private boolean isSyntheticFromAttribute() {
-        boolean result = false;
-
-        Iterator i = getAttributes().iterator();
-        while (!result && i.hasNext()) {
-            result = i.next() instanceof Synthetic_attribute;
-        }
-
-        return result;
-    }
-
-    public boolean isDeprecated() {
-        boolean result = false;
-
-        Iterator i = getAttributes().iterator();
-        while (!result && i.hasNext()) {
-            result = i.next() instanceof Deprecated_attribute;
-        }
-    
-        return result;
-    }
-
-    public String toString() {
-        return getFullName();
-    }
-
-    public abstract String getFeatureType();
-    public abstract String getDeclaration();
-    public abstract String getSignature();
-
-    public String getFullSignature() {
-        return getClassfile().getClassName() + "." + getSignature();
-    }
+    public String getFullSignature();
 }

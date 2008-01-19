@@ -39,6 +39,7 @@ import java.util.*;
 import javax.swing.*;
 
 import com.jeantessier.classreader.*;
+import com.jeantessier.classreader.impl.*;
 import com.jeantessier.dependency.*;
 
 public class DependencyExtractAction extends AbstractAction implements Runnable {

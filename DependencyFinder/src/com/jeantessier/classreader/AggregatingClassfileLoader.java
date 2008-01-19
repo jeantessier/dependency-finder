@@ -35,15 +35,25 @@ package com.jeantessier.classreader;
 import java.io.*;
 import java.util.*;
 
+import com.jeantessier.classreader.impl.*;
+
 public class AggregatingClassfileLoader extends ClassfileLoaderEventSource {
     private Map<String, Classfile> classfiles = new TreeMap<String, Classfile>();
 
     public AggregatingClassfileLoader() {
-        super();
+        this(new DefaultClassfileFactory());
+    }
+
+    private AggregatingClassfileLoader(ClassfileFactory factory) {
+        super(factory);
     }
 
     public AggregatingClassfileLoader(ClassfileLoaderDispatcher dispatcher) {
-        super(dispatcher);
+        this(new DefaultClassfileFactory(), dispatcher);
+    }
+
+    private AggregatingClassfileLoader(ClassfileFactory factory, ClassfileLoaderDispatcher dispatcher) {
+        super(factory, dispatcher);
     }
 
     public Classfile getClassfile(String name) {
@@ -59,7 +69,7 @@ public class AggregatingClassfileLoader extends ClassfileLoaderEventSource {
     }
 
     protected Classfile load(DataInputStream in) throws IOException {
-        Classfile result = new Classfile(this, in);
+        Classfile result = getFactory().create(this, in);
 
         classfiles.put(result.getClassName(), result);
 

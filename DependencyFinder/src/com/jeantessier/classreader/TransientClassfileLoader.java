@@ -35,13 +35,23 @@ package com.jeantessier.classreader;
 import java.io.*;
 import java.util.*;
 
+import com.jeantessier.classreader.impl.*;
+
 public class TransientClassfileLoader extends ClassfileLoaderEventSource {
     public TransientClassfileLoader() {
-        super();
+        this(new DefaultClassfileFactory());
+    }
+
+    private TransientClassfileLoader(ClassfileFactory factory) {
+        super(factory);
     }
 
     public TransientClassfileLoader(ClassfileLoaderDispatcher dispatcher) {
-        super(dispatcher);
+        this(new DefaultClassfileFactory(), dispatcher);
+    }
+
+    private TransientClassfileLoader(ClassfileFactory factory, ClassfileLoaderDispatcher dispatcher) {
+        super(factory, dispatcher);
     }
 
     public Classfile getClassfile(String name) {
@@ -57,6 +67,6 @@ public class TransientClassfileLoader extends ClassfileLoaderEventSource {
     }
 
     protected Classfile load(DataInputStream in) throws IOException {
-        return new Classfile(this, in);
+        return getFactory().create(this, in);
     }
 }

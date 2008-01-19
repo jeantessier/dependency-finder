@@ -32,32 +32,6 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-
-import org.apache.log4j.*;
-
-public class SourceDebugExtension_attribute extends Attribute_info {
-    private String debugExtension;
-
-    public SourceDebugExtension_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
-        super(classfile, owner);
-
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
-
-        debugExtension = in.readUTF();
-        Logger.getLogger(getClass()).debug("Debug extension: " + debugExtension);
-    }
-
-    public String getDebugExtension() {
-        return debugExtension;
-    }
-
-    public String toString() {
-        return "Debug extension \"" + getDebugExtension() + "\"";
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitSourceDebugExtension_attribute(this);
-    }
+public interface SourceDebugExtension_attribute extends Attribute_info {
+    public String getDebugExtension();
 }

@@ -139,7 +139,7 @@ public class ClassMetrics extends DirectoryExplorerCommand {
             for (int opcode=0; opcode<256; opcode++) {
                 out.print("        0x");
                 Hex.print(out, (byte) opcode);
-                out.println(" " + Instruction.getMnemonic(opcode) + ": " + metrics.getInstructionCounts()[opcode]);
+                out.println(" " + com.jeantessier.classreader.impl.Instruction.getMnemonic(opcode) + ": " + metrics.getInstructionCounts()[opcode]);
             }
         }
     }

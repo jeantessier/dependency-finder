@@ -32,24 +32,6 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-
-import org.apache.log4j.*;
-
-public class Deprecated_attribute extends Attribute_info {
-    public Deprecated_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
-        super(classfile, owner);
-
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
-    }
-
-    public String toString() {
-        return "Deprecated";
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitDeprecated_attribute(this);
-    }
+public interface Deprecated_attribute extends Attribute_info {
 }
 

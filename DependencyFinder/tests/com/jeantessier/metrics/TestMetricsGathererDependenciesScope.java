@@ -37,8 +37,6 @@ import junit.framework.*;
 import java.io.*;
 import java.util.*;
 
-import org.xml.sax.*;
-
 import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;

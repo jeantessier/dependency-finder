@@ -32,72 +32,12 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-
-import org.apache.log4j.*;
-
-public class ExceptionHandler implements Visitable {
-    private Code_attribute code;
-    private int            startPC;
-    private int            endPC;
-    private int            handlerPC;
-    private int            catchTypeIndex;
-
-    public ExceptionHandler(Code_attribute code, DataInputStream in) throws IOException {
-        this.code = code;
-
-        startPC = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("start PC: " + startPC);
-
-        endPC = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("end PC: " + endPC);
-
-        handlerPC = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("handler PC: " + handlerPC);
-
-        catchTypeIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("catch type index: " + catchTypeIndex + " (" + getCatchType() + ")");
-    }
-
-    public Code_attribute getCode() {
-        return code;
-    }
-
-    public int getStartPC() {
-        return startPC;
-    }
-
-    public int getEndPC() {
-        return endPC;
-    }
-
-    public int getHandlerPC() {
-        return handlerPC;
-    }
-
-    public int getCatchTypeIndex() {
-        return catchTypeIndex;
-    }
-
-    public Class_info getRawCatchType() {
-        return (Class_info) code.getClassfile().getConstantPool().get(getCatchTypeIndex());
-    }
-
-    public String getCatchType() {
-        String result = "<none>";
-
-        if (getCatchTypeIndex() != 0) {
-            result = getRawCatchType().toString();
-        }
-
-        return result;
-    }
-
-    public String toString() {
-        return "ExceptionHandler for " + getCatchType();
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitExceptionHandler(this);
-    }
+public interface ExceptionHandler extends Visitable {
+    public Code_attribute getCode();
+    public int getStartPC();
+    public int getEndPC();
+    public int getHandlerPC();
+    public int getCatchTypeIndex();
+    public Class_info getRawCatchType();
+    public String getCatchType();
 }

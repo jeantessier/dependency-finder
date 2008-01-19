@@ -32,23 +32,5 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-
-import org.apache.log4j.*;
-
-public class Synthetic_attribute extends Attribute_info {
-    public Synthetic_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
-        super(classfile, owner);
-
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
-    }
-
-    public String toString() {
-        return "Synthetic";
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitSynthetic_attribute(this);
-    }
+public interface Synthetic_attribute extends Attribute_info {
 }

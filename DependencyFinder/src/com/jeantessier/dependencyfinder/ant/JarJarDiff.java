@@ -33,14 +33,13 @@
 package com.jeantessier.dependencyfinder.ant;
 
 import java.io.*;
-import java.util.*;
 import java.lang.reflect.*;
-
-import org.apache.tools.ant.*;
-import org.apache.tools.ant.types.*;
+import java.util.*;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.diff.*;
+import org.apache.tools.ant.*;
+import org.apache.tools.ant.types.*;
 
 public class JarJarDiff extends Task {
     public static final String API_STRATEGY = "api";

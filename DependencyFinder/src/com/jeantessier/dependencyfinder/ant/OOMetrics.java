@@ -34,16 +34,13 @@ package com.jeantessier.dependencyfinder.ant;
 
 import java.io.*;
 import java.util.*;
-
 import javax.xml.parsers.*;
-
-import org.apache.tools.ant.*;
-import org.apache.tools.ant.types.*;
-
-import org.xml.sax.*;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.metrics.*;
+import org.apache.tools.ant.*;
+import org.apache.tools.ant.types.*;
+import org.xml.sax.*;
 
 public class OOMetrics extends Task {
     public static final String DEFAULT_PROJECT_NAME = "Project";

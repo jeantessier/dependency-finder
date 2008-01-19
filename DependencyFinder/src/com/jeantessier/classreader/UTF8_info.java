@@ -32,43 +32,6 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-
-public class UTF8_info extends ConstantPoolEntry {
-    private String value;
-
-    public UTF8_info(ConstantPool constantPool, DataInputStream in) throws IOException {
-        super(constantPool);
-
-        value = in.readUTF();
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public String toString() {
-        return getValue();
-    }
-
-    public int hashCode() {
-        return getValue().hashCode();
-    }
-
-    public boolean equals(Object object) {
-        boolean result = false;
-
-        if (this == object) {
-            result = true;
-        } else if (object != null && this.getClass().equals(object.getClass())) {
-            UTF8_info other = (UTF8_info) object;
-            result = this.getValue().equals(other.getValue());
-        }
-
-        return result;
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitUTF8_info(this);
-    }
+public interface UTF8_info extends ConstantPoolEntry {
+    public String getValue();
 }

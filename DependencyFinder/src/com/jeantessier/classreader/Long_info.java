@@ -32,43 +32,6 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-
-public class Long_info extends ConstantPoolEntry {
-    private long value;
-
-    public Long_info(ConstantPool constantPool, DataInputStream in) throws IOException {
-        super(constantPool);
-
-        value = in.readLong();
-    }
-
-    public long getValue() {
-        return value;
-    }
-
-    public String toString() {
-        return String.valueOf(getValue());
-    }
-
-    public int hashCode() {
-        return Long.valueOf(getValue()).hashCode();
-    }
-
-    public boolean equals(Object object) {
-        boolean result = false;
-
-        if (this == object) {
-            result = true;
-        } else if (object != null && this.getClass().equals(object.getClass())) {
-            Long_info other = (Long_info) object;
-            result = this.getValue() == other.getValue();
-        }
-
-        return result;
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitLong_info(this);
-    }
+public interface Long_info extends ConstantPoolEntry {
+    public long getValue();
 }

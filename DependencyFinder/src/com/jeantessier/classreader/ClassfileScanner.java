@@ -40,11 +40,11 @@ public class ClassfileScanner extends ClassfileLoaderEventSource {
     private int nbClasses;
     
     public ClassfileScanner() {
-        super();
+        super(null);
     }
 
     public ClassfileScanner(ClassfileLoaderDispatcher dispatcher) {
-        super(dispatcher);
+        super(null, dispatcher);
     }
 
     public int getNbFiles() {

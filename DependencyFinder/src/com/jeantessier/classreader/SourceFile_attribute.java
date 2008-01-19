@@ -32,41 +32,9 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-
-import org.apache.log4j.*;
-
-public class SourceFile_attribute extends Attribute_info {
-    private int sourceFileIndex;
-
-    public SourceFile_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
-        super(classfile, owner);
-
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
-
-        sourceFileIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Source file: " + sourceFileIndex + " (" + getSourceFile() + ")");
-    }
-
-    public int getSourceFileIndex() {
-        return sourceFileIndex;
-    }
-
-    public UTF8_info getRawSourceFile() {
-        return (UTF8_info) getClassfile().getConstantPool().get(getSourceFileIndex());
-    }
-
-    public String getSourceFile() {
-        return getRawSourceFile().toString();
-    }
-
-    public String toString() {
-        return "Source file \"" + getSourceFile() + "\"";
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitSourceFile_attribute(this);
-    }
+public interface SourceFile_attribute extends Attribute_info {
+    public int getSourceFileIndex();
+    public UTF8_info getRawSourceFile();
+    public String getSourceFile();
 }
 

@@ -35,10 +35,9 @@ package com.jeantessier.dependencyfinder.ant;
 import java.io.*;
 import java.util.*;
 
+import com.jeantessier.classreader.*;
 import org.apache.tools.ant.*;
 import org.apache.tools.ant.types.*;
-
-import com.jeantessier.classreader.*;
 
 public class ListDeprecatedElements extends Task {
     private File    destfile;

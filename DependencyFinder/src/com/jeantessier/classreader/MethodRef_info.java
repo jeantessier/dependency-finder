@@ -32,63 +32,10 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-
-public class MethodRef_info extends FeatureRef_info {
-    public MethodRef_info(ConstantPool constantPool, DataInputStream in) throws IOException {
-        super(constantPool, in);
-    }
-
-    public boolean isConstructor() {
-        return getRawNameAndType().getName().equals("<init>");
-    }
-
-    public boolean isStaticInitializer() {
-        return getRawNameAndType().getName().equals("<clinit>");
-    }
-
-    public String getReturnType() {
-        return DescriptorHelper.getReturnType(getRawNameAndType().getType());
-    }
-
-    public String getName() {
-        String result;
-
-        if (isConstructor()) {
-            result = getClassSimpleName();
-        } else if (isStaticInitializer()) {
-            result = "static {}";
-        } else {
-            result = getRawNameAndType().getName();
-        }
-
-        return result;
-    }
-
-    public String getSignature() {
-        StringBuilder result = new StringBuilder();
-
-        result.append(getName());
-        if (!isStaticInitializer()) {
-            result.append(DescriptorHelper.getSignature(getRawNameAndType().getType()));
-        }
-
-        return result.toString();
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitMethodRef_info(this);
-    }
-
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-
-        if (!isConstructor() && !isStaticInitializer()) {
-            result.append(getReturnType());
-            result.append(" ");
-        }
-        result.append(getFullSignature());
-
-        return result.toString();
-    }
+public interface MethodRef_info extends FeatureRef_info {
+    public boolean isConstructor();
+    public boolean isStaticInitializer();
+    public String getReturnType();
+    public String getName();
+    public String getSignature();
 }

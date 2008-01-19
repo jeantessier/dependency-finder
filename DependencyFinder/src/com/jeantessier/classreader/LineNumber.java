@@ -32,46 +32,8 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-
-import org.apache.log4j.*;
-
-public class LineNumber implements Visitable {
-    private LineNumberTable_attribute lineNumberTable;
-    private int                       startPC;
-    private int                       lineNumber;
-
-    public LineNumber(LineNumberTable_attribute lineNumberTable, DataInputStream in) throws IOException {
-        setLineNumberTable(lineNumberTable);
-
-        startPC = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Line number table start PC: " + startPC);
-
-        lineNumber = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Line number: " + lineNumber);
-    }
-
-    public LineNumberTable_attribute getLineNumberTable() {
-        return lineNumberTable;
-    }
-
-    private void setLineNumberTable(LineNumberTable_attribute lineNumberTable) {
-        this.lineNumberTable = lineNumberTable;
-    }
-
-    public int getStartPC() {
-        return startPC;
-    }
-
-    public int getLineNumber() {
-        return lineNumber;
-    }
-
-    public String toString() {
-        return "Line number";
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitLineNumber(this);
-    }
+public interface LineNumber extends Visitable {
+    public LineNumberTable_attribute getLineNumberTable();
+    public int getStartPC();
+    public int getLineNumber();
 }

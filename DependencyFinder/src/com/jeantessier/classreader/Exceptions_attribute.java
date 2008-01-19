@@ -32,39 +32,8 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
-
-public class Exceptions_attribute extends Attribute_info {
-    private Collection<Class_info> exceptions = new LinkedList<Class_info>();
-
-    public Exceptions_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
-        super(classfile, owner);
-
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
-
-        int exceptionCount = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + exceptionCount + " exception(s) ...");
-        for (int i=0; i<exceptionCount; i++) {
-            Logger.getLogger(getClass()).debug("Exception " + i + ":");
-            Class_info exception = (Class_info) classfile.getConstantPool().get(in.readUnsignedShort());
-            exceptions.add(exception);
-            Logger.getLogger(getClass()).debug("Class " + exception);
-        }
-    }
-
-    public Collection<Class_info> getExceptions() {
-        return exceptions;
-    }
-
-    public String toString() {
-        return "Exceptions";
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitExceptions_attribute(this);
-    }
+public interface Exceptions_attribute extends Attribute_info {
+    public Collection<? extends Class_info> getExceptions();
 }

@@ -30,92 +30,22 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 package com.jeantessier.classreader;
 
-import java.io.*;
+public interface FeatureRef_info extends ConstantPoolEntry {
+    public int getClassIndex();
+    public Class_info getRawClass();
+    public String getClassName();
+    public String getClassSimpleName();
 
-public abstract class FeatureRef_info extends ConstantPoolEntry {
-    private int classIndex;
-    private int nameAndTypeIndex;
-
-    public FeatureRef_info(ConstantPool constantPool, DataInputStream in) throws IOException {
-        super(constantPool);
-
-        classIndex = in.readUnsignedShort();
-        nameAndTypeIndex = in.readUnsignedShort();
-    }
-
-    public int getClassIndex() {
-        return classIndex;
-    }
-
-    public Class_info getRawClass() {
-        return (Class_info) getConstantPool().get(getClassIndex());
-    }
-
-    public String getClassName() {
-        return getRawClass().toString();
-    }
-
-    public String getClassSimpleName() {
-        return getRawClass().getSimpleName();
-    }
-
-    public int getNameAndTypeIndex() {
-        return nameAndTypeIndex;
-    }
-
-    public NameAndType_info getRawNameAndType() {
-        return (NameAndType_info) getConstantPool().get(getNameAndTypeIndex());
-    }
-
-    public String getNameAndType() {
-        StringBuffer result = new StringBuffer();
-
-        NameAndType_info nat = getRawNameAndType();
-
-        result.append(nat.getName()).append(nat.getType());
-
-        return result.toString();
-    }
+    public int getNameAndTypeIndex();
+    public NameAndType_info getRawNameAndType();
+    public String getNameAndType();
 
     public abstract String getName();
-
-    public String getFullName() {
-        return getClassName() + "." + getName();
-    }
+    public String getFullName();
 
     public abstract String getSignature();
-
-    public String getFullSignature() {
-        return getClassName() + "." + getSignature();
-    }
-
-    public String toString() {
-        StringBuffer result = new StringBuffer();
-
-        Class_info       c   = getRawClass();
-        NameAndType_info nat = getRawNameAndType();
-
-        result.append(c).append(".").append(nat.getName()).append(nat.getType());
-
-        return result.toString();
-    }
-
-    public int hashCode() {
-        return getRawClass().hashCode() ^ getRawNameAndType().hashCode();
-    }
-
-    public boolean equals(Object object) {
-        boolean result = false;
-
-        if (this == object) {
-            result = true;
-        } else if (object != null && this.getClass().equals(object.getClass())) {
-            FeatureRef_info other = (FeatureRef_info) object;
-            result = this.getRawClass().equals(other.getRawClass()) && this.getRawNameAndType().equals(other.getRawNameAndType());
-        }
-
-        return result;
-    }
+    public String getFullSignature();
 }

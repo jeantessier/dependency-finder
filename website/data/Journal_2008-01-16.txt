@@ -1,0 +1,7 @@
+Clamped down on public constants for access modes in =.class= files structures.
+
+I am very tempted to extract interfaces from all the classes that make up the
+=Classfile= structure and put their implementation into a separate package.  I
+could possibly rewrite part of the tests with [[http://jmock.org/][jMock]] and
+have more control on what gets tested without having to jump through hoops to
+create test classes that expose specific behavior.

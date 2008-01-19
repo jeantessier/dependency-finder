@@ -32,37 +32,8 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
-
-public class LocalVariableTable_attribute extends Attribute_info {
-    private Collection<LocalVariable> localVariables = new LinkedList<LocalVariable>();
-
-    public LocalVariableTable_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
-        super(classfile, owner);
-
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
-
-        int localVariableTableLength = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + localVariableTableLength + " local variable(s) ...");
-        for (int i=0; i<localVariableTableLength; i++) {
-            Logger.getLogger(getClass()).debug("Local variable " + i + ":");
-            localVariables.add(new LocalVariable(this, in));
-        }
-    }
-
-    public Collection<LocalVariable> getLocalVariables() {
-        return localVariables;
-    }
-
-    public String toString() {
-        return "Local Variable Table";
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitLocalVariableTable_attribute(this);
-    }
+public interface LocalVariableTable_attribute extends Attribute_info {
+    public Collection<? extends LocalVariable> getLocalVariables();
 }

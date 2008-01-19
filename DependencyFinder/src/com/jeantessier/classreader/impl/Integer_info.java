@@ -1,22 +1,22 @@
 /*
  *  Copyright (c) 2001-2007, Jean Tessier
  *  All rights reserved.
- *
+ *  
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
  *  are met:
- *
+ *  
  *      * Redistributions of source code must retain the above copyright
  *        notice, this list of conditions and the following disclaimer.
- *
+ *  
  *      * Redistributions in binary form must reproduce the above copyright
  *        notice, this list of conditions and the following disclaimer in the
  *        documentation and/or other materials provided with the distribution.
- *
+ *  
  *      * Neither the name of Jean Tessier nor the names of his contributors
  *        may be used to endorse or promote products derived from this software
  *        without specific prior written permission.
- *
+ *  
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -30,49 +30,47 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
-import java.util.*;
+import java.io.*;
 
-import fit.*;
+import com.jeantessier.classreader.*;
 
-public class InstructionFixture extends ColumnFixture {
-    public String opCode;
-    public String data;
+public class Integer_info extends ConstantPoolEntry implements com.jeantessier.classreader.Integer_info {
+    private int value;
 
-    public String mnemonic() {
-        return new Instruction(null, buildDataBytes(), 0).getMnemonic();
+    public Integer_info(ConstantPool constantPool, DataInputStream in) throws IOException {
+        super(constantPool);
+
+        value = in.readInt();
     }
 
-    public int length() {
-        return new Instruction(null, buildDataBytes(), 0).getLength();
+    public int getValue() {
+        return value;
     }
 
-    public int index() {
-        return new Instruction(null, buildDataBytes(), 0).getIndex();
+    public String toString() {
+        return String.valueOf(getValue());
     }
 
-    private byte[] buildDataBytes() {
-        byte[] result;
+    public int hashCode() {
+        return Integer.valueOf(getValue()).hashCode();
+    }
 
-        List<Integer> bytes = new ArrayList<Integer>();
-        bytes.add(Integer.parseInt(opCode, 16));
+    public boolean equals(Object object) {
+        boolean result = false;
 
-        try {
-            StringTokenizer tokens = new StringTokenizer(data);
-            while (tokens.hasMoreTokens()) {
-                bytes.add(Integer.parseInt(tokens.nextToken(), 16));
-            }
-        } catch (NumberFormatException e) {
-            // Ignore
-        }
-
-        result = new byte[bytes.size()];
-        int i = 0;
-        for (int b : bytes) {
-            result[i++] = (byte) b;
+        if (this == object) {
+            result = true;
+        } else if (object != null && this.getClass().equals(object.getClass())) {
+            Integer_info other = (Integer_info) object;
+            result = this.getValue() == other.getValue();
         }
 
         return result;
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitInteger_info(this);
     }
 }

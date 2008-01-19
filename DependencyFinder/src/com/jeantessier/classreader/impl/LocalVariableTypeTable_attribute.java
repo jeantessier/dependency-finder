@@ -1,22 +1,22 @@
 /*
  *  Copyright (c) 2001-2007, Jean Tessier
  *  All rights reserved.
- *  
+ *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
  *  are met:
- *  
+ *
  *      * Redistributions of source code must retain the above copyright
  *        notice, this list of conditions and the following disclaimer.
- *  
+ *
  *      * Redistributions in binary form must reproduce the above copyright
  *        notice, this list of conditions and the following disclaimer in the
  *        documentation and/or other materials provided with the distribution.
- *  
+ *
  *      * Neither the name of Jean Tessier nor the names of his contributors
  *        may be used to endorse or promote products derived from this software
  *        without specific prior written permission.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -30,39 +30,41 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
+import java.io.*;
 import java.util.*;
 
-public class CodeIterator implements Iterator<Instruction> {
-    private Code_attribute code;
-    private byte[] bytecode;
-    private int    pc;
+import org.apache.log4j.*;
 
-    public CodeIterator(Code_attribute code, byte[] bytecode) {
-        this.code = code;
-        this.bytecode = bytecode;
-        this.pc   = 0;
-    }
+import com.jeantessier.classreader.*;
 
-    public boolean hasNext() {
-        return pc < bytecode.length;
-    }
+public class LocalVariableTypeTable_attribute extends Attribute_info implements com.jeantessier.classreader.LocalVariableTypeTable_attribute {
+    private Collection<LocalVariableType> localVariableTypes = new LinkedList<LocalVariableType>();
 
-    public Instruction next() {
-        Instruction result;
+    public LocalVariableTypeTable_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+        super(classfile, owner);
 
-        if (hasNext()) {
-            result = new Instruction(code, bytecode, pc);
-            pc += result.getLength();
-        } else {
-            throw new NoSuchElementException();
+        int byteCount = in.readInt();
+        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+
+        int localVariableTableTypeLength = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Reading " + localVariableTableTypeLength + " local variable type(s) ...");
+        for (int i=0; i<localVariableTableTypeLength; i++) {
+            Logger.getLogger(getClass()).debug("Local variable type " + i + ":");
+            localVariableTypes.add(new LocalVariableType(this, in));
         }
-
-        return result;
     }
 
-    public void remove() {
-        throw new UnsupportedOperationException();
+    public Collection<LocalVariableType> getLocalVariableTypes() {
+        return localVariableTypes;
+    }
+
+    public String toString() {
+        return "Local Variable Type Table";
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitLocalVariableTypeTable_attribute(this);
     }
 }

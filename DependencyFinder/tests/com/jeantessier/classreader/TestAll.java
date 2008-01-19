@@ -39,8 +39,6 @@ public class TestAll extends TestCase {
         TestSuite result = new TestSuite();
 
         result.addTestSuite(TestBitFormat.class);
-        result.addTestSuite(TestInstruction.class);
-        result.addTestSuite(TestInstructionWithConstantPool.class);
         result.addTestSuite(TestInstructionWithDifferentConstantPool.class);
         result.addTestSuite(TestClassNameHelper.class);
         result.addTestSuite(TestDescriptorHelper.class);

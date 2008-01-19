@@ -32,115 +32,13 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
-
-import com.jeantessier.text.*;
-
-public class Code_attribute extends Attribute_info implements Iterable<Instruction> {
-    private int maxStack;
-    private int maxLocals;
-    private byte[] code;
-    private Collection<ExceptionHandler> exceptionHandlers = new LinkedList<ExceptionHandler>();
-    private Collection<Attribute_info> attributes = new LinkedList<Attribute_info>();
-
-    public Code_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
-        super(classfile, owner);
-
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
-
-        maxStack = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Code max stack: " + maxStack);
-
-        maxLocals = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Code max locals: " + maxLocals);
-
-        int codeLength = in.readInt();
-        Logger.getLogger(getClass()).debug("Code length: " + codeLength);
-        
-        code = new byte[codeLength];
-        int bytesRead = in.read(code);
-
-        if (Logger.getLogger(getClass()).isDebugEnabled()) {
-            Logger.getLogger(getClass()).debug("Read " + bytesRead + " byte(s): " + Hex.toString(code));
-
-            for (Instruction instr : this) {
-                int start = instr.getStart();
-                int index = instr.getIndex();
-
-                switch (instr.getOpcode()) {
-                    case 0x12: // ldc
-                    case 0x13: // ldc_w
-                    case 0x14: // ldc2_w
-                    case 0xb2: // getstatic
-                    case 0xb3: // putstatic
-                    case 0xb4: // getfield
-                    case 0xb5: // putfield
-                    case 0xb6: // invokevirtual
-                    case 0xb7: // invokespecial
-                    case 0xb8: // invokestatic
-                    case 0xb9: // invokeinterface
-                    case 0xbb: // new
-                    case 0xbd: // anewarray
-                    case 0xc0: // checkcast
-                    case 0xc1: // instanceof
-                    case 0xc5: // multianewarray
-                        Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + instr.getIndexedConstantPoolEntry() + ")");
-                        break;
-                    default:
-                        Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " (" + instr.getLength() + " byte(s))");
-                        break;
-                }
-            }
-        }
-
-        int exceptionTableLength = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + exceptionTableLength + " exception handler(s) ...");
-        for (int i=0; i<exceptionTableLength; i++) {
-            Logger.getLogger(getClass()).debug("Exception handler " + i + ":");
-            exceptionHandlers.add(new ExceptionHandler(this, in));
-        }
-
-        int attributeCount = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + attributeCount + " code attribute(s)");
-        for (int i=0; i<attributeCount; i++) {
-            Logger.getLogger(getClass()).debug("code attribute " + i + ":");
-            attributes.add(AttributeFactory.create(getClassfile(), this, in));
-        }
-    }
-
-    public int getMaxStack() {
-        return maxStack;
-    }
-
-    public int getMaxLocals() {
-        return maxLocals;
-    }
-
-    public byte[] getCode() {
-        return code;
-    }
-
-    public Iterator<Instruction> iterator() {
-        return new CodeIterator(this, code);
-    }
-
-    public Collection<ExceptionHandler> getExceptionHandlers() {
-        return exceptionHandlers;
-    }
-
-    public Collection<Attribute_info> getAttributes() {
-        return attributes;
-    }
-
-    public String toString() {
-        return "Code";
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitCode_attribute(this);
-    }
+public interface Code_attribute extends Attribute_info, Iterable<Instruction> {
+    public int getMaxStack();
+    public int getMaxLocals();
+    public byte[] getCode();
+    public Iterator<Instruction> iterator();
+    public Collection<? extends ExceptionHandler> getExceptionHandlers();
+    public Collection<? extends Attribute_info> getAttributes();
 }

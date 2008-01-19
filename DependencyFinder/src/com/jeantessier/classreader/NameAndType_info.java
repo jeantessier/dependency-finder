@@ -32,69 +32,12 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
+public interface NameAndType_info extends ConstantPoolEntry {
+    public int getNameIndex();
+    public UTF8_info getRawName();
+    public String getName();
 
-public class NameAndType_info extends ConstantPoolEntry {
-    private int nameIndex;
-    private int typeIndex;
-
-    public NameAndType_info(ConstantPool constantPool, DataInputStream in) throws IOException {
-        super(constantPool);
-
-        nameIndex = in.readUnsignedShort();
-        typeIndex = in.readUnsignedShort();
-    }
-
-    public int getNameIndex() {
-        return nameIndex;
-    }
-
-    public UTF8_info getRawName() {
-        return (UTF8_info) getConstantPool().get(getNameIndex());
-    }
-
-    public String getName() {
-        return getRawName().toString();
-    }
-
-    public int getTypeIndex() {
-        return typeIndex;
-    }
-
-    public UTF8_info getRawType() {
-        return (UTF8_info) getConstantPool().get(getTypeIndex());
-    }
-
-    public String getType() {
-        return getRawType().toString();
-    }
-
-    public String toString() {
-        StringBuffer result = new StringBuffer();
-
-        result.append(getName()).append(" -> ").append(getType());
-
-        return result.toString();
-    }
-
-    public int hashCode() {
-        return getRawName().hashCode() ^ getRawType().hashCode();
-    }
-
-    public boolean equals(Object object) {
-        boolean result = false;
-
-        if (this == object) {
-            result = true;
-        } else if (object != null && this.getClass().equals(object.getClass())) {
-            NameAndType_info other = (NameAndType_info) object;
-            result = this.getRawName().equals(other.getRawName()) && this.getRawType().equals(other.getRawType());
-        }
-
-        return result;
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitNameAndType_info(this);
-    }
+    public int getTypeIndex();
+    public UTF8_info getRawType();
+    public String getType();
 }

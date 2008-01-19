@@ -32,37 +32,8 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
-
-public class LineNumberTable_attribute extends Attribute_info {
-    private Collection<LineNumber> lineNumbers = new LinkedList<LineNumber>();
-
-    public LineNumberTable_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
-        super(classfile, owner);
-
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
-
-        int lineNumberTableLength = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + lineNumberTableLength + " line number(s) ...");
-        for (int i=0; i<lineNumberTableLength; i++) {
-            Logger.getLogger(getClass()).debug("Line number entry " + i + ":");
-            lineNumbers.add(new LineNumber(this, in));
-        }
-    }
-
-    public Collection<LineNumber> getLineNumbers() {
-        return lineNumbers;
-    }
-
-    public String toString() {
-        return "Line Number Table";
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitLineNumberTable_attribute(this);
-    }
+public interface LineNumberTable_attribute extends Attribute_info {
+    public Collection<? extends LineNumber> getLineNumbers();
 }

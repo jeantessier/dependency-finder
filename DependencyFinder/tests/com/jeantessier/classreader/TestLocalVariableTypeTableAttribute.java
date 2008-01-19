@@ -96,7 +96,7 @@ public class TestLocalVariableTypeTableAttribute extends TestCase {
         assertEquals("index", 0, localVariableType.getIndex());
     }
 
-    private LocalVariableTypeTable_attribute findLastLocalVariableTypeTableAttribute(Collection<Attribute_info> attributes) {
+    private LocalVariableTypeTable_attribute findLastLocalVariableTypeTableAttribute(Collection<? extends Attribute_info> attributes) {
         LocalVariableTypeTable_attribute result = null;
 
         for (Attribute_info attribute : attributes) {

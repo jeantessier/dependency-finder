@@ -32,37 +32,8 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
-
-public class InnerClasses_attribute extends Attribute_info {
-    private Collection<InnerClass> classes = new LinkedList<InnerClass>();
-
-    public InnerClasses_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
-        super(classfile, owner);
-
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
-
-        int classCount = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + classCount + " inner class(es) ...");
-        for (int i=0; i<classCount; i++) {
-            Logger.getLogger(getClass()).debug("Inner class " + i + ":");
-            classes.add(new InnerClass(this, in));
-        }
-    }
-
-    public Collection<InnerClass> getInnerClasses() {
-        return classes;
-    }
-
-    public String toString() {
-        return "InnerClasses";
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitInnerClasses_attribute(this);
-    }
+public interface InnerClasses_attribute extends Attribute_info {
+    public Collection<? extends InnerClass> getInnerClasses();
 }

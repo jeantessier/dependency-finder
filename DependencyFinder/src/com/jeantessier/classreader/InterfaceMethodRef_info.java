@@ -32,14 +32,5 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-
-public class InterfaceMethodRef_info extends MethodRef_info {
-    public InterfaceMethodRef_info(ConstantPool constantPool, DataInputStream in) throws IOException {
-        super(constantPool, in);
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitInterfaceMethodRef_info(this);
-    }
+public interface InterfaceMethodRef_info extends MethodRef_info {
 }

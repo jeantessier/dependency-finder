@@ -32,53 +32,7 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-
-import org.apache.log4j.*;
-
-public class ConstantValue_attribute extends Attribute_info {
-    private int valueIndex;
-
-    public ConstantValue_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
-        super(classfile, owner);
-
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
-
-        valueIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Constant value: " + getRawValue());
-    }
-
-    public int getValueIndex() {
-        return valueIndex;
-    }
-
-    public ConstantPoolEntry getRawValue() {
-        return getClassfile().getConstantPool().get(getValueIndex());
-    }
-
-    public String toString() {
-        return "ConstantValue " + getRawValue();
-    }
-
-    public int hashCode() {
-        return getRawValue().hashCode();
-    }
-
-    public boolean equals(Object object) {
-        boolean result = false;
-
-        if (this == object) {
-            result = true;
-        } else if (object != null && this.getClass().equals(object.getClass())) {
-            ConstantValue_attribute other = (ConstantValue_attribute) object;
-            result = this.getRawValue().equals(other.getRawValue());
-        }
-
-        return result;
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitConstantValue_attribute(this);
-    }
+public interface ConstantValue_attribute extends Attribute_info {
+    public int getValueIndex();
+    public ConstantPoolEntry getRawValue();
 }

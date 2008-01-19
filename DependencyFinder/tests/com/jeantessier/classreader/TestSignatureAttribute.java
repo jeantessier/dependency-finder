@@ -114,7 +114,7 @@ public class TestSignatureAttribute extends TestCase {
         assertEquals("Signature", "TT;", signatureAttribute.getSignature());
     }
 
-    private Signature_attribute findSingleSignatureAttribute(Collection<Attribute_info> attributes) {
+    private Signature_attribute findSingleSignatureAttribute(Collection<? extends Attribute_info> attributes) {
         Signature_attribute result = null;
 
         for (Attribute_info attribute : attributes) {

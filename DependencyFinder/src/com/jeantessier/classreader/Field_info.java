@@ -32,88 +32,16 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-import java.util.*;
+public interface Field_info extends Feature_info {
+    public String getFeatureType();
 
-public class Field_info extends Feature_info {
-    private static final int ACC_VOLATILE  = 0x0040;
-    private static final int ACC_TRANSIENT = 0x0080;
-    private static final int ACC_ENUM = 0x4000;
+    public boolean isVolatile();
+    public boolean isTransient();
+    public boolean isEnum();
 
-    public Field_info(Classfile classfile, DataInputStream in) throws IOException {
-        super(classfile, in);
-    }
-
-    public String getFeatureType() {
-        return "field";
-    }
-
-    public boolean isVolatile() {
-        return (getAccessFlag() & ACC_VOLATILE) != 0;
-    }
-
-    public boolean isTransient() {
-        return (getAccessFlag() & ACC_TRANSIENT) != 0;
-    }
-
-    public boolean isEnum() {
-        return (getAccessFlag() & ACC_ENUM) != 0;
-    }
-
-    public String getType() {
-        return DescriptorHelper.getType(getDescriptor());
-    }
-
-    public String getDeclaration() {
-        StringBuffer result = new StringBuffer();
-
-        if (isPublic()) result.append("public ");
-        if (isProtected()) result.append("protected ");
-        if (isPrivate()) result.append("private ");
-        if (isStatic()) result.append("static ");
-        if (isFinal()) result.append("final ");
-        if (isVolatile()) result.append("volatile ");
-        if (isTransient()) result.append("transient ");
-    
-        result.append(getType()).append(" ");
-        result.append(getName());
-
-        return result.toString();
-    }
-
-    public String getFullDeclaration() {
-        String result = getDeclaration();
-
-        if (getConstantValue() != null) {
-            if (getConstantValue().getRawValue() instanceof String_info) {
-                result += " = \"" + getConstantValue().getRawValue() + "\"";
-            } else {
-                result += " = " + getConstantValue().getRawValue();
-            }
-        }
-
-        return result;
-    }
-
-    public String getSignature() {
-        return getName();
-    }
-
-    public ConstantValue_attribute getConstantValue() {
-        ConstantValue_attribute result = null;
-
-        Iterator i = getAttributes().iterator();
-        while (result == null && i.hasNext()) {
-            Object temp = i.next();
-            if (temp instanceof ConstantValue_attribute) {
-                result = (ConstantValue_attribute) temp;
-            }
-        }
-
-        return result;
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitField_info(this);
-    }
+    public String getType();
+    public String getDeclaration();
+    public String getFullDeclaration();
+    public String getSignature();
+    public ConstantValue_attribute getConstantValue();
 }

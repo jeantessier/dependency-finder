@@ -40,6 +40,7 @@ import org.apache.log4j.*;
 public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     public static final ClassfileLoaderDispatcher DEFAULT_DISPATCHER = new PermissiveDispatcher();
     
+    private ClassfileFactory factory;
     private ClassfileLoaderDispatcher dispatcher;
     
     private ClassfileLoader dirLoader = new DirectoryClassfileLoader(this);
@@ -53,14 +54,19 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 
     private ClassfileLoaderAction previousDispatch;
     
-    public ClassfileLoaderEventSource() {
-        this(DEFAULT_DISPATCHER);
+    public ClassfileLoaderEventSource(ClassfileFactory factory) {
+        this(factory, DEFAULT_DISPATCHER);
     }
 
-    public ClassfileLoaderEventSource(ClassfileLoaderDispatcher dispatcher) {
+    public ClassfileLoaderEventSource(ClassfileFactory factory, ClassfileLoaderDispatcher dispatcher) {
+        this.factory = factory;
         this.dispatcher = dispatcher;
     }
-    
+
+    protected ClassfileFactory getFactory() {
+        return factory;
+    }
+
     protected void load(String filename) {
         ClassfileLoaderAction dispatch = dispatcher.dispatch(filename);
 

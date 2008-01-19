@@ -35,9 +35,8 @@ package com.jeantessier.metrics;
 import java.io.*;
 import java.util.*;
 
-import junit.framework.*;
-
 import com.jeantessier.classreader.*;
+import junit.framework.*;
 
 public class TestMetricsGatherer extends TestCase {
     public static final String TEST_CLASS    = "test";

@@ -32,49 +32,7 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-
-import org.apache.log4j.*;
-
-import com.jeantessier.text.*;
-
-public class Custom_attribute extends Attribute_info {
-    private String name;
-    private byte[] info;
-
-    public Custom_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
-        this("", classfile, owner, in);
-    }
-
-    public Custom_attribute(String name, Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
-        super(classfile, owner);
-
-        this.name = name;
-
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
-
-        this.info = new byte[byteCount];
-        int bytesRead = in.read(info);
-
-        if (Logger.getLogger(getClass()).isDebugEnabled()) {
-            Logger.getLogger(getClass()).debug("Read " + bytesRead + " byte(s): " + Hex.toString(this.info));
-        }
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public byte[] getInfo() {
-        return info;
-    }
-
-    public String toString() {
-        return "Custom \"" + name + "\" " + getInfo().length + " byte(s)";
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitCustom_attribute(this);
-    }
+public interface Custom_attribute extends Attribute_info {
+    public String getName();
+    public byte[] getInfo();
 }

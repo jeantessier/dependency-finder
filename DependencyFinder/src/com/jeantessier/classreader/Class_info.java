@@ -32,55 +32,9 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-
-public class Class_info extends ConstantPoolEntry {
-    private int nameIndex;
-
-    public Class_info(ConstantPool constantPool, DataInputStream in) throws IOException {
-        super(constantPool);
-
-        nameIndex = in.readUnsignedShort();
-    }
-
-    public int getNameIndex() {
-        return nameIndex;
-    }
-
-    public UTF8_info getRawName() {
-        return (UTF8_info) getConstantPool().get(getNameIndex());
-    }
-
-    public String getName() {
-        return ClassNameHelper.convertClassName(getRawName().toString());
-    }
-
-    public String getSimpleName() {
-        return getName().substring(getName().lastIndexOf(".") + 1);
-    }
-
-    public String toString() {
-        return getName();
-    }
-
-    public int hashCode() {
-        return getRawName().hashCode();
-    }
-
-    public boolean equals(Object object) {
-        boolean result = false;
-
-        if (this == object) {
-            result = true;
-        } else if (object != null && this.getClass().equals(object.getClass())) {
-            Class_info other = (Class_info) object;
-            result = this.getRawName().equals(other.getRawName());
-        }
-
-        return result;
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitClass_info(this);
-    }
+public interface Class_info extends ConstantPoolEntry {
+    public int getNameIndex();
+    public UTF8_info getRawName();
+    public String getName();
+    public String getSimpleName();
 }

@@ -32,82 +32,19 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
+public interface LocalVariable extends Visitable {
+    public LocalVariableTable_attribute getLocalVariableTable();
 
-import org.apache.log4j.*;
+    public int getStartPC();
+    public int getLength();
 
-public class LocalVariable implements Visitable {
-    private LocalVariableTable_attribute localVariableTable;
-    private int                          startPC;
-    private int                          length;
-    private int                          nameIndex;
-    private int                          descriptorIndex;
-    private int                          index;
+    public int getNameIndex();
+    public UTF8_info getRawName();
+    public String getName();
 
-    public LocalVariable(LocalVariableTable_attribute localVariableTable, DataInputStream in) throws IOException {
-        this.localVariableTable = localVariableTable;
+    public int getDescriptorIndex();
+    public UTF8_info getRawDescriptor();
+    public String getDescriptor();
 
-        startPC = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("start PC: " + startPC);
-
-        length = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("length: " + length);
-
-        nameIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("name: " + nameIndex + " (" + getName() + ")");
-
-        descriptorIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("descriptor: " + descriptorIndex + " (" + getDescriptor() + ")");
-
-        index = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("index: " + index);
-    }
-
-    public LocalVariableTable_attribute getLocalVariableTable() {
-        return localVariableTable;
-    }
-
-    public int getStartPC() {
-        return startPC;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public int getNameIndex() {
-        return nameIndex;
-    }
-
-    public UTF8_info getRawName() {
-        return (UTF8_info) getLocalVariableTable().getClassfile().getConstantPool().get(getNameIndex());
-    }
-
-    public String getName() {
-        return getRawName().toString();
-    }
-
-    public int getDescriptorIndex() {
-        return descriptorIndex;
-    }
-
-    public UTF8_info getRawDescriptor() {
-        return (UTF8_info) getLocalVariableTable().getClassfile().getConstantPool().get(getDescriptorIndex());
-    }
-
-    public String getDescriptor() {
-        return getRawDescriptor().toString();
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public String toString() {
-        return "Local variable " + getDescriptor() + " " + getName();
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitLocalVariable(this);
-    }
+    public int getIndex();
 }

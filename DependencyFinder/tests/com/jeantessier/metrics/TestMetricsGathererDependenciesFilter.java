@@ -37,8 +37,6 @@ import junit.framework.*;
 import java.io.*;
 import java.util.*;
 
-import org.xml.sax.*;
-
 import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
@@ -70,7 +68,7 @@ public class TestMetricsGathererDependenciesFilter extends TestCase {
     }
     
     public void testpackage_TestClass_testMethod_withFilterForMethod() {
-        Collection filterIncludes = new HashSet();
+        Collection<String> filterIncludes = new HashSet<String>();
         filterIncludes.add("testpackage.TestClass.targetMethod()");
 
         gatherer.setFilterIncludes(filterIncludes);
@@ -105,7 +103,7 @@ public class TestMetricsGathererDependenciesFilter extends TestCase {
     }
     
     public void testpackage_TestClass_testMethod_withFilterForClass() {
-        Collection filterIncludes = new HashSet();
+        Collection<String> filterIncludes = new HashSet<String>();
         filterIncludes.add("testpackage.TargetClass");
 
         gatherer.setFilterIncludes(filterIncludes);
@@ -140,7 +138,7 @@ public class TestMetricsGathererDependenciesFilter extends TestCase {
     }
     
     public void testpackage_TestClass_testMethod_withFilterForPackage() {
-        Collection filterIncludes = new HashSet();
+        Collection<String> filterIncludes = new HashSet<String>();
         filterIncludes.add("java.lang");
 
         gatherer.setFilterIncludes(filterIncludes);
@@ -174,7 +172,7 @@ public class TestMetricsGathererDependenciesFilter extends TestCase {
     }
     
     public void testpackage_TestClass_withFilterForClass() {
-        Collection filterIncludes = new HashSet();
+        Collection<String> filterIncludes = new HashSet<String>();
         filterIncludes.add("testpackage.TargetInterface");
 
         gatherer.setFilterIncludes(filterIncludes);
@@ -203,7 +201,7 @@ public class TestMetricsGathererDependenciesFilter extends TestCase {
     }
     
     public void testpackage_TestClass_withFilterForPackage() {
-        Collection filterIncludes = new HashSet();
+        Collection<String> filterIncludes = new HashSet<String>();
         filterIncludes.add("java.lang");
 
         gatherer.setFilterIncludes(filterIncludes);

@@ -32,43 +32,6 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-
-public class Integer_info extends ConstantPoolEntry {
-    private int value;
-
-    public Integer_info(ConstantPool constantPool, DataInputStream in) throws IOException {
-        super(constantPool);
-
-        value = in.readInt();
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    public String toString() {
-        return String.valueOf(getValue());
-    }
-
-    public int hashCode() {
-        return Integer.valueOf(getValue()).hashCode();
-    }
-
-    public boolean equals(Object object) {
-        boolean result = false;
-
-        if (this == object) {
-            result = true;
-        } else if (object != null && this.getClass().equals(object.getClass())) {
-            Integer_info other = (Integer_info) object;
-            result = this.getValue() == other.getValue();
-        }
-
-        return result;
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitInteger_info(this);
-    }
+public interface Integer_info extends ConstantPoolEntry {
+    public int getValue();
 }

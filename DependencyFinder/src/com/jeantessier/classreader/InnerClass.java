@@ -32,155 +32,33 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
+public interface InnerClass extends Visitable {
+    public InnerClasses_attribute getInnerClasses();
 
-import org.apache.log4j.*;
+    public int getInnerClassInfoIndex();
+    public Class_info getRawInnerClassInfo();
+    public String getInnerClassInfo();
 
-public class InnerClass implements Visitable {
-    private static final int ACC_PUBLIC = 0x0001;
-    private static final int ACC_PRIVATE = 0x0002;
-    private static final int ACC_PROTECTED = 0x0004;
-    private static final int ACC_STATIC = 0x0008;
-    private static final int ACC_FINAL = 0x0010;
-    private static final int ACC_INTERFACE = 0x0200;
-    private static final int ACC_ABSTRACT = 0x0400;
-    private static final int ACC_SYNTHETIC = 0x1000;
-    private static final int ACC_ANNOTATION = 0x2000;
-    private static final int ACC_ENUM = 0x4000;
+    public int getOuterClassInfoIndex();
+    public Class_info getRawOuterClassInfo();
+    public String getOuterClassInfo();
 
-    private InnerClasses_attribute innerClasses;
-    private int innerClassInfoIndex;
-    private int outerClassInfoIndex;
-    private int innerNameIndex;
-    private int accessFlag;
+    public int getInnerNameIndex();
+    public UTF8_info getRawInnerName();
+    public String getInnerName();
 
-    public InnerClass(InnerClasses_attribute innerClasses, DataInputStream in) throws IOException {
-        this.innerClasses = innerClasses;
+    public int getAccessFlag();
 
-        innerClassInfoIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Inner class info index: " + innerClassInfoIndex + " (" + getInnerClassInfo() + ")");
+    public boolean isPublic();
+    public boolean isProtected();
+    public boolean isPrivate();
+    public boolean isPackage();
 
-        outerClassInfoIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Outer class info index: " + outerClassInfoIndex + " (" + getOuterClassInfo() + ")");
-
-        innerNameIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Inner name index: " + innerNameIndex + " (" + getInnerName() + ")");
-
-        accessFlag = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Inner class access flag: " + accessFlag);
-    }
-
-    public InnerClasses_attribute getInnerClasses() {
-        return innerClasses;
-    }
-
-    public int getInnerClassInfoIndex() {
-        return innerClassInfoIndex;
-    }
-
-    public Class_info getRawInnerClassInfo() {
-        return (Class_info) innerClasses.getClassfile().getConstantPool().get(getInnerClassInfoIndex());
-    }
-
-    public String getInnerClassInfo() {
-        String result = "";
-
-        if (getInnerClassInfoIndex() != 0) {
-            result = getRawInnerClassInfo().toString();
-        }
-
-        return result;
-    }
-
-    public int getOuterClassInfoIndex() {
-        return outerClassInfoIndex;
-    }
-
-    public Class_info getRawOuterClassInfo() {
-        return (Class_info) innerClasses.getClassfile().getConstantPool().get(getOuterClassInfoIndex());
-    }
-
-    public String getOuterClassInfo() {
-        String result = "";
-
-        if (getOuterClassInfoIndex() != 0) {
-            result = getRawOuterClassInfo().toString();
-        }
-
-        return result;
-    }
-
-    public int getInnerNameIndex() {
-        return innerNameIndex;
-    }
-
-    public UTF8_info getRawInnerName() {
-        return (UTF8_info) innerClasses.getClassfile().getConstantPool().get(getInnerNameIndex());
-    }
-
-    public String getInnerName() {
-        String result = "";
-
-        if (getInnerNameIndex() != 0) {
-            result = getRawInnerName().toString();
-        }
-
-        return result;
-    }
-
-    public int getAccessFlag() {
-        return accessFlag;
-    }
-
-    public boolean isPublic() {
-        return (getAccessFlag() & ACC_PUBLIC) != 0;
-    }
-
-    public boolean isProtected() {
-        return (getAccessFlag() & ACC_PROTECTED) != 0;
-    }
-
-    public boolean isPrivate() {
-        return (getAccessFlag() & ACC_PRIVATE) != 0;
-    }
-
-    public boolean isPackage() {
-        return (getAccessFlag() & (ACC_PUBLIC | ACC_PROTECTED | ACC_PRIVATE)) == 0;
-    }
-
-    public boolean isStatic() {
-        return (getAccessFlag() & ACC_STATIC) != 0;
-    }
-
-    public boolean isFinal() {
-        return (getAccessFlag() & ACC_FINAL) != 0;
-    }
-
-    public boolean isInterface() {
-        return (getAccessFlag() & ACC_INTERFACE) != 0;
-    }
-
-    public boolean isAbstract() {
-        return (getAccessFlag() & ACC_ABSTRACT) != 0;
-    }
-
-    public boolean isSynthetic() {
-        return (getAccessFlag() & ACC_SYNTHETIC) != 0;
-    }
-
-    public boolean isAnnotation() {
-        return (getAccessFlag() & ACC_ANNOTATION) != 0;
-    }
-
-    public boolean isEnum() {
-        return (getAccessFlag() & ACC_ENUM) != 0;
-    }
-
-    public String toString() {
-        return getInnerClassInfo();
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitInnerClass(this);
-    }
+    public boolean isStatic();
+    public boolean isFinal();
+    public boolean isInterface();
+    public boolean isAbstract();
+    public boolean isSynthetic();
+    public boolean isAnnotation();
+    public boolean isEnum();
 }

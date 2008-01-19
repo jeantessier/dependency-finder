@@ -32,40 +32,8 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-
-import org.apache.log4j.*;
-
-public class Signature_attribute extends Attribute_info {
-    private int signatureIndex;
-
-    public Signature_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
-        super(classfile, owner);
-
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
-
-        signatureIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Signature: " + signatureIndex + " (" + getSignature() + ")");
-    }
-
-    public int getSignatureIndex() {
-        return signatureIndex;
-    }
-
-    public UTF8_info getRawSignature() {
-        return (UTF8_info) getClassfile().getConstantPool().get(getSignatureIndex());
-    }
-
-    public String getSignature() {
-        return getRawSignature().toString();
-    }
-
-    public String toString() {
-        return "Signature \"" + getSignature() + "\"";
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitSignature_attribute(this);
-    }
+public interface Signature_attribute extends Attribute_info {
+    public int getSignatureIndex();
+    public UTF8_info getRawSignature();
+    public String getSignature();
 }

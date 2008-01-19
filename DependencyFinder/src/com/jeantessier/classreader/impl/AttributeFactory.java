@@ -30,11 +30,13 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
 import org.apache.log4j.*;
+
+import com.jeantessier.classreader.Visitable;
 
 public class AttributeFactory {
     public static Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {

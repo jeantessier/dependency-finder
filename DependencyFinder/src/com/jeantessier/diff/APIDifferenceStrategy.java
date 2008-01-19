@@ -70,7 +70,7 @@ public class APIDifferenceStrategy extends DifferenceStrategyDecorator {
 
         Set<String> fieldNameSet = new HashSet<String>();
 
-        Iterator<Field_info> fields;
+        Iterator<? extends Field_info> fields;
         fields = oldClass.getAllFields().iterator();
         while (fields.hasNext()) {
             fieldNameSet.add(fields.next().getName());
@@ -97,7 +97,7 @@ public class APIDifferenceStrategy extends DifferenceStrategyDecorator {
 
         Set<String> methodSignatureSet = new HashSet<String>();
 
-        Iterator<Method_info> methods;
+        Iterator<? extends Method_info> methods;
         methods = oldClass.getAllMethods().iterator();
         while (methods.hasNext()) {
             methodSignatureSet.add(methods.next().getSignature());

@@ -38,7 +38,6 @@ import java.util.*;
 import junit.framework.*;
 
 import org.apache.log4j.*;
-import org.apache.oro.text.perl.*;
 
 import com.jeantessier.classreader.*;
 

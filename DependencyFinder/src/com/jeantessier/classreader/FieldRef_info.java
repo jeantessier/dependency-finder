@@ -32,34 +32,9 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-
-public class FieldRef_info extends FeatureRef_info {
-    public FieldRef_info(ConstantPool constantPool, DataInputStream in) throws IOException {
-        super(constantPool, in);
-    }
-
-    public String getNameAndType() {
-        return getType() + " " + getName();
-    }
-
-    public String getType() {
-        return DescriptorHelper.getReturnType(getRawNameAndType().getType());
-    }
-
-    public String getName() {
-        return getRawNameAndType().getName();
-    }
-
-    public String getSignature() {
-        return getName();
-    }
-
-    public String toString() {
-        return getType() + " " + getFullName();
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitFieldRef_info(this);
-    }
+public interface FieldRef_info extends FeatureRef_info {
+    public String getNameAndType();
+    public String getType();
+    public String getName();
+    public String getSignature();
 }

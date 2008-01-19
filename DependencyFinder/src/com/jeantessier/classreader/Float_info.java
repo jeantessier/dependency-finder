@@ -32,43 +32,6 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-
-public class Float_info extends ConstantPoolEntry {
-    private float value;
-
-    public Float_info(ConstantPool constantPool, DataInputStream in) throws IOException {
-        super(constantPool);
-
-        value = in.readFloat();
-    }
-
-    public float getValue() {
-        return value;
-    }
-
-    public String toString() {
-        return String.valueOf(getValue());
-    }
-
-    public int hashCode() {
-        return Float.valueOf(getValue()).hashCode();
-    }
-
-    public boolean equals(Object object) {
-        boolean result = false;
-
-        if (this == object) {
-            result = true;
-        } else if (object != null && this.getClass().equals(object.getClass())) {
-            Float_info other = (Float_info) object;
-            result = Float.compare(this.getValue(), other.getValue()) == 0;
-        }
-
-        return result;
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitFloat_info(this);
-    }
+public interface Float_info extends ConstantPoolEntry {
+    public float getValue();
 }
