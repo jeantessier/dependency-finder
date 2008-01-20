@@ -39,6 +39,7 @@ For testing:
 <table>
     <tr><th>Name</th><th>Location</th><th>Tested Version</th></tr>
     <tr><td>JUnit</td><td>[[http://junit.org/][junit.org]]</td><td align="center">3.8.2</td></tr>
+    <tr><td>jMock</td><td>[[http://jmock.org/][jmock.org]]</td><td align="center">2.4.0</td></tr>
     <tr><td>FitLibrary</td><td>[[http://fitlibrary.sourceforge.net/][fitlibrary.sourceforge.net]]</td><td align="center">2006-01-16</td></tr>
     <tr><td>HttpUnit</td><td>[[http://httpunit.sourceforge.net/][httpunit.sourceforge.net]]</td><td align="center">1.6.2</td></tr>
     <tr><td>Emma</td><td>[[http://emma.sourceforge.net/][emma.sourceforge.net]]</td><td align="center">2.0.5312</td></tr>
@@ -1080,6 +1081,7 @@ Before you can compile and run the tests, you need to set the following
 environment variables in addition to those for compiling Dependency Finder:
 
     * =JUNIT_HOME= to your [[http://junit.org/][JUnit]] installation
+    * =JMOCK_HOME= to your [[http://jmock.org/][jMock]] installation
     * =FITLIBRARY_HOME= to your [[http://fitlibrary.sourceforge.net/][FitLibrary]] installation
     * =HTTPUNIT_HOME= to your [[http://httpunit.sourceforge.net/][HttpUnit]] installation
 

@@ -34,6 +34,9 @@
                 <include name="**/*.jar"/>
             </fileset>
             <pathelement location="${env.JUNIT_HOME}/junit.jar"/>
+            <fileset dir="${env.JMOCK_HOME}">
+                <include name="**/*.jar"/>
+            </fileset>
             <fileset dir="${env.CATALINA_HOME}">
                 <include name="bin/*.jar"/>
                 <include name="lib/*.jar"/>
