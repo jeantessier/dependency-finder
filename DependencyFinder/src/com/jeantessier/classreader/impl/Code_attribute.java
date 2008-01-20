@@ -38,8 +38,7 @@ import java.util.*;
 import org.apache.log4j.*;
 
 import com.jeantessier.classreader.Instruction;
-import com.jeantessier.classreader.Visitable;
-import com.jeantessier.classreader.Visitor;
+import com.jeantessier.classreader.*;
 import com.jeantessier.text.*;
 
 public class Code_attribute extends Attribute_info implements Iterable<Instruction>, com.jeantessier.classreader.Code_attribute {

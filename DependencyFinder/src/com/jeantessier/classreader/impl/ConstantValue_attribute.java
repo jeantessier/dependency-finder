@@ -35,8 +35,8 @@ package com.jeantessier.classreader.impl;
 import java.io.*;
 
 import org.apache.log4j.*;
-import com.jeantessier.classreader.Visitable;
-import com.jeantessier.classreader.Visitor;
+
+import com.jeantessier.classreader.*;
 
 public class ConstantValue_attribute extends Attribute_info implements com.jeantessier.classreader.ConstantValue_attribute {
     private int valueIndex;

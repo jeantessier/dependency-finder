@@ -580,7 +580,7 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
         this.start = start;
     }
 
-    public com.jeantessier.classreader.Code_attribute getCode() {
+    public Code_attribute getCode() {
         return code;
     }
 

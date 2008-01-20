@@ -35,8 +35,7 @@ package com.jeantessier.classreader.impl;
 import java.io.*;
 import java.util.*;
 
-import com.jeantessier.classreader.DescriptorHelper;
-import com.jeantessier.classreader.Visitor;
+import com.jeantessier.classreader.*;
 
 public class Method_info extends Feature_info implements com.jeantessier.classreader.Method_info {
     private static final int ACC_SYNCHRONIZED = 0x0020;
@@ -79,7 +78,7 @@ public class Method_info extends Feature_info implements com.jeantessier.classre
     public Collection<Class_info> getExceptions() {
         Collection<Class_info> result = Collections.emptyList();
 
-        for (com.jeantessier.classreader.Attribute_info attribute : getAttributes()) {
+        for (Attribute_info attribute : getAttributes()) {
             if (attribute instanceof Exceptions_attribute) {
                 result = ((Exceptions_attribute) attribute).getExceptions();
             }

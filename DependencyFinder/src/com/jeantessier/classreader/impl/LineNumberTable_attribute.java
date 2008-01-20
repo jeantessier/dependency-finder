@@ -37,8 +37,7 @@ import java.util.*;
 
 import org.apache.log4j.*;
 
-import com.jeantessier.classreader.Visitable;
-import com.jeantessier.classreader.Visitor;
+import com.jeantessier.classreader.*;
 
 public class LineNumberTable_attribute extends Attribute_info implements com.jeantessier.classreader.LineNumberTable_attribute {
     private Collection<LineNumber> lineNumbers = new LinkedList<LineNumber>();

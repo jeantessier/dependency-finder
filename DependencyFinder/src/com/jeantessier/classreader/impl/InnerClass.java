@@ -36,7 +36,7 @@ import java.io.*;
 
 import org.apache.log4j.*;
 
-import com.jeantessier.classreader.Visitor;
+import com.jeantessier.classreader.*;
 
 public class InnerClass implements com.jeantessier.classreader.InnerClass {
     private static final int ACC_PUBLIC = 0x0001;

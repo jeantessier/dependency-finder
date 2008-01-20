@@ -32,9 +32,9 @@
 
 package com.jeantessier.classreader.impl;
 
-import com.jeantessier.classreader.Visitor;
-
 import java.io.*;
+
+import com.jeantessier.classreader.*;
 
 public class UTF8_info extends ConstantPoolEntry implements com.jeantessier.classreader.UTF8_info {
     private String value;

@@ -35,8 +35,7 @@ package com.jeantessier.classreader.impl;
 import java.io.*;
 import java.util.*;
 
-import com.jeantessier.classreader.DescriptorHelper;
-import com.jeantessier.classreader.Visitor;
+import com.jeantessier.classreader.*;
 
 public class Field_info extends Feature_info implements com.jeantessier.classreader.Field_info {
     private static final int ACC_VOLATILE  = 0x0040;
@@ -102,7 +101,7 @@ public class Field_info extends Feature_info implements com.jeantessier.classrea
         return getName();
     }
 
-    public com.jeantessier.classreader.ConstantValue_attribute getConstantValue() {
+    public ConstantValue_attribute getConstantValue() {
         ConstantValue_attribute result = null;
 
         Iterator i = getAttributes().iterator();
