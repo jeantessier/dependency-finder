@@ -1,1 +1,1 @@
-Added [[http://jmock.org/][jMock]] JARs to =build.xml= files.
+Used [[http://jmock.org/][jMock]] to rewrite =TestLoadListenerVisitorAdapter=.

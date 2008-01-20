@@ -32,181 +32,69 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-import java.util.*;
+import org.jmock.*;
+import org.jmock.integration.junit3.*;
 
-import junit.framework.*;
+public class TestLoadListenerVisitorAdapter extends MockObjectTestCase {
+    public void testBeginSession() {
+        final Visitor visitor = mock(Visitor.class);
 
-public class TestLoadListenerVisitorAdapter extends TestCase implements Visitor {
-    public static final String TEST_DIR      = "tests" + File.separator + "JarJarDiff";
-    public static final String TEST_CLASS    = "test";
-    public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
-
-    private LinkedList<Classfile> classfiles;
-    private ClassfileLoader loader;
-
-    protected void setUp() throws Exception {
-        classfiles = new LinkedList<Classfile>();
-
-        LoadListenerVisitorAdapter adapter = new LoadListenerVisitorAdapter(this);
-        loader = new AggregatingClassfileLoader();
-        loader.addLoadListener(adapter);
+        LoadListenerVisitorAdapter adapter = new LoadListenerVisitorAdapter(visitor);
+        adapter.beginSession(new LoadEvent(this, null, null, null));
     }
 
-    public void testOneFile() {
-        loader.load(TEST_FILENAME);
+    public void testBeginGroup() {
+        final Visitor visitor = mock(Visitor.class);
 
-        assertEquals("First class", TEST_CLASS, classfiles.getFirst().getClassName());
-        assertEquals("Nb visited classes", 1, classfiles.size());
-    }
-
-    public void testManyFiles() {
-        loader.load(TEST_DIR);
-
-        assertEquals("Nb visited classes", 164, classfiles.size());
+        LoadListenerVisitorAdapter adapter = new LoadListenerVisitorAdapter(visitor);
+        adapter.beginGroup(new LoadEvent(this, null, null, null));
     }
 
-    public void visitClassfiles(Collection<Classfile> classfiles) {
-        this.classfiles.addAll(classfiles);
-    }
-    
-    public void visitClassfile(Classfile classfile) {
-        classfiles.add(classfile);
+    public void testBeginFile() {
+        final Visitor visitor = mock(Visitor.class);
+
+        LoadListenerVisitorAdapter adapter = new LoadListenerVisitorAdapter(visitor);
+        adapter.beginFile(new LoadEvent(this, null, null, null));
     }
 
-    public void visitConstantPool(ConstantPool constantPool) {
-        // Do nothing
-    }
-    
-    public void visitClass_info(Class_info entry) {
-        // Do nothing
-    }
-    
-    public void visitFieldRef_info(FieldRef_info entry) {
-        // Do nothing
-    }
-    
-    public void visitMethodRef_info(MethodRef_info entry) {
-        // Do nothing
-    }
-    
-    public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
-        // Do nothing
-    }
-    
-    public void visitString_info(String_info entry) {
-        // Do nothing
-    }
-    
-    public void visitInteger_info(Integer_info entry) {
-        // Do nothing
-    }
-    
-    public void visitFloat_info(Float_info entry) {
-        // Do nothing
-    }
-    
-    public void visitLong_info(Long_info entry) {
-        // Do nothing
-    }
-    
-    public void visitDouble_info(Double_info entry) {
-        // Do nothing
-    }
-    
-    public void visitNameAndType_info(NameAndType_info entry) {
-        // Do nothing
-    }
-    
-    public void visitUTF8_info(UTF8_info entry) {
-        // Do nothing
-    }
-    
-    public void visitField_info(Field_info entry) {
-        // Do nothing
-    }
-    
-    public void visitMethod_info(Method_info entry) {
-        // Do nothing
-    }
-    
-    public void visitConstantValue_attribute(ConstantValue_attribute attribute) {
-        // Do nothing
-    }
-    
-    public void visitCode_attribute(Code_attribute attribute) {
-        // Do nothing
-    }
-    
-    public void visitExceptions_attribute(Exceptions_attribute attribute) {
-        // Do nothing
-    }
-    
-    public void visitInnerClasses_attribute(InnerClasses_attribute attribute) {
-        // Do nothing
+    public void testBeginClassfile() {
+        final Visitor visitor = mock(Visitor.class);
+
+        LoadListenerVisitorAdapter adapter = new LoadListenerVisitorAdapter(visitor);
+        adapter.beginClassfile(new LoadEvent(this, null, null, null));
     }
 
-    public void visitEnclosingMethod_attribute(EnclosingMethod_attribute attribute) {
-        // Do nothing
+    public void testEndClassfile() {
+        final Visitor visitor = mock(Visitor.class);
+        final Classfile classfile = mock(Classfile.class);
+
+        checking(new Expectations() {{
+            one (classfile).accept(visitor);
+            ignoring (visitor);
+        }});
+
+        LoadListenerVisitorAdapter adapter = new LoadListenerVisitorAdapter(visitor);
+        adapter.endClassfile(new LoadEvent(this, null, null, classfile));
     }
 
-    public void visitSynthetic_attribute(Synthetic_attribute attribute) {
-        // Do nothing
+    public void testEndFile() {
+        final Visitor visitor = mock(Visitor.class);
+
+        LoadListenerVisitorAdapter adapter = new LoadListenerVisitorAdapter(visitor);
+        adapter.endFile(new LoadEvent(this, null, null, null));
     }
 
-    public void visitSignature_attribute(Signature_attribute attribute) {
-        // Do nothing
+    public void testEndGroup() {
+        final Visitor visitor = mock(Visitor.class);
+
+        LoadListenerVisitorAdapter adapter = new LoadListenerVisitorAdapter(visitor);
+        adapter.endGroup(new LoadEvent(this, null, null, null));
     }
 
-    public void visitSourceFile_attribute(SourceFile_attribute attribute) {
-        // Do nothing
-    }
+    public void testEndSession() {
+        final Visitor visitor = mock(Visitor.class);
 
-    public void visitSourceDebugExtension_attribute(SourceDebugExtension_attribute attribute) {
-        // Do nothing
-    }
-
-    public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
-        // Do nothing
-    }
-    
-    public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
-        // Do nothing
-    }
-
-    public void visitLocalVariableTypeTable_attribute(LocalVariableTypeTable_attribute attribute) {
-        // Do nothing
-    }
-
-    public void visitDeprecated_attribute(Deprecated_attribute attribute) {
-        // Do nothing
-    }
-    
-    public void visitCustom_attribute(Custom_attribute attribute) {
-        // Do nothing
-    }
-
-    public void visitInstruction(Instruction instruction) {
-        // Do nothing
-    }
-
-    public void visitExceptionHandler(ExceptionHandler helper) {
-        // Do nothing
-    }
-    
-    public void visitInnerClass(InnerClass helper) {
-        // Do nothing
-    }
-    
-    public void visitLineNumber(LineNumber helper) {
-        // Do nothing
-    }
-    
-    public void visitLocalVariable(LocalVariable helper) {
-        // Do nothing
-    }
-
-    public void visitLocalVariableType(LocalVariableType helper) {
-        // Do nothing
+        LoadListenerVisitorAdapter adapter = new LoadListenerVisitorAdapter(visitor);
+        adapter.endSession(new LoadEvent(this, null, null, null));
     }
 }
