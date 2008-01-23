@@ -1,0 +1,2 @@
+Add jMock libraries to =CLASSPATH= for JUnit launch scrits (=junit= and
+=textjunit=, both on Windows and Unix).
