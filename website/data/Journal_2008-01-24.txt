@@ -1,0 +1,7 @@
+Looking for a specification of the =StackMapTable= attribute.
+
+Found some interesting parallels to =com.jeantessier.classreader= in
+[[http://www.csg.is.titech.ac.jp/~chiba/javassist/][Javassist]].  There might
+inspiration on how to deal with annotation-related structures.  See their
+documentation for
+[[http://www.csg.is.titech.ac.jp/~chiba/javassist/html/javassist/bytecode/AttributeInfo.html][AttributeInfo]].
