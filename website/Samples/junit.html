@@ -7,8 +7,1133 @@
 <h1>JUnit - API Change History</h1>
 
 <ul>
+<li><a href="#3.8.2">3.8.1 to 3.8.2</a></li>
 <li><a href="#3.8.1">3.8 to 3.8.1</a></li>
 <li><a href="#3.8">3.7 to 3.8</a></li>
+</ul>
+
+<hr>
+
+<a name="3.8.2"></a>
+<h2>3.8.1 to 3.8.2</h2>
+<h3>Modified Classes:</h3>
+<blockquote>
+<h4>
+<code>junit.awtui.AboutDialog$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.awtui.AboutDialog$1 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>class junit.awtui.AboutDialog$1 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.awtui.AboutDialog$2</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.awtui.AboutDialog$2 extends java.awt.event.WindowAdapter<br>
+<b>new:</b>class junit.awtui.AboutDialog$2 extends java.awt.event.WindowAdapter</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.awtui.Logo</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$0</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$junit$runner$BaseTestRunner</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.awtui.TestRunner</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$0</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static void access$0(junit.awtui.TestRunner)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$1(junit.awtui.TestRunner, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$2(junit.awtui.TestRunner, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$junit$runner$BaseTestRunner</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static void access$000(junit.awtui.TestRunner)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$100(junit.awtui.TestRunner, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$200(junit.awtui.TestRunner, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.awtui.TestRunner$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.awtui.TestRunner$1 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>class junit.awtui.TestRunner$1 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.awtui.TestRunner$10</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.awtui.TestRunner$10 extends java.lang.Thread<br>
+<b>new:</b>class junit.awtui.TestRunner$10 extends java.lang.Thread</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.awtui.TestRunner$2</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.awtui.TestRunner$2 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>class junit.awtui.TestRunner$2 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$2()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final junit.awtui.TestRunner this$0</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$2(junit.awtui.TestRunner)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.awtui.TestRunner$3</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.awtui.TestRunner$3 extends java.awt.event.WindowAdapter<br>
+<b>new:</b>class junit.awtui.TestRunner$3 extends java.awt.event.WindowAdapter</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$3(java.awt.Frame)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final junit.awtui.TestRunner this$0</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$3(junit.awtui.TestRunner, java.awt.Frame)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.awtui.TestRunner$4</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.awtui.TestRunner$4 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>class junit.awtui.TestRunner$4 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.awtui.TestRunner$5</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.awtui.TestRunner$5 extends java.lang.Object implements java.awt.event.TextListener<br>
+<b>new:</b>class junit.awtui.TestRunner$5 extends java.lang.Object implements java.awt.event.TextListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.awtui.TestRunner$6</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.awtui.TestRunner$6 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>class junit.awtui.TestRunner$6 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.awtui.TestRunner$7</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.awtui.TestRunner$7 extends java.lang.Object implements java.awt.event.ItemListener<br>
+<b>new:</b>class junit.awtui.TestRunner$7 extends java.lang.Object implements java.awt.event.ItemListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.awtui.TestRunner$8</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.awtui.TestRunner$8 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>class junit.awtui.TestRunner$8 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.awtui.TestRunner$9</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.awtui.TestRunner$9 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>class junit.awtui.TestRunner$9 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$9()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final junit.awtui.TestRunner this$0</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$9(junit.awtui.TestRunner)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.extensions.ActiveTestSuite</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>public synchronized void runFinished(junit.framework.Test)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public synchronized void runFinished()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.extensions.ActiveTestSuite$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.extensions.ActiveTestSuite$1 extends java.lang.Thread<br>
+<b>new:</b>class junit.extensions.ActiveTestSuite$1 extends java.lang.Thread</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.extensions.TestSetup$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.extensions.TestSetup$1 extends java.lang.Object implements junit.framework.Protectable<br>
+<b>new:</b>class junit.extensions.TestSetup$1 extends java.lang.Object implements junit.framework.Protectable</code></nobr>
+</p>
+</blockquote>
+<h5>Constructor Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>TestSetup$1(junit.extensions.TestSetup, junit.framework.TestResult)<br>
+<b>new:</b>TestSetup$1(junit.extensions.TestSetup, junit.framework.TestResult) throws java.lang.Exception</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.framework.Assert</code>
+</h4>
+<blockquote>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static void failNotEquals(java.lang.String, java.lang.Object, java.lang.Object)<br>
+<b>new:</b>public static void failNotEquals(java.lang.String, java.lang.Object, java.lang.Object)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static void failNotSame(java.lang.String, java.lang.Object, java.lang.Object)<br>
+<b>new:</b>public static void failNotSame(java.lang.String, java.lang.Object, java.lang.Object)</code></nobr>
+</p>
+</blockquote>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static void failSame(java.lang.String)<br>
+<b>new:</b>public static void failSame(java.lang.String)</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.framework.AssertionFailedError</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final long serialVersionUID</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.framework.ComparisonFailure</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final int MAX_CONTEXT_LENGTH</code></nobr>
+</li>
+<li>
+<nobr><code>private static final long serialVersionUID</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.String getActual()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.lang.String getExpected()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.framework.TestResult$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.framework.TestResult$1 extends java.lang.Object implements junit.framework.Protectable<br>
+<b>new:</b>class junit.framework.TestResult$1 extends java.lang.Object implements junit.framework.Protectable</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestResult$1(junit.framework.TestCase)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final junit.framework.TestResult this$0</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestResult$1(junit.framework.TestResult, junit.framework.TestCase) throws java.lang.Throwable</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.framework.TestSuite</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$0</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$1</code></nobr>
+</li>
+</ul>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private static junit.framework.Test warning(java.lang.String)<br>
+<b>new:</b>public static junit.framework.Test warning(java.lang.String)</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$java$lang$String</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$junit$framework$Test</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public TestSuite(java.lang.Class[])</code></nobr>
+</li>
+<li>
+<nobr><code>public TestSuite(java.lang.Class[], java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.framework.TestSuite$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.framework.TestSuite$1 extends junit.framework.TestCase<br>
+<b>new:</b>class junit.framework.TestSuite$1 extends junit.framework.TestCase</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.runner.BaseTestRunner</code>
+</h4>
+<blockquote>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public void setPreference(java.lang.String, java.lang.String)<br>
+<b>new:</b>public static void setPreference(java.lang.String, java.lang.String)</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static boolean inMac()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.runner.LoadingTestCollector</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$0</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$junit$framework$Test</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.runner.Version</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static void main(java.lang.String[])</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.AboutDialog</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$0</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$junit$runner$BaseTestRunner</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.AboutDialog$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.AboutDialog$1 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>class junit.swingui.AboutDialog$1 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.AboutDialog$2</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.AboutDialog$2 extends java.awt.event.WindowAdapter<br>
+<b>new:</b>class junit.swingui.AboutDialog$2 extends java.awt.event.WindowAdapter</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.FailureRunView$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.FailureRunView$1 extends java.lang.Object implements javax.swing.event.ListSelectionListener<br>
+<b>new:</b>class junit.swingui.FailureRunView$1 extends java.lang.Object implements javax.swing.event.ListSelectionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.ProgressBar</code>
+</h4>
+<blockquote>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>private java.awt.Color getStatusColor()<br>
+<b>new:</b>protected java.awt.Color getStatusColor()</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void updateBarColor()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestHierarchyRunView$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestHierarchyRunView$1 extends java.lang.Object implements javax.swing.event.TreeSelectionListener<br>
+<b>new:</b>class junit.swingui.TestHierarchyRunView$1 extends java.lang.Object implements javax.swing.event.TreeSelectionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$0</code></nobr>
+</li>
+</ul>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static junit.swingui.CounterPanel access$0(junit.swingui.TestRunner)</code></nobr>
+</li>
+<li>
+<nobr><code>static junit.framework.TestResult access$1(junit.swingui.TestRunner)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$10(junit.swingui.TestRunner, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$11(junit.swingui.TestRunner, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>static javax.swing.JButton access$12(junit.swingui.TestRunner)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$13(junit.swingui.TestRunner, javax.swing.JButton, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$14(junit.swingui.TestRunner, java.lang.Thread)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$2(junit.swingui.TestRunner, junit.framework.Test, java.lang.Throwable)</code></nobr>
+</li>
+<li>
+<nobr><code>static junit.swingui.ProgressBar access$3(junit.swingui.TestRunner)</code></nobr>
+</li>
+<li>
+<nobr><code>static java.util.Vector access$4(junit.swingui.TestRunner)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$5(junit.swingui.TestRunner)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$6(junit.swingui.TestRunner)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$7(junit.swingui.TestRunner, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$8(junit.swingui.TestRunner, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$9(junit.swingui.TestRunner, junit.framework.Test)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static java.lang.Class class$junit$runner$BaseTestRunner</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static junit.framework.TestResult access$000(junit.swingui.TestRunner)</code></nobr>
+</li>
+<li>
+<nobr><code>static junit.swingui.CounterPanel access$100(junit.swingui.TestRunner)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$1000(junit.swingui.TestRunner, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$1100(junit.swingui.TestRunner, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>static javax.swing.JButton access$1200(junit.swingui.TestRunner)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$1300(junit.swingui.TestRunner, javax.swing.JButton, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Thread access$1402(junit.swingui.TestRunner, java.lang.Thread)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$200(junit.swingui.TestRunner, junit.framework.Test, java.lang.Throwable)</code></nobr>
+</li>
+<li>
+<nobr><code>static junit.swingui.ProgressBar access$300(junit.swingui.TestRunner)</code></nobr>
+</li>
+<li>
+<nobr><code>static java.util.Vector access$400(junit.swingui.TestRunner)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$500(junit.swingui.TestRunner)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$600(junit.swingui.TestRunner)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$700(junit.swingui.TestRunner, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$800(junit.swingui.TestRunner, java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>static void access$900(junit.swingui.TestRunner, junit.framework.Test)</code></nobr>
+</li>
+<li>
+<nobr><code>static java.lang.Class class$(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>protected java.lang.Object instanciateClass(java.lang.String, java.lang.Object)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$1 extends java.lang.Object implements java.lang.Runnable<br>
+<b>new:</b>class junit.swingui.TestRunner$1 extends java.lang.Object implements java.lang.Runnable</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$10</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$10 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>class junit.swingui.TestRunner$10 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$11</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$11 extends java.awt.event.KeyAdapter<br>
+<b>new:</b>class junit.swingui.TestRunner$11 extends java.awt.event.KeyAdapter</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$12</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$12 extends java.lang.Object implements java.awt.event.ItemListener<br>
+<b>new:</b>class junit.swingui.TestRunner$12 extends java.lang.Object implements java.awt.event.ItemListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$13</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$13 extends java.lang.Object implements javax.swing.event.ChangeListener<br>
+<b>new:</b>class junit.swingui.TestRunner$13 extends java.lang.Object implements javax.swing.event.ChangeListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$14</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$14 extends java.lang.Object implements java.lang.Runnable<br>
+<b>new:</b>class junit.swingui.TestRunner$14 extends java.lang.Object implements java.lang.Runnable</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$15</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$15 extends java.lang.Object implements java.lang.Runnable<br>
+<b>new:</b>class junit.swingui.TestRunner$15 extends java.lang.Object implements java.lang.Runnable</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$16</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$16 extends java.lang.Thread<br>
+<b>new:</b>class junit.swingui.TestRunner$16 extends java.lang.Thread</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$16(junit.swingui.TestRunner, junit.framework.Test, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$16(junit.swingui.TestRunner, java.lang.String, junit.framework.Test)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$17</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$17 extends java.lang.Object implements java.lang.Runnable<br>
+<b>new:</b>class junit.swingui.TestRunner$17 extends java.lang.Object implements java.lang.Runnable</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$17(javax.swing.JButton, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final junit.swingui.TestRunner this$0</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$17(junit.swingui.TestRunner, javax.swing.JButton, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$18</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$18 extends java.lang.Object implements java.lang.Runnable<br>
+<b>new:</b>class junit.swingui.TestRunner$18 extends java.lang.Object implements java.lang.Runnable</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$19</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$19 extends java.lang.Object implements java.lang.Runnable<br>
+<b>new:</b>class junit.swingui.TestRunner$19 extends java.lang.Object implements java.lang.Runnable</code></nobr>
+</p>
+</blockquote>
+<h5>Removed Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$19()</code></nobr>
+</li>
+</ul>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final junit.swingui.TestRunner this$0</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>TestRunner$19(junit.swingui.TestRunner)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$2</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$2 extends java.lang.Object implements java.lang.Runnable<br>
+<b>new:</b>class junit.swingui.TestRunner$2 extends java.lang.Object implements java.lang.Runnable</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$3</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$3 extends java.lang.Object implements java.lang.Runnable<br>
+<b>new:</b>class junit.swingui.TestRunner$3 extends java.lang.Object implements java.lang.Runnable</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$4</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$4 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>class junit.swingui.TestRunner$4 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$5</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$5 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>class junit.swingui.TestRunner$5 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$6</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$6 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>class junit.swingui.TestRunner$6 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$7</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$7 extends java.awt.event.WindowAdapter<br>
+<b>new:</b>class junit.swingui.TestRunner$7 extends java.awt.event.WindowAdapter</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$8</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$8 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>class junit.swingui.TestRunner$8 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestRunner$9</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestRunner$9 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>class junit.swingui.TestRunner$9 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestSelector</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class junit.swingui.TestSelector extends javax.swing.JDialog<br>
+<b>new:</b>public class junit.swingui.TestSelector extends javax.swing.JDialog</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestSelector$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestSelector$1 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>class junit.swingui.TestSelector$1 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestSelector$2</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestSelector$2 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>class junit.swingui.TestSelector$2 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestSelector$3</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestSelector$3 extends java.lang.Object implements javax.swing.event.ListSelectionListener<br>
+<b>new:</b>class junit.swingui.TestSelector$3 extends java.lang.Object implements javax.swing.event.ListSelectionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestSelector$4</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestSelector$4 extends java.awt.event.WindowAdapter<br>
+<b>new:</b>class junit.swingui.TestSelector$4 extends java.awt.event.WindowAdapter</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.swingui.TestSuitePanel</code>
+</h4>
+<blockquote>
+<h5>Removed Methods:</h5>
+<ul>
+<li>
+<nobr><code>static junit.swingui.TestTreeModel access$0(junit.swingui.TestSuitePanel)</code></nobr>
+</li>
+<li>
+<nobr><code>static javax.swing.JTree access$1(junit.swingui.TestSuitePanel)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>static junit.swingui.TestTreeModel access$000(junit.swingui.TestSuitePanel)</code></nobr>
+</li>
+<li>
+<nobr><code>static javax.swing.JTree access$100(junit.swingui.TestSuitePanel)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>junit.swingui.TestSuitePanel$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>final class junit.swingui.TestSuitePanel$1 extends java.lang.Object implements java.lang.Runnable<br>
+<b>new:</b>class junit.swingui.TestSuitePanel$1 extends java.lang.Object implements java.lang.Runnable</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>junit.textui.TestRunner</code>
+</h4>
+<blockquote>
+<h5>Method Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>protected junit.framework.TestResult start(java.lang.String[]) throws java.lang.Exception<br>
+<b>new:</b>public junit.framework.TestResult start(java.lang.String[]) throws java.lang.Exception</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected junit.framework.TestResult runSingleMethod(java.lang.String, java.lang.String, boolean) throws java.lang.Exception</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+<h3>New Classes:</h3>
+<ul>
+<li>
+<nobr><code>junit.framework.ComparisonCompactor</code></nobr>
+</li>
+<li>
+<nobr><code>junit.swingui.MacProgressBar</code></nobr>
+</li>
 </ul>
 
 <hr />
