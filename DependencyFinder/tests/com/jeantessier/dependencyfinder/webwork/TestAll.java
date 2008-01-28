@@ -36,7 +36,7 @@ import junit.framework.*;
 
 public class TestAll extends TestCase {
     public static Test suite() {
-        TestSuite result = new TestSuite();
+        TestSuite result = new TestSuite(TestAll.class.getPackage().getName());
 
         result.addTestSuite(TestExtractAction.class);
 

@@ -34,7 +34,7 @@ import junit.framework.*;
 
 public class TestAll extends TestCase {
     public static Test suite() {
-        TestSuite result = new TestSuite();
+        TestSuite result = new TestSuite("Dependency Finder");
 
         result.addTest(com.jeantessier.commandline.TestAll.suite());
         result.addTest(com.jeantessier.classreader.TestAll.suite());
