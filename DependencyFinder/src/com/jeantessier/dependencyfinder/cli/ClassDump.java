@@ -68,7 +68,7 @@ public class ClassDump {
         try {
             while (true) {
                 byte b = in.readByte();
-        
+
                 Hex.print(System.out, b);
 
                 count++;
@@ -76,7 +76,7 @@ public class ClassDump {
                 if ((count % 4) == 0) {
                     System.out.print(' ');
                 }
-        
+
                 if ((count % 32) == 0) {
                     System.out.println();
                     count = 0;

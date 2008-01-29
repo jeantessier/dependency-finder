@@ -44,16 +44,14 @@ public class ClassList extends DirectoryExplorerCommand {
 
     public void doProcessing() throws Exception {
         for (String filename : getCommandLine().getParameters()) {
-            out.println(filename + ":");
-
             ClassfileLoader loader = new AggregatingClassfileLoader();
             loader.addLoadListener(getVerboseListener());
             loader.load(Collections.singleton(filename));
 
+            out.println(filename + ":");
             for (Classfile classfile : loader.getAllClassfiles()) {
                 out.println(classfile);
             }
-
             out.println();
         }
     }

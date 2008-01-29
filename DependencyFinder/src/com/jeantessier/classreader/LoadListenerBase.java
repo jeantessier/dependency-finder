@@ -37,7 +37,7 @@ import java.util.*;
 public class LoadListenerBase implements LoadListener {
     private LinkedList<GroupData> groups = new LinkedList<GroupData>();
     private Collection<String> visitedFiles = new HashSet<String>();
-    
+
     protected GroupData getCurrentGroup() {
         GroupData result = null;
 
@@ -51,11 +51,11 @@ public class LoadListenerBase implements LoadListener {
     protected Collection<String> getVisitedFiles() {
         return visitedFiles;
     }
-    
+
     public void beginSession(LoadEvent event) {
         // Do nothing
     }
-    
+
     public void beginGroup(LoadEvent event) {
         groups.add(new GroupData(event.getGroupName(), event.getSize()));
     }

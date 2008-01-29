@@ -46,7 +46,7 @@ public class ClassMatcher extends LoadListenerBase {
     private List<String> excludes;
 
     private Map<String, List<String>> results = new TreeMap<String, List<String>>();
-    
+
     public ClassMatcher(List<String> includes, List<String> excludes) {
         this.includes = includes;
         this.excludes = excludes;
@@ -55,13 +55,13 @@ public class ClassMatcher extends LoadListenerBase {
     public Map<String, List<String>> getResults() {
         return results;
     }
-    
+
     public void endClassfile(LoadEvent event) {
         super.endClassfile(event);
 
         String className = event.getClassfile().getClassName();
         String groupName = getCurrentGroup().getName();
-        
+
         if (matches(className)) {
             List<String> groups = results.get(className);
             if (groups == null) {
