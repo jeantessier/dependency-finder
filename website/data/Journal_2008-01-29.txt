@@ -1,0 +1,4 @@
+Dependency Finder is now even years old.
+
+Adjusted the copyright notice for 2008.  I found a few files whose copyright
+notice still said 2004!
