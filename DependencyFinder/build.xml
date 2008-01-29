@@ -315,7 +315,7 @@
                 <attribute name="Implementation-Date"    value="${NOW}"/>
                 <attribute name="Implementation-URL"     value="http://depfind.sourceforge.net/"/>
                 <attribute name="Copyright-Holder"       value="Jean Tessier"/>
-                <attribute name="Copyright-Date"         value="2001-2007"/>
+                <attribute name="Copyright-Date"         value="2001-2008"/>
                 <attribute name="Compiler-Vendor"        value="${java.vendor}"/>
                 <attribute name="Compiler-Title"         value="${java.runtime.name}"/>
                 <attribute name="Compiler-Version"       value="${java.version}"/>
@@ -413,7 +413,7 @@
                 <pathelement location="${ant.home}/lib/ant.jar"/>
                 <pathelement location="${java.home}/../lib/tools.jar"/>
             </classpath>
-            <bottom><![CDATA[<i>Dependency Finder ${release} &#169; 2001-2007 Jean Tessier.</i>]]></bottom>
+            <bottom><![CDATA[<i>Dependency Finder ${release} &#169; 2001-2008 Jean Tessier.</i>]]></bottom>
         </javadoc>
     </target>
 
