@@ -44,8 +44,8 @@ import com.jeantessier.dependency.*;
 
 public class OpenFileAction extends AbstractAction implements Runnable, DependencyListener {
     private DependencyFinder model;
-    private File             file;
-    
+    private File file;
+
     public OpenFileAction(DependencyFinder model) {
         this.model = model;
 
@@ -67,7 +67,7 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
     public void run() {
         model.setNewDependencyGraph();
         model.addInputFile(file);
-        
+
         try {
             Date start = new Date();
 
@@ -78,7 +78,7 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
 
             // JDK 1.4 feature
             // model.ProgressBar().setIndeterminate(true);
-            
+
             model.getStatusLine().showInfo("Loading " + filename + " ...");
             ProgressMonitorInputStream in = new ProgressMonitorInputStream(model, "Reading " + filename, new FileInputStream(filename));
             in.getProgressMonitor().setMillisToDecideToPopup(0);
@@ -105,13 +105,13 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
         } finally {
             // JDK 1.4 feature
             // model.ProgressBar().setIndeterminate(false);
-            
+
             if (model.getPackages() == null) {
                 model.setTitle("Dependency Finder");
             }
         }
     }
-    
+
     public void beginSession(DependencyEvent event) {
         // Do nothing
     }
@@ -119,15 +119,15 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
     public void beginClass(DependencyEvent event) {
         model.getStatusLine().showInfo("Loading dependencies for " + event.getClassName() + " ...");
     }
-    
+
     public void dependency(DependencyEvent event) {
         // Do nothing
     }
-    
+
     public void endClass(DependencyEvent event) {
         // Do nothing
     }
-    
+
     public void endSession(DependencyEvent event) {
         // Do nothing
     }

@@ -41,7 +41,7 @@ public class MaximumCapacityPatternCache implements PatternCache {
     PatternCompiler compiler;
 
     Map<String, Pattern> map = new HashMap<String, Pattern>();
-    
+
     public MaximumCapacityPatternCache() {
         this(new Perl5Compiler());
     }
@@ -49,7 +49,7 @@ public class MaximumCapacityPatternCache implements PatternCache {
     public MaximumCapacityPatternCache(PatternCompiler compiler) {
         this.compiler = compiler;
     }
-    
+
     public Pattern addPattern(String expression) throws MalformedPatternException {
         Pattern result = map.get(expression);
 
@@ -57,7 +57,7 @@ public class MaximumCapacityPatternCache implements PatternCache {
             result = compiler.compile(expression);
             map.put(expression, result);
         }
-        
+
         return result;
     }
 
@@ -68,7 +68,7 @@ public class MaximumCapacityPatternCache implements PatternCache {
             result = compiler.compile(expression, options);
             map.put(expression, result);
         }
-        
+
         return result;
     }
 
@@ -83,7 +83,7 @@ public class MaximumCapacityPatternCache implements PatternCache {
             }
             map.put(expression, result);
         }
-        
+
         return result;
     }
 
@@ -98,7 +98,7 @@ public class MaximumCapacityPatternCache implements PatternCache {
             }
             map.put(expression, result);
         }
-        
+
         return result;
     }
 

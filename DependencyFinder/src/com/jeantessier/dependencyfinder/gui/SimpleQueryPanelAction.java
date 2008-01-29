@@ -38,10 +38,10 @@ import javax.swing.*;
 
 public class SimpleQueryPanelAction extends AbstractAction {
     private DependencyFinder model = null;
-    
+
     public SimpleQueryPanelAction(DependencyFinder model) {
         this.model = model;
-        
+
         putValue(Action.LONG_DESCRIPTION, "Select simple query panel");
         putValue(Action.NAME, "Simple");
     }

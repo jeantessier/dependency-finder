@@ -54,7 +54,7 @@ public final class Hex {
     public static void print(PrintStream out, byte b) {
         int highBits = (b & 0xF0) >> 4;
         int lowBits  = (b & 0x0F);
-    
+
         print(out, highBits);
         print(out, lowBits);
     }
@@ -62,7 +62,7 @@ public final class Hex {
     public static void print(PrintWriter out, byte b) {
         int highBits = (b & 0xF0) >> 4;
         int lowBits  = (b & 0x0F);
-    
+
         print(out, highBits);
         print(out, lowBits);
     }

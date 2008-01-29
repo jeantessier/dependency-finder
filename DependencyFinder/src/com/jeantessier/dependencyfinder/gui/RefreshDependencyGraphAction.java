@@ -41,7 +41,7 @@ import com.jeantessier.dependency.*;
 
 public class RefreshDependencyGraphAction extends AbstractAction implements Runnable {
     private DependencyFinder model = null;
-    
+
     public RefreshDependencyGraphAction(DependencyFinder model) {
         this.model = model;
 
@@ -56,7 +56,7 @@ public class RefreshDependencyGraphAction extends AbstractAction implements Runn
 
     public void run() {
         Date start = new Date();
-        
+
         model.clearDependencyResult();
         model.clearClosureResult();
         model.clearMetricsResult();
@@ -81,9 +81,9 @@ public class RefreshDependencyGraphAction extends AbstractAction implements Runn
             model.getStatusLine().showInfo("Minimizing ...");
             new LinkMinimizer().traverseNodes(model.getPackages());
         }
-        
+
         Date stop = new Date();
-        
+
         model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
     }
 }

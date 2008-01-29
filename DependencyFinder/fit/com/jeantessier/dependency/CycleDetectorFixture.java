@@ -89,7 +89,7 @@ public class CycleDetectorFixture extends NodeFactoryFixture {
         CyclePrinter printer = new TextCyclePrinter(out);
         printer.visitCycle(getCycle(pos));
         out.close();
-        
+
         List<Line> lines = new ArrayList<Line>();
 
         BufferedReader in = new BufferedReader(new StringReader(buffer.toString()));
