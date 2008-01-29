@@ -87,8 +87,7 @@ public class MetricsExtractAction extends AbstractAction implements Runnable {
         gatherer.addMetricsListener(verboseListener);
         gatherer.visitClassfiles(loader.getAllClassfiles());
 
-        // JDK 1.4 feature
-        // model.ProgressBar().setIndeterminate(true);
+        model.getProgressBar().setIndeterminate(true);
 
         model.getStatusLine().showInfo("Generating method results ...");
         model.getMethodsModel().setMetrics(model.getMetricsFactory().getMethodMetrics());
@@ -108,8 +107,7 @@ public class MetricsExtractAction extends AbstractAction implements Runnable {
         Date stop = new Date();
 
         model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
-        // JDK 1.4 feature
-        // model.ProgressBar().setIndeterminate(false);
+        model.getProgressBar().setIndeterminate(false);
         model.setTitle("OO Metrics - Extractor");
     }
 }

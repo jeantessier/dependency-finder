@@ -76,8 +76,7 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
             NodeLoader loader = new NodeLoader(model.getNodeFactory());
             loader.addDependencyListener(this);
 
-            // JDK 1.4 feature
-            // model.ProgressBar().setIndeterminate(true);
+            model.getProgressBar().setIndeterminate(true);
 
             model.getStatusLine().showInfo("Loading " + filename + " ...");
             ProgressMonitorInputStream in = new ProgressMonitorInputStream(model, "Reading " + filename, new FileInputStream(filename));
@@ -103,8 +102,7 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
         } catch (IOException ex) {
             model.getStatusLine().showError("Cannot load: " + ex.getClass().getName() + ": " + ex.getMessage());
         } finally {
-            // JDK 1.4 feature
-            // model.ProgressBar().setIndeterminate(false);
+            model.getProgressBar().setIndeterminate(false);
 
             if (model.getPackages() == null) {
                 model.setTitle("Dependency Finder");
