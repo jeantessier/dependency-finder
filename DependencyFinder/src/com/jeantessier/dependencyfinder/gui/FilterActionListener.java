@@ -57,14 +57,14 @@ public class FilterActionListener implements Runnable, ActionListener {
     public void run() {
         try {
             Date start = new Date();
-            
+
             model.getStatusLine().showInfo("Filtering ...");
             model.getGroupsModel().updateMetrics(getFilterMetrics(model.getMetricsFactory().getGroupMetrics()));
             model.getClassesModel().updateMetrics(getFilterMetrics(model.getMetricsFactory().getClassMetrics()));
             model.getMethodsModel().updateMetrics(getFilterMetrics(model.getMetricsFactory().getMethodMetrics()));
-            
+
             Date stop = new Date();
-            
+
             model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
             model.setTitle("OO Metrics - Extractor");
         } catch (MalformedCachePatternException ex) {

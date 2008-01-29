@@ -40,10 +40,10 @@ import com.jeantessier.dependency.*;
 
 public class AllQueriesAction extends AbstractAction implements Runnable {
     private DependencyFinder model = null;
-    
+
     public AllQueriesAction(DependencyFinder model) {
         this.model = model;
-        
+
         putValue(Action.LONG_DESCRIPTION, "Compute graph, closure, and metrics");
         putValue(Action.NAME, "Compute All");
         putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/all-queries.gif")));
@@ -56,22 +56,22 @@ public class AllQueriesAction extends AbstractAction implements Runnable {
     public void run() {
         try {
             model.getStatusLine().showInfo("Processing all queries ...");
-            
+
             Date start = new Date();
-            
+
             model.clearDependencyResult();
             model.clearClosureResult();
             model.clearMetricsResult();
-            
+
             model.getStatusLine().showInfo("Processing dependency query ...");
             model.doDependencyQuery();
             model.getStatusLine().showInfo("Processing closure query ...");
             model.doClosureQuery();
             model.getStatusLine().showInfo("Processing metrics query ...");
             model.doMetricsQuery();
-            
+
             Date stop = new Date();
-            
+
             model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
         } catch (MatchException ex) {
             JOptionPane.showMessageDialog(model, ex.getMessage() + ": " + ex.getCause().getMessage(), "Malformed pattern", JOptionPane.ERROR_MESSAGE);

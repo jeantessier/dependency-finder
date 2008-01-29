@@ -78,35 +78,35 @@ public class MetricsExtractAction extends AbstractAction implements Runnable {
         model.getProgressBar().setMaximum(scanner.getNbFiles() + scanner.getNbClasses());
 
         MetricsVerboseListener verboseListener = new MetricsVerboseListener(model.getStatusLine(), model.getProgressBar());
-        
+
         ClassfileLoader loader = new AggregatingClassfileLoader();
         loader.addLoadListener(verboseListener);
         loader.load(filenames);
-        
+
         com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer("Project", model.getMetricsFactory());
         gatherer.addMetricsListener(verboseListener);
         gatherer.visitClassfiles(loader.getAllClassfiles());
 
         // JDK 1.4 feature
         // model.ProgressBar().setIndeterminate(true);
-        
+
         model.getStatusLine().showInfo("Generating method results ...");
         model.getMethodsModel().setMetrics(model.getMetricsFactory().getMethodMetrics());
-        
+
         model.getStatusLine().showInfo("Generating class results ...");
         model.getClassesModel().setMetrics(model.getMetricsFactory().getClassMetrics());
-        
+
         model.getStatusLine().showInfo("Generating group results ...");
         model.getGroupsModel().setMetrics(model.getMetricsFactory().getGroupMetrics());
-        
+
         model.getStatusLine().showInfo("Generating project results ...");
         StringWriter out = new StringWriter();
         com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.TextPrinter(new PrintWriter(out), model.getMetricsFactory().getConfiguration().getProjectMeasurements());
         printer.visitMetrics(model.getMetricsFactory().getProjectMetrics());
         model.getProjectArea().setText(out.toString());
-        
+
         Date stop = new Date();
-        
+
         model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
         // JDK 1.4 feature
         // model.ProgressBar().setIndeterminate(false);

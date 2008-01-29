@@ -39,7 +39,7 @@ import javax.swing.*;
 
 public class NewMetricsAction extends AbstractAction implements Runnable {
     private OOMetrics model;
-    
+
     public NewMetricsAction(OOMetrics model) {
         this.model = model;
 
@@ -56,7 +56,7 @@ public class NewMetricsAction extends AbstractAction implements Runnable {
         model.getStatusLine().showInfo("");
 
         model.getMetricsFactory().clear();
-        
+
         model.getProjectArea().setText("");
         model.getGroupsModel().setMetrics(Collections.EMPTY_LIST);
         model.getClassesModel().setMetrics(Collections.EMPTY_LIST);

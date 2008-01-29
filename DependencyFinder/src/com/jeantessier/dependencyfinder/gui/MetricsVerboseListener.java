@@ -49,7 +49,7 @@ public class MetricsVerboseListener extends VerboseListener implements MetricsLi
     public void beginSession(MetricsEvent event) {
         // Do nothing
     }
-    
+
     public void beginClass(MetricsEvent event) {
         getStatusLine().showInfo("Computing metrics for " + event.getClassfile() + " ...");
     }

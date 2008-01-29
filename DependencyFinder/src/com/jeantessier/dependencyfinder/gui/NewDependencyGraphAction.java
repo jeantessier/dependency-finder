@@ -37,7 +37,7 @@ import javax.swing.*;
 
 public class NewDependencyGraphAction extends AbstractAction implements Runnable {
     private DependencyFinder model = null;
-    
+
     public NewDependencyGraphAction(DependencyFinder model) {
         this.model = model;
 

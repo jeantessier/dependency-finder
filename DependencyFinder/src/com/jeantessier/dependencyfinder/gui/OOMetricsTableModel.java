@@ -38,68 +38,68 @@ import javax.swing.table.*;
 import com.jeantessier.metrics.*;
 
 public class OOMetricsTableModel extends AbstractTableModel {
-    private static final Integer LOCAL_DISPOSE_IGNORE             = StatisticalMeasurement.DISPOSE_IGNORE;
-    private static final Integer LOCAL_DISPOSE_MINIMUM            = StatisticalMeasurement.DISPOSE_MINIMUM;
-    private static final Integer LOCAL_DISPOSE_MEDIAN             = StatisticalMeasurement.DISPOSE_MEDIAN;
-    private static final Integer LOCAL_DISPOSE_AVERAGE            = StatisticalMeasurement.DISPOSE_AVERAGE;
+    private static final Integer LOCAL_DISPOSE_IGNORE = StatisticalMeasurement.DISPOSE_IGNORE;
+    private static final Integer LOCAL_DISPOSE_MINIMUM = StatisticalMeasurement.DISPOSE_MINIMUM;
+    private static final Integer LOCAL_DISPOSE_MEDIAN = StatisticalMeasurement.DISPOSE_MEDIAN;
+    private static final Integer LOCAL_DISPOSE_AVERAGE = StatisticalMeasurement.DISPOSE_AVERAGE;
     private static final Integer LOCAL_DISPOSE_STANDARD_DEVIATION = StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;
-    private static final Integer LOCAL_DISPOSE_MAXIMUM            = StatisticalMeasurement.DISPOSE_MAXIMUM;
-    private static final Integer LOCAL_DISPOSE_SUM                = StatisticalMeasurement.DISPOSE_SUM;
-//    private static final Integer LOCAL_DISPOSE_NB_DATA_POINTS     = StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
+    private static final Integer LOCAL_DISPOSE_MAXIMUM = StatisticalMeasurement.DISPOSE_MAXIMUM;
+    private static final Integer LOCAL_DISPOSE_SUM = StatisticalMeasurement.DISPOSE_SUM;
+//    private static final Integer LOCAL_DISPOSE_NB_DATA_POINTS = StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
 
     private List<MeasurementDescriptor> descriptors;
     private List<Metrics> metricsList;
-    
-    private String[]                measurementNames;
+
+    private String[] measurementNames;
     private MeasurementDescriptor[] measurementDescriptors;
-    private int[]                   measurementDispose;
-    private Object[][]              measurementValues;
+    private int[] measurementDispose;
+    private Object[][] measurementValues;
 
     private MetricsComparator comparator = new MetricsComparator("name");
 
     public OOMetricsTableModel(List<MeasurementDescriptor> descriptors) {
         this.descriptors = descriptors;
-        
+
         buildMetricNames();
         buildMetricValues();
     }
-    
+
     public void setMetrics(Collection<Metrics> metricsList) {
         this.metricsList = new ArrayList<Metrics>(metricsList);
-        
+
         if (metricsList.isEmpty()) {
             buildMetricValues();
         } else {
             Collections.sort(this.metricsList, comparator);
             buildMetricValues(this.metricsList);
         }
-        
+
         fireTableStructureChanged();
     }
 
     public MeasurementDescriptor getColumnDescriptor(int column) {
         return measurementDescriptors[column];
     }
-    
+
     public void updateMetrics(Collection<Metrics> metricsList) {
         this.metricsList = new ArrayList<Metrics>(metricsList);
-        
+
         if (metricsList.isEmpty()) {
             buildMetricValues();
         } else {
             Collections.sort(this.metricsList, comparator);
             buildMetricValues(this.metricsList);
         }
-        
+
         fireTableDataChanged();
     }
-    
+
     public void sortOn(String name, int dispose) {
         comparator.sortOn(name, dispose);
-        
+
         Collections.sort(metricsList, comparator);
         buildMetricValues(metricsList);
-        
+
         fireTableDataChanged();
     }
 
@@ -188,7 +188,7 @@ public class OOMetricsTableModel extends AbstractTableModel {
             i++;
         }
     }
-    
+
     public int getColumnCount() {
         return measurementNames.length;
     }

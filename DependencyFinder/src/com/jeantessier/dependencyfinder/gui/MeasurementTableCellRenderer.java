@@ -50,13 +50,13 @@ public class MeasurementTableCellRenderer extends DefaultTableCellRenderer {
 
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         JLabel result = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        
+
         if (column == 0) {
             result.setHorizontalAlignment(JLabel.LEFT);
         } else {
             result.setHorizontalAlignment(JLabel.CENTER);
         }
-        
+
         if (value instanceof Measurement) {
             Measurement measurement = (Measurement) value;
             if (measurement.isInRange()) {
@@ -67,7 +67,7 @@ public class MeasurementTableCellRenderer extends DefaultTableCellRenderer {
 
             String text;
             int dispose = ((OOMetricsTableModel) table.getModel()).getRawColumnDispose(column);
-            
+
             if (measurement instanceof StatisticalMeasurement) {
                 StatisticalMeasurement stat    = (StatisticalMeasurement) measurement;
                 switch (dispose) {
@@ -102,7 +102,7 @@ public class MeasurementTableCellRenderer extends DefaultTableCellRenderer {
             setCellContent(result, measurement, dispose, text);
         } else if (value instanceof Metrics) {
             Metrics metrics = (Metrics) value;
-            
+
             if (metrics.isInRange()) {
                 formatAsNormalCell(isSelected, row, result);
             } else {
@@ -114,7 +114,7 @@ public class MeasurementTableCellRenderer extends DefaultTableCellRenderer {
         } else {
             formatAsNormalCell(isSelected, row, result);
         }
-        
+
         return result;
     }
 

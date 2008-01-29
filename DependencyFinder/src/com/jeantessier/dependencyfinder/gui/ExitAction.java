@@ -38,10 +38,10 @@ import javax.swing.*;
 
 public class ExitAction extends AbstractAction {
     private JFrame model = null;
-    
+
     public ExitAction(JFrame model) {
         this.model = model;
-        
+
         putValue(Action.LONG_DESCRIPTION, "Exit the application");
         putValue(Action.NAME, "Exit");
         putValue(Action.SMALL_ICON, new ImageIcon(getClass().getResource("icons/exit.gif")));

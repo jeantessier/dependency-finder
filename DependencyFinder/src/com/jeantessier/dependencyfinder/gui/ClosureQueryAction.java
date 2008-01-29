@@ -40,7 +40,7 @@ import com.jeantessier.dependency.*;
 
 public class ClosureQueryAction extends AbstractAction implements Runnable {
     private DependencyFinder model = null;
-    
+
     public ClosureQueryAction(DependencyFinder model) {
         this.model = model;
 
@@ -56,14 +56,14 @@ public class ClosureQueryAction extends AbstractAction implements Runnable {
     public void run() {
         try {
             model.getStatusLine().showInfo("Processing closure query ...");
-            
+
             Date start = new Date();
-            
+
             model.clearClosureResult();
             model.doClosureQuery();
-            
+
             Date stop = new Date();
-            
+
             model.getStatusLine().showInfo("Closure query done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
         } catch (MatchException ex) {
             JOptionPane.showMessageDialog(model, ex.getMessage() + ": " + ex.getCause().getMessage(), "Malformed pattern", JOptionPane.ERROR_MESSAGE);

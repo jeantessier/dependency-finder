@@ -82,7 +82,7 @@ public class DependencyExtractAction extends AbstractAction implements Runnable 
         model.getProgressBar().setMaximum(scanner.getNbFiles());
 
         model.getMonitor().setClosedSession(false);
-        
+
         ClassfileLoader loader = new TransientClassfileLoader(model.getClassfileLoaderDispatcher());
         loader.addLoadListener(new VerboseListener(model.getStatusLine(), model.getProgressBar()));
         loader.addLoadListener(model.getMonitor());
@@ -95,9 +95,9 @@ public class DependencyExtractAction extends AbstractAction implements Runnable 
             model.getStatusLine().showInfo("Minimizing ...");
             new LinkMinimizer().traverseNodes(model.getPackages());
         }
-        
+
         Date stop = new Date();
-        
+
         model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
         model.setTitle("Dependency Finder - Extractor");
     }

@@ -47,7 +47,7 @@ public class MetricsTableModel extends AbstractTableModel {
         this.metrics = metrics;
         fireTableStructureChanged();
     }
-    
+
     public int getColumnCount() {
         return MetricsGatherer.getNbCharts();
     }

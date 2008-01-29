@@ -39,7 +39,7 @@ import com.jeantessier.dependencyfinder.*;
 
 public class AboutAction extends AbstractAction {
     private JFrame model;
-    
+
     public AboutAction(JFrame model) {
         this.model = model;
 
@@ -50,16 +50,16 @@ public class AboutAction extends AbstractAction {
 
     public void actionPerformed(ActionEvent e) {
         Version version = new Version();
-        
+
         Object[] message = new Object[3];
         message[0] = "<html><b>" + version.getImplementationTitle() + " " + version.getImplementationVersion() + "</b></html>";
         message[1] = "<html>&copy; " + version.getCopyrightDate() + " " + version.getCopyrightHolder() + "</html>";
         message[2] = "Compiled on " + version.getImplementationDate();
-        
+
         String title = "About " + version.getImplementationTitle();
-        
+
         Icon icon = new ImageIcon(getClass().getResource("icons/logo.jpg"));
-        
+
         JOptionPane.showMessageDialog(model, message, title, JOptionPane.INFORMATION_MESSAGE, icon);
     }
 }
