@@ -60,8 +60,8 @@ public interface Feature_info extends Deprecatable, Visitable {
 
     public boolean isSynthetic();
     public boolean isDeprecated();
+    public boolean isGeneric();
 
-    public String getFeatureType();
     public String getDeclaration();
     public String getSignature();
 

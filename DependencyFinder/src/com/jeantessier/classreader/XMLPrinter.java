@@ -668,7 +668,7 @@ public class XMLPrinter extends Printer {
 
     public void visitLocalVariable(LocalVariable helper) {
         indent();
-        append("<local-variable pc=\"").append(helper.getStartPC()).append("\" length=\"").append(helper.getLength()).append("\">");
+        append("<local-variable pc=\"").append(helper.getStartPC()).append("\" length=\"").append(helper.getLength()).append("\" index=\"").append(helper.getIndex()).append("\">");
         append("<name>");
         helper.getRawName().accept(this);
         append("</name>");
@@ -679,7 +679,7 @@ public class XMLPrinter extends Printer {
 
     public void visitLocalVariableType(LocalVariableType helper) {
         indent();
-        append("<local-variable-type pc=\"").append(helper.getStartPC()).append("\" length=\"").append(helper.getLength()).append("\">");
+        append("<local-variable-type pc=\"").append(helper.getStartPC()).append("\" length=\"").append(helper.getLength()).append("\" index=\"").append(helper.getIndex()).append("\">");
         append("<name>");
         helper.getRawName().accept(this);
         append("</name>");

@@ -40,11 +40,11 @@ import com.jeantessier.classreader.*;
 
 public class LocalVariable implements com.jeantessier.classreader.LocalVariable {
     private LocalVariableTable_attribute localVariableTable;
-    private int                          startPC;
-    private int                          length;
-    private int                          nameIndex;
-    private int                          descriptorIndex;
-    private int                          index;
+    private int startPC;
+    private int length;
+    private int nameIndex;
+    private int descriptorIndex;
+    private int index;
 
     public LocalVariable(LocalVariableTable_attribute localVariableTable, DataInputStream in) throws IOException {
         this.localVariableTable = localVariableTable;

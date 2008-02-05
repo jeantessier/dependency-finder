@@ -77,6 +77,7 @@ public interface Classfile extends Deprecatable, Visitable {
     public boolean isEnum();
     public boolean isSynthetic();
     public boolean isDeprecated();
+    public boolean isGeneric();
 
     public String getDeclaration();
 }

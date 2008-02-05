@@ -338,6 +338,17 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         return result;
     }
 
+    public boolean isGeneric() {
+        boolean result = false;
+
+        Iterator i = getAttributes().iterator();
+        while (!result && i.hasNext()) {
+            result = i.next() instanceof Signature_attribute;
+        }
+
+        return result;
+    }
+
     public String getDeclaration() {
         StringBuffer result = new StringBuffer();
 

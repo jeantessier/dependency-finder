@@ -225,6 +225,7 @@
 <!ATTLIST local-variable
           pc     CDATA #REQUIRED
           length CDATA #REQUIRED
+          index  CDATA #REQUIRED
 >
 
 <!ELEMENT local-variable-type-table-attribute (local-variable-type*) >
@@ -233,6 +234,7 @@
 <!ATTLIST local-variable-type
           pc     CDATA #REQUIRED
           length CDATA #REQUIRED
+          index  CDATA #REQUIRED
 >
 
 <!ELEMENT descriptor (#PCDATA) >

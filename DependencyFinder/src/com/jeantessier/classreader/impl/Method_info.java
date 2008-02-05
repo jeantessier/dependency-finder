@@ -39,9 +39,11 @@ import com.jeantessier.classreader.*;
 
 public class Method_info extends Feature_info implements com.jeantessier.classreader.Method_info {
     private static final int ACC_SYNCHRONIZED = 0x0020;
-    private static final int ACC_NATIVE       = 0x0100;
-    private static final int ACC_ABSTRACT     = 0x0400;
-    private static final int ACC_STRICT       = 0x0800;
+    private static final int ACC_BRIDGE = 0x0040;
+    private static final int ACC_VARARGS = 0x0080;
+    private static final int ACC_NATIVE = 0x0100;
+    private static final int ACC_ABSTRACT = 0x0400;
+    private static final int ACC_STRICT = 0x0800;
 
     public Method_info(Classfile classfile, DataInputStream in) throws IOException {
         super(classfile, in);
@@ -53,6 +55,14 @@ public class Method_info extends Feature_info implements com.jeantessier.classre
 
     public boolean isSynchronized() {
         return (getAccessFlag() & ACC_SYNCHRONIZED) != 0;
+    }
+
+    public boolean isBridge() {
+        return (getAccessFlag() & ACC_BRIDGE) != 0;
+    }
+
+    public boolean isVarargs() {
+        return (getAccessFlag() & ACC_VARARGS) != 0;
     }
 
     public boolean isNative() {

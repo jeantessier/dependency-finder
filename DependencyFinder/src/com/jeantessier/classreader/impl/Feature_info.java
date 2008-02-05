@@ -38,17 +38,17 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public abstract class Feature_info implements com.jeantessier.classreader.Feature_info {
-    private static final int ACC_PUBLIC    = 0x0001;
-    private static final int ACC_PRIVATE   = 0x0002;
+    private static final int ACC_PUBLIC = 0x0001;
+    private static final int ACC_PRIVATE = 0x0002;
     private static final int ACC_PROTECTED = 0x0004;
-    private static final int ACC_STATIC    = 0x0008;
-    private static final int ACC_FINAL     = 0x0010;
+    private static final int ACC_STATIC = 0x0008;
+    private static final int ACC_FINAL = 0x0010;
     private static final int ACC_SYNTHETIC = 0x1000;
 
-    private Classfile  classfile;
-    private int        accessFlag;
-    private int        nameIndex;
-    private int        descriptorIndex;
+    private Classfile classfile;
+    private int accessFlag;
+    private int nameIndex;
+    private int descriptorIndex;
     private Collection<Attribute_info> attributes = new LinkedList<Attribute_info>();
 
     public Feature_info(Classfile classfile, DataInputStream in) throws IOException {
@@ -165,15 +165,28 @@ public abstract class Feature_info implements com.jeantessier.classreader.Featur
         return result;
     }
 
-    public String toString() {
-        return getFullName();
-    }
+    public boolean isGeneric() {
+        boolean result = false;
 
-    public abstract String getFeatureType();
-    public abstract String getDeclaration();
-    public abstract String getSignature();
+        Iterator i = getAttributes().iterator();
+        while (!result && i.hasNext()) {
+            result = i.next() instanceof Signature_attribute;
+        }
+
+        return result;
+    }
 
     public String getFullSignature() {
         return getClassfile().getClassName() + "." + getSignature();
+    }
+
+    /**
+     * Only used for pretty logging in constructor.
+     * @return a printable string as to whether this is a field or a method
+     */
+    protected abstract String getFeatureType();
+
+    public String toString() {
+        return getFullName();
     }
 }

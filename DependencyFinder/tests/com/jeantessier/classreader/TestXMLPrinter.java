@@ -37,13 +37,13 @@ import java.util.*;
 import javax.xml.parsers.*;
 import javax.xml.xpath.*;
 
-import junit.framework.*;
-
 import org.apache.oro.text.perl.*;
+import org.jmock.integration.junit3.*;
+import org.jmock.*;
 import org.w3c.dom.*;
 import org.xml.sax.*;
 
-public class TestXMLPrinter extends TestCase implements ErrorHandler {
+public class TestXMLPrinter extends MockObjectTestCase {
     private static final String TEST_CLASS = "test";
     private static final String TEST_FILENAME = "classes" + File.separator + "test.class";
     private static final String TEST_DIRECTORY = "tests" + File.separator + "JarJarDiff" + File.separator + "new";
@@ -55,26 +55,34 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
     private StringWriter buffer;
     private Visitor printer;
     private XMLReader reader;
+    private ErrorHandler errorHandler;
 
     private Perl5Util perl;
 
     protected void setUp() throws Exception {
+        super.setUp();
+
         loader = new AggregatingClassfileLoader();
 
         buffer = new StringWriter();
         printer = new XMLPrinter(new PrintWriter(buffer), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
-
-	boolean validate = Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE");
-
         reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
+
+        boolean validate = Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE");
         reader.setFeature("http://xml.org/sax/features/validation", validate);
         reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", validate);
-        reader.setErrorHandler(this);
+
+        errorHandler = mock(ErrorHandler.class);
+        reader.setErrorHandler(errorHandler);
 
         perl = new Perl5Util();
     }
     
-    public void testDefaultDTDPrefix() {
+    public void testDefaultDTDPrefix() throws Exception {
+        checking(new Expectations() {{
+            one (errorHandler).fatalError(with(any(SAXParseException.class)));
+        }});
+
         buffer = new StringWriter();
         printer = new XMLPrinter(new PrintWriter(buffer));
 
@@ -85,14 +93,16 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));
             fail("Parsed non-existant document\n" + xmlDocument);
-        } catch (SAXException ex) {
-            // Ignore
-        } catch (IOException ex) {
-            fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
+        } catch (SAXParseException ex) {
+            // Expected
         }
     }
     
-    public void testSpecificDTDPrefix() {
+    public void testSpecificDTDPrefix() throws Exception {
+        checking(new Expectations() {{
+            one (errorHandler).fatalError(with(any(SAXParseException.class)));
+        }});
+
         buffer = new StringWriter();
         printer = new XMLPrinter(new PrintWriter(buffer), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
@@ -103,14 +113,16 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));
             fail("Parsed non-existant document\n" + xmlDocument);
-        } catch (SAXException ex) {
-            // Ignore
-        } catch (IOException ex) {
-            fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
+        } catch (SAXParseException ex) {
+            // Expected
         }
     }
 
-    public void testDefaultEncoding() {
+    public void testDefaultEncoding() throws Exception {
+        checking(new Expectations() {{
+            one (errorHandler).fatalError(with(any(SAXParseException.class)));
+        }});
+
         buffer = new StringWriter();
         printer = new XMLPrinter(new PrintWriter(buffer));
 
@@ -121,14 +133,16 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));
             fail("Parsed non-existant document\n" + xmlDocument);
-        } catch (SAXException ex) {
-            // Ignore
-        } catch (IOException ex) {
-            fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
+        } catch (SAXParseException ex) {
+            // Expected
         }
     }
 
     public void testSpecificEncoding() throws Exception {
+        checking(new Expectations() {{
+            one (errorHandler).fatalError(with(any(SAXParseException.class)));
+        }});
+
         buffer = new StringWriter();
         printer = new XMLPrinter(new PrintWriter(buffer), SPECIFIC_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
 
@@ -139,10 +153,8 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));
             fail("Parsed non-existant document\n" + xmlDocument);
-        } catch (SAXException ex) {
-            // Ignore
-        } catch (IOException ex) {
-            fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
+        } catch (SAXParseException ex) {
+            // Expected
         }
     }
 
@@ -180,23 +192,40 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         assertXPath(xmlDocument, "*/classfile", loader.getAllClassfiles().size());
     }
 
+    public void testVisitLocalVariable() throws Exception {
+        final LocalVariable localVariable = mock(LocalVariable.class);
+
+        checking(new Expectations() {{
+            one (localVariable).getStartPC();
+            one (localVariable).getLength();
+            one (localVariable).getRawName();
+            one (localVariable).getDescriptor();
+            will(returnValue("I"));
+            one (localVariable).getIndex();
+        }});
+
+        printer.visitLocalVariable(localVariable);
+    }
+
+    public void testVisitLocalVariableType() throws Exception {
+        final LocalVariableType localVariableType = mock(LocalVariableType.class);
+
+        checking(new Expectations() {{
+            one (localVariableType).getStartPC();
+            one (localVariableType).getLength();
+            one (localVariableType).getRawName();
+            one (localVariableType).getRawSignature();
+            one (localVariableType).getIndex();
+        }});
+
+        printer.visitLocalVariableType(localVariableType);
+    }
+
     private void assertXPath(String xmlDocument, String xPathExpression, int i) throws Exception {
         XPath xPath = XPathFactory.newInstance().newXPath();
         InputSource in = new InputSource(new StringReader(xmlDocument));
 
         NodeList nodeList = (NodeList) xPath.evaluate(xPathExpression, in, XPathConstants.NODESET);
         assertEquals("XPath \"" + xPathExpression + "\" in \n" + xmlDocument, i, nodeList.getLength());
-    }
-
-    public void error(SAXParseException ex) {
-        // Ignore
-    }
-
-    public void fatalError(SAXParseException ex) {
-        // Ignore
-    }
-
-    public void warning(SAXParseException ex) {
-        // Ignore
     }
 }

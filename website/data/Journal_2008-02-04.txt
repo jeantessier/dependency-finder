@@ -1,0 +1,8 @@
+Worked on getting access to =Signature_attribute= information in relevant
+programming elements (=Classfile=, =Method_info=, and =Field_info=, forgot
+about possible =InnerClass=).
+
+Added tests for _index_ attribute of =LocalVariable= and =LocalVariableType=
+and to make sure =XMLPrinter= renders it, using jMock.
+
+Added information (and tests) about _varargs_ methods.

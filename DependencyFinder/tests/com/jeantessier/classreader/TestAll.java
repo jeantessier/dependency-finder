@@ -66,6 +66,7 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestSymbolGatherer.class);
         result.addTestSuite(TestAnnotation.class);
         result.addTestSuite(TestEnum.class);
+        result.addTestSuite(TestVarargs.class);
         result.addTestSuite(TestEnclosingMethodAttribute.class);
         result.addTestSuite(TestSignatureAttribute.class);
         result.addTestSuite(TestLocalVariableTypeTableAttribute.class);

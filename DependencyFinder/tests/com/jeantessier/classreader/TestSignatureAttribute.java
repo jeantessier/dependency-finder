@@ -59,6 +59,7 @@ public class TestSignatureAttribute extends TestCase {
 
         Signature_attribute signatureAttribute = findSingleSignatureAttribute(nonGenericClass.getAttributes());
         assertNull("Found Signature attribute: " + signatureAttribute, signatureAttribute);
+        assertFalse("Classfile with Signature attribute is not generic", nonGenericClass.isGeneric());
     }
 
     public void testClassHasSignatureAttribute() {
@@ -67,6 +68,7 @@ public class TestSignatureAttribute extends TestCase {
         Signature_attribute signatureAttribute = findSingleSignatureAttribute(genericClass.getAttributes());
         assertNotNull("Signature attribute missing", signatureAttribute);
         assertEquals("Signature", "<T:Ljava/lang/Object;>Ljava/lang/Object;", signatureAttribute.getSignature());
+        assertTrue("Classfile with Signature attribute is not generic", genericClass.isGeneric());
     }
 
     public void testConstructorHasSignatureAttribute() {
@@ -76,6 +78,7 @@ public class TestSignatureAttribute extends TestCase {
         Signature_attribute signatureAttribute = findSingleSignatureAttribute(method.getAttributes());
         assertNotNull("Signature attribute missing", signatureAttribute);
         assertEquals("Signature", "(TT;)V", signatureAttribute.getSignature());
+        assertTrue("Method with Signature attribute is not generic", method.isGeneric());
     }
 
     public void testGenericConstructorHasSignatureAttribute() {
@@ -85,6 +88,7 @@ public class TestSignatureAttribute extends TestCase {
         Signature_attribute signatureAttribute = findSingleSignatureAttribute(method.getAttributes());
         assertNotNull("Signature attribute missing", signatureAttribute);
         assertEquals("Signature", "<T:Ljava/lang/Object;>(TT;)V", signatureAttribute.getSignature());
+        assertTrue("Method with Signature attribute is not generic", method.isGeneric());
     }
 
     public void testMethodHasSignatureAttribute() {
@@ -94,6 +98,7 @@ public class TestSignatureAttribute extends TestCase {
         Signature_attribute signatureAttribute = findSingleSignatureAttribute(method.getAttributes());
         assertNotNull("Signature attribute missing", signatureAttribute);
         assertEquals("Signature", "(TT;)TT;", signatureAttribute.getSignature());
+        assertTrue("Method with Signature attribute is not generic", method.isGeneric());
     }
 
     public void testGenericMethodHasSignatureAttribute() {
@@ -103,6 +108,7 @@ public class TestSignatureAttribute extends TestCase {
         Signature_attribute signatureAttribute = findSingleSignatureAttribute(method.getAttributes());
         assertNotNull("Signature attribute missing", signatureAttribute);
         assertEquals("Signature", "<T:Ljava/lang/Object;>(TT;)TT;", signatureAttribute.getSignature());
+        assertTrue("Method with Signature attribute is not generic", method.isGeneric());
     }
 
     public void testFieldHasSignatureAttribute() {
@@ -112,6 +118,7 @@ public class TestSignatureAttribute extends TestCase {
         Signature_attribute signatureAttribute = findSingleSignatureAttribute(field.getAttributes());
         assertNotNull("Signature attribute missing", signatureAttribute);
         assertEquals("Signature", "TT;", signatureAttribute.getSignature());
+        assertTrue("Field with Signature attribute is not generic", field.isGeneric());
     }
 
     private Signature_attribute findSingleSignatureAttribute(Collection<? extends Attribute_info> attributes) {

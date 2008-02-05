@@ -33,15 +33,11 @@
 package com.jeantessier.classreader;
 
 public interface Field_info extends Feature_info {
-    public String getFeatureType();
-
     public boolean isVolatile();
     public boolean isTransient();
     public boolean isEnum();
 
     public String getType();
-    public String getDeclaration();
     public String getFullDeclaration();
-    public String getSignature();
     public ConstantValue_attribute getConstantValue();
 }
