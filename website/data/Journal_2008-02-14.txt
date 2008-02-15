@@ -1,3 +1,5 @@
+Added a Fit test for =MartinConfig.xml=.
+
 Replaced the names of basic measurements in =Metrics= with an =enum= called
 =BasicMeasurements=.
 
