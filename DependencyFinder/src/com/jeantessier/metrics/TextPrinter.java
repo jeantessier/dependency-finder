@@ -80,7 +80,7 @@ public class TextPrinter extends Printer {
     }
 
     public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
-        indent().append(measurement.getLongName()).append(" (").append(measurement.getShortName()).append("): ").append(valueFormat.format(measurement.doubleValue()));
+        indent().append(measurement.getLongName()).append(" (").append(measurement.getShortName()).append("): ").append(valueFormat.format(measurement.getValue()));
 
         try {
             RatioMeasurement ratio = (RatioMeasurement) currentMetrics.getMeasurement(measurement.getShortName() + "R");
@@ -137,7 +137,7 @@ public class TextPrinter extends Printer {
         } catch (ClassCastException ex) {
             // Do nothing, no ratio for this measurement
         }
-        
+
         eol();
     }
 }
