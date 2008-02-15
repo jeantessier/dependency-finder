@@ -74,35 +74,35 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
     
     public void testCreateNumber() {
         measurement = new CounterMeasurement(null, null, "2");
-        assertEquals(2.0, measurement.doubleValue(), 0.01);
+        assertEquals(2.0, measurement.getValue().doubleValue(), 0.01);
 
         measurement = new CounterMeasurement(null, null, "2.0");
-        assertEquals(2.0, measurement.doubleValue(), 0.01);
+        assertEquals(2.0, measurement.getValue().doubleValue(), 0.01);
 
         measurement = new CounterMeasurement(null, null, "-2.5");
-        assertEquals(-2.5, measurement.doubleValue(), 0.01);
+        assertEquals(-2.5, measurement.getValue().doubleValue(), 0.01);
 
         measurement = new CounterMeasurement(null, null, " 2.0 ");
-        assertEquals(2.0, measurement.doubleValue(), 0.01);
+        assertEquals(2.0, measurement.getValue().doubleValue(), 0.01);
     }
     
     public void testCreateInvalid() {
         measurement = new CounterMeasurement(null, null, null);
-        assertEquals(0.0, measurement.doubleValue(), 0.01);
+        assertEquals(0.0, measurement.getValue().doubleValue(), 0.01);
 
         measurement = new CounterMeasurement(null, null, "foobar");
-        assertEquals(0.0, measurement.doubleValue(), 0.01);
+        assertEquals(0.0, measurement.getValue().doubleValue(), 0.01);
     }
 
     public void testCreateDefault() {
-        assertEquals(0.0, measurement.doubleValue(), 0.01);
+        assertEquals(0.0, measurement.getValue().doubleValue(), 0.01);
     }
     
     public void testAddObject() {
         measurement.add(new Object());
 
-        assertEquals(1, measurement.intValue());
-        assertEquals(1, measurement.doubleValue(), 0.01);
+        assertEquals(1, measurement.getValue().intValue());
+        assertEquals(1, measurement.getValue().doubleValue(), 0.01);
         assertEquals(1, measurement.getValue().intValue());
 
         measurement.add(new Object());
@@ -114,8 +114,8 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
     public void testAddNumber() {
         measurement.add(new Integer(1));
 
-        assertEquals(1, measurement.intValue());
-        assertEquals(1, measurement.doubleValue(), 0.01);
+        assertEquals(1, measurement.getValue().intValue());
+        assertEquals(1, measurement.getValue().doubleValue(), 0.01);
         assertEquals(1, measurement.getValue().intValue());
 
         measurement.add(new Float(0.5));
@@ -127,28 +127,28 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
     public void testAddInt() {
         measurement.add(1);
 
-        assertEquals(1, measurement.intValue());
-        assertEquals(1, measurement.doubleValue(), 0.01);
+        assertEquals(1, measurement.getValue().intValue());
+        assertEquals(1, measurement.getValue().doubleValue(), 0.01);
         assertEquals(1, measurement.getValue().intValue());
 
         measurement.add(2);
 
-        assertEquals(3, measurement.intValue());
-        assertEquals(3, measurement.doubleValue(), 0.01);
+        assertEquals(3, measurement.getValue().intValue());
+        assertEquals(3, measurement.getValue().doubleValue(), 0.01);
         assertEquals(3, measurement.getValue().intValue());
     }
     
     public void testAddFloat() {
         measurement.add(1.0);
 
-        assertEquals(1, measurement.intValue());
-        assertEquals(1, measurement.doubleValue(), 0.01);
+        assertEquals(1, measurement.getValue().intValue());
+        assertEquals(1, measurement.getValue().doubleValue(), 0.01);
         assertEquals(1, measurement.getValue().intValue());
 
         measurement.add(0.5);
 
-        assertEquals(1, measurement.intValue());
-        assertEquals(1.5, measurement.doubleValue(), 0.01);
+        assertEquals(1, measurement.getValue().intValue());
+        assertEquals(1.5, measurement.getValue().doubleValue(), 0.01);
         assertEquals(1, measurement.getValue().intValue());
     }
 

@@ -44,14 +44,14 @@ public abstract class MeasurementBase implements Measurement {
     }
     
     private MeasurementDescriptor descriptor = null;
-    private Metrics               context    = null;
+    private Metrics context = null;
 
-    private boolean               cached     = false;
-    private boolean               empty      = true;
+    private boolean cached = false;
+    private boolean empty = true;
 
     public MeasurementBase(MeasurementDescriptor descriptor, Metrics context, String initText) {
         this.descriptor = descriptor;
-        this.context    = context;
+        this.context = context;
     }
     
     public MeasurementDescriptor getDescriptor() {
@@ -100,22 +100,6 @@ public abstract class MeasurementBase implements Measurement {
         return compute();
     }
 
-    public int intValue() {
-        return (int) compute();
-    }
-
-    public long longValue() {
-        return (long) compute();
-    }
-
-    public float floatValue() {
-        return (float) compute();
-    }
-
-    public double doubleValue() {
-        return compute();
-    }
-    
     public boolean isInRange() {
         boolean result = true;
 
@@ -159,22 +143,6 @@ public abstract class MeasurementBase implements Measurement {
         // Do nothing
     }
 
-    public void add(int i) {
-        // Do nothing
-    }
-    
-    public void add(long l) {
-        // Do nothing
-    }
-    
-    public void add(float f) {
-        // Do nothing
-    }
-    
-    public void add(double d) {
-        // Do nothing
-    }
-    
     protected abstract double compute();
 
     public String toString() {

@@ -52,7 +52,9 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
 
     private NodeFactory resultFactory;
 
-    protected void setUp() {
+    protected void setUp() throws Exception {
+        super.setUp();
+
         factory = new NodeFactory();
 
         in2  = factory.createFeature("in2.In2.In2()");
@@ -66,9 +68,9 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         base.addDependency(out1);
         out1.addDependency(out2);
         
-        List scopeIncludes = new ArrayList(1);
+        List<String> scopeIncludes = new ArrayList<String>(1);
         scopeIncludes.add("/^base/");
-        List filderIncludes = Collections.EMPTY_LIST;
+        List<String> filterIncludes = Collections.emptyList();
         
         startCriteria = new RegularExpressionSelectionCriteria();
         startCriteria.setMatchingPackages(false);
@@ -80,7 +82,7 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         stopCriteria.setMatchingPackages(false);
         stopCriteria.setMatchingClasses(false);
         stopCriteria.setMatchingFeatures(false);
-        stopCriteria.setGlobalIncludes(filderIncludes);
+        stopCriteria.setGlobalIncludes(filterIncludes);
     }
 
     public void testFeatureToFeatureFromFeature() {
@@ -323,7 +325,7 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         assertEquals(0, resultFactory.createPackage("out2").getOutboundDependencies().size());
     }
 
-    private void compute(Collection nodes) {
+    private void compute(Collection<? extends Node> nodes) {
         RegularExpressionSelectionCriteria localStartCriteria = new RegularExpressionSelectionCriteria();
         localStartCriteria.setGlobalIncludes(startCriteria.getGlobalIncludes());
         RegularExpressionSelectionCriteria localStopCriteria  = new RegularExpressionSelectionCriteria();

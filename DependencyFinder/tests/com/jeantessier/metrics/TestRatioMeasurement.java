@@ -83,7 +83,7 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
 
         assertNull(measurement.getBaseName());
         assertNull(measurement.getDividerName());
-        assertTrue(Double.isNaN(measurement.doubleValue()));
+        assertTrue(Double.isNaN(measurement.getValue().doubleValue()));
     }
     
     public void testCreateAndInitFromMeasurementDescriptor() throws Exception {
@@ -98,7 +98,7 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
         assertEquals("base", measurement.getBaseName());
         assertEquals("divider", measurement.getDividerName());
 
-        assertTrue(Double.isNaN(measurement.doubleValue()));
+        assertTrue(Double.isNaN(measurement.getValue().doubleValue()));
     }
 
     public void testCreate() {
@@ -174,13 +174,13 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
         c.track("divider", new StatisticalMeasurement(null, c, "divider"));
         
         measurement = new RatioMeasurement(descriptor, c, "base DISPOSE_MINIMUM\ndivider DISPOSE_MINIMUM");
-        assertEquals(0.5, measurement.doubleValue(), 0.01);
+        assertEquals(0.5, measurement.getValue().doubleValue(), 0.01);
         
         measurement = new RatioMeasurement(descriptor, c, "base DISPOSE_AVERAGE\ndivider DISPOSE_AVERAGE");
-        assertEquals(2.0 / 3.0, measurement.doubleValue(), 0.01);
+        assertEquals(2.0 / 3.0, measurement.getValue().doubleValue(), 0.01);
         
         measurement = new RatioMeasurement(descriptor, c, "base DISPOSE_AVERAGE\ndivider DISPOSE_NB_DATA_POINTS");
-        assertEquals(1.0, measurement.doubleValue(), 0.01);
+        assertEquals(1.0, measurement.getValue().doubleValue(), 0.01);
     }
     
     public void testNormal() throws Exception {
@@ -189,20 +189,14 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
         m1.add(10);
         m2.add(1);
 
-        assertEquals(10 / 1, measurement.intValue());
-        assertEquals(10 / 1, measurement.doubleValue(), 0.01);
         assertEquals(10 / 1, measurement.getValue().intValue());
 
         m2.add(1);
 
-        assertEquals(10 / 2, measurement.intValue());
-        assertEquals(10 / 2, measurement.doubleValue(), 0.01);
         assertEquals(10 / 2, measurement.getValue().intValue());
 
         m1.add(m1.getValue());
 
-        assertEquals(20 / 2, measurement.intValue());
-        assertEquals(20 / 2, measurement.doubleValue(), 0.01);
         assertEquals(20 / 2, measurement.getValue().intValue());
     }
     
@@ -344,32 +338,32 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
     public void testEmpty() throws Exception {
         measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
 
-        assertEquals("base == 0", 0, m1.intValue());
-        assertEquals("divider == 0", 0, m2.intValue());
+        assertEquals("base == 0", 0, m1.getValue().intValue());
+        assertEquals("divider == 0", 0, m2.getValue().intValue());
         assertTrue("0/0", measurement.isEmpty());
 
         m1.add(1);
 
-        assertEquals("base != 1", 1, m1.intValue());
-        assertEquals("divider != 0", 0, m2.intValue());
+        assertEquals("base != 1", 1, m1.getValue().intValue());
+        assertEquals("divider != 0", 0, m2.getValue().intValue());
         assertTrue("1/0", measurement.isEmpty());
 
         m2.add(1);
 
-        assertEquals("base != 1", 1, m1.intValue());
-        assertEquals("divider != 1", 1, m2.intValue());
+        assertEquals("base != 1", 1, m1.getValue().intValue());
+        assertEquals("divider != 1", 1, m2.getValue().intValue());
         assertFalse("1/1", measurement.isEmpty());
 
         m1.add(-1);
 
-        assertEquals("base != 0", 0, m1.intValue());
-        assertEquals("divider != 1", 1, m2.intValue());
+        assertEquals("base != 0", 0, m1.getValue().intValue());
+        assertEquals("divider != 1", 1, m2.getValue().intValue());
         assertFalse("0/1", measurement.isEmpty());
 
         m2.add(-1);
 
-        assertEquals("base != 0", 0, m1.intValue());
-        assertEquals("divider != 0", 0, m2.intValue());
+        assertEquals("base != 0", 0, m1.getValue().intValue());
+        assertEquals("divider != 0", 0, m2.getValue().intValue());
         assertTrue("0/0", measurement.isEmpty());
     }
     

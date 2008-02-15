@@ -139,11 +139,11 @@ public class MetricsFactory {
     }
 
     private void computePackageNameCharacterCount(String packageName, Metrics metrics) {
-        metrics.addToMeasurement(Metrics.GROUP_NAME_CHARACTER_COUNT, packageName.length());
+        metrics.addToMeasurement(BasicMeasurements.GROUP_NAME_CHARACTER_COUNT, packageName.length());
     }
 
     private void computePackageNameWordCount(String packageName, Metrics metrics) {
-        metrics.addToMeasurement(Metrics.GROUP_NAME_WORD_COUNT, counter.countPackageName(packageName));
+        metrics.addToMeasurement(BasicMeasurements.GROUP_NAME_WORD_COUNT, counter.countPackageName(packageName));
     }
 
     public void includeGroupMetrics(Metrics metrics) {
@@ -201,11 +201,11 @@ public class MetricsFactory {
     }
 
     private void computeClassNameCharacterCount(String className, Metrics metrics) {
-        metrics.addToMeasurement(Metrics.CLASS_NAME_CHARACTER_COUNT, className.length());
+        metrics.addToMeasurement(BasicMeasurements.CLASS_NAME_CHARACTER_COUNT, className.length());
     }
 
     private void computeClassNameWordCount(String className, Metrics metrics) {
-        metrics.addToMeasurement(Metrics.CLASS_NAME_WORD_COUNT, counter.countIdentifier(className));
+        metrics.addToMeasurement(BasicMeasurements.CLASS_NAME_WORD_COUNT, counter.countIdentifier(className));
     }
 
     public void includeClassMetrics(Metrics metrics) {
@@ -276,11 +276,11 @@ public class MetricsFactory {
     }
 
     private void computeMethodNameCharacterCount(String featureName, Metrics metrics) {
-        metrics.addToMeasurement(Metrics.METHOD_NAME_CHARACTER_COUNT, featureName.length());
+        metrics.addToMeasurement(BasicMeasurements.METHOD_NAME_CHARACTER_COUNT, featureName.length());
     }
 
     private void computeMethodNameWordCount(String featureName, Metrics metrics) {
-        metrics.addToMeasurement(Metrics.METHOD_NAME_WORD_COUNT, counter.countIdentifier(featureName));
+        metrics.addToMeasurement(BasicMeasurements.METHOD_NAME_WORD_COUNT, counter.countIdentifier(featureName));
     }
 
     public void includeMethodMetrics(Metrics metrics) {

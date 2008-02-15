@@ -40,9 +40,9 @@ import junit.framework.*;
 import com.jeantessier.classreader.*;
 
 public class TestMetricsGathererEvents extends TestCase implements MetricsListener {
-    public static final String TEST_CLASS    = "test";
+    public static final String TEST_CLASS = "test";
     public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
-    public static final String TEST_DIRNAME  = "classes" + File.separator + "testpackage";
+    public static final String TEST_DIRNAME = "classes" + File.separator + "testpackage";
     public static final String OTHER_DIRNAME = "classes" + File.separator + "otherpackage";
 
     private ClassfileLoader loader;
@@ -56,18 +56,20 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
     private LinkedList<MetricsEvent> endSessionEvents;
 
     protected void setUp() throws Exception {
-        loader  = new AggregatingClassfileLoader();
+        super.setUp();
+        
+        loader = new AggregatingClassfileLoader();
 
         MetricsFactory factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).load("etc" + File.separator + "MetricsConfig.xml"));
         gatherer = new MetricsGatherer("test", factory);
         gatherer.addMetricsListener(this);
 
         beginSessionEvents = new LinkedList<MetricsEvent>();
-        beginClassEvents   = new LinkedList<MetricsEvent>();
-        beginMethodEvents  = new LinkedList<MetricsEvent>();
-        endMethodEvents    = new LinkedList<MetricsEvent>();
-        endClassEvents     = new LinkedList<MetricsEvent>();
-        endSessionEvents   = new LinkedList<MetricsEvent>();
+        beginClassEvents = new LinkedList<MetricsEvent>();
+        beginMethodEvents = new LinkedList<MetricsEvent>();
+        endMethodEvents = new LinkedList<MetricsEvent>();
+        endClassEvents = new LinkedList<MetricsEvent>();
+        endSessionEvents = new LinkedList<MetricsEvent>();
     }
     
     public void testEvents() {
@@ -103,7 +105,7 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
     }
     
     public void testEventsWithNothing() {
-        loader.load(Collections.EMPTY_SET);
+        loader.load(Collections.<String>emptySet());
 
         gatherer.visitClassfiles(loader.getAllClassfiles());
 

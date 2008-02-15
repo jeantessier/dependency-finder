@@ -282,13 +282,13 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
                         break;
                     case StatisticalMeasurement.DISPOSE_IGNORE:
                     default:
-                        result = stats.doubleValue();
+                        result = stats.getValue().doubleValue();
                         break;
                 }
             } else if (measurement instanceof NullMeasurement) {
                 throw new NullPointerException();
             } else {
-                result = measurement.doubleValue();
+                result = measurement.getValue().doubleValue();
             }
         }
 

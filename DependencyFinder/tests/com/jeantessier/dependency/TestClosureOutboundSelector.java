@@ -32,43 +32,42 @@
 
 package com.jeantessier.dependency;
 
-import java.io.*;
 import java.util.*;
 
 import junit.framework.*;
 
-import org.apache.oro.text.perl.*;
-
 public class TestClosureOutboundSelector extends TestCase {
-    private NodeFactory factory;
     private NodeFactory localFactory;
 
     private PackageNode a;
-    private ClassNode   a_A;
+    private ClassNode a_A;
     private FeatureNode a_A_a;
     
     private PackageNode b;
-    private ClassNode   b_B;
+    private ClassNode b_B;
     private FeatureNode b_B_b;
     
     private PackageNode c;
-    private ClassNode   c_C;
+    private ClassNode c_C;
     private FeatureNode c_C_c;
 
     protected void setUp() throws Exception {
-        factory      = new NodeFactory();
+        super.setUp();
+        
         localFactory = new NodeFactory();
 
-        a     = factory.createPackage("a");
-        a_A   = factory.createClass("a.A");
+        NodeFactory factory = new NodeFactory();
+
+        a = factory.createPackage("a");
+        a_A = factory.createClass("a.A");
         a_A_a = factory.createFeature("a.A.a");
         
-        b     = factory.createPackage("b");
-        b_B   = factory.createClass("b.B");
+        b = factory.createPackage("b");
+        b_B = factory.createClass("b.B");
         b_B_b = factory.createFeature("b.B.b");
         
-        c     = factory.createPackage("c");
-        c_C   = factory.createClass("c.C");
+        c = factory.createPackage("c");
+        c_C = factory.createClass("c.C");
         c_C_c = factory.createFeature("c.C.c");
 
         a_A_a.addDependency(b_B_b);
@@ -84,7 +83,7 @@ public class TestClosureOutboundSelector extends TestCase {
     }
 
     public void testCoverage() {
-        Collection coverage = new ArrayList();
+        Collection<Node> coverage = new ArrayList<Node>();
 
         ClosureOutboundSelector selector = new ClosureOutboundSelector();
 
@@ -94,7 +93,7 @@ public class TestClosureOutboundSelector extends TestCase {
     }
 
     public void testOneSelectedNode() {
-        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.EMPTY_SET);
+        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.<Node>emptySet());
         selector.traverseNodes(Collections.singleton(b_B_b));
 
         assertEquals("nodes in selection", 1, selector.getSelectedNodes().size());
@@ -103,7 +102,7 @@ public class TestClosureOutboundSelector extends TestCase {
     }
 
     public void testOneCopiedNode() {
-        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.EMPTY_SET);
+        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.<Node>emptySet());
         selector.traverseNodes(Collections.singleton(b_B_b));
 
         assertEquals("packages in scope", 2, localFactory.getPackages().size());
@@ -128,8 +127,8 @@ public class TestClosureOutboundSelector extends TestCase {
         assertEquals("c.C.c in selection", c_C_c, selector.getCopiedNodes().iterator().next());
         assertNotSame("c.C.c in selection", c_C_c, selector.getCopiedNodes().iterator().next());
         assertSame("c.C.c in selection", localFactory.getFeatures().get("c.C.c"), selector.getCopiedNodes().iterator().next());
-        assertEquals("c.C.c's inbounds",  1, ((Node) selector.getCopiedNodes().iterator().next()).getInboundDependencies().size());
-        assertEquals("c.C.c's outbounds", 0, ((Node) selector.getCopiedNodes().iterator().next()).getOutboundDependencies().size());
+        assertEquals("c.C.c's inbounds",  1, selector.getCopiedNodes().iterator().next().getInboundDependencies().size());
+        assertEquals("c.C.c's outbounds", 0, selector.getCopiedNodes().iterator().next().getOutboundDependencies().size());
     }
 
     public void testThreeSelectedNodesFromPackage() {
@@ -137,7 +136,7 @@ public class TestClosureOutboundSelector extends TestCase {
         b.addDependency(c_C);
         b.addDependency(c_C_c);
         
-        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.EMPTY_SET);
+        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.<Node>emptySet());
         selector.traverseNodes(Collections.singleton(b));
 
         assertEquals("nodes in selection", 3, selector.getSelectedNodes().size());
@@ -151,7 +150,7 @@ public class TestClosureOutboundSelector extends TestCase {
         b_B.addDependency(c_C);
         b_B.addDependency(c_C_c);
         
-        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.EMPTY_SET);
+        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.<Node>emptySet());
         selector.traverseNodes(Collections.singleton(b_B));
 
         assertEquals("nodes in selection", 3, selector.getSelectedNodes().size());
@@ -165,7 +164,7 @@ public class TestClosureOutboundSelector extends TestCase {
         b_B_b.addDependency(c_C);
         b_B_b.addDependency(c_C_c);
         
-        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.EMPTY_SET);
+        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.<Node>emptySet());
         selector.traverseNodes(Collections.singleton(b_B_b));
 
         assertEquals("nodes in selection", 3, selector.getSelectedNodes().size());
@@ -179,7 +178,7 @@ public class TestClosureOutboundSelector extends TestCase {
         b.addDependency(c_C);
         b.addDependency(c_C_c);
         
-        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.EMPTY_SET);
+        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.<Node>emptySet());
         selector.traverseNodes(Collections.singleton(b));
 
         assertEquals("nodes in selection", 3, selector.getCopiedNodes().size());
@@ -195,7 +194,7 @@ public class TestClosureOutboundSelector extends TestCase {
         b_B.addDependency(c_C);
         b_B.addDependency(c_C_c);
         
-        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.EMPTY_SET);
+        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.<Node>emptySet());
         selector.traverseNodes(Collections.singleton(b_B));
 
         assertEquals("nodes in selection", 3, selector.getCopiedNodes().size());
@@ -211,7 +210,7 @@ public class TestClosureOutboundSelector extends TestCase {
         b_B_b.addDependency(c_C);
         b_B_b.addDependency(c_C_c);
         
-        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.EMPTY_SET);
+        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.<Node>emptySet());
         selector.traverseNodes(Collections.singleton(b_B_b));
 
         assertEquals("nodes in selection", 3, selector.getCopiedNodes().size());
@@ -309,7 +308,7 @@ public class TestClosureOutboundSelector extends TestCase {
     public void testReset() {
         NodeFactory localFactory  = new NodeFactory();
 
-        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.EMPTY_SET);
+        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.<Node>emptySet());
         selector.traverseNodes(Collections.singleton(b_B_b));
 
         assertEquals("nodes in selection", 1, selector.getSelectedNodes().size());
@@ -322,107 +321,107 @@ public class TestClosureOutboundSelector extends TestCase {
     }
 
     public void testVisitInferredPackage() {
-        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.EMPTY_SET);
+        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.<Node>emptySet());
         selector.traverseNodes(Collections.singleton(b));
 
-        assertEquals("package.isConfirmed()", b.isConfirmed(), ((Node) localFactory.getPackages().get(b.getName())).isConfirmed());
+        assertEquals("package.isConfirmed()", b.isConfirmed(), localFactory.getPackages().get(b.getName()).isConfirmed());
     }
 
     public void testVisitConfirmedPackage() {
         b.setConfirmed(true);
         
-        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.EMPTY_SET);
+        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.<Node>emptySet());
         selector.traverseNodes(Collections.singleton(b));
 
-        assertEquals("package.isConfirmed()", b.isConfirmed(), ((Node) localFactory.getPackages().get(b.getName())).isConfirmed());
+        assertEquals("package.isConfirmed()", b.isConfirmed(), localFactory.getPackages().get(b.getName()).isConfirmed());
     }
 
     public void testFollowToInferredPackage() {
         b.addDependency(c);
         
-        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.EMPTY_SET);
+        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.<Node>emptySet());
         selector.traverseNodes(Collections.singleton(b));
 
-        assertEquals("package.isConfirmed()", c.isConfirmed(), ((Node) localFactory.getPackages().get(c.getName())).isConfirmed());
+        assertEquals("package.isConfirmed()", c.isConfirmed(), localFactory.getPackages().get(c.getName()).isConfirmed());
     }
 
     public void testFollowToConfirmedPackage() {
         b.addDependency(c);
         c.setConfirmed(true);
         
-        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.EMPTY_SET);
+        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.<Node>emptySet());
         selector.traverseNodes(Collections.singleton(b));
 
-        assertEquals("package.isConfirmed()", c.isConfirmed(), ((Node) localFactory.getPackages().get(c.getName())).isConfirmed());
+        assertEquals("package.isConfirmed()", c.isConfirmed(), localFactory.getPackages().get(c.getName()).isConfirmed());
     }
 
     public void testVisitInferredClass() {
-        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.EMPTY_SET);
+        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.<Node>emptySet());
         selector.traverseNodes(Collections.singleton(b_B));
 
-        assertEquals("class.isConfirmed()", b_B.isConfirmed(), ((Node) localFactory.getClasses().get(b_B.getName())).isConfirmed());
+        assertEquals("class.isConfirmed()", b_B.isConfirmed(), localFactory.getClasses().get(b_B.getName()).isConfirmed());
     }
 
     public void testVisitConfirmedClass() {
         b_B.setConfirmed(true);
         
-        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.EMPTY_SET);
+        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.<Node>emptySet());
         selector.traverseNodes(Collections.singleton(b_B));
 
-        assertEquals("class.isConfirmed()", b_B.isConfirmed(), ((Node) localFactory.getClasses().get(b_B.getName())).isConfirmed());
+        assertEquals("class.isConfirmed()", b_B.isConfirmed(), localFactory.getClasses().get(b_B.getName()).isConfirmed());
     }
 
     public void testFollowToInferredClass() {
         b_B.addDependency(c_C);
         
-        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.EMPTY_SET);
+        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.<Node>emptySet());
         selector.traverseNodes(Collections.singleton(b_B));
 
-        assertEquals("class.isConfirmed()", c_C.isConfirmed(), ((Node) localFactory.getClasses().get(c_C.getName())).isConfirmed());
+        assertEquals("class.isConfirmed()", c_C.isConfirmed(), localFactory.getClasses().get(c_C.getName()).isConfirmed());
     }
 
     public void testFollowToConfirmedClass() {
         b_B.addDependency(c_C);
         c_C.setConfirmed(true);
         
-        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.EMPTY_SET);
+        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.<Node>emptySet());
         selector.traverseNodes(Collections.singleton(b_B));
 
-        assertEquals("class.isConfirmed()", c_C.isConfirmed(), ((Node) localFactory.getClasses().get(c_C.getName())).isConfirmed());
+        assertEquals("class.isConfirmed()", c_C.isConfirmed(), localFactory.getClasses().get(c_C.getName()).isConfirmed());
     }
 
     public void testVisitInferredFeature() {
-        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.EMPTY_SET);
+        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.<Node>emptySet());
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("feature.isConfirmed()", b_B_b.isConfirmed(), ((Node) localFactory.getFeatures().get(b_B_b.getName())).isConfirmed());
+        assertEquals("feature.isConfirmed()", b_B_b.isConfirmed(), localFactory.getFeatures().get(b_B_b.getName()).isConfirmed());
     }
 
     public void testVisitConfirmedFeature() {
         b_B_b.setConfirmed(true);
         
-        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.EMPTY_SET);
+        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.<Node>emptySet());
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("feature.isConfirmed()", b_B_b.isConfirmed(), ((Node) localFactory.getFeatures().get(b_B_b.getName())).isConfirmed());
+        assertEquals("feature.isConfirmed()", b_B_b.isConfirmed(), localFactory.getFeatures().get(b_B_b.getName()).isConfirmed());
     }
 
     public void testFollowToInferredFeature() {
         b_B_b.addDependency(c_C_c);
         
-        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.EMPTY_SET);
+        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.<Node>emptySet());
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("feature.isConfirmed()", c_C_c.isConfirmed(), ((Node) localFactory.getFeatures().get(c_C_c.getName())).isConfirmed());
+        assertEquals("feature.isConfirmed()", c_C_c.isConfirmed(), localFactory.getFeatures().get(c_C_c.getName()).isConfirmed());
     }
 
     public void testFollowToConfirmedFeature() {
         b_B_b.addDependency(c_C_c);
         c_C_c.setConfirmed(true);
         
-        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.EMPTY_SET);
+        ClosureOutboundSelector selector = new ClosureOutboundSelector(localFactory, Collections.<Node>emptySet());
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("feature.isConfirmed()", c_C_c.isConfirmed(), ((Node) localFactory.getFeatures().get(c_C_c.getName())).isConfirmed());
+        assertEquals("feature.isConfirmed()", c_C_c.isConfirmed(), localFactory.getFeatures().get(c_C_c.getName()).isConfirmed());
     }
 }

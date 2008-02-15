@@ -47,6 +47,8 @@ public class TestMetricsGathererSLOC extends TestCase {
     private MetricsFactory factory;
     
     protected void setUp() throws Exception {
+        super.setUp();
+
         Logger.getLogger(getClass()).debug("Starting " + getName() + " ...");
         
         factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).load("etc" + File.separator + "MetricsConfig.xml"));
@@ -62,66 +64,74 @@ public class TestMetricsGathererSLOC extends TestCase {
     }
 
     protected void tearDown() throws Exception {
-        Logger.getLogger(getClass()).debug("Done with " + getName() + " ...");
+        try {
+            Logger.getLogger(getClass()).debug("Done with " + getName() + " ...");
+        } finally {
+            super.tearDown();
+        }
     }
     
     public void test_sloc_TestInterface() {
-        assertEquals(Metrics.SLOC, 3, factory.createClassMetrics("sloc.TestInterface").getMeasurement(Metrics.SLOC).intValue());
-        assertEquals("M", 2, factory.createClassMetrics("sloc.TestInterface").getMeasurement("M").intValue());
-        assertEquals("AM", 2, factory.createClassMetrics("sloc.TestInterface").getMeasurement("AM").intValue());
-        assertEquals("SynthM", 0, factory.createClassMetrics("sloc.TestInterface").getMeasurement("SynthM").intValue());
+        assertEquals(BasicMeasurements.SLOC, 3, factory.createClassMetrics("sloc.TestInterface").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+        assertEquals("M", 2, factory.createClassMetrics("sloc.TestInterface").getMeasurement("M").getValue().intValue());
+        assertEquals("AM", 2, factory.createClassMetrics("sloc.TestInterface").getMeasurement("AM").getValue().intValue());
+        assertEquals("SynthM", 0, factory.createClassMetrics("sloc.TestInterface").getMeasurement("SynthM").getValue().intValue());
     }
     
     public void test_sloc_TestInterface_method1() {
-        assertEquals(Metrics.SLOC, 1, factory.createMethodMetrics("sloc.TestInterface.method1()").getMeasurement(Metrics.SLOC).intValue());
+        assertEquals(BasicMeasurements.SLOC, 1, factory.createMethodMetrics("sloc.TestInterface.method1()").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
     }
     
     public void test_sloc_TestInterface_method2() {
-        assertEquals(Metrics.SLOC, 1, factory.createMethodMetrics("sloc.TestInterface.method2()").getMeasurement(Metrics.SLOC).intValue());
+        assertEquals(BasicMeasurements.SLOC, 1, factory.createMethodMetrics("sloc.TestInterface.method2()").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
     }
     
     public void test_sloc_TestAbstractClass() {
-        assertEquals(Metrics.SLOC, 15, factory.createClassMetrics("sloc.TestAbstractClass").getMeasurement(Metrics.SLOC).intValue());
-        assertEquals("M", 2, factory.createClassMetrics("sloc.TestAbstractClass").getMeasurement("M").intValue());
-        assertEquals("AM", 0, factory.createClassMetrics("sloc.TestAbstractClass").getMeasurement("AM").intValue());
-        assertEquals("SynthM", 0, factory.createClassMetrics("sloc.TestAbstractClass").getMeasurement("SynthM").intValue());
+        assertEquals(BasicMeasurements.SLOC, 15, factory.createClassMetrics("sloc.TestAbstractClass").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+        assertEquals("M", 2, factory.createClassMetrics("sloc.TestAbstractClass").getMeasurement("M").getValue().intValue());
+        assertEquals("AM", 0, factory.createClassMetrics("sloc.TestAbstractClass").getMeasurement("AM").getValue().intValue());
+        assertEquals("SynthM", 0, factory.createClassMetrics("sloc.TestAbstractClass").getMeasurement("SynthM").getValue().intValue());
     }
     
     public void test_sloc_TestAbstractClass_method1() {
-        assertEquals(Metrics.SLOC, 13, factory.createMethodMetrics("sloc.TestAbstractClass.method1()").getMeasurement(Metrics.SLOC).intValue());
+        assertEquals(BasicMeasurements.SLOC, 13, factory.createMethodMetrics("sloc.TestAbstractClass.method1()").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
     }
     
     public void test_sloc_TestAbstractClass_method2() {
-        assertEquals(Metrics.SLOC, 0, factory.createMethodMetrics("sloc.TestAbstractClass.method2()").getMeasurement(Metrics.SLOC).intValue());
+        assertEquals(BasicMeasurements.SLOC, 0, factory.createMethodMetrics("sloc.TestAbstractClass.method2()").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
     }
     
     public void test_sloc_TestSuperClass() {
-        assertEquals(Metrics.SLOC, 2, factory.createClassMetrics("sloc.TestSuperClass").getMeasurement(Metrics.SLOC).intValue());
-        assertEquals("M", 1, factory.createClassMetrics("sloc.TestSuperClass").getMeasurement("M").intValue());
-        assertEquals("ABSM", 0, factory.createClassMetrics("sloc.TestSuperClass").getMeasurement("ABSM").intValue());
-        assertEquals("SYNTHM", 0, factory.createClassMetrics("sloc.TestSuperClass").getMeasurement("SYNTHM").intValue());
+        assertEquals(BasicMeasurements.SLOC, 2, factory.createClassMetrics("sloc.TestSuperClass").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+        assertEquals("M", 1, factory.createClassMetrics("sloc.TestSuperClass").getMeasurement("M").getValue().intValue());
+        assertEquals("ABSM", 0, factory.createClassMetrics("sloc.TestSuperClass").getMeasurement("ABSM").getValue().intValue());
+        assertEquals("SYNTHM", 0, factory.createClassMetrics("sloc.TestSuperClass").getMeasurement("SYNTHM").getValue().intValue());
     }
     
     public void test_sloc_TestClass() {
-        assertEquals(Metrics.SLOC, 4, factory.createClassMetrics("sloc.TestClass").getMeasurement(Metrics.SLOC).intValue());
-        assertEquals("M", 2, factory.createClassMetrics("sloc.TestClass").getMeasurement("M").intValue());
-        assertEquals("ABSM", 0, factory.createClassMetrics("sloc.TestClass").getMeasurement("ABSM").intValue());
-        assertEquals("SYNTHM", 0, factory.createClassMetrics("sloc.TestClass").getMeasurement("SYNTHM").intValue());
+        assertEquals(BasicMeasurements.SLOC, 4, factory.createClassMetrics("sloc.TestClass").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+        assertEquals("M", 2, factory.createClassMetrics("sloc.TestClass").getMeasurement("M").getValue().intValue());
+        assertEquals("ABSM", 0, factory.createClassMetrics("sloc.TestClass").getMeasurement("ABSM").getValue().intValue());
+        assertEquals("SYNTHM", 0, factory.createClassMetrics("sloc.TestClass").getMeasurement("SYNTHM").getValue().intValue());
     }
     
     public void test_sloc_TestClass_method1() {
-        assertEquals(Metrics.SLOC, 0, factory.createMethodMetrics("sloc.TestClass.method1()").getMeasurement(Metrics.SLOC).intValue());
+        assertEquals(BasicMeasurements.SLOC, 0, factory.createMethodMetrics("sloc.TestClass.method1()").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
     }
     
     public void test_sloc_TestClass_method2() {
-        assertEquals(Metrics.SLOC, 2, factory.createMethodMetrics("sloc.TestClass.method2()").getMeasurement(Metrics.SLOC).intValue());
+        assertEquals(BasicMeasurements.SLOC, 2, factory.createMethodMetrics("sloc.TestClass.method2()").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
     }
 
     public void test_sloc() {
-        assertEquals(Metrics.SLOC, 24, factory.createGroupMetrics("sloc").getMeasurement(Metrics.SLOC).intValue());
+        assertEquals(BasicMeasurements.SLOC, 24, factory.createGroupMetrics("sloc").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
     }
 
     public void testProject() {
-        assertEquals(Metrics.SLOC, 24, factory.createProjectMetrics("test").getMeasurement(Metrics.SLOC).intValue());
+        assertEquals(BasicMeasurements.SLOC, 24, factory.createProjectMetrics("test").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+    }
+
+    private void assertEquals(BasicMeasurements message, int expectedValue, int actualValue) {
+        assertEquals(message.getAbbreviation(), expectedValue, actualValue);
     }
 }

@@ -72,8 +72,8 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 
     public void testCreateDefault() {
         measurement = new SumMeasurement(descriptor, null,  null);
-        
-        assertEquals(0, measurement.doubleValue(), 0.01);
+
+        assertEquals(0, measurement.getValue().doubleValue(), 0.01);
     }
 
     public void testEmptyInitText() throws Exception {
@@ -81,7 +81,7 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 
         measurement = (SumMeasurement) descriptor.createMeasurement();
 
-        assertEquals(0, measurement.doubleValue(), 0.01);
+        assertEquals(0, measurement.getValue().doubleValue(), 0.01);
     }
 
     public void testEmptyLineInitText() throws Exception {
@@ -89,7 +89,7 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 
         measurement = (SumMeasurement) descriptor.createMeasurement();
 
-        assertEquals(0, measurement.doubleValue(), 0.01);
+        assertEquals(0, measurement.getValue().doubleValue(), 0.01);
     }
 
     public void testDashInitText() throws Exception {
@@ -97,7 +97,7 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 
         measurement = (SumMeasurement) descriptor.createMeasurement();
 
-        assertEquals(0, measurement.doubleValue(), 0.01);
+        assertEquals(0, measurement.getValue().doubleValue(), 0.01);
     }
 
     public void testConstant() throws Exception {
@@ -105,7 +105,7 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 
         measurement = (SumMeasurement) descriptor.createMeasurement();
 
-        assertEquals(2, measurement.doubleValue(), 0.01);
+        assertEquals(2, measurement.getValue().doubleValue(), 0.01);
     }
 
     public void testConstantAndEmptyLine() throws Exception {
@@ -113,7 +113,7 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 
         measurement = (SumMeasurement) descriptor.createMeasurement();
 
-        assertEquals(2, measurement.doubleValue(), 0.01);
+        assertEquals(2, measurement.getValue().doubleValue(), 0.01);
     }
 
     public void testAddition() throws Exception {
@@ -121,7 +121,7 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 
         measurement = (SumMeasurement) descriptor.createMeasurement();
 
-        assertEquals(2, measurement.doubleValue(), 0.01);
+        assertEquals(2, measurement.getValue().doubleValue(), 0.01);
     }
 
     public void testNegative() throws Exception {
@@ -129,7 +129,7 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 
         measurement = (SumMeasurement) descriptor.createMeasurement();
 
-        assertEquals(-2, measurement.doubleValue(), 0.01);
+        assertEquals(-2, measurement.getValue().doubleValue(), 0.01);
     }
 
     public void testSubstraction() throws Exception {
@@ -137,13 +137,13 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 
         measurement = (SumMeasurement) descriptor.createMeasurement();
 
-        assertEquals(1, measurement.doubleValue(), 0.01);
+        assertEquals(1, measurement.getValue().doubleValue(), 0.01);
 
         descriptor.setInitText("1\n-2");
 
         measurement = (SumMeasurement) descriptor.createMeasurement();
 
-        assertEquals(-1, measurement.doubleValue(), 0.01);
+        assertEquals(-1, measurement.getValue().doubleValue(), 0.01);
     }
 
     public void testSubMeasurement() throws Exception {
@@ -153,7 +153,7 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         
         measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
 
-        assertEquals(2, measurement.doubleValue(), 0.01);
+        assertEquals(2, measurement.getValue().doubleValue(), 0.01);
     }
 
     public void testStatisticalMeasurement() throws Exception {
@@ -167,7 +167,7 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         
         measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
 
-        assertEquals(2, measurement.doubleValue(), 0.01);
+        assertEquals(2, measurement.getValue().doubleValue(), 0.01);
     }
 
     public void testAddMeasurements() throws Exception {
@@ -178,7 +178,7 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 
         measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
 
-        assertEquals(2, measurement.doubleValue(), 0.01);
+        assertEquals(2, measurement.getValue().doubleValue(), 0.01);
     }
 
     public void testSubstractMeasurements() throws Exception {
@@ -189,7 +189,7 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 
         measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
 
-        assertEquals(-1, measurement.doubleValue(), 0.01);
+        assertEquals(-1, measurement.getValue().doubleValue(), 0.01);
     }
 
     public void testInUndefinedRange() throws Exception {
@@ -235,18 +235,18 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         metrics.track("bar", new CounterMeasurement(null, null, null));
 
         measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
-        
-        assertEquals(0, measurement.intValue());
+
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(!measurement.isInRange());
 
         metrics.addToMeasurement("bar", 1);
-        
-        assertEquals(1, measurement.intValue());
+
+        assertEquals(1, measurement.getValue().intValue());
         assertTrue(measurement.isInRange());
 
         metrics.addToMeasurement("bar", 1);
-        
-        assertEquals(2, measurement.intValue());
+
+        assertEquals(2, measurement.getValue().intValue());
         assertTrue(measurement.isInRange());
     }
 
@@ -296,12 +296,12 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         metrics.track("bar", new CounterMeasurement(null, null, null));
 
         measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
-        
-        assertEquals(0, measurement.doubleValue(), 0.01);
+
+        assertEquals(0, measurement.getValue().doubleValue(), 0.01);
 
         metrics.addToMeasurement("bar", 1);
-        
-        assertEquals(0, measurement.doubleValue(), 0.01);
+
+        assertEquals(0, measurement.getValue().doubleValue(), 0.01);
     }
     
     public void testAccept() {

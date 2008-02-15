@@ -45,7 +45,7 @@ public class TestClassMatcher extends TestCase {
     public static final String TEST_DIR      = "tests"   + File.separator + "JarJarDiff";
     
     public void testMatchNone() {
-        ClassMatcher matcher = new ClassMatcher(Collections.EMPTY_LIST, Collections.EMPTY_LIST);
+        ClassMatcher matcher = new ClassMatcher(Collections.<String>emptyList(), Collections.<String>emptyList());
         
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(matcher);
@@ -55,7 +55,7 @@ public class TestClassMatcher extends TestCase {
     }
     
     public void testMatchClassfile() {
-        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.EMPTY_LIST);
+        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.<String>emptyList());
         
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(matcher);
@@ -63,9 +63,7 @@ public class TestClassMatcher extends TestCase {
 
         assertEquals("Number of results", 1, matcher.getResults().size());
         assertEquals("key", TEST_CLASS, matcher.getResults().keySet().iterator().next());
-        Iterator i = matcher.getResults().values().iterator();
-        while (i.hasNext()) {
-            List results = (List) i.next();
+        for (List<String> results : matcher.getResults().values()) {
             assertEquals("number results", 1, results.size());
             assertEquals("value", TEST_FILENAME, results.get(0));
         }
@@ -75,16 +73,14 @@ public class TestClassMatcher extends TestCase {
         String filename = TEST_DIR + File.separator + "onelevel.jar";
         assertTrue(filename + " missing", new File(filename).exists());
         
-        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.EMPTY_LIST);
+        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.<String>emptyList());
 
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(filename));
 
         assertEquals("Number of results", 14, matcher.getResults().size());
-        Iterator i = matcher.getResults().values().iterator();
-        while (i.hasNext()) {
-            List results = (List) i.next();
+        for (List<String> results : matcher.getResults().values()) {
             assertEquals("number results", 1, results.size());
             assertEquals("value", filename, results.get(0));
         }
@@ -94,16 +90,14 @@ public class TestClassMatcher extends TestCase {
         String filename = TEST_DIR + File.separator + "twolevel.jar";
         assertTrue(filename + " missing", new File(filename).exists());
         
-        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.EMPTY_LIST);
+        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.<String>emptyList());
 
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(filename));
 
         assertEquals("Number of results", 14, matcher.getResults().size());
-        Iterator i = matcher.getResults().values().iterator();
-        while (i.hasNext()) {
-            List results = (List) i.next();
+        for (List<String> results : matcher.getResults().values()) {
             assertEquals("number results", 1, results.size());
             assertEquals("value", "onelevel.zip", results.get(0));
         }
@@ -113,16 +107,14 @@ public class TestClassMatcher extends TestCase {
         String dirname = TEST_DIR + File.separator + "new";
         assertTrue(dirname + " missing", new File(dirname).exists());
 
-        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.EMPTY_LIST);
+        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.<String>emptyList());
         
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(dirname));
 
         assertEquals("Number of results", 14, matcher.getResults().size());
-        Iterator i = matcher.getResults().values().iterator();
-        while (i.hasNext()) {
-            List results = (List) i.next();
+        for (List<String> results : matcher.getResults().values()) {
             assertEquals("number results", 1, results.size());
             assertEquals("value", dirname, results.get(0));
         }
@@ -132,16 +124,14 @@ public class TestClassMatcher extends TestCase {
         String dirname = TEST_DIR + File.separator + "new";
         assertTrue(dirname + " missing", new File(dirname).exists());
 
-        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("/modified/i"), Collections.EMPTY_LIST);
+        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("/modified/i"), Collections.<String>emptyList());
         
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(dirname));
 
         assertEquals("Number of results", 13, matcher.getResults().size());
-        Iterator i = matcher.getResults().values().iterator();
-        while (i.hasNext()) {
-            List results = (List) i.next();
+        for (List<String> results : matcher.getResults().values()) {
             assertEquals("number results", 1, results.size());
             assertEquals("value", dirname, results.get(0));
         }
@@ -158,9 +148,7 @@ public class TestClassMatcher extends TestCase {
         loader.load(Collections.singleton(dirname));
 
         assertEquals("Number of results", 1, matcher.getResults().size());
-        Iterator i = matcher.getResults().values().iterator();
-        while (i.hasNext()) {
-            List results = (List) i.next();
+        for (List<String> results : matcher.getResults().values()) {
             assertEquals("number results", 1, results.size());
             assertEquals("value", dirname, results.get(0));
         }
@@ -176,16 +164,14 @@ public class TestClassMatcher extends TestCase {
         filenames.add(filename1);
         filenames.add(filename2);
         
-        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.EMPTY_LIST);
+        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.<String>emptyList());
 
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(matcher);
         loader.load(filenames);
 
         assertEquals("Number of results", 14, matcher.getResults().size());
-        Iterator i = matcher.getResults().values().iterator();
-        while (i.hasNext()) {
-            List results = (List) i.next();
+        for (List<String> results : matcher.getResults().values()) {
             assertEquals("number results", 2, results.size());
             assertEquals("value", filename1, results.get(0));
             assertEquals("value", filename2, results.get(1));

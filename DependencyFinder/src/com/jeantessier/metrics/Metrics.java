@@ -37,80 +37,6 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public class Metrics {
-    public static final String PACKAGES = "P";
-    
-    public static final String CLASSES            = "C";
-    public static final String PUBLIC_CLASSES     = "PuC";
-    public static final String FINAL_CLASSES      = "FC";
-    public static final String ABSTRACT_CLASSES   = "AC";
-    public static final String SYNTHETIC_CLASSES  = "SynthC";
-    public static final String INTERFACES         = "I";
-    public static final String DEPRECATED_CLASSES = "DC";
-    public static final String STATIC_CLASSES     = "SC";
-
-    public static final String PUBLIC_METHODS       = "PuM";
-    public static final String PROTECTED_METHODS    = "ProM";
-    public static final String PRIVATE_METHODS      = "ProM";
-    public static final String PACKAGE_METHODS      = "PaM";
-    public static final String FINAL_METHODS        = "FM";
-    public static final String ABSTRACT_METHODS     = "AM";
-    public static final String DEPRECATED_METHODS   = "DM";
-    public static final String SYNTHETIC_METHODS    = "SynthM";
-    public static final String STATIC_METHODS       = "SM";
-    public static final String SYNCHRONIZED_METHODS = "SynchM";
-    public static final String NATIVE_METHODS       = "NM";
-    public static final String TRIVIAL_METHODS      = "TM";
-
-    public static final String ATTRIBUTES            = "A";
-    public static final String PUBLIC_ATTRIBUTES     = "PuA";
-    public static final String PROTECTED_ATTRIBUTES  = "ProA";
-    public static final String PRIVATE_ATTRIBUTES    = "PriA";
-    public static final String PACKAGE_ATTRIBUTES    = "PaA";
-    public static final String FINAL_ATTRIBUTES      = "FA";
-    public static final String DEPRECATED_ATTRIBUTES = "DA";
-    public static final String SYNTHETIC_ATTRIBUTES  = "SynthA";
-    public static final String STATIC_ATTRIBUTES     = "SA";
-    public static final String TRANSIENT_ATTRIBUTES  = "TA";
-    public static final String VOLATILE_ATTRIBUTES   = "VA";
-
-    public static final String INNER_CLASSES           = "IC";
-    public static final String PUBLIC_INNER_CLASSES    = "PuIC";
-    public static final String PROTECTED_INNER_CLASSES = "ProIC";
-    public static final String PRIVATE_INNER_CLASSES   = "PriIC";
-    public static final String PACKAGE_INNER_CLASSES   = "PaIC";
-    public static final String ABSTRACT_INNER_CLASSES  = "AIC";
-    public static final String FINAL_INNER_CLASSES     = "FIC";
-    public static final String STATIC_INNER_CLASSES    = "SIC";
-
-    public static final String DEPTH_OF_INHERITANCE  = "DOI";
-    public static final String SUBCLASSES            = "SUB";
-    public static final String CLASS_SLOC            = "class SLOC";
-
-    public static final String SLOC            = "SLOC";
-    public static final String PARAMETERS      = "PARAM";
-    public static final String LOCAL_VARIABLES = "LVAR";
-
-    public static final String INBOUND_INTRA_PACKAGE_DEPENDENCIES  = "IIP";
-    public static final String INBOUND_EXTRA_PACKAGE_DEPENDENCIES  = "IEP";
-    public static final String OUTBOUND_INTRA_PACKAGE_DEPENDENCIES = "OIP";
-    public static final String OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES = "OEP";
-    
-    public static final String INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES     = "IICM";
-    public static final String INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES   = "IIPM";
-    public static final String INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES   = "IEPM";
-    public static final String OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES   = "OICF";
-    public static final String OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES = "OIPF";
-    public static final String OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES   = "OIPC";
-    public static final String OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES = "OEPF";
-    public static final String OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES   = "OEPC";
-
-    public static final String GROUP_NAME_CHARACTER_COUNT = "GNCC";
-    public static final String GROUP_NAME_WORD_COUNT = "GNWC";
-    public static final String CLASS_NAME_CHARACTER_COUNT = "CNCC";
-    public static final String CLASS_NAME_WORD_COUNT = "CNWC";
-    public static final String METHOD_NAME_CHARACTER_COUNT = "MNCC";
-    public static final String METHOD_NAME_WORD_COUNT = "MNWC";
-
     private static final Measurement NULL_MEASUREMENT = new NullMeasurement();
     
     private Metrics parent;
@@ -161,28 +87,56 @@ public class Metrics {
         measurements.put(name, measurement);
     }
 
+    public void addToMeasurement(BasicMeasurements name) {
+        addToMeasurement(name.getAbbreviation());
+    }
+
     public void addToMeasurement(String name) {
         addToMeasurement(name, 1);
     }
-    
+
+    public void addToMeasurement(BasicMeasurements name, int delta) {
+        addToMeasurement(name.getAbbreviation(), delta);
+    }
+
     public void addToMeasurement(String name, int delta) {
         getMeasurement(name).add(delta);
     }
-    
+
+    public void addToMeasurement(BasicMeasurements name, long delta) {
+        addToMeasurement(name.getAbbreviation(), delta);
+    }
+
     public void addToMeasurement(String name, long delta) {
         getMeasurement(name).add(delta);
     }
     
+    public void addToMeasurement(BasicMeasurements name, float delta) {
+        addToMeasurement(name.getAbbreviation(), delta);
+    }
+
     public void addToMeasurement(String name, float delta) {
         getMeasurement(name).add(delta);
     }
     
+    public void addToMeasurement(BasicMeasurements name, double delta) {
+        addToMeasurement(name.getAbbreviation(), delta);
+    }
+
     public void addToMeasurement(String name, double delta) {
         getMeasurement(name).add(delta);
     }
     
+    public void addToMeasurement(BasicMeasurements name, Object delta) {
+        addToMeasurement(name.getAbbreviation(), delta);
+    }
+
     public void addToMeasurement(String name, Object delta) {
         getMeasurement(name).add(delta);
+    }
+
+    public Measurement getMeasurement(BasicMeasurements name) {
+        return getMeasurement(name.getAbbreviation());
     }
 
     public Measurement getMeasurement(String name) {

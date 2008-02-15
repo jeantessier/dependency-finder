@@ -111,14 +111,14 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
 
     public void testNullInit() throws Exception {
         measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals(0, measurement.intValue());
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
         metrics.addSubMetrics(m1);
         metrics.addSubMetrics(m2);
         metrics.addSubMetrics(m3);
 
-        assertEquals(0, measurement.intValue());
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
     }
 
@@ -126,14 +126,14 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
         descriptor.setInitText("");
 
         measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals(0, measurement.intValue());
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
         metrics.addSubMetrics(m1);
         metrics.addSubMetrics(m2);
         metrics.addSubMetrics(m3);
 
-        assertEquals(0, measurement.intValue());
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
     }
 
@@ -141,7 +141,7 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
         descriptor.setInitText("NL");
 
         measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals(0, measurement.intValue());
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
         metrics.track(nameList.createMeasurement(metrics));
@@ -152,7 +152,7 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
         metrics.addSubMetrics(m2);
         metrics.addSubMetrics(m3);
 
-        assertEquals(2, measurement.intValue());
+        assertEquals(2, measurement.getValue().intValue());
         assertTrue("\"foo\" not in " + measurement.getValues(), measurement.getValues().contains("foo"));
         assertTrue("\"bar\" not in " + measurement.getValues(), measurement.getValues().contains("bar"));
     }
@@ -162,7 +162,7 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
         descriptor.setCached(true);
 
         measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals(0, measurement.intValue());
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
         metrics.track(nameList.createMeasurement(metrics));
@@ -173,7 +173,7 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
         metrics.addSubMetrics(m2);
         metrics.addSubMetrics(m3);
 
-        assertEquals(0, measurement.intValue());
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
     }
 
@@ -181,7 +181,7 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
         descriptor.setInitText("NL /a/");
 
         measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals(0, measurement.intValue());
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
         metrics.track(nameList.createMeasurement(metrics));
@@ -192,7 +192,7 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
         metrics.addSubMetrics(m2);
         metrics.addSubMetrics(m3);
 
-        assertEquals(1, measurement.intValue());
+        assertEquals(1, measurement.getValue().intValue());
         assertTrue("\"bar\" not in " + measurement.getValues(), measurement.getValues().contains("bar"));
     }
 
@@ -200,7 +200,7 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
         descriptor.setInitText("NL /a/\nNL /o/");
 
         measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals(0, measurement.intValue());
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
         metrics.track(nameList.createMeasurement(metrics));
@@ -211,7 +211,7 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
         metrics.addSubMetrics(m2);
         metrics.addSubMetrics(m3);
 
-        assertEquals(2, measurement.intValue());
+        assertEquals(2, measurement.getValue().intValue());
         assertTrue("\"foo\" not in " + measurement.getValues(), measurement.getValues().contains("foo"));
         assertTrue("\"bar\" not in " + measurement.getValues(), measurement.getValues().contains("bar"));
     }
@@ -220,7 +220,7 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
         descriptor.setInitText("NL /(a)/");
 
         measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals(0, measurement.intValue());
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
         metrics.track(nameList.createMeasurement(metrics));
@@ -231,7 +231,7 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
         metrics.addSubMetrics(m2);
         metrics.addSubMetrics(m3);
 
-        assertEquals(1, measurement.intValue());
+        assertEquals(1, measurement.getValue().intValue());
         assertTrue("\"a\" not in " + measurement.getValues(), measurement.getValues().contains("a"));
     }
 
@@ -239,7 +239,7 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
         descriptor.setInitText("NL /a/\nNbL /2/");
 
         measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals(0, measurement.intValue());
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
         metrics.track(nameList.createMeasurement(metrics));
@@ -254,7 +254,7 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
         metrics.addSubMetrics(m2);
         metrics.addSubMetrics(m3);
 
-        assertEquals(2, measurement.intValue());
+        assertEquals(2, measurement.getValue().intValue());
         assertTrue("\"bar\" not in " + measurement.getValues(), measurement.getValues().contains("bar"));
         assertTrue("\"1234\" not in " + measurement.getValues(), measurement.getValues().contains("1234"));
     }

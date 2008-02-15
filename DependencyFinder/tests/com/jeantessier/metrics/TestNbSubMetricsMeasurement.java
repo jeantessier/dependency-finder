@@ -63,27 +63,27 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 
     public void testAddSubMetrics() throws Exception {
         measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        
-        assertEquals(0, measurement.intValue());
-        assertEquals(0.0, measurement.doubleValue(), 0.01);
+
+        assertEquals(0, measurement.getValue().intValue());
+        assertEquals(0.0, measurement.getValue().doubleValue(), 0.01);
         assertEquals(0, measurement.getValue().intValue());
 
         metrics.addSubMetrics(new Metrics("bar"));
 
-        assertEquals(1, measurement.intValue());
-        assertEquals(1.0, measurement.doubleValue(), 0.01);
+        assertEquals(1, measurement.getValue().intValue());
+        assertEquals(1.0, measurement.getValue().doubleValue(), 0.01);
         assertEquals(1, measurement.getValue().intValue());
 
         metrics.addSubMetrics(new Metrics("bar"));
 
-        assertEquals(1, measurement.intValue());
-        assertEquals(1.0, measurement.doubleValue(), 0.01);
+        assertEquals(1, measurement.getValue().intValue());
+        assertEquals(1.0, measurement.getValue().doubleValue(), 0.01);
         assertEquals(1, measurement.getValue().intValue());
 
         metrics.addSubMetrics(new Metrics("baz"));
 
-        assertEquals(2, measurement.intValue());
-        assertEquals(2.0, measurement.doubleValue(), 0.01);
+        assertEquals(2, measurement.getValue().intValue());
+        assertEquals(2.0, measurement.getValue().doubleValue(), 0.01);
         assertEquals(2, measurement.getValue().intValue());
     }
 
@@ -174,13 +174,13 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 
         measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 
-        assertEquals("empty metrics", 0, measurement.intValue());
+        assertEquals("empty metrics", 0, measurement.getValue().intValue());
         
         metrics.addSubMetrics(new Metrics("foo"));
         metrics.addSubMetrics(new Metrics("bar"));
         metrics.addSubMetrics(new Metrics("baz"));
 
-        assertEquals("empty metrics", 0, measurement.intValue());
+        assertEquals("empty metrics", 0, measurement.getValue().intValue());
     }
 
     public void testAccept() throws Exception {

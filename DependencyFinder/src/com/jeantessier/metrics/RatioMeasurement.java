@@ -200,11 +200,11 @@ public class RatioMeasurement extends MeasurementBase {
                             break;
                         case StatisticalMeasurement.DISPOSE_IGNORE:
                         default:
-                            baseValue = stats.doubleValue();
+                            baseValue = stats.getValue().doubleValue();
                             break;
                     }
                 } else if (base != null) {
-                    baseValue = base.doubleValue();
+                    baseValue = base.getValue().doubleValue();
                 }
                 
                 if (divider instanceof StatisticalMeasurement) {
@@ -234,11 +234,11 @@ public class RatioMeasurement extends MeasurementBase {
                             break;
                         case StatisticalMeasurement.DISPOSE_IGNORE:
                         default:
-                            dividerValue = stats.doubleValue();
+                            dividerValue = stats.getValue().doubleValue();
                             break;
                     }
                 } else if (divider != null) {
-                    dividerValue = divider.doubleValue();
+                    dividerValue = divider.getValue().doubleValue();
                 }
                 
                 value = baseValue / dividerValue;

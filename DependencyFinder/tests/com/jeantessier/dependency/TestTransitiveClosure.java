@@ -179,7 +179,7 @@ public class TestTransitiveClosure extends TestCase {
 
     public void testZeroBothDirections() {
         startCriteria.setGlobalIncludes("/b.B.b/");
-        stopCriteria.setGlobalIncludes(Collections.EMPTY_LIST);
+        stopCriteria.setGlobalIncludes(Collections.<String>emptyList());
 
         selector.setMaximumInboundDepth(0);
         selector.setMaximumOutboundDepth(0);
@@ -193,7 +193,7 @@ public class TestTransitiveClosure extends TestCase {
 
     public void testOneBothDirections() {
         startCriteria.setGlobalIncludes("/b.B.b/");
-        stopCriteria.setGlobalIncludes(Collections.EMPTY_LIST);
+        stopCriteria.setGlobalIncludes(Collections.<String>emptyList());
 
         selector.setMaximumInboundDepth(1);
         selector.setMaximumOutboundDepth(1);
@@ -207,7 +207,7 @@ public class TestTransitiveClosure extends TestCase {
 
     public void testAllBothDirections() {
         startCriteria.setGlobalIncludes("/b.B.b/");
-        stopCriteria.setGlobalIncludes(Collections.EMPTY_LIST);
+        stopCriteria.setGlobalIncludes(Collections.<String>emptyList());
 
         selector.setMaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
         selector.setMaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);

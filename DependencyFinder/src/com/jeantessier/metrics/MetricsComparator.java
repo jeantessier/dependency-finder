@@ -169,7 +169,7 @@ public class MetricsComparator implements Comparator<Metrics> {
                     break;
             }
         } else {
-            result = m.doubleValue();
+            result = m.getValue().doubleValue();
         }
         
         return result;

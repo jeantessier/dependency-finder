@@ -70,26 +70,6 @@ public class CounterMeasurement extends MeasurementBase {
         setEmpty(false);
     }
 
-    public void add(int i) {
-        value += i;
-        setEmpty(false);
-    }
-    
-    public void add(long l) {
-        value += l;
-        setEmpty(false);
-    }
-    
-    public void add(float f) {
-        value += f;
-        setEmpty(false);
-    }
-    
-    public void add(double d) {
-        value += d;
-        setEmpty(false);
-    }
-
     public void accept(MeasurementVisitor visitor) {
         visitor.visitCounterMeasurement(this);
     }

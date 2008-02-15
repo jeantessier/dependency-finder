@@ -78,7 +78,7 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
         measurement.add("abc");
         measurement.add("abc");
 
-        assertEquals(1, measurement.intValue());
+        assertEquals(1, measurement.getValue().intValue());
     }
     
     public void testCreateList() {
@@ -87,29 +87,29 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
         measurement.add("abc");
         measurement.add("abc");
 
-        assertEquals(2, measurement.intValue());
+        assertEquals(2, measurement.getValue().intValue());
     }
 
     public void testCreateDefault() {
         measurement.add("abc");
         measurement.add("abc");
 
-        assertEquals(1, measurement.intValue());
+        assertEquals(1, measurement.getValue().intValue());
     }
 
     public void testAddObject() {
         Object o = new Object();
 
-        assertEquals("zero", 0, measurement.intValue());
-        assertEquals("zero", 0.0, measurement.doubleValue(), 0.01);
+        assertEquals("zero", 0, measurement.getValue().intValue());
+        assertEquals("zero", 0.0, measurement.getValue().doubleValue(), 0.01);
         assertEquals("zero", 0, measurement.getValue().intValue());
         assertEquals("zero", 0, measurement.getValues().size());
         assertTrue("zero", measurement.isEmpty());
 
         measurement.add(o);
 
-        assertEquals("one", 0, measurement.intValue());
-        assertEquals("one", 0.0, measurement.doubleValue(), 0.01);
+        assertEquals("one", 0, measurement.getValue().intValue());
+        assertEquals("one", 0.0, measurement.getValue().doubleValue(), 0.01);
         assertEquals("one", 0, measurement.getValue().intValue());
         assertEquals("zero", 0, measurement.getValues().size());
         assertTrue("zero", measurement.isEmpty());
@@ -119,23 +119,23 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
         String s1 = "foo";
         String s2 = "bar";
 
-        assertEquals("zero", 0, measurement.intValue());
-        assertEquals("zero", 0.0, measurement.doubleValue(), 0.01);
+        assertEquals("zero", 0, measurement.getValue().intValue());
+        assertEquals("zero", 0.0, measurement.getValue().doubleValue(), 0.01);
         assertEquals("zero", 0, measurement.getValue().intValue());
 
         measurement.add(s1);
-        assertEquals("one", 1, measurement.intValue());
-        assertEquals("one", 1.0, measurement.doubleValue(), 0.01);
+        assertEquals("one", 1, measurement.getValue().intValue());
+        assertEquals("one", 1.0, measurement.getValue().doubleValue(), 0.01);
         assertEquals("one", 1, measurement.getValue().intValue());
 
         measurement.add(s2);
-        assertEquals("two", 2, measurement.intValue());
-        assertEquals("two", 2.0, measurement.doubleValue(), 0.01);
+        assertEquals("two", 2, measurement.getValue().intValue());
+        assertEquals("two", 2.0, measurement.getValue().doubleValue(), 0.01);
         assertEquals("two", 2, measurement.getValue().intValue());
 
         measurement.add(s1);
-        assertEquals("three", 2, measurement.intValue());
-        assertEquals("three", 2.0, measurement.doubleValue(), 0.01);
+        assertEquals("three", 2, measurement.getValue().intValue());
+        assertEquals("three", 2.0, measurement.getValue().doubleValue(), 0.01);
         assertEquals("three", 2, measurement.getValue().intValue());
     }
 
@@ -159,34 +159,34 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
     }
 
     public void testAddInt() {
-        assertEquals("zero", 0, measurement.intValue());
-        assertEquals("zero", 0.0, measurement.doubleValue(), 0.01);
+        assertEquals("zero", 0, measurement.getValue().intValue());
+        assertEquals("zero", 0.0, measurement.getValue().doubleValue(), 0.01);
         assertEquals("zero", 0, measurement.getValue().intValue());
 
         measurement.add(1);
-        assertEquals("one", 0, measurement.intValue());
-        assertEquals("one", 0.0, measurement.doubleValue(), 0.01);
+        assertEquals("one", 0, measurement.getValue().intValue());
+        assertEquals("one", 0.0, measurement.getValue().doubleValue(), 0.01);
         assertEquals("one", 0, measurement.getValue().intValue());
 
         measurement.add(1);
-        assertEquals("two", 0, measurement.intValue());
-        assertEquals("two", 0.0, measurement.doubleValue(), 0.01);
+        assertEquals("two", 0, measurement.getValue().intValue());
+        assertEquals("two", 0.0, measurement.getValue().doubleValue(), 0.01);
         assertEquals("two", 0, measurement.getValue().intValue());
     }
 
     public void testAddFloat() {
-        assertEquals("zero", 0, measurement.intValue());
-        assertEquals("zero", 0.0, measurement.doubleValue(), 0.01);
+        assertEquals("zero", 0, measurement.getValue().intValue());
+        assertEquals("zero", 0.0, measurement.getValue().doubleValue(), 0.01);
         assertEquals("zero", 0, measurement.getValue().intValue());
 
         measurement.add(1.0);
-        assertEquals("one", 0, measurement.intValue());
-        assertEquals("one", 0.0, measurement.doubleValue(), 0.01);
+        assertEquals("one", 0, measurement.getValue().intValue());
+        assertEquals("one", 0.0, measurement.getValue().doubleValue(), 0.01);
         assertEquals("one", 0, measurement.getValue().intValue());
 
         measurement.add(1.0);
-        assertEquals("two", 0, measurement.intValue());
-        assertEquals("two", 0.0, measurement.doubleValue(), 0.01);
+        assertEquals("two", 0, measurement.getValue().intValue());
+        assertEquals("two", 0.0, measurement.getValue().doubleValue(), 0.01);
         assertEquals("two", 0, measurement.getValue().intValue());
     }
 

@@ -147,7 +147,7 @@ public class XMLPrinter extends Printer {
         raiseIndent();
         indent().append("<short-name>").append(measurement.getShortName()).append("</short-name>").eol();
         indent().append("<long-name>").append(measurement.getLongName()).append("</long-name>").eol();
-        indent().append("<value>").append(measurement.doubleValue()).append("</value>").eol();
+        indent().append("<value>").append(measurement.getValue()).append("</value>").eol();
         indent().append("<minimum>").append(measurement.getMinimum()).append("</minimum>").eol();
         indent().append("<median>").append(measurement.getMedian()).append("</median>").eol();
         indent().append("<average>").append(measurement.getAverage()).append("</average>").eol();

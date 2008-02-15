@@ -44,7 +44,7 @@ public class NullParameterStrategy implements ParameterStrategy {
     }
 
     public List<String> getParameters() {
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     public void validate() throws CommandLineException {

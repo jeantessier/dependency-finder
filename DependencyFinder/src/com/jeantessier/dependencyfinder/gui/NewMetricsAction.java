@@ -37,6 +37,8 @@ import java.util.*;
 
 import javax.swing.*;
 
+import com.jeantessier.metrics.*;
+
 public class NewMetricsAction extends AbstractAction implements Runnable {
     private OOMetrics model;
 
@@ -58,8 +60,8 @@ public class NewMetricsAction extends AbstractAction implements Runnable {
         model.getMetricsFactory().clear();
 
         model.getProjectArea().setText("");
-        model.getGroupsModel().setMetrics(Collections.EMPTY_LIST);
-        model.getClassesModel().setMetrics(Collections.EMPTY_LIST);
-        model.getMethodsModel().setMetrics(Collections.EMPTY_LIST);
+        model.getGroupsModel().setMetrics(Collections.<Metrics>emptyList());
+        model.getClassesModel().setMetrics(Collections.<Metrics>emptyList());
+        model.getMethodsModel().setMetrics(Collections.<Metrics>emptyList());
     }
 }

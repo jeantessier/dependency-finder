@@ -208,11 +208,11 @@ public class SumMeasurement extends MeasurementBase {
                         break;
                     case StatisticalMeasurement.DISPOSE_IGNORE:
                     default:
-                        result = stats.doubleValue();
+                        result = stats.getValue().doubleValue();
                         break;
                 }
             } else {
-                result = measurement.doubleValue();
+                result = measurement.getValue().doubleValue();
             }
 
             if (super.isEmpty()) {

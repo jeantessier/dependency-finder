@@ -111,14 +111,14 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
 
     public void testNullInit() throws Exception {
         measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals(0, measurement.intValue());
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
         metrics.addSubMetrics(m1);
         metrics.addSubMetrics(m2);
         metrics.addSubMetrics(m3);
 
-        assertEquals(0, measurement.intValue());
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
     }
 
@@ -126,14 +126,14 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
         descriptor.setInitText("");
 
         measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals(0, measurement.intValue());
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
         metrics.addSubMetrics(m1);
         metrics.addSubMetrics(m2);
         metrics.addSubMetrics(m3);
 
-        assertEquals(0, measurement.intValue());
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
     }
 
@@ -141,14 +141,14 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
         descriptor.setInitText("NL");
 
         measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals(0, measurement.intValue());
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
         metrics.addSubMetrics(m1);
         metrics.addSubMetrics(m2);
         metrics.addSubMetrics(m3);
 
-        assertEquals(4, measurement.intValue());
+        assertEquals(4, measurement.getValue().intValue());
         assertTrue("\"abc\" not in " + measurement.getValues(), measurement.getValues().contains("abc"));
         assertTrue("\"def\" not in " + measurement.getValues(), measurement.getValues().contains("def"));
         assertTrue("\"ghi\" not in " + measurement.getValues(), measurement.getValues().contains("ghi"));
@@ -160,14 +160,14 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
         descriptor.setCached(true);
 
         measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals(0, measurement.intValue());
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
         metrics.addSubMetrics(m1);
         metrics.addSubMetrics(m2);
         metrics.addSubMetrics(m3);
 
-        assertEquals(0, measurement.intValue());
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
     }
 
@@ -175,14 +175,14 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
         descriptor.setInitText("NL /a/");
 
         measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals(0, measurement.intValue());
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
         metrics.addSubMetrics(m1);
         metrics.addSubMetrics(m2);
         metrics.addSubMetrics(m3);
 
-        assertEquals(1, measurement.intValue());
+        assertEquals(1, measurement.getValue().intValue());
         assertTrue("\"abc\" not in " + measurement.getValues(), measurement.getValues().contains("abc"));
     }
 
@@ -190,14 +190,14 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
         descriptor.setInitText("NL /a/\nNL /k/");
 
         measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals(0, measurement.intValue());
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
         metrics.addSubMetrics(m1);
         metrics.addSubMetrics(m2);
         metrics.addSubMetrics(m3);
 
-        assertEquals(2, measurement.intValue());
+        assertEquals(2, measurement.getValue().intValue());
         assertTrue("\"abc\" not in " + measurement.getValues(), measurement.getValues().contains("abc"));
         assertTrue("\"jkl\" not in " + measurement.getValues(), measurement.getValues().contains("jkl"));
     }
@@ -206,14 +206,14 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
         descriptor.setInitText("NL /(a)/");
 
         measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals(0, measurement.intValue());
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
         metrics.addSubMetrics(m1);
         metrics.addSubMetrics(m2);
         metrics.addSubMetrics(m3);
 
-        assertEquals(1, measurement.intValue());
+        assertEquals(1, measurement.getValue().intValue());
         assertTrue("\"a\" not in " + measurement.getValues(), measurement.getValues().contains("a"));
     }
 
@@ -221,14 +221,14 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
         descriptor.setInitText("NL /a/\nNbL /2/");
 
         measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals(0, measurement.intValue());
+        assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
         metrics.addSubMetrics(m1);
         metrics.addSubMetrics(m2);
         metrics.addSubMetrics(m3);
 
-        assertEquals(3, measurement.intValue());
+        assertEquals(3, measurement.getValue().intValue());
         assertTrue("\"abc\" not in " + measurement.getValues(), measurement.getValues().contains("abc"));
         assertTrue("\"123\" not in " + measurement.getValues(), measurement.getValues().contains("123"));
         assertTrue("\"248\" not in " + measurement.getValues(), measurement.getValues().contains("248"));

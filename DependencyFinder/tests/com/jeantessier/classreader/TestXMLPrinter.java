@@ -168,7 +168,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
     }
 
     public void testZeroClassfile() throws Exception {
-        printer.visitClassfiles(Collections.EMPTY_LIST);
+        printer.visitClassfiles(Collections.<Classfile>emptyList());
 
         String xmlDocument = buffer.toString();
         assertXPath(xmlDocument, "*/classfile[this-class='" + TEST_CLASS + "']", 0);

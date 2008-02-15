@@ -59,8 +59,8 @@ public class TestMetrics extends TestCase {
         assertNotNull(metrics.getMeasurement("test2"));
 
         assertEquals(NullMeasurement.class, metrics.getMeasurement("test").getClass());
-        assertEquals(0, metrics.getMeasurement("test1").intValue());
-        assertEquals(0, metrics.getMeasurement("test2").intValue());
+        assertEquals(0, metrics.getMeasurement("test1").getValue().intValue());
+        assertEquals(0, metrics.getMeasurement("test2").getValue().intValue());
     }
 
     public void testAddToMeasurement() {
@@ -78,9 +78,9 @@ public class TestMetrics extends TestCase {
         metrics.track("test2", m2);
 
         assertEquals(NullMeasurement.class, metrics.getMeasurement("test").getClass());
-        assertEquals(0.0, metrics.getMeasurement("test0").doubleValue(), 0.01);
-        assertEquals(1.0, metrics.getMeasurement("test1").doubleValue(), 0.01);
-        assertEquals(2.5, metrics.getMeasurement("test2").doubleValue(), 0.01);
+        assertEquals(0.0, metrics.getMeasurement("test0").getValue().doubleValue(), 0.01);
+        assertEquals(1.0, metrics.getMeasurement("test1").getValue().doubleValue(), 0.01);
+        assertEquals(2.5, metrics.getMeasurement("test2").getValue().doubleValue(), 0.01);
 
         metrics.addToMeasurement("test",  1.0);
         metrics.addToMeasurement("test0", 1.0);
@@ -88,9 +88,9 @@ public class TestMetrics extends TestCase {
         metrics.addToMeasurement("test2", 1.0);
         
         assertEquals(NullMeasurement.class, metrics.getMeasurement("test").getClass());
-        assertEquals(1.0, metrics.getMeasurement("test0").doubleValue(), 0.01);
-        assertEquals(2.0, metrics.getMeasurement("test1").doubleValue(), 0.01);
-        assertEquals(3.5, metrics.getMeasurement("test2").doubleValue(), 0.01);
+        assertEquals(1.0, metrics.getMeasurement("test0").getValue().doubleValue(), 0.01);
+        assertEquals(2.0, metrics.getMeasurement("test1").getValue().doubleValue(), 0.01);
+        assertEquals(3.5, metrics.getMeasurement("test2").getValue().doubleValue(), 0.01);
 
         metrics.addToMeasurement("test",  new Double(1.0));
         metrics.addToMeasurement("test0", new Double(1.0));
@@ -98,9 +98,9 @@ public class TestMetrics extends TestCase {
         metrics.addToMeasurement("test2", new Double(1.0));
         
         assertEquals(NullMeasurement.class, metrics.getMeasurement("test").getClass());
-        assertEquals(2.0, metrics.getMeasurement("test0").doubleValue(), 0.01);
-        assertEquals(3.0, metrics.getMeasurement("test1").doubleValue(), 0.01);
-        assertEquals(4.5, metrics.getMeasurement("test2").doubleValue(), 0.01);
+        assertEquals(2.0, metrics.getMeasurement("test0").getValue().doubleValue(), 0.01);
+        assertEquals(3.0, metrics.getMeasurement("test1").getValue().doubleValue(), 0.01);
+        assertEquals(4.5, metrics.getMeasurement("test2").getValue().doubleValue(), 0.01);
 
         metrics.addToMeasurement("test",  1);
         metrics.addToMeasurement("test0", 1);
@@ -108,9 +108,9 @@ public class TestMetrics extends TestCase {
         metrics.addToMeasurement("test2", 1);
         
         assertEquals(NullMeasurement.class, metrics.getMeasurement("test").getClass());
-        assertEquals(3.0, metrics.getMeasurement("test0").doubleValue(), 0.01);
-        assertEquals(4.0, metrics.getMeasurement("test1").doubleValue(), 0.01);
-        assertEquals(5.5, metrics.getMeasurement("test2").doubleValue(), 0.01);
+        assertEquals(3.0, metrics.getMeasurement("test0").getValue().doubleValue(), 0.01);
+        assertEquals(4.0, metrics.getMeasurement("test1").getValue().doubleValue(), 0.01);
+        assertEquals(5.5, metrics.getMeasurement("test2").getValue().doubleValue(), 0.01);
     }
 
     public void testAddSubMetrics() {
@@ -267,10 +267,10 @@ public class TestMetrics extends TestCase {
         assertEquals(NullMeasurement.class, metrics.getMeasurement("1001").getClass());
         assertEquals(NullMeasurement.class, metrics.getMeasurement("1010").getClass());
         assertEquals(NullMeasurement.class, metrics.getMeasurement("1011").getClass());
-        assertEquals(3.0, metrics.getMeasurement("1100").doubleValue(), 0.01);
-        assertEquals(3.0, metrics.getMeasurement("1101").doubleValue(), 0.01);
-        assertEquals(3.0, metrics.getMeasurement("1110").doubleValue(), 0.01);
-        assertEquals(3.0, metrics.getMeasurement("1111").doubleValue(), 0.01);
+        assertEquals(3.0, metrics.getMeasurement("1100").getValue().doubleValue(), 0.01);
+        assertEquals(3.0, metrics.getMeasurement("1101").getValue().doubleValue(), 0.01);
+        assertEquals(3.0, metrics.getMeasurement("1110").getValue().doubleValue(), 0.01);
+        assertEquals(3.0, metrics.getMeasurement("1111").getValue().doubleValue(), 0.01);
     }
 
     public void testInRange() throws Exception {
@@ -282,7 +282,7 @@ public class TestMetrics extends TestCase {
         descriptor1.setShortName("foo");
         descriptor1.setLongName("foo");
         descriptor1.setClassFor(CounterMeasurement.class);
-        descriptor1.setUpperThreshold(new Integer(1));
+        descriptor1.setUpperThreshold(1);
 
         metrics.track(descriptor1.createMeasurement(metrics));
 

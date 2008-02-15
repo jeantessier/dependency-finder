@@ -35,29 +35,33 @@ package com.jeantessier.metrics;
 import java.io.*;
 import java.util.*;
 import javax.xml.parsers.*;
+import javax.xml.xpath.*;
 
-import junit.framework.*;
 import org.apache.oro.text.perl.*;
 import org.xml.sax.*;
+import org.jmock.integration.junit3.*;
+import org.jmock.*;
+import org.w3c.dom.*;
 
 import com.jeantessier.classreader.*;
 
-public class TestXMLPrinter extends TestCase implements ErrorHandler {
-    private static final String TEST_CLASS             = "test";
-    private static final String TEST_FILENAME          = "classes" + File.separator + "test.class";
+public class TestXMLPrinter extends MockObjectTestCase {
+    private static final String TEST_CLASS = "test";
+    private static final String TEST_FILENAME = "classes" + File.separator + "test.class";
     private static final String CONFIGURATION_FILENAME = "etc" + File.separator + "MetricsConfig.xml";
 
-    private static final String SPECIFIC_ENCODING   = "iso-latin-1";
+    private static final String SPECIFIC_ENCODING = "iso-latin-1";
     private static final String SPECIFIC_DTD_PREFIX = "./etc";
     
-    private StringWriter                       buffer;
-    private MetricsConfiguration               configuration;
-    private XMLReader                          reader;
+    private StringWriter buffer;
+    private MetricsConfiguration configuration;
+    private XMLReader reader;
+    private ErrorHandler errorHandler;
 
     private Perl5Util perl;
 
     protected void setUp() throws Exception {
-        buffer        = new StringWriter();
+        buffer = new StringWriter();
         configuration = new MetricsConfigurationLoader().load(CONFIGURATION_FILENAME);
 
 	boolean validate = Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE");
@@ -65,12 +69,18 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
         reader.setFeature("http://xml.org/sax/features/validation", validate);
         reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", validate);
-        reader.setErrorHandler(this);
+
+        errorHandler = mock(ErrorHandler.class);
+        reader.setErrorHandler(errorHandler);
 
         perl = new Perl5Util();
     }
 
-    public void testDefaultDTDPrefix() {
+    public void testDefaultDTDPrefix() throws Exception {
+        checking(new Expectations() {{
+            one (errorHandler).fatalError(with(any(SAXParseException.class)));
+        }});
+
         XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration);
 
         String xmlDocument = buffer.toString();
@@ -82,12 +92,14 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
             fail("Parsed non-existant document\n" + xmlDocument);
         } catch (SAXException ex) {
             // Ignore
-        } catch (IOException ex) {
-            fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
         }
     }
     
-    public void testSpecificDTDPrefix() {
+    public void testSpecificDTDPrefix() throws Exception {
+        checking(new Expectations() {{
+            one (errorHandler).fatalError(with(any(SAXParseException.class)));
+        }});
+
         XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration, XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
         String xmlDocument = buffer.toString();
@@ -99,12 +111,14 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
             fail("Parsed non-existant document\n" + xmlDocument);
         } catch (SAXException ex) {
             // Ignore
-        } catch (IOException ex) {
-            fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
         }
     }
 
-    public void testDefaultEncoding() {
+    public void testDefaultEncoding() throws Exception {
+        checking(new Expectations() {{
+            one (errorHandler).fatalError(with(any(SAXParseException.class)));
+        }});
+
         XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration);
 
         String xmlDocument = buffer.toString();
@@ -116,12 +130,14 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
             fail("Parsed non-existant document\n" + xmlDocument);
         } catch (SAXException ex) {
             // Ignore
-        } catch (IOException ex) {
-            fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
         }
     }
 
-    public void testSpecificEncoding() {
+    public void testSpecificEncoding() throws Exception {
+        checking(new Expectations() {{
+            one (errorHandler).fatalError(with(any(SAXParseException.class)));
+        }});
+
         XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration, SPECIFIC_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
 
         String xmlDocument = buffer.toString();
@@ -133,12 +149,10 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
             fail("Parsed non-existant document\n" + xmlDocument);
         } catch (SAXException ex) {
             // Ignore
-        } catch (IOException ex) {
-            fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
         }
     }
 
-    public void testOneClass() {
+    public void testOneClass() throws Exception {
         MetricsFactory factory = new MetricsFactory("test", configuration);
 
         ClassfileLoader loader = new AggregatingClassfileLoader();
@@ -149,25 +163,15 @@ public class TestXMLPrinter extends TestCase implements ErrorHandler {
         printer.visitMetrics(factory.getProjectMetrics());
 
         String xmlDocument = buffer.toString();
-        
-        try {
-            reader.parse(new InputSource(new StringReader(xmlDocument)));
-        } catch (SAXException ex) {
-            fail("Could not parse XML Document: " + ex.getMessage() + "\n" + xmlDocument);
-        } catch (IOException ex) {
-            fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
-        }
+        reader.parse(new InputSource(new StringReader(xmlDocument)));
+        assertXPath(xmlDocument, "metrics/project/group/class/measurement[short-name='PARAM' and value=0.5]/median", 1);
     }
 
-    public void error(SAXParseException ex) {
-        // Ignore
-    }
+    private void assertXPath(String xmlDocument, String xPathExpression, int i) throws Exception {
+        XPath xPath = XPathFactory.newInstance().newXPath();
+        InputSource in = new InputSource(new StringReader(xmlDocument));
 
-    public void fatalError(SAXParseException ex) {
-        // Ignore
-    }
-
-    public void warning(SAXParseException ex) {
-        // Ignore
+        NodeList nodeList = (NodeList) xPath.evaluate(xPathExpression, in, XPathConstants.NODESET);
+        assertEquals("XPath \"" + xPathExpression + "\" in \n" + xmlDocument, i, nodeList.getLength());
     }
 }

@@ -39,18 +39,18 @@ import com.jeantessier.classreader.*;
 import junit.framework.*;
 
 public class TestMetricsGatherer extends TestCase {
-    public static final String TEST_CLASS    = "test";
+    public static final String TEST_CLASS = "test";
     public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
 
     private MetricsFactory  factory;
-    private ClassfileLoader loader;
-    
+
     protected void setUp() throws Exception {
+        super.setUp();
+        
         factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).load("etc" + File.separator + "MetricsConfig.xml"));
 
-        loader = new AggregatingClassfileLoader();
+        ClassfileLoader loader = new AggregatingClassfileLoader();
         loader.load(Collections.singleton(TEST_FILENAME));
-
         loader.getClassfile(TEST_CLASS).accept(new MetricsGatherer("test", factory));
     }
     
@@ -99,9 +99,9 @@ public class TestMetricsGatherer extends TestCase {
     }
     
     public void test_test_test() {
-        assertEquals(Metrics.SLOC, 1, factory.createMethodMetrics("test.test()").getMeasurement(Metrics.SLOC).intValue());
-        assertEquals(Metrics.PARAMETERS, 0, factory.createMethodMetrics("test.test()").getMeasurement(Metrics.PARAMETERS).intValue());
-        assertEquals(Metrics.LOCAL_VARIABLES, 1, factory.createMethodMetrics("test.test()").getMeasurement(Metrics.LOCAL_VARIABLES).intValue());
+        assertEquals(BasicMeasurements.SLOC, 1, factory.createMethodMetrics("test.test()").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+        assertEquals(BasicMeasurements.PARAMETERS, 0, factory.createMethodMetrics("test.test()").getMeasurement(BasicMeasurements.PARAMETERS).getValue().intValue());
+        assertEquals(BasicMeasurements.LOCAL_VARIABLES, 1, factory.createMethodMetrics("test.test()").getMeasurement(BasicMeasurements.LOCAL_VARIABLES).getValue().intValue());
 
         //
         // Dependencies
@@ -109,36 +109,36 @@ public class TestMetricsGatherer extends TestCase {
         
         Collection dependencies;
 
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(Metrics.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES)).getValues();
-        assertEquals(Metrics.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
+        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(BasicMeasurements.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES)).getValues();
+        assertEquals(BasicMeasurements.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(Metrics.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES)).getValues();
-        assertEquals(Metrics.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
+        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(BasicMeasurements.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES)).getValues();
+        assertEquals(BasicMeasurements.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(Metrics.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES)).getValues();
-        assertEquals(Metrics.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
+        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(BasicMeasurements.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES)).getValues();
+        assertEquals(BasicMeasurements.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(Metrics.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES)).getValues();
-        assertEquals(Metrics.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
+        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(BasicMeasurements.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES)).getValues();
+        assertEquals(BasicMeasurements.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(Metrics.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES)).getValues();
-        assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
+        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES)).getValues();
+        assertEquals(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(Metrics.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES)).getValues();
-        assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
+        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES)).getValues();
+        assertEquals(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES)).getValues();
-        assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies + "missing java.lang.Object.Object()", dependencies.contains("java.lang.Object.Object()"));
-        assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies, 1, dependencies.size());
+        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES)).getValues();
+        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies + "missing java.lang.Object.Object()", dependencies.contains("java.lang.Object.Object()"));
+        assertEquals(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies, 1, dependencies.size());
 
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES)).getValues();
-        assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
+        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES)).getValues();
+        assertEquals(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
     }
     
     public void test_test_main() {
-        assertEquals(Metrics.SLOC, 5, factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(Metrics.SLOC).intValue());
-        assertEquals(Metrics.PARAMETERS, 1, factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(Metrics.PARAMETERS).intValue());
-        assertEquals(Metrics.LOCAL_VARIABLES, 3, factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(Metrics.LOCAL_VARIABLES).intValue());
+        assertEquals(BasicMeasurements.SLOC, 5, factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+        assertEquals(BasicMeasurements.PARAMETERS, 1, factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(BasicMeasurements.PARAMETERS).getValue().intValue());
+        assertEquals(BasicMeasurements.LOCAL_VARIABLES, 3, factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(BasicMeasurements.LOCAL_VARIABLES).getValue().intValue());
 
         //
         // Dependencies
@@ -146,91 +146,91 @@ public class TestMetricsGatherer extends TestCase {
         
         Collection dependencies;
 
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(Metrics.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES)).getValues();
-        assertEquals(Metrics.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
+        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(BasicMeasurements.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES)).getValues();
+        assertEquals(BasicMeasurements.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(Metrics.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES)).getValues();
-        assertEquals(Metrics.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
+        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(BasicMeasurements.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES)).getValues();
+        assertEquals(BasicMeasurements.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(Metrics.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES)).getValues();
-        assertEquals(Metrics.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
+        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(BasicMeasurements.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES)).getValues();
+        assertEquals(BasicMeasurements.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(Metrics.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES)).getValues();
-        assertEquals(Metrics.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
+        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(BasicMeasurements.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES)).getValues();
+        assertEquals(BasicMeasurements.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(Metrics.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES)).getValues();
-        assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
+        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES)).getValues();
+        assertEquals(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(Metrics.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES)).getValues();
-        assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
+        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES)).getValues();
+        assertEquals(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
 
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES)).getValues();
-        assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies + "missing java.util.Collections.singleton(java.lang.Object)", dependencies.contains("java.util.Collections.singleton(java.lang.Object)"));
-        assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies + "missing java.lang.Object.Object()", dependencies.contains("java.lang.Object.Object()"));
-        assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies + "missing java.io.PrintStream.println(java.lang.Object)", dependencies.contains("java.io.PrintStream.println(java.lang.Object)"));
-        assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies, 3, dependencies.size());
+        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES)).getValues();
+        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies + "missing java.util.Collections.singleton(java.lang.Object)", dependencies.contains("java.util.Collections.singleton(java.lang.Object)"));
+        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies + "missing java.lang.Object.Object()", dependencies.contains("java.lang.Object.Object()"));
+        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies + "missing java.io.PrintStream.println(java.lang.Object)", dependencies.contains("java.io.PrintStream.println(java.lang.Object)"));
+        assertEquals(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies, 3, dependencies.size());
 
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES)).getValues();
-        assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.io.PrintStream", dependencies.contains("java.io.PrintStream"));
-        assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.lang.NullPointerException", dependencies.contains("java.lang.NullPointerException"));
-        assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.lang.Object", dependencies.contains("java.lang.Object"));
-        assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.lang.String", dependencies.contains("java.lang.String"));
-        assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.lang.System", dependencies.contains("java.lang.System"));
-        assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.util.Collection", dependencies.contains("java.util.Collection"));
-        assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.util.Set", dependencies.contains("java.util.Set"));
-        assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies, 7, dependencies.size());
+        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES)).getValues();
+        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.io.PrintStream", dependencies.contains("java.io.PrintStream"));
+        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.lang.NullPointerException", dependencies.contains("java.lang.NullPointerException"));
+        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.lang.Object", dependencies.contains("java.lang.Object"));
+        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.lang.String", dependencies.contains("java.lang.String"));
+        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.lang.System", dependencies.contains("java.lang.System"));
+        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.util.Collection", dependencies.contains("java.util.Collection"));
+        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.util.Set", dependencies.contains("java.util.Set"));
+        assertEquals(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies, 7, dependencies.size());
     }
     
     public void test_test() {
-        assertEquals(Metrics.SLOC, 7, factory.createClassMetrics("test").getMeasurement(Metrics.SLOC).intValue());
-        assertEquals("M", 2, factory.createClassMetrics("test").getMeasurement("M").intValue());
-        assertEquals(Metrics.PUBLIC_METHODS, 2, factory.createClassMetrics("test").getMeasurement(Metrics.PUBLIC_METHODS).intValue());
-        assertEquals(Metrics.PROTECTED_METHODS, 0, factory.createClassMetrics("test").getMeasurement(Metrics.PROTECTED_METHODS).intValue());
-        assertEquals(Metrics.PRIVATE_METHODS, 0, factory.createClassMetrics("test").getMeasurement(Metrics.PRIVATE_METHODS).intValue());
-        assertEquals(Metrics.PACKAGE_METHODS, 0, factory.createClassMetrics("test").getMeasurement(Metrics.PACKAGE_METHODS).intValue());
-        assertEquals(Metrics.FINAL_METHODS, 0, factory.createClassMetrics("test").getMeasurement(Metrics.FINAL_METHODS).intValue());
-        assertEquals(Metrics.ABSTRACT_METHODS, 0, factory.createClassMetrics("test").getMeasurement(Metrics.ABSTRACT_METHODS).intValue());
-        assertEquals(Metrics.DEPRECATED_METHODS, 0, factory.createClassMetrics("test").getMeasurement(Metrics.DEPRECATED_METHODS).intValue());
-        assertEquals(Metrics.SYNTHETIC_METHODS, 0, factory.createClassMetrics("test").getMeasurement(Metrics.SYNTHETIC_METHODS).intValue());
-        assertEquals(Metrics.STATIC_METHODS, 1, factory.createClassMetrics("test").getMeasurement(Metrics.STATIC_METHODS).intValue());
-        assertEquals(Metrics.SYNCHRONIZED_METHODS, 0, factory.createClassMetrics("test").getMeasurement(Metrics.SYNCHRONIZED_METHODS).intValue());
-        assertEquals(Metrics.NATIVE_METHODS, 0, factory.createClassMetrics("test").getMeasurement(Metrics.NATIVE_METHODS).intValue());
-        assertEquals(Metrics.TRIVIAL_METHODS, 0, factory.createClassMetrics("test").getMeasurement(Metrics.TRIVIAL_METHODS).intValue());
-        assertEquals("PuMR", 1, factory.createClassMetrics("test").getMeasurement("PuMR").doubleValue(), 0.01);
-        assertEquals("ProMR", 0, factory.createClassMetrics("test").getMeasurement("ProMR").doubleValue(), 0.01);
-        assertEquals("PriMR", 0, factory.createClassMetrics("test").getMeasurement("PriMR").doubleValue(), 0.01);
-        assertEquals("PaMR", 0, factory.createClassMetrics("test").getMeasurement("PaMR").doubleValue(), 0.01);
-        assertEquals("FMR", 0, factory.createClassMetrics("test").getMeasurement("FMR").doubleValue(), 0.01);
-        assertEquals("AMR", 0, factory.createClassMetrics("test").getMeasurement("AMR").doubleValue(), 0.01);
-        assertEquals("DMR", 0, factory.createClassMetrics("test").getMeasurement("DMR").doubleValue(), 0.01);
-        assertEquals("SynthMR", 0, factory.createClassMetrics("test").getMeasurement("SynthMR").doubleValue(), 0.01);
-        assertEquals("SMR", 0.5, factory.createClassMetrics("test").getMeasurement("SMR").doubleValue(), 0.01);
-        assertEquals("SynchMR", 0, factory.createClassMetrics("test").getMeasurement("SynchMR").doubleValue(), 0.01);
-        assertEquals("NMR", 0, factory.createClassMetrics("test").getMeasurement("NMR").doubleValue(), 0.01);
-        assertEquals("TMR", 0, factory.createClassMetrics("test").getMeasurement("TMR").doubleValue(), 0.01);
-        assertEquals("A", 0, factory.createClassMetrics("test").getMeasurement("A").intValue());
-        assertEquals(Metrics.PUBLIC_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(Metrics.PUBLIC_ATTRIBUTES).intValue());
-        assertEquals(Metrics.PROTECTED_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(Metrics.PROTECTED_ATTRIBUTES).intValue());
-        assertEquals(Metrics.PRIVATE_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(Metrics.PRIVATE_ATTRIBUTES).intValue());
-        assertEquals(Metrics.PACKAGE_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(Metrics.PACKAGE_ATTRIBUTES).intValue());
-        assertEquals(Metrics.FINAL_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(Metrics.FINAL_ATTRIBUTES).intValue());
-        assertEquals(Metrics.DEPRECATED_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(Metrics.DEPRECATED_ATTRIBUTES).intValue());
-        assertEquals(Metrics.SYNTHETIC_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(Metrics.SYNTHETIC_ATTRIBUTES).intValue());
-        assertEquals(Metrics.STATIC_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(Metrics.STATIC_ATTRIBUTES).intValue());
-        assertEquals(Metrics.TRANSIENT_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(Metrics.TRANSIENT_ATTRIBUTES).intValue());
-        assertEquals(Metrics.VOLATILE_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(Metrics.VOLATILE_ATTRIBUTES).intValue());
-        assertTrue("PuAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("PuAR").doubleValue()));
-        assertTrue("ProAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("ProAR").doubleValue()));
-        assertTrue("PriAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("PriAR").doubleValue()));
-        assertTrue("PaAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("PaAR").doubleValue()));
-        assertTrue("FAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("FAR").doubleValue()));
-        assertTrue("DAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("DAR").doubleValue()));
-        assertTrue("SynthAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("SynthAR").doubleValue()));
-        assertTrue("SAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("SAR").doubleValue()));
-        assertTrue("TAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("TAR").doubleValue()));
-        assertTrue("VAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("VAR").doubleValue()));
-        assertEquals(Metrics.SUBCLASSES, 0, factory.createClassMetrics("test").getMeasurement(Metrics.SUBCLASSES).intValue());
-        assertEquals(Metrics.DEPTH_OF_INHERITANCE, 1, factory.createClassMetrics("test").getMeasurement(Metrics.DEPTH_OF_INHERITANCE).intValue());
+        assertEquals(BasicMeasurements.SLOC, 7, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+        assertEquals("M", 2, factory.createClassMetrics("test").getMeasurement("M").getValue().intValue());
+        assertEquals(BasicMeasurements.PUBLIC_METHODS, 2, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.PUBLIC_METHODS).getValue().intValue());
+        assertEquals(BasicMeasurements.PROTECTED_METHODS, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.PROTECTED_METHODS).getValue().intValue());
+        assertEquals(BasicMeasurements.PRIVATE_METHODS, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.PRIVATE_METHODS).getValue().intValue());
+        assertEquals(BasicMeasurements.PACKAGE_METHODS, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.PACKAGE_METHODS).getValue().intValue());
+        assertEquals(BasicMeasurements.FINAL_METHODS, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.FINAL_METHODS).getValue().intValue());
+        assertEquals(BasicMeasurements.ABSTRACT_METHODS, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.ABSTRACT_METHODS).getValue().intValue());
+        assertEquals(BasicMeasurements.DEPRECATED_METHODS, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.DEPRECATED_METHODS).getValue().intValue());
+        assertEquals(BasicMeasurements.SYNTHETIC_METHODS, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.SYNTHETIC_METHODS).getValue().intValue());
+        assertEquals(BasicMeasurements.STATIC_METHODS, 1, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.STATIC_METHODS).getValue().intValue());
+        assertEquals(BasicMeasurements.SYNCHRONIZED_METHODS, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.SYNCHRONIZED_METHODS).getValue().intValue());
+        assertEquals(BasicMeasurements.NATIVE_METHODS, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.NATIVE_METHODS).getValue().intValue());
+        assertEquals(BasicMeasurements.TRIVIAL_METHODS, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.TRIVIAL_METHODS).getValue().intValue());
+        assertEquals("PuMR", 1, factory.createClassMetrics("test").getMeasurement("PuMR").getValue().doubleValue(), 0.01);
+        assertEquals("ProMR", 0, factory.createClassMetrics("test").getMeasurement("ProMR").getValue().doubleValue(), 0.01);
+        assertEquals("PriMR", 0, factory.createClassMetrics("test").getMeasurement("PriMR").getValue().doubleValue(), 0.01);
+        assertEquals("PaMR", 0, factory.createClassMetrics("test").getMeasurement("PaMR").getValue().doubleValue(), 0.01);
+        assertEquals("FMR", 0, factory.createClassMetrics("test").getMeasurement("FMR").getValue().doubleValue(), 0.01);
+        assertEquals("AMR", 0, factory.createClassMetrics("test").getMeasurement("AMR").getValue().doubleValue(), 0.01);
+        assertEquals("DMR", 0, factory.createClassMetrics("test").getMeasurement("DMR").getValue().doubleValue(), 0.01);
+        assertEquals("SynthMR", 0, factory.createClassMetrics("test").getMeasurement("SynthMR").getValue().doubleValue(), 0.01);
+        assertEquals("SMR", 0.5, factory.createClassMetrics("test").getMeasurement("SMR").getValue().doubleValue(), 0.01);
+        assertEquals("SynchMR", 0, factory.createClassMetrics("test").getMeasurement("SynchMR").getValue().doubleValue(), 0.01);
+        assertEquals("NMR", 0, factory.createClassMetrics("test").getMeasurement("NMR").getValue().doubleValue(), 0.01);
+        assertEquals("TMR", 0, factory.createClassMetrics("test").getMeasurement("TMR").getValue().doubleValue(), 0.01);
+        assertEquals("A", 0, factory.createClassMetrics("test").getMeasurement("A").getValue().intValue());
+        assertEquals(BasicMeasurements.PUBLIC_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.PUBLIC_ATTRIBUTES).getValue().intValue());
+        assertEquals(BasicMeasurements.PROTECTED_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.PROTECTED_ATTRIBUTES).getValue().intValue());
+        assertEquals(BasicMeasurements.PRIVATE_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.PRIVATE_ATTRIBUTES).getValue().intValue());
+        assertEquals(BasicMeasurements.PACKAGE_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES).getValue().intValue());
+        assertEquals(BasicMeasurements.FINAL_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.FINAL_ATTRIBUTES).getValue().intValue());
+        assertEquals(BasicMeasurements.DEPRECATED_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.DEPRECATED_ATTRIBUTES).getValue().intValue());
+        assertEquals(BasicMeasurements.SYNTHETIC_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.SYNTHETIC_ATTRIBUTES).getValue().intValue());
+        assertEquals(BasicMeasurements.STATIC_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.STATIC_ATTRIBUTES).getValue().intValue());
+        assertEquals(BasicMeasurements.TRANSIENT_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.TRANSIENT_ATTRIBUTES).getValue().intValue());
+        assertEquals(BasicMeasurements.VOLATILE_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.VOLATILE_ATTRIBUTES).getValue().intValue());
+        assertTrue("PuAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("PuAR").getValue().doubleValue()));
+        assertTrue("ProAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("ProAR").getValue().doubleValue()));
+        assertTrue("PriAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("PriAR").getValue().doubleValue()));
+        assertTrue("PaAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("PaAR").getValue().doubleValue()));
+        assertTrue("FAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("FAR").getValue().doubleValue()));
+        assertTrue("DAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("DAR").getValue().doubleValue()));
+        assertTrue("SynthAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("SynthAR").getValue().doubleValue()));
+        assertTrue("SAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("SAR").getValue().doubleValue()));
+        assertTrue("TAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("TAR").getValue().doubleValue()));
+        assertTrue("VAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("VAR").getValue().doubleValue()));
+        assertEquals(BasicMeasurements.SUBCLASSES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.SUBCLASSES).getValue().intValue());
+        assertEquals(BasicMeasurements.DEPTH_OF_INHERITANCE, 1, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.DEPTH_OF_INHERITANCE).getValue().intValue());
 
         //
         // Dependencies
@@ -238,25 +238,29 @@ public class TestMetricsGatherer extends TestCase {
 
         Collection dependencies;
 
-        dependencies = ((CollectionMeasurement) factory.createClassMetrics("test").getMeasurement(Metrics.INBOUND_INTRA_PACKAGE_DEPENDENCIES)).getValues();
-        assertEquals(Metrics.INBOUND_INTRA_PACKAGE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
+        dependencies = ((CollectionMeasurement) factory.createClassMetrics("test").getMeasurement(BasicMeasurements.INBOUND_INTRA_PACKAGE_DEPENDENCIES)).getValues();
+        assertEquals(BasicMeasurements.INBOUND_INTRA_PACKAGE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
         
-        dependencies = ((CollectionMeasurement) factory.createClassMetrics("test").getMeasurement(Metrics.INBOUND_EXTRA_PACKAGE_DEPENDENCIES)).getValues();
-        assertEquals(Metrics.INBOUND_EXTRA_PACKAGE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
+        dependencies = ((CollectionMeasurement) factory.createClassMetrics("test").getMeasurement(BasicMeasurements.INBOUND_EXTRA_PACKAGE_DEPENDENCIES)).getValues();
+        assertEquals(BasicMeasurements.INBOUND_EXTRA_PACKAGE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
         
-        dependencies = ((CollectionMeasurement) factory.createClassMetrics("test").getMeasurement(Metrics.OUTBOUND_INTRA_PACKAGE_DEPENDENCIES)).getValues();
-        assertEquals(Metrics.OUTBOUND_INTRA_PACKAGE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
+        dependencies = ((CollectionMeasurement) factory.createClassMetrics("test").getMeasurement(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_DEPENDENCIES)).getValues();
+        assertEquals(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
         
-        dependencies = ((CollectionMeasurement) factory.createClassMetrics("test").getMeasurement(Metrics.OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES)).getValues();
-        assertEquals(Metrics.OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES, 1, dependencies.size());
-        assertTrue(Metrics.OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES + " " + dependencies + "missing java.lang.Object", dependencies.contains("java.lang.Object"));
+        dependencies = ((CollectionMeasurement) factory.createClassMetrics("test").getMeasurement(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES)).getValues();
+        assertEquals(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES, 1, dependencies.size());
+        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES + " " + dependencies + "missing java.lang.Object", dependencies.contains("java.lang.Object"));
     }
 
     public void test_() {
-        assertEquals(Metrics.SLOC, 7, factory.createGroupMetrics("").getMeasurement(Metrics.SLOC).intValue());
+        assertEquals(BasicMeasurements.SLOC, 7, factory.createGroupMetrics("").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
     }
 
     public void testProject() {
-        assertEquals(Metrics.SLOC, 7, factory.createProjectMetrics("test").getMeasurement(Metrics.SLOC).intValue());
+        assertEquals(BasicMeasurements.SLOC, 7, factory.createProjectMetrics("test").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+    }
+
+    private void assertEquals(BasicMeasurements message, int expectedValue, int actualValue) {
+        assertEquals(message.getAbbreviation(), expectedValue, actualValue);
     }
 }

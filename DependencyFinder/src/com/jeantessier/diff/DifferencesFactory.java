@@ -71,12 +71,12 @@ public class DifferencesFactory {
         for (String packageName : packageNames) {
             Map<String, Classfile> oldPackage = oldPackages.getPackage(packageName);
             if (oldPackage == null) {
-                oldPackage = Collections.EMPTY_MAP;
+                oldPackage = Collections.emptyMap();
             }
 
             Map<String, Classfile> newPackage = newPackages.getPackage(packageName);
             if (newPackage == null) {
-                newPackage = Collections.EMPTY_MAP;
+                newPackage = Collections.emptyMap();
             }
 
             if (strategy.isPackageDifferent(oldPackage, newPackage)) {

@@ -53,7 +53,7 @@ public class TestHTMLCyclePrinter extends TestHTMLPrinterBase {
     }
 
     public void testEmptyCycles() throws IOException {
-        visitor.visitCycles(Collections.EMPTY_LIST);
+        visitor.visitCycles(Collections.<Cycle>emptyList());
 
         BufferedReader in = new BufferedReader(new StringReader(out.toString()));
 

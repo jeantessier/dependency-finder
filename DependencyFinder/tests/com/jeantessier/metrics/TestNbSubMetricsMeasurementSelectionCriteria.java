@@ -102,70 +102,70 @@ public class TestNbSubMetricsMeasurementSelectionCriteria extends TestCase {
 
     public void testDefault() throws Exception {
         NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals("default", 6, measurement.intValue());
+        assertEquals("default", 6, measurement.getValue().intValue());
     }
 
     public void testPresence() throws Exception {
         descriptor.setInitText("P");
 
         NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals("presence", 2, measurement.intValue());
+        assertEquals("presence", 2, measurement.getValue().intValue());
     }
 
     public void testLesserThan() throws Exception {
         descriptor.setInitText("C < 3");
 
         NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals("lesser than", 3, measurement.intValue());
+        assertEquals("lesser than", 3, measurement.getValue().intValue());
     }
 
     public void testLesserThanOrEqual() throws Exception {
         descriptor.setInitText("C <= 3");
 
         NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals("lesser than or equal", 4, measurement.intValue());
+        assertEquals("lesser than or equal", 4, measurement.getValue().intValue());
     }
 
     public void testGreaterThan() throws Exception {
         descriptor.setInitText("C > 1");
 
         NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals("greater than", 3, measurement.intValue());
+        assertEquals("greater than", 3, measurement.getValue().intValue());
     }
 
     public void testGreaterThanOrEqual() throws Exception {
         descriptor.setInitText("C >= 1");
 
         NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals("greater than or equal", 4, measurement.intValue());
+        assertEquals("greater than or equal", 4, measurement.getValue().intValue());
     }
 
     public void testEqual() throws Exception {
         descriptor.setInitText("C == 1");
 
         NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals("equal", 1, measurement.intValue());
+        assertEquals("equal", 1, measurement.getValue().intValue());
     }
 
     public void testNotEqual() throws Exception {
         descriptor.setInitText("C != 1");
 
         NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals("not equal", 4, measurement.intValue());
+        assertEquals("not equal", 4, measurement.getValue().intValue());
     }
 
     public void testAnd() throws Exception {
         descriptor.setInitText("1 <= C <= 3");
 
         NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals("and", 3, measurement.intValue());
+        assertEquals("and", 3, measurement.getValue().intValue());
     }
 
     public void testOr() throws Exception {
         descriptor.setInitText("C == 1\nC == 2");
 
         NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals("or", 2, measurement.intValue());
+        assertEquals("or", 2, measurement.getValue().intValue());
     }
 
     public void testSplit() {
