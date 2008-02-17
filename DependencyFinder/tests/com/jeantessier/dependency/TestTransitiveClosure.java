@@ -84,7 +84,7 @@ public class TestTransitiveClosure extends TestCase {
         
         selector = new TransitiveClosure(startCriteria, stopCriteria);
 
-        Logger.getLogger(getClass()).debug("Set up " + getName());
+        Logger.getLogger(getClass()).debug("Setup " + getName());
     }
     
     protected void tearDown() throws Exception {

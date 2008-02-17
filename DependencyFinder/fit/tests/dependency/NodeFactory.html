@@ -8,13 +8,17 @@
 
 <h1>Graph Content Tests</h1>
 
+<h2>Setup</h2>
+
 <table border="1">
     <tr>
         <td>com.jeantessier.dependency.NodeFactoryFixture</td>
     </tr>
 </table>
 
-<p>Set up.</p>
+<h2>Exercise</h2>
+
+<p>Create some nodes</p>
 
 <table border="1">
     <tr>
@@ -43,6 +47,19 @@
     </tr>
 </table>
 
+<p>Create some package-level dependencies.</p>
+
+<table border="1">
+    <tr>
+        <td>source</td>
+        <td>foo</td>
+        <td>depends on</td>
+        <td>bar</td>
+    </tr>
+</table>
+
+<h2>Verify</h2>
+
 <p>Packages</p>
 
 <table border="1">
@@ -66,19 +83,6 @@
         <td>true</td>
     </tr>
 </table>
-
-<p>Create some package-level dependencies.</p>
-
-<table border="1">
-    <tr>
-        <td>source</td>
-        <td>foo</td>
-        <td>depends on</td>
-        <td>bar</td>
-    </tr>
-</table>
-
-<p>Verify dependencies.</p>
 
 <p>package <code>foo</code></p>
 
