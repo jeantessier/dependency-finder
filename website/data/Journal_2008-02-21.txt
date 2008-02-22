@@ -1,8 +1,8 @@
 Fixed =MartinConfig.xml= to remove extraneous value selectors.  Both =Ca= and
 =CaComp= aggregated class names from =IEPM= with these regular expressions:
 
-    IEPM /^(.*)\.[^\.]*\(.*\)$/
-    IEPM /^(.*)\.[\^.]*$/
+    IEPM /^(.%2A)\.[^\.]%2A\(.%2A\)$/
+    IEPM /^(.%2A)\.[\^.]%2A$/
 
 The first one matches the class name portion of method names thanks to the
 parentheses at the end.  The second regular expression (forget the typo for a
