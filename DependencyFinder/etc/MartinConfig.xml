@@ -92,7 +92,6 @@
                 CaComp
                 IEP
                 IEPM /^(.*)\.[^\.]*\(.*\)$/
-                IEPM /^(.*)\.[\^.]*$/
             </init>
         </measurement>
         <measurement>
@@ -185,7 +184,6 @@
             <class>com.jeantessier.metrics.SubMetricsAccumulatorMeasurement</class>
             <init>
                 IEPM /^(.*)\.[^\.]*\(.*\)$/
-                IEPM /^(.*)\.[\^.]*$/
             </init>
         </measurement>
         <measurement visible="no">
