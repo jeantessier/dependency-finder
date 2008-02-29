@@ -34,12 +34,9 @@
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-    <xsl:output method="html" indent="yes"/>
-    <xsl:strip-space elements="*"/> 
+    <xsl:strip-space elements="*"/>
 
     <xsl:template match="differences">
-        <xsl:variable name="new-label" select="new"/>
-
         <html>
 
         <head>
@@ -51,12 +48,12 @@
         <h1><xsl:if test="name/text()"><xsl:value-of select="name"/> - </xsl:if>API Change History</h1>
 
         <ul>
-        <li><a href="#{$new-label}"><xsl:value-of select="old"/> to <xsl:value-of select="new"/></a></li>
+        <li><a href="#{new}"><xsl:value-of select="old"/> to <xsl:value-of select="new"/></a></li>
         </ul>
 
         <hr />
 
-        <a name="{$new-label}" />
+        <a name="{new}" />
         <h2><xsl:value-of select="old"/> to <xsl:value-of select="new"/></h2>
 
         <xsl:apply-templates/>
@@ -68,7 +65,7 @@
         </html>
     </xsl:template>
 
-    <xsl:template match="differences/name | old | new"></xsl:template>
+    <xsl:template match="differences/name | old | new"/>
 
     <xsl:template match="removed-packages">
         <h3>Removed Packages:</h3>
@@ -281,7 +278,7 @@
         </ul>
     </xsl:template>
 
-    <xsl:template match="class/name | feature/name"></xsl:template>
+    <xsl:template match="class/name | feature/name"/>
 
     <xsl:template match="class/modified-declaration">
         <h5>Declaration Changes:</h5>

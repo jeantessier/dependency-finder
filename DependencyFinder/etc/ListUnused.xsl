@@ -56,11 +56,11 @@
         feature <xsl:value-of select="name"/><xsl:if test="@confirmed='no'"> *</xsl:if>
     </xsl:template>
 
-    <xsl:template match="package|class|feature">
+    <xsl:template match="package | class | feature">
         <xsl:apply-templates/>
     </xsl:template>
 
-    <xsl:template match="name|inbound|outbound|text()"></xsl:template>
+    <xsl:template match="name | inbound | outbound | text()"/>
 
 </xsl:stylesheet>
 

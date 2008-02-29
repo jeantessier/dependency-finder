@@ -38,7 +38,6 @@
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
 
-    <xsl:output method="html" indent="yes"/>
     <xsl:strip-space elements="*"/> 
 
     <xsl:template match="dependencies">
@@ -54,23 +53,21 @@
     </xsl:template>
 
     <xsl:template match="package">
-        <xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
-        <package rdf:ID="{$name}">
-            <name><xsl:value-of select="$name"/></name>
+        <package rdf:ID="{name}">
+            <name><xsl:value-of select="name"/></name>
             <xsl:apply-templates select="outbound | inbound"/>
             <xsl:apply-templates select="class"/>
         </package>
     </xsl:template>
 
     <xsl:template match="class">
-        <xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
         <xsl:variable name="localname">
             <xsl:call-template name="getname">
-                <xsl:with-param name="name" select="$name"/>
+                <xsl:with-param name="name" select="name"/>
             </xsl:call-template>
         </xsl:variable>
         <classes>
-            <class rdf:ID="{$name}">
+            <class rdf:ID="{name}">
                 <name><xsl:value-of select="$localname"/></name>
                 <xsl:apply-templates select="outbound | inbound"/>
                 <xsl:apply-templates select="feature"/>
@@ -79,13 +76,12 @@
     </xsl:template>
 
     <xsl:template match="feature">
-        <xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
-        <xsl:variable name="newname" select="substring-before($name,'(')"/>
-        <xsl:variable name="params" select="substring-after($name,'(')"/>
+        <xsl:variable name="newname" select="substring-before(name,'(')"/>
+        <xsl:variable name="params" select="substring-after(name,'(')"/>
         <xsl:variable name="localname">
             <xsl:if test="$newname=''">
                 <xsl:call-template name="getname">
-                    <xsl:with-param name="name" select="$name"/>
+                    <xsl:with-param name="name" select="name"/>
                 </xsl:call-template>
             </xsl:if>
             <xsl:if test="$newname!=''">
@@ -95,7 +91,7 @@
             </xsl:if>
         </xsl:variable>
         <features>
-            <feature rdf:ID="{$name}">        
+            <feature rdf:ID="{name}">
                 <name>
                     <xsl:value-of select="$localname"/>
                     <xsl:if test="$params!=''">(</xsl:if>
@@ -107,46 +103,21 @@
     </xsl:template>
 
     <xsl:template match="inbound">
-        <xsl:variable name="name"><xsl:value-of select="."/></xsl:variable>
-        <xsl:variable name="type"><xsl:value-of select="@type"/></xsl:variable>
-        <xsl:if test = '$type="feature"'>
-            <inbound_feature rdf:resource="#{$name}"/>
+        <xsl:if test='@type="feature"'>
+            <inbound_feature rdf:resource="#{name}"/>
         </xsl:if>
-        <xsl:if test = '$type="class"'>
-            <inbound_class rdf:resource="#{$name}"/>
+        <xsl:if test='@type="class"'>
+            <inbound_class rdf:resource="#{name}"/>
         </xsl:if>
     </xsl:template>
 
     <xsl:template match="outbound">
-        <xsl:variable name="name"><xsl:value-of select="."/></xsl:variable>
-        <xsl:variable name="type"><xsl:value-of select="@type"/></xsl:variable>
-        <xsl:if test = '$type="feature"'>
-            <outbound_feature rdf:resource="#{$name}"/>
+        <xsl:if test='@type="feature"'>
+            <outbound_feature rdf:resource="#{name}"/>
         </xsl:if>
-        <xsl:if test = '$type="class"'>
-            <outbound_class rdf:resource="#{$name}"/>
+        <xsl:if test='@type="class"'>
+            <outbound_class rdf:resource="#{name}"/>
         </xsl:if>
-    </xsl:template>
-
-    <xsl:template name="reverse">
-        <xsl:param name="theString"/>
-        <xsl:variable name="thisLength" select="string-length($theString)"/>
-        <xsl:choose>
-            <xsl:when test="$thisLength = 1">
-                <xsl:value-of select="$theString"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:variable name="restReverse">
-                    <xsl:call-template name="reverse">
-                        <xsl:with-param name="theString" select="substring($theString, 1, $thisLength -1)"/>
-                    </xsl:call-template>
-                </xsl:variable>
-                <xsl:value-of select="concat(substring($theString,
-                                                       $thisLength, 
-                                                       1),
-                                             $restReverse)"/>
-            </xsl:otherwise>
-        </xsl:choose>
     </xsl:template>
 
     <xsl:template name="getname">
@@ -163,6 +134,27 @@
             </xsl:call-template>
         </xsl:variable>
         <xsl:value-of select="$name3"/>
+    </xsl:template>
+
+    <xsl:template name="reverse">
+        <xsl:param name="theString"/>
+        <xsl:variable name="thisLength" select="string-length($theString)"/>
+        <xsl:choose>
+            <xsl:when test="$thisLength = 1">
+                <xsl:value-of select="$theString"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:variable name="restReverse">
+                    <xsl:call-template name="reverse">
+                        <xsl:with-param name="theString" select="substring($theString, 1, $thisLength -1)"/>
+                    </xsl:call-template>
+                </xsl:variable>
+                <xsl:value-of select="concat(substring($theString,
+                                                       $thisLength,
+                                                       1),
+                                             $restReverse)"/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
 </xsl:stylesheet>

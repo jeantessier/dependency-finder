@@ -34,8 +34,7 @@
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-    <xsl:output method="html" indent="yes"/>
-    <xsl:strip-space elements="*"/> 
+    <xsl:strip-space elements="*"/>
 
     <xsl:template match="dependencies">
         <html>
@@ -52,13 +51,12 @@
     </xsl:template>
   
     <xsl:template match="package">
-        <xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
         <xsl:choose>
             <xsl:when test="@confirmed='no'">
-                <div class="packagename_inferred"><a name="{$name}"></a><xsl:value-of select="$name"/></div>
+                <div class="packagename_inferred"><a name="{name}"></a><xsl:value-of select="name"/></div>
             </xsl:when>
             <xsl:otherwise>
-                <div class="packagename"><a name="{$name}"></a><xsl:value-of select="$name"/></div>
+                <div class="packagename"><a name="{name}"></a><xsl:value-of select="name"/></div>
             </xsl:otherwise>
         </xsl:choose>
         <div class="dependencies"><xsl:apply-templates select="outbound"/></div>
@@ -66,13 +64,12 @@
     </xsl:template>
   
     <xsl:template match="class">
-        <xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
         <xsl:choose>
             <xsl:when test="@confirmed='no'">
-                <div class="classname inferred"><a name="{$name}"></a><xsl:value-of select="$name"/></div>
+                <div class="classname inferred"><a name="{name}"></a><xsl:value-of select="name"/></div>
             </xsl:when>
             <xsl:otherwise>
-                <div class="classname"><a name="{$name}"></a><xsl:value-of select="$name"/></div>
+                <div class="classname"><a name="{name}"></a><xsl:value-of select="name"/></div>
             </xsl:otherwise>
         </xsl:choose>
         <div class="dependencies"><xsl:apply-templates select="outbound"/></div>
@@ -80,26 +77,24 @@
     </xsl:template>
   
     <xsl:template match="feature">
-        <xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
         <xsl:choose>
             <xsl:when test="@confirmed='no'">
-                <div class="featurename inferred"><a name="{$name}"></a><xsl:value-of select="$name"/></div>
+                <div class="featurename inferred"><a name="{name}"></a><xsl:value-of select="name"/></div>
             </xsl:when>
             <xsl:otherwise>
-                <div class="featurename"><a name="{$name}"></a><xsl:value-of select="$name"/></div>
+                <div class="featurename"><a name="{name}"></a><xsl:value-of select="name"/></div>
             </xsl:otherwise>
         </xsl:choose>
         <div class="dependencies"><xsl:apply-templates select="outbound"/></div>
     </xsl:template>
   
     <xsl:template match="outbound">
-        <xsl:variable name="name"><xsl:value-of select="."/></xsl:variable>
         <xsl:choose>
             <xsl:when test="@confirmed='no'">
-                <span class="dependency inferred">--&gt; <a class="inferred" href="#{$name}"><xsl:value-of select="$name"/></a></span><br/>
+                <span class="dependency inferred">--&gt; <a class="inferred" href="#{.}"><xsl:value-of select="."/></a></span><br/>
             </xsl:when>
             <xsl:otherwise>
-                <span class="dependency">--&gt; <a href="#{$name}"><xsl:value-of select="$name"/></a></span><br/>
+                <span class="dependency">--&gt; <a href="#{.}"><xsl:value-of select="."/></a></span><br/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>

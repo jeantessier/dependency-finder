@@ -42,6 +42,6 @@
 </xsl:text>
     </xsl:template>
 
-    <xsl:template match="inbound | outbound"></xsl:template>
+    <xsl:template match="inbound | outbound"/>
 
 </xsl:stylesheet>

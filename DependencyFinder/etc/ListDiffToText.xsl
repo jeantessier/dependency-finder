@@ -76,6 +76,6 @@
             - <xsl:value-of select="."/>
     </xsl:template>
 
-    <xsl:template match="*"></xsl:template>
+    <xsl:template match="*"/>
 
 </xsl:stylesheet>

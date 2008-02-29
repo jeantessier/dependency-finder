@@ -50,7 +50,7 @@
         </xsl:for-each>
         <xsl:apply-templates select="class"/>
     </xsl:template>
-    <xsl:template match="package"></xsl:template>
+    <xsl:template match="package"/>
   
     <xsl:template match="class[inbound | feature/inbound]">
         <xsl:text>    </xsl:text><xsl:value-of select="name"/><xsl:if test="@confirmed='no'"> *</xsl:if><xsl:text>
@@ -61,7 +61,7 @@
         </xsl:for-each>
         <xsl:apply-templates select="feature"/>
     </xsl:template>
-    <xsl:template match="class"></xsl:template>
+    <xsl:template match="class"/>
   
     <xsl:template match="feature[inbound]">
         <xsl:text>        </xsl:text><xsl:value-of select="name"/><xsl:if test="@confirmed='no'"> *</xsl:if><xsl:text>
@@ -71,6 +71,6 @@
 </xsl:text>
         </xsl:for-each>
     </xsl:template>
-    <xsl:template match="feature"></xsl:template>
+    <xsl:template match="feature"/>
   
 </xsl:stylesheet>

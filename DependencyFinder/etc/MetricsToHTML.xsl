@@ -34,8 +34,7 @@
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-    <xsl:output method="html" indent="yes"/>
-    <xsl:strip-space elements="*"/> 
+    <xsl:strip-space elements="*"/>
 
     <xsl:template match="metrics">
         <html>
@@ -53,29 +52,25 @@
     </xsl:template>
 
     <xsl:template match="project">
-        <xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
-        <div class="projectname"><a name="{$name}"><xsl:value-of select="$name"/></a></div>
+        <div class="projectname"><a name="{name}"><xsl:value-of select="name"/></a></div>
         <div class="measurements"><xsl:apply-templates select="measurement"/></div>
         <div class="groups"><xsl:apply-templates select="group"/></div>
     </xsl:template>
 
     <xsl:template match="group">
-        <xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
-        <div class="groupname"><a name="{$name}"><xsl:value-of select="$name"/></a></div>
+        <div class="groupname"><a name="{name}"><xsl:value-of select="name"/></a></div>
         <div class="measurements"><xsl:apply-templates select="measurement"/></div>
         <div class="classes"><xsl:apply-templates select="class"/></div>
     </xsl:template>
 
     <xsl:template match="class">
-        <xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
-        <div class="classname"><a name="{$name}"><xsl:value-of select="$name"/></a></div>
+        <div class="classname"><a name="{name}"><xsl:value-of select="name"/></a></div>
         <div class="measurements"><xsl:apply-templates select="measurement"/></div>
         <div class="methods"><xsl:apply-templates select="method"/></div>
     </xsl:template>
 
     <xsl:template match="method">
-        <xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
-        <div class="methodname"><a name="{$name}"><xsl:value-of select="$name"/></a></div>
+        <div class="methodname"><a name="{name}"><xsl:value-of select="name"/></a></div>
         <div class="measurements"><xsl:apply-templates select="measurement"/></div>
     </xsl:template>
 
@@ -93,8 +88,7 @@
     </xsl:template>
 
     <xsl:template match="member">
-        <xsl:variable name="name"><xsl:apply-templates select="text()"/></xsl:variable>
-        <span class="member"><a href="#{$name}"><xsl:value-of select="$name"/></a></span><br />
+        <span class="member"><a href="#{text()}"><xsl:value-of select="text()"/></a></span><br />
     </xsl:template>
 
 </xsl:stylesheet>

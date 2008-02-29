@@ -38,11 +38,11 @@
 
     <xsl:output method="text"/>
 
-    <xsl:template match="differences/name | old | new"></xsl:template>
+    <xsl:template match="differences/name | old | new"/>
 
-    <xsl:template match="modified-declaration | modified-code"></xsl:template>
+    <xsl:template match="modified-declaration | modified-code"/>
 
-    <xsl:template match="text()"></xsl:template>
+    <xsl:template match="text()"/>
 
     <xsl:template match="name">
         <xsl:value-of select="."/><xsl:text>

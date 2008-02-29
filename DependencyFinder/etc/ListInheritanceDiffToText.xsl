@@ -47,7 +47,7 @@
         - <xsl:value-of select="name"/>
     </xsl:template>
  
-    <xsl:template match="*"></xsl:template>
+    <xsl:template match="*"/>
 
 </xsl:stylesheet>
 

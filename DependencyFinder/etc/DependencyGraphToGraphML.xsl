@@ -34,7 +34,7 @@
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-    <xsl:output method="xml"/>
+    <xsl:strip-space elements="*"/>
 
     <xsl:template match="dependencies">
         <graphml
@@ -50,23 +50,16 @@
     </xsl:template>
   
     <xsl:template match="package | class | feature">
-        <xsl:variable name="name"><xsl:value-of select="name"/></xsl:variable>
-        <node id="{$name}"/>
+        <node id="{name}"/>
         <xsl:apply-templates/>
     </xsl:template>
 
     <xsl:template match="inbound">
-        <xsl:variable name="source"><xsl:value-of select="."/></xsl:variable>
-        <xsl:variable name="target"><xsl:value-of select="../name"/></xsl:variable>
-        <edge source="{$source}" target="{$target}"/>
+        <edge source="{.}" target="{../name}"/>
     </xsl:template>
 
     <xsl:template match="outbound">
-        <!--
-        <xsl:variable name="source"><xsl:value-of select="../name"/></xsl:variable>
-        <xsl:variable name="target"><xsl:value-of select="."/></xsl:variable>
-        <edge source="{$source}" target="{$target}"/>
-        -->
+        <edge source="{../name}" target="{.}"/>
     </xsl:template>
 
     <xsl:template match="name"/>
