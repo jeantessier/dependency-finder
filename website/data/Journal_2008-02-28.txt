@@ -1,0 +1,5 @@
+Added a very early version of =DependencyGraphToGraphML.xsl=.  It turns out
+writing XML from XSLT is a non-issue (as you'd expect).  Just use
+=&lt;xsl:output method%5F"xml"/&gt;=, which is kinda the default if the top
+result node is not some variation of =&lt;html&gt=, according to the
+[[http://www.w3.org/TR/xslt][XSLT spec]].
