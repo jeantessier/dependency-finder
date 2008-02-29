@@ -38,12 +38,11 @@
 
     <xsl:template match="dependencies">
         <graphml
-            xmlns="http://graphml.graphdrawing.org/xmlns/graphml"
+            xmlns="http://graphml.graphdrawing.org/xmlns"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xmlns:y="http://www.yworks.com/xml/graphml"
-            xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns/graphml http://www.yworks.com/xml/schema/graphml/1.0/ygraphml.xsd">
+            xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 
-            <graph id="" edgedefault="directed">
+            <graph edgedefault="directed">
                 <xsl:apply-templates/>
             </graph>
 
@@ -51,8 +50,8 @@
     </xsl:template>
   
     <xsl:template match="package | class | feature">
-        <xsl:variable name="name"><xsl:apply-templates select="name"/></xsl:variable>
-        <node id="{$name}"></node>
+        <xsl:variable name="name"><xsl:value-of select="name"/></xsl:variable>
+        <node id="{$name}"/>
         <xsl:apply-templates/>
     </xsl:template>
 
@@ -61,7 +60,7 @@
         <xsl:variable name="target"><xsl:value-of select="../name"/></xsl:variable>
         <edge source="{$source}" target="{$target}"/>
     </xsl:template>
-  
+
     <xsl:template match="outbound">
         <!--
         <xsl:variable name="source"><xsl:value-of select="../name"/></xsl:variable>
