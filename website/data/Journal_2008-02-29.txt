@@ -1,0 +1,3 @@
+Added a variation on =DependencyGraphToGraphML.xsl= for yEd:
+=DependencyGraphToyEd.xsl=.  It can put labels on the nodes and uses dashed
+arrows for dependencies using yWorks-specific extensions to GraphML.

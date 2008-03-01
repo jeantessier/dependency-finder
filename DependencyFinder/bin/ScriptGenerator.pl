@@ -56,6 +56,7 @@ require "getopts.pl";
               "DependencyGraphToHTML" => ".xsl.template.txt",
               "DependencyGraphToRDF" => ".xsl.template.txt",
               "DependencyGraphToText" => ".xsl.template.txt",
+              "DependencyGraphToyEd" => ".xsl.template.txt",
               "DependencyMetrics" => ".cli.template.txt",
               "DependencyReporter" => ".cli.template.txt",
               "DependentsToHTML" => ".xsl.template.txt",
