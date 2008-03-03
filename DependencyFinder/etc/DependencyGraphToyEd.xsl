@@ -51,8 +51,8 @@
 
         </graphml>
     </xsl:template>
-  
-    <xsl:template match="package | class | feature">
+
+    <xsl:template match="package">
         <node id="{name}">
             <data key="d0">
                 <y:ShapeNode>
@@ -61,6 +61,44 @@
                 </y:ShapeNode>
             </data>
         </node>
+        <xsl:apply-templates/>
+    </xsl:template>
+
+    <xsl:template match="class">
+        <node id="{name}">
+            <data key="d0">
+                <y:ShapeNode>
+                    <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="4.0" x="13.0" y="13.0"><xsl:value-of select="name"/></y:NodeLabel>
+                    <y:Shape type="rectangle"/>
+                </y:ShapeNode>
+            </data>
+        </node>
+        <edge source="{../name}" target="{name}" directed="false">
+            <data key="d1">
+                <y:PolyLineEdge>
+                    <y:LineStyle color="#000000" type="line" width="1.0"/>
+                </y:PolyLineEdge>
+            </data>
+        </edge>
+        <xsl:apply-templates/>
+    </xsl:template>
+
+    <xsl:template match="feature">
+        <node id="{name}">
+            <data key="d0">
+                <y:ShapeNode>
+                    <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="4.0" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="4.0" x="13.0" y="13.0"><xsl:value-of select="name"/></y:NodeLabel>
+                    <y:Shape type="rectangle"/>
+                </y:ShapeNode>
+            </data>
+        </node>
+        <edge source="{../name}" target="{name}" directed="false">
+            <data key="d1">
+                <y:PolyLineEdge>
+                    <y:LineStyle color="#000000" type="line" width="1.0"/>
+                </y:PolyLineEdge>
+            </data>
+        </edge>
         <xsl:apply-templates/>
     </xsl:template>
 
@@ -77,7 +115,7 @@
 
     <xsl:template match="outbound">
         <edge source="{../name}" target="{.}">
-            <data key="d2">
+            <data key="d1">
                 <y:PolyLineEdge>
                     <y:LineStyle color="#000000" type="dashed" width="1.0"/>
                     <y:Arrows source="none" target="standard"/>
