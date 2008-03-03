@@ -1,3 +1,3 @@
 Added edges for class-in-package and feature-in-class relationships to the
-stylesheet for yEd.  I want to experiment with subgraphs too and see which will
-autolayout best.
+stylesheet for [[http://www.yworks.com/en/products_yed_about.htm][yEd]].  I want
+to experiment with subgraphs too and see which will autolayout best.

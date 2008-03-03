@@ -1,3 +1,4 @@
-Added a variation on =DependencyGraphToGraphML.xsl= for yEd:
+Added a variation on =DependencyGraphToGraphML.xsl= for
+[[http://www.yworks.com/en/products_yed_about.htm][yEd]]:
 =DependencyGraphToyEd.xsl=.  It can put labels on the nodes and uses dashed
 arrows for dependencies using yWorks-specific extensions to GraphML.
