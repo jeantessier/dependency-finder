@@ -4837,6 +4837,64 @@ Another example, using =classes/test.class=:
 
 </div>
 
+Another example, using =DependencyFinder-1.2.0/lib/DependencyFinder.jar=:
+
+<div class="highlight">
+
+    DependencyExtractor -xml -out test.df.xml DependencyFinder-1.2.0/lib/DependencyFinder.jar
+    p2p -xml -out test.df.p2p.xml test.df.xml
+    DependencyGraphToUnconfirmedFullyQualifiedNames -in test.df.p2p.xml
+
+</div>
+
+<div class="lowlight">
+
+    &nbsp;
+    com.opensymphony.webwork.interceptor
+    com.opensymphony.xwork
+    com.sun.javadoc
+    com.sun.org.apache.xalan.internal.xslt
+    java.awt
+    java.awt.event
+    java.beans
+    java.io
+    java.lang
+    java.lang.reflect
+    java.net
+    java.text
+    java.util
+    java.util.jar
+    java.util.zip
+    javax.servlet
+    javax.servlet.http
+    javax.swing
+    javax.swing.border
+    javax.swing.filechooser
+    javax.swing.table
+    javax.swing.text
+    javax.xml.parsers
+    org.apache.log4j
+    org.apache.oro.text
+    org.apache.oro.text.perl
+    org.apache.oro.text.regex
+    org.apache.tools.ant
+    org.apache.tools.ant.types
+    org.xml.sax
+    org.xml.sax.helpers
+
+</div>
+
+From this, I can figure out the other JARs it needs.  The packages =java.%2A=,
+=javax.swing.%2A=, and those related to XML come with the JDK.  I know
+=com.sun.javadoc= is in =tools.jar=, also with the JDK but not part of the
+normal =CLASSPATH=.  I will need the Log4J and Jakarta-ORO JARs.  And I happen
+to know that the WebWork/XWork classes are only needed in a web app, so maybe I
+don't need them right now.
+
+If there had been a package that I really didn't know about in the list, I
+could have used [[#ClassFinder][ClassFinder]] to located it among a group of
+candidate JARs.
+
 </blockquote>
 
 ---+++ Class
