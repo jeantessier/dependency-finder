@@ -23,4 +23,5 @@ Whereas using subgraphs, I get this picture:
 
 [[../images/p1.C1.f1%5Fp2.C2.f2%5Fsubgraphs.jpg]]
 
-Clearly, this second form will not scale to large classes and/or packages.
+Clearly, this second form will not scale to classes with many features, or to
+packages with many classes.
