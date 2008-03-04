@@ -25,3 +25,14 @@ Whereas using subgraphs, I get this picture:
 
 Clearly, this second form will not scale to classes with many features, or to
 packages with many classes.
+
+A co-worker asked for means to determine what JARs are needed by a given JAR.
+While Dependency Finder does not store the source of a class, such as its JAR
+file, there are ways to get close to the answer.  You can get the dependency
+graph for a JAR with =DependencyExtractor=, roll it up to package-level
+dependencies with =p2p=, and then list the unconfirmed packages from =p2p='s
+output.  Dependency Finder doesn't have a tool for this last step, but I was
+able to put together an XSL stylesheet to do just that.
+
+I also realized I did not document =DependencyGraphToGraphML= nor
+=DependencyGraphToyEd= on the Tools page.
