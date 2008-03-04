@@ -48,9 +48,15 @@
 
         </graphml>
     </xsl:template>
-  
-    <xsl:template match="package | class | feature">
+
+    <xsl:template match="package">
         <node id="{name}"/>
+        <xsl:apply-templates/>
+    </xsl:template>
+
+    <xsl:template match="class | feature">
+        <node id="{name}"/>
+        <edge source="{../name}" target="{name}" directed="false"/>
         <xsl:apply-templates/>
     </xsl:template>
 
