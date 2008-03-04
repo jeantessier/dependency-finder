@@ -35,4 +35,6 @@ output.  Dependency Finder doesn't have a tool for this last step, but I was
 able to put together an XSL stylesheet to do just that.
 
 I also realized I did not document =DependencyGraphToGraphML= nor
-=DependencyGraphToyEd= on the Tools page.
+=DependencyGraphToyEd= on the Tools page.  So I took care of it at the same time
+as I documented the new stylesheet for unconfirmed symbols:
+=DepedencyGraphToUnconfirmedFullyQualifiedNames=.
