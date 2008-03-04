@@ -17,10 +17,10 @@ For example, take this simple dependency graph:
 
 Using edges to represent containement, I get this picture:
 
-[[../images/p1.C1.f1_p2.C2.f2_edges.jpg]]
+[[../images/p1.C1.f1%5Fp2.C2.f2%5Fedges.jpg]]
 
 Whereas using subgraphs, I get this picture:
 
-[[../images/p1.C1.f1_p2.C2.f2_subgraphs.jpg]]
+[[../images/p1.C1.f1%5Fp2.C2.f2%5Fsubgraphs.jpg]]
 
 Clearly, this second form will not scale to large classes and/or packages.
