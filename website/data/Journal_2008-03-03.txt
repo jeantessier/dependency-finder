@@ -1,0 +1,26 @@
+Tried to generate GraphML where class-in-package and feature-in-class
+relationships were modeled using subgraphs instead of simple edges, but the
+resulting graph didn't look too good in
+[[http://www.yworks.com/en/products_yed_about.htm][yEd]].
+
+For example, take this simple dependency graph:
+
+    p1
+        C1
+            f1
+                --> p2.C2.f2
+    p2
+        C2
+            f2
+                <-- p1.C1.f1
+
+
+Using edges to represent containement, I get this picture:
+
+[[../images/p1.C1.f1_p2.C2.f2_edges.jpg]]
+
+Whereas using subgraphs, I get this picture:
+
+[[../images/p1.C1.f1_p2.C2.f2_subgraphs.jpg]]
+
+Clearly, this second form will not scale to large classes and/or packages.
