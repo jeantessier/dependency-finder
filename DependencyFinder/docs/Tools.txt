@@ -4935,7 +4935,11 @@ Translates the whole graph to GraphML for the yEd application.
 
 Translates both outbound and inbound dependencies to GraphML.  It uses a
 yWorks-specific extension to GraphML to provide shapes and labels to the nodes
-and dashed arrows for the edges.  You can use yEd to layout the graph.
+and dashed arrows for the edges.
+
+You can use yEd to layout the graph.  I recommend you open the GraphML file
+using yEd, then select "Tools &gt;&gt; Fit Node to Label" to make the box for
+each node cover its label.  Then, layout the graph using the "Layout" menu.
 
 See also:
 
