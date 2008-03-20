@@ -60,7 +60,7 @@ public class ClassMatcher extends LoadListenerBase {
         super.endClassfile(event);
 
         String className = event.getClassfile().getClassName();
-        String groupName = getCurrentGroup().getName();
+        String groupName = event.getGroupName();
 
         if (matches(className)) {
             List<String> groups = results.get(className);
