@@ -44,7 +44,7 @@ public class LoadListenerBase implements LoadListener {
         if (!groups.isEmpty()) {
             result = groups.getLast();
         }
-        
+
         return result;
     }
 

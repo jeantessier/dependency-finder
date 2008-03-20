@@ -47,6 +47,7 @@ public class ClassFinder extends DirectoryExplorerCommand {
 
         getCommandLine().addMultipleValuesSwitch("includes", DEFAULT_INCLUDES);
         getCommandLine().addMultipleValuesSwitch("excludes");
+        getCommandLine().addToggleSwitch("compact");
     }
 
     public void doProcessing() throws Exception {
@@ -57,21 +58,41 @@ public class ClassFinder extends DirectoryExplorerCommand {
         loader.addLoadListener(getVerboseListener());
         loader.load(getCommandLine().getParameters());
 
-        for (Map.Entry<String, List<String>> entry : matcher.getResults().entrySet())
-        {
-            out.print(entry.getKey());
-            out.print(": ");
+        for (Map.Entry<String, List<String>> entry : matcher.getResults().entrySet()) {
+            String className = entry.getKey();
+            List<String> groups = entry.getValue();
 
-            Iterator i = entry.getValue().iterator();
-            while (i.hasNext()) {
-                out.print(i.next());
-                if (i.hasNext()) {
-                    out.print(", ");
-                }
+            if (getCommandLine().getToggleSwitch("compact")) {
+                printCompact(className, groups);
+            } else {
+                printMultiline(className, groups);
             }
-
-            out.println();
         }
+    }
+
+    private void printCompact(String className, List<String> groups) {
+        out.print(className);
+        out.print(": ");
+
+        Iterator i = groups.iterator();
+        while (i.hasNext()) {
+            out.print(i.next());
+            if (i.hasNext()) {
+                out.print(", ");
+            }
+        }
+
+        out.println();
+    }
+
+    private void printMultiline(String className, List<String> groups) {
+        out.println(className);
+
+        for (String group : groups) {
+            out.println("    " + group);
+        }
+
+        out.println();
     }
 
     public static void main(String[] args) throws Exception {

@@ -566,6 +566,7 @@ For each class it could find, prints where it found it.
 ---+++ Synopsis
 
     ClassFinder
+        [-compact]
         [-echo]
         [-excludes value]*
         [-help]
@@ -595,6 +596,20 @@ classes that interested you.
 ---+++ Switches
 
 <blockquote>
+
+---++++ =-compact=
+
+<blockquote>
+
+Prints compact output, one line per class.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
 
 ---++++ =-echo=
 
@@ -738,8 +753,12 @@ and read those.
 
 <blockquote>
 
-List of fully qualified class names, one per line, for each class the tool
-could find, followed by the location where if was found.
+By default, lists the fully qualified class names for each class the tool could
+find.  Each is followed by the location where if was found, each on its own
+line.
+
+With =-compact=, lists the fully qualified class names, one per line, for each
+class the tool could find, followed by the location where if was found.
 
 </blockquote>
 
