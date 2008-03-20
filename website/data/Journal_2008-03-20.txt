@@ -1,4 +1,5 @@
-Added =-compact= and -indent-text switches to =ClassFinder=.
+Added =-compact= and =-indent-text= switches to =ClassFinder=.  =-indent-text=
+has four spaces as its default value, and it's throwing off the Fit test.
 
 Changed =ClassMatcher= so that it uses the group information from the
 =endClassfile= event instead of relying on the group stack maintained by
