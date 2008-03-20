@@ -570,6 +570,7 @@ For each class it could find, prints where it found it.
         [-echo]
         [-excludes value]*
         [-help]
+        [-indent-text text]
         [-includes value]*
         [-out filename]
         [-time]
@@ -652,6 +653,20 @@ Prints synopsis.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-indent-text text=
+
+<blockquote>
+
+Uses _text_ for indentation when -compact is not in use.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>Four spaces, "=&nbsp;&nbsp;&nbsp;&nbsp;="</td></tr>
 </table>
 
 </blockquote>

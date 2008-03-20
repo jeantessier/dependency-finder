@@ -1,4 +1,4 @@
-Added =-compact= switch to =ClassFinder=.
+Added =-compact= and -indent-text switches to =ClassFinder=.
 
 Changed =ClassMatcher= so that it uses the group information from the
 =endClassfile= event instead of relying on the group stack maintained by

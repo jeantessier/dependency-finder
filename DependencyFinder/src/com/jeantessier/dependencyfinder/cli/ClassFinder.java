@@ -48,6 +48,7 @@ public class ClassFinder extends DirectoryExplorerCommand {
         getCommandLine().addMultipleValuesSwitch("includes", DEFAULT_INCLUDES);
         getCommandLine().addMultipleValuesSwitch("excludes");
         getCommandLine().addToggleSwitch("compact");
+        getCommandLine().addSingleValueSwitch("indent-text", "    ");
     }
 
     public void doProcessing() throws Exception {
@@ -89,7 +90,7 @@ public class ClassFinder extends DirectoryExplorerCommand {
         out.println(className);
 
         for (String group : groups) {
-            out.println("    " + group);
+            out.println(getCommandLine().getSingleSwitch("indent-text") + group);
         }
 
         out.println();
