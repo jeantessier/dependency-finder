@@ -6,6 +6,6 @@ Changed =ClassMatcher= so that it uses the group information from the
 =LoadListenerBase=.
 
 Back on 2006-03-13, I had put up "Related links" banners powered by Google to
-some of the pages.  They stopped working a while back and were just showing
-empty space, but today I noticed that they started saying "Error".  So I took
+some of the pages.  They stopped working a while back and they were only showing
+an empty box.  But today, I noticed that they started saying "Error".  So I took
 them down.
