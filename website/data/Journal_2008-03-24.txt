@@ -1,0 +1,1 @@
+Fixed some Fit tests that were missing the =fit.Summary= at the end.
