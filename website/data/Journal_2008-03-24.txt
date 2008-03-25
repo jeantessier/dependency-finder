@@ -9,3 +9,6 @@ column (=getDefaultValue()= returns =Object=), and it uses =fit.Parse.text()=
 to parse the table cell, and =text()= calls =String.trim()= before returning
 its value.  Darn it!  Now, I'll have to find a way to supply a custom
 =ValueAdapter= instead that knows how to keep a cell value as explicit spaces.
+
+Simplified =CommandFixture.switches()=.  It does not need to wrap its return
+value in an =ArrayFixture=, FitLibrary will take care of it for you.

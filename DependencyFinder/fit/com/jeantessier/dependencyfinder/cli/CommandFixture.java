@@ -33,14 +33,15 @@
 package com.jeantessier.dependencyfinder.cli;
 
 import java.io.*;
+import java.util.*;
 
 import fitlibrary.*;
 
 import com.jeantessier.commandline.*;
 
 public class CommandFixture extends DoFixture {
-    public ArrayFixture switches() {
-        return new ArrayFixture(getCommandLine().getSwitches());
+    public Collection switches() {
+        return getCommandLine().getSwitches();
     }
 
     public CommandLine parse(String argString) throws CommandLineException {
