@@ -41,7 +41,18 @@ import com.jeantessier.commandline.*;
 
 public class CommandFixture extends DoFixture {
     public Collection switches() {
-        return getCommandLine().getSwitches();
+        Collection<CommandLineSwitch> results = new LinkedList<CommandLineSwitch>();
+
+        // We replace values that are spaces only so Fit can detect them
+        for (CommandLineSwitch cls : getCommandLine().getSwitches()) {
+          if (cls instanceof SingleValueSwitch && cls.getDefaultValue().equals("    ")) {
+            results.add(new SingleValueSwitch(cls.getName(), "<em>four spaces</em>", cls.isMandatory()));
+          } else {
+            results.add(cls);
+          }
+        }
+
+        return results;
     }
 
     public CommandLine parse(String argString) throws CommandLineException {
