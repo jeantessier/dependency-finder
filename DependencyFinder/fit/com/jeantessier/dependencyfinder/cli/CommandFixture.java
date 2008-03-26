@@ -46,7 +46,7 @@ public class CommandFixture extends DoFixture {
         // We replace values that are spaces only so Fit can detect them
         for (CommandLineSwitch cls : getCommandLine().getSwitches()) {
           if (cls instanceof SingleValueSwitch && cls.getDefaultValue().equals("    ")) {
-            results.add(new SingleValueSwitch(cls.getName(), "<em>four spaces</em>", cls.isMandatory()));
+            results.add(new SingleValueSwitch(cls.getName(), "****four spaces****", cls.isMandatory()));
           } else {
             results.add(cls);
           }
