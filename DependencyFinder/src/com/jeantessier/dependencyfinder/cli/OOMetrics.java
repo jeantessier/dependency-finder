@@ -52,7 +52,7 @@ public class OOMetrics extends DirectoryExplorerCommand {
         super.populateCommandLineSwitches();
         populateCommandLineSwitchesForXMLOutput(com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING, com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX);
 
-        getCommandLine().addSingleValueSwitch("project-name",           DEFAULT_PROJECT_NAME);
+        getCommandLine().addSingleValueSwitch("project-name", DEFAULT_PROJECT_NAME);
         getCommandLine().addSingleValueSwitch("default-configuration", true);
         getCommandLine().addSingleValueSwitch("configuration");
         getCommandLine().addToggleSwitch("csv");
@@ -70,9 +70,10 @@ public class OOMetrics extends DirectoryExplorerCommand {
         getCommandLine().addToggleSwitch("show-all-metrics");
         getCommandLine().addToggleSwitch("show-empty-metrics");
         getCommandLine().addToggleSwitch("show-hidden-measurements");
-        getCommandLine().addSingleValueSwitch("sort",                   DEFAULT_SORT);
+        getCommandLine().addSingleValueSwitch("sort", DEFAULT_SORT);
         getCommandLine().addToggleSwitch("expand");
         getCommandLine().addToggleSwitch("reverse");
+        getCommandLine().addToggleSwitch("enable-cross-class-measurements");
     }
 
     protected Collection<CommandLineException> parseCommandLine(String[] args) {
@@ -104,13 +105,6 @@ public class OOMetrics extends DirectoryExplorerCommand {
     }
 
     protected void doProcessing() throws Exception {
-        Logger.getLogger(OOMetrics.class).debug("Reading sources ...");
-        getVerboseListener().print("Reading sources ...");
-
-        ClassfileLoader loader = new AggregatingClassfileLoader();
-        loader.addLoadListener(getVerboseListener());
-        loader.load(getCommandLine().getParameters());
-
         Logger.getLogger(OOMetrics.class).debug("Reading configuration ...");
         getVerboseListener().print("Reading configuration ...");
 
@@ -123,9 +117,6 @@ public class OOMetrics extends DirectoryExplorerCommand {
             factory = new MetricsFactory(projectName, new MetricsConfigurationLoader(getCommandLine().getToggleSwitch("validate")).load(getCommandLine().getSingleSwitch("default-configuration")));
         }
 
-        Logger.getLogger(OOMetrics.class).debug("Computing metrics ...");
-        getVerboseListener().print("Computing metrics ...");
-
         com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer(projectName, factory);
         if (getCommandLine().isPresent("scope-includes-list") || getCommandLine().isPresent("scope-excludes-list")) {
             gatherer.setScopeIncludes(createCollection(getCommandLine().getMultipleSwitch("scope-includes-list"), getCommandLine().getMultipleSwitch("scope-excludes-list")));
@@ -134,7 +125,26 @@ public class OOMetrics extends DirectoryExplorerCommand {
             gatherer.setFilterIncludes(createCollection(getCommandLine().getMultipleSwitch("filter-includes-list"), getCommandLine().getMultipleSwitch("filter-excludes-list")));
         }
         gatherer.addMetricsListener(getVerboseListener());
-        gatherer.visitClassfiles(loader.getAllClassfiles());
+
+        if (getCommandLine().isPresent("enable-cross-class-measurements")) {
+            Logger.getLogger(OOMetrics.class).debug("Reading in all classes ...");
+            getVerboseListener().print("Reading in all classes ...");
+            ClassfileLoader loader = new AggregatingClassfileLoader();
+            loader.addLoadListener(getVerboseListener());
+            loader.load(getCommandLine().getParameters());
+
+            Logger.getLogger(OOMetrics.class).debug("Computing metrics ...");
+            getVerboseListener().print("Computing metrics ...");
+            gatherer.visitClassfiles(loader.getAllClassfiles());
+        } else {
+            ClassfileLoader loader = new TransientClassfileLoader();
+            loader.addLoadListener(getVerboseListener());
+            loader.addLoadListener(new LoadListenerVisitorAdapter(gatherer));
+
+            Logger.getLogger(OOMetrics.class).debug("Reading classes and computing metrics as we go ...");
+            getVerboseListener().print("Reading classes and computing metrics as we go ...");
+            loader.load(getCommandLine().getParameters());
+        }
 
         if (getCommandLine().isPresent("show-all-metrics")) {
             Iterator i;

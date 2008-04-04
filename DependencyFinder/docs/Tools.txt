@@ -10162,6 +10162,7 @@ Computes object-oriented metrics on a codebase.
         -default-configuration filename
         [-dtd-prefix uri]
         [-echo]
+        [-enable-cross-class-measurements]
         [-encoding name]
         [-expand]
         [-filter-excludes-list filename]*
@@ -10192,35 +10193,15 @@ Computes object-oriented metrics on a codebase.
 
 <blockquote>
 
-Computes a number of object-oriented software metrics from a
-JAR file, such as methods per class and depth of inheritance.
-It can aggregate values at the class, package, and / or
-project level.
+Computes a number of object-oriented software metrics from a JAR file, such as
+methods per class and depth of inheritance.  It can aggregate values at the
+class, package, and / or project level.
 
 </blockquote>
 
 ---+++ Switches
 
 <blockquote>
-
----++++ =-all=
-
-<blockquote>
-
-Shorthand for the combination of:
-
-   * =-project=
-   * =-groups=
-   * =-classes=
-   * =-methods=
-
-<table border="0">
-<tr><td>Mandatory:</td><td>no</td></tr>
-<tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
-</table>
-
-</blockquote>
 
 ---++++ =-classes=
 
@@ -10304,6 +10285,31 @@ Only useful with =-xml=.
 <blockquote>
 
 Prints the command-line, as seen by the tool.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-enable-cross-class-measurements=
+
+<blockquote>
+
+Instructs =OOMetrics= to load all the classes before it starts computing
+metrics.  This way, measurements that need to traverse other classes will be
+assured that those other classes are in memory and are available to them.
+
+The default is for =OOMetrics= to load one class, compute its metrics, and then
+discard it.  This keeps the memory requirements low.  If you use this switch,
+it will require =OOMetrics= to keep all classes in memory and this can raise
+the memory footprint significantly.
+
+One example of a measurement that requires cross-class computation is
+_Depth Of Inheritance_, which has =OOMetrics= walk the inheritance tree of each
+class to figure out how far it is from =java.lang.Object=.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>

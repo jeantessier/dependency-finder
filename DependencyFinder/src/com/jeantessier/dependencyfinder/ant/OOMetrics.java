@@ -44,33 +44,34 @@ import org.xml.sax.*;
 
 public class OOMetrics extends Task {
     public static final String DEFAULT_PROJECT_NAME = "Project";
-    public static final String DEFAULT_SORT         = "name";
+    public static final String DEFAULT_SORT = "name";
 
-    private String  projectName            = DEFAULT_PROJECT_NAME;
-    private File    configuration;
-    private boolean csv                    = false;
-    private boolean txt                    = false;
-    private boolean xml                    = false;
-    private boolean validate               = false;
-    private String  encoding               = com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING;
-    private String  dtdPrefix              = com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX;
-    private String  indentText;
-    private boolean projectMetrics         = false;
-    private boolean groupMetrics           = false;
-    private boolean classMetrics           = false;
-    private boolean methodMetrics          = false;
-    private Path    scopeIncludesList;
-    private Path    scopeExcludesList;
-    private Path    filterIncludesList;
-    private Path    filterExcludesList;
-    private boolean showAllMetrics         = false;
-    private boolean showEmptyMetrics       = false;
+    private String projectName = DEFAULT_PROJECT_NAME;
+    private File configuration;
+    private boolean csv = false;
+    private boolean txt = false;
+    private boolean xml = false;
+    private boolean validate = false;
+    private String encoding = com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING;
+    private String dtdPrefix = com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX;
+    private String indentText;
+    private boolean projectMetrics = false;
+    private boolean groupMetrics = false;
+    private boolean classMetrics = false;
+    private boolean methodMetrics = false;
+    private Path scopeIncludesList;
+    private Path scopeExcludesList;
+    private Path filterIncludesList;
+    private Path filterExcludesList;
+    private boolean showAllMetrics = false;
+    private boolean showEmptyMetrics = false;
     private boolean showHiddenMeasurements = false;
-    private String  sort                   = DEFAULT_SORT;
-    private boolean expand                 = false;
-    private boolean reverse                = false;
-    private File    destprefix;
-    private Path    path;
+    private String sort = DEFAULT_SORT;
+    private boolean expand = false;
+    private boolean reverse = false;
+    private boolean enableCrossClassMeasurements = false;
+    private File destprefix;
+    private Path path;
 
     public String getProjectname() {
         return projectName;
@@ -279,6 +280,14 @@ public class OOMetrics extends Task {
         this.reverse = reverse;
     }
 
+    public boolean getEnablecrossclassmeasurements() {
+        return enableCrossClassMeasurements;
+    }
+
+    public void setEnablecrossclassmeasurements(boolean enableCrossClassMeasurements) {
+        this.enableCrossClassMeasurements = enableCrossClassMeasurements;
+    }
+
     public File getDestprefix() {
         return destprefix;
     }
@@ -323,26 +332,37 @@ public class OOMetrics extends Task {
         }
 
         try {
-            log("Reading classes from path " + getPath());
-
             VerboseListener verboseListener = new VerboseListener(this);
             
+            log("Reading configuration ...");
             MetricsFactory factory = new MetricsFactory(getProjectname(), new MetricsConfigurationLoader(getValidate()).load(getConfiguration().getAbsolutePath()));
             
-            ClassfileLoader loader = new AggregatingClassfileLoader();
-            loader.addLoadListener(verboseListener);
-            loader.load(Arrays.asList(getPath().list()));
-            
             com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer(projectName, factory);
-            gatherer.addMetricsListener(verboseListener);
             if (getScopeincludeslist() != null || getScopeexcludeslist() != null) {
                 gatherer.setScopeIncludes(createCollection(getScopeincludeslist(), getScopeexcludeslist()));
             }
             if (getFilterincludeslist() != null || getFilterexcludeslist() != null) {
                 gatherer.setFilterIncludes(createCollection(getFilterincludeslist(), getFilterexcludeslist()));
             }
-            gatherer.visitClassfiles(loader.getAllClassfiles());
-        
+            gatherer.addMetricsListener(verboseListener);
+
+            if (getEnablecrossclassmeasurements()) {
+                log("Reading in all classes from path " + getPath());
+                ClassfileLoader loader = new AggregatingClassfileLoader();
+                loader.addLoadListener(verboseListener);
+                loader.load(Arrays.asList(getPath().list()));
+
+                log("Computing metrics ...");
+                gatherer.visitClassfiles(loader.getAllClassfiles());
+            } else {
+                ClassfileLoader loader = new TransientClassfileLoader();
+                loader.addLoadListener(verboseListener);
+                loader.addLoadListener(new LoadListenerVisitorAdapter(gatherer));
+
+                log("Reading classes and computing metrics as we go ...");
+                loader.load(Arrays.asList(getPath().list()));
+            }
+
             if (getShowallmetrics()) {
                 for (Metrics metrics : gatherer.getMetricsFactory().getAllClassMetrics()) {
                     gatherer.getMetricsFactory().includeClassMetrics(metrics);
@@ -352,7 +372,7 @@ public class OOMetrics extends Task {
                     gatherer.getMetricsFactory().includeMethodMetrics(metrics);
                 }
             }
-            
+
             if (getCsv()) {
                 printCSVFiles(gatherer.getMetricsFactory());
             } else if (getTxt()) {

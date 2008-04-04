@@ -230,7 +230,7 @@ public class TestMetricsGatherer extends TestCase {
         assertTrue("TAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("TAR").getValue().doubleValue()));
         assertTrue("VAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("VAR").getValue().doubleValue()));
         assertEquals(BasicMeasurements.SUBCLASSES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.SUBCLASSES).getValue().intValue());
-        assertEquals(BasicMeasurements.DEPTH_OF_INHERITANCE, 1, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.DEPTH_OF_INHERITANCE).getValue().intValue());
+        assertTrue(BasicMeasurements.DEPTH_OF_INHERITANCE + " should have been ignored", factory.createClassMetrics("test").getMeasurement(BasicMeasurements.DEPTH_OF_INHERITANCE).isEmpty());
 
         //
         // Dependencies

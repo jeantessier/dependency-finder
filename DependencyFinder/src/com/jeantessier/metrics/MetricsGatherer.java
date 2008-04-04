@@ -165,12 +165,12 @@ public class MetricsGatherer extends VisitorBase {
         if (classfile.getSuperclassIndex() != 0) {
             classfile.getRawSuperclass().accept(this);
 
-            Classfile superclass = classfile.getLoader().getClassfile(classfile.getSuperclassName());
+            getMetricsFactory().createClassMetrics(classfile.getSuperclassName()).addToMeasurement(BasicMeasurements.SUBCLASSES);
 
+            Classfile superclass = classfile.getLoader().getClassfile(classfile.getSuperclassName());
             if (superclass != null) {
-                getMetricsFactory().createClassMetrics(superclass.getClassName()).addToMeasurement(BasicMeasurements.SUBCLASSES);
+                getCurrentClass().addToMeasurement(BasicMeasurements.DEPTH_OF_INHERITANCE, computeDepthOfInheritance(superclass));
             }
-            getCurrentClass().addToMeasurement(BasicMeasurements.DEPTH_OF_INHERITANCE, computeDepthOfInheritance(superclass));
         }
 
         for (Class_info class_info : classfile.getAllInterfaces()) {

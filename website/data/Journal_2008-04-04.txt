@@ -1,0 +1,3 @@
+Modified the Ant task for =OOMetrics= so it can use a =TransientClassfileLoader=
+to process large code bases that don't all fit in memory.  This is to bring it
+to feature parity with the CLI equivalent.
