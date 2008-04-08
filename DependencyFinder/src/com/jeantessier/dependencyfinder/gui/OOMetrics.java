@@ -48,36 +48,39 @@ public class OOMetrics extends JFrame {
     private static final TableCellRenderer RENDERER = new MeasurementTableCellRenderer();
 
     private MetricsFactory factory;
-    
-    private JMenuBar     menuBar      = new JMenuBar();
-    private JMenu        fileMenu     = new JMenu();
-    private JMenu        helpMenu     = new JMenu();
-    private JToolBar     toolbar       = new JToolBar();
-    private JTextArea    projectArea  = new JTextArea();
-    private JButton      filterButton = new JButton("Filter:");
-    private JTextField   filterField  = new JTextField("//");
-    private StatusLine   statusLine   = new StatusLine(420);
-    private JProgressBar progressBar  = new JProgressBar();
+
+    private JMenuBar menuBar = new JMenuBar();
+    private JMenu fileMenu = new JMenu();
+    private JMenu helpMenu = new JMenu();
+    private JToolBar toolbar = new JToolBar();
+    private JTextArea projectArea = new JTextArea();
+    private JButton filterButton = new JButton("Filter:");
+    private JTextField filterField = new JTextField("//");
+    private StatusLine statusLine = new StatusLine(420);
+    private JProgressBar progressBar = new JProgressBar();
 
     private OOMetricsTableModel groupsModel;
     private OOMetricsTableModel classesModel;
     private OOMetricsTableModel methodsModel;
-    
+
     private File inputFile = new File(".");
 
-    public OOMetrics(MetricsFactory factory) {
+    private boolean enableCrossClassMeasurements;
+
+    public OOMetrics(MetricsFactory factory, boolean enableCrossClassMeasurements) {
         this.factory = factory;
-        
+        this.enableCrossClassMeasurements = enableCrossClassMeasurements;
+
         this.setSize(new Dimension(800, 600));
         this.setTitle("OO Metrics");
         this.setIconImage(new ImageIcon(getClass().getResource("icons/logoicon.gif")).getImage());
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.addWindowListener(new WindowKiller());
 
-        groupsModel  = new OOMetricsTableModel(factory.getConfiguration().getGroupMeasurements());
+        groupsModel = new OOMetricsTableModel(factory.getConfiguration().getGroupMeasurements());
         classesModel = new OOMetricsTableModel(factory.getConfiguration().getClassMeasurements());
         methodsModel = new OOMetricsTableModel(factory.getConfiguration().getMethodMeasurements());
-        
+
         buildMenus();
         buildUI();
 
@@ -87,7 +90,7 @@ public class OOMetrics extends JFrame {
         } catch (Exception ex) {
             Logger.getLogger(OOMetrics.class).error("Unable to set look and feel", ex);
         }
-        
+
         statusLine.showInfo("Ready.");
     }
 
@@ -98,7 +101,7 @@ public class OOMetrics extends JFrame {
     void setMetricsFactory(MetricsFactory factory) {
         this.factory = factory;
     }
-    
+
     JTextArea getProjectArea() {
         return projectArea;
     }
@@ -114,7 +117,7 @@ public class OOMetrics extends JFrame {
     OOMetricsTableModel getMethodsModel() {
         return methodsModel;
     }
-    
+
     File getInputFile() {
         return inputFile;
     }
@@ -126,22 +129,26 @@ public class OOMetrics extends JFrame {
     JTextComponent getFilterField() {
         return filterField;
     }
-    
+
     StatusLine getStatusLine() {
         return statusLine;
     }
-        
+
     JProgressBar getProgressBar() {
         return progressBar;
     }
-    
+
+    public boolean isEnableCrossClassMeasurements() {
+        return enableCrossClassMeasurements;
+    }
+
     private void buildMenus() {
         buildFileMenu();
         buildHelpMenu();
 
         this.setJMenuBar(menuBar);
     }
-    
+
     private void buildFileMenu() {
         menuBar.add(fileMenu);
 
@@ -150,7 +157,7 @@ public class OOMetrics extends JFrame {
         Action action;
         JMenuItem menuItem;
         JButton button;
-        
+
         action = new MetricsExtractAction(this);
         menuItem = fileMenu.add(action);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, Event.CTRL_MASK));
@@ -160,7 +167,7 @@ public class OOMetrics extends JFrame {
 
         toolbar.addSeparator();
         fileMenu.addSeparator();
-        
+
         action = new NewMetricsAction(this);
         menuItem = fileMenu.add(action);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Event.CTRL_MASK));
@@ -209,15 +216,15 @@ public class OOMetrics extends JFrame {
         result.setLayout(new BorderLayout());
         result.add(new JSplitPane(JSplitPane.VERTICAL_SPLIT, buildProjectPanel(), buildChartsPanel()), BorderLayout.CENTER);
         result.add(buildFilterPanel(), BorderLayout.SOUTH);
-        
+
         return result;
     }
 
     private JComponent buildProjectPanel() {
         JComponent result = new JScrollPane(projectArea);
-        
+
         projectArea.setEditable(false);
-        
+
         return result;
     }
 
@@ -228,7 +235,7 @@ public class OOMetrics extends JFrame {
         result.addTab("Groups",  buildGroupsChartPanel());
         result.addTab("Classes", buildClassesChartPanel());
         result.addTab("Methods", buildMethodsChartPanel());
-        
+
         return result;
     }
 
@@ -239,11 +246,11 @@ public class OOMetrics extends JFrame {
     private JComponent buildClassesChartPanel() {
         return buildChartPanel(getClassesModel());
     }
-    
+
     private JComponent buildMethodsChartPanel() {
         return buildChartPanel(getMethodsModel());
     }
-    
+
     private JComponent buildChartPanel(OOMetricsTableModel model) {
         JComponent result;
 
@@ -257,7 +264,7 @@ public class OOMetrics extends JFrame {
         TableHeaderListener listener = new TableHeaderListener(table, model);
         table.getTableHeader().addMouseListener(listener);
         table.getTableHeader().addMouseMotionListener(listener);
-            
+
         result = new JScrollPane(table);
 
         return result;
@@ -271,7 +278,7 @@ public class OOMetrics extends JFrame {
         result.add(filterField,  BorderLayout.CENTER);
 
         filterButton.addActionListener(new FilterActionListener(this));
-        
+
         return result;
     }
 
@@ -282,11 +289,11 @@ public class OOMetrics extends JFrame {
         size.width = 100;
         getProgressBar().setPreferredSize(size);
         getProgressBar().setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-        
+
         result.setLayout(new BorderLayout());
         result.add(getStatusLine(),  BorderLayout.CENTER);
         result.add(getProgressBar(), BorderLayout.EAST);
-        
+
         return result;
     }
 
@@ -305,6 +312,7 @@ public class OOMetrics extends JFrame {
         commandLine.addSingleValueSwitch("default-configuration", true);
         commandLine.addSingleValueSwitch("configuration");
         commandLine.addToggleSwitch("validate");
+        commandLine.addToggleSwitch("enable-cross-class-measurements");
         commandLine.addToggleSwitch("help");
 
         CommandLineUsage usage = new CommandLineUsage("OOMetrics");
@@ -323,13 +331,13 @@ public class OOMetrics extends JFrame {
         }
 
         MetricsFactory factory;
-        
+
         if (commandLine.isPresent("configuration")) {
             factory = new MetricsFactory("Project", new MetricsConfigurationLoader(commandLine.getToggleSwitch("validate")).load(commandLine.getSingleSwitch("configuration")));
         } else {
             factory = new MetricsFactory("Project", new MetricsConfigurationLoader(commandLine.getToggleSwitch("validate")).load(commandLine.getSingleSwitch("default-configuration")));
         }
-            
+
         /*
          *  Beginning of main processing
          */
@@ -340,7 +348,7 @@ public class OOMetrics extends JFrame {
             // Ignore
         }
 
-        OOMetrics model = new OOMetrics(factory);
+        OOMetrics model = new OOMetrics(factory, commandLine.isPresent("enable-cross-class-measurements"));
         model.setVisible(true);
     }
 }

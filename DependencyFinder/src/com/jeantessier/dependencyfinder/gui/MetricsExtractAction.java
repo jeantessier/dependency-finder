@@ -79,13 +79,22 @@ public class MetricsExtractAction extends AbstractAction implements Runnable {
 
         MetricsVerboseListener verboseListener = new MetricsVerboseListener(model.getStatusLine(), model.getProgressBar());
 
-        ClassfileLoader loader = new AggregatingClassfileLoader();
-        loader.addLoadListener(verboseListener);
-        loader.load(filenames);
-
         com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer("Project", model.getMetricsFactory());
         gatherer.addMetricsListener(verboseListener);
-        gatherer.visitClassfiles(loader.getAllClassfiles());
+
+        if (model.isEnableCrossClassMeasurements()) {
+            ClassfileLoader loader = new AggregatingClassfileLoader();
+            loader.addLoadListener(verboseListener);
+            loader.load(filenames);
+
+            gatherer.visitClassfiles(loader.getAllClassfiles());
+        } else {
+            ClassfileLoader loader = new TransientClassfileLoader();
+            loader.addLoadListener(verboseListener);
+            loader.addLoadListener(new LoadListenerVisitorAdapter(gatherer));
+
+            loader.load(filenames);
+        }
 
         model.getProgressBar().setIndeterminate(true);
 
