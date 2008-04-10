@@ -10770,6 +10770,7 @@ A Swing-based version of [[#OOMetrics][OOMetrics]].
     OOMetricsGUI
         [-configuration filename]
         -default-configuration filename
+        [-enable-cross-class-measurements]
         [-help]
         [-validate]
 
@@ -10819,6 +10820,31 @@ default configuration in
 <tr><td>Mandatory:</td><td>yes</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>=true=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-enable-cross-class-measurements=
+
+<blockquote>
+
+Instructs =OOMetrics= to load all the classes before it starts computing
+metrics.  This way, measurements that need to traverse other classes will be
+assured that those other classes are in memory and are available to them.
+
+The default is for =OOMetrics= to load one class, compute its metrics, and then
+discard it.  This keeps the memory requirements low.  If you use this switch,
+it will require =OOMetrics= to keep all classes in memory and this can raise
+the memory footprint significantly.
+
+One example of a measurement that requires cross-class computation is
+_Depth Of Inheritance_, which has =OOMetrics= walk the inheritance tree of each
+class to figure out how far it is from =java.lang.Object=.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>

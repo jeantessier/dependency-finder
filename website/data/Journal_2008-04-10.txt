@@ -1,0 +1,2 @@
+Updated documentation for =OOMetricsGUI= to account for new
+=-enable-cross-class-measurements= switch.
