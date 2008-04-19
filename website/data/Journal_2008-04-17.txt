@@ -1,0 +1,8 @@
+Figured out how to log from JSPs with Log4J while limiting the log contents to
+only the JSP code, not all of Dependency Finder.  My conversion patterns in
+=log4j.properties= have "%c{2}", limiting class names to their last two
+components.  This was keeping me from seeing the fully qualified class names for
+the generated JSP classes, and therefore I couldn't define loggers with the
+right filtering level.  I took out the "{2}" momentarily, long enough to see
+the full package name (=org.apache.jsp=), and put it back along with a new
+logger definition.
