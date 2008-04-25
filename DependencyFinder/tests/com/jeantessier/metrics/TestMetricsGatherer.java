@@ -42,7 +42,7 @@ public class TestMetricsGatherer extends TestCase {
     public static final String TEST_CLASS = "test";
     public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
 
-    private MetricsFactory  factory;
+    private MetricsFactory factory;
 
     protected void setUp() throws Exception {
         super.setUp();
