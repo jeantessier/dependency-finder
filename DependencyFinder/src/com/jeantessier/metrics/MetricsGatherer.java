@@ -291,11 +291,12 @@ public class MetricsGatherer extends VisitorBase {
 
     public void visitMethod_info(Method_info entry) {
         fireBeginMethod(entry);
-        
-        setCurrentMethod(getMetricsFactory().createMethodMetrics(entry.getFullSignature()));
+
+        String fullSignature = entry.getFullSignature();
+        setCurrentMethod(getMetricsFactory().createMethodMetrics(fullSignature));
         getMetricsFactory().includeMethodMetrics(getCurrentMethod());
         
-        Logger.getLogger(getClass()).debug("VisitMethod_info(" + entry.getFullSignature() + ")");
+        Logger.getLogger(getClass()).debug("VisitMethod_info(" + fullSignature + ")");
         Logger.getLogger(getClass()).debug("Current class: " + getCurrentClass().getName());
         Logger.getLogger(getClass()).debug("Access flag: " + entry.getAccessFlag());
         Logger.getLogger(getClass()).debug("Public: " + entry.isPublic());
@@ -307,33 +308,33 @@ public class MetricsGatherer extends VisitorBase {
         isSynthetic = entry.isSynthetic();
         
         if (entry.isPublic()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PUBLIC_METHODS);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PUBLIC_METHODS, fullSignature);
         } else if (entry.isPrivate()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PRIVATE_METHODS);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PRIVATE_METHODS, fullSignature);
         } else if (entry.isProtected()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PROTECTED_METHODS);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PROTECTED_METHODS, fullSignature);
         } else {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PACKAGE_METHODS);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PACKAGE_METHODS, fullSignature);
         }
 
         if (entry.isStatic()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.STATIC_METHODS);
+            getCurrentClass().addToMeasurement(BasicMeasurements.STATIC_METHODS, fullSignature);
         }
 
         if (entry.isFinal()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.FINAL_METHODS);
+            getCurrentClass().addToMeasurement(BasicMeasurements.FINAL_METHODS, fullSignature);
         }
 
         if (entry.isSynchronized()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.SYNCHRONIZED_METHODS);
+            getCurrentClass().addToMeasurement(BasicMeasurements.SYNCHRONIZED_METHODS, fullSignature);
         }
 
         if (entry.isNative()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.NATIVE_METHODS);
+            getCurrentClass().addToMeasurement(BasicMeasurements.NATIVE_METHODS, fullSignature);
         }
 
         if (entry.isAbstract()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.ABSTRACT_METHODS);
+            getCurrentClass().addToMeasurement(BasicMeasurements.ABSTRACT_METHODS, fullSignature);
             sloc = 1;
         }
 
