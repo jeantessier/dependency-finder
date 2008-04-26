@@ -32,7 +32,6 @@
 
 package com.jeantessier.metrics;
 
-import java.io.*;
 import java.util.*;
 
 import org.jmock.*;
@@ -42,9 +41,6 @@ import org.jmock.lib.legacy.*;
 import com.jeantessier.classreader.*;
 
 public class TestMetricsGathererAccumulators extends MockObjectTestCase {
-    public static final String TEST_CLASS = "ModifiedPackage.ModifiedClass";
-    public static final String TEST_FILENAME = "tests" + File.separator + "JarJarDiff" + File.separator + "old" + File.separator + "ModifiedPackage" + File.separator + "ModifiedClass.class";
-
     protected void setUp() throws Exception {
         super.setUp();
 
@@ -764,7 +760,6 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
     }
 
     public void testVisitSynthetic_attribute_attribute() throws Exception {
-        final BasicMeasurements measurementName = BasicMeasurements.SYNTHETIC_ATTRIBUTES;
         final String fieldName = "testpackage.TestClass.testField";
 
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
@@ -778,7 +773,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(mockField));
             one (mockField).getFullName();
             will(returnValue(fieldName));
-            one (mockMetrics).addToMeasurement(measurementName, fieldName);
+            one (mockMetrics).addToMeasurement(BasicMeasurements.SYNTHETIC_ATTRIBUTES, fieldName);
         }});
 
         MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
@@ -787,7 +782,6 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
     }
 
     public void testVisitLocalVariable() throws Exception {
-        final BasicMeasurements measurementName = BasicMeasurements.LOCAL_VARIABLES;
         final String localVariableName = "localVariableName";
 
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
@@ -798,7 +792,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockFactory).createProjectMetrics(with(any(String.class)));
             one (mockLocalVariable).getName();
             will(returnValue(localVariableName));
-            one (mockMetrics).addToMeasurement(measurementName, localVariableName);
+            one (mockMetrics).addToMeasurement(BasicMeasurements.LOCAL_VARIABLES, localVariableName);
             one (mockLocalVariable).getDescriptor();
         }});
 
