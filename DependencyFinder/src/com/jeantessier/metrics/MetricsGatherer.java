@@ -104,7 +104,7 @@ public class MetricsGatherer extends VisitorBase {
         return currentClass;
     }
 
-    private void setCurrentClass(Metrics currentClass) {
+    void setCurrentClass(Metrics currentClass) {
         this.currentClass = currentClass;
     }
 
@@ -112,7 +112,7 @@ public class MetricsGatherer extends VisitorBase {
         return currentMethod;
     }
 
-    private void setCurrentMethod(Metrics currentMethod) {
+    void setCurrentMethod(Metrics currentMethod) {
         this.currentMethod = currentMethod;
     }
 
@@ -240,7 +240,8 @@ public class MetricsGatherer extends VisitorBase {
     }
 
     public void visitField_info(Field_info entry) {
-        getCurrentClass().addToMeasurement(BasicMeasurements.ATTRIBUTES);
+        String name = entry.getFullName();
+        getCurrentClass().addToMeasurement(BasicMeasurements.ATTRIBUTES, name);
 
         Logger.getLogger(getClass()).debug("VisitField_info(" + entry.getFullSignature() + ")");
         Logger.getLogger(getClass()).debug("Current class: " + getCurrentClass().getName());
@@ -251,29 +252,29 @@ public class MetricsGatherer extends VisitorBase {
         Logger.getLogger(getClass()).debug("Static: " + entry.isStatic());
         
         if (entry.isPublic()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PUBLIC_ATTRIBUTES);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PUBLIC_ATTRIBUTES, name);
         } else if (entry.isPrivate()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PRIVATE_ATTRIBUTES);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PRIVATE_ATTRIBUTES, name);
         } else if (entry.isProtected()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PROTECTED_ATTRIBUTES);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PROTECTED_ATTRIBUTES, name);
         } else {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES, name);
         }
 
         if (entry.isStatic()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.STATIC_ATTRIBUTES);
+            getCurrentClass().addToMeasurement(BasicMeasurements.STATIC_ATTRIBUTES, name);
         }
 
         if (entry.isFinal()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.FINAL_ATTRIBUTES);
+            getCurrentClass().addToMeasurement(BasicMeasurements.FINAL_ATTRIBUTES, name);
         }
 
         if (entry.isVolatile()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.VOLATILE_ATTRIBUTES);
+            getCurrentClass().addToMeasurement(BasicMeasurements.VOLATILE_ATTRIBUTES, name);
         }
 
         if (entry.isTransient()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.TRANSIENT_ATTRIBUTES);
+            getCurrentClass().addToMeasurement(BasicMeasurements.TRANSIENT_ATTRIBUTES, name);
         }
 
         sloc = 1;
@@ -362,7 +363,7 @@ public class MetricsGatherer extends VisitorBase {
             getCurrentProject().addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES);
             getCurrentGroup().addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES);
         } else if (owner instanceof Field_info) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_ATTRIBUTES);
+            getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_ATTRIBUTES, ((Field_info) owner).getFullName());
         } else if (owner instanceof Method_info) {
             getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_METHODS);
         } else {
@@ -476,7 +477,7 @@ public class MetricsGatherer extends VisitorBase {
     }
 
     public void visitLocalVariable(LocalVariable helper) {
-        getCurrentMethod().addToMeasurement(BasicMeasurements.LOCAL_VARIABLES);
+        getCurrentMethod().addToMeasurement(BasicMeasurements.LOCAL_VARIABLES, helper.getName());
 
         addClassDependencies(processDescriptor(helper.getDescriptor()));
     }
