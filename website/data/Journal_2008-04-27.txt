@@ -1,0 +1,2 @@
+More test for =MetricsGatherer= using jMock in
+=TestMetricsGathererAccumulators=.

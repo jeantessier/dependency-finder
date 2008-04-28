@@ -366,7 +366,7 @@ public class MetricsGatherer extends VisitorBase {
         } else if (owner instanceof Field_info) {
             getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_ATTRIBUTES, ((Field_info) owner).getFullName());
         } else if (owner instanceof Method_info) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_METHODS);
+            getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_METHODS, ((Method_info) owner).getFullSignature());
         } else {
             Logger.getLogger(getClass()).warn("Synthetic attribute on unknown Visitable: " + owner.getClass().getName());
         }
