@@ -88,7 +88,7 @@ public class MetricsGatherer extends VisitorBase {
         return currentProject;
     }
 
-    private void setCurrentProject(Metrics currentProject) {
+    void setCurrentProject(Metrics currentProject) {
         this.currentProject = currentProject;
     }
 
@@ -96,7 +96,7 @@ public class MetricsGatherer extends VisitorBase {
         return currentGroup;
     }
 
-    private void setCurrentGroup(Metrics currentGroup) {
+    void setCurrentGroup(Metrics currentGroup) {
         this.currentGroup = currentGroup;
     }
 
@@ -240,8 +240,8 @@ public class MetricsGatherer extends VisitorBase {
     }
 
     public void visitField_info(Field_info entry) {
-        String name = entry.getFullName();
-        getCurrentClass().addToMeasurement(BasicMeasurements.ATTRIBUTES, name);
+        String fullName = entry.getFullName();
+        getCurrentClass().addToMeasurement(BasicMeasurements.ATTRIBUTES, fullName);
 
         Logger.getLogger(getClass()).debug("VisitField_info(" + entry.getFullSignature() + ")");
         Logger.getLogger(getClass()).debug("Current class: " + getCurrentClass().getName());
@@ -252,29 +252,29 @@ public class MetricsGatherer extends VisitorBase {
         Logger.getLogger(getClass()).debug("Static: " + entry.isStatic());
         
         if (entry.isPublic()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PUBLIC_ATTRIBUTES, name);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PUBLIC_ATTRIBUTES, fullName);
         } else if (entry.isPrivate()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PRIVATE_ATTRIBUTES, name);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PRIVATE_ATTRIBUTES, fullName);
         } else if (entry.isProtected()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PROTECTED_ATTRIBUTES, name);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PROTECTED_ATTRIBUTES, fullName);
         } else {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES, name);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES, fullName);
         }
 
         if (entry.isStatic()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.STATIC_ATTRIBUTES, name);
+            getCurrentClass().addToMeasurement(BasicMeasurements.STATIC_ATTRIBUTES, fullName);
         }
 
         if (entry.isFinal()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.FINAL_ATTRIBUTES, name);
+            getCurrentClass().addToMeasurement(BasicMeasurements.FINAL_ATTRIBUTES, fullName);
         }
 
         if (entry.isVolatile()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.VOLATILE_ATTRIBUTES, name);
+            getCurrentClass().addToMeasurement(BasicMeasurements.VOLATILE_ATTRIBUTES, fullName);
         }
 
         if (entry.isTransient()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.TRANSIENT_ATTRIBUTES, name);
+            getCurrentClass().addToMeasurement(BasicMeasurements.TRANSIENT_ATTRIBUTES, fullName);
         }
 
         sloc = 1;
@@ -361,8 +361,9 @@ public class MetricsGatherer extends VisitorBase {
         isSynthetic = true;
         
         if (owner instanceof Classfile) {
-            getCurrentProject().addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES);
-            getCurrentGroup().addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES);
+            String className = ((Classfile) owner).getClassName();
+            getCurrentProject().addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES, className);
+            getCurrentGroup().addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES, className);
         } else if (owner instanceof Field_info) {
             getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_ATTRIBUTES, ((Field_info) owner).getFullName());
         } else if (owner instanceof Method_info) {
@@ -376,12 +377,13 @@ public class MetricsGatherer extends VisitorBase {
         Object owner = attribute.getOwner();
     
         if (owner instanceof Classfile) {
-            getCurrentProject().addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES);
-            getCurrentGroup().addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES);
+            String className = ((Classfile) owner).getClassName();
+            getCurrentProject().addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, className);
+            getCurrentGroup().addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, className);
         } else if (owner instanceof Field_info) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_ATTRIBUTES);
+            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_ATTRIBUTES, ((Field_info) owner).getFullName());
         } else if (owner instanceof Method_info) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_METHODS);
+            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_METHODS, ((Method_info) owner).getFullSignature());
         } else {
             Logger.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: " + owner.getClass().getName());
         }
