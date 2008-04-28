@@ -844,6 +844,49 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
+    public void testVisitInnerClass_public() throws Exception {
+//        final String methodSignature = "testpackage.TestClass.testMethod()";
+
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+        final Metrics mockMetrics = mock(Metrics.class);
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockInnerClass).getInnerClassInfoIndex();
+            allowing (mockInnerClass).getInnerClasses();
+//            allowing (mockInnerClass).getClassfile();
+//            allowing (mockInnerClass).getFullSignature();
+//            will(returnValue(methodSignature));
+//            one (mockFactory).createMethodMetrics(methodSignature);
+//            will(returnValue(mockMetrics));
+//            one (mockFactory).includeMethodMetrics(mockMetrics);
+//            allowing (mockMetrics).getName();
+//            allowing (mockInnerClass).getAccessFlag();
+//            allowing (mockInnerClass).isPublic();
+//            will(returnValue(true));
+//            one (mockMetrics).addToMeasurement(BasicMeasurements.PUBLIC_METHODS, methodSignature);
+//            ignoring (mockInnerClass).isPrivate();
+//            ignoring (mockInnerClass).isProtected();
+//            ignoring (mockInnerClass).isPackage();
+//            ignoring (mockInnerClass).isStatic();
+//            ignoring (mockInnerClass).isFinal();
+//            ignoring (mockInnerClass).isSynchronized();
+//            ignoring (mockInnerClass).isNative();
+//            ignoring (mockInnerClass).isAbstract();
+//            ignoring (mockInnerClass).isSynthetic();
+//            allowing (mockInnerClass).getDescriptor();
+//            will(returnValue("()V"));
+//            one (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
+//            ignoring (mockInnerClass).getAttributes();
+//            one (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        sut.setCurrentClass(mockMetrics);
+        sut.visitInnerClass(mockInnerClass);
+    }
+
     public void testVisitSynthetic_attribute_class() throws Exception {
         final String className = "testpackage.TestClass";
 
