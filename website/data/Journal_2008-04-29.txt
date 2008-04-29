@@ -1,0 +1,3 @@
+In an effort to better understand the =InnerClass= structure in =.class= files,
+I wrote a quick XSL transform that extract just their content from the XML
+output of =ClassReader=.  It's still a mess, though.
