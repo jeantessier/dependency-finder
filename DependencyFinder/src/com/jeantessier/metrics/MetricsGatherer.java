@@ -444,35 +444,35 @@ public class MetricsGatherer extends VisitorBase {
                 getCurrentGroup().addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES, innerClassName);
                 getCurrentClass().addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES, innerClassName);
             } else if (helper.isPrivate()) {
-                getCurrentProject().addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES);
-                getCurrentGroup().addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES);
-                getCurrentClass().addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES);
+                getCurrentProject().addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES, innerClassName);
+                getCurrentGroup().addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES, innerClassName);
+                getCurrentClass().addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES, innerClassName);
             } else if (helper.isProtected()) {
-                getCurrentProject().addToMeasurement(BasicMeasurements.PROTECTED_INNER_CLASSES);
-                getCurrentGroup().addToMeasurement(BasicMeasurements.PROTECTED_INNER_CLASSES);
-                getCurrentClass().addToMeasurement(BasicMeasurements.PROTECTED_INNER_CLASSES);
+                getCurrentProject().addToMeasurement(BasicMeasurements.PROTECTED_INNER_CLASSES, innerClassName);
+                getCurrentGroup().addToMeasurement(BasicMeasurements.PROTECTED_INNER_CLASSES, innerClassName);
+                getCurrentClass().addToMeasurement(BasicMeasurements.PROTECTED_INNER_CLASSES, innerClassName);
             } else {
-                getCurrentProject().addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES);
-                getCurrentGroup().addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES);
-                getCurrentClass().addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES);
+                getCurrentProject().addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, innerClassName);
+                getCurrentGroup().addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, innerClassName);
+                getCurrentClass().addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, innerClassName);
             }
 
             if (helper.isStatic()) {
-                getCurrentProject().addToMeasurement(BasicMeasurements.STATIC_INNER_CLASSES);
-                getCurrentGroup().addToMeasurement(BasicMeasurements.STATIC_INNER_CLASSES);
-                getCurrentClass().addToMeasurement(BasicMeasurements.STATIC_INNER_CLASSES);
+                getCurrentProject().addToMeasurement(BasicMeasurements.STATIC_INNER_CLASSES, innerClassName);
+                getCurrentGroup().addToMeasurement(BasicMeasurements.STATIC_INNER_CLASSES, innerClassName);
+                getCurrentClass().addToMeasurement(BasicMeasurements.STATIC_INNER_CLASSES, innerClassName);
             }
 
             if (helper.isFinal()) {
-                getCurrentProject().addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES);
-                getCurrentGroup().addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES);
-                getCurrentClass().addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES);
+                getCurrentProject().addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES, innerClassName);
+                getCurrentGroup().addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES, innerClassName);
+                getCurrentClass().addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES, innerClassName);
             }
 
             if (helper.isAbstract()) {
-                getCurrentProject().addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES);
-                getCurrentGroup().addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES);
-                getCurrentClass().addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES);
+                getCurrentProject().addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, innerClassName);
+                getCurrentGroup().addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, innerClassName);
+                getCurrentClass().addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, innerClassName);
             }
         }
     }

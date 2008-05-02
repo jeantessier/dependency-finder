@@ -935,13 +935,11 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(CLASS_NAME));
             exactly(2).of (mockInnerClass).getOuterClassInfo();
             will(returnValue(CLASS_NAME));
-
             allowing (mockInnerClass).getInnerClassInfo();
             will(returnValue(INNER_CLASS_NAME));
             one (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
             one (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
             one (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
-
             allowing (mockInnerClass).isPublic();
             will(returnValue(true));
             one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES, INNER_CLASS_NAME);
@@ -953,6 +951,235 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockInnerClass).isStatic();
             ignoring (mockInnerClass).isFinal();
             ignoring (mockInnerClass).isAbstract();
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        sut.setCurrentGroup(mockGroupMetrics);
+        sut.setCurrentClass(mockClassMetrics);
+        sut.visitInnerClass(mockInnerClass);
+    }
+
+    public void testVisitInnerClass_private() throws Exception {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Classfile mockClassfile = mock(Classfile.class);
+        final InnerClasses_attribute mockInnerClasses = mock (InnerClasses_attribute.class);
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+        final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
+        final Metrics mockGroupMetrics = mock(Metrics.class, "currentGroup");
+        final Metrics mockClassMetrics = mock(Metrics.class, "currentClass");
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            will(returnValue(mockProjectMetrics));
+            one (mockInnerClass).getInnerClasses();
+            will(returnValue(mockInnerClasses));
+            one (mockInnerClasses).getClassfile();
+            will(returnValue(mockClassfile));
+            one (mockClassfile).getClassName();
+            will(returnValue(CLASS_NAME));
+            exactly(2).of (mockInnerClass).getOuterClassInfo();
+            will(returnValue(CLASS_NAME));
+            allowing (mockInnerClass).getInnerClassInfo();
+            will(returnValue(INNER_CLASS_NAME));
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isPublic();
+            allowing (mockInnerClass).isPrivate();
+            will(returnValue(true));
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockClassMetrics).addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isProtected();
+            ignoring (mockInnerClass).isPackage();
+            ignoring (mockInnerClass).isStatic();
+            ignoring (mockInnerClass).isFinal();
+            ignoring (mockInnerClass).isAbstract();
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        sut.setCurrentGroup(mockGroupMetrics);
+        sut.setCurrentClass(mockClassMetrics);
+        sut.visitInnerClass(mockInnerClass);
+    }
+
+    public void testVisitInnerClass_package() throws Exception {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Classfile mockClassfile = mock(Classfile.class);
+        final InnerClasses_attribute mockInnerClasses = mock (InnerClasses_attribute.class);
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+        final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
+        final Metrics mockGroupMetrics = mock(Metrics.class, "currentGroup");
+        final Metrics mockClassMetrics = mock(Metrics.class, "currentClass");
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            will(returnValue(mockProjectMetrics));
+            one (mockInnerClass).getInnerClasses();
+            will(returnValue(mockInnerClasses));
+            one (mockInnerClasses).getClassfile();
+            will(returnValue(mockClassfile));
+            one (mockClassfile).getClassName();
+            will(returnValue(CLASS_NAME));
+            exactly(2).of (mockInnerClass).getOuterClassInfo();
+            will(returnValue(CLASS_NAME));
+            allowing (mockInnerClass).getInnerClassInfo();
+            will(returnValue(INNER_CLASS_NAME));
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isPublic();
+            ignoring (mockInnerClass).isPrivate();
+            ignoring (mockInnerClass).isProtected();
+            allowing (mockInnerClass).isPackage();
+            will(returnValue(true));
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockClassMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isStatic();
+            ignoring (mockInnerClass).isFinal();
+            ignoring (mockInnerClass).isAbstract();
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        sut.setCurrentGroup(mockGroupMetrics);
+        sut.setCurrentClass(mockClassMetrics);
+        sut.visitInnerClass(mockInnerClass);
+    }
+
+    public void testVisitInnerClass_static() throws Exception {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Classfile mockClassfile = mock(Classfile.class);
+        final InnerClasses_attribute mockInnerClasses = mock (InnerClasses_attribute.class);
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+        final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
+        final Metrics mockGroupMetrics = mock(Metrics.class, "currentGroup");
+        final Metrics mockClassMetrics = mock(Metrics.class, "currentClass");
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            will(returnValue(mockProjectMetrics));
+            one (mockInnerClass).getInnerClasses();
+            will(returnValue(mockInnerClasses));
+            one (mockInnerClasses).getClassfile();
+            will(returnValue(mockClassfile));
+            one (mockClassfile).getClassName();
+            will(returnValue(CLASS_NAME));
+            exactly(2).of (mockInnerClass).getOuterClassInfo();
+            will(returnValue(CLASS_NAME));
+            allowing (mockInnerClass).getInnerClassInfo();
+            will(returnValue(INNER_CLASS_NAME));
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isPublic();
+            ignoring (mockInnerClass).isPrivate();
+            ignoring (mockInnerClass).isProtected();
+            ignoring (mockInnerClass).isPackage();
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockClassMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            allowing (mockInnerClass).isStatic();
+            will(returnValue(true));
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.STATIC_INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.STATIC_INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockClassMetrics).addToMeasurement(BasicMeasurements.STATIC_INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isFinal();
+            ignoring (mockInnerClass).isAbstract();
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        sut.setCurrentGroup(mockGroupMetrics);
+        sut.setCurrentClass(mockClassMetrics);
+        sut.visitInnerClass(mockInnerClass);
+    }
+
+    public void testVisitInnerClass_final() throws Exception {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Classfile mockClassfile = mock(Classfile.class);
+        final InnerClasses_attribute mockInnerClasses = mock (InnerClasses_attribute.class);
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+        final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
+        final Metrics mockGroupMetrics = mock(Metrics.class, "currentGroup");
+        final Metrics mockClassMetrics = mock(Metrics.class, "currentClass");
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            will(returnValue(mockProjectMetrics));
+            one (mockInnerClass).getInnerClasses();
+            will(returnValue(mockInnerClasses));
+            one (mockInnerClasses).getClassfile();
+            will(returnValue(mockClassfile));
+            one (mockClassfile).getClassName();
+            will(returnValue(CLASS_NAME));
+            exactly(2).of (mockInnerClass).getOuterClassInfo();
+            will(returnValue(CLASS_NAME));
+            allowing (mockInnerClass).getInnerClassInfo();
+            will(returnValue(INNER_CLASS_NAME));
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isPublic();
+            ignoring (mockInnerClass).isPrivate();
+            ignoring (mockInnerClass).isProtected();
+            ignoring (mockInnerClass).isPackage();
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockClassMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isStatic();
+            allowing (mockInnerClass).isFinal();
+            will(returnValue(true));
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockClassMetrics).addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isAbstract();
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        sut.setCurrentGroup(mockGroupMetrics);
+        sut.setCurrentClass(mockClassMetrics);
+        sut.visitInnerClass(mockInnerClass);
+    }
+
+    public void testVisitInnerClass_abstract() throws Exception {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Classfile mockClassfile = mock(Classfile.class);
+        final InnerClasses_attribute mockInnerClasses = mock (InnerClasses_attribute.class);
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+        final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
+        final Metrics mockGroupMetrics = mock(Metrics.class, "currentGroup");
+        final Metrics mockClassMetrics = mock(Metrics.class, "currentClass");
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            will(returnValue(mockProjectMetrics));
+            one (mockInnerClass).getInnerClasses();
+            will(returnValue(mockInnerClasses));
+            one (mockInnerClasses).getClassfile();
+            will(returnValue(mockClassfile));
+            one (mockClassfile).getClassName();
+            will(returnValue(CLASS_NAME));
+            exactly(2).of (mockInnerClass).getOuterClassInfo();
+            will(returnValue(CLASS_NAME));
+            allowing (mockInnerClass).getInnerClassInfo();
+            will(returnValue(INNER_CLASS_NAME));
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isPublic();
+            ignoring (mockInnerClass).isPrivate();
+            ignoring (mockInnerClass).isProtected();
+            ignoring (mockInnerClass).isPackage();
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockClassMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isStatic();
+            ignoring (mockInnerClass).isFinal();
+            allowing (mockInnerClass).isAbstract();
+            will(returnValue(true));
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, INNER_CLASS_NAME);
+            one (mockClassMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, INNER_CLASS_NAME);
         }});
 
         MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);

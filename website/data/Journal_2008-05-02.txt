@@ -1,3 +1,3 @@
 Wrote a better attempt at distinguishing inner classes of the current class
-from mere references to inner classes of other classes.  Wrote tests for public
+from mere references to inner classes of other classes.  Wrote more tests for
 inner classes.
