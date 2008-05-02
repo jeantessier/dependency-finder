@@ -432,7 +432,7 @@ public class MetricsGatherer extends VisitorBase {
     }
 
     public void visitInnerClass(InnerClass helper) {
-        if ((helper.getInnerClassInfoIndex() != helper.getInnerClasses().getClassfile().getClassIndex()) && (helper.getInnerClassInfo().startsWith(helper.getInnerClasses().getClassfile().getClassName()))) {
+        if (isInnerClassOfCurrentClass(helper)) {
             getCurrentProject().addToMeasurement(BasicMeasurements.INNER_CLASSES);
             getCurrentGroup().addToMeasurement(BasicMeasurements.INNER_CLASSES);
             getCurrentClass().addToMeasurement(BasicMeasurements.INNER_CLASSES);
@@ -473,6 +473,19 @@ public class MetricsGatherer extends VisitorBase {
                 getCurrentClass().addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES);
             }
         }
+    }
+
+    // Package-level for testing
+    boolean isInnerClassOfCurrentClass(InnerClass helper) {
+        boolean result;
+
+        if (helper.getOuterClassInfo().equals("")) {
+            result = helper.getInnerClassInfo().matches(helper.getInnerClasses().getClassfile().getClassName() + "\\$\\d+$");
+        } else {
+            result = helper.getOuterClassInfo().equals(helper.getInnerClasses().getClassfile().getClassName());
+        }
+
+        return result;
     }
 
     public void visitLineNumber(LineNumber helper) {

@@ -844,17 +844,74 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitInnerClass_public() throws Exception {
-//        final String methodSignature = "testpackage.TestClass.testMethod()";
-
+    public void testIsInnerClassOfCurrentClass_NamedInnerClass() throws Exception {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Classfile mockClassfile = mock(Classfile.class);
+        final InnerClasses_attribute mockInnerClasses = mock (InnerClasses_attribute.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+
+            one (mockInnerClass).getInnerClasses();
+            will(returnValue(mockInnerClasses));
+            one (mockInnerClasses).getClassfile();
+            will(returnValue(mockClassfile));
+            one (mockClassfile).getClassName();
+            will(returnValue("testpackage.TestClass"));
+            exactly(2).of (mockInnerClass).getOuterClassInfo();
+            will(returnValue("testpackage.TestClass"));
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        sut.setCurrentClass(mockMetrics);
+        assertEquals("return value", true, sut.isInnerClassOfCurrentClass(mockInnerClass));
+    }
+
+    public void testIsInnerClassOfCurrentClass_AnonymousInnerClass() throws Exception {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Classfile mockClassfile = mock(Classfile.class);
+        final InnerClasses_attribute mockInnerClasses = mock (InnerClasses_attribute.class);
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+        final Metrics mockMetrics = mock(Metrics.class);
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+
+            one (mockInnerClass).getInnerClasses();
+            will(returnValue(mockInnerClasses));
+            one (mockInnerClasses).getClassfile();
+            will(returnValue(mockClassfile));
+            one (mockClassfile).getClassName();
+            will(returnValue("testpackage.TestClass"));
+            one (mockInnerClass).getOuterClassInfo();
+            will(returnValue(""));
+            one (mockInnerClass).getInnerClassInfo();
+            will(returnValue("testpackage.TestClass$1"));
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        sut.setCurrentClass(mockMetrics);
+        assertEquals("return value", true, sut.isInnerClassOfCurrentClass(mockInnerClass));
+    }
+
+    public void testVisitInnerClass_public() throws Exception {
+//        final String methodSignature = "testpackage.TestClass.testMethod()";
+
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final InnerClasses_attribute mockInnerClasses = mock(InnerClasses_attribute.class);
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+        final int innerClassInfoIndex = 123;
+        final Metrics mockMetrics = mock(Metrics.class);
+
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
             allowing (mockInnerClass).getInnerClassInfoIndex();
+            will(returnValue(innerClassInfoIndex));
             allowing (mockInnerClass).getInnerClasses();
+            will(returnValue(mockInnerClasses));
 //            allowing (mockInnerClass).getClassfile();
 //            allowing (mockInnerClass).getFullSignature();
 //            will(returnValue(methodSignature));

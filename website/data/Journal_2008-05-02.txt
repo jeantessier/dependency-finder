@@ -1,0 +1,2 @@
+Better attempt at distinguishing inner classes of the current class from mere
+references to inner classes of other classes.
