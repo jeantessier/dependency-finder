@@ -1,2 +1,3 @@
-Better attempt at distinguishing inner classes of the current class from mere
-references to inner classes of other classes.
+Wrote a better attempt at distinguishing inner classes of the current class
+from mere references to inner classes of other classes.  Wrote tests for public
+inner classes.

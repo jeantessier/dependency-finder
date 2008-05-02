@@ -433,14 +433,16 @@ public class MetricsGatherer extends VisitorBase {
 
     public void visitInnerClass(InnerClass helper) {
         if (isInnerClassOfCurrentClass(helper)) {
-            getCurrentProject().addToMeasurement(BasicMeasurements.INNER_CLASSES);
-            getCurrentGroup().addToMeasurement(BasicMeasurements.INNER_CLASSES);
-            getCurrentClass().addToMeasurement(BasicMeasurements.INNER_CLASSES);
+            String innerClassName = helper.getInnerClassInfo();
+
+            getCurrentProject().addToMeasurement(BasicMeasurements.INNER_CLASSES, innerClassName);
+            getCurrentGroup().addToMeasurement(BasicMeasurements.INNER_CLASSES, innerClassName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.INNER_CLASSES, innerClassName);
         
             if (helper.isPublic()) {
-                getCurrentProject().addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES);
-                getCurrentGroup().addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES);
-                getCurrentClass().addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES);
+                getCurrentProject().addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES, innerClassName);
+                getCurrentGroup().addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES, innerClassName);
+                getCurrentClass().addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES, innerClassName);
             } else if (helper.isPrivate()) {
                 getCurrentProject().addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES);
                 getCurrentGroup().addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES);
