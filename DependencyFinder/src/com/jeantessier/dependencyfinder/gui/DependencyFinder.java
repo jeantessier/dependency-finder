@@ -1294,9 +1294,9 @@ public class DependencyFinder extends JFrame {
         CommandLine commandLine = new CommandLine(new NullParameterStrategy());
         commandLine.addToggleSwitch("minimize");
         commandLine.addToggleSwitch("maximize");
-        commandLine.addSingleValueSwitch("encoding",    com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING);
-        commandLine.addSingleValueSwitch("dtd-prefix",  com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX);
-        commandLine.addSingleValueSwitch("indent-text");
+        commandLine.addSingleValueSwitch("encoding", com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING);
+        commandLine.addSingleValueSwitch("dtd-prefix", com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX);
+        commandLine.addSingleValueSwitch("indent-text", com.jeantessier.dependency.XMLPrinter.DEFAULT_INDENT_TEXT);
         commandLine.addToggleSwitch("help");
 
         CommandLineUsage usage = new CommandLineUsage("DependencyFinder");

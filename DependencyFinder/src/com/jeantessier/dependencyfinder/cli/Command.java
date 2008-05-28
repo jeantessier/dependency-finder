@@ -77,10 +77,10 @@ public abstract class Command {
         getCommandLine().addToggleSwitch("version");
     }
 
-    protected void populateCommandLineSwitchesForXMLOutput(String defaultEncoding, String defaultDTDPrefix) {
+    protected void populateCommandLineSwitchesForXMLOutput(String defaultEncoding, String defaultDTDPrefix, String defaultIndentText) {
         getCommandLine().addSingleValueSwitch("encoding", defaultEncoding);
         getCommandLine().addSingleValueSwitch("dtd-prefix", defaultDTDPrefix);
-        getCommandLine().addSingleValueSwitch("indent-text");
+        getCommandLine().addSingleValueSwitch("indent-text", defaultIndentText);
     }
 
     protected Collection<CommandLineException> parseCommandLine(String[] args) {

@@ -36,9 +36,11 @@ import java.io.*;
 import java.util.*;
 
 public abstract class Printer extends VisitorBase {
+    public static final String DEFAULT_INDENT_TEXT = "    ";
+
     private PrintWriter out;
-    private String      indentText  = "    ";
-    private int         indentLevel = 0;
+    private String indentText = DEFAULT_INDENT_TEXT;
+    private int indentLevel = 0;
 
     public Printer(PrintWriter out) {
         this.out = out;

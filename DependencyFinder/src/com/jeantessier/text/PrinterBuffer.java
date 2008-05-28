@@ -33,10 +33,12 @@
 package com.jeantessier.text;
 
 public class PrinterBuffer {
+    public static final String DEFAULT_INDENT_TEXT = "    ";
+
     private final static String EOL = System.getProperty("line.separator", "\n");
 
     private StringBuffer buffer = new StringBuffer();
-    private String indentText = "    ";
+    private String indentText = DEFAULT_INDENT_TEXT;
     private int indentLevel = 0;
 
     public String getIndentText() {

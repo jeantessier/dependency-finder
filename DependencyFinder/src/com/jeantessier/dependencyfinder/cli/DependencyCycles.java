@@ -44,7 +44,7 @@ public class DependencyCycles extends DependencyGraphCommand {
 
     protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
-        populateCommandLineSwitchesForXMLOutput(XMLPrinter.DEFAULT_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
+        populateCommandLineSwitchesForXMLOutput(XMLPrinter.DEFAULT_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX, XMLPrinter.DEFAULT_INDENT_TEXT);
 
         populateCommandLineSwitchesForStartCondition();
 

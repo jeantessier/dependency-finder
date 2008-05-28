@@ -50,7 +50,7 @@ public class OOMetrics extends DirectoryExplorerCommand {
 
     protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
-        populateCommandLineSwitchesForXMLOutput(com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING, com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX);
+        populateCommandLineSwitchesForXMLOutput(com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING, com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX, com.jeantessier.metrics.XMLPrinter.DEFAULT_INDENT_TEXT);
 
         getCommandLine().addSingleValueSwitch("project-name", DEFAULT_PROJECT_NAME);
         getCommandLine().addSingleValueSwitch("default-configuration", true);

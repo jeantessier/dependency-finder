@@ -55,7 +55,7 @@ public class ListDiff extends Command {
 
     protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
-        populateCommandLineSwitchesForXMLOutput(ListDiffPrinter.DEFAULT_ENCODING,  ListDiffPrinter.DEFAULT_DTD_PREFIX);
+        populateCommandLineSwitchesForXMLOutput(ListDiffPrinter.DEFAULT_ENCODING, ListDiffPrinter.DEFAULT_DTD_PREFIX, ListDiffPrinter.DEFAULT_INDENT_TEXT);
 
         getCommandLine().addSingleValueSwitch("name");
         getCommandLine().addSingleValueSwitch("old-label");

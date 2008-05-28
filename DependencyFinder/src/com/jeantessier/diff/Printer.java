@@ -35,6 +35,8 @@ package com.jeantessier.diff;
 import com.jeantessier.text.*;
 
 public abstract class Printer extends VisitorBase {
+    public static final String DEFAULT_INDENT_TEXT = PrinterBuffer.DEFAULT_INDENT_TEXT;
+
     private PrinterBuffer buffer = new PrinterBuffer();
 
     public String getIndentText() {

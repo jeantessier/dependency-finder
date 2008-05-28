@@ -45,7 +45,7 @@ public class DependencyExtractor extends DirectoryExplorerCommand {
 
     protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
-        populateCommandLineSwitchesForXMLOutput(com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING, com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX);
+        populateCommandLineSwitchesForXMLOutput(com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING, com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX, com.jeantessier.dependency.XMLPrinter.DEFAULT_INDENT_TEXT);
         populateCommandLineSwitchesForFiltering();
 
         getCommandLine().addToggleSwitch("maximize");

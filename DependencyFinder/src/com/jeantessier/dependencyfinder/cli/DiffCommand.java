@@ -57,7 +57,7 @@ public abstract class DiffCommand extends Command {
 
     protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
-        populateCommandLineSwitchesForXMLOutput(Report.DEFAULT_ENCODING, Report.DEFAULT_DTD_PREFIX);
+        populateCommandLineSwitchesForXMLOutput(Report.DEFAULT_ENCODING, Report.DEFAULT_DTD_PREFIX, Report.DEFAULT_INDENT_TEXT);
 
         getCommandLine().addSingleValueSwitch("name");
         getCommandLine().addMultipleValuesSwitch("old", true);
