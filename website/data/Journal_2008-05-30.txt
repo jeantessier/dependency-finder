@@ -1,0 +1,6 @@
+Replaced the explicit name of CLI commands, set in the constructor, with a call
+to =Class.getSimpleName()=.  This allowed me to get rid of all constructors
+across the entire =Command= hierarchy.  For some obscure reason,
+=Commnad.Command(name)= declared throwing a =CommandLineException=, but none of
+the constructors did anything other than set the command's name.  It must have
+been some leftover from ancient times.  I removed cruft, yeah!

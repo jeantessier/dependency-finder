@@ -40,10 +40,6 @@ import com.jeantessier.classreader.TextPrinter;
 import com.jeantessier.commandline.*;
 
 public class ClassReader extends Command {
-    public ClassReader() throws CommandLineException {
-        super("ClassReader");
-    }
-
     protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
         populateCommandLineSwitchesForXMLOutput(XMLPrinter.DEFAULT_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX, XMLPrinter.DEFAULT_INDENT_TEXT);

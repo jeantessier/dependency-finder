@@ -40,10 +40,6 @@ import com.jeantessier.dependency.Printer;
 import com.jeantessier.dependency.TextPrinter;
 
 public class DependencyReporter extends DependencyGraphCommand {
-    public DependencyReporter() throws CommandLineException {
-        super("DependencyReporter");
-    }
-
     protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
         populateCommandLineSwitchesForXMLOutput(XMLPrinter.DEFAULT_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX, XMLPrinter.DEFAULT_INDENT_TEXT);

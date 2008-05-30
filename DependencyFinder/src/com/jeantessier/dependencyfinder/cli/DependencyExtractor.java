@@ -39,10 +39,6 @@ import com.jeantessier.commandline.*;
 import com.jeantessier.dependency.*;
 
 public class DependencyExtractor extends DirectoryExplorerCommand {
-    public DependencyExtractor() throws CommandLineException {
-        super("DependencyExtractor");
-    }
-
     protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
         populateCommandLineSwitchesForXMLOutput(com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING, com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX, com.jeantessier.dependency.XMLPrinter.DEFAULT_INDENT_TEXT);

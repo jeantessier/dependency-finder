@@ -40,10 +40,6 @@ import com.jeantessier.commandline.*;
  * TODO: javadocs
  */
 public abstract class DirectoryExplorerCommand extends Command {
-    public DirectoryExplorerCommand(String name) throws CommandLineException {
-        super(name);
-    }
-
     protected void showSpecificUsage(PrintStream out) {
         out.println();
         out.println("If no files are specified, it processes the current directory.");

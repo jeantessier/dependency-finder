@@ -44,10 +44,6 @@ public class OOMetrics extends DirectoryExplorerCommand {
     public static final String DEFAULT_PROJECT_NAME = "Project";
     public static final String DEFAULT_SORT = "name";
 
-    public OOMetrics() throws CommandLineException {
-        super("OOMetrics");
-    }
-
     protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
         populateCommandLineSwitchesForXMLOutput(com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING, com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX, com.jeantessier.metrics.XMLPrinter.DEFAULT_INDENT_TEXT);

@@ -39,10 +39,6 @@ import com.jeantessier.commandline.*;
 import com.jeantessier.diff.*;
 
 public class ListDiff extends Command {
-    public ListDiff() throws CommandLineException {
-        super("ListDiff");
-    }
-
     protected void showSpecificUsage(PrintStream out) {
         out.println();
         out.println("Defaults is text output to the console.");

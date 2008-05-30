@@ -35,14 +35,9 @@ package com.jeantessier.dependencyfinder.cli;
 import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
-import com.jeantessier.commandline.*;
 import com.jeantessier.diff.*;
 
 public class JarJarDiff extends DiffCommand {
-    public JarJarDiff() throws CommandLineException {
-        super("JarJarDiff");
-    }
-
     protected void doProcessing() throws Exception {
         // Collecting data, first classfiles from JARs,
         // then package/class trees using NodeFactory.

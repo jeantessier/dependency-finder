@@ -35,13 +35,8 @@ package com.jeantessier.dependencyfinder.cli;
 import java.util.*;
 
 import com.jeantessier.classreader.*;
-import com.jeantessier.commandline.*;
 
 public class ClassFinder extends DirectoryExplorerCommand {
-    public ClassFinder() throws CommandLineException {
-        super("ClassFinder");
-    }
-
     protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
 

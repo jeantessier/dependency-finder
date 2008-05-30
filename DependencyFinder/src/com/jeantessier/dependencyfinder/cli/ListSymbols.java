@@ -38,10 +38,6 @@ import com.jeantessier.classreader.*;
 import com.jeantessier.commandline.*;
 
 public class ListSymbols extends DirectoryExplorerCommand {
-    public ListSymbols() throws CommandLineException {
-        super("ListSymbols");
-    }
-
     protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
 

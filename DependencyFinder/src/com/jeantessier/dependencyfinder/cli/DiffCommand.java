@@ -32,22 +32,18 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import java.lang.reflect.*;
 import java.io.*;
+import java.lang.reflect.*;
 
-import com.jeantessier.commandline.*;
-import com.jeantessier.diff.*;
 import org.apache.log4j.*;
+
+import com.jeantessier.diff.*;
 
 public abstract class DiffCommand extends Command {
     public static final String API_STRATEGY = "api";
     public static final String INCOMPATIBLE_STRATEGY = "incompatible";
 
     public static final String DEFAULT_LEVEL = API_STRATEGY;
-
-    public DiffCommand(String name) throws CommandLineException {
-        super(name);
-    }
 
     protected void showSpecificUsage(PrintStream out) {
         out.println();

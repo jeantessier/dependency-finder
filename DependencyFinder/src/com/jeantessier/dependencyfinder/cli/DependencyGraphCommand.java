@@ -37,17 +37,12 @@ import javax.xml.parsers.*;
 
 import org.xml.sax.*;
 
-import com.jeantessier.commandline.*;
 import com.jeantessier.dependency.*;
 
 /**
  * TODO Class comments
  */
 public abstract class DependencyGraphCommand extends Command {
-    public DependencyGraphCommand(String name) throws CommandLineException {
-        super(name);
-    }
-
     protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
 

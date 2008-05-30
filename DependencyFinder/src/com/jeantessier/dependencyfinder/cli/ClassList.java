@@ -35,13 +35,8 @@ package com.jeantessier.dependencyfinder.cli;
 import java.util.*;
 
 import com.jeantessier.classreader.*;
-import com.jeantessier.commandline.*;
 
 public class ClassList extends DirectoryExplorerCommand {
-    public ClassList() throws CommandLineException {
-        super("ClassList");
-    }
-
     public void doProcessing() throws Exception {
         for (String filename : getCommandLine().getParameters()) {
             ClassfileLoader loader = new AggregatingClassfileLoader();

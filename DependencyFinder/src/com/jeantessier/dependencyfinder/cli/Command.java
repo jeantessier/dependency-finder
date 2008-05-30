@@ -14,7 +14,6 @@ public abstract class Command {
     public static final String DEFAULT_LOGFILE = "System.out";
     public static final String DEFAULT_INCLUDES = "//";
 
-    private String name;
     private CommandLine commandLine;
     private CommandLineUsage commandLineUsage;
 
@@ -22,12 +21,8 @@ public abstract class Command {
     private VerboseListener verboseListener;
     protected PrintWriter out;
 
-    public Command(String name) throws CommandLineException {
-        this.name = name;
-    }
-
     public String getName() {
-        return name;
+        return getClass().getSimpleName();
     }
 
     private void resetCommandLine() {

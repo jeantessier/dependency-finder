@@ -33,13 +33,8 @@
 package com.jeantessier.dependencyfinder.cli;
 
 import com.jeantessier.classreader.*;
-import com.jeantessier.commandline.*;
 
 public class ListDeprecatedElements extends DirectoryExplorerCommand {
-    public ListDeprecatedElements() throws CommandLineException {
-        super("ListDeprecatedElements");
-    }
-
     protected void doProcessing() throws Exception {
         DeprecationPrinter printer = new DeprecationPrinter(out);
 

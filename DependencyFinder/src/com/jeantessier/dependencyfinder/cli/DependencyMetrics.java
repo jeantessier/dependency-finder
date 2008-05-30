@@ -38,10 +38,6 @@ import com.jeantessier.commandline.*;
 import com.jeantessier.dependency.*;
 
 public class DependencyMetrics extends DependencyGraphCommand {
-    public DependencyMetrics() throws CommandLineException {
-        super("DependencyMetrics");
-    }
-
     protected void populateCommandLineSwitches()  {
         super.populateCommandLineSwitches();
 

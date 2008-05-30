@@ -38,10 +38,6 @@ import com.jeantessier.dependency.TextPrinter;
 import com.jeantessier.dependency.*;
 
 public class DependencyClosure extends DependencyGraphCommand {
-    public DependencyClosure() throws CommandLineException {
-        super("DependencyClosure");
-    }
-
     protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
         populateCommandLineSwitchesForXMLOutput(XMLPrinter.DEFAULT_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX, XMLPrinter.DEFAULT_INDENT_TEXT);

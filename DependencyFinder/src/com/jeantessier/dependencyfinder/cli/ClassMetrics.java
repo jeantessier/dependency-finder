@@ -35,15 +35,10 @@ package com.jeantessier.dependencyfinder.cli;
 import java.util.*;
 
 import com.jeantessier.classreader.*;
-import com.jeantessier.commandline.*;
 import com.jeantessier.text.*;
 
 public class ClassMetrics extends DirectoryExplorerCommand {
     private boolean list;
-
-    public ClassMetrics() throws CommandLineException {
-        super("ClassMetrics");
-    }
 
     protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
