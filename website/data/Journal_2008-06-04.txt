@@ -1,0 +1,11 @@
+Tried to compile and run the tests with JDK 1.6.  Some of the tests fail
+because of the new attribute =StackMapTable=, but other tests in
+=com.jeantessier.diff= were also failing.  It turns out that
+=APIDifferenceStrategy= uses =HashMap= internally to accumulate symbols when
+looking for differences.  The iteration order is different between JDK 1.5 and
+JDK 1.6, which results in the strategy using different code paths to decide
+that two classes are different.  This throws off =MockDifferenceStrategy= and
+therefore breaks the test.  =APIDifferenceStrategy= could use a =TreeMap=
+instead, which would guarantee the iteration order.  While I'm at it, I should
+probably re-write those tests to use jMock instead of a hand-rolled mock and
+data read from disk.
