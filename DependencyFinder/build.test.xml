@@ -26,7 +26,9 @@
     </path>
 
     <path id="classpath.junit">
-        <pathelement location="${env.JUNIT_HOME}/junit.jar"/>
+        <fileset dir="${env.JUNIT_HOME}">
+            <include name="**/*.jar"/>
+        </fileset>
     </path>
 
     <path id="classpath.jmock">
@@ -210,6 +212,7 @@
         <junit fork="true">
             <classpath>
                 <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.jmock"/>
             </classpath>
             <formatter type="xml"/>
             <batchtest todir="${testReportsDir}">
@@ -280,6 +283,7 @@
         <junit fork="true">
             <classpath>
                 <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.jmock"/>
             </classpath>
             <formatter type="xml"/>
             <batchtest todir="${testReportsDir}">

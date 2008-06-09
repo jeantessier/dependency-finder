@@ -1092,14 +1092,18 @@ home directory for the current user.  This depends on your operating system.
 On Unix, it is =$HOME= and is typically =/home/_username_=.  On Windows, it is
 typically =C:\Documents&nbsp;and&nbsp;Settings\_username_=.
 
+I recommend you use JUnit 4.4 or later, where the JAR file is named
+=junit-X.Y.jar=, but everything should work as is with any version of JUnit 3.8
+and above (where the JAR file was named =junit.jar=), and even some older ones.
+
 To run all tests and generate test reports in the =reports= directory:
 
-    1 =set CLASSPATH%3D%JUNIT_HOME%\junit.jar=
+    1 =set CLASSPATH%3D%JUNIT_HOME%\junit-4.4.jar=
     1 =ant -f build.test.xml=
 
 or, to run tests manually:
 
-    1 =set CLASSPATH%3D%JUNIT_HOME%\junit.jar=
+    1 =set CLASSPATH%3D%JUNIT_HOME%\junit-4.4.jar=
     1 =ant -f build.test.xml compile=
     1 =textjunit TestAll=
     1 =textjunit com.jeantessier.fitlibrary.TestAll=
