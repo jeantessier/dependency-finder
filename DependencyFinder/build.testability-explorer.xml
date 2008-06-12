@@ -1,0 +1,86 @@
+<project name="Testability-Explorer" default="all" basedir=".">
+
+    <description>
+        Code metrics with testability-explorer for Dependency Finder
+    </description>
+
+    <property environment="env"/>
+
+    <path id="testability-explorer.lib" >
+        <fileset dir="${env.TESTABILITYEXPLORER_HOME}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <taskdef name="testability" classname="com.google.ant.TestabilityTask" classpathref="testability-explorer.lib"/>
+
+    <target name="init">
+        <!-- code metrics output directory: -->
+        <property name="reports.dir" value="reports"/>
+        <property name="testability-explorer.reports.dir" value="${reports.dir}/testability-explorer"/>
+    </target>
+
+    <target name="main.jar">
+        <ant antfile="build.xml" target="jar" inheritAll="false"/>
+    </target>
+
+    <target name="main.clean">
+        <ant antfile="build.xml" target="clean" inheritAll="false"/>
+    </target>
+
+    <target name="all" depends="clean, main.jar, report"
+            description="Makes a clean compile and runs code coverage analysis"/>
+
+    <target name="clean" depends="init, main.clean"
+            description="Removes all produced files">
+        <delete dir="${testability-explorer.reports.dir}"
+                includeEmptyDirs="true"
+                verbose="true"/>
+    </target>
+
+    <target name="report" depends="report.txt, report.html"
+            description="Produces the coverate reports"/>
+
+    <target name="report.txt" depends="init">
+        <mkdir dir="${testability-explorer.reports.dir}"/>
+        <testability filter="com.jeantessier" print="summary" resultfile="${testability-explorer.reports.dir}/testability.result.txt" errorfile="${testability-explorer.reports.dir}/testability.err.txt" whitelist="java.*:org.apache.log4j.*">
+            <fileset dir="lib">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="${env.JAVA_HOME}/lib">
+                <include name="tools.jar"/>
+            </fileset>
+            <fileset dir="${env.ANT_HOME}/lib">
+                <include name="ant-launcher.jar"/>
+                <include name="ant.jar"/>
+            </fileset>
+            <fileset dir="${env.WEBWORK_HOME}">
+                <include name="webwork-*.jar"/>
+                <exclude name="webwork-src*.jar"/>
+                <include name="lib/default/*.jar"/>
+            </fileset>
+        </testability>
+    </target>
+
+    <target name="report.html" depends="init">
+        <mkdir dir="${testability-explorer.reports.dir}"/>
+        <testability filter="com.jeantessier" print="html" resultfile="${testability-explorer.reports.dir}/testability.result.html" errorfile="${testability-explorer.reports.dir}/testability.err.html" whitelist="java.*:org.apache.log4j.*">
+            <fileset dir="lib">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="${env.JAVA_HOME}/lib">
+                <include name="tools.jar"/>
+            </fileset>
+            <fileset dir="${env.ANT_HOME}/lib">
+                <include name="ant-launcher.jar"/>
+                <include name="ant.jar"/>
+            </fileset>
+            <fileset dir="${env.WEBWORK_HOME}">
+                <include name="webwork-*.jar"/>
+                <exclude name="webwork-src*.jar"/>
+                <include name="lib/default/*.jar"/>
+            </fileset>
+        </testability>
+    </target>
+
+</project>
