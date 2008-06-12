@@ -1,23 +1,23 @@
-<project name="Testability-Explorer" default="all" basedir=".">
+<project name="Testability Explorer" default="all" basedir=".">
 
     <description>
-        Code metrics with testability-explorer for Dependency Finder
+        Code metrics with Testability Explorer for Dependency Finder
     </description>
 
     <property environment="env"/>
 
-    <path id="testability-explorer.lib" >
+    <path id="testabilityexplorer.lib" >
         <fileset dir="${env.TESTABILITYEXPLORER_HOME}">
             <include name="**/*.jar"/>
         </fileset>
     </path>
 
-    <taskdef name="testability" classname="com.google.ant.TestabilityTask" classpathref="testability-explorer.lib"/>
+    <taskdef name="testability" classname="com.google.ant.TestabilityTask" classpathref="testabilityexplorer.lib"/>
 
     <target name="init">
         <!-- code metrics output directory: -->
         <property name="reports.dir" value="reports"/>
-        <property name="testability-explorer.reports.dir" value="${reports.dir}/testability-explorer"/>
+        <property name="testabilityexplorer.reports.dir" value="${reports.dir}/testability-explorer"/>
     </target>
 
     <target name="main.jar">
@@ -33,7 +33,7 @@
 
     <target name="clean" depends="init, main.clean"
             description="Removes all produced files">
-        <delete dir="${testability-explorer.reports.dir}"
+        <delete dir="${testabilityexplorer.reports.dir}"
                 includeEmptyDirs="true"
                 verbose="true"/>
     </target>
@@ -42,8 +42,8 @@
             description="Produces the coverate reports"/>
 
     <target name="report.txt" depends="init">
-        <mkdir dir="${testability-explorer.reports.dir}"/>
-        <testability filter="com.jeantessier" print="summary" resultfile="${testability-explorer.reports.dir}/testability.result.txt" errorfile="${testability-explorer.reports.dir}/testability.err.txt" whitelist="java.*:org.apache.log4j.*">
+        <mkdir dir="${testabilityexplorer.reports.dir}"/>
+        <testability filter="com.jeantessier" print="summary" resultfile="${testabilityexplorer.reports.dir}/testability.result.txt" errorfile="${testabilityexplorer.reports.dir}/testability.err.txt" whitelist="java.*:org.apache.log4j.*">
             <fileset dir="lib">
                 <include name="*.jar"/>
             </fileset>
@@ -63,8 +63,8 @@
     </target>
 
     <target name="report.html" depends="init">
-        <mkdir dir="${testability-explorer.reports.dir}"/>
-        <testability filter="com.jeantessier" print="html" resultfile="${testability-explorer.reports.dir}/testability.result.html" errorfile="${testability-explorer.reports.dir}/testability.err.html" whitelist="java.*:org.apache.log4j.*">
+        <mkdir dir="${testabilityexplorer.reports.dir}"/>
+        <testability filter="com.jeantessier" print="html" resultfile="${testabilityexplorer.reports.dir}/testability.result.html" errorfile="${testabilityexplorer.reports.dir}/testability.err.html" whitelist="java.*:org.apache.log4j.*">
             <fileset dir="lib">
                 <include name="*.jar"/>
             </fileset>
