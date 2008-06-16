@@ -37,7 +37,7 @@ public class SymbolGatherer extends CollectorBase {
     private boolean collectingFieldNames  = true;
     private boolean collectingMethodNames = true;
     private boolean collectingLocalNames  = true;
-    
+
     private Method_info currentMethod = null;
 
     public boolean isCollectingClassNames() {
@@ -71,7 +71,7 @@ public class SymbolGatherer extends CollectorBase {
     public void setCollectingLocalNames(boolean collectingLocalNames) {
         this.collectingLocalNames = collectingLocalNames;
     }
-    
+
     // Classfile
     public void visitClassfile(Classfile classfile) {
         if (isCollectingClassNames()) {
@@ -86,7 +86,7 @@ public class SymbolGatherer extends CollectorBase {
         if (isCollectingFieldNames()) {
             add(entry.getFullSignature());
         }
-        
+
         super.visitField_info(entry);
     }
 
