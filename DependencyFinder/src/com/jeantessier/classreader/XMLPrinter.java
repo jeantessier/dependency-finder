@@ -367,7 +367,8 @@ public class XMLPrinter extends Printer {
         if (entry.isFinal())     indent().append("<final/>").eol();
         if (entry.isVolatile())  indent().append("<volatile/>").eol();
         if (entry.isTransient()) indent().append("<transient/>").eol();
-    
+        if (entry.isSynthetic()) indent().append("<synthetic/>").eol();
+
         indent();
         append("<name>");
         entry.getRawName().accept(this);
@@ -400,6 +401,7 @@ public class XMLPrinter extends Printer {
         if (entry.isNative())       indent().append("<native/>").eol();
         if (entry.isAbstract())     indent().append("<abstract/>").eol();
         if (entry.isStrict())       indent().append("<strict/>").eol();
+        if (entry.isSynthetic())    indent().append("<synthetic/>").eol();
 
         indent();
         append("<name>");
@@ -632,6 +634,7 @@ public class XMLPrinter extends Printer {
         if (helper.isFinal())     indent().append("<final/>").eol();
         if (helper.isInterface()) indent().append("<is-interface/>").eol();
         if (helper.isAbstract())  indent().append("<abstract/>").eol();
+        if (helper.isSynthetic()) indent().append("<synthetic/>").eol();
 
         indent();
         append("<inner-class-info>");

@@ -33,7 +33,6 @@
 package com.jeantessier.classreader;
 
 import java.io.*;
-import java.util.*;
 
 public abstract class Printer extends VisitorBase {
     public static final String DEFAULT_INDENT_TEXT = "    ";

@@ -7,3 +7,6 @@ match at least one strategy.
 
 Created a custom =SymbolGathererStrategy= for detecting non-private, non-static
 fields.
+
+Added =&lt;synthetic&gt;= tags to fields, methods, and inner classes in the XML
+representation of =Classfile=.

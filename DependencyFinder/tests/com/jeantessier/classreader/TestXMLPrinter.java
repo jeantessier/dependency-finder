@@ -38,8 +38,8 @@ import javax.xml.parsers.*;
 import javax.xml.xpath.*;
 
 import org.apache.oro.text.perl.*;
-import org.jmock.integration.junit3.*;
 import org.jmock.*;
+import org.jmock.integration.junit3.*;
 import org.w3c.dom.*;
 import org.xml.sax.*;
 
@@ -190,6 +190,158 @@ public class TestXMLPrinter extends MockObjectTestCase {
 
         String xmlDocument = buffer.toString();
         assertXPath(xmlDocument, "*/classfile", loader.getAllClassfiles().size());
+    }
+
+    public void testNonSyntheticField() throws Exception {
+        final Field_info mockField = mock(Field_info.class);
+
+        checking(new Expectations() {{
+            allowing (mockField).getAccessFlag();
+            allowing (mockField).isPublic();
+            allowing (mockField).isProtected();
+            allowing (mockField).isPrivate();
+            allowing (mockField).isStatic();
+            allowing (mockField).isFinal();
+            allowing (mockField).isVolatile();
+            allowing (mockField).isTransient();
+            one (mockField).isSynthetic(); will(returnValue(false));
+            allowing (mockField).getRawName();
+            allowing (mockField).getType();
+            allowing (mockField).getAttributes();
+        }});
+
+        printer.visitField_info(mockField);
+
+        String xmlDocument = buffer.toString();
+        assertXPath(xmlDocument, "field-info/synthetic", 0);
+    }
+
+    public void testSyntheticField() throws Exception {
+        final Field_info mockField = mock(Field_info.class);
+
+        checking(new Expectations() {{
+            allowing (mockField).getAccessFlag();
+            allowing (mockField).isPublic();
+            allowing (mockField).isProtected();
+            allowing (mockField).isPrivate();
+            allowing (mockField).isStatic();
+            allowing (mockField).isFinal();
+            allowing (mockField).isVolatile();
+            allowing (mockField).isTransient();
+            one (mockField).isSynthetic(); will(returnValue(true));
+            allowing (mockField).getRawName();
+            allowing (mockField).getType();
+            allowing (mockField).getAttributes();
+        }});
+
+        printer.visitField_info(mockField);
+
+        String xmlDocument = buffer.toString();
+        assertXPath(xmlDocument, "field-info/synthetic", 1);
+    }
+
+    public void testNonSyntheticMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            allowing (mockMethod).getAccessFlag();
+            allowing (mockMethod).isPublic();
+            allowing (mockMethod).isProtected();
+            allowing (mockMethod).isPrivate();
+            allowing (mockMethod).isStatic();
+            allowing (mockMethod).isFinal();
+            allowing (mockMethod).isSynchronized();
+            allowing (mockMethod).isNative();
+            allowing (mockMethod).isAbstract();
+            allowing (mockMethod).isStrict();
+            one (mockMethod).isSynthetic(); will(returnValue(false));
+            allowing (mockMethod).getRawName();
+            allowing (mockMethod).getName();
+            allowing (mockMethod).getReturnType();
+            allowing (mockMethod).getSignature();
+            allowing (mockMethod).getAttributes();
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPath(xmlDocument, "method-info/synthetic", 0);
+    }
+
+    public void testSyntheticMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            allowing (mockMethod).getAccessFlag();
+            allowing (mockMethod).isPublic();
+            allowing (mockMethod).isProtected();
+            allowing (mockMethod).isPrivate();
+            allowing (mockMethod).isStatic();
+            allowing (mockMethod).isFinal();
+            allowing (mockMethod).isSynchronized();
+            allowing (mockMethod).isNative();
+            allowing (mockMethod).isAbstract();
+            allowing (mockMethod).isStrict();
+            one (mockMethod).isSynthetic(); will(returnValue(true));
+            allowing (mockMethod).getRawName();
+            allowing (mockMethod).getName();
+            allowing (mockMethod).getReturnType();
+            allowing (mockMethod).getSignature();
+            allowing (mockMethod).getAttributes();
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPath(xmlDocument, "method-info/synthetic", 1);
+    }
+
+    public void testNonSyntheticInnerClass() throws Exception {
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+
+        checking(new Expectations() {{
+            allowing (mockInnerClass).getAccessFlag();
+            allowing (mockInnerClass).isPublic();
+            allowing (mockInnerClass).isProtected();
+            allowing (mockInnerClass).isPrivate();
+            allowing (mockInnerClass).isStatic();
+            allowing (mockInnerClass).isFinal();
+            allowing (mockInnerClass).isInterface();
+            allowing (mockInnerClass).isAbstract();
+            one (mockInnerClass).isSynthetic(); will(returnValue(false));
+            allowing (mockInnerClass).getInnerClassInfoIndex();
+            allowing (mockInnerClass).getOuterClassInfoIndex();
+            allowing (mockInnerClass).getInnerNameIndex();
+        }});
+
+        printer.visitInnerClass(mockInnerClass);
+
+        String xmlDocument = buffer.toString();
+        assertXPath(xmlDocument, "inner-class/synthetic", 0);
+    }
+
+    public void testSyntheticInnerClass() throws Exception {
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+
+        checking(new Expectations() {{
+            allowing (mockInnerClass).getAccessFlag();
+            allowing (mockInnerClass).isPublic();
+            allowing (mockInnerClass).isProtected();
+            allowing (mockInnerClass).isPrivate();
+            allowing (mockInnerClass).isStatic();
+            allowing (mockInnerClass).isFinal();
+            allowing (mockInnerClass).isInterface();
+            allowing (mockInnerClass).isAbstract();
+            one (mockInnerClass).isSynthetic(); will(returnValue(true));
+            allowing (mockInnerClass).getInnerClassInfoIndex();
+            allowing (mockInnerClass).getOuterClassInfoIndex();
+            allowing (mockInnerClass).getInnerNameIndex();
+        }});
+
+        printer.visitInnerClass(mockInnerClass);
+
+        String xmlDocument = buffer.toString();
+        assertXPath(xmlDocument, "inner-class/synthetic", 1);
     }
 
     public void testVisitLocalVariable() throws Exception {
