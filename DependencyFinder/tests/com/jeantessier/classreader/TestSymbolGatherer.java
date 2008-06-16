@@ -38,17 +38,19 @@ import java.util.*;
 import junit.framework.*;
 
 public class TestSymbolGatherer extends TestCase {
-    public static final String TEST_CLASS    = "test";
+    public static final String TEST_CLASS = "test";
     public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
-    
+
+    private DefaultSymbolGathererStrategy strategy;
     private SymbolGatherer gatherer;
     private ClassfileLoader loader;
 
     protected void setUp() throws Exception {
         super.setUp();
-        
-        gatherer = new SymbolGatherer();
-        loader   = new AggregatingClassfileLoader();
+
+        strategy = new DefaultSymbolGathererStrategy();
+        gatherer = new SymbolGatherer(strategy);
+        loader = new AggregatingClassfileLoader();
         loader.addLoadListener(new LoadListenerVisitorAdapter(gatherer));
     }
 
@@ -70,10 +72,10 @@ public class TestSymbolGatherer extends TestCase {
     }
     
     public void testClassNamesOnly() {
-        gatherer.setCollectingClassNames(true);
-        gatherer.setCollectingFieldNames(false);
-        gatherer.setCollectingMethodNames(false);
-        gatherer.setCollectingLocalNames(false);
+        strategy.setMatchingClassNames(true);
+        strategy.setMatchingFieldNames(false);
+        strategy.setMatchingMethodNames(false);
+        strategy.setMatchingLocalNames(false);
         
         loader.load(Collections.singleton(TEST_FILENAME));
 
@@ -82,10 +84,10 @@ public class TestSymbolGatherer extends TestCase {
     }
     
     public void testMethodNamesOnly() {
-        gatherer.setCollectingClassNames(false);
-        gatherer.setCollectingFieldNames(false);
-        gatherer.setCollectingMethodNames(true);
-        gatherer.setCollectingLocalNames(false);
+        strategy.setMatchingClassNames(false);
+        strategy.setMatchingFieldNames(false);
+        strategy.setMatchingMethodNames(true);
+        strategy.setMatchingLocalNames(false);
         
         loader.load(Collections.singleton(TEST_FILENAME));
 
@@ -95,10 +97,10 @@ public class TestSymbolGatherer extends TestCase {
     }
     
     public void testLocalNamesOnly() {
-        gatherer.setCollectingClassNames(false);
-        gatherer.setCollectingFieldNames(false);
-        gatherer.setCollectingMethodNames(false);
-        gatherer.setCollectingLocalNames(true);
+        strategy.setMatchingClassNames(false);
+        strategy.setMatchingFieldNames(false);
+        strategy.setMatchingMethodNames(false);
+        strategy.setMatchingLocalNames(true);
         
         loader.load(Collections.singleton(TEST_FILENAME));
 

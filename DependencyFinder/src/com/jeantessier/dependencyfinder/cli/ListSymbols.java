@@ -61,18 +61,20 @@ public class ListSymbols extends DirectoryExplorerCommand {
     }
 
     protected void doProcessing() throws Exception {
-        SymbolGatherer collector = new SymbolGatherer();
-        collector.setCollectingClassNames(getCommandLine().getToggleSwitch("class-names"));
-        collector.setCollectingFieldNames(getCommandLine().getToggleSwitch("field-names"));
-        collector.setCollectingMethodNames(getCommandLine().getToggleSwitch("method-names"));
-        collector.setCollectingLocalNames(getCommandLine().getToggleSwitch("local-names"));
+        DefaultSymbolGathererStrategy gathererStrategy = new DefaultSymbolGathererStrategy();
+        gathererStrategy.setMatchingClassNames(getCommandLine().getToggleSwitch("class-names"));
+        gathererStrategy.setMatchingFieldNames(getCommandLine().getToggleSwitch("field-names"));
+        gathererStrategy.setMatchingMethodNames(getCommandLine().getToggleSwitch("method-names"));
+        gathererStrategy.setMatchingLocalNames(getCommandLine().getToggleSwitch("local-names"));
+
+        SymbolGatherer gatherer = new SymbolGatherer(gathererStrategy);
 
         ClassfileLoader loader = new TransientClassfileLoader();
-        loader.addLoadListener(new LoadListenerVisitorAdapter(collector));
+        loader.addLoadListener(new LoadListenerVisitorAdapter(gatherer));
         loader.addLoadListener(getVerboseListener());
         loader.load(getCommandLine().getParameters());
 
-        for (String symbol : collector.getCollection()) {
+        for (String symbol : gatherer.getCollection()) {
             out.println(symbol);
         }
     }

@@ -115,39 +115,40 @@ public class ListSymbols extends Task {
 
         VerboseListener verboseListener = new VerboseListener(this);
 
-        SymbolGatherer collector = new SymbolGatherer();
+        DefaultSymbolGathererStrategy gathererStrategy = new DefaultSymbolGathererStrategy();
 
-        // Since SymbolGatherer lists everything by default,
-        // we turn them all off if any of the switches are
-        // present.  This way, if you pass nothing, you get
-        // the default behavior and the tool shows everything.
-        // If you pass in one or more, you only see symbols
-        // of the kind(s) you specified.
+        // Since DefaultSymbolGathererStrategy lists everything by default,
+        // we turn them all off if any of the switches are present.
+        // This way, if you pass nothing, you get the default behavior and
+        // the tool shows everything.  If you pass in one or more, you only
+        // see symbols of the kind(s) you specified.
         if (getClassnames() || getFieldnames() || getMethodnames() || getLocalnames()) {
-            collector.setCollectingClassNames(false);
-            collector.setCollectingFieldNames(false);
-            collector.setCollectingMethodNames(false);
-            collector.setCollectingLocalNames(false);
+            gathererStrategy.setMatchingClassNames(false);
+            gathererStrategy.setMatchingFieldNames(false);
+            gathererStrategy.setMatchingMethodNames(false);
+            gathererStrategy.setMatchingLocalNames(false);
         }
 
         if (getClassnames()) {
-            collector.setCollectingClassNames(true);
+            gathererStrategy.setMatchingClassNames(true);
         }
 
         if (getFieldnames()) {
-            collector.setCollectingFieldNames(true);
+            gathererStrategy.setMatchingFieldNames(true);
         }
 
         if (getMethodnames()) {
-            collector.setCollectingMethodNames(true);
+            gathererStrategy.setMatchingMethodNames(true);
         }
 
         if (getLocalnames()) {
-            collector.setCollectingLocalNames(true);
+            gathererStrategy.setMatchingLocalNames(true);
         }
 
+        SymbolGatherer gatherer = new SymbolGatherer(gathererStrategy);
+
         ClassfileLoader loader = new TransientClassfileLoader();
-        loader.addLoadListener(new LoadListenerVisitorAdapter(collector));
+        loader.addLoadListener(new LoadListenerVisitorAdapter(gatherer));
         loader.addLoadListener(verboseListener);
         loader.load(Arrays.asList(getPath().list()));
 
@@ -155,7 +156,7 @@ public class ListSymbols extends Task {
         
         try {
             PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
-            for (String symbol : collector.getCollection()) {
+            for (String symbol : gatherer.getCollection()) {
                 out.println(symbol);
             }
             out.close();
