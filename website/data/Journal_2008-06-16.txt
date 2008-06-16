@@ -4,3 +4,6 @@ non-private fields, which I couldn't do with the code before I extracted the
 decision-making process into another object.  I'm debating if =SymbolGatherer=
 shouldn't use a collection of strategies instead, collecting symbols that
 match at least one strategy.
+
+Created a custom =SymbolGathererStrategy= for detecting non-private, non-static
+fields.

@@ -45,6 +45,8 @@ public class ListSymbols extends DirectoryExplorerCommand {
         getCommandLine().addToggleSwitch("field-names");
         getCommandLine().addToggleSwitch("method-names");
         getCommandLine().addToggleSwitch("local-names");
+
+        getCommandLine().addToggleSwitch("non-private-field-names");
     }
 
     protected Collection<CommandLineException> parseCommandLine(String[] args) {
@@ -61,11 +63,19 @@ public class ListSymbols extends DirectoryExplorerCommand {
     }
 
     protected void doProcessing() throws Exception {
-        DefaultSymbolGathererStrategy gathererStrategy = new DefaultSymbolGathererStrategy();
-        gathererStrategy.setMatchingClassNames(getCommandLine().getToggleSwitch("class-names"));
-        gathererStrategy.setMatchingFieldNames(getCommandLine().getToggleSwitch("field-names"));
-        gathererStrategy.setMatchingMethodNames(getCommandLine().getToggleSwitch("method-names"));
-        gathererStrategy.setMatchingLocalNames(getCommandLine().getToggleSwitch("local-names"));
+        SymbolGathererStrategy gathererStrategy;
+
+        if (getCommandLine().getToggleSwitch("non-private-field-names")) {
+            gathererStrategy = new NonPrivateFieldSymbolGathererStrategy();
+        } else {
+            DefaultSymbolGathererStrategy defaultGathererStrategy = new DefaultSymbolGathererStrategy();
+            defaultGathererStrategy.setMatchingClassNames(getCommandLine().getToggleSwitch("class-names"));
+            defaultGathererStrategy.setMatchingFieldNames(getCommandLine().getToggleSwitch("field-names"));
+            defaultGathererStrategy.setMatchingMethodNames(getCommandLine().getToggleSwitch("method-names"));
+            defaultGathererStrategy.setMatchingLocalNames(getCommandLine().getToggleSwitch("local-names"));
+
+            gathererStrategy = defaultGathererStrategy;
+        }
 
         SymbolGatherer gatherer = new SymbolGatherer(gathererStrategy);
 

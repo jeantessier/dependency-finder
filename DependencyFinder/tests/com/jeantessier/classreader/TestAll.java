@@ -63,6 +63,7 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestDeprecationPrinter.class);
         result.addTestSuite(TestLoadListenerVisitorAdapter.class);
         result.addTestSuite(TestMonitor.class);
+        result.addTestSuite(TestNonPrivateFieldSymbolGathererStrategy.class);
         result.addTestSuite(TestSymbolGatherer.class);
         result.addTestSuite(TestSymbolGathererWithStrategy.class);
         result.addTestSuite(TestAnnotation.class);
