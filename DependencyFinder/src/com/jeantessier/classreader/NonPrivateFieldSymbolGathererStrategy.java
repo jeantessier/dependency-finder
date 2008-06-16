@@ -38,7 +38,7 @@ public class NonPrivateFieldSymbolGathererStrategy implements SymbolGathererStra
     }
 
     public boolean isMatching(Field_info field) {
-        return !field.isPrivate() && !field.isStatic();
+        return !field.isPrivate() && !field.isStatic() && !field.isSynthetic();
     }
 
     public boolean isMatching(Method_info method) {

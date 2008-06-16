@@ -6,7 +6,7 @@ shouldn't use a collection of strategies instead, collecting symbols that
 match at least one strategy.
 
 Created a custom =SymbolGathererStrategy= for detecting non-private, non-static
-fields.
+fields, non-synthetic.
 
 Added =&lt;synthetic&gt;= tags to fields, methods, and inner classes in the XML
 representation of =Classfile=.

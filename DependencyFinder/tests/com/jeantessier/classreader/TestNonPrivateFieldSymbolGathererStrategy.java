@@ -80,12 +80,25 @@ public class TestNonPrivateFieldSymbolGathererStrategy extends MockObjectTestCas
         assertFalse("Should not match public static fields", sut.isMatching(mockField));
     }
 
+    public void testSyntheticField() {
+        final Field_info mockField = mock(Field_info.class);
+
+        checking(new Expectations() {{
+            one (mockField).isPrivate(); will(returnValue(false));
+            one (mockField).isStatic(); will(returnValue(false));
+            one (mockField).isSynthetic(); will(returnValue(true));
+        }});
+
+        assertFalse("Should not match synthetic fields", sut.isMatching(mockField));
+    }
+
     public void testPublicNormalField() {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
             one (mockField).isPrivate(); will(returnValue(false));
             one (mockField).isStatic(); will(returnValue(false));
+            one (mockField).isSynthetic(); will(returnValue(false));
         }});
 
         assertTrue("Should have matched public normal fields", sut.isMatching(mockField));
