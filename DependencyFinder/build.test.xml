@@ -181,6 +181,7 @@
         <junit fork="true">
             <classpath>
                 <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.jmock"/>
             </classpath>
             <formatter type="xml"/>
             <batchtest todir="${testReportsDir}">

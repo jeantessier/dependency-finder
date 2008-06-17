@@ -10,3 +10,9 @@ non-static, non-synthetic fields.
 
 Added =&lt;synthetic&gt;= tags to fields, methods, and inner classes in the XML
 representation of =Classfile=.
+
+Refactored =com.jeantessier.commandline.TestAliasSwitch= and
+=com.jeantessier.classreader.TestVisitorBase= to use jMock instead of custom
+mocks.  I was able to get 100% code coverage for
+=com.jeantessier.classreader.VisitorBase=.  I was also able to get rid
+of =com.jeantessier.commandline.MockVisitor=.

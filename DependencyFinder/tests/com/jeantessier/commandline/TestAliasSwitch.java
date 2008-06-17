@@ -32,9 +32,10 @@
 
 package com.jeantessier.commandline;
 
-import junit.framework.*;
+import org.jmock.integration.junit3.*;
+import org.jmock.*;
 
-public class TestAliasSwitch extends TestCase {
+public class TestAliasSwitch extends MockObjectTestCase {
     private static final String SWITCH_NAME = "switch";
     private static final String SWITCH_VALUE = "value";
 
@@ -121,9 +122,12 @@ public class TestAliasSwitch extends TestCase {
     }
 
     public void testAccept() {
-        MockVisitor visitor = new MockVisitor();
-        aliasSwitch.accept(visitor);
-        assertTrue("visitAliasSwitch() was called", visitor.visitAliasSwitchWasCalled());
-        assertFalse("visit() was called", visitor.visitWasCalled());
+        final Visitor mockVisitor = mock(Visitor.class);
+
+        checking(new Expectations() {{
+            one (mockVisitor).visitAliasSwitch(aliasSwitch);
+        }});
+
+        aliasSwitch.accept(mockVisitor);
     }
 }
