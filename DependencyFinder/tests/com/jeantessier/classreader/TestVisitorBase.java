@@ -177,7 +177,7 @@ public class TestVisitorBase extends MockObjectTestCase {
     }
     
     public void testVisitConstantValue_attribute() {
-        final ConstantValue_attribute mockConstantValue = mock(ConstantValue_attribute.class);
+        ConstantValue_attribute mockConstantValue = mock(ConstantValue_attribute.class);
         sut.visitConstantValue_attribute(mockConstantValue);
     }
 
@@ -202,8 +202,133 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitCode_attribute(mockCode);
     }
 
+    public void testVisitExceptions_attribute() {
+        final Exceptions_attribute mockExceptions = mock(Exceptions_attribute.class);
+        final Class_info mockClass = mock(Class_info.class);
+
+        checking(new Expectations() {{
+            exactly(2).of (mockExceptions).getExceptions();
+            will(returnValue(Collections.singleton(mockClass)));
+            one (mockClass).accept(sut);
+        }});
+
+        sut.visitExceptions_attribute(mockExceptions);
+    }
+
+    public void testVisitInnerClasses_attribute() {
+        final InnerClasses_attribute mockInnerClasses = mock(InnerClasses_attribute.class);
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+
+        checking(new Expectations() {{
+            exactly(2).of (mockInnerClasses).getInnerClasses();
+            will(returnValue(Collections.singleton(mockInnerClass)));
+            one (mockInnerClass).accept(sut);
+        }});
+
+        sut.visitInnerClasses_attribute(mockInnerClasses);
+    }
+
+    public void testVisitEnclosingMethod_attribute() {
+        EnclosingMethod_attribute mockEnclosingMethod = mock(EnclosingMethod_attribute.class);
+        sut.visitEnclosingMethod_attribute(mockEnclosingMethod);
+    }
+
+    public void testVisitSynthetic_attribute() {
+        Synthetic_attribute mockSynthetic = mock(Synthetic_attribute.class);
+        sut.visitSynthetic_attribute(mockSynthetic);
+    }
+
+    public void testVisitSignature_attribute() {
+        Signature_attribute mockSignature = mock(Signature_attribute.class);
+        sut.visitSignature_attribute(mockSignature);
+    }
+
+    public void testVisitSourceFile_attribute() {
+        SourceFile_attribute mockSourceFile = mock(SourceFile_attribute.class);
+        sut.visitSourceFile_attribute(mockSourceFile);
+    }
+
+    public void testVisitSourceDebugExtension_attribute() {
+        SourceDebugExtension_attribute mockSourceDebugExtension = mock(SourceDebugExtension_attribute.class);
+        sut.visitSourceDebugExtension_attribute(mockSourceDebugExtension);
+    }
+
+    public void testVisitLineNumberTable_attribute() {
+        final LineNumberTable_attribute mockLineNumberTable = mock(LineNumberTable_attribute.class);
+        final LineNumber mockLineNumber = mock(LineNumber.class);
+
+        checking(new Expectations() {{
+            exactly(2).of (mockLineNumberTable).getLineNumbers();
+            will(returnValue(Collections.singleton(mockLineNumber)));
+            one (mockLineNumber).accept(sut);
+        }});
+
+        sut.visitLineNumberTable_attribute(mockLineNumberTable);
+    }
+
+    public void testVisitLocalVariableTable_attribute() {
+        final LocalVariableTable_attribute mockLocalVariableTable = mock(LocalVariableTable_attribute.class);
+        final LocalVariable mockLocalVariable = mock(LocalVariable.class);
+
+        checking(new Expectations() {{
+            exactly(2).of (mockLocalVariableTable).getLocalVariables();
+            will(returnValue(Collections.singleton(mockLocalVariable)));
+            one (mockLocalVariable).accept(sut);
+        }});
+
+        sut.visitLocalVariableTable_attribute(mockLocalVariableTable);
+    }
+
+    public void testVisitLocalVariableTypeTable_attribute() {
+        final LocalVariableTypeTable_attribute mockLocalVariableTypeTable = mock(LocalVariableTypeTable_attribute.class);
+        final LocalVariableType mockLocalVariableType = mock(LocalVariableType.class);
+
+        checking(new Expectations() {{
+            exactly(2).of (mockLocalVariableTypeTable).getLocalVariableTypes();
+            will(returnValue(Collections.singleton(mockLocalVariableType)));
+            one (mockLocalVariableType).accept(sut);
+        }});
+
+        sut.visitLocalVariableTypeTable_attribute(mockLocalVariableTypeTable);
+    }
+
+    public void testVisitDeprecated_attribute() {
+        Deprecated_attribute mockDeprecated = mock(Deprecated_attribute.class);
+        sut.visitDeprecated_attribute(mockDeprecated);
+    }
+
+    public void testVisitCustom_attribute() {
+        Custom_attribute mockCustom = mock(Custom_attribute.class);
+        sut.visitCustom_attribute(mockCustom);
+    }
+
     public void testVisitInstruction() {
         Instruction mockInstruction = mock(Instruction.class);
         sut.visitInstruction(mockInstruction);
+    }
+
+    public void testVisitExceptionHandler() {
+        ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
+        sut.visitExceptionHandler(mockExceptionHandler);
+    }
+
+    public void testVisitInnerClass() {
+        InnerClass mockInnerClass = mock(InnerClass.class);
+        sut.visitInnerClass(mockInnerClass);
+    }
+
+    public void testVisitLineNumber() {
+        LineNumber mockLineNumber = mock(LineNumber.class);
+        sut.visitLineNumber(mockLineNumber);
+    }
+
+    public void testVisitLocalVariable() {
+        LocalVariable mockLocalVariable = mock(LocalVariable.class);
+        sut.visitLocalVariable(mockLocalVariable);
+    }
+
+    public void testVisitLocalVariableType() {
+        LocalVariableType mockLocalVariableType = mock(LocalVariableType.class);
+        sut.visitLocalVariableType(mockLocalVariableType);
     }
 }
