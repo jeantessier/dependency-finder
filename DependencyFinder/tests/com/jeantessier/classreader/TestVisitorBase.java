@@ -33,61 +33,177 @@
 package com.jeantessier.classreader;
 
 import java.util.*;
-import java.io.*;
 
-import junit.framework.*;
+import org.jmock.*;
+import org.jmock.integration.junit3.*;
 
-public class TestVisitorBase extends TestCase {
-    public static final String TEST_CLASS    = "test";
-    public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
-
-    private Classfile classfile;
-    private MockVisitor visitor;
+public class TestVisitorBase extends MockObjectTestCase {
+    private VisitorBase sut;
 
     protected void setUp() throws Exception {
-        ClassfileLoader loader = new AggregatingClassfileLoader();
-        loader.load(Collections.singleton(TEST_FILENAME));
-        classfile = loader.getClassfile(TEST_CLASS);
+        sut = new VisitorBase() {};
+    }
 
-        visitor = new MockVisitor();
+    public void testVisitConstantPool() {
+        final ConstantPool mockConstantPool = mock(ConstantPool.class);
+        final ConstantPoolEntry mockEntry = mock(ConstantPoolEntry.class);
+
+        checking(new Expectations() {{
+            one (mockConstantPool).iterator();
+            will(returnIterator(mockEntry));
+            one (mockEntry).accept(sut);
+        }});
+
+        sut.visitConstantPool(mockConstantPool);
+        assertEquals("current count", 1, sut.currentCount());
+    }
+
+    public void testVisitClassfiles() {
+        final Classfile mockClassfile1 = mock(Classfile.class, "classfile1");
+        final Classfile mockClassfile2 = mock(Classfile.class, "classfile2");
+
+        Collection<Classfile> classfiles = new ArrayList<Classfile>();
+        classfiles.add(mockClassfile1);
+        classfiles.add(mockClassfile2);
+
+        checking(new Expectations() {{
+            one (mockClassfile1).accept(sut);
+            one (mockClassfile2).accept(sut);
+        }});
+
+        sut.visitClassfiles(classfiles);
+    }
+
+    public void testVisitClassfile() {
+        final Classfile mockClassfile = mock(Classfile.class);
+        final Attribute_info mockAttribute = mock(Attribute_info.class);
+        final Field_info mockField = mock(Field_info.class);
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).getAttributes();
+            will(returnValue(Collections.singleton(mockAttribute)));
+            one (mockAttribute).accept(sut);
+            one (mockClassfile).getAllFields();
+            will(returnValue(Collections.singleton(mockField)));
+            one (mockField).accept(sut);
+            one (mockClassfile).getAllMethods();
+            will(returnValue(Collections.singleton(mockMethod)));
+            one (mockMethod).accept(sut);
+        }});
+
+        sut.visitClassfile(mockClassfile);
+    }
+
+    public void testVisitClass_info() {
+        Class_info mockClass = mock(Class_info.class);
+        sut.visitClass_info(mockClass);
+    }
+
+    public void testVisitFieldRef_info() {
+        FieldRef_info mockFieldRef = mock(FieldRef_info.class);
+        sut.visitFieldRef_info(mockFieldRef);
+    }
+
+    public void testVisitMethodRef_info() {
+        MethodRef_info mockMethodRef = mock(MethodRef_info.class);
+        sut.visitMethodRef_info(mockMethodRef);
+    }
+
+    public void testVisitInterfaceMethodRef_info() {
+        InterfaceMethodRef_info mockInterfaceMethodRef = mock(InterfaceMethodRef_info.class);
+        sut.visitInterfaceMethodRef_info(mockInterfaceMethodRef);
+    }
+
+    public void testVisitString_info() {
+        String_info mockString = mock(String_info.class);
+        sut.visitString_info(mockString);
+    }
+
+    public void testVisitInteger_info() {
+        Integer_info mockInteger = mock(Integer_info.class);
+        sut.visitInteger_info(mockInteger);
+    }
+
+    public void testVisitFloat_info() {
+        Float_info mockFloat = mock(Float_info.class);
+        sut.visitFloat_info(mockFloat);
+    }
+
+    public void testVisitLong_info() {
+        Long_info mockLong = mock(Long_info.class);
+        sut.visitLong_info(mockLong);
+    }
+
+    public void testVisitDouble_info() {
+        Double_info mockDouble = mock(Double_info.class);
+        sut.visitDouble_info(mockDouble);
+    }
+
+    public void testVisitNameAndType_info() {
+        NameAndType_info mockNameAndType = mock(NameAndType_info.class);
+        sut.visitNameAndType_info(mockNameAndType);
+    }
+
+    public void testVisitUTF8_info() {
+        UTF8_info mockUTF8 = mock(UTF8_info.class);
+        sut.visitUTF8_info(mockUTF8);
+    }
+
+    public void testVisitField_info() {
+        final Field_info mockField = mock(Field_info.class);
+        final Attribute_info mockAttribute = mock(Attribute_info.class);
+
+        checking(new Expectations() {{
+            one (mockField).getAttributes();
+            will(returnValue(Collections.singleton(mockAttribute)));
+            one (mockAttribute).accept(sut);
+        }});
+
+        sut.visitField_info(mockField);
+    }
+
+    public void testVisitMethod_info() {
+        final Method_info mockMethod = mock(Method_info.class);
+        final Attribute_info mockAttribute = mock(Attribute_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).getAttributes();
+            will(returnValue(Collections.singleton(mockAttribute)));
+            one (mockAttribute).accept(sut);
+        }});
+
+        sut.visitMethod_info(mockMethod);
+    }
+    
+    public void testVisitConstantValue_attribute() {
+        final ConstantValue_attribute mockConstantValue = mock(ConstantValue_attribute.class);
+        sut.visitConstantValue_attribute(mockConstantValue);
     }
 
     public void testVisitCode_attribute() {
-        Code_attribute code = classfile.getMethod("main(java.lang.String[])").getCode();
+        final Code_attribute mockCode = mock(Code_attribute.class);
+        final Instruction mockInstruction = mock(Instruction.class);
+        final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
+        final Attribute_info mockAttribute = mock(Attribute_info.class);
 
-        code.accept(visitor);
+        checking(new Expectations() {{
+            one (mockCode).iterator();
+            will(returnIterator(mockInstruction));
+            one (mockInstruction).accept(sut);
+            exactly(2).of (mockCode).getExceptionHandlers();
+            will(returnValue(Collections.singleton(mockExceptionHandler)));
+            one (mockExceptionHandler).accept(sut);
+            exactly(2).of (mockCode).getAttributes();
+            will(returnValue(Collections.singleton(mockAttribute)));
+            one (mockAttribute).accept(sut);
+        }});
 
-        assertEquals("visited ConstantValue_attributes", 0, visitor.getVisitedConstantValue_attributes().size());
-        assertEquals("visited Code_attributes", 1, visitor.getVisitedCode_attributes().size());
-        assertEquals("visited Exceptions_attributes", 0, visitor.getVisitedExceptions_attributes().size());
-        assertEquals("visited InnerClasses_attributes", 0, visitor.getVisitedInnerClasses_attributes().size());
-        assertEquals("visited EnclosingMethod_attributes", 0, visitor.getVisitedEnclosingMethod_attributes().size());
-        assertEquals("visited Synthetic_attributes", 0, visitor.getVisitedSynthetic_attributes().size());
-        assertEquals("visited Signature_attributes", 0, visitor.getVisitedSignature_attributes().size());
-        assertEquals("visited SourceFile_attributes", 0, visitor.getVisitedSourceFile_attributes().size());
-        assertEquals("visited SourceDebugExtension_attributes", 0, visitor.getVisitedSourceDebugExtension_attribute().size());
-        assertEquals("visited LineNumberTable_attributes", 1, visitor.getVisitedLineNumberTable_attributes().size());
-        assertEquals("visited LocalVariableTable_attributes", 1, visitor.getVisitedLocalVariableTable_attributes().size());
-        assertEquals("visited LocalVariableTypeTable_attributes", 0, visitor.getVisitedLocalVariableTypeTable_attributes().size());
-        assertEquals("visited Deprecated_attributes", 0, visitor.getVisitedDeprecated_attributes().size());
-//        assertEquals("visited RuntimeVisibleAnnotations_attributes", 0, visitor.getVisitedRuntimeVisibleAnnotations_attributes().size());
-//        assertEquals("visited RuntimeInvisibleAnnotations_attributes", 0, visitor.getVisitedRuntimeInvisibleAnnotations_attributes().size());
-//        assertEquals("visited RuntimeVisibleParameterAnnotations_attributes", 0, visitor.getVisitedRuntimeVisibleParameterAnnotations_attributes().size());
-//        assertEquals("visited RuntimeInvisibleParameterAnnotations_attributes", 0, visitor.getVisitedRuntimeInvisibleParameterAnnotations_attributes().size());
-//        assertEquals("visited AnnotationDefault_attributes", 0, visitor.getVisitedAnnotationDefault_attributes().size());
-        assertEquals("visited Custom_attributes", 0, visitor.getVisitedCustom_attributes().size());
-        assertEquals("visited Instructions", 11, visitor.getVisitedInstructions().size());
-        assertEquals("visited ExceptionHandlers", 1, visitor.getVisitedExceptionHandlers().size());
-        assertEquals("visited InnerClasses", 0, visitor.getVisitedInnerClasses().size());
-        assertEquals("visited LineNumbers", 5, visitor.getVisitedLineNumbers().size());
-        assertEquals("visited LocalVariables", 3, visitor.getVisitedLocalVariables().size());
+        sut.visitCode_attribute(mockCode);
     }
 
     public void testVisitInstruction() {
-        Instruction instruction = classfile.getMethod("main(java.lang.String[])").getCode().iterator().next();
-
-        instruction.accept(visitor);
-
-        assertEquals("visited Instructions", 1, visitor.getVisitedInstructions().size());
+        Instruction mockInstruction = mock(Instruction.class);
+        sut.visitInstruction(mockInstruction);
     }
 }
