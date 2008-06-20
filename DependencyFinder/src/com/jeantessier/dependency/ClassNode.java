@@ -35,12 +35,15 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public class ClassNode extends Node {
-    private PackageNode parent;
+    private PackageNode packageNode;
     private Collection<FeatureNode> features = new HashSet<FeatureNode>();
 
-    public ClassNode(PackageNode parent, String name, boolean concrete) {
+    private Collection<ClassNode> parents = new HashSet<ClassNode>();
+    private Collection<ClassNode> children = new HashSet<ClassNode>();
+
+    public ClassNode(PackageNode packageNode, String name, boolean concrete) {
         super(name, concrete);
-        this.parent = parent;
+        this.packageNode = packageNode;
     }
 
     public String getSimpleName() {
@@ -60,7 +63,7 @@ public class ClassNode extends Node {
     }
 
     public PackageNode getPackageNode() {
-        return parent;
+        return packageNode;
     }
 
     public void addFeature(FeatureNode node) {
@@ -89,5 +92,18 @@ public class ClassNode extends Node {
 
     public void acceptOutbound(Visitor visitor) {
         visitor.visitOutboundClassNode(this);
+    }
+
+    public void addParent(ClassNode parentClass) {
+        parents.add(parentClass);
+        parentClass.children.add(this);
+    }
+
+    public Collection<ClassNode> getParents() {
+        return Collections.unmodifiableCollection(parents);
+    }
+
+    public Collection<ClassNode> getChildren() {
+        return Collections.unmodifiableCollection(children);
     }
 }

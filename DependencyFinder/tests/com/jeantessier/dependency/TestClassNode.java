@@ -133,4 +133,13 @@ public class TestClassNode extends TestCase {
         assertFalse("Not referenced", classNode.isConfirmed());
         assertFalse("Not referenced", featureNode.isConfirmed());
     }
+
+    public void testAddParent() {
+        ClassNode classNode = factory.createClass("a.A");
+        ClassNode parentClass = factory.createClass("a.B");
+
+        classNode.addParent(parentClass);
+        assertTrue(classNode.getParents().contains(parentClass));
+        assertTrue(parentClass.getChildren().contains(classNode));
+    }
 }
