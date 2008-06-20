@@ -34,23 +34,13 @@ package com.jeantessier.dependency;
 
 import junit.framework.*;
 
-import org.apache.log4j.*;
-
 public class TestNodeFactory extends TestCase {
     private NodeFactory factory;
 
     protected void setUp() throws Exception {
         super.setUp();
 
-        Logger.getLogger(getClass()).debug("Begin " + getName());
-        
         factory = new NodeFactory();
-    }
-
-    protected void tearDown() throws Exception {
-        Logger.getLogger(getClass()).debug("End " + getName());
-
-        super.tearDown();
     }
 
     public void testCreatePackage() {
@@ -222,11 +212,11 @@ public class TestNodeFactory extends TestCase {
         node = factory.createPackage("a", false);
         factory.createClass("a.A", false);
         assertFalse("Not referenced", node.isConfirmed());
-        assertFalse("Not referenced", ((Node) node.getClasses().iterator().next()).isConfirmed());
+        assertFalse("Not referenced", node.getClasses().iterator().next().isConfirmed());
 
         node = factory.createPackage("a", true);
         assertTrue("Not concrete", node.isConfirmed());
-        assertFalse("Not referenced", ((Node) node.getClasses().iterator().next()).isConfirmed());
+        assertFalse("Not referenced", node.getClasses().iterator().next().isConfirmed());
     }
 
     public void testSwitchClassNodeFromReferencedToConcrete() {
@@ -259,11 +249,11 @@ public class TestNodeFactory extends TestCase {
         node = factory.createClass("a.A", false);
         factory.createFeature("a.A.a", false);
         assertFalse("Not referenced", node.isConfirmed());
-        assertFalse("Not referenced", ((Node) node.getFeatures().iterator().next()).isConfirmed());
+        assertFalse("Not referenced", node.getFeatures().iterator().next().isConfirmed());
 
         node = factory.createClass("a.A", true);
         assertTrue("Not concrete", node.isConfirmed());
-        assertFalse("Not referenced", ((Node) node.getFeatures().iterator().next()).isConfirmed());
+        assertFalse("Not referenced", node.getFeatures().iterator().next().isConfirmed());
     }
 
     public void testSwitchFeatureNodeFromReferencedToConcrete() {

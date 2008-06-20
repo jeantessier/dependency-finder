@@ -36,9 +36,11 @@ import junit.framework.*;
 
 public class TestClassNode extends TestCase {
     private NodeFactory factory;
-    private ClassNode   node;
+    private ClassNode node;
     
     protected void setUp() throws Exception {
+        super.setUp();
+        
         factory = new NodeFactory();
     }
 
@@ -69,11 +71,11 @@ public class TestClassNode extends TestCase {
 
         assertFalse("Not referenced", node.getPackageNode().isConfirmed());
         assertFalse("Not referenced", node.isConfirmed());
-        assertFalse("Not referenced", ((Node) node.getFeatures().iterator().next()).isConfirmed());
+        assertFalse("Not referenced", node.getFeatures().iterator().next().isConfirmed());
         node.setConfirmed(true);
         assertTrue("Not concrete", node.getPackageNode().isConfirmed());
         assertTrue("Not concrete", node.isConfirmed());
-        assertFalse("Not referenced", ((Node) node.getFeatures().iterator().next()).isConfirmed());
+        assertFalse("Not referenced", node.getFeatures().iterator().next().isConfirmed());
     }
 
     public void testSwitchEmptyClassNodeFromConcreteToReferenced() {
@@ -103,11 +105,11 @@ public class TestClassNode extends TestCase {
 
         assertTrue("Not concrete", node.getPackageNode().isConfirmed());
         assertTrue("Not concrete", node.isConfirmed());
-        assertTrue("Not concrete", ((Node) node.getFeatures().iterator().next()).isConfirmed());
+        assertTrue("Not concrete", node.getFeatures().iterator().next().isConfirmed());
         node.setConfirmed(false);
         assertFalse("Not referenced", node.getPackageNode().isConfirmed());
         assertFalse("Not referenced", node.isConfirmed());
-        assertFalse("Not referenced", ((Node) node.getFeatures().iterator().next()).isConfirmed());
+        assertFalse("Not referenced", node.getFeatures().iterator().next().isConfirmed());
     }
 
     public void testSwitchClassNodeWithReferencedClassFromConcreteToReferenced() {
@@ -116,10 +118,10 @@ public class TestClassNode extends TestCase {
 
         assertTrue("Not concrete", node.getPackageNode().isConfirmed());
         assertTrue("Not concrete", node.isConfirmed());
-        assertFalse("Not referenced", ((Node) node.getFeatures().iterator().next()).isConfirmed());
+        assertFalse("Not referenced", node.getFeatures().iterator().next().isConfirmed());
         node.setConfirmed(false);
         assertFalse("Not referenced", node.getPackageNode().isConfirmed());
         assertFalse("Not referenced", node.isConfirmed());
-        assertFalse("Not referenced", ((Node) node.getFeatures().iterator().next()).isConfirmed());
+        assertFalse("Not referenced", node.getFeatures().iterator().next().isConfirmed());
     }
 }

@@ -55,10 +55,10 @@ public class TestPackageNode extends TestCase {
         factory.createClass("a.A", false);
 
         assertFalse("Not referenced", node.isConfirmed());
-        assertFalse("Not referenced", ((Node) node.getClasses().iterator().next()).isConfirmed());
+        assertFalse("Not referenced", node.getClasses().iterator().next().isConfirmed());
         node.setConfirmed(true);
         assertTrue("Not concrete", node.isConfirmed());
-        assertFalse("Not referenced", ((Node) node.getClasses().iterator().next()).isConfirmed());
+        assertFalse("Not referenced", node.getClasses().iterator().next().isConfirmed());
     }
 
     public void testSwitchEmptyPackageNodeFromConcreteToReferenced() {
@@ -74,10 +74,10 @@ public class TestPackageNode extends TestCase {
         factory.createClass("a.A", true);
 
         assertTrue("Not concrete", node.isConfirmed());
-        assertTrue("Not concrete", ((Node) node.getClasses().iterator().next()).isConfirmed());
+        assertTrue("Not concrete", node.getClasses().iterator().next().isConfirmed());
         node.setConfirmed(false);
         assertTrue("Not concrete", node.isConfirmed());
-        assertTrue("Not concrete", ((Node) node.getClasses().iterator().next()).isConfirmed());
+        assertTrue("Not concrete", node.getClasses().iterator().next().isConfirmed());
     }
 
     public void testSwitchPackageNodeWithReferencedClassFromConcreteToReferenced() {
@@ -85,9 +85,9 @@ public class TestPackageNode extends TestCase {
         factory.createClass("a.A", false);
 
         assertTrue("Not concrete", node.isConfirmed());
-        assertFalse("Not referenced", ((Node) node.getClasses().iterator().next()).isConfirmed());
+        assertFalse("Not referenced", node.getClasses().iterator().next().isConfirmed());
         node.setConfirmed(false);
         assertFalse("Not referenced", node.isConfirmed());
-        assertFalse("Not referenced", ((Node) node.getClasses().iterator().next()).isConfirmed());
+        assertFalse("Not referenced", node.getClasses().iterator().next().isConfirmed());
     }
 }
