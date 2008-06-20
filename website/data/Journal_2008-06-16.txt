@@ -16,3 +16,14 @@ Refactored =com.jeantessier.commandline.TestAliasSwitch= and
 mocks.  I was able to get 100% code coverage for
 =com.jeantessier.classreader.VisitorBase=.  I was also able to get rid
 of =com.jeantessier.commandline.MockVisitor=.
+
+With this in place, I was able to used Dependency Finder on another project to
+find dependencies on non-private fields.
+
+    $ DependencyExtractor -xml -out df.xml [JARs ...]
+    $ ListSymbols -non-private-field-names -out names.txt [JARs ...]
+    $ DependencyReporter -scope-includes-list names.txt -class-filter -show-inbounds -show-empty-nodes df.xml
+
+I could then use these results to track where one class acceses the fields of
+another class and replace them with accessors.
+ 

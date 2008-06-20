@@ -1,0 +1,39 @@
+Found a problem with my list of non-final fields and the methods that depend on
+them.  A field may be protected and used by a subclass, but Dependency Finder
+will not flag it.
+
+For example:
+
+    public class Superclass {
+        protected int count;
+    }
+
+    public class Derived extends Superclass {
+        public void increment() {
+            count++;
+        }
+    }
+
+yields this dependency graph:
+
+    &nbsp;
+        Derived
+            --&gt; Superclass
+            Derived()
+                --&gt; Superclass.Superclass()
+            count *
+                &lt;-- Derived.increment()
+            increment()
+                --&gt; Derived.count *
+        Superclass
+            &lt;-- Derived
+            --&gt; java.lang.Object *
+            Superclass()
+                &lt;-- Derived.Derived()
+                --&gt; java.lang.Object.Object() *
+            count
+
+Here, =Superclass.count= is clearly a non-private field.  But
+=Derived.increment()= depends on =Derived.count=, not =Superclass.count=.  The
+dependency graph does not contain information about the class hierarchy, so
+there is no way to discover that =Derived.count= is really =Superclass.count=.
