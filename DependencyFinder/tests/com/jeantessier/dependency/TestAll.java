@@ -88,6 +88,7 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestClosureStopSelector.class);
         result.addTestSuite(TestTransitiveClosureEngine.class);
         result.addTestSuite(TestMetricsGatherer.class);
+        result.addTestSuite(TestLCOM4Gatherer.class);
 
         return result;
     }

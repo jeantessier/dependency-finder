@@ -1,0 +1,1 @@
+First attempt at computing LCOM4 from the dependency graph.
