@@ -3,4 +3,3 @@ order-sensitive.  Right now, the components are stored in a =HashSet=, so the
 iteration order during tests would change depending on the implementation of
 =HashSet=.  The previous checks in the tests were assuming a specific order, so
 the tests were brittle.
-  
