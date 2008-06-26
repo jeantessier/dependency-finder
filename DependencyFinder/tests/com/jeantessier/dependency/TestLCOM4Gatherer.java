@@ -114,9 +114,8 @@ public class TestLCOM4Gatherer extends TestCase {
         Collection<Collection<FeatureNode>> components = actualResults.get(featureNode1.getClassNode());
         assertEquals("LCOM4 of class w/ two connected features", 2, components.size());
 
-        Iterator<Collection<FeatureNode>> componentIterator = components.iterator();
-        assertComponentEquals(componentIterator.next(), featureNode2);
-        assertComponentEquals(componentIterator.next(), featureNode1);
+        assertAtLeastOneComponentEquals(components, featureNode1);
+        assertAtLeastOneComponentEquals(components, featureNode2);
     }
 
     /**
@@ -138,8 +137,7 @@ public class TestLCOM4Gatherer extends TestCase {
         Collection<Collection<FeatureNode>> components = actualResults.get(featureNode1.getClassNode());
         assertEquals("LCOM4 of class w/ two connected features", 1, components.size());
 
-        Iterator<Collection<FeatureNode>> componentIterator = components.iterator();
-        assertComponentEquals(componentIterator.next(), featureNode1, featureNode2);
+        assertAtLeastOneComponentEquals(components, featureNode1, featureNode2);
     }
 
     /**
@@ -163,8 +161,7 @@ public class TestLCOM4Gatherer extends TestCase {
         Collection<Collection<FeatureNode>> components = actualResults.get(featureNode1.getClassNode());
         assertEquals("LCOM4 of class w/ three connected features", 1, components.size());
 
-        Iterator<Collection<FeatureNode>> componentIterator = components.iterator();
-        assertComponentEquals(componentIterator.next(), featureNode1, featureNode2, featureNode3);
+        assertAtLeastOneComponentEquals(components, featureNode1, featureNode2, featureNode3);
     }
 
     /**
@@ -187,8 +184,7 @@ public class TestLCOM4Gatherer extends TestCase {
         Collection<Collection<FeatureNode>> components = actualResults.get(featureNode1.getClassNode());
         assertEquals("LCOM4 of class w/ feature connected to other class", 1, components.size());
 
-        Iterator<Collection<FeatureNode>> componentIterator = components.iterator();
-        assertComponentEquals(componentIterator.next(), featureNode1);
+        assertAtLeastOneComponentEquals(components, featureNode1);
     }
 
     /**
@@ -214,15 +210,27 @@ public class TestLCOM4Gatherer extends TestCase {
         Collection<Collection<FeatureNode>> components = actualResults.get(featureNode1.getClassNode());
         assertEquals("LCOM4 of class w/ features connected through other class", 2, components.size());
 
-        Iterator<Collection<FeatureNode>> componentIterator = components.iterator();
-        assertComponentEquals(componentIterator.next(), featureNode3);
-        assertComponentEquals(componentIterator.next(), featureNode1);
+        assertAtLeastOneComponentEquals(components, featureNode1);
+        assertAtLeastOneComponentEquals(components, featureNode3);
     }
 
-    private void assertComponentEquals(Collection<FeatureNode> component, FeatureNode ... expectedNodes) {
-        assertEquals("Size of first component", expectedNodes.length, component.size());
-        for (FeatureNode expectedNode : expectedNodes) {
-            assertTrue(expectedNode + " not in " + component, component.contains(expectedNode));
+    private void assertAtLeastOneComponentEquals(Collection<Collection<FeatureNode>> components, FeatureNode ... expectedNodes) {
+        boolean found = false;
+
+        for (Collection<FeatureNode> component : components) {
+            found = found || checkComponentEquals(component, expectedNodes);
         }
+
+        assertTrue(Arrays.asList(expectedNodes) + " not in " + components, found);
+    }
+
+    private boolean checkComponentEquals(Collection<FeatureNode> component, FeatureNode ... expectedNodes) {
+        boolean result = expectedNodes.length == component.size();
+
+        for (FeatureNode expectedNode : expectedNodes) {
+            result = result && component.contains(expectedNode);
+        }
+
+        return result;
     }
 }
