@@ -214,6 +214,20 @@ public class TestLCOM4Gatherer extends TestCase {
         assertAtLeastOneComponentEquals(components, featureNode3);
     }
 
+    public void testIgnoreConstructor() {
+        ClassNode classNode = factory.createClass("One");
+        factory.createFeature("One.One()");
+
+        sut.traverseNodes(factory.getPackages().values());
+
+        Map<ClassNode, Collection<Collection<FeatureNode>>> actualResults = sut.getResults();
+        assertEquals(1, actualResults.keySet().size());
+        assertTrue(actualResults.containsKey(classNode));
+
+        Collection<Collection<FeatureNode>> components = actualResults.get(classNode);
+        assertEquals("LCOM4 of class w/ only constructors", 0, components.size());
+    }
+
     private void assertAtLeastOneComponentEquals(Collection<Collection<FeatureNode>> components, FeatureNode ... expectedNodes) {
         boolean found = false;
 

@@ -34,11 +34,17 @@ package com.jeantessier.dependency;
 
 import java.util.*;
 
+import org.apache.oro.text.perl.*;
+
 public class LCOM4Gatherer implements Visitor {
+    private static final Perl5Util perl = new Perl5Util();
+
     private Map<ClassNode, Collection<Collection<FeatureNode>>> results = new HashMap<ClassNode, Collection<Collection<FeatureNode>>>();
     private Collection<FeatureNode> currentComponent;
     private ClassNode currentClass;
     private LinkedList<FeatureNode> unvisitedNodes;
+
+    private HashSet<Collection<FeatureNode>> currentComponents;
 
     public Map<ClassNode, Collection<Collection<FeatureNode>>> getResults() {
         return results;
@@ -65,13 +71,11 @@ public class LCOM4Gatherer implements Visitor {
     public void visitClassNode(ClassNode node) {
         currentClass = node;
 
-        HashSet<Collection<FeatureNode>> components = new HashSet<Collection<FeatureNode>>();
-        results.put(currentClass, components);
+        currentComponents = new HashSet<Collection<FeatureNode>>();
+        results.put(currentClass, currentComponents);
 
         unvisitedNodes = new LinkedList<FeatureNode>(node.getFeatures());
         while (!unvisitedNodes.isEmpty()) {
-            currentComponent = new HashSet<FeatureNode>();
-            components.add(currentComponent);
             FeatureNode firstNode = unvisitedNodes.removeFirst();
             firstNode.accept(this);
         }
@@ -86,10 +90,18 @@ public class LCOM4Gatherer implements Visitor {
     }
 
     public void visitFeatureNode(FeatureNode node) {
-        currentComponent.add(node);
+        if (!isConstructor(node)) {
+            currentComponent = new HashSet<FeatureNode>();
+            currentComponents.add(currentComponent);
+            currentComponent.add(node);
 
-        traverseInbound(node.getInboundDependencies());
-        traverseOutbound(node.getOutboundDependencies());
+            traverseInbound(node.getInboundDependencies());
+            traverseOutbound(node.getOutboundDependencies());
+        }
+    }
+
+    private boolean isConstructor(FeatureNode node) {
+        return perl.match("/(\\w+)\\.\\1\\(/", node.getName());
     }
 
     private void traverseInbound(Collection<? extends Node> inboundDependencies) {
