@@ -35,6 +35,7 @@ package com.jeantessier.metrics;
 import java.util.*;
 
 import org.apache.log4j.*;
+import org.apache.oro.text.perl.*;
 
 import com.jeantessier.classreader.*;
 
@@ -45,6 +46,8 @@ import com.jeantessier.classreader.*;
  *  by the compiler.
  */
 public class MetricsGatherer extends VisitorBase {
+    private static final Perl5Util perl = new Perl5Util();
+
     private String projectName;
     private MetricsFactory factory;
 
@@ -482,7 +485,7 @@ public class MetricsGatherer extends VisitorBase {
         boolean result;
 
         if (helper.getOuterClassInfo().equals("")) {
-            result = helper.getInnerClassInfo().matches(helper.getInnerClasses().getClassfile().getClassName() + "\\$\\d+$");
+            result = perl.match("/^" + helper.getInnerClasses().getClassfile().getClassName() + "\\$\\d+$/", helper.getInnerClassInfo());
         } else {
             result = helper.getOuterClassInfo().equals(helper.getInnerClasses().getClassfile().getClassName());
         }
