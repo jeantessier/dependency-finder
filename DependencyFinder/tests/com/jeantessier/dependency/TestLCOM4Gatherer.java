@@ -37,13 +37,15 @@ import java.util.*;
 import junit.framework.*;
 
 public class TestLCOM4Gatherer extends TestCase {
-    private LCOM4Gatherer sut;
     private NodeFactory factory;
+
+    private LCOM4Gatherer sut;
 
     protected void setUp() throws Exception {
         super.setUp();
 
         factory = new NodeFactory();
+
         sut = new LCOM4Gatherer();
     }
 
@@ -226,6 +228,28 @@ public class TestLCOM4Gatherer extends TestCase {
 
         Collection<Collection<FeatureNode>> components = actualResults.get(classNode);
         assertEquals("LCOM4 of class w/ only constructors", 0, components.size());
+    }
+
+    public void testIgnoreConstructor_WithinGraph() {
+        ClassNode classNode = factory.createClass("Three");
+        FeatureNode constructorNode = factory.createFeature("Three.Three()");
+        FeatureNode featureNode1 = factory.createFeature("Three.one");
+        FeatureNode featureNode2 = factory.createFeature("Three.two");
+
+        constructorNode.addDependency(featureNode1);
+        constructorNode.addDependency(featureNode2);
+
+        sut.traverseNodes(factory.getPackages().values());
+
+        Map<ClassNode, Collection<Collection<FeatureNode>>> actualResults = sut.getResults();
+        assertEquals(1, actualResults.keySet().size());
+        assertTrue(actualResults.containsKey(classNode));
+
+        Collection<Collection<FeatureNode>> components = actualResults.get(classNode);
+        assertEquals("LCOM4 of class w/ two features connected through the constructor " + components, 2, components.size());
+
+        assertAtLeastOneComponentEquals(components, featureNode1);
+        assertAtLeastOneComponentEquals(components, featureNode2);
     }
 
     private void assertAtLeastOneComponentEquals(Collection<Collection<FeatureNode>> components, FeatureNode ... expectedNodes) {

@@ -74,10 +74,9 @@ public class LCOM4Gatherer implements Visitor {
         currentComponents = new HashSet<Collection<FeatureNode>>();
         results.put(currentClass, currentComponents);
 
-        unvisitedNodes = new LinkedList<FeatureNode>(node.getFeatures());
+        unvisitedNodes = filterOutConstructors(currentClass.getFeatures());
         while (!unvisitedNodes.isEmpty()) {
-            FeatureNode firstNode = unvisitedNodes.removeFirst();
-            firstNode.accept(this);
+            unvisitedNodes.removeFirst().accept(this);
         }
     }
 
@@ -90,18 +89,12 @@ public class LCOM4Gatherer implements Visitor {
     }
 
     public void visitFeatureNode(FeatureNode node) {
-        if (!isConstructor(node)) {
-            currentComponent = new HashSet<FeatureNode>();
-            currentComponents.add(currentComponent);
-            currentComponent.add(node);
+        currentComponent = new HashSet<FeatureNode>();
+        currentComponents.add(currentComponent);
+        currentComponent.add(node);
 
-            traverseInbound(node.getInboundDependencies());
-            traverseOutbound(node.getOutboundDependencies());
-        }
-    }
-
-    private boolean isConstructor(FeatureNode node) {
-        return perl.match("/(\\w+)\\.\\1\\(/", node.getName());
+        traverseInbound(node.getInboundDependencies());
+        traverseOutbound(node.getOutboundDependencies());
     }
 
     private void traverseInbound(Collection<? extends Node> inboundDependencies) {
@@ -131,5 +124,21 @@ public class LCOM4Gatherer implements Visitor {
             traverseInbound(node.getInboundDependencies());
             traverseOutbound(node.getOutboundDependencies());
         }
+    }
+
+    private LinkedList<FeatureNode> filterOutConstructors(Collection<FeatureNode> featureNodes) {
+        LinkedList<FeatureNode> result = new LinkedList<FeatureNode>();
+
+        for (FeatureNode featureNode : featureNodes) {
+            if (!isConstructor(featureNode)) {
+                result.add(featureNode);
+            }
+        }
+
+        return result;
+    }
+
+    private boolean isConstructor(FeatureNode node) {
+        return perl.match("/(\\w+)\\.\\1\\(/", node.getName());
     }
 }
