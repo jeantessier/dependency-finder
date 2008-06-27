@@ -108,7 +108,7 @@ public class SelectiveTraversalStrategy implements TraversalStrategy {
         return filterCriteria.matches(node);
     }
 
-    public Collection<? extends Node> order(Collection<? extends Node> collection) {
-        return new ArrayList<Node>(collection);
+    public <T extends Node> Collection<T> order(Collection<T> collection) {
+        return new ArrayList<T>(collection);
     }
 }

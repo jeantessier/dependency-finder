@@ -39,8 +39,8 @@ public class SortedTraversalStrategy extends DecoratorTraversalStrategy {
         super(strategy);
     }
 
-    public Collection<? extends Node> order(Collection<? extends Node> collection) {
-        List<? extends Node> list = new ArrayList<Node>(collection);
+    public <T extends Node> Collection<T> order(Collection<T> collection) {
+        List<T> list = new ArrayList<T>(collection);
         Collections.sort(list);
         return list;
     }

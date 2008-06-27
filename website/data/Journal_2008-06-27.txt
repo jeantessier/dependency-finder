@@ -24,3 +24,6 @@ in the JVM itself.  And I already use =Perl5Util= everywhere anyway.
 
 Maybe this logic belongs in =FeatureNode= instead of being replicated in a lot
 of places.
+
+Changed the signature of =TraversalStrategy.order()= so it returns the exact
+same type that was passed in, using generics.
