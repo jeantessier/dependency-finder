@@ -115,7 +115,7 @@ public class ClassCohesion extends DependencyGraphCommand {
                 out.println(indentText + "--------");
                 for (Collection<FeatureNode> component : entry.getValue()) {
                     for (FeatureNode feature : component) {
-                        out.println(indentText + feature.getName());
+                        out.println(indentText + feature.getName().substring(feature.getClassNode().getName().length() + 1));
                     }
                     out.println(indentText + "--------");
                 }
@@ -139,7 +139,7 @@ public class ClassCohesion extends DependencyGraphCommand {
                 }
                 out.println(indentText + "</class>");
             } else {
-                out.println(indentText + "<class name=\"" + entry.getKey().getName() + "\" lcom4=\"" + entry.getValue().size() + "\"/>");                
+                out.println(indentText + "<class name=\"" + entry.getKey().getName() + "\" lcom4=\"" + entry.getValue().size() + "\"/>");
             }
         }
         out.println("</classes>");
