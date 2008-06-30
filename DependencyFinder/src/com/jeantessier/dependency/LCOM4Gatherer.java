@@ -52,7 +52,9 @@ public class LCOM4Gatherer implements Visitor {
 
     public void traverseNodes(Collection<? extends Node> nodes) {
         for (Node node : nodes) {
-            node.accept(this);
+            if (node.isConfirmed()) {
+                node.accept(this);
+            }
         }
     }
 
@@ -130,7 +132,7 @@ public class LCOM4Gatherer implements Visitor {
         LinkedList<FeatureNode> result = new LinkedList<FeatureNode>();
 
         for (FeatureNode featureNode : featureNodes) {
-            if (!isConstructor(featureNode)) {
+            if (featureNode.isConfirmed() && !isConstructor(featureNode)) {
                 result.add(featureNode);
             }
         }
