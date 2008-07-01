@@ -6092,7 +6092,7 @@ And here it is with =-list=:
 <div class="highlight">
 
     DependencyExtractor -xml -out test.xml classes\test.class
-    DependencyMetrics -all -list test.xml
+    DependencyMetrics -list test.xml
 
 </div>
 
@@ -10749,7 +10749,7 @@ To list all default metrics as text in =out.txt=:
 
 <div class="highlight">
 
-    OOMetrics -all -out df DependencyFinder.jar
+    OOMetrics -out df DependencyFinder.jar
 
 </div>
 
