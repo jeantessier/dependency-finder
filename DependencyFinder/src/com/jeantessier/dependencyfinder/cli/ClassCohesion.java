@@ -54,10 +54,6 @@ public class ClassCohesion extends DependencyGraphCommand {
         getCommandLine().addToggleSwitch("list");
     }
 
-    protected ParameterStrategy getParameterStrategy() {
-        return new AtLeastParameterStrategy(1);
-    }
-
     protected Collection<CommandLineException> parseCommandLine(String[] args) {
         Collection<CommandLineException> exceptions = super.parseCommandLine(args);
         int modeSwitch = 0;
@@ -83,7 +79,7 @@ public class ClassCohesion extends DependencyGraphCommand {
 
         Logger.getLogger(OOMetrics.class).debug("Reading classes and computing metrics as we go ...");
         getVerboseListener().print("Reading classes and computing metrics as we go ...");
-        gatherer.traverseNodes(loadGraphs().getPackages().values());
+        gatherer.traverseNodes(loadGraph().getPackages().values());
 
         Logger.getLogger(OOMetrics.class).debug("Printing results ...");
         getVerboseListener().print("Printing results ...");

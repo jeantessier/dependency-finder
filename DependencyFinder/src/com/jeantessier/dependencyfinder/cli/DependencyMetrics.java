@@ -69,10 +69,6 @@ public class DependencyMetrics extends DependencyGraphCommand {
         getCommandLine().addAliasSwitch("chart-all", "chart-classes-per-package", "chart-features-per-class", "chart-inbounds-per-package", "chart-outbounds-per-package", "chart-inbounds-per-class", "chart-outbounds-per-class", "chart-inbounds-per-feature", "chart-outbounds-per-feature");
     }
 
-    protected ParameterStrategy getParameterStrategy() {
-        return new AtLeastParameterStrategy(1);
-    }
-
     protected Collection<CommandLineException> parseCommandLine(String[] args) {
         Collection<CommandLineException> exceptions = super.parseCommandLine(args);
 
@@ -101,7 +97,7 @@ public class DependencyMetrics extends DependencyGraphCommand {
         getVerboseListener().print("Generating report ...");
 
         MetricsGatherer metrics = new MetricsGatherer(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));
-        metrics.traverseNodes(loadGraphs().getPackages().values());
+        metrics.traverseNodes(loadGraph().getPackages().values());
         reporter.process(metrics);
     }
 

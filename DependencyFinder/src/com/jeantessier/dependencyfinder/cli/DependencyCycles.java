@@ -49,10 +49,6 @@ public class DependencyCycles extends DependencyGraphCommand {
         getCommandLine().addToggleSwitch("xml");
     }
 
-    protected ParameterStrategy getParameterStrategy() {
-        return new AtLeastParameterStrategy(1);
-    }
-
     protected Collection<CommandLineException> parseCommandLine(String[] args) {
         Collection<CommandLineException> exceptions = super.parseCommandLine(args);
 
@@ -68,7 +64,7 @@ public class DependencyCycles extends DependencyGraphCommand {
             detector.setMaximumCycleLength(Integer.parseInt(getCommandLine().getSingleSwitch("maximum-cycle-length")));
         }
 
-        detector.traverseNodes(loadGraphs().getPackages().values());
+        detector.traverseNodes(loadGraph().getPackages().values());
 
         getVerboseListener().print("Printing the graph ...");
 

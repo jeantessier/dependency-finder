@@ -33,11 +33,17 @@
 package com.jeantessier.dependencyfinder.cli;
 
 import java.util.*;
+import java.io.*;
+
+import javax.xml.parsers.*;
+
+import org.xml.sax.*;
 
 import com.jeantessier.commandline.*;
 import com.jeantessier.dependency.*;
 import com.jeantessier.dependency.Printer;
 import com.jeantessier.dependency.TextPrinter;
+import com.jeantessier.dependency.Visitor;
 
 public class DependencyReporter extends DependencyGraphCommand {
     protected void populateCommandLineSwitches() {
@@ -64,10 +70,6 @@ public class DependencyReporter extends DependencyGraphCommand {
         getCommandLine().addToggleSwitch("copy-only");
     }
 
-    protected ParameterStrategy getParameterStrategy() {
-        return new AtLeastParameterStrategy(1);
-    }
-
     protected Collection<CommandLineException> parseCommandLine(String[] args) {
         Collection<CommandLineException> exceptions = super.parseCommandLine(args);
 
@@ -91,30 +93,7 @@ public class DependencyReporter extends DependencyGraphCommand {
         } else {
             copier = new GraphSummarizer(scopeCriteria, filterCriteria);
         }
-
-        for (String filename : getCommandLine().getParameters()) {
-            Collection<PackageNode> packages = Collections.emptyList();
-
-            if (filename.endsWith(".xml")) {
-                getVerboseListener().print("Reading " + filename);
-
-                NodeLoader loader = new NodeLoader(getCommandLine().getToggleSwitch("validate"));
-                loader.addDependencyListener(getVerboseListener());
-                packages = loader.load(filename).getPackages().values();
-
-                getVerboseListener().print("Read \"" + filename + "\".");
-            } else {
-                getVerboseListener().print("Skipping \"" + filename + "\".");
-            }
-
-            if (getCommandLine().getToggleSwitch("maximize")) {
-                new LinkMaximizer().traverseNodes(packages);
-            } else if (getCommandLine().getToggleSwitch("minimize")) {
-                new LinkMinimizer().traverseNodes(packages);
-            }
-
-            copier.traverseNodes(packages);
-        }
+        copyGraph(copier);
 
         getVerboseListener().print("Printing the graph ...");
 
@@ -136,6 +115,67 @@ public class DependencyReporter extends DependencyGraphCommand {
         }
 
         printer.traverseNodes(copier.getScopeFactory().getPackages().values());
+    }
+
+    private void copyGraph(Visitor copier) throws IOException, SAXException, ParserConfigurationException {
+        if (getCommandLine().getParameters().isEmpty()) {
+            copyGraphFromSystemIn(copier);
+        } else {
+            copyGraphFromFiles(copier);
+        }
+    }
+
+    private void copyGraphFromSystemIn(Visitor copier) throws IOException, ParserConfigurationException, SAXException {
+        copyGraph(copier, loadGraphFromSystemIn());
+    }
+
+    private void copyGraphFromFiles(Visitor copier) throws IOException, SAXException, ParserConfigurationException {
+        for (String filename : getCommandLine().getParameters()) {
+            if (filename.endsWith(".xml")) {
+                copyGraph(copier, loadGraphFromFile(filename));
+            } else {
+                getVerboseListener().print("Skipping \"" + filename + "\".");
+            }
+
+        }
+    }
+
+    private void copyGraph(Visitor copier, Collection<PackageNode> packages) {
+        if (getCommandLine().getToggleSwitch("maximize")) {
+            new LinkMaximizer().traverseNodes(packages);
+        } else if (getCommandLine().getToggleSwitch("minimize")) {
+            new LinkMinimizer().traverseNodes(packages);
+        }
+
+        copier.traverseNodes(packages);
+    }
+
+    private Collection<PackageNode> loadGraphFromSystemIn() throws IOException, SAXException, ParserConfigurationException {
+        Collection<PackageNode> packages;
+
+        getVerboseListener().print("Reading from standard input");
+
+        NodeLoader loader = new NodeLoader(getCommandLine().getToggleSwitch("validate"));
+        loader.addDependencyListener(getVerboseListener());
+        packages = loader.load(System.in).getPackages().values();
+
+        getVerboseListener().print("Read from standard input.");
+
+        return packages;
+    }
+
+    private Collection<PackageNode> loadGraphFromFile(String filename) throws IOException, SAXException, ParserConfigurationException {
+        Collection<PackageNode> packages;
+
+        getVerboseListener().print("Reading " + filename);
+
+        NodeLoader loader = new NodeLoader(getCommandLine().getToggleSwitch("validate"));
+        loader.addDependencyListener(getVerboseListener());
+        packages = loader.load(filename).getPackages().values();
+
+        getVerboseListener().print("Read \"" + filename + "\".");
+
+        return packages;
     }
 
     public static void main(String[] args) throws Exception {

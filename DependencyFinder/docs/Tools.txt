@@ -2195,8 +2195,7 @@ point to either a specified end point or depth.
         [-verbose [filename]]
         [-version]
         [-xml]
-        graph.xml
-        ...
+        [filename ...]
 
 ---+++ Description
 
@@ -2819,10 +2818,13 @@ Writes the dependency graph as an XML document with the
 Filenames of the XML documents containing the dependency graphs.  The tool
 merges the graphs together into a single dependency graph.
 
+If you don't specify any filenames, it reads the dependency graph straight from
+standard input.
+
 <table border="0">
-<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>standard input</td></tr>
 </table>
 
 </blockquote>
@@ -2924,8 +2926,7 @@ Looks for cycles in a dependency graph starting from a given starting point.
         [-verbose [filename]]
         [-version]
         [-xml]
-        graph.xml
-        ...
+        [filename ...]
 
 ---+++ Description
 
@@ -3307,10 +3308,13 @@ Writes the cycles as an XML document with the
 Filenames of the XML documents containing the dependency graphs.  The tool
 merges the graphs together into a single dependency graph.
 
+If you don't specify any filenames, it reads the dependency graph straight from
+standard input.
+
 <table border="0">
-<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>standard input</td></tr>
 </table>
 
 </blockquote>
@@ -5137,8 +5141,7 @@ number of entering vertices, and number of exiting vertices.
         [-validate]
         [-verbose [filename]]
         [-version]
-        graph.xml
-        ...
+        [filename ...]
 
 ---+++ Description
 
@@ -6041,10 +6044,13 @@ Prints version information.
 Filenames of the XML documents containing the dependency graphs.  The tool
 merges the graphs together into a single dependency graph.
 
+If you don't specify any filenames, it reads the dependency graph straight from
+standard input.
+
 <table border="0">
-<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>standard input</td></tr>
 </table>
 
 </blockquote>
@@ -6131,6 +6137,22 @@ And here it is with =-list=:
 
 </div>
 
+You can also write them simply as:
+
+<div class="highlight">
+
+    DependencyExtractor -xml classes\test.class | DependencyMetrics
+
+</div>
+
+or
+
+<div class="highlight">
+
+    DependencyExtractor -xml classes\test.class | DependencyMetrics -list
+
+</div>
+
 </blockquote>
 
 ---+++ Class
@@ -6203,8 +6225,7 @@ Summarizes a dependency graph according to user-specified criteria.
         [-verbose [filename]]
         [-version]
         [-xml]
-        graph.xml
-        ...
+        [filename ...]
 
 ---+++ Description
 
@@ -7051,10 +7072,13 @@ Writes the dependency graph as an XML document with the
 Filenames of the XML documents containing the dependency graphs.  The tool
 merges the graphs together into a single dependency graph.
 
+If you don't specify any filenames, it reads the dependency graph straight from
+standard input.
+
 <table border="0">
-<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>standard input</td></tr>
 </table>
 
 </blockquote>

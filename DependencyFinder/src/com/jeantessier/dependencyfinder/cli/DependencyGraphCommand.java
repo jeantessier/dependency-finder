@@ -55,23 +55,45 @@ public abstract class DependencyGraphCommand extends Command {
         out.println();
     }
 
-    protected NodeFactory loadGraphs() throws IOException, SAXException, ParserConfigurationException {
+    protected NodeFactory loadGraph() throws IOException, SAXException, ParserConfigurationException {
         NodeFactory result = new NodeFactory();
 
+        if (getCommandLine().getParameters().isEmpty()) {
+            loadGraphFromSystemIn(result);
+        } else {
+            loadGraphFromFiles(result);
+        }
+
+        return result;
+    }
+
+    private void loadGraphFromSystemIn(NodeFactory factory) throws IOException, SAXException, ParserConfigurationException {
+        getVerboseListener().print("Reading from standard input");
+
+        NodeLoader loader = new NodeLoader(factory, getCommandLine().getToggleSwitch("validate"));
+        loader.addDependencyListener(getVerboseListener());
+        loader.load(System.in);
+
+        getVerboseListener().print("Read from standard input.");
+    }
+
+    private void loadGraphFromFiles(NodeFactory factory) throws IOException, SAXException, ParserConfigurationException {
         for (String filename : getCommandLine().getParameters()) {
             if (filename.endsWith(".xml")) {
-                getVerboseListener().print("Reading " + filename);
-
-                NodeLoader loader = new NodeLoader(result, getCommandLine().getToggleSwitch("validate"));
-                loader.addDependencyListener(getVerboseListener());
-                loader.load(filename);
-
-                getVerboseListener().print("Read \"" + filename + "\".");
+                loadGraphFromFile(factory, filename);
             } else {
                 getVerboseListener().print("Skipping \"" + filename + "\".");
             }
         }
+    }
 
-        return result;
+    private void loadGraphFromFile(NodeFactory factory, String filename) throws IOException, SAXException, ParserConfigurationException {
+        getVerboseListener().print("Reading " + filename);
+
+        NodeLoader loader = new NodeLoader(factory, getCommandLine().getToggleSwitch("validate"));
+        loader.addDependencyListener(getVerboseListener());
+        loader.load(filename);
+
+        getVerboseListener().print("Read \"" + filename + "\".");
     }
 }

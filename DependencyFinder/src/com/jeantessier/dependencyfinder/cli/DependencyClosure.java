@@ -51,10 +51,6 @@ public class DependencyClosure extends DependencyGraphCommand {
         getCommandLine().addToggleSwitch("xml");
     }
 
-    protected ParameterStrategy getParameterStrategy() {
-        return new AtLeastParameterStrategy(1);
-    }
-
     protected void doProcessing() throws Exception {
         TransitiveClosure selector = new TransitiveClosure(getStartCriteria(), getStopCriteria());
 
@@ -74,7 +70,7 @@ public class DependencyClosure extends DependencyGraphCommand {
             selector.setMaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
         }
 
-        selector.traverseNodes(loadGraphs().getPackages().values());
+        selector.traverseNodes(loadGraph().getPackages().values());
 
         getVerboseListener().print("Printing the graph ...");
 
