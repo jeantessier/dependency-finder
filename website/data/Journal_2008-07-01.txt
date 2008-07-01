@@ -2,15 +2,15 @@ Cleaned up straggling =-all= switches in sample code in the documentation.
 
 Fixed some of the tools so they can read from standard input:
 
-    * c2c
-    * c2p
-    * ClassCohesion
-    * DependencyClosure
-    * DependencyCycles
-    * DependencyMetrics
-    * DependencyReporter
-    * f2f
-    * p2p
+    * =c2c=
+    * =c2p=
+    * =ClassCohesion=
+    * =DependencyClosure=
+    * =DependencyCycles=
+    * =DependencyMetrics=
+    * =DependencyReporter=
+    * =f2f=
+    * =p2p=
 
 This way, I can chain them on a command-line so the output of one becomes the
 input of the next one, just like typical Unix tools.
