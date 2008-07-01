@@ -41,11 +41,11 @@ import org.xml.sax.*;
 import junit.framework.*;
 
 public class TestNodeLoader extends TestCase {
-    private static final String MY_PACKAGE_NAME    = "mypackage";
-    private static final String MY_CLASS_NAME      = "mypackage.MyClass";
-    private static final String MY_FEATURE_NAME    = "mypackage.MyClass.myFeature";
+    private static final String MY_PACKAGE_NAME = "mypackage";
+    private static final String MY_CLASS_NAME = "mypackage.MyClass";
+    private static final String MY_FEATURE_NAME = "mypackage.MyClass.myFeature";
     private static final String OTHER_PACKAGE_NAME = "otherpackage";
-    private static final String OTHER_CLASS_NAME   = "otherpackage.OtherClass";
+    private static final String OTHER_CLASS_NAME = "otherpackage.OtherClass";
     private static final String OTHER_FEATURE_NAME = "otherpackage.OtherClass.otherFeature";
     
     public void testReadDocument() throws IOException, ParserConfigurationException, SAXException {
@@ -87,20 +87,20 @@ public class TestNodeLoader extends TestCase {
 
         assertEquals("nb packages", 2, factory.getPackages().size());
         assertNotNull("missing package", factory.getPackages().get(MY_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) factory.getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", factory.getPackages().get(MY_PACKAGE_NAME).isConfirmed());
         assertNotNull("missing package", factory.getPackages().get(OTHER_PACKAGE_NAME));
-        assertFalse("package is confirmed", ((Node) factory.getPackages().get(OTHER_PACKAGE_NAME)).isConfirmed());
+        assertFalse("package is confirmed", factory.getPackages().get(OTHER_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 2, factory.getClasses().size());
         assertNotNull("missing class", factory.getClasses().get(MY_CLASS_NAME));
-        assertTrue("class is inferred", ((Node) factory.getClasses().get(MY_CLASS_NAME)).isConfirmed());
+        assertTrue("class is inferred", factory.getClasses().get(MY_CLASS_NAME).isConfirmed());
         assertNotNull("missing class", factory.getClasses().get(OTHER_CLASS_NAME));
-        assertFalse("class is confirmed", ((Node) factory.getClasses().get(OTHER_CLASS_NAME)).isConfirmed());
+        assertFalse("class is confirmed", factory.getClasses().get(OTHER_CLASS_NAME).isConfirmed());
 
         assertEquals("nb features", 2, factory.getFeatures().size());
         assertNotNull("missing feature", factory.getFeatures().get(MY_FEATURE_NAME));
-        assertTrue("feature is inferred", ((Node) factory.getFeatures().get(MY_FEATURE_NAME)).isConfirmed());
+        assertTrue("feature is inferred", factory.getFeatures().get(MY_FEATURE_NAME).isConfirmed());
         assertNotNull("missing feature", factory.getFeatures().get(OTHER_FEATURE_NAME));
-        assertFalse("feature is confirmed", ((Node) factory.getFeatures().get(OTHER_FEATURE_NAME)).isConfirmed());
+        assertFalse("feature is confirmed", factory.getFeatures().get(OTHER_FEATURE_NAME).isConfirmed());
     }
 }
