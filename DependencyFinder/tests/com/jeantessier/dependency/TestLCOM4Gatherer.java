@@ -57,7 +57,7 @@ public class TestLCOM4Gatherer extends TestCase {
     }
 
     public void testEmptyPackage() {
-        factory.createPackage("");
+        factory.createPackage("", true);
 
         sut.traverseNodes(factory.getPackages().values());
 
@@ -66,13 +66,13 @@ public class TestLCOM4Gatherer extends TestCase {
     }
 
     public void testEmptyClass() {
-        ClassNode classNode = factory.createClass("Empty");
+        ClassNode classNode = factory.createClass("Empty", true);
 
         sut.traverseNodes(factory.getPackages().values());
 
         Map<ClassNode, Collection<Collection<FeatureNode>>> actualResults = sut.getResults();
-        assertEquals(1, actualResults.keySet().size());
-        assertTrue(actualResults.containsKey(classNode));
+        assertEquals("nb results", 1, actualResults.keySet().size());
+        assertTrue(classNode.getName() + " is missing from " + actualResults, actualResults.containsKey(classNode));
 
         Collection<Collection<FeatureNode>> components = actualResults.get(classNode);
         assertEquals("LCOM4 of empty class", 0, components.size());
@@ -83,13 +83,13 @@ public class TestLCOM4Gatherer extends TestCase {
      * the component will be [One.one].
      */
     public void testOneFeature() {
-        FeatureNode featureNode = factory.createFeature("One.one");
+        FeatureNode featureNode = factory.createFeature("One.one", true);
 
         sut.traverseNodes(factory.getPackages().values());
 
         Map<ClassNode, Collection<Collection<FeatureNode>>> actualResults = sut.getResults();
-        assertEquals(1, actualResults.keySet().size());
-        assertTrue(actualResults.containsKey(featureNode.getClassNode()));
+        assertEquals("nb results", 1, actualResults.keySet().size());
+        assertTrue(featureNode.getClassNode().getName() + " is missing from " + actualResults, actualResults.containsKey(featureNode.getClassNode()));
 
         Collection<Collection<FeatureNode>> components = actualResults.get(featureNode.getClassNode());
         assertEquals("LCOM4 of class w/ one feature", 1, components.size());
@@ -104,14 +104,14 @@ public class TestLCOM4Gatherer extends TestCase {
      * the components will be [One.one] and [One.two].
      */
     public void testTwoDisjointFeatures() {
-        FeatureNode featureNode1 = factory.createFeature("Two.one");
-        FeatureNode featureNode2 = factory.createFeature("Two.two");
+        FeatureNode featureNode1 = factory.createFeature("Two.one", true);
+        FeatureNode featureNode2 = factory.createFeature("Two.two", true);
 
         sut.traverseNodes(factory.getPackages().values());
 
         Map<ClassNode, Collection<Collection<FeatureNode>>> actualResults = sut.getResults();
-        assertEquals(1, actualResults.keySet().size());
-        assertTrue(actualResults.containsKey(featureNode1.getClassNode()));
+        assertEquals("nb results", 1, actualResults.keySet().size());
+        assertTrue(featureNode1.getClassNode().getName() + " is missing from " + actualResults, actualResults.containsKey(featureNode1.getClassNode()));
 
         Collection<Collection<FeatureNode>> components = actualResults.get(featureNode1.getClassNode());
         assertEquals("LCOM4 of class w/ two connected features", 2, components.size());
@@ -125,16 +125,16 @@ public class TestLCOM4Gatherer extends TestCase {
      * the component will be [One.one, One.two].
      */
     public void testTwoConnectedFeatures() {
-        FeatureNode featureNode1 = factory.createFeature("Two.one");
-        FeatureNode featureNode2 = factory.createFeature("Two.two");
+        FeatureNode featureNode1 = factory.createFeature("Two.one", true);
+        FeatureNode featureNode2 = factory.createFeature("Two.two", true);
 
         featureNode1.addDependency(featureNode2);
 
         sut.traverseNodes(factory.getPackages().values());
 
         Map<ClassNode, Collection<Collection<FeatureNode>>> actualResults = sut.getResults();
-        assertEquals(1, actualResults.keySet().size());
-        assertTrue(actualResults.containsKey(featureNode1.getClassNode()));
+        assertEquals("nb results", 1, actualResults.keySet().size());
+        assertTrue(featureNode1.getClassNode().getName() + " is missing from " + actualResults, actualResults.containsKey(featureNode1.getClassNode()));
 
         Collection<Collection<FeatureNode>> components = actualResults.get(featureNode1.getClassNode());
         assertEquals("LCOM4 of class w/ two connected features", 1, components.size());
@@ -147,9 +147,9 @@ public class TestLCOM4Gatherer extends TestCase {
      * LCOM4 of 1 and the component will be [One.one, One.two, One.three].
      */
     public void testThreeConnectedFeatures() {
-        FeatureNode featureNode1 = factory.createFeature("Three.one");
-        FeatureNode featureNode2 = factory.createFeature("Three.two");
-        FeatureNode featureNode3 = factory.createFeature("Three.three");
+        FeatureNode featureNode1 = factory.createFeature("Three.one", true);
+        FeatureNode featureNode2 = factory.createFeature("Three.two", true);
+        FeatureNode featureNode3 = factory.createFeature("Three.three", true);
 
         featureNode1.addDependency(featureNode2);
         featureNode2.addDependency(featureNode3);
@@ -157,8 +157,8 @@ public class TestLCOM4Gatherer extends TestCase {
         sut.traverseNodes(factory.getPackages().values());
 
         Map<ClassNode, Collection<Collection<FeatureNode>>> actualResults = sut.getResults();
-        assertEquals(1, actualResults.keySet().size());
-        assertTrue(actualResults.containsKey(featureNode1.getClassNode()));
+        assertEquals("nb results", 1, actualResults.keySet().size());
+        assertTrue(featureNode1.getClassNode().getName() + " is missing from " + actualResults, actualResults.containsKey(featureNode1.getClassNode()));
 
         Collection<Collection<FeatureNode>> components = actualResults.get(featureNode1.getClassNode());
         assertEquals("LCOM4 of class w/ three connected features", 1, components.size());
@@ -172,16 +172,16 @@ public class TestLCOM4Gatherer extends TestCase {
      * in another class.
      */
     public void testTwoConnectedFeaturesInSeparateClasses() {
-        FeatureNode featureNode1 = factory.createFeature("One.one");
-        FeatureNode featureNode2 = factory.createFeature("Two.two");
+        FeatureNode featureNode1 = factory.createFeature("One.one", true);
+        FeatureNode featureNode2 = factory.createFeature("Two.two", true);
 
         featureNode1.addDependency(featureNode2);
 
         sut.traverseNodes(factory.getPackages().values());
 
         Map<ClassNode, Collection<Collection<FeatureNode>>> actualResults = sut.getResults();
-        assertEquals(2, actualResults.keySet().size());
-        assertTrue(actualResults.containsKey(featureNode1.getClassNode()));
+        assertEquals("nb results", 2, actualResults.keySet().size());
+        assertTrue(featureNode1.getClassNode().getName() + " is missing from " + actualResults, actualResults.containsKey(featureNode1.getClassNode()));
 
         Collection<Collection<FeatureNode>> components = actualResults.get(featureNode1.getClassNode());
         assertEquals("LCOM4 of class w/ feature connected to other class", 1, components.size());
@@ -196,9 +196,9 @@ public class TestLCOM4Gatherer extends TestCase {
      * class One.
      */
     public void testTwoIndirectlyConnectedFeatures() {
-        FeatureNode featureNode1 = factory.createFeature("One.one");
-        FeatureNode featureNode2 = factory.createFeature("Two.two");
-        FeatureNode featureNode3 = factory.createFeature("One.two");
+        FeatureNode featureNode1 = factory.createFeature("One.one", true);
+        FeatureNode featureNode2 = factory.createFeature("Two.two", true);
+        FeatureNode featureNode3 = factory.createFeature("One.two", true);
 
         featureNode1.addDependency(featureNode2);
         featureNode2.addDependency(featureNode3);
@@ -206,8 +206,8 @@ public class TestLCOM4Gatherer extends TestCase {
         sut.traverseNodes(factory.getPackages().values());
 
         Map<ClassNode, Collection<Collection<FeatureNode>>> actualResults = sut.getResults();
-        assertEquals(2, actualResults.keySet().size());
-        assertTrue(actualResults.containsKey(featureNode1.getClassNode()));
+        assertEquals("nb results", 2, actualResults.keySet().size());
+        assertTrue(featureNode1.getClassNode().getName() + " is missing from " + actualResults, actualResults.containsKey(featureNode1.getClassNode()));
 
         Collection<Collection<FeatureNode>> components = actualResults.get(featureNode1.getClassNode());
         assertEquals("LCOM4 of class w/ features connected through other class", 2, components.size());
@@ -217,24 +217,24 @@ public class TestLCOM4Gatherer extends TestCase {
     }
 
     public void testIgnoreConstructor() {
-        ClassNode classNode = factory.createClass("One");
-        factory.createFeature("One.One()");
+        ClassNode classNode = factory.createClass("One", true);
+        factory.createFeature("One.One()", true);
 
         sut.traverseNodes(factory.getPackages().values());
 
         Map<ClassNode, Collection<Collection<FeatureNode>>> actualResults = sut.getResults();
-        assertEquals(1, actualResults.keySet().size());
-        assertTrue(actualResults.containsKey(classNode));
+        assertEquals("nb results", 1, actualResults.keySet().size());
+        assertTrue(classNode.getName() + " is missing from " + actualResults, actualResults.containsKey(classNode));
 
         Collection<Collection<FeatureNode>> components = actualResults.get(classNode);
         assertEquals("LCOM4 of class w/ only constructors", 0, components.size());
     }
 
     public void testIgnoreConstructor_WithinGraph() {
-        ClassNode classNode = factory.createClass("Three");
-        FeatureNode constructorNode = factory.createFeature("Three.Three()");
-        FeatureNode featureNode1 = factory.createFeature("Three.one");
-        FeatureNode featureNode2 = factory.createFeature("Three.two");
+        ClassNode classNode = factory.createClass("Three", true);
+        FeatureNode constructorNode = factory.createFeature("Three.Three()", true);
+        FeatureNode featureNode1 = factory.createFeature("Three.one", true);
+        FeatureNode featureNode2 = factory.createFeature("Three.two", true);
 
         constructorNode.addDependency(featureNode1);
         constructorNode.addDependency(featureNode2);
@@ -242,8 +242,8 @@ public class TestLCOM4Gatherer extends TestCase {
         sut.traverseNodes(factory.getPackages().values());
 
         Map<ClassNode, Collection<Collection<FeatureNode>>> actualResults = sut.getResults();
-        assertEquals(1, actualResults.keySet().size());
-        assertTrue(actualResults.containsKey(classNode));
+        assertEquals("nb results", 1, actualResults.keySet().size());
+        assertTrue(classNode.getName() + " is missing from " + actualResults, actualResults.containsKey(classNode));
 
         Collection<Collection<FeatureNode>> components = actualResults.get(classNode);
         assertEquals("LCOM4 of class w/ two features connected through the constructor " + components, 2, components.size());
