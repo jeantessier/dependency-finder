@@ -5425,9 +5425,9 @@ depends on the switches on the command-line.
 </div>
 
 <p>
-You must use at least one of the following switches that determine which
-groups of metrics are included in the report.  You can combine them if
-you need to.
+You can use the following switches to determine which groups of metrics are
+included in the report.  You can combine them if you need to.  The default, if
+you do not specify any of them, is to include all of them.
 </p>
 
 <blockquote>
@@ -5440,8 +5440,6 @@ you need to.
     <dd>Include class-related metrics.</dd>
     <dt><code>-methods</code></dt>
     <dd>Include method-related metrics.</dd>
-    <dt><code>-all</code></dt>
-    <dd>All of the above</dd>
 </dl>
 </blockquote>
 
@@ -6437,7 +6435,6 @@ together:
     C:\>OOMetrics -out report
                   -configuration %DEPENDENCYFINDER_HOME%\etc\<b>InboundDependencyConfig</b>.xml
                   -filter-includes-list deprecated.txt
-                  -all
                   <b>-txt</b>
                   -expand
                   DeprecatedExample.class
@@ -6499,7 +6496,6 @@ class:
     C:\>OOMetrics -out report
                   -configuration %DEPENDENCYFINDER_HOME%\etc\<b>InboundDependencyConfig</b>.xml
                   -filter-includes-list deprecated.txt
-                  -all
                   <b>-xml</b>
                   -expand
                   DeprecatedExample.class
@@ -6580,7 +6576,6 @@ For a text report organized by caller, with all methods listed together:
     C:\>OOMetrics -out report
                   -configuration %DEPENDENCYFINDER_HOME%\etc\<b>OutboundDependencyConfig</b>.xml
                   -filter-includes-list deprecated.txt
-                  -all
                   <b>-txt</b>
                   -expand
                   DeprecatedExample.class
@@ -6641,7 +6636,6 @@ For a text report organized by caller, with methods grouped by class:
     C:\>OOMetrics -out report
                   -configuration %DEPENDENCYFINDER_HOME%\etc\<b>OutboundDependencyConfig</b>.xml
                   -filter-includes-list deprecated.txt
-                  -all
                   <b>-xml</b>
                   -expand
                   DeprecatedExample.class
@@ -6893,7 +6887,6 @@ For a text report straight from the tool:
 <pre>
     C:\>OOMetrics -out report
                   -configuration %DEPENDENCYFINDER_HOME%\etc\<b>MartinConfig</b>.xml
-                  -all
                   <b>-txt</b>
                   classes
 </pre>
@@ -6909,7 +6902,6 @@ For a text report from the XML output:
 <pre>
     C:\>OOMetrics -out report
                   -configuration %DEPENDENCYFINDER_HOME%\etc\<b>MartinConfig</b>.xml
-                  -all
                   <b>-xml</b>
                   classes
 </pre>
