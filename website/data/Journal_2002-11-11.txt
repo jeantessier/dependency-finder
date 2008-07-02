@@ -20,5 +20,5 @@ Before I forget, the books are:
     * "Algorithmique: conception et analyse" by Giles Brassard and Paul Bratley
 
 This last one was written by teachers at the
-[[http://www.iro.umontreal.ca/?lang=en][University of Montreal]], where I went
-to school.
+[[http://www.iro.umontreal.ca/?lang=en][Universit&eacute; de Montr&eacute;al]],
+where I went to school.
