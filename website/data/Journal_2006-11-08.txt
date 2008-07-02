@@ -2,7 +2,7 @@ It turns out the problem with closures comes down to Windows batch files strip
 '^' characters from parameters.  So if you want to filter out =java.*= with a
 regular espression =/^java/=, the Java program only gets =/java/= and filters
 everything with "java" anywhere in it.  I filed a
-[[http://sourceforge.net/tracker/index.php?func=detail&aid=1592817&group_id=43305&atid=435884][bug report (1592817)]] for it.
+[[http://sourceforge.net/tracker/index.php?func%3Ddetail&aid%3D1592817&group_id%3D43305&atid%3D435884][bug report (1592817)]] for it.
 
 For now, the best solution is to enclose regular expressions in double quotes,
 such as ="/^java/"=, so the shell and script don't strip anything.  Similarily

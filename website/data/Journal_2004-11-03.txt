@@ -6,7 +6,7 @@ still matches anything with =NodeFactory= in it, as opposed
 to only names beginning with it.
 
 Someone filed bug
-[[http://sourceforge.net/tracker/index.php?func=detail&aid=1058905&group_id=43305&atid=435884][#1058905]]
+[[http://sourceforge.net/tracker/index.php?func%3Ddetail&aid%3D1058905&group_id%3D43305&atid%3D435884][#1058905]]
 where =PublishedDiffToHTML.xsl= still uses the old method
 names from before the naming change.  I fixed the bug and issued patch
-[[http://sourceforge.net/tracker/index.php?func=detail&aid=1060021&group_id=43305&atid=435886][#1060021]].
+[[http://sourceforge.net/tracker/index.php?func%3Ddetail&aid%3D1060021&group_id%3D43305&atid%3D435886][#1060021]].

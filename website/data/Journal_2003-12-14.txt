@@ -4,7 +4,7 @@ this.  I was not looking forward to tracking weird flushing bugs.
 
 Created a patch for fixing the long names for =IEPM=
 and =OEPF= and published it as
-[[http://sourceforge.net/tracker/index.php?func=detail&aid=860191&group_id=43305&atid=435886][patch #860191]].
+[[http://sourceforge.net/tracker/index.php?func%3Ddetail&aid%3D860191&group_id%3D43305&atid%3D435886][patch #860191]].
 
 Fixed Ant tasks that are subclasses of =GraphTask= to
 accept multiple graphs.  Like =&lt;javac&gt;= and others,

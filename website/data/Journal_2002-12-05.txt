@@ -2,7 +2,7 @@ Worked on tools documentation.
 
 Found a bug with =GraphSummarizer=.  I describe it
 fully on SourceForge; it is bug 
-[[http://sourceforge.net/tracker/index.php?func=detail&aid=649375&group_id=43305&atid=435884][#649375]].
+[[http://sourceforge.net/tracker/index.php?func%3Ddetail&aid%3D649375&group_id%3D43305&atid%3D435884][#649375]].
 Basically, when adding dependency between nodes from two different
 node factories, such as in =GraphSummarizer=, the logic
 that prevents self-dependencies relied on all classes of a package

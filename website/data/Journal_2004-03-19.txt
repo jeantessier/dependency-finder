@@ -8,5 +8,5 @@ third party API you are using.  Then feed this list to JarJarDiff to
 limit the hange report to the subset that you are really using.  All
 the tools are there, it's just a matter of how you use them.  I
 scanned my notes and added them to
-[[http://sourceforge.net/tracker/index.php?func=detail&aid=900446&group_id=43305&atid=435887x][feature request #900446]]
+[[http://sourceforge.net/tracker/index.php?func%3Ddetail&aid%3D900446&group_id%3D43305&atid%3D435887x][feature request #900446]]
 until I come up with a formal description.

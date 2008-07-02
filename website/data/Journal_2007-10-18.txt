@@ -1,5 +1,5 @@
 More work on
-[[http://sourceforge.net/tracker/index.php?func=detail&aid=1800017&group_id=43305&atid=435884][bug 1800017]].
+[[http://sourceforge.net/tracker/index.php?func%3Ddetail&aid%3D1800017&group_id%3D43305&atid%3D435884][bug 1800017]].
 
 In the process, I made the error reporting for bad regular expressions a little
 more user-friendly.  I tried using a checked exception at first, but the change

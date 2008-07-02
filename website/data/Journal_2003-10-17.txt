@@ -4,7 +4,7 @@ thing took about 13 hours.  They dug around a bit and found that
 =Perl5Util= only caches 20 regular expressions at a time by
 default.  Their query was taking forever because the ORO engine was
 constantly recompiling regular expressions.  They entered
-[[http://sourceforge.net/tracker/index.php?func=detail&aid=825582&group_id=43305&atid=435887][Feature Request 825582]]
+[[http://sourceforge.net/tracker/index.php?func%3Ddetail&aid%3D825582&group_id%3D43305&atid%3D435887][Feature Request 825582]]
 at SourceForge.net to request some way to adjust the caching
 configuration for =Perl5Util=.
 
