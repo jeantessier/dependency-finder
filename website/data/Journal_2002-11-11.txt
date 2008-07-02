@@ -19,4 +19,6 @@ Before I forget, the books are:
     * "[[http://www.amazon.com/exec/obidos/tg/detail/-/0201072564/qid%3D1037115856/sr%3D1-1/ref%3Dsr_1_1/002-8674524-2273608?v%3Dglance&s%3Dbooks][Data Structure Techniques]]" by Thomas A. Standish
     * "Algorithmique: conception et analyse" by Giles Brassard and Paul Bratley
 
-
+This last one was written by teachers at the
+[[http://www.iro.umontreal.ca/?lang=en][University of Montreal]], where I went
+to school.
