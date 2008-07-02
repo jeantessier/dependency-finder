@@ -37,7 +37,9 @@ public enum BasicMeasurements {
 
     CLASSES("C"),
     PUBLIC_CLASSES("PuC"),
+    PACKAGE_CLASSES("PaC"),
     FINAL_CLASSES("FC"),
+    SUPER_CLASSES("SuperC"),
     ABSTRACT_CLASSES("AC"),
     SYNTHETIC_CLASSES("SynthC"),
     INTERFACES("I"),

@@ -41,7 +41,7 @@ import org.jmock.lib.legacy.*;
 import com.jeantessier.classreader.*;
 
 public class TestMetricsGathererAccumulators extends MockObjectTestCase {
-    private static final String PACKAGE_NAME = "testpackage";
+    private static final String PACKAGE_NAME = "test.package";
     private static final String CLASS_NAME = PACKAGE_NAME + ".TestClass";
     private static final String FIELD_NAME = CLASS_NAME + ".testField";
     private static final String METHOD_SIGNATURE = CLASS_NAME + ".testMethod()";
@@ -52,6 +52,338 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         super.setUp();
 
         setImposteriser(ClassImposteriser.INSTANCE);
+    }
+
+    public void testVisitClassfile_public() throws Exception {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Classfile mockClassfile = mock(Classfile.class);
+        final Metrics mockProjectMetrics = mock(Metrics.class, "project");
+        final Metrics mockGroupMetrics = mock(Metrics.class, "group");
+        final Metrics mockClassMetrics = mock(Metrics.class, "class");
+
+        checking(new Expectations() {{
+            one (mockFactory).createProjectMetrics(with(any(String.class)));
+            will(returnValue(mockProjectMetrics));
+            one (mockClassfile).getClassName();
+            will(returnValue(CLASS_NAME));
+            one (mockFactory).createClassMetrics(CLASS_NAME);
+            will(returnValue(mockClassMetrics));
+            one (mockFactory).includeClassMetrics(mockClassMetrics);
+            one (mockClassMetrics).getParent();
+            will(returnValue(mockGroupMetrics));
+            one (mockGroupMetrics).getParent();
+            will(returnValue(mockProjectMetrics));
+            atLeast(1).of (mockGroupMetrics).getName();
+            will(returnValue(PACKAGE_NAME));
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
+
+            allowing (mockClassfile).isPublic();
+            will(returnValue(true));
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PUBLIC_CLASSES, CLASS_NAME);
+            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.PUBLIC_CLASSES, CLASS_NAME);
+            ignoring (mockClassfile).isPackage();
+            ignoring (mockClassfile).isFinal();
+            ignoring (mockClassfile).isSuper();
+            ignoring (mockClassfile).isInterface();
+            ignoring (mockClassfile).isAbstract();
+
+            ignoring (mockClassfile).getSuperclassIndex();
+            ignoring (mockClassfile).getAllInterfaces();
+            ignoring (mockClassfile).getAllInterfaces();
+            ignoring (mockClassfile).getAllFields();
+            ignoring (mockClassfile).getAllMethods();
+
+            ignoring (mockClassfile).isAnnotation();
+            ignoring (mockClassfile).isEnum();
+            ignoring (mockClassfile).isSynthetic();
+            ignoring (mockClassfile).isDeprecated();
+            ignoring (mockClassfile).isGeneric();
+
+            ignoring (mockClassfile).getAttributes();
+
+            one (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        sut.visitClassfile(mockClassfile);
+    }
+
+    public void testVisitClassfile_package() throws Exception {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Classfile mockClassfile = mock(Classfile.class);
+        final Metrics mockProjectMetrics = mock(Metrics.class, "project");
+        final Metrics mockGroupMetrics = mock(Metrics.class, "group");
+        final Metrics mockClassMetrics = mock(Metrics.class, "class");
+
+        checking(new Expectations() {{
+            one (mockFactory).createProjectMetrics(with(any(String.class)));
+            will(returnValue(mockProjectMetrics));
+            one (mockClassfile).getClassName();
+            will(returnValue(CLASS_NAME));
+            one (mockFactory).createClassMetrics(CLASS_NAME);
+            will(returnValue(mockClassMetrics));
+            one (mockFactory).includeClassMetrics(mockClassMetrics);
+            one (mockClassMetrics).getParent();
+            will(returnValue(mockGroupMetrics));
+            one (mockGroupMetrics).getParent();
+            will(returnValue(mockProjectMetrics));
+            atLeast(1).of (mockGroupMetrics).getName();
+            will(returnValue(PACKAGE_NAME));
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
+
+            ignoring (mockClassfile).isPublic();
+            allowing (mockClassfile).isPackage();
+            will(returnValue(true));
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);
+            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);
+            ignoring (mockClassfile).isFinal();
+            ignoring (mockClassfile).isSuper();
+            ignoring (mockClassfile).isInterface();
+            ignoring (mockClassfile).isAbstract();
+
+            ignoring (mockClassfile).getSuperclassIndex();
+            ignoring (mockClassfile).getAllInterfaces();
+            ignoring (mockClassfile).getAllInterfaces();
+            ignoring (mockClassfile).getAllFields();
+            ignoring (mockClassfile).getAllMethods();
+
+            ignoring (mockClassfile).isAnnotation();
+            ignoring (mockClassfile).isEnum();
+            ignoring (mockClassfile).isSynthetic();
+            ignoring (mockClassfile).isDeprecated();
+            ignoring (mockClassfile).isGeneric();
+
+            ignoring (mockClassfile).getAttributes();
+
+            one (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        sut.visitClassfile(mockClassfile);
+    }
+
+    public void testVisitClassfile_final() throws Exception {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Classfile mockClassfile = mock(Classfile.class);
+        final Metrics mockProjectMetrics = mock(Metrics.class, "project");
+        final Metrics mockGroupMetrics = mock(Metrics.class, "group");
+        final Metrics mockClassMetrics = mock(Metrics.class, "class");
+
+        checking(new Expectations() {{
+            one (mockFactory).createProjectMetrics(with(any(String.class)));
+            will(returnValue(mockProjectMetrics));
+            one (mockClassfile).getClassName();
+            will(returnValue(CLASS_NAME));
+            one (mockFactory).createClassMetrics(CLASS_NAME);
+            will(returnValue(mockClassMetrics));
+            one (mockFactory).includeClassMetrics(mockClassMetrics);
+            one (mockClassMetrics).getParent();
+            will(returnValue(mockGroupMetrics));
+            one (mockGroupMetrics).getParent();
+            will(returnValue(mockProjectMetrics));
+            atLeast(1).of (mockGroupMetrics).getName();
+            will(returnValue(PACKAGE_NAME));
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
+
+            ignoring (mockClassfile).isPublic();
+            ignoring (mockClassfile).isPackage();
+            ignoring (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);
+            ignoring (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);
+            allowing (mockClassfile).isFinal();
+            will(returnValue(true));
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.FINAL_CLASSES, CLASS_NAME);
+            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.FINAL_CLASSES, CLASS_NAME);
+            ignoring (mockClassfile).isSuper();
+            ignoring (mockClassfile).isInterface();
+            ignoring (mockClassfile).isAbstract();
+
+            ignoring (mockClassfile).getSuperclassIndex();
+            ignoring (mockClassfile).getAllInterfaces();
+            ignoring (mockClassfile).getAllInterfaces();
+            ignoring (mockClassfile).getAllFields();
+            ignoring (mockClassfile).getAllMethods();
+
+            ignoring (mockClassfile).isAnnotation();
+            ignoring (mockClassfile).isEnum();
+            ignoring (mockClassfile).isSynthetic();
+            ignoring (mockClassfile).isDeprecated();
+            ignoring (mockClassfile).isGeneric();
+
+            ignoring (mockClassfile).getAttributes();
+
+            one (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        sut.visitClassfile(mockClassfile);
+    }
+
+    public void testVisitClassfile_super() throws Exception {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Classfile mockClassfile = mock(Classfile.class);
+        final Metrics mockProjectMetrics = mock(Metrics.class, "project");
+        final Metrics mockGroupMetrics = mock(Metrics.class, "group");
+        final Metrics mockClassMetrics = mock(Metrics.class, "class");
+
+        checking(new Expectations() {{
+            one (mockFactory).createProjectMetrics(with(any(String.class)));
+            will(returnValue(mockProjectMetrics));
+            one (mockClassfile).getClassName();
+            will(returnValue(CLASS_NAME));
+            one (mockFactory).createClassMetrics(CLASS_NAME);
+            will(returnValue(mockClassMetrics));
+            one (mockFactory).includeClassMetrics(mockClassMetrics);
+            one (mockClassMetrics).getParent();
+            will(returnValue(mockGroupMetrics));
+            one (mockGroupMetrics).getParent();
+            will(returnValue(mockProjectMetrics));
+            atLeast(1).of (mockGroupMetrics).getName();
+            will(returnValue(PACKAGE_NAME));
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
+
+            ignoring (mockClassfile).isPublic();
+            ignoring (mockClassfile).isPackage();
+            ignoring (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);
+            ignoring (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);
+            ignoring (mockClassfile).isFinal();
+            allowing (mockClassfile).isSuper();
+            will(returnValue(true));
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.SUPER_CLASSES, CLASS_NAME);
+            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.SUPER_CLASSES, CLASS_NAME);
+            ignoring (mockClassfile).isInterface();
+            ignoring (mockClassfile).isAbstract();
+
+            ignoring (mockClassfile).getSuperclassIndex();
+            ignoring (mockClassfile).getAllInterfaces();
+            ignoring (mockClassfile).getAllInterfaces();
+            ignoring (mockClassfile).getAllFields();
+            ignoring (mockClassfile).getAllMethods();
+
+            ignoring (mockClassfile).isAnnotation();
+            ignoring (mockClassfile).isEnum();
+            ignoring (mockClassfile).isSynthetic();
+            ignoring (mockClassfile).isDeprecated();
+            ignoring (mockClassfile).isGeneric();
+
+            ignoring (mockClassfile).getAttributes();
+
+            one (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        sut.visitClassfile(mockClassfile);
+    }
+
+    public void testVisitClassfile_interface() throws Exception {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Classfile mockClassfile = mock(Classfile.class);
+        final Metrics mockProjectMetrics = mock(Metrics.class, "project");
+        final Metrics mockGroupMetrics = mock(Metrics.class, "group");
+        final Metrics mockClassMetrics = mock(Metrics.class, "class");
+
+        checking(new Expectations() {{
+            one (mockFactory).createProjectMetrics(with(any(String.class)));
+            will(returnValue(mockProjectMetrics));
+            one (mockClassfile).getClassName();
+            will(returnValue(CLASS_NAME));
+            one (mockFactory).createClassMetrics(CLASS_NAME);
+            will(returnValue(mockClassMetrics));
+            one (mockFactory).includeClassMetrics(mockClassMetrics);
+            one (mockClassMetrics).getParent();
+            will(returnValue(mockGroupMetrics));
+            one (mockGroupMetrics).getParent();
+            will(returnValue(mockProjectMetrics));
+            atLeast(1).of (mockGroupMetrics).getName();
+            will(returnValue(PACKAGE_NAME));
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
+
+            ignoring (mockClassfile).isPublic();
+            ignoring (mockClassfile).isPackage();
+            ignoring (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);
+            ignoring (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);
+            ignoring (mockClassfile).isFinal();
+            ignoring (mockClassfile).isSuper();
+            allowing (mockClassfile).isInterface();
+            will(returnValue(true));
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.INTERFACES, CLASS_NAME);
+            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.INTERFACES, CLASS_NAME);
+            ignoring (mockClassfile).isAbstract();
+
+            ignoring (mockClassfile).getSuperclassIndex();
+            ignoring (mockClassfile).getAllInterfaces();
+            ignoring (mockClassfile).getAllInterfaces();
+            ignoring (mockClassfile).getAllFields();
+            ignoring (mockClassfile).getAllMethods();
+
+            ignoring (mockClassfile).isAnnotation();
+            ignoring (mockClassfile).isEnum();
+            ignoring (mockClassfile).isSynthetic();
+            ignoring (mockClassfile).isDeprecated();
+            ignoring (mockClassfile).isGeneric();
+
+            ignoring (mockClassfile).getAttributes();
+
+            one (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        sut.visitClassfile(mockClassfile);
+    }
+
+    public void testVisitClassfile_abstract() throws Exception {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Classfile mockClassfile = mock(Classfile.class);
+        final Metrics mockProjectMetrics = mock(Metrics.class, "project");
+        final Metrics mockGroupMetrics = mock(Metrics.class, "group");
+        final Metrics mockClassMetrics = mock(Metrics.class, "class");
+
+        checking(new Expectations() {{
+            one (mockFactory).createProjectMetrics(with(any(String.class)));
+            will(returnValue(mockProjectMetrics));
+            one (mockClassfile).getClassName();
+            will(returnValue(CLASS_NAME));
+            one (mockFactory).createClassMetrics(CLASS_NAME);
+            will(returnValue(mockClassMetrics));
+            one (mockFactory).includeClassMetrics(mockClassMetrics);
+            one (mockClassMetrics).getParent();
+            will(returnValue(mockGroupMetrics));
+            one (mockGroupMetrics).getParent();
+            will(returnValue(mockProjectMetrics));
+            atLeast(1).of (mockGroupMetrics).getName();
+            will(returnValue(PACKAGE_NAME));
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
+
+            ignoring (mockClassfile).isPublic();
+            ignoring (mockClassfile).isPackage();
+            ignoring (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);
+            ignoring (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);
+            ignoring (mockClassfile).isFinal();
+            ignoring (mockClassfile).isSuper();
+            ignoring (mockClassfile).isInterface();
+            allowing (mockClassfile).isAbstract();
+            will(returnValue(true));
+            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_CLASSES, CLASS_NAME);
+            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_CLASSES, CLASS_NAME);
+
+            ignoring (mockClassfile).getSuperclassIndex();
+            ignoring (mockClassfile).getAllInterfaces();
+            ignoring (mockClassfile).getAllInterfaces();
+            ignoring (mockClassfile).getAllFields();
+            ignoring (mockClassfile).getAllMethods();
+
+            ignoring (mockClassfile).isAnnotation();
+            ignoring (mockClassfile).isEnum();
+            ignoring (mockClassfile).isSynthetic();
+            ignoring (mockClassfile).isDeprecated();
+            ignoring (mockClassfile).isGeneric();
+
+            ignoring (mockClassfile).getAttributes();
+
+            one (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        sut.visitClassfile(mockClassfile);
     }
 
     public void testVisitField_info_public() throws Exception {

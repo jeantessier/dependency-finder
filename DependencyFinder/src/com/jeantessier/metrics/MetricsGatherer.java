@@ -131,13 +131,14 @@ public class MetricsGatherer extends VisitorBase {
     
     // Classfile
     public void visitClassfile(Classfile classfile) {
+        String className = classfile.getClassName();
         Logger.getLogger(getClass()).debug("VisitClassfile():");
-        Logger.getLogger(getClass()).debug("    class = \"" + classfile.getClassName() + "\"");
+        Logger.getLogger(getClass()).debug("    class = \"" + className + "\"");
 
         fireBeginClass(classfile);
         
         setCurrentMethod(null);
-        setCurrentClass(getMetricsFactory().createClassMetrics(classfile.getClassName()));
+        setCurrentClass(getMetricsFactory().createClassMetrics(className));
         setCurrentGroup(getCurrentClass().getParent());
         setCurrentProject(getCurrentGroup().getParent());
 
@@ -146,23 +147,31 @@ public class MetricsGatherer extends VisitorBase {
         getCurrentProject().addToMeasurement(BasicMeasurements.PACKAGES, getCurrentGroup().getName());
 
         if (classfile.isPublic()) {
-            getCurrentProject().addToMeasurement(BasicMeasurements.PUBLIC_CLASSES);
-            getCurrentGroup().addToMeasurement(BasicMeasurements.PUBLIC_CLASSES);
+            getCurrentProject().addToMeasurement(BasicMeasurements.PUBLIC_CLASSES, className);
+            getCurrentGroup().addToMeasurement(BasicMeasurements.PUBLIC_CLASSES, className);
+        } else {
+            getCurrentProject().addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, className);
+            getCurrentGroup().addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, className);
         }
 
-        if (classfile.isPublic()) {
-            getCurrentProject().addToMeasurement(BasicMeasurements.FINAL_CLASSES);
-            getCurrentGroup().addToMeasurement(BasicMeasurements.FINAL_CLASSES);
+        if (classfile.isFinal()) {
+            getCurrentProject().addToMeasurement(BasicMeasurements.FINAL_CLASSES, className);
+            getCurrentGroup().addToMeasurement(BasicMeasurements.FINAL_CLASSES, className);
+        }
+
+        if (classfile.isSuper()) {
+            getCurrentProject().addToMeasurement(BasicMeasurements.SUPER_CLASSES, className);
+            getCurrentGroup().addToMeasurement(BasicMeasurements.SUPER_CLASSES, className);
         }
 
         if (classfile.isInterface()) {
-            getCurrentProject().addToMeasurement(BasicMeasurements.INTERFACES);
-            getCurrentGroup().addToMeasurement(BasicMeasurements.INTERFACES);
+            getCurrentProject().addToMeasurement(BasicMeasurements.INTERFACES, className);
+            getCurrentGroup().addToMeasurement(BasicMeasurements.INTERFACES, className);
         }
 
         if (classfile.isAbstract()) {
-            getCurrentProject().addToMeasurement(BasicMeasurements.ABSTRACT_CLASSES);
-            getCurrentGroup().addToMeasurement(BasicMeasurements.ABSTRACT_CLASSES);
+            getCurrentProject().addToMeasurement(BasicMeasurements.ABSTRACT_CLASSES, className);
+            getCurrentGroup().addToMeasurement(BasicMeasurements.ABSTRACT_CLASSES, className);
         }
 
         if (classfile.getSuperclassIndex() != 0) {
