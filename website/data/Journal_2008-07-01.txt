@@ -17,7 +17,7 @@ input of the next one, just like typical Unix tools.
 
 Found a bug with =com.jeantessier.metrics.MetricsGatherer= where it is not
 accounting for final classes correctly.  Filed it as
-[[http://sourceforge.net/tracker/index.php?func=detail&aid=2008537&group_id=43305&atid=435884][bug 2008537]]
+[[http://sourceforge.net/tracker/index.php?func%3Ddetail&aid%3D2008537&group_id%3D43305&atid%3D435884][bug 2008537]]
 Fixed it and added more tests.
 
 While I was testing =MetricsGatherer=, I noticed some measurements are being
