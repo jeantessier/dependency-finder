@@ -170,7 +170,7 @@
             if (application.getAttribute("loadStart") != null) {
 %>
                 <tr><td>&nbsp;</td></tr>
-                <tr><td colspan="3">Loading it took <%= application.getAttribute("duration") %> second(s) on <%= application.getAttribute("start") %>.</td></tr>
+                <tr><td colspan="3">Loading it took <%= application.getAttribute("loadDuration") %> second(s) on <%= application.getAttribute("loadStart") %>.</td></tr>
 
 <%
             }
