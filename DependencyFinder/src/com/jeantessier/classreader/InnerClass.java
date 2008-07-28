@@ -61,4 +61,7 @@ public interface InnerClass extends Visitable {
     public boolean isSynthetic();
     public boolean isAnnotation();
     public boolean isEnum();
+    
+    public boolean isMemberClass();
+    public boolean isAnonymousClass();
 }

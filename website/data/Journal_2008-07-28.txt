@@ -1,0 +1,5 @@
+Worked with the CLI =ListSymbols= to list final methods and classes.  I use
+this to locate areas in the code that need special attention.  I spent some
+time around =InnerClass= to categorize types of inner classes: member classes,
+anonymous inner classes, local classes.  I still have to update the Ant task
+and update the documentation.

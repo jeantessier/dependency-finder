@@ -1,22 +1,22 @@
 /*
  *  Copyright (c) 2001-2008, Jean Tessier
  *  All rights reserved.
- *  
+ *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
  *  are met:
- *  
+ *
  *      * Redistributions of source code must retain the above copyright
  *        notice, this list of conditions and the following disclaimer.
- *  
+ *
  *      * Redistributions in binary form must reproduce the above copyright
  *        notice, this list of conditions and the following disclaimer in the
  *        documentation and/or other materials provided with the distribution.
- *  
+ *
  *      * Neither the name of Jean Tessier nor the names of his contributors
  *        may be used to endorse or promote products derived from this software
  *        without specific prior written permission.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -32,57 +32,20 @@
 
 package com.jeantessier.classreader;
 
-import java.util.*;
+public class FinalMethodOrClassSymbolGathererStrategy implements SymbolGathererStrategy {
+    public boolean isMatching(Classfile classfile) {
+        return classfile.isFinal() && !classfile.isEnum() && !classfile.isAnonymousClass();
+    }
 
-public interface Classfile extends Deprecatable, Visitable {
-    public ClassfileLoader getLoader();
+    public boolean isMatching(Field_info field) {
+        return false;
+    }
 
-    public int getMagicNumber();
-    public int getMinorVersion();
-    public int getMajorVersion();
+    public boolean isMatching(Method_info method) {
+        return method.isFinal();
+    }
 
-    public ConstantPool getConstantPool();
-
-    public int getAccessFlag();
-
-    public int getClassIndex();
-    public Class_info getRawClass();
-    public String getClassName();
-    public String getSimpleName();
-
-    public int getSuperclassIndex();
-    public Class_info getRawSuperclass();
-    public String getSuperclassName();
-
-    public Collection<? extends Class_info> getAllInterfaces();
-    public Class_info getInterface(String name);
-
-    public Collection<? extends Field_info> getAllFields();
-    public Field_info getField(String name);
-    public Field_info locateField(String name);
-
-    public Collection<? extends Method_info> getAllMethods();
-    public Method_info getMethod(String signature);
-    public Method_info locateMethod(String signature);
-
-    public Collection<? extends Attribute_info> getAttributes();
-
-    public boolean isPublic();
-    public boolean isPackage();
-    public boolean isFinal();
-    public boolean isSuper();
-    public boolean isInterface();
-    public boolean isAbstract();
-    public boolean isAnnotation();
-    public boolean isEnum();
-    public boolean isSynthetic();
-    public boolean isDeprecated();
-    public boolean isGeneric();
-
-    public String getDeclaration();
-
-    public boolean isInnerClass();
-    public boolean isMemberClass();
-    public boolean isLocalClass();
-    public boolean isAnonymousClass();
+    public boolean isMatching(LocalVariable localVariable) {
+        return false;
+    }
 }

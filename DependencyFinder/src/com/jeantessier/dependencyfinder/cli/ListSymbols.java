@@ -47,6 +47,7 @@ public class ListSymbols extends DirectoryExplorerCommand {
         getCommandLine().addToggleSwitch("local-names");
 
         getCommandLine().addToggleSwitch("non-private-field-names");
+        getCommandLine().addToggleSwitch("final-method-or-class-names");
     }
 
     protected Collection<CommandLineException> parseCommandLine(String[] args) {
@@ -67,6 +68,8 @@ public class ListSymbols extends DirectoryExplorerCommand {
 
         if (getCommandLine().getToggleSwitch("non-private-field-names")) {
             gathererStrategy = new NonPrivateFieldSymbolGathererStrategy();
+        } else if (getCommandLine().getToggleSwitch("final-method-or-class-names")) {
+            gathererStrategy = new FinalMethodOrClassSymbolGathererStrategy();
         } else {
             DefaultSymbolGathererStrategy defaultGathererStrategy = new DefaultSymbolGathererStrategy();
             defaultGathererStrategy.setMatchingClassNames(getCommandLine().getToggleSwitch("class-names"));

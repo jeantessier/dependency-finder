@@ -398,4 +398,70 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     public String toString() {
         return getClassName();
     }
+
+    public boolean isInnerClass() {
+        return getMatchingInnerClass() == null;
+    }
+
+    public boolean isMemberClass() {
+        boolean result = false;
+
+        InnerClass innerClass = getMatchingInnerClass();
+        if (innerClass != null) {
+            result = innerClass.isMemberClass();
+        }
+
+        return result;
+    }
+
+    public boolean isLocalClass() {
+        boolean result = false;
+
+        InnerClass innerClass = getMatchingInnerClass();
+        EnclosingMethod_attribute enclosingMethod = getEnclosingMethod();
+        if (innerClass != null && enclosingMethod != null) {
+            result = !innerClass.isAnonymousClass();
+        }
+
+        return result;
+    }
+
+    public boolean isAnonymousClass() {
+        boolean result = false;
+
+        InnerClass innerClass = getMatchingInnerClass();
+        if (innerClass != null) {
+            result = innerClass.isAnonymousClass();
+        }
+
+        return result;
+    }
+
+    private InnerClass getMatchingInnerClass() {
+        InnerClass result = null;
+
+        for (Attribute_info attribute : getAttributes()) {
+            if (attribute instanceof InnerClasses_attribute) {
+                for (InnerClass innerClass : ((InnerClasses_attribute) attribute).getInnerClasses()) {
+                    if (innerClass.getInnerClassInfo().equals(getClassName())) {
+                        result = innerClass;
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private EnclosingMethod_attribute getEnclosingMethod() {
+        EnclosingMethod_attribute result = null;
+
+        for (Attribute_info attribute : getAttributes()) {
+            if (attribute instanceof EnclosingMethod_attribute) {
+                result = (EnclosingMethod_attribute) attribute;
+            }
+        }
+
+        return result;
+    }
 }

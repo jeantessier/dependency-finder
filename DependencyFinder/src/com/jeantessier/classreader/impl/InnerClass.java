@@ -178,6 +178,14 @@ public class InnerClass implements com.jeantessier.classreader.InnerClass {
         return (getAccessFlag() & ACC_ENUM) != 0;
     }
 
+    public boolean isMemberClass() {
+        return getOuterClassInfoIndex() != 0;
+    }
+
+    public boolean isAnonymousClass() {
+        return getInnerNameIndex() == 0;
+    }
+
     public String toString() {
         return getInnerClassInfo();
     }
