@@ -3,3 +3,7 @@ this to locate areas in the code that need special attention.  I spent some
 time around =InnerClass= to categorize types of inner classes: member classes,
 anonymous inner classes, local classes.  I still have to update the Ant task
 and update the documentation.
+
+Found interesting desriptions of the various
+[[http://www.developer.com/java/other/article.php/3085271][types of inner classes]]
+on Gamelan.
