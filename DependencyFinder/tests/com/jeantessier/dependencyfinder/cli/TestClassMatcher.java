@@ -59,22 +59,14 @@ public class TestClassMatcher extends MockObjectTestCase {
             one (mockClassfile).getClassName();
         }});
 
-        LoadEvent beginSession = new LoadEvent(this, null, null, null);
-        matcher.beginSession(beginSession);
-        LoadEvent beginGroup = new LoadEvent(this, groupName1, 1);
-        matcher.beginGroup(beginGroup);
-        LoadEvent beginFile = new LoadEvent(this, groupName1, filename1, null);
-        matcher.beginFile(beginFile);
-        LoadEvent beginClassfile = new LoadEvent(this, groupName1, filename1, null);
-        matcher.beginClassfile(beginClassfile);
-        LoadEvent endClassfile = new LoadEvent(this, groupName2, filename2, mockClassfile);
-        matcher.endClassfile(endClassfile);
-        LoadEvent endFile = new LoadEvent(this, groupName1, filename1, null);
-        matcher.endFile(endFile);
-        LoadEvent endGroup = new LoadEvent(this, groupName1, null, null);
-        matcher.endGroup(endGroup);
-        LoadEvent endSession = new LoadEvent(this, null, null, null);
-        matcher.endSession(endSession);
+        matcher.beginSession(new LoadEvent(this, null, null, null));
+        matcher.beginGroup(new LoadEvent(this, groupName1, 1));
+        matcher.beginFile(new LoadEvent(this, groupName1, filename1, null));
+        matcher.beginClassfile(new LoadEvent(this, groupName1, filename1, null));
+        matcher.endClassfile(new LoadEvent(this, groupName2, filename2, mockClassfile));
+        matcher.endFile(new LoadEvent(this, groupName1, filename1, null));
+        matcher.endGroup(new LoadEvent(this, groupName1, null, null));
+        matcher.endSession(new LoadEvent(this, null, null, null));
 
         assertEquals("Number of results", 1, matcher.getResults().size());
         for (List<String> results : matcher.getResults().values()) {
