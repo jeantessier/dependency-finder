@@ -9576,6 +9576,7 @@ Lists all symbols it could find, based on parameters.
         [-class-names]
         [-echo]
         [-field-names]
+        [-final-method-or-class-names]
         [-help]
         [-local-names]
         [-method-names]
@@ -9644,6 +9645,26 @@ Lists names of fields.
 
 </blockquote>
 
+---++++ =-final-method-or-class-names=
+
+<blockquote>
+
+Lists names of final methods or classes fields.  With this switch, the tool
+only lists such classs and methods; no fields or local variables.  =Enum=
+classes and anonymous inner classes are implicitly final, but they are not
+listed by the tool.
+
+This switch lets you find areas of the code where you might have been too
+restrictive by preventing extension.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 ---++++ =-help=
 
 <blockquote>
@@ -9691,7 +9712,10 @@ Lists names of methods.
 <blockquote>
 
 Lists names of non-private, non-static fields.  With this switch, the tool only
-lists these fields.  No classes or methods or local variables.
+lists such fields; no classes or methods or local variables.
+
+This switch lets you find areas of the code where you might have been too
+lax by allowing access to members that should have been private.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>

@@ -1,3 +1,5 @@
+Documented the new switches to =ListSymbols= on the the Tools page.
+
 Fixed tests broken by new switches to =ListSymbols=.
 
 Streamlined the building of =CLASSPATH= in =junit= and =textjunit= launcher
