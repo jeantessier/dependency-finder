@@ -13,6 +13,6 @@ Upgraded the following development components:
 </blockquote>
 
 I haven't changed any of the test classes yet.  I just ugrapded the JAR file
-that I use in compilation.  Everything should still with with older versions of
+that I use in compilation.  Everything should still work with older versions of
 JUnit, except =junit.bat= and =textjunit.bat= which refer to the JAR file by
 name explicitly.

@@ -1,1 +1,13 @@
 Fixed tests broken by new switches to =ListSymbols=.
+
+Streamlined the building of =CLASSPATH= in =junit= and =textjunit= launcher
+scripts under Unix.
+
+Switched =textjunit= to use the normal JUnit 4.4 test runner instead of the old
+=junit.textui.TestRunner=.
+
+I noticed that the graphical UI launched by =junit= is now broken.  It has most
+likely been broken since I switched to the JUnit 4.4 binaries back on
+2008-06-09 but I had not noticed.  I might get rid of the graphical launcher
+altogether if I cannot find a suitable replacement to
+=junit.swingui.TestRunner=.
