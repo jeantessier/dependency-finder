@@ -26,6 +26,7 @@
     <tr><td>class-names</td><td>false</td><td>false</td></tr>
     <tr><td>echo</td><td>false</td><td>false</td></tr>
     <tr><td>field-names</td><td>false</td><td>false</td></tr>
+    <tr><td>final-method-or-class-names</td><td>false</td><td>false</td></tr>
     <tr><td>help</td><td>false</td><td>false</td></tr>
     <tr><td>local-names</td><td>false</td><td>false</td></tr>
     <tr><td>method-names</td><td>false</td><td>false</td></tr>
@@ -54,6 +55,33 @@
     <tr><td>check</td><td>is</td><td>field-names</td><td>present</td><td>false</td></tr>
     <tr><td>check</td><td>is</td><td>method-names</td><td>present</td><td>false</td></tr>
     <tr><td>check</td><td>is</td><td>local-names</td><td>present</td><td>false</td></tr>
+</table>
+
+<table border="1">
+    <tr><td>parse</td><td colspan="3">-field-names</td><td>and validate</td></tr>
+    <tr><td colspan="5">command line</td></tr>
+    <tr><td>check</td><td>is</td><td>class-names</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>field-names</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>is</td><td>method-names</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>local-names</td><td>present</td><td>false</td></tr>
+</table>
+
+<table border="1">
+    <tr><td>parse</td><td colspan="3">-method-names</td><td>and validate</td></tr>
+    <tr><td colspan="5">command line</td></tr>
+    <tr><td>check</td><td>is</td><td>class-names</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>field-names</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>method-names</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>is</td><td>local-names</td><td>present</td><td>false</td></tr>
+</table>
+
+<table border="1">
+    <tr><td>parse</td><td colspan="3">-local-names</td><td>and validate</td></tr>
+    <tr><td colspan="5">command line</td></tr>
+    <tr><td>check</td><td>is</td><td>class-names</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>field-names</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>method-names</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>local-names</td><td>present</td><td>true</td></tr>
 </table>
 
 <table border="1">

@@ -1,0 +1,1 @@
+Fixed tests broken by new switches to =ListSymbols=.
