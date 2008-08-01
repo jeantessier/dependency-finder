@@ -55,6 +55,7 @@ EXTERNAL_LIBRARIES="
     $CATALINA_HOME/lib
     $WEBWORK_HOME/lib/default
     $WEBWORK_HOME
+    $ANT_HOME/lib
 "
 
 for external_library in $EXTERNAL_LIBRARIES
