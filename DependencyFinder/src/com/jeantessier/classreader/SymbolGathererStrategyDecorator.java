@@ -32,7 +32,7 @@
 
 package com.jeantessier.classreader;
 
-public abstract class SymbolGathererStrategyDecorator implements SymbolGathererStrategy {
+public class SymbolGathererStrategyDecorator implements SymbolGathererStrategy {
     private SymbolGathererStrategy delegate;
 
     public SymbolGathererStrategyDecorator(SymbolGathererStrategy delegate) {
