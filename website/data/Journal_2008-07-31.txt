@@ -20,5 +20,5 @@ Started to create tests for the Ant version of =ListSymbols=, but the Ant code
 is not very testable.  The Ant tasks have many trivial accessors that I do not
 want to waste time testing.  The interesting business logic is embeded in the
 =execute()= method and I have to pull it out before I can write tests against
-it.  For some reason, the tests pass in IntelliJ but fail when I run them from
-the command-line.
+it.  For some reason, these Ant tests pass when I run them in IntelliJ or Ant
+but fail when I run them from the command-line.
