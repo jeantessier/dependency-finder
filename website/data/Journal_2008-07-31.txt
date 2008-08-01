@@ -13,3 +13,10 @@ likely been broken since I switched to the JUnit 4.4 binaries back on
 2008-06-09 but I had not noticed.  I might get rid of the graphical launcher
 altogether if I cannot find a suitable replacement to
 =junit.swingui.TestRunner=.
+
+Tried to create tests for the Ant version of =ListSymbols=, but the Ant code is
+not very testable.  The Ant tasks have many trivial accessors that I do not
+want to waste time testing.  The interesting business logic is embeded in the
+=execute()= method.  I will need to pull it out before I can write any tests
+against it.  I don't know if I should write Fit tests, like I did for the CLI,
+or if I should just stick to regular JUnit tests.
