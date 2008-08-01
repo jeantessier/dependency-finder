@@ -38,7 +38,6 @@ public class DefaultSymbolGathererStrategy implements SymbolGathererStrategy {
     private boolean matchingMethodNames = true;
     private boolean matchingLocalNames = true;
 
-
     public void setMatchingClassNames(boolean matchingClassNames) {
         this.matchingClassNames = matchingClassNames;
     }
