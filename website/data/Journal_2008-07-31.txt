@@ -14,9 +14,11 @@ likely been broken since I switched to the JUnit 4.4 binaries back on
 altogether if I cannot find a suitable replacement to
 =junit.swingui.TestRunner=.
 
-Tried to create tests for the Ant version of =ListSymbols=, but the Ant code is
-not very testable.  The Ant tasks have many trivial accessors that I do not
+Brought the =ListSymbols= Ant task to feature parity with its CLI version.
+
+Started to create tests for the Ant version of =ListSymbols=, but the Ant code
+is not very testable.  The Ant tasks have many trivial accessors that I do not
 want to waste time testing.  The interesting business logic is embeded in the
-=execute()= method.  I will need to pull it out before I can write any tests
-against it.  I don't know if I should write Fit tests, like I did for the CLI,
-or if I should just stick to regular JUnit tests.
+=execute()= method and I have to pull it out before I can write tests against
+it.  For some reason, the tests pass in IntelliJ but fail when I run them from
+the command-line.

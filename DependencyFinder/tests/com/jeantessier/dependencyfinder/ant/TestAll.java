@@ -30,23 +30,15 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+package com.jeantessier.dependencyfinder.ant;
+
 import junit.framework.*;
 
 public class TestAll extends TestCase {
     public static Test suite() {
-        TestSuite result = new TestSuite("Dependency Finder");
+        TestSuite result = new TestSuite(TestAll.class.getPackage().getName());
 
-        result.addTest(com.jeantessier.commandline.TestAll.suite());
-        result.addTest(com.jeantessier.classreader.TestAll.suite());
-        result.addTest(com.jeantessier.classreader.impl.TestAll.suite());
-        result.addTest(com.jeantessier.text.TestAll.suite());
-        result.addTest(com.jeantessier.dependency.TestAll.suite());
-        result.addTest(com.jeantessier.diff.TestAll.suite());
-        result.addTest(com.jeantessier.metrics.TestAll.suite());
-        result.addTest(com.jeantessier.dependencyfinder.ant.TestAll.suite());
-        result.addTest(com.jeantessier.dependencyfinder.cli.TestAll.suite());
-        result.addTest(com.jeantessier.dependencyfinder.web.TestAll.suite());
-        result.addTest(com.jeantessier.dependencyfinder.webwork.TestAll.suite());
+        result.addTestSuite(TestListSymbols.class);
 
         return result;
     }

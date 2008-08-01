@@ -41,12 +41,14 @@ import org.apache.tools.ant.types.*;
 import com.jeantessier.classreader.*;
 
 public class ListSymbols extends Task {
-    private boolean classNames  = false;
-    private boolean fieldNames  = false;
+    private boolean classNames = false;
+    private boolean fieldNames = false;
     private boolean methodNames = false;
-    private boolean localNames  = false;
-    private File    destfile;
-    private Path    path;
+    private boolean localNames = false;
+    private boolean nonPrivateFieldNames = false;
+    private boolean finalMethodOrClassNames = false;
+    private File destfile;
+    private Path path;
 
     public boolean getClassnames() {
         return classNames;
@@ -78,6 +80,22 @@ public class ListSymbols extends Task {
     
     public void setLocalnames(boolean localNames) {
         this.localNames = localNames;
+    }
+
+    public boolean getNonprivatefieldnames() {
+        return nonPrivateFieldNames;
+    }
+
+    public void setNonprivatefieldnames(boolean nonPrivateFieldNames) {
+        this.nonPrivateFieldNames = nonPrivateFieldNames;
+    }
+
+    public boolean getFinalmethodorclassnames() {
+        return finalMethodOrClassNames;
+    }
+
+    public void setFinalmethodorclassnames(boolean finalMethodOrClassNames) {
+        this.finalMethodOrClassNames = finalMethodOrClassNames;
     }
 
     public File getDestfile() {
@@ -115,37 +133,7 @@ public class ListSymbols extends Task {
 
         VerboseListener verboseListener = new VerboseListener(this);
 
-        DefaultSymbolGathererStrategy gathererStrategy = new DefaultSymbolGathererStrategy();
-
-        // Since DefaultSymbolGathererStrategy lists everything by default,
-        // we turn them all off if any of the switches are present.
-        // This way, if you pass nothing, you get the default behavior and
-        // the tool shows everything.  If you pass in one or more, you only
-        // see symbols of the kind(s) you specified.
-        if (getClassnames() || getFieldnames() || getMethodnames() || getLocalnames()) {
-            gathererStrategy.setMatchingClassNames(false);
-            gathererStrategy.setMatchingFieldNames(false);
-            gathererStrategy.setMatchingMethodNames(false);
-            gathererStrategy.setMatchingLocalNames(false);
-        }
-
-        if (getClassnames()) {
-            gathererStrategy.setMatchingClassNames(true);
-        }
-
-        if (getFieldnames()) {
-            gathererStrategy.setMatchingFieldNames(true);
-        }
-
-        if (getMethodnames()) {
-            gathererStrategy.setMatchingMethodNames(true);
-        }
-
-        if (getLocalnames()) {
-            gathererStrategy.setMatchingLocalNames(true);
-        }
-
-        SymbolGatherer gatherer = new SymbolGatherer(gathererStrategy);
+        SymbolGatherer gatherer = new SymbolGatherer(getStrategy());
 
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(new LoadListenerVisitorAdapter(gatherer));
@@ -163,5 +151,52 @@ public class ListSymbols extends Task {
         } catch (IOException ex) {
             throw new BuildException(ex);
         }
+    }
+
+    // Visible for testing only
+    SymbolGathererStrategy getStrategy() {
+        SymbolGathererStrategy result = getDefaultSymbolGathererStrategy();
+
+        if (getNonprivatefieldnames()) {
+            result = new NonPrivateFieldSymbolGathererStrategy();
+        } else if (getFinalmethodorclassnames()) {
+            result = new FinalMethodOrClassSymbolGathererStrategy();
+        }
+
+        return result;
+    }
+
+    private SymbolGathererStrategy getDefaultSymbolGathererStrategy() {
+        DefaultSymbolGathererStrategy result = new DefaultSymbolGathererStrategy();
+
+        // Since DefaultSymbolGathererStrategy lists everything by default,
+        // we turn them all off if any of the switches are present.
+        // This way, if you pass nothing, you get the default behavior and
+        // the tool shows everything.  If you pass in one or more, you only
+        // see symbols of the kind(s) you specified.
+        if (getClassnames() || getFieldnames() || getMethodnames() || getLocalnames()) {
+            result.setMatchingClassNames(false);
+            result.setMatchingFieldNames(false);
+            result.setMatchingMethodNames(false);
+            result.setMatchingLocalNames(false);
+        }
+
+        if (getClassnames()) {
+            result.setMatchingClassNames(true);
+        }
+
+        if (getFieldnames()) {
+            result.setMatchingFieldNames(true);
+        }
+
+        if (getMethodnames()) {
+            result.setMatchingMethodNames(true);
+        }
+
+        if (getLocalnames()) {
+            result.setMatchingLocalNames(true);
+        }
+
+        return result;
     }
 }
