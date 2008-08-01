@@ -153,7 +153,7 @@
         </javac>
     </target>
 
-    <target name="run" depends="tests.classreader, tests.commandline, tests.dependency, tests.dependencyfinder.cli, tests.dependencyfinder.web, tests.dependencyfinder.webwork, tests.diff, tests.metrics, tests.text, tests.fit, tests.report"
+    <target name="run" depends="tests.classreader, tests.commandline, tests.dependency, tests.dependencyfinder.ant, tests.dependencyfinder.cli, tests.dependencyfinder.web, tests.dependencyfinder.webwork, tests.diff, tests.metrics, tests.text, tests.fit, tests.report"
             description="Runs all unit tests and generates a test run report"/>
 
     <target name="tests.init" depends="init">
@@ -204,6 +204,22 @@
                     <include name="com/jeantessier/dependency/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
                     <exclude name="**/dependency/TestHTMLPrinterBase.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="tests.dependencyfinder.ant" depends="tests.init">
+        <junit fork="true">
+            <classpath>
+                <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.jmock"/>
+            </classpath>
+            <formatter type="xml"/>
+            <batchtest todir="${testReportsDir}">
+                <fileset dir="${testsDir}">
+                    <include name="com/jeantessier/dependencyfinder/ant/**/Test*.java"/>
+                    <exclude name="**/TestAll.java"/>
                 </fileset>
             </batchtest>
         </junit>
