@@ -33,6 +33,7 @@
 package com.jeantessier.dependencyfinder.ant;
 
 import org.jmock.integration.junit3.*;
+import org.apache.tools.ant.*;
 
 import com.jeantessier.classreader.*;
 
@@ -54,7 +55,27 @@ public class TestListSymbols extends MockObjectTestCase {
 
         sut = new ListSymbols();
     }
-    
+
+    public void testPathNotSet() {
+        try {
+            sut.execute();
+            fail("executed without path being set");
+        } catch (BuildException ex) {
+            assertEquals("Wrong message", "path must be set!", ex.getMessage());
+        }
+    }
+
+    public void testMissingDestfile() {
+        sut.createPath();
+
+        try {
+            sut.execute();
+            fail("executed without destfile being set");
+        } catch (BuildException ex) {
+            assertEquals("Wrong message", "destfile must be set!", ex.getMessage());
+        }
+    }
+
     public void testDefaultStrategy() {
         SymbolGathererStrategy strategy = sut.getStrategy();
         assertEquals("strategy class", DefaultSymbolGathererStrategy.class, strategy.getClass());
