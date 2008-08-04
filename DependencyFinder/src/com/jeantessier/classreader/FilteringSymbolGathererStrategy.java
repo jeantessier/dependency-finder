@@ -32,8 +32,75 @@
 
 package com.jeantessier.classreader;
 
+import java.util.*;
+
+import org.apache.oro.text.perl.*;
+
 public class FilteringSymbolGathererStrategy extends SymbolGathererStrategyDecorator {
-    public FilteringSymbolGathererStrategy(SymbolGathererStrategy delegate) {
+    private Perl5Util perl = new Perl5Util();
+
+    private List<String> includes;
+    private List<String> excludes;
+
+    public FilteringSymbolGathererStrategy(SymbolGathererStrategy delegate, List<String> includes, List<String> excludes) {
         super(delegate);
+
+        this.includes = includes;
+        this.excludes = excludes;
+    }
+
+    public boolean isMatching(Classfile classfile) {
+        boolean result = false;
+
+        if (matches(classfile.getClassName())) {
+            result = super.isMatching(classfile);
+        }
+
+        return result;
+    }
+
+    public boolean isMatching(Field_info field) {
+        boolean result = false;
+
+        if (matches(field.getFullSignature())) {
+            result = super.isMatching(field);
+        }
+
+        return result;
+    }
+
+    public boolean isMatching(Method_info method) {
+        boolean result = false;
+
+        if (matches(method.getFullSignature())) {
+            result = super.isMatching(method);
+        }
+
+        return result;
+    }
+
+    public boolean isMatching(LocalVariable localVariable) {
+        boolean result = false;
+
+        if (matches(localVariable.getName())) {
+            result = super.isMatching(localVariable);
+        }
+
+        return result;
+    }
+
+    private boolean matches(String name) {
+        return matches(includes, name) && !matches(excludes, name);
+    }
+
+    private boolean matches(List<String> regularExpressions, String name) {
+        boolean result = false;
+
+        Iterator<String> i = regularExpressions.iterator();
+        while (!result && i.hasNext()) {
+            result = perl.match(i.next(), name);
+        }
+
+        return result;
     }
 }
