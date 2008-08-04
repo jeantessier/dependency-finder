@@ -38,14 +38,14 @@ import org.jmock.*;
 public class TestSymbolGathererStrategyDecorator extends MockObjectTestCase {
     private SymbolGathererStrategy mockStrategy;
 
-    private FilteringSymbolGathererStrategy sut;
+    private SymbolGathererStrategyDecorator sut;
 
     protected void setUp() throws Exception {
         super.setUp();
 
         mockStrategy = mock(SymbolGathererStrategy.class);
 
-        sut = new FilteringSymbolGathererStrategy(mockStrategy);
+        sut = new SymbolGathererStrategyDecorator(mockStrategy);
     }
 
     public void testIsMatching_classfile() {
