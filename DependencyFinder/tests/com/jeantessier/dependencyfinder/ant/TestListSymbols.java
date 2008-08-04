@@ -72,7 +72,7 @@ public class TestListSymbols extends MockObjectTestCase {
             sut.execute();
             fail("executed without destfile being set");
         } catch (BuildException ex) {
-            assertEquals("Wrong message", "destfile must be set!`", ex.getMessage());
+            assertEquals("Wrong message", "destfile must be set!", ex.getMessage());
         }
     }
 
