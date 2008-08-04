@@ -133,7 +133,7 @@ public class ListSymbols extends Task {
 
         VerboseListener verboseListener = new VerboseListener(this);
 
-        SymbolGatherer gatherer = new SymbolGatherer(getStrategy());
+        SymbolGatherer gatherer = new SymbolGatherer(createStrategy());
 
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(new LoadListenerVisitorAdapter(gatherer));
@@ -154,19 +154,21 @@ public class ListSymbols extends Task {
     }
 
     // Visible for testing only
-    SymbolGathererStrategy getStrategy() {
-        SymbolGathererStrategy result = getDefaultSymbolGathererStrategy();
+    SymbolGathererStrategy createStrategy() {
+        SymbolGathererStrategy result;
 
         if (getNonprivatefieldnames()) {
             result = new NonPrivateFieldSymbolGathererStrategy();
         } else if (getFinalmethodorclassnames()) {
             result = new FinalMethodOrClassSymbolGathererStrategy();
+        } else {
+            result = createDefaultSymbolGathererStrategy();
         }
 
         return result;
     }
 
-    private SymbolGathererStrategy getDefaultSymbolGathererStrategy() {
+    private SymbolGathererStrategy createDefaultSymbolGathererStrategy() {
         DefaultSymbolGathererStrategy result = new DefaultSymbolGathererStrategy();
 
         // Since DefaultSymbolGathererStrategy lists everything by default,

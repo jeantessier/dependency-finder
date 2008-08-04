@@ -48,7 +48,7 @@ public class TestSymbolGathererStrategyDecorator extends MockObjectTestCase {
         sut = new SymbolGathererStrategyDecorator(mockStrategy);
     }
 
-    public void testIsMatching_classfile() {
+    public void testIsMatching_class() {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{

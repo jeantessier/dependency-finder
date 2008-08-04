@@ -44,7 +44,7 @@ public class TestFinalMethodOrClassSymbolGathererStrategy extends MockObjectTest
         sut = new FinalMethodOrClassSymbolGathererStrategy();
     }
 
-    public void testIsMatchingClassfile_notfinal() {
+    public void testIsMatching_class_notfinal() {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
@@ -55,7 +55,7 @@ public class TestFinalMethodOrClassSymbolGathererStrategy extends MockObjectTest
         assertFalse(sut.isMatching(mockClassfile));
     }
 
-    public void testIsMatchingClassfile_final() {
+    public void testIsMatching_class_final() {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
@@ -70,7 +70,7 @@ public class TestFinalMethodOrClassSymbolGathererStrategy extends MockObjectTest
         assertTrue(sut.isMatching(mockClassfile));
     }
 
-    public void testIsMatchingClassfile_enum() {
+    public void testIsMatching_class_enum() {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
@@ -83,7 +83,7 @@ public class TestFinalMethodOrClassSymbolGathererStrategy extends MockObjectTest
         assertFalse(sut.isMatching(mockClassfile));
     }
 
-    public void testIsMatchingClassfile_anonymous() {
+    public void testIsMatching_class_anonymous() {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
@@ -98,12 +98,12 @@ public class TestFinalMethodOrClassSymbolGathererStrategy extends MockObjectTest
         assertFalse(sut.isMatching(mockClassfile));
     }
 
-    public void testIsMatchingField() {
+    public void testIsMatching_field() {
         final Field_info mockField = mock(Field_info.class);
         assertFalse(sut.isMatching(mockField));
     }
 
-    public void testIsMatchingMethod_notfinal() {
+    public void testIsMatching_method_notfinal() {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
@@ -114,7 +114,7 @@ public class TestFinalMethodOrClassSymbolGathererStrategy extends MockObjectTest
         assertFalse(sut.isMatching(mockMethod));
     }
 
-    public void testIsMatchingMethod_final() {
+    public void testIsMatching_method_final() {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
@@ -125,7 +125,7 @@ public class TestFinalMethodOrClassSymbolGathererStrategy extends MockObjectTest
         assertTrue(sut.isMatching(mockMethod));
     }
 
-    public void testIsMatchingLocalVariable() {
+    public void testIsMatching_local() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
         assertFalse(sut.isMatching(mockLocalVariable));
     }

@@ -76,8 +76,8 @@ public class TestListSymbols extends MockObjectTestCase {
         }
     }
 
-    public void testDefaultStrategy() {
-        SymbolGathererStrategy strategy = sut.getStrategy();
+    public void testCreateStrategy_default() {
+        SymbolGathererStrategy strategy = sut.createStrategy();
         assertEquals("strategy class", DefaultSymbolGathererStrategy.class, strategy.getClass());
         assertTrue("class names", strategy.isMatching(mockClassfile));
         assertTrue("field names", strategy.isMatching(mockField));
@@ -85,10 +85,10 @@ public class TestListSymbols extends MockObjectTestCase {
         assertTrue("local variable names", strategy.isMatching(mockLocalVariable));
     }
 
-    public void testStrategy_classnames() {
+    public void testCreateStrategy_classnames() {
         sut.setClassnames(true);
 
-        SymbolGathererStrategy strategy = sut.getStrategy();
+        SymbolGathererStrategy strategy = sut.createStrategy();
         assertEquals("strategy class", DefaultSymbolGathererStrategy.class, strategy.getClass());
         assertTrue("class names", strategy.isMatching(mockClassfile));
         assertFalse("field names", strategy.isMatching(mockField));
@@ -96,10 +96,10 @@ public class TestListSymbols extends MockObjectTestCase {
         assertFalse("local variable names", strategy.isMatching(mockLocalVariable));
     }
 
-    public void testStrategy_fieldnames() {
+    public void testCreateStrategy_fieldnames() {
         sut.setFieldnames(true);
 
-        SymbolGathererStrategy strategy = sut.getStrategy();
+        SymbolGathererStrategy strategy = sut.createStrategy();
         assertEquals("strategy class", DefaultSymbolGathererStrategy.class, strategy.getClass());
         assertFalse("class names", strategy.isMatching(mockClassfile));
         assertTrue("field names", strategy.isMatching(mockField));
@@ -107,10 +107,10 @@ public class TestListSymbols extends MockObjectTestCase {
         assertFalse("local variable names", strategy.isMatching(mockLocalVariable));
     }
 
-    public void testStrategy_methodnames() {
+    public void testCreateStrategy_methodnames() {
         sut.setMethodnames(true);
 
-        SymbolGathererStrategy strategy = sut.getStrategy();
+        SymbolGathererStrategy strategy = sut.createStrategy();
         assertEquals("strategy class", DefaultSymbolGathererStrategy.class, strategy.getClass());
         assertFalse("class names", strategy.isMatching(mockClassfile));
         assertFalse("field names", strategy.isMatching(mockField));
@@ -118,10 +118,10 @@ public class TestListSymbols extends MockObjectTestCase {
         assertFalse("local variable names", strategy.isMatching(mockLocalVariable));
     }
 
-    public void testStrategy_localnames() {
+    public void testCreateStrategy_localnames() {
         sut.setLocalnames(true);
 
-        SymbolGathererStrategy strategy = sut.getStrategy();
+        SymbolGathererStrategy strategy = sut.createStrategy();
         assertEquals("strategy class", DefaultSymbolGathererStrategy.class, strategy.getClass());
         assertFalse("class names", strategy.isMatching(mockClassfile));
         assertFalse("field names", strategy.isMatching(mockField));
@@ -129,17 +129,17 @@ public class TestListSymbols extends MockObjectTestCase {
         assertTrue("local variable names", strategy.isMatching(mockLocalVariable));
     }
 
-    public void testStrategy_nonprivatefieldnames() {
+    public void testCreateStrategy_nonprivatefieldnames() {
         sut.setNonprivatefieldnames(true);
 
-        SymbolGathererStrategy strategy = sut.getStrategy();
+        SymbolGathererStrategy strategy = sut.createStrategy();
         assertEquals("strategy class", NonPrivateFieldSymbolGathererStrategy.class, strategy.getClass());
     }
 
-    public void testStrategy_finalmethodorclassnames() {
+    public void testCreateStrategy_finalmethodorclassnames() {
         sut.setFinalmethodorclassnames(true);
 
-        SymbolGathererStrategy strategy = sut.getStrategy();
+        SymbolGathererStrategy strategy = sut.createStrategy();
         assertEquals("strategy class", FinalMethodOrClassSymbolGathererStrategy.class, strategy.getClass());
     }
 }

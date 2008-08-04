@@ -6,3 +6,5 @@ private for some reason.  I suspect that a manual refactoring was the cause.  I
 made them private and neither the compiler nor the tests complained about it.
 
 Finished =FilteringSymbolGathererStrategy=, including tests.
+
+Normalized the names of tests for =SymbolGathererStrategy= implementations.

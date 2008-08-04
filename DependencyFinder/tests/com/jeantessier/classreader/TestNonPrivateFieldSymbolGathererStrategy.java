@@ -44,22 +44,12 @@ public class TestNonPrivateFieldSymbolGathererStrategy extends MockObjectTestCas
         sut = new NonPrivateFieldSymbolGathererStrategy();
     }
 
-    public void testClassfile() {
+    public void testIsMatching_class() {
         Classfile mockClassfile = mock(Classfile.class);
         assertFalse("Should not match classes", sut.isMatching(mockClassfile));
     }
 
-    public void testMethod() {
-        Method_info mockMethod = mock(Method_info.class);
-        assertFalse("Should not match methods", sut.isMatching(mockMethod));
-    }
-
-    public void testLocalVariable() {
-        LocalVariable mockLocalVariable = mock(LocalVariable.class);
-        assertFalse("Should not match local variables", sut.isMatching(mockLocalVariable));
-    }
-
-    public void testPrivateNormalField() {
+    public void testIsMatching_field_privatenormal() {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
@@ -69,7 +59,7 @@ public class TestNonPrivateFieldSymbolGathererStrategy extends MockObjectTestCas
         assertFalse("Should not match normal, private fields", sut.isMatching(mockField));
     }
 
-    public void testPublicStaticField() {
+    public void testIsMatching_field_publicstatic() {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
@@ -80,7 +70,7 @@ public class TestNonPrivateFieldSymbolGathererStrategy extends MockObjectTestCas
         assertFalse("Should not match public static fields", sut.isMatching(mockField));
     }
 
-    public void testSyntheticField() {
+    public void testIsMatching_field_synthetic() {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
@@ -92,7 +82,7 @@ public class TestNonPrivateFieldSymbolGathererStrategy extends MockObjectTestCas
         assertFalse("Should not match synthetic fields", sut.isMatching(mockField));
     }
 
-    public void testPublicNormalField() {
+    public void testIsMatching_field_publicnormal() {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
@@ -102,5 +92,15 @@ public class TestNonPrivateFieldSymbolGathererStrategy extends MockObjectTestCas
         }});
 
         assertTrue("Should have matched public normal fields", sut.isMatching(mockField));
+    }
+
+    public void testIsMatching_method() {
+        Method_info mockMethod = mock(Method_info.class);
+        assertFalse("Should not match methods", sut.isMatching(mockMethod));
+    }
+
+    public void testIsMatching_local() {
+        LocalVariable mockLocalVariable = mock(LocalVariable.class);
+        assertFalse("Should not match local variables", sut.isMatching(mockLocalVariable));
     }
 }
