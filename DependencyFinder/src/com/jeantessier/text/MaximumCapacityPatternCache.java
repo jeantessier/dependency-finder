@@ -38,9 +38,9 @@ import org.apache.oro.text.*;
 import org.apache.oro.text.regex.*;
 
 public class MaximumCapacityPatternCache implements PatternCache {
-    PatternCompiler compiler;
+    private PatternCompiler compiler;
 
-    Map<String, Pattern> map = new HashMap<String, Pattern>();
+    private Map<String, Pattern> map = new HashMap<String, Pattern>();
 
     public MaximumCapacityPatternCache() {
         this(new Perl5Compiler());
