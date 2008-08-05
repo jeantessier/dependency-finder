@@ -38,15 +38,15 @@ import java.util.*;
 public class MetricsReport {
     private PrintWriter out;
 
-    boolean listingElements             = false;
-    boolean chartingClassesPerPackage   = false;
-    boolean chartingFeaturesPerClass    = false;
-    boolean chartingInboundsPerPackage  = false;
-    boolean chartingOutboundsPerPackage = false;
-    boolean chartingInboundsPerClass    = false;
-    boolean chartingOutboundsPerClass   = false;
-    boolean chartingInboundsPerFeature  = false;
-    boolean chartingOutboundsPerFeature = false;
+    private boolean listingElements = false;
+    private boolean chartingClassesPerPackage = false;
+    private boolean chartingFeaturesPerClass = false;
+    private boolean chartingInboundsPerPackage = false;
+    private boolean chartingOutboundsPerPackage = false;
+    private boolean chartingInboundsPerClass = false;
+    private boolean chartingOutboundsPerClass = false;
+    private boolean chartingInboundsPerFeature = false;
+    private boolean chartingOutboundsPerFeature = false;
 
     public MetricsReport(PrintWriter out) {
         this.out = out;
@@ -212,13 +212,13 @@ public class MetricsReport {
         }
         out.println();
 
-        if (isChartingClassesPerPackage()   ||
-            isChartingFeaturesPerClass()    ||
-            isChartingInboundsPerPackage()  ||
+        if (isChartingClassesPerPackage() ||
+            isChartingFeaturesPerClass() ||
+            isChartingInboundsPerPackage() ||
             isChartingOutboundsPerPackage() ||
-            isChartingInboundsPerClass()    ||
-            isChartingOutboundsPerClass()   ||
-            isChartingInboundsPerFeature()  ||
+            isChartingInboundsPerClass() ||
+            isChartingOutboundsPerClass() ||
+            isChartingInboundsPerFeature() ||
             isChartingOutboundsPerFeature()) {
 
             out.println();
