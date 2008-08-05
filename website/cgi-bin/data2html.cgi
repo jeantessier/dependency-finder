@@ -75,8 +75,8 @@ sub PrintDocumentHeader {
     print "<html>\n";
     print "\n";
     print "<head>\n";
-    print "<link rel=\"stylesheet\" type=\"text/css\" href=\"/style.css\" />\n";
-    print "<link rel=\"shortcut icon\" href=\"images/logoicon.gif\" type=\"image/gif\" />\n";
+    print "<link rel=\"stylesheet\" type=\"text/css\" href=\"../style.css\" />\n";
+    print "<link rel=\"shortcut icon\" href=\"images/logoicon.gif\" type=\"../image/gif\" />\n";
     print "<title>$title</title>\n";
     print "</head>\n";
     print "\n";
