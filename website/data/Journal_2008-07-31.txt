@@ -21,3 +21,9 @@ is not very testable.  The Ant tasks have many trivial accessors that I do not
 want to waste time testing.  The interesting business logic is embeded in the
 =execute()= method and I have to pull it out before I can write tests against
 it.
+
+The project's website is in SourceForge's Subversion repository and I update it
+from SourceForge's Shell service.  I noticed today that the Shell service
+couldn't talk to the Subversion service for some reason.  Someone else is
+having the same problem, so at least it's not just me.  Apparently, SourceForge
+is in the process of moving its infrastructure, so maybe it's related somehow.
