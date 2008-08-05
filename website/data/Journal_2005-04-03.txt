@@ -3,4 +3,4 @@ Wrote a sequence diagram of what happens when you call
 how to handle the case where processing a group consisting of a single
 =.class= file.
 
-[[images/ClassfileLoader.load.jpg]]
+[[../images/ClassfileLoader.load.jpg]]

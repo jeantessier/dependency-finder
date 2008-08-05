@@ -1,3 +1,3 @@
 I've had an idea for a logo.  Here's the initial draft.
 
-[[images/s_logo.jpg]]
+[[../images/s_logo.jpg]]

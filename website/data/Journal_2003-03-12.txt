@@ -10,18 +10,18 @@ both approaches.  But beyond that, it makes little sense since I could
 just as easily pass a =java.io.StringWriter= to the
 decorator.
 
-[[images/DecoratorPrinter.jpg]]
+[[../images/DecoratorPrinter.jpg]]
 
 This first scenario shows saving to a file.  Saving to an output
 stream would look just the same.
 
-[[images/DecoratorPrinterFileScenario.jpg]]
+[[../images/DecoratorPrinterFileScenario.jpg]]
 
 This second scenario saves the graph to an in-memory string, though
 I could just as easily do the same with a
 =java.io.StringWriter=.
 
-[[images/DecoratorPrinterStringScenario.jpg]]
+[[../images/DecoratorPrinterStringScenario.jpg]]
 
 This design looks like overkill, since =FilePrinter= and
 =StringPrinter= end up with empty implementations for their

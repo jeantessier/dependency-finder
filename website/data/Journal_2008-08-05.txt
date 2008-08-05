@@ -1,1 +1,3 @@
 More clamping down on non-private fields, this time in =MetricsReport=.
+
+Fixed some broken URLs for images in the Journal.

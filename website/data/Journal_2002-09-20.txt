@@ -19,4 +19,4 @@ to explore dependencies within a package.  If you zoom out far
 enough, inter-package dependencies dominate and packages with
 lots of dependencies stand out.
 
-[[images/ClassPackageDraft.jpg]]
+[[../images/ClassPackageDraft.jpg]]
