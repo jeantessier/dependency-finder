@@ -37,12 +37,12 @@ import junit.framework.*;
 import java.io.*;
 
 public class TestMetricsFactory extends TestCase {
-    MetricsConfiguration configuration;
-    MetricsFactory       factory;
-    
+    private MetricsConfiguration configuration;
+    private MetricsFactory factory;
+
     protected void setUp() throws Exception {
         configuration = new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).load("etc" + File.separator + "MetricsConfig.xml");
-        factory       = new MetricsFactory("test", configuration);
+        factory = new MetricsFactory("test", configuration);
     }
     
     public void testCreateProjectMetrics() {

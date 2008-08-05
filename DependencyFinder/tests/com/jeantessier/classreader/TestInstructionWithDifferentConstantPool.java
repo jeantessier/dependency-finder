@@ -37,8 +37,8 @@ import java.util.*;
 import junit.framework.*;
 
 public class TestInstructionWithDifferentConstantPool extends TestCase {
-    ClassfileLoader oldLoader;
-    ClassfileLoader newLoader;
+    private ClassfileLoader oldLoader;
+    private ClassfileLoader newLoader;
 
     protected void setUp() throws Exception {
         super.setUp();

@@ -38,7 +38,7 @@ import org.apache.oro.text.*;
 import org.apache.oro.text.regex.*;
 
 public class TestMaximumCapacityPatternCache extends TestCase {
-    PatternCache cache;
+    private PatternCache cache;
 
     protected void setUp() throws Exception {
         cache = new MaximumCapacityPatternCache();
@@ -52,22 +52,22 @@ public class TestMaximumCapacityPatternCache extends TestCase {
         assertEquals("empty", 0, cache.size());
 
         cache.addPattern("/foo/");
-        
+
         assertEquals("add one", 1, cache.size());
 
         cache.addPattern("/foo/");
-        
+
         assertEquals("add same again", 1, cache.size());
 
         cache.addPattern("/bar/");
-        
+
         assertEquals("add another", 2, cache.size());
     }
 
     public void testAddPattern() throws MalformedPatternException {
         Object pattern1 = cache.addPattern("/foo/");
         assertNotNull("add returns null", pattern1);
-        
+
         Object pattern2 = cache.addPattern("/foo/");
         assertSame("add twice returns different", pattern1, pattern2);
     }
@@ -98,7 +98,7 @@ public class TestMaximumCapacityPatternCache extends TestCase {
     public void testGetPattern() throws MalformedCachePatternException {
         Object pattern1 = cache.getPattern("/foo/");
         assertNotNull("get returns null", pattern1);
-        
+
         Object pattern2 = cache.getPattern("/foo/");
         assertSame("get twice returns different", pattern1, pattern2);
     }

@@ -37,31 +37,31 @@ import java.util.*;
 import junit.framework.*;
 
 public class TestNode extends TestCase {
-    Node a;
-    Node a_A;
-    Node a_A_a;
-    Node a_A_b;
-    Node a_B;
-    Node a_B_a;
-    Node a_B_b;
+    private Node a;
+    private Node a_A;
+    private Node a_A_a;
+    private Node a_A_b;
+    private Node a_B;
+    private Node a_B_a;
+    private Node a_B_b;
 
-    Node b;
-    Node b_B;
-    Node b_B_b;
+    private Node b;
+    private Node b_B;
+    private Node b_B_b;
 
     protected void setUp() throws Exception {
         NodeFactory factory = new NodeFactory();
 
-        a     = factory.createPackage("a");
-        a_A   = factory.createClass("a.A");
+        a = factory.createPackage("a");
+        a_A = factory.createClass("a.A");
         a_A_a = factory.createFeature("a.A.a");
         a_A_b = factory.createFeature("a.A.b");
-        a_B   = factory.createClass("a.B");
+        a_B = factory.createClass("a.B");
         a_B_a = factory.createFeature("a.B.a");
         a_B_b = factory.createFeature("a.B.b");
 
-        b     = factory.createPackage("b");
-        b_B   = factory.createClass("b.B");
+        b = factory.createPackage("b");
+        b_B = factory.createClass("b.B");
         b_B_b = factory.createFeature("b.B.b");
     }
 

@@ -59,7 +59,7 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestStatisticalMeasurementWithMetrics.class);
         result.addTestSuite(TestStatisticalMeasurementWithDispose.class);
         result.addTestSuite(TestMetricsComparator.class);
-        result.addTestSuite(TestMetricsGatherer.class);
+//        result.addTestSuite(TestMetricsGatherer.class);
         result.addTestSuite(TestMetricsGathererEvents.class);
         result.addTestSuite(TestMetricsGathererAccumulators.class);
         result.addTestSuite(TestMetricsGathererDependencies.class);

@@ -36,17 +36,17 @@ import java.util.*;
 
 public class CollectionSelectionCriteria implements SelectionCriteria {
     private boolean matchingPackages = true;
-    private boolean matchingClasses  = true;
+    private boolean matchingClasses = true;
     private boolean matchingFeatures = true;
 
-    Collection<String> include;
-    Collection<String> exclude;
+    private Collection<String> include;
+    private Collection<String> exclude;
 
     public CollectionSelectionCriteria(Collection<String> include, Collection<String> exclude) {
         this.include = include;
         this.exclude = exclude;
     }
-    
+
     public boolean isMatchingPackages() {
         return matchingPackages;
     }
@@ -62,7 +62,7 @@ public class CollectionSelectionCriteria implements SelectionCriteria {
     public void setMatchingClasses(boolean matchingClasses) {
         this.matchingClasses = matchingClasses;
     }
-    
+
     public boolean isMatchingFeatures() {
         return matchingFeatures;
     }
@@ -74,11 +74,11 @@ public class CollectionSelectionCriteria implements SelectionCriteria {
     public boolean matches(PackageNode node) {
         return matchesName(node.getName());
     }
-    
+
     public boolean matches(ClassNode node) {
         return matchesName(node.getName());
     }
-    
+
     public boolean matches(FeatureNode node) {
         return matchesName(node.getName());
     }
@@ -86,11 +86,11 @@ public class CollectionSelectionCriteria implements SelectionCriteria {
     public boolean matchesPackageName(String name) {
         return matchesName(name);
     }
-    
+
     public boolean matchesClassName(String name) {
         return matchesName(name);
     }
-    
+
     public boolean matchesFeatureName(String name) {
         return matchesName(name);
     }

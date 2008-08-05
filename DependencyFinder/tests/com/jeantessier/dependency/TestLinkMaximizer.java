@@ -32,51 +32,42 @@
 
 package com.jeantessier.dependency;
 
-import java.io.*;
-import java.util.*;
-
 import junit.framework.*;
 
-import org.apache.oro.text.perl.*;
-
 public class TestLinkMaximizer extends TestCase {
-    NodeFactory factory;
-    
-    Node _package;
-    Node test_class;
-    Node test_main_method;
-    Node test_test_method;
-        
-    Node java_lang_package;
-    Node java_lang_Object_class;
-    Node java_lang_Object_Object_method;
-    Node java_lang_String_class;
-        
-    Node java_util_package;
-    Node java_util_Collections_class;
-    Node java_util_Collections_singleton_method;
-    Node java_util_Set_class;
-    
-    LinkMaximizer visitor;
+    private Node _package;
+    private Node test_class;
+    private Node test_main_method;
+    private Node test_test_method;
+
+    private Node java_lang_package;
+    private Node java_lang_Object_class;
+    private Node java_lang_Object_Object_method;
+    private Node java_lang_String_class;
+
+    private Node java_util_package;
+    private Node java_util_Collections_class;
+    private Node java_util_Collections_singleton_method;
+    private Node java_util_Set_class;
 
     protected void setUp() throws Exception {
-        factory = new NodeFactory();
+        NodeFactory factory = new NodeFactory();
 
         _package = factory.createPackage("");
         test_class = factory.createClass("test");
         test_main_method = factory.createFeature("test.main(String[])");
         test_test_method = factory.createFeature("test.test()");
-        
+
         java_lang_package = factory.createPackage("java.lang");
         java_lang_Object_class = factory.createClass("java.lang.Object");
         java_lang_Object_Object_method = factory.createFeature("java.lang.Object.Object()");
         java_lang_String_class = factory.createClass("java.lang.String");
-        
+
         java_util_package = factory.createPackage("java.util");
         java_util_Collections_class = factory.createClass("java.util.Collections");
         java_util_Collections_singleton_method = factory.createFeature("java.util.Collections.singleton(java.lang.Object)");
         java_util_Set_class = factory.createClass("java.util.Set");
-    
+
         test_class.addDependency(java_lang_Object_class);
         test_main_method.addDependency(java_lang_Object_class);
         test_main_method.addDependency(java_lang_Object_Object_method);
@@ -85,8 +76,8 @@ public class TestLinkMaximizer extends TestCase {
         test_main_method.addDependency(java_util_Set_class);
         test_test_method.addDependency(java_lang_Object_Object_method);
 
-        visitor = new LinkMaximizer();
-        visitor.traverseNodes(factory.getPackages().values());
+        LinkMaximizer sut = new LinkMaximizer();
+        sut.traverseNodes(factory.getPackages().values());
     }
 
     public void test_package() {

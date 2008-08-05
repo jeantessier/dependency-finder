@@ -8,3 +8,5 @@ made them private and neither the compiler nor the tests complained about it.
 Finished =FilteringSymbolGathererStrategy=, including tests.
 
 Normalized the names of tests for =SymbolGathererStrategy= implementations.
+
+Clamped down on non-private fields, mostly in test classes.

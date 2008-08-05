@@ -32,31 +32,26 @@
 
 package com.jeantessier.dependency;
 
-import java.io.*;
-import java.util.*;
-
 import junit.framework.*;
 
-import org.apache.oro.text.perl.*;
-
 public class TestLinkMinimizerSystematic extends TestCase {
-    NodeFactory factory;
-    
-    PackageNode a;
-    ClassNode   a_A;
-    FeatureNode a_A_a;
-    
-    PackageNode b;
-    ClassNode   b_B;
-    FeatureNode b_B_b;
-    
+    private NodeFactory factory;
+
+    private PackageNode a;
+    private ClassNode a_A;
+    private FeatureNode a_A_a;
+
+    private PackageNode b;
+    private ClassNode b_B;
+    private FeatureNode b_B_b;
+
     protected void setUp() throws Exception {
         factory = new NodeFactory();
 
         a     = factory.createPackage("a");
         a_A   = factory.createClass("a.A");
         a_A_a = factory.createFeature("a.A.a()");
-    
+
         b     = factory.createPackage("b");
         b_B   = factory.createClass("b.B");
         b_B_b = factory.createFeature("b.B.b()");

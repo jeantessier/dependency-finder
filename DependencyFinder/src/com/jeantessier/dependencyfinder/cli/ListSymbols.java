@@ -48,6 +48,10 @@ public class ListSymbols extends DirectoryExplorerCommand {
 
         getCommandLine().addToggleSwitch("non-private-field-names");
         getCommandLine().addToggleSwitch("final-method-or-class-names");
+
+        getCommandLine().addMultipleValuesSwitch("includes", DEFAULT_INCLUDES);
+        getCommandLine().addMultipleValuesSwitch("excludes");
+
     }
 
     protected Collection<CommandLineException> parseCommandLine(String[] args) {
@@ -78,6 +82,10 @@ public class ListSymbols extends DirectoryExplorerCommand {
             defaultGathererStrategy.setMatchingLocalNames(getCommandLine().getToggleSwitch("local-names"));
 
             gathererStrategy = defaultGathererStrategy;
+        }
+
+        if (getCommandLine().isPresent("includes") || getCommandLine().isPresent("excludes")) {
+            gathererStrategy = new FilteringSymbolGathererStrategy(gathererStrategy, getCommandLine().getMultipleSwitch("includes"), getCommandLine().getMultipleSwitch("excludes"));
         }
 
         SymbolGatherer gatherer = new SymbolGatherer(gathererStrategy);
