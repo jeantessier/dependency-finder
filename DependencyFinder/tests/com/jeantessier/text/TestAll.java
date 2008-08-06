@@ -41,6 +41,7 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestMaximumCapacityPatternCache.class);
         result.addTestSuite(TestHex.class);
         result.addTestSuite(TestPrinterBuffer.class);
+        result.addTestSuite(TestRegularExpressionParser.class);
 
         return result;
     }

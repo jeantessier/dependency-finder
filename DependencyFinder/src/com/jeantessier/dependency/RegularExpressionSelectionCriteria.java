@@ -34,7 +34,6 @@ package com.jeantessier.dependency;
 
 import java.util.*;
 
-import org.apache.log4j.*;
 import org.apache.oro.text.perl.*;
 import org.apache.oro.text.*;
 
@@ -68,7 +67,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
     }
 
     public void setGlobalIncludes(String globalIncludes) {
-        setGlobalIncludes(parseRE(globalIncludes));
+        setGlobalIncludes(RegularExpressionParser.parseRE(globalIncludes));
     }
     
     public void setGlobalIncludes(List<String> globalIncludes) {
@@ -80,7 +79,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
     }
 
     public void setGlobalExcludes(String globalExcludes) {
-        setGlobalExcludes(parseRE(globalExcludes));
+        setGlobalExcludes(RegularExpressionParser.parseRE(globalExcludes));
     }
 
     public void setGlobalExcludes(List<String> globalExcludes) {
@@ -100,7 +99,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
     }
 
     public void setPackageIncludes(String packageIncludes) {
-        setPackageIncludes(parseRE(packageIncludes));
+        setPackageIncludes(RegularExpressionParser.parseRE(packageIncludes));
     }
 
     public void setPackageIncludes(List<String> packageIncludes) {
@@ -112,7 +111,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
     }
 
     public void setPackageExcludes(String packageExcludes) {
-        setPackageExcludes(parseRE(packageExcludes));
+        setPackageExcludes(RegularExpressionParser.parseRE(packageExcludes));
     }
 
     public void setPackageExcludes(List<String> packageExcludes) {
@@ -132,7 +131,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
     }
 
     public void setClassIncludes(String classIncludes) {
-        setClassIncludes(parseRE(classIncludes));
+        setClassIncludes(RegularExpressionParser.parseRE(classIncludes));
     }
 
     public void setClassIncludes(List<String> classIncludes) {
@@ -144,7 +143,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
     }
 
     public void setClassExcludes(String classExcludes) {
-        setClassExcludes(parseRE(classExcludes));
+        setClassExcludes(RegularExpressionParser.parseRE(classExcludes));
     }
 
     public void setClassExcludes(List<String> classExcludes) {
@@ -164,7 +163,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
     }
 
     public void setFeatureIncludes(String featureIncludes) {
-        setFeatureIncludes(parseRE(featureIncludes));
+        setFeatureIncludes(RegularExpressionParser.parseRE(featureIncludes));
     }
 
     public void setFeatureIncludes(List<String> featureIncludes) {
@@ -176,7 +175,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
     }
 
     public void setFeatureExcludes(String featureExcludes) {
-        setFeatureExcludes(parseRE(featureExcludes));
+        setFeatureExcludes(RegularExpressionParser.parseRE(featureExcludes));
     }
 
     public void setFeatureExcludes(List<String> featureExcludes) {
@@ -235,74 +234,5 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
         }
 
         return found;
-    }
-
-    // Should be private, but left at package-level for the unit tests.
-    static List<String> parseRE(String re) {
-        List<String> result = new LinkedList<String>();
-
-        Logger logger = Logger.getLogger(RegularExpressionSelectionCriteria.class);
-        logger.debug("ParseRE \"" + re + "\"");
-
-        int length = re.length();
-        int start  = 0;
-        int stop   = -1;
-
-        while (start < length && stop < length) {
-            String separator = null;
-            
-            // Locate begining & determine separator
-            while (start < length && stop < start) {
-                if (re.charAt(start) == 'm' && (start + 1) < length) {
-                    separator = re.substring(start + 1, start + 2);
-                    stop = start + 2;
-                } else if (re.charAt(start) == '/') {
-                    separator = "/";
-                    stop = start + 1;
-                } else {
-                    start++;
-                }
-            }
-
-            logger.debug("start is " + start);
-            logger.debug("separator is " + separator);
-            
-            // Locate end
-            while (stop < length && start < stop) {
-                stop = re.indexOf(separator, stop);
-                logger.debug("indexOf() is " + stop);
-                
-                if (stop == -1 || re.charAt(stop - 1) != '\\') {
-
-                    if (stop == -1) {
-                        stop = length;
-                    } else {
-                        // Look for modifiers
-                        stop++;
-                        while (stop < length && (re.charAt(stop) == 'g' ||
-                                                 re.charAt(stop) == 'i' ||
-                                                 re.charAt(stop) == 'm' ||
-                                                 re.charAt(stop) == 'o' ||
-                                                 re.charAt(stop) == 's' ||
-                                                 re.charAt(stop) == 'x')) {
-                            stop++;
-                        }
-                    }
-
-                    logger.debug("stop is " + stop);
-
-                    // Add candidate
-                    logger.debug("candidate is \"" + re.substring(start, stop) + "\"");
-                    result.add(re.substring(start, stop));
-            
-                    // Move start
-                    start = stop + 1;
-                } else {
-                    stop++;
-                }
-            }
-        }
-        
-        return result;
     }
 }

@@ -51,8 +51,8 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
     private ClassNode c_C;
     private FeatureNode c_C_c;
 
-    private List include;
-    private List exclude;
+    private List<String> include;
+    private List<String> exclude;
 
     protected void setUp() throws Exception {
         criteria = new RegularExpressionSelectionCriteria();
@@ -71,65 +71,13 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
         c_C   = factory.createClass("c.C");
         c_C_c = factory.createFeature("c.C.c");
         
-        include = new LinkedList();
+        include = new LinkedList<String>();
         include.add("/^b/");
         
-        exclude = new LinkedList();
+        exclude = new LinkedList<String>();
         exclude.add("/^c/");
     }
 
-    public void testParseRE() {
-        List expected = new ArrayList();
-        expected.add("/test/");
-
-        List test = RegularExpressionSelectionCriteria.parseRE("/test/");
-        
-        assertEquals("size", expected.size(), test.size());
-        assertEquals("/test/", expected.get(0), test.get(0));
-    }
-
-    public void testParseBrokenRE() {
-        List expected = new ArrayList();
-        expected.add("/test");
-
-        List test = RegularExpressionSelectionCriteria.parseRE("/test");
-        
-        assertEquals("size", expected.size(), test.size());
-        assertEquals("/test", expected.get(0), test.get(0));
-    }
-
-    public void testParseMultipleREs() {
-        List expected = new ArrayList();
-        expected.add("/test1/");
-        expected.add("/test2/");
-
-        List test = RegularExpressionSelectionCriteria.parseRE("/test1/,/test2/");
-        
-        assertEquals("size", expected.size(), test.size());
-        assertEquals("/test1/", expected.get(0), test.get(0));
-        assertEquals("/test2/", expected.get(1), test.get(1));
-    }
-
-    public void testParseComplexREs() {
-        List expected = new ArrayList();
-        expected.add("/test1\\/test2/");
-
-        List test = RegularExpressionSelectionCriteria.parseRE("/test1\\/test2/");
-        
-        assertEquals("size", expected.size(), test.size());
-        assertEquals("/test1\\/test2/", expected.get(0), test.get(0));
-    }
-
-    public void testParseReallyComplexREs() {
-        List expected = new ArrayList();
-        expected.add("m=test1\\=test2=i");
-
-        List test = RegularExpressionSelectionCriteria.parseRE("m=test1\\=test2=i");
-        
-        assertEquals("size", expected.size(), test.size());
-        assertEquals("m=test1\\=test2=i", expected.get(0), test.get(0));
-    }
-    
     public void testMatch() {
         criteria.setGlobalIncludes("//");
         criteria.setMatchingPackages(true);
