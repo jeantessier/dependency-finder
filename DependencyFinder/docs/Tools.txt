@@ -9575,9 +9575,11 @@ Lists all symbols it could find, based on parameters.
     ListSymbols
         [-class-names]
         [-echo]
+        [-excludes value]*
         [-field-names]
         [-final-method-or-class-names]
         [-help]
+        [-includes value]*
         [-local-names]
         [-method-names]
         [-non-private-field-names]
@@ -9631,6 +9633,23 @@ Prints the command-line, as seen by the tool.
 
 </blockquote>
 
+---++++ =-excludes value=
+
+<blockquote>
+
+A symbol must NOT match the regular expression in _value_ for it to be included
+in the results.
+
+If there are multiples of this switch, the name must not match any of them.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 ---++++ =-field-names=
 
 <blockquote>
@@ -9675,6 +9694,24 @@ Prints synopsis.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-includes value=
+
+<blockquote>
+
+A symbol must match the regular expression in _value_ for it to be included in
+the results.
+
+If there are multiples of this switch, the name must match at least one of
+them.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>=//=</td></tr>
 </table>
 
 </blockquote>
