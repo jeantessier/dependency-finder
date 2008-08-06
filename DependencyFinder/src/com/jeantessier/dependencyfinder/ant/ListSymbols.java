@@ -39,6 +39,7 @@ import org.apache.tools.ant.*;
 import org.apache.tools.ant.types.*;
 
 import com.jeantessier.classreader.*;
+import com.jeantessier.text.*;
 
 public class ListSymbols extends Task {
     private boolean classNames = false;
@@ -47,6 +48,8 @@ public class ListSymbols extends Task {
     private boolean localNames = false;
     private boolean nonPrivateFieldNames = false;
     private boolean finalMethodOrClassNames = false;
+    private List<String> includes = Collections.singletonList("//");
+    private List<String> excludes = Collections.emptyList();
     private File destfile;
     private Path path;
 
@@ -98,14 +101,30 @@ public class ListSymbols extends Task {
         this.finalMethodOrClassNames = finalMethodOrClassNames;
     }
 
+    public List<String> getIncludes() {
+        return includes;
+    }
+
+    public void setIncludes(String includes) {
+        this.includes = RegularExpressionParser.parseRE(includes);
+    }
+
+    public List<String> getExcludes() {
+        return excludes;
+    }
+
+    public void setExcludes(String excludes) {
+        this.excludes = RegularExpressionParser.parseRE(excludes);
+    }
+
     public File getDestfile() {
         return destfile;
     }
-    
+
     public void setDestfile(File destfile) {
         this.destfile = destfile;
     }
-    
+
     public Path createPath() {
         if (path == null) {
             path = new Path(getProject());
@@ -113,11 +132,11 @@ public class ListSymbols extends Task {
 
         return path;
     }
-    
+
     public Path getPath() {
         return path;
     }
-    
+
     public void execute() throws BuildException {
         // first off, make sure that we've got what we need
 
@@ -141,7 +160,7 @@ public class ListSymbols extends Task {
         loader.load(Arrays.asList(getPath().list()));
 
         log("Saving symbols to " + getDestfile().getAbsolutePath());
-        
+
         try {
             PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
             for (String symbol : gatherer.getCollection()) {
@@ -164,6 +183,8 @@ public class ListSymbols extends Task {
         } else {
             result = createDefaultSymbolGathererStrategy();
         }
+
+        result = new FilteringSymbolGathererStrategy(result, getIncludes(), getExcludes());
 
         return result;
     }

@@ -49,6 +49,14 @@ public class FilteringSymbolGathererStrategy extends SymbolGathererStrategyDecor
         this.excludes = excludes;
     }
 
+    public List<String> getIncludes() {
+        return includes;
+    }
+
+    public List<String> getExcludes() {
+        return excludes;
+    }
+
     public boolean isMatching(Classfile classfile) {
         boolean result = false;
 
@@ -90,7 +98,7 @@ public class FilteringSymbolGathererStrategy extends SymbolGathererStrategyDecor
     }
 
     private boolean matches(String name) {
-        return matches(includes, name) && !matches(excludes, name);
+        return matches(getIncludes(), name) && !matches(getExcludes(), name);
     }
 
     private boolean matches(List<String> regularExpressions, String name) {

@@ -32,6 +32,8 @@
 
 package com.jeantessier.dependencyfinder.ant;
 
+import java.util.*;
+
 import org.jmock.integration.junit3.*;
 import org.apache.tools.ant.*;
 
@@ -77,18 +79,26 @@ public class TestListSymbols extends MockObjectTestCase {
     }
 
     public void testCreateStrategy_default() {
-        SymbolGathererStrategy strategy = sut.createStrategy();
-        assertEquals("strategy class", DefaultSymbolGathererStrategy.class, strategy.getClass());
-        assertTrue("class names", strategy.isMatching(mockClassfile));
-        assertTrue("field names", strategy.isMatching(mockField));
-        assertTrue("method names", strategy.isMatching(mockMethod));
-        assertTrue("local variable names", strategy.isMatching(mockLocalVariable));
+        FilteringSymbolGathererStrategy strategy = (FilteringSymbolGathererStrategy) sut.createStrategy();
+        assertEquals("strategy class", FilteringSymbolGathererStrategy.class, strategy.getClass());
+        List<String> includes = strategy.getIncludes();
+        assertEquals("filter includes", 1, includes.size());
+        assertEquals("filter includes", "//", includes.get(0));
+        List<String> excludes = strategy.getExcludes();
+        assertEquals("filter excludes", 0, excludes.size());
+
+        SymbolGathererStrategy delegateStrategy = strategy.getDelegate();
+        assertEquals("delegate strategy class", DefaultSymbolGathererStrategy.class, delegateStrategy.getClass());
+        assertTrue("class names", delegateStrategy.isMatching(mockClassfile));
+        assertTrue("field names", delegateStrategy.isMatching(mockField));
+        assertTrue("method names", delegateStrategy.isMatching(mockMethod));
+        assertTrue("local variable names", delegateStrategy.isMatching(mockLocalVariable));
     }
 
     public void testCreateStrategy_classnames() {
         sut.setClassnames(true);
 
-        SymbolGathererStrategy strategy = sut.createStrategy();
+        SymbolGathererStrategy strategy = ((SymbolGathererStrategyDecorator) sut.createStrategy()).getDelegate();
         assertEquals("strategy class", DefaultSymbolGathererStrategy.class, strategy.getClass());
         assertTrue("class names", strategy.isMatching(mockClassfile));
         assertFalse("field names", strategy.isMatching(mockField));
@@ -99,7 +109,7 @@ public class TestListSymbols extends MockObjectTestCase {
     public void testCreateStrategy_fieldnames() {
         sut.setFieldnames(true);
 
-        SymbolGathererStrategy strategy = sut.createStrategy();
+        SymbolGathererStrategy strategy = ((SymbolGathererStrategyDecorator) sut.createStrategy()).getDelegate();
         assertEquals("strategy class", DefaultSymbolGathererStrategy.class, strategy.getClass());
         assertFalse("class names", strategy.isMatching(mockClassfile));
         assertTrue("field names", strategy.isMatching(mockField));
@@ -110,7 +120,7 @@ public class TestListSymbols extends MockObjectTestCase {
     public void testCreateStrategy_methodnames() {
         sut.setMethodnames(true);
 
-        SymbolGathererStrategy strategy = sut.createStrategy();
+        SymbolGathererStrategy strategy = ((SymbolGathererStrategyDecorator) sut.createStrategy()).getDelegate();
         assertEquals("strategy class", DefaultSymbolGathererStrategy.class, strategy.getClass());
         assertFalse("class names", strategy.isMatching(mockClassfile));
         assertFalse("field names", strategy.isMatching(mockField));
@@ -121,7 +131,7 @@ public class TestListSymbols extends MockObjectTestCase {
     public void testCreateStrategy_localnames() {
         sut.setLocalnames(true);
 
-        SymbolGathererStrategy strategy = sut.createStrategy();
+        SymbolGathererStrategy strategy = ((SymbolGathererStrategyDecorator) sut.createStrategy()).getDelegate();
         assertEquals("strategy class", DefaultSymbolGathererStrategy.class, strategy.getClass());
         assertFalse("class names", strategy.isMatching(mockClassfile));
         assertFalse("field names", strategy.isMatching(mockField));
@@ -132,14 +142,56 @@ public class TestListSymbols extends MockObjectTestCase {
     public void testCreateStrategy_nonprivatefieldnames() {
         sut.setNonprivatefieldnames(true);
 
-        SymbolGathererStrategy strategy = sut.createStrategy();
+        SymbolGathererStrategy strategy = ((SymbolGathererStrategyDecorator) sut.createStrategy()).getDelegate();
         assertEquals("strategy class", NonPrivateFieldSymbolGathererStrategy.class, strategy.getClass());
     }
 
     public void testCreateStrategy_finalmethodorclassnames() {
         sut.setFinalmethodorclassnames(true);
 
-        SymbolGathererStrategy strategy = sut.createStrategy();
+        SymbolGathererStrategy strategy = ((SymbolGathererStrategyDecorator) sut.createStrategy()).getDelegate();
         assertEquals("strategy class", FinalMethodOrClassSymbolGathererStrategy.class, strategy.getClass());
+    }
+
+    public void testCreateStrategy_singleincludes() {
+        sut.setIncludes("/some/");
+
+        FilteringSymbolGathererStrategy strategy = (FilteringSymbolGathererStrategy) sut.createStrategy();
+        assertEquals("strategy class", FilteringSymbolGathererStrategy.class, strategy.getClass());
+        List<String> includes = strategy.getIncludes();
+        assertEquals("filter includes", 1, includes.size());
+        assertEquals("filter includes", "/some/", includes.get(0));
+    }
+
+    public void testCreateStrategy_multipleincludes() {
+        sut.setIncludes("/some/, /other/");
+
+        FilteringSymbolGathererStrategy strategy = (FilteringSymbolGathererStrategy) sut.createStrategy();
+        assertEquals("strategy class", FilteringSymbolGathererStrategy.class, strategy.getClass());
+        List<String> includes = strategy.getIncludes();
+        assertEquals("filter includes", 2, includes.size());
+        assertEquals("filter includes", "/some/", includes.get(0));
+        assertEquals("filter includes", "/other/", includes.get(1));
+    }
+
+    public void testCreateStrategy_singleexcludes() {
+        sut.setExcludes("/some/");
+
+        FilteringSymbolGathererStrategy strategy = (FilteringSymbolGathererStrategy) sut.createStrategy();
+        assertEquals("strategy class", FilteringSymbolGathererStrategy.class, strategy.getClass());
+        List<String> excludes = strategy.getExcludes();
+        assertEquals("filter excludes", 1, excludes.size());
+        assertEquals("filter excludes", "/some/", excludes.get(0));
+    }
+
+    public void testCreateStrategy_multipleexcludes() {
+        sut.setExcludes("/some/, /other/");
+
+        FilteringSymbolGathererStrategy strategy = (FilteringSymbolGathererStrategy) sut.createStrategy();
+        assertEquals("strategy class", FilteringSymbolGathererStrategy.class, strategy.getClass());
+        List<String> excludes = strategy.getExcludes();
+        assertEquals("filter excludes", 2, excludes.size());
+        assertEquals("filter excludes", "/some/", excludes.get(0));
+        assertEquals("filter excludes", "/other/", excludes.get(1));
     }
 }

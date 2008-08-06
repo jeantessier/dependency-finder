@@ -39,19 +39,24 @@ public class SymbolGathererStrategyDecorator implements SymbolGathererStrategy {
         this.delegate = delegate;
     }
 
+    // Visible for testing only
+    public SymbolGathererStrategy getDelegate() {
+        return delegate;
+    }
+
     public boolean isMatching(Classfile classfile) {
-        return delegate.isMatching(classfile);
+        return getDelegate().isMatching(classfile);
     }
 
     public boolean isMatching(Field_info field) {
-        return delegate.isMatching(field);
+        return getDelegate().isMatching(field);
     }
 
     public boolean isMatching(Method_info method) {
-        return delegate.isMatching(method);
+        return getDelegate().isMatching(method);
     }
 
     public boolean isMatching(LocalVariable localVariable) {
-        return delegate.isMatching(localVariable);
+        return getDelegate().isMatching(localVariable);
     }
 }
