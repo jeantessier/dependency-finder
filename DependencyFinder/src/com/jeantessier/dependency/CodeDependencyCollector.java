@@ -77,16 +77,20 @@ public class CodeDependencyCollector extends CollectorBase {
     }
 
     public void visitClassfile(Classfile classfile) {
-        current = getFactory().createClass(classfile.getClassName(), true);
+        ClassNode currentClass = getFactory().createClass(classfile.getClassName(), true);
+        current = currentClass;
 
         fireBeginClass(classfile.getClassName());
 
         if (classfile.getSuperclassIndex() != 0) {
-            classfile.getRawSuperclass().accept(this);
+            Class_info superclass = classfile.getRawSuperclass();
+            superclass.accept(this);
+            currentClass.addParent(getFactory().createClass(superclass.getName()));
         }
 
         for (Class_info class_info : classfile.getAllInterfaces()) {
             class_info.accept(this);
+            currentClass.addParent(getFactory().createClass(class_info.getName()));
         }
 
         for (Field_info field : classfile.getAllFields()) {

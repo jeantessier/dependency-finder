@@ -32,19 +32,24 @@
 
 package com.jeantessier.dependency;
 
+import java.util.*;
+
 import org.jmock.*;
 import org.jmock.api.*;
-import org.jmock.lib.legacy.*;
-import org.jmock.lib.action.*;
 import org.jmock.integration.junit3.*;
+import org.jmock.lib.action.*;
+import org.jmock.lib.legacy.*;
 
 import com.jeantessier.classreader.*;
 
 public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
     private static final String TEST_CLASS_NAME = "a.A";
+    private static final String TEST_SUPERCLASS_NAME = "a.Parent";
+    private static final String TEST_INTERFACE_NAME = "a.I";
 
     private NodeFactory mockFactory;
-    private SelectionCriteria mockFilter;
+    private Classfile mockClassfile;
+    private ClassNode mockClassNode;
 
     private CodeDependencyCollector sut;
 
@@ -54,15 +59,13 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         setImposteriser(ClassImposteriser.INSTANCE);
 
         mockFactory = mock(NodeFactory.class);
-        mockFilter = mock(SelectionCriteria.class);
+        mockClassfile = mock(Classfile.class);
+        mockClassNode = mock(ClassNode.class, "testclass");
 
-        sut = new CodeDependencyCollector(mockFactory, mockFilter);
+        sut = new CodeDependencyCollector(mockFactory);
     }
     
-    public void testVisitClassfile_nosuperclass() {
-        final Classfile mockClassfile = mock(Classfile.class);
-        final ClassNode mockClassNode = mock(ClassNode.class);
-
+    public void testVisitClassfile_withoutsuperclass() {
         checking(new Expectations() {{
             atLeast(1).of (mockClassfile).getClassName();
                 will(returnValue(TEST_CLASS_NAME));
@@ -79,9 +82,64 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
+    public void testVisitClassfile_withsuperclass() {
+        final Class_info mockRawSuperclass = mock(Class_info.class);
+        final ClassNode mockSuperclassNode = mock(ClassNode.class, "superclass");
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockClassfile).getClassName();
+                will(returnValue(TEST_CLASS_NAME));
+            one (mockFactory).createClass(TEST_CLASS_NAME, true);
+                will(returnValue(mockClassNode));
+            one (mockClassfile).getSuperclassIndex();
+                will(returnValue(1));
+            one (mockClassfile).getRawSuperclass();
+                will(returnValue(mockRawSuperclass));
+            one (mockRawSuperclass).accept(sut);
+            atLeast(1).of (mockRawSuperclass).getName();
+                will(returnValue(TEST_SUPERCLASS_NAME));
+            atLeast(1).of (mockFactory).createClass(TEST_SUPERCLASS_NAME);
+                will(returnValue(mockSuperclassNode));
+            one (mockClassNode).addParent(mockSuperclassNode);
+            ignoring (mockClassfile).getAllInterfaces();
+            ignoring (mockClassfile).getAllFields();
+            ignoring (mockClassfile).getAllMethods();
+        }});
+
+        sut.visitClassfile(mockClassfile);
+    }
+
+    public void testVisitClassfile_withinterface() {
+        final Class_info mockInterface = mock(Class_info.class);
+        final ClassNode mockInterfaceNode = mock(ClassNode.class, "interface");
+
+        final Collection<Class_info> allInterfaces = new ArrayList<Class_info>();
+        allInterfaces.add(mockInterface);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockClassfile).getClassName();
+                will(returnValue(TEST_CLASS_NAME));
+            one (mockFactory).createClass(TEST_CLASS_NAME, true);
+                will(returnValue(mockClassNode));
+            one (mockClassfile).getSuperclassIndex();
+                will(returnValue(0));
+            one (mockClassfile).getAllInterfaces();
+                will(returnValue(allInterfaces));
+            one (mockInterface).accept(sut);
+            atLeast(1).of (mockInterface).getName();
+                will(returnValue(TEST_INTERFACE_NAME));
+            atLeast(1).of (mockFactory).createClass(TEST_INTERFACE_NAME);
+                will(returnValue(mockInterfaceNode));
+            one (mockClassNode).addParent(mockInterfaceNode);
+            ignoring (mockClassfile).getAllFields();
+            ignoring (mockClassfile).getAllMethods();
+        }});
+
+        sut.visitClassfile(mockClassfile);
+    }
+
     public void testVisitClassfile_fireevents() {
         final DependencyListener mockListener = mock(DependencyListener.class);
-        final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
             atLeast(1).of (mockClassfile).getClassName();
