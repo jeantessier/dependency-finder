@@ -7,12 +7,1349 @@
 <h1>Log4J - API Change History</h1>
 
 <ul>
+<li><a href="#1.2.15">1.2.14 to 1.2.15</a></li>
 <li><a href="#1.2.14">1.2.13 to 1.2.14</a></li>
 <li><a href="#1.2.13">1.2.8 to 1.2.13</a></li>
 <li><a href="#1.2.8">1.2.7 to 1.2.8</a></li>
 <li><a href="#1.2.7">1.2.6 to 1.2.7</a></li>
 <li><a href="#1.2.6">1.2.5 to 1.2.6</a></li>
 <li><a href="#1.2.5">1.2.3 to 1.2.5</a></li>
+</ul>
+
+<hr>
+
+<a name="1.2.15"></a>
+<h2>1.2.14 to 1.2.15</h2>
+<li>
+<nobr><code>Log4J</code></nobr>
+</li>
+<h3>Newly Deprecated Classes:</h3>
+<ul>
+<li>
+<nobr><code>org.apache.log4j.spi.NullWriter</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.log4j.spi.VectorWriter</code></nobr>
+</li>
+</ul>
+<h3>Modified Classes:</h3>
+<blockquote>
+<h4>
+<code>org.apache.log4j.AppenderSkeleton</code>
+</h4>
+<blockquote>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>protected AppenderSkeleton(boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.Category</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private void fireRemoveAppenderEvent(org.apache.log4j.Appender)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.PatternLayout</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.lang.String timezone</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.PropertyConfigurator</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final java.lang.String RESET_KEY</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.ProvisionNode</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final long serialVersionUID</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.RollingCalendar</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final long serialVersionUID</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.RollingFileAppender</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private long nextRollover</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.chainsaw.ControlPanel$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.chainsaw.ControlPanel$1 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.chainsaw.ControlPanel$1 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.chainsaw.ControlPanel$2</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.chainsaw.ControlPanel$2 extends java.lang.Object implements javax.swing.event.DocumentListener<br>
+<b>new:</b>final class org.apache.log4j.chainsaw.ControlPanel$2 extends java.lang.Object implements javax.swing.event.DocumentListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.chainsaw.ControlPanel$3</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.chainsaw.ControlPanel$3 extends java.lang.Object implements javax.swing.event.DocumentListener<br>
+<b>new:</b>final class org.apache.log4j.chainsaw.ControlPanel$3 extends java.lang.Object implements javax.swing.event.DocumentListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.chainsaw.ControlPanel$4</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.chainsaw.ControlPanel$4 extends java.lang.Object implements javax.swing.event.DocumentListener<br>
+<b>new:</b>final class org.apache.log4j.chainsaw.ControlPanel$4 extends java.lang.Object implements javax.swing.event.DocumentListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.chainsaw.ControlPanel$5</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.chainsaw.ControlPanel$5 extends java.lang.Object implements javax.swing.event.DocumentListener<br>
+<b>new:</b>final class org.apache.log4j.chainsaw.ControlPanel$5 extends java.lang.Object implements javax.swing.event.DocumentListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.chainsaw.ControlPanel$6</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.chainsaw.ControlPanel$6 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.chainsaw.ControlPanel$6 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.chainsaw.ControlPanel$7</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.chainsaw.ControlPanel$7 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.chainsaw.ControlPanel$7 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.chainsaw.Main$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.chainsaw.Main$1 extends java.awt.event.WindowAdapter<br>
+<b>new:</b>final class org.apache.log4j.chainsaw.Main$1 extends java.awt.event.WindowAdapter</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.chainsaw.MyTableModel$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.chainsaw.MyTableModel$1 extends java.lang.Object implements java.util.Comparator<br>
+<b>new:</b>final class org.apache.log4j.chainsaw.MyTableModel$1 extends java.lang.Object implements java.util.Comparator</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.config.PropertyPrinter</code>
+</h4>
+<blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>protected void printOptions(java.io.PrintWriter, org.apache.log4j.Category)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.config.PropertySetterException</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final long serialVersionUID</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.helpers.AbsoluteTimeDateFormat</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final long serialVersionUID</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.helpers.DateTimeDateFormat</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final long serialVersionUID</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.helpers.ISO8601DateFormat</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final long serialVersionUID</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.helpers.PatternParser</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final int MINUS_STATE</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.helpers.RelativeTimeDateFormat</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final long serialVersionUID</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.util.LogFileParser$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.util.LogFileParser$1 extends java.lang.Object implements java.lang.Runnable<br>
+<b>new:</b>final class org.apache.log4j.lf5.util.LogFileParser$1 extends java.lang.Object implements java.lang.Runnable</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LF5SwingUtils$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LF5SwingUtils$1 extends java.lang.Object implements java.lang.Runnable<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LF5SwingUtils$1 extends java.lang.Object implements java.lang.Runnable</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$1 extends java.lang.Object implements java.lang.Runnable<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$1 extends java.lang.Object implements java.lang.Runnable</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$10</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$10 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$10 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$11</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$11 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$11 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$12</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$12 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$12 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$13</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$13 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$13 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$14</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$14 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$14 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$15</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$15 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$15 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$16</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$16 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$16 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$17</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$17 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$17 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$18</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$18 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$18 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$19</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$19 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$19 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$2</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$2 extends java.lang.Object implements java.lang.Runnable<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$2 extends java.lang.Object implements java.lang.Runnable</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$20</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$20 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$20 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$21</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$21 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$21 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$22</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$22 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$22 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$23</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$23 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$23 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$24</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$24 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$24 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$25</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$25 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$25 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$26</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$26 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$26 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$27</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$27 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$27 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$28</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$28 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$28 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$29</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$29 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$29 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$3</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$3 extends java.lang.Object implements org.apache.log4j.lf5.LogRecordFilter<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$3 extends java.lang.Object implements org.apache.log4j.lf5.LogRecordFilter</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$30</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$30 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$30 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$31</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$31 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$31 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$32</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$32 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$32 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$4</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$4 extends java.lang.Object implements org.apache.log4j.lf5.LogRecordFilter<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$4 extends java.lang.Object implements org.apache.log4j.lf5.LogRecordFilter</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$5</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$5 extends java.lang.Object<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$5 extends java.lang.Object</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$6</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$6 extends java.lang.Object<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$6 extends java.lang.Object</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$7</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$7 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$7 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$8</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$8 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$8 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogBrokerMonitor$9</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogBrokerMonitor$9 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogBrokerMonitor$9 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogFactor5ErrorDialog$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogFactor5ErrorDialog$1 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogFactor5ErrorDialog$1 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogFactor5InputDialog$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogFactor5InputDialog$1 extends java.awt.event.KeyAdapter<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogFactor5InputDialog$1 extends java.awt.event.KeyAdapter</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogFactor5InputDialog$2</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogFactor5InputDialog$2 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogFactor5InputDialog$2 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogFactor5InputDialog$3</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.LogFactor5InputDialog$3 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.LogFactor5InputDialog$3 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogTable</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final long serialVersionUID</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogTableColumn</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final long serialVersionUID</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogTableColumnFormatException</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final long serialVersionUID</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogTableModel</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final long serialVersionUID</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.LogTableRowRenderer</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final long serialVersionUID</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.categoryexplorer.CategoryExplorerModel</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final long serialVersionUID</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.categoryexplorer.CategoryExplorerModel$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.categoryexplorer.CategoryExplorerModel$1 extends java.lang.Object implements java.lang.Runnable<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.categoryexplorer.CategoryExplorerModel$1 extends java.lang.Object implements java.lang.Runnable</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.categoryexplorer.CategoryExplorerTree</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final long serialVersionUID</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.categoryexplorer.CategoryExplorerTree$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.categoryexplorer.CategoryExplorerTree$1 extends org.apache.log4j.lf5.viewer.categoryexplorer.TreeModelAdapter<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.categoryexplorer.CategoryExplorerTree$1 extends org.apache.log4j.lf5.viewer.categoryexplorer.TreeModelAdapter</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNode</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final long serialVersionUID</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$1 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$1 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$2</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$2 extends java.awt.event.MouseAdapter<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$2 extends java.awt.event.MouseAdapter</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$3</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$3 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$3 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$4</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$4 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$4 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$5</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$5 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$5 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$6</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$6 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$6 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$7</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$7 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$7 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$8</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$8 extends java.lang.Object implements java.awt.event.ActionListener<br>
+<b>new:</b>final class org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$8 extends java.lang.Object implements java.awt.event.ActionListener</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditorRenderer</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final long serialVersionUID</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeRenderer</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final long serialVersionUID</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.lf5.viewer.configure.ConfigurationManager</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final java.lang.String COLOR</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.net.SMTPAppender</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>public class org.apache.log4j.net.SMTPAppender extends org.apache.log4j.AppenderSkeleton<br>
+<b>new:</b>public class org.apache.log4j.net.SMTPAppender extends org.apache.log4j.AppenderSkeleton implements org.apache.log4j.xml.UnrecognizedElementHandler</code></nobr>
+</p>
+</blockquote>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public final org.apache.log4j.spi.TriggeringEventEvaluator getEvaluator()</code></nobr>
+</li>
+<li>
+<nobr><code>public boolean parseUnrecognizedElement(org.w3c.dom.Element, java.util.Properties) throws java.lang.Exception</code></nobr>
+</li>
+<li>
+<nobr><code>public final void setEvaluator(org.apache.log4j.spi.TriggeringEventEvaluator)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.net.SMTPAppender$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.net.SMTPAppender$1 extends javax.mail.Authenticator<br>
+<b>new:</b>final class org.apache.log4j.net.SMTPAppender$1 extends javax.mail.Authenticator</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.net.SocketAppender</code>
+</h4>
+<blockquote>
+<h5>Field Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>static final int DEFAULT_PORT<br>
+<b>new:</b>public static final int DEFAULT_PORT</code></nobr>
+</p>
+</blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private java.lang.String application</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.String getApplication()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setApplication(java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.net.SyslogAppender</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private final java.text.SimpleDateFormat dateFormat</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean header</code></nobr>
+</li>
+<li>
+<nobr><code>private boolean layoutHeaderChecked</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String localHostname</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public final boolean getHeader()</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String getLocalHostname()</code></nobr>
+</li>
+<li>
+<nobr><code>private java.lang.String getPacketHeader(long)</code></nobr>
+</li>
+<li>
+<nobr><code>private void sendLayoutMessage(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public final void setHeader(boolean)</code></nobr>
+</li>
+<li>
+<nobr><code>private void splitPacket(java.lang.String, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.net.TelnetAppender$SocketHandler</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean done</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public void close()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.nt.NTEventLogAppender</code>
+</h4>
+<blockquote>
+<h5>Removed Fields:</h5>
+<ul>
+<li>
+<nobr><code>private static final int DEBUG</code></nobr>
+</li>
+<li>
+<nobr><code>private static final int ERROR</code></nobr>
+</li>
+<li>
+<nobr><code>private static final int FATAL</code></nobr>
+</li>
+<li>
+<nobr><code>private static final int INFO</code></nobr>
+</li>
+<li>
+<nobr><code>private static final int WARN</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.spi.LocationInfo</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>public static final org.apache.log4j.spi.LocationInfo NA_LOCATION_INFO</code></nobr>
+</li>
+</ul>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public LocationInfo(java.lang.String, java.lang.String, java.lang.String, java.lang.String)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>private static final void appendFragment(java.lang.StringBuffer, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.spi.LoggingEvent</code>
+</h4>
+<blockquote>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public LoggingEvent(java.lang.String, org.apache.log4j.Category, long, org.apache.log4j.Level, java.lang.Object, java.lang.String, org.apache.log4j.spi.ThrowableInformation, java.lang.String, org.apache.log4j.spi.LocationInfo, java.util.Map)</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public java.lang.String getFQNOfLoggerClass()</code></nobr>
+</li>
+<li>
+<nobr><code>public org.apache.log4j.Category getLogger()</code></nobr>
+</li>
+<li>
+<nobr><code>public java.util.Map getProperties()</code></nobr>
+</li>
+<li>
+<nobr><code>public final java.lang.String getProperty(java.lang.String)</code></nobr>
+</li>
+<li>
+<nobr><code>public java.util.Set getPropertyKeySet()</code></nobr>
+</li>
+<li>
+<nobr><code>public final long getTimeStamp()</code></nobr>
+</li>
+<li>
+<nobr><code>public final boolean locationInformationExists()</code></nobr>
+</li>
+<li>
+<nobr><code>public final void setProperty(java.lang.String, java.lang.String)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.spi.ThrowableInformation</code>
+</h4>
+<blockquote>
+<h5>New Constructors:</h5>
+<ul>
+<li>
+<nobr><code>public ThrowableInformation(java.lang.String[])</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.spi.VectorWriter</code>
+</h4>
+<blockquote>
+<h5>Newly Deprecated Constructors:</h5>
+<ul>
+<li>
+<nobr><code>VectorWriter()</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.xml.DOMConfigurator</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>static final java.lang.String LOGGER_FACTORY_TAG</code></nobr>
+</li>
+<li>
+<nobr><code>private static final java.lang.String RESET_ATTR</code></nobr>
+</li>
+<li>
+<nobr><code>protected org.apache.log4j.spi.LoggerFactory catFactory</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public static java.lang.Object parseElement(org.w3c.dom.Element, java.util.Properties, java.lang.Class) throws java.lang.Exception</code></nobr>
+</li>
+<li>
+<nobr><code>private static void parseUnrecognizedElement(java.lang.Object, org.w3c.dom.Element, java.util.Properties) throws java.lang.Exception</code></nobr>
+</li>
+<li>
+<nobr><code>private static void quietParseUnrecognizedElement(java.lang.Object, org.w3c.dom.Element, java.util.Properties)</code></nobr>
+</li>
+<li>
+<nobr><code>public static void setParameter(org.w3c.dom.Element, org.apache.log4j.config.PropertySetter, java.util.Properties)</code></nobr>
+</li>
+<li>
+<nobr><code>public static java.lang.String subst(java.lang.String, java.util.Properties)</code></nobr>
+</li>
+</ul>
+</blockquote>
+<h4>
+<code>org.apache.log4j.xml.DOMConfigurator$1</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.xml.DOMConfigurator$1 extends java.lang.Object implements org.apache.log4j.xml.DOMConfigurator$ParseAction<br>
+<b>new:</b>final class org.apache.log4j.xml.DOMConfigurator$1 extends java.lang.Object implements org.apache.log4j.xml.DOMConfigurator$ParseAction</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.xml.DOMConfigurator$2</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.xml.DOMConfigurator$2 extends java.lang.Object implements org.apache.log4j.xml.DOMConfigurator$ParseAction<br>
+<b>new:</b>final class org.apache.log4j.xml.DOMConfigurator$2 extends java.lang.Object implements org.apache.log4j.xml.DOMConfigurator$ParseAction</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.xml.DOMConfigurator$3</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.xml.DOMConfigurator$3 extends java.lang.Object implements org.apache.log4j.xml.DOMConfigurator$ParseAction<br>
+<b>new:</b>final class org.apache.log4j.xml.DOMConfigurator$3 extends java.lang.Object implements org.apache.log4j.xml.DOMConfigurator$ParseAction</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.xml.DOMConfigurator$4</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.xml.DOMConfigurator$4 extends java.lang.Object implements org.apache.log4j.xml.DOMConfigurator$ParseAction<br>
+<b>new:</b>final class org.apache.log4j.xml.DOMConfigurator$4 extends java.lang.Object implements org.apache.log4j.xml.DOMConfigurator$ParseAction</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.xml.DOMConfigurator$5</code>
+</h4>
+<blockquote>
+<h5>Declaration Changes:</h5>
+<blockquote>
+<p>
+<nobr><code><b>old:</b>class org.apache.log4j.xml.DOMConfigurator$5 extends java.lang.Object implements org.apache.log4j.xml.DOMConfigurator$ParseAction<br>
+<b>new:</b>final class org.apache.log4j.xml.DOMConfigurator$5 extends java.lang.Object implements org.apache.log4j.xml.DOMConfigurator$ParseAction</code></nobr>
+</p>
+</blockquote>
+</blockquote>
+<h4>
+<code>org.apache.log4j.xml.XMLLayout</code>
+</h4>
+<blockquote>
+<h5>New Fields:</h5>
+<ul>
+<li>
+<nobr><code>private boolean properties</code></nobr>
+</li>
+</ul>
+<h5>New Methods:</h5>
+<ul>
+<li>
+<nobr><code>public boolean getProperties()</code></nobr>
+</li>
+<li>
+<nobr><code>public void setProperties(boolean)</code></nobr>
+</li>
+</ul>
+</blockquote>
+</blockquote>
+<h3>New Interfaces:</h3>
+<ul>
+<li>
+<nobr><code>org.apache.log4j.xml.UnrecognizedElementHandler</code></nobr>
+</li>
+</ul>
+<h3>New Classes:</h3>
+<ul>
+<li>
+<nobr><code>org.apache.log4j.spi.NOPLogger</code></nobr>
+</li>
+<li>
+<nobr><code>org.apache.log4j.spi.NOPLoggerRepository</code></nobr>
+</li>
 </ul>
 
 <hr>
