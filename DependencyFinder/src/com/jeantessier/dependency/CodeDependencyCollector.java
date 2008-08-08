@@ -79,7 +79,7 @@ public class CodeDependencyCollector extends CollectorBase {
     public void visitClassfile(Classfile classfile) {
         current = getFactory().createClass(classfile.getClassName(), true);
 
-        fireBeginClass(classfile.toString());
+        fireBeginClass(classfile.getClassName());
 
         if (classfile.getSuperclassIndex() != 0) {
             classfile.getRawSuperclass().accept(this);
@@ -97,7 +97,7 @@ public class CodeDependencyCollector extends CollectorBase {
             method.accept(this);
         }
 
-        fireEndClass(classfile.toString());
+        fireEndClass(classfile.getClassName());
     }
 
     public void visitClass_info(Class_info entry) {
