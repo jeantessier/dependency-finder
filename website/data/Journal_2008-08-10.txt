@@ -1,0 +1,3 @@
+Added Fit tests for =LinkMaximizer= and =LinkMinimizer=.  This is in
+preparation to writing a =Visitor= that attempts to resolve _unconfirmed_ nodes
+in the dependency graph by walking the inheritance hierarchy.
