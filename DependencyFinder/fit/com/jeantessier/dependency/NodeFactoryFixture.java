@@ -45,6 +45,10 @@ public class NodeFactoryFixture extends DoFixture {
         source.addDependency(target);
     }
 
+    public void childHasParent(ClassNode child, ClassNode parent) {
+        child.addParent(parent);
+    }
+
     public SetFixture inboundDependenciesTo(Node node) {
         return new SetFixture(node.getInboundDependencies());
     }
@@ -79,5 +83,9 @@ public class NodeFactoryFixture extends DoFixture {
         }
 
         return result;
+    }
+
+    public ClassNode findClassNode(String s) {
+        return ((NodeFactory) getSystemUnderTest()).getClasses().get(s);
     }
 }

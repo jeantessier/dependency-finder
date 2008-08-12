@@ -91,4 +91,43 @@ public class TestFeatureNode extends TestCase {
         assertTrue("Not concrete", node.getClassNode().isConfirmed());
         assertFalse("Not referenced", node.isConfirmed());
     }
+
+    public void testGetSimpleName_DefaultPackage() {
+        String packageName = "";
+        PackageNode packageNode = new PackageNode(packageName, true);
+
+        String className = "Foo";
+        ClassNode classNode = new ClassNode(packageNode, className, true);
+
+        String featureName = "foo";
+        FeatureNode sut = new FeatureNode(classNode, className + "." + featureName, true);
+
+        assertEquals(featureName, sut.getSimpleName());
+    }
+    
+    public void testGetSimpleName_SomePackage() {
+        String packageName = "foo";
+        PackageNode packageNode = new PackageNode(packageName, true);
+
+        String className = "Foo";
+        ClassNode classNode = new ClassNode(packageNode, packageName + "." + className, true);
+
+        String featureName = "foo";
+        FeatureNode sut = new FeatureNode(classNode, packageName + "." + className + "." + featureName, true);
+
+        assertEquals(featureName, sut.getSimpleName());
+    }
+
+    public void testGetSimpleName_MethodWithParameterOfSameClassType() {
+        String packageName = "foo";
+        PackageNode packageNode = new PackageNode(packageName, true);
+
+        String className = "Foo";
+        ClassNode classNode = new ClassNode(packageNode, packageName + "." + className, true);
+
+        String featureName = "foo(foo.Foo)";
+        FeatureNode sut = new FeatureNode(classNode, packageName + "." + className + "." + featureName, true);
+
+        assertEquals(featureName, sut.getSimpleName());
+    }
 }

@@ -1,22 +1,22 @@
 /*
  *  Copyright (c) 2001-2008, Jean Tessier
  *  All rights reserved.
- *  
+ *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
  *  are met:
- *  
+ *
  *      * Redistributions of source code must retain the above copyright
  *        notice, this list of conditions and the following disclaimer.
- *  
+ *
  *      * Redistributions in binary form must reproduce the above copyright
  *        notice, this list of conditions and the following disclaimer in the
  *        documentation and/or other materials provided with the distribution.
- *  
+ *
  *      * Neither the name of Jean Tessier nor the names of his contributors
  *        may be used to endorse or promote products derived from this software
  *        without specific prior written permission.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -32,43 +32,55 @@
 
 package com.jeantessier.dependency;
 
-public class FeatureNode extends Node {
-    private ClassNode parent;
+import java.util.*;
 
-    public FeatureNode(ClassNode parent, String name, boolean concrete) {
-        super(name, concrete);
-        this.parent = parent;
-    }
-
-    // Only to be used by NodeFactory and DeletingVisitor
-    void setConfirmed(boolean confirmed) {
-        super.setConfirmed(confirmed);
-        if (confirmed) {
-            getClassNode().setConfirmed(confirmed);
+public class FeatureResolver implements Visitor {
+    public void traverseNodes(Collection<? extends Node> nodes) {
+        for (Node node : nodes) {
+            node.accept(this);
         }
     }
 
-    public ClassNode getClassNode() {
-        return parent;
+    public void visitPackageNode(PackageNode node) {
+        traverseNodes(node.getClasses());
     }
 
-    public boolean canAddDependencyTo(Node node) {
-        return super.canAddDependencyTo(node) && getClassNode().canAddDependencyTo(node);
+    public void visitInboundPackageNode(PackageNode node) {
+        // Do nothing
     }
 
-    public void accept(Visitor visitor) {
-        visitor.visitFeatureNode(this);
+    public void visitOutboundPackageNode(PackageNode node) {
+        // Do nothing
     }
 
-    public void acceptInbound(Visitor visitor) {
-        visitor.visitInboundFeatureNode(this);
+    public void visitClassNode(ClassNode node) {
+        traverseNodes(node.getFeatures());
     }
 
-    public void acceptOutbound(Visitor visitor) {
-        visitor.visitOutboundFeatureNode(this);
+    public void visitInboundClassNode(ClassNode node) {
+        // Do nothing
     }
 
-    public String getSimpleName() {
-        return getName().substring(getClassNode().getName().length() + 1);
+    public void visitOutboundClassNode(ClassNode node) {
+        // Do nothing
+    }
+
+    public void visitFeatureNode(FeatureNode node) {
+        if (!node.isConfirmed()) {
+            String featureName = node.getSimpleName();
+            for (FeatureNode inheritedFeature : node.getClassNode().getInheritedFeatures(featureName)) {
+                for (Node dependent : node.getInboundDependencies()) {
+                    dependent.addDependency(inheritedFeature);
+                }
+            }
+        }
+    }
+
+    public void visitInboundFeatureNode(FeatureNode node) {
+        // Do nothing
+    }
+
+    public void visitOutboundFeatureNode(FeatureNode node) {
+        // Do nothing
     }
 }

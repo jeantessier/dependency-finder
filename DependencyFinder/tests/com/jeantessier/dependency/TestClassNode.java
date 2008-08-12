@@ -32,6 +32,8 @@
 
 package com.jeantessier.dependency;
 
+import java.util.*;
+
 import junit.framework.*;
 
 public class TestClassNode extends TestCase {
@@ -141,5 +143,127 @@ public class TestClassNode extends TestCase {
         classNode.addParent(parentClass);
         assertTrue(classNode.getParents().contains(parentClass));
         assertTrue(parentClass.getChildren().contains(classNode));
+    }
+
+    public void testGetSimpleName_DefaultPackage() {
+        String packageName = "";
+        PackageNode packageNode = new PackageNode(packageName, true);
+
+        String className = "Foo";
+        ClassNode sut = new ClassNode(packageNode, className, true);
+
+        assertEquals(className, sut.getSimpleName());
+    }
+    
+    public void testGetSimpleName_SomePackage() {
+        String packageName = "foo";
+        PackageNode packageNode = new PackageNode(packageName, true);
+
+        String className = "Foo";
+        ClassNode sut = new ClassNode(packageNode, packageName + "." + className, true);
+
+        assertEquals(className, sut.getSimpleName());
+    }
+
+    public void testGetFeature_Trivial() {
+        String packageName = "foo";
+        PackageNode packageNode = new PackageNode(packageName, true);
+
+        String className = "Foo";
+        ClassNode sut = new ClassNode(packageNode, packageName + "." + className, true);
+
+        String featureName = "foo";
+        FeatureNode featureNode = new FeatureNode(sut, packageName + "." + className + "." + featureName, true);
+        sut.addFeature(featureNode);
+
+        FeatureNode actualFeatureNode = sut.getFeature(featureName);
+        assertSame(featureNode, actualFeatureNode);
+    }
+
+    public void testGetFeature_NoSuchFeature() {
+        String packageName = "foo";
+        PackageNode packageNode = new PackageNode(packageName, true);
+
+        String className = "Foo";
+        ClassNode sut = new ClassNode(packageNode, packageName + "." + className, true);
+
+        String featureName = "foo";
+
+        FeatureNode actualFeatureNode = sut.getFeature(featureName);
+        assertNull(actualFeatureNode);
+    }
+
+    public void testGetFeature_MethodWithParameterOfSameClassType() {
+        String packageName = "foo";
+        PackageNode packageNode = new PackageNode(packageName, true);
+
+        String className = "Foo";
+        ClassNode sut = new ClassNode(packageNode, packageName + "." + className, true);
+
+        String featureName = "foo(foo.Foo)";
+        FeatureNode featureNode = new FeatureNode(sut, packageName + "." + className + "." + featureName, true);
+        sut.addFeature(featureNode);
+
+        FeatureNode actualFeatureNode = sut.getFeature(featureName);
+        assertSame(featureNode, actualFeatureNode);
+    }
+
+    public void testGetInheritedFeatures_FeatureOnlyInParent() {
+        PackageNode packageNode = new PackageNode("", true);
+
+        ClassNode parentNode = new ClassNode(packageNode, "Foo", true);
+
+        String featureName = "foo";
+        FeatureNode parentFeatureNode = new FeatureNode(parentNode, parentNode.getName() + "." + featureName, true);
+        parentNode.addFeature(parentFeatureNode);
+
+        ClassNode childNode = new ClassNode(packageNode, "Bar", true);
+        childNode.addParent(parentNode);
+
+        Collection<FeatureNode> actualFeatureNodes = childNode.getInheritedFeatures(featureName);
+        assertEquals(1, actualFeatureNodes.size());
+        assertSame(parentFeatureNode, actualFeatureNodes.iterator().next());
+    }
+
+    public void testGetInheritedFeatures_FeatureInParentAndChild() {
+        PackageNode packageNode = new PackageNode("", true);
+
+        ClassNode parentNode = new ClassNode(packageNode, "Foo", true);
+
+        String featureName = "foo";
+        FeatureNode parentFeatureNode = new FeatureNode(parentNode, parentNode.getName() + "." + featureName, true);
+        parentNode.addFeature(parentFeatureNode);
+
+        ClassNode childNode = new ClassNode(packageNode, "Bar", true);
+        childNode.addParent(parentNode);
+
+        FeatureNode childFeatureNode = new FeatureNode(childNode, childNode.getName() + "." + featureName, true);
+        childNode.addFeature(childFeatureNode);
+
+        Collection<FeatureNode> actualFeatureNodes = childNode.getInheritedFeatures(featureName);
+        assertEquals(2, actualFeatureNodes.size());
+        Iterator<FeatureNode> i = actualFeatureNodes.iterator();
+        assertSame(childFeatureNode, i.next());
+        assertSame(parentFeatureNode, i.next());
+    }
+
+    public void testGetInheritedFeatures_FeatureOnlyInAncestor() {
+        PackageNode packageNode = new PackageNode("", true);
+
+        ClassNode ancestorNode = new ClassNode(packageNode, "F", true);
+
+        String featureName = "foo";
+        FeatureNode parentFeatureNode = new FeatureNode(ancestorNode, ancestorNode.getName() + "." + featureName, true);
+        ancestorNode.addFeature(parentFeatureNode);
+
+        ClassNode parentNode = new ClassNode(packageNode, "Foo", true);
+        parentNode.addParent(ancestorNode);
+
+        ClassNode childNode = new ClassNode(packageNode, "Bar", true);
+        childNode.addParent(parentNode);
+
+        Collection<FeatureNode> actualFeatureNodes = childNode.getInheritedFeatures(featureName);
+        assertEquals(1, actualFeatureNodes.size());
+        assertSame(parentFeatureNode, actualFeatureNodes.iterator().next());
     }
 }

@@ -106,4 +106,32 @@ public class ClassNode extends Node {
     public Collection<ClassNode> getChildren() {
         return Collections.unmodifiableCollection(children);
     }
+
+    public FeatureNode getFeature(String featureSimpleName) {
+        FeatureNode result = null;
+
+        String targetName = getName() + "." + featureSimpleName;
+        for (FeatureNode feature : getFeatures()) {
+            if (feature.getName().equals(targetName)) {
+                result = feature;
+            }
+        }
+
+        return result;
+    }
+
+    public Collection<FeatureNode> getInheritedFeatures(String featureSimpleName) {
+        Collection<FeatureNode> results = new LinkedList<FeatureNode>();
+
+        FeatureNode featureNode = getFeature(featureSimpleName);
+        if (featureNode != null) {
+            results.add(featureNode);
+        }
+
+        for (ClassNode parent : getParents()) {
+            results.addAll(parent.getInheritedFeatures(featureSimpleName));
+        }
+
+        return results;
+    }
 }

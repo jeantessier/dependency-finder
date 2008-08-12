@@ -1,0 +1,2 @@
+First pass at =FeatureResolver=.  Added functionality to =ClassNode= and
+=FeatureNode= to navigate the inheritance hierarchy to resolve feature names.
