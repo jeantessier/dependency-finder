@@ -1,0 +1,2 @@
+Changed =FeatureResolver= so it is no longer limited to unconfirmed features
+but handles all overwritten features.

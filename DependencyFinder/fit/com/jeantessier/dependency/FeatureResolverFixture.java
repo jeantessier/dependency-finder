@@ -33,7 +33,7 @@
 package com.jeantessier.dependency;
 
 public class FeatureResolverFixture extends NodeFactoryFixture {
-    public void resolveUnconfirmedFeatures() {
+    public void resolveFeatures() {
         new FeatureResolver().traverseNodes(((NodeFactory) getSystemUnderTest()).getPackages().values());
     }
 }

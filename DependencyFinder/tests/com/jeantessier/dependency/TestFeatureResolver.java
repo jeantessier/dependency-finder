@@ -123,18 +123,7 @@ public class TestFeatureResolver extends MockObjectTestCase {
         sut.visitOutboundClassNode(mockClassNode);
     }
 
-    public void testVisitFeatureNode_confirmed() {
-        final FeatureNode mockChildTarget = mock(FeatureNode.class, "Child.target()");
-
-        checking(new Expectations() {{
-            one (mockChildTarget).isConfirmed();
-                will(returnValue(true));
-        }});
-
-        sut.visitFeatureNode(mockChildTarget);
-    }
-
-    public void testVisitFeatureNode_unconfirmed() {
+    public void testVisitFeatureNode() {
         final String TARGET_SIMPLE_NAME = "target()";
         final String CHILD_NAME = "Child";
         final String CHILD_TARGET_NAME = CHILD_NAME + "." + TARGET_SIMPLE_NAME;
@@ -147,8 +136,6 @@ public class TestFeatureResolver extends MockObjectTestCase {
         final FeatureNode mockChildTarget = mock(FeatureNode.class, CHILD_TARGET_NAME);
 
         checking(new Expectations() {{
-            one (mockChildTarget).isConfirmed();
-                will(returnValue(false));
             atLeast(1).of (mockChildTarget).getSimpleName();
                 will(returnValue(TARGET_SIMPLE_NAME));
             atLeast(1).of (mockChildTarget).getClassNode();

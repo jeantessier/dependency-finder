@@ -66,12 +66,10 @@ public class FeatureResolver implements Visitor {
     }
 
     public void visitFeatureNode(FeatureNode node) {
-        if (!node.isConfirmed()) {
-            String featureName = node.getSimpleName();
-            for (FeatureNode inheritedFeature : node.getClassNode().getInheritedFeatures(featureName)) {
-                for (Node dependent : node.getInboundDependencies()) {
-                    dependent.addDependency(inheritedFeature);
-                }
+        String featureName = node.getSimpleName();
+        for (FeatureNode inheritedFeature : node.getClassNode().getInheritedFeatures(featureName)) {
+            for (Node dependent : node.getInboundDependencies()) {
+                dependent.addDependency(inheritedFeature);
             }
         }
     }
