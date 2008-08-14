@@ -72,13 +72,24 @@ public class CodeDependencyCollector extends CollectorBase {
         return factory;
     }
 
+    private Node getCurrent() {
+        return current;
+    }
+
+    /**
+     * Visible for testing only
+     */
+    void setCurrent(Node current) {
+        this.current = current;
+    }
+
     public Collection<String> getCollection() {
         return getFactory().getPackages().keySet();
     }
 
     public void visitClassfile(Classfile classfile) {
         ClassNode currentClass = getFactory().createClass(classfile.getClassName(), true);
-        current = currentClass;
+        setCurrent(currentClass);
 
         fireBeginClass(classfile.getClassName());
 
@@ -115,11 +126,11 @@ public class CodeDependencyCollector extends CollectorBase {
             processDescriptor(classname);
         } else if (filterCriteria.isMatchingClasses() && filterCriteria.matchesClassName(classname)) {
             Node other = getFactory().createClass(classname);
-            current.addDependency(other);
+            getCurrent().addDependency(other);
             if (Logger.getLogger(getClass()).isDebugEnabled()) {
-                Logger.getLogger(getClass()).info("Class_info dependency: " + current + " --> " + other);
+                Logger.getLogger(getClass()).info("Class_info dependency: " + getCurrent() + " --> " + other);
             }
-            fireDependency(current, other);
+            fireDependency(getCurrent(), other);
         }
     }
 
@@ -134,11 +145,11 @@ public class CodeDependencyCollector extends CollectorBase {
         String signature = entry.getFullSignature();
         if (filterCriteria.isMatchingFeatures() && filterCriteria.matchesFeatureName(signature)) {
             Node other = getFactory().createFeature(signature);
-            current.addDependency(other);
+            getCurrent().addDependency(other);
             if (Logger.getLogger(getClass()).isDebugEnabled()) {
-                Logger.getLogger(getClass()).info("FieldRef_info dependency: " + current + " --> " + other);
+                Logger.getLogger(getClass()).info("FieldRef_info dependency: " + getCurrent() + " --> " + other);
             }
-            fireDependency(current, other);
+            fireDependency(getCurrent(), other);
         }
 
         processDescriptor(entry.getRawNameAndType().getType());
@@ -156,11 +167,11 @@ public class CodeDependencyCollector extends CollectorBase {
             String signature = entry.getFullSignature();
             if (filterCriteria.isMatchingFeatures() && filterCriteria.matchesFeatureName(signature)) {
                 Node other  = getFactory().createFeature(signature);
-                current.addDependency(other);
+                getCurrent().addDependency(other);
                 if (Logger.getLogger(getClass()).isDebugEnabled()) {
-                    Logger.getLogger(getClass()).info("MethodRef_info dependency: " + current + " --> " + other);
+                    Logger.getLogger(getClass()).info("MethodRef_info dependency: " + getCurrent() + " --> " + other);
                 }
-                fireDependency(current, other);
+                fireDependency(getCurrent(), other);
             }
 
             processDescriptor(entry.getRawNameAndType().getType());
@@ -178,11 +189,11 @@ public class CodeDependencyCollector extends CollectorBase {
         String signature = entry.getFullSignature();
         if (filterCriteria.isMatchingFeatures() && filterCriteria.matchesFeatureName(signature)) {
             Node other  = getFactory().createFeature(signature);
-            current.addDependency(other);
+            getCurrent().addDependency(other);
             if (Logger.getLogger(getClass()).isDebugEnabled()) {
-                Logger.getLogger(getClass()).info("InterfaceMethodRef_info dependency: " + current + " --> " + other);
+                Logger.getLogger(getClass()).info("InterfaceMethodRef_info dependency: " + getCurrent() + " --> " + other);
             }
-            fireDependency(current, other);
+            fireDependency(getCurrent(), other);
         }
 
         processDescriptor(entry.getRawNameAndType().getType());
@@ -195,7 +206,7 @@ public class CodeDependencyCollector extends CollectorBase {
             Logger.getLogger(getClass()).debug("    descriptor = \"" + entry.getDescriptor() + "\"");
         }
 
-        current = getFactory().createFeature(entry.getFullSignature(), true);
+        setCurrent(getFactory().createFeature(entry.getFullSignature(), true));
 
         processDescriptor(entry.getDescriptor());
 
@@ -209,7 +220,7 @@ public class CodeDependencyCollector extends CollectorBase {
             Logger.getLogger(getClass()).debug("    descriptor = \"" + entry.getDescriptor() + "\"");
         }
 
-        current = getFactory().createFeature(entry.getFullSignature(), true);
+        setCurrent(getFactory().createFeature(entry.getFullSignature(), true));
 
         processDescriptor(entry.getDescriptor());
 
@@ -273,11 +284,11 @@ public class CodeDependencyCollector extends CollectorBase {
                         Logger.getLogger(getClass()).debug("    Adding \"" + classname + "\"");
                     }
                     Node other = getFactory().createClass(classname);
-                    current.addDependency(other);
+                    getCurrent().addDependency(other);
                     if (Logger.getLogger(getClass()).isDebugEnabled()) {
-                        Logger.getLogger(getClass()).info("descriptor dependency: " + current + " --> " + other);
+                        Logger.getLogger(getClass()).info("descriptor dependency: " + getCurrent() + " --> " + other);
                     }
-                    fireDependency(current, other);
+                    fireDependency(getCurrent(), other);
                 }
                 currentPos = endPos + 1;
             } else {

@@ -46,6 +46,7 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
     private static final String TEST_CLASS_NAME = "a.A";
     private static final String TEST_SUPERCLASS_NAME = "a.Parent";
     private static final String TEST_INTERFACE_NAME = "a.I";
+    private static final String TEST_EXCEPTION_NAME = "java.lang.Exception";
 
     private NodeFactory mockFactory;
     private Classfile mockClassfile;
@@ -64,7 +65,23 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
 
         sut = new CodeDependencyCollector(mockFactory);
     }
-    
+
+    public void testVisitClass_info_exceptions() {
+        final Class_info mockException = mock(Class_info.class);
+        final ClassNode mockExceptionNode = mock(ClassNode.class);
+
+        checking(new Expectations() {{
+            one (mockException).getName();
+                will(returnValue(TEST_EXCEPTION_NAME));
+            one (mockFactory).createClass(TEST_EXCEPTION_NAME);
+                will(returnValue(mockExceptionNode));
+            one (mockClassNode).addDependency(mockExceptionNode);
+        }});
+
+        sut.setCurrent(mockClassNode);
+        sut.visitClass_info(mockException);
+    }
+
     public void testVisitClassfile_withoutsuperclass() {
         checking(new Expectations() {{
             atLeast(1).of (mockClassfile).getClassName();
@@ -175,5 +192,31 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
                 return null;
             }
         };
+    }
+
+    public void testVisitExceptionHandler_finally() {
+        final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
+
+        checking(new Expectations() {{
+            one (mockExceptionHandler).getCatchTypeIndex();
+                will(returnValue(0));
+        }});
+
+        sut.visitExceptionHandler(mockExceptionHandler);
+    }
+
+    public void testVisitExceptionHandler_catch() {
+        final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
+        final Class_info mockCatchType = mock(Class_info.class);
+
+        checking(new Expectations() {{
+            one (mockExceptionHandler).getCatchTypeIndex();
+                will(returnValue(1));
+            one (mockExceptionHandler).getRawCatchType();
+                will(returnValue(mockCatchType));
+            one (mockCatchType).accept(sut);
+        }});
+
+        sut.visitExceptionHandler(mockExceptionHandler);
     }
 }
