@@ -7,7 +7,7 @@ Upgraded the following development components:
         <td>:</td>
         <td>7.0.3</td>
         <td>-></td>
-        <td>8.0 Milestore 1</td>
+        <td>8.0 Milestone 1</td>
     </tr>
 </table>
 </blockquote>
