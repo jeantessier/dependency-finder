@@ -1,4 +1,16 @@
-Trying out IntelliJ IDEA 8.0 Milestone 1.
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>IntelliJ IDEA</td>
+        <td>:</td>
+        <td>7.0.3</td>
+        <td>-></td>
+        <td>8.0 Milestore 1</td>
+    </tr>
+</table>
+</blockquote>
 
 Added tests to =CodeDependencyCollector= to capture that exception handling
 generates a feature-to-class dependency.
