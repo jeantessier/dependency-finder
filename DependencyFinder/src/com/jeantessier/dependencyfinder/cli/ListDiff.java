@@ -35,18 +35,14 @@ package com.jeantessier.dependencyfinder.cli;
 import java.io.*;
 import java.util.*;
 
-import com.jeantessier.commandline.*;
 import com.jeantessier.diff.*;
+import com.jeantessier.commandline.*;
 
 public class ListDiff extends Command {
     protected void showSpecificUsage(PrintStream out) {
         out.println();
         out.println("Defaults is text output to the console.");
         out.println();
-    }
-
-    public static void main(String[] args) throws Exception {
-        new ListDiff().run(args);
     }
 
     protected void populateCommandLineSwitches() {
@@ -59,6 +55,20 @@ public class ListDiff extends Command {
         getCommandLine().addSingleValueSwitch("new-label");
         getCommandLine().addSingleValueSwitch("new", true);
         getCommandLine().addToggleSwitch("compress");
+    }
+
+    protected Collection<CommandLineException> parseCommandLine(String[] args) {
+        Collection<CommandLineException> exceptions = super.parseCommandLine(args);
+
+        if (!getCommandLine().isPresent("old-label")) {
+            getCommandLine().getSwitch("old-label").setValue(getCommandLine().getSingleSwitch("old"));
+        }
+
+        if (!getCommandLine().isPresent("new-label")) {
+            getCommandLine().getSwitch("new-label").setValue(getCommandLine().getSingleSwitch("new"));
+        }
+
+        return exceptions;
     }
 
     protected void doProcessing() throws Exception {
@@ -104,5 +114,9 @@ public class ListDiff extends Command {
 
         getVerboseListener().print("Printing results ...");
         out.print(printer);
+    }
+
+    public static void main(String[] args) throws Exception {
+        new ListDiff().run(args);
     }
 }

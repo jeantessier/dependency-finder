@@ -38,6 +38,8 @@ public class TestAll extends TestCase {
     public static Test suite() {
         TestSuite result = new TestSuite(TestAll.class.getPackage().getName());
 
+        result.addTestSuite(TestJarJarDiff.class);
+        result.addTestSuite(TestListDiff.class);
         result.addTestSuite(TestListSymbols.class);
 
         return result;

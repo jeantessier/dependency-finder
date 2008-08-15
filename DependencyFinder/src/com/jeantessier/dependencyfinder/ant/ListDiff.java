@@ -40,16 +40,16 @@ import org.apache.tools.ant.*;
 import com.jeantessier.diff.*;
 
 public class ListDiff extends Task {
-    private String  name       = "";
-    private File    oldFile;
-    private String  oldLabel;
-    private File    newFile;
-    private String  newLabel;
-    private boolean compress   = false;
-    private String  encoding   = ListDiffPrinter.DEFAULT_ENCODING;
-    private String  dtdPrefix  = ListDiffPrinter.DEFAULT_DTD_PREFIX;
-    private String  indentText;
-    private File    destfile;
+    private String name = "";
+    private File oldFile;
+    private String oldLabel;
+    private File newFile;
+    private String newLabel;
+    private boolean compress = false;
+    private String encoding = ListDiffPrinter.DEFAULT_ENCODING;
+    private String dtdPrefix = ListDiffPrinter.DEFAULT_DTD_PREFIX;
+    private String indentText;
+    private File destfile;
 
     public String getName() {
         return name;
@@ -130,37 +130,48 @@ public class ListDiff extends Task {
     public void setDestfile(File destfile) {
         this.destfile = destfile;
     }
-    
-    public void execute() throws BuildException {
-        // first off, make sure that we've got what we need
 
+    // Visible for tests only
+    void validateParameters() throws BuildException {
         if (getOld() == null) {
             throw new BuildException("old must be set!");
         }
-        
+
         if (!getOld().exists()) {
             throw new BuildException("old does not exist!");
         }
-        
+
         if (!getOld().isFile()) {
             throw new BuildException("old is not a file!");
+        }
+
+        if (getOldlabel() == null) {
+            setOldlabel(getOld().getPath());
         }
 
         if (getNew() == null) {
             throw new BuildException("new must be set!");
         }
-        
+
         if (!getNew().exists()) {
             throw new BuildException("new does not exist!");
         }
-        
+
         if (!getNew().isFile()) {
             throw new BuildException("new is not a file!");
+        }
+
+        if (getNewlabel() == null) {
+            setNewlabel(getNew().getPath());
         }
 
         if (getDestfile() == null) {
             throw new BuildException("destfile must be set!");
         }
+    }
+    
+    public void execute() throws BuildException {
+        validateParameters();
 
         try {
             String line;

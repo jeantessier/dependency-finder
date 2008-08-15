@@ -32,12 +32,29 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
+import java.util.*;
+
 import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
+import com.jeantessier.commandline.*;
 import com.jeantessier.diff.*;
 
 public class JarJarDiff extends DiffCommand {
+    protected Collection<CommandLineException> parseCommandLine(String[] args) {
+        Collection<CommandLineException> exceptions = super.parseCommandLine(args);
+
+        if (!getCommandLine().isPresent("old-label")) {
+            getCommandLine().getSwitch("old-label").setValue(getCommandLine().getMultipleSwitch("old").toString());
+        }
+
+        if (!getCommandLine().isPresent("new-label")) {
+            getCommandLine().getSwitch("new-label").setValue(getCommandLine().getMultipleSwitch("new").toString());
+        }
+
+        return exceptions;
+    }
+
     protected void doProcessing() throws Exception {
         // Collecting data, first classfiles from JARs,
         // then package/class trees using NodeFactory.
@@ -62,8 +79,8 @@ public class JarJarDiff extends DiffCommand {
         getVerboseListener().print("Comparing ...");
 
         String name = getCommandLine().getSingleSwitch("name");
-        String oldLabel = getCommandLine().isPresent("old-label") ? getCommandLine().getSingleSwitch("old-label") : getCommandLine().getMultipleSwitch("old").toString();
-        String newLabel = getCommandLine().isPresent("new-label") ? getCommandLine().getSingleSwitch("new-label") : getCommandLine().getMultipleSwitch("new").toString();
+        String oldLabel = getCommandLine().getSingleSwitch("old-label");
+        String newLabel = getCommandLine().getSingleSwitch("new-label");
 
         Differences differences = getDifferencesFactory().createProjectDifferences(name, oldLabel, oldPackages, newLabel, newPackages);
 

@@ -163,21 +163,32 @@ public class JarJarDiff extends Task {
     public void setDestfile(File destfile) {
         this.destfile = destfile;
     }
-    
-    public void execute() throws BuildException {
-        // first off, make sure that we've got what we need
 
+    // Visible for tests only
+    void validateParameters() throws BuildException {
         if (getOld() == null) {
             throw new BuildException("old must be set!");
+        }
+
+        if (getOldlabel() == null) {
+            setOldlabel(getOld().toString());
         }
 
         if (getNew() == null) {
             throw new BuildException("new must be set!");
         }
 
+        if (getNewlabel() == null) {
+            setNewlabel(getNew().toString());
+        }
+
         if (getDestfile() == null) {
             throw new BuildException("destfile must be set!");
         }
+    }
+
+    public void execute() throws BuildException {
+        validateParameters();
 
         VerboseListener verboseListener = new VerboseListener(this);
 
@@ -205,11 +216,7 @@ public class JarJarDiff extends Task {
 
             log("Comparing old and new classes ...");
 
-            String name = getName();
-            String oldLabel = (getOldlabel() != null) ? getOldlabel() : getOld().toString();
-            String newLabel = (getNewlabel() != null) ? getNewlabel() : getNew().toString();
-
-            Differences differences = getDifferencesFactory().createProjectDifferences(name, oldLabel, oldPackages, newLabel, newPackages);
+            Differences differences = getDifferencesFactory().createProjectDifferences(getName(), getOldlabel(), oldPackages, getNewlabel(), newPackages);
 
             log("Saving difference report to " + getDestfile().getAbsolutePath());
 

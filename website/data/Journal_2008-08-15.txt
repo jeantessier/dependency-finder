@@ -1,0 +1,3 @@
+Fixed =ListDiff= so the =-old-label= switch defaults to the value of the =-old=
+switch, the way it does for =JarJarDiff=.  And the same for =-new-label= and
+=-new=.  Added tests for the Ant task versions of =ListDiff= and =JarJarDiff=

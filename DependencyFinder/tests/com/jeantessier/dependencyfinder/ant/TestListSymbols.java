@@ -33,6 +33,7 @@
 package com.jeantessier.dependencyfinder.ant;
 
 import java.util.*;
+import java.io.*;
 
 import org.jmock.integration.junit3.*;
 import org.apache.tools.ant.*;
@@ -58,9 +59,16 @@ public class TestListSymbols extends MockObjectTestCase {
         sut = new ListSymbols();
     }
 
+    public void testAllMandatoryParameters() {
+        sut.createPath();
+        sut.setDestfile(new File("foobar"));
+
+        sut.validateParameters();
+    }
+
     public void testPathNotSet() {
         try {
-            sut.execute();
+            sut.validateParameters();
             fail("executed without path being set");
         } catch (BuildException ex) {
             assertEquals("Wrong message", "path must be set!", ex.getMessage());
@@ -71,7 +79,7 @@ public class TestListSymbols extends MockObjectTestCase {
         sut.createPath();
 
         try {
-            sut.execute();
+            sut.validateParameters();
             fail("executed without destfile being set");
         } catch (BuildException ex) {
             assertEquals("Wrong message", "destfile must be set!", ex.getMessage());

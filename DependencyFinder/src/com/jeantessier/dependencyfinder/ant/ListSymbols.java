@@ -137,9 +137,8 @@ public class ListSymbols extends Task {
         return path;
     }
 
-    public void execute() throws BuildException {
-        // first off, make sure that we've got what we need
-
+    // Visible for tests only
+    void validateParameters() throws BuildException {
         if (getPath() == null) {
             throw new BuildException("path must be set!");
         }
@@ -147,6 +146,10 @@ public class ListSymbols extends Task {
         if (getDestfile() == null) {
             throw new BuildException("destfile must be set!");
         }
+    }
+
+    public void execute() throws BuildException {
+        validateParameters();
 
         log("Reading classes from path " + getPath());
 
