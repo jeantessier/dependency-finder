@@ -34,9 +34,11 @@ package com.jeantessier.dependencyfinder.cli;
 
 import java.io.*;
 import java.lang.reflect.*;
+import java.util.*;
 
 import org.apache.log4j.*;
 
+import com.jeantessier.commandline.*;
 import com.jeantessier.diff.*;
 
 public abstract class DiffCommand extends Command {
@@ -63,6 +65,20 @@ public abstract class DiffCommand extends Command {
         getCommandLine().addSingleValueSwitch("filter");
         getCommandLine().addToggleSwitch("code");
         getCommandLine().addSingleValueSwitch("level", DEFAULT_LEVEL);
+    }
+
+    protected Collection<CommandLineException> parseCommandLine(String[] args) {
+        Collection<CommandLineException> exceptions = super.parseCommandLine(args);
+
+        if (!getCommandLine().isPresent("old-label")) {
+            getCommandLine().getSwitch("old-label").setValue(getCommandLine().getMultipleSwitch("old").toString());
+        }
+
+        if (!getCommandLine().isPresent("new-label")) {
+            getCommandLine().getSwitch("new-label").setValue(getCommandLine().getMultipleSwitch("new").toString());
+        }
+
+        return exceptions;
     }
 
     protected DifferencesFactory getDifferencesFactory() throws IOException {

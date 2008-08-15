@@ -32,29 +32,12 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import java.util.*;
-
 import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
-import com.jeantessier.commandline.*;
 import com.jeantessier.diff.*;
 
 public class JarJarDiff extends DiffCommand {
-    protected Collection<CommandLineException> parseCommandLine(String[] args) {
-        Collection<CommandLineException> exceptions = super.parseCommandLine(args);
-
-        if (!getCommandLine().isPresent("old-label")) {
-            getCommandLine().getSwitch("old-label").setValue(getCommandLine().getMultipleSwitch("old").toString());
-        }
-
-        if (!getCommandLine().isPresent("new-label")) {
-            getCommandLine().getSwitch("new-label").setValue(getCommandLine().getMultipleSwitch("new").toString());
-        }
-
-        return exceptions;
-    }
-
     protected void doProcessing() throws Exception {
         // Collecting data, first classfiles from JARs,
         // then package/class trees using NodeFactory.

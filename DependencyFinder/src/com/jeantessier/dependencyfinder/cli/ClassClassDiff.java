@@ -57,8 +57,8 @@ public class ClassClassDiff extends DiffCommand {
         getVerboseListener().print("Comparing ...");
 
         String name = getCommandLine().getSingleSwitch("name");
-        String oldLabel = getCommandLine().isPresent("old-label") ? getCommandLine().getSingleSwitch("old-label") : getCommandLine().getMultipleSwitch("old").toString();
-        String newLabel = getCommandLine().isPresent("new-label") ? getCommandLine().getSingleSwitch("new-label") : getCommandLine().getMultipleSwitch("new").toString();
+        String oldLabel = getCommandLine().getSingleSwitch("old-label");
+        String newLabel = getCommandLine().getSingleSwitch("new-label");
 
         Classfile oldClass = oldJar.getAllClassfiles().iterator().next();
         Classfile newClass = newJar.getAllClassfiles().iterator().next();
