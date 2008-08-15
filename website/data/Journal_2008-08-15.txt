@@ -4,3 +4,5 @@ switch, the way it does for =JarJarDiff=.  And the same for =-new-label= and
 
 Refactored the changes to the CLI version of =JarJarDiff= by pulling them up to
 the base class =DiffCommand= so they can be shared with =ClassClassDiff=.
+
+Fixed tech docs accordingly.

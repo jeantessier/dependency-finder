@@ -309,7 +309,7 @@ Version name for the report.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>value of <code>-new</code></td></tr>
 </table>
 
 </blockquote>
@@ -339,7 +339,7 @@ Version name for the report.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>value of <code>-old</code></td></tr>
 </table>
 
 </blockquote>
@@ -8423,7 +8423,7 @@ Version name for the report.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>value of <code>-new</code></td></tr>
 </table>
 
 </blockquote>
@@ -8453,7 +8453,7 @@ Version name for the report.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>value of <code>-old</code></td></tr>
 </table>
 
 </blockquote>
@@ -8898,7 +8898,7 @@ Version name for the report.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>value of <code>-new</code></td></tr>
 </table>
 
 </blockquote>
@@ -8926,7 +8926,7 @@ Version name for the report.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>none</td></tr>
+<tr><td>Default value:</td><td>value of <code>-old</code></td></tr>
 </table>
 
 </blockquote>
