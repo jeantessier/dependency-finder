@@ -1,0 +1,6 @@
+Looked into the possibility of estimating SLOC by looking at the minimum and
+maximum values in =LineNumberTable_attribute= instances in a given class.  One
+problem I have, and this is true for the current SLOC calculation too, is that
+fields that are initialized in initialization blocks (including constructors)
+are counted twice.  Also, looking at overall mininum line number versus maximum
+line number takes into account vertical space as well and comments.

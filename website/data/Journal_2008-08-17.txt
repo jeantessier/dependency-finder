@@ -1,0 +1,8 @@
+Spiked to adjust =CodeDependencyCollector= to filter parents in the dependency
+graph too.  If a parent does not match the filter criteria, it is not included
+in the graph.  I'm not sure this is the right thing to do.  What triggered the
+spike is that the tests around the filtering in =CodeDependencyCollector= were
+broken when I started extracting inheritance information.  The dependency on
+the parent gets filtered correctly, but there is still an empty node for the
+parent.  I could leave it there to preserve the parent-child relationships or I
+could leave it out because the filter expresses an intent to ignore it.
