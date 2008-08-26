@@ -10542,13 +10542,16 @@ Include method-related metrics.
 
 </blockquote>
 
----++++ =-out prefix=
+---++++ =-out filename=
 
 <blockquote>
 
-Writes the output to a file starting wit _prefix_.  The rest of the name
-depends on the output format.  If the file does not exists, it is created.
-If it already exists, its content is overwritten.
+Writes the output to _filename_.  If _filename_ does not exists,
+it is created.  If it already exists, its content is overwritten.
+
+When used with =-csv=, _filename_ is taken as a prefix to which the tool will
+append _%5Fproject.csv_, _%5Fgroups.csv_, _%5Fclasses.csv_ and _%5Fmethods.csv_
+as needed to output each section of requested metrics.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -10805,24 +10808,22 @@ and read those.
 <blockquote>
 
 The normal output is the complete metrics report, sorted by whatever
-measurement you specified with =-sort=.  This text report can be quite
-large.  If you use =-out= to save the output to a file, the file will
-be given a =.txt= extension.
+measurement you specified with =-sort=.  This text report can be quite large.
+You can use =-out filename= to save the output to a file.
 
-With =-csv=, formats the output as comma-separated values that can be
-fed to MS Excel.  When coupled with =-out prefix=, it actually generates
-four files, one for each group of metrics:
+With =-csv=, formats the output as comma-separated values that can be fed to
+MS Excel.  When coupled with =-out prefix=, it actually generates four files,
+one for each group of metrics:
 
    * _prefix_%5Fproject.csv
    * _prefix_%5Fgroups.csv
    * _prefix_%5Fclasses.csv
    * _prefix_%5Fmethods.csv
 
-With =-xml=, it converts the entire metrics structure into an XML document
-that follows the
-=[[http://depfind.sourceforge.net/dtd/metrics.dtd][metrics]]= DTD.  If you
-use =-out= to save the output to a file, the file will be given a =.xml=
-extension.
+With =-xml=, it converts the entire metrics structure into an XML document that
+follows the
+=[[http://depfind.sourceforge.net/dtd/metrics.dtd][metrics]]= DTD.  You can use
+=-out filename= to save the output to a file.
 
 </blockquote>
 
@@ -10830,19 +10831,19 @@ extension.
 
 <blockquote>
 
-To list all default metrics as text in =out.txt=:
+To list all default metrics as text in =df.txt=:
 
 <div class="highlight">
 
-    OOMetrics -out df DependencyFinder.jar
+    OOMetrics -txt -out df.txt DependencyFinder.jar
 
 </div>
 
-To list only package-level metrics from =MartinConfig.xml= as CSV in =Ds.csv=:
+To list only package-level metrics from =MartinConfig.xml= as CSV in =Ds_groups.csv=:
 
 <div class="highlight">
 
-    OOMetrics -groups -csv -configuration _&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/MartinConfig.xml -out Ds DependencyFinder.jar
+    OOMetrics -configuration _&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/MartinConfig.xml -groups -csv -out Ds DependencyFinder.jar
 
 </div>
 
