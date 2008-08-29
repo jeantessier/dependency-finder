@@ -1,0 +1,10 @@
+I was using =ListDiff= and =ListDiffToHTML= for diff'ing lists of symbols when
+I noticed =ListDiffToHTML.xsl= and =ListDiffToText.xsl= have template text made
+explicitly for diff'ing published documentation lists.  I will have to move
+that text to another name and make these templates more generic.
+
+I also have problems, under Linux, passing multi-word project names into
+=ListDiff=.  Somewhere between all the shell script invocations, I lose the
+fact that more than one word makes a switch value and the tool ends up only
+using the first word in the name.  I have the same problem with the other tools
+that take an arbitrary project name, such as =OOMetrics=.
