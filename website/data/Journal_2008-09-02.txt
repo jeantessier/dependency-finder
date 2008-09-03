@@ -1,0 +1,13 @@
+Spiked to try out SLOC2, based on the minimum and maximum line numbers in a
+method and in a class.  Runnning it on Dependency Finder, it yields extimates
+that are about 60% higher than SLOC.  This is due in part to blank lines and
+comments, which it counts.  Interestingly, it finds nothing for interfaces and
+abstract methods.
+
+In the process, I got the idea to split the different concerns in
+=StatisticalMeasurement=: collecting a bunch of values and running statistical
+analysis on those values.  To compute SLOC2, I needed a collection measurement
+where I could collect the different line numbers and get the minimum and
+maximum values.  I used a =SumMeasurement= to compute _max - min + 1_.  With
+separate measurements for collecting values and doing statistics, it would make
+the metrics config even more complex, so it may not be a win for the user.
