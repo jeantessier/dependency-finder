@@ -694,11 +694,11 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockField).isTransient();
             allowing (mockField).isSynthetic();
             will(returnValue(true));
-            never (mockMetrics).addToMeasurement(with(equal(BasicMeasurements.SYNTHETIC_ATTRIBUTES)), with(a(String.class)));
+            never (mockMetrics).addToMeasurement(with(equal(BasicMeasurements.SYNTHETIC_ATTRIBUTES)), with(any(String.class)));
             one (mockField).getAttributes();
             will(returnValue(attributes));
             one (mockSyntheticAttribute).accept(sut);
-            never (mockMetrics).addToMeasurement(with(equal(BasicMeasurements.CLASS_SLOC)), with(a(Number.class)));
+            never (mockMetrics).addToMeasurement(with(equal(BasicMeasurements.CLASS_SLOC)), with(any(Number.class)));
             ignoring (mockField).getDescriptor();
         }});
 
@@ -1089,12 +1089,12 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockMethod).isAbstract();
             allowing (mockMethod).isSynthetic();
             will(returnValue(true));
-            never (mockMetrics).addToMeasurement(with(equal(BasicMeasurements.SYNTHETIC_METHODS)), with(a(String.class)));
+            never (mockMetrics).addToMeasurement(with(equal(BasicMeasurements.SYNTHETIC_METHODS)), with(any(String.class)));
             allowing (mockMethod).getDescriptor();
             will(returnValue("()V"));
             one (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            never (mockMetrics).addToMeasurement(with(equal(BasicMeasurements.SLOC)), with(a(Number.class)));
+            never (mockMetrics).addToMeasurement(with(equal(BasicMeasurements.SLOC)), with(any(Number.class)));
         }});
 
         MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);

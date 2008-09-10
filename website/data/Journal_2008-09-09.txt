@@ -1,0 +1,15 @@
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>jMock</td>
+        <td>:</td>
+        <td>2.4.0</td>
+        <td>-></td>
+        <td>2.5.1</td>
+    </tr>
+</table>
+</blockquote>
+
+jMock's =a()= matcher is now deprecated, so I used =any()= instead.
