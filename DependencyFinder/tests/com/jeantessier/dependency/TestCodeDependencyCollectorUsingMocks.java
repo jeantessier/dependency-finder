@@ -37,8 +37,8 @@ import java.util.*;
 import org.jmock.*;
 import org.jmock.api.*;
 import org.jmock.integration.junit3.*;
-import org.jmock.lib.action.*;
 import org.jmock.lib.legacy.*;
+import static org.jmock.lib.script.ScriptedAction.*;
 
 import com.jeantessier.classreader.*;
 
@@ -182,16 +182,14 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
     }
 
     private Action createEventCheckingAction(final String expectedClassName) {
-        return new CustomAction("event for " + expectedClassName) {
-            public Object invoke(Invocation invocation) throws Throwable {
-                DependencyEvent event = (DependencyEvent) invocation.getParameter(0);
-                assertEquals("source", sut, event.getSource());
-                assertEquals("classname", expectedClassName, event.getClassName());
-                assertNull("dependent", event.getDependent());
-                assertNull("dependable", event.getDependable());
-                return null;
-            }
-        };
+        return
+            perform(
+                "junit.framework.Assert.assertEquals(\"source\", sut, $0.getSource());" +
+                "junit.framework.Assert.assertEquals(\"classname\", expectedClassName, $0.getClassName());" +
+                "junit.framework.Assert.assertNull(\"dependent\", $0.getDependent());" +
+                "junit.framework.Assert.assertNull(\"dependable\", $0.getDependable())")
+                .where("sut", sut)
+                .where("expectedClassName", expectedClassName);
     }
 
     public void testVisitExceptionHandler_finally() {
