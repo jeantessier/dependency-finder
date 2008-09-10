@@ -114,7 +114,7 @@ sub PrintDocumentPart {
         $day = $3;
     }
 
-    print "<dt>$MONTH{$month} $day, $year</dt>\n";
+    print "<dt><a name=\"$year-$month-$day\">$MONTH{$month} $day, $year</a></dt>\n";
     print "<dd>\n";
 
     local ($in_paragraph, $in_quote, $in_ordered_list, $in_unordered_list, $in_html);
