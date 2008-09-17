@@ -1110,13 +1110,16 @@ or, to run tests manually:
 
 ---+++ Making a Release
 
-_These instructions need to be updated to account for Subversion instead of CVS._
+These instructions make sure you are working from a clean copy from the
+repository that has been tagged appropriately.
 
     1 =svn mkdir https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.1 -m "Tagging the 1.2.1 release of Dependency Finder"=
-    1 =svn copy https://depfind.svn.sourceforge.net/svnroot/depfind/trunk/DependencyFinder https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-121/DependencyFinder -m "Tagging the 1.2.1 release of Dependency Finder"=
-    1 =ant realclean dist=
-    1 =ant ftp=
-    1 =cvs log -rrelease-1.1.1:release-1.2.0=
+    1 =svn copy https://depfind.svn.sourceforge.net/svnroot/depfind/trunk/DependencyFinder https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.1 -m "Tagging the 1.2.1 release of Dependency Finder"=
+    1 =svn copy https://depfind.svn.sourceforge.net/svnroot/depfind/trunk/website https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.1 -m "Tagging the 1.2.1 release of Dependency Finder"=
+    1 =svn checkout https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.1/DependencyFinder /tmp/DependencyFinder=
+    1 =cd /tmp/DependencyFinder=
+    1 =ant dist=
+    1 Use SFTP to upload the files to SourceForge.net (=ant ftp= does not work anymore)
     1 Create new release on SourceForge.net
     1 Notify monitoring people
     1 Close bugs

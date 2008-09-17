@@ -1,0 +1,2 @@
+Released version 1.2.1-beta1.  It's been long overdue and I had to update the
+instructions on making a release.
