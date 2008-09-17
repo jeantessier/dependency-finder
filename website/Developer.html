@@ -14,7 +14,7 @@
 <h1>The Dependency Finder Developer Guide</h1>
 
 <p>
-For Dependency Finder version 1.2.0.
+For Dependency Finder version 1.2.1-beta1.
 </p>
 
 <p>
@@ -132,6 +132,7 @@ For testing:
 <table>
     <tr><th>Name</th><th>Location</th><th>Tested Version</th></tr>
     <tr><td>JUnit</td><td><a href="http://junit.org/">junit.org</a></td><td align="center">3.8.2</td></tr>
+    <tr><td>jMock</td><td><a href="http://jmock.org/">jmock.org</a></td><td align="center">2.4.0</td></tr>
     <tr><td>FitLibrary</td><td><a href="http://fitlibrary.sourceforge.net/">fitlibrary.sourceforge.net</a></td><td align="center">2006-01-16</td></tr>
     <tr><td>HttpUnit</td><td><a href="http://httpunit.sourceforge.net/">httpunit.sourceforge.net</a></td><td align="center">1.6.2</td></tr>
     <tr><td>Emma</td><td><a href="http://emma.sourceforge.net/">emma.sourceforge.net</a></td><td align="center">2.0.5312</td></tr>
@@ -1471,6 +1472,7 @@ environment variables in addition to those for compiling Dependency Finder:
 
 <ul>
 <li><code>JUNIT_HOME</code> to your <a href="http://junit.org/">JUnit</a> installation</li>
+<li><code>JMOCK_HOME</code> to your <a href="http://jmock.org/">jMock</a> installation</li>
 <li><code>FITLIBRARY_HOME</code> to your <a href="http://fitlibrary.sourceforge.net/">FitLibrary</a> installation</li>
 <li><code>HTTPUNIT_HOME</code> to your <a href="http://httpunit.sourceforge.net/">HttpUnit</a> installation</li>
 </ul>
@@ -1485,11 +1487,17 @@ typically <code>C:\Documents&nbsp;and&nbsp;Settings\<i>username</i></code>.
 </p>
 
 <p>
+I recommend you use JUnit 4.4 or later, where the JAR file is named
+<code>junit-X.Y.jar</code>, but everything should work as is with any version of JUnit 3.8
+and above (where the JAR file was named <code>junit.jar</code>), and even some older ones.
+</p>
+
+<p>
 To run all tests and generate test reports in the <code>reports</code> directory:
 </p>
 
 <ol>
-<li><code>set CLASSPATH=%JUNIT_HOME%\junit.jar</code></li>
+<li><code>set CLASSPATH=%JUNIT_HOME%\junit-4.4.jar</code></li>
 <li><code>ant -f build.test.xml</code></li>
 </ol>
 
@@ -1498,7 +1506,7 @@ or, to run tests manually:
 </p>
 
 <ol>
-<li><code>set CLASSPATH=%JUNIT_HOME%\junit.jar</code></li>
+<li><code>set CLASSPATH=%JUNIT_HOME%\junit-4.4.jar</code></li>
 <li><code>ant -f build.test.xml compile</code></li>
 <li><code>textjunit TestAll</code></li>
 <li><code>textjunit com.jeantessier.fitlibrary.TestAll</code></li>

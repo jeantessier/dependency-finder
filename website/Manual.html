@@ -14,7 +14,7 @@
 <h1>The Dependency Finder User Manual</h1>
 
 <p>
-For Dependency Finder version 1.2.0.
+For Dependency Finder version 1.2.1-beta1.
 </p>
 
 <p>
@@ -269,45 +269,45 @@ application to keep the data in memory and play with it a while.
 <h3>Java Application on Windows</h3>
 
 <p>
-Dependency Finder comes as a ZIP file that includes everything you need
-to run it.  The file is named <code>DependencyFinder-<i>&lt;version&gt;</i>.bin.zip</code>.
+Dependency Finder comes as a ZIP file that includes everything you need to run
+it.  The file is named <code>DependencyFinder-1.2.1-beta1.bin.zip</code>.
 </p>
 
 <a name="Step1:JavaVirtualMachine"></a>
 <h4>Step 1: Java Virtual Machine</h4>
 
 <p>
-You need to have a Java Virtual Machine installed.  You can get one for
-free from <a href="http://java.sun.com/">Sun Microsytems</a>.  Make sure you define
-the <code>JAVA_HOME</code> environment variable.
+You need to have a Java Virtual Machine installed.  You can get one for free
+from <a href="http://java.sun.com/">Sun Microsytems</a>.  Make sure you define the
+<code>JAVA_HOME</code> environment variable.
 </p>
 
 <p>
-For example, if you installed JDK 1.4.2 in <code>C:\jdk1.4.2</code>:
+For example, if you installed JDK 1.5.0 in <code>C:\jdk1.5.0</code>:
 </p>
 
 <pre>
-    SET JAVA_HOME=C:\jdk1.4.2
+    SET JAVA_HOME=C:\jdk1.5.0
 </pre>
 
 <p>
-You can either add this line to your <code>AUTOEXEC.BAT</code> file, or on Windows
-NT/XP, use Start | Settings | Control Panel | System and select the
-Environment tab to create and edit variables.
+You can either add this line to your <code>AUTOEXEC.BAT</code> file, or on Windows NT/XP,
+use Start | Settings | Control Panel | System and select the Environment tab to
+create and edit variables.
 </p>
 
 <a name="Step2:DeployDependencyFinder"></a>
 <h4>Step 2: Deploy Dependency Finder</h4>
 
 <p>
-Extract the ZIP file to some directory you like.  The extraction will
-create a subdirectory named "DependencyFinder" that is the root of the
+Extract the ZIP file to some directory you like.  The extraction will create a
+subdirectory named "DependencyFinder-1.2.1-beta1" that is the root of the
 package.
 </p>
 
 <p>
-For example, if you extract it to <code>C:\</code>, you will endup with a
-directory called <code>C:\DependencyFinder\</code>.
+For example, if you extract it to <code>C:\</code>, you will endup with a directory called
+<code>C:\DependencyFinder-1.2.1-beta1\</code>.
 </p>
 
 <a name="Step3:EnvironmentVariables"></a>
@@ -317,8 +317,8 @@ directory called <code>C:\DependencyFinder\</code>.
 smart enough to find out on their own where you installed Dependency Finder.</i>
 
 <p>
-Create an environment variable named <code>DEPENDENCYFINDER_HOME</code> and have it
-point to the directory where you installed Dependency Finder.
+Create an environment variable named <code>DEPENDENCYFINDER_HOME</code> and have it point
+to the directory where you installed Dependency Finder.
 </p>
 
 <p>
@@ -326,13 +326,13 @@ For example, if you extracted the ZIP file in <code>C:\</code>
 </p>
 
 <pre>
-    SET DEPENDENCYFINDER_HOME=C:\DependencyFinder
+    SET DEPENDENCYFINDER_HOME=C:\DependencyFinder-1.2.1-beta1
 </pre>
 
 <p>
 You can either enter this line in your <code>AUTOEXEC.BAT</code> file, or on Windows NT/XP
-use Start | Settings | Control Panel | System and select the Environment
-tab to create and edit variables.
+use Start | Settings | Control Panel | System and select the Environment tab to
+create and edit variables.
 </p>
 
 <a name="Step4:PATH"></a>
@@ -347,7 +347,7 @@ For example, if you extracted the ZIP file in <code>C:\</code>
 </p>
 
 <pre>
-    SET PATH=C:\DependencyFinder\bin;%PATH%
+    SET PATH=C:\DependencyFinder-1.2.1-beta1\bin;%PATH%
 </pre>
 
 <a name="Step5:Reboot"></a>
@@ -375,8 +375,8 @@ If the any of the tools run out of memory, try setting the
 </pre>
 
 <p>
-If you get the message "Out of environment space" while running the scripts
-on a Windows machine, you will need to add the following line to your
+If you get the message "Out of environment space" while running the scripts on
+a Windows machine, you will need to add the following line to your
 <code>C:\CONFIG.SYS</code> file and then reboot.
 </p>
 
@@ -402,10 +402,16 @@ for more details.
 
 <p>
 Dependency Finder comes as one of two compressed TAR file that includes
-everything you need to run it.  The files are named
-<code>DependencyFinder-<i>&lt;version&gt;</i>.bin.tar.gz</code> and
-<code>DependencyFinder-<i>&lt;version&gt;</i>.bin.tar.bz2</code>.  Their contents are identical
-except of the compression algorithm used.
+everything you need to run it.  The files are:
+</p>
+
+<ul>
+<li><code>DependencyFinder-1.2.1-beta1.bin.tar.gz</code></li>
+<li><code>DependencyFinder-1.2.1-beta1.bin.tar.bz2</code></li>
+</ul>
+
+<p>
+Their contents are identical except of the compression algorithm used.
 </p>
 
 <p>
@@ -417,10 +423,10 @@ to do the extraction.
 <h4>Step 1: Java Virtual Machine</h4>
 
 <p>
-You need to have a Java Virtual Machine installed.  You can get one for
-free from Linux or Solaris from <a href="http://java.sun.com/">Sun Microsytems</a>.
-Make sure you define the <code>JAVA_HOME</code> environment variable.  There are
-distributions of Java for most operating systems, including MacOS X.
+You need to have a Java Virtual Machine installed.  You can get one for free
+from Linux or Solaris from <a href="http://java.sun.com/">Sun Microsytems</a>.  Make
+sure you define the <code>JAVA_HOME</code> environment variable.  There are distributions
+of Java for most operating systems, including MacOS X.
 </p>
 
 <p>
@@ -464,13 +470,12 @@ You can put this line in your <code>.cshrc</code> file.
 <h4>Step 2: Deploy Dependency Finder</h4>
 
 <p>
-Extract the TAR file to some directory you like.  The extraction will
-create a subdirectory named "DependencyFinder" that is the root of the
-package.
+Extract the TAR file to some directory you like.  The extraction will create a
+subdirectory named "DependencyFinder" that is the root of the package.
 </p>
 
 <pre>
-    $ tar xvzf DependencyFinder-<i>&lt;version&gt;</i>.tar.gz
+    $ tar xvzf DependencyFinder-1.2.1-beta1.bin.tar.gz
 </pre>
 
 <p>
@@ -478,12 +483,12 @@ or
 </p>
 
 <pre>
-    $ bunzip2 DependencyFinder-<i>&lt;version&gt;</i>.tar.bz2 | tar xvf -
+    $ bunzip2 DependencyFinder-1.2.1-beta1.bin.tar.bz2 | tar xvf -
 </pre>
 
 <p>
-For example, if you extract it to <code>$HOME</code>, you will endup with a
-directory called <code>$HOME/DependencyFinder/</code>.
+For example, if you extract it to <code>$HOME</code>, you will endup with a directory
+called <code>$HOME/DependencyFinder-1.2.1-beta1</code>.
 </p>
 
 <a name="Step3:EnvironmentVariablesX"></a>
@@ -493,8 +498,8 @@ directory called <code>$HOME/DependencyFinder/</code>.
 own where you installed Dependency Finder.</i>
 
 <p>
-Create an environment variable named <code>DEPENDENCYFINDER_HOME</code> and have it
-point to the directory where you installed Dependency Finder.
+Create an environment variable named <code>DEPENDENCYFINDER_HOME</code> and have it point
+to the directory where you installed Dependency Finder.
 </p>
 
 <p>
@@ -511,7 +516,7 @@ For sh:
 </p>
 
 <pre>
-    DEPENDENCYFINDER_HOME=$HOME/DependencyFinder
+    DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-1.2.1-beta1
     export DEPENDENCYFINDER_HOME
     DEPENDENCYFINDER_OPTS=-Xmx128m
     export DEPENDENCYFINDER_OPTS
@@ -522,7 +527,7 @@ For bash:
 </p>
 
 <pre>
-    export DEPENDENCYFINDER_HOME=$HOME/DependencyFinder
+    export DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-1.2.1-beta1
     export DEPENDENCYFINDER_OPTS=-Xmx128m
 </pre>
 
@@ -535,7 +540,7 @@ For csh or tcsh:
 </p>
 
 <pre>
-    setenv DEPENDENCYFINDER_HOME $HOME/DependencyFinder
+    setenv DEPENDENCYFINDER_HOME $HOME/DependencyFinder-1.2.1-beta1
     setenv DEPENDENCYFINDER_OPTS -Xmx128m
 </pre>
 
@@ -572,7 +577,7 @@ For bash:
 </pre>
 
 <p>
-You can put these lines in your <code>.profile</code> file.
+You can put these lines in your <code>.profile</code> or <code>.bashrc</code> file.
 </p>
 
 <p>
@@ -591,9 +596,9 @@ You can put this line in your <code>.cshrc</code> file.
 <h3>Web Application</h3>
 
 <p>
-Dependency Finder also comes as a web application that you can easily deploy
-in just about any J2EE servlet container.  Most containers have their own way
-to deploy and manage web applications, so you will need to adjust these
+Dependency Finder also comes as a web application that you can easily deploy in
+just about any J2EE servlet container.  Most containers have their own way to
+deploy and manage web applications, so you will need to adjust these
 instructions to your particular circumstances.
 </p>
 
@@ -601,9 +606,9 @@ instructions to your particular circumstances.
 <h4>Step 1: Deploy WAR File</h4>
 
 <p>
-Use your favorite servlet container to deploy the WAR file.  Most of them
-have tools for deploying WAR files.  For some of them, it can be as simple
-as copying the WAR file to a specific directory.
+Use your favorite servlet container to deploy the WAR file.  Most of them have
+tools for deploying WAR files.  For some of them, it can be as simple as
+copying the WAR file to a specific directory.
 </p>
 
 <p>
@@ -617,7 +622,7 @@ For instance, using Tomcat on Windows, you can do the following:
 </pre>
 
 <pre>
-    C:\>copy DependencyFinder.war %CATALINA_HOME%\webapps
+    C:\>copy DependencyFinder-1.2.1-beta1.war %CATALINA_HOME%\webapps
 </pre>
 
 <pre>
@@ -648,7 +653,7 @@ instead and transfer only the resulting XML document.
 </p>
 
 <p>
-There are four context parameters that you can adjust:
+There are six context parameters that you can adjust:
 </p>
 
 <blockquote>
@@ -659,9 +664,9 @@ There are four context parameters that you can adjust:
             <b><code>name</code></b>
         </td>
         <td>
-            Used in the JSPs to tell the users what that are looking at.
-            Put the name of the application that you are extracting from
-            here, it will be shown in titles by the JSPs.
+            Used in the JSPs to tell the users what that are looking at.  Put
+            the name of the application that you are extracting from here, it
+            will be shown in titles by the JSPs.
         </td>
     </tr>
     <tr>
@@ -671,9 +676,9 @@ There are four context parameters that you can adjust:
         <td>
             Use this variable to tell Dependency Finder's <code>extract.jsp</code> where
             to locate classes from which to extract a dependency graph.  You
-            can separate multiple locations by using commas.  Each location
-            can either be a JAR file, a ZIP file, a <code>.class</code> file, or a
-            directory that will be recursively searched for <code>.class</code> files.
+            can separate multiple locations by using commas.  Each location can
+            either be a JAR file, a ZIP file, a <code>.class</code> file, or a directory
+            that will be recursively searched for <code>.class</code> files.
         </td>
     </tr>
     <tr>
@@ -705,8 +710,8 @@ There are four context parameters that you can adjust:
         <td>
             Use this variable to tell Dependency Finder's <code>load.jsp</code> where to
             locate files which contain extracted dependency graphs.  You can
-            separate multiple locations by using commas.  Each location
-            should contain an XML document, such as the ones produced by
+            separate multiple locations by using commas.  Each location should
+            contain an XML document, such as the ones produced by
             <code>DependencyExtractor</code>.  If you specify more than one file, their
             contents will be merged together.
         </td>
@@ -717,18 +722,18 @@ There are four context parameters that you can adjust:
         </td>
         <td>
             Optional.  Tells Dependency Finder whether to <i>minimize</i> or
-            <i>maximize</i> the resulting graph, or just leave it alone (<i>raw</i>,
-            the default value).  See below for the implications of
-            minimizing or maximizing a graph.
+            <i>maximize</i> the resulting graph, or just leave it alone (<i>raw</i>, the
+            default value).  See below for the implications of minimizing or
+            maximizing a graph.
         </td>
     </tr>
 </table>
 </blockquote>
 
 <p>
-Under some servlet containers, for example Tomcat, you will need to restart
-the servlet container for the changes to take effect.  Other application
-servers may allow you to simply restart the web application itself.
+Under some servlet containers, for example Tomcat, you will need to restart the
+servlet container for the changes to take effect.  Other application servers
+may allow you to simply restart the web application itself.
 </p>
 
 <div class="highlight">
@@ -738,7 +743,7 @@ servers may allow you to simply restart the web application itself.
 </pre>
 
 <pre>
-    C:\>notepad %CATALINA_HOME%\webapps\DependencyFinder\WEB-INF\web.xml
+    C:\>notepad %CATALINA_HOME%\webapps\DependencyFinder-1.2.1-beta1\WEB-INF\web.xml
 </pre>
 
 <pre>
@@ -5444,7 +5449,7 @@ you do not specify any of them, is to include all of them.
 </blockquote>
 
 <p>
-You must also specify an output mode with one of these switches.
+You must specify an output mode with one of these switches.
 </p>
 
 <blockquote>
