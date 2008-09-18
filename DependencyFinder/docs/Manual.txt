@@ -1916,7 +1916,7 @@ the =-g= switch.  This means we are not guaranteed to find the dependency
 looking at compiled code.  But we can examine the signature of =singleton()=
 and since we have to call it, we'll need to get objects of these types.
 The method takes a parameter of type =Object= and returns a =Set=.  This
-last one makes up for our loosing =Collection= earlier since =Set= extends
+last one makes up for our losing =Collection= earlier since =Set= extends
 =Collection=.
 
 Total: seven dependencies.
@@ -1943,7 +1943,7 @@ dependencies.  If the graph gets this complicated for something as trivial as
 *Maximized*
 </div>
 
-Here are the dimentions of various graphs.
+Here are the dimensions of various graphs.
 
 <table border="3"
        rules="groups"
@@ -2789,7 +2789,7 @@ This table summarizes which CLI tool shows which information.
 
 Sometimes the codebase can be too large for Dependency Finder to deal with it
 in one pass.  The dependency graph can become so large that it uses up all
-available memory.  This can be the case eiher on a large project or when you
+available memory.  This can be the case either on a large project or when you
 try to build a graph across many applications.  You can ease this situation by:
 
    1 breaking down the codebase into manageable chunks
