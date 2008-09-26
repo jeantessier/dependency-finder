@@ -18,12 +18,12 @@ Code with =java.util.regex=:
         return CONSTRUCTOR_PATTERN.matcher(node.getName()).find();
     }
 
-For this check, I find the =Perl5Util= code easier to work with, but I think
-=java.util.regex= is actually more efficient by using a native implementation
-in the JVM itself.  And I already use =Perl5Util= everywhere anyway.
+For this check, I find the =Perl5Util= code easier to work with, and I already
+use =Perl5Util= everywhere.  But I feel =java.util.regex= might actually be
+more efficient by using a native implementation in the JVM itself.
 
 Maybe this logic belongs in =FeatureNode= instead of being replicated in a lot
-of places.
+of places.  I guess I answered my own question.
 
 Changed the signature of =TraversalStrategy.order()= so it returns the exact
 same type that was passed in, using generics.
