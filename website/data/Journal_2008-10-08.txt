@@ -1,0 +1,6 @@
+Clean up command-line validation in Fit tests.  I was hesitant between =check=
+and =reject= and =ensure= rows, but I came up with a system.  I use =ensure=
+rows to show good, valid command-lines and =reject= to show broken
+command-lines.  I ended up using =check= for switches =-echo=, =-help=, and
+=-version= because while they are allowed command-lines, they do not lead to
+running the application but short-circuit it instead.

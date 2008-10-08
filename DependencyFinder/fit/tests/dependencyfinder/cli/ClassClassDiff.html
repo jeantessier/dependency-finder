@@ -42,6 +42,14 @@
 
 <h2>Checking validation rules</h2>
 
+<p>If a row starts with "ensure", it indicates a valid command-line that should
+work just fine.  If a row starts with "reject", it indicates a invalid
+command-line that contains an invalid set of switches and parameters.  The rows
+for <code>-echo</code>, <code>-help</code>, and <code>-version</code> are
+special in that they are valid command-lines but do not result in the normal
+running of the application.  This is why I test them using a "check ... false"
+construct.</p>
+
 <table border="1">
     <tr><td>reject</td><td>parse</td><td>-old foo</td><td>and validate</td></tr>
 </table>
@@ -51,11 +59,11 @@
 </table>
 
 <table border="1">
-    <tr><td>check</td><td>parse</td><td>-old foo -new bar</td><td>and validate</td><td>true</td></tr>
+    <tr><td>ensure</td><td>parse</td><td>-old foo -new bar</td><td>and validate</td></tr>
 </table>
 
 <table border="1">
-    <tr><td>reject</td><td>parse</td><td>-echo</td><td>and validate</td></tr>
+    <tr><td>check</td><td>parse</td><td>-echo</td><td>and validate</td><td>false</td></tr>
 </table>
 
 <table border="1">
