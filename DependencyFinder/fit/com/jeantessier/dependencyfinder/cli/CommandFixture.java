@@ -61,7 +61,7 @@ public class CommandFixture extends DoFixture {
     }
 
     public boolean parseAndValidate(String args) throws CommandLineException {
-        PrintStream printStream = new PrintStream(new ByteArrayOutputStream());
+        PrintStream printStream = getNullPrintStream();
         try {
             return getCommand().validateCommandLine(safeSplit(args), printStream);
         } finally {
@@ -73,7 +73,7 @@ public class CommandFixture extends DoFixture {
         return (Command) getSystemUnderTest();
     }
 
-    public CommandLine getCommandLine() {
+    private CommandLine getCommandLine() {
         return getCommand().getCommandLine();
     }
 
@@ -83,5 +83,13 @@ public class CommandFixture extends DoFixture {
             args = new String[0];
         }
         return args;
+    }
+
+    private PrintStream getNullPrintStream() {
+        return new PrintStream(new OutputStream() {
+            public void write(int i) throws IOException {
+                // Do nothing
+            }
+        });
     }
 }
