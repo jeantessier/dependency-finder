@@ -4277,7 +4277,7 @@ You must specify an output mode with one of these switches.
 <dl>
     <dt>=-csv=</dt>
     <dd>Writes each section in its own CSV file, perfect for loading in
-    Microsoft Excel and charting.</dd>
+    Google Docs or Microsoft Excel and for charting.</dd>
     <dt>=-txt=</dt>
     <dd>Writes a single text report with all requested sections.</dd>
     <dt>=-xml=</dt>

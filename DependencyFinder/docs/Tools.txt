@@ -10338,8 +10338,8 @@ It also includes instruction on how to customize it.
 
 <blockquote>
 
-Writes each section in its own CSV file, perfect for loading in Microsoft
-Excel and charting.
+Writes each section in its own CSV file, perfect for loading in Google Docs or
+Microsoft Excel and for charting.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -10812,8 +10812,8 @@ measurement you specified with =-sort=.  This text report can be quite large.
 You can use =-out filename= to save the output to a file.
 
 With =-csv=, formats the output as comma-separated values that can be fed to
-MS Excel.  When coupled with =-out prefix=, it actually generates four files,
-one for each group of metrics:
+Google Docs or MS Excel.  When coupled with =-out prefix=, it actually
+generates up to four files, one for each group of metrics:
 
    * _prefix_%5Fproject.csv
    * _prefix_%5Fgroups.csv

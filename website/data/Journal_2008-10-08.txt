@@ -17,3 +17,6 @@ startup.  But that file is never used and ends up being empty.
 I encapsulated =Command.out= behind a getter and a setter so I can do lazy
 initialization on it.  This way, since =OOMetrics= never calls
 =Command.getOut()=, the empty file is never created.
+
+Amended the tech docs to add Google Docs to the list of possible consumers for
+CSV files.
