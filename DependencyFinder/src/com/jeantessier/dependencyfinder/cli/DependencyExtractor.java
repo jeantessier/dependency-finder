@@ -85,9 +85,9 @@ public class DependencyExtractor extends DirectoryExplorerCommand {
 
         com.jeantessier.dependency.Printer printer;
         if (getCommandLine().getToggleSwitch("xml")) {
-            printer = new com.jeantessier.dependency.XMLPrinter(out, getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
+            printer = new com.jeantessier.dependency.XMLPrinter(getOut(), getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
         } else {
-            printer = new com.jeantessier.dependency.TextPrinter(out);
+            printer = new com.jeantessier.dependency.TextPrinter(getOut());
         }
 
         if (getCommandLine().isPresent("indent-text")) {

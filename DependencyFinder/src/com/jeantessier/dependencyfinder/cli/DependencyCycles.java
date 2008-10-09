@@ -70,9 +70,9 @@ public class DependencyCycles extends DependencyGraphCommand {
 
         CyclePrinter printer;
         if (getCommandLine().isPresent("xml")) {
-            printer = new XMLCyclePrinter(out, getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
+            printer = new XMLCyclePrinter(getOut(), getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
         } else {
-            printer = new TextCyclePrinter(out);
+            printer = new TextCyclePrinter(getOut());
         }
 
         if (getCommandLine().isPresent("indent-text")) {

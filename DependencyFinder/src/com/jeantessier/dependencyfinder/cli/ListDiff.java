@@ -113,7 +113,7 @@ public class ListDiff extends Command {
         }
 
         getVerboseListener().print("Printing results ...");
-        out.print(printer);
+        getOut().print(printer);
     }
 
     public static void main(String[] args) throws Exception {

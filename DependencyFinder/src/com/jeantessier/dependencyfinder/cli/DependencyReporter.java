@@ -99,9 +99,9 @@ public class DependencyReporter extends DependencyGraphCommand {
 
         Printer printer;
         if (getCommandLine().isPresent("xml")) {
-            printer = new XMLPrinter(out, getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
+            printer = new XMLPrinter(getOut(), getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
         } else {
-            printer = new TextPrinter(out);
+            printer = new TextPrinter(getOut());
         }
 
         if (getCommandLine().isPresent("indent-text")) {

@@ -43,11 +43,11 @@ public class ClassList extends DirectoryExplorerCommand {
             loader.addLoadListener(getVerboseListener());
             loader.load(Collections.singleton(filename));
 
-            out.println(filename + ":");
+            getOut().println(filename + ":");
             for (Classfile classfile : loader.getAllClassfiles()) {
-                out.println(classfile);
+                getOut().println(classfile);
             }
-            out.println();
+            getOut().println();
         }
     }
 

@@ -33,6 +33,7 @@
 package com.jeantessier.dependencyfinder.cli;
 
 import java.util.*;
+import java.io.*;
 
 import com.jeantessier.classreader.*;
 
@@ -66,29 +67,29 @@ public class ClassFinder extends DirectoryExplorerCommand {
         }
     }
 
-    private void printCompact(String className, List<String> groups) {
-        out.print(className);
-        out.print(": ");
+    private void printCompact(String className, List<String> groups) throws IOException {
+        getOut().print(className);
+        getOut().print(": ");
 
         Iterator i = groups.iterator();
         while (i.hasNext()) {
-            out.print(i.next());
+            getOut().print(i.next());
             if (i.hasNext()) {
-                out.print(", ");
+                getOut().print(", ");
             }
         }
 
-        out.println();
+        getOut().println();
     }
 
-    private void printMultiline(String className, List<String> groups) {
-        out.println(className);
+    private void printMultiline(String className, List<String> groups) throws IOException {
+        getOut().println(className);
 
         for (String group : groups) {
-            out.println(getCommandLine().getSingleSwitch("indent-text") + group);
+            getOut().println(getCommandLine().getSingleSwitch("indent-text") + group);
         }
 
-        out.println();
+        getOut().println();
     }
 
     public static void main(String[] args) throws Exception {

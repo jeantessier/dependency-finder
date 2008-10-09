@@ -33,6 +33,7 @@
 package com.jeantessier.dependencyfinder.cli;
 
 import java.util.*;
+import java.io.*;
 
 import org.apache.log4j.*;
 
@@ -95,50 +96,50 @@ public class ClassCohesion extends DependencyGraphCommand {
         Logger.getLogger(OOMetrics.class).debug("Done.");
     }
 
-    private void printCSVFiles(Map<ClassNode, Collection<Collection<FeatureNode>>> results) {
-        out.println("class, LCOM4");
+    private void printCSVFiles(Map<ClassNode, Collection<Collection<FeatureNode>>> results) throws IOException {
+        getOut().println("class, LCOM4");
         for (Map.Entry<ClassNode, Collection<Collection<FeatureNode>>> entry : results.entrySet()) {
-            out.println(entry.getKey().getName() + ", " + entry.getValue().size());
+            getOut().println(entry.getKey().getName() + ", " + entry.getValue().size());
         }
     }
 
-    private void printTextFile(Map<ClassNode, Collection<Collection<FeatureNode>>> results) {
+    private void printTextFile(Map<ClassNode, Collection<Collection<FeatureNode>>> results) throws IOException {
         String indentText = getCommandLine().getSingleSwitch("indent-text");
 
         for (Map.Entry<ClassNode, Collection<Collection<FeatureNode>>> entry : results.entrySet()) {
-            out.println(entry.getKey().getName() + ": " + entry.getValue().size());
+            getOut().println(entry.getKey().getName() + ": " + entry.getValue().size());
             if (entry.getValue().size() > 1 && getCommandLine().isPresent("list")) {
-                out.println(indentText + "--------");
+                getOut().println(indentText + "--------");
                 for (Collection<FeatureNode> component : entry.getValue()) {
                     for (FeatureNode feature : component) {
-                        out.println(indentText + feature.getName().substring(feature.getClassNode().getName().length() + 1));
+                        getOut().println(indentText + feature.getName().substring(feature.getClassNode().getName().length() + 1));
                     }
-                    out.println(indentText + "--------");
+                    getOut().println(indentText + "--------");
                 }
             }
         }
     }
 
-    private void printXMLFile(Map<ClassNode, Collection<Collection<FeatureNode>>> results) {
+    private void printXMLFile(Map<ClassNode, Collection<Collection<FeatureNode>>> results) throws IOException {
         String indentText = getCommandLine().getSingleSwitch("indent-text");
 
-        out.println("<classes>");
+        getOut().println("<classes>");
         for (Map.Entry<ClassNode, Collection<Collection<FeatureNode>>> entry : results.entrySet()) {
             if (entry.getValue().size() > 1) {
-                out.println(indentText + "<class name=\"" + entry.getKey().getName() + "\" lcom4=\"" + entry.getValue().size() + "\">");
+                getOut().println(indentText + "<class name=\"" + entry.getKey().getName() + "\" lcom4=\"" + entry.getValue().size() + "\">");
                 for (Collection<FeatureNode> component : entry.getValue()) {
-                    out.println(indentText + indentText + "<component>");
+                    getOut().println(indentText + indentText + "<component>");
                     for (FeatureNode feature : component) {
-                        out.println(indentText + indentText + indentText + "<feature name=\"" + feature.getName() + "\"/>");
+                        getOut().println(indentText + indentText + indentText + "<feature name=\"" + feature.getName() + "\"/>");
                     }
-                    out.println(indentText + indentText + "</component>");
+                    getOut().println(indentText + indentText + "</component>");
                 }
-                out.println(indentText + "</class>");
+                getOut().println(indentText + "</class>");
             } else {
-                out.println(indentText + "<class name=\"" + entry.getKey().getName() + "\" lcom4=\"" + entry.getValue().size() + "\"/>");
+                getOut().println(indentText + "<class name=\"" + entry.getKey().getName() + "\" lcom4=\"" + entry.getValue().size() + "\"/>");
             }
         }
-        out.println("</classes>");
+        getOut().println("</classes>");
     }
 
     public static void main(String[] args) throws Exception {

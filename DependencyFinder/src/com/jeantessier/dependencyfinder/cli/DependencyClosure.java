@@ -32,7 +32,6 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import com.jeantessier.commandline.*;
 import com.jeantessier.dependency.Printer;
 import com.jeantessier.dependency.TextPrinter;
 import com.jeantessier.dependency.*;
@@ -76,9 +75,9 @@ public class DependencyClosure extends DependencyGraphCommand {
 
         Printer printer;
         if (getCommandLine().isPresent("xml")) {
-            printer = new XMLPrinter(out, getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
+            printer = new XMLPrinter(getOut(), getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
         } else {
-            printer = new TextPrinter(out);
+            printer = new TextPrinter(getOut());
         }
 
         if (getCommandLine().isPresent("indent-text")) {

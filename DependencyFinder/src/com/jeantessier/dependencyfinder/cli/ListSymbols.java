@@ -96,7 +96,7 @@ public class ListSymbols extends DirectoryExplorerCommand {
         loader.load(getCommandLine().getParameters());
 
         for (String symbol : gatherer.getCollection()) {
-            out.println(symbol);
+            getOut().println(symbol);
         }
     }
 

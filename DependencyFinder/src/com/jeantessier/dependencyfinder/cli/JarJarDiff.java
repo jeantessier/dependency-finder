@@ -76,7 +76,7 @@ public class JarJarDiff extends DiffCommand {
         }
 
         differences.accept(report);
-        out.print(report.render());
+        getOut().print(report.render());
     }
 
     public static void main(String[] args) throws Exception {

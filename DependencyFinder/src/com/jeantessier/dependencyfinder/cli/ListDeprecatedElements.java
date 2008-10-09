@@ -36,7 +36,7 @@ import com.jeantessier.classreader.*;
 
 public class ListDeprecatedElements extends DirectoryExplorerCommand {
     protected void doProcessing() throws Exception {
-        DeprecationPrinter printer = new DeprecationPrinter(out);
+        DeprecationPrinter printer = new DeprecationPrinter(getOut());
 
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(new LoadListenerVisitorAdapter(printer));

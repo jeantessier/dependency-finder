@@ -63,9 +63,9 @@ public class ClassReader extends Command {
         Printer printer;
 
         if (getCommandLine().getToggleSwitch("xml")) {
-            printer = new XMLPrinter(out, getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
+            printer = new XMLPrinter(getOut(), getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
         } else {
-            printer = new TextPrinter(out);
+            printer = new TextPrinter(getOut());
         }
 
         if (getCommandLine().isPresent("indent-text")) {
