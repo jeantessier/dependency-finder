@@ -74,7 +74,7 @@ public class VerboseListener extends VerboseListenerBase implements DependencyLi
         super.beginGroup(event);
 
         getWriter().print("Searching ");
-        getWriter().print(event.getGroupName());
+        getWriter().print(getCurrentGroup().getName());
 
         switch (getCurrentGroup().getSize()) {
             case -1:

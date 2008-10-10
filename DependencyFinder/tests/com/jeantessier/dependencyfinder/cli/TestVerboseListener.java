@@ -46,16 +46,16 @@ import com.jeantessier.dependency.*;
 import com.jeantessier.metrics.*;
 
 public class TestVerboseListener extends TestCase {
-    public static final String TEST_CLASS    = "test";
+    public static final String TEST_CLASS = "test";
     public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
     
-    private StringWriter    writer;
+    private StringWriter writer;
     private VerboseListener listener;
 
     protected void setUp() throws Exception {
         super.setUp();
 
-        writer   = new StringWriter();
+        writer = new StringWriter();
         listener = new VerboseListener();
 
         listener.setWriter(writer);
