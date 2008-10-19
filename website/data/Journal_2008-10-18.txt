@@ -1,0 +1,17 @@
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>Testability-Explorer</td>
+        <td>:</td>
+        <td>1.10RC1-r34</td>
+        <td>-></td>
+        <td>1.2.0-r85</td>
+    </tr>
+</table>
+</blockquote>
+
+I have to rewrite the =&lt;testability&gt;= tasks in
+=build.testability-explorer.xml= to bring it in line with their latest Ant
+task.
