@@ -197,6 +197,7 @@
         <junit fork="true">
             <classpath>
                 <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.jmock"/>
             </classpath>
             <formatter type="xml"/>
             <batchtest todir="${testReportsDir}">
@@ -307,6 +308,7 @@
                 <fileset dir="${testsDir}">
                     <include name="com/jeantessier/metrics/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
+                    <exclude name="**/TestMetricsGatherer.java"/>
                 </fileset>
             </batchtest>
         </junit>
