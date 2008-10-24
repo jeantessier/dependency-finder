@@ -1,0 +1,5 @@
+Added =LoadListenerDecorator= to help with filtering load events to filter
+certain classes based on regular expressions.  This is the beginning.  The
+actual filters will extend this class so they can be composed with other
+=LoadListener= implementations, such as =LoadListenerVisitorAdaptor= for
+example.
