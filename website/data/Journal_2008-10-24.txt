@@ -2,12 +2,7 @@ Added filtering capability for =LoadEvent= listeners.
 
 The hierarchy looks like this:
 
-   * =LoadListener=
-      * =LoadListenerDecorator=
-         * =FilteringLoadListener=
-            * =ClassfileFilteringLoadListener=
-            * =FileFilteringLoadListener=
-            * =GroupFilteringLoadListener=
+[[../images/FilteringLoadListenerHierarchy.gif]]
 
 This will help with filtering certain classes based on regular expressions.
 The filters extend the decorator so they can be composed with other
