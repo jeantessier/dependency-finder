@@ -62,7 +62,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockClassMetrics = mock(Metrics.class, "class");
 
         checking(new Expectations() {{
-            one (mockFactory).createProjectMetrics(with(any(String.class)));
+            one (mockFactory).createProjectMetrics();
             will(returnValue(mockProjectMetrics));
             one (mockClassfile).getClassName();
             will(returnValue(CLASS_NAME));
@@ -116,7 +116,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockClassMetrics = mock(Metrics.class, "class");
 
         checking(new Expectations() {{
-            one (mockFactory).createProjectMetrics(with(any(String.class)));
+            one (mockFactory).createProjectMetrics();
             will(returnValue(mockProjectMetrics));
             one (mockClassfile).getClassName();
             will(returnValue(CLASS_NAME));
@@ -170,7 +170,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockClassMetrics = mock(Metrics.class, "class");
 
         checking(new Expectations() {{
-            one (mockFactory).createProjectMetrics(with(any(String.class)));
+            one (mockFactory).createProjectMetrics();
             will(returnValue(mockProjectMetrics));
             one (mockClassfile).getClassName();
             will(returnValue(CLASS_NAME));
@@ -226,7 +226,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockClassMetrics = mock(Metrics.class, "class");
 
         checking(new Expectations() {{
-            one (mockFactory).createProjectMetrics(with(any(String.class)));
+            one (mockFactory).createProjectMetrics();
             will(returnValue(mockProjectMetrics));
             one (mockClassfile).getClassName();
             will(returnValue(CLASS_NAME));
@@ -282,7 +282,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockClassMetrics = mock(Metrics.class, "class");
 
         checking(new Expectations() {{
-            one (mockFactory).createProjectMetrics(with(any(String.class)));
+            one (mockFactory).createProjectMetrics();
             will(returnValue(mockProjectMetrics));
             one (mockClassfile).getClassName();
             will(returnValue(CLASS_NAME));
@@ -338,7 +338,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockClassMetrics = mock(Metrics.class, "class");
 
         checking(new Expectations() {{
-            one (mockFactory).createProjectMetrics(with(any(String.class)));
+            one (mockFactory).createProjectMetrics();
             will(returnValue(mockProjectMetrics));
             one (mockClassfile).getClassName();
             will(returnValue(CLASS_NAME));
@@ -392,7 +392,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             one (mockField).getFullName();
             will(returnValue(FIELD_NAME));
             one (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
@@ -426,7 +426,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             one (mockField).getFullName();
             will(returnValue(FIELD_NAME));
             one (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
@@ -460,7 +460,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             one (mockField).getFullName();
             will(returnValue(FIELD_NAME));
             one (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
@@ -494,7 +494,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             one (mockField).getFullName();
             will(returnValue(FIELD_NAME));
             one (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
@@ -528,7 +528,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             one (mockField).getFullName();
             will(returnValue(FIELD_NAME));
             one (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
@@ -563,7 +563,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             one (mockField).getFullName();
             will(returnValue(FIELD_NAME));
             one (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
@@ -598,7 +598,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             one (mockField).getFullName();
             will(returnValue(FIELD_NAME));
             one (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
@@ -633,7 +633,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             one (mockField).getFullName();
             will(returnValue(FIELD_NAME));
             one (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
@@ -670,13 +670,13 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Collection<? extends Attribute_info> attributes = Collections.singleton(mockSyntheticAttribute);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
         }});
 
         final MetricsGatherer sut = new MetricsGatherer(mockFactory);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             one (mockField).getFullName();
             will(returnValue(FIELD_NAME));
             one (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
@@ -712,7 +712,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
@@ -751,7 +751,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
@@ -790,7 +790,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
@@ -829,7 +829,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
@@ -868,7 +868,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
@@ -908,7 +908,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
@@ -948,7 +948,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
@@ -988,7 +988,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
@@ -1028,7 +1028,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
@@ -1068,7 +1068,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
@@ -1108,7 +1108,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
@@ -1151,7 +1151,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             one (mockInnerClass).getInnerClasses();
             will(returnValue(mockInnerClasses));
             one (mockInnerClasses).getClassfile();
@@ -1177,7 +1177,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             one (mockInnerClass).getInnerClasses();
             will(returnValue(mockInnerClasses));
             one (mockInnerClasses).getClassfile();
@@ -1201,7 +1201,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             one (mockInnerClass).getInnerClasses();
             will(returnValue(mockInnerClasses));
             one (mockInnerClasses).getClassfile();
@@ -1229,7 +1229,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             one (mockInnerClass).getInnerClasses();
             will(returnValue(mockInnerClasses));
             one (mockInnerClasses).getClassfile();
@@ -1257,7 +1257,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockClassMetrics = mock(Metrics.class, "currentClass");
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             will(returnValue(mockProjectMetrics));
             one (mockInnerClass).getInnerClasses();
             will(returnValue(mockInnerClasses));
@@ -1301,7 +1301,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockClassMetrics = mock(Metrics.class, "currentClass");
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             will(returnValue(mockProjectMetrics));
             one (mockInnerClass).getInnerClasses();
             will(returnValue(mockInnerClasses));
@@ -1345,7 +1345,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockClassMetrics = mock(Metrics.class, "currentClass");
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             will(returnValue(mockProjectMetrics));
             one (mockInnerClass).getInnerClasses();
             will(returnValue(mockInnerClasses));
@@ -1389,7 +1389,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockClassMetrics = mock(Metrics.class, "currentClass");
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             will(returnValue(mockProjectMetrics));
             one (mockInnerClass).getInnerClasses();
             will(returnValue(mockInnerClasses));
@@ -1433,7 +1433,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockClassMetrics = mock(Metrics.class, "currentClass");
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             will(returnValue(mockProjectMetrics));
             one (mockInnerClass).getInnerClasses();
             will(returnValue(mockInnerClasses));
@@ -1480,7 +1480,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockClassMetrics = mock(Metrics.class, "currentClass");
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             will(returnValue(mockProjectMetrics));
             one (mockInnerClass).getInnerClasses();
             will(returnValue(mockInnerClasses));
@@ -1527,7 +1527,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockClassMetrics = mock(Metrics.class, "currentClass");
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             will(returnValue(mockProjectMetrics));
             one (mockInnerClass).getInnerClasses();
             will(returnValue(mockInnerClasses));
@@ -1572,7 +1572,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockProjectMetrics = mock(Metrics.class, "project");
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             one (mockSyntheticAttribute).getOwner();
             will(returnValue(mockClassfile));
             one (mockClassfile).getClassName();
@@ -1594,7 +1594,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             one (mockSyntheticAttribute).getOwner();
             will(returnValue(mockField));
             one (mockField).getFullName();
@@ -1614,7 +1614,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             one (mockSyntheticAttribute).getOwner();
             will(returnValue(mockMethod));
             one (mockMethod).getFullSignature();
@@ -1633,7 +1633,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Visitable mockOwner = mock(Visitable.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             one (mockSyntheticAttribute).getOwner();
             will(returnValue(mockOwner));
         }});
@@ -1650,7 +1650,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockProjectMetrics = mock(Metrics.class, "project");
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             one (mockDeprecatedAttribute).getOwner();
             will(returnValue(mockClassfile));
             one (mockClassfile).getClassName();
@@ -1672,7 +1672,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             one (mockDeprecatedAttribute).getOwner();
             will(returnValue(mockField));
             one (mockField).getFullName();
@@ -1694,7 +1694,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             one (mockDeprecatedAttribute).getOwner();
             will(returnValue(mockMethod));
             one (mockMethod).getFullSignature();
@@ -1713,7 +1713,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Visitable mockOwner = mock(Visitable.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             one (mockDeprecatedAttribute).getOwner();
             will(returnValue(mockOwner));
         }});
@@ -1730,7 +1730,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics(with(any(String.class)));
+            allowing (mockFactory).createProjectMetrics();
             one (mockLocalVariable).getName();
             will(returnValue(localVariableName));
             one (mockMetrics).addToMeasurement(BasicMeasurements.LOCAL_VARIABLES, localVariableName);
