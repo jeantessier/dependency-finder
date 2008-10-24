@@ -1,4 +1,6 @@
-Added filtering capability for =LoadEvent= listeners.
+Paired with Nicolas Wettstein to add filtering capability for =LoadEvent=
+listeners.  It was nice to pair program with someone on Dependency Finder for a
+change.
 
 The hierarchy looks like this:
 
