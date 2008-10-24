@@ -48,7 +48,6 @@ import com.jeantessier.classreader.*;
 public class MetricsGatherer extends VisitorBase {
     private static final Perl5Util perl = new Perl5Util();
 
-    private String projectName;
     private MetricsFactory factory;
 
     private Collection<String> scope = null;
@@ -64,17 +63,12 @@ public class MetricsGatherer extends VisitorBase {
     
     private HashSet<MetricsListener> metricsListeners = new HashSet<MetricsListener>();
 
-    public MetricsGatherer(String projectName, MetricsFactory factory) {
-        this.projectName = projectName;
+    public MetricsGatherer(MetricsFactory factory) {
         this.factory = factory;
 
-        setCurrentProject(getMetricsFactory().createProjectMetrics(getProjectName()));
+        setCurrentProject(getMetricsFactory().createProjectMetrics());
     }
 
-    public String getProjectName() {
-        return projectName;
-    }
-    
     public MetricsFactory getMetricsFactory() {
         return factory;
     }

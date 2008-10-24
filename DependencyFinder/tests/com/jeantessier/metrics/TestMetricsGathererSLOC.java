@@ -56,7 +56,7 @@ public class TestMetricsGathererSLOC extends TestCase {
         ClassfileLoader loader = new AggregatingClassfileLoader();
         loader.load(Collections.singleton(TEST_DIRNAME));
 
-        MetricsGatherer gatherer = new MetricsGatherer("test", factory);
+        MetricsGatherer gatherer = new MetricsGatherer(factory);
 
         for (Classfile classfile : loader.getAllClassfiles()) {
             classfile.accept(gatherer);

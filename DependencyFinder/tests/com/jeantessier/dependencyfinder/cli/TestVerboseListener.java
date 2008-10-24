@@ -85,7 +85,7 @@ public class TestVerboseListener extends TestCase {
         loader.load(Collections.singleton(TEST_FILENAME));
 
         MetricsFactory factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).load("etc" + File.separator + "MetricsConfig.xml"));
-        com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer("test", factory);
+        com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer(factory);
         gatherer.addMetricsListener(listener);
         loader.getClassfile(TEST_CLASS).accept(gatherer);
 

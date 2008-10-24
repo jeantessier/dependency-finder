@@ -61,7 +61,7 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
         loader = new AggregatingClassfileLoader();
 
         MetricsFactory factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).load("etc" + File.separator + "MetricsConfig.xml"));
-        gatherer = new MetricsGatherer("test", factory);
+        gatherer = new MetricsGatherer(factory);
         gatherer.addMetricsListener(this);
 
         beginSessionEvents = new LinkedList<MetricsEvent>();

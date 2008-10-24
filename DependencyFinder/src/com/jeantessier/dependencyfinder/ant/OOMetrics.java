@@ -337,7 +337,7 @@ public class OOMetrics extends Task {
             log("Reading configuration ...");
             MetricsFactory factory = new MetricsFactory(getProjectname(), new MetricsConfigurationLoader(getValidate()).load(getConfiguration().getAbsolutePath()));
             
-            com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer(projectName, factory);
+            com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer(factory);
             if (getScopeincludeslist() != null || getScopeexcludeslist() != null) {
                 gatherer.setScopeIncludes(createCollection(getScopeincludeslist(), getScopeexcludeslist()));
             }

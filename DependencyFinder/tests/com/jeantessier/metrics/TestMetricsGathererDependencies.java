@@ -60,7 +60,7 @@ public class TestMetricsGathererDependencies extends TestCase {
         dirs.add(OTHER_DIRNAME);
         loader.load(dirs);
 
-        MetricsGatherer gatherer = new MetricsGatherer("test", factory);
+        MetricsGatherer gatherer = new MetricsGatherer(factory);
         gatherer.visitClassfiles(loader.getAllClassfiles());
     }
 

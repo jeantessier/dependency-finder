@@ -60,7 +60,7 @@ public class MetricsGathererFixture extends DoFixture {
 
     public void computeMetrics() {
         factory = new MetricsFactory("test", configuration);
-        MetricsGatherer gatherer = new MetricsGatherer("test", factory);
+        MetricsGatherer gatherer = new MetricsGatherer(factory);
         gatherer.visitClassfiles(loader.getAllClassfiles());
     }
 

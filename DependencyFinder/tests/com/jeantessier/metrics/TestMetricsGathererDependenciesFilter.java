@@ -62,7 +62,7 @@ public class TestMetricsGathererDependenciesFilter extends TestCase {
         loader = new AggregatingClassfileLoader();
         loader.load(dirs);
 
-        gatherer = new MetricsGatherer("test", factory);
+        gatherer = new MetricsGatherer(factory);
     }
 
     protected void tearDown() throws Exception {

@@ -104,7 +104,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.visitClassfile(mockClassfile);
     }
 
@@ -158,7 +158,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.visitClassfile(mockClassfile);
     }
 
@@ -214,7 +214,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.visitClassfile(mockClassfile);
     }
 
@@ -270,7 +270,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.visitClassfile(mockClassfile);
     }
 
@@ -326,7 +326,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.visitClassfile(mockClassfile);
     }
 
@@ -382,7 +382,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.visitClassfile(mockClassfile);
     }
 
@@ -415,7 +415,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockField).getDescriptor();
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitField_info(mockField);
     }
@@ -449,7 +449,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockField).getDescriptor();
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitField_info(mockField);
     }
@@ -483,7 +483,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockField).getDescriptor();
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitField_info(mockField);
     }
@@ -517,7 +517,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockField).getDescriptor();
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitField_info(mockField);
     }
@@ -552,7 +552,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockField).getDescriptor();
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitField_info(mockField);
     }
@@ -587,7 +587,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockField).getDescriptor();
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitField_info(mockField);
     }
@@ -622,7 +622,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockField).getDescriptor();
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitField_info(mockField);
     }
@@ -657,7 +657,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockField).getDescriptor();
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitField_info(mockField);
     }
@@ -673,7 +673,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockFactory).createProjectMetrics(with(any(String.class)));
         }});
 
-        final MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        final MetricsGatherer sut = new MetricsGatherer(mockFactory);
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics(with(any(String.class)));
@@ -740,7 +740,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitMethod_info(mockMethod);
     }
@@ -779,7 +779,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitMethod_info(mockMethod);
     }
@@ -818,7 +818,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitMethod_info(mockMethod);
     }
@@ -857,7 +857,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitMethod_info(mockMethod);
     }
@@ -897,7 +897,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitMethod_info(mockMethod);
     }
@@ -937,7 +937,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitMethod_info(mockMethod);
     }
@@ -977,7 +977,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitMethod_info(mockMethod);
     }
@@ -1017,7 +1017,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitMethod_info(mockMethod);
     }
@@ -1057,7 +1057,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 1);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitMethod_info(mockMethod);
     }
@@ -1097,7 +1097,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             never (mockMetrics).addToMeasurement(with(equal(BasicMeasurements.SLOC)), with(any(Number.class)));
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitMethod_info(mockMethod);
     }
@@ -1138,7 +1138,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitMethod_info(mockMethod);
     }
@@ -1162,7 +1162,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(CLASS_NAME));
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         assertEquals("return value", true, sut.isInnerClassOfCurrentClass(mockInnerClass));
     }
@@ -1188,7 +1188,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(otherClassName));
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         assertEquals("return value", false, sut.isInnerClassOfCurrentClass(mockInnerClass));
     }
@@ -1214,7 +1214,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(ANONYMOUS_INNER_CLASS_NAME));
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         assertEquals("return value", true, sut.isInnerClassOfCurrentClass(mockInnerClass));
     }
@@ -1242,7 +1242,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(otherInnerClassName));
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         assertEquals("return value", false, sut.isInnerClassOfCurrentClass(mockInnerClass));
     }
@@ -1285,7 +1285,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockInnerClass).isAbstract();
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentGroup(mockGroupMetrics);
         sut.setCurrentClass(mockClassMetrics);
         sut.visitInnerClass(mockInnerClass);
@@ -1329,7 +1329,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockInnerClass).isAbstract();
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentGroup(mockGroupMetrics);
         sut.setCurrentClass(mockClassMetrics);
         sut.visitInnerClass(mockInnerClass);
@@ -1373,7 +1373,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockInnerClass).isAbstract();
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentGroup(mockGroupMetrics);
         sut.setCurrentClass(mockClassMetrics);
         sut.visitInnerClass(mockInnerClass);
@@ -1417,7 +1417,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockInnerClass).isAbstract();
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentGroup(mockGroupMetrics);
         sut.setCurrentClass(mockClassMetrics);
         sut.visitInnerClass(mockInnerClass);
@@ -1464,7 +1464,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockInnerClass).isAbstract();
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentGroup(mockGroupMetrics);
         sut.setCurrentClass(mockClassMetrics);
         sut.visitInnerClass(mockInnerClass);
@@ -1511,7 +1511,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockInnerClass).isAbstract();
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentGroup(mockGroupMetrics);
         sut.setCurrentClass(mockClassMetrics);
         sut.visitInnerClass(mockInnerClass);
@@ -1558,7 +1558,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockClassMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, INNER_CLASS_NAME);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentGroup(mockGroupMetrics);
         sut.setCurrentClass(mockClassMetrics);
         sut.visitInnerClass(mockInnerClass);
@@ -1581,7 +1581,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockGroupMetrics).addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES, CLASS_NAME);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentProject(mockProjectMetrics);
         sut.setCurrentGroup(mockGroupMetrics);
         sut.visitSynthetic_attribute(mockSyntheticAttribute);
@@ -1602,7 +1602,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockMetrics).addToMeasurement(BasicMeasurements.SYNTHETIC_ATTRIBUTES, FIELD_NAME);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitSynthetic_attribute(mockSyntheticAttribute);
     }
@@ -1622,7 +1622,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockMetrics).addToMeasurement(BasicMeasurements.SYNTHETIC_METHODS, METHOD_SIGNATURE);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitSynthetic_attribute(mockSyntheticAttribute);
     }
@@ -1638,7 +1638,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(mockOwner));
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.visitSynthetic_attribute(mockSyntheticAttribute);
     }
 
@@ -1659,7 +1659,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockGroupMetrics).addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, CLASS_NAME);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentProject(mockProjectMetrics);
         sut.setCurrentGroup(mockGroupMetrics);
         sut.visitDeprecated_attribute(mockDeprecatedAttribute);
@@ -1680,7 +1680,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockMetrics).addToMeasurement(BasicMeasurements.DEPRECATED_ATTRIBUTES, FIELD_NAME);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitDeprecated_attribute(mockDeprecatedAttribute);
     }
@@ -1702,7 +1702,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockMetrics).addToMeasurement(BasicMeasurements.DEPRECATED_METHODS, methodSignature);
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitDeprecated_attribute(mockDeprecatedAttribute);
     }
@@ -1718,7 +1718,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(mockOwner));
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.visitDeprecated_attribute(mockDeprecatedAttribute);
     }
 
@@ -1737,7 +1737,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             one (mockLocalVariable).getDescriptor();
         }});
 
-        MetricsGatherer sut = new MetricsGatherer("test project", mockFactory);
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentMethod(mockMetrics);
         sut.visitLocalVariable(mockLocalVariable);
     }

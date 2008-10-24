@@ -54,7 +54,7 @@ public class TestMetricsGatherer {
 
         ClassfileLoader loader = new AggregatingClassfileLoader();
         loader.load(Collections.singleton(TEST_FILENAME));
-        loader.getClassfile(TEST_CLASS).accept(new MetricsGatherer("test", factory));
+        loader.getClassfile(TEST_CLASS).accept(new MetricsGatherer(factory));
     }
     
     @Test

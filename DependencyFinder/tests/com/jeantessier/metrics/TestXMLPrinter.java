@@ -157,7 +157,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
 
         ClassfileLoader loader = new AggregatingClassfileLoader();
         loader.load(Collections.singleton(TEST_FILENAME));
-        loader.getClassfile(TEST_CLASS).accept(new MetricsGatherer("test", factory));
+        loader.getClassfile(TEST_CLASS).accept(new MetricsGatherer(factory));
 
         XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration, XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.visitMetrics(factory.getProjectMetrics());

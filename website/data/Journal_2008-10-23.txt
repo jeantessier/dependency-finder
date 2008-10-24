@@ -1,0 +1,4 @@
+Removed redundant field =com.jeantessier.metrics.MetricsGatherer.projectName=
+and associated getter and constructor parameter.  The =MetricsFactory= inside
+=MetricsGatherer= already has the project name.  Nobody was using this field on
+=MetricsGatherer=.
