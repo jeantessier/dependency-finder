@@ -1,5 +1,14 @@
-Added =LoadListenerDecorator= and =ClassfileFilteringLoadListener= to help with
-filtering load events to filter certain classes based on regular expressions.
-This is the beginning.  The filters extend the decorator so they can be
-composed with other =LoadListener= implementations, such as
-=LoadListenerVisitorAdaptor= for example.
+Added filtering capability for =LoadEvent= listeners.
+
+The hierarchy looks like this:
+
+   * =LoadListener=
+      * =LoadListenerDecorator=
+         * =FilteringLoadListener=
+            * =ClassfileFilteringLoadListener=
+            * =FileFilteringLoadListener=
+
+This will help with filtering certain classes based on regular expressions.
+The filters extend the decorator so they can be composed with other
+=LoadListener= implementations, such as =LoadListenerVisitorAdaptor=, for
+example.

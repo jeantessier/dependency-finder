@@ -63,6 +63,7 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestDeprecationPrinter.class);
         result.addTestSuite(TestLoadListenerDecorator.class);
         result.addTestSuite(TestClassfileFilteringLoadListener.class);
+        result.addTestSuite(TestFileFilteringLoadListener.class);
         result.addTestSuite(TestLoadListenerVisitorAdapter.class);
         result.addTestSuite(TestMonitor.class);
         result.addTestSuite(TestSymbolGathererStrategyDecorator.class);

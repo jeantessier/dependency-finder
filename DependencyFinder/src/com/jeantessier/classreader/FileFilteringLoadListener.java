@@ -34,14 +34,20 @@ package com.jeantessier.classreader;
 
 import java.util.*;
 
-public class ClassfileFilteringLoadListener extends FilteringLoadListener {
-    public ClassfileFilteringLoadListener(LoadListener delegate, List<String> includes, List<String> excludes) {
+public class FileFilteringLoadListener extends FilteringLoadListener {
+    public FileFilteringLoadListener(LoadListener delegate, List<String> includes, List<String> excludes) {
         super(delegate, includes, excludes);
     }
 
-    public void endClassfile(LoadEvent event) {
-        if (matches(event.getClassfile().getClassName())) {
-            super.endClassfile(event);
+    public void beginFile(LoadEvent event) {
+        if (matches(event.getFilename())) {
+            super.beginFile(event);
+        }
+    }
+
+    public void endFile(LoadEvent event) {
+        if (matches(event.getFilename())) {
+            super.endFile(event);
         }
     }
 }
