@@ -1,0 +1,8 @@
+Started writing support for annotations, TDD-style.  I found a cool way to use
+jMock to mock the input stream from which data structures are read.  This way,
+I don't have to create an arbitrary bytestream, all I have to do is mock the
+calls to =readInt()= and so forth on the data stream.
+
+While I was trying to mock a =DataInputStream=, in which all methods are
+=final=, I found out about the =DataInput= interface, which is much better
+(and I can mock it, no problems).

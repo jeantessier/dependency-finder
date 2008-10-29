@@ -38,7 +38,7 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class Deprecated_attribute extends Attribute_info implements com.jeantessier.classreader.Deprecated_attribute {
-    public Deprecated_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+    public Deprecated_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
         super(classfile, owner);
 
         int byteCount = in.readInt();
