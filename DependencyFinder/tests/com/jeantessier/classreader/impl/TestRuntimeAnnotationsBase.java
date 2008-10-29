@@ -33,30 +33,23 @@
 package com.jeantessier.classreader.impl;
 
 import java.io.*;
-import java.util.*;
 
-import org.apache.log4j.*;
-
-import com.jeantessier.classreader.*;
-
-public abstract class RuntimeParameterAnnotations_attribute extends Annotations_attribute implements com.jeantessier.classreader.RuntimeParameterAnnotations_attribute {
-    private List<Parameter> parameterAnnotations = new ArrayList<Parameter>();
-
-    public RuntimeParameterAnnotations_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        super(classfile, owner);
-
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
-
-        int numParameters = in.readUnsignedByte();
-        Logger.getLogger(getClass()).debug("Reading " + numParameters + " parameter(s) ...");
-        for (int i=0; i<numParameters; i++) {
-            Logger.getLogger(getClass()).debug("parameter " + i + ":");
-            parameterAnnotations.add(new Parameter(this, in));
-        }
+public abstract class TestRuntimeAnnotationsBase extends TestAnnotationsBase {
+    public void testConstructorWithZeroAnnotations() throws Exception {
+        doTestConstructorWithAnnotations(0);
     }
 
-    public List<? extends Parameter> getParameterAnnotations() {
-        return parameterAnnotations;
+    private void doTestConstructorWithAnnotations(int numAnnotations) throws IOException {
+        expectAttributeLength(estimateTotalSize(numAnnotations));
+        expectNumAnnotations(numAnnotations);
+
+        RuntimeAnnotations_attribute sut = createSut();
+        assertEquals("Num annotations", numAnnotations, sut.getAnnotations().size());
     }
+
+    private int estimateTotalSize(int numAnnotations) {
+        return 2 + numAnnotations * estimateSizeOfAnnotation();
+    }
+
+    protected abstract RuntimeAnnotations_attribute createSut() throws IOException;
 }

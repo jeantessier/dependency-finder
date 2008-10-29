@@ -32,12 +32,10 @@
 
 package com.jeantessier.classreader.impl;
 
-public class TestRuntimeVisibleParameterAnnotations_attribute extends TestAnnotationsBase {
-    public void testConstructorWithZeroParameters() throws Exception {
-        expectAttributeLength(1);
-        expectNumParameters(0);
+import java.io.*;
 
-        RuntimeVisibleParameterAnnotations_attribute sut = new RuntimeVisibleParameterAnnotations_attribute(mockClassfile, mockOwner, mockIn);
-        assertTrue("New attribute should not contain parameters already", sut.getParameterAnnotations().isEmpty());
+public class TestRuntimeVisibleParameterAnnotations_attribute extends TestRuntimeParameterAnnotationsBase {
+    protected RuntimeParameterAnnotations_attribute createSut() throws IOException {
+        return new RuntimeVisibleParameterAnnotations_attribute(mockClassfile, mockOwner, mockIn);
     }
 }

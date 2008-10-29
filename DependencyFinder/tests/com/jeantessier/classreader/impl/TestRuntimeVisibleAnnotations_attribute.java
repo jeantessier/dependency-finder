@@ -32,12 +32,10 @@
 
 package com.jeantessier.classreader.impl;
 
-public class TestRuntimeVisibleAnnotations_attribute extends TestAnnotationsBase {
-    public void testConstructorWithZeroAnnotations() throws Exception {
-        expectAttributeLength(2);
-        expectNumAnnotations(0);
+import java.io.*;
 
-        RuntimeVisibleAnnotations_attribute sut = new RuntimeVisibleAnnotations_attribute(mockClassfile, mockOwner, mockIn);
-        assertTrue("New attribute should not contain annotations already", sut.getAnnotations().isEmpty());
+public class TestRuntimeVisibleAnnotations_attribute extends TestRuntimeAnnotationsBase {
+    protected RuntimeAnnotations_attribute createSut() throws IOException {
+        return new RuntimeVisibleAnnotations_attribute(mockClassfile, mockOwner, mockIn);
     }
 }
