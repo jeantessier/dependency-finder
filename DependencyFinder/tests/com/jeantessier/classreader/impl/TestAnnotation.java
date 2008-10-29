@@ -57,7 +57,7 @@ public class TestAnnotation extends TestAttributeBase {
         }});
 
         Annotation sut = new Annotation(mockAnnotations, mockIn);
-        assertTrue("New attribute should not contain element value pairs already", sut.getElementValuePairs().isEmpty());
+        assertTrue("New annotation should not contain element value pairs already", sut.getElementValuePairs().isEmpty());
     }
 
     private void expectTypeIndex(final int numAnnotations) throws IOException {
