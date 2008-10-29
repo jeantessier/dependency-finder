@@ -57,22 +57,15 @@ public class TestAnnotation extends TestAttributeBase {
         }});
 
         Annotation sut = new Annotation(mockAnnotations, mockIn);
+        assertSame("Annotations_attribute", mockAnnotations, sut.getAnnotations_attribute());
         assertTrue("New annotation should not contain element value pairs already", sut.getElementValuePairs().isEmpty());
     }
 
-    private void expectTypeIndex(final int numAnnotations) throws IOException {
-        checking(new Expectations() {{
-            one (mockIn).readUnsignedShort();
-                inSequence(dataReads);
-                will(returnValue(numAnnotations));
-        }});
+    private void expectTypeIndex(int typeIndex) throws IOException {
+        expectReadU2(typeIndex);
     }
 
-    private void expectNumElementValuePairs(final int numAnnotations) throws IOException {
-        checking(new Expectations() {{
-            one (mockIn).readUnsignedShort();
-                inSequence(dataReads);
-                will(returnValue(numAnnotations));
-        }});
+    private void expectNumElementValuePairs(int numElementValuePairs) throws IOException {
+        expectReadU2(numElementValuePairs);
     }
 }

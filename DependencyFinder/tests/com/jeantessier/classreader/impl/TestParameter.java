@@ -33,30 +33,19 @@
 package com.jeantessier.classreader.impl;
 
 import java.io.*;
-import java.util.*;
 
-import org.apache.log4j.*;
+public class TestParameter extends TestAttributeBase {
+    public void testConstructorWithZeroAnnotations() throws Exception {
+        final RuntimeAnnotations_attribute mockAnnotations = mock(RuntimeAnnotations_attribute.class);
 
-import com.jeantessier.classreader.*;
+        expectNumAnnotations(0);
 
-public abstract class RuntimeParameterAnnotations_attribute extends Annotations_attribute implements com.jeantessier.classreader.RuntimeParameterAnnotations_attribute {
-    private List<Parameter> parameterAnnotations = new ArrayList<Parameter>();
-
-    public RuntimeParameterAnnotations_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        super(classfile, owner);
-
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
-
-        int numParameters = in.readUnsignedByte();
-        Logger.getLogger(getClass()).debug("Reading " + numParameters + " parameter(s) ...");
-        for (int i=0; i<numParameters; i++) {
-            Logger.getLogger(getClass()).debug("parameter " + i + ":");
-//            annotations.add(new Annotation(this, in));
-        }
+        Parameter sut = new Parameter(mockAnnotations, mockIn);
+        assertSame("Annotations_attribute", mockAnnotations, sut.getAnnotations_attribute());
+        assertTrue("New parameter should not contain annotations already", sut.getAnnotations().isEmpty());
     }
 
-    public List<? extends Parameter> getParameterAnnotations() {
-        return parameterAnnotations;
+    private void expectNumAnnotations(int numAnnotations) throws IOException {
+        expectReadU2(numAnnotations);
     }
 }

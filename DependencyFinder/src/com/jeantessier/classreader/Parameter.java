@@ -30,33 +30,11 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader.impl;
+package com.jeantessier.classreader;
 
-import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
-
-import com.jeantessier.classreader.*;
-
-public abstract class RuntimeParameterAnnotations_attribute extends Annotations_attribute implements com.jeantessier.classreader.RuntimeParameterAnnotations_attribute {
-    private List<Parameter> parameterAnnotations = new ArrayList<Parameter>();
-
-    public RuntimeParameterAnnotations_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        super(classfile, owner);
-
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
-
-        int numParameters = in.readUnsignedByte();
-        Logger.getLogger(getClass()).debug("Reading " + numParameters + " parameter(s) ...");
-        for (int i=0; i<numParameters; i++) {
-            Logger.getLogger(getClass()).debug("parameter " + i + ":");
-//            annotations.add(new Annotation(this, in));
-        }
-    }
-
-    public List<? extends Parameter> getParameterAnnotations() {
-        return parameterAnnotations;
-    }
+public interface Parameter extends Visitable {
+    public Annotations_attribute getAnnotations_attribute();
+    public Collection<? extends Annotation> getAnnotations();
 }

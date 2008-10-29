@@ -38,6 +38,6 @@ public class TestRuntimeVisibleParameterAnnotations_attribute extends TestAnnota
         expectNumParameters(0);
 
         RuntimeVisibleParameterAnnotations_attribute sut = new RuntimeVisibleParameterAnnotations_attribute(mockClassfile, mockOwner, mockIn);
-        assertEquals("Num parameters", 0, sut.getNumParameters());
+        assertTrue("New attribute should not contain parameters already", sut.getParameterAnnotations().isEmpty());
     }
 }

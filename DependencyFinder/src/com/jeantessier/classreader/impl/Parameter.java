@@ -39,24 +39,31 @@ import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
 
-public abstract class RuntimeParameterAnnotations_attribute extends Annotations_attribute implements com.jeantessier.classreader.RuntimeParameterAnnotations_attribute {
-    private List<Parameter> parameterAnnotations = new ArrayList<Parameter>();
+public class Parameter implements com.jeantessier.classreader.Parameter {
+    private Annotations_attribute annotations_attribute;
 
-    public RuntimeParameterAnnotations_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        super(classfile, owner);
+    private Collection<Annotation> annotations = new LinkedList<Annotation>();
 
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+    public Parameter(Annotations_attribute annotations_attribute, DataInput in) throws IOException {
+        this.annotations_attribute = annotations_attribute;
 
-        int numParameters = in.readUnsignedByte();
-        Logger.getLogger(getClass()).debug("Reading " + numParameters + " parameter(s) ...");
-        for (int i=0; i<numParameters; i++) {
-            Logger.getLogger(getClass()).debug("parameter " + i + ":");
-//            annotations.add(new Annotation(this, in));
+        int numAnnotations = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Reading " + numAnnotations + " annotation(s) ...");
+        for (int i=0; i<numAnnotations; i++) {
+            Logger.getLogger(getClass()).debug("Element value pair " + i + ":");
+//            classes.add(new InnerClass(this, in));
         }
     }
 
-    public List<? extends Parameter> getParameterAnnotations() {
-        return parameterAnnotations;
+    public com.jeantessier.classreader.Annotations_attribute getAnnotations_attribute() {
+        return annotations_attribute;
+    }
+
+    public Collection<? extends Annotation> getAnnotations() {
+        return annotations;
+    }
+
+    public void accept(Visitor visitor) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

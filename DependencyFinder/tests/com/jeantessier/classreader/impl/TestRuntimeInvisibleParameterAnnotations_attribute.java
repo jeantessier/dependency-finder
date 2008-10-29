@@ -38,6 +38,6 @@ public class TestRuntimeInvisibleParameterAnnotations_attribute extends TestAnno
         expectNumParameters(0);
 
         RuntimeInvisibleParameterAnnotations_attribute sut = new RuntimeInvisibleParameterAnnotations_attribute(mockClassfile, mockOwner, mockIn);
-        assertEquals("Num parameters", 0, sut.getNumParameters());
+        assertTrue("New attribute should not contain parameters already", sut.getParameterAnnotations().isEmpty());
     }
 }
