@@ -34,24 +34,11 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-import org.apache.log4j.*;
-
 import com.jeantessier.classreader.*;
 
 public class RuntimeVisibleAnnotations_attribute extends RuntimeAnnotations_attribute implements com.jeantessier.classreader.RuntimeVisibleAnnotations_attribute {
-
     public RuntimeVisibleAnnotations_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        super(classfile, owner);
-
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
-
-        int numAnnotations = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + numAnnotations + " annotation(s) ...");
-        for (int i=0; i<numAnnotations; i++) {
-            Logger.getLogger(getClass()).debug("annotation " + i + ":");
-//            annotations.add(new Annotation(this, in));
-        }
+        super(classfile, owner, in);
     }
 
     public void accept(Visitor visitor) {

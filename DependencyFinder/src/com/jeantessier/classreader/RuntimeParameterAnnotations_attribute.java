@@ -33,4 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface RuntimeParameterAnnotations_attribute extends Annotations_attribute {
+    public int getNumParameters();
 }

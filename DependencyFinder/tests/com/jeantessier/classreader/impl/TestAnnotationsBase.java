@@ -34,14 +34,12 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-import org.jmock.*;
-
 public class TestAnnotationsBase extends TestAttributeBase {
     protected void expectNumAnnotations(final int numAnnotations) throws IOException {
-        checking(new Expectations() {{
-            one (mockIn).readUnsignedShort();
-                inSequence(dataReads);
-                will(returnValue(numAnnotations));
-        }});
+        expectReadU2(numAnnotations);
+    }
+
+    protected void expectNumParameters(final int numParameters) throws IOException {
+        expectReadU1(numParameters);
     }
 }

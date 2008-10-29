@@ -33,14 +33,27 @@
 package com.jeantessier.classreader.impl;
 
 import java.util.*;
+import java.io.*;
+
+import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
 
 public abstract class RuntimeAnnotations_attribute extends Annotations_attribute implements com.jeantessier.classreader.RuntimeAnnotations_attribute {
     private Collection<Annotation> annotations = new LinkedList<Annotation>();
 
-    public RuntimeAnnotations_attribute(Classfile classfile, Visitable owner) {
+    public RuntimeAnnotations_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
         super(classfile, owner);
+
+        int byteCount = in.readInt();
+        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+
+        int numAnnotations = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Reading " + numAnnotations + " annotation(s) ...");
+        for (int i=0; i<numAnnotations; i++) {
+            Logger.getLogger(getClass()).debug("annotation " + i + ":");
+//            annotations.add(new Annotation(this, in));
+        }
     }
 
     public Collection<? extends Annotation> getAnnotations() {

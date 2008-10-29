@@ -32,16 +32,12 @@
 
 package com.jeantessier.classreader.impl;
 
-import java.io.*;
+public class TestRuntimeInvisibleParameterAnnotations_attribute extends TestAnnotationsBase {
+    public void testConstructorWithZeroParameters() throws Exception {
+        expectAttributeLength(1);
+        expectNumParameters(0);
 
-import com.jeantessier.classreader.*;
-
-public class RuntimeInvisibleAnnotations_attribute extends RuntimeAnnotations_attribute implements com.jeantessier.classreader.RuntimeInvisibleAnnotations_attribute {
-    public RuntimeInvisibleAnnotations_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        super(classfile, owner, in);
-    }
-
-    public void accept(Visitor visitor) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        RuntimeInvisibleParameterAnnotations_attribute sut = new RuntimeInvisibleParameterAnnotations_attribute(mockClassfile, mockOwner, mockIn);
+        assertEquals("Num parameters", 0, sut.getNumParameters());
     }
 }

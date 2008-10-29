@@ -36,8 +36,8 @@ import java.io.*;
 
 import com.jeantessier.classreader.*;
 
-public class RuntimeInvisibleAnnotations_attribute extends RuntimeAnnotations_attribute implements com.jeantessier.classreader.RuntimeInvisibleAnnotations_attribute {
-    public RuntimeInvisibleAnnotations_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
+public class RuntimeVisibleParameterAnnotations_attribute extends RuntimeParameterAnnotations_attribute implements com.jeantessier.classreader.RuntimeVisibleParameterAnnotations_attribute {
+    public RuntimeVisibleParameterAnnotations_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
         super(classfile, owner, in);
     }
 
