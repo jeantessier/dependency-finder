@@ -32,12 +32,47 @@
 
 package com.jeantessier.classreader.impl;
 
-public class TestRuntimeVisibleAnnotations_attribute extends TestAnnotationsBase {
-    public void testConstructorWithZeroAnnotations() throws Exception {
-        expectAttributeLength(2);
-        expectNumAnnotations(0);
+import java.io.*;
 
-        RuntimeVisibleAnnotations_attribute sut = new RuntimeVisibleAnnotations_attribute(mockClassfile, mockOwner, mockIn);
-        assertTrue("New attribute should not contain annotations already", sut.getAnnotations().isEmpty());
+import org.jmock.*;
+
+public class TestAnnotation extends TestAttributeBase {
+    private static final int TYPE_INDEX = 2;
+
+    public void testConstructorWithZeroElementValuePairs() throws Exception {
+        final RuntimeAnnotations_attribute mockAnnotations = mock(RuntimeAnnotations_attribute.class);
+        final ConstantPool mockConstantPool = mock(ConstantPool.class);
+        final Class_info mockClass_info = mock(Class_info.class);
+
+        expectTypeIndex(TYPE_INDEX);
+        expectNumElementValuePairs(0);
+
+        checking(new Expectations() {{
+            one (mockAnnotations).getClassfile();
+                will(returnValue(mockClassfile));
+            one (mockClassfile).getConstantPool();
+                will(returnValue(mockConstantPool));
+            one (mockConstantPool).get(TYPE_INDEX);
+                will(returnValue(mockClass_info));
+        }});
+
+        Annotation sut = new Annotation(mockAnnotations, mockIn);
+        assertTrue("New attribute should not contain element value pairs already", sut.getElementValuePairs().isEmpty());
+    }
+
+    private void expectTypeIndex(final int numAnnotations) throws IOException {
+        checking(new Expectations() {{
+            one (mockIn).readUnsignedShort();
+                inSequence(dataReads);
+                will(returnValue(numAnnotations));
+        }});
+    }
+
+    private void expectNumElementValuePairs(final int numAnnotations) throws IOException {
+        checking(new Expectations() {{
+            one (mockIn).readUnsignedShort();
+                inSequence(dataReads);
+                will(returnValue(numAnnotations));
+        }});
     }
 }

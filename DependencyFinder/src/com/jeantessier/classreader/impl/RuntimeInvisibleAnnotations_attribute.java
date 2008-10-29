@@ -32,12 +32,29 @@
 
 package com.jeantessier.classreader.impl;
 
-public class TestRuntimeVisibleAnnotations_attribute extends TestAnnotationsBase {
-    public void testConstructorWithZeroAnnotations() throws Exception {
-        expectAttributeLength(2);
-        expectNumAnnotations(0);
+import java.io.*;
 
-        RuntimeVisibleAnnotations_attribute sut = new RuntimeVisibleAnnotations_attribute(mockClassfile, mockOwner, mockIn);
-        assertTrue("New attribute should not contain annotations already", sut.getAnnotations().isEmpty());
+import org.apache.log4j.*;
+
+import com.jeantessier.classreader.*;
+
+public class RuntimeInvisibleAnnotations_attribute extends RuntimeAnnotations_attribute implements com.jeantessier.classreader.RuntimeInvisibleAnnotations_attribute {
+
+    public RuntimeInvisibleAnnotations_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
+        super(classfile, owner);
+
+        int byteCount = in.readInt();
+        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+
+        int numAnnotations = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Reading " + numAnnotations + " annotation(s) ...");
+        for (int i=0; i<numAnnotations; i++) {
+            Logger.getLogger(getClass()).debug("annotation " + i + ":");
+//            annotations.add(new Annotation(this, in));
+        }
+    }
+
+    public void accept(Visitor visitor) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

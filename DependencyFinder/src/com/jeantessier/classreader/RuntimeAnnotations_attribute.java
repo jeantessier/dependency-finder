@@ -30,14 +30,7 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader.impl;
+package com.jeantessier.classreader;
 
-public class TestRuntimeVisibleAnnotations_attribute extends TestAnnotationsBase {
-    public void testConstructorWithZeroAnnotations() throws Exception {
-        expectAttributeLength(2);
-        expectNumAnnotations(0);
-
-        RuntimeVisibleAnnotations_attribute sut = new RuntimeVisibleAnnotations_attribute(mockClassfile, mockOwner, mockIn);
-        assertTrue("New attribute should not contain annotations already", sut.getAnnotations().isEmpty());
-    }
+public interface RuntimeAnnotations_attribute extends Annotations_attribute {
 }

@@ -1,0 +1,3 @@
+More support for annotations.  The way the class hierarchy in
+=com.jeantessier.classreader.impl= shadows the interface hierarchy in
+=com.jeantessier.classreader= is very tricky.

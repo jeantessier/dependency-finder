@@ -38,7 +38,8 @@ import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
 
-public class RuntimeVisibleAnnotations_attribute extends Attribute_info {
+public class RuntimeVisibleAnnotations_attribute extends RuntimeAnnotations_attribute implements com.jeantessier.classreader.RuntimeVisibleAnnotations_attribute {
+
     public RuntimeVisibleAnnotations_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
         super(classfile, owner);
 
@@ -49,7 +50,7 @@ public class RuntimeVisibleAnnotations_attribute extends Attribute_info {
         Logger.getLogger(getClass()).debug("Reading " + numAnnotations + " annotation(s) ...");
         for (int i=0; i<numAnnotations; i++) {
             Logger.getLogger(getClass()).debug("annotation " + i + ":");
-//            localVariableTypes.add(new LocalVariableType(this, in));
+//            annotations.add(new Annotation(this, in));
         }
     }
 
