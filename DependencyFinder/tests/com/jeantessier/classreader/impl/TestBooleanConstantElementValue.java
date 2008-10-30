@@ -44,10 +44,7 @@ public class TestBooleanConstantElementValue extends TestAnnotationsBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        checking(new Expectations() {{
-            one (mockIn).readUnsignedShort();
-                will(returnValue(CONST_VALUE_INDEX));
-        }});
+        expectReadU2(CONST_VALUE_INDEX);
 
         sut = new BooleanConstantElementValue(mockClassfile, mockIn);
     }
