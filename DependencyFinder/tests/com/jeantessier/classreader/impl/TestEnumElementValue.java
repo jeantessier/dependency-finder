@@ -54,14 +54,14 @@ public class TestEnumElementValue extends TestAnnotationsBase {
     public void testGetTypeName() {
         final String expectedValue = "abc";
         final ConstantPool mockConstantPool = mock(ConstantPool.class);
-        final String_info mockString_info = mock(String_info.class);
+        final UTF8_info mockUtf8_info = mock(UTF8_info.class);
 
         checking(new Expectations() {{
             one (mockClassfile).getConstantPool();
                 will(returnValue(mockConstantPool));
             one (mockConstantPool).get(TYPE_NAME_INDEX);
-                will(returnValue(mockString_info));
-            one (mockString_info).getValue();
+            will(returnValue(mockUtf8_info));
+        one (mockUtf8_info).getValue();
                 will(returnValue(expectedValue));
         }});
 
@@ -71,14 +71,14 @@ public class TestEnumElementValue extends TestAnnotationsBase {
     public void testGetConstName() {
         final String expectedValue = "abc";
         final ConstantPool mockConstantPool = mock(ConstantPool.class);
-        final String_info mockString_info = mock(String_info.class);
+        final UTF8_info mockUtf8_info = mock(UTF8_info.class);
 
         checking(new Expectations() {{
             one (mockClassfile).getConstantPool();
                 will(returnValue(mockConstantPool));
             one (mockConstantPool).get(CONST_NAME_INDEX);
-                will(returnValue(mockString_info));
-            one (mockString_info).getValue();
+                will(returnValue(mockUtf8_info));
+            one (mockUtf8_info).getValue();
                 will(returnValue(expectedValue));
         }});
 

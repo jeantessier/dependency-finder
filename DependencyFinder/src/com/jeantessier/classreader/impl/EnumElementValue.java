@@ -62,7 +62,7 @@ public class EnumElementValue extends ElementValue implements com.jeantessier.cl
     }
 
     public String getTypeName() {
-        return ((String_info) getRawTypeName()).getValue();
+        return ((UTF8_info) getRawTypeName()).getValue();
     }
 
     public int getConstNameIndex() {
@@ -74,7 +74,7 @@ public class EnumElementValue extends ElementValue implements com.jeantessier.cl
     }
 
     public String getConstName() {
-        return ((String_info) getRawConstName()).getValue();
+        return ((UTF8_info) getRawConstName()).getValue();
     }
 
     public char getTag() {
