@@ -1,22 +1,22 @@
 /*
  *  Copyright (c) 2001-2008, Jean Tessier
  *  All rights reserved.
- *  
+ *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
  *  are met:
- *  
+ *
  *      * Redistributions of source code must retain the above copyright
  *        notice, this list of conditions and the following disclaimer.
- *  
+ *
  *      * Redistributions in binary form must reproduce the above copyright
  *        notice, this list of conditions and the following disclaimer in the
  *        documentation and/or other materials provided with the distribution.
- *  
+ *
  *      * Neither the name of Jean Tessier nor the names of his contributors
  *        may be used to endorse or promote products derived from this software
  *        without specific prior written permission.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -32,31 +32,54 @@
 
 package com.jeantessier.classreader.impl;
 
-import junit.framework.*;
+import org.jmock.*;
 
-public class TestAll extends TestCase {
-    public static Test suite() {
-        TestSuite result = new TestSuite(TestAll.class.getPackage().getName());
+import com.jeantessier.classreader.*;
 
-        result.addTestSuite(TestInstruction.class);
-        result.addTestSuite(TestInstructionWithConstantPool.class);
-        result.addTestSuite(TestDeprecated_attribute.class);
-        result.addTestSuite(TestByteConstantElementValue.class);
-        result.addTestSuite(TestCharConstantElementValue.class);
-        result.addTestSuite(TestDoubleConstantElementValue.class);
-        result.addTestSuite(TestFloatConstantElementValue.class);
-        result.addTestSuite(TestIntegerConstantElementValue.class);
-        result.addTestSuite(TestLongConstantElementValue.class);
-        result.addTestSuite(TestShortConstantElementValue.class);
-        result.addTestSuite(TestBooleanConstantElementValue.class);
-        result.addTestSuite(TestStringConstantElementValue.class);
-        result.addTestSuite(TestAnnotation.class);
-        result.addTestSuite(TestRuntimeVisibleAnnotations_attribute.class);
-        result.addTestSuite(TestRuntimeInvisibleAnnotations_attribute.class);
-        result.addTestSuite(TestParameter.class);
-        result.addTestSuite(TestRuntimeVisibleParameterAnnotations_attribute.class);
-        result.addTestSuite(TestRuntimeInvisibleParameterAnnotations_attribute.class);
+public class TestFloatConstantElementValue extends TestAnnotationsBase {
+    private static final int CONST_VALUE_INDEX = 2;
 
-        return result;
+    private FloatConstantElementValue sut;
+
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        checking(new Expectations() {{
+            one (mockIn).readUnsignedShort();
+                will(returnValue(CONST_VALUE_INDEX));
+        }});
+
+        sut = new FloatConstantElementValue(mockClassfile, mockIn);
+    }
+
+    public void testGetConstValue() {
+        final float expectedValue = 1;
+        final ConstantPool mockConstantPool = mock(ConstantPool.class);
+        final Float_info mockFloat_info = mock(Float_info.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).getConstantPool();
+                will(returnValue(mockConstantPool));
+            one (mockConstantPool).get(CONST_VALUE_INDEX);
+                will(returnValue(mockFloat_info));
+            one (mockFloat_info).getValue();
+                will(returnValue(expectedValue));
+        }});
+
+        assertEquals(expectedValue, sut.getConstValue(), 0.001);
+    }
+
+    public void testGetTag() {
+        assertEquals('F', sut.getTag());
+    }
+
+    public void testAccept() {
+        final Visitor mockVisitor = mock(Visitor.class);
+
+        checking(new Expectations() {{
+//            one (mockVisitor).visitFloatConstantElementValue(sut);
+        }});
+
+        sut.accept(mockVisitor);
     }
 }

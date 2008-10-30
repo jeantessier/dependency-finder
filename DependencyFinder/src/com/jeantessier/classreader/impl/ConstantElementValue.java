@@ -1,22 +1,22 @@
 /*
  *  Copyright (c) 2001-2008, Jean Tessier
  *  All rights reserved.
- *  
+ *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
  *  are met:
- *  
+ *
  *      * Redistributions of source code must retain the above copyright
  *        notice, this list of conditions and the following disclaimer.
- *  
+ *
  *      * Redistributions in binary form must reproduce the above copyright
  *        notice, this list of conditions and the following disclaimer in the
  *        documentation and/or other materials provided with the distribution.
- *  
+ *
  *      * Neither the name of Jean Tessier nor the names of his contributors
  *        may be used to endorse or promote products derived from this software
  *        without specific prior written permission.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -32,31 +32,24 @@
 
 package com.jeantessier.classreader.impl;
 
-import junit.framework.*;
+import java.io.*;
 
-public class TestAll extends TestCase {
-    public static Test suite() {
-        TestSuite result = new TestSuite(TestAll.class.getPackage().getName());
+import com.jeantessier.classreader.ConstantPoolEntry;
 
-        result.addTestSuite(TestInstruction.class);
-        result.addTestSuite(TestInstructionWithConstantPool.class);
-        result.addTestSuite(TestDeprecated_attribute.class);
-        result.addTestSuite(TestByteConstantElementValue.class);
-        result.addTestSuite(TestCharConstantElementValue.class);
-        result.addTestSuite(TestDoubleConstantElementValue.class);
-        result.addTestSuite(TestFloatConstantElementValue.class);
-        result.addTestSuite(TestIntegerConstantElementValue.class);
-        result.addTestSuite(TestLongConstantElementValue.class);
-        result.addTestSuite(TestShortConstantElementValue.class);
-        result.addTestSuite(TestBooleanConstantElementValue.class);
-        result.addTestSuite(TestStringConstantElementValue.class);
-        result.addTestSuite(TestAnnotation.class);
-        result.addTestSuite(TestRuntimeVisibleAnnotations_attribute.class);
-        result.addTestSuite(TestRuntimeInvisibleAnnotations_attribute.class);
-        result.addTestSuite(TestParameter.class);
-        result.addTestSuite(TestRuntimeVisibleParameterAnnotations_attribute.class);
-        result.addTestSuite(TestRuntimeInvisibleParameterAnnotations_attribute.class);
+public abstract class ConstantElementValue extends ElementValue implements com.jeantessier.classreader.ConstantElementValue {
+    private int constValueIndex;
 
-        return result;
+    public ConstantElementValue(Classfile classfile, DataInput in) throws IOException {
+        super(classfile);
+
+        constValueIndex = in.readUnsignedShort();
+    }
+
+    public int getConstValueIndex() {
+        return constValueIndex;
+    }
+
+    public ConstantPoolEntry getRawConstValue() {
+        return getClassfile().getConstantPool().get(getConstValueIndex());
     }
 }
