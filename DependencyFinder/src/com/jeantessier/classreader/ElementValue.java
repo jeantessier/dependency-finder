@@ -34,4 +34,5 @@ package com.jeantessier.classreader;
 
 public interface ElementValue extends Visitable {
     public Classfile getClassfile();
+    public char getTag();
 }
