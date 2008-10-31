@@ -34,10 +34,10 @@ package com.jeantessier.classreader;
 
 public interface EnumElementValue extends ElementValue {
     public int getTypeNameIndex();
-    public ConstantPoolEntry getRawTypeName();
+    public UTF8_info getRawTypeName();
     public String getTypeName();
 
     public int getConstNameIndex();
-    public ConstantPoolEntry getRawConstName();
+    public UTF8_info getRawConstName();
     public String getConstName();
 }

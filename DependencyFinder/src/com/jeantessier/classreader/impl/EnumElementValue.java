@@ -36,8 +36,8 @@ import java.io.*;
 
 import org.apache.log4j.*;
 
+import com.jeantessier.classreader.UTF8_info;
 import com.jeantessier.classreader.*;
-import com.jeantessier.classreader.ConstantPoolEntry;
 
 public class EnumElementValue extends ElementValue implements com.jeantessier.classreader.EnumElementValue {
     private int typeNameIndex;
@@ -57,24 +57,24 @@ public class EnumElementValue extends ElementValue implements com.jeantessier.cl
         return typeNameIndex;
     }
 
-    public ConstantPoolEntry getRawTypeName() {
-        return getClassfile().getConstantPool().get(getTypeNameIndex());
+    public UTF8_info getRawTypeName() {
+        return (UTF8_info) getClassfile().getConstantPool().get(getTypeNameIndex());
     }
 
     public String getTypeName() {
-        return ((UTF8_info) getRawTypeName()).getValue();
+        return getRawTypeName().getValue();
     }
 
     public int getConstNameIndex() {
         return constNameIndex;
     }
 
-    public ConstantPoolEntry getRawConstName() {
-        return getClassfile().getConstantPool().get(getConstNameIndex());
+    public UTF8_info getRawConstName() {
+        return (UTF8_info) getClassfile().getConstantPool().get(getConstNameIndex());
     }
 
     public String getConstName() {
-        return ((UTF8_info) getRawConstName()).getValue();
+        return getRawConstName().getValue();
     }
 
     public char getTag() {

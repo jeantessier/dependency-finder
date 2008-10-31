@@ -34,6 +34,6 @@ package com.jeantessier.classreader;
 
 public interface ClassElementValue extends ElementValue {
     public int getClassInfoIndex();
-    public ConstantPoolEntry getRawClassInfo();
+    public UTF8_info getRawClassInfo();
     public String getClassInfo();
 }

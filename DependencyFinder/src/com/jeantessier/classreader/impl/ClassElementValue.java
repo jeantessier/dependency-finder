@@ -36,8 +36,8 @@ import java.io.*;
 
 import org.apache.log4j.*;
 
+import com.jeantessier.classreader.UTF8_info;
 import com.jeantessier.classreader.*;
-import com.jeantessier.classreader.ConstantPoolEntry;
 
 public class ClassElementValue extends ElementValue implements com.jeantessier.classreader.ClassElementValue {
     private int classInfoIndex;
@@ -53,12 +53,12 @@ public class ClassElementValue extends ElementValue implements com.jeantessier.c
         return classInfoIndex;
     }
 
-    public ConstantPoolEntry getRawClassInfo() {
-        return getClassfile().getConstantPool().get(getClassInfoIndex());
+    public UTF8_info getRawClassInfo() {
+        return (UTF8_info) getClassfile().getConstantPool().get(getClassInfoIndex());
     }
 
     public String getClassInfo() {
-        return ((UTF8_info) getRawClassInfo()).getValue();
+        return getRawClassInfo().getValue();
     }
 
     public char getTag() {
