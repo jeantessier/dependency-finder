@@ -56,7 +56,7 @@ public class InnerClass implements com.jeantessier.classreader.InnerClass {
     private int innerNameIndex;
     private int accessFlag;
 
-    public InnerClass(InnerClasses_attribute innerClasses, DataInputStream in) throws IOException {
+    public InnerClass(InnerClasses_attribute innerClasses, DataInput in) throws IOException {
         this.innerClasses = innerClasses;
 
         innerClassInfoIndex = in.readUnsignedShort();

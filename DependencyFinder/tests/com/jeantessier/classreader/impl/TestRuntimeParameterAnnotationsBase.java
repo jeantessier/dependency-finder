@@ -49,7 +49,7 @@ public abstract class TestRuntimeParameterAnnotationsBase extends TestAnnotation
 
     private void doTestConstructorWithParametersWithAnnotations(int ... numAnnotationsPerParameter) throws IOException {
         expectReadAttributeLength(estimateTotalSize(numAnnotationsPerParameter));
-        expectNumParameters(numAnnotationsPerParameter.length);
+        expectReadNumParameters(numAnnotationsPerParameter.length);
         for (int numAnnotations : numAnnotationsPerParameter) {
             expectReadNumAnnotations(numAnnotations);
         }
@@ -73,10 +73,6 @@ public abstract class TestRuntimeParameterAnnotationsBase extends TestAnnotation
 
     private int estimateSizeOfParameter(int numAnnotations) {
         return 2 + numAnnotations * estimateSizeOfAnnotation();
-    }
-
-    private void expectNumParameters(int numParameters) throws IOException {
-        expectReadU1(numParameters);
     }
 
     protected abstract RuntimeParameterAnnotations_attribute createSut() throws IOException;

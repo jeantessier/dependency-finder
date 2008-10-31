@@ -52,6 +52,10 @@ public abstract class Feature_info implements com.jeantessier.classreader.Featur
     private Collection<Attribute_info> attributes = new LinkedList<Attribute_info>();
 
     public Feature_info(Classfile classfile, DataInputStream in) throws IOException {
+        this(classfile, in, new AttributeFactory());
+    }
+
+    public Feature_info(Classfile classfile, DataInputStream in, AttributeFactory attributeFactory) throws IOException {
         this.classfile = classfile;
 
         accessFlag = in.readUnsignedShort();
@@ -67,7 +71,7 @@ public abstract class Feature_info implements com.jeantessier.classreader.Featur
         Logger.getLogger(getClass()).debug("Reading " + attributeCount + " " + getFeatureType() + " attribute(s)");
         for (int i=0; i<attributeCount; i++) {
             Logger.getLogger(getClass()).debug(getFeatureType() + " attribute " + i + ":");
-            attributes.add(AttributeFactory.create(getClassfile(), this, in));
+            attributes.add(attributeFactory.create(getClassfile(), this, in));
         }
     }
 

@@ -42,7 +42,7 @@ import com.jeantessier.classreader.*;
 public class InnerClasses_attribute extends Attribute_info implements com.jeantessier.classreader.InnerClasses_attribute {
     private Collection<InnerClass> classes = new LinkedList<InnerClass>();
 
-    public InnerClasses_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+    public InnerClasses_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
         super(classfile, owner);
 
         int byteCount = in.readInt();

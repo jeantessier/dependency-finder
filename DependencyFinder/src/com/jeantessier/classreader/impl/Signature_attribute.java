@@ -41,7 +41,7 @@ import com.jeantessier.classreader.*;
 public class Signature_attribute extends Attribute_info implements com.jeantessier.classreader.Signature_attribute {
     private int signatureIndex;
 
-    public Signature_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+    public Signature_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
         super(classfile, owner);
 
         int byteCount = in.readInt();

@@ -48,7 +48,11 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
     private Collection<ExceptionHandler> exceptionHandlers = new LinkedList<ExceptionHandler>();
     private Collection<Attribute_info> attributes = new LinkedList<Attribute_info>();
 
-    public Code_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+    public Code_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
+        this(classfile, owner, in, new AttributeFactory());
+    }
+
+    public Code_attribute(Classfile classfile, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
         super(classfile, owner);
 
         int byteCount = in.readInt();
@@ -64,10 +68,10 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
         Logger.getLogger(getClass()).debug("Code length: " + codeLength);
         
         code = new byte[codeLength];
-        int bytesRead = in.read(code);
+        in.readFully(code);
 
         if (Logger.getLogger(getClass()).isDebugEnabled()) {
-            Logger.getLogger(getClass()).debug("Read " + bytesRead + " byte(s): " + Hex.toString(code));
+            Logger.getLogger(getClass()).debug("Read " + codeLength + " byte(s): " + Hex.toString(code));
 
             for (Instruction instr : this) {
                 int start = instr.getStart();
@@ -110,7 +114,7 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
         Logger.getLogger(getClass()).debug("Reading " + attributeCount + " code attribute(s)");
         for (int i=0; i<attributeCount; i++) {
             Logger.getLogger(getClass()).debug("code attribute " + i + ":");
-            attributes.add(AttributeFactory.create(getClassfile(), this, in));
+            attributes.add(attributeFactory.create(getClassfile(), this, in));
         }
     }
 

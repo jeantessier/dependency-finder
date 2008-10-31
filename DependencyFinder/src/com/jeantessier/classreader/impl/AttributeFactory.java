@@ -36,10 +36,10 @@ import java.io.*;
 
 import org.apache.log4j.*;
 
-import com.jeantessier.classreader.Visitable;
+import com.jeantessier.classreader.*;
 
 public class AttributeFactory {
-    public static Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+    public Attribute_info create(Classfile classfile, Visitable owner, DataInput in) throws IOException {
         Attribute_info result;
 
         int nameIndex = in.readUnsignedShort();

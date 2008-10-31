@@ -68,6 +68,10 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
      *  You should only call this constructor from a ClassfileLoader.
      */
     public Classfile(ClassfileLoader loader, DataInputStream in) throws IOException {
+        this(loader, in, new AttributeFactory());
+    }
+
+    public Classfile(ClassfileLoader loader, DataInputStream in, AttributeFactory attributeFactory) throws IOException {
         this.loader = loader;
 
         magicNumber = in.readInt();
@@ -132,7 +136,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         Logger.getLogger(getClass()).debug("Reading " + attributeCount + " class attribute(s)");
         for (int i=0; i<attributeCount; i++) {
             Logger.getLogger(getClass()).debug("Attribute " + i + ":");
-            attributes.add(AttributeFactory.create(this, this, in));
+            attributes.add(attributeFactory.create(this, this, in));
         }
     }
 

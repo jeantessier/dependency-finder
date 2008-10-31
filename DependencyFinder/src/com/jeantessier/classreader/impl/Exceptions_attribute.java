@@ -42,7 +42,7 @@ import com.jeantessier.classreader.*;
 public class Exceptions_attribute extends Attribute_info implements com.jeantessier.classreader.Exceptions_attribute {
     private Collection<Class_info> exceptions = new LinkedList<Class_info>();
 
-    public Exceptions_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+    public Exceptions_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
         super(classfile, owner);
 
         int byteCount = in.readInt();

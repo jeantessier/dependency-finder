@@ -41,7 +41,7 @@ import com.jeantessier.classreader.*;
 public class SourceFile_attribute extends Attribute_info implements com.jeantessier.classreader.SourceFile_attribute {
     private int sourceFileIndex;
 
-    public SourceFile_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+    public SourceFile_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
         super(classfile, owner);
 
         int byteCount = in.readInt();

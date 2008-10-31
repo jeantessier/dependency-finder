@@ -43,7 +43,7 @@ public class LineNumber implements com.jeantessier.classreader.LineNumber {
     private int                       startPC;
     private int                       lineNumber;
 
-    public LineNumber(LineNumberTable_attribute lineNumberTable, DataInputStream in) throws IOException {
+    public LineNumber(LineNumberTable_attribute lineNumberTable, DataInput in) throws IOException {
         setLineNumberTable(lineNumberTable);
 
         startPC = in.readUnsignedShort();

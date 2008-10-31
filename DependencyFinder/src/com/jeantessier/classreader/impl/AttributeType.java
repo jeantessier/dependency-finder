@@ -38,80 +38,104 @@ import com.jeantessier.classreader.*;
 
 public enum AttributeType {
     CONSTANT_VALUE(com.jeantessier.classreader.AttributeType.CONSTANT_VALUE) {
-        public Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+        public Attribute_info create(Classfile classfile, Visitable owner, DataInput in) throws IOException {
             return new ConstantValue_attribute(classfile, owner, in);
         }
     },
 
     CODE(com.jeantessier.classreader.AttributeType.CODE) {
-        public Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+        public Attribute_info create(Classfile classfile, Visitable owner, DataInput in) throws IOException {
             return new Code_attribute(classfile, owner, in);
         }
     },
 
     EXCEPTIONS(com.jeantessier.classreader.AttributeType.EXCEPTIONS) {
-        public Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+        public Attribute_info create(Classfile classfile, Visitable owner, DataInput in) throws IOException {
             return new Exceptions_attribute(classfile, owner, in);
         }
     },
 
     INNER_CLASSES(com.jeantessier.classreader.AttributeType.INNER_CLASSES) {
-        public Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+        public Attribute_info create(Classfile classfile, Visitable owner, DataInput in) throws IOException {
             return new InnerClasses_attribute(classfile, owner, in);
         }
     },
 
     ENCLOSING_METHOD(com.jeantessier.classreader.AttributeType.ENCLOSING_METHOD) {
-        public Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+        public Attribute_info create(Classfile classfile, Visitable owner, DataInput in) throws IOException {
             return new EnclosingMethod_attribute(classfile, owner, in);
         }
     },
 
     SYNTHETIC(com.jeantessier.classreader.AttributeType.SYNTHETIC) {
-        public Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+        public Attribute_info create(Classfile classfile, Visitable owner, DataInput in) throws IOException {
             return new Synthetic_attribute(classfile, owner, in);
         }
     },
 
     SIGNATURE(com.jeantessier.classreader.AttributeType.SIGNATURE) {
-        public Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+        public Attribute_info create(Classfile classfile, Visitable owner, DataInput in) throws IOException {
             return new Signature_attribute(classfile, owner, in);
         }
     },
 
     SOURCE_FILE(com.jeantessier.classreader.AttributeType.SOURCE_FILE) {
-        public Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+        public Attribute_info create(Classfile classfile, Visitable owner, DataInput in) throws IOException {
             return new SourceFile_attribute(classfile, owner, in);
         }
     },
 
     SOURCE_DEBUG_EXTENSION(com.jeantessier.classreader.AttributeType.SOURCE_DEBUG_EXTENSION) {
-        public Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+        public Attribute_info create(Classfile classfile, Visitable owner, DataInput in) throws IOException {
             return new SourceDebugExtension_attribute(classfile, owner, in);
         }
     },
 
     LINE_NUMBER_TABLE(com.jeantessier.classreader.AttributeType.LINE_NUMBER_TABLE) {
-        public Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+        public Attribute_info create(Classfile classfile, Visitable owner, DataInput in) throws IOException {
             return new LineNumberTable_attribute(classfile, owner, in);
         }
     },
 
     LOCAL_VARIABLE_TABLE(com.jeantessier.classreader.AttributeType.LOCAL_VARIABLE_TABLE) {
-        public Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+        public Attribute_info create(Classfile classfile, Visitable owner, DataInput in) throws IOException {
             return new LocalVariableTable_attribute(classfile, owner, in);
         }
     },
 
     LOCAL_VARIABLE_TYPE_TABLE(com.jeantessier.classreader.AttributeType.LOCAL_VARIABLE_TYPE_TABLE) {
-        public Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+        public Attribute_info create(Classfile classfile, Visitable owner, DataInput in) throws IOException {
             return new LocalVariableTypeTable_attribute(classfile, owner, in);
         }
     },
 
     DEPRECATED(com.jeantessier.classreader.AttributeType.DEPRECATED) {
-        public Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+        public Attribute_info create(Classfile classfile, Visitable owner, DataInput in) throws IOException {
             return new Deprecated_attribute(classfile, owner, in);
+        }
+    },
+
+    RUNTIME_VISIBLE_ANNOTATIONS(com.jeantessier.classreader.AttributeType.RUNTIME_VISIBLE_ANNOTATIONS) {
+        public Attribute_info create(Classfile classfile, Visitable owner, DataInput in) throws IOException {
+            return new RuntimeVisibleAnnotations_attribute(classfile, owner, in);
+        }
+    },
+
+    RUNTIME_INVISIBLE_ANNOTATIONS(com.jeantessier.classreader.AttributeType.RUNTIME_INVISIBLE_ANNOTATIONS) {
+        public Attribute_info create(Classfile classfile, Visitable owner, DataInput in) throws IOException {
+            return new RuntimeInvisibleAnnotations_attribute(classfile, owner, in);
+        }
+    },
+
+    RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS(com.jeantessier.classreader.AttributeType.RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS) {
+        public Attribute_info create(Classfile classfile, Visitable owner, DataInput in) throws IOException {
+            return new RuntimeVisibleParameterAnnotations_attribute(classfile, owner, in);
+        }
+    },
+
+    RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS(com.jeantessier.classreader.AttributeType.RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS) {
+        public Attribute_info create(Classfile classfile, Visitable owner, DataInput in) throws IOException {
+            return new RuntimeInvisibleParameterAnnotations_attribute(classfile, owner, in);
         }
     };
 
@@ -125,7 +149,7 @@ public enum AttributeType {
         return attributeType.getAttributeName();
     }
 
-    public abstract Attribute_info create(Classfile classfile, Visitable owner, DataInputStream in) throws IOException;
+    public abstract Attribute_info create(Classfile classfile, Visitable owner, DataInput in) throws IOException;
 
     public static AttributeType forName(String attributeName) {
         AttributeType result = null;

@@ -46,7 +46,7 @@ public class LocalVariable implements com.jeantessier.classreader.LocalVariable 
     private int descriptorIndex;
     private int index;
 
-    public LocalVariable(LocalVariableTable_attribute localVariableTable, DataInputStream in) throws IOException {
+    public LocalVariable(LocalVariableTable_attribute localVariableTable, DataInput in) throws IOException {
         this.localVariableTable = localVariableTable;
 
         startPC = in.readUnsignedShort();

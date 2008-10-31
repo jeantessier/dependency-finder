@@ -41,7 +41,7 @@ import com.jeantessier.classreader.*;
 public class ConstantValue_attribute extends Attribute_info implements com.jeantessier.classreader.ConstantValue_attribute {
     private int valueIndex;
 
-    public ConstantValue_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+    public ConstantValue_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
         super(classfile, owner);
 
         int byteCount = in.readInt();

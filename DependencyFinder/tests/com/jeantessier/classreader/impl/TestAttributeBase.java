@@ -42,9 +42,7 @@ import com.jeantessier.classreader.*;
 
 public class TestAttributeBase extends MockObjectTestCase {
     protected Classfile mockClassfile;
-
     protected Visitable mockOwner;
-
     protected DataInput mockIn;
 
     protected Sequence dataReads;
@@ -59,11 +57,18 @@ public class TestAttributeBase extends MockObjectTestCase {
         mockIn = mock(DataInput.class);
 
         dataReads = sequence("dataReads");
-
     }
 
     protected void expectReadAttributeLength(final int length) throws IOException {
         expectReadU4(length);
+    }
+
+    protected void expectReadNumAnnotations(int numAnnotations) throws IOException {
+        expectReadU2(numAnnotations);
+    }
+
+    protected void expectReadNumParameters(int numParameters) throws IOException {
+        expectReadU1(numParameters);
     }
 
     protected void expectReadAnnotation(int typeIndex, int numElementValuePairs) throws IOException {
@@ -108,6 +113,20 @@ public class TestAttributeBase extends MockObjectTestCase {
             one (mockIn).readUTF();
                 inSequence(dataReads);
                 will(returnValue(s));
+        }});
+    }
+
+    protected void expectLookupUtf8(final int index, final String value) {
+        final ConstantPool mockConstantPool = mock(ConstantPool.class);
+        final UTF8_info mockUtf8_info = mock(UTF8_info.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).getConstantPool();
+                will(returnValue(mockConstantPool));
+            one (mockConstantPool).get(index);
+                will(returnValue(mockUtf8_info));
+            one (mockUtf8_info).getValue();
+            will(returnValue(value));
         }});
     }
 }

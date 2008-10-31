@@ -35,6 +35,7 @@ package com.jeantessier.classreader.impl;
 import java.io.*;
 
 import org.apache.log4j.*;
+
 import com.jeantessier.classreader.*;
 
 public class ExceptionHandler implements com.jeantessier.classreader.ExceptionHandler {
@@ -44,7 +45,7 @@ public class ExceptionHandler implements com.jeantessier.classreader.ExceptionHa
     private int            handlerPC;
     private int            catchTypeIndex;
 
-    public ExceptionHandler(Code_attribute code, DataInputStream in) throws IOException {
+    public ExceptionHandler(Code_attribute code, DataInput in) throws IOException {
         this.code = code;
 
         startPC = in.readUnsignedShort();

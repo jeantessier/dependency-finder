@@ -43,11 +43,11 @@ public class Custom_attribute extends Attribute_info implements com.jeantessier.
     private String name;
     private byte[] info;
 
-    public Custom_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+    public Custom_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
         this("", classfile, owner, in);
     }
 
-    public Custom_attribute(String name, Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+    public Custom_attribute(String name, Classfile classfile, Visitable owner, DataInput in) throws IOException {
         super(classfile, owner);
 
         this.name = name;
@@ -56,10 +56,10 @@ public class Custom_attribute extends Attribute_info implements com.jeantessier.
         Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
         this.info = new byte[byteCount];
-        int bytesRead = in.read(info);
+        in.readFully(info);
 
         if (Logger.getLogger(getClass()).isDebugEnabled()) {
-            Logger.getLogger(getClass()).debug("Read " + bytesRead + " byte(s): " + Hex.toString(this.info));
+            Logger.getLogger(getClass()).debug("Read " + byteCount + " byte(s): " + Hex.toString(this.info));
         }
     }
 

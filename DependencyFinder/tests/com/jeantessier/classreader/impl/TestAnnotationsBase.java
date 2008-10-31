@@ -43,10 +43,6 @@ public class TestAnnotationsBase extends TestAttributeBase {
         mockElementValueFactory = mock(ElementValueFactory.class);
     }
 
-    protected void expectReadNumAnnotations(int numAnnotations) throws IOException {
-        expectReadU2(numAnnotations);
-    }
-
     protected void expectReadNumValues(int numValues) throws IOException {
         expectReadU2(numValues);
     }

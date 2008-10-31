@@ -42,7 +42,7 @@ public class EnclosingMethod_attribute extends Attribute_info implements com.jea
     private int classIndex;
     private int methodIndex;
 
-    public EnclosingMethod_attribute(Classfile classfile, Visitable owner, DataInputStream in) throws IOException {
+    public EnclosingMethod_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
         super(classfile, owner);
 
         int byteCount = in.readInt();
