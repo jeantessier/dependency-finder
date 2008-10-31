@@ -40,14 +40,14 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class Annotation implements com.jeantessier.classreader.Annotation {
-    private Annotations_attribute annotations_attribute;
+    private Classfile classfile;
 
     private Collection elementValuePairs = new LinkedList();
 
     private int typeIndex;
 
-    public Annotation(Annotations_attribute annotations_attribute, DataInput in) throws IOException {
-        this.annotations_attribute = annotations_attribute;
+    public Annotation(Classfile classfile, DataInput in) throws IOException {
+        this.classfile = classfile;
 
         typeIndex = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Type index: " + typeIndex);
@@ -65,7 +65,7 @@ public class Annotation implements com.jeantessier.classreader.Annotation {
     }
 
     public Class_info getRawType() {
-        return (Class_info) annotations_attribute.getClassfile().getConstantPool().get(getTypeIndex());
+        return (Class_info) getClassfile().getConstantPool().get(getTypeIndex());
     }
 
     public String getType() {
@@ -78,8 +78,8 @@ public class Annotation implements com.jeantessier.classreader.Annotation {
         return result;
     }
 
-    public com.jeantessier.classreader.Annotations_attribute getAnnotations_attribute() {
-        return annotations_attribute;
+    public Classfile getClassfile() {
+        return classfile;
     }
 
     public Collection getElementValuePairs() {

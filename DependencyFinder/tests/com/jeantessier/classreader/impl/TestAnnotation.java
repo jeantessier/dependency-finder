@@ -38,26 +38,21 @@ public class TestAnnotation extends TestAttributeBase {
     private static final int TYPE_INDEX = 2;
 
     public void testConstructorWithZeroElementValuePairs() throws Exception {
-        final RuntimeAnnotations_attribute mockAnnotations = mock(RuntimeAnnotations_attribute.class);
-
         expectReadAnnotation(TYPE_INDEX, 0);
 
-        Annotation sut = new Annotation(mockAnnotations, mockIn);
-        assertSame("Annotations_attribute", mockAnnotations, sut.getAnnotations_attribute());
+        Annotation sut = new Annotation(mockClassfile, mockIn);
+        assertSame("Classfile", mockClassfile, sut.getClassfile());
         assertTrue("New annotation should not contain element value pairs already", sut.getElementValuePairs().isEmpty());
     }
 
     public void testGetType() throws Exception {
         final String expectedName = "abc";
-        final RuntimeAnnotations_attribute mockAnnotations = mock(RuntimeAnnotations_attribute.class);
         final ConstantPool mockConstantPool = mock(ConstantPool.class);
         final Class_info mockClass_info = mock(Class_info.class);
 
         expectReadAnnotation(TYPE_INDEX, 0);
 
         checking(new Expectations() {{
-            one (mockAnnotations).getClassfile();
-                will(returnValue(mockClassfile));
             one (mockClassfile).getConstantPool();
                 will(returnValue(mockConstantPool));
             one (mockConstantPool).get(TYPE_INDEX);
@@ -66,7 +61,7 @@ public class TestAnnotation extends TestAttributeBase {
                 will(returnValue(expectedName));
         }});
 
-        Annotation sut = new Annotation(mockAnnotations, mockIn);
+        Annotation sut = new Annotation(mockClassfile, mockIn);
         assertEquals(expectedName, sut.getType());
     }
 }
