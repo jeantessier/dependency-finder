@@ -30,33 +30,14 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader.impl;
+package com.jeantessier.classreader;
 
-import java.io.*;
+public interface ElementValuePair extends Visitable {
+    public Classfile getClassfile();
+    
+    public int getElementNameIndex();
+    public UTF8_info getRawElementName();
+    public String getElementName();
 
-import org.jmock.*;
-
-public class TestArrayElementValueWithContent extends TestAnnotationsBase {
-    public void testConstructorWithZeroValues() throws Exception {
-        doTestConstructorWithValues(0);
-    }
-
-    public void testConstructorWithASingleValue() throws Exception {
-        doTestConstructorWithValues(1);
-    }
-
-    public void testConstructorWithMultipleValues() throws Exception {
-        doTestConstructorWithValues(2);
-    }
-
-    private void doTestConstructorWithValues(final int numValues) throws IOException {
-        expectReadNumValues(numValues);
-
-        checking(new Expectations() {{
-            exactly(numValues).of (mockElementValueFactory).create(mockClassfile, mockIn);
-        }});
-
-        ArrayElementValue sut = new ArrayElementValue(mockClassfile, mockIn, mockElementValueFactory);
-        assertEquals("Num values", numValues, sut.getValues().size());
-    }
+    public ElementValue getElementValue();
 }

@@ -34,9 +34,9 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
+import org.jmock.*;
 import org.jmock.integration.junit3.*;
 import org.jmock.lib.legacy.*;
-import org.jmock.*;
 
 import com.jeantessier.classreader.*;
 
@@ -100,6 +100,14 @@ public class TestAttributeBase extends MockObjectTestCase {
             one (mockIn).readInt();
                 inSequence(dataReads);
                 will(returnValue(i));
+        }});
+    }
+
+    protected void expectReadUtf(final String s) throws IOException {
+        checking(new Expectations() {{
+            one (mockIn).readUTF();
+                inSequence(dataReads);
+                will(returnValue(s));
         }});
     }
 }

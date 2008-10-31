@@ -42,8 +42,6 @@ public class TestArrayElementValue extends TestAnnotationsBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        ElementValueFactory mockElementValueFactory = mock(ElementValueFactory.class);
-
         expectReadNumValues(0);
 
         sut = new ArrayElementValue(mockClassfile, mockIn, mockElementValueFactory);

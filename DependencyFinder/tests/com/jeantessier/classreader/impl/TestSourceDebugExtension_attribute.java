@@ -32,8 +32,6 @@
 
 package com.jeantessier.classreader.impl;
 
-import java.io.*;
-
 import org.jmock.*;
 
 import com.jeantessier.classreader.*;
@@ -64,13 +62,5 @@ public class TestSourceDebugExtension_attribute extends TestAttributeBase {
         }});
 
         sut.accept(mockVisitor);
-    }
-
-    private void expectReadUtf(final String s) throws IOException {
-        checking(new Expectations() {{
-            one (mockIn).readUTF();
-                inSequence(dataReads);
-                will(returnValue(s));
-        }});
     }
 }

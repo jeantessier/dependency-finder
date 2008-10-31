@@ -32,31 +32,60 @@
 
 package com.jeantessier.classreader.impl;
 
-import java.io.*;
-
 import org.jmock.*;
 
-public class TestArrayElementValueWithContent extends TestAnnotationsBase {
-    public void testConstructorWithZeroValues() throws Exception {
-        doTestConstructorWithValues(0);
-    }
+import com.jeantessier.classreader.*;
 
-    public void testConstructorWithASingleValue() throws Exception {
-        doTestConstructorWithValues(1);
-    }
+public class TestElementValuePair extends TestAnnotationsBase {
+    private static final int ELEMENT_NAME_INDEX = 2;
+    private static final String ELEMENT_NAME = "abc";
 
-    public void testConstructorWithMultipleValues() throws Exception {
-        doTestConstructorWithValues(2);
-    }
+    private ElementValue mockElementValue;
 
-    private void doTestConstructorWithValues(final int numValues) throws IOException {
-        expectReadNumValues(numValues);
+    private ElementValuePair sut;
+
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        mockElementValue = mock(ElementValue.class);
+
+        expectReadU2(ELEMENT_NAME_INDEX);
 
         checking(new Expectations() {{
-            exactly(numValues).of (mockElementValueFactory).create(mockClassfile, mockIn);
+            one (mockElementValueFactory).create(mockClassfile, mockIn);
+                will(returnValue(mockElementValue));
         }});
 
-        ArrayElementValue sut = new ArrayElementValue(mockClassfile, mockIn, mockElementValueFactory);
-        assertEquals("Num values", numValues, sut.getValues().size());
+        sut = new ElementValuePair(mockClassfile, mockIn, mockElementValueFactory);
+    }
+
+    public void testGetElementName() throws Exception {
+        final ConstantPool mockConstantPool = mock(ConstantPool.class);
+        final UTF8_info mockUtf8_info = mock(UTF8_info.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).getConstantPool();
+                will(returnValue(mockConstantPool));
+            one (mockConstantPool).get(ELEMENT_NAME_INDEX);
+                will(returnValue(mockUtf8_info));
+            one (mockUtf8_info).getValue();
+                will(returnValue(ELEMENT_NAME));
+        }});
+
+        assertSame("Element name", ELEMENT_NAME, sut.getElementName());
+    }
+
+    public void testGetElementValue() throws Exception {
+        assertSame("Element value", mockElementValue, sut.getElementValue());
+    }
+
+    public void testAccept() throws Exception {
+        final Visitor mockVisitor = mock(Visitor.class);
+
+        checking(new Expectations() {{
+//            one (mockVisitor).visitElementValuePair(sut);
+        }});
+
+        sut.accept(mockVisitor);
     }
 }

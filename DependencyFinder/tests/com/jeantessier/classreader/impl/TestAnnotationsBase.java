@@ -35,6 +35,14 @@ package com.jeantessier.classreader.impl;
 import java.io.*;
 
 public class TestAnnotationsBase extends TestAttributeBase {
+    protected ElementValueFactory mockElementValueFactory;
+
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        mockElementValueFactory = mock(ElementValueFactory.class);
+    }
+
     protected void expectReadNumAnnotations(int numAnnotations) throws IOException {
         expectReadU2(numAnnotations);
     }

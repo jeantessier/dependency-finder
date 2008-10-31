@@ -34,29 +34,51 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-import org.jmock.*;
+import org.apache.log4j.*;
 
-public class TestArrayElementValueWithContent extends TestAnnotationsBase {
-    public void testConstructorWithZeroValues() throws Exception {
-        doTestConstructorWithValues(0);
+import com.jeantessier.classreader.UTF8_info;
+import com.jeantessier.classreader.*;
+
+public class ElementValuePair implements com.jeantessier.classreader.ElementValuePair {
+    private Classfile classfile;
+
+    private int elementNameIndex;
+    private ElementValue elementValue;
+
+    public ElementValuePair(Classfile classfile, DataInput in) throws IOException {
+        this(classfile, in, new ElementValueFactory());
     }
 
-    public void testConstructorWithASingleValue() throws Exception {
-        doTestConstructorWithValues(1);
+    public ElementValuePair(Classfile classfile, DataInput in, ElementValueFactory elementValueFactory) throws IOException {
+        this.classfile = classfile;
+
+        elementNameIndex = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Element name index: " + elementNameIndex);
+
+        elementValue = elementValueFactory.create(classfile, in);
     }
 
-    public void testConstructorWithMultipleValues() throws Exception {
-        doTestConstructorWithValues(2);
+    public Classfile getClassfile() {
+        return classfile;
     }
 
-    private void doTestConstructorWithValues(final int numValues) throws IOException {
-        expectReadNumValues(numValues);
+    public int getElementNameIndex() {
+        return elementNameIndex;
+    }
 
-        checking(new Expectations() {{
-            exactly(numValues).of (mockElementValueFactory).create(mockClassfile, mockIn);
-        }});
+    public UTF8_info getRawElementName() {
+        return (UTF8_info) getClassfile().getConstantPool().get(getElementNameIndex());
+    }
 
-        ArrayElementValue sut = new ArrayElementValue(mockClassfile, mockIn, mockElementValueFactory);
-        assertEquals("Num values", numValues, sut.getValues().size());
+    public String getElementName() {
+        return getRawElementName().getValue();
+    }
+
+    public ElementValue getElementValue() {
+        return elementValue;
+    }
+
+    public void accept(Visitor visitor) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }
