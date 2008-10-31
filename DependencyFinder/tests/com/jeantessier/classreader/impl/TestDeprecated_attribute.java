@@ -32,10 +32,28 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.jmock.*;
+
+import com.jeantessier.classreader.*;
+
 public class TestDeprecated_attribute extends TestAttributeBase {
-    public void testConstructor() throws Exception {
+    private Deprecated_attribute sut;
+
+    protected void setUp() throws Exception {
+        super.setUp();
+
         expectReadAttributeLength(0);
 
-        new Deprecated_attribute(mockClassfile, mockOwner, mockIn);
+        sut = new Deprecated_attribute(mockClassfile, mockOwner, mockIn);
+    }
+
+    public void testAccept() {
+        final Visitor mockVisitor = mock(Visitor.class);
+
+        checking(new Expectations() {{
+            one (mockVisitor).visitDeprecated_attribute(sut);
+        }});
+
+        sut.accept(mockVisitor);
     }
 }
