@@ -57,6 +57,7 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestClassElementValue.class);
         result.addTestSuite(TestAnnotationElementValue.class);
         result.addTestSuite(TestArrayElementValue.class);
+        result.addTestSuite(TestElementValueFactory.class);
         result.addTestSuite(TestArrayElementValueWithContent.class);
         result.addTestSuite(TestAnnotation.class);
         result.addTestSuite(TestRuntimeVisibleAnnotations_attribute.class);

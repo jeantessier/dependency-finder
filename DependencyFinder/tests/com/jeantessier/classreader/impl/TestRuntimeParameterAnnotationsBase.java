@@ -51,7 +51,7 @@ public abstract class TestRuntimeParameterAnnotationsBase extends TestAnnotation
         expectReadAttributeLength(estimateTotalSize(numAnnotationsPerParameter));
         expectNumParameters(numAnnotationsPerParameter.length);
         for (int numAnnotations : numAnnotationsPerParameter) {
-            expectNumAnnotations(numAnnotations);
+            expectReadNumAnnotations(numAnnotations);
         }
 
         RuntimeParameterAnnotations_attribute sut = createSut();

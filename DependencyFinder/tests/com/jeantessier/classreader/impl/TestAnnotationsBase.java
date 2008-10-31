@@ -35,15 +35,23 @@ package com.jeantessier.classreader.impl;
 import java.io.*;
 
 public class TestAnnotationsBase extends TestAttributeBase {
-    protected void expectNumAnnotations(int numAnnotations) throws IOException {
+    protected void expectReadNumAnnotations(int numAnnotations) throws IOException {
         expectReadU2(numAnnotations);
     }
 
-    protected void expectNumValues(int numValues) throws IOException {
+    protected void expectReadNumValues(int numValues) throws IOException {
         expectReadU2(numValues);
     }
 
     protected int estimateSizeOfAnnotation() {
         return 0;
+    }
+
+    protected void expectReadTag(char tag) throws IOException {
+        expectReadU1(tag);
+    }
+
+    protected void expectReadClassInfoIndex(int classInfoIndex) throws IOException {
+        expectReadU2(classInfoIndex);
     }
 }

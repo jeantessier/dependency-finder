@@ -48,21 +48,13 @@ public class TestArrayElementValueWithContent extends TestAnnotationsBase {
     }
 
     private void doTestConstructorWithValues(int numValues) throws IOException {
-        expectNumValues(numValues);
+        expectReadNumValues(numValues);
         for (int i = 0; i < numValues; i++) {
-            expectTag('c');
-            expectClassInfoIndex(i + 1);
+            expectReadTag('c');
+            expectReadClassInfoIndex(i + 1);
         }
 
         ArrayElementValue sut = new ArrayElementValue(mockClassfile, mockIn);
         assertEquals("Num values", numValues, sut.getValues().size());
-    }
-
-    private void expectTag(char tag) throws IOException {
-        expectReadU1(tag);
-    }
-
-    private void expectClassInfoIndex(int classInfoIndex) throws IOException {
-        expectReadU2(classInfoIndex);
     }
 }

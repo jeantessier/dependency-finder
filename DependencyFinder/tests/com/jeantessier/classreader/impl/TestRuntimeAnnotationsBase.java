@@ -41,7 +41,7 @@ public abstract class TestRuntimeAnnotationsBase extends TestAnnotationsBase {
 
     private void doTestConstructorWithAnnotations(int numAnnotations) throws IOException {
         expectReadAttributeLength(estimateTotalSize(numAnnotations));
-        expectNumAnnotations(numAnnotations);
+        expectReadNumAnnotations(numAnnotations);
 
         RuntimeAnnotations_attribute sut = createSut();
         assertEquals("Num annotations", numAnnotations, sut.getAnnotations().size());
