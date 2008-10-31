@@ -34,7 +34,17 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
+import org.jmock.*;
+
 public class TestArrayElementValueWithContent extends TestAnnotationsBase {
+    private ElementValueFactory mockElementValueFactory;
+
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        mockElementValueFactory = mock(ElementValueFactory.class);
+    }
+
     public void testConstructorWithZeroValues() throws Exception {
         doTestConstructorWithValues(0);
     }
@@ -47,14 +57,14 @@ public class TestArrayElementValueWithContent extends TestAnnotationsBase {
         doTestConstructorWithValues(2);
     }
 
-    private void doTestConstructorWithValues(int numValues) throws IOException {
+    private void doTestConstructorWithValues(final int numValues) throws IOException {
         expectReadNumValues(numValues);
-        for (int i = 0; i < numValues; i++) {
-            expectReadTag('c');
-            expectReadClassInfoIndex(i + 1);
-        }
 
-        ArrayElementValue sut = new ArrayElementValue(mockClassfile, mockIn);
+        checking(new Expectations() {{
+            exactly(numValues).of (mockElementValueFactory).create(mockClassfile, mockIn);
+        }});
+
+        ArrayElementValue sut = new ArrayElementValue(mockClassfile, mockIn, mockElementValueFactory);
         assertEquals("Num values", numValues, sut.getValues().size());
     }
 }

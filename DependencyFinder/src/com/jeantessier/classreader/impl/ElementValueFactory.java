@@ -37,11 +37,12 @@ import java.io.*;
 import org.apache.log4j.*;
 
 public class ElementValueFactory {
-    public static ElementValue create(Classfile classfile, DataInput in) throws IOException {
+    public ElementValue create(Classfile classfile, DataInput in) throws IOException {
         ElementValue result;
 
         char tag = (char) in.readUnsignedByte();
         ElementValueType elementValueType = ElementValueType.forTag(tag);
+        Logger.getLogger(getClass()).debug("tag " + tag + " (" + elementValueType + ")");
         if (elementValueType != null) {
             result = elementValueType.create(classfile, in);
         } else {

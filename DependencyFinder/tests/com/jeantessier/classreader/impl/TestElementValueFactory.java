@@ -41,6 +41,14 @@ public class TestElementValueFactory extends TestAnnotationsBase {
     private static final int CLASS_INFO_INDEX = 5;
     private static final int TYPE_INDEX = 6;
 
+    private ElementValueFactory sut;
+
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        sut = new ElementValueFactory();
+    }
+
     public void testCreateByteConstantElementValue() throws Exception {
         doTestCreateConstantElementValue('B', ByteConstantElementValue.class);
     }
@@ -82,21 +90,21 @@ public class TestElementValueFactory extends TestAnnotationsBase {
         expectReadU2(TYPE_NAME_INDEX);
         expectReadU2(CONST_NAME_INDEX);
 
-        ElementValue sut = ElementValueFactory.create(mockClassfile, mockIn);
-        assertNotNull("ElementValueFactory returned null", sut);
-        assertTrue("Not a " + EnumElementValue.class.getSimpleName(), EnumElementValue.class.isInstance(sut));
-        assertEquals("Type name index", TYPE_NAME_INDEX, ((EnumElementValue) sut).getTypeNameIndex());
-        assertEquals("Const name index", CONST_NAME_INDEX, ((EnumElementValue) sut).getConstNameIndex());
+        ElementValue elementValue = sut.create(mockClassfile, mockIn);
+        assertNotNull("ElementValueFactory returned null", elementValue);
+        assertTrue("Not a " + EnumElementValue.class.getSimpleName(), EnumElementValue.class.isInstance(elementValue));
+        assertEquals("Type name index", TYPE_NAME_INDEX, ((EnumElementValue) elementValue).getTypeNameIndex());
+        assertEquals("Const name index", CONST_NAME_INDEX, ((EnumElementValue) elementValue).getConstNameIndex());
     }
 
     public void testCreateClassElementValue() throws Exception {
         expectReadTag('c');
         expectReadClassInfoIndex(CLASS_INFO_INDEX);
 
-        ElementValue sut = ElementValueFactory.create(mockClassfile, mockIn);
-        assertNotNull("ElementValueFactory returned null", sut);
-        assertTrue("Not a " + ClassElementValue.class.getSimpleName(), ClassElementValue.class.isInstance(sut));
-        assertEquals("Class info index", CLASS_INFO_INDEX, ((ClassElementValue) sut).getClassInfoIndex());
+        ElementValue elementValue = sut.create(mockClassfile, mockIn);
+        assertNotNull("ElementValueFactory returned null", elementValue);
+        assertTrue("Not a " + ClassElementValue.class.getSimpleName(), ClassElementValue.class.isInstance(elementValue));
+        assertEquals("Class info index", CLASS_INFO_INDEX, ((ClassElementValue) elementValue).getClassInfoIndex());
     }
 
     public void testCreateAnnotationElementValue() throws Exception {
@@ -104,29 +112,29 @@ public class TestElementValueFactory extends TestAnnotationsBase {
         expectReadTypeIndex(TYPE_INDEX);
         expectReadNumElementValuePairs(0);
 
-        ElementValue sut = ElementValueFactory.create(mockClassfile, mockIn);
-        assertNotNull("ElementValueFactory returned null", sut);
-        assertTrue("Not a " + AnnotationElementValue.class.getSimpleName(), AnnotationElementValue.class.isInstance(sut));
-        assertNotNull("Annotation value", ((AnnotationElementValue) sut).getAnnotation());
-        assertEquals("Type index", TYPE_INDEX, ((AnnotationElementValue) sut).getAnnotation().getTypeIndex());
-        assertEquals("Number of element value pairs", 0, ((AnnotationElementValue) sut).getAnnotation().getElementValuePairs().size());
+        ElementValue elementValue = sut.create(mockClassfile, mockIn);
+        assertNotNull("ElementValueFactory returned null", elementValue);
+        assertTrue("Not a " + AnnotationElementValue.class.getSimpleName(), AnnotationElementValue.class.isInstance(elementValue));
+        assertNotNull("Annotation value", ((AnnotationElementValue) elementValue).getAnnotation());
+        assertEquals("Type index", TYPE_INDEX, ((AnnotationElementValue) elementValue).getAnnotation().getTypeIndex());
+        assertEquals("Number of element value pairs", 0, ((AnnotationElementValue) elementValue).getAnnotation().getElementValuePairs().size());
     }
 
     public void testCreateArrayElementValue() throws Exception {
         expectReadTag('[');
         expectReadNumValues(0);
 
-        ElementValue sut = ElementValueFactory.create(mockClassfile, mockIn);
-        assertNotNull("ElementValueFactory returned null", sut);
-        assertTrue("Not a " + ArrayElementValue.class.getSimpleName(), ArrayElementValue.class.isInstance(sut));
-        assertNotNull("Number of element values", ((ArrayElementValue) sut).getValues().size());
+        ElementValue elementValue = sut.create(mockClassfile, mockIn);
+        assertNotNull("ElementValueFactory returned null", elementValue);
+        assertTrue("Not a " + ArrayElementValue.class.getSimpleName(), ArrayElementValue.class.isInstance(elementValue));
+        assertNotNull("Number of element values", ((ArrayElementValue) elementValue).getValues().size());
     }
 
     public void testCreateWithUnknownTag() throws Exception {
         expectReadTag('A');
 
         try {
-            ElementValueFactory.create(mockClassfile, mockIn);
+            sut.create(mockClassfile, mockIn);
             fail("Did not fail on illegal tag value");
         } catch (IOException ex) {
             // Expected
@@ -137,9 +145,9 @@ public class TestElementValueFactory extends TestAnnotationsBase {
         expectReadTag(tag);
         expectReadU2(CONST_VALUE_INDEX);
 
-        ElementValue sut = ElementValueFactory.create(mockClassfile, mockIn);
-        assertNotNull("ElementValueFactory returned null", sut);
-        assertTrue("Not a " + elementValueClass.getSimpleName(), elementValueClass.isInstance(sut));
-        assertEquals("Const value index", CONST_VALUE_INDEX, ((ConstantElementValue) sut).getConstValueIndex());
+        ElementValue elementValue = sut.create(mockClassfile, mockIn);
+        assertNotNull("ElementValueFactory returned null", elementValue);
+        assertTrue("Not a " + elementValueClass.getSimpleName(), elementValueClass.isInstance(elementValue));
+        assertEquals("Const value index", CONST_VALUE_INDEX, ((ConstantElementValue) elementValue).getConstValueIndex());
     }
 }
