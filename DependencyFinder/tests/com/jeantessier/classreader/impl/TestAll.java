@@ -38,9 +38,12 @@ public class TestAll extends TestCase {
     public static Test suite() {
         TestSuite result = new TestSuite(TestAll.class.getPackage().getName());
 
+        result.addTestSuite(TestInterfaceMethodRef_info.class);
         result.addTestSuite(TestInstruction.class);
         result.addTestSuite(TestInstructionWithConstantPool.class);
         result.addTestSuite(TestDeprecated_attribute.class);
+        result.addTestSuite(TestSynthetic_attribute.class);
+        result.addTestSuite(TestSourceDebugExtension_attribute.class);
         result.addTestSuite(TestByteConstantElementValue.class);
         result.addTestSuite(TestCharConstantElementValue.class);
         result.addTestSuite(TestDoubleConstantElementValue.class);
@@ -52,6 +55,7 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestStringConstantElementValue.class);
         result.addTestSuite(TestEnumElementValue.class);
         result.addTestSuite(TestClassElementValue.class);
+        result.addTestSuite(TestAnnotationElementValue.class);
         result.addTestSuite(TestAnnotation.class);
         result.addTestSuite(TestRuntimeVisibleAnnotations_attribute.class);
         result.addTestSuite(TestRuntimeInvisibleAnnotations_attribute.class);
