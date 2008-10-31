@@ -1,0 +1,7 @@
+More support for annotations.
+
+Removed the back-reference from =Annotation= back to its containing
+=RuntimeAnnotations_attribute= because it did not make sense in the case of an
+annotation as an element value.
+
+Rigged =ElementValueFactory= the same way I did for =AttributeFactory=.

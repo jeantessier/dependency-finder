@@ -49,67 +49,67 @@ public enum ElementValueType {
 
     DOUBLE(com.jeantessier.classreader.ElementValueType.DOUBLE) {
         public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return null;
+            return new DoubleConstantElementValue(classfile, in);
         }
     },
 
     FLOAT(com.jeantessier.classreader.ElementValueType.FLOAT) {
         public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return null;
+            return new FloatConstantElementValue(classfile, in);
         }
     },
 
     INTEGER(com.jeantessier.classreader.ElementValueType.INTEGER) {
         public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return null;
+            return new IntegerConstantElementValue(classfile, in);
         }
     },
 
     LONG(com.jeantessier.classreader.ElementValueType.LONG) {
         public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return null;
+            return new LongConstantElementValue(classfile, in);
         }
     },
 
     SHORT(com.jeantessier.classreader.ElementValueType.SHORT) {
         public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return null;
+            return new ShortConstantElementValue(classfile, in);
         }
     },
 
     BOOLEAN(com.jeantessier.classreader.ElementValueType.BOOLEAN) {
         public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return null;
+            return new BooleanConstantElementValue(classfile, in);
         }
     },
 
     STRING(com.jeantessier.classreader.ElementValueType.STRING) {
         public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return null;
+            return new StringConstantElementValue(classfile, in);
         }
     },
 
     ENUM(com.jeantessier.classreader.ElementValueType.ENUM) {
         public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return null;
+            return new EnumElementValue(classfile, in);
         }
     },
 
     CLASS(com.jeantessier.classreader.ElementValueType.CLASS) {
         public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return null;
+            return new ClassElementValue(classfile, in);
         }
     },
 
     ANNOTATION(com.jeantessier.classreader.ElementValueType.ANNOTATION) {
         public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return null;
+            return new AnnotationElementValue(classfile, in);
         }
     },
 
     ARRAY(com.jeantessier.classreader.ElementValueType.ARRAY) {
         public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return null;
+            return new ArrayElementValue(classfile, in);
         }
     };
 
