@@ -67,7 +67,7 @@ public class TestCharConstantElementValue extends TestAnnotationsBase {
     }
 
     public void testGetTag() {
-        assertEquals('C', sut.getTag());
+        assertEquals(ElementValueType.CHAR.getTag(), sut.getTag());
     }
 
     public void testAccept() {

@@ -67,7 +67,7 @@ public class TestByteConstantElementValue extends TestAnnotationsBase {
     }
 
     public void testGetTag() {
-        assertEquals('B', sut.getTag());
+        assertEquals(ElementValueType.BYTE.getTag(), sut.getTag());
     }
 
     public void testAccept() {

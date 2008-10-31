@@ -101,7 +101,7 @@ public class TestBooleanConstantElementValue extends TestAnnotationsBase {
     }
 
     public void testGetTag() {
-        assertEquals('Z', sut.getTag());
+        assertEquals(ElementValueType.BOOLEAN.getTag(), sut.getTag());
     }
 
     public void testAccept() {

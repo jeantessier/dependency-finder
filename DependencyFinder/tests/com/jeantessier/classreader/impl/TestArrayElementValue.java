@@ -48,7 +48,7 @@ public class TestArrayElementValue extends TestAnnotationsBase {
     }
 
     public void testGetTag() {
-        assertEquals('[', sut.getTag());
+        assertEquals(ElementValueType.ARRAY.getTag(), sut.getTag());
     }
 
     public void testAccept() {

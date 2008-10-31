@@ -55,7 +55,7 @@ public class BooleanConstantElementValue extends ConstantElementValue implements
     }
 
     public char getTag() {
-        return 'Z';
+        return ElementValueType.BOOLEAN.getTag();
     }
 
     public void accept(Visitor visitor) {

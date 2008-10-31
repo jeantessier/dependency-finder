@@ -46,7 +46,7 @@ public class ShortConstantElementValue extends ConstantElementValue implements c
     }
 
     public char getTag() {
-        return 'S';
+        return ElementValueType.SHORT.getTag();
     }
 
     public void accept(Visitor visitor) {

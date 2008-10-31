@@ -86,7 +86,7 @@ public class TestEnumElementValue extends TestAnnotationsBase {
     }
 
     public void testGetTag() {
-        assertEquals('e', sut.getTag());
+        assertEquals(ElementValueType.ENUM.getTag(), sut.getTag());
     }
 
     public void testAccept() {

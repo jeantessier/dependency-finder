@@ -62,7 +62,7 @@ public class ClassElementValue extends ElementValue implements com.jeantessier.c
     }
 
     public char getTag() {
-        return 'c';
+        return ElementValueType.CLASS.getTag();
     }
 
     public void accept(Visitor visitor) {

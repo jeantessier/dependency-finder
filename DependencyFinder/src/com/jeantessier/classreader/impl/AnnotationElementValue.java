@@ -53,7 +53,7 @@ public class AnnotationElementValue extends ElementValue implements com.jeantess
     }
 
     public char getTag() {
-        return '@';
+        return ElementValueType.ANNOTATION.getTag();
     }
 
     public void accept(Visitor visitor) {

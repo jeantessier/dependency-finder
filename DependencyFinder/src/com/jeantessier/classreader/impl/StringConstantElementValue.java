@@ -46,7 +46,7 @@ public class StringConstantElementValue extends ConstantElementValue implements 
     }
 
     public char getTag() {
-        return 's';
+        return ElementValueType.STRING.getTag();
     }
 
     public void accept(Visitor visitor) {

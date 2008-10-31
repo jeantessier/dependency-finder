@@ -46,7 +46,7 @@ public class CharConstantElementValue extends ConstantElementValue implements co
     }
 
     public char getTag() {
-        return 'C';
+        return ElementValueType.CHAR.getTag();
     }
 
     public void accept(Visitor visitor) {

@@ -67,7 +67,7 @@ public class TestShortConstantElementValue extends TestAnnotationsBase {
     }
 
     public void testGetTag() {
-        assertEquals('S', sut.getTag());
+        assertEquals(ElementValueType.SHORT.getTag(), sut.getTag());
     }
 
     public void testAccept() {

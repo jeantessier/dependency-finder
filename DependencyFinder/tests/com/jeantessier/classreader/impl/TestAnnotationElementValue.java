@@ -57,7 +57,7 @@ public class TestAnnotationElementValue extends TestAnnotationsBase {
     }
 
     public void testGetTag() {
-        assertEquals('@', sut.getTag());
+        assertEquals(ElementValueType.ANNOTATION.getTag(), sut.getTag());
     }
 
     public void testAccept() {

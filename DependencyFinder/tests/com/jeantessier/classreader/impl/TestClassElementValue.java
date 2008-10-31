@@ -67,7 +67,7 @@ public class TestClassElementValue extends TestAnnotationsBase {
     }
 
     public void testGetTag() {
-        assertEquals('c', sut.getTag());
+        assertEquals(ElementValueType.CLASS.getTag(), sut.getTag());
     }
 
     public void testAccept() {

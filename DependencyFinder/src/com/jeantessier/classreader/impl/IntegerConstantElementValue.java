@@ -46,7 +46,7 @@ public class IntegerConstantElementValue extends ConstantElementValue implements
     }
 
     public char getTag() {
-        return 'I';
+        return ElementValueType.INTEGER.getTag();
     }
 
     public void accept(Visitor visitor) {

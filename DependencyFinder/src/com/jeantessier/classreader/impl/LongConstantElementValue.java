@@ -46,7 +46,7 @@ public class LongConstantElementValue extends ConstantElementValue implements co
     }
 
     public char getTag() {
-        return 'J';
+        return ElementValueType.LONG.getTag();
     }
 
     public void accept(Visitor visitor) {

@@ -67,7 +67,7 @@ public class TestLongConstantElementValue extends TestAnnotationsBase {
     }
 
     public void testGetTag() {
-        assertEquals('J', sut.getTag());
+        assertEquals(ElementValueType.LONG.getTag(), sut.getTag());
     }
 
     public void testAccept() {

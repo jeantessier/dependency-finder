@@ -49,9 +49,7 @@ public class ArrayElementValue extends ElementValue implements com.jeantessier.c
         Logger.getLogger(getClass()).debug("Reading " + numValues + " value(s) ...");
         for (int i=0; i<numValues; i++) {
             Logger.getLogger(getClass()).debug("value " + i + ":");
-            // TODO: Has to instantiate the right subclass of ElementValue, somehow
-            char tag = (char) in.readUnsignedByte();
-            values.add(new ClassElementValue(classfile, in));
+            values.add(ElementValueFactory.create(classfile, in));
         }
     }
 
@@ -60,7 +58,7 @@ public class ArrayElementValue extends ElementValue implements com.jeantessier.c
     }
 
     public char getTag() {
-        return '[';
+        return ElementValueType.ARRAY.getTag();
     }
 
     public void accept(Visitor visitor) {

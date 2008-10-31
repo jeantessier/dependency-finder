@@ -78,7 +78,7 @@ public class EnumElementValue extends ElementValue implements com.jeantessier.cl
     }
 
     public char getTag() {
-        return 'e';
+        return ElementValueType.ENUM.getTag();
     }
 
     public void accept(Visitor visitor) {

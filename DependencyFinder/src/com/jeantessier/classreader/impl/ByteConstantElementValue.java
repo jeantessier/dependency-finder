@@ -46,7 +46,7 @@ public class ByteConstantElementValue extends ConstantElementValue implements co
     }
 
     public char getTag() {
-        return 'B';
+        return ElementValueType.BYTE.getTag();
     }
 
     public void accept(Visitor visitor) {

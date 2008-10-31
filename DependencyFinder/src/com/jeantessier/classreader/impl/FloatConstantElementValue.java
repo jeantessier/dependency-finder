@@ -46,7 +46,7 @@ public class FloatConstantElementValue extends ConstantElementValue implements c
     }
 
     public char getTag() {
-        return 'F';
+        return ElementValueType.FLOAT.getTag();
     }
 
     public void accept(Visitor visitor) {

@@ -67,7 +67,7 @@ public class TestIntegerConstantElementValue extends TestAnnotationsBase {
     }
 
     public void testGetTag() {
-        assertEquals('I', sut.getTag());
+        assertEquals(ElementValueType.INTEGER.getTag(), sut.getTag());
     }
 
     public void testAccept() {

@@ -46,7 +46,7 @@ public class DoubleConstantElementValue extends ConstantElementValue implements 
     }
 
     public char getTag() {
-        return 'D';
+        return ElementValueType.DOUBLE.getTag();
     }
 
     public void accept(Visitor visitor) {

@@ -67,7 +67,7 @@ public class TestFloatConstantElementValue extends TestAnnotationsBase {
     }
 
     public void testGetTag() {
-        assertEquals('F', sut.getTag());
+        assertEquals(ElementValueType.FLOAT.getTag(), sut.getTag());
     }
 
     public void testAccept() {

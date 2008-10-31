@@ -67,7 +67,7 @@ public class TestStringConstantElementValue extends TestAnnotationsBase {
     }
 
     public void testGetTag() {
-        assertEquals('s', sut.getTag());
+        assertEquals(ElementValueType.STRING.getTag(), sut.getTag());
     }
 
     public void testAccept() {

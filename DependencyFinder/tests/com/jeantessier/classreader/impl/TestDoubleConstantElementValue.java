@@ -67,7 +67,7 @@ public class TestDoubleConstantElementValue extends TestAnnotationsBase {
     }
 
     public void testGetTag() {
-        assertEquals('D', sut.getTag());
+        assertEquals(ElementValueType.DOUBLE.getTag(), sut.getTag());
     }
 
     public void testAccept() {
