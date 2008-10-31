@@ -38,6 +38,7 @@ import com.jeantessier.classreader.*;
 
 public class TestClassElementValue extends TestAnnotationsBase {
     private static final int CLASS_INFO_INDEX = 2;
+    private static final String CLASS_INFO = "Labc;";
 
     private ClassElementValue sut;
 
@@ -50,20 +51,9 @@ public class TestClassElementValue extends TestAnnotationsBase {
     }
 
     public void testGetTypeName() {
-        final String expectedValue = "Labc;";
-        final ConstantPool mockConstantPool = mock(ConstantPool.class);
-        final UTF8_info mockUtf8_info = mock(UTF8_info.class);
+        expectLookupUtf8(CLASS_INFO_INDEX, CLASS_INFO);
 
-        checking(new Expectations() {{
-            one (mockClassfile).getConstantPool();
-                will(returnValue(mockConstantPool));
-            one (mockConstantPool).get(CLASS_INFO_INDEX);
-                will(returnValue(mockUtf8_info));
-            one (mockUtf8_info).getValue();
-                will(returnValue(expectedValue));
-        }});
-
-        assertEquals(expectedValue, sut.getClassInfo());
+        assertEquals(CLASS_INFO, sut.getClassInfo());
     }
 
     public void testGetTag() {

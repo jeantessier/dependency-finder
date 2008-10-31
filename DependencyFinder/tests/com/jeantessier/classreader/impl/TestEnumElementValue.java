@@ -38,7 +38,9 @@ import com.jeantessier.classreader.*;
 
 public class TestEnumElementValue extends TestAnnotationsBase {
     private static final int TYPE_NAME_INDEX = 2;
+    private static final String TYPE_NAME = "abc";
     private static final int CONST_NAME_INDEX = 3;
+    private static final String CONST_NAME = "def";
 
     private EnumElementValue sut;
 
@@ -52,37 +54,15 @@ public class TestEnumElementValue extends TestAnnotationsBase {
     }
 
     public void testGetTypeName() {
-        final String expectedValue = "abc";
-        final ConstantPool mockConstantPool = mock(ConstantPool.class);
-        final UTF8_info mockUtf8_info = mock(UTF8_info.class);
+        expectLookupUtf8(TYPE_NAME_INDEX, TYPE_NAME);
 
-        checking(new Expectations() {{
-            one (mockClassfile).getConstantPool();
-                will(returnValue(mockConstantPool));
-            one (mockConstantPool).get(TYPE_NAME_INDEX);
-            will(returnValue(mockUtf8_info));
-        one (mockUtf8_info).getValue();
-                will(returnValue(expectedValue));
-        }});
-
-        assertEquals(expectedValue, sut.getTypeName());
+        assertEquals(TYPE_NAME, sut.getTypeName());
     }
 
     public void testGetConstName() {
-        final String expectedValue = "abc";
-        final ConstantPool mockConstantPool = mock(ConstantPool.class);
-        final UTF8_info mockUtf8_info = mock(UTF8_info.class);
+        expectLookupUtf8(CONST_NAME_INDEX, CONST_NAME);
 
-        checking(new Expectations() {{
-            one (mockClassfile).getConstantPool();
-                will(returnValue(mockConstantPool));
-            one (mockConstantPool).get(CONST_NAME_INDEX);
-                will(returnValue(mockUtf8_info));
-            one (mockUtf8_info).getValue();
-                will(returnValue(expectedValue));
-        }});
-
-        assertEquals(expectedValue, sut.getConstName());
+        assertEquals(CONST_NAME, sut.getConstName());
     }
 
     public void testGetTag() {
