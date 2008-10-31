@@ -34,32 +34,43 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-import org.apache.log4j.*;
+import org.jmock.*;
 
 import com.jeantessier.classreader.*;
 
-public class SourceDebugExtension_attribute extends Attribute_info implements com.jeantessier.classreader.SourceDebugExtension_attribute {
-    private String debugExtension;
+public class TestSourceDebugExtension_attribute extends TestAttributeBase {
+    private static final String DEBUG_EXTENSION = "abc";
 
-    public SourceDebugExtension_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        super(classfile, owner);
+    private SourceDebugExtension_attribute sut;
 
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+    protected void setUp() throws Exception {
+        super.setUp();
 
-        debugExtension = in.readUTF();
-        Logger.getLogger(getClass()).debug("Debug extension: " + debugExtension);
+        expectReadAttributeLength(0);
+        expectReadUtf(DEBUG_EXTENSION);
+
+        sut = new SourceDebugExtension_attribute(mockClassfile, mockOwner, mockIn);
     }
 
-    public String getDebugExtension() {
-        return debugExtension;
+    public void testGetDebugExtension() {
+        assertEquals(DEBUG_EXTENSION, sut.getDebugExtension());
     }
 
-    public String toString() {
-        return "Debug extension \"" + getDebugExtension() + "\"";
+    public void testAccept() {
+        final Visitor mockVisitor = mock(Visitor.class);
+
+        checking(new Expectations() {{
+            one (mockVisitor).visitSourceDebugExtension_attribute(sut);
+        }});
+
+        sut.accept(mockVisitor);
     }
 
-    public void accept(Visitor visitor) {
-        visitor.visitSourceDebugExtension_attribute(this);
+    private void expectReadUtf(final String s) throws IOException {
+        checking(new Expectations() {{
+            one (mockIn).readUTF();
+                inSequence(dataReads);
+                will(returnValue(s));
+        }});
     }
 }
