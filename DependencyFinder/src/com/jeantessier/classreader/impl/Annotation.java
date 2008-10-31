@@ -50,7 +50,7 @@ public class Annotation implements com.jeantessier.classreader.Annotation {
         this.annotations_attribute = annotations_attribute;
 
         typeIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Type index: " + typeIndex + " (" + getType() + ")");
+        Logger.getLogger(getClass()).debug("Type index: " + typeIndex);
 
         int numElementValuePairs = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Reading " + numElementValuePairs + " element value pair(s) ...");
@@ -72,7 +72,7 @@ public class Annotation implements com.jeantessier.classreader.Annotation {
         String result = "";
 
         if (getTypeIndex() != 0) {
-            result = getRawType().toString();
+            result = getRawType().getName();
         }
 
         return result;
