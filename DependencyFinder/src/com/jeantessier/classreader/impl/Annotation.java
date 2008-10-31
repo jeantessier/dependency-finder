@@ -42,11 +42,15 @@ import com.jeantessier.classreader.*;
 public class Annotation implements com.jeantessier.classreader.Annotation {
     private Classfile classfile;
 
-    private Collection elementValuePairs = new LinkedList();
+    private Collection<ElementValuePair> elementValuePairs = new LinkedList<ElementValuePair>();
 
     private int typeIndex;
 
     public Annotation(Classfile classfile, DataInput in) throws IOException {
+        this(classfile, in, new ElementValueFactory());
+    }
+
+    public Annotation(Classfile classfile, DataInput in, ElementValueFactory elementValueFactory) throws IOException {
         this.classfile = classfile;
 
         typeIndex = in.readUnsignedShort();
@@ -56,8 +60,12 @@ public class Annotation implements com.jeantessier.classreader.Annotation {
         Logger.getLogger(getClass()).debug("Reading " + numElementValuePairs + " element value pair(s) ...");
         for (int i=0; i<numElementValuePairs; i++) {
             Logger.getLogger(getClass()).debug("Element value pair " + i + ":");
-//            classes.add(new InnerClass(this, in));
+            elementValuePairs.add(new ElementValuePair(classfile, in, elementValueFactory));
         }
+    }
+
+    public Classfile getClassfile() {
+        return classfile;
     }
 
     public int getTypeIndex() {
@@ -78,11 +86,7 @@ public class Annotation implements com.jeantessier.classreader.Annotation {
         return result;
     }
 
-    public Classfile getClassfile() {
-        return classfile;
-    }
-
-    public Collection getElementValuePairs() {
+    public Collection<? extends ElementValuePair> getElementValuePairs() {
         return elementValuePairs;
     }
 

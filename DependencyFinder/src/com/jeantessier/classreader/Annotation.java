@@ -36,5 +36,5 @@ import java.util.*;
 
 public interface Annotation extends Visitable {
     public Classfile getClassfile();
-    public Collection getElementValuePairs();
+    public Collection<? extends ElementValuePair> getElementValuePairs();
 }

@@ -32,36 +32,40 @@
 
 package com.jeantessier.classreader.impl;
 
+import java.io.*;
+
 import org.jmock.*;
 
-public class TestAnnotation extends TestAnnotationsBase {
+public class TestAnnotationWithElementValues extends TestAnnotationsBase {
     private static final int TYPE_INDEX = 2;
 
-    public void testConstructorWithZeroElementValuePairs() throws Exception {
-        expectReadAnnotation(TYPE_INDEX, 0);
-
-        Annotation sut = new Annotation(mockClassfile, mockIn);
-        assertSame("Classfile", mockClassfile, sut.getClassfile());
-        assertTrue("New annotation should not contain element value pairs already", sut.getElementValuePairs().isEmpty());
+    public void testConstructorWithNoElementValuePairs() throws Exception {
+        doTestConstructorWithElementValuePairs(0);
     }
 
-    public void testGetType() throws Exception {
-        final String expectedName = "abc";
-        final ConstantPool mockConstantPool = mock(ConstantPool.class);
-        final Class_info mockClass_info = mock(Class_info.class);
+    public void testConstructorWithASingleElementValuePair() throws Exception {
+        doTestConstructorWithElementValuePairs(1);
+    }
 
-        expectReadAnnotation(TYPE_INDEX, 0);
+    public void testConstructorWithMultipleElementValuePairs() throws Exception {
+        doTestConstructorWithElementValuePairs(2);
+    }
+
+    private void doTestConstructorWithElementValuePairs(final int numElementValuePairs) throws IOException {
+        expectReadTypeIndex(TYPE_INDEX);
+        expectReadNumElementValuePairs(numElementValuePairs);
 
         checking(new Expectations() {{
-            one (mockClassfile).getConstantPool();
-                will(returnValue(mockConstantPool));
-            one (mockConstantPool).get(TYPE_INDEX);
-                will(returnValue(mockClass_info));
-            one (mockClass_info).getName();
-                will(returnValue(expectedName));
+            for (int i = 0; i < numElementValuePairs; i++) {
+                one (mockIn).readUnsignedShort();
+                    inSequence(dataReads);
+                    will(returnValue(i + 1));
+                one (mockElementValueFactory).create(mockClassfile, mockIn);
+                    inSequence(dataReads);
+            }
         }});
 
-        Annotation sut = new Annotation(mockClassfile, mockIn);
-        assertEquals(expectedName, sut.getType());
+        Annotation sut = new Annotation(mockClassfile, mockIn, mockElementValueFactory);
+        assertEquals("Num element value pairs", numElementValuePairs, sut.getElementValuePairs().size());
     }
 }

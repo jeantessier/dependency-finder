@@ -37,7 +37,7 @@ import java.io.*;
 import org.jmock.*;
 
 public class TestArrayElementValueWithContent extends TestAnnotationsBase {
-    public void testConstructorWithZeroValues() throws Exception {
+    public void testConstructorWithNoValues() throws Exception {
         doTestConstructorWithValues(0);
     }
 

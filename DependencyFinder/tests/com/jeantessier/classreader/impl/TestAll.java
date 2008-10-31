@@ -61,6 +61,7 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestArrayElementValueWithContent.class);
         result.addTestSuite(TestElementValuePair.class);
         result.addTestSuite(TestAnnotation.class);
+        result.addTestSuite(TestAnnotationWithElementValues.class);
         result.addTestSuite(TestRuntimeVisibleAnnotations_attribute.class);
         result.addTestSuite(TestRuntimeInvisibleAnnotations_attribute.class);
         result.addTestSuite(TestParameter.class);
