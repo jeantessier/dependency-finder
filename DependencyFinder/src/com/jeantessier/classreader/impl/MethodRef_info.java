@@ -37,7 +37,7 @@ import java.io.*;
 import com.jeantessier.classreader.*;
 
 public class MethodRef_info extends FeatureRef_info implements com.jeantessier.classreader.MethodRef_info {
-    public MethodRef_info(ConstantPool constantPool, DataInputStream in) throws IOException {
+    public MethodRef_info(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool, in);
     }
 

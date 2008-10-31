@@ -38,7 +38,7 @@ public abstract class FeatureRef_info extends ConstantPoolEntry implements com.j
     private int classIndex;
     private int nameAndTypeIndex;
 
-    public FeatureRef_info(ConstantPool constantPool, DataInputStream in) throws IOException {
+    public FeatureRef_info(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool);
 
         classIndex = in.readUnsignedShort();
