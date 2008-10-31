@@ -1,22 +1,22 @@
 /*
  *  Copyright (c) 2001-2008, Jean Tessier
  *  All rights reserved.
- *  
+ *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
  *  are met:
- *  
+ *
  *      * Redistributions of source code must retain the above copyright
  *        notice, this list of conditions and the following disclaimer.
- *  
+ *
  *      * Redistributions in binary form must reproduce the above copyright
  *        notice, this list of conditions and the following disclaimer in the
  *        documentation and/or other materials provided with the distribution.
- *  
+ *
  *      * Neither the name of Jean Tessier nor the names of his contributors
  *        may be used to endorse or promote products derived from this software
  *        without specific prior written permission.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -32,25 +32,28 @@
 
 package com.jeantessier.classreader.impl;
 
-import java.io.*;
-
-import org.apache.log4j.*;
+import org.jmock.*;
 
 import com.jeantessier.classreader.*;
 
-public class Synthetic_attribute extends Attribute_info implements com.jeantessier.classreader.Synthetic_attribute {
-    public Synthetic_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        super(classfile, owner);
+public class TestSynthetic_attribute extends TestAttributeBase {
+    private Synthetic_attribute sut;
 
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        expectReadAttributeLength(0);
+
+        sut = new Synthetic_attribute(mockClassfile, mockOwner, mockIn);
     }
 
-    public String toString() {
-        return "Synthetic";
-    }
+    public void testAccept() {
+        final Visitor mockVisitor = mock(Visitor.class);
 
-    public void accept(Visitor visitor) {
-        visitor.visitSynthetic_attribute(this);
+        checking(new Expectations() {{
+            one (mockVisitor).visitSynthetic_attribute(sut);
+        }});
+
+        sut.accept(mockVisitor);
     }
 }
