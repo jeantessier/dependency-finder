@@ -32,8 +32,6 @@
 
 package com.jeantessier.classreader.impl;
 
-import java.io.*;
-
 import org.jmock.*;
 
 public class TestAnnotation extends TestAttributeBase {
@@ -41,11 +39,21 @@ public class TestAnnotation extends TestAttributeBase {
 
     public void testConstructorWithZeroElementValuePairs() throws Exception {
         final RuntimeAnnotations_attribute mockAnnotations = mock(RuntimeAnnotations_attribute.class);
+
+        expectReadAnnotation(TYPE_INDEX, 0);
+
+        Annotation sut = new Annotation(mockAnnotations, mockIn);
+        assertSame("Annotations_attribute", mockAnnotations, sut.getAnnotations_attribute());
+        assertTrue("New annotation should not contain element value pairs already", sut.getElementValuePairs().isEmpty());
+    }
+
+    public void testGetType() throws Exception {
+        final String expectedName = "abc";
+        final RuntimeAnnotations_attribute mockAnnotations = mock(RuntimeAnnotations_attribute.class);
         final ConstantPool mockConstantPool = mock(ConstantPool.class);
         final Class_info mockClass_info = mock(Class_info.class);
 
-        expectTypeIndex(TYPE_INDEX);
-        expectNumElementValuePairs(0);
+        expectReadAnnotation(TYPE_INDEX, 0);
 
         checking(new Expectations() {{
             one (mockAnnotations).getClassfile();
@@ -54,18 +62,11 @@ public class TestAnnotation extends TestAttributeBase {
                 will(returnValue(mockConstantPool));
             one (mockConstantPool).get(TYPE_INDEX);
                 will(returnValue(mockClass_info));
+            one (mockClass_info).getName();
+                will(returnValue(expectedName));
         }});
 
         Annotation sut = new Annotation(mockAnnotations, mockIn);
-        assertSame("Annotations_attribute", mockAnnotations, sut.getAnnotations_attribute());
-        assertTrue("New annotation should not contain element value pairs already", sut.getElementValuePairs().isEmpty());
-    }
-
-    private void expectTypeIndex(int typeIndex) throws IOException {
-        expectReadU2(typeIndex);
-    }
-
-    private void expectNumElementValuePairs(int numElementValuePairs) throws IOException {
-        expectReadU2(numElementValuePairs);
+        assertEquals(expectedName, sut.getType());
     }
 }

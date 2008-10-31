@@ -62,8 +62,21 @@ public class TestAttributeBase extends MockObjectTestCase {
 
     }
 
-    protected void expectAttributeLength(final int length) throws IOException {
+    protected void expectReadAttributeLength(final int length) throws IOException {
         expectReadU4(length);
+    }
+
+    protected void expectReadAnnotation(int typeIndex, int numElementValuePairs) throws IOException {
+        expectReadTypeIndex(typeIndex);
+        expectReadNumElementValuePairs(numElementValuePairs);
+    }
+
+    protected void expectReadTypeIndex(int typeIndex) throws IOException {
+        expectReadU2(typeIndex);
+    }
+
+    protected void expectReadNumElementValuePairs(int numElementValuePairs) throws IOException {
+        expectReadU2(numElementValuePairs);
     }
 
     protected void expectReadU1(final int i) throws IOException {

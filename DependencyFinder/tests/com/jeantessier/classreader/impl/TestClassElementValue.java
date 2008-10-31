@@ -74,7 +74,7 @@ public class TestClassElementValue extends TestAnnotationsBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-//            one (mockVisitor).visitEnumElementValue(sut);
+//            one (mockVisitor).visitClassElementValue(sut);
         }});
 
         sut.accept(mockVisitor);

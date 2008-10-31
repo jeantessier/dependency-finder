@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 public class TestDeprecated_attribute extends TestAttributeBase {
     public void testConstructor() throws Exception {
-        expectAttributeLength(0);
+        expectReadAttributeLength(0);
 
         new Deprecated_attribute(mockClassfile, mockOwner, mockIn);
     }
