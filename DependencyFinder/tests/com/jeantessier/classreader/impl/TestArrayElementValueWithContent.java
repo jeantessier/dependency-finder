@@ -34,16 +34,35 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-public class TestAnnotationsBase extends TestAttributeBase {
-    protected void expectNumAnnotations(int numAnnotations) throws IOException {
-        expectReadU2(numAnnotations);
+public class TestArrayElementValueWithContent extends TestAnnotationsBase {
+    public void testConstructorWithZeroValues() throws Exception {
+        doTestConstructorWithValues(0);
     }
 
-    protected void expectNumValues(int numValues) throws IOException {
-        expectReadU2(numValues);
+    public void testConstructorWithASingleValue() throws Exception {
+        doTestConstructorWithValues(1);
     }
 
-    protected int estimateSizeOfAnnotation() {
-        return 0;
+    public void testConstructorWithMultipleValues() throws Exception {
+        doTestConstructorWithValues(2);
+    }
+
+    private void doTestConstructorWithValues(int numValues) throws IOException {
+        expectNumValues(numValues);
+        for (int i = 0; i < numValues; i++) {
+            expectTag('c');
+            expectClassInfoIndex(i + 1);
+        }
+
+        ArrayElementValue sut = new ArrayElementValue(mockClassfile, mockIn);
+        assertEquals("Num values", numValues, sut.getValues().size());
+    }
+
+    private void expectTag(char tag) throws IOException {
+        expectReadU1(tag);
+    }
+
+    private void expectClassInfoIndex(int classInfoIndex) throws IOException {
+        expectReadU2(classInfoIndex);
     }
 }

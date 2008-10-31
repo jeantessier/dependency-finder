@@ -33,17 +33,37 @@
 package com.jeantessier.classreader.impl;
 
 import java.io.*;
+import java.util.*;
 
-public class TestAnnotationsBase extends TestAttributeBase {
-    protected void expectNumAnnotations(int numAnnotations) throws IOException {
-        expectReadU2(numAnnotations);
+import org.apache.log4j.*;
+
+import com.jeantessier.classreader.*;
+
+public class ArrayElementValue extends ElementValue implements com.jeantessier.classreader.ArrayElementValue {
+    private Collection<ElementValue> values = new ArrayList<ElementValue>();
+
+    public ArrayElementValue(Classfile classfile, DataInput in) throws IOException {
+        super(classfile);
+
+        int numValues = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Reading " + numValues + " value(s) ...");
+        for (int i=0; i<numValues; i++) {
+            Logger.getLogger(getClass()).debug("value " + i + ":");
+            // TODO: Has to instantiate the right subclass of ElementValue, somehow
+            char tag = (char) in.readUnsignedByte();
+            values.add(new ClassElementValue(classfile, in));
+        }
     }
 
-    protected void expectNumValues(int numValues) throws IOException {
-        expectReadU2(numValues);
+    public Collection<? extends ElementValue> getValues() {
+        return values;
     }
 
-    protected int estimateSizeOfAnnotation() {
-        return 0;
+    public char getTag() {
+        return '[';
+    }
+
+    public void accept(Visitor visitor) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

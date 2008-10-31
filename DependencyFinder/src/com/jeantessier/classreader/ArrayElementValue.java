@@ -30,20 +30,10 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader.impl;
+package com.jeantessier.classreader;
 
-import java.io.*;
+import java.util.*;
 
-public class TestAnnotationsBase extends TestAttributeBase {
-    protected void expectNumAnnotations(int numAnnotations) throws IOException {
-        expectReadU2(numAnnotations);
-    }
-
-    protected void expectNumValues(int numValues) throws IOException {
-        expectReadU2(numValues);
-    }
-
-    protected int estimateSizeOfAnnotation() {
-        return 0;
-    }
+public interface ArrayElementValue extends ElementValue {
+    public Collection<? extends ElementValue> getValues();
 }

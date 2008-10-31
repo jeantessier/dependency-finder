@@ -32,18 +32,32 @@
 
 package com.jeantessier.classreader.impl;
 
-import java.io.*;
+import org.jmock.*;
 
-public class TestAnnotationsBase extends TestAttributeBase {
-    protected void expectNumAnnotations(int numAnnotations) throws IOException {
-        expectReadU2(numAnnotations);
+import com.jeantessier.classreader.*;
+
+public class TestArrayElementValue extends TestAnnotationsBase {
+    private ArrayElementValue sut;
+
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        expectNumValues(0);
+
+        sut = new ArrayElementValue(mockClassfile, mockIn);
     }
 
-    protected void expectNumValues(int numValues) throws IOException {
-        expectReadU2(numValues);
+    public void testGetTag() {
+        assertEquals('[', sut.getTag());
     }
 
-    protected int estimateSizeOfAnnotation() {
-        return 0;
+    public void testAccept() {
+        final Visitor mockVisitor = mock(Visitor.class);
+
+        checking(new Expectations() {{
+//            one (mockVisitor).visitArrayElementValue(sut);
+        }});
+
+        sut.accept(mockVisitor);
     }
 }
