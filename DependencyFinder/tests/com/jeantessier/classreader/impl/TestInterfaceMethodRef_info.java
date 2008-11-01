@@ -40,18 +40,32 @@ public class TestInterfaceMethodRef_info extends TestAttributeBase {
     private InterfaceMethodRef_info sut;
 
     private static final int CLASS_INDEX = 2;
-
+    private static final String CLASS = "abc";
     private static final int NAME_AND_TYPE_INDEX = 3;
+    private static final String NAME = "def";
+    private static final String TYPE = "ghi";
 
     protected void setUp() throws Exception {
         super.setUp();
-
-        final ConstantPool mockConstantPool = mock(ConstantPool.class);
 
         expectReadU2(CLASS_INDEX);
         expectReadU2(NAME_AND_TYPE_INDEX);
 
         sut = new InterfaceMethodRef_info(mockConstantPool, mockIn);
+        assertEquals(CLASS_INDEX, sut.getClassIndex());
+        assertEquals(NAME_AND_TYPE_INDEX, sut.getNameAndTypeIndex());
+    }
+
+    public void testGetClass() {
+        expectLookupClass(CLASS_INDEX, CLASS);
+
+        assertEquals(CLASS, sut.getClassName());
+    }
+
+    public void testGetNameAndType() {
+        expectLookupNameAndType(NAME_AND_TYPE_INDEX, NAME, TYPE);
+
+        assertEquals(NAME + "." + TYPE, sut.getNameAndType());
     }
 
     public void testAccept() throws Exception {

@@ -42,6 +42,7 @@ import com.jeantessier.classreader.*;
 
 public class TestAttributeBase extends MockObjectTestCase {
     protected Classfile mockClassfile;
+    protected ConstantPool mockConstantPool;
     protected Visitable mockOwner;
     protected DataInput mockIn;
 
@@ -53,6 +54,7 @@ public class TestAttributeBase extends MockObjectTestCase {
         setImposteriser(ClassImposteriser.INSTANCE);
 
         mockClassfile = mock(Classfile.class);
+        mockConstantPool = mock(ConstantPool.class);
         mockOwner = mock(Visitable.class);
         mockIn = mock(DataInput.class);
 
@@ -116,8 +118,35 @@ public class TestAttributeBase extends MockObjectTestCase {
         }});
     }
 
+    protected void expectLookupClass(final int index, final String value) {
+        final Class_info mockClass_info = mock(Class_info.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).getConstantPool();
+                will(returnValue(mockConstantPool));
+            one (mockConstantPool).get(index);
+                will(returnValue(mockClass_info));
+            one (mockClass_info).getName();
+                will(returnValue(value));
+        }});
+    }
+
+    protected void expectLookupNameAndType(final int index, final String name, final String type) {
+        final NameAndType_info mockNameAndType_info = mock(NameAndType_info.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).getConstantPool();
+                will(returnValue(mockConstantPool));
+            one (mockConstantPool).get(index);
+                will(returnValue(mockNameAndType_info));
+            one (mockNameAndType_info).getName();
+                will(returnValue(name));
+            one (mockNameAndType_info).getType();
+                will(returnValue(type));
+        }});
+    }
+
     protected void expectLookupInteger(final int index, final int value) {
-        final ConstantPool mockConstantPool = mock(ConstantPool.class);
         final Integer_info mockInteger_info = mock(Integer_info.class);
 
         checking(new Expectations() {{
@@ -131,7 +160,6 @@ public class TestAttributeBase extends MockObjectTestCase {
     }
 
     protected void expectLookupLong(final int index, final long value) {
-        final ConstantPool mockConstantPool = mock(ConstantPool.class);
         final Long_info mockLong_info = mock(Long_info.class);
 
         checking(new Expectations() {{
@@ -145,7 +173,6 @@ public class TestAttributeBase extends MockObjectTestCase {
     }
 
     protected void expectLookupFloat(final int index, final float value) {
-        final ConstantPool mockConstantPool = mock(ConstantPool.class);
         final Float_info mockFloat_info = mock(Float_info.class);
 
         checking(new Expectations() {{
@@ -159,7 +186,6 @@ public class TestAttributeBase extends MockObjectTestCase {
     }
 
     protected void expectLookupDouble(final int index, final double value) {
-        final ConstantPool mockConstantPool = mock(ConstantPool.class);
         final Double_info mockDouble_info = mock(Double_info.class);
 
         checking(new Expectations() {{
@@ -173,7 +199,6 @@ public class TestAttributeBase extends MockObjectTestCase {
     }
 
     protected void expectLookupString(final int index, final String value) {
-        final ConstantPool mockConstantPool = mock(ConstantPool.class);
         final String_info mockString_info = mock(String_info.class);
 
         checking(new Expectations() {{
@@ -187,7 +212,6 @@ public class TestAttributeBase extends MockObjectTestCase {
     }
 
     protected void expectLookupUtf8(final int index, final String value) {
-        final ConstantPool mockConstantPool = mock(ConstantPool.class);
         final UTF8_info mockUtf8_info = mock(UTF8_info.class);
 
         checking(new Expectations() {{

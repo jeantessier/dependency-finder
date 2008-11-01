@@ -60,17 +60,7 @@ public class TestElementValuePair extends TestAnnotationsBase {
     }
 
     public void testGetElementName() throws Exception {
-        final ConstantPool mockConstantPool = mock(ConstantPool.class);
-        final UTF8_info mockUtf8_info = mock(UTF8_info.class);
-
-        checking(new Expectations() {{
-            one (mockClassfile).getConstantPool();
-                will(returnValue(mockConstantPool));
-            one (mockConstantPool).get(ELEMENT_NAME_INDEX);
-                will(returnValue(mockUtf8_info));
-            one (mockUtf8_info).getValue();
-                will(returnValue(ELEMENT_NAME));
-        }});
+        expectLookupUtf8(ELEMENT_NAME_INDEX, ELEMENT_NAME);
 
         assertSame("Element name", ELEMENT_NAME, sut.getElementName());
     }
