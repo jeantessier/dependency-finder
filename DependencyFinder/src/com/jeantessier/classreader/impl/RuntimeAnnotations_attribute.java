@@ -32,8 +32,8 @@
 
 package com.jeantessier.classreader.impl;
 
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 import org.apache.log4j.*;
 
@@ -52,7 +52,7 @@ public abstract class RuntimeAnnotations_attribute extends Annotations_attribute
         Logger.getLogger(getClass()).debug("Reading " + numAnnotations + " annotation(s) ...");
         for (int i=0; i<numAnnotations; i++) {
             Logger.getLogger(getClass()).debug("annotation " + i + ":");
-//            annotations.add(new Annotation(this, in));
+            annotations.add(new Annotation(classfile, in));
         }
     }
 

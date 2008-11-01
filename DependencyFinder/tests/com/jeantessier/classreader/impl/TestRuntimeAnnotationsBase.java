@@ -35,13 +35,26 @@ package com.jeantessier.classreader.impl;
 import java.io.*;
 
 public abstract class TestRuntimeAnnotationsBase extends TestAnnotationsBase {
-    public void testConstructorWithZeroAnnotations() throws Exception {
+    private static final int TYPE_INDEX = 2;
+
+    public void testConstructorWithNoAnnotations() throws Exception {
         doTestConstructorWithAnnotations(0);
+    }
+
+    public void testConstructorWithASingleAnnotations() throws Exception {
+        doTestConstructorWithAnnotations(1);
+    }
+
+    public void testConstructorMultipleZeroAnnotations() throws Exception {
+        doTestConstructorWithAnnotations(2);
     }
 
     private void doTestConstructorWithAnnotations(int numAnnotations) throws IOException {
         expectReadAttributeLength(estimateTotalSize(numAnnotations));
         expectReadNumAnnotations(numAnnotations);
+        for (int i = 0; i < numAnnotations; i++) {
+            expectReadAnnotation(TYPE_INDEX, 0);
+        }
 
         RuntimeAnnotations_attribute sut = createSut();
         assertEquals("Num annotations", numAnnotations, sut.getAnnotations().size());

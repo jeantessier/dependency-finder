@@ -35,15 +35,15 @@ package com.jeantessier.classreader.impl;
 import java.io.*;
 
 public abstract class TestRuntimeParameterAnnotationsBase extends TestAnnotationsBase {
-    public void testConstructorWithZeroParameters() throws Exception {
+    public void testConstructorWithNoParameters() throws Exception {
         doTestConstructorWithParametersWithAnnotations(0);
     }
 
-    public void testConstructorWithOneParameterWithZeroAnnotations() throws Exception {
+    public void testConstructorWithASingleParameterWithNoAnnotations() throws Exception {
         doTestConstructorWithParametersWithAnnotations(0, 0);
     }
 
-    public void testConstructorWithTwoParameterWithZeroAnnotations() throws Exception {
+    public void testConstructorWithMultipleParameterEachWithNoAnnotations() throws Exception {
         doTestConstructorWithParametersWithAnnotations(0, 0, 0);
     }
 
