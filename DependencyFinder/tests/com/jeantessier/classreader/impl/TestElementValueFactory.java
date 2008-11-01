@@ -90,7 +90,7 @@ public class TestElementValueFactory extends TestAnnotationsBase {
         expectReadU2(TYPE_NAME_INDEX);
         expectReadU2(CONST_NAME_INDEX);
 
-        ElementValue elementValue = sut.create(mockClassfile, mockIn);
+        ElementValue elementValue = sut.create(mockConstantPool, mockIn);
         assertNotNull("ElementValueFactory returned null", elementValue);
         assertTrue("Not a " + EnumElementValue.class.getSimpleName(), EnumElementValue.class.isInstance(elementValue));
         assertEquals("Type name index", TYPE_NAME_INDEX, ((EnumElementValue) elementValue).getTypeNameIndex());
@@ -101,7 +101,7 @@ public class TestElementValueFactory extends TestAnnotationsBase {
         expectReadTag('c');
         expectReadClassInfoIndex(CLASS_INFO_INDEX);
 
-        ElementValue elementValue = sut.create(mockClassfile, mockIn);
+        ElementValue elementValue = sut.create(mockConstantPool, mockIn);
         assertNotNull("ElementValueFactory returned null", elementValue);
         assertTrue("Not a " + ClassElementValue.class.getSimpleName(), ClassElementValue.class.isInstance(elementValue));
         assertEquals("Class info index", CLASS_INFO_INDEX, ((ClassElementValue) elementValue).getClassInfoIndex());
@@ -112,7 +112,7 @@ public class TestElementValueFactory extends TestAnnotationsBase {
         expectReadTypeIndex(TYPE_INDEX);
         expectReadNumElementValuePairs(0);
 
-        ElementValue elementValue = sut.create(mockClassfile, mockIn);
+        ElementValue elementValue = sut.create(mockConstantPool, mockIn);
         assertNotNull("ElementValueFactory returned null", elementValue);
         assertTrue("Not a " + AnnotationElementValue.class.getSimpleName(), AnnotationElementValue.class.isInstance(elementValue));
         assertNotNull("Annotation value", ((AnnotationElementValue) elementValue).getAnnotation());
@@ -124,7 +124,7 @@ public class TestElementValueFactory extends TestAnnotationsBase {
         expectReadTag('[');
         expectReadNumValues(0);
 
-        ElementValue elementValue = sut.create(mockClassfile, mockIn);
+        ElementValue elementValue = sut.create(mockConstantPool, mockIn);
         assertNotNull("ElementValueFactory returned null", elementValue);
         assertTrue("Not a " + ArrayElementValue.class.getSimpleName(), ArrayElementValue.class.isInstance(elementValue));
         assertNotNull("Number of element values", ((ArrayElementValue) elementValue).getValues().size());
@@ -134,7 +134,7 @@ public class TestElementValueFactory extends TestAnnotationsBase {
         expectReadTag('A');
 
         try {
-            sut.create(mockClassfile, mockIn);
+            sut.create(mockConstantPool, mockIn);
             fail("Did not fail on illegal tag value");
         } catch (IOException ex) {
             // Expected
@@ -145,7 +145,7 @@ public class TestElementValueFactory extends TestAnnotationsBase {
         expectReadTag(tag);
         expectReadU2(CONST_VALUE_INDEX);
 
-        ElementValue elementValue = sut.create(mockClassfile, mockIn);
+        ElementValue elementValue = sut.create(mockConstantPool, mockIn);
         assertNotNull("ElementValueFactory returned null", elementValue);
         assertTrue("Not a " + elementValueClass.getSimpleName(), elementValueClass.isInstance(elementValue));
         assertEquals("Const value index", CONST_VALUE_INDEX, ((ConstantElementValue) elementValue).getConstValueIndex());

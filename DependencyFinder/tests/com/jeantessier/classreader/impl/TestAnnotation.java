@@ -43,11 +43,11 @@ public class TestAnnotation extends TestAnnotationsBase {
 
         expectReadAnnotation(TYPE_INDEX, 0);
 
-        sut = new Annotation(mockClassfile, mockIn);
+        sut = new Annotation(mockConstantPool, mockIn);
     }
 
     public void testGetClassfile() throws Exception {
-        assertSame("Classfile", mockClassfile, sut.getClassfile());
+        assertSame("Constant pool", mockConstantPool, sut.getConstantPool());
     }
 
     public void testGetType() throws Exception {

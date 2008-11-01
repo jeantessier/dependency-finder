@@ -37,8 +37,8 @@ import java.io.*;
 import com.jeantessier.classreader.*;
 
 public class DoubleConstantElementValue extends ConstantElementValue implements com.jeantessier.classreader.DoubleConstantElementValue {
-    public DoubleConstantElementValue(Classfile classfile, DataInput in) throws IOException {
-        super(classfile, in);
+    public DoubleConstantElementValue(ConstantPool constantPool, DataInput in) throws IOException {
+        super(constantPool, in);
     }
 
     public double getConstValue() {

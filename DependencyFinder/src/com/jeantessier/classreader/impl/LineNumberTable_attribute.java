@@ -42,8 +42,8 @@ import com.jeantessier.classreader.*;
 public class LineNumberTable_attribute extends Attribute_info implements com.jeantessier.classreader.LineNumberTable_attribute {
     private Collection<LineNumber> lineNumbers = new LinkedList<LineNumber>();
 
-    public LineNumberTable_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        super(classfile, owner);
+    public LineNumberTable_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+        super(constantPool, owner);
 
         int byteCount = in.readInt();
         Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);

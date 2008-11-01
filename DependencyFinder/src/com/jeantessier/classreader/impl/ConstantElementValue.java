@@ -41,8 +41,8 @@ import com.jeantessier.classreader.ConstantPoolEntry;
 public abstract class ConstantElementValue extends ElementValue implements com.jeantessier.classreader.ConstantElementValue {
     private int constValueIndex;
 
-    public ConstantElementValue(Classfile classfile, DataInput in) throws IOException {
-        super(classfile);
+    public ConstantElementValue(ConstantPool constantPool, DataInput in) throws IOException {
+        super(constantPool);
 
         constValueIndex = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Const value index: " + constValueIndex);
@@ -53,6 +53,6 @@ public abstract class ConstantElementValue extends ElementValue implements com.j
     }
 
     public ConstantPoolEntry getRawConstValue() {
-        return getClassfile().getConstantPool().get(getConstValueIndex());
+        return getConstantPool().get(getConstValueIndex());
     }
 }

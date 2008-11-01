@@ -46,7 +46,7 @@ public class TestFloatConstantElementValue extends TestAnnotationsBase {
 
         expectReadU2(CONST_VALUE_INDEX);
 
-        sut = new FloatConstantElementValue(mockClassfile, mockIn);
+        sut = new FloatConstantElementValue(mockConstantPool, mockIn);
     }
 
     public void testGetConstValue() {

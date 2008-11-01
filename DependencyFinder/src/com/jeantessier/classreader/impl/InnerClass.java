@@ -81,7 +81,7 @@ public class InnerClass implements com.jeantessier.classreader.InnerClass {
     }
 
     public Class_info getRawInnerClassInfo() {
-        return (Class_info) innerClasses.getClassfile().getConstantPool().get(getInnerClassInfoIndex());
+        return (Class_info) innerClasses.getConstantPool().get(getInnerClassInfoIndex());
     }
 
     public String getInnerClassInfo() {
@@ -99,7 +99,7 @@ public class InnerClass implements com.jeantessier.classreader.InnerClass {
     }
 
     public Class_info getRawOuterClassInfo() {
-        return (Class_info) innerClasses.getClassfile().getConstantPool().get(getOuterClassInfoIndex());
+        return (Class_info) innerClasses.getConstantPool().get(getOuterClassInfoIndex());
     }
 
     public String getOuterClassInfo() {
@@ -117,7 +117,7 @@ public class InnerClass implements com.jeantessier.classreader.InnerClass {
     }
 
     public UTF8_info getRawInnerName() {
-        return (UTF8_info) innerClasses.getClassfile().getConstantPool().get(getInnerNameIndex());
+        return (UTF8_info) innerClasses.getConstantPool().get(getInnerNameIndex());
     }
 
     public String getInnerName() {

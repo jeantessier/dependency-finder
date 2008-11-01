@@ -40,18 +40,18 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class Annotation implements com.jeantessier.classreader.Annotation {
-    private Classfile classfile;
+    private ConstantPool constantPool;
 
     private Collection<ElementValuePair> elementValuePairs = new LinkedList<ElementValuePair>();
 
     private int typeIndex;
 
-    public Annotation(Classfile classfile, DataInput in) throws IOException {
-        this(classfile, in, new ElementValueFactory());
+    public Annotation(ConstantPool constantPool, DataInput in) throws IOException {
+        this(constantPool, in, new ElementValueFactory());
     }
 
-    public Annotation(Classfile classfile, DataInput in, ElementValueFactory elementValueFactory) throws IOException {
-        this.classfile = classfile;
+    public Annotation(ConstantPool constantPool, DataInput in, ElementValueFactory elementValueFactory) throws IOException {
+        this.constantPool = constantPool;
 
         typeIndex = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Type index: " + typeIndex);
@@ -60,12 +60,12 @@ public class Annotation implements com.jeantessier.classreader.Annotation {
         Logger.getLogger(getClass()).debug("Reading " + numElementValuePairs + " element value pair(s) ...");
         for (int i=0; i<numElementValuePairs; i++) {
             Logger.getLogger(getClass()).debug("Element value pair " + i + ":");
-            elementValuePairs.add(new ElementValuePair(classfile, in, elementValueFactory));
+            elementValuePairs.add(new ElementValuePair(constantPool, in, elementValueFactory));
         }
     }
 
-    public Classfile getClassfile() {
-        return classfile;
+    public ConstantPool getConstantPool() {
+        return constantPool;
     }
 
     public int getTypeIndex() {
@@ -73,7 +73,7 @@ public class Annotation implements com.jeantessier.classreader.Annotation {
     }
 
     public Class_info getRawType() {
-        return (Class_info) getClassfile().getConstantPool().get(getTypeIndex());
+        return (Class_info) getConstantPool().get(getTypeIndex());
     }
 
     public String getType() {

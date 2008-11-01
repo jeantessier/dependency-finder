@@ -46,7 +46,7 @@ public class TestCharConstantElementValue extends TestAnnotationsBase {
 
         expectReadU2(CONST_VALUE_INDEX);
 
-        sut = new CharConstantElementValue(mockClassfile, mockIn);
+        sut = new CharConstantElementValue(mockConstantPool, mockIn);
     }
 
     public void testGetConstValue() {

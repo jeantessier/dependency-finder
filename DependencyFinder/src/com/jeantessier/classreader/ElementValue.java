@@ -33,6 +33,6 @@
 package com.jeantessier.classreader;
 
 public interface ElementValue extends Visitable {
-    public Classfile getClassfile();
+    public ConstantPool getConstantPool();
     public char getTag();
 }

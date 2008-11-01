@@ -47,7 +47,7 @@ public class TestSourceDebugExtension_attribute extends TestAttributeBase {
         expectReadAttributeLength(0);
         expectReadUtf(DEBUG_EXTENSION);
 
-        sut = new SourceDebugExtension_attribute(mockClassfile, mockOwner, mockIn);
+        sut = new SourceDebugExtension_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
     public void testGetDebugExtension() {

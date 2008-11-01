@@ -44,7 +44,7 @@ public class TestArrayElementValue extends TestAnnotationsBase {
 
         expectReadNumValues(0);
 
-        sut = new ArrayElementValue(mockClassfile, mockIn, mockElementValueFactory);
+        sut = new ArrayElementValue(mockConstantPool, mockIn, mockElementValueFactory);
     }
 
     public void testGetTag() {

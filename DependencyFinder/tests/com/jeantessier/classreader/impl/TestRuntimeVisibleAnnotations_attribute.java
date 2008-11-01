@@ -36,6 +36,6 @@ import java.io.*;
 
 public class TestRuntimeVisibleAnnotations_attribute extends TestRuntimeAnnotationsBase {
     protected RuntimeAnnotations_attribute createSut() throws IOException {
-        return new RuntimeVisibleAnnotations_attribute(mockClassfile, mockOwner, mockIn);
+        return new RuntimeVisibleAnnotations_attribute(mockConstantPool, mockOwner, mockIn);
     }
 }

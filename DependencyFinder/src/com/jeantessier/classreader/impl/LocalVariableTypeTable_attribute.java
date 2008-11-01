@@ -42,8 +42,8 @@ import com.jeantessier.classreader.*;
 public class LocalVariableTypeTable_attribute extends Attribute_info implements com.jeantessier.classreader.LocalVariableTypeTable_attribute {
     private Collection<LocalVariableType> localVariableTypes = new LinkedList<LocalVariableType>();
 
-    public LocalVariableTypeTable_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        super(classfile, owner);
+    public LocalVariableTypeTable_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+        super(constantPool, owner);
 
         int byteCount = in.readInt();
         Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);

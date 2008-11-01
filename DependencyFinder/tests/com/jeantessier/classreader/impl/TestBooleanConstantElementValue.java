@@ -46,7 +46,7 @@ public class TestBooleanConstantElementValue extends TestAnnotationsBase {
 
         expectReadU2(CONST_VALUE_INDEX);
 
-        sut = new BooleanConstantElementValue(mockClassfile, mockIn);
+        sut = new BooleanConstantElementValue(mockConstantPool, mockIn);
     }
 
     public void testGetConstValueFalse() {

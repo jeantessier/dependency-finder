@@ -41,8 +41,8 @@ import com.jeantessier.classreader.*;
 public class SourceFile_attribute extends Attribute_info implements com.jeantessier.classreader.SourceFile_attribute {
     private int sourceFileIndex;
 
-    public SourceFile_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        super(classfile, owner);
+    public SourceFile_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+        super(constantPool, owner);
 
         int byteCount = in.readInt();
         Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
@@ -56,7 +56,7 @@ public class SourceFile_attribute extends Attribute_info implements com.jeantess
     }
 
     public UTF8_info getRawSourceFile() {
-        return (UTF8_info) getClassfile().getConstantPool().get(getSourceFileIndex());
+        return (UTF8_info) getConstantPool().get(getSourceFileIndex());
     }
 
     public String getSourceFile() {

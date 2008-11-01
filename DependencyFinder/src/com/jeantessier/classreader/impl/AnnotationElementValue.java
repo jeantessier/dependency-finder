@@ -41,8 +41,8 @@ import com.jeantessier.classreader.*;
 public class AnnotationElementValue extends ElementValue implements com.jeantessier.classreader.AnnotationElementValue {
     private Annotation annotation;
 
-    public AnnotationElementValue(Classfile classfile, DataInput in) throws IOException {
-        super(classfile);
+    public AnnotationElementValue(ConstantPool constantPool, DataInput in) throws IOException {
+        super(constantPool);
 
         annotation = new Annotation(null, in);
         Logger.getLogger(getClass()).debug("Annotation: " + annotation);

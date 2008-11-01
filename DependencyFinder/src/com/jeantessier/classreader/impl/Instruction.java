@@ -737,7 +737,7 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
             case 0xc0: // checkcast
             case 0xc1: // instanceof
             case 0xc5: // multianewarray
-                result = getCode().getClassfile().getConstantPool().get(getIndex());
+                result = getCode().getConstantPool().get(getIndex());
                 break;
             default:
                 result = null;

@@ -42,8 +42,8 @@ import com.jeantessier.classreader.*;
 public abstract class RuntimeAnnotations_attribute extends Annotations_attribute implements com.jeantessier.classreader.RuntimeAnnotations_attribute {
     private Collection<Annotation> annotations = new LinkedList<Annotation>();
 
-    public RuntimeAnnotations_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        super(classfile, owner);
+    public RuntimeAnnotations_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+        super(constantPool, owner);
 
         int byteCount = in.readInt();
         Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
@@ -52,7 +52,7 @@ public abstract class RuntimeAnnotations_attribute extends Annotations_attribute
         Logger.getLogger(getClass()).debug("Reading " + numAnnotations + " annotation(s) ...");
         for (int i=0; i<numAnnotations; i++) {
             Logger.getLogger(getClass()).debug("annotation " + i + ":");
-            annotations.add(new Annotation(classfile, in));
+            annotations.add(new Annotation(constantPool, in));
         }
     }
 

@@ -71,7 +71,7 @@ public abstract class Feature_info implements com.jeantessier.classreader.Featur
         Logger.getLogger(getClass()).debug("Reading " + attributeCount + " " + getFeatureType() + " attribute(s)");
         for (int i=0; i<attributeCount; i++) {
             Logger.getLogger(getClass()).debug(getFeatureType() + " attribute " + i + ":");
-            attributes.add(attributeFactory.create(getClassfile(), this, in));
+            attributes.add(attributeFactory.create(getClassfile().getConstantPool(), this, in));
         }
     }
 

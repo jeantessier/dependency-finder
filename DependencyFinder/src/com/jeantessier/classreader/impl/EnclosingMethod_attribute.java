@@ -42,8 +42,8 @@ public class EnclosingMethod_attribute extends Attribute_info implements com.jea
     private int classIndex;
     private int methodIndex;
 
-    public EnclosingMethod_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        super(classfile, owner);
+    public EnclosingMethod_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+        super(constantPool, owner);
 
         int byteCount = in.readInt();
         Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
@@ -60,7 +60,7 @@ public class EnclosingMethod_attribute extends Attribute_info implements com.jea
     }
 
     public Class_info getRawClassInfo() {
-        return (Class_info) getClassfile().getConstantPool().get(getClassIndex());
+        return (Class_info) getConstantPool().get(getClassIndex());
     }
 
     public String getClassInfo() {
@@ -78,7 +78,7 @@ public class EnclosingMethod_attribute extends Attribute_info implements com.jea
     }
 
     public NameAndType_info getRawMethod() {
-        return (NameAndType_info) getClassfile().getConstantPool().get(getMethodIndex());
+        return (NameAndType_info) getConstantPool().get(getMethodIndex());
     }
 
     public String getMethod() {

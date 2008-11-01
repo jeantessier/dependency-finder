@@ -35,11 +35,12 @@ package com.jeantessier.classreader.impl;
 import java.io.*;
 
 import org.apache.log4j.*;
+
 import com.jeantessier.classreader.*;
 
 public class Deprecated_attribute extends Attribute_info implements com.jeantessier.classreader.Deprecated_attribute {
-    public Deprecated_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        super(classfile, owner);
+    public Deprecated_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+        super(constantPool, owner);
 
         int byteCount = in.readInt();
         Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);

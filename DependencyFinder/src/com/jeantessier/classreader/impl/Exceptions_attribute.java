@@ -42,8 +42,8 @@ import com.jeantessier.classreader.*;
 public class Exceptions_attribute extends Attribute_info implements com.jeantessier.classreader.Exceptions_attribute {
     private Collection<Class_info> exceptions = new LinkedList<Class_info>();
 
-    public Exceptions_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        super(classfile, owner);
+    public Exceptions_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+        super(constantPool, owner);
 
         int byteCount = in.readInt();
         Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
@@ -52,7 +52,7 @@ public class Exceptions_attribute extends Attribute_info implements com.jeantess
         Logger.getLogger(getClass()).debug("Reading " + exceptionCount + " exception(s) ...");
         for (int i=0; i<exceptionCount; i++) {
             Logger.getLogger(getClass()).debug("Exception " + i + ":");
-            Class_info exception = (Class_info) classfile.getConstantPool().get(in.readUnsignedShort());
+            Class_info exception = (Class_info) constantPool.get(in.readUnsignedShort());
             exceptions.add(exception);
             Logger.getLogger(getClass()).debug("Class " + exception);
         }

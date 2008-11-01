@@ -42,8 +42,8 @@ import com.jeantessier.classreader.*;
 public class InnerClasses_attribute extends Attribute_info implements com.jeantessier.classreader.InnerClasses_attribute {
     private Collection<InnerClass> classes = new LinkedList<InnerClass>();
 
-    public InnerClasses_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        super(classfile, owner);
+    public InnerClasses_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+        super(constantPool, owner);
 
         int byteCount = in.readInt();
         Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);

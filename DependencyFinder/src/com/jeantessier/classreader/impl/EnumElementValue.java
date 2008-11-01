@@ -43,8 +43,8 @@ public class EnumElementValue extends ElementValue implements com.jeantessier.cl
     private int typeNameIndex;
     private int constNameIndex;
 
-    public EnumElementValue(Classfile classfile, DataInput in) throws IOException {
-        super(classfile);
+    public EnumElementValue(ConstantPool constantPool, DataInput in) throws IOException {
+        super(constantPool);
 
         typeNameIndex = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Type name index: " + typeNameIndex);
@@ -58,7 +58,7 @@ public class EnumElementValue extends ElementValue implements com.jeantessier.cl
     }
 
     public UTF8_info getRawTypeName() {
-        return (UTF8_info) getClassfile().getConstantPool().get(getTypeNameIndex());
+        return (UTF8_info) getConstantPool().get(getTypeNameIndex());
     }
 
     public String getTypeName() {
@@ -70,7 +70,7 @@ public class EnumElementValue extends ElementValue implements com.jeantessier.cl
     }
 
     public UTF8_info getRawConstName() {
-        return (UTF8_info) getClassfile().getConstantPool().get(getConstNameIndex());
+        return (UTF8_info) getConstantPool().get(getConstNameIndex());
     }
 
     public String getConstName() {

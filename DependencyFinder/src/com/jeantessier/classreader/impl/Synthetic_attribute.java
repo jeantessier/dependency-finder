@@ -39,8 +39,8 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class Synthetic_attribute extends Attribute_info implements com.jeantessier.classreader.Synthetic_attribute {
-    public Synthetic_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        super(classfile, owner);
+    public Synthetic_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+        super(constantPool, owner);
 
         int byteCount = in.readInt();
         Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);

@@ -49,7 +49,7 @@ public class TestAttributeFactory extends TestAttributeBase {
         expectReadAttributeLength(2);
         expectReadNumAnnotations(0);
 
-        Attribute_info attribute = sut.create(mockClassfile, mockOwner, mockIn);
+        Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
         assertNotNull("AttributeFactory returned null", attribute);
         assertTrue("Not a " + RuntimeVisibleAnnotations_attribute.class.getSimpleName(), RuntimeVisibleAnnotations_attribute.class.isInstance(attribute));
         assertEquals("Num annotations", 0, ((RuntimeAnnotations_attribute) attribute).getAnnotations().size());
@@ -61,7 +61,7 @@ public class TestAttributeFactory extends TestAttributeBase {
         expectReadAttributeLength(2);
         expectReadNumAnnotations(0);
 
-        Attribute_info attribute = sut.create(mockClassfile, mockOwner, mockIn);
+        Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
         assertNotNull("AtributeFactory returned null", attribute);
         assertTrue("Not a " + RuntimeInvisibleAnnotations_attribute.class.getSimpleName(), RuntimeInvisibleAnnotations_attribute.class.isInstance(attribute));
         assertEquals("Num annotations", 0, ((RuntimeAnnotations_attribute) attribute).getAnnotations().size());
@@ -73,7 +73,7 @@ public class TestAttributeFactory extends TestAttributeBase {
         expectReadAttributeLength(2);
         expectReadNumParameters(0);
 
-        Attribute_info attribute = sut.create(mockClassfile, mockOwner, mockIn);
+        Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
         assertNotNull("AttributeFactory returned null", attribute);
         assertTrue("Not a " + RuntimeVisibleParameterAnnotations_attribute.class.getSimpleName(), RuntimeVisibleParameterAnnotations_attribute.class.isInstance(attribute));
         assertEquals("Num parameter annotations", 0, ((RuntimeParameterAnnotations_attribute) attribute).getParameterAnnotations().size());
@@ -85,7 +85,7 @@ public class TestAttributeFactory extends TestAttributeBase {
         expectReadAttributeLength(2);
         expectReadNumParameters(0);
 
-        Attribute_info attribute = sut.create(mockClassfile, mockOwner, mockIn);
+        Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
         assertNotNull("AtributeFactory returned null", attribute);
         assertTrue("Not a " + RuntimeInvisibleParameterAnnotations_attribute.class.getSimpleName(), RuntimeInvisibleParameterAnnotations_attribute.class.isInstance(attribute));
         assertEquals("Num parameter annotations", 0, ((RuntimeParameterAnnotations_attribute) attribute).getParameterAnnotations().size());

@@ -37,8 +37,8 @@ import java.io.*;
 import com.jeantessier.classreader.*;
 
 public class ShortConstantElementValue extends ConstantElementValue implements com.jeantessier.classreader.ShortConstantElementValue {
-    public ShortConstantElementValue(Classfile classfile, DataInput in) throws IOException {
-        super(classfile, in);
+    public ShortConstantElementValue(ConstantPool constantPool, DataInput in) throws IOException {
+        super(constantPool, in);
     }
 
     public short getConstValue() {

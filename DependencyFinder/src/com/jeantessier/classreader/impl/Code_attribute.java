@@ -48,12 +48,12 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
     private Collection<ExceptionHandler> exceptionHandlers = new LinkedList<ExceptionHandler>();
     private Collection<Attribute_info> attributes = new LinkedList<Attribute_info>();
 
-    public Code_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        this(classfile, owner, in, new AttributeFactory());
+    public Code_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+        this(constantPool, owner, in, new AttributeFactory());
     }
 
-    public Code_attribute(Classfile classfile, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
-        super(classfile, owner);
+    public Code_attribute(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+        super(constantPool, owner);
 
         int byteCount = in.readInt();
         Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
@@ -114,7 +114,7 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
         Logger.getLogger(getClass()).debug("Reading " + attributeCount + " code attribute(s)");
         for (int i=0; i<attributeCount; i++) {
             Logger.getLogger(getClass()).debug("code attribute " + i + ":");
-            attributes.add(attributeFactory.create(getClassfile(), this, in));
+            attributes.add(attributeFactory.create(getConstantPool(), this, in));
         }
     }
 

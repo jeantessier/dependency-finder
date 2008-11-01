@@ -48,7 +48,7 @@ public class TestAnnotationElementValue extends TestAnnotationsBase {
 
         expectReadAnnotation(TYPE_INDEX, 0);
 
-        sut = new AnnotationElementValue(mockClassfile, mockIn);
+        sut = new AnnotationElementValue(mockConstantPool, mockIn);
     }
 
     public void testGetAnnotation() throws IOException {

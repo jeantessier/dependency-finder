@@ -136,7 +136,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         Logger.getLogger(getClass()).debug("Reading " + attributeCount + " class attribute(s)");
         for (int i=0; i<attributeCount; i++) {
             Logger.getLogger(getClass()).debug("Attribute " + i + ":");
-            attributes.add(attributeFactory.create(this, this, in));
+            attributes.add(attributeFactory.create(constantPool, this, in));
         }
     }
 

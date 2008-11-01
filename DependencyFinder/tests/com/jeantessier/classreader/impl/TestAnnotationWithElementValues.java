@@ -60,12 +60,12 @@ public class TestAnnotationWithElementValues extends TestAnnotationsBase {
                 one (mockIn).readUnsignedShort();
                     inSequence(dataReads);
                     will(returnValue(i + 1));
-                one (mockElementValueFactory).create(mockClassfile, mockIn);
+                one (mockElementValueFactory).create(mockConstantPool, mockIn);
                     inSequence(dataReads);
             }
         }});
 
-        Annotation sut = new Annotation(mockClassfile, mockIn, mockElementValueFactory);
+        Annotation sut = new Annotation(mockConstantPool, mockIn, mockElementValueFactory);
         assertEquals("Num element value pairs", numElementValuePairs, sut.getElementValuePairs().size());
     }
 }

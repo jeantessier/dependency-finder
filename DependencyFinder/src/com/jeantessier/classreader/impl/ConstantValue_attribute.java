@@ -41,8 +41,8 @@ import com.jeantessier.classreader.*;
 public class ConstantValue_attribute extends Attribute_info implements com.jeantessier.classreader.ConstantValue_attribute {
     private int valueIndex;
 
-    public ConstantValue_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        super(classfile, owner);
+    public ConstantValue_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+        super(constantPool, owner);
 
         int byteCount = in.readInt();
         Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
@@ -56,7 +56,7 @@ public class ConstantValue_attribute extends Attribute_info implements com.jeant
     }
 
     public com.jeantessier.classreader.ConstantPoolEntry getRawValue() {
-        return getClassfile().getConstantPool().get(getValueIndex());
+        return getConstantPool().get(getValueIndex());
     }
 
     public String toString() {

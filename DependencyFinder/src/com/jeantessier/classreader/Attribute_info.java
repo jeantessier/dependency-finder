@@ -33,6 +33,6 @@
 package com.jeantessier.classreader;
 
 public interface Attribute_info extends Visitable {
-    public Classfile getClassfile();
+    public ConstantPool getConstantPool();
     public Visitable getOwner();
 }

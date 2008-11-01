@@ -50,7 +50,7 @@ public class TestEnumElementValue extends TestAnnotationsBase {
         expectReadU2(TYPE_NAME_INDEX);
         expectReadU2(CONST_NAME_INDEX);
 
-        sut = new EnumElementValue(mockClassfile, mockIn);
+        sut = new EnumElementValue(mockConstantPool, mockIn);
     }
 
     public void testGetTypeName() {

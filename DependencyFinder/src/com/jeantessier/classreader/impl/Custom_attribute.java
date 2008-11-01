@@ -43,12 +43,12 @@ public class Custom_attribute extends Attribute_info implements com.jeantessier.
     private String name;
     private byte[] info;
 
-    public Custom_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        this("", classfile, owner, in);
+    public Custom_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+        this("", constantPool, owner, in);
     }
 
-    public Custom_attribute(String name, Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        super(classfile, owner);
+    public Custom_attribute(String name, ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+        super(constantPool, owner);
 
         this.name = name;
 

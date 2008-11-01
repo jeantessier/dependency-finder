@@ -37,8 +37,8 @@ import java.io.*;
 import com.jeantessier.classreader.*;
 
 public class ByteConstantElementValue extends ConstantElementValue implements com.jeantessier.classreader.ByteConstantElementValue {
-    public ByteConstantElementValue(Classfile classfile, DataInput in) throws IOException {
-        super(classfile, in);
+    public ByteConstantElementValue(ConstantPool constantPool, DataInput in) throws IOException {
+        super(constantPool, in);
     }
 
     public byte getConstValue() {

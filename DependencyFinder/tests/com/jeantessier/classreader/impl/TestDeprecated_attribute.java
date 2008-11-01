@@ -44,7 +44,7 @@ public class TestDeprecated_attribute extends TestAttributeBase {
 
         expectReadAttributeLength(0);
 
-        sut = new Deprecated_attribute(mockClassfile, mockOwner, mockIn);
+        sut = new Deprecated_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
     public void testAccept() {

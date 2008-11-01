@@ -46,7 +46,7 @@ public class TestIntegerConstantElementValue extends TestAnnotationsBase {
 
         expectReadU2(CONST_VALUE_INDEX);
 
-        sut = new IntegerConstantElementValue(mockClassfile, mockIn);
+        sut = new IntegerConstantElementValue(mockConstantPool, mockIn);
     }
 
     public void testGetConstValue() {

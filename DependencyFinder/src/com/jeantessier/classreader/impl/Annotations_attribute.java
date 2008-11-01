@@ -35,7 +35,7 @@ package com.jeantessier.classreader.impl;
 import com.jeantessier.classreader.*;
 
 public abstract class Annotations_attribute extends Attribute_info implements com.jeantessier.classreader.Annotations_attribute {
-    public Annotations_attribute(Classfile classfile, Visitable owner) {
-        super(classfile, owner);
+    public Annotations_attribute(ConstantPool constantPool, Visitable owner) {
+        super(constantPool, owner);
     }
 }

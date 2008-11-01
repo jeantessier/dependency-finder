@@ -46,7 +46,7 @@ public class TestByteConstantElementValue extends TestAnnotationsBase {
         
         expectReadU2(CONST_VALUE_INDEX);
 
-        sut = new ByteConstantElementValue(mockClassfile, mockIn);
+        sut = new ByteConstantElementValue(mockConstantPool, mockIn);
     }
 
     public void testGetConstValue() {

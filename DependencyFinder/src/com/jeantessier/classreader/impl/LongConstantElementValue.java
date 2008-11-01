@@ -37,8 +37,8 @@ import java.io.*;
 import com.jeantessier.classreader.*;
 
 public class LongConstantElementValue extends ConstantElementValue implements com.jeantessier.classreader.LongConstantElementValue {
-    public LongConstantElementValue(Classfile classfile, DataInput in) throws IOException {
-        super(classfile, in);
+    public LongConstantElementValue(ConstantPool constantPool, DataInput in) throws IOException {
+        super(constantPool, in);
     }
 
     public long getConstValue() {

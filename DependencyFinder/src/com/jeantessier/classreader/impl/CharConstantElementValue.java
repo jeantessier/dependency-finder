@@ -37,8 +37,8 @@ import java.io.*;
 import com.jeantessier.classreader.*;
 
 public class CharConstantElementValue extends ConstantElementValue implements com.jeantessier.classreader.CharConstantElementValue {
-    public CharConstantElementValue(Classfile classfile, DataInput in) throws IOException {
-        super(classfile, in);
+    public CharConstantElementValue(ConstantPool constantPool, DataInput in) throws IOException {
+        super(constantPool, in);
     }
 
     public char getConstValue() {

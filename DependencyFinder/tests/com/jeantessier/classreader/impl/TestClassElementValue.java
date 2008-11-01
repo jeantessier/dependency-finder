@@ -47,7 +47,7 @@ public class TestClassElementValue extends TestAnnotationsBase {
 
         expectReadU2(CLASS_INFO_INDEX);
 
-        sut = new ClassElementValue(mockClassfile, mockIn);
+        sut = new ClassElementValue(mockConstantPool, mockIn);
     }
 
     public void testGetTypeName() {

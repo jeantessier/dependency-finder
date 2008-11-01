@@ -122,8 +122,6 @@ public class TestAttributeBase extends MockObjectTestCase {
         final Class_info mockClass_info = mock(Class_info.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).getConstantPool();
-                will(returnValue(mockConstantPool));
             one (mockConstantPool).get(index);
                 will(returnValue(mockClass_info));
             one (mockClass_info).getName();
@@ -135,8 +133,6 @@ public class TestAttributeBase extends MockObjectTestCase {
         final NameAndType_info mockNameAndType_info = mock(NameAndType_info.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).getConstantPool();
-                will(returnValue(mockConstantPool));
             one (mockConstantPool).get(index);
                 will(returnValue(mockNameAndType_info));
             one (mockNameAndType_info).getName();
@@ -150,8 +146,6 @@ public class TestAttributeBase extends MockObjectTestCase {
         final Integer_info mockInteger_info = mock(Integer_info.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).getConstantPool();
-                will(returnValue(mockConstantPool));
             one (mockConstantPool).get(index);
                 will(returnValue(mockInteger_info));
             one (mockInteger_info).getValue();
@@ -163,8 +157,6 @@ public class TestAttributeBase extends MockObjectTestCase {
         final Long_info mockLong_info = mock(Long_info.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).getConstantPool();
-                will(returnValue(mockConstantPool));
             one (mockConstantPool).get(index);
                 will(returnValue(mockLong_info));
             one (mockLong_info).getValue();
@@ -176,8 +168,6 @@ public class TestAttributeBase extends MockObjectTestCase {
         final Float_info mockFloat_info = mock(Float_info.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).getConstantPool();
-                will(returnValue(mockConstantPool));
             one (mockConstantPool).get(index);
                 will(returnValue(mockFloat_info));
             one (mockFloat_info).getValue();
@@ -189,8 +179,6 @@ public class TestAttributeBase extends MockObjectTestCase {
         final Double_info mockDouble_info = mock(Double_info.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).getConstantPool();
-                will(returnValue(mockConstantPool));
             one (mockConstantPool).get(index);
                 will(returnValue(mockDouble_info));
             one (mockDouble_info).getValue();
@@ -202,8 +190,6 @@ public class TestAttributeBase extends MockObjectTestCase {
         final String_info mockString_info = mock(String_info.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).getConstantPool();
-                will(returnValue(mockConstantPool));
             one (mockConstantPool).get(index);
                 will(returnValue(mockString_info));
             one (mockString_info).getValue();
@@ -215,8 +201,6 @@ public class TestAttributeBase extends MockObjectTestCase {
         final UTF8_info mockUtf8_info = mock(UTF8_info.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).getConstantPool();
-                will(returnValue(mockConstantPool));
             one (mockConstantPool).get(index);
                 will(returnValue(mockUtf8_info));
             one (mockUtf8_info).getValue();

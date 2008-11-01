@@ -41,8 +41,8 @@ import com.jeantessier.classreader.*;
 public class Signature_attribute extends Attribute_info implements com.jeantessier.classreader.Signature_attribute {
     private int signatureIndex;
 
-    public Signature_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        super(classfile, owner);
+    public Signature_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+        super(constantPool, owner);
 
         int byteCount = in.readInt();
         Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
@@ -56,7 +56,7 @@ public class Signature_attribute extends Attribute_info implements com.jeantessi
     }
 
     public UTF8_info getRawSignature() {
-        return (UTF8_info) getClassfile().getConstantPool().get(getSignatureIndex());
+        return (UTF8_info) getConstantPool().get(getSignatureIndex());
     }
 
     public String getSignature() {

@@ -82,7 +82,7 @@ public class ExceptionHandler implements com.jeantessier.classreader.ExceptionHa
     }
 
     public Class_info getRawCatchType() {
-        return (Class_info) code.getClassfile().getConstantPool().get(getCatchTypeIndex());
+        return (Class_info) code.getConstantPool().get(getCatchTypeIndex());
     }
 
     public String getCatchType() {

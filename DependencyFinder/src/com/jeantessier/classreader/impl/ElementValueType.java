@@ -36,80 +36,80 @@ import java.io.*;
 
 public enum ElementValueType {
     BYTE(com.jeantessier.classreader.ElementValueType.BYTE) {
-        public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return new ByteConstantElementValue(classfile, in);
+        public ElementValue create(ConstantPool constantPool, DataInput in) throws IOException {
+            return new ByteConstantElementValue(constantPool, in);
         }
     },
 
     CHAR(com.jeantessier.classreader.ElementValueType.CHAR) {
-        public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return new CharConstantElementValue(classfile, in);
+        public ElementValue create(ConstantPool constantPool, DataInput in) throws IOException {
+            return new CharConstantElementValue(constantPool, in);
         }
     },
 
     DOUBLE(com.jeantessier.classreader.ElementValueType.DOUBLE) {
-        public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return new DoubleConstantElementValue(classfile, in);
+        public ElementValue create(ConstantPool constantPool, DataInput in) throws IOException {
+            return new DoubleConstantElementValue(constantPool, in);
         }
     },
 
     FLOAT(com.jeantessier.classreader.ElementValueType.FLOAT) {
-        public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return new FloatConstantElementValue(classfile, in);
+        public ElementValue create(ConstantPool constantPool, DataInput in) throws IOException {
+            return new FloatConstantElementValue(constantPool, in);
         }
     },
 
     INTEGER(com.jeantessier.classreader.ElementValueType.INTEGER) {
-        public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return new IntegerConstantElementValue(classfile, in);
+        public ElementValue create(ConstantPool constantPool, DataInput in) throws IOException {
+            return new IntegerConstantElementValue(constantPool, in);
         }
     },
 
     LONG(com.jeantessier.classreader.ElementValueType.LONG) {
-        public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return new LongConstantElementValue(classfile, in);
+        public ElementValue create(ConstantPool constantPool, DataInput in) throws IOException {
+            return new LongConstantElementValue(constantPool, in);
         }
     },
 
     SHORT(com.jeantessier.classreader.ElementValueType.SHORT) {
-        public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return new ShortConstantElementValue(classfile, in);
+        public ElementValue create(ConstantPool constantPool, DataInput in) throws IOException {
+            return new ShortConstantElementValue(constantPool, in);
         }
     },
 
     BOOLEAN(com.jeantessier.classreader.ElementValueType.BOOLEAN) {
-        public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return new BooleanConstantElementValue(classfile, in);
+        public ElementValue create(ConstantPool constantPool, DataInput in) throws IOException {
+            return new BooleanConstantElementValue(constantPool, in);
         }
     },
 
     STRING(com.jeantessier.classreader.ElementValueType.STRING) {
-        public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return new StringConstantElementValue(classfile, in);
+        public ElementValue create(ConstantPool constantPool, DataInput in) throws IOException {
+            return new StringConstantElementValue(constantPool, in);
         }
     },
 
     ENUM(com.jeantessier.classreader.ElementValueType.ENUM) {
-        public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return new EnumElementValue(classfile, in);
+        public ElementValue create(ConstantPool constantPool, DataInput in) throws IOException {
+            return new EnumElementValue(constantPool, in);
         }
     },
 
     CLASS(com.jeantessier.classreader.ElementValueType.CLASS) {
-        public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return new ClassElementValue(classfile, in);
+        public ElementValue create(ConstantPool constantPool, DataInput in) throws IOException {
+            return new ClassElementValue(constantPool, in);
         }
     },
 
     ANNOTATION(com.jeantessier.classreader.ElementValueType.ANNOTATION) {
-        public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return new AnnotationElementValue(classfile, in);
+        public ElementValue create(ConstantPool constantPool, DataInput in) throws IOException {
+            return new AnnotationElementValue(constantPool, in);
         }
     },
 
     ARRAY(com.jeantessier.classreader.ElementValueType.ARRAY) {
-        public ElementValue create(Classfile classfile, DataInput in) throws IOException {
-            return new ArrayElementValue(classfile, in);
+        public ElementValue create(ConstantPool constantPool, DataInput in) throws IOException {
+            return new ArrayElementValue(constantPool, in);
         }
     };
 
@@ -123,7 +123,7 @@ public enum ElementValueType {
         return elementValueType.getTag();
     }
 
-    public abstract ElementValue create(Classfile classfile, DataInput in) throws IOException;
+    public abstract ElementValue create(ConstantPool constantPool, DataInput in) throws IOException;
 
     public static ElementValueType forTag(char tag) {
         ElementValueType result = null;

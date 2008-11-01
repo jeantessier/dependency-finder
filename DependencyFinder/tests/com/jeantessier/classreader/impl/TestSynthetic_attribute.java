@@ -44,7 +44,7 @@ public class TestSynthetic_attribute extends TestAttributeBase {
 
         expectReadAttributeLength(0);
 
-        sut = new Synthetic_attribute(mockClassfile, mockOwner, mockIn);
+        sut = new Synthetic_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
     public void testAccept() {

@@ -37,8 +37,8 @@ import java.io.*;
 import com.jeantessier.classreader.*;
 
 public class RuntimeVisibleParameterAnnotations_attribute extends RuntimeParameterAnnotations_attribute implements com.jeantessier.classreader.RuntimeVisibleParameterAnnotations_attribute {
-    public RuntimeVisibleParameterAnnotations_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        super(classfile, owner, in);
+    public RuntimeVisibleParameterAnnotations_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+        super(constantPool, owner, in);
     }
 
     public void accept(Visitor visitor) {

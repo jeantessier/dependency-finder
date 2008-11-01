@@ -32,16 +32,14 @@
 
 package com.jeantessier.classreader.impl;
 
-import com.jeantessier.classreader.Classfile;
-
 public abstract class ElementValue implements com.jeantessier.classreader.ElementValue {
-    private Classfile classfile;
+    private ConstantPool constantPool;
 
-    public ElementValue(Classfile classfile) {
-        this.classfile = classfile;
+    public ElementValue(ConstantPool constantPool) {
+        this.constantPool = constantPool;
     }
 
-    public Classfile getClassfile() {
-        return classfile;
+    public ConstantPool getConstantPool() {
+        return constantPool;
     }
 }

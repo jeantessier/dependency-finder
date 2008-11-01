@@ -46,7 +46,7 @@ public class TestDoubleConstantElementValue extends TestAnnotationsBase {
 
         expectReadU2(CONST_VALUE_INDEX);
 
-        sut = new DoubleConstantElementValue(mockClassfile, mockIn);
+        sut = new DoubleConstantElementValue(mockConstantPool, mockIn);
     }
 
     public void testGetConstValue() {

@@ -82,7 +82,7 @@ public class LocalVariableType implements com.jeantessier.classreader.LocalVaria
     }
 
     public UTF8_info getRawName() {
-        return (UTF8_info) getLocalVariableTypeTable().getClassfile().getConstantPool().get(getNameIndex());
+        return (UTF8_info) getLocalVariableTypeTable().getConstantPool().get(getNameIndex());
     }
 
     public String getName() {
@@ -94,7 +94,7 @@ public class LocalVariableType implements com.jeantessier.classreader.LocalVaria
     }
 
     public UTF8_info getRawSignature() {
-        return (UTF8_info) getLocalVariableTypeTable().getClassfile().getConstantPool().get(getSignatureIndex());
+        return (UTF8_info) getLocalVariableTypeTable().getConstantPool().get(getSignatureIndex());
     }
 
     public String getSignature() {

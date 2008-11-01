@@ -40,26 +40,26 @@ import com.jeantessier.classreader.UTF8_info;
 import com.jeantessier.classreader.*;
 
 public class ElementValuePair implements com.jeantessier.classreader.ElementValuePair {
-    private Classfile classfile;
+    private ConstantPool constantPool;
 
     private int elementNameIndex;
     private ElementValue elementValue;
 
-    public ElementValuePair(Classfile classfile, DataInput in) throws IOException {
-        this(classfile, in, new ElementValueFactory());
+    public ElementValuePair(ConstantPool constantPool, DataInput in) throws IOException {
+        this(constantPool, in, new ElementValueFactory());
     }
 
-    public ElementValuePair(Classfile classfile, DataInput in, ElementValueFactory elementValueFactory) throws IOException {
-        this.classfile = classfile;
+    public ElementValuePair(ConstantPool constantPool, DataInput in, ElementValueFactory elementValueFactory) throws IOException {
+        this.constantPool = constantPool;
 
         elementNameIndex = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Element name index: " + elementNameIndex);
 
-        elementValue = elementValueFactory.create(classfile, in);
+        elementValue = elementValueFactory.create(constantPool, in);
     }
 
-    public Classfile getClassfile() {
-        return classfile;
+    public ConstantPool getConstantPool() {
+        return constantPool;
     }
 
     public int getElementNameIndex() {
@@ -67,7 +67,7 @@ public class ElementValuePair implements com.jeantessier.classreader.ElementValu
     }
 
     public UTF8_info getRawElementName() {
-        return (UTF8_info) getClassfile().getConstantPool().get(getElementNameIndex());
+        return (UTF8_info) getConstantPool().get(getElementNameIndex());
     }
 
     public String getElementName() {

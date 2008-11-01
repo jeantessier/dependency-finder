@@ -53,10 +53,10 @@ public class TestArrayElementValueWithContent extends TestAnnotationsBase {
         expectReadNumValues(numValues);
 
         checking(new Expectations() {{
-            exactly(numValues).of (mockElementValueFactory).create(mockClassfile, mockIn);
+            exactly(numValues).of (mockElementValueFactory).create(mockConstantPool, mockIn);
         }});
 
-        ArrayElementValue sut = new ArrayElementValue(mockClassfile, mockIn, mockElementValueFactory);
+        ArrayElementValue sut = new ArrayElementValue(mockConstantPool, mockIn, mockElementValueFactory);
         assertEquals("Num values", numValues, sut.getValues().size());
     }
 }

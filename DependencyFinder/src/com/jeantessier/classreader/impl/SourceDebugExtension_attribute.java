@@ -41,8 +41,8 @@ import com.jeantessier.classreader.*;
 public class SourceDebugExtension_attribute extends Attribute_info implements com.jeantessier.classreader.SourceDebugExtension_attribute {
     private String debugExtension;
 
-    public SourceDebugExtension_attribute(Classfile classfile, Visitable owner, DataInput in) throws IOException {
-        super(classfile, owner);
+    public SourceDebugExtension_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+        super(constantPool, owner);
 
         int byteCount = in.readInt();
         Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);

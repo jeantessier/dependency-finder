@@ -42,18 +42,18 @@ import com.jeantessier.classreader.*;
 public class ArrayElementValue extends ElementValue implements com.jeantessier.classreader.ArrayElementValue {
     private Collection<ElementValue> values = new ArrayList<ElementValue>();
 
-    public ArrayElementValue(Classfile classfile, DataInput in) throws IOException {
-        this(classfile, in, new ElementValueFactory());
+    public ArrayElementValue(ConstantPool constantPool, DataInput in) throws IOException {
+        this(constantPool, in, new ElementValueFactory());
     }
 
-    public ArrayElementValue(Classfile classfile, DataInput in, ElementValueFactory elementValueFactory) throws IOException {
-        super(classfile);
+    public ArrayElementValue(ConstantPool constantPool, DataInput in, ElementValueFactory elementValueFactory) throws IOException {
+        super(constantPool);
 
         int numValues = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Reading " + numValues + " value(s) ...");
         for (int i = 0; i < numValues; i++) {
             Logger.getLogger(getClass()).debug("value " + i + ":");
-            values.add(elementValueFactory.create(classfile, in));
+            values.add(elementValueFactory.create(constantPool, in));
         }
     }
 

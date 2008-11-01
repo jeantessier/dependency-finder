@@ -46,7 +46,7 @@ public class TestShortConstantElementValue extends TestAnnotationsBase {
 
         expectReadU2(CONST_VALUE_INDEX);
 
-        sut = new ShortConstantElementValue(mockClassfile, mockIn);
+        sut = new ShortConstantElementValue(mockConstantPool, mockIn);
     }
 
     public void testGetConstValue() {

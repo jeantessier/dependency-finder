@@ -52,11 +52,11 @@ public class TestElementValuePair extends TestAnnotationsBase {
         expectReadU2(ELEMENT_NAME_INDEX);
 
         checking(new Expectations() {{
-            one (mockElementValueFactory).create(mockClassfile, mockIn);
+            one (mockElementValueFactory).create(mockConstantPool, mockIn);
                 will(returnValue(mockElementValue));
         }});
 
-        sut = new ElementValuePair(mockClassfile, mockIn, mockElementValueFactory);
+        sut = new ElementValuePair(mockConstantPool, mockIn, mockElementValueFactory);
     }
 
     public void testGetElementName() throws Exception {

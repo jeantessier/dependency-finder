@@ -42,8 +42,8 @@ import com.jeantessier.classreader.*;
 public class ClassElementValue extends ElementValue implements com.jeantessier.classreader.ClassElementValue {
     private int classInfoIndex;
 
-    public ClassElementValue(Classfile classfile, DataInput in) throws IOException {
-        super(classfile);
+    public ClassElementValue(ConstantPool constantPool, DataInput in) throws IOException {
+        super(constantPool);
 
         classInfoIndex = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Class info index: " + classInfoIndex);
@@ -54,7 +54,7 @@ public class ClassElementValue extends ElementValue implements com.jeantessier.c
     }
 
     public UTF8_info getRawClassInfo() {
-        return (UTF8_info) getClassfile().getConstantPool().get(getClassInfoIndex());
+        return (UTF8_info) getConstantPool().get(getClassInfoIndex());
     }
 
     public String getClassInfo() {

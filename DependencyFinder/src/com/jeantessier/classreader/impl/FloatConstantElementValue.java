@@ -37,8 +37,8 @@ import java.io.*;
 import com.jeantessier.classreader.*;
 
 public class FloatConstantElementValue extends ConstantElementValue implements com.jeantessier.classreader.FloatConstantElementValue {
-    public FloatConstantElementValue(Classfile classfile, DataInput in) throws IOException {
-        super(classfile, in);
+    public FloatConstantElementValue(ConstantPool constantPool, DataInput in) throws IOException {
+        super(constantPool, in);
     }
 
     public float getConstValue() {

@@ -46,7 +46,7 @@ public class TestLongConstantElementValue extends TestAnnotationsBase {
 
         expectReadU2(CONST_VALUE_INDEX);
 
-        sut = new LongConstantElementValue(mockClassfile, mockIn);
+        sut = new LongConstantElementValue(mockConstantPool, mockIn);
     }
 
     public void testGetConstValue() {

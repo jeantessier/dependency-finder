@@ -37,8 +37,8 @@ import java.io.*;
 import com.jeantessier.classreader.*;
 
 public class BooleanConstantElementValue extends ConstantElementValue implements com.jeantessier.classreader.BooleanConstantElementValue {
-    public BooleanConstantElementValue(Classfile classfile, DataInput in) throws IOException {
-        super(classfile, in);
+    public BooleanConstantElementValue(ConstantPool constantPool, DataInput in) throws IOException {
+        super(constantPool, in);
     }
 
     /**
