@@ -51,17 +51,7 @@ public class TestStringConstantElementValue extends TestAnnotationsBase {
 
     public void testGetConstValue() {
         final String expectedValue = "abc";
-        final ConstantPool mockConstantPool = mock(ConstantPool.class);
-        final String_info mockString_info = mock(String_info.class);
-
-        checking(new Expectations() {{
-            one (mockClassfile).getConstantPool();
-                will(returnValue(mockConstantPool));
-            one (mockConstantPool).get(CONST_VALUE_INDEX);
-                will(returnValue(mockString_info));
-            one (mockString_info).getValue();
-                will(returnValue(expectedValue));
-        }});
+        expectLookupString(CONST_VALUE_INDEX, expectedValue);
 
         assertEquals(expectedValue, sut.getConstValue());
     }

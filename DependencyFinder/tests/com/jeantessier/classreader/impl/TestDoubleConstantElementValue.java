@@ -51,17 +51,7 @@ public class TestDoubleConstantElementValue extends TestAnnotationsBase {
 
     public void testGetConstValue() {
         final double expectedValue = 1;
-        final ConstantPool mockConstantPool = mock(ConstantPool.class);
-        final Double_info mockDouble_info = mock(Double_info.class);
-
-        checking(new Expectations() {{
-            one (mockClassfile).getConstantPool();
-                will(returnValue(mockConstantPool));
-            one (mockConstantPool).get(CONST_VALUE_INDEX);
-                will(returnValue(mockDouble_info));
-            one (mockDouble_info).getValue();
-                will(returnValue(expectedValue));
-        }});
+        expectLookupDouble(CONST_VALUE_INDEX, expectedValue);
 
         assertEquals(expectedValue, sut.getConstValue(), 0.001);
     }

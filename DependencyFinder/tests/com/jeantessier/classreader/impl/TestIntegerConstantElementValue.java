@@ -51,17 +51,7 @@ public class TestIntegerConstantElementValue extends TestAnnotationsBase {
 
     public void testGetConstValue() {
         final int expectedValue = 1;
-        final ConstantPool mockConstantPool = mock(ConstantPool.class);
-        final Integer_info mockInteger_info = mock(Integer_info.class);
-
-        checking(new Expectations() {{
-            one (mockClassfile).getConstantPool();
-                will(returnValue(mockConstantPool));
-            one (mockConstantPool).get(CONST_VALUE_INDEX);
-                will(returnValue(mockInteger_info));
-            one (mockInteger_info).getValue();
-                will(returnValue(expectedValue));
-        }});
+        expectLookupInteger(CONST_VALUE_INDEX, expectedValue);
 
         assertEquals(expectedValue, sut.getConstValue());
     }

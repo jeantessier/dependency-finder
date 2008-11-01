@@ -50,52 +50,19 @@ public class TestBooleanConstantElementValue extends TestAnnotationsBase {
     }
 
     public void testGetConstValueFalse() {
-        final int expectedValue = 0;
-        final ConstantPool mockConstantPool = mock(ConstantPool.class);
-        final Integer_info mockInteger_info = mock(Integer_info.class);
-
-        checking(new Expectations() {{
-            one (mockClassfile).getConstantPool();
-                will(returnValue(mockConstantPool));
-            one (mockConstantPool).get(CONST_VALUE_INDEX);
-                will(returnValue(mockInteger_info));
-            one (mockInteger_info).getValue();
-                will(returnValue(expectedValue));
-        }});
+        expectLookupInteger(CONST_VALUE_INDEX, 0);
 
         assertFalse(sut.getConstValue());
     }
 
     public void testGetConstValueTrue() {
-        final int expectedValue = 1;
-        final ConstantPool mockConstantPool = mock(ConstantPool.class);
-        final Integer_info mockInteger_info = mock(Integer_info.class);
-
-        checking(new Expectations() {{
-            one (mockClassfile).getConstantPool();
-                will(returnValue(mockConstantPool));
-            one (mockConstantPool).get(CONST_VALUE_INDEX);
-                will(returnValue(mockInteger_info));
-            one (mockInteger_info).getValue();
-                will(returnValue(expectedValue));
-        }});
+        expectLookupInteger(CONST_VALUE_INDEX, 1);
 
         assertTrue(sut.getConstValue());
     }
 
     public void testGetConstValueGreaterThanOneMeansTrue() {
-        final int expectedValue = 2;
-        final ConstantPool mockConstantPool = mock(ConstantPool.class);
-        final Integer_info mockInteger_info = mock(Integer_info.class);
-
-        checking(new Expectations() {{
-            one (mockClassfile).getConstantPool();
-                will(returnValue(mockConstantPool));
-            one (mockConstantPool).get(CONST_VALUE_INDEX);
-                will(returnValue(mockInteger_info));
-            one (mockInteger_info).getValue();
-                will(returnValue(expectedValue));
-        }});
+        expectLookupInteger(CONST_VALUE_INDEX, 2);
 
         assertTrue(sut.getConstValue());
     }

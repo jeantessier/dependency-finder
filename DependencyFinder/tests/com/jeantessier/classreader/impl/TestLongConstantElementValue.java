@@ -51,17 +51,7 @@ public class TestLongConstantElementValue extends TestAnnotationsBase {
 
     public void testGetConstValue() {
         final long expectedValue = 1;
-        final ConstantPool mockConstantPool = mock(ConstantPool.class);
-        final Long_info mockLong_info = mock(Long_info.class);
-
-        checking(new Expectations() {{
-            one (mockClassfile).getConstantPool();
-                will(returnValue(mockConstantPool));
-            one (mockConstantPool).get(CONST_VALUE_INDEX);
-                will(returnValue(mockLong_info));
-            one (mockLong_info).getValue();
-                will(returnValue(expectedValue));
-        }});
+        expectLookupLong(CONST_VALUE_INDEX, expectedValue);
 
         assertEquals(expectedValue, sut.getConstValue());
     }

@@ -51,17 +51,7 @@ public class TestFloatConstantElementValue extends TestAnnotationsBase {
 
     public void testGetConstValue() {
         final float expectedValue = 1;
-        final ConstantPool mockConstantPool = mock(ConstantPool.class);
-        final Float_info mockFloat_info = mock(Float_info.class);
-
-        checking(new Expectations() {{
-            one (mockClassfile).getConstantPool();
-                will(returnValue(mockConstantPool));
-            one (mockConstantPool).get(CONST_VALUE_INDEX);
-                will(returnValue(mockFloat_info));
-            one (mockFloat_info).getValue();
-                will(returnValue(expectedValue));
-        }});
+        expectLookupFloat(CONST_VALUE_INDEX, expectedValue);
 
         assertEquals(expectedValue, sut.getConstValue(), 0.001);
     }

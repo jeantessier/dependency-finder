@@ -116,6 +116,76 @@ public class TestAttributeBase extends MockObjectTestCase {
         }});
     }
 
+    protected void expectLookupInteger(final int index, final int value) {
+        final ConstantPool mockConstantPool = mock(ConstantPool.class);
+        final Integer_info mockInteger_info = mock(Integer_info.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).getConstantPool();
+                will(returnValue(mockConstantPool));
+            one (mockConstantPool).get(index);
+                will(returnValue(mockInteger_info));
+            one (mockInteger_info).getValue();
+                will(returnValue(value));
+        }});
+    }
+
+    protected void expectLookupLong(final int index, final long value) {
+        final ConstantPool mockConstantPool = mock(ConstantPool.class);
+        final Long_info mockLong_info = mock(Long_info.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).getConstantPool();
+                will(returnValue(mockConstantPool));
+            one (mockConstantPool).get(index);
+                will(returnValue(mockLong_info));
+            one (mockLong_info).getValue();
+                will(returnValue(value));
+        }});
+    }
+
+    protected void expectLookupFloat(final int index, final float value) {
+        final ConstantPool mockConstantPool = mock(ConstantPool.class);
+        final Float_info mockFloat_info = mock(Float_info.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).getConstantPool();
+                will(returnValue(mockConstantPool));
+            one (mockConstantPool).get(index);
+                will(returnValue(mockFloat_info));
+            one (mockFloat_info).getValue();
+                will(returnValue(value));
+        }});
+    }
+
+    protected void expectLookupDouble(final int index, final double value) {
+        final ConstantPool mockConstantPool = mock(ConstantPool.class);
+        final Double_info mockDouble_info = mock(Double_info.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).getConstantPool();
+                will(returnValue(mockConstantPool));
+            one (mockConstantPool).get(index);
+                will(returnValue(mockDouble_info));
+            one (mockDouble_info).getValue();
+                will(returnValue(value));
+        }});
+    }
+
+    protected void expectLookupString(final int index, final String value) {
+        final ConstantPool mockConstantPool = mock(ConstantPool.class);
+        final String_info mockString_info = mock(String_info.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).getConstantPool();
+                will(returnValue(mockConstantPool));
+            one (mockConstantPool).get(index);
+                will(returnValue(mockString_info));
+            one (mockString_info).getValue();
+                will(returnValue(value));
+        }});
+    }
+
     protected void expectLookupUtf8(final int index, final String value) {
         final ConstantPool mockConstantPool = mock(ConstantPool.class);
         final UTF8_info mockUtf8_info = mock(UTF8_info.class);
@@ -126,7 +196,7 @@ public class TestAttributeBase extends MockObjectTestCase {
             one (mockConstantPool).get(index);
                 will(returnValue(mockUtf8_info));
             one (mockUtf8_info).getValue();
-            will(returnValue(value));
+                will(returnValue(value));
         }});
     }
 }
