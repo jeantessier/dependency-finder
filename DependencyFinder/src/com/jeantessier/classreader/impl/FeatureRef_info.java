@@ -54,7 +54,7 @@ public abstract class FeatureRef_info extends ConstantPoolEntry implements com.j
     }
 
     public String getClassName() {
-        return getRawClass().toString();
+        return getRawClass().getName();
     }
 
     public String getClassSimpleName() {
@@ -70,13 +70,8 @@ public abstract class FeatureRef_info extends ConstantPoolEntry implements com.j
     }
 
     public String getNameAndType() {
-        StringBuffer result = new StringBuffer();
-
         NameAndType_info nat = getRawNameAndType();
-
-        result.append(nat.getName()).append(nat.getType());
-
-        return result.toString();
+        return nat.getName() + nat.getType();
     }
 
     public abstract String getName();

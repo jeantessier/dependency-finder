@@ -32,36 +32,27 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.jmock.*;
-
 public class TestAnnotation extends TestAnnotationsBase {
     private static final int TYPE_INDEX = 2;
+    private static final String TYPE = "abc";
 
-    public void testConstructorWithZeroElementValuePairs() throws Exception {
+    private Annotation sut;
+
+    protected void setUp() throws Exception {
+        super.setUp();
+
         expectReadAnnotation(TYPE_INDEX, 0);
 
-        Annotation sut = new Annotation(mockClassfile, mockIn);
+        sut = new Annotation(mockClassfile, mockIn);
+    }
+
+    public void testGetClassfile() throws Exception {
         assertSame("Classfile", mockClassfile, sut.getClassfile());
-        assertTrue("New annotation should not contain element value pairs already", sut.getElementValuePairs().isEmpty());
     }
 
     public void testGetType() throws Exception {
-        final String expectedName = "abc";
-        final ConstantPool mockConstantPool = mock(ConstantPool.class);
-        final Class_info mockClass_info = mock(Class_info.class);
+        expectLookupClass(TYPE_INDEX, TYPE);
 
-        expectReadAnnotation(TYPE_INDEX, 0);
-
-        checking(new Expectations() {{
-            one (mockClassfile).getConstantPool();
-                will(returnValue(mockConstantPool));
-            one (mockConstantPool).get(TYPE_INDEX);
-                will(returnValue(mockClass_info));
-            one (mockClass_info).getName();
-                will(returnValue(expectedName));
-        }});
-
-        Annotation sut = new Annotation(mockClassfile, mockIn);
-        assertEquals(expectedName, sut.getType());
+        assertEquals(TYPE, sut.getType());
     }
 }

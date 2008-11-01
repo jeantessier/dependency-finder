@@ -57,15 +57,31 @@ public class TestInterfaceMethodRef_info extends TestAttributeBase {
     }
 
     public void testGetClass() {
-        expectLookupClass(CLASS_INDEX, CLASS);
+        final Class_info mockClass_info = mock(Class_info.class);
+
+        checking(new Expectations() {{
+            one (mockConstantPool).get(CLASS_INDEX);
+                will(returnValue(mockClass_info));
+            one (mockClass_info).getName();
+                will(returnValue(CLASS));
+        }});
 
         assertEquals(CLASS, sut.getClassName());
     }
 
     public void testGetNameAndType() {
-        expectLookupNameAndType(NAME_AND_TYPE_INDEX, NAME, TYPE);
+        final NameAndType_info mockNameAndType_info = mock(NameAndType_info.class);
 
-        assertEquals(NAME + "." + TYPE, sut.getNameAndType());
+        checking(new Expectations() {{
+            one (mockConstantPool).get(NAME_AND_TYPE_INDEX);
+                will(returnValue(mockNameAndType_info));
+            one (mockNameAndType_info).getName();
+                will(returnValue(NAME));
+            one (mockNameAndType_info).getType();
+                will(returnValue(TYPE));
+        }});
+
+        assertEquals(NAME + TYPE, sut.getNameAndType());
     }
 
     public void testAccept() throws Exception {
