@@ -33,29 +33,33 @@
 package com.jeantessier.classreader.impl;
 
 import java.io.*;
-import java.util.*;
 
-import org.apache.log4j.*;
+public class TestParameterWithAnnotations extends TestAttributeBase {
+    private static final int TYPE_INDEX = 2;
 
-import com.jeantessier.classreader.*;
+    public void testConstructorWithNoAnnotations() throws Exception {
+        doTestConstructorWithAnnotations(0);
+    }
 
-public class Parameter implements com.jeantessier.classreader.Parameter {
-    private Collection<Annotation> annotations = new LinkedList<Annotation>();
+    public void testConstructorWithASingleAnnotation() throws Exception {
+        doTestConstructorWithAnnotations(1);
+    }
 
-    public Parameter(ConstantPool constantPool, DataInput in) throws IOException {
-        int numAnnotations = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + numAnnotations + " annotation(s) ...");
-        for (int i=0; i<numAnnotations; i++) {
-            Logger.getLogger(getClass()).debug("Annotation " + i + ":");
-            annotations.add(new Annotation(constantPool, in));
+    public void testConstructorWithMultipleAnnotations() throws Exception {
+        doTestConstructorWithAnnotations(2);
+    }
+
+    private void doTestConstructorWithAnnotations(int numAnnotations) throws IOException {
+        expectReadNumAnnotations(numAnnotations);
+        for (int i = 0; i < numAnnotations; i++) {
+            expectReadTypeIndex(TYPE_INDEX);
+            expectReadNumElementValuePairs(0);
         }
-    }
 
-    public Collection<? extends Annotation> getAnnotations() {
-        return annotations;
-    }
-
-    public void accept(Visitor visitor) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        Parameter sut = new Parameter(mockConstantPool, mockIn);
+        assertEquals("Num annotations", numAnnotations, sut.getAnnotations().size());
+        for (Annotation annotation : sut.getAnnotations()) {
+            assertEquals("Num element value pairs", 0, annotation.getElementValuePairs().size());
+        }
     }
 }

@@ -1,3 +1,7 @@
 Removed =ConstantPool= from the public interface of =*Annotations_attribute=
 components.  The fact that some of them hold on to the constant pool and do
 lookup at runtime is an implementation detail.
+
+Fixed =Parameter= so it actually reads its annotations from the byte stream.  I
+also simplified its interface to remove the back reference to
+=RuntimeParameterAnnotations_attribute=.

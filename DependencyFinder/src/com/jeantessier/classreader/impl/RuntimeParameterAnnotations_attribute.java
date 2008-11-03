@@ -52,7 +52,7 @@ public abstract class RuntimeParameterAnnotations_attribute extends Annotations_
         Logger.getLogger(getClass()).debug("Reading " + numParameters + " parameter(s) ...");
         for (int i=0; i<numParameters; i++) {
             Logger.getLogger(getClass()).debug("parameter " + i + ":");
-            parameterAnnotations.add(new Parameter(this, in));
+            parameterAnnotations.add(new Parameter(constantPool, in));
         }
     }
 

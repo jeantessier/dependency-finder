@@ -35,6 +35,5 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface Parameter extends Visitable {
-    public Annotations_attribute getAnnotations_attribute();
     public Collection<? extends Annotation> getAnnotations();
 }
