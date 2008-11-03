@@ -60,13 +60,13 @@ public class AttributeFactory {
             } else {
                 Logger.getLogger(AttributeFactory.class).debug("Attribute name: " + entry);
 
-                Logger.getLogger(AttributeFactory.class).warn("Unknown attribute with invalid name");
+                Logger.getLogger(AttributeFactory.class).warn("Unknown attribute with invalid name \"" + entry + "\"");
                 result = new Custom_attribute(constantPool, owner, in);
             }
         } else {
             Logger.getLogger(AttributeFactory.class).debug("Attribute name index: " + nameIndex);
 
-            Logger.getLogger(AttributeFactory.class).warn("Unknown attribute with no name");
+            Logger.getLogger(AttributeFactory.class).warn("Unknown attribute with no name (name index = " + nameIndex + ")");
             result = new Custom_attribute(constantPool, owner, in);
         }
 
