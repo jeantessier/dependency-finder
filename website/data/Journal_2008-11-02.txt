@@ -1,0 +1,2 @@
+Exclude abstract base classes for test classes from Ant target to run all
+tests.

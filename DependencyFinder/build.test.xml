@@ -172,6 +172,10 @@
                     <include name="com/jeantessier/classreader/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
                     <exclude name="**/classreader/TestClassfileLoaderBase.java"/>
+                    <exclude name="**/classreader/impl/TestAnnotationsBase.java"/>
+                    <exclude name="**/classreader/impl/TestAttributeBase.java"/>
+                    <exclude name="**/classreader/impl/TestRuntimeAnnotationsBase.java"/>
+                    <exclude name="**/classreader/impl/TestRuntimeParameterAnnotationsBase.java"/>
                 </fileset>
             </batchtest>
         </junit>
