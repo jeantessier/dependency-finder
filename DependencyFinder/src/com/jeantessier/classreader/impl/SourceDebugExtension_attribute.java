@@ -59,6 +59,10 @@ public class SourceDebugExtension_attribute extends Attribute_info implements co
         return "Debug extension \"" + getDebugExtension() + "\"";
     }
 
+    public String getAttributeName() {
+        return AttributeType.SOURCE_DEBUG_EXTENSION.getAttributeName();
+    }
+
     public void accept(Visitor visitor) {
         visitor.visitSourceDebugExtension_attribute(this);
     }

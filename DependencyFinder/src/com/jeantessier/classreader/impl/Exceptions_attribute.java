@@ -62,8 +62,8 @@ public class Exceptions_attribute extends Attribute_info implements com.jeantess
         return exceptions;
     }
 
-    public String toString() {
-        return "Exceptions";
+    public String getAttributeName() {
+        return AttributeType.EXCEPTIONS.getAttributeName();
     }
 
     public void accept(Visitor visitor) {

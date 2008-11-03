@@ -75,6 +75,10 @@ public class Custom_attribute extends Attribute_info implements com.jeantessier.
         return "Custom \"" + name + "\" " + getInfo().length + " byte(s)";
     }
 
+    public String getAttributeName() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     public void accept(Visitor visitor) {
         visitor.visitCustom_attribute(this);
     }

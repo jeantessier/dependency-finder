@@ -41,6 +41,10 @@ public class RuntimeVisibleParameterAnnotations_attribute extends RuntimeParamet
         super(constantPool, owner, in);
     }
 
+    public String getAttributeName() {
+        return AttributeType.RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS.getAttributeName();
+    }
+
     public void accept(Visitor visitor) {
         //To change body of implemented methods use File | Settings | File Templates.
     }

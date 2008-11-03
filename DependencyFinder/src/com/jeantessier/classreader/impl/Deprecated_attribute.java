@@ -50,6 +50,10 @@ public class Deprecated_attribute extends Attribute_info implements com.jeantess
         return "Deprecated";
     }
 
+    public String getAttributeName() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     public void accept(Visitor visitor) {
         visitor.visitDeprecated_attribute(this);
     }

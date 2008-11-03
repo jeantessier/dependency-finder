@@ -34,4 +34,5 @@ package com.jeantessier.classreader;
 
 public interface Attribute_info extends Visitable {
     public Visitable getOwner();
+    public String getAttributeName();
 }

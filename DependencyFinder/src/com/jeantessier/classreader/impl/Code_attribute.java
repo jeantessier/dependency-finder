@@ -146,6 +146,10 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
         return "Code";
     }
 
+    public String getAttributeName() {
+        return AttributeType.CODE.getAttributeName();
+    }
+
     public void accept(Visitor visitor) {
         visitor.visitCode_attribute(this);
     }

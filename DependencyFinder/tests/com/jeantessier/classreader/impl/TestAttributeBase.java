@@ -110,6 +110,13 @@ public class TestAttributeBase extends MockObjectTestCase {
         }});
     }
 
+    protected void expectReadFully() throws IOException {
+        checking(new Expectations() {{
+            one (mockIn).readFully((byte[]) with(any(Object.class)));
+                inSequence(dataReads);
+        }});
+    }
+
     protected void expectReadUtf(final String s) throws IOException {
         checking(new Expectations() {{
             one (mockIn).readUTF();

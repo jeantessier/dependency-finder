@@ -64,6 +64,10 @@ public class LocalVariableTable_attribute extends Attribute_info implements com.
         return "Local Variable Table";
     }
 
+    public String getAttributeName() {
+        return AttributeType.LOCAL_VARIABLE_TABLE.getAttributeName();
+    }
+
     public void accept(Visitor visitor) {
         visitor.visitLocalVariableTable_attribute(this);
     }

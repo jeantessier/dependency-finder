@@ -54,6 +54,10 @@ public class TestSourceDebugExtension_attribute extends TestAttributeBase {
         assertEquals(DEBUG_EXTENSION, sut.getDebugExtension());
     }
 
+    public void testGetName() {
+        assertEquals(AttributeType.SOURCE_DEBUG_EXTENSION.getAttributeName(), sut.getAttributeName());
+    }
+
     public void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 

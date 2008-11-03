@@ -47,6 +47,10 @@ public class TestSynthetic_attribute extends TestAttributeBase {
         sut = new Synthetic_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
+    public void testGetName() {
+        assertEquals(AttributeType.SYNTHETIC.getAttributeName(), sut.getAttributeName());
+    }
+
     public void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 

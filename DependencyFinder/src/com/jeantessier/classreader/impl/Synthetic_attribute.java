@@ -50,6 +50,10 @@ public class Synthetic_attribute extends Attribute_info implements com.jeantessi
         return "Synthetic";
     }
 
+    public String getAttributeName() {
+        return AttributeType.SYNTHETIC.getAttributeName();
+    }
+
     public void accept(Visitor visitor) {
         visitor.visitSynthetic_attribute(this);
     }

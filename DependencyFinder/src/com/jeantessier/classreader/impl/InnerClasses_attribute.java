@@ -64,6 +64,10 @@ public class InnerClasses_attribute extends Attribute_info implements com.jeante
         return "InnerClasses";
     }
 
+    public String getAttributeName() {
+        return AttributeType.INNER_CLASSES.getAttributeName();
+    }
+
     public void accept(Visitor visitor) {
         visitor.visitInnerClasses_attribute(this);
     }

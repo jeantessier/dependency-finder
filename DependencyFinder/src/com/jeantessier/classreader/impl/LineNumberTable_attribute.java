@@ -64,6 +64,10 @@ public class LineNumberTable_attribute extends Attribute_info implements com.jea
         return "Line Number Table";
     }
 
+    public String getAttributeName() {
+        return AttributeType.LINE_NUMBER_TABLE.getAttributeName();
+    }
+
     public void accept(Visitor visitor) {
         visitor.visitLineNumberTable_attribute(this);
     }

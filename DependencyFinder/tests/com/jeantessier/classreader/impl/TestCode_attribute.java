@@ -32,43 +32,62 @@
 
 package com.jeantessier.classreader.impl;
 
-import java.io.*;
-import java.util.*;
+import org.jmock.*;
 
-import org.apache.log4j.*;
-
+import com.jeantessier.classreader.AttributeType;
 import com.jeantessier.classreader.*;
 
-public class LocalVariableTypeTable_attribute extends Attribute_info implements com.jeantessier.classreader.LocalVariableTypeTable_attribute {
-    private Collection<LocalVariableType> localVariableTypes = new LinkedList<LocalVariableType>();
+public class TestCode_attribute extends TestAttributeBase {
+    private static final int MAX_STACK = 2;
+    private static final int MAX_LOCALS = 3;
 
-    public LocalVariableTypeTable_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
-        super(constantPool, owner);
+    private Code_attribute sut;
 
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+    protected void setUp() throws Exception {
+        super.setUp();
 
-        int localVariableTableTypeLength = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + localVariableTableTypeLength + " local variable type(s) ...");
-        for (int i=0; i<localVariableTableTypeLength; i++) {
-            Logger.getLogger(getClass()).debug("Local variable type " + i + ":");
-            localVariableTypes.add(new LocalVariableType(this, in));
-        }
+        expectReadAttributeLength(12);
+        expectReadU2(MAX_STACK);
+        expectReadU2(MAX_LOCALS);
+        expectReadU4(0);
+        expectReadFully();
+        expectReadU2(0);
+        expectReadU2(0);
+
+        sut = new Code_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
-    public Collection<LocalVariableType> getLocalVariableTypes() {
-        return localVariableTypes;
+    public void testGetMaxStack() {
+        assertEquals("Max stack", MAX_STACK, sut.getMaxStack());
     }
 
-    public String toString() {
-        return "Local Variable Type Table";
+    public void testGetMaxLocals() {
+        assertEquals("Max locals", MAX_LOCALS, sut.getMaxLocals());
     }
 
-    public String getAttributeName() {
-        return AttributeType.LOCAL_VARIABLE_TYPE_TABLE.getAttributeName();
+    public void testGetCode() {
+        assertEquals("Code length", 0, sut.getCode().length);
     }
 
-    public void accept(Visitor visitor) {
-        visitor.visitLocalVariableTypeTable_attribute(this);
+    public void testGetExceptionHandlers() {
+        assertEquals("Exception handlers", 0, sut.getExceptionHandlers().size());
+    }
+
+    public void testGetAttributes() {
+        assertEquals("Attributes", 0, sut.getAttributes().size());
+    }
+
+    public void testGetName() {
+        assertEquals(AttributeType.CODE.getAttributeName(), sut.getAttributeName());
+    }
+
+    public void testAccept() {
+        final Visitor mockVisitor = mock(Visitor.class);
+
+        checking(new Expectations() {{
+            one (mockVisitor).visitCode_attribute(sut);
+        }});
+
+        sut.accept(mockVisitor);
     }
 }

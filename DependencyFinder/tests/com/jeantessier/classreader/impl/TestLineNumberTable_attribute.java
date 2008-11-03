@@ -32,43 +32,37 @@
 
 package com.jeantessier.classreader.impl;
 
-import java.io.*;
-import java.util.*;
-
-import org.apache.log4j.*;
+import org.jmock.*;
 
 import com.jeantessier.classreader.*;
 
-public class LocalVariableTypeTable_attribute extends Attribute_info implements com.jeantessier.classreader.LocalVariableTypeTable_attribute {
-    private Collection<LocalVariableType> localVariableTypes = new LinkedList<LocalVariableType>();
+public class TestLineNumberTable_attribute extends TestAttributeBase {
+    private LineNumberTable_attribute sut;
 
-    public LocalVariableTypeTable_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
-        super(constantPool, owner);
+    protected void setUp() throws Exception {
+        super.setUp();
 
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        expectReadAttributeLength(2);
+        expectReadU2(0);
 
-        int localVariableTableTypeLength = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + localVariableTableTypeLength + " local variable type(s) ...");
-        for (int i=0; i<localVariableTableTypeLength; i++) {
-            Logger.getLogger(getClass()).debug("Local variable type " + i + ":");
-            localVariableTypes.add(new LocalVariableType(this, in));
-        }
+        sut = new LineNumberTable_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
-    public Collection<LocalVariableType> getLocalVariableTypes() {
-        return localVariableTypes;
+    public void testGetLineNumbers() {
+        assertEquals(0, sut.getLineNumbers().size());
     }
 
-    public String toString() {
-        return "Local Variable Type Table";
+    public void testGetName() {
+        assertEquals(AttributeType.LINE_NUMBER_TABLE.getAttributeName(), sut.getAttributeName());
     }
 
-    public String getAttributeName() {
-        return AttributeType.LOCAL_VARIABLE_TYPE_TABLE.getAttributeName();
-    }
+    public void testAccept() {
+        final Visitor mockVisitor = mock(Visitor.class);
 
-    public void accept(Visitor visitor) {
-        visitor.visitLocalVariableTypeTable_attribute(this);
+        checking(new Expectations() {{
+            one (mockVisitor).visitLineNumberTable_attribute(sut);
+        }});
+
+        sut.accept(mockVisitor);
     }
 }

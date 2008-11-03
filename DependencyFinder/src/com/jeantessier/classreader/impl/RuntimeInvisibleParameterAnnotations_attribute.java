@@ -41,6 +41,10 @@ public class RuntimeInvisibleParameterAnnotations_attribute extends RuntimeParam
         super(constantPool, owner, in);
     }
 
+    public String getAttributeName() {
+        return AttributeType.RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS.getAttributeName();
+    }
+
     public void accept(Visitor visitor) {
         //To change body of implemented methods use File | Settings | File Templates.
     }

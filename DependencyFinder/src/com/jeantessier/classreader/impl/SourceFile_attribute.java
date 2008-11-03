@@ -48,7 +48,7 @@ public class SourceFile_attribute extends Attribute_info implements com.jeantess
         Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
         sourceFileIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Source file: " + sourceFileIndex + " (" + getSourceFile() + ")");
+        Logger.getLogger(getClass()).debug("Source file: " + sourceFileIndex);
     }
 
     public int getSourceFileIndex() {
@@ -60,11 +60,15 @@ public class SourceFile_attribute extends Attribute_info implements com.jeantess
     }
 
     public String getSourceFile() {
-        return getRawSourceFile().toString();
+        return getRawSourceFile().getValue();
     }
 
     public String toString() {
         return "Source file \"" + getSourceFile() + "\"";
+    }
+
+    public String getAttributeName() {
+        return AttributeType.SOURCE_FILE.getAttributeName();
     }
 
     public void accept(Visitor visitor) {

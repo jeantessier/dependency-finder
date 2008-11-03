@@ -38,4 +38,8 @@ public class TestRuntimeVisibleParameterAnnotations_attribute extends TestRuntim
     protected RuntimeParameterAnnotations_attribute createSut() throws IOException {
         return new RuntimeVisibleParameterAnnotations_attribute(mockConstantPool, mockOwner, mockIn);
     }
+
+    protected AttributeType getAttributeType() {
+        return AttributeType.RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS;
+    }
 }

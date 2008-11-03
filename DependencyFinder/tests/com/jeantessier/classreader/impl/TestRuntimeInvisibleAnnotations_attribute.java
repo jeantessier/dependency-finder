@@ -38,4 +38,8 @@ public class TestRuntimeInvisibleAnnotations_attribute extends TestRuntimeAnnota
     protected RuntimeAnnotations_attribute createSut() throws IOException {
         return new RuntimeInvisibleAnnotations_attribute(mockConstantPool, mockOwner, mockIn);
     }
+
+    protected AttributeType getAttributeType() {
+        return AttributeType.RUNTIME_INVISIBLE_ANNOTATIONS;
+    }
 }

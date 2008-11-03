@@ -47,6 +47,14 @@ public abstract class TestRuntimeParameterAnnotationsBase extends TestAnnotation
         doTestConstructorWithParametersWithAnnotations(0, 0, 0);
     }
 
+    public void testGetName() throws Exception {
+        expectReadAttributeLength(2);
+        expectReadNumParameters(0);
+
+        RuntimeParameterAnnotations_attribute sut = createSut();
+        assertEquals(getAttributeType().getAttributeName(), sut.getAttributeName());
+    }
+
     private void doTestConstructorWithParametersWithAnnotations(int ... numAnnotationsPerParameter) throws IOException {
         expectReadAttributeLength(estimateTotalSize(numAnnotationsPerParameter));
         expectReadNumParameters(numAnnotationsPerParameter.length);
@@ -76,4 +84,5 @@ public abstract class TestRuntimeParameterAnnotationsBase extends TestAnnotation
     }
 
     protected abstract RuntimeParameterAnnotations_attribute createSut() throws IOException;
+    protected abstract AttributeType getAttributeType();
 }

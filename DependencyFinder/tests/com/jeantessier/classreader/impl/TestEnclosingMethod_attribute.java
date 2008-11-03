@@ -32,43 +32,53 @@
 
 package com.jeantessier.classreader.impl;
 
-import java.io.*;
-import java.util.*;
+import org.jmock.*;
 
-import org.apache.log4j.*;
-
+import com.jeantessier.classreader.AttributeType;
 import com.jeantessier.classreader.*;
 
-public class LocalVariableTypeTable_attribute extends Attribute_info implements com.jeantessier.classreader.LocalVariableTypeTable_attribute {
-    private Collection<LocalVariableType> localVariableTypes = new LinkedList<LocalVariableType>();
+public class TestEnclosingMethod_attribute extends TestAttributeBase {
+    private static final int CLASS_INDEX = 2;
+    private static final String CLASS = "abc";
+    private static final int METHOD_INDEX = 3;
+    private static final String NAME = "def";
+    private static final String TYPE = "ghi";
 
-    public LocalVariableTypeTable_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
-        super(constantPool, owner);
+    private EnclosingMethod_attribute sut;
 
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+    protected void setUp() throws Exception {
+        super.setUp();
 
-        int localVariableTableTypeLength = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + localVariableTableTypeLength + " local variable type(s) ...");
-        for (int i=0; i<localVariableTableTypeLength; i++) {
-            Logger.getLogger(getClass()).debug("Local variable type " + i + ":");
-            localVariableTypes.add(new LocalVariableType(this, in));
-        }
+        expectReadAttributeLength(4);
+        expectReadU2(CLASS_INDEX);
+        expectReadU2(METHOD_INDEX);
+
+        sut = new EnclosingMethod_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
-    public Collection<LocalVariableType> getLocalVariableTypes() {
-        return localVariableTypes;
+    public void testGetClassInfo() {
+        expectLookupClass(CLASS_INDEX, CLASS);
+
+        assertEquals(CLASS, sut.getClassInfo());
     }
 
-    public String toString() {
-        return "Local Variable Type Table";
+    public void testGetMethod() {
+        expectLookupNameAndType(METHOD_INDEX, NAME, TYPE);
+
+        assertEquals(NAME + TYPE, sut.getMethod());
     }
 
-    public String getAttributeName() {
-        return AttributeType.LOCAL_VARIABLE_TYPE_TABLE.getAttributeName();
+    public void testGetName() {
+        assertEquals(AttributeType.ENCLOSING_METHOD.getAttributeName(), sut.getAttributeName());
     }
 
-    public void accept(Visitor visitor) {
-        visitor.visitLocalVariableTypeTable_attribute(this);
+    public void testAccept() {
+        final Visitor mockVisitor = mock(Visitor.class);
+
+        checking(new Expectations() {{
+            one (mockVisitor).visitEnclosingMethod_attribute(sut);
+        }});
+
+        sut.accept(mockVisitor);
     }
 }

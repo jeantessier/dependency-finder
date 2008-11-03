@@ -32,43 +32,52 @@
 
 package com.jeantessier.classreader.impl;
 
-import java.io.*;
-import java.util.*;
+import org.jmock.*;
 
-import org.apache.log4j.*;
-
+import com.jeantessier.classreader.AttributeType;
+import com.jeantessier.classreader.Integer_info;
 import com.jeantessier.classreader.*;
 
-public class LocalVariableTypeTable_attribute extends Attribute_info implements com.jeantessier.classreader.LocalVariableTypeTable_attribute {
-    private Collection<LocalVariableType> localVariableTypes = new LinkedList<LocalVariableType>();
+public class TestConstantValue_attribute extends TestAttributeBase {
+    private static final int CONSTANT_VALUE_INDEX = 2;
 
-    public LocalVariableTypeTable_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
-        super(constantPool, owner);
+    private ConstantValue_attribute sut;
 
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+    protected void setUp() throws Exception {
+        super.setUp();
 
-        int localVariableTableTypeLength = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + localVariableTableTypeLength + " local variable type(s) ...");
-        for (int i=0; i<localVariableTableTypeLength; i++) {
-            Logger.getLogger(getClass()).debug("Local variable type " + i + ":");
-            localVariableTypes.add(new LocalVariableType(this, in));
-        }
+        expectReadAttributeLength(2);
+        expectReadU2(CONSTANT_VALUE_INDEX);
+
+        sut = new ConstantValue_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
-    public Collection<LocalVariableType> getLocalVariableTypes() {
-        return localVariableTypes;
+    public void testGetValueIndex() {
+        assertEquals(CONSTANT_VALUE_INDEX, sut.getValueIndex());
     }
 
-    public String toString() {
-        return "Local Variable Type Table";
+    public void testGetRawValue() {
+        final Integer_info mockInteger_info = mock(Integer_info.class);
+
+        checking(new Expectations() {{
+            one (mockConstantPool).get(CONSTANT_VALUE_INDEX);
+                will(returnValue(mockInteger_info));
+        }});
+
+        assertSame(mockInteger_info, sut.getRawValue());
     }
 
-    public String getAttributeName() {
-        return AttributeType.LOCAL_VARIABLE_TYPE_TABLE.getAttributeName();
+    public void testGetName() {
+        assertEquals(AttributeType.CONSTANT_VALUE.getAttributeName(), sut.getAttributeName());
     }
 
-    public void accept(Visitor visitor) {
-        visitor.visitLocalVariableTypeTable_attribute(this);
+    public void testAccept() {
+        final Visitor mockVisitor = mock(Visitor.class);
+
+        checking(new Expectations() {{
+            one (mockVisitor).visitConstantValue_attribute(sut);
+        }});
+
+        sut.accept(mockVisitor);
     }
 }

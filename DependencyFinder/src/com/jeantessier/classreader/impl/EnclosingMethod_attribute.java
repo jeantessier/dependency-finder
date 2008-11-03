@@ -49,10 +49,10 @@ public class EnclosingMethod_attribute extends Attribute_info implements com.jea
         Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
         classIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Class index: " + classIndex + " (" + getClassInfo() + ")");
+        Logger.getLogger(getClass()).debug("Class index: " + classIndex);
 
         methodIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Method index: " + methodIndex + " (" + getMethod() + ")");
+        Logger.getLogger(getClass()).debug("Method index: " + methodIndex);
     }
 
     public int getClassIndex() {
@@ -67,7 +67,7 @@ public class EnclosingMethod_attribute extends Attribute_info implements com.jea
         String result = "";
 
         if (getClassIndex() != 0) {
-            result = getRawClassInfo().toString();
+            result = getRawClassInfo().getName();
         }
 
         return result;
@@ -85,14 +85,19 @@ public class EnclosingMethod_attribute extends Attribute_info implements com.jea
         String result = "";
 
         if (getMethodIndex() != 0) {
-            result = getRawMethod().toString();
+            NameAndType_info rawMethod = getRawMethod();
+            result = rawMethod.getName() + rawMethod.getType();
         }
 
         return result;
     }
 
     public String toString() {
-        return "Enclosing method \"" + getClassInfo() + "." + getMethod() + "\"";
+        return "Enclosing method \"" + getRawMethod().getType() + " " + getClassInfo() + "." + getRawMethod().getName() + "\"";
+    }
+
+    public String getAttributeName() {
+        return AttributeType.ENCLOSING_METHOD.getAttributeName();
     }
 
     public void accept(Visitor visitor) {
