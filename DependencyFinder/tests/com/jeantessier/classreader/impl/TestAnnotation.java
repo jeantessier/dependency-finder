@@ -46,10 +46,6 @@ public class TestAnnotation extends TestAnnotationsBase {
         sut = new Annotation(mockConstantPool, mockIn);
     }
 
-    public void testGetClassfile() throws Exception {
-        assertSame("Constant pool", mockConstantPool, sut.getConstantPool());
-    }
-
     public void testGetType() throws Exception {
         expectLookupClass(TYPE_INDEX, TYPE);
 

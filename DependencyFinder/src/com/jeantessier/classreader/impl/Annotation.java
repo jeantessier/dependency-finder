@@ -64,16 +64,12 @@ public class Annotation implements com.jeantessier.classreader.Annotation {
         }
     }
 
-    public ConstantPool getConstantPool() {
-        return constantPool;
-    }
-
     public int getTypeIndex() {
         return typeIndex;
     }
 
     public Class_info getRawType() {
-        return (Class_info) getConstantPool().get(getTypeIndex());
+        return (Class_info) constantPool.get(getTypeIndex());
     }
 
     public String getType() {

@@ -43,7 +43,7 @@ public abstract class Attribute_info implements com.jeantessier.classreader.Attr
         this.owner = owner;
     }
 
-    public ConstantPool getConstantPool() {
+    protected ConstantPool getConstantPool() {
         return constantPool;
     }
 

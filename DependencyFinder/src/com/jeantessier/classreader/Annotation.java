@@ -35,6 +35,5 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface Annotation extends Visitable {
-    public ConstantPool getConstantPool();
     public Collection<? extends ElementValuePair> getElementValuePairs();
 }

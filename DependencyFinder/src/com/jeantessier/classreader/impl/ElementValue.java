@@ -39,7 +39,7 @@ public abstract class ElementValue implements com.jeantessier.classreader.Elemen
         this.constantPool = constantPool;
     }
 
-    public ConstantPool getConstantPool() {
+    protected ConstantPool getConstantPool() {
         return constantPool;
     }
 }

@@ -1,0 +1,3 @@
+Removed =ConstantPool= from the public interface of =*Annotations_attribute=
+components.  The fact that some of them hold on to the constant pool and do
+lookup at runtime is an implementation detail.

@@ -58,16 +58,12 @@ public class ElementValuePair implements com.jeantessier.classreader.ElementValu
         elementValue = elementValueFactory.create(constantPool, in);
     }
 
-    public ConstantPool getConstantPool() {
-        return constantPool;
-    }
-
     public int getElementNameIndex() {
         return elementNameIndex;
     }
 
     public UTF8_info getRawElementName() {
-        return (UTF8_info) getConstantPool().get(getElementNameIndex());
+        return (UTF8_info) constantPool.get(getElementNameIndex());
     }
 
     public String getElementName() {
