@@ -77,7 +77,7 @@ public class TestCode_attribute extends TestAttributeBase {
         assertEquals("Attributes", 0, sut.getAttributes().size());
     }
 
-    public void testGetName() {
+    public void testGetAttributeName() {
         assertEquals(AttributeType.CODE.getAttributeName(), sut.getAttributeName());
     }
 

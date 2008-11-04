@@ -56,7 +56,7 @@ public class TestSourceFile_attribute extends TestAttributeBase {
         assertEquals(SOURCE_FILE, sut.getSourceFile());
     }
 
-    public void testGetName() {
+    public void testGetAttributeName() {
         assertEquals(AttributeType.SOURCE_FILE.getAttributeName(), sut.getAttributeName());
     }
 

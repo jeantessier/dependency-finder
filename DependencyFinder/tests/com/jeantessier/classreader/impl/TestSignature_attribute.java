@@ -56,7 +56,7 @@ public class TestSignature_attribute extends TestAttributeBase {
         assertEquals(SIGNATURE, sut.getSignature());
     }
 
-    public void testGetName() {
+    public void testGetAttributeName() {
         assertEquals(AttributeType.SIGNATURE.getAttributeName(), sut.getAttributeName());
     }
 

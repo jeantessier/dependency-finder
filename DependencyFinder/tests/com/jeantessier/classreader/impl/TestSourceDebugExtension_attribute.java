@@ -54,7 +54,7 @@ public class TestSourceDebugExtension_attribute extends TestAttributeBase {
         assertEquals(DEBUG_EXTENSION, sut.getDebugExtension());
     }
 
-    public void testGetName() {
+    public void testGetAttributeName() {
         assertEquals(AttributeType.SOURCE_DEBUG_EXTENSION.getAttributeName(), sut.getAttributeName());
     }
 

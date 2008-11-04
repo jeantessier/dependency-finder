@@ -52,7 +52,7 @@ public class TestLineNumberTable_attribute extends TestAttributeBase {
         assertEquals(0, sut.getLineNumbers().size());
     }
 
-    public void testGetName() {
+    public void testGetAttributeName() {
         assertEquals(AttributeType.LINE_NUMBER_TABLE.getAttributeName(), sut.getAttributeName());
     }
 

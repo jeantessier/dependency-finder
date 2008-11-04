@@ -49,7 +49,7 @@ public abstract class TestRuntimeAnnotationsBase extends TestAnnotationsBase {
         doTestConstructorWithAnnotations(2);
     }
 
-    public void testGetName() throws Exception {
+    public void testGetAttributeName() throws Exception {
         expectReadAttributeLength(2);
         expectReadNumAnnotations(0);
 

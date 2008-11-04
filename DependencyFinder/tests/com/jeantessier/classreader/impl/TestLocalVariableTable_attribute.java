@@ -52,7 +52,7 @@ public class TestLocalVariableTable_attribute extends TestAttributeBase {
         assertEquals(0, sut.getLocalVariables().size());
     }
 
-    public void testGetName() {
+    public void testGetAttributeName() {
         assertEquals(AttributeType.LOCAL_VARIABLE_TABLE.getAttributeName(), sut.getAttributeName());
     }
 

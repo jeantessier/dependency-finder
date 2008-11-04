@@ -52,7 +52,7 @@ public class TestInnerClasses_attribute extends TestAttributeBase {
         assertEquals(0, sut.getInnerClasses().size());
     }
 
-    public void testGetName() {
+    public void testGetAttributeName() {
         assertEquals(AttributeType.INNER_CLASSES.getAttributeName(), sut.getAttributeName());
     }
 

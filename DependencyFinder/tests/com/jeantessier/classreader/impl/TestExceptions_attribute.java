@@ -52,7 +52,7 @@ public class TestExceptions_attribute extends TestAttributeBase {
         assertEquals(0, sut.getExceptions().size());
     }
 
-    public void testGetName() {
+    public void testGetAttributeName() {
         assertEquals(AttributeType.EXCEPTIONS.getAttributeName(), sut.getAttributeName());
     }
 

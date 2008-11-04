@@ -68,7 +68,7 @@ public class TestEnclosingMethod_attribute extends TestAttributeBase {
         assertEquals(NAME + TYPE, sut.getMethod());
     }
 
-    public void testGetName() {
+    public void testGetAttributeName() {
         assertEquals(AttributeType.ENCLOSING_METHOD.getAttributeName(), sut.getAttributeName());
     }
 

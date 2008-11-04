@@ -47,7 +47,7 @@ public abstract class TestRuntimeParameterAnnotationsBase extends TestAnnotation
         doTestConstructorWithParametersWithAnnotations(0, 0, 0);
     }
 
-    public void testGetName() throws Exception {
+    public void testGetAttributeName() throws Exception {
         expectReadAttributeLength(2);
         expectReadNumParameters(0);
 
