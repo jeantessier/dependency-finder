@@ -1,22 +1,22 @@
 /*
  *  Copyright (c) 2001-2008, Jean Tessier
  *  All rights reserved.
- *  
+ *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
  *  are met:
- *  
+ *
  *      * Redistributions of source code must retain the above copyright
  *        notice, this list of conditions and the following disclaimer.
- *  
+ *
  *      * Redistributions in binary form must reproduce the above copyright
  *        notice, this list of conditions and the following disclaimer in the
  *        documentation and/or other materials provided with the distribution.
- *  
+ *
  *      * Neither the name of Jean Tessier nor the names of his contributors
  *        may be used to endorse or promote products derived from this software
  *        without specific prior written permission.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -32,54 +32,43 @@
 
 package com.jeantessier.classreader.impl;
 
-import java.io.*;
-
-import org.apache.log4j.*;
+import org.jmock.*;
 
 import com.jeantessier.classreader.*;
-import com.jeantessier.text.*;
 
-public class Custom_attribute extends Attribute_info implements com.jeantessier.classreader.Custom_attribute {
-    private String name;
-    private byte[] info;
+public class TestCustom_attribute extends TestAttributeBase {
+    private static final String NAME = "abc";
 
-    public Custom_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
-        this("", constantPool, owner, in);
+    private Custom_attribute sut;
+
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        expectReadAttributeLength(0);
+        expectReadFully();
+
+        sut = new Custom_attribute(NAME, mockConstantPool, mockOwner, mockIn);
     }
 
-    public Custom_attribute(String name, ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
-        super(constantPool, owner);
-
-        this.name = name;
-
-        int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
-
-        this.info = new byte[byteCount];
-        in.readFully(info);
-
-        if (Logger.getLogger(getClass()).isDebugEnabled()) {
-            Logger.getLogger(getClass()).debug("Read " + byteCount + " byte(s): " + Hex.toString(this.info));
-        }
+    public void testGetName() {
+        assertEquals(NAME, sut.getName());
     }
 
-    public String getName() {
-        return name;
+    public void testGetInfo() {
+        assertEquals("Info length", 0, sut.getInfo().length);
     }
 
-    public byte[] getInfo() {
-        return info;
+    public void testGetAttributeName() {
+        assertEquals("Custom", sut.getAttributeName());
     }
 
-    public String toString() {
-        return "Custom \"" + name + "\" " + getInfo().length + " byte(s)";
-    }
+    public void testAccept() {
+        final Visitor mockVisitor = mock(Visitor.class);
 
-    public String getAttributeName() {
-        return "Custom";
-    }
+        checking(new Expectations() {{
+            one (mockVisitor).visitCustom_attribute(sut);
+        }});
 
-    public void accept(Visitor visitor) {
-        visitor.visitCustom_attribute(this);
+        sut.accept(mockVisitor);
     }
 }
