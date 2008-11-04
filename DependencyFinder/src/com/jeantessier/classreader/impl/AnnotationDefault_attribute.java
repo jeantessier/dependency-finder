@@ -30,47 +30,39 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
-public enum AttributeType {
-    CONSTANT_VALUE("ConstantValue"),
-    CODE("Code"),
-    EXCEPTIONS("Exceptions"),
-    INNER_CLASSES("InnerClasses"),
-    ENCLOSING_METHOD("EnclosingMethod"),
-    SYNTHETIC("Synthetic"),
-    SIGNATURE("Signature"),
-    SOURCE_FILE("SourceFile"),
-    SOURCE_DEBUG_EXTENSION("SourceDebugExtension"),
-    LINE_NUMBER_TABLE("LineNumberTable"),
-    LOCAL_VARIABLE_TABLE("LocalVariableTable"),
-    LOCAL_VARIABLE_TYPE_TABLE("LocalVariableTypeTable"),
-    DEPRECATED("Deprecated"),
-    RUNTIME_VISIBLE_ANNOTATIONS("RuntimeVisibleAnnotations"),
-    RUNTIME_INVISIBLE_ANNOTATIONS("RuntimeInvisibleAnnotations"),
-    RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS("RuntimeVisibleParameterAnnotations"),
-    RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS("RuntimeInvisibleParameterAnnotations"),
-    ANNOTATION_DEFAULT("AnnotationDefault");
+import java.io.*;
 
-    private final String attributeName;
+import org.apache.log4j.*;
 
-    AttributeType(String attributeName) {
-        this.attributeName = attributeName;
+import com.jeantessier.classreader.*;
+
+public class AnnotationDefault_attribute extends Attribute_info implements com.jeantessier.classreader.AnnotationDefault_attribute {
+    private ElementValue elementValue;
+
+    public AnnotationDefault_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+        this(constantPool, owner, in, new ElementValueFactory());
+    }
+
+    public AnnotationDefault_attribute(ConstantPool constantPool, Visitable owner, DataInput in, ElementValueFactory elementValueFactory) throws IOException {
+        super(constantPool, owner);
+
+        int byteCount = in.readInt();
+        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+
+        elementValue = elementValueFactory.create(constantPool, in);
+    }
+
+    public ElementValue getElemementValue() {
+        return elementValue;
     }
 
     public String getAttributeName() {
-        return attributeName;
+        return AttributeType.ANNOTATION_DEFAULT.getAttributeName();
     }
 
-    public static AttributeType forName(String attributeName) {
-        AttributeType result = null;
-
-        for (AttributeType attributeType : values()) {
-            if (attributeType.attributeName.equals(attributeName)) {
-                result = attributeType;
-            }
-        }
-        
-        return result;
+    public void accept(Visitor visitor) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

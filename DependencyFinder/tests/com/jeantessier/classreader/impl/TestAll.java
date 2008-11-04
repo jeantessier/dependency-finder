@@ -78,6 +78,7 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestParameterWithAnnotations.class);
         result.addTestSuite(TestRuntimeVisibleParameterAnnotations_attribute.class);
         result.addTestSuite(TestRuntimeInvisibleParameterAnnotations_attribute.class);
+        result.addTestSuite(TestAnnotationDefault_attribute.class);
         result.addTestSuite(TestAttributeFactory.class);
 
         return result;

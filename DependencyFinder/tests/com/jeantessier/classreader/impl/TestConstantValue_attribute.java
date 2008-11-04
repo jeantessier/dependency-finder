@@ -67,7 +67,7 @@ public class TestConstantValue_attribute extends TestAttributeBase {
         assertSame(mockInteger_info, sut.getRawValue());
     }
 
-    public void testGetName() {
+    public void testGetAttributeName() {
         assertEquals(AttributeType.CONSTANT_VALUE.getAttributeName(), sut.getAttributeName());
     }
 

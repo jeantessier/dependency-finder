@@ -8,5 +8,8 @@ also simplified its interface to remove the back reference to
 
 Added =getAttributeName()= to all attributes.  I had to simplify some of the
 constructors that were echoing the data as they read it in order to keep the
-tests simple.  I also removed dependence on the behavior of =toString()= in a
-few places.
+tests simple.  But after trying it out on some sample code, I realized that it
+hampers usability, so I will have to put them back in.  I also removed
+dependence on the behavior of =toString()= in a few places.
+
+Addded =AnnotationDefault_attribute=.

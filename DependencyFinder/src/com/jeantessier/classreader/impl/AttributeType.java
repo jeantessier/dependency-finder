@@ -137,6 +137,12 @@ public enum AttributeType {
         public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
             return new RuntimeInvisibleParameterAnnotations_attribute(constantPool, owner, in);
         }
+    },
+
+    ANNOTATION_DEFAULT(com.jeantessier.classreader.AttributeType.ANNOTATION_DEFAULT) {
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+            return new AnnotationDefault_attribute(constantPool, owner, in);
+        }
     };
 
     private final com.jeantessier.classreader.AttributeType attributeType;

@@ -30,47 +30,47 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
-public enum AttributeType {
-    CONSTANT_VALUE("ConstantValue"),
-    CODE("Code"),
-    EXCEPTIONS("Exceptions"),
-    INNER_CLASSES("InnerClasses"),
-    ENCLOSING_METHOD("EnclosingMethod"),
-    SYNTHETIC("Synthetic"),
-    SIGNATURE("Signature"),
-    SOURCE_FILE("SourceFile"),
-    SOURCE_DEBUG_EXTENSION("SourceDebugExtension"),
-    LINE_NUMBER_TABLE("LineNumberTable"),
-    LOCAL_VARIABLE_TABLE("LocalVariableTable"),
-    LOCAL_VARIABLE_TYPE_TABLE("LocalVariableTypeTable"),
-    DEPRECATED("Deprecated"),
-    RUNTIME_VISIBLE_ANNOTATIONS("RuntimeVisibleAnnotations"),
-    RUNTIME_INVISIBLE_ANNOTATIONS("RuntimeInvisibleAnnotations"),
-    RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS("RuntimeVisibleParameterAnnotations"),
-    RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS("RuntimeInvisibleParameterAnnotations"),
-    ANNOTATION_DEFAULT("AnnotationDefault");
+import org.jmock.*;
 
-    private final String attributeName;
+import com.jeantessier.classreader.*;
 
-    AttributeType(String attributeName) {
-        this.attributeName = attributeName;
+public class TestAnnotationDefault_attribute extends TestAnnotationsBase {
+    private ElementValue mockElementValue;
+
+    private AnnotationDefault_attribute sut;
+
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        expectReadAttributeLength(3);
+
+        mockElementValue = mock(ElementValue.class);
+
+        checking(new Expectations() {{
+            one (mockElementValueFactory).create(mockConstantPool, mockIn);
+                will(returnValue(mockElementValue));
+        }});
+
+        sut = new AnnotationDefault_attribute(mockConstantPool, mockOwner, mockIn, mockElementValueFactory);
     }
 
-    public String getAttributeName() {
-        return attributeName;
+    public void testGetElementValue() {
+        assertSame(mockElementValue, sut.getElemementValue());
     }
 
-    public static AttributeType forName(String attributeName) {
-        AttributeType result = null;
+    public void testGetAttributeName() {
+        assertEquals(AttributeType.ANNOTATION_DEFAULT.getAttributeName(), sut.getAttributeName());
+    }
 
-        for (AttributeType attributeType : values()) {
-            if (attributeType.attributeName.equals(attributeName)) {
-                result = attributeType;
-            }
-        }
-        
-        return result;
+    public void testAccept() {
+        final Visitor mockVisitor = mock(Visitor.class);
+
+        checking(new Expectations() {{
+//            one (mockVisitor).visitAnnotationDefault_attribute(sut);
+        }});
+
+        sut.accept(mockVisitor);
     }
 }

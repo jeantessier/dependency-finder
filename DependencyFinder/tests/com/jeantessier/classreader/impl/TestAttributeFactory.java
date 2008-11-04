@@ -90,4 +90,19 @@ public class TestAttributeFactory extends TestAttributeBase {
         assertTrue("Not a " + RuntimeInvisibleParameterAnnotations_attribute.class.getSimpleName(), RuntimeInvisibleParameterAnnotations_attribute.class.isInstance(attribute));
         assertEquals("Num parameter annotations", 0, ((RuntimeParameterAnnotations_attribute) attribute).getParameterAnnotations().size());
     }
+
+    public void testCreateAnnotationDefault_attribute() throws Exception {
+        expectReadU2(ATTRIBUTE_NAME_INDEX);
+        expectLookupUtf8(ATTRIBUTE_NAME_INDEX, AttributeType.ANNOTATION_DEFAULT.getAttributeName());
+        expectReadAttributeLength(3);
+        expectReadU1('B');
+        expectReadU2(2);
+
+        Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
+        assertNotNull("AtributeFactory returned null", attribute);
+        assertTrue("Not a " + AnnotationDefault_attribute.class.getSimpleName(), AnnotationDefault_attribute.class.isInstance(attribute));
+        ElementValue elementValue = ((AnnotationDefault_attribute) attribute).getElemementValue();
+        assertNotNull("Element value is null", elementValue);
+        assertTrue("Element value not the expected " + ByteConstantElementValue.class.getSimpleName(), ByteConstantElementValue.class.isInstance(elementValue));
+    }
 }
