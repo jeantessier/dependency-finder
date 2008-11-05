@@ -72,11 +72,15 @@ public class TestAll extends TestCase {
         result.addTestSuite(TestElementValuePair.class);
         result.addTestSuite(TestAnnotation.class);
         result.addTestSuite(TestAnnotationWithElementValues.class);
+        result.addTestSuite(TestRuntimeVisibleAnnotations_attribute.class);
         result.addTestSuite(TestRuntimeVisibleAnnotations_attributeWithAnnotations.class);
+        result.addTestSuite(TestRuntimeInvisibleAnnotations_attribute.class);
         result.addTestSuite(TestRuntimeInvisibleAnnotations_attributeWithAnnotations.class);
         result.addTestSuite(TestParameter.class);
         result.addTestSuite(TestParameterWithAnnotations.class);
+        result.addTestSuite(TestRuntimeVisibleParameterAnnotations_attribute.class);
         result.addTestSuite(TestRuntimeVisibleParameterAnnotations_attributeWithAnnotations.class);
+        result.addTestSuite(TestRuntimeInvisibleParameterAnnotations_attribute.class);
         result.addTestSuite(TestRuntimeInvisibleParameterAnnotations_attributeWithAnnotations.class);
         result.addTestSuite(TestAnnotationDefault_attribute.class);
         result.addTestSuite(TestCustom_attribute.class);
