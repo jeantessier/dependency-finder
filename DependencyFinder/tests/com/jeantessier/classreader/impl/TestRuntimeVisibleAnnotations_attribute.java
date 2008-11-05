@@ -56,7 +56,7 @@ public class TestRuntimeVisibleAnnotations_attribute extends TestAnnotationsBase
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-//            one (mockVisitor).visitRuntimeVisibleAnnotations_attribute(sut);
+            one (mockVisitor).visitRuntimeVisibleAnnotations_attribute(sut);
         }});
 
         sut.accept(mockVisitor);

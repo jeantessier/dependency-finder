@@ -281,6 +281,26 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
         // Do nothing
     }
 
+    public void visitRuntimeVisibleAnnotations_attribute(RuntimeVisibleAnnotations_attribute attribute) {
+        // Do nothing
+    }
+
+    public void visitRuntimeInvisibleAnnotations_attribute(RuntimeInvisibleAnnotations_attribute attribute) {
+        // Do nothing
+    }
+
+    public void visitRuntimeVisibleParameterAnnotations_attribute(RuntimeVisibleParameterAnnotations_attribute attribute) {
+        // Do nothing
+    }
+
+    public void visitRuntimeInvisibleParameterAnnotations_attribute(RuntimeInvisibleParameterAnnotations_attribute attribute) {
+        // Do nothing
+    }
+
+    public void visitAnnotationDefault_attribute(AnnotationDefault_attribute attribute) {
+        // Do nothing
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         // Do nothing
     }

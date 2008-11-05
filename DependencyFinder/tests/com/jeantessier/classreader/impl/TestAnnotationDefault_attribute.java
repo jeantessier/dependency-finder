@@ -68,7 +68,7 @@ public class TestAnnotationDefault_attribute extends TestAnnotationsBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-//            one (mockVisitor).visitAnnotationDefault_attribute(sut);
+            one (mockVisitor).visitAnnotationDefault_attribute(sut);
         }});
 
         sut.accept(mockVisitor);

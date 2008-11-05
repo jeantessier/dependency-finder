@@ -46,6 +46,6 @@ public class RuntimeInvisibleAnnotations_attribute extends RuntimeAnnotations_at
     }
 
     public void accept(Visitor visitor) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        visitor.visitRuntimeInvisibleAnnotations_attribute(this);
     }
 }

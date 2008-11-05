@@ -46,6 +46,6 @@ public class RuntimeInvisibleParameterAnnotations_attribute extends RuntimeParam
     }
 
     public void accept(Visitor visitor) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        visitor.visitRuntimeInvisibleParameterAnnotations_attribute(this);
     }
 }

@@ -56,7 +56,7 @@ public class TestRuntimeInvisibleAnnotations_attribute extends TestAnnotationsBa
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-//            one (mockVisitor).visitRuntimeInvisibleAnnotations_attribute(sut);
+            one (mockVisitor).visitRuntimeInvisibleAnnotations_attribute(sut);
         }});
 
         sut.accept(mockVisitor);

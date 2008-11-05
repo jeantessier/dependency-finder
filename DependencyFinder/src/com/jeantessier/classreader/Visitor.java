@@ -71,6 +71,11 @@ public interface Visitor {
     public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute);
     public void visitLocalVariableTypeTable_attribute(LocalVariableTypeTable_attribute attribute);
     public void visitDeprecated_attribute(Deprecated_attribute attribute);
+    public void visitRuntimeVisibleAnnotations_attribute(RuntimeVisibleAnnotations_attribute attribute);
+    public void visitRuntimeInvisibleAnnotations_attribute(RuntimeInvisibleAnnotations_attribute attribute);
+    public void visitRuntimeVisibleParameterAnnotations_attribute(RuntimeVisibleParameterAnnotations_attribute attribute);
+    public void visitRuntimeInvisibleParameterAnnotations_attribute(RuntimeInvisibleParameterAnnotations_attribute attribute);
+    public void visitAnnotationDefault_attribute(AnnotationDefault_attribute attribute);
     public void visitCustom_attribute(Custom_attribute attribute);
 
     // Attribute helpers

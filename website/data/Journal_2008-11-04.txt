@@ -7,3 +7,6 @@ then couldn't find classes to run the tests.  I completely erased
 the trick.
 
 Added tests for =Custom_attribute=.
+
+Added visitor hooks for =*Annotations_attribute= and
+=AnnotationDefault_attribute=, but I did not get to their substructures, yet.
