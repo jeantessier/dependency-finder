@@ -66,6 +66,6 @@ public class ArrayElementValue extends ElementValue implements com.jeantessier.c
     }
 
     public void accept(Visitor visitor) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        visitor.visitArrayElementValue(this);
     }
 }

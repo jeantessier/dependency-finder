@@ -82,6 +82,6 @@ public class EnumElementValue extends ElementValue implements com.jeantessier.cl
     }
 
     public void accept(Visitor visitor) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        visitor.visitEnumElementValue(this);
     }
 }

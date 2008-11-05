@@ -51,7 +51,7 @@ public class TestParameter extends TestAttributeBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-//            one (mockVisitor).visitParameter(sut);
+            one (mockVisitor).visitParameter(sut);
         }});
 
         sut.accept(mockVisitor);

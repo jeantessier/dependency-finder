@@ -64,7 +64,7 @@ public class TestCharConstantElementValue extends TestAnnotationsBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-//            one (mockVisitor).visitCharConstantElementValue(sut);
+            one (mockVisitor).visitCharConstantElementValue(sut);
         }});
 
         sut.accept(mockVisitor);

@@ -75,6 +75,6 @@ public class ElementValuePair implements com.jeantessier.classreader.ElementValu
     }
 
     public void accept(Visitor visitor) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        visitor.visitElementValuePair(this);
     }
 }

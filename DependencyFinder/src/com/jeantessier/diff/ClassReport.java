@@ -329,6 +329,70 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
         // Do nothing
     }
 
+    public void visitParameter(Parameter helper) {
+        // Do nothing
+    }
+
+    public void visitAnnotation(Annotation helper) {
+        // Do nothing
+    }
+
+    public void visitElementValuePair(ElementValuePair helper) {
+        // Do nothing
+    }
+
+    public void visitByteConstantElementValue(ByteConstantElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitCharConstantElementValue(CharConstantElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitDoubleConstantElementValue(DoubleConstantElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitFloatConstantElementValue(FloatConstantElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitIntegerConstantElementValue(IntegerConstantElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitLongConstantElementValue(LongConstantElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitShortConstantElementValue(ShortConstantElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitBooleanConstantElementValue(BooleanConstantElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitStringConstantElementValue(StringConstantElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitEnumElementValue(EnumElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitClassElementValue(ClassElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitAnnotationElementValue(AnnotationElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitArrayElementValue(ArrayElementValue helper) {
+        // Do nothing
+    }
+
     public String render() {
         raiseIndent();
         raiseIndent();

@@ -64,7 +64,7 @@ public class TestByteConstantElementValue extends TestAnnotationsBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-//            one (mockVisitor).visitByteConstantElementValue(sut);
+            one (mockVisitor).visitByteConstantElementValue(sut);
         }});
 
         sut.accept(mockVisitor);

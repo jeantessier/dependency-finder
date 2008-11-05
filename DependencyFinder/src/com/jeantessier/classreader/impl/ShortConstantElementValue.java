@@ -50,6 +50,6 @@ public class ShortConstantElementValue extends ConstantElementValue implements c
     }
 
     public void accept(Visitor visitor) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        visitor.visitShortConstantElementValue(this);
     }
 }

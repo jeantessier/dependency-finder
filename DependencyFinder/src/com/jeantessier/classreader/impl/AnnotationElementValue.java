@@ -57,6 +57,6 @@ public class AnnotationElementValue extends ElementValue implements com.jeantess
     }
 
     public void accept(Visitor visitor) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        visitor.visitAnnotationElementValue(this);
     }
 }

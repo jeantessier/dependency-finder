@@ -1,0 +1,1 @@
+Added visitor hooks for the substructures in =*Annotations_attribute=.

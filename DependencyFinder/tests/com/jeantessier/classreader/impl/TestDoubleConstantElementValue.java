@@ -64,7 +64,7 @@ public class TestDoubleConstantElementValue extends TestAnnotationsBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-//            one (mockVisitor).visitDoubleConstantElementValue(sut);
+            one (mockVisitor).visitDoubleConstantElementValue(sut);
         }});
 
         sut.accept(mockVisitor);

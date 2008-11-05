@@ -50,6 +50,6 @@ public class ByteConstantElementValue extends ConstantElementValue implements co
     }
 
     public void accept(Visitor visitor) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        visitor.visitByteConstantElementValue(this);
     }
 }

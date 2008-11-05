@@ -73,7 +73,7 @@ public class TestEnumElementValue extends TestAnnotationsBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-//            one (mockVisitor).visitEnumElementValue(sut);
+            one (mockVisitor).visitEnumElementValue(sut);
         }});
 
         sut.accept(mockVisitor);

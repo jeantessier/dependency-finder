@@ -56,6 +56,6 @@ public class Parameter implements com.jeantessier.classreader.Parameter {
     }
 
     public void accept(Visitor visitor) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        visitor.visitParameter(this);
     }
 }

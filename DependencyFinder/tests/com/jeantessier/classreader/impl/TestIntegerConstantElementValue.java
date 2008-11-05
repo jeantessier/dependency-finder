@@ -64,7 +64,7 @@ public class TestIntegerConstantElementValue extends TestAnnotationsBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-//            one (mockVisitor).visitIntegerConstantElementValue(sut);
+            one (mockVisitor).visitIntegerConstantElementValue(sut);
         }});
 
         sut.accept(mockVisitor);

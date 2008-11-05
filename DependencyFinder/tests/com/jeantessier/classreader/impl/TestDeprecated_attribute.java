@@ -34,6 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
 
+import com.jeantessier.classreader.AttributeType;
 import com.jeantessier.classreader.*;
 
 public class TestDeprecated_attribute extends TestAttributeBase {
@@ -45,6 +46,10 @@ public class TestDeprecated_attribute extends TestAttributeBase {
         expectReadAttributeLength(0);
 
         sut = new Deprecated_attribute(mockConstantPool, mockOwner, mockIn);
+    }
+
+    public void testGetAttributeName() {
+        assertEquals(AttributeType.DEPRECATED.getAttributeName(), sut.getAttributeName());
     }
 
     public void testAccept() {

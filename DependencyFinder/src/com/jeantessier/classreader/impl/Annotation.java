@@ -87,6 +87,6 @@ public class Annotation implements com.jeantessier.classreader.Annotation {
     }
 
     public void accept(Visitor visitor) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        visitor.visitAnnotation(this);
     }
 }

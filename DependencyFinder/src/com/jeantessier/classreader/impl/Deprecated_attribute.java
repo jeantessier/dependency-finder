@@ -51,7 +51,7 @@ public class Deprecated_attribute extends Attribute_info implements com.jeantess
     }
 
     public String getAttributeName() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return AttributeType.DEPRECATED.getAttributeName();
     }
 
     public void accept(Visitor visitor) {

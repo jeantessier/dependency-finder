@@ -64,7 +64,7 @@ public class TestStringConstantElementValue extends TestAnnotationsBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-//            one (mockVisitor).visitStringConstantElementValue(sut);
+            one (mockVisitor).visitStringConstantElementValue(sut);
         }});
 
         sut.accept(mockVisitor);

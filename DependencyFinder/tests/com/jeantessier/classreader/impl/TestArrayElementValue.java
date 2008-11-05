@@ -55,7 +55,7 @@ public class TestArrayElementValue extends TestAnnotationsBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-//            one (mockVisitor).visitArrayElementValue(sut);
+            one (mockVisitor).visitArrayElementValue(sut);
         }});
 
         sut.accept(mockVisitor);

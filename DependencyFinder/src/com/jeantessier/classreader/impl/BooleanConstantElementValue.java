@@ -59,6 +59,6 @@ public class BooleanConstantElementValue extends ConstantElementValue implements
     }
 
     public void accept(Visitor visitor) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        visitor.visitBooleanConstantElementValue(this);
     }
 }

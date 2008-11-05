@@ -73,7 +73,7 @@ public class TestElementValuePair extends TestAnnotationsBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-//            one (mockVisitor).visitElementValuePair(sut);
+            one (mockVisitor).visitElementValuePair(sut);
         }});
 
         sut.accept(mockVisitor);

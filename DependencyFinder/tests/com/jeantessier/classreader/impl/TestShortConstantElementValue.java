@@ -64,7 +64,7 @@ public class TestShortConstantElementValue extends TestAnnotationsBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-//            one (mockVisitor).visitShortConstantElementValue(sut);
+            one (mockVisitor).visitShortConstantElementValue(sut);
         }});
 
         sut.accept(mockVisitor);

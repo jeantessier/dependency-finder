@@ -32,6 +32,10 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.jmock.*;
+
+import com.jeantessier.classreader.*;
+
 public class TestAnnotation extends TestAnnotationsBase {
     private static final int TYPE_INDEX = 2;
     private static final String TYPE = "abc";
@@ -50,5 +54,15 @@ public class TestAnnotation extends TestAnnotationsBase {
         expectLookupClass(TYPE_INDEX, TYPE);
 
         assertEquals(TYPE, sut.getType());
+    }
+
+    public void testAccept() {
+        final Visitor mockVisitor = mock(Visitor.class);
+
+        checking(new Expectations() {{
+            one (mockVisitor).visitAnnotation(sut);
+        }});
+
+        sut.accept(mockVisitor);
     }
 }

@@ -224,4 +224,21 @@ public abstract class VisitorBase implements Visitor {
     public void visitLineNumber(LineNumber helper) {}
     public void visitLocalVariable(LocalVariable helper) {}
     public void visitLocalVariableType(LocalVariableType helper) {}
+
+    public void visitParameter(Parameter helper) {}
+    public void visitAnnotation(Annotation helper) {}
+    public void visitElementValuePair(ElementValuePair helper) {}
+    public void visitByteConstantElementValue(ByteConstantElementValue helper) {}
+    public void visitCharConstantElementValue(CharConstantElementValue helper) {}
+    public void visitDoubleConstantElementValue(DoubleConstantElementValue helper) {}
+    public void visitFloatConstantElementValue(FloatConstantElementValue helper) {}
+    public void visitIntegerConstantElementValue(IntegerConstantElementValue helper) {}
+    public void visitLongConstantElementValue(LongConstantElementValue helper) {}
+    public void visitShortConstantElementValue(ShortConstantElementValue helper) {}
+    public void visitBooleanConstantElementValue(BooleanConstantElementValue helper) {}
+    public void visitStringConstantElementValue(StringConstantElementValue helper) {}
+    public void visitEnumElementValue(EnumElementValue helper) {}
+    public void visitClassElementValue(ClassElementValue helper) {}
+    public void visitAnnotationElementValue(AnnotationElementValue helper) {}
+    public void visitArrayElementValue(ArrayElementValue helper) {}
 }
