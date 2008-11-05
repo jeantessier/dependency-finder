@@ -34,55 +34,44 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-public abstract class TestRuntimeParameterAnnotationsBase extends TestAnnotationsBase {
-    public void testConstructorWithNoParameters() throws Exception {
-        doTestConstructorWithParametersWithAnnotations(0);
+public abstract class TestRuntimeAnnotationsWithAnnotationsBase extends TestAnnotationsBase {
+    private static final int TYPE_INDEX = 2;
+
+    public void testConstructorWithNoAnnotations() throws Exception {
+        doTestConstructorWithAnnotations(0);
     }
 
-    public void testConstructorWithASingleParameterWithNoAnnotations() throws Exception {
-        doTestConstructorWithParametersWithAnnotations(0, 0);
+    public void testConstructorWithASingleAnnotations() throws Exception {
+        doTestConstructorWithAnnotations(1);
     }
 
-    public void testConstructorWithMultipleParameterEachWithNoAnnotations() throws Exception {
-        doTestConstructorWithParametersWithAnnotations(0, 0, 0);
+    public void testConstructorMultipleZeroAnnotations() throws Exception {
+        doTestConstructorWithAnnotations(2);
     }
 
     public void testGetAttributeName() throws Exception {
         expectReadAttributeLength(2);
-        expectReadNumParameters(0);
+        expectReadNumAnnotations(0);
 
-        RuntimeParameterAnnotations_attribute sut = createSut();
+        RuntimeAnnotations_attribute sut = createSut();
         assertEquals(getAttributeType().getAttributeName(), sut.getAttributeName());
     }
 
-    private void doTestConstructorWithParametersWithAnnotations(int ... numAnnotationsPerParameter) throws IOException {
-        expectReadAttributeLength(estimateTotalSize(numAnnotationsPerParameter));
-        expectReadNumParameters(numAnnotationsPerParameter.length);
-        for (int numAnnotations : numAnnotationsPerParameter) {
-            expectReadNumAnnotations(numAnnotations);
+    private void doTestConstructorWithAnnotations(int numAnnotations) throws IOException {
+        expectReadAttributeLength(estimateTotalSize(numAnnotations));
+        expectReadNumAnnotations(numAnnotations);
+        for (int i = 0; i < numAnnotations; i++) {
+            expectReadAnnotation(TYPE_INDEX, 0);
         }
 
-        RuntimeParameterAnnotations_attribute sut = createSut();
-        assertEquals("Num parameters", numAnnotationsPerParameter.length, sut.getParameterAnnotations().size());
-        for (int parameter = 0; parameter < numAnnotationsPerParameter.length; parameter++) {
-            assertEquals("New annotations on parameter " + parameter, numAnnotationsPerParameter[parameter], sut.getParameterAnnotations().get(parameter).getAnnotations().size());
-        }
+        RuntimeAnnotations_attribute sut = createSut();
+        assertEquals("Num annotations", numAnnotations, sut.getAnnotations().size());
     }
 
-    private int estimateTotalSize(int ... numAnnotationsPerParameter) {
-        int result = 1;
-
-        for (int numAnnotations : numAnnotationsPerParameter) {
-            result += estimateSizeOfParameter(numAnnotations);
-        }
-
-        return result;
-    }
-
-    private int estimateSizeOfParameter(int numAnnotations) {
+    private int estimateTotalSize(int numAnnotations) {
         return 2 + numAnnotations * estimateSizeOfAnnotation();
     }
 
-    protected abstract RuntimeParameterAnnotations_attribute createSut() throws IOException;
+    protected abstract RuntimeAnnotations_attribute createSut() throws IOException;
     protected abstract AttributeType getAttributeType();
 }

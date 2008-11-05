@@ -34,44 +34,12 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-public abstract class TestRuntimeAnnotationsBase extends TestAnnotationsBase {
-    private static final int TYPE_INDEX = 2;
-
-    public void testConstructorWithNoAnnotations() throws Exception {
-        doTestConstructorWithAnnotations(0);
+public class TestRuntimeInvisibleParameterAnnotations_attributeWithAnnotations extends TestRuntimeParameterAnnotationsWithAnnotationsBase {
+    protected RuntimeParameterAnnotations_attribute createSut() throws IOException {
+        return new RuntimeInvisibleParameterAnnotations_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
-    public void testConstructorWithASingleAnnotations() throws Exception {
-        doTestConstructorWithAnnotations(1);
+    protected AttributeType getAttributeType() {
+        return AttributeType.RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS;
     }
-
-    public void testConstructorMultipleZeroAnnotations() throws Exception {
-        doTestConstructorWithAnnotations(2);
-    }
-
-    public void testGetAttributeName() throws Exception {
-        expectReadAttributeLength(2);
-        expectReadNumAnnotations(0);
-
-        RuntimeAnnotations_attribute sut = createSut();
-        assertEquals(getAttributeType().getAttributeName(), sut.getAttributeName());
-    }
-
-    private void doTestConstructorWithAnnotations(int numAnnotations) throws IOException {
-        expectReadAttributeLength(estimateTotalSize(numAnnotations));
-        expectReadNumAnnotations(numAnnotations);
-        for (int i = 0; i < numAnnotations; i++) {
-            expectReadAnnotation(TYPE_INDEX, 0);
-        }
-
-        RuntimeAnnotations_attribute sut = createSut();
-        assertEquals("Num annotations", numAnnotations, sut.getAnnotations().size());
-    }
-
-    private int estimateTotalSize(int numAnnotations) {
-        return 2 + numAnnotations * estimateSizeOfAnnotation();
-    }
-
-    protected abstract RuntimeAnnotations_attribute createSut() throws IOException;
-    protected abstract AttributeType getAttributeType();
 }

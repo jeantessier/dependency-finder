@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-public class TestRuntimeVisibleParameterAnnotations_attribute extends TestRuntimeParameterAnnotationsBase {
+public class TestRuntimeVisibleParameterAnnotations_attributeWithAnnotations extends TestRuntimeParameterAnnotationsWithAnnotationsBase {
     protected RuntimeParameterAnnotations_attribute createSut() throws IOException {
         return new RuntimeVisibleParameterAnnotations_attribute(mockConstantPool, mockOwner, mockIn);
     }

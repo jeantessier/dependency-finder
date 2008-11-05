@@ -34,12 +34,12 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-public class TestRuntimeInvisibleAnnotations_attribute extends TestRuntimeAnnotationsBase {
+public class TestRuntimeVisibleAnnotations_attributeWithAnnotations extends TestRuntimeAnnotationsWithAnnotationsBase {
     protected RuntimeAnnotations_attribute createSut() throws IOException {
-        return new RuntimeInvisibleAnnotations_attribute(mockConstantPool, mockOwner, mockIn);
+        return new RuntimeVisibleAnnotations_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
     protected AttributeType getAttributeType() {
-        return AttributeType.RUNTIME_INVISIBLE_ANNOTATIONS;
+        return AttributeType.RUNTIME_VISIBLE_ANNOTATIONS;
     }
 }
