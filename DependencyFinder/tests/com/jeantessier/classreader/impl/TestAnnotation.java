@@ -38,6 +38,7 @@ import com.jeantessier.classreader.*;
 
 public class TestAnnotation extends TestAnnotationsBase {
     private static final int TYPE_INDEX = 2;
+    private static final String RAW_TYPE = "Labc;";
     private static final String TYPE = "abc";
 
     private Annotation sut;
@@ -46,13 +47,13 @@ public class TestAnnotation extends TestAnnotationsBase {
         super.setUp();
 
         expectReadAnnotation(TYPE_INDEX, 0);
+        expectLookupUtf8(TYPE_INDEX, RAW_TYPE, "lookup during construction");
 
         sut = new Annotation(mockConstantPool, mockIn);
     }
 
     public void testGetType() throws Exception {
-        expectLookupClass(TYPE_INDEX, TYPE);
-
+        expectLookupUtf8(TYPE_INDEX, RAW_TYPE);
         assertEquals(TYPE, sut.getType());
     }
 

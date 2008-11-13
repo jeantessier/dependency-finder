@@ -49,10 +49,10 @@ public class EnclosingMethod_attribute extends Attribute_info implements com.jea
         Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
         classIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Class index: " + classIndex);
+        Logger.getLogger(getClass()).debug("Class index: " + classIndex + " (" + getClassInfo() + ")");
 
         methodIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Method index: " + methodIndex);
+        Logger.getLogger(getClass()).debug("Method index: " + methodIndex + " (" + getMethod() + ")");
     }
 
     public int getClassIndex() {

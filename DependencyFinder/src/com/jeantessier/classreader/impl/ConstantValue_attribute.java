@@ -48,7 +48,7 @@ public class ConstantValue_attribute extends Attribute_info implements com.jeant
         Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
         valueIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Constant value index: " + getValueIndex());
+        Logger.getLogger(getClass()).debug("Constant value: " + getValueIndex() + " (" + getRawValue() + ")");
     }
 
     public int getValueIndex() {

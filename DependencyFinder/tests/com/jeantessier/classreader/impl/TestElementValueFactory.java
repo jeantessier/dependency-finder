@@ -36,10 +36,12 @@ import java.io.*;
 
 public class TestElementValueFactory extends TestAnnotationsBase {
     private static final int CONST_VALUE_INDEX = 2;
+    private static final int CONST_VALUE = 3;
     private static final int TYPE_NAME_INDEX = 3;
     private static final int CONST_NAME_INDEX = 4;
     private static final int CLASS_INFO_INDEX = 5;
     private static final int TYPE_INDEX = 6;
+    private static final String TYPE = "Labc;";
 
     private ElementValueFactory sut;
 
@@ -50,38 +52,47 @@ public class TestElementValueFactory extends TestAnnotationsBase {
     }
 
     public void testCreateByteConstantElementValue() throws Exception {
+        expectLookupInteger(CONST_VALUE_INDEX, CONST_VALUE);
         doTestCreateConstantElementValue('B', ByteConstantElementValue.class);
     }
 
     public void testCreateCharConstantElementValue() throws Exception {
+        expectLookupInteger(CONST_VALUE_INDEX, CONST_VALUE);
         doTestCreateConstantElementValue('C', CharConstantElementValue.class);
     }
 
     public void testCreateDoubleConstantElementValue() throws Exception {
+        expectLookupDouble(CONST_VALUE_INDEX, CONST_VALUE);
         doTestCreateConstantElementValue('D', DoubleConstantElementValue.class);
     }
 
     public void testCreateFloatConstantElementValue() throws Exception {
+        expectLookupFloat(CONST_VALUE_INDEX, CONST_VALUE);
         doTestCreateConstantElementValue('F', FloatConstantElementValue.class);
     }
 
     public void testCreateIntegerConstantElementValue() throws Exception {
+        expectLookupInteger(CONST_VALUE_INDEX, CONST_VALUE);
         doTestCreateConstantElementValue('I', IntegerConstantElementValue.class);
     }
 
     public void testCreateLongConstantElementValue() throws Exception {
+        expectLookupLong(CONST_VALUE_INDEX, CONST_VALUE);
         doTestCreateConstantElementValue('J', LongConstantElementValue.class);
     }
 
     public void testCreateShortConstantElementValue() throws Exception {
+        expectLookupInteger(CONST_VALUE_INDEX, CONST_VALUE);
         doTestCreateConstantElementValue('S', ShortConstantElementValue.class);
     }
 
     public void testCreateBooleanConstantElementValue() throws Exception {
+        expectLookupInteger(CONST_VALUE_INDEX, CONST_VALUE);
         doTestCreateConstantElementValue('Z', BooleanConstantElementValue.class);
     }
 
     public void testCreateStringConstantElementValue() throws Exception {
+        expectLookupUtf8(CONST_VALUE_INDEX, "abc");
         doTestCreateConstantElementValue('s', StringConstantElementValue.class);
     }
 
@@ -110,6 +121,7 @@ public class TestElementValueFactory extends TestAnnotationsBase {
     public void testCreateAnnotationElementValue() throws Exception {
         expectReadTag('@');
         expectReadTypeIndex(TYPE_INDEX);
+        expectLookupUtf8(TYPE_INDEX, TYPE);
         expectReadNumElementValuePairs(0);
 
         ElementValue elementValue = sut.create(mockConstantPool, mockIn);

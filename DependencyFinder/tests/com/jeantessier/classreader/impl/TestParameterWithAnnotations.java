@@ -36,6 +36,7 @@ import java.io.*;
 
 public class TestParameterWithAnnotations extends TestAttributeBase {
     private static final int TYPE_INDEX = 2;
+    private static final String TYPE = "Labc;";
 
     public void testConstructorWithNoAnnotations() throws Exception {
         doTestConstructorWithAnnotations(0);
@@ -53,6 +54,7 @@ public class TestParameterWithAnnotations extends TestAttributeBase {
         expectReadNumAnnotations(numAnnotations);
         for (int i = 0; i < numAnnotations; i++) {
             expectReadTypeIndex(TYPE_INDEX);
+            expectLookupUtf8(TYPE_INDEX, TYPE, "type for annotation " + i);
             expectReadNumElementValuePairs(0);
         }
 

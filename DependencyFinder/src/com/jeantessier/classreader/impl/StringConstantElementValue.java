@@ -34,15 +34,18 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
+import org.apache.log4j.*;
+
 import com.jeantessier.classreader.*;
 
 public class StringConstantElementValue extends ConstantElementValue implements com.jeantessier.classreader.StringConstantElementValue {
     public StringConstantElementValue(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool, in);
+        Logger.getLogger(getClass()).debug("Const value index: " + getConstValueIndex() + " (" + getConstValue() + ")");
     }
 
     public String getConstValue() {
-        return ((String_info) getRawConstValue()).getValue();
+        return ((UTF8_info) getRawConstValue()).getValue();
     }
 
     public char getTag() {

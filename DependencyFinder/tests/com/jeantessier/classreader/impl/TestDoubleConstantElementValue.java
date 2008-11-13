@@ -38,6 +38,7 @@ import com.jeantessier.classreader.*;
 
 public class TestDoubleConstantElementValue extends TestAnnotationsBase {
     private static final int CONST_VALUE_INDEX = 2;
+    private static final double CONST_VALUE = 3;
 
     private DoubleConstantElementValue sut;
 
@@ -45,15 +46,14 @@ public class TestDoubleConstantElementValue extends TestAnnotationsBase {
         super.setUp();
 
         expectReadU2(CONST_VALUE_INDEX);
+        expectLookupDouble(CONST_VALUE_INDEX, CONST_VALUE, "lookup during construction");
 
         sut = new DoubleConstantElementValue(mockConstantPool, mockIn);
     }
 
     public void testGetConstValue() {
-        final double expectedValue = 1;
-        expectLookupDouble(CONST_VALUE_INDEX, expectedValue);
-
-        assertEquals(expectedValue, sut.getConstValue(), 0.001);
+        expectLookupDouble(CONST_VALUE_INDEX, CONST_VALUE);
+        assertEquals(CONST_VALUE, sut.getConstValue(), 0.001);
     }
 
     public void testGetTag() {

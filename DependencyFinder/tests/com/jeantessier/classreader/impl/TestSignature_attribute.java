@@ -47,6 +47,7 @@ public class TestSignature_attribute extends TestAttributeBase {
 
         expectReadAttributeLength(2);
         expectReadU2(SIGNATURE_INDEX);
+        expectLookupUtf8(SIGNATURE_INDEX, SIGNATURE, "lookup during construction");
 
         sut = new Signature_attribute(mockConstantPool, mockOwner, mockIn);
     }

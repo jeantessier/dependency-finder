@@ -48,6 +48,7 @@ public class TestConstantValue_attribute extends TestAttributeBase {
 
         expectReadAttributeLength(2);
         expectReadU2(CONSTANT_VALUE_INDEX);
+        expectLookupRawValue(CONSTANT_VALUE_INDEX, mock(Integer_info.class, "lookup during construction"));
 
         sut = new ConstantValue_attribute(mockConstantPool, mockOwner, mockIn);
     }
@@ -57,13 +58,8 @@ public class TestConstantValue_attribute extends TestAttributeBase {
     }
 
     public void testGetRawValue() {
-        final Integer_info mockInteger_info = mock(Integer_info.class);
-
-        checking(new Expectations() {{
-            one (mockConstantPool).get(CONSTANT_VALUE_INDEX);
-                will(returnValue(mockInteger_info));
-        }});
-
+        Integer_info mockInteger_info = mock(Integer_info.class);
+        expectLookupRawValue(CONSTANT_VALUE_INDEX, mockInteger_info);
         assertSame(mockInteger_info, sut.getRawValue());
     }
 
@@ -79,5 +75,12 @@ public class TestConstantValue_attribute extends TestAttributeBase {
         }});
 
         sut.accept(mockVisitor);
+    }
+
+    private void expectLookupRawValue(final int index, final Integer_info mockInteger_info) {
+        checking(new Expectations() {{
+            one (mockConstantPool).get(index);
+                will(returnValue(mockInteger_info));
+        }});
     }
 }

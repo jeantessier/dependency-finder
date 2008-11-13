@@ -34,8 +34,6 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-import org.apache.log4j.*;
-
 import com.jeantessier.classreader.ConstantPoolEntry;
 
 public abstract class ConstantElementValue extends ElementValue implements com.jeantessier.classreader.ConstantElementValue {
@@ -45,7 +43,6 @@ public abstract class ConstantElementValue extends ElementValue implements com.j
         super(constantPool);
 
         constValueIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Const value index: " + constValueIndex);
     }
 
     public int getConstValueIndex() {

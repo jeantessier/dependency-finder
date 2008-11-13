@@ -44,7 +44,7 @@ public class AnnotationElementValue extends ElementValue implements com.jeantess
     public AnnotationElementValue(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool);
 
-        annotation = new Annotation(null, in);
+        annotation = new Annotation(constantPool, in);
         Logger.getLogger(getClass()).debug("Annotation: " + annotation);
     }
 

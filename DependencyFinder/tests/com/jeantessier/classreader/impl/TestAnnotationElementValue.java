@@ -40,6 +40,7 @@ import com.jeantessier.classreader.*;
 
 public class TestAnnotationElementValue extends TestAnnotationsBase {
     private static final int TYPE_INDEX = 2;
+    private static final String TYPE = "Labc;";
 
     private AnnotationElementValue sut;
 
@@ -47,6 +48,7 @@ public class TestAnnotationElementValue extends TestAnnotationsBase {
         super.setUp();
 
         expectReadAnnotation(TYPE_INDEX, 0);
+        expectLookupUtf8(TYPE_INDEX, TYPE);
 
         sut = new AnnotationElementValue(mockConstantPool, mockIn);
     }

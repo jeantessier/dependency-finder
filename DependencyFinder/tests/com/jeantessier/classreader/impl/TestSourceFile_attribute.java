@@ -47,6 +47,7 @@ public class TestSourceFile_attribute extends TestAttributeBase {
 
         expectReadAttributeLength(2);
         expectReadU2(SOURCE_FILE_INDEX);
+        expectLookupUtf8(SOURCE_FILE_INDEX, SOURCE_FILE, "lookup during construction");
 
         sut = new SourceFile_attribute(mockConstantPool, mockOwner, mockIn);
     }

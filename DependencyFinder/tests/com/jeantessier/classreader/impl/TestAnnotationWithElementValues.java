@@ -38,6 +38,7 @@ import org.jmock.*;
 
 public class TestAnnotationWithElementValues extends TestAnnotationsBase {
     private static final int TYPE_INDEX = 2;
+    private static final String TYPE = "Labc;";
 
     public void testConstructorWithNoElementValuePairs() throws Exception {
         doTestConstructorWithElementValuePairs(0);
@@ -52,17 +53,23 @@ public class TestAnnotationWithElementValues extends TestAnnotationsBase {
     }
 
     private void doTestConstructorWithElementValuePairs(final int numElementValuePairs) throws IOException {
+        final UTF8_info mockUtf8_info = mock(UTF8_info.class, "element name");
+
         expectReadTypeIndex(TYPE_INDEX);
         expectReadNumElementValuePairs(numElementValuePairs);
+        expectLookupUtf8(TYPE_INDEX, TYPE);
 
         checking(new Expectations() {{
             for (int i = 0; i < numElementValuePairs; i++) {
                 one (mockIn).readUnsignedShort();
                     inSequence(dataReads);
                     will(returnValue(i + 1));
+                one (mockConstantPool).get(i + 1);
+                    will(returnValue(mockUtf8_info));
                 one (mockElementValueFactory).create(mockConstantPool, mockIn);
                     inSequence(dataReads);
             }
+            exactly(numElementValuePairs).of (mockUtf8_info).getValue();
         }});
 
         Annotation sut = new Annotation(mockConstantPool, mockIn, mockElementValueFactory);

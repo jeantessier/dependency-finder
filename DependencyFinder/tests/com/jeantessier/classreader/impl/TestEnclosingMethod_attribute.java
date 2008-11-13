@@ -51,7 +51,9 @@ public class TestEnclosingMethod_attribute extends TestAttributeBase {
 
         expectReadAttributeLength(4);
         expectReadU2(CLASS_INDEX);
+        expectLookupClass(CLASS_INDEX, CLASS, "class lookup during construction");
         expectReadU2(METHOD_INDEX);
+        expectLookupNameAndType(METHOD_INDEX, NAME, TYPE, "name and type lookup during construction");
 
         sut = new EnclosingMethod_attribute(mockConstantPool, mockOwner, mockIn);
     }

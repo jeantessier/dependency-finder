@@ -126,8 +126,14 @@ public class TestAttributeBase extends MockObjectTestCase {
     }
 
     protected void expectLookupClass(final int index, final String value) {
-        final Class_info mockClass_info = mock(Class_info.class);
+        expectLookupClass(index, value, mock(Class_info.class));
+    }
 
+    protected void expectLookupClass(final int index, final String value, String mockName) {
+        expectLookupClass(index, value, mock(Class_info.class, mockName));
+    }
+
+    private void expectLookupClass(final int index, final String value, final Class_info mockClass_info) {
         checking(new Expectations() {{
             one (mockConstantPool).get(index);
                 will(returnValue(mockClass_info));
@@ -137,8 +143,14 @@ public class TestAttributeBase extends MockObjectTestCase {
     }
 
     protected void expectLookupNameAndType(final int index, final String name, final String type) {
-        final NameAndType_info mockNameAndType_info = mock(NameAndType_info.class);
+        expectLookupNameAndType(index, name, type, mock(NameAndType_info.class));
+    }
 
+    protected void expectLookupNameAndType(final int index, final String name, final String type, String mockName) {
+        expectLookupNameAndType(index, name, type, mock(NameAndType_info.class, mockName));
+    }
+
+    private void expectLookupNameAndType(final int index, final String name, final String type, final NameAndType_info mockNameAndType_info) {
         checking(new Expectations() {{
             one (mockConstantPool).get(index);
                 will(returnValue(mockNameAndType_info));
@@ -149,9 +161,15 @@ public class TestAttributeBase extends MockObjectTestCase {
         }});
     }
 
-    protected void expectLookupInteger(final int index, final int value) {
-        final Integer_info mockInteger_info = mock(Integer_info.class);
+    protected void expectLookupInteger(int index, int value) {
+        expectLookupInteger(index, value, mock(Integer_info.class));
+    }
 
+    protected void expectLookupInteger(int index, int value, String mockName) {
+        expectLookupInteger(index, value, mock(Integer_info.class, mockName));
+    }
+
+    private void expectLookupInteger(final int index, final int value, final Integer_info mockInteger_info) {
         checking(new Expectations() {{
             one (mockConstantPool).get(index);
                 will(returnValue(mockInteger_info));
@@ -161,8 +179,14 @@ public class TestAttributeBase extends MockObjectTestCase {
     }
 
     protected void expectLookupLong(final int index, final long value) {
-        final Long_info mockLong_info = mock(Long_info.class);
+        expectLookupLong(index, value, mock(Long_info.class));
+    }
 
+    protected void expectLookupLong(final int index, final long value, String mockName) {
+        expectLookupLong(index, value, mock(Long_info.class, mockName));
+    }
+
+    private void expectLookupLong(final int index, final long value, final Long_info mockLong_info) {
         checking(new Expectations() {{
             one (mockConstantPool).get(index);
                 will(returnValue(mockLong_info));
@@ -172,8 +196,14 @@ public class TestAttributeBase extends MockObjectTestCase {
     }
 
     protected void expectLookupFloat(final int index, final float value) {
-        final Float_info mockFloat_info = mock(Float_info.class);
+        expectLookupFloat(index, value, mock(Float_info.class));
+    }
 
+    protected void expectLookupFloat(final int index, final float value, String mockName) {
+        expectLookupFloat(index, value, mock(Float_info.class, mockName));
+    }
+
+    private void expectLookupFloat(final int index, final float value, final Float_info mockFloat_info) {
         checking(new Expectations() {{
             one (mockConstantPool).get(index);
                 will(returnValue(mockFloat_info));
@@ -183,8 +213,14 @@ public class TestAttributeBase extends MockObjectTestCase {
     }
 
     protected void expectLookupDouble(final int index, final double value) {
-        final Double_info mockDouble_info = mock(Double_info.class);
+        expectLookupDouble(index, value, mock(Double_info.class));
+    }
 
+    protected void expectLookupDouble(final int index, final double value, String mockName) {
+        expectLookupDouble(index, value, mock(Double_info.class, mockName));
+    }
+
+    private void expectLookupDouble(final int index, final double value, final Double_info mockDouble_info) {
         checking(new Expectations() {{
             one (mockConstantPool).get(index);
                 will(returnValue(mockDouble_info));
@@ -194,8 +230,14 @@ public class TestAttributeBase extends MockObjectTestCase {
     }
 
     protected void expectLookupString(final int index, final String value) {
-        final String_info mockString_info = mock(String_info.class);
+        expectLookupString(index, value, mock(String_info.class));
+    }
 
+    protected void expectLookupString(final int index, final String value, String mockName) {
+        expectLookupString(index, value, mock(String_info.class, mockName));
+    }
+
+    private void expectLookupString(final int index, final String value, final String_info mockString_info) {
         checking(new Expectations() {{
             one (mockConstantPool).get(index);
                 will(returnValue(mockString_info));
@@ -204,9 +246,15 @@ public class TestAttributeBase extends MockObjectTestCase {
         }});
     }
 
-    protected void expectLookupUtf8(final int index, final String value) {
-        final UTF8_info mockUtf8_info = mock(UTF8_info.class);
+    protected void expectLookupUtf8(int index, String value) {
+        expectLookupUtf8(index, value, mock(UTF8_info.class));
+    }
 
+    protected void expectLookupUtf8(int index, String value, String mockName) {
+        expectLookupUtf8(index, value, mock(UTF8_info.class, mockName));
+    }
+
+    private void expectLookupUtf8(final int index, final String value, final UTF8_info mockUtf8_info) {
         checking(new Expectations() {{
             one (mockConstantPool).get(index);
                 will(returnValue(mockUtf8_info));

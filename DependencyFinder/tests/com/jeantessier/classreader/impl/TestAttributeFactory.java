@@ -97,6 +97,7 @@ public class TestAttributeFactory extends TestAttributeBase {
         expectReadAttributeLength(3);
         expectReadU1('B');
         expectReadU2(2);
+        expectLookupInteger(2, 3);
 
         Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
         assertNotNull("AtributeFactory returned null", attribute);

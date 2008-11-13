@@ -36,6 +36,7 @@ import java.io.*;
 
 public abstract class TestRuntimeAnnotationsWithAnnotationsBase extends TestAnnotationsBase {
     private static final int TYPE_INDEX = 2;
+    private static final String TYPE = "Labc;";
 
     public void testConstructorWithNoAnnotations() throws Exception {
         doTestConstructorWithAnnotations(0);
@@ -62,6 +63,7 @@ public abstract class TestRuntimeAnnotationsWithAnnotationsBase extends TestAnno
         expectReadNumAnnotations(numAnnotations);
         for (int i = 0; i < numAnnotations; i++) {
             expectReadAnnotation(TYPE_INDEX, 0);
+            expectLookupUtf8(TYPE_INDEX, TYPE, "annotation " + i);
         }
 
         RuntimeAnnotations_attribute sut = createSut();

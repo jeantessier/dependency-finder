@@ -38,6 +38,7 @@ import com.jeantessier.classreader.*;
 
 public class TestLongConstantElementValue extends TestAnnotationsBase {
     private static final int CONST_VALUE_INDEX = 2;
+    private static final long CONST_VALUE = 3;
 
     private LongConstantElementValue sut;
 
@@ -45,15 +46,14 @@ public class TestLongConstantElementValue extends TestAnnotationsBase {
         super.setUp();
 
         expectReadU2(CONST_VALUE_INDEX);
+        expectLookupLong(CONST_VALUE_INDEX, CONST_VALUE, "lookup during construction");
 
         sut = new LongConstantElementValue(mockConstantPool, mockIn);
     }
 
     public void testGetConstValue() {
-        final long expectedValue = 1;
-        expectLookupLong(CONST_VALUE_INDEX, expectedValue);
-
-        assertEquals(expectedValue, sut.getConstValue());
+        expectLookupLong(CONST_VALUE_INDEX, CONST_VALUE);
+        assertEquals(CONST_VALUE, sut.getConstValue());
     }
 
     public void testGetTag() {

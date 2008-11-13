@@ -48,7 +48,7 @@ public class SourceFile_attribute extends Attribute_info implements com.jeantess
         Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
         sourceFileIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Source file: " + sourceFileIndex);
+        Logger.getLogger(getClass()).debug("Source file: " + sourceFileIndex + " (" + getSourceFile() + ")");
     }
 
     public int getSourceFileIndex() {

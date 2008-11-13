@@ -38,6 +38,7 @@ import com.jeantessier.classreader.*;
 
 public class TestFloatConstantElementValue extends TestAnnotationsBase {
     private static final int CONST_VALUE_INDEX = 2;
+    private static final float CONST_VALUE = 3;
 
     private FloatConstantElementValue sut;
 
@@ -45,15 +46,14 @@ public class TestFloatConstantElementValue extends TestAnnotationsBase {
         super.setUp();
 
         expectReadU2(CONST_VALUE_INDEX);
+        expectLookupFloat(CONST_VALUE_INDEX, CONST_VALUE, "lookup during construction");
 
         sut = new FloatConstantElementValue(mockConstantPool, mockIn);
     }
 
     public void testGetConstValue() {
-        final float expectedValue = 1;
-        expectLookupFloat(CONST_VALUE_INDEX, expectedValue);
-
-        assertEquals(expectedValue, sut.getConstValue(), 0.001);
+        expectLookupFloat(CONST_VALUE_INDEX, CONST_VALUE);
+        assertEquals(CONST_VALUE, sut.getConstValue(), 0.001);
     }
 
     public void testGetTag() {

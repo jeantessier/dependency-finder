@@ -50,6 +50,7 @@ public class TestElementValuePair extends TestAnnotationsBase {
         mockElementValue = mock(ElementValue.class);
 
         expectReadU2(ELEMENT_NAME_INDEX);
+        expectLookupUtf8(ELEMENT_NAME_INDEX, ELEMENT_NAME, "lookup during construction");
 
         checking(new Expectations() {{
             one (mockElementValueFactory).create(mockConstantPool, mockIn);
@@ -61,7 +62,6 @@ public class TestElementValuePair extends TestAnnotationsBase {
 
     public void testGetElementName() throws Exception {
         expectLookupUtf8(ELEMENT_NAME_INDEX, ELEMENT_NAME);
-
         assertSame("Element name", ELEMENT_NAME, sut.getElementName());
     }
 

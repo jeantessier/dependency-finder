@@ -53,7 +53,7 @@ public class ElementValuePair implements com.jeantessier.classreader.ElementValu
         this.constantPool = constantPool;
 
         elementNameIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Element name index: " + elementNameIndex);
+        Logger.getLogger(getClass()).debug("Element name index: " + elementNameIndex + " (" + getElementName() + ")");
 
         elementValue = elementValueFactory.create(constantPool, in);
     }

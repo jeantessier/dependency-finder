@@ -54,7 +54,7 @@ public class Annotation implements com.jeantessier.classreader.Annotation {
         this.constantPool = constantPool;
 
         typeIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Type index: " + typeIndex);
+        Logger.getLogger(getClass()).debug("Type index: " + typeIndex + " (" + getType() + ")");
 
         int numElementValuePairs = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Reading " + numElementValuePairs + " element value pair(s) ...");
@@ -68,15 +68,15 @@ public class Annotation implements com.jeantessier.classreader.Annotation {
         return typeIndex;
     }
 
-    public Class_info getRawType() {
-        return (Class_info) constantPool.get(getTypeIndex());
+    public UTF8_info getRawType() {
+        return (UTF8_info) constantPool.get(getTypeIndex());
     }
 
     public String getType() {
         String result = "";
 
         if (getTypeIndex() != 0) {
-            result = getRawType().getName();
+            result = ClassNameHelper.convertClassName(getRawType().getValue());
         }
 
         return result;

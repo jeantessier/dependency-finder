@@ -45,25 +45,23 @@ public class TestBooleanConstantElementValue extends TestAnnotationsBase {
         super.setUp();
 
         expectReadU2(CONST_VALUE_INDEX);
+        expectLookupInteger(CONST_VALUE_INDEX, 3, "lookup during construction");
 
         sut = new BooleanConstantElementValue(mockConstantPool, mockIn);
     }
 
     public void testGetConstValueFalse() {
         expectLookupInteger(CONST_VALUE_INDEX, 0);
-
         assertFalse(sut.getConstValue());
     }
 
     public void testGetConstValueTrue() {
         expectLookupInteger(CONST_VALUE_INDEX, 1);
-
         assertTrue(sut.getConstValue());
     }
 
     public void testGetConstValueGreaterThanOneMeansTrue() {
         expectLookupInteger(CONST_VALUE_INDEX, 2);
-
         assertTrue(sut.getConstValue());
     }
 

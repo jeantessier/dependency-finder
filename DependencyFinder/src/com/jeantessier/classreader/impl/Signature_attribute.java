@@ -48,7 +48,7 @@ public class Signature_attribute extends Attribute_info implements com.jeantessi
         Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
         signatureIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Signature: " + signatureIndex);
+        Logger.getLogger(getClass()).debug("Signature: " + signatureIndex + " (" + getSignature() + ")");
     }
 
     public int getSignatureIndex() {
