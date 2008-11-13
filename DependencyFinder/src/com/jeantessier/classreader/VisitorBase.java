@@ -194,23 +194,39 @@ public abstract class VisitorBase implements Visitor {
     }
 
     public void visitRuntimeVisibleAnnotations_attribute(RuntimeVisibleAnnotations_attribute attribute) {
-        // Do nothing
+        visitRuntimeAnnotations_attribute(attribute);
     }
 
     public void visitRuntimeInvisibleAnnotations_attribute(RuntimeInvisibleAnnotations_attribute attribute) {
-        // Do nothing
+        visitRuntimeAnnotations_attribute(attribute);
+    }
+
+    private void visitRuntimeAnnotations_attribute(RuntimeAnnotations_attribute attribute) {
+        Logger.getLogger(getClass()).debug("Visiting " + attribute.getAnnotations().size() + " annotation(s) ...");
+
+        for (Annotation annotation : attribute.getAnnotations()) {
+            annotation.accept(this);
+        }
     }
 
     public void visitRuntimeVisibleParameterAnnotations_attribute(RuntimeVisibleParameterAnnotations_attribute attribute) {
-        // Do nothing
+        visitRuntimeParameterAnnotations_attribute(attribute);
     }
 
     public void visitRuntimeInvisibleParameterAnnotations_attribute(RuntimeInvisibleParameterAnnotations_attribute attribute) {
-        // Do nothing
+        visitRuntimeParameterAnnotations_attribute(attribute);
+    }
+
+    private void visitRuntimeParameterAnnotations_attribute(RuntimeParameterAnnotations_attribute attribute) {
+        Logger.getLogger(getClass()).debug("Visiting " + attribute.getParameterAnnotations().size() + " parameter annotation(s) ...");
+
+        for (Parameter parameter : attribute.getParameterAnnotations()) {
+            parameter.accept(this);
+        }
     }
 
     public void visitAnnotationDefault_attribute(AnnotationDefault_attribute attribute) {
-        // Do nothing
+        attribute.getElemementValue().accept(this);
     }
 
     public void visitCustom_attribute(Custom_attribute attribute) {
@@ -225,9 +241,26 @@ public abstract class VisitorBase implements Visitor {
     public void visitLocalVariable(LocalVariable helper) {}
     public void visitLocalVariableType(LocalVariableType helper) {}
 
-    public void visitParameter(Parameter helper) {}
-    public void visitAnnotation(Annotation helper) {}
-    public void visitElementValuePair(ElementValuePair helper) {}
+    public void visitParameter(Parameter helper) {
+        Logger.getLogger(getClass()).debug("Visiting " + helper.getAnnotations().size() + " annotation(s) ...");
+
+        for (Annotation annotation : helper.getAnnotations()) {
+            annotation.accept(this);
+        }
+    }
+
+    public void visitAnnotation(Annotation helper) {
+        Logger.getLogger(getClass()).debug("Visiting " + helper.getElementValuePairs().size() + " element value pair(s) ...");
+
+        for (ElementValuePair elementValuePair : helper.getElementValuePairs()) {
+            elementValuePair.accept(this);
+        }
+    }
+
+    public void visitElementValuePair(ElementValuePair helper) {
+        helper.getElementValue().accept(this);
+    }
+
     public void visitByteConstantElementValue(ByteConstantElementValue helper) {}
     public void visitCharConstantElementValue(CharConstantElementValue helper) {}
     public void visitDoubleConstantElementValue(DoubleConstantElementValue helper) {}
@@ -239,6 +272,16 @@ public abstract class VisitorBase implements Visitor {
     public void visitStringConstantElementValue(StringConstantElementValue helper) {}
     public void visitEnumElementValue(EnumElementValue helper) {}
     public void visitClassElementValue(ClassElementValue helper) {}
-    public void visitAnnotationElementValue(AnnotationElementValue helper) {}
-    public void visitArrayElementValue(ArrayElementValue helper) {}
+
+    public void visitAnnotationElementValue(AnnotationElementValue helper) {
+        helper.getAnnotation().accept(this);
+    }
+
+    public void visitArrayElementValue(ArrayElementValue helper) {
+        Logger.getLogger(getClass()).debug("Visiting " + helper.getValues().size() + " value(s) ...");
+
+        for (ElementValue elementValue : helper.getValues()) {
+            elementValue.accept(this);
+        }
+    }
 }

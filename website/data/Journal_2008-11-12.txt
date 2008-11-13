@@ -1,0 +1,2 @@
+Implemented traversal of =*Annotations_attribute= and their subcomponents in
+=com.jeantessier.classreader.VisitorBase=.

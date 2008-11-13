@@ -44,13 +44,27 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut = new VisitorBase() {};
     }
 
+    public void testIncrementCount() {
+        int oldValue = sut.currentCount();
+        sut.incrementCount();
+        int newValue = sut.currentCount();
+        assertEquals("count", oldValue + 1, newValue);
+    }
+
+    public void testResetCount() {
+        sut.incrementCount();
+        assertTrue("count should not be zero", sut.currentCount() != 0);
+        sut.resetCount();
+        assertEquals("count", 0, sut.currentCount());
+    }
+
     public void testVisitConstantPool() {
         final ConstantPool mockConstantPool = mock(ConstantPool.class);
         final ConstantPoolEntry mockEntry = mock(ConstantPoolEntry.class);
 
         checking(new Expectations() {{
             one (mockConstantPool).iterator();
-            will(returnIterator(mockEntry));
+                will(returnIterator(mockEntry));
             one (mockEntry).accept(sut);
         }});
 
@@ -82,13 +96,13 @@ public class TestVisitorBase extends MockObjectTestCase {
 
         checking(new Expectations() {{
             one (mockClassfile).getAttributes();
-            will(returnValue(Collections.singleton(mockAttribute)));
+                will(returnValue(Collections.singleton(mockAttribute)));
             one (mockAttribute).accept(sut);
             one (mockClassfile).getAllFields();
-            will(returnValue(Collections.singleton(mockField)));
+                will(returnValue(Collections.singleton(mockField)));
             one (mockField).accept(sut);
             one (mockClassfile).getAllMethods();
-            will(returnValue(Collections.singleton(mockMethod)));
+                will(returnValue(Collections.singleton(mockMethod)));
             one (mockMethod).accept(sut);
         }});
 
@@ -156,7 +170,7 @@ public class TestVisitorBase extends MockObjectTestCase {
 
         checking(new Expectations() {{
             one (mockField).getAttributes();
-            will(returnValue(Collections.singleton(mockAttribute)));
+                will(returnValue(Collections.singleton(mockAttribute)));
             one (mockAttribute).accept(sut);
         }});
 
@@ -169,7 +183,7 @@ public class TestVisitorBase extends MockObjectTestCase {
 
         checking(new Expectations() {{
             one (mockMethod).getAttributes();
-            will(returnValue(Collections.singleton(mockAttribute)));
+                will(returnValue(Collections.singleton(mockAttribute)));
             one (mockAttribute).accept(sut);
         }});
 
@@ -189,13 +203,13 @@ public class TestVisitorBase extends MockObjectTestCase {
 
         checking(new Expectations() {{
             one (mockCode).iterator();
-            will(returnIterator(mockInstruction));
+                will(returnIterator(mockInstruction));
             one (mockInstruction).accept(sut);
-            exactly(2).of (mockCode).getExceptionHandlers();
-            will(returnValue(Collections.singleton(mockExceptionHandler)));
+            atLeast(1).of (mockCode).getExceptionHandlers();
+                will(returnValue(Collections.singleton(mockExceptionHandler)));
             one (mockExceptionHandler).accept(sut);
-            exactly(2).of (mockCode).getAttributes();
-            will(returnValue(Collections.singleton(mockAttribute)));
+            atLeast(1).of (mockCode).getAttributes();
+                will(returnValue(Collections.singleton(mockAttribute)));
             one (mockAttribute).accept(sut);
         }});
 
@@ -207,8 +221,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         final Class_info mockClass = mock(Class_info.class);
 
         checking(new Expectations() {{
-            exactly(2).of (mockExceptions).getExceptions();
-            will(returnValue(Collections.singleton(mockClass)));
+            atLeast(1).of (mockExceptions).getExceptions();
+                will(returnValue(Collections.singleton(mockClass)));
             one (mockClass).accept(sut);
         }});
 
@@ -220,8 +234,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            exactly(2).of (mockInnerClasses).getInnerClasses();
-            will(returnValue(Collections.singleton(mockInnerClass)));
+            atLeast(1).of (mockInnerClasses).getInnerClasses();
+                will(returnValue(Collections.singleton(mockInnerClass)));
             one (mockInnerClass).accept(sut);
         }});
 
@@ -258,8 +272,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         final LineNumber mockLineNumber = mock(LineNumber.class);
 
         checking(new Expectations() {{
-            exactly(2).of (mockLineNumberTable).getLineNumbers();
-            will(returnValue(Collections.singleton(mockLineNumber)));
+            atLeast(1).of (mockLineNumberTable).getLineNumbers();
+                will(returnValue(Collections.singleton(mockLineNumber)));
             one (mockLineNumber).accept(sut);
         }});
 
@@ -271,8 +285,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
-            exactly(2).of (mockLocalVariableTable).getLocalVariables();
-            will(returnValue(Collections.singleton(mockLocalVariable)));
+            atLeast(1).of (mockLocalVariableTable).getLocalVariables();
+                will(returnValue(Collections.singleton(mockLocalVariable)));
             one (mockLocalVariable).accept(sut);
         }});
 
@@ -284,8 +298,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         final LocalVariableType mockLocalVariableType = mock(LocalVariableType.class);
 
         checking(new Expectations() {{
-            exactly(2).of (mockLocalVariableTypeTable).getLocalVariableTypes();
-            will(returnValue(Collections.singleton(mockLocalVariableType)));
+            atLeast(1).of (mockLocalVariableTypeTable).getLocalVariableTypes();
+                will(returnValue(Collections.singleton(mockLocalVariableType)));
             one (mockLocalVariableType).accept(sut);
         }});
 
@@ -295,6 +309,71 @@ public class TestVisitorBase extends MockObjectTestCase {
     public void testVisitDeprecated_attribute() {
         Deprecated_attribute mockDeprecated = mock(Deprecated_attribute.class);
         sut.visitDeprecated_attribute(mockDeprecated);
+    }
+
+    public void testVisitRuntimeVisibleAnnotations_attribute() {
+        final RuntimeVisibleAnnotations_attribute mockRuntimeVisibleAnnotations = mock(RuntimeVisibleAnnotations_attribute.class);
+        final Annotation mockAnnotation = mock(Annotation.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockRuntimeVisibleAnnotations).getAnnotations();
+                will(returnValue(Collections.singleton(mockAnnotation)));
+            one (mockAnnotation).accept(sut);
+        }});
+
+        sut.visitRuntimeVisibleAnnotations_attribute(mockRuntimeVisibleAnnotations);
+    }
+
+    public void testVisitRuntimeInvisibleAnnotations_attribute() {
+        final RuntimeInvisibleAnnotations_attribute mockRuntimeInvisibleAnnotations = mock(RuntimeInvisibleAnnotations_attribute.class);
+        final Annotation mockAnnotation = mock(Annotation.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockRuntimeInvisibleAnnotations).getAnnotations();
+                will(returnValue(Collections.singleton(mockAnnotation)));
+            one (mockAnnotation).accept(sut);
+        }});
+
+        sut.visitRuntimeInvisibleAnnotations_attribute(mockRuntimeInvisibleAnnotations);
+    }
+
+    public void testVisitRuntimeVisibleParameterAnnotations_attribute() {
+        final RuntimeVisibleParameterAnnotations_attribute mockRuntimeVisibleParameterAnnotations = mock(RuntimeVisibleParameterAnnotations_attribute.class);
+        final Parameter mockParameter = mock(Parameter.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockRuntimeVisibleParameterAnnotations).getParameterAnnotations();
+                will(returnValue(Collections.singletonList(mockParameter)));
+            one (mockParameter).accept(sut);
+        }});
+
+        sut.visitRuntimeVisibleParameterAnnotations_attribute(mockRuntimeVisibleParameterAnnotations);
+    }
+
+    public void testVisitRuntimeInvisibleParameterAnnotations_attribute() {
+        final RuntimeInvisibleParameterAnnotations_attribute mockRuntimeInvisibleParameterAnnotations = mock(RuntimeInvisibleParameterAnnotations_attribute.class);
+        final Parameter mockParameter = mock(Parameter.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockRuntimeInvisibleParameterAnnotations).getParameterAnnotations();
+                will(returnValue(Collections.singletonList(mockParameter)));
+            one (mockParameter).accept(sut);
+        }});
+
+        sut.visitRuntimeInvisibleParameterAnnotations_attribute(mockRuntimeInvisibleParameterAnnotations);
+    }
+
+    public void testVisitAnnotationDefault_attribute() {
+        final AnnotationDefault_attribute mockAnnotationDefault = mock(AnnotationDefault_attribute.class);
+        final ElementValue mockElementValue = mock(ElementValue.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockAnnotationDefault).getElemementValue();
+                will(returnValue(mockElementValue));
+            one (mockElementValue).accept(sut);
+        }});
+
+        sut.visitAnnotationDefault_attribute(mockAnnotationDefault);
     }
 
     public void testVisitCustom_attribute() {
@@ -330,5 +409,125 @@ public class TestVisitorBase extends MockObjectTestCase {
     public void testVisitLocalVariableType() {
         LocalVariableType mockLocalVariableType = mock(LocalVariableType.class);
         sut.visitLocalVariableType(mockLocalVariableType);
+    }
+
+    public void testVisitParameter() {
+        final Parameter mockParameter = mock(Parameter.class);
+        final Annotation mockAnnotation = mock(Annotation.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockParameter).getAnnotations();
+                will(returnValue(Collections.singleton(mockAnnotation)));
+            one (mockAnnotation).accept(sut);
+        }});
+
+        sut.visitParameter(mockParameter);
+    }
+
+    public void testVisitAnnotation() {
+        final Annotation mockAnnotation = mock(Annotation.class);
+        final ElementValuePair mockElementValuePair = mock(ElementValuePair.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockAnnotation).getElementValuePairs();
+                will(returnValue(Collections.singleton(mockElementValuePair)));
+            one (mockElementValuePair).accept(sut);
+        }});
+
+        sut.visitAnnotation(mockAnnotation);
+    }
+
+    public void testVisitElementValuePair() {
+        final ElementValuePair mockElementValuePair = mock(ElementValuePair.class);
+        final ElementValue mockElementValue = mock(ElementValue.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockElementValuePair).getElementValue();
+                will(returnValue(mockElementValue));
+            one (mockElementValue).accept(sut);
+        }});
+
+        sut.visitElementValuePair(mockElementValuePair);
+    }
+
+    public void testVisitByteConstantElementValue() {
+        ByteConstantElementValue mockConstantElementValue = mock(ByteConstantElementValue.class);
+        sut.visitByteConstantElementValue(mockConstantElementValue);
+    }
+
+    public void testVisitCharConstantElementValue() {
+        CharConstantElementValue mockConstantElementValue = mock(CharConstantElementValue.class);
+        sut.visitCharConstantElementValue(mockConstantElementValue);
+    }
+
+    public void testVisitDoubleConstantElementValue() {
+        DoubleConstantElementValue mockConstantElementValue = mock(DoubleConstantElementValue.class);
+        sut.visitDoubleConstantElementValue(mockConstantElementValue);
+    }
+
+    public void testVisitFloatConstantElementValue() {
+        FloatConstantElementValue mockConstantElementValue = mock(FloatConstantElementValue.class);
+        sut.visitFloatConstantElementValue(mockConstantElementValue);
+    }
+
+    public void testVisitIntegerConstantElementValue() {
+        IntegerConstantElementValue mockConstantElementValue = mock(IntegerConstantElementValue.class);
+        sut.visitIntegerConstantElementValue(mockConstantElementValue);
+    }
+
+    public void testVisitLongConstantElementValue() {
+        LongConstantElementValue mockConstantElementValue = mock(LongConstantElementValue.class);
+        sut.visitLongConstantElementValue(mockConstantElementValue);
+    }
+
+    public void testVisitShortConstantElementValue() {
+        ShortConstantElementValue mockConstantElementValue = mock(ShortConstantElementValue.class);
+        sut.visitShortConstantElementValue(mockConstantElementValue);
+    }
+
+    public void testVisitBooleanConstantElementValue() {
+        BooleanConstantElementValue mockConstantElementValue = mock(BooleanConstantElementValue.class);
+        sut.visitBooleanConstantElementValue(mockConstantElementValue);
+    }
+
+    public void testVisitStringConstantElementValue() {
+        StringConstantElementValue mockConstantElementValue = mock(StringConstantElementValue.class);
+        sut.visitStringConstantElementValue(mockConstantElementValue);
+    }
+
+    public void testVisitEnumElementValue() {
+        EnumElementValue mockEnumElementValue = mock(EnumElementValue.class);
+        sut.visitEnumElementValue(mockEnumElementValue);
+    }
+
+    public void testVisitClassElementValue() {
+        ClassElementValue mockClassElementValue = mock(ClassElementValue.class);
+        sut.visitClassElementValue(mockClassElementValue);
+    }
+
+    public void testVisitAnnotationElementValue() {
+        final AnnotationElementValue mockAnnotationElementValue = mock(AnnotationElementValue.class);
+        final Annotation mockAnnotation = mock(Annotation.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockAnnotationElementValue).getAnnotation();
+                will(returnValue(mockAnnotation));
+            one (mockAnnotation).accept(sut);
+        }});
+
+        sut.visitAnnotationElementValue(mockAnnotationElementValue);
+    }
+
+    public void testVisitArrayElementValue() {
+        final ArrayElementValue mockArrayElementValue = mock(ArrayElementValue.class);
+        final ElementValue mockElementValue= mock(ElementValue.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockArrayElementValue).getValues();
+                will(returnValue(Collections.singleton(mockElementValue)));
+            one (mockElementValue).accept(sut);
+        }});
+
+        sut.visitArrayElementValue(mockArrayElementValue);
     }
 }
