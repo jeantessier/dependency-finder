@@ -68,16 +68,26 @@ public abstract class VisitorBase implements Visitor {
     }
 
     public void visitClassfile(Classfile classfile) {
-        for (Attribute_info attribute : classfile.getAttributes()) {
-            attribute.accept(this);
-        }
+        visitClassfileFields(classfile);
+        visitClassfileMethods(classfile);
+        visitClassfileAnnotations(classfile);
+    }
 
+    protected void visitClassfileFields(Classfile classfile) {
         for (Field_info field : classfile.getAllFields()) {
             field.accept(this);
         }
+    }
 
+    protected void visitClassfileMethods(Classfile classfile) {
         for (Method_info method : classfile.getAllMethods()) {
             method.accept(this);
+        }
+    }
+
+    protected void visitClassfileAnnotations(Classfile classfile) {
+        for (Attribute_info attribute : classfile.getAttributes()) {
+            attribute.accept(this);
         }
     }
 

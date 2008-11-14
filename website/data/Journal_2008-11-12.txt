@@ -10,6 +10,15 @@ was not passing the =ConstantPool= to its =Annotation=.  Now that the
 constructor for =Annotation= calls =getType()= for its debug trace, it forces
 a constant pool look up, which exposed the problem.  Hurray for tests!
 
-I realized that =Annotation= did not expose its =type= property through its
-interface.  It is odd that I did not notice it earlier.  And, I must admit, a
-bit scary.  What else might I have missed?
+Since Java 1.2, you can deprecate a programming element with the javadoc tag
+=@deprecated=.  It adds a =Deprecated= attribute to the programming element.
+Since Java 1.5, you can deprecate a programming element with the runtime
+annotation =@Deprecated=.  I wrote a special =Visitor=, named
+=DeprecationDetector=, that traverses the =Classfile= structure looking for
+either one.  I will use it to rewrite =Deprecatable.isDeprecated()= in
+=Classfile= and =Feature_info=.
+
+As I was working on =DeprecationDetector=, I realized that =Annotation= did not
+expose its =type= property through its interface.  It is odd that I did not
+notice it earlier.  And, I must admit, a bit scary.  What else might I have
+missed?
