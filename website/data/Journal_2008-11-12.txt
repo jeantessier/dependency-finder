@@ -16,7 +16,9 @@ Since Java 1.5, you can deprecate a programming element with the runtime
 annotation =@Deprecated=.  I wrote a special =Visitor=, named
 =DeprecationDetector=, that traverses the =Classfile= structure looking for
 either one.  I will use it to rewrite =Deprecatable.isDeprecated()= in
-=Classfile= and =Feature_info=.
+=Classfile= and =Feature_info=.  This is part of a larger effort to reduce
+dependencies by parts of the =Classfile= structure upon their containing
+structures.
 
 As I was working on =DeprecationDetector=, I realized that =Annotation= did not
 expose its =type= property through its interface.  It is odd that I did not
