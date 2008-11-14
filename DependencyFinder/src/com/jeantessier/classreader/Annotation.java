@@ -35,5 +35,9 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface Annotation extends Visitable {
+    public int getTypeIndex();
+    public UTF8_info getRawType();
+    public String getType();
+    
     public Collection<? extends ElementValuePair> getElementValuePairs();
 }

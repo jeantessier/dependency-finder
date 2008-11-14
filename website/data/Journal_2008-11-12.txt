@@ -9,3 +9,7 @@ Found a bug!  It turns out that the constructor for =AnnotationElementValue=
 was not passing the =ConstantPool= to its =Annotation=.  Now that the
 constructor for =Annotation= calls =getType()= for its debug trace, it forces
 a constant pool look up, which exposed the problem.  Hurray for tests!
+
+I realized that =Annotation= did not expose its =type= property through its
+interface.  It is odd that I did not notice it earlier.  And, I must admit, a
+bit scary.  What else might I have missed?
