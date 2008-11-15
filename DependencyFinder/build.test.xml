@@ -64,12 +64,12 @@
     </path>
 
     <target name="init">
-        <property name="srcDir"         value="src"/>
-        <property name="testsDir"       value="tests"/>
-        <property name="fitDir"         value="fit"/>
-        <property name="classesDir"     value="classes"/>
-        <property name="libDir"         value="lib"/>
-        <property name="reportsDir"     value="reports"/>
+        <property name="srcDir" value="src"/>
+        <property name="testsDir" value="tests"/>
+        <property name="fitDir" value="fit"/>
+        <property name="classesDir" value="classes"/>
+        <property name="libDir" value="lib"/>
+        <property name="reportsDir" value="reports"/>
         <property name="testReportsDir" value="${reportsDir}/tests"/>
     </target>
 
@@ -153,186 +153,31 @@
         </javac>
     </target>
 
-    <target name="run" depends="tests.classreader, tests.commandline, tests.dependency, tests.dependencyfinder.ant, tests.dependencyfinder.cli, tests.dependencyfinder.web, tests.dependencyfinder.webwork, tests.diff, tests.metrics, tests.text, tests.fit, tests.report"
+    <target name="run" depends="tests.junit, tests.fit, tests.report"
             description="Runs all unit tests and generates a test run report"/>
 
     <target name="tests.init" depends="init">
         <mkdir dir="${testReportsDir}"/>
     </target>
 
-    <target name="tests.classreader" depends="tests.init">
+    <target name="tests.junit" depends="tests.init">
         <junit fork="true">
             <classpath>
                 <path refid="classpath.dependencyfinder"/>
                 <path refid="classpath.jmock"/>
+                <path refid="classpath.tomcat"/>
+                <path refid="classpath.webwork"/>
+                <path refid="classpath.httpunit"/>
             </classpath>
             <formatter type="xml"/>
             <batchtest todir="${testReportsDir}">
                 <fileset dir="${testsDir}">
-                    <include name="com/jeantessier/classreader/**/Test*.java"/>
+                    <include name="com/jeantessier/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
                     <exclude name="**/Test*Base.java"/>
                 </fileset>
                 <fileset dir="${testsDir}">
                     <include name="com/jeantessier/classreader/TestVisitorBase.java"/>
-                </fileset>
-            </batchtest>
-        </junit>
-    </target>
-
-    <target name="tests.commandline" depends="tests.init">
-        <junit fork="true">
-            <classpath>
-                <path refid="classpath.dependencyfinder"/>
-                <path refid="classpath.jmock"/>
-            </classpath>
-            <formatter type="xml"/>
-            <batchtest todir="${testReportsDir}">
-                <fileset dir="${testsDir}">
-                    <include name="com/jeantessier/commandline/**/Test*.java"/>
-                    <exclude name="**/TestAll.java"/>
-                    <exclude name="**/Test*Base.java"/>
-                </fileset>
-            </batchtest>
-        </junit>
-    </target>
-
-    <target name="tests.dependency" depends="tests.init">
-        <junit fork="true">
-            <classpath>
-                <path refid="classpath.dependencyfinder"/>
-                <path refid="classpath.jmock"/>
-            </classpath>
-            <formatter type="xml"/>
-            <batchtest todir="${testReportsDir}">
-                <fileset dir="${testsDir}">
-                    <include name="com/jeantessier/dependency/**/Test*.java"/>
-                    <exclude name="**/TestAll.java"/>
-                    <exclude name="**/Test*Base.java"/>
-                </fileset>
-            </batchtest>
-        </junit>
-    </target>
-
-    <target name="tests.dependencyfinder.ant" depends="tests.init">
-        <junit fork="true">
-            <classpath>
-                <path refid="classpath.dependencyfinder"/>
-                <path refid="classpath.jmock"/>
-            </classpath>
-            <formatter type="xml"/>
-            <batchtest todir="${testReportsDir}">
-                <fileset dir="${testsDir}">
-                    <include name="com/jeantessier/dependencyfinder/ant/**/Test*.java"/>
-                    <exclude name="**/TestAll.java"/>
-                    <exclude name="**/Test*Base.java"/>
-                </fileset>
-            </batchtest>
-        </junit>
-    </target>
-
-    <target name="tests.dependencyfinder.cli" depends="tests.init">
-        <junit fork="true">
-            <classpath>
-                <path refid="classpath.dependencyfinder"/>
-                <path refid="classpath.jmock"/>
-            </classpath>
-            <formatter type="xml"/>
-            <batchtest todir="${testReportsDir}">
-                <fileset dir="${testsDir}">
-                    <include name="com/jeantessier/dependencyfinder/cli/**/Test*.java"/>
-                    <exclude name="**/TestAll.java"/>
-                    <exclude name="**/Test*Base.java"/>
-                </fileset>
-            </batchtest>
-        </junit>
-    </target>
-
-    <target name="tests.dependencyfinder.web" depends="tests.init">
-        <junit fork="true">
-            <classpath>
-                <path refid="classpath.dependencyfinder"/>
-                <path refid="classpath.tomcat"/>
-                <path refid="classpath.httpunit"/>
-            </classpath>
-            <formatter type="xml"/>
-            <batchtest todir="${testReportsDir}">
-                <fileset dir="${testsDir}">
-                    <include name="com/jeantessier/dependencyfinder/web/**/Test*.java"/>
-                    <exclude name="**/TestAll.java"/>
-                    <exclude name="**/Test*Base.java"/>
-                </fileset>
-            </batchtest>
-        </junit>
-    </target>
-
-    <target name="tests.dependencyfinder.webwork" depends="tests.init">
-        <junit fork="true">
-            <classpath>
-                <path refid="classpath.dependencyfinder"/>
-                <path refid="classpath.tomcat"/>
-                <path refid="classpath.webwork"/>
-                <path refid="classpath.httpunit"/>
-            </classpath>
-            <formatter type="xml"/>
-            <batchtest todir="${testReportsDir}">
-                <fileset dir="${testsDir}">
-                    <include name="com/jeantessier/dependencyfinder/webwork/**/Test*.java"/>
-                    <exclude name="**/TestAll.java"/>
-                    <exclude name="**/Test*Base.java"/>
-                </fileset>
-            </batchtest>
-        </junit>
-    </target>
-
-    <target name="tests.diff" depends="tests.init">
-        <junit fork="true">
-            <classpath>
-                <path refid="classpath.dependencyfinder"/>
-                <path refid="classpath.tomcat"/>
-                <path refid="classpath.webwork"/>
-                <path refid="classpath.httpunit"/>
-            </classpath>
-            <formatter type="xml"/>
-            <batchtest todir="${testReportsDir}">
-                <fileset dir="${testsDir}">
-                    <include name="com/jeantessier/diff/**/Test*.java"/>
-                    <exclude name="**/TestAll.java"/>
-                    <exclude name="**/Test*Base.java"/>
-                </fileset>
-            </batchtest>
-        </junit>
-    </target>
-
-    <target name="tests.metrics" depends="tests.init">
-        <junit fork="true">
-            <classpath>
-                <path refid="classpath.dependencyfinder"/>
-                <path refid="classpath.jmock"/>
-            </classpath>
-            <formatter type="xml"/>
-            <batchtest todir="${testReportsDir}">
-                <fileset dir="${testsDir}">
-                    <include name="com/jeantessier/metrics/**/Test*.java"/>
-                    <exclude name="**/TestAll.java"/>
-                    <exclude name="**/Test*Base.java"/>
-                    <exclude name="**/TestMetricsGatherer.java"/>
-                </fileset>
-            </batchtest>
-        </junit>
-    </target>
-
-    <target name="tests.text" depends="tests.init">
-        <junit fork="true">
-            <classpath>
-                <path refid="classpath.dependencyfinder"/>
-            </classpath>
-            <formatter type="xml"/>
-            <batchtest todir="${testReportsDir}">
-                <fileset dir="${testsDir}">
-                    <include name="com/jeantessier/text/**/Test*.java"/>
-                    <exclude name="**/TestAll.java"/>
-                    <exclude name="**/Test*Base.java"/>
                 </fileset>
             </batchtest>
         </junit>
