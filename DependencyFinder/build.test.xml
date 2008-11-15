@@ -171,11 +171,10 @@
                 <fileset dir="${testsDir}">
                     <include name="com/jeantessier/classreader/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
-                    <exclude name="**/classreader/TestClassfileLoaderBase.java"/>
-                    <exclude name="**/classreader/impl/TestAnnotationsBase.java"/>
-                    <exclude name="**/classreader/impl/TestAttributeBase.java"/>
-                    <exclude name="**/classreader/impl/TestRuntimeAnnotationsBase.java"/>
-                    <exclude name="**/classreader/impl/TestRuntimeParameterAnnotationsBase.java"/>
+                    <exclude name="**/Test*Base.java"/>
+                </fileset>
+                <fileset dir="${testsDir}">
+                    <include name="com/jeantessier/classreader/TestVisitorBase.java"/>
                 </fileset>
             </batchtest>
         </junit>
@@ -192,6 +191,7 @@
                 <fileset dir="${testsDir}">
                     <include name="com/jeantessier/commandline/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
+                    <exclude name="**/Test*Base.java"/>
                 </fileset>
             </batchtest>
         </junit>
@@ -208,7 +208,7 @@
                 <fileset dir="${testsDir}">
                     <include name="com/jeantessier/dependency/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
-                    <exclude name="**/dependency/TestHTMLPrinterBase.java"/>
+                    <exclude name="**/Test*Base.java"/>
                 </fileset>
             </batchtest>
         </junit>
@@ -225,6 +225,7 @@
                 <fileset dir="${testsDir}">
                     <include name="com/jeantessier/dependencyfinder/ant/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
+                    <exclude name="**/Test*Base.java"/>
                 </fileset>
             </batchtest>
         </junit>
@@ -241,6 +242,7 @@
                 <fileset dir="${testsDir}">
                     <include name="com/jeantessier/dependencyfinder/cli/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
+                    <exclude name="**/Test*Base.java"/>
                 </fileset>
             </batchtest>
         </junit>
@@ -258,7 +260,7 @@
                 <fileset dir="${testsDir}">
                     <include name="com/jeantessier/dependencyfinder/web/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
-                    <exclude name="**/dependencyfinder/web/Test*Base.java"/>
+                    <exclude name="**/Test*Base.java"/>
                 </fileset>
             </batchtest>
         </junit>
@@ -277,6 +279,7 @@
                 <fileset dir="${testsDir}">
                     <include name="com/jeantessier/dependencyfinder/webwork/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
+                    <exclude name="**/Test*Base.java"/>
                 </fileset>
             </batchtest>
         </junit>
@@ -295,7 +298,7 @@
                 <fileset dir="${testsDir}">
                     <include name="com/jeantessier/diff/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
-                    <exclude name="**/diff/TestDifferencesFactoryBase.java"/>
+                    <exclude name="**/Test*Base.java"/>
                 </fileset>
             </batchtest>
         </junit>
@@ -312,6 +315,7 @@
                 <fileset dir="${testsDir}">
                     <include name="com/jeantessier/metrics/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
+                    <exclude name="**/Test*Base.java"/>
                     <exclude name="**/TestMetricsGatherer.java"/>
                 </fileset>
             </batchtest>
@@ -328,6 +332,7 @@
                 <fileset dir="${testsDir}">
                     <include name="com/jeantessier/text/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
+                    <exclude name="**/Test*Base.java"/>
                 </fileset>
             </batchtest>
         </junit>
