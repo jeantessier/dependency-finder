@@ -24,3 +24,8 @@ As I was working on =DeprecationDetector=, I realized that =Annotation= did not
 expose its =type= property through its interface.  It is odd that I did not
 notice it earlier.  And, I must admit, a bit scary.  What else might I have
 missed?
+
+As I was trying =ClassReader -xml=, I realized that the elements of the constant
+pool have an attribute =id= that gives their position in the pool.  This is
+unfortunate since =id= has a very specific meaning in XML.  I should definitely
+think of changing it to something more like =index=.
