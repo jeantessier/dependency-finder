@@ -6,6 +6,6 @@ Cleaned up leftover text on the resources page.
 
 Now, I need to go and update all the copyright notices to 2004.
 
-The SourceForge website mentions that project statistics are
-currently impacted by known issues.  They are working on it.  They
-have affected since December 22, 2003.
+The SourceForge website mentions that project statistics are currently impacted
+by known issues.  They are working on it.  They have been affected since
+2003-12-22.

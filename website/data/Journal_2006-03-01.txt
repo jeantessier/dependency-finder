@@ -23,14 +23,14 @@ computation.  Otherwise, they just do a byte-to-byte comparision of the
 instruction's data.
 
 With these new tools, I revisited the case a user had brought to my attention
-on February 21, 2006.  At the time, =JarJarDiff= only did byte-to-byte
-comparision when checking for code changes in methods.  The user complained
-that they had changed only one method but =JarJarDiff= was flagging them all as
-different after a recompile.  It turns out the constant pool was reordered
-between the two compilations, resulting in different indices and therefore
-different bytes in the bytecode.  Now, instructions are isolated from any
-shuffling in the constant pool, so I expect that only the modified method will
-show up in the =JarJarDiff= report.
+on [[2006-02-21]].  At the time, =JarJarDiff= only did byte-to-byte comparision
+when checking for code changes in methods.  The user complained that they had
+changed only one method but =JarJarDiff= was flagging them all as different
+after a recompile.  It turns out the constant pool was reordered between the two
+compilations, resulting in different indices and therefore different bytes in
+the bytecode.  Now, instructions are isolated from any shuffling in the constant
+pool, so I expect that only the modified method will show up in the =JarJarDiff=
+report.
 
 There were three.  One was the method that had been modified, it had extra
 instructions.  I was able to run =ClassReader= on the classes to compare

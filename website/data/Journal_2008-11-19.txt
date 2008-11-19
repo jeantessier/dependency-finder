@@ -1,0 +1,1 @@
+Modified journal entries to turn dates into hyperlinks.

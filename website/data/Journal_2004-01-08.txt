@@ -1,4 +1,3 @@
-Rosalyn Lum, of
-[[http://www.sdmagazine.com/][Software Development]]
-magazine, sent me an email to enquire about Dependency Finder.  It seems
-it might get mentioned in their upcoming March issue.  Yeah!
+Rosalyn Lum, of [[http://www.sdmagazine.com/][Software Development]] magazine,
+sent me an email to enquire about Dependency Finder.  It seems it might get
+mentioned in their upcoming March issue.  Yeah!

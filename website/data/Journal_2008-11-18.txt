@@ -1,0 +1,2 @@
+Modified =data2html.cgi= to render dates as URLs to the corresponding journal
+entry.

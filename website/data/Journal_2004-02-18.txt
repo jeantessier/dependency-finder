@@ -25,9 +25,8 @@ was with output from Visual Age for Java.  I logged it as bug
 I fixed it immediately as
 [[http://sourceforge.net/tracker/index.php?func%3Ddetail&aid%3D900062&group_id%3D43305&atid%3D435886][patch #900062]].
 
-Third, they encountered the situation I described on
-February 03, 2004.  I am starting to think that maybe I should do
-something about it.  But what?
+Third, they encountered the situation I described on [[2004-02-03]].  I am
+starting to think that maybe I should do something about it.  But what?
 
 Fourth, and last, they tried to run =ClassReader= on a
 whole JAR file.  It is designed for use on one file at a time (in

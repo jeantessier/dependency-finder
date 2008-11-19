@@ -1,6 +1,5 @@
-Submitted a session for the next JavaOne conference.  I used
-the presentation from October 23rd as the basis.  I might add
-sessions for JarJarDiff.
+Submitted a session for the next JavaOne conference.  I used the presentation
+from [[2002-10-23]] as the basis.  I might add sessions for JarJarDiff.
 
-I will use the presentation's slides for the tutorial.  I
-must get back to finishing the manual, too.
+I will use the presentation's slides for the tutorial.  I must get back to
+finishing the manual, too.

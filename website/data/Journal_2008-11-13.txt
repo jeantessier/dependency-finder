@@ -1,5 +1,5 @@
-Back on 2008-11-03, I simplified some constructors at the cost of less useful
-debug traces.  I was looking at traces from =ClassMetrics= to see how
+Back on [[2008-11-03]], I simplified some constructors at the cost of less
+useful debug traces.  I was looking at traces from =ClassMetrics= to see how
 Dependency Finder was dealing with annotations in the wild and I realized that
 echoing only constant pool indices is not very helpful.  I really need to
 look up those values in the constant pool and include them in the trace

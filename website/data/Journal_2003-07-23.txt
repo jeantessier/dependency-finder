@@ -10,7 +10,7 @@ test them.  I was thinking of Bourne shell scripts
 =DEPENDENCYFINDER_HOME= from their invocation path and figure
 out the exact name of the class to invoke from their invocation name.
 I have a prototype on the SourceForge shell server that dates back to
-January 23, but I cannot build a =.tar.gz= file with symbolic
+[[2003-01-23]], but I cannot build a =.tar.gz= file with symbolic
 links in it on my Windows machine, and I don't want to distribute my
 build process either.  And working via that dreadful SSH terminal is out
 of the question.  I need three or four launchers to handle the various

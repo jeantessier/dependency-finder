@@ -1,7 +1,7 @@
 Someone came up with some weird behavior in Dependency Finder and
 asked me for an explanation.  It turns out to be caused by some
 interesting things done by the Java compiler.  I touched upon it back on
-January 07, 2004, but I'll elaborate further here.
+[[2004-01-07]], but I'll elaborate further here.
 
 First, suppose you have the following classes =A= and
 =B=:
