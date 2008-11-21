@@ -1,0 +1,2 @@
+Wrote =LocalVariableFinder= to help find the =LocalVariable= of a
+=Code_attribute= from its index in an =Instruction=.
