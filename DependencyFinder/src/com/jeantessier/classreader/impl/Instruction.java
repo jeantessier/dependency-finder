@@ -580,10 +580,6 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
         this.start = start;
     }
 
-    public Code_attribute getCode() {
-        return code;
-    }
-
     public byte[] getBytecode() {
         return bytecode;
     }
@@ -785,7 +781,7 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
             case 0xc0: // checkcast
             case 0xc1: // instanceof
             case 0xc5: // multianewarray
-                result = getCode().getConstantPool().get(getIndex());
+                result = code.getConstantPool().get(getIndex());
                 break;
             default:
                 result = null;
@@ -820,8 +816,8 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
             Instruction other = (Instruction) object;
             result = getOpcode() == other.getOpcode();
 
-            ConstantPoolEntry thisEntry = (ConstantPoolEntry) ((getCode() != null) ? getIndexedConstantPoolEntry() : null);
-            ConstantPoolEntry otherEntry = (ConstantPoolEntry) ((other.getCode() != null) ? other.getIndexedConstantPoolEntry() : null);
+            ConstantPoolEntry thisEntry = (ConstantPoolEntry) ((code != null) ? getIndexedConstantPoolEntry() : null);
+            ConstantPoolEntry otherEntry = (ConstantPoolEntry) ((other.code != null) ? other.getIndexedConstantPoolEntry() : null);
 
             if (result && thisEntry != null && otherEntry != null) {
                 result = thisEntry.equals(otherEntry);

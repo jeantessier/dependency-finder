@@ -33,7 +33,6 @@
 package com.jeantessier.classreader;
 
 public interface Instruction extends Visitable {
-    public Code_attribute getCode();
     public byte[] getBytecode();
     public int getStart();
     public int getOpcode();
