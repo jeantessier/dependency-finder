@@ -41,7 +41,7 @@ public class TestDeprecationDetector extends MockObjectTestCase {
     private DeprecationDetector sut;
 
     protected void setUp() throws Exception {
-        sut = new DeprecationDetector() {};
+        sut = new DeprecationDetector();
     }
 
     public void testVisitClassfile() {
