@@ -40,7 +40,6 @@ public class TestAll extends TestCase {
 
         result.addTestSuite(TestInterfaceMethodRef_info.class);
         result.addTestSuite(TestInstruction.class);
-        result.addTestSuite(TestInstructionWithConstantPool.class);
         result.addTestSuite(TestConstantValue_attribute.class);
         result.addTestSuite(TestCode_attribute.class);
         result.addTestSuite(TestExceptions_attribute.class);

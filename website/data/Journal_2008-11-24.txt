@@ -1,0 +1,2 @@
+Simplified =Instruction= tests by using jMock and putting many of the tests
+methods in one test class.

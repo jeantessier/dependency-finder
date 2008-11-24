@@ -32,53 +32,179 @@
 
 package com.jeantessier.classreader.impl;
 
-import junit.framework.*;
+import org.jmock.*;
+import org.jmock.integration.junit3.*;
+import org.jmock.lib.legacy.*;
 
-public class TestInstruction extends TestCase {
-    private Instruction instruction1;
-    private Instruction instruction2;
-    private Instruction instruction3;
-    private Instruction instruction4;
-    private Instruction instruction5;
-    private Instruction instruction6;
-    private Instruction instruction7;
+public class TestInstruction extends MockObjectTestCase {
+    private static final byte LDC_INSTRUCTION = (byte) 0x12;
+    private static final byte INDEX = (byte) 0x02;
+
+    private Code_attribute mockCode_attribute;
 
     protected void setUp() throws Exception {
         super.setUp();
 
-        byte[] code1 = new byte[] {(byte) 0xB6, (byte) 0x00, (byte) 0xFF};
-        byte[] code2 = new byte[] {(byte) 0x13, (byte) 0x01, (byte) 0xCA};
-        byte[] code3 = new byte[] {(byte) 0xB6, (byte) 0x00, (byte) 0xFF, (byte) 0x13, (byte) 0x01, (byte) 0xCA};
-        byte[] code4 = new byte[] {(byte) 0xB6, (byte) 0x00, (byte) 0xFF, (byte) 0x13, (byte) 0x01, (byte) 0xCA};
-        byte[] code5 = new byte[] {(byte) 0x13, (byte) 0x01, (byte) 0x74};
-        byte[] code6 = new byte[] {(byte) 0xB1};
-        byte[] code7 = new byte[] {(byte) 0x12, (byte) 0x74};
+        setImposteriser(ClassImposteriser.INSTANCE);
 
-        instruction1 = new Instruction(null ,code1, 0);
-        instruction2 = new Instruction(null, code2, 0);
-        instruction3 = new Instruction(null, code3, 3);
-        instruction4 = new Instruction(null, code4, 0);
-        instruction5 = new Instruction(null, code5, 0);
-        instruction6 = new Instruction(null, code6, 0);
-        instruction7 = new Instruction(null, code7, 0);
+        mockCode_attribute = mock(Code_attribute.class);
     }
 
-    public void testEquals() {
-        assertEquals("same", instruction1, instruction1);
-        assertEquals("identical", instruction1, instruction4);
-        assertFalse("different opcode", instruction1.equals(instruction2));
-        assertEquals("offset", instruction2, instruction3);
-        assertFalse("different index", instruction2.equals(instruction5));
-        assertFalse("different size", instruction1.equals(instruction6));
+    public void testEquals_Same() {
+        Instruction sut = new Instruction(mockCode_attribute, null, 0);
+        assertTrue(sut.equals(sut));
     }
 
-    public void testGetIndex() {
-        assertEquals("Two-byte index", 255, instruction1.getIndex());
-        assertEquals("Two-byte index", 458, instruction2.getIndex());
-        assertEquals("Two-byte index", 458, instruction3.getIndex());
-        assertEquals("Two-byte index", 255, instruction4.getIndex());
-        assertEquals("Two-byte index", 372, instruction5.getIndex());
-        assertEquals("Non-index opcode", -1, instruction6.getIndex());
-        assertEquals("Single byte index", 116, instruction7.getIndex());
+    public void testEquals_DifferentClasses() {
+        Instruction sut = new Instruction(mockCode_attribute, null, 0);
+        Object other = new Object();
+
+        assertFalse(sut.equals(other));
+        assertFalse(other.equals(sut));
+    }
+
+    public void testEquals_Identical() {
+        final ConstantPool mockConstantPool = mock(ConstantPool.class);
+        final ConstantPoolEntry mockEntry = mock(ConstantPoolEntry.class);
+
+        byte[] code = new byte[] {LDC_INSTRUCTION, INDEX};
+
+        Instruction sut = new Instruction(mockCode_attribute, code, 0);
+        Instruction other = new Instruction(mockCode_attribute, code, 0);
+
+        checking(new Expectations() {{
+            atLeast(2).of (mockCode_attribute).getConstantPool();
+                will(returnValue(mockConstantPool));
+            atLeast(2).of (mockConstantPool).get(INDEX);
+                will(returnValue(mockEntry));
+        }});
+
+        assertTrue(sut.equals(other));
+        assertTrue(other.equals(sut));
+    }
+
+    public void testEquals_DifferentOpCode() {
+        byte[] code1 = new byte[] {(byte) 0xAC};
+        byte[] code2 = new byte[] {(byte) 0xAD};
+
+        Instruction sut = new Instruction(mockCode_attribute, code1, 0);
+        Instruction other = new Instruction(mockCode_attribute, code2, 0);
+
+        assertFalse("different opcode", sut.equals(other));
+        assertFalse("different opcode", other.equals(sut));
+    }
+
+    public void testEquals_Offset() {
+        final ConstantPool mockConstantPool = mock(ConstantPool.class);
+        final ConstantPoolEntry mockEntry = mock(ConstantPoolEntry.class);
+
+        byte[] code2 = new byte[] {LDC_INSTRUCTION, INDEX};
+        byte[] code3 = new byte[] {(byte) 0xB6, (byte) 0x00, (byte) 0xFF, LDC_INSTRUCTION, INDEX};
+
+
+        Instruction sut = new Instruction(mockCode_attribute, code2, 0);
+        Instruction other = new Instruction(mockCode_attribute, code3, 3);
+
+        checking(new Expectations() {{
+            atLeast(2).of (mockCode_attribute).getConstantPool();
+                will(returnValue(mockConstantPool));
+            atLeast(2).of (mockConstantPool).get(INDEX);
+                will(returnValue(mockEntry));
+        }});
+
+        assertTrue(sut.equals(other));
+        assertTrue(other.equals(sut));
+    }
+
+    public void testEquals_DifferentIndex_SameValue() {
+        final ConstantPool mockConstantPool = mock(ConstantPool.class);
+        final ConstantPoolEntry mockEntry = mock(ConstantPoolEntry.class);
+
+        byte[] code2 = new byte[] {LDC_INSTRUCTION, INDEX};
+        byte[] code5 = new byte[] {LDC_INSTRUCTION, INDEX + 1};
+
+        Instruction sut = new Instruction(mockCode_attribute, code2, 0);
+        Instruction other = new Instruction(mockCode_attribute, code5, 0);
+
+        checking(new Expectations() {{
+            atLeast(2).of (mockCode_attribute).getConstantPool();
+                will(returnValue(mockConstantPool));
+            atLeast(1).of (mockConstantPool).get(INDEX);
+                will(returnValue(mockEntry));
+            atLeast(1).of (mockConstantPool).get(INDEX + 1);
+                will(returnValue(mockEntry));
+        }});
+
+        assertTrue(sut.equals(other));
+        assertTrue(other.equals(sut));
+    }
+
+    public void testEquals_DifferentIndex_DifferentValue() {
+        final ConstantPool mockConstantPool = mock(ConstantPool.class);
+        final ConstantPoolEntry mockEntry1 = mock(ConstantPoolEntry.class, "SUT entry");
+        final ConstantPoolEntry mockEntry2 = mock(ConstantPoolEntry.class, "other entry");
+
+        byte[] code2 = new byte[] {LDC_INSTRUCTION, INDEX};
+        byte[] code5 = new byte[] {LDC_INSTRUCTION, INDEX + 1};
+
+        Instruction sut = new Instruction(mockCode_attribute, code2, 0);
+        Instruction other = new Instruction(mockCode_attribute, code5, 0);
+
+        checking(new Expectations() {{
+            atLeast(2).of (mockCode_attribute).getConstantPool();
+                will(returnValue(mockConstantPool));
+            atLeast(1).of (mockConstantPool).get(INDEX);
+                will(returnValue(mockEntry1));
+            atLeast(1).of (mockConstantPool).get(INDEX + 1);
+                will(returnValue(mockEntry2));
+        }});
+
+        assertFalse(sut.equals(other));
+        assertFalse(other.equals(sut));
+    }
+
+    public void testEquals_DifferentCode_attribute() {
+        final ConstantPool mockConstantPool1 = mock(ConstantPool.class, "SUT constant pool");
+        final ConstantPool mockConstantPool2 = mock(ConstantPool.class, "other constant pool");
+        final ConstantPoolEntry mockEntry1 = mock(ConstantPoolEntry.class, "SUT entry");
+        final ConstantPoolEntry mockEntry2 = mock(ConstantPoolEntry.class, "other entry");
+        final Code_attribute otherCode_attribute = mock(Code_attribute.class, "other");
+
+        byte[] code = new byte[] {LDC_INSTRUCTION, INDEX};
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockCode_attribute).getConstantPool();
+                will(returnValue(mockConstantPool1));
+            atLeast(1).of (mockConstantPool1).get(INDEX);
+                will(returnValue(mockEntry1));
+            atLeast(1).of (otherCode_attribute).getConstantPool();
+                will(returnValue(mockConstantPool2));
+            atLeast(1).of (mockConstantPool2).get(INDEX);
+                will(returnValue(mockEntry2));
+        }});
+
+        Instruction sut = new Instruction(mockCode_attribute, code, 0);
+        Instruction other = new Instruction(otherCode_attribute, code, 0);
+
+        assertFalse(sut.equals(other));
+        assertFalse(other.equals(sut));
+    }
+
+    public void testGetIndexedConstantPoolEntry() {
+        final ConstantPool mockConstantPool = mock(ConstantPool.class);
+        final ConstantPoolEntry mockEntry = mock(ConstantPoolEntry.class);
+
+        checking (new Expectations() {{
+            one (mockCode_attribute).getConstantPool();
+                will(returnValue(mockConstantPool));
+            one (mockConstantPool).get(INDEX);
+                will(returnValue(mockEntry));
+        }});
+
+        byte[] bytecode = new byte[] {LDC_INSTRUCTION, INDEX};
+
+        Instruction sut = new Instruction(mockCode_attribute, bytecode, 0);
+        ConstantPoolEntry actualEntry = (ConstantPoolEntry) sut.getIndexedConstantPoolEntry();
+        assertSame(mockEntry, actualEntry);
     }
 }
