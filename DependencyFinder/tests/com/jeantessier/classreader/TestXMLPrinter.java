@@ -164,14 +164,14 @@ public class TestXMLPrinter extends MockObjectTestCase {
         loader.getClassfile(TEST_CLASS).accept(printer);
 
         String xmlDocument = buffer.toString();
-        assertXPath(xmlDocument, "classfile[this-class='" + TEST_CLASS + "']", 1);
+        assertXPathCount(xmlDocument, "classfile[this-class='" + TEST_CLASS + "']", 1);
     }
 
     public void testZeroClassfile() throws Exception {
         printer.visitClassfiles(Collections.<Classfile>emptyList());
 
         String xmlDocument = buffer.toString();
-        assertXPath(xmlDocument, "*/classfile[this-class='" + TEST_CLASS + "']", 0);
+        assertXPathCount(xmlDocument, "*/classfile[this-class='" + TEST_CLASS + "']", 0);
     }
 
     public void testOneClassfile() throws Exception {
@@ -180,7 +180,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         printer.visitClassfiles(loader.getAllClassfiles());
 
         String xmlDocument = buffer.toString();
-        assertXPath(xmlDocument, "*/classfile", loader.getAllClassfiles().size());
+        assertXPathCount(xmlDocument, "*/classfile", loader.getAllClassfiles().size());
     }
 
     public void testMultipleClassfiles() throws Exception {
@@ -189,7 +189,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         printer.visitClassfiles(loader.getAllClassfiles());
 
         String xmlDocument = buffer.toString();
-        assertXPath(xmlDocument, "*/classfile", loader.getAllClassfiles().size());
+        assertXPathCount(xmlDocument, "*/classfile", loader.getAllClassfiles().size());
     }
 
     public void testNonSyntheticField() throws Exception {
@@ -213,7 +213,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         printer.visitField_info(mockField);
 
         String xmlDocument = buffer.toString();
-        assertXPath(xmlDocument, "field-info/synthetic", 0);
+        assertXPathCount(xmlDocument, "field-info/synthetic", 0);
     }
 
     public void testSyntheticField() throws Exception {
@@ -237,7 +237,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         printer.visitField_info(mockField);
 
         String xmlDocument = buffer.toString();
-        assertXPath(xmlDocument, "field-info/synthetic", 1);
+        assertXPathCount(xmlDocument, "field-info/synthetic", 1);
     }
 
     public void testNonSyntheticMethod() throws Exception {
@@ -265,7 +265,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         printer.visitMethod_info(mockMethod);
 
         String xmlDocument = buffer.toString();
-        assertXPath(xmlDocument, "method-info/synthetic", 0);
+        assertXPathCount(xmlDocument, "method-info/synthetic", 0);
     }
 
     public void testSyntheticMethod() throws Exception {
@@ -293,7 +293,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         printer.visitMethod_info(mockMethod);
 
         String xmlDocument = buffer.toString();
-        assertXPath(xmlDocument, "method-info/synthetic", 1);
+        assertXPathCount(xmlDocument, "method-info/synthetic", 1);
     }
 
     public void testNonSyntheticInnerClass() throws Exception {
@@ -317,7 +317,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         printer.visitInnerClass(mockInnerClass);
 
         String xmlDocument = buffer.toString();
-        assertXPath(xmlDocument, "inner-class/synthetic", 0);
+        assertXPathCount(xmlDocument, "inner-class/synthetic", 0);
     }
 
     public void testSyntheticInnerClass() throws Exception {
@@ -341,7 +341,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         printer.visitInnerClass(mockInnerClass);
 
         String xmlDocument = buffer.toString();
-        assertXPath(xmlDocument, "inner-class/synthetic", 1);
+        assertXPathCount(xmlDocument, "inner-class/synthetic", 1);
     }
 
     public void testVisitLocalVariable() throws Exception {
@@ -373,11 +373,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         printer.visitLocalVariableType(localVariableType);
     }
 
-    private void assertXPath(String xmlDocument, String xPathExpression, int i) throws Exception {
+    private void assertXPathCount(String xmlDocument, String xPathExpression, int expectedCount) throws Exception {
         XPath xPath = XPathFactory.newInstance().newXPath();
         InputSource in = new InputSource(new StringReader(xmlDocument));
 
         NodeList nodeList = (NodeList) xPath.evaluate(xPathExpression, in, XPathConstants.NODESET);
-        assertEquals("XPath \"" + xPathExpression + "\" in \n" + xmlDocument, i, nodeList.getLength());
+        int actualCount = nodeList.getLength();
+        assertEquals("XPath \"" + xPathExpression + "\" in \n" + xmlDocument, expectedCount, actualCount);
     }
 }
