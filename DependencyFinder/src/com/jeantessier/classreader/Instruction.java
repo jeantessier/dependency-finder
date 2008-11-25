@@ -40,4 +40,5 @@ public interface Instruction extends Visitable {
     public int getLength();
     public int getIndex();
     public ConstantPoolEntry getIndexedConstantPoolEntry();
+    public LocalVariable getIndexedLocalVariable();
 }

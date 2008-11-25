@@ -791,6 +791,75 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
         return result;
     }
 
+    public com.jeantessier.classreader.LocalVariable getIndexedLocalVariable() {
+        com.jeantessier.classreader.LocalVariable result;
+
+        switch(getOpcode()) {
+            case 0x1a: // iload_0
+            case 0x1e: // lload_0
+            case 0x22: // fload_0
+            case 0x26: // dload_0
+            case 0x2a: // aload_0
+            case 0x3b: // istore_0
+            case 0x3f: // lstore_0
+            case 0x43: // fstore_0
+            case 0x47: // dstore_0
+            case 0x4b: // astore_0
+            case 0x1b: // iload_1
+            case 0x1f: // lload_1
+            case 0x23: // fload_1
+            case 0x27: // dload_1
+            case 0x2b: // aload_1
+            case 0x3c: // istore_1
+            case 0x40: // lstore_1
+            case 0x44: // fstore_1
+            case 0x48: // dstore_1
+            case 0x4c: // astore_1
+            case 0x1c: // iload_2
+            case 0x20: // lload_2
+            case 0x24: // fload_2
+            case 0x28: // dload_2
+            case 0x2c: // aload_2
+            case 0x3d: // istore_2
+            case 0x41: // lstore_2
+            case 0x45: // fstore_2
+            case 0x49: // dstore_2
+            case 0x4d: // astore_2
+            case 0x1d: // iload_3
+            case 0x21: // lload_3
+            case 0x25: // fload_3
+            case 0x29: // dload_3
+            case 0x2d: // aload_3
+            case 0x3e: // istore_3
+            case 0x42: // lstore_3
+            case 0x46: // fstore_3
+            case 0x4a: // dstore_3
+            case 0x4e: // astore_3
+            case 0x15: // iload
+            case 0x16: // llload
+            case 0x17: // fload
+            case 0x18: // dload
+            case 0x19: // aload
+            case 0x36: // istore
+            case 0x37: // lstore
+            case 0x38: // fstore
+            case 0x39: // dstore
+            case 0x3a: // astore
+            case 0x84: // iinc
+            case 0xa9: // ret
+            case 0xc4: // wide
+                LocalVariableFinder finder = new LocalVariableFinder(getIndex());
+                code.accept(finder);
+                result = finder.getLocalVariable();
+                break;
+            default:
+                result = null;
+                break;
+        }
+
+        return result;
+    }
+
     public int hashCode() {
         int result = getOpcode();
 

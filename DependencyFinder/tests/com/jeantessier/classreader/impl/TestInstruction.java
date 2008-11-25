@@ -33,11 +33,17 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
+import org.jmock.api.*;
 import org.jmock.integration.junit3.*;
+import org.jmock.lib.action.*;
 import org.jmock.lib.legacy.*;
 
+import com.jeantessier.classreader.*;
+
 public class TestInstruction extends MockObjectTestCase {
+    private static final byte ICONST_0_INSTRUCTION = (byte) 0x03;
     private static final byte LDC_INSTRUCTION = (byte) 0x12;
+    private static final byte ILOAD_INSTRUCTION = (byte) 0x15;
     private static final byte INDEX = (byte) 0x02;
 
     private Code_attribute mockCode_attribute;
@@ -206,5 +212,52 @@ public class TestInstruction extends MockObjectTestCase {
         Instruction sut = new Instruction(mockCode_attribute, bytecode, 0);
         ConstantPoolEntry actualEntry = (ConstantPoolEntry) sut.getIndexedConstantPoolEntry();
         assertSame(mockEntry, actualEntry);
+    }
+
+    public void testGetIndexedLocalVariable_Matching() {
+        final LocalVariable mockLocalVariable = mock(LocalVariable.class);
+
+        checking(new Expectations() {{
+            one (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
+                will(visitLocalVariable(mockLocalVariable));
+            one (mockLocalVariable).getIndex();
+                will(returnValue((int) INDEX));
+        }});
+
+        Instruction sut = new Instruction(mockCode_attribute, new byte[] {ILOAD_INSTRUCTION, INDEX}, 0);
+
+        LocalVariable actualLocalVariable = (LocalVariable) sut.getIndexedLocalVariable();
+        assertSame(mockLocalVariable, actualLocalVariable);
+    }
+
+    public void testGetIndexedLocalVariable_NonMatching() {
+        final LocalVariable mockLocalVariable = mock(LocalVariable.class);
+
+        checking(new Expectations() {{
+            one (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
+                will(visitLocalVariable(mockLocalVariable));
+            one (mockLocalVariable).getIndex();
+                will(returnValue(INDEX + 1));
+        }});
+
+        Instruction sut = new Instruction(mockCode_attribute, new byte[] {ILOAD_INSTRUCTION, INDEX}, 0);
+
+        LocalVariable actualLocalVariable = (LocalVariable) sut.getIndexedLocalVariable();
+        assertNull(actualLocalVariable);
+    }
+
+    public void testGetIndexedLocalVariable_WrongOpCode() {
+        Instruction sut = new Instruction(mockCode_attribute, new byte[] {ICONST_0_INSTRUCTION}, 0);
+        LocalVariable actualLocalVariable = (LocalVariable) sut.getIndexedLocalVariable();
+        assertNull(actualLocalVariable);
+    }
+
+    private CustomAction visitLocalVariable(final LocalVariable mockLocalVariable) {
+        return new CustomAction("Visit local variable") {
+            public Object invoke(Invocation invocation) throws Throwable {
+                ((Visitor) invocation.getParameter(0)).visitLocalVariable(mockLocalVariable);
+                return null;
+            }
+        };
     }
 }
