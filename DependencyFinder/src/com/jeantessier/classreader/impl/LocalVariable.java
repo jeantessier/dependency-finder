@@ -106,7 +106,7 @@ public class LocalVariable implements com.jeantessier.classreader.LocalVariable 
     }
 
     public String toString() {
-        return "Local variable " + getDescriptor() + " " + getName();
+        return DescriptorHelper.getType(getDescriptor()) + " " + getName();
     }
 
     public void accept(Visitor visitor) {

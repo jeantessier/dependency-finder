@@ -1,5 +1,6 @@
 Added =Instruction.getIndexedLocalVariable()= to help with text rendering of
-instructions.
+instructions.  Used it to make traces in =Code_attribute= and instruction data
+from =XMLPrinter= more useful.
 
 Simplified =Instruction= tests by using jMock and putting many of the tests
 methods in one test class.
