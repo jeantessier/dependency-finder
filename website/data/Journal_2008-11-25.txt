@@ -1,1 +1,4 @@
+Fixed the use of =id= attributes in =classfile.dtd= to use =index= instead.  The
+attribute =id= has special meaning in XML.
+
 Minor refactoring.

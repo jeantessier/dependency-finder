@@ -169,7 +169,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<class id=\"").append(currentCount()).append("\">");
+            append("<class index=\"").append(currentCount()).append("\">");
             // entry.getRawName().accept(this);
             append(entry.getName());
             append("</class>").eol();
@@ -187,7 +187,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<field-ref-info id=\"").append(currentCount()).append("\">");
+            append("<field-ref-info index=\"").append(currentCount()).append("\">");
             append("<class>");
             c.accept(this);
             append("</class>");
@@ -213,7 +213,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<method-ref-info id=\"").append(currentCount()).append("\">");
+            append("<method-ref-info index=\"").append(currentCount()).append("\">");
             append("<class>");
             c.accept(this);
             append("</class>");
@@ -240,7 +240,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<interface-method-ref-info id=\"").append(currentCount()).append("\">");
+            append("<interface-method-ref-info index=\"").append(currentCount()).append("\">");
             append("<class>");
             c.accept(this);
             append("</class>");
@@ -263,7 +263,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<string-info id=\"").append(currentCount()).append("\">");
+            append("<string-info index=\"").append(currentCount()).append("\">");
             entry.getRawValue().accept(this);
             append("</string-info>").eol();
             top = true;
@@ -276,7 +276,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<integer-info id=\"").append(currentCount()).append("\">");
+            append("<integer-info index=\"").append(currentCount()).append("\">");
             append(entry.getValue());
             append("</integer-info>").eol();
             top = true;
@@ -289,7 +289,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<float-info id=\"").append(currentCount()).append("\">");
+            append("<float-info index=\"").append(currentCount()).append("\">");
             append(entry.getValue());
             append("</float-info>").eol();
             top = true;
@@ -302,7 +302,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<long-info id=\"").append(currentCount()).append("\">");
+            append("<long-info index=\"").append(currentCount()).append("\">");
             append(entry.getValue());
             append("</long-info>").eol();
             top = true;
@@ -315,7 +315,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<double-info id=\"").append(currentCount()).append("\">");
+            append("<double-info index=\"").append(currentCount()).append("\">");
             append(entry.getValue());
             append("</double-info>").eol();
             top = true;
@@ -328,7 +328,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<name-and-type-info id=\"").append(currentCount()).append("\">");
+            append("<name-and-type-info index=\"").append(currentCount()).append("\">");
             append("<name>");
             entry.getRawName().accept(this);
             append("</name>");
@@ -347,7 +347,7 @@ public class XMLPrinter extends Printer {
     public void visitUTF8_info(UTF8_info entry) {
         if (top) {
             top = false;
-            indent().append("<utf8-info id=\"").append(currentCount()).append("\">");
+            indent().append("<utf8-info index=\"").append(currentCount()).append("\">");
             append(escapeXMLCharacters(entry.getValue()));
             append("</utf8-info>").eol();
             top = true;

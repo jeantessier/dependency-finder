@@ -46,57 +46,57 @@
 
 <!ELEMENT class (#PCDATA) >
 <!ATTLIST class
-          id CDATA #IMPLIED
+          index CDATA #IMPLIED
 >
 
 <!ELEMENT field-ref-info (class, type, name) >
 <!ATTLIST field-ref-info
-          id CDATA #REQUIRED
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT method-ref-info (class, name, type) >
 <!ATTLIST method-ref-info
-          id CDATA #REQUIRED
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT interface-method-ref-info (class, name, type) >
 <!ATTLIST interface-method-ref-info
-          id CDATA #REQUIRED
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT string-info (#PCDATA) >
 <!ATTLIST string-info
-          id CDATA #REQUIRED
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT integer-info (#PCDATA) >
 <!ATTLIST integer-info
-          id CDATA #REQUIRED
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT float-info (#PCDATA) >
 <!ATTLIST float-info
-          id CDATA #REQUIRED
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT long-info (#PCDATA) >
 <!ATTLIST long-info
-          id CDATA #REQUIRED
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT double-info (#PCDATA) >
 <!ATTLIST double-info
-          id CDATA #REQUIRED
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT name-and-type-info (name, type) >
 <!ATTLIST name-and-type-info
-          id CDATA #REQUIRED
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT utf8-info (#PCDATA) >
 <!ATTLIST utf8-info
-          id CDATA #REQUIRED
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT type (#PCDATA) >
