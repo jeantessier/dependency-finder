@@ -172,6 +172,8 @@
           pc     CDATA #REQUIRED
           length CDATA #REQUIRED
           index  CDATA #IMPLIED
+          value  CDATA #IMPLIED
+          offset CDATA #IMPLIED
 >
 
 <!ELEMENT exception-handlers (exception-handler*) >

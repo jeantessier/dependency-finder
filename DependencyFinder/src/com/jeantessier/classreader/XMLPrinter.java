@@ -649,14 +649,47 @@ public class XMLPrinter extends Printer {
             case 0x38: // fstore
             case 0x39: // dstore
             case 0x3a: // astore
-            case 0x84: // iinc
             case 0xa9: // ret
-            case 0xc4: // wide
                 append(" index=\"").append(instruction.getIndex()).append("\">");
                 append(instruction);
-                append(" ");
-                LocalVariable localVariable = instruction.getIndexedLocalVariable();
-                append(DescriptorHelper.getType(localVariable.getDescriptor())).append(" ").append(localVariable.getName());
+                appendLocalVariable(instruction.getIndexedLocalVariable());
+                break;
+            case 0x99: // ifeq
+            case 0x9a: // ifne
+            case 0x9b: // iflt
+            case 0x9c: // ifge
+            case 0x9d: // ifgt
+            case 0x9e: // ifle
+            case 0x9f: // if_icmpeq
+            case 0xa0: // if_icmpne
+            case 0xa1: // if_icmplt
+            case 0xa2: // if_icmpge
+            case 0xa3: // if_icmpgt
+            case 0xa4: // if_icmple
+            case 0xa5: // if_acmpeq
+            case 0xa6: // if_acmpne
+            case 0xa7: // goto
+            case 0xa8: // jsr
+            case 0xc6: // ifnull
+            case 0xc7: // ifnonnull
+            case 0xc8: // goto_w
+            case 0xc9: // jsr_w
+                append(" offset=\"").append(instruction.getOffset()).append("\">");
+                append(instruction);
+                break;
+            case 0x84: // iinc
+                append(" index=\"").append(instruction.getIndex()).append("\" value=\"").append(instruction.getValue()).append("\">");
+                append(instruction);
+                appendLocalVariable(instruction.getIndexedLocalVariable());
+                break;
+            case 0xc4: // wide
+                if ((instruction.getBytecode()[instruction.getStart()+1] & 0xff) == 0x84 /* iinc */) {
+                    append(" index=\"").append(instruction.getIndex()).append("\" value=\"").append(instruction.getValue()).append("\">");
+                } else {
+                    append(" index=\"").append(instruction.getIndex()).append("\">");
+                }
+                append(instruction);
+                appendLocalVariable(instruction.getIndexedLocalVariable());
                 break;
             default:
                 append(">");
@@ -664,6 +697,11 @@ public class XMLPrinter extends Printer {
                 break;
         }
         append("</instruction>").eol();
+    }
+
+    private void appendLocalVariable(LocalVariable localVariable) {
+        append(" ");
+        append(DescriptorHelper.getType(localVariable.getDescriptor())).append(" ").append(localVariable.getName());
     }
 
     public void visitExceptionHandler(ExceptionHandler helper) {
