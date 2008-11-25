@@ -93,6 +93,10 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
                 int index = instr.getIndex();
 
                 switch (instr.getOpcode()) {
+                    case 0x10: // bipush
+                    case 0x11: // sipush
+                        Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + instr.getValue());
+                        break;
                     case 0x12: // ldc
                     case 0x13: // ldc_w
                     case 0x14: // ldc2_w
@@ -163,13 +167,51 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
                     case 0x38: // fstore
                     case 0x39: // dstore
                     case 0x3a: // astore
-                    case 0x84: // iinc
                     case 0xa9: // ret
-                    case 0xc4: // wide
                         Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + instr.getIndexedLocalVariable() + ")");
                         break;
+                    case 0x84: // iinc
+                        Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + instr.getIndexedLocalVariable() + ") by " + instr.getValue());
+                        break;
+                    case 0x99: // ifeq
+                    case 0x9a: // ifne
+                    case 0x9b: // iflt
+                    case 0x9c: // ifge
+                    case 0x9d: // ifgt
+                    case 0x9e: // ifle
+                    case 0x9f: // if_icmpeq
+                    case 0xa0: // if_icmpne
+                    case 0xa1: // if_icmplt
+                    case 0xa2: // if_icmpge
+                    case 0xa3: // if_icmpgt
+                    case 0xa4: // if_icmple
+                    case 0xa5: // if_acmpeq
+                    case 0xa6: // if_acmpne
+                    case 0xa7: // goto
+                    case 0xa8: // jsr
+                    case 0xc6: // ifnull
+                    case 0xc7: // ifnonnull
+                    case 0xc8: // goto_w
+                    case 0xc9: // jsr_w
+                        if (instr.getOffset() >= 0) {
+                            Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " +" + instr.getOffset() + " (to " + (start + instr.getOffset()) + ")");
+                        } else {
+                            Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + instr.getOffset() + " (to " + (start + instr.getOffset()) + ")");
+                        }
+                        break;
+                    case 0xc4: // wide
+                        if ((instr.getBytecode()[instr.getStart() + 1] & 0xff) == 0x84 /* iinc */) {
+                            Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + instr.getIndexedLocalVariable() + ") by " + instr.getValue());
+                        } else {
+                            Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + instr.getIndexedLocalVariable() + ")");
+                        }
+                        break;
                     default:
-                        Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " (" + instr.getLength() + " byte(s))");
+                        if (instr.getLength() == 1) {
+                            Logger.getLogger(getClass()).debug("    " + start + ": " + instr);
+                        } else {
+                            Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " (" + instr.getLength() + " bytes)");
+                        }
                         break;
                 }
             }

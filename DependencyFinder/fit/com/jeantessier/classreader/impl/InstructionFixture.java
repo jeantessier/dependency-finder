@@ -52,6 +52,14 @@ public class InstructionFixture extends ColumnFixture {
         return new Instruction(null, buildDataBytes(), 0).getIndex();
     }
 
+    public int offset() {
+        return new Instruction(null, buildDataBytes(), 0).getOffset();
+    }
+
+    public int value() {
+        return new Instruction(null, buildDataBytes(), 0).getValue();
+    }
+
     private byte[] buildDataBytes() {
         byte[] result;
 

@@ -39,6 +39,8 @@ public interface Instruction extends Visitable {
     public String getMnemonic();
     public int getLength();
     public int getIndex();
+    public int getOffset();
+    public int getValue();
     public ConstantPoolEntry getIndexedConstantPoolEntry();
     public LocalVariable getIndexedLocalVariable();
 }

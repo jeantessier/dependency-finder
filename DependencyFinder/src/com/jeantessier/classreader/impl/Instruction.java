@@ -760,6 +760,98 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
         return result;
     }
 
+    public int getOffset() {
+        int result;
+
+        switch(getOpcode()) {
+            case 0x99: // ifeq
+            case 0x9a: // ifne
+            case 0x9b: // iflt
+            case 0x9c: // ifge
+            case 0x9d: // ifgt
+            case 0x9e: // ifle
+            case 0x9f: // if_icmpeq
+            case 0xa0: // if_icmpne
+            case 0xa1: // if_icmplt
+            case 0xa2: // if_icmpge
+            case 0xa3: // if_icmpgt
+            case 0xa4: // if_icmple
+            case 0xa5: // if_acmpeq
+            case 0xa6: // if_acmpne
+            case 0xa7: // goto
+            case 0xa8: // jsr
+            case 0xc6: // ifnull
+            case 0xc7: // ifnonnull
+                result = ((getBytecode()[getStart()+1] & 0xff) << 8) | (getBytecode()[getStart()+2] & 0xff);
+                break;
+            case 0xc8: // goto_w
+            case 0xc9: // jsr_w
+                result = ((getBytecode()[getStart()+1] & 0xff) << 24) | ((getBytecode()[getStart()+2] & 0xff) << 16) | ((getBytecode()[getStart()+3] & 0xff) << 8) | (getBytecode()[getStart()+4] & 0xff);
+                break;
+            default:
+                result = 0;
+                break;
+        }
+
+        return result;
+    }
+
+    public int getValue() {
+        int result;
+
+        switch(getOpcode()) {
+            case 0x02: // iconst_m1
+                result = -1;
+                break;
+            case 0x03: // iconst_0
+            case 0x09: // lconst_0
+            case 0x0b: // fconst_0
+            case 0x0e: // dconst_0
+                result = 0;
+                break;
+            case 0x04: // iconst_1
+            case 0x0a: // lconst_1
+            case 0x0c: // fconst_1
+            case 0x0f: // dconst_1
+                result = 1;
+                break;
+            case 0x05: // iconst_2
+            case 0x0d: // fconst_2
+                result = 2;
+                break;
+            case 0x06: // iconst_3
+                result = 3;
+                break;
+            case 0x07: // iconst_4
+                result = 4;
+                break;
+            case 0x08: // iconst_5
+                result = 5;
+                break;
+            case 0x10: // bipush
+                result = (getBytecode()[getStart()+1] & 0xff);
+                break;
+            case 0x11: // sipush
+                result = ((getBytecode()[getStart()+1] & 0xff) << 8) | (getBytecode()[getStart()+2] & 0xff);
+                break;
+            case 0x84: // iinc
+                result = (getBytecode()[getStart()+2] & 0xff);
+                break;
+            case 0xc4: // wide
+                if ((bytecode[start+1] & 0xff) == 0x84 /* iinc */) {
+                    result = ((getBytecode()[getStart()+4] & 0xff) << 8) | (getBytecode()[getStart()+5] & 0xff);
+                } else {
+                    result = 0;
+                }
+                break;
+            default:
+                result = 0;
+                break;
+        }
+
+        return result;
+    }
+
     public com.jeantessier.classreader.ConstantPoolEntry getIndexedConstantPoolEntry() {
         com.jeantessier.classreader.ConstantPoolEntry result;
 
