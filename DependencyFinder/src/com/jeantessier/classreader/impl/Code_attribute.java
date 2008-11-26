@@ -90,131 +90,7 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
             Logger.getLogger(getClass()).debug("Read instructions(s):");
 
             for (Instruction instr : this) {
-                int start = instr.getStart();
-                int index = instr.getIndex();
-
-                switch (instr.getOpcode()) {
-                    case 0x10: // bipush
-                    case 0x11: // sipush
-                        Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + instr.getValue());
-                        break;
-                    case 0x12: // ldc
-                    case 0x13: // ldc_w
-                    case 0x14: // ldc2_w
-                    case 0xb2: // getstatic
-                    case 0xb3: // putstatic
-                    case 0xb4: // getfield
-                    case 0xb5: // putfield
-                    case 0xb6: // invokevirtual
-                    case 0xb7: // invokespecial
-                    case 0xb8: // invokestatic
-                    case 0xb9: // invokeinterface
-                    case 0xbb: // new
-                    case 0xbd: // anewarray
-                    case 0xc0: // checkcast
-                    case 0xc1: // instanceof
-                    case 0xc5: // multianewarray
-                        Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + instr.getIndexedConstantPoolEntry() + ")");
-                        break;
-                    case 0x1a: // iload_0
-                    case 0x1e: // lload_0
-                    case 0x22: // fload_0
-                    case 0x26: // dload_0
-                    case 0x2a: // aload_0
-                    case 0x3b: // istore_0
-                    case 0x3f: // lstore_0
-                    case 0x43: // fstore_0
-                    case 0x47: // dstore_0
-                    case 0x4b: // astore_0
-                    case 0x1b: // iload_1
-                    case 0x1f: // lload_1
-                    case 0x23: // fload_1
-                    case 0x27: // dload_1
-                    case 0x2b: // aload_1
-                    case 0x3c: // istore_1
-                    case 0x40: // lstore_1
-                    case 0x44: // fstore_1
-                    case 0x48: // dstore_1
-                    case 0x4c: // astore_1
-                    case 0x1c: // iload_2
-                    case 0x20: // lload_2
-                    case 0x24: // fload_2
-                    case 0x28: // dload_2
-                    case 0x2c: // aload_2
-                    case 0x3d: // istore_2
-                    case 0x41: // lstore_2
-                    case 0x45: // fstore_2
-                    case 0x49: // dstore_2
-                    case 0x4d: // astore_2
-                    case 0x1d: // iload_3
-                    case 0x21: // lload_3
-                    case 0x25: // fload_3
-                    case 0x29: // dload_3
-                    case 0x2d: // aload_3
-                    case 0x3e: // istore_3
-                    case 0x42: // lstore_3
-                    case 0x46: // fstore_3
-                    case 0x4a: // dstore_3
-                    case 0x4e: // astore_3
-                        Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " (" + getLocalVariableName(instr) + ")");
-                        break;
-                    case 0x15: // iload
-                    case 0x16: // llload
-                    case 0x17: // fload
-                    case 0x18: // dload
-                    case 0x19: // aload
-                    case 0x36: // istore
-                    case 0x37: // lstore
-                    case 0x38: // fstore
-                    case 0x39: // dstore
-                    case 0x3a: // astore
-                    case 0xa9: // ret
-                        Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + getLocalVariableName(instr) + ")");
-                        break;
-                    case 0x84: // iinc
-                        Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + getLocalVariableName(instr) + ") by " + instr.getValue());
-                        break;
-                    case 0x99: // ifeq
-                    case 0x9a: // ifne
-                    case 0x9b: // iflt
-                    case 0x9c: // ifge
-                    case 0x9d: // ifgt
-                    case 0x9e: // ifle
-                    case 0x9f: // if_icmpeq
-                    case 0xa0: // if_icmpne
-                    case 0xa1: // if_icmplt
-                    case 0xa2: // if_icmpge
-                    case 0xa3: // if_icmpgt
-                    case 0xa4: // if_icmple
-                    case 0xa5: // if_acmpeq
-                    case 0xa6: // if_acmpne
-                    case 0xa7: // goto
-                    case 0xa8: // jsr
-                    case 0xc6: // ifnull
-                    case 0xc7: // ifnonnull
-                    case 0xc8: // goto_w
-                    case 0xc9: // jsr_w
-                        if (instr.getOffset() >= 0) {
-                            Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " +" + instr.getOffset() + " (to " + (start + instr.getOffset()) + ")");
-                        } else {
-                            Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + instr.getOffset() + " (to " + (start + instr.getOffset()) + ")");
-                        }
-                        break;
-                    case 0xc4: // wide
-                        if (instr.getByte(1) == 0x84 /* iinc */) {
-                            Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + getLocalVariableName(instr) + ") by " + instr.getValue());
-                        } else {
-                            Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + getLocalVariableName(instr) + ")");
-                        }
-                        break;
-                    default:
-                        if (instr.getLength() == 1) {
-                            Logger.getLogger(getClass()).debug("    " + start + ": " + instr);
-                        } else {
-                            Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " (" + instr.getLength() + " bytes)");
-                        }
-                        break;
-                }
+                logInstruction(instr);
             }
         }
     }
@@ -243,17 +119,6 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
         return attributes;
     }
 
-    private String getLocalVariableName(Instruction instr) {
-        String result = "n/a";
-
-        LocalVariable localVariable = instr.getIndexedLocalVariable();
-        if (localVariable != null) {
-            result = localVariable.toString();
-        }
-
-        return result;
-    }
-
     public String toString() {
         return "Code";
     }
@@ -264,5 +129,172 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
 
     public void accept(Visitor visitor) {
         visitor.visitCode_attribute(this);
+    }
+
+    private void logInstruction(Instruction instruction) {
+        StringBuilder message = new StringBuilder();
+        message.append("    ").append(instruction.getStart()).append(": ").append(instruction);
+        appendIndexedConstantPoolEntry(message, instruction);
+        appendIndexedLocalVariable(message, instruction);
+        appendOffset(message, instruction);
+        appendValue(message, instruction);
+
+        Logger.getLogger(getClass()).debug(message);
+    }
+
+    private void appendIndexedConstantPoolEntry(StringBuilder message, Instruction instruction) {
+        switch (instruction.getOpcode()) {
+            case 0x12: // ldc
+            case 0x13: // ldc_w
+            case 0x14: // ldc2_w
+            case 0xb2: // getstatic
+            case 0xb3: // putstatic
+            case 0xb4: // getfield
+            case 0xb5: // putfield
+            case 0xb6: // invokevirtual
+            case 0xb7: // invokespecial
+            case 0xb8: // invokestatic
+            case 0xb9: // invokeinterface
+            case 0xbb: // new
+            case 0xbd: // anewarray
+            case 0xc0: // checkcast
+            case 0xc1: // instanceof
+            case 0xc5: // multianewarray
+                message.append(" ").append(instruction.getIndex()).append(" (").append(instruction.getIndexedConstantPoolEntry()).append(")");
+                break;
+            default:
+                // Do nothing
+                break;
+        }
+    }
+
+    private void appendIndexedLocalVariable(StringBuilder message, Instruction instruction) {
+        switch (instruction.getOpcode()) {
+            case 0x1a: // iload_0
+            case 0x1e: // lload_0
+            case 0x22: // fload_0
+            case 0x26: // dload_0
+            case 0x2a: // aload_0
+            case 0x3b: // istore_0
+            case 0x3f: // lstore_0
+            case 0x43: // fstore_0
+            case 0x47: // dstore_0
+            case 0x4b: // astore_0
+            case 0x1b: // iload_1
+            case 0x1f: // lload_1
+            case 0x23: // fload_1
+            case 0x27: // dload_1
+            case 0x2b: // aload_1
+            case 0x3c: // istore_1
+            case 0x40: // lstore_1
+            case 0x44: // fstore_1
+            case 0x48: // dstore_1
+            case 0x4c: // astore_1
+            case 0x1c: // iload_2
+            case 0x20: // lload_2
+            case 0x24: // fload_2
+            case 0x28: // dload_2
+            case 0x2c: // aload_2
+            case 0x3d: // istore_2
+            case 0x41: // lstore_2
+            case 0x45: // fstore_2
+            case 0x49: // dstore_2
+            case 0x4d: // astore_2
+            case 0x1d: // iload_3
+            case 0x21: // lload_3
+            case 0x25: // fload_3
+            case 0x29: // dload_3
+            case 0x2d: // aload_3
+            case 0x3e: // istore_3
+            case 0x42: // lstore_3
+            case 0x46: // fstore_3
+            case 0x4a: // dstore_3
+            case 0x4e: // astore_3
+                appendLocalVariable(message, instruction.getIndexedLocalVariable());
+                break;
+            case 0x15: // iload
+            case 0x16: // llload
+            case 0x17: // fload
+            case 0x18: // dload
+            case 0x19: // aload
+            case 0x36: // istore
+            case 0x37: // lstore
+            case 0x38: // fstore
+            case 0x39: // dstore
+            case 0x3a: // astore
+            case 0xa9: // ret
+            case 0x84: // iinc
+            case 0xc4: // wide
+                message.append(" ").append(instruction.getIndex());
+                appendLocalVariable(message, instruction.getIndexedLocalVariable());
+                break;
+            default:
+                // Do nothing
+                break;
+        }
+    }
+
+    private void appendLocalVariable(StringBuilder message, LocalVariable localVariable) {
+        String name = "n/a";
+
+        if (localVariable != null) {
+            name = localVariable.toString();
+        }
+
+        message.append(" (").append(name).append(")");
+    }
+
+    private void appendOffset(StringBuilder message, Instruction instruction) {
+        switch (instruction.getOpcode()) {
+            case 0x99: // ifeq
+            case 0x9a: // ifne
+            case 0x9b: // iflt
+            case 0x9c: // ifge
+            case 0x9d: // ifgt
+            case 0x9e: // ifle
+            case 0x9f: // if_icmpeq
+            case 0xa0: // if_icmpne
+            case 0xa1: // if_icmplt
+            case 0xa2: // if_icmpge
+            case 0xa3: // if_icmpgt
+            case 0xa4: // if_icmple
+            case 0xa5: // if_acmpeq
+            case 0xa6: // if_acmpne
+            case 0xa7: // goto
+            case 0xa8: // jsr
+            case 0xc6: // ifnull
+            case 0xc7: // ifnonnull
+            case 0xc8: // goto_w
+            case 0xc9: // jsr_w
+                message.append(" ");
+                if (instruction.getOffset() >= 0) {
+                    message.append("+");
+                }
+                message.append(instruction.getOffset()).append(" (to ").append(instruction.getStart() + instruction.getOffset()).append(")");
+                break;
+            default:
+                // Do nothing
+                break;
+        }
+    }
+
+    private void appendValue(StringBuilder message, Instruction helper) {
+        switch (helper.getOpcode()) {
+            case 0x10: // bipush
+            case 0x11: // sipush
+                message.append(" ").append(helper.getValue());
+                break;
+            case 0x84: // iinc
+                message.append(" by ").append(helper.getValue());
+                break;
+            case 0xc4: // wide
+                if (helper.getByte(1) == 0x84 /* iinc */) {
+                    message.append(" by ").append(helper.getValue());
+                }
+                break;
+            default:
+                // Do nothing
+                break;
+        }
     }
 }

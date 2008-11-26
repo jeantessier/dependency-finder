@@ -1,3 +1,6 @@
 Cleaned up how =XMPrinter= deals with instructions that have a value embedded in
 them, such as =bipush= and =iconst_1=.  Also made it show the destination
 address of =goto= and jump instructions.
+
+Augment =TextPrinter= so it also shows the bytecode, similar to what =javap -c=
+does.
