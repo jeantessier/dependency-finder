@@ -40,6 +40,19 @@ import org.jmock.integration.junit3.*;
 import org.jmock.lib.legacy.*;
 
 public class TestTextPrinter extends MockObjectTestCase {
+    private static final int ICONST_1_INSTRUCTION = 0x04; // iconst_1
+    private static final int ILOAD_INSTRUCTION = 0x15; // iload
+    private static final int IINC_INSTRUCTION = 0x84; // iinc
+    private static final int WIDE_INSTRUCTION = 0xc4; // wide
+
+    private static final int START = 1;
+    private static final String MNEMONIC = "foo";
+    private static final int INDEX = 2;
+    private static final int VALUE = 3;
+    private static final String DESCRIPTOR = "i";
+
+    private Instruction mockInstruction;
+    private LocalVariable mockLocalVariable;
     private PrintWriter mockPrinter;
 
     private TextPrinter sut;
@@ -49,6 +62,8 @@ public class TestTextPrinter extends MockObjectTestCase {
 
         setImposteriser(ClassImposteriser.INSTANCE);
 
+        mockInstruction = mock(Instruction.class);
+        mockLocalVariable = mock(LocalVariable.class);
         mockPrinter = mock(PrintWriter.class);
 
         sut = new TextPrinter(mockPrinter);
@@ -76,41 +91,31 @@ public class TestTextPrinter extends MockObjectTestCase {
     }
 
     public void testVisitInstruction_iinc() {
-        final int opcode = 0x84; // iinc
-        final int start = 1;
-        final String mnemonic = "foo";
-        final int index = 2;
-        final int value = 3;
-        final LocalVariable mockLocalVariable = mock(LocalVariable.class);
-        final String descriptor = "i";
-
-        final Instruction mockInstruction = mock(Instruction.class);
-
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
-                will(returnValue(opcode));
+                will(returnValue(IINC_INSTRUCTION));
 
             one (mockInstruction).getStart();
-                will(returnValue(start));
-            one (mockPrinter).print(start);
+                will(returnValue(START));
+            one (mockPrinter).print(START);
 
             one (mockInstruction).getMnemonic();
-                will(returnValue(mnemonic));
-            one (mockPrinter).print(mnemonic);
+                will(returnValue(MNEMONIC));
+            one (mockPrinter).print(MNEMONIC);
 
             one (mockInstruction).getIndex();
-                will(returnValue(index));
-            one (mockPrinter).print(index);
+                will(returnValue(INDEX));
+            one (mockPrinter).print(INDEX);
 
             one (mockInstruction).getIndexedLocalVariable();
                 will(returnValue(mockLocalVariable));
             one (mockLocalVariable).getDescriptor();
-                will(returnValue(descriptor));
+                will(returnValue(DESCRIPTOR));
             one (mockLocalVariable).getName();
 
             one (mockInstruction).getValue();
-                will(returnValue(value));
-            one (mockPrinter).print(value);
+                will(returnValue(VALUE));
+            one (mockPrinter).print(VALUE);
 
             ignoring (mockPrinter);
         }});
@@ -119,23 +124,114 @@ public class TestTextPrinter extends MockObjectTestCase {
     }
 
     public void testVisitInstruction_iconst_1() {
-        final int opcode = 0x04; // iconst_1
-        final int start = 1;
-        final String mnemonic = "foo";
-
-        final Instruction mockInstruction = mock(Instruction.class);
-
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
-                will(returnValue(opcode));
+                will(returnValue(ICONST_1_INSTRUCTION));
 
             one (mockInstruction).getStart();
-                will(returnValue(start));
-            one (mockPrinter).print(start);
+                will(returnValue(START));
+            one (mockPrinter).print(START);
 
             one (mockInstruction).getMnemonic();
-                will(returnValue(mnemonic));
-            one (mockPrinter).print(mnemonic);
+                will(returnValue(MNEMONIC));
+            one (mockPrinter).print(MNEMONIC);
+
+            ignoring (mockPrinter);
+        }});
+
+        sut.visitInstruction(mockInstruction);
+    }
+
+    public void testVisitInstruction_iload() {
+        checking(new Expectations() {{
+            atLeast(1).of (mockInstruction).getOpcode();
+                will(returnValue(ILOAD_INSTRUCTION));
+
+            one (mockInstruction).getStart();
+                will(returnValue(START));
+            one (mockPrinter).print(START);
+
+            one (mockInstruction).getMnemonic();
+                will(returnValue(MNEMONIC));
+            one (mockPrinter).print(MNEMONIC);
+
+            one (mockInstruction).getIndex();
+                will(returnValue(INDEX));
+            one (mockPrinter).print(INDEX);
+
+            one (mockInstruction).getIndexedLocalVariable();
+                will(returnValue(mockLocalVariable));
+            one (mockLocalVariable).getDescriptor();
+                will(returnValue(DESCRIPTOR));
+            one (mockLocalVariable).getName();
+
+            ignoring (mockPrinter);
+        }});
+
+        sut.visitInstruction(mockInstruction);
+    }
+
+    public void testVisitInstruction_wide_iinc() {
+        checking(new Expectations() {{
+            atLeast(1).of (mockInstruction).getOpcode();
+                will(returnValue(WIDE_INSTRUCTION));
+
+            one (mockInstruction).getStart();
+                will(returnValue(START));
+            one (mockPrinter).print(START);
+
+            one (mockInstruction).getMnemonic();
+                will(returnValue(MNEMONIC));
+            one (mockPrinter).print(MNEMONIC);
+
+            one (mockInstruction).getByte(1);
+                will(returnValue(IINC_INSTRUCTION));
+
+            one (mockInstruction).getIndex();
+                will(returnValue(INDEX));
+            one (mockPrinter).print(INDEX);
+
+            one (mockInstruction).getIndexedLocalVariable();
+                will(returnValue(mockLocalVariable));
+            one (mockLocalVariable).getDescriptor();
+                will(returnValue(DESCRIPTOR));
+            one (mockLocalVariable).getName();
+
+            one (mockInstruction).getValue();
+                will(returnValue(VALUE));
+            one (mockPrinter).print(VALUE);
+
+            ignoring (mockPrinter);
+        }});
+
+        sut.visitInstruction(mockInstruction);
+    }
+
+    public void testVisitInstruction_wide_iload() {
+        checking(new Expectations() {{
+            atLeast(1).of (mockInstruction).getOpcode();
+                will(returnValue(WIDE_INSTRUCTION));
+
+            one (mockInstruction).getStart();
+                will(returnValue(START));
+            one (mockPrinter).print(START);
+
+            one (mockInstruction).getMnemonic();
+                will(returnValue(MNEMONIC));
+            one (mockPrinter).print(MNEMONIC);
+
+            one (mockInstruction).getByte(1);
+                will(returnValue(ILOAD_INSTRUCTION));
+
+            one (mockInstruction).getIndex();
+                will(returnValue(INDEX));
+            one (mockPrinter).print(INDEX);
+
+            one (mockInstruction).getIndexedLocalVariable();
+                will(returnValue(mockLocalVariable));
+            one (mockLocalVariable).getDescriptor();
+                will(returnValue(DESCRIPTOR));
+            one (mockLocalVariable).getName();
 
             ignoring (mockPrinter);
         }});
