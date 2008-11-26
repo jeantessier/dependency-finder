@@ -98,8 +98,9 @@ public class TestTextPrinter extends MockObjectTestCase {
 
             one (mockCode).iterator();
             one (mockCode).getExceptionHandlers();
+                will(returnValue(Collections.EMPTY_LIST));
 
-            ignoring (mockPrinter);
+            ignoring (mockPrinter).println();
         }});
 
         sut.visitCode_attribute(mockCode);
@@ -118,7 +119,7 @@ public class TestTextPrinter extends MockObjectTestCase {
                 will(returnValue(Collections.singleton(mockExceptionHandler)));
             one (mockExceptionHandler).accept(sut);
 
-            ignoring (mockPrinter);
+            ignoring (mockPrinter).println();
         }});
 
         sut.visitCode_attribute(mockCode);
@@ -274,9 +275,30 @@ public class TestTextPrinter extends MockObjectTestCase {
     }
 
     public void testVisitExceptionHandler() {
+        final int startPc = 1;
+        final int endPc = 2;
+        final int handlerPc = 3;
+        final String catchType = "foo";
+
         final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
 
         checking(new Expectations() {{
+            one (mockExceptionHandler).getStartPC();
+                will(returnValue(startPc));
+            one (mockPrinter).print(startPc);
+
+            one (mockExceptionHandler).getEndPC();
+                will(returnValue(endPc));
+            one (mockPrinter).print(endPc);
+
+            one (mockExceptionHandler).getHandlerPC();
+                will(returnValue(handlerPc));
+            one (mockPrinter).print(handlerPc);
+
+            one (mockExceptionHandler).getCatchType();
+                will(returnValue(catchType));
+            one (mockPrinter).print(catchType);
+
             ignoring (mockPrinter);
         }});
 

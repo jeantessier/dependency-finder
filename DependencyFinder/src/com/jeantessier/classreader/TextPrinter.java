@@ -33,6 +33,7 @@
 package com.jeantessier.classreader;
 
 import java.io.*;
+import java.util.*;
 
 public class TextPrinter extends Printer {
     private boolean top = true;
@@ -193,10 +194,13 @@ public class TextPrinter extends Printer {
 
     public void visitCode_attribute(Code_attribute attribute) {
         append("        CODE").eol();
-        super.visitInstructions(attribute);
+        visitInstructions(attribute);
 
-        append("        EXCEPTION HANDLING").eol();
-        super.visitExceptionHandlers(attribute.getExceptionHandlers());
+        Collection<? extends ExceptionHandler> exceptionHandlers = attribute.getExceptionHandlers();
+        if (!exceptionHandlers.isEmpty()) {
+            append("        EXCEPTION HANDLING").eol();
+            visitExceptionHandlers(exceptionHandlers);
+        }
     }
 
     public void visitInstruction(Instruction helper) {
@@ -360,5 +364,9 @@ public class TextPrinter extends Printer {
                 // Do nothing
                 break;
         }
+    }
+
+    public void visitExceptionHandler(ExceptionHandler helper) {
+        append("        ").append(helper.getStartPC()).append("-").append(helper.getEndPC()).append(": ").append(helper.getHandlerPC()).append(" (").append(helper.getCatchType()).append(")").eol();
     }
 }
