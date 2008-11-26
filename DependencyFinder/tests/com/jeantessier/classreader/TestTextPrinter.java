@@ -90,16 +90,34 @@ public class TestTextPrinter extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitCode_attribute() {
+    public void testVisitCode_attribute_WithoutExceptionHandlers() {
         final Code_attribute mockCode = mock(Code_attribute.class);
 
         checking(new Expectations() {{
             one (mockPrinter).print("        CODE");
 
             one (mockCode).iterator();
-            atLeast(1).of (mockCode).getExceptionHandlers();
+            one (mockCode).getExceptionHandlers();
 
-            ignoring (mockCode).getAttributes();
+            ignoring (mockPrinter);
+        }});
+
+        sut.visitCode_attribute(mockCode);
+    }
+
+    public void testVisitCode_attribute_WithExceptionHandlers() {
+        final Code_attribute mockCode = mock(Code_attribute.class);
+        final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
+
+        checking(new Expectations() {{
+            one (mockPrinter).print("        CODE");
+            one (mockPrinter).print("        EXCEPTION HANDLING");
+
+            one (mockCode).iterator();
+            one (mockCode).getExceptionHandlers();
+                will(returnValue(Collections.singleton(mockExceptionHandler)));
+            one (mockExceptionHandler).accept(sut);
+
             ignoring (mockPrinter);
         }});
 
@@ -253,5 +271,15 @@ public class TestTextPrinter extends MockObjectTestCase {
         }});
 
         sut.visitInstruction(mockInstruction);
+    }
+
+    public void testVisitExceptionHandler() {
+        final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
+
+        checking(new Expectations() {{
+            ignoring (mockPrinter);
+        }});
+
+        sut.visitExceptionHandler(mockExceptionHandler);
     }
 }

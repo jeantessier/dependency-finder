@@ -86,57 +86,88 @@ public abstract class VisitorBase implements Visitor {
     }
 
     protected void visitClassfileAnnotations(Classfile classfile) {
-        for (Attribute_info attribute : classfile.getAttributes()) {
-            attribute.accept(this);
-        }
+        visitAttributes(classfile.getAttributes());
     }
 
     // ConstantPool entries
-    public void visitClass_info(Class_info entry) {}
-    public void visitFieldRef_info(FieldRef_info entry) {}
-    public void visitMethodRef_info(MethodRef_info entry) {}
-    public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {}
-    public void visitString_info(String_info entry) {}
-    public void visitInteger_info(Integer_info entry) {}
-    public void visitFloat_info(Float_info entry) {}
-    public void visitLong_info(Long_info entry) {}
-    public void visitDouble_info(Double_info entry) {}
-    public void visitNameAndType_info(NameAndType_info entry) {}
-    public void visitUTF8_info(UTF8_info entry) {}
+
+    public void visitClass_info(Class_info entry) {
+        // Do nothing
+    }
+
+    public void visitFieldRef_info(FieldRef_info entry) {
+        // Do nothing
+    }
+
+    public void visitMethodRef_info(MethodRef_info entry) {
+        // Do nothing
+    }
+
+    public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
+        // Do nothing
+    }
+
+    public void visitString_info(String_info entry) {
+        // Do nothing
+    }
+
+    public void visitInteger_info(Integer_info entry) {
+        // Do nothing
+    }
+
+    public void visitFloat_info(Float_info entry) {
+        // Do nothing
+    }
+
+    public void visitLong_info(Long_info entry) {
+        // Do nothing
+    }
+
+    public void visitDouble_info(Double_info entry) {
+        // Do nothing
+    }
+
+    public void visitNameAndType_info(NameAndType_info entry) {
+        // Do nothing
+    }
+
+    public void visitUTF8_info(UTF8_info entry) {
+        // Do nothing
+    }
 
     // Features
+
     public void visitField_info(Field_info entry) {
-        for (Attribute_info attribute : entry.getAttributes()) {
-            attribute.accept(this);
-        }
+        visitAttributes(entry.getAttributes());
     }
 
     public void visitMethod_info(Method_info entry) {
-        for (Attribute_info attribute : entry.getAttributes()) {
-            attribute.accept(this);
-        }
+        visitAttributes(entry.getAttributes());
     }
 
     // Attributes
+
+    protected void visitAttributes(Collection<? extends Attribute_info> attributes) {
+        for (Attribute_info attribute_info : attributes) {
+            attribute_info.accept(this);
+        }
+    }
+
     public void visitConstantValue_attribute(ConstantValue_attribute attribute) {
         // Do nothing
     }
 
     public void visitCode_attribute(Code_attribute attribute) {
         Logger.getLogger(getClass()).debug("Visiting instruction(s) ...");
-        for (Instruction instruction : attribute) {
-            instruction.accept(this);
-        }
+        visitInstructions(attribute);
 
-        Logger.getLogger(getClass()).debug("Visiting " + attribute.getExceptionHandlers().size() + " exception handler(s) ...");
-        for (ExceptionHandler exceptionHandler : attribute.getExceptionHandlers()) {
-            exceptionHandler.accept(this);
-        }
+        Collection<? extends ExceptionHandler> exceptionHandlers = attribute.getExceptionHandlers();
+        Logger.getLogger(getClass()).debug("Visiting " + exceptionHandlers.size() + " exception handler(s) ...");
+        visitExceptionHandlers(exceptionHandlers);
 
-        Logger.getLogger(getClass()).debug("Visiting " + attribute.getAttributes().size() + " code attribute(s) ...");
-        for (Attribute_info attribute_info : attribute.getAttributes()) {
-            attribute_info.accept(this);
-        }
+        Collection<? extends Attribute_info> attributes = attribute.getAttributes();
+        Logger.getLogger(getClass()).debug("Visiting " + attributes.size() + " code attribute(s) ...");
+        visitAttributes(attributes);
     }
 
     public void visitExceptions_attribute(Exceptions_attribute attribute) {
@@ -244,12 +275,42 @@ public abstract class VisitorBase implements Visitor {
     }
 
     // Attribute helpers
-    public void visitInstruction(Instruction helper) {}
-    public void visitExceptionHandler(ExceptionHandler helper) {}
-    public void visitInnerClass(InnerClass helper) {}
-    public void visitLineNumber(LineNumber helper) {}
-    public void visitLocalVariable(LocalVariable helper) {}
-    public void visitLocalVariableType(LocalVariableType helper) {}
+
+    protected void visitInstructions(Code_attribute attribute) {
+        for (Instruction instruction : attribute) {
+            instruction.accept(this);
+        }
+    }
+
+    public void visitInstruction(Instruction helper) {
+        // Do nothing
+    }
+
+    protected void visitExceptionHandlers(Collection<? extends ExceptionHandler> exceptionHandlers) {
+        for (ExceptionHandler exceptionHandler : exceptionHandlers) {
+            exceptionHandler.accept(this);
+        }
+    }
+
+    public void visitExceptionHandler(ExceptionHandler helper) {
+        // Do nothing
+    }
+
+    public void visitInnerClass(InnerClass helper) {
+        // Do nothing
+    }
+
+    public void visitLineNumber(LineNumber helper) {
+        // Do nothing
+    }
+
+    public void visitLocalVariable(LocalVariable helper) {
+        // Do nothing
+    }
+
+    public void visitLocalVariableType(LocalVariableType helper) {
+        // Do nothing
+    }
 
     public void visitParameter(Parameter helper) {
         Logger.getLogger(getClass()).debug("Visiting " + helper.getAnnotations().size() + " annotation(s) ...");
@@ -271,17 +332,49 @@ public abstract class VisitorBase implements Visitor {
         helper.getElementValue().accept(this);
     }
 
-    public void visitByteConstantElementValue(ByteConstantElementValue helper) {}
-    public void visitCharConstantElementValue(CharConstantElementValue helper) {}
-    public void visitDoubleConstantElementValue(DoubleConstantElementValue helper) {}
-    public void visitFloatConstantElementValue(FloatConstantElementValue helper) {}
-    public void visitIntegerConstantElementValue(IntegerConstantElementValue helper) {}
-    public void visitLongConstantElementValue(LongConstantElementValue helper) {}
-    public void visitShortConstantElementValue(ShortConstantElementValue helper) {}
-    public void visitBooleanConstantElementValue(BooleanConstantElementValue helper) {}
-    public void visitStringConstantElementValue(StringConstantElementValue helper) {}
-    public void visitEnumElementValue(EnumElementValue helper) {}
-    public void visitClassElementValue(ClassElementValue helper) {}
+    public void visitByteConstantElementValue(ByteConstantElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitCharConstantElementValue(CharConstantElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitDoubleConstantElementValue(DoubleConstantElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitFloatConstantElementValue(FloatConstantElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitIntegerConstantElementValue(IntegerConstantElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitLongConstantElementValue(LongConstantElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitShortConstantElementValue(ShortConstantElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitBooleanConstantElementValue(BooleanConstantElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitStringConstantElementValue(StringConstantElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitEnumElementValue(EnumElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitClassElementValue(ClassElementValue helper) {
+        // Do nothing
+    }
 
     public void visitAnnotationElementValue(AnnotationElementValue helper) {
         helper.getAnnotation().accept(this);

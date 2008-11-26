@@ -205,10 +205,10 @@ public class TestVisitorBase extends MockObjectTestCase {
             one (mockCode).iterator();
                 will(returnIterator(mockInstruction));
             one (mockInstruction).accept(sut);
-            atLeast(1).of (mockCode).getExceptionHandlers();
+            one (mockCode).getExceptionHandlers();
                 will(returnValue(Collections.singleton(mockExceptionHandler)));
             one (mockExceptionHandler).accept(sut);
-            atLeast(1).of (mockCode).getAttributes();
+            one (mockCode).getAttributes();
                 will(returnValue(Collections.singleton(mockAttribute)));
             one (mockAttribute).accept(sut);
         }});

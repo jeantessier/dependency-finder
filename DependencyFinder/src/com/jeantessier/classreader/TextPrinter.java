@@ -193,7 +193,10 @@ public class TextPrinter extends Printer {
 
     public void visitCode_attribute(Code_attribute attribute) {
         append("        CODE").eol();
-        super.visitCode_attribute(attribute);
+        super.visitInstructions(attribute);
+
+        append("        EXCEPTION HANDLING").eol();
+        super.visitExceptionHandlers(attribute.getExceptionHandlers());
     }
 
     public void visitInstruction(Instruction helper) {
