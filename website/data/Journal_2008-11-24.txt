@@ -5,3 +5,5 @@ useful.
 
 Simplified =Instruction= tests by using jMock and putting many of the tests
 methods in one test class.
+
+Bad news for Dependency Finder: I just got Tomb Raider: Underworld!  >:-)
