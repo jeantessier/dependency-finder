@@ -68,6 +68,7 @@ sub PrintDocumentHeader {
 
     open(FILEHANDLE, "$DIRNAME/${document}_title.txt");
     local ($title, @subtitle) = <FILEHANDLE>;
+    chomp $title;
     close(FILEHANDLE);
 
     print "<!doctype html PUBLIC \"-//W3C//DTD HTML 4.01//EN\">\n";
@@ -82,7 +83,7 @@ sub PrintDocumentHeader {
     print "\n";
     print "<body>\n";
     print "\n";
-    print "<table width=\"728\" cellpadding=\"0\" cellspacing=\"0\"><tr>\n";
+    print "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\"><tr>\n";
     print "<td align=\"left\"><h2>$title</h2></td>\n";
     print "<td align=\"right\">\n";
     print @subtitle;
