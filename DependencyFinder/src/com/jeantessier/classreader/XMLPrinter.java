@@ -578,6 +578,28 @@ public class XMLPrinter extends Printer {
         indent();
         append("<instruction pc=\"").append(instruction.getStart()).append("\" length=\"").append(instruction.getLength()).append("\"");
         switch (instruction.getOpcode()) {
+            case 0x02: // iconst_m1
+            case 0x03: // iconst_0
+            case 0x04: // iconst_1
+            case 0x05: // iconst_2
+            case 0x06: // iconst_3
+            case 0x07: // iconst_4
+            case 0x08: // iconst_5
+            case 0x09: // lconst_0
+            case 0x0a: // lconst_1
+            case 0x0b: // fconst_0
+            case 0x0c: // fconst_1
+            case 0x0d: // fconst_2
+            case 0x0e: // dconst_0
+            case 0x0f: // dconst_1
+                append(" value=\"").append(instruction.getValue()).append("\">");
+                append(instruction);
+                break;
+            case 0x10: // bipush
+            case 0x11: // sipush
+                append(" value=\"").append(instruction.getValue()).append("\">");
+                append(instruction).append(" ").append(instruction.getValue());
+                break;
             case 0x12: // ldc
             case 0x13: // ldc_w
             case 0x14: // ldc2_w
@@ -675,7 +697,7 @@ public class XMLPrinter extends Printer {
             case 0xc8: // goto_w
             case 0xc9: // jsr_w
                 append(" offset=\"").append(instruction.getOffset()).append("\">");
-                append(instruction);
+                append(instruction).append(" ").append(instruction.getStart() + instruction.getOffset());
                 break;
             case 0x84: // iinc
                 append(" index=\"").append(instruction.getIndex()).append("\" value=\"").append(instruction.getValue()).append("\">");
