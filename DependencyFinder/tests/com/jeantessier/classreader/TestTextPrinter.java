@@ -90,6 +90,22 @@ public class TestTextPrinter extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
+    public void testVisitCode_attribute() {
+        final Code_attribute mockCode = mock(Code_attribute.class);
+
+        checking(new Expectations() {{
+            one (mockPrinter).print("        CODE");
+
+            one (mockCode).iterator();
+            atLeast(1).of (mockCode).getExceptionHandlers();
+
+            ignoring (mockCode).getAttributes();
+            ignoring (mockPrinter);
+        }});
+
+        sut.visitCode_attribute(mockCode);
+    }
+
     public void testVisitInstruction_iinc() {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();

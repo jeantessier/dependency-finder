@@ -46,6 +46,8 @@ public class TextPrinter extends Printer {
         classfile.getConstantPool().accept(this);
         top = false;
 
+        eol();
+
         append(classfile.getDeclaration()).append(" {").eol();
 
         for (Field_info field : classfile.getAllFields()) {
@@ -184,8 +186,14 @@ public class TextPrinter extends Printer {
     }
 
     public void visitMethod_info(Method_info entry) {
+        eol();
         append("    ").append(entry.getDeclaration()).append(";").eol();
         super.visitMethod_info(entry);
+    }
+
+    public void visitCode_attribute(Code_attribute attribute) {
+        append("        CODE").eol();
+        super.visitCode_attribute(attribute);
     }
 
     public void visitInstruction(Instruction helper) {
