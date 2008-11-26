@@ -141,47 +141,41 @@ public class TestDependencyExtractor extends TestCase {
     }
     
     public void testPackages() {
-        Iterator i = factory.getPackages().keySet().iterator();
-        while (i.hasNext()) {
-            Object key = i.next();
+        for (String key : factory.getPackages().keySet()) {
             assertEquals(factory.getPackages().get(key), testFactory.getPackages().get(key));
             assertTrue(key + " is same", factory.getPackages().get(key) != testFactory.getPackages().get(key));
             assertEquals(key + " inbounds",
-                         ((Node) factory.getPackages().get(key)).getInboundDependencies().size(),
-                         ((Node) testFactory.getPackages().get(key)).getInboundDependencies().size());
+                         factory.getPackages().get(key).getInboundDependencies().size(),
+                         testFactory.getPackages().get(key).getInboundDependencies().size());
             assertEquals(key + " outbounds",
-                         ((Node) factory.getPackages().get(key)).getOutboundDependencies().size(),
-                         ((Node) testFactory.getPackages().get(key)).getOutboundDependencies().size());
+                         factory.getPackages().get(key).getOutboundDependencies().size(),
+                         testFactory.getPackages().get(key).getOutboundDependencies().size());
         }
     }
     
     public void testClasses() {
-        Iterator i = factory.getClasses().keySet().iterator();
-        while (i.hasNext()) {
-            Object key = i.next();
+        for (String key : factory.getClasses().keySet()) {
             assertEquals(factory.getClasses().get(key), testFactory.getClasses().get(key));
             assertTrue(key + " is same", factory.getClasses().get(key) != testFactory.getClasses().get(key));
             assertEquals(key + " inbounds",
-                         ((Node) factory.getClasses().get(key)).getInboundDependencies().size(),
-                         ((Node) testFactory.getClasses().get(key)).getInboundDependencies().size());
+                         factory.getClasses().get(key).getInboundDependencies().size(),
+                         testFactory.getClasses().get(key).getInboundDependencies().size());
             assertEquals(key + " outbounds",
-                         ((Node) factory.getClasses().get(key)).getOutboundDependencies().size(),
-                         ((Node) testFactory.getClasses().get(key)).getOutboundDependencies().size());
+                         factory.getClasses().get(key).getOutboundDependencies().size(),
+                         testFactory.getClasses().get(key).getOutboundDependencies().size());
         }
     }
     
     public void testFeatures() {
-        Iterator i = factory.getFeatures().keySet().iterator();
-        while (i.hasNext()) {
-            Object key = i.next();
+        for (String key : factory.getFeatures().keySet()) {
             assertEquals(factory.getFeatures().get(key), testFactory.getFeatures().get(key));
             assertTrue(key + " is same", factory.getFeatures().get(key) != testFactory.getFeatures().get(key));
             assertEquals(key + " inbounds",
-                         ((Node) factory.getFeatures().get(key)).getInboundDependencies().size(),
-                         ((Node) testFactory.getFeatures().get(key)).getInboundDependencies().size());
+                         factory.getFeatures().get(key).getInboundDependencies().size(),
+                         testFactory.getFeatures().get(key).getInboundDependencies().size());
             assertEquals(key + " outbounds",
-                         ((Node) factory.getFeatures().get(key)).getOutboundDependencies().size(),
-                         ((Node) testFactory.getFeatures().get(key)).getOutboundDependencies().size());
+                         factory.getFeatures().get(key).getOutboundDependencies().size(),
+                         testFactory.getFeatures().get(key).getOutboundDependencies().size());
         }
     }
 
@@ -195,10 +189,8 @@ public class TestDependencyExtractor extends TestCase {
         classfile.accept(new CodeDependencyCollector(factory));
 
         Collection featureNames = factory.getFeatures().keySet();
-        
-        Iterator i = classfile.getAllMethods().iterator();
-        while (i.hasNext()) {
-            Method_info method = (Method_info) i.next();
+
+        for (Method_info method : classfile.getAllMethods()) {
             assertTrue("Missing method " + method.getFullSignature(), featureNames.contains(method.getFullSignature()));
         }
     }
