@@ -38,6 +38,7 @@ import java.util.*;
 import org.apache.log4j.*;
 
 import com.jeantessier.classreader.Instruction;
+import com.jeantessier.classreader.LocalVariable;
 import com.jeantessier.classreader.*;
 import com.jeantessier.text.*;
 
@@ -155,7 +156,7 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
                     case 0x46: // fstore_3
                     case 0x4a: // dstore_3
                     case 0x4e: // astore_3
-                        Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " (" + instr.getIndexedLocalVariable() + ")");
+                        Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " (" + getLocalVariableName(instr) + ")");
                         break;
                     case 0x15: // iload
                     case 0x16: // llload
@@ -168,10 +169,10 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
                     case 0x39: // dstore
                     case 0x3a: // astore
                     case 0xa9: // ret
-                        Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + instr.getIndexedLocalVariable() + ")");
+                        Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + getLocalVariableName(instr) + ")");
                         break;
                     case 0x84: // iinc
-                        Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + instr.getIndexedLocalVariable() + ") by " + instr.getValue());
+                        Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + getLocalVariableName(instr) + ") by " + instr.getValue());
                         break;
                     case 0x99: // ifeq
                     case 0x9a: // ifne
@@ -200,10 +201,10 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
                         }
                         break;
                     case 0xc4: // wide
-                        if ((instr.getBytecode()[instr.getStart() + 1] & 0xff) == 0x84 /* iinc */) {
-                            Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + instr.getIndexedLocalVariable() + ") by " + instr.getValue());
+                        if (instr.getByte(1) == 0x84 /* iinc */) {
+                            Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + getLocalVariableName(instr) + ") by " + instr.getValue());
                         } else {
-                            Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + instr.getIndexedLocalVariable() + ")");
+                            Logger.getLogger(getClass()).debug("    " + start + ": " + instr + " " + index + " (" + getLocalVariableName(instr) + ")");
                         }
                         break;
                     default:
@@ -240,6 +241,17 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
 
     public Collection<Attribute_info> getAttributes() {
         return attributes;
+    }
+
+    private String getLocalVariableName(Instruction instr) {
+        String result = "n/a";
+
+        LocalVariable localVariable = instr.getIndexedLocalVariable();
+        if (localVariable != null) {
+            result = localVariable.toString();
+        }
+
+        return result;
     }
 
     public String toString() {

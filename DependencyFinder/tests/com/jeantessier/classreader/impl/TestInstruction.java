@@ -44,7 +44,11 @@ public class TestInstruction extends MockObjectTestCase {
     private static final byte ICONST_0_INSTRUCTION = (byte) 0x03;
     private static final byte LDC_INSTRUCTION = (byte) 0x12;
     private static final byte ILOAD_INSTRUCTION = (byte) 0x15;
+    private static final byte ISTORE_INSTRUCTION = (byte) 0x36;
+    private static final byte WIDE_INSTRUCTION = (byte) 0xc4;
     private static final byte INDEX = (byte) 0x02;
+    private static final int START_PC = 0;
+    private static final int LENGTH = 10;
 
     private Code_attribute mockCode_attribute;
 
@@ -214,40 +218,201 @@ public class TestInstruction extends MockObjectTestCase {
         assertSame(mockEntry, actualEntry);
     }
 
-    public void testGetIndexedLocalVariable_Matching() {
+    public void testGetIndexedLocalVariable_NotMatchingIndex() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
+
+        checking(new Expectations() {{
+            one (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
+            will(visitLocalVariable(mockLocalVariable));
+            one (mockLocalVariable).getIndex();
+            will(returnValue(INDEX + 1));
+        }});
+
+        byte[] bytecode = {ILOAD_INSTRUCTION, INDEX};
+
+        Instruction sut = new Instruction(mockCode_attribute, bytecode, 0);
+
+        LocalVariable actualLocalVariable = (LocalVariable) sut.getIndexedLocalVariable();
+        assertNull(actualLocalVariable);
+    }
+
+    public void testGetIndexedLocalVariable_LoadInstructionInsideMatchingIndexMatchingPcRange() {
+        final LocalVariable mockLocalVariable = mock(LocalVariable.class);
+
+        final byte[] bytecode = {ILOAD_INSTRUCTION, INDEX};
 
         checking(new Expectations() {{
             one (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
                 will(visitLocalVariable(mockLocalVariable));
             one (mockLocalVariable).getIndex();
                 will(returnValue((int) INDEX));
+            atLeast(1).of (mockLocalVariable).getStartPC();
+                will(returnValue(START_PC));
+            atLeast(1).of (mockLocalVariable).getLength();
+                will(returnValue(LENGTH));
         }});
 
-        Instruction sut = new Instruction(mockCode_attribute, new byte[] {ILOAD_INSTRUCTION, INDEX}, 0);
+        Instruction sut = new Instruction(mockCode_attribute, bytecode, 0);
 
         LocalVariable actualLocalVariable = (LocalVariable) sut.getIndexedLocalVariable();
         assertSame(mockLocalVariable, actualLocalVariable);
     }
 
-    public void testGetIndexedLocalVariable_NonMatching() {
+    public void testGetIndexedLocalVariable_LoadInstructionImmediatelyBeforePcRange() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
+
+        final byte[] bytecode = {ILOAD_INSTRUCTION, INDEX};
 
         checking(new Expectations() {{
             one (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
                 will(visitLocalVariable(mockLocalVariable));
             one (mockLocalVariable).getIndex();
-                will(returnValue(INDEX + 1));
+                will(returnValue((int) INDEX));
+            one (mockLocalVariable).getStartPC();
+                will(returnValue(START_PC + bytecode.length));
         }});
 
-        Instruction sut = new Instruction(mockCode_attribute, new byte[] {ILOAD_INSTRUCTION, INDEX}, 0);
+        Instruction sut = new Instruction(mockCode_attribute, bytecode, 0);
 
         LocalVariable actualLocalVariable = (LocalVariable) sut.getIndexedLocalVariable();
         assertNull(actualLocalVariable);
     }
 
+    public void testGetIndexedLocalVariable_StoreInstructionInsidePcRange() {
+        final LocalVariable mockLocalVariable = mock(LocalVariable.class);
+
+        final byte[] bytecode = {ISTORE_INSTRUCTION, INDEX};
+
+        checking(new Expectations() {{
+            one (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
+                will(visitLocalVariable(mockLocalVariable));
+            one (mockLocalVariable).getIndex();
+                will(returnValue((int) INDEX));
+            atLeast(1).of (mockLocalVariable).getStartPC();
+                will(returnValue(START_PC));
+            atLeast(1).of (mockLocalVariable).getLength();
+                will(returnValue(LENGTH));
+        }});
+
+        Instruction sut = new Instruction(mockCode_attribute, bytecode, 0);
+
+        LocalVariable actualLocalVariable = (LocalVariable) sut.getIndexedLocalVariable();
+        assertSame(mockLocalVariable, actualLocalVariable);
+    }
+
+    public void testGetIndexedLocalVariable_StoreInstructionImmediatelyBeforePcRange() {
+        final LocalVariable mockLocalVariable = mock(LocalVariable.class);
+
+        final byte[] bytecode = {ISTORE_INSTRUCTION, INDEX};
+
+        checking(new Expectations() {{
+            one (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
+                will(visitLocalVariable(mockLocalVariable));
+            atLeast(1).of (mockLocalVariable).getIndex();
+                will(returnValue((int) INDEX));
+            atLeast(1).of (mockLocalVariable).getStartPC();
+                will(returnValue(START_PC + bytecode.length));
+            atLeast(1).of (mockLocalVariable).getLength();
+                will(returnValue(LENGTH));
+        }});
+
+        Instruction sut = new Instruction(mockCode_attribute, bytecode, 0);
+
+        LocalVariable actualLocalVariable = (LocalVariable) sut.getIndexedLocalVariable();
+        assertSame(mockLocalVariable, actualLocalVariable);
+    }
+
+    public void testGetIndexedLocalVariable_WideLoadInstructionInsideMatchingIndexMatchingPcRange() {
+        final LocalVariable mockLocalVariable = mock(LocalVariable.class);
+
+        final byte[] bytecode = {WIDE_INSTRUCTION, ILOAD_INSTRUCTION, 0x00, INDEX};
+
+        checking(new Expectations() {{
+            one (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
+                will(visitLocalVariable(mockLocalVariable));
+            one (mockLocalVariable).getIndex();
+                will(returnValue((int) INDEX));
+            atLeast(1).of (mockLocalVariable).getStartPC();
+                will(returnValue(START_PC));
+            atLeast(1).of (mockLocalVariable).getLength();
+                will(returnValue(LENGTH));
+        }});
+
+        Instruction sut = new Instruction(mockCode_attribute, bytecode, 0);
+
+        LocalVariable actualLocalVariable = (LocalVariable) sut.getIndexedLocalVariable();
+        assertSame(mockLocalVariable, actualLocalVariable);
+    }
+
+    public void testGetIndexedLocalVariable_WideLoadInstructionImmediatelyBeforePcRange() {
+        final LocalVariable mockLocalVariable = mock(LocalVariable.class);
+
+        final byte[] bytecode = {WIDE_INSTRUCTION, ILOAD_INSTRUCTION, 0x00, INDEX};
+
+        checking(new Expectations() {{
+            one (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
+                will(visitLocalVariable(mockLocalVariable));
+            one (mockLocalVariable).getIndex();
+                will(returnValue((int) INDEX));
+            one (mockLocalVariable).getStartPC();
+                will(returnValue(START_PC + bytecode.length));
+        }});
+
+        Instruction sut = new Instruction(mockCode_attribute, bytecode, 0);
+
+        LocalVariable actualLocalVariable = (LocalVariable) sut.getIndexedLocalVariable();
+        assertNull(actualLocalVariable);
+    }
+
+    public void testGetIndexedLocalVariable_WideStoreInstructionInsidePcRange() {
+        final LocalVariable mockLocalVariable = mock(LocalVariable.class);
+
+        final byte[] bytecode = {WIDE_INSTRUCTION, ISTORE_INSTRUCTION, 0x00, INDEX};
+
+        checking(new Expectations() {{
+            one (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
+                will(visitLocalVariable(mockLocalVariable));
+            one (mockLocalVariable).getIndex();
+                will(returnValue((int) INDEX));
+            atLeast(1).of (mockLocalVariable).getStartPC();
+                will(returnValue(START_PC));
+            atLeast(1).of (mockLocalVariable).getLength();
+                will(returnValue(LENGTH));
+        }});
+
+        Instruction sut = new Instruction(mockCode_attribute, bytecode, 0);
+
+        LocalVariable actualLocalVariable = (LocalVariable) sut.getIndexedLocalVariable();
+        assertSame(mockLocalVariable, actualLocalVariable);
+    }
+
+    public void testGetIndexedLocalVariable_WideStoreInstructionImmediatelyBeforePcRange() {
+        final LocalVariable mockLocalVariable = mock(LocalVariable.class);
+
+        final byte[] bytecode = {WIDE_INSTRUCTION, ISTORE_INSTRUCTION, 0x00, INDEX};
+
+        checking(new Expectations() {{
+            one (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
+                will(visitLocalVariable(mockLocalVariable));
+            atLeast(1).of (mockLocalVariable).getIndex();
+                will(returnValue((int) INDEX));
+            atLeast(1).of (mockLocalVariable).getStartPC();
+                will(returnValue(START_PC + bytecode.length));
+            atLeast(1).of (mockLocalVariable).getLength();
+                will(returnValue(LENGTH));
+        }});
+
+        Instruction sut = new Instruction(mockCode_attribute, bytecode, 0);
+
+        LocalVariable actualLocalVariable = (LocalVariable) sut.getIndexedLocalVariable();
+        assertSame(mockLocalVariable, actualLocalVariable);
+    }
+
     public void testGetIndexedLocalVariable_WrongOpCode() {
-        Instruction sut = new Instruction(mockCode_attribute, new byte[] {ICONST_0_INSTRUCTION}, 0);
+        byte[] bytecode = {ICONST_0_INSTRUCTION};
+
+        Instruction sut = new Instruction(mockCode_attribute, bytecode, 0);
+
         LocalVariable actualLocalVariable = (LocalVariable) sut.getIndexedLocalVariable();
         assertNull(actualLocalVariable);
     }

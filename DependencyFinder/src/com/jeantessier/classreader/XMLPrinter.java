@@ -683,7 +683,7 @@ public class XMLPrinter extends Printer {
                 appendLocalVariable(instruction.getIndexedLocalVariable());
                 break;
             case 0xc4: // wide
-                if ((instruction.getBytecode()[instruction.getStart()+1] & 0xff) == 0x84 /* iinc */) {
+                if (instruction.getByte(1) == 0x84 /* iinc */) {
                     append(" index=\"").append(instruction.getIndex()).append("\" value=\"").append(instruction.getValue()).append("\">");
                 } else {
                     append(" index=\"").append(instruction.getIndex()).append("\">");
@@ -697,11 +697,6 @@ public class XMLPrinter extends Printer {
                 break;
         }
         append("</instruction>").eol();
-    }
-
-    private void appendLocalVariable(LocalVariable localVariable) {
-        append(" ");
-        append(DescriptorHelper.getType(localVariable.getDescriptor())).append(" ").append(localVariable.getName());
     }
 
     public void visitExceptionHandler(ExceptionHandler helper) {
@@ -790,13 +785,20 @@ public class XMLPrinter extends Printer {
         append("</local-variable-type>").eol();
     }
 
+    private void appendLocalVariable(LocalVariable localVariable) {
+        if (localVariable != null) {
+            append(" ");
+            append(DescriptorHelper.getType(localVariable.getDescriptor())).append(" ").append(localVariable.getName());
+        }
+    }
+
     private String escapeXMLCharacters(String text) {
         String result = text;
 
         result = perl.substitute("s/&/&amp;/g", result);
         result = perl.substitute("s/</&lt;/g", result);
         result = perl.substitute("s/>/&gt;/g", result);
-        
+
         return result;
     }
 }

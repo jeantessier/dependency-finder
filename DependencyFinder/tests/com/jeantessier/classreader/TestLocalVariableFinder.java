@@ -39,16 +39,14 @@ import org.jmock.integration.junit3.*;
 
 public class TestLocalVariableFinder extends MockObjectTestCase {
     private static final int LOCAL_VARIABLE_INDEX = 1;
-
-    private LocalVariableFinder sut;
-
-    protected void setUp() throws Exception {
-        sut = new LocalVariableFinder(LOCAL_VARIABLE_INDEX);
-    }
+    private static final int START_PC = 3;
+    private static final int LENGTH = 5;
 
     public void testVisitCode_attribute() {
         final Code_attribute mockCode_attribute = mock(Code_attribute.class);
         final Attribute_info mockAttribute = mock(Attribute_info.class);
+
+        final LocalVariableFinder sut = new LocalVariableFinder(LOCAL_VARIABLE_INDEX, START_PC + 1);
 
         checking(new Expectations() {{
             atLeast(1).of (mockCode_attribute).getAttributes();
@@ -59,20 +57,24 @@ public class TestLocalVariableFinder extends MockObjectTestCase {
         sut.visitCode_attribute(mockCode_attribute);
     }
 
-    public void testVisitLocalVariable_Matching() {
+    public void testVisitLocalVariable_MatchingIndexMatchingPcRange() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
             one (mockLocalVariable).getIndex();
                 will(returnValue(LOCAL_VARIABLE_INDEX));
+            atLeast(1).of (mockLocalVariable).getStartPC();
+                will(returnValue(START_PC));
+            atLeast(1).of (mockLocalVariable).getLength();
+                will(returnValue(LENGTH));
         }});
 
+        LocalVariableFinder sut = new LocalVariableFinder(LOCAL_VARIABLE_INDEX, START_PC + 1);
         sut.visitLocalVariable(mockLocalVariable);
         assertSame(mockLocalVariable, sut.getLocalVariable());
     }
 
-
-    public void testVisitLocalVariable_NotMatching() {
+    public void testVisitLocalVariable_NotMatchingIndex() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
@@ -80,6 +82,90 @@ public class TestLocalVariableFinder extends MockObjectTestCase {
                 will(returnValue(LOCAL_VARIABLE_INDEX + 1));
         }});
 
+        LocalVariableFinder sut = new LocalVariableFinder(LOCAL_VARIABLE_INDEX, START_PC);
+        sut.visitLocalVariable(mockLocalVariable);
+        assertNull(sut.getLocalVariable());
+    }
+
+    public void testVisitLocalVariable_InstructionIsBeforeValidRange() {
+        final LocalVariable mockLocalVariable = mock(LocalVariable.class);
+
+        checking(new Expectations() {{
+            one (mockLocalVariable).getIndex();
+                will(returnValue(LOCAL_VARIABLE_INDEX));
+            one (mockLocalVariable).getStartPC();
+                will(returnValue(START_PC));
+        }});
+
+        LocalVariableFinder sut = new LocalVariableFinder(LOCAL_VARIABLE_INDEX, START_PC - 1);
+        sut.visitLocalVariable(mockLocalVariable);
+        assertNull(sut.getLocalVariable());
+    }
+
+    public void testVisitLocalVariable_InstructionIsAtBeginningOfValidRange() {
+        final LocalVariable mockLocalVariable = mock(LocalVariable.class);
+
+        checking(new Expectations() {{
+            one (mockLocalVariable).getIndex();
+                will(returnValue(LOCAL_VARIABLE_INDEX));
+            atLeast(1).of (mockLocalVariable).getStartPC();
+                will(returnValue(START_PC));
+            atLeast(1).of (mockLocalVariable).getLength();
+                will(returnValue(LENGTH));
+        }});
+
+        LocalVariableFinder sut = new LocalVariableFinder(LOCAL_VARIABLE_INDEX, START_PC);
+        sut.visitLocalVariable(mockLocalVariable);
+        assertSame(mockLocalVariable, sut.getLocalVariable());
+    }
+
+    public void testVisitLocalVariable_InstructionIsAtBeginningOfValidRangeOfLengthZero() {
+        final LocalVariable mockLocalVariable = mock(LocalVariable.class);
+
+        checking(new Expectations() {{
+            one (mockLocalVariable).getIndex();
+                will(returnValue(LOCAL_VARIABLE_INDEX));
+            atLeast(1).of (mockLocalVariable).getStartPC();
+                will(returnValue(START_PC));
+            atLeast(1).of (mockLocalVariable).getLength();
+                will(returnValue(0));
+        }});
+
+        LocalVariableFinder sut = new LocalVariableFinder(LOCAL_VARIABLE_INDEX, START_PC);
+        sut.visitLocalVariable(mockLocalVariable);
+        assertSame(mockLocalVariable, sut.getLocalVariable());
+    }
+
+    public void testVisitLocalVariable_InstructionIsJustAfterPcRange() {
+        final LocalVariable mockLocalVariable = mock(LocalVariable.class);
+
+        checking(new Expectations() {{
+            one (mockLocalVariable).getIndex();
+                will(returnValue(LOCAL_VARIABLE_INDEX));
+            atLeast(1).of (mockLocalVariable).getStartPC();
+                will(returnValue(START_PC));
+            atLeast(1).of (mockLocalVariable).getLength();
+                will(returnValue(LENGTH));
+        }});
+
+        LocalVariableFinder sut = new LocalVariableFinder(LOCAL_VARIABLE_INDEX, START_PC + LENGTH);
+        sut.visitLocalVariable(mockLocalVariable);
+        assertNull(sut.getLocalVariable());
+    }
+
+    public void testVisitLocalVariable_InstructionIsWellAfterPcRange() {
+        final LocalVariable mockLocalVariable = mock(LocalVariable.class);
+
+        checking(new Expectations() {{
+            one (mockLocalVariable).getIndex();
+                will(returnValue(LOCAL_VARIABLE_INDEX));
+            atLeast(1).of (mockLocalVariable).getStartPC();
+                will(returnValue(START_PC));
+            atLeast(1).of (mockLocalVariable).getLength();
+                will(returnValue(LENGTH));
+        }});
+
+        LocalVariableFinder sut = new LocalVariableFinder(LOCAL_VARIABLE_INDEX, START_PC + LENGTH + 1);
         sut.visitLocalVariable(mockLocalVariable);
         assertNull(sut.getLocalVariable());
     }

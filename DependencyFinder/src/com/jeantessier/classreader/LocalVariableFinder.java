@@ -36,10 +36,13 @@ import org.apache.log4j.*;
 
 public class LocalVariableFinder extends VisitorBase {
     private int localVariableIndex;
+    private int pc;
+
     private LocalVariable localVariable;
 
-    public LocalVariableFinder(int localVariableIndex) {
+    public LocalVariableFinder(int localVariableIndex, int pc) {
         this.localVariableIndex = localVariableIndex;
+        this.pc = pc;
     }
 
     public void visitCode_attribute(Code_attribute attribute) {
@@ -52,7 +55,13 @@ public class LocalVariableFinder extends VisitorBase {
     public void visitLocalVariable(LocalVariable helper) {
         super.visitLocalVariable(helper);
 
-        if (helper.getIndex() == localVariableIndex) {
+        boolean matching = helper.getIndex() == localVariableIndex && helper.getStartPC() <= pc;
+
+        if (matching && helper.getLength() > 0) {
+            matching = pc < helper.getStartPC() + helper.getLength();
+        }
+
+        if (matching) {
             localVariable = helper;
         }
     }

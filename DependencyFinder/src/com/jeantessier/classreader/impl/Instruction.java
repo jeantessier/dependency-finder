@@ -589,7 +589,7 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
     }
     
     public int getOpcode() {
-        return (bytecode[start] & 0xff);
+        return getByte(0);
     }
     
     public static String getMnemonic(int instruction) {
@@ -600,7 +600,7 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
         String result = getMnemonic(getOpcode());
 
         if (getOpcode() == 0xc4 /* wide */) {
-            result += " " + getMnemonic(bytecode[start+1] & 0xff);
+            result += " " + getMnemonic(getByte(1));
         }
 
         return result;
@@ -616,15 +616,15 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
                 // tableswitch
                 padding = 3 - (start % 4);
                 low =
-                    ((bytecode[start+padding+5]  & 0xff) << 24) |
-                    ((bytecode[start+padding+6]  & 0xff) << 16) |
-                    ((bytecode[start+padding+7]  & 0xff) << 8)  |
-                    ((bytecode[start+padding+8]  & 0xff));
+                    (getByte(padding+5) << 24) |
+                    (getByte(padding+6) << 16) |
+                    (getByte(padding+7) << 8) |
+                    (getByte(padding+8));
                 high =
-                    ((bytecode[start+padding+9]  & 0xff) << 24) |
-                    ((bytecode[start+padding+10] & 0xff) << 16) |
-                    ((bytecode[start+padding+11] & 0xff) << 8)  |
-                    ((bytecode[start+padding+12] & 0xff));
+                    (getByte(padding+9) << 24) |
+                    (getByte(padding+10) << 16) |
+                    (getByte(padding+11) << 8) |
+                    (getByte(padding+12));
                 result =
                     1 +                   // opcode
                     padding +             // padding
@@ -636,10 +636,10 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
                 // lookupswitch
                 padding = 3 - (start % 4);
                 npairs =
-                    ((bytecode[start+padding+5] & 0xff) << 24) |
-                    ((bytecode[start+padding+6] & 0xff) << 16) |
-                    ((bytecode[start+padding+7] & 0xff) << 8)  |
-                    ((bytecode[start+padding+8] & 0xff));
+                    (getByte(padding+5) << 24) |
+                    (getByte(padding+6) << 16) |
+                    (getByte(padding+7) << 8) |
+                    (getByte(padding+8));
                 result =
                     1 +            // opcode
                     padding +      // padding
@@ -649,7 +649,7 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
 
             case 0xc4:
                 // wide
-                if ((bytecode[start+1] & 0xff) == 0x84 /* iinc */) {
+                if (getByte(1) == 0x84 /* iinc */) {
                     result = 6;
                 } else {
                     result = 4;
@@ -684,7 +684,7 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
             case 0xc0: // checkcast
             case 0xc1: // instanceof
             case 0xc5: // multianewarray
-                result = ((getBytecode()[getStart()+1] & 0xff) << 8) | (getBytecode()[getStart()+2] & 0xff);
+                result = (getByte(1) << 8) | getByte(2);
                 break;
             case 0x1a: // iload_0
             case 0x1e: // lload_0
@@ -747,10 +747,10 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
             case 0x3a: // astore
             case 0x84: // iinc
             case 0xa9: // ret
-                result = getBytecode()[getStart()+1] & 0xff;
+                result = getByte(1);
                 break;
             case 0xc4: // wide
-                result = ((getBytecode()[getStart()+2] & 0xff) << 8) | (getBytecode()[getStart()+3] & 0xff);
+                result = (getByte(2) << 8) | getByte(3);
                 break;
             default:
                 result = -1;
@@ -782,11 +782,11 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
             case 0xa8: // jsr
             case 0xc6: // ifnull
             case 0xc7: // ifnonnull
-                result = ((getBytecode()[getStart()+1] & 0xff) << 8) | (getBytecode()[getStart()+2] & 0xff);
+                result = (getByte(1) << 8) | getByte(2);
                 break;
             case 0xc8: // goto_w
             case 0xc9: // jsr_w
-                result = ((getBytecode()[getStart()+1] & 0xff) << 24) | ((getBytecode()[getStart()+2] & 0xff) << 16) | ((getBytecode()[getStart()+3] & 0xff) << 8) | (getBytecode()[getStart()+4] & 0xff);
+                result = (getByte(1) << 24) | (getByte(2) << 16) | (getByte(3) << 8) | getByte(4);
                 break;
             default:
                 result = 0;
@@ -829,17 +829,17 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
                 result = 5;
                 break;
             case 0x10: // bipush
-                result = (getBytecode()[getStart()+1] & 0xff);
+                result = getByte(1);
                 break;
             case 0x11: // sipush
-                result = ((getBytecode()[getStart()+1] & 0xff) << 8) | (getBytecode()[getStart()+2] & 0xff);
+                result = (getByte(1) << 8) | getByte(2);
                 break;
             case 0x84: // iinc
-                result = (getBytecode()[getStart()+2] & 0xff);
+                result = getByte(2);
                 break;
             case 0xc4: // wide
-                if ((bytecode[start+1] & 0xff) == 0x84 /* iinc */) {
-                    result = ((getBytecode()[getStart()+4] & 0xff) << 8) | (getBytecode()[getStart()+5] & 0xff);
+                if (getByte(getStart() + 1) == 0x84 /* iinc */) {
+                    result = (getByte(getStart() + 4) << 8) | getByte(5);
                 } else {
                     result = 0;
                 }
@@ -850,6 +850,10 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
         }
 
         return result;
+    }
+
+    public int getByte(int offset) {
+        return (getBytecode()[getStart() + offset] & 0xff);
     }
 
     public com.jeantessier.classreader.ConstantPoolEntry getIndexedConstantPoolEntry() {
@@ -892,62 +896,78 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
             case 0x22: // fload_0
             case 0x26: // dload_0
             case 0x2a: // aload_0
-            case 0x3b: // istore_0
-            case 0x3f: // lstore_0
-            case 0x43: // fstore_0
-            case 0x47: // dstore_0
-            case 0x4b: // astore_0
             case 0x1b: // iload_1
             case 0x1f: // lload_1
             case 0x23: // fload_1
             case 0x27: // dload_1
             case 0x2b: // aload_1
-            case 0x3c: // istore_1
-            case 0x40: // lstore_1
-            case 0x44: // fstore_1
-            case 0x48: // dstore_1
-            case 0x4c: // astore_1
             case 0x1c: // iload_2
             case 0x20: // lload_2
             case 0x24: // fload_2
             case 0x28: // dload_2
             case 0x2c: // aload_2
-            case 0x3d: // istore_2
-            case 0x41: // lstore_2
-            case 0x45: // fstore_2
-            case 0x49: // dstore_2
-            case 0x4d: // astore_2
             case 0x1d: // iload_3
             case 0x21: // lload_3
             case 0x25: // fload_3
             case 0x29: // dload_3
             case 0x2d: // aload_3
-            case 0x3e: // istore_3
-            case 0x42: // lstore_3
-            case 0x46: // fstore_3
-            case 0x4a: // dstore_3
-            case 0x4e: // astore_3
             case 0x15: // iload
             case 0x16: // llload
             case 0x17: // fload
             case 0x18: // dload
             case 0x19: // aload
+            case 0x84: // iinc
+            case 0xa9: // ret
+                result = locateLocalVariable(getStart());
+                break;
+            case 0x3b: // istore_0
+            case 0x3f: // lstore_0
+            case 0x43: // fstore_0
+            case 0x47: // dstore_0
+            case 0x4b: // astore_0
+            case 0x3c: // istore_1
+            case 0x40: // lstore_1
+            case 0x44: // fstore_1
+            case 0x48: // dstore_1
+            case 0x4c: // astore_1
+            case 0x3d: // istore_2
+            case 0x41: // lstore_2
+            case 0x45: // fstore_2
+            case 0x49: // dstore_2
+            case 0x4d: // astore_2
+            case 0x3e: // istore_3
+            case 0x42: // lstore_3
+            case 0x46: // fstore_3
+            case 0x4a: // dstore_3
+            case 0x4e: // astore_3
             case 0x36: // istore
             case 0x37: // lstore
             case 0x38: // fstore
             case 0x39: // dstore
             case 0x3a: // astore
-            case 0x84: // iinc
-            case 0xa9: // ret
+                result = locateLocalVariable(getStart() + getLength());
+                break;
             case 0xc4: // wide
-                LocalVariableFinder finder = new LocalVariableFinder(getIndex());
-                code.accept(finder);
-                result = finder.getLocalVariable();
+                if (getByte(1) >= 0x36 && getByte(1) <= 0x3a) {
+                    result = locateLocalVariable(getStart() + getLength());
+                } else {
+                    result = locateLocalVariable(getStart());
+                }
                 break;
             default:
                 result = null;
                 break;
         }
+
+        return result;
+    }
+
+    private com.jeantessier.classreader.LocalVariable locateLocalVariable(int pc) {
+        com.jeantessier.classreader.LocalVariable result;
+
+        LocalVariableFinder finder = new LocalVariableFinder(getIndex(), pc);
+        code.accept(finder);
+        result = finder.getLocalVariable();
 
         return result;
     }
