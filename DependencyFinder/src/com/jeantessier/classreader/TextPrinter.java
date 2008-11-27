@@ -367,6 +367,10 @@ public class TextPrinter extends Printer {
     }
 
     public void visitExceptionHandler(ExceptionHandler helper) {
-        append("        ").append(helper.getStartPC()).append("-").append(helper.getEndPC()).append(": ").append(helper.getHandlerPC()).append(" (").append(helper.getCatchType()).append(")").eol();
+        append("        ").append(helper.getStartPC()).append("-").append(helper.getEndPC()).append(": ").append(helper.getHandlerPC());
+        if (helper.getCatchTypeIndex() != 0) {
+            append(" (").append(helper.getCatchType()).append(")");
+        }
+        eol();
     }
 }
