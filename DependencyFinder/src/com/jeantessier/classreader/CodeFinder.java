@@ -32,41 +32,14 @@
 
 package com.jeantessier.classreader;
 
-import org.apache.log4j.*;
+public class CodeFinder extends VisitorBase {
+    private Code_attribute code;
 
-public class LocalVariableFinder extends VisitorBase {
-    private int localVariableIndex;
-    private int pc;
-
-    private LocalVariable localVariable;
-
-    public LocalVariableFinder(int localVariableIndex, int pc) {
-        this.localVariableIndex = localVariableIndex;
-        this.pc = pc;
-    }
-
-    public LocalVariable getLocalVariable() {
-        return localVariable;
+    public Code_attribute getCode() {
+        return code;
     }
 
     public void visitCode_attribute(Code_attribute attribute) {
-        Logger.getLogger(getClass()).debug("Visiting " + attribute.getAttributes().size() + " code attribute(s) ...");
-        for (Attribute_info attribute_info : attribute.getAttributes()) {
-            attribute_info.accept(this);
-        }
-    }
-
-    public void visitLocalVariable(LocalVariable helper) {
-        super.visitLocalVariable(helper);
-
-        boolean matching = helper.getIndex() == localVariableIndex && helper.getStartPC() <= pc;
-
-        if (matching && helper.getLength() > 0) {
-            matching = pc < helper.getStartPC() + helper.getLength();
-        }
-
-        if (matching) {
-            localVariable = helper;
-        }
+        code = attribute;
     }
 }

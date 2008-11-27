@@ -11,3 +11,5 @@ Upgraded the following development components:
     </tr>
 </table>
 </blockquote>
+
+Added =CodeFinder= to replace the explicit iteration in =Method_info.getCode()=.

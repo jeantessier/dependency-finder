@@ -149,18 +149,10 @@ public class Method_info extends Feature_info implements com.jeantessier.classre
         return result.toString();
     }
 
-    public Code_attribute getCode() {
-        Code_attribute result = null;
-
-        Iterator i = getAttributes().iterator();
-        while (result == null && i.hasNext()) {
-            Object temp = i.next();
-            if (temp instanceof Code_attribute) {
-                result = (Code_attribute) temp;
-            }
-        }
-
-        return result;
+    public com.jeantessier.classreader.Code_attribute getCode() {
+        CodeFinder finder = new CodeFinder();
+        accept(finder);
+        return finder.getCode();
     }
 
     public void accept(Visitor visitor) {
