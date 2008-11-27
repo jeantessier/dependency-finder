@@ -189,7 +189,7 @@ public class TextPrinter extends Printer {
     public void visitMethod_info(Method_info entry) {
         eol();
         append("    ").append(entry.getDeclaration()).append(";").eol();
-        super.visitMethod_info(entry);
+        entry.getCode().accept(this);
     }
 
     public void visitCode_attribute(Code_attribute attribute) {

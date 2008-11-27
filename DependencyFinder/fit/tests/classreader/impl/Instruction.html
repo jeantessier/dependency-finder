@@ -42,7 +42,9 @@
     <tr><td class="bytes">0f</td><td class="bytes">none</td><td>dconst_1</td><td>1</td><td>-1</td><td>0</td><td>1</td></tr>
 
     <tr><td class="bytes">10</td><td class="bytes">11</td><td>bipush</td><td>2</td><td>-1</td><td>0</td><td>17</td></tr>
+    <tr><td class="bytes">10</td><td class="bytes">ff</td><td>bipush</td><td>2</td><td>-1</td><td>0</td><td>-1</td></tr>
     <tr><td class="bytes">11</td><td class="bytes">01 23</td><td>sipush</td><td>3</td><td>-1</td><td>0</td><td>291</td></tr>
+    <tr><td class="bytes">11</td><td class="bytes">ff ff</td><td>sipush</td><td>3</td><td>-1</td><td>0</td><td>-1</td></tr>
     <tr><td class="bytes">12</td><td class="bytes">11</td><td>ldc</td><td>2</td><td>17</td><td>0</td><td>0</td></tr>
     <tr><td class="bytes">13</td><td class="bytes">01 23</td><td>ldc_w</td><td>3</td><td>291</td><td>0</td><td>0</td></tr>
     <tr><td class="bytes">14</td><td class="bytes">01 23</td><td>ldc2_w</td><td>3</td><td>291</td><td>0</td><td>0</td></tr>
@@ -202,6 +204,7 @@
     <tr><td class="bytes">a5</td><td class="bytes">01 23</td><td>if_acmpeq</td><td>3</td><td>-1</td><td>291</td><td>0</td></tr>
     <tr><td class="bytes">a6</td><td class="bytes">01 23</td><td>if_acmpne</td><td>3</td><td>-1</td><td>291</td><td>0</td></tr>
     <tr><td class="bytes">a7</td><td class="bytes">01 23</td><td>goto</td><td>3</td><td>-1</td><td>291</td><td>0</td></tr>
+    <tr><td class="bytes">a7</td><td class="bytes">ff ff</td><td>goto</td><td>3</td><td>-1</td><td>-1</td><td>0</td></tr>
     <tr><td class="bytes">a8</td><td class="bytes">01 23</td><td>jsr</td><td>3</td><td>-1</td><td>291</td><td>0</td></tr>
     <tr><td class="bytes">a9</td><td class="bytes">11</td><td>ret</td><td>2</td><td>17</td><td>0</td><td>0</td></tr>
     <tr><td class="bytes">aa</td><td class="bytes">00 00 00 <br/> 01 23 45 67 <br/> 00 00 00 01 <br/> 00 00 00 01 <br/> 01 23 45 67</td><td>tableswitch</td><td>20</td><td>-1</td><td>0</td><td>0</td></tr>
@@ -246,10 +249,12 @@
     <tr><td class="bytes">c4</td><td class="bytes">39 01 23</td><td>wide dstore</td><td>4</td><td>291</td><td>0</td><td>0</td></tr>
     <tr><td class="bytes">c4</td><td class="bytes">a9 01 23</td><td>wide ret</td><td>4</td><td>291</td><td>0</td><td>0</td></tr>
     <tr><td class="bytes">c4</td><td class="bytes">84 01 23 45 67</td><td>wide iinc</td><td>6</td><td>291</td><td>0</td><td>17767</td></tr>
+    <tr><td class="bytes">c4</td><td class="bytes">84 ff ff ff ff</td><td>wide iinc</td><td>6</td><td>65535</td><td>0</td><td>-1</td></tr>
     <tr><td class="bytes">c5</td><td class="bytes">01 23 45</td><td>multianewarray</td><td>4</td><td>291</td><td>0</td><td>0</td></tr>
     <tr><td class="bytes">c6</td><td class="bytes">01 23</td><td>ifnull</td><td>3</td><td>-1</td><td>291</td><td>0</td></tr>
     <tr><td class="bytes">c7</td><td class="bytes">01 23</td><td>ifnonnull</td><td>3</td><td>-1</td><td>291</td><td>0</td></tr>
     <tr><td class="bytes">c8</td><td class="bytes">01 23 45 67</td><td>goto_w</td><td>5</td><td>-1</td><td>19088743</td><td>0</td></tr>
+    <tr><td class="bytes">c8</td><td class="bytes">ff ff ff ff</td><td>goto_w</td><td>5</td><td>-1</td><td>-1</td><td>0</td></tr>
     <tr><td class="bytes">c9</td><td class="bytes">01 23 45 67</td><td>jsr_w</td><td>5</td><td>-1</td><td>19088743</td><td>0</td></tr>
     <tr><td class="bytes">ca</td><td class="bytes">none</td><td>breakpoint</td><td>1</td><td>-1</td><td>0</td><td>0</td></tr>
     <tr><td class="bytes">cb</td><td class="bytes">none</td><td>xxxundefinedxxx</td><td>1</td><td>-1</td><td>0</td><td>0</td></tr>

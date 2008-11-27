@@ -86,8 +86,8 @@ public class TestTextPrinter extends MockObjectTestCase {
                 will(returnValue(methodDeclaration));
             one (mockPrinter).print(methodDeclaration);
 
-            one (mockMethod).getAttributes();
-                will(returnValue(Collections.singleton(mockCode)));
+            one (mockMethod).getCode();
+                will(returnValue(mockCode));
             one (mockCode).accept(sut);
 
             ignoring (mockPrinter);

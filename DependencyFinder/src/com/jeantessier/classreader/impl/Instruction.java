@@ -782,11 +782,11 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
             case 0xa8: // jsr
             case 0xc6: // ifnull
             case 0xc7: // ifnonnull
-                result = (getByte(1) << 8) | getByte(2);
+                result = (getSignedByte(1) << 8) | getByte(2);
                 break;
             case 0xc8: // goto_w
             case 0xc9: // jsr_w
-                result = (getByte(1) << 24) | (getByte(2) << 16) | (getByte(3) << 8) | getByte(4);
+                result = (getSignedByte(1) << 24) | (getByte(2) << 16) | (getByte(3) << 8) | getByte(4);
                 break;
             default:
                 result = 0;
@@ -829,17 +829,17 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
                 result = 5;
                 break;
             case 0x10: // bipush
-                result = getByte(1);
+                result = getSignedByte(1);
                 break;
             case 0x11: // sipush
-                result = (getByte(1) << 8) | getByte(2);
+                result = (getSignedByte(1) << 8) | getByte(2);
                 break;
             case 0x84: // iinc
-                result = getByte(2);
+                result = getSignedByte(2);
                 break;
             case 0xc4: // wide
                 if (getByte(getStart() + 1) == 0x84 /* iinc */) {
-                    result = (getByte(getStart() + 4) << 8) | getByte(5);
+                    result = (getSignedByte(4) << 8) | getByte(5);
                 } else {
                     result = 0;
                 }
@@ -853,7 +853,11 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
     }
 
     public int getByte(int offset) {
-        return (getBytecode()[getStart() + offset] & 0xff);
+        return getSignedByte(offset) & 0xff;
+    }
+
+    private byte getSignedByte(int offset) {
+        return getBytecode()[getStart() + offset];
     }
 
     public com.jeantessier.classreader.ConstantPoolEntry getIndexedConstantPoolEntry() {
