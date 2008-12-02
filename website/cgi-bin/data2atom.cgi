@@ -177,7 +177,7 @@ sub PrintDocumentPart {
         $line =~ s/\[\[([^\]]*)\]\[(.*\.((gif)|(jpg)))\]\]/<a target="_blank" href="http:\/\/depfind.sf.net\/cgi-bin\/\1"><img border="0" src="http:\/\/depfind.sf.net\/cgi-bin\/\2" \/><\/a><br \/>/gi;
         $line =~ s/\[\[(http[^\]]*\.((gif)|(jpg)))\]\]/<img src="\1" \/><br \/>/gi;
         $line =~ s/\[\[([^\]]*\.((gif)|(jpg)))\]\]/<img src="http:\/\/depfind.sf.net\/cgi-bin\/\1" \/><br \/>/gi;
-        $line =~ s/\[\[(\d\d\d\d-\d\d-\d\d)\]\]/<a href="http:\/\/depfind.sf.net\/cgi-bin\/#\1">\1<\/a>/gi;
+        $line =~ s/\[\[(\d\d\d\d-\d\d-\d\d)\]\]/<a href="http:\/\/depfind.sf.net\/cgi-bin\/Journal.cgi#\1">\1<\/a>/gi;
         $line =~ s/\[\[(http[^\]]*)\]\[(.*)\]\]/<a target="_blank" href="\1">\2<\/a>/g;
         $line =~ s/\[\[([^\]]*)\]\[(.*)\]\]/<a target="_blank" href="http:\/\/depfind.sf.net\/cgi-bin\/\1">\2<\/a>/g;
 
@@ -185,7 +185,7 @@ sub PrintDocumentPart {
         $line =~ s/%3D/=/gi;
         $line =~ s/%5F/_/gi;
 
-        $line =~ s/&/&amp;/g;
+        $line =~ s/&(?!amp|lt|gt)/&amp;/g;
         $line =~ s/<-/&lt;-/g;
         $line =~ s/->/-&gt;/g;
 
