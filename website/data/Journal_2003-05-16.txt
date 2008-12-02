@@ -32,9 +32,12 @@ It overshoots a little because it even counts implicit constructors and
 <table>
     <tr>
         <th width="200">Metrics</th>
-        <th width="150" colspan="2">Clover</th>
-        <th width="150" colspan="2">OOMetrics</th>
-        <th width="100" colspan="2">delta</th>
+        <th width="150"
+            colspan="2">Clover</th>
+        <th width="150"
+            colspan="2">OOMetrics</th>
+        <th width="100"
+            colspan="2">delta</th>
     </tr>
     <tr>
         <td>Number of packages</td>

@@ -17,4 +17,5 @@ in the =Classfile=-rooted structure.  I need to
 be able to pull methods and fields by name rather than
 iterate through the collections.  I need to simple query
 methods when looking for tagging attributes such as
-=Synthetic_attribute= or =Deprecated_attribute=.
+=Synthetic_attribute= or
+=Deprecated_attribute=.

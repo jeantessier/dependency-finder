@@ -1,5 +1,5 @@
 Found some articles
-(one by [[http://www.objectmentor.com/resources/articles/Principles_and_Patterns.PDF][Robert C. Martin]])
+(one by [[http://www.objectmentor.com/resources/articles/Principles%5Fand%5FPatterns.PDF][Robert C. Martin]])
 and a tool for the Resource section.  The article by Mr. Martin
 gave me the idea of providing a custom metrics configuration
 with the metrics he describes in the article, using the same

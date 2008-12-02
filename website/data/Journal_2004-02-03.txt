@@ -12,10 +12,10 @@ First, suppose you have the following classes =A= and
     class B {
         void b() {}
     }
-    
-    
-    
-    
+    __
+    __
+    __
+    __
     class A extends B {
         void a() {
             b();
