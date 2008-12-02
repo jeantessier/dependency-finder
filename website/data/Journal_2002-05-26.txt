@@ -29,11 +29,11 @@ the descriptor.
     </tr>
     <tr>
         <td>=RatioMeasurement=</td>
-        <td>=base measurement name [DISPOSE_x]<br />divider measurement name [DISPOSE_x]=</td>
+        <td>=base measurement name [DISPOSE%5Fx]<br />divider measurement name [DISPOSE%5Fx]=</td>
     </tr>
     <tr>
         <td>=StatisticalMeasurement=</td>
-        <td>=monitored measurement name [DISPOSE_x]<br />[self DISPOSE_x]=</td>
+        <td>=monitored measurement name [DISPOSE%5Fx]<br />[self DISPOSE%5Fx]=</td>
     </tr>
 </table>
 </blockquote>
