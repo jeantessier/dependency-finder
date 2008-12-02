@@ -5,5 +5,5 @@ markup.  Things like =&lt;br /&gt;= and
 troublesome since most browsers start looking for the closing
 =&lt;/a&gt;= tag and consider everything past the opening
 tag a hyperlink.  I should change them to
-=&lt;a name="..." &gt;&lt/a&gt;= instead.  I'll try to fix
+=&lt;a name="..." &gt;&lt;/a&gt;= instead.  I'll try to fix
 them shortly.
