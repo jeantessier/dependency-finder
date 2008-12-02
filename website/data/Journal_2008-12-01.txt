@@ -1,0 +1,3 @@
+Looked at generating an Atom feed based on the Journal.  In the process of
+turning =data2html.cgi= into an Atom generator, I found a bug in =data2html.cgi=
+when generating links to dated entries.
