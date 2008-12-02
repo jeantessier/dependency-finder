@@ -1,7 +1,7 @@
 Tried to generate GraphML where class-in-package and feature-in-class
 relationships were modeled using subgraphs instead of simple edges, but the
 resulting graph didn't look too good in
-[[http://www.yworks.com/en/products_yed_about.htm][yEd]].
+[[http://www.yworks.com/en/products%5Fyed%5Fabout.htm][yEd]].
 
 For example, take this simple dependency graph:
 
