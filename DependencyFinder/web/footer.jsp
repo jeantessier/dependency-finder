@@ -1,5 +1,5 @@
 <!--
-    Copyright (c) 2001-2008, Jean Tessier
+    Copyright (c) 2001-2009, Jean Tessier
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without

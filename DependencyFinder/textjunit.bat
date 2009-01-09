@@ -1,7 +1,7 @@
 @echo off
 
 rem
-rem  Copyright (c) 2001-2008, Jean Tessier
+rem  Copyright (c) 2001-2009, Jean Tessier
 rem  All rights reserved.
 rem  
 rem  Redistribution and use in source and binary forms, with or without
