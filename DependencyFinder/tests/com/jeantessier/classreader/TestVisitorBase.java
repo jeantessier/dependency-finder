@@ -72,6 +72,21 @@ public class TestVisitorBase extends MockObjectTestCase {
         assertEquals("current count", 1, sut.currentCount());
     }
 
+    public void testVisitConstantPool_ResetCountBetweenCalls() {
+        final ConstantPool mockConstantPool = mock(ConstantPool.class);
+        final ConstantPoolEntry mockEntry = mock(ConstantPoolEntry.class);
+
+        checking(new Expectations() {{
+            exactly(2).of (mockConstantPool).iterator();
+                will(returnIterator(mockEntry));
+            exactly(2).of (mockEntry).accept(sut);
+        }});
+
+        sut.visitConstantPool(mockConstantPool);
+        sut.visitConstantPool(mockConstantPool);
+        assertEquals("current count", 1, sut.currentCount());
+    }
+
     public void testVisitClassfiles() {
         final Classfile mockClassfile1 = mock(Classfile.class, "classfile1");
         final Classfile mockClassfile2 = mock(Classfile.class, "classfile2");

@@ -75,6 +75,22 @@ public class TestTextPrinter extends MockObjectTestCase {
         sut = new TextPrinter(mockPrinter);
     }
 
+    public void testVisitClassfiles_TwoClassfiles_ResetConstantPoolIndices() {
+        final Classfile mockClassfile1 = mock(Classfile.class, "classfile 1");
+        final Classfile mockClassfile2 = mock(Classfile.class, "classfile 2");
+
+        List<Classfile> classfiles = new LinkedList<Classfile>();
+        classfiles.add(mockClassfile1);
+        classfiles.add(mockClassfile2);
+
+        checking(new Expectations() {{
+            one (mockClassfile1).accept(sut);
+            one (mockClassfile2).accept(sut);
+        }});
+
+        sut.visitClassfiles(classfiles);
+    }
+
     public void testVisitMethod_info_CallsToCode_attribute() {
         final String methodDeclaration = "int foo();";
 

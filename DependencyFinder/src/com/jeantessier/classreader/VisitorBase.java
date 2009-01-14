@@ -52,6 +52,7 @@ public abstract class VisitorBase implements Visitor {
     }
 
     public void visitConstantPool(ConstantPool constantPool) {
+        resetCount();
         for (ConstantPoolEntry entry : constantPool) {
             if (entry != null) {
                 entry.accept(this);
