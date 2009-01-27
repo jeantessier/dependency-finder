@@ -1,0 +1,16 @@
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>JUnit</td>
+        <td>:</td>
+        <td>4.4</td>
+        <td>-></td>
+        <td>4.5</td>
+    </tr>
+</table>
+</blockquote>
+
+I still haven't started converting all the test cases to JUnit 4.
+ 
