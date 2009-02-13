@@ -76,8 +76,8 @@ sub PrintDocumentHeader {
     print "<feed xmlns=\"http://www.w3.org/2005/Atom\">\n";
     print "\n";
     print "    <title>Dependency Finder - $title</title>\n";
-    print "    <id>http://depfind.sf.net/cgi-bin/Journal.cgi</id>\n";
-    print "    <link href=\"http://depfind.sf.net/cgi-bin/Journal.cgi\"/>\n";
+    print "    <id>http://depfind.sf.net/cgi-bin/$DOCUMENT.cgi</id>\n";
+    print "    <link href=\"http://depfind.sf.net/cgi-bin/$DOCUMENT.cgi\"/>\n";
     print "    <author>\n";
     print "        <name>Jean Tessier</name>\n";
     print "    </author>\n";

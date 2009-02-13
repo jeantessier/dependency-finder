@@ -7,3 +7,6 @@ I tried to write an integration test first, but there is so much indirection
 involved between =TextVisitor= and =Classfile= that it would have required quite
 a bit of setup and would have ended up fairy brittle.  So I settled for a small
 unit test of =VisitorBase.visitConstantPool()= instead.
+
+Fixed a constant duplication in =data2atom.cgi= where it was referencing
+=Journal.cgi= directly instead of the more generic =$DOCUMENT.cgi=.
