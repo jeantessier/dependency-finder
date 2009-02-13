@@ -28,11 +28,11 @@
         <property name="webworkWarFile" value="${distDir}/${main.project.name}-${release}.webwork.war"/>
     </target>
 
-    <target name="main.war">
+    <target name="main.war" depends="init">
         <ant antfile="build.xml" target="war" inheritall="false"/>
     </target>
 
-    <target name="main.webwork.war">
+    <target name="main.webwork.war" depends="init">
         <ant antfile="build.xml" target="webwork.war" inheritall="false"/>
     </target>
 

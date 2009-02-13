@@ -1,0 +1,2 @@
+Fixed targets in =build.tomcat.xml= that were not getting the right paths
+because they were not depending on the =init= target.
