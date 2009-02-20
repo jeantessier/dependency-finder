@@ -1,0 +1,4 @@
+I am toying with the idea of using [[http://jetty.mortbay.org/jetty/][Jetty]].
+With it, I could embed a webserver in the application instead of using Swing.
+This way, I can provide the user experience entirely from the web application
+instead of maintaining a separate Swing version.
