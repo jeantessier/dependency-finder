@@ -1,0 +1,5 @@
+Created a project on [[http://www.pivotaltracker.com/][Pivotal Tracker]] to try
+and manage my effort on Dependency Finder.  I know a few people at
+[[http://pivotallabs.com/][Pivotal Labs]] and they introduced me to Tracker a
+few years ago.  It's a pretty cool tool, but I'm not sure how useful it will be
+on a single-person project with a very irregular schedule.

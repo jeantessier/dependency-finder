@@ -1,0 +1,10 @@
+I made the [[http://www.pivotaltracker.com/projects/9399][Pivotal Tracker]]
+project public so everyone can see how it's doing.
+
+Also, today, I found a
+[[https://sourceforge.net/tracker2/index.php?func=detail&aid=2663688&group_id=43305&atid=435884][bug]]
+in =ClassReader=.  In text mode, when it encounters an abstract method, it
+would throw a =NullPointerException=.  The code in =TextPrinter] blindly calls
+=entry.getCode().accept(this)= without checking that =getCode()= returned
+something.  I could use the Null Object pattern, but I'll have to check
+everywhere I call =getCode()= first.
