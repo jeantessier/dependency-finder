@@ -1,0 +1,20 @@
+Playing with [[http://jetty.mortbay.org/jetty/][Jetty]], I managed to make it
+serve a complete web app straight from the WAR file.  This simple program takes
+a port number as the first parameter and a WAR file as the second.
+
+    public static void main(String[] args) throws Exception {
+        Server server = new Server(Integer.getValue(args[0]));
+
+        WebAppContext webapp = new WebAppContext();
+        webapp.setContextPath("/");
+        webapp.setWar(args[1]);
+
+        server.setHandler(webapp);
+
+        server.start();
+        server.join();
+    }
+
+For now, the web app takes its configuration from the =web.xml= file that is
+burried in the WAR file.  I'll have to figure out a way to pass in the values
+for the =source= and =file= context parameters.

@@ -10,5 +10,5 @@ might have to do actual work to get this to work.
 Reading a little more about this, it looks like Jetty already ships as part of
 [[http://www.opensymphony.com/webwork/][WebWork]].  WebWork's
 [[http://www.opensymphony.com/webwork/wikidocs/QuickStart.html][QuickStart]]
-uses Jetty to provide a quick starting point for development.  It may not be
-the best approach for deploying an application, though.
+uses Jetty to provide a quick starting point for development.  This QuickStart
+may not be the best approach for deploying an application, though.
