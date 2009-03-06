@@ -1,0 +1,1 @@
+Minor changes to phrasing in the Tools page.
