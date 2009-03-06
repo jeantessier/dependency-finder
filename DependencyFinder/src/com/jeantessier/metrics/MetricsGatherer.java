@@ -116,9 +116,7 @@ public class MetricsGatherer extends VisitorBase {
     public void visitClassfiles(Collection<Classfile> classfiles) {
         fireBeginSession(classfiles.size());
 
-        for (Classfile classfile : classfiles) {
-            classfile.accept(this);
-        }
+        super.visitClassfiles(classfiles);
         
         fireEndSession();
     }
