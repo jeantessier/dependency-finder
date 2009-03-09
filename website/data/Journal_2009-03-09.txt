@@ -1,0 +1,4 @@
+Tried to replace =MockDifferenceStrategy= with jMock, but some of the tests are
+too involved with real =Classfile= instances to make it practical.  I will need
+to rewrite those tests to use mock =Classfile= and associated structures
+instead, which will take some time.
