@@ -1,0 +1,3 @@
+Got a presentation on [[http://findbugs.sourceforge.net/][FindBugs]] by
+[[http://www.cs.umd.edu/~pugh/][Bill Pugh]] himself.  It is a eally cool tool
+that also uses bytecode analysis, but this time to find likely bugs in the code.
