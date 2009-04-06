@@ -7,6 +7,7 @@ object.  And the code in =CodeDifferenceStrategy= would become a simple:
         return oldCode.equals(newCode);
     }
 
-This assumes that =oldCode= is not null, but all call sites for
-=isCodeDifferent()= already check that neither =oldCode= nor =newCode= is null,
-so it is perfectly safe.
+This code assumes that =oldCode= is not null, or you'd get a
+=NullPointerException=.  I checked all the call sites for =isCodeDifferent()=
+and they all verify that neither =oldCode= nor =newCode= is null, so this new
+version should be perfectly safe.
