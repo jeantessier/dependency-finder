@@ -68,19 +68,7 @@ public class APIDifferenceStrategy extends DifferenceStrategyDecorator {
     private boolean checkForDifferentFields(Classfile oldClass, Classfile newClass) {
         boolean result = false;
 
-        Set<String> fieldNameSet = new HashSet<String>();
-
-        Iterator<? extends Field_info> fields;
-        fields = oldClass.getAllFields().iterator();
-        while (fields.hasNext()) {
-            fieldNameSet.add(fields.next().getName());
-        }
-        fields = newClass.getAllFields().iterator();
-        while (fields.hasNext()) {
-            fieldNameSet.add(fields.next().getName());
-        }
-
-        Iterator<String> fieldNames = fieldNameSet.iterator();
+        Iterator<String> fieldNames = collectFeatures(oldClass.getAllFields(), newClass.getAllFields(), new NameMapper());
         while (!result && fieldNames.hasNext()) {
             String fieldName = fieldNames.next();
             Field_info oldField = oldClass.getField(fieldName);
@@ -95,19 +83,7 @@ public class APIDifferenceStrategy extends DifferenceStrategyDecorator {
     private boolean checkForDifferentMethods(Classfile oldClass, Classfile newClass) {
         boolean result = false;
 
-        Set<String> methodSignatureSet = new HashSet<String>();
-
-        Iterator<? extends Method_info> methods;
-        methods = oldClass.getAllMethods().iterator();
-        while (methods.hasNext()) {
-            methodSignatureSet.add(methods.next().getSignature());
-        }
-        methods = newClass.getAllMethods().iterator();
-        while (methods.hasNext()) {
-            methodSignatureSet.add(methods.next().getSignature());
-        }
-
-        Iterator<String> methodSignatures = methodSignatureSet.iterator();
+        Iterator<String> methodSignatures = collectFeatures(oldClass.getAllMethods(), newClass.getAllMethods(), new SignatureMapper());
         while (!result && methodSignatures.hasNext()) {
             String methodSignature = methodSignatures.next();
             Method_info oldMethod = oldClass.getMethod(methodSignature);
@@ -187,5 +163,18 @@ public class APIDifferenceStrategy extends DifferenceStrategyDecorator {
         }
 
         return result;
+    }
+
+    private Iterator<String> collectFeatures(Collection<? extends Feature_info> oldFeatures, Collection<? extends Feature_info> newFeatures, FeatureMapper<String> mapper) {
+        Set<String> features = new HashSet<String>();
+
+        for (Feature_info feature : oldFeatures) {
+            features.add(mapper.map(feature));
+        }
+        for (Feature_info feature : newFeatures) {
+            features.add(mapper.map(feature));
+        }
+
+        return features.iterator();
     }
 }
