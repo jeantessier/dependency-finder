@@ -1,0 +1,4 @@
+Finally got around to fixing
+[[https://sourceforge.net/tracker2/index.php?func%3Ddetail&aid%3D2663688&group%5Fid%3D43305&atid%3D435884][bug 2663688]]
+where =com.jeantessier.classreader.TextPrinter= might encounter a null
+=Code_attribute= on abstract or native methods.

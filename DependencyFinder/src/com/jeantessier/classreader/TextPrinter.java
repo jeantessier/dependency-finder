@@ -189,7 +189,13 @@ public class TextPrinter extends Printer {
     public void visitMethod_info(Method_info entry) {
         eol();
         append("    ").append(entry.getDeclaration()).append(";").eol();
-        entry.getCode().accept(this);
+
+        // As per the Class File Format (paragraph 4.8.3):
+        // - abstract and native methods must *not* have a Code attribute
+        // - all other methods must have exactly one Code attribute.
+        if (!entry.isAbstract() && !entry.isNative()) {
+            entry.getCode().accept(this);
+        }
     }
 
     public void visitCode_attribute(Code_attribute attribute) {
@@ -212,6 +218,14 @@ public class TextPrinter extends Printer {
         eol();
 
         super.visitInstruction(helper);
+    }
+
+    public void visitExceptionHandler(ExceptionHandler helper) {
+        append("        ").append(helper.getStartPC()).append("-").append(helper.getEndPC()).append(": ").append(helper.getHandlerPC());
+        if (helper.getCatchTypeIndex() != 0) {
+            append(" (").append(helper.getCatchType()).append(")");
+        }
+        eol();
     }
 
     private void appendIndexedConstantPoolEntry(Instruction helper) {
@@ -364,13 +378,5 @@ public class TextPrinter extends Printer {
                 // Do nothing
                 break;
         }
-    }
-
-    public void visitExceptionHandler(ExceptionHandler helper) {
-        append("        ").append(helper.getStartPC()).append("-").append(helper.getEndPC()).append(": ").append(helper.getHandlerPC());
-        if (helper.getCatchTypeIndex() != 0) {
-            append(" (").append(helper.getCatchType()).append(")");
-        }
-        eol();
     }
 }

@@ -91,6 +91,46 @@ public class TestTextPrinter extends MockObjectTestCase {
         sut.visitClassfiles(classfiles);
     }
 
+    public void testVisitMethod_info_AbstractMethodDoesNotCallsToCode_attribute() {
+        final String methodDeclaration = "int foo();";
+
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).getDeclaration();
+                will(returnValue(methodDeclaration));
+            one (mockPrinter).print(methodDeclaration);
+
+            one (mockMethod).isAbstract();
+                will(returnValue(true));
+
+            ignoring (mockPrinter);
+        }});
+
+        sut.visitMethod_info(mockMethod);
+    }
+
+    public void testVisitMethod_info_NativeMethodDoesNotCallsToCode_attribute() {
+        final String methodDeclaration = "int foo();";
+
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).getDeclaration();
+                will(returnValue(methodDeclaration));
+            one (mockPrinter).print(methodDeclaration);
+
+            one (mockMethod).isAbstract();
+                will(returnValue(false));
+            one (mockMethod).isNative();
+                will(returnValue(true));
+
+            ignoring (mockPrinter);
+        }});
+
+        sut.visitMethod_info(mockMethod);
+    }
+
     public void testVisitMethod_info_CallsToCode_attribute() {
         final String methodDeclaration = "int foo();";
 
@@ -102,6 +142,10 @@ public class TestTextPrinter extends MockObjectTestCase {
                 will(returnValue(methodDeclaration));
             one (mockPrinter).print(methodDeclaration);
 
+            one (mockMethod).isAbstract();
+                will(returnValue(false));
+            one (mockMethod).isNative();
+                will(returnValue(false));
             one (mockMethod).getCode();
                 will(returnValue(mockCode));
             one (mockCode).accept(sut);
