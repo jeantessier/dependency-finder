@@ -188,7 +188,12 @@ public class TextPrinter extends Printer {
 
     public void visitMethod_info(Method_info entry) {
         eol();
-        append("    ").append(entry.getDeclaration()).append(";").eol();
+        append("    ");
+        append(entry.getDeclaration());
+        if (!entry.isStaticInitializer()) {
+            append(";");
+        }
+        eol();
 
         // As per the Class File Format (paragraph 4.8.3):
         // - abstract and native methods must *not* have a Code attribute

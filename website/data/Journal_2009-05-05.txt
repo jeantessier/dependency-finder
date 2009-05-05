@@ -1,0 +1,2 @@
+Fixed =com.jeantessier.classreader.TextPrinter= so it does not put a ";" after
+a class' static initialization block.

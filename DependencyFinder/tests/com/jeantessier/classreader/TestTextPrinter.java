@@ -58,7 +58,9 @@ public class TestTextPrinter extends MockObjectTestCase {
     private ConstantPoolEntry mockConstantPoolEntry;
     private Instruction mockInstruction;
     private LocalVariable mockLocalVariable;
-    private PrintWriter mockPrinter;
+    private PrintWriter mockOut;
+
+    private Sequence dataWrites;
 
     private TextPrinter sut;
 
@@ -70,9 +72,11 @@ public class TestTextPrinter extends MockObjectTestCase {
         mockConstantPoolEntry = mock(ConstantPoolEntry.class);
         mockInstruction = mock(Instruction.class);
         mockLocalVariable = mock(LocalVariable.class);
-        mockPrinter = mock(PrintWriter.class);
+        mockOut = mock(PrintWriter.class);
 
-        sut = new TextPrinter(mockPrinter);
+        dataWrites = sequence("dataWrites");
+
+        sut = new TextPrinter(mockOut);
     }
 
     public void testVisitClassfiles_TwoClassfiles_ResetConstantPoolIndices() {
@@ -92,47 +96,55 @@ public class TestTextPrinter extends MockObjectTestCase {
     }
 
     public void testVisitMethod_info_AbstractMethodDoesNotCallsToCode_attribute() {
-        final String methodDeclaration = "int foo();";
+        final String methodDeclaration = "int foo()";
 
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
             one (mockMethod).getDeclaration();
                 will(returnValue(methodDeclaration));
-            one (mockPrinter).print(methodDeclaration);
-
+            one (mockMethod).isStaticInitializer();
+                will(returnValue(false));
             one (mockMethod).isAbstract();
                 will(returnValue(true));
-
-            ignoring (mockPrinter);
         }});
+
+        expectNewLineOut();
+        expectTextOut("    ");
+        expectTextOut(methodDeclaration);
+        expectTextOut(";");
+        expectNewLineOut();
 
         sut.visitMethod_info(mockMethod);
     }
 
     public void testVisitMethod_info_NativeMethodDoesNotCallsToCode_attribute() {
-        final String methodDeclaration = "int foo();";
+        final String methodDeclaration = "int foo()";
 
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
             one (mockMethod).getDeclaration();
                 will(returnValue(methodDeclaration));
-            one (mockPrinter).print(methodDeclaration);
-
+            one (mockMethod).isStaticInitializer();
+                will(returnValue(false));
             one (mockMethod).isAbstract();
                 will(returnValue(false));
             one (mockMethod).isNative();
                 will(returnValue(true));
-
-            ignoring (mockPrinter);
         }});
+
+        expectNewLineOut();
+        expectTextOut("    ");
+        expectTextOut(methodDeclaration);
+        expectTextOut(";");
+        expectNewLineOut();
 
         sut.visitMethod_info(mockMethod);
     }
 
     public void testVisitMethod_info_CallsToCode_attribute() {
-        final String methodDeclaration = "int foo();";
+        final String methodDeclaration = "int foo()";
 
         final Method_info mockMethod = mock(Method_info.class);
         final Code_attribute mockCode = mock(Code_attribute.class);
@@ -140,8 +152,8 @@ public class TestTextPrinter extends MockObjectTestCase {
         checking(new Expectations() {{
             one (mockMethod).getDeclaration();
                 will(returnValue(methodDeclaration));
-            one (mockPrinter).print(methodDeclaration);
-
+            one (mockMethod).isStaticInitializer();
+                will(returnValue(false));
             one (mockMethod).isAbstract();
                 will(returnValue(false));
             one (mockMethod).isNative();
@@ -149,9 +161,41 @@ public class TestTextPrinter extends MockObjectTestCase {
             one (mockMethod).getCode();
                 will(returnValue(mockCode));
             one (mockCode).accept(sut);
-
-            ignoring (mockPrinter);
         }});
+
+        expectNewLineOut();
+        expectTextOut("    ");
+        expectTextOut(methodDeclaration);
+        expectTextOut(";");
+        expectNewLineOut();
+
+        sut.visitMethod_info(mockMethod);
+    }
+
+    public void testVisitMethod_info_StaticInitializer() {
+        final String methodDeclaration = "static {}";
+
+        final Method_info mockMethod = mock(Method_info.class);
+        final Code_attribute mockCode = mock(Code_attribute.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).getDeclaration();
+                will(returnValue(methodDeclaration));
+            one (mockMethod).isStaticInitializer();
+                will(returnValue(true));
+            one (mockMethod).isAbstract();
+                will(returnValue(false));
+            one (mockMethod).isNative();
+                will(returnValue(false));
+            one (mockMethod).getCode();
+                will(returnValue(mockCode));
+            one (mockCode).accept(sut);
+        }});
+
+        expectNewLineOut();
+        expectTextOut("    ");
+        expectTextOut(methodDeclaration);
+        expectNewLineOut();
 
         sut.visitMethod_info(mockMethod);
     }
@@ -160,13 +204,13 @@ public class TestTextPrinter extends MockObjectTestCase {
         final Code_attribute mockCode = mock(Code_attribute.class);
 
         checking(new Expectations() {{
-            one (mockPrinter).print("        CODE");
+            one (mockOut).print("        CODE");
 
             one (mockCode).iterator();
             one (mockCode).getExceptionHandlers();
                 will(returnValue(Collections.EMPTY_LIST));
 
-            ignoring (mockPrinter).println();
+            ignoring (mockOut).println();
         }});
 
         sut.visitCode_attribute(mockCode);
@@ -177,15 +221,15 @@ public class TestTextPrinter extends MockObjectTestCase {
         final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
 
         checking(new Expectations() {{
-            one (mockPrinter).print("        CODE");
-            one (mockPrinter).print("        EXCEPTION HANDLING");
+            one (mockOut).print("        CODE");
+            one (mockOut).print("        EXCEPTION HANDLING");
 
             one (mockCode).iterator();
             one (mockCode).getExceptionHandlers();
                 will(returnValue(Collections.singleton(mockExceptionHandler)));
             one (mockExceptionHandler).accept(sut);
 
-            ignoring (mockPrinter).println();
+            ignoring (mockOut).println();
         }});
 
         sut.visitCode_attribute(mockCode);
@@ -198,15 +242,15 @@ public class TestTextPrinter extends MockObjectTestCase {
 
             one (mockInstruction).getStart();
                 will(returnValue(START));
-            one (mockPrinter).print(START);
+            one (mockOut).print(START);
 
             one (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
-            one (mockPrinter).print(MNEMONIC);
+            one (mockOut).print(MNEMONIC);
 
             one (mockInstruction).getIndex();
                 will(returnValue(INDEX));
-            one (mockPrinter).print(INDEX);
+            one (mockOut).print(INDEX);
 
             one (mockInstruction).getIndexedLocalVariable();
                 will(returnValue(mockLocalVariable));
@@ -216,9 +260,9 @@ public class TestTextPrinter extends MockObjectTestCase {
 
             one (mockInstruction).getValue();
                 will(returnValue(VALUE));
-            one (mockPrinter).print(VALUE);
+            one (mockOut).print(VALUE);
 
-            ignoring (mockPrinter);
+            ignoring (mockOut);
         }});
 
         sut.visitInstruction(mockInstruction);
@@ -231,13 +275,13 @@ public class TestTextPrinter extends MockObjectTestCase {
 
             one (mockInstruction).getStart();
                 will(returnValue(START));
-            one (mockPrinter).print(START);
+            one (mockOut).print(START);
 
             one (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
-            one (mockPrinter).print(MNEMONIC);
+            one (mockOut).print(MNEMONIC);
 
-            ignoring (mockPrinter);
+            ignoring (mockOut);
         }});
 
         sut.visitInstruction(mockInstruction);
@@ -250,18 +294,18 @@ public class TestTextPrinter extends MockObjectTestCase {
 
             atLeast(1).of (mockInstruction).getStart();
                 will(returnValue(START));
-            one (mockPrinter).print(START);
+            one (mockOut).print(START);
 
             one (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
-            one (mockPrinter).print(MNEMONIC);
+            one (mockOut).print(MNEMONIC);
 
             atLeast(1).of (mockInstruction).getOffset();
                 will(returnValue(-OFFSET));
-            one (mockPrinter).print(-OFFSET);
-            one (mockPrinter).print(START - OFFSET);
+            one (mockOut).print(-OFFSET);
+            one (mockOut).print(START - OFFSET);
 
-            ignoring (mockPrinter);
+            ignoring (mockOut);
         }});
 
         sut.visitInstruction(mockInstruction);
@@ -274,19 +318,19 @@ public class TestTextPrinter extends MockObjectTestCase {
 
             atLeast(1).of (mockInstruction).getStart();
                 will(returnValue(START));
-            one (mockPrinter).print(START);
+            one (mockOut).print(START);
 
             one (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
-            one (mockPrinter).print(MNEMONIC);
+            one (mockOut).print(MNEMONIC);
 
             atLeast(1).of (mockInstruction).getOffset();
                 will(returnValue(0));
-            one (mockPrinter).print("+");
-            one (mockPrinter).print(0);
-            one (mockPrinter).print(START);
+            one (mockOut).print("+");
+            one (mockOut).print(0);
+            one (mockOut).print(START);
 
-            ignoring (mockPrinter);
+            ignoring (mockOut);
         }});
 
         sut.visitInstruction(mockInstruction);
@@ -299,19 +343,19 @@ public class TestTextPrinter extends MockObjectTestCase {
 
             atLeast(1).of (mockInstruction).getStart();
                 will(returnValue(START));
-            one (mockPrinter).print(START);
+            one (mockOut).print(START);
 
             one (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
-            one (mockPrinter).print(MNEMONIC);
+            one (mockOut).print(MNEMONIC);
 
             atLeast(1).of (mockInstruction).getOffset();
                 will(returnValue(OFFSET));
-            one (mockPrinter).print("+");
-            one (mockPrinter).print(OFFSET);
-            one (mockPrinter).print(START + OFFSET);
+            one (mockOut).print("+");
+            one (mockOut).print(OFFSET);
+            one (mockOut).print(START + OFFSET);
 
-            ignoring (mockPrinter);
+            ignoring (mockOut);
         }});
 
         sut.visitInstruction(mockInstruction);
@@ -324,15 +368,15 @@ public class TestTextPrinter extends MockObjectTestCase {
 
             one (mockInstruction).getStart();
                 will(returnValue(START));
-            one (mockPrinter).print(START);
+            one (mockOut).print(START);
 
             one (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
-            one (mockPrinter).print(MNEMONIC);
+            one (mockOut).print(MNEMONIC);
 
             one (mockInstruction).getIndex();
                 will(returnValue(INDEX));
-            one (mockPrinter).print(INDEX);
+            one (mockOut).print(INDEX);
 
             one (mockInstruction).getIndexedLocalVariable();
                 will(returnValue(mockLocalVariable));
@@ -340,7 +384,7 @@ public class TestTextPrinter extends MockObjectTestCase {
                 will(returnValue(DESCRIPTOR));
             one (mockLocalVariable).getName();
 
-            ignoring (mockPrinter);
+            ignoring (mockOut);
         }});
 
         sut.visitInstruction(mockInstruction);
@@ -353,11 +397,11 @@ public class TestTextPrinter extends MockObjectTestCase {
 
             one (mockInstruction).getStart();
                 will(returnValue(START));
-            one (mockPrinter).print(START);
+            one (mockOut).print(START);
 
             one (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
-            one (mockPrinter).print(MNEMONIC);
+            one (mockOut).print(MNEMONIC);
 
             one (mockInstruction).getIndexedLocalVariable();
                 will(returnValue(mockLocalVariable));
@@ -365,7 +409,7 @@ public class TestTextPrinter extends MockObjectTestCase {
                 will(returnValue(DESCRIPTOR));
             one (mockLocalVariable).getName();
 
-            ignoring (mockPrinter);
+            ignoring (mockOut);
         }});
 
         sut.visitInstruction(mockInstruction);
@@ -378,16 +422,16 @@ public class TestTextPrinter extends MockObjectTestCase {
 
             one (mockInstruction).getStart();
                 will(returnValue(START));
-            one (mockPrinter).print(START);
+            one (mockOut).print(START);
 
             one (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
-            one (mockPrinter).print(MNEMONIC);
+            one (mockOut).print(MNEMONIC);
 
             one (mockInstruction).getIndexedLocalVariable();
                 will(returnValue(null));
 
-            ignoring (mockPrinter);
+            ignoring (mockOut);
         }});
 
         sut.visitInstruction(mockInstruction);
@@ -400,17 +444,17 @@ public class TestTextPrinter extends MockObjectTestCase {
 
             one (mockInstruction).getStart();
                 will(returnValue(START));
-            one (mockPrinter).print(START);
+            one (mockOut).print(START);
 
             one (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
-            one (mockPrinter).print(MNEMONIC);
+            one (mockOut).print(MNEMONIC);
 
             one (mockInstruction).getIndexedConstantPoolEntry();
                 will(returnValue(mockConstantPoolEntry));
             one (mockConstantPoolEntry).accept(sut);
 
-            ignoring (mockPrinter);
+            ignoring (mockOut);
         }});
 
         sut.visitInstruction(mockInstruction);
@@ -423,18 +467,18 @@ public class TestTextPrinter extends MockObjectTestCase {
 
             one (mockInstruction).getStart();
                 will(returnValue(START));
-            one (mockPrinter).print(START);
+            one (mockOut).print(START);
 
             one (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
-            one (mockPrinter).print(MNEMONIC);
+            one (mockOut).print(MNEMONIC);
 
             one (mockInstruction).getByte(1);
                 will(returnValue(IINC_INSTRUCTION));
 
             one (mockInstruction).getIndex();
                 will(returnValue(INDEX));
-            one (mockPrinter).print(INDEX);
+            one (mockOut).print(INDEX);
 
             one (mockInstruction).getIndexedLocalVariable();
                 will(returnValue(mockLocalVariable));
@@ -444,9 +488,9 @@ public class TestTextPrinter extends MockObjectTestCase {
 
             one (mockInstruction).getValue();
                 will(returnValue(VALUE));
-            one (mockPrinter).print(VALUE);
+            one (mockOut).print(VALUE);
 
-            ignoring (mockPrinter);
+            ignoring (mockOut);
         }});
 
         sut.visitInstruction(mockInstruction);
@@ -459,18 +503,18 @@ public class TestTextPrinter extends MockObjectTestCase {
 
             one (mockInstruction).getStart();
                 will(returnValue(START));
-            one (mockPrinter).print(START);
+            one (mockOut).print(START);
 
             one (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
-            one (mockPrinter).print(MNEMONIC);
+            one (mockOut).print(MNEMONIC);
 
             one (mockInstruction).getByte(1);
                 will(returnValue(ILOAD_INSTRUCTION));
 
             one (mockInstruction).getIndex();
                 will(returnValue(INDEX));
-            one (mockPrinter).print(INDEX);
+            one (mockOut).print(INDEX);
 
             one (mockInstruction).getIndexedLocalVariable();
                 will(returnValue(mockLocalVariable));
@@ -478,7 +522,7 @@ public class TestTextPrinter extends MockObjectTestCase {
                 will(returnValue(DESCRIPTOR));
             one (mockLocalVariable).getName();
 
-            ignoring (mockPrinter);
+            ignoring (mockOut);
         }});
 
         sut.visitInstruction(mockInstruction);
@@ -496,23 +540,23 @@ public class TestTextPrinter extends MockObjectTestCase {
         checking(new Expectations() {{
             one (mockExceptionHandler).getStartPC();
                 will(returnValue(startPc));
-            one (mockPrinter).print(startPc);
+            one (mockOut).print(startPc);
 
             one (mockExceptionHandler).getEndPC();
                 will(returnValue(endPc));
-            one (mockPrinter).print(endPc);
+            one (mockOut).print(endPc);
 
             one (mockExceptionHandler).getHandlerPC();
                 will(returnValue(handlerPc));
-            one (mockPrinter).print(handlerPc);
+            one (mockOut).print(handlerPc);
 
             one (mockExceptionHandler).getCatchTypeIndex();
                 will(returnValue(catchTypeIndex));
             one (mockExceptionHandler).getCatchType();
                 will(returnValue(catchType));
-            one (mockPrinter).print(catchType);
+            one (mockOut).print(catchType);
 
-            ignoring (mockPrinter);
+            ignoring (mockOut);
         }});
 
         sut.visitExceptionHandler(mockExceptionHandler);
@@ -529,22 +573,36 @@ public class TestTextPrinter extends MockObjectTestCase {
         checking(new Expectations() {{
             one (mockExceptionHandler).getStartPC();
                 will(returnValue(startPc));
-            one (mockPrinter).print(startPc);
+            one (mockOut).print(startPc);
 
             one (mockExceptionHandler).getEndPC();
                 will(returnValue(endPc));
-            one (mockPrinter).print(endPc);
+            one (mockOut).print(endPc);
 
             one (mockExceptionHandler).getHandlerPC();
                 will(returnValue(handlerPc));
-            one (mockPrinter).print(handlerPc);
+            one (mockOut).print(handlerPc);
 
             one (mockExceptionHandler).getCatchTypeIndex();
                 will(returnValue(catchTypeIndex));
 
-            ignoring (mockPrinter);
+            ignoring (mockOut);
         }});
 
         sut.visitExceptionHandler(mockExceptionHandler);
+    }
+
+    private void expectTextOut(final String text) {
+        checking(new Expectations() {{
+            one (mockOut).print(text);
+                inSequence(dataWrites);
+        }});
+    }
+
+    private void expectNewLineOut() {
+        checking(new Expectations() {{
+            one (mockOut).println();
+                inSequence(dataWrites);
+        }});
     }
 }
