@@ -3,7 +3,11 @@ Fixed
 which deals with the signature for a class' static initializer.
 
 I wrote a test (using JUnit 4) which exposed that =Feature_info.getName()= and
-=Feature_info.getSignature()= were calling =UTF8_info.toString()= instead of
+=Feature%5Finfo.getSignature()= were calling =UTF8%5Finfo.toString()= instead of
 =UTF8_info.getValue()=, which tripped the mocks created by jMock.  It also
 forced me to change the signature of the =Feature_info= constructor to depend
 on =DataInput=, an interface, instead of =DataInputStream=, a concrete class.
+
+Because the new test is a JUnit 4 test, I haven't found an obvious way to
+include it in a suite, yet.  The same goes for
+=com.jeantessier.metrics.TestMetricsGatherer=.
