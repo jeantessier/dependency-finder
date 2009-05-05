@@ -51,11 +51,11 @@ public abstract class Feature_info implements com.jeantessier.classreader.Featur
     private int descriptorIndex;
     private Collection<Attribute_info> attributes = new LinkedList<Attribute_info>();
 
-    public Feature_info(Classfile classfile, DataInputStream in) throws IOException {
+    public Feature_info(Classfile classfile, DataInput in) throws IOException {
         this(classfile, in, new AttributeFactory());
     }
 
-    public Feature_info(Classfile classfile, DataInputStream in, AttributeFactory attributeFactory) throws IOException {
+    public Feature_info(Classfile classfile, DataInput in, AttributeFactory attributeFactory) throws IOException {
         this.classfile = classfile;
 
         accessFlag = in.readUnsignedShort();
@@ -116,7 +116,7 @@ public abstract class Feature_info implements com.jeantessier.classreader.Featur
     }
 
     public String getName() {
-        return getRawName().toString();
+        return getRawName().getValue();
     }
 
     public String getFullName() {
@@ -132,7 +132,7 @@ public abstract class Feature_info implements com.jeantessier.classreader.Featur
     }
 
     public String getDescriptor() {
-        return getRawDescriptor().toString();
+        return getRawDescriptor().getValue();
     }
 
     public Collection<Attribute_info> getAttributes() {

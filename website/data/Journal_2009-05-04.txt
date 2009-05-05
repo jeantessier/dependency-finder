@@ -1,0 +1,9 @@
+Fixed
+[[https://sourceforge.net/tracker2/index.php?func%3Ddetail&aid%3D2663753&group%5Fid%3D43305&atid%3D435884][bug 2663753]]
+which deals with the signature for a class' static initializer.
+
+I wrote a test (using JUnit 4) which exposed that =Feature_info.getName()= and
+=Feature_info.getSignature()= were calling =UTF8_info.toString()= instead of
+=UTF8_info.getValue()=, which tripped the mocks created by jMock.  It also
+forced me to change the signature of the =Feature_info= constructor to depend
+on =DataInput=, an interface, instead of =DataInputStream=, a concrete class.

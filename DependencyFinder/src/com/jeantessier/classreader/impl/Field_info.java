@@ -42,7 +42,7 @@ public class Field_info extends Feature_info implements com.jeantessier.classrea
     private static final int ACC_TRANSIENT = 0x0080;
     private static final int ACC_ENUM = 0x4000;
 
-    public Field_info(Classfile classfile, DataInputStream in) throws IOException {
+    public Field_info(Classfile classfile, DataInput in) throws IOException {
         super(classfile, in);
     }
 

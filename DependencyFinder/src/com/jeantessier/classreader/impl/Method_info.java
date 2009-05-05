@@ -45,7 +45,7 @@ public class Method_info extends Feature_info implements com.jeantessier.classre
     private static final int ACC_ABSTRACT = 0x0400;
     private static final int ACC_STRICT = 0x0800;
 
-    public Method_info(Classfile classfile, DataInputStream in) throws IOException {
+    public Method_info(Classfile classfile, DataInput in) throws IOException {
         super(classfile, in);
     }
 
@@ -123,13 +123,13 @@ public class Method_info extends Feature_info implements com.jeantessier.classre
         if (isPublic()) result.append("public ");
         if (isProtected()) result.append("protected ");
         if (isPrivate()) result.append("private ");
-        if (isStatic()) result.append("static ");
+        if (isStatic() && !isStaticInitializer()) result.append("static ");
         if (isFinal()) result.append("final ");
         if (isSynchronized()) result.append("synchronized ");
         if (isNative()) result.append("native ");
         if (isAbstract()) result.append("abstract ");
 
-        if (!getName().equals("<init>") && !getName().equals("<clinit>")) {
+        if (!isConstructor() && !isStaticInitializer()) {
             result.append((getReturnType() != null) ? getReturnType() : "void").append(" ");
         }
 
