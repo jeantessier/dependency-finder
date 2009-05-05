@@ -32,14 +32,13 @@
 
 package com.jeantessier.dependencyfinder.webwork;
 
-import junit.framework.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
+import static org.junit.runners.Suite.*;
 
-public class TestAll extends TestCase {
-    public static Test suite() {
-        TestSuite result = new TestSuite(TestAll.class.getPackage().getName());
-
-        result.addTestSuite(TestExtractAction.class);
-
-        return result;
-    }
+@RunWith(Suite.class)
+@SuiteClasses({
+        TestExtractAction.class
+})
+public class TestAll {
 }

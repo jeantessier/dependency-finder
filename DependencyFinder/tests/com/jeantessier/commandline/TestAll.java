@@ -32,26 +32,25 @@
 
 package com.jeantessier.commandline;
 
-import junit.framework.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
+import static org.junit.runners.Suite.*;
 
-public class TestAll extends TestCase {
-    public static Test suite() {
-        TestSuite result = new TestSuite(TestAll.class.getPackage().getName());
-
-        result.addTestSuite(TestToggleSwitch.class);
-        result.addTestSuite(TestSingleValueSwitch.class);
-        result.addTestSuite(TestOptionalValueSwitch.class);
-        result.addTestSuite(TestMultipleValuesSwitch.class);
-        result.addTestSuite(TestAliasSwitch.class);
-        result.addTestSuite(TestNullParameterStrategy.class);
-        result.addTestSuite(TestCollectingParameterStrategy.class);
-        result.addTestSuite(TestAtLeastParameterStrategy.class);
-        result.addTestSuite(TestExactlyParameterStrategy.class);
-        result.addTestSuite(TestAtMostParameterStrategy.class);
-        result.addTestSuite(TestCommandLine.class);
-        result.addTestSuite(TestCommandLineUsage.class);
-        result.addTestSuite(TestTextPrinter.class);
-
-        return result;
-    }
+@RunWith(Suite.class)
+@SuiteClasses({
+        TestToggleSwitch.class,
+        TestSingleValueSwitch.class,
+        TestOptionalValueSwitch.class,
+        TestMultipleValuesSwitch.class,
+        TestAliasSwitch.class,
+        TestNullParameterStrategy.class,
+        TestCollectingParameterStrategy.class,
+        TestAtLeastParameterStrategy.class,
+        TestExactlyParameterStrategy.class,
+        TestAtMostParameterStrategy.class,
+        TestCommandLine.class,
+        TestCommandLineUsage.class,
+        TestTextPrinter.class
+})
+public class TestAll {
 }

@@ -8,6 +8,9 @@ I wrote a test (using JUnit 4) which exposed that =Feature_info.getName()= and
 forced me to change the signature of the =Feature_info= constructor to depend
 on =DataInput=, an interface, instead of =DataInputStream=, a concrete class.
 
-Because the new test is a JUnit 4 test, I haven't found an obvious way to
-include it in a suite, yet.  The same goes for
-=com.jeantessier.metrics.TestMetricsGatherer=.
+Because the new test is a JUnit 4 test, I switched all =TestAll= suites to use
+the JUnit 4 mechanism for constructing suites.  It lets me compose suites from
+JUnit 3 and JUnit 4 suites and test, all mixed and matched.  I was bring back
+=com.jeantessier.metrics.TestMetricsGatherer= into a single test target for all
+tests.  The Fit tests are still in JUnit 3 suites.  I will need to take a good
+look at them to upgrade them too, but I am too tired for this right now.

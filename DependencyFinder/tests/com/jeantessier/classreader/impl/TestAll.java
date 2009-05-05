@@ -32,59 +32,59 @@
 
 package com.jeantessier.classreader.impl;
 
-import junit.framework.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
+import static org.junit.runners.Suite.*;
 
-public class TestAll extends TestCase {
-    public static Test suite() {
-        TestSuite result = new TestSuite(TestAll.class.getPackage().getName());
-
-        result.addTestSuite(TestInterfaceMethodRef_info.class);
-        result.addTestSuite(TestInstruction.class);
-        result.addTestSuite(TestConstantValue_attribute.class);
-        result.addTestSuite(TestCode_attribute.class);
-        result.addTestSuite(TestExceptions_attribute.class);
-        result.addTestSuite(TestInnerClasses_attribute.class);
-        result.addTestSuite(TestEnclosingMethod_attribute.class);
-        result.addTestSuite(TestSynthetic_attribute.class);
-        result.addTestSuite(TestSignature_attribute.class);
-        result.addTestSuite(TestSourceFile_attribute.class);
-        result.addTestSuite(TestSourceDebugExtension_attribute.class);
-        result.addTestSuite(TestLineNumberTable_attribute.class);
-        result.addTestSuite(TestLocalVariableTable_attribute.class);
-        result.addTestSuite(TestLocalVariableTypeTable_attribute.class);
-        result.addTestSuite(TestDeprecated_attribute.class);
-        result.addTestSuite(TestByteConstantElementValue.class);
-        result.addTestSuite(TestCharConstantElementValue.class);
-        result.addTestSuite(TestDoubleConstantElementValue.class);
-        result.addTestSuite(TestFloatConstantElementValue.class);
-        result.addTestSuite(TestIntegerConstantElementValue.class);
-        result.addTestSuite(TestLongConstantElementValue.class);
-        result.addTestSuite(TestShortConstantElementValue.class);
-        result.addTestSuite(TestBooleanConstantElementValue.class);
-        result.addTestSuite(TestStringConstantElementValue.class);
-        result.addTestSuite(TestEnumElementValue.class);
-        result.addTestSuite(TestClassElementValue.class);
-        result.addTestSuite(TestAnnotationElementValue.class);
-        result.addTestSuite(TestArrayElementValue.class);
-        result.addTestSuite(TestElementValueFactory.class);
-        result.addTestSuite(TestArrayElementValueWithContent.class);
-        result.addTestSuite(TestElementValuePair.class);
-        result.addTestSuite(TestAnnotation.class);
-        result.addTestSuite(TestAnnotationWithElementValues.class);
-        result.addTestSuite(TestRuntimeVisibleAnnotations_attribute.class);
-        result.addTestSuite(TestRuntimeVisibleAnnotations_attributeWithAnnotations.class);
-        result.addTestSuite(TestRuntimeInvisibleAnnotations_attribute.class);
-        result.addTestSuite(TestRuntimeInvisibleAnnotations_attributeWithAnnotations.class);
-        result.addTestSuite(TestParameter.class);
-        result.addTestSuite(TestParameterWithAnnotations.class);
-        result.addTestSuite(TestRuntimeVisibleParameterAnnotations_attribute.class);
-        result.addTestSuite(TestRuntimeVisibleParameterAnnotations_attributeWithAnnotations.class);
-        result.addTestSuite(TestRuntimeInvisibleParameterAnnotations_attribute.class);
-        result.addTestSuite(TestRuntimeInvisibleParameterAnnotations_attributeWithAnnotations.class);
-        result.addTestSuite(TestAnnotationDefault_attribute.class);
-        result.addTestSuite(TestCustom_attribute.class);
-        result.addTestSuite(TestAttributeFactory.class);
-
-        return result;
-    }
+@RunWith(Suite.class)
+@SuiteClasses({
+        TestInterfaceMethodRef_info.class,
+        TestMethod_info.class,
+        TestInstruction.class,
+        TestConstantValue_attribute.class,
+        TestCode_attribute.class,
+        TestExceptions_attribute.class,
+        TestInnerClasses_attribute.class,
+        TestEnclosingMethod_attribute.class,
+        TestSynthetic_attribute.class,
+        TestSignature_attribute.class,
+        TestSourceFile_attribute.class,
+        TestSourceDebugExtension_attribute.class,
+        TestLineNumberTable_attribute.class,
+        TestLocalVariableTable_attribute.class,
+        TestLocalVariableTypeTable_attribute.class,
+        TestDeprecated_attribute.class,
+        TestByteConstantElementValue.class,
+        TestCharConstantElementValue.class,
+        TestDoubleConstantElementValue.class,
+        TestFloatConstantElementValue.class,
+        TestIntegerConstantElementValue.class,
+        TestLongConstantElementValue.class,
+        TestShortConstantElementValue.class,
+        TestBooleanConstantElementValue.class,
+        TestStringConstantElementValue.class,
+        TestEnumElementValue.class,
+        TestClassElementValue.class,
+        TestAnnotationElementValue.class,
+        TestArrayElementValue.class,
+        TestElementValueFactory.class,
+        TestArrayElementValueWithContent.class,
+        TestElementValuePair.class,
+        TestAnnotation.class,
+        TestAnnotationWithElementValues.class,
+        TestRuntimeVisibleAnnotations_attribute.class,
+        TestRuntimeVisibleAnnotations_attributeWithAnnotations.class,
+        TestRuntimeInvisibleAnnotations_attribute.class,
+        TestRuntimeInvisibleAnnotations_attributeWithAnnotations.class,
+        TestParameter.class,
+        TestParameterWithAnnotations.class,
+        TestRuntimeVisibleParameterAnnotations_attribute.class,
+        TestRuntimeVisibleParameterAnnotations_attributeWithAnnotations.class,
+        TestRuntimeInvisibleParameterAnnotations_attribute.class,
+        TestRuntimeInvisibleParameterAnnotations_attributeWithAnnotations.class,
+        TestAnnotationDefault_attribute.class,
+        TestCustom_attribute.class,
+        TestAttributeFactory.class
+})
+public class TestAll {
 }

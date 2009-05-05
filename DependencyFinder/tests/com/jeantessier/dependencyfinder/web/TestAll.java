@@ -32,21 +32,20 @@
 
 package com.jeantessier.dependencyfinder.web;
 
-import junit.framework.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
+import static org.junit.runners.Suite.*;
 
-public class TestAll extends TestCase {
-    public static Test suite() {
-        TestSuite result = new TestSuite(TestAll.class.getPackage().getName());
-
-        result.addTestSuite(TestQuery.class);
-        result.addTestSuite(TestAdvancedQuery.class);
-        result.addTestSuite(TestClosure.class);
-        result.addTestSuite(TestAdvancedClosure.class);
-        result.addTestSuite(TestCycles.class);
-        result.addTestSuite(TestAdvancedCycles.class);
-        result.addTestSuite(TestMetrics.class);
-        result.addTestSuite(TestAdvancedMetrics.class);
-
-        return result;
-    }
+@RunWith(Suite.class)
+@SuiteClasses({
+        TestQuery.class,
+        TestAdvancedQuery.class,
+        TestClosure.class,
+        TestAdvancedClosure.class,
+        TestCycles.class,
+        TestAdvancedCycles.class,
+        TestMetrics.class,
+        TestAdvancedMetrics.class
+})
+public class TestAll {
 }

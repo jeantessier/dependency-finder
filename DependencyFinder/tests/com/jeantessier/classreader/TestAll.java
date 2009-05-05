@@ -32,58 +32,57 @@
 
 package com.jeantessier.classreader;
 
-import junit.framework.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
+import static org.junit.runners.Suite.*;
 
-public class TestAll extends TestCase {
-    public static Test suite() {
-        TestSuite result = new TestSuite(TestAll.class.getPackage().getName());
-
-        result.addTestSuite(TestBitFormat.class);
-        result.addTestSuite(TestInstructionWithDifferentConstantPool.class);
-        result.addTestSuite(TestClassNameHelper.class);
-        result.addTestSuite(TestDescriptorHelper.class);
-        result.addTestSuite(TestSignatureHelper.class);
-        result.addTestSuite(TestVisitorBase.class);
-        result.addTestSuite(TestDeprecationDetector.class);
-        result.addTestSuite(TestCodeFinder.class);
-        result.addTestSuite(TestLocalVariableFinder.class);
-        result.addTestSuite(TestDirectoryExplorer.class);
-        result.addTestSuite(TestAggregatingClassfileLoader.class);
-        result.addTestSuite(TestTransientClassfileLoader.class);
-        result.addTestSuite(TestDirectoryClassfileLoader.class);
-        result.addTestSuite(TestClassfile.class);
-        result.addTestSuite(TestPermissiveDispatcher.class);
-        result.addTestSuite(TestStrictDispatcher.class);
-        result.addTestSuite(TestModifiedOnlyDispatcher.class);
-        result.addTestSuite(TestAggregatingClassfileLoaderWithModifiedOnlyDispatcher.class);
-        result.addTestSuite(TestZipClassfileLoader.class);
-        result.addTestSuite(TestJarClassfileLoader.class);
-        result.addTestSuite(TestClassfileLoaderPermissiveDispatcher.class);
-        result.addTestSuite(TestClassfileLoaderStrictDispatcher.class);
-        result.addTestSuite(TestPackageMapper.class);
-        result.addTestSuite(TestClassfileScanner.class);
-        result.addTestSuite(TestTextPrinter.class);
-        result.addTestSuite(TestXMLPrinter.class);
-        result.addTestSuite(TestDeprecationPrinter.class);
-        result.addTestSuite(TestLoadListenerDecorator.class);
-        result.addTestSuite(TestGroupFilteringLoadListener.class);
-        result.addTestSuite(TestFileFilteringLoadListener.class);
-        result.addTestSuite(TestClassfileFilteringLoadListener.class);
-        result.addTestSuite(TestLoadListenerVisitorAdapter.class);
-        result.addTestSuite(TestMonitor.class);
-        result.addTestSuite(TestSymbolGathererStrategyDecorator.class);
-        result.addTestSuite(TestFilteringSymbolGathererStrategy.class);
-        result.addTestSuite(TestNonPrivateFieldSymbolGathererStrategy.class);
-        result.addTestSuite(TestFinalMethodOrClassSymbolGathererStrategy.class);
-        result.addTestSuite(TestSymbolGatherer.class);
-        result.addTestSuite(TestSymbolGathererWithStrategy.class);
-        result.addTestSuite(TestAnnotation.class);
-        result.addTestSuite(TestEnum.class);
-        result.addTestSuite(TestVarargs.class);
-        result.addTestSuite(TestEnclosingMethodAttribute.class);
-        result.addTestSuite(TestSignatureAttribute.class);
-        result.addTestSuite(TestLocalVariableTypeTableAttribute.class);
-
-        return result;
-    }
+@RunWith(Suite.class)
+@SuiteClasses({
+        TestBitFormat.class,
+        TestInstructionWithDifferentConstantPool.class,
+        TestClassNameHelper.class,
+        TestDescriptorHelper.class,
+        TestSignatureHelper.class,
+        TestVisitorBase.class,
+        TestDeprecationDetector.class,
+        TestCodeFinder.class,
+        TestLocalVariableFinder.class,
+        TestDirectoryExplorer.class,
+        TestAggregatingClassfileLoader.class,
+        TestTransientClassfileLoader.class,
+        TestDirectoryClassfileLoader.class,
+        TestClassfile.class,
+        TestPermissiveDispatcher.class,
+        TestStrictDispatcher.class,
+        TestModifiedOnlyDispatcher.class,
+        TestAggregatingClassfileLoaderWithModifiedOnlyDispatcher.class,
+        TestZipClassfileLoader.class,
+        TestJarClassfileLoader.class,
+        TestClassfileLoaderPermissiveDispatcher.class,
+        TestClassfileLoaderStrictDispatcher.class,
+        TestPackageMapper.class,
+        TestClassfileScanner.class,
+        TestTextPrinter.class,
+        TestXMLPrinter.class,
+        TestDeprecationPrinter.class,
+        TestLoadListenerDecorator.class,
+        TestGroupFilteringLoadListener.class,
+        TestFileFilteringLoadListener.class,
+        TestClassfileFilteringLoadListener.class,
+        TestLoadListenerVisitorAdapter.class,
+        TestMonitor.class,
+        TestSymbolGathererStrategyDecorator.class,
+        TestFilteringSymbolGathererStrategy.class,
+        TestNonPrivateFieldSymbolGathererStrategy.class,
+        TestFinalMethodOrClassSymbolGathererStrategy.class,
+        TestSymbolGatherer.class,
+        TestSymbolGathererWithStrategy.class,
+        TestAnnotation.class,
+        TestEnum.class,
+        TestVarargs.class,
+        TestEnclosingMethodAttribute.class,
+        TestSignatureAttribute.class,
+        TestLocalVariableTypeTableAttribute.class
+})
+public class TestAll {
 }

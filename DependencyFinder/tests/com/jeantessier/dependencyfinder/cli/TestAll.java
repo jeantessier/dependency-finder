@@ -32,16 +32,15 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import junit.framework.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
+import static org.junit.runners.Suite.*;
 
-public class TestAll extends TestCase {
-    public static Test suite() {
-        TestSuite result = new TestSuite(TestAll.class.getPackage().getName());
-
-        result.addTestSuite(TestVerboseListener.class);
-        result.addTestSuite(TestClassMatcher.class);
-        result.addTestSuite(TestCommand.class);
-
-        return result;
-    }
+@RunWith(Suite.class)
+@SuiteClasses({
+        TestVerboseListener.class,
+        TestClassMatcher.class,
+        TestCommand.class
+})
+public class TestAll {
 }

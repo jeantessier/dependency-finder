@@ -32,42 +32,41 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
+import static org.junit.runners.Suite.*;
 
-public class TestAll extends TestCase {
-    public static Test suite() {
-        TestSuite result = new TestSuite(TestAll.class.getPackage().getName());
-
-        result.addTestSuite(TestWordCounter.class);
-        result.addTestSuite(TestMetrics.class);
-        result.addTestSuite(TestMetricsFactory.class);
-        result.addTestSuite(TestMeasurementDescriptor.class);
-        result.addTestSuite(TestMetricsConfiguration.class);
-        result.addTestSuite(TestMetricsConfigurationHandler.class);
-        result.addTestSuite(TestMetricsConfigurationLoader.class);
-        result.addTestSuite(TestNullMeasurement.class);
-        result.addTestSuite(TestCounterMeasurement.class);
-        result.addTestSuite(TestNameListMeasurement.class);
-        result.addTestSuite(TestSubMetricsAccumulatorMeasurement.class);
-        result.addTestSuite(TestContextAccumulatorMeasurement.class);
-        result.addTestSuite(TestRatioMeasurement.class);
-        result.addTestSuite(TestSumMeasurement.class);
-        result.addTestSuite(TestNbSubMetricsMeasurement.class);
-        result.addTestSuite(TestNbSubMetricsMeasurementSelectionCriteria.class);
-        result.addTestSuite(TestStatisticalMeasurement.class);
-        result.addTestSuite(TestStatisticalMeasurementEmpty.class);
-        result.addTestSuite(TestStatisticalMeasurementWithMetrics.class);
-        result.addTestSuite(TestStatisticalMeasurementWithDispose.class);
-        result.addTestSuite(TestMetricsComparator.class);
-//        result.addTestSuite(TestMetricsGatherer.class);
-        result.addTestSuite(TestMetricsGathererEvents.class);
-        result.addTestSuite(TestMetricsGathererAccumulators.class);
-        result.addTestSuite(TestMetricsGathererDependencies.class);
-        result.addTestSuite(TestMetricsGathererDependenciesScope.class);
-        result.addTestSuite(TestMetricsGathererDependenciesFilter.class);
-        result.addTestSuite(TestMetricsGathererSLOC.class);
-        result.addTestSuite(TestXMLPrinter.class);
-
-        return result;
-    }
+@RunWith(Suite.class)
+@SuiteClasses({
+        TestWordCounter.class,
+        TestMetrics.class,
+        TestMetricsFactory.class,
+        TestMeasurementDescriptor.class,
+        TestMetricsConfiguration.class,
+        TestMetricsConfigurationHandler.class,
+        TestMetricsConfigurationLoader.class,
+        TestNullMeasurement.class,
+        TestCounterMeasurement.class,
+        TestNameListMeasurement.class,
+        TestSubMetricsAccumulatorMeasurement.class,
+        TestContextAccumulatorMeasurement.class,
+        TestRatioMeasurement.class,
+        TestSumMeasurement.class,
+        TestNbSubMetricsMeasurement.class,
+        TestNbSubMetricsMeasurementSelectionCriteria.class,
+        TestStatisticalMeasurement.class,
+        TestStatisticalMeasurementEmpty.class,
+        TestStatisticalMeasurementWithMetrics.class,
+        TestStatisticalMeasurementWithDispose.class,
+        TestMetricsComparator.class,
+        TestMetricsGatherer.class,
+        TestMetricsGathererEvents.class,
+        TestMetricsGathererAccumulators.class,
+        TestMetricsGathererDependencies.class,
+        TestMetricsGathererDependenciesScope.class,
+        TestMetricsGathererDependenciesFilter.class,
+        TestMetricsGathererSLOC.class,
+        TestXMLPrinter.class
+})
+public class TestAll {
 }

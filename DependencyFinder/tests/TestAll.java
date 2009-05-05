@@ -30,24 +30,23 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import junit.framework.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
+import static org.junit.runners.Suite.*;
 
-public class TestAll extends TestCase {
-    public static Test suite() {
-        TestSuite result = new TestSuite("Dependency Finder");
-
-        result.addTest(com.jeantessier.commandline.TestAll.suite());
-        result.addTest(com.jeantessier.classreader.TestAll.suite());
-        result.addTest(com.jeantessier.classreader.impl.TestAll.suite());
-        result.addTest(com.jeantessier.text.TestAll.suite());
-        result.addTest(com.jeantessier.dependency.TestAll.suite());
-        result.addTest(com.jeantessier.diff.TestAll.suite());
-        result.addTest(com.jeantessier.metrics.TestAll.suite());
-        result.addTest(com.jeantessier.dependencyfinder.ant.TestAll.suite());
-        result.addTest(com.jeantessier.dependencyfinder.cli.TestAll.suite());
-        result.addTest(com.jeantessier.dependencyfinder.web.TestAll.suite());
-        result.addTest(com.jeantessier.dependencyfinder.webwork.TestAll.suite());
-
-        return result;
-    }
+@RunWith(Suite.class)
+@SuiteClasses({
+        com.jeantessier.commandline.TestAll.class,
+        com.jeantessier.classreader.TestAll.class,
+        com.jeantessier.classreader.impl.TestAll.class,
+        com.jeantessier.text.TestAll.class,
+        com.jeantessier.dependency.TestAll.class,
+        com.jeantessier.diff.TestAll.class,
+        com.jeantessier.metrics.TestAll.class,
+        com.jeantessier.dependencyfinder.ant.TestAll.class,
+        com.jeantessier.dependencyfinder.cli.TestAll.class,
+        com.jeantessier.dependencyfinder.web.TestAll.class,
+        com.jeantessier.dependencyfinder.webwork.TestAll.class
+})
+public class TestAll {
 }

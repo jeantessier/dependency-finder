@@ -32,29 +32,28 @@
 
 package com.jeantessier.diff;
 
-import junit.framework.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
+import static org.junit.runners.Suite.*;
 
-public class TestAll extends TestCase {
-    public static Test suite() {
-        TestSuite result = new TestSuite(TestAll.class.getPackage().getName());
-
-        result.addTestSuite(TestCodeDifferenceStrategy.class);
-        result.addTestSuite(TestAPIDifferenceStrategy.class);
-        result.addTestSuite(TestIncompatibleDifferenceStrategy.class);
-        result.addTestSuite(TestIncompatibleDifferenceStrategyWithPublishedAPI.class);
-        result.addTestSuite(TestListBasedDifferenceStrategy.class);
-        result.addTestSuite(TestDeprecatableDifferences.class);
-        result.addTestSuite(TestDifferencesFactory.class);
-        result.addTestSuite(TestDifferencesFactoryWithFilter.class);
-        result.addTestSuite(TestDifferencesFactoryWithStrategy.class);
-        result.addTestSuite(TestDifferencesFactoryWithAPIDifferenceStrategy.class);
-        result.addTestSuite(TestDifferencesFactoryWithAPIAndCodeDifferenceStrategy.class);
-        result.addTestSuite(TestDifferencesFactoryWithIncompatibleDifferenceStrategy.class);
-        result.addTestSuite(TestDifferencesFactoryForCompatibleClassWithIncompatibleMethod.class);
-        result.addTestSuite(TestClassReport.class);
-        result.addTestSuite(TestReport.class);
-        result.addTestSuite(TestListDiffPrinter.class);
-
-        return result;
-    }
+@RunWith(Suite.class)
+@SuiteClasses({
+        TestCodeDifferenceStrategy.class,
+        TestAPIDifferenceStrategy.class,
+        TestIncompatibleDifferenceStrategy.class,
+        TestIncompatibleDifferenceStrategyWithPublishedAPI.class,
+        TestListBasedDifferenceStrategy.class,
+        TestDeprecatableDifferences.class,
+        TestDifferencesFactory.class,
+        TestDifferencesFactoryWithFilter.class,
+        TestDifferencesFactoryWithStrategy.class,
+        TestDifferencesFactoryWithAPIDifferenceStrategy.class,
+        TestDifferencesFactoryWithAPIAndCodeDifferenceStrategy.class,
+        TestDifferencesFactoryWithIncompatibleDifferenceStrategy.class,
+        TestDifferencesFactoryForCompatibleClassWithIncompatibleMethod.class,
+        TestClassReport.class,
+        TestReport.class,
+        TestListDiffPrinter.class
+})
+public class TestAll {
 }

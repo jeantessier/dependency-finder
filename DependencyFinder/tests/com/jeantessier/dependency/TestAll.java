@@ -32,66 +32,65 @@
 
 package com.jeantessier.dependency;
 
-import junit.framework.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
+import static org.junit.runners.Suite.*;
 
-public class TestAll extends TestCase {
-    public static Test suite() {
-        TestSuite result = new TestSuite(TestAll.class.getPackage().getName());
-
-        result.addTestSuite(TestNodeFactory.class);
-        result.addTestSuite(TestDeletingVisitor.class);
-        result.addTestSuite(TestNode.class);
-        result.addTestSuite(TestPackageNode.class);
-        result.addTestSuite(TestClassNode.class);
-        result.addTestSuite(TestFeatureNode.class);
-        result.addTestSuite(TestNullSelectionCriteria.class);
-        result.addTestSuite(TestComprehensiveSelectionCriteria.class);
-        result.addTestSuite(TestAndCompositeSelectionCriteria.class);
-        result.addTestSuite(TestOrCompositeSelectionCriteria.class);
-        result.addTestSuite(TestRegularExpressionSelectionCriteria.class);
-        result.addTestSuite(TestCollectionSelectionCriteria.class);
-        result.addTestSuite(TestSelectiveTraversalStrategy.class);
-        result.addTestSuite(TestLinkMinimizer.class);
-        result.addTestSuite(TestLinkMinimizerSystematic.class);
-        result.addTestSuite(TestLinkMaximizer.class);
-        result.addTestSuite(TestLinkMaximizerSystematic.class);
-        result.addTestSuite(TestFeatureResolver.class);
-        result.addTestSuite(TestTextPrinter.class);
-        result.addTestSuite(TestHTMLPrinter.class);
-        result.addTestSuite(TestHTMLPrinterEscapeMetaCharacters.class);
-        result.addTestSuite(TestXMLPrinter.class);
-        result.addTestSuite(TestNodeNamePrinter.class);
-        result.addTestSuite(TestNodeHandler.class);
-        result.addTestSuite(TestNodeLoader.class);
-        result.addTestSuite(TestCodeDependencyCollector.class);
-        result.addTestSuite(TestCodeDependencyCollectorWithFiltering.class);
-        result.addTestSuite(TestCodeDependencyCollectorUsingMocks.class);
-        result.addTestSuite(TestDependencyExtractor.class);
-        result.addTestSuite(TestGraphCopier.class);
-        result.addTestSuite(TestGraphCopierWithFiltering.class);
-        result.addTestSuite(TestGraphCopierWithConfirmed.class);
-        result.addTestSuite(TestGraphSummarizer.class);
-        result.addTestSuite(TestGraphSummarizerWithScoping.class);
-        result.addTestSuite(TestGraphSummarizerWithFiltering.class);
-        result.addTestSuite(TestGraphSummarizerWithConfirmed.class);
-        result.addTestSuite(TestCycle.class);
-        result.addTestSuite(TestCycleComparator.class);
-        result.addTestSuite(TestCycleDetector.class);
-        result.addTestSuite(TestTextCyclePrinter.class);
-        result.addTestSuite(TestHTMLCyclePrinter.class);
-        result.addTestSuite(TestXMLCyclePrinter.class);
-        result.addTestSuite(TestTransitiveClosure.class);
-        result.addTestSuite(TestTransitiveClosureWithTestClass.class);
-        result.addTestSuite(TestTransitiveClosureSlice.class);
-        result.addTestSuite(TestTransitiveClosureNonMaximized.class);
-        result.addTestSuite(TestClosureStartSelector.class);
-        result.addTestSuite(TestClosureOutboundSelector.class);
-        result.addTestSuite(TestClosureInboundSelector.class);
-        result.addTestSuite(TestClosureStopSelector.class);
-        result.addTestSuite(TestTransitiveClosureEngine.class);
-        result.addTestSuite(TestMetricsGatherer.class);
-        result.addTestSuite(TestLCOM4Gatherer.class);
-
-        return result;
-    }
+@RunWith(Suite.class)
+@SuiteClasses({
+        TestNodeFactory.class,
+        TestDeletingVisitor.class,
+        TestNode.class,
+        TestPackageNode.class,
+        TestClassNode.class,
+        TestFeatureNode.class,
+        TestNullSelectionCriteria.class,
+        TestComprehensiveSelectionCriteria.class,
+        TestAndCompositeSelectionCriteria.class,
+        TestOrCompositeSelectionCriteria.class,
+        TestRegularExpressionSelectionCriteria.class,
+        TestCollectionSelectionCriteria.class,
+        TestSelectiveTraversalStrategy.class,
+        TestLinkMinimizer.class,
+        TestLinkMinimizerSystematic.class,
+        TestLinkMaximizer.class,
+        TestLinkMaximizerSystematic.class,
+        TestFeatureResolver.class,
+        TestTextPrinter.class,
+        TestHTMLPrinter.class,
+        TestHTMLPrinterEscapeMetaCharacters.class,
+        TestXMLPrinter.class,
+        TestNodeNamePrinter.class,
+        TestNodeHandler.class,
+        TestNodeLoader.class,
+        TestCodeDependencyCollector.class,
+        TestCodeDependencyCollectorWithFiltering.class,
+        TestCodeDependencyCollectorUsingMocks.class,
+        TestDependencyExtractor.class,
+        TestGraphCopier.class,
+        TestGraphCopierWithFiltering.class,
+        TestGraphCopierWithConfirmed.class,
+        TestGraphSummarizer.class,
+        TestGraphSummarizerWithScoping.class,
+        TestGraphSummarizerWithFiltering.class,
+        TestGraphSummarizerWithConfirmed.class,
+        TestCycle.class,
+        TestCycleComparator.class,
+        TestCycleDetector.class,
+        TestTextCyclePrinter.class,
+        TestHTMLCyclePrinter.class,
+        TestXMLCyclePrinter.class,
+        TestTransitiveClosure.class,
+        TestTransitiveClosureWithTestClass.class,
+        TestTransitiveClosureSlice.class,
+        TestTransitiveClosureNonMaximized.class,
+        TestClosureStartSelector.class,
+        TestClosureOutboundSelector.class,
+        TestClosureInboundSelector.class,
+        TestClosureStopSelector.class,
+        TestTransitiveClosureEngine.class,
+        TestMetricsGatherer.class,
+        TestLCOM4Gatherer.class
+})
+public class TestAll {
 }

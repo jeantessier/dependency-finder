@@ -32,17 +32,16 @@
 
 package com.jeantessier.text;
 
-import junit.framework.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
+import static org.junit.runners.Suite.*;
 
-public class TestAll extends TestCase {
-    public static Test suite() {
-        TestSuite result = new TestSuite(TestAll.class.getPackage().getName());
-
-        result.addTestSuite(TestMaximumCapacityPatternCache.class);
-        result.addTestSuite(TestHex.class);
-        result.addTestSuite(TestPrinterBuffer.class);
-        result.addTestSuite(TestRegularExpressionParser.class);
-
-        return result;
-    }
+@RunWith(Suite.class)
+@SuiteClasses({
+        TestMaximumCapacityPatternCache.class,
+        TestHex.class,
+        TestPrinterBuffer.class,
+        TestRegularExpressionParser.class
+})
+public class TestAll {
 }
