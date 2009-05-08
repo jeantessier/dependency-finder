@@ -44,11 +44,12 @@ import org.junit.runner.*;
 
 @RunWith(JMock.class)
 public class TestMethod_info {
-    private Mockery context;
     private static final int TEST_ACCESS_FLAG = 0x0008;
     private static final int TEST_NAME_INDEX = 123;
     private static final int TEST_SIGNATURE_INDEX = 456;
     private static final int TEST_NB_ATTRIBUTES = 0;
+
+    private Mockery context;
 
     private DataInput mockIn;
     private ConstantPool mockConstantPool;
