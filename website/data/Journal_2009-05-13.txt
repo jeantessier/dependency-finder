@@ -1,0 +1,33 @@
+Refactored =CodeDependencyCollector.visitClassfile()= so it calls
+=super.visitClassfile(classfile)= to traverse the parts of the =Classfile=
+instead of doing it explicitly.  This means that it will now visit the
+attributes of the =Classfile= in addition to its fields and methods.  For now,
+=CodeDependencyFinder= ignores the attributes that can be attached to a file,
+but I'm tempted to collect dependencies from attributes such as:
+
+    * =EnclosingMethod_attribute=
+    * =InnerClasses_attribute=
+    * =Signature_attribute=
+
+=EnclosingMethod_attribute= is particularily interesting because it would be
+the first time we have an explicit dependency going from a class to a feature.
+
+I also noticed that =com.jeantessier.metrics.MetricsGatherer= only looks for a
+class' =Synthetic%5Fattribute= and does not look at the class' =ACCESS%5FFLAG=.  I
+need to fix this so it calls =Classfile.isSynthetic()= instead.  The same
+probably goes for other visitors and for other properties of things with
+attributes.
+
+I have been doing a lot of thinking about large projects that run out of memory
+to hold the dependency graph.  In one case, I have a very large JAR file with
+all the project classes in it and even if I give =DependencyExtractor= over
+1.5GB of memory, it still runs out.  I could add scoping to the extractor, but
+this feels like piling too many responsabilities on one tool, espcially when it
+is already the purview of =DependencyReporter=.  I could partition the graph
+across many machines.  I can already merge graphs, so the client could ask all
+partitions (in parallel) and merge the results together.  But now I'm facing
+the problem of how to partition the graph and how to prevent parsing the
+=.class= files multiple times.  I am exploring the possibility of having
+lightweight implementations of =Classfile= and its constituents to help with
+deciding how to partition the graph, and how this plays with the notions of
+_group_ and _file_ in a loading session.
