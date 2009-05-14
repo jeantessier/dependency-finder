@@ -104,13 +104,7 @@ public class CodeDependencyCollector extends CollectorBase {
             currentClass.addParent(getFactory().createClass(class_info.getName()));
         }
 
-        for (Field_info field : classfile.getAllFields()) {
-            field.accept(this);
-        }
-
-        for (Method_info method : classfile.getAllMethods()) {
-            method.accept(this);
-        }
+        super.visitClassfile(classfile);
 
         fireEndClass(classfile.getClassName());
     }

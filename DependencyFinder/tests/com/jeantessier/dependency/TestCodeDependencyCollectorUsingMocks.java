@@ -94,6 +94,7 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
             ignoring (mockClassfile).getAllInterfaces();
             ignoring (mockClassfile).getAllFields();
             ignoring (mockClassfile).getAllMethods();
+            ignoring (mockClassfile).getAttributes();
         }});
 
         sut.visitClassfile(mockClassfile);
@@ -121,6 +122,7 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
             ignoring (mockClassfile).getAllInterfaces();
             ignoring (mockClassfile).getAllFields();
             ignoring (mockClassfile).getAllMethods();
+            ignoring (mockClassfile).getAttributes();
         }});
 
         sut.visitClassfile(mockClassfile);
@@ -150,6 +152,7 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
             one (mockClassNode).addParent(mockInterfaceNode);
             ignoring (mockClassfile).getAllFields();
             ignoring (mockClassfile).getAllMethods();
+            ignoring (mockClassfile).getAttributes();
         }});
 
         sut.visitClassfile(mockClassfile);
@@ -171,6 +174,7 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
             ignoring (mockClassfile).getAllInterfaces();
             ignoring (mockClassfile).getAllFields();
             ignoring (mockClassfile).getAllMethods();
+            ignoring (mockClassfile).getAttributes();
 
             one (mockListener).endClass(with(any(DependencyEvent.class)));
                 will(createEventCheckingAction(TEST_CLASS_NAME));
