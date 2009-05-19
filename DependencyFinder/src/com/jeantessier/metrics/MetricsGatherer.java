@@ -166,6 +166,11 @@ public class MetricsGatherer extends VisitorBase {
             getCurrentGroup().addToMeasurement(BasicMeasurements.ABSTRACT_CLASSES, className);
         }
 
+        if (classfile.isSynthetic()) {
+            getCurrentProject().addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES, className);
+            getCurrentGroup().addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES, className);
+        }
+
         if (classfile.getSuperclassIndex() != 0) {
             classfile.getRawSuperclass().accept(this);
 
@@ -190,13 +195,12 @@ public class MetricsGatherer extends VisitorBase {
         }
 
         sloc = 1;
-        isSynthetic = false;
 
         for (Attribute_info attribute : classfile.getAttributes()) {
             attribute.accept(this);
         }
         
-        if (!isSynthetic) {
+        if (!classfile.isSynthetic()) {
             getCurrentClass().addToMeasurement(BasicMeasurements.CLASS_SLOC, sloc);
         }
 
@@ -364,11 +368,7 @@ public class MetricsGatherer extends VisitorBase {
 
         isSynthetic = true;
         
-        if (owner instanceof Classfile) {
-            String className = ((Classfile) owner).getClassName();
-            getCurrentProject().addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES, className);
-            getCurrentGroup().addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES, className);
-        } else if (owner instanceof Field_info) {
+        if (owner instanceof Field_info) {
             getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_ATTRIBUTES, ((Field_info) owner).getFullName());
         } else if (owner instanceof Method_info) {
             getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_METHODS, ((Method_info) owner).getFullSignature());
