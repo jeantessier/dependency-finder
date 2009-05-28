@@ -69,6 +69,6 @@ public class TestSignatureFinder {
 
         SignatureFinder sut = new SignatureFinder();
         sut.visitSignature_attribute(mockSignature_attribute);
-        assertThat("signature", sut.getSignature(), equal("()V"));
+        assertThat("signature", sut.getSignature(), is("()V"));
     }
 }
