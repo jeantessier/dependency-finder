@@ -71,7 +71,7 @@ public abstract class VisitorBase implements Visitor {
     public void visitClassfile(Classfile classfile) {
         visitClassfileFields(classfile);
         visitClassfileMethods(classfile);
-        visitClassfileAnnotations(classfile);
+        visitClassfileAttributes(classfile);
     }
 
     protected void visitClassfileFields(Classfile classfile) {
@@ -86,7 +86,7 @@ public abstract class VisitorBase implements Visitor {
         }
     }
 
-    protected void visitClassfileAnnotations(Classfile classfile) {
+    protected void visitClassfileAttributes(Classfile classfile) {
         visitAttributes(classfile.getAttributes());
     }
 

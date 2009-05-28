@@ -47,7 +47,7 @@ public class DeprecationDetector extends VisitorBase {
     }
 
     public void visitClassfile(Classfile classfile) {
-        visitClassfileAnnotations(classfile);
+        visitClassfileAttributes(classfile);
     }
 
     public void visitAnnotation(Annotation helper) {
