@@ -1,0 +1,3 @@
+Worked on =Method_info.getSignature()= to use the generic signature of a
+=Signature_attribute= when it is available.  In the process, I realized that I
+never finished =SignatureHelper=.

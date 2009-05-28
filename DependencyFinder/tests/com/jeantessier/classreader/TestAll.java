@@ -46,6 +46,7 @@ import static org.junit.runners.Suite.*;
         TestVisitorBase.class,
         TestDeprecationDetector.class,
         TestCodeFinder.class,
+        TestSignatureFinder.class,
         TestLocalVariableFinder.class,
         TestDirectoryExplorer.class,
         TestAggregatingClassfileLoader.class,
