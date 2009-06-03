@@ -1,0 +1,5 @@
+A colleague pointed me to [[http://code.google.com/p/google-depan/][DepAn]],
+another dependency analysis tool for Java.  It seems to be built on the Eclipse
+platform and uses ASM for decompiling Java bytecode.  It is distributed as a
+binary for the Linux platform.  It won't work on my Mac and I couldn't get it
+to start on my Linux box either.
