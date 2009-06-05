@@ -1,0 +1,4 @@
+Wrapping my head around signatures.  I based =SignatureHelper= on
+=DescriptorHelper=, but that may not be enough.  The strucure of signagtures is
+much more complex and has a recursive nature.  I may need a number of classes to
+handle all the production rules in the JVM specification section 4.4.4.
