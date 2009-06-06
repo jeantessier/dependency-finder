@@ -37,6 +37,8 @@ import java.util.*;
 
 import org.apache.log4j.*;
 
+import com.jeantessier.classreader.*;
+
 public abstract class Feature_info implements com.jeantessier.classreader.Feature_info {
     private static final int ACC_PUBLIC = 0x0001;
     private static final int ACC_PRIVATE = 0x0002;
@@ -165,19 +167,14 @@ public abstract class Feature_info implements com.jeantessier.classreader.Featur
         while (!result && i.hasNext()) {
             result = i.next() instanceof Deprecated_attribute;
         }
-    
+
         return result;
     }
 
     public boolean isGeneric() {
-        boolean result = false;
-
-        Iterator i = getAttributes().iterator();
-        while (!result && i.hasNext()) {
-            result = i.next() instanceof Signature_attribute;
-        }
-
-        return result;
+        SignatureFinder finder = new SignatureFinder();
+        accept(finder);
+        return finder.getSignature() != null;
     }
 
     public String getFullSignature() {
