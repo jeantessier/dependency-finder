@@ -60,3 +60,7 @@ a:visited {
 a:hover {
 	text-decoration: underline;
 }
+
+code {
+    color: green;
+}
