@@ -60,7 +60,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     private int superclassIndex;
     private Map<String, Class_info> interfaces = new TreeMap<String, Class_info>();
     private Map<String, Field_info> fields = new TreeMap<String, Field_info>();
-    private Map<String, Method_info> methods = new TreeMap<String, Method_info>();
+    private Collection<Method_info> methods = new LinkedList<Method_info>();
     private Collection<Attribute_info> attributes = new LinkedList<Attribute_info>();
 
     /**
@@ -128,7 +128,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         for (int i=0; i<methodCount; i++) {
             Logger.getLogger(getClass()).debug("Method " + i + ":");
             Method_info methodInfo = new Method_info(this, in);
-            methods.put(methodInfo.getSignature(), methodInfo);
+            methods.add(methodInfo);
         }
 
         // Retrieving the attributes
@@ -242,11 +242,17 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     public Collection<Method_info> getAllMethods() {
-        return methods.values();
+        return methods;
     }
 
     public Method_info getMethod(String signature) {
-        return methods.get(signature);
+        for (Method_info method : methods) {
+            if (method.getSignature().equals(signature)) {
+                return method;
+            }
+        }
+
+        return null;
     }
 
     public com.jeantessier.classreader.Method_info locateMethod(String signature) {

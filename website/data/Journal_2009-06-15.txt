@@ -1,0 +1,8 @@
+Changed =Classfile= to track methods with a simple =Collection= instead of a
+=Map=.  This way, bridge methods don't trample each other.  But I use a
+=LinkedList= internally, so methods are no longer sorted by signature.  All the
+tests are passing for now, but suspect it will impact the logic in =OOMetrics=
+and/or =JarJarDiff=.
+
+I also tried to resurrect the WebWork web app, with limited success.  I want to
+move it squarely into Struts2 instead of clinging to WebWork 2.2.6.
