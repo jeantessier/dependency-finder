@@ -1,0 +1,3 @@
+Verified site ownership with
+[[http://google.com/webmasters/][Google Webmaster Tools]] by adding a meta tag
+on the site's home page.
