@@ -32,14 +32,17 @@
 
 package com.jeantessier.dependencyfinder.web;
 
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 import junit.framework.*;
+
 import org.apache.log4j.*;
-import com.jeantessier.dependency.*;
-import com.meterware.servletunit.*;
+
 import com.meterware.httpunit.*;
+import com.meterware.servletunit.*;
+
+import com.jeantessier.dependency.*;
 
 /**
  * Sets up a dependency graph like the one in <a href="graph.xml">graph.xml</a>.
