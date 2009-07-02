@@ -38,7 +38,8 @@ import com.jeantessier.classreader.*;
 
 public class TestClassElementValue extends TestAnnotationsBase {
     private static final int CLASS_INFO_INDEX = 2;
-    private static final String CLASS_INFO = "Labc;";
+    private static final String ENCODED_CLASS_INFO = "Labc;";
+    private static final String CLASS_INFO = "abc";
 
     private ClassElementValue sut;
 
@@ -51,7 +52,7 @@ public class TestClassElementValue extends TestAnnotationsBase {
     }
 
     public void testGetTypeName() {
-        expectLookupUtf8(CLASS_INFO_INDEX, CLASS_INFO);
+        expectLookupUtf8(CLASS_INFO_INDEX, ENCODED_CLASS_INFO);
 
         assertEquals(CLASS_INFO, sut.getClassInfo());
     }

@@ -36,8 +36,8 @@ import java.io.*;
 
 import org.apache.log4j.*;
 
-import com.jeantessier.classreader.UTF8_info;
 import com.jeantessier.classreader.*;
+import com.jeantessier.classreader.UTF8_info;
 
 public class EnumElementValue extends ElementValue implements com.jeantessier.classreader.EnumElementValue {
     private int typeNameIndex;
@@ -62,7 +62,13 @@ public class EnumElementValue extends ElementValue implements com.jeantessier.cl
     }
 
     public String getTypeName() {
-        return getRawTypeName().getValue();
+        String result = "";
+
+        if (getTypeNameIndex() != 0) {
+            result = ClassNameHelper.convertClassName(getRawTypeName().getValue());
+        }
+
+        return result;
     }
 
     public int getConstNameIndex() {

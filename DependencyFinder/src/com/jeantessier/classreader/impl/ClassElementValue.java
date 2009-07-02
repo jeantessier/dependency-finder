@@ -36,8 +36,8 @@ import java.io.*;
 
 import org.apache.log4j.*;
 
-import com.jeantessier.classreader.UTF8_info;
 import com.jeantessier.classreader.*;
+import com.jeantessier.classreader.UTF8_info;
 
 public class ClassElementValue extends ElementValue implements com.jeantessier.classreader.ClassElementValue {
     private int classInfoIndex;
@@ -58,7 +58,13 @@ public class ClassElementValue extends ElementValue implements com.jeantessier.c
     }
 
     public String getClassInfo() {
-        return getRawClassInfo().getValue();
+        String result = "";
+
+        if (getClassInfoIndex() != 0) {
+            result = ClassNameHelper.convertClassName(getRawClassInfo().getValue());
+        }
+
+        return result;
     }
 
     public char getTag() {

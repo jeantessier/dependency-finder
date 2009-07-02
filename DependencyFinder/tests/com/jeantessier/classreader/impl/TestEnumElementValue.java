@@ -38,6 +38,7 @@ import com.jeantessier.classreader.*;
 
 public class TestEnumElementValue extends TestAnnotationsBase {
     private static final int TYPE_NAME_INDEX = 2;
+    private static final String ENCODED_TYPE_NAME = "Labc;";
     private static final String TYPE_NAME = "abc";
     private static final int CONST_NAME_INDEX = 3;
     private static final String CONST_NAME = "def";
@@ -54,7 +55,7 @@ public class TestEnumElementValue extends TestAnnotationsBase {
     }
 
     public void testGetTypeName() {
-        expectLookupUtf8(TYPE_NAME_INDEX, TYPE_NAME);
+        expectLookupUtf8(TYPE_NAME_INDEX, ENCODED_TYPE_NAME);
 
         assertEquals(TYPE_NAME, sut.getTypeName());
     }
