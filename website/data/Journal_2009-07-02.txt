@@ -11,3 +11,7 @@ notation to a proper class name.  Internally, these class names are stored as
 UTF-8 strings, not =ClassInfo_attribute= structures, so these classes have to
 take care of converting strings containing encoded class names such as
 ="Lfoo/Bar;"= to proper class names such as ="foo.Bar"=.
+
+[[http://docs.google.com/View?docid=dgzzp6gn_116ff9f3dcn][Jens Dietrich]] uses
+Dependency Finder in his [[http://code.google.com/p/gql4jung/][gpl4jung]]
+project.
