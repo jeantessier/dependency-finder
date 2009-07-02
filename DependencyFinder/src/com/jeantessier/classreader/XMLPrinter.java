@@ -490,9 +490,7 @@ public class XMLPrinter extends Printer {
         indent().append("<inner-classes-attribute>").eol();
         raiseIndent();
 
-        for (InnerClass innerClass : attribute.getInnerClasses()) {
-            innerClass.accept(this);
-        }
+        super.visitInnerClasses_attribute(attribute);
 
         lowerIndent();
         indent().append("</inner-classes-attribute>").eol();
@@ -534,9 +532,7 @@ public class XMLPrinter extends Printer {
         indent().append("<line-number-table-attribute>").eol();
         raiseIndent();
 
-        for (LineNumber lineNumber : attribute.getLineNumbers()) {
-            lineNumber.accept(this);
-        }
+        super.visitLineNumberTable_attribute(attribute);
 
         lowerIndent();
         indent().append("</line-number-table-attribute>").eol();
@@ -546,9 +542,7 @@ public class XMLPrinter extends Printer {
         indent().append("<local-variable-table-attribute>").eol();
         raiseIndent();
 
-        for (LocalVariable localVariable : attribute.getLocalVariables()) {
-            localVariable.accept(this);
-        }
+        super.visitLocalVariableTable_attribute(attribute);
 
         lowerIndent();
         indent().append("</local-variable-table-attribute>").eol();
@@ -558,9 +552,7 @@ public class XMLPrinter extends Printer {
         indent().append("<local-variable-type-table-attribute>").eol();
         raiseIndent();
 
-        for (LocalVariableType localVariableType : attribute.getLocalVariableTypes()) {
-            localVariableType.accept(this);
-        }
+        super.visitLocalVariableTypeTable_attribute(attribute);
 
         lowerIndent();
         indent().append("</local-variable-type-table-attribute>").eol();
@@ -568,6 +560,79 @@ public class XMLPrinter extends Printer {
 
     public void visitDeprecated_attribute(Deprecated_attribute attribute) {
         indent().append("<deprecated-attribute/>").eol();
+    }
+
+    public void visitRuntimeVisibleAnnotations_attribute(RuntimeVisibleAnnotations_attribute attribute) {
+        indent().append("<runtime-visible-annotations-attribute>").eol();
+        raiseIndent();
+
+        super.visitRuntimeVisibleAnnotations_attribute(attribute);
+
+        lowerIndent();
+        indent().append("</runtime-visible-annotations-attribute>").eol();
+    }
+
+    public void visitRuntimeInvisibleAnnotations_attribute(RuntimeInvisibleAnnotations_attribute attribute) {
+        indent().append("<runtime-invisible-annotations-attribute>").eol();
+        raiseIndent();
+
+        super.visitRuntimeInvisibleAnnotations_attribute(attribute);
+
+        lowerIndent();
+        indent().append("</runtime-invisible-annotations-attribute>").eol();
+    }
+
+    protected void visitRuntimeAnnotations_attribute(RuntimeAnnotations_attribute attribute) {
+        indent().append("<annotations>").eol();
+        raiseIndent();
+
+        super.visitRuntimeAnnotations_attribute(attribute);
+
+        lowerIndent();
+        indent().append("</annotations>").eol();
+    }
+
+    public void visitRuntimeVisibleParameterAnnotations_attribute(RuntimeVisibleParameterAnnotations_attribute attribute) {
+        indent().append("<runtime-visible-parameter-annotations-attribute>").eol();
+        raiseIndent();
+
+        super.visitRuntimeVisibleParameterAnnotations_attribute(attribute);
+
+        lowerIndent();
+        indent().append("</runtime-visible-parameter-annotations-attribute>").eol();
+    }
+
+    public void visitRuntimeInvisibleParameterAnnotations_attribute(RuntimeInvisibleParameterAnnotations_attribute attribute) {
+        indent().append("<runtime-invisible-parameter-annotations-attribute>").eol();
+        raiseIndent();
+
+        super.visitRuntimeInvisibleParameterAnnotations_attribute(attribute);
+
+        lowerIndent();
+        indent().append("</runtime-invisible-parameter-annotations-attribute>").eol();
+    }
+
+    protected void visitRuntimeParameterAnnotations_attribute(RuntimeParameterAnnotations_attribute attribute) {
+        indent().append("<parameter-annotations>").eol();
+        raiseIndent();
+
+        super.visitRuntimeParameterAnnotations_attribute(attribute);
+
+        lowerIndent();
+        indent().append("</parameter-annotations>").eol();
+    }
+
+    public void visitAnnotationDefault_attribute(AnnotationDefault_attribute attribute) {
+        indent().append("<annotation-default-attribute>").eol();
+        raiseIndent();
+
+        indent();
+        append("<element-value>");
+        super.visitAnnotationDefault_attribute(attribute);
+        append("</element-value>").eol();
+
+        lowerIndent();
+        indent().append("</annotation-default-attribute>").eol();
     }
 
     public void visitCustom_attribute(Custom_attribute attribute) {
@@ -805,6 +870,55 @@ public class XMLPrinter extends Printer {
         helper.getRawSignature().accept(this);
         append("</signature>");
         append("</local-variable-type>").eol();
+    }
+
+    public void visitParameter(Parameter helper) {
+        indent().append("<parameter>").eol();
+        raiseIndent();
+
+        indent().append("<annotations>").eol();
+        raiseIndent();
+
+        super.visitParameter(helper);
+
+        lowerIndent();
+        indent().append("</annotations>").eol();
+
+        lowerIndent();
+        indent().append("</parameter>").eol();
+    }
+
+    public void visitAnnotation(Annotation helper) {
+        indent().append("<annotation>").eol();
+        raiseIndent();
+
+        indent().append("<type>").append(helper.getType()).append("</type>").eol();
+
+        indent().append("<element-value-pairs>").eol();
+        raiseIndent();
+
+        super.visitAnnotation(helper);
+
+        lowerIndent();
+        indent().append("</element-value-pairs>").eol();
+
+        lowerIndent();
+        indent().append("</annotation>").eol();
+    }
+
+    public void visitElementValuePair(ElementValuePair helper) {
+        indent().append("<element-value-pair>").eol();
+        raiseIndent();
+
+        indent().append("<element-name>").append(helper.getElementName()).append("</element-name>").eol();
+
+        indent();
+        append("<element-value>");
+        super.visitElementValuePair(helper);
+        append("</element-value>").eol();
+
+        lowerIndent();
+        indent().append("</element-value-pair>").eol();
     }
 
     private void appendLocalVariable(LocalVariable localVariable) {

@@ -243,7 +243,7 @@ public abstract class VisitorBase implements Visitor {
         visitRuntimeAnnotations_attribute(attribute);
     }
 
-    private void visitRuntimeAnnotations_attribute(RuntimeAnnotations_attribute attribute) {
+    protected void visitRuntimeAnnotations_attribute(RuntimeAnnotations_attribute attribute) {
         Logger.getLogger(getClass()).debug("Visiting " + attribute.getAnnotations().size() + " annotation(s) ...");
 
         for (Annotation annotation : attribute.getAnnotations()) {
@@ -259,7 +259,7 @@ public abstract class VisitorBase implements Visitor {
         visitRuntimeParameterAnnotations_attribute(attribute);
     }
 
-    private void visitRuntimeParameterAnnotations_attribute(RuntimeParameterAnnotations_attribute attribute) {
+    protected void visitRuntimeParameterAnnotations_attribute(RuntimeParameterAnnotations_attribute attribute) {
         Logger.getLogger(getClass()).debug("Visiting " + attribute.getParameterAnnotations().size() + " parameter annotation(s) ...");
 
         for (Parameter parameter : attribute.getParameterAnnotations()) {

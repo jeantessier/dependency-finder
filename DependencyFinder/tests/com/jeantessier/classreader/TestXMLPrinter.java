@@ -51,6 +51,9 @@ public class TestXMLPrinter extends MockObjectTestCase {
     private static final String SPECIFIC_ENCODING = "iso-latin-1";
     private static final String SPECIFIC_DTD_PREFIX = "./etc";
 
+    private static final String ANNOTATION_TYPE = "foobar";
+    private static final String ELEMENT_NAME = "foo";
+
     private ClassfileLoader loader;
     private StringWriter buffer;
     private Visitor printer;
@@ -352,11 +355,18 @@ public class TestXMLPrinter extends MockObjectTestCase {
             one (localVariable).getLength();
             one (localVariable).getRawName();
             one (localVariable).getDescriptor();
-            will(returnValue("I"));
+                will(returnValue("I"));
             one (localVariable).getIndex();
         }});
 
         printer.visitLocalVariable(localVariable);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "local-variable/@pc", 1);
+        assertXPathCount(xmlDocument, "local-variable/@length", 1);
+        assertXPathCount(xmlDocument, "local-variable/name", 1);
+        assertXPathText(xmlDocument, "local-variable/type", "int");
+        assertXPathCount(xmlDocument, "local-variable/@index", 1);
     }
 
     public void testVisitLocalVariableType() throws Exception {
@@ -371,6 +381,233 @@ public class TestXMLPrinter extends MockObjectTestCase {
         }});
 
         printer.visitLocalVariableType(localVariableType);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "local-variable-type/@pc", 1);
+        assertXPathCount(xmlDocument, "local-variable-type/@length", 1);
+        assertXPathCount(xmlDocument, "local-variable-type/name", 1);
+        assertXPathCount(xmlDocument, "local-variable-type/signature", 1);
+        assertXPathCount(xmlDocument, "local-variable-type/@index", 1);
+    }
+
+    public void testVisitRuntimeVisibleAnnotations_attribute_WithoutAnnotations() throws Exception {
+        final RuntimeVisibleAnnotations_attribute runtimeVisibleAnnotations = mock(RuntimeVisibleAnnotations_attribute.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (runtimeVisibleAnnotations).getAnnotations();
+        }});
+
+        printer.visitRuntimeVisibleAnnotations_attribute(runtimeVisibleAnnotations);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "runtime-visible-annotations-attribute/annotations", 1);
+    }
+
+    public void testVisitRuntimeVisibleAnnotations_attribute_WithAnAnnotation() throws Exception {
+        final RuntimeVisibleAnnotations_attribute runtimeVisibleAnnotations = mock(RuntimeVisibleAnnotations_attribute.class);
+        final Annotation annotation = mock(Annotation.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (runtimeVisibleAnnotations).getAnnotations();
+                will(returnValue(Collections.singleton(annotation)));
+            one (annotation).accept(printer);
+        }});
+
+        printer.visitRuntimeVisibleAnnotations_attribute(runtimeVisibleAnnotations);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "runtime-visible-annotations-attribute/annotations", 1);
+    }
+
+    public void testVisitRuntimeInvisibleAnnotations_attribute_WithoutAnnotations() throws Exception {
+        final RuntimeInvisibleAnnotations_attribute runtimeInvisibleAnnotations = mock(RuntimeInvisibleAnnotations_attribute.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (runtimeInvisibleAnnotations).getAnnotations();
+        }});
+
+        printer.visitRuntimeInvisibleAnnotations_attribute(runtimeInvisibleAnnotations);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "runtime-invisible-annotations-attribute/annotations", 1);
+    }
+
+    public void testVisitRuntimeInvisibleAnnotations_attribute_WithAnAnnotation() throws Exception {
+        final RuntimeInvisibleAnnotations_attribute runtimeInvisibleAnnotations = mock(RuntimeInvisibleAnnotations_attribute.class);
+        final Annotation annotation = mock(Annotation.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (runtimeInvisibleAnnotations).getAnnotations();
+                will(returnValue(Collections.singleton(annotation)));
+            one (annotation).accept(printer);
+        }});
+
+        printer.visitRuntimeInvisibleAnnotations_attribute(runtimeInvisibleAnnotations);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "runtime-invisible-annotations-attribute/annotations", 1);
+    }
+
+    public void testVisitRuntimeVisibleParameterAnnotations_attribute_WithoutParameterAnnotations() throws Exception {
+        final RuntimeVisibleParameterAnnotations_attribute runtimeVisibleParameterAnnotations = mock(RuntimeVisibleParameterAnnotations_attribute.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (runtimeVisibleParameterAnnotations).getParameterAnnotations();
+        }});
+
+        printer.visitRuntimeVisibleParameterAnnotations_attribute(runtimeVisibleParameterAnnotations);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "runtime-visible-parameter-annotations-attribute/parameter-annotations", 1);
+    }
+
+    public void testVisitRuntimeVisibleParameterAnnotations_attribute_WithAParameterAnnotation() throws Exception {
+        final RuntimeVisibleParameterAnnotations_attribute runtimeVisibleParameterAnnotations = mock(RuntimeVisibleParameterAnnotations_attribute.class);
+        final Parameter parameter = mock(Parameter.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (runtimeVisibleParameterAnnotations).getParameterAnnotations();
+                will(returnValue(Collections.singletonList(parameter)));
+            one (parameter).accept(printer);
+        }});
+
+        printer.visitRuntimeVisibleParameterAnnotations_attribute(runtimeVisibleParameterAnnotations);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "runtime-visible-parameter-annotations-attribute/parameter-annotations", 1);
+    }
+
+    public void testVisitRuntimeInvisibleParameterAnnotations_attribute_WithoutParameterAnnotations() throws Exception {
+        final RuntimeInvisibleParameterAnnotations_attribute runtimeInvisibleParameterAnnotations = mock(RuntimeInvisibleParameterAnnotations_attribute.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (runtimeInvisibleParameterAnnotations).getParameterAnnotations();
+        }});
+
+        printer.visitRuntimeInvisibleParameterAnnotations_attribute(runtimeInvisibleParameterAnnotations);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "runtime-invisible-parameter-annotations-attribute/parameter-annotations", 1);
+    }
+
+    public void testVisitRuntimeInvisibleParameterAnnotations_attribute_WithAParameterAnnotation() throws Exception {
+        final RuntimeInvisibleParameterAnnotations_attribute runtimeInvisibleParameterAnnotations = mock(RuntimeInvisibleParameterAnnotations_attribute.class);
+        final Parameter parameter = mock(Parameter.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (runtimeInvisibleParameterAnnotations).getParameterAnnotations();
+                will(returnValue(Collections.singletonList(parameter)));
+            one (parameter).accept(printer);
+        }});
+
+        printer.visitRuntimeInvisibleParameterAnnotations_attribute(runtimeInvisibleParameterAnnotations);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "runtime-invisible-parameter-annotations-attribute/parameter-annotations", 1);
+    }
+
+    public void testVisitAnnotationDefault_attribute() throws Exception {
+        final AnnotationDefault_attribute annotationDefault = mock(AnnotationDefault_attribute.class);
+        final ElementValue elementValue = mock(ElementValue.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (annotationDefault).getElemementValue();
+                will(returnValue(elementValue));
+            one (elementValue).accept(printer);
+        }});
+
+        printer.visitAnnotationDefault_attribute(annotationDefault);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "annotation-default-attribute/element-value", 1);
+    }
+
+    public void testVisitParameter_WithoutAnnotations() throws Exception {
+        final Parameter parameter = mock(Parameter.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (parameter).getAnnotations();
+        }});
+
+        printer.visitParameter(parameter);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "parameter", 1);
+        assertXPathCount(xmlDocument, "parameter/annotations", 1);
+    }
+
+    public void testVisitParameter_WithAnAnnotation() throws Exception {
+        final Parameter parameter = mock(Parameter.class);
+        final Annotation annotation = mock(Annotation.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (parameter).getAnnotations();
+                will(returnValue(Collections.singleton(annotation)));
+            one (annotation).accept(printer);
+        }});
+
+        printer.visitParameter(parameter);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "parameter", 1);
+        assertXPathCount(xmlDocument, "parameter/annotations", 1);
+    }
+
+    public void testVisitAnnotation_WithoutElementValuePairs() throws Exception {
+        final Annotation annotation = mock(Annotation.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (annotation).getType();
+                will(returnValue(ANNOTATION_TYPE));
+            atLeast(1).of (annotation).getElementValuePairs();
+        }});
+
+        printer.visitAnnotation(annotation);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "annotation", 1);
+        assertXPathText(xmlDocument, "annotation/type", ANNOTATION_TYPE);
+        assertXPathCount(xmlDocument, "annotation/element-value-pairs", 1);
+    }
+
+    public void testVisitAnnotation_WithAnElementValuePair() throws Exception {
+        final Annotation annotation = mock(Annotation.class);
+        final ElementValuePair elementValuePair = mock(ElementValuePair.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (annotation).getType();
+                will(returnValue(ANNOTATION_TYPE));
+            atLeast(1).of (annotation).getElementValuePairs();
+                will(returnValue(Collections.singleton(elementValuePair)));
+            one (elementValuePair).accept(printer);
+        }});
+
+        printer.visitAnnotation(annotation);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "annotation", 1);
+        assertXPathText(xmlDocument, "annotation/type", ANNOTATION_TYPE);
+        assertXPathCount(xmlDocument, "annotation/element-value-pairs", 1);
+    }
+
+    public void testVisitElementValuePair() throws Exception {
+        final ElementValuePair elementValuePair = mock(ElementValuePair.class);
+        final ElementValue elementValue = mock(ElementValue.class);
+
+        checking(new Expectations() {{
+            one (elementValuePair).getElementName();
+                will(returnValue(ELEMENT_NAME));
+            one (elementValuePair).getElementValue();
+                will(returnValue(elementValue));
+            one (elementValue).accept(printer);
+        }});
+
+        printer.visitElementValuePair(elementValuePair);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "element-value-pair", 1);
+        assertXPathText(xmlDocument, "element-value-pair/element-name", ELEMENT_NAME);
+        assertXPathCount(xmlDocument, "element-value-pair/element-value", 1);
     }
 
     private void assertXPathCount(String xmlDocument, String xPathExpression, int expectedCount) throws Exception {
@@ -380,5 +617,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         NodeList nodeList = (NodeList) xPath.evaluate(xPathExpression, in, XPathConstants.NODESET);
         int actualCount = nodeList.getLength();
         assertEquals("XPath \"" + xPathExpression + "\" in \n" + xmlDocument, expectedCount, actualCount);
+    }
+
+    private void assertXPathText(String xmlDocument, String xPathExpression, String expectedText) throws Exception {
+        XPath xPath = XPathFactory.newInstance().newXPath();
+        InputSource in = new InputSource(new StringReader(xmlDocument));
+
+        String actualText = (String) xPath.evaluate(xPathExpression, in, XPathConstants.STRING);
+        assertEquals("XPath \"" + xPathExpression + "\" in \n" + xmlDocument, expectedText, actualText);
     }
 }
