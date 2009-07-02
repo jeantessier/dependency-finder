@@ -1,0 +1,3 @@
+Fixed =CodeDependencyCollector= to correctly track dependencies on annotations.
+For now, it only captures dependencies on the annotation itself, not on any
+element values that it might contain.  This will come next.

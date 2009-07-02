@@ -185,17 +185,6 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    private Action createEventCheckingAction(final String expectedClassName) {
-        return
-            perform(
-                "junit.framework.Assert.assertEquals(\"source\", sut, $0.getSource());" +
-                "junit.framework.Assert.assertEquals(\"classname\", expectedClassName, $0.getClassName());" +
-                "junit.framework.Assert.assertNull(\"dependent\", $0.getDependent());" +
-                "junit.framework.Assert.assertNull(\"dependable\", $0.getDependable())")
-                .where("sut", sut)
-                .where("expectedClassName", expectedClassName);
-    }
-
     public void testVisitExceptionHandler_finally() {
         final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
 
@@ -220,5 +209,34 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         }});
 
         sut.visitExceptionHandler(mockExceptionHandler);
+    }
+
+    public void testVisitAnnotation() {
+        final Annotation mockAnnotation = mock(Annotation.class);
+        final ClassNode mockDependableClassNode = mock(ClassNode.class, "dependable");
+
+        checking(new Expectations() {{
+            one (mockAnnotation).getType();
+                will(returnValue("dependable.Dependable"));
+            one (mockFactory).createClass("dependable.Dependable");
+                will(returnValue(mockDependableClassNode));
+            one (mockClassNode).addDependency(mockDependableClassNode);
+
+            ignoring (mockAnnotation).getElementValuePairs();
+        }});
+
+        sut.setCurrent(mockClassNode);
+        sut.visitAnnotation(mockAnnotation);
+    }
+
+    private Action createEventCheckingAction(final String expectedClassName) {
+        return
+            perform(
+                "junit.framework.Assert.assertEquals(\"source\", sut, $0.getSource());" +
+                "junit.framework.Assert.assertEquals(\"classname\", expectedClassName, $0.getClassName());" +
+                "junit.framework.Assert.assertNull(\"dependent\", $0.getDependent());" +
+                "junit.framework.Assert.assertNull(\"dependable\", $0.getDependable())")
+                .where("sut", sut)
+                .where("expectedClassName", expectedClassName);
     }
 }

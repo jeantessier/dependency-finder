@@ -265,6 +265,20 @@ public class CodeDependencyCollector extends CollectorBase {
         }
     }
 
+    public void visitAnnotation(Annotation helper) {
+        String classname = helper.getType();
+        if (filterCriteria.isMatchingClasses() && filterCriteria.matchesClassName(classname)) {
+            Node other = getFactory().createClass(classname);
+            getCurrent().addDependency(other);
+            if (Logger.getLogger(getClass()).isDebugEnabled()) {
+                Logger.getLogger(getClass()).info("Class_info dependency: " + getCurrent() + " --> " + other);
+            }
+            fireDependency(getCurrent(), other);
+        }
+
+        super.visitAnnotation(helper);
+    }
+
     private void processDescriptor(String str) {
         int currentPos = 0;
         int startPos;
