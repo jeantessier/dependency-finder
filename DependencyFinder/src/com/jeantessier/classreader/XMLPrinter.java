@@ -912,13 +912,87 @@ public class XMLPrinter extends Printer {
 
         indent().append("<element-name>").append(helper.getElementName()).append("</element-name>").eol();
 
-        indent();
-        append("<element-value>");
         super.visitElementValuePair(helper);
-        append("</element-value>").eol();
 
         lowerIndent();
         indent().append("</element-value-pair>").eol();
+    }
+
+    public void visitByteConstantElementValue(ByteConstantElementValue helper) {
+        visitConstantElementValue(helper, "byte");
+    }
+
+    public void visitCharConstantElementValue(CharConstantElementValue helper) {
+        visitConstantElementValue(helper, "char");
+    }
+
+    public void visitDoubleConstantElementValue(DoubleConstantElementValue helper) {
+        visitConstantElementValue(helper, "double");
+    }
+
+    public void visitFloatConstantElementValue(FloatConstantElementValue helper) {
+        visitConstantElementValue(helper, "float");
+    }
+
+    public void visitIntegerConstantElementValue(IntegerConstantElementValue helper) {
+        visitConstantElementValue(helper, "integer");
+    }
+
+    public void visitLongConstantElementValue(LongConstantElementValue helper) {
+        visitConstantElementValue(helper, "long");
+    }
+
+    public void visitShortConstantElementValue(ShortConstantElementValue helper) {
+        visitConstantElementValue(helper, "short");
+    }
+
+    public void visitBooleanConstantElementValue(BooleanConstantElementValue helper) {
+        visitConstantElementValue(helper, "boolean");
+    }
+
+    public void visitStringConstantElementValue(StringConstantElementValue helper) {
+        visitConstantElementValue(helper, "string");
+    }
+
+    private void visitConstantElementValue(ConstantElementValue helper, String type) {
+        indent();
+        append("<").append(type).append("-element-value tag=\"").append(helper.getTag()).append("\">");
+        helper.getRawConstValue().accept(this);
+        append("</").append(type).append("-element-value>").eol();
+    }
+
+    public void visitEnumElementValue(EnumElementValue helper) {
+        indent();
+        append("<enum-element-value tag=\"").append(helper.getTag()).append("\">");
+        append(helper.getTypeName()).append(".").append(helper.getConstName());
+        append("</enum-element-value>").eol();
+    }
+
+    public void visitClassElementValue(ClassElementValue helper) {
+        indent();
+        append("<class-element-value tag=\"").append(helper.getTag()).append("\">");
+        append(helper.getClassInfo());
+        append("</class-element-value>").eol();
+    }
+
+    public void visitAnnotationElementValue(AnnotationElementValue helper) {
+        indent().append("<annotation-element-value tag=\"").append(helper.getTag()).append("\">").eol();
+        raiseIndent();
+
+        super.visitAnnotationElementValue(helper);
+
+        lowerIndent();
+        indent().append("</annotation-element-value>").eol();
+    }
+
+    public void visitArrayElementValue(ArrayElementValue helper) {
+        indent().append("<array-element-value tag=\"").append(helper.getTag()).append("\">").eol();
+        raiseIndent();
+
+        super.visitArrayElementValue(helper);
+
+        lowerIndent();
+        indent().append("</array-element-value>").eol();
     }
 
     private void appendLocalVariable(LocalVariable localVariable) {

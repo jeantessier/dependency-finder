@@ -607,7 +607,252 @@ public class TestXMLPrinter extends MockObjectTestCase {
         String xmlDocument = buffer.toString();
         assertXPathCount(xmlDocument, "element-value-pair", 1);
         assertXPathText(xmlDocument, "element-value-pair/element-name", ELEMENT_NAME);
-        assertXPathCount(xmlDocument, "element-value-pair/element-value", 1);
+    }
+
+    public void testVisitByteConstantElementValue() throws Exception {
+        final ByteConstantElementValue constantElementValue = mock(ByteConstantElementValue.class);
+        final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
+
+        checking(new Expectations() {{
+            one (constantElementValue).getTag();
+                will(returnValue(ElementValueType.BYTE.getTag()));
+            one (constantElementValue).getRawConstValue();
+                will(returnValue(constantPoolEntry));
+            one (constantPoolEntry).accept(printer);
+        }});
+
+        printer.visitByteConstantElementValue(constantElementValue);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "byte-element-value", 1);
+        assertXPathText(xmlDocument, "byte-element-value/@tag", String.valueOf(ElementValueType.BYTE.getTag()));
+    }
+
+    public void testVisitCharConstantElementValue() throws Exception {
+        final CharConstantElementValue constantElementValue = mock(CharConstantElementValue.class);
+        final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
+
+        checking(new Expectations() {{
+            one (constantElementValue).getTag();
+                will(returnValue(ElementValueType.CHAR.getTag()));
+            one (constantElementValue).getRawConstValue();
+                will(returnValue(constantPoolEntry));
+            one (constantPoolEntry).accept(printer);
+        }});
+
+        printer.visitCharConstantElementValue(constantElementValue);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "char-element-value", 1);
+        assertXPathText(xmlDocument, "char-element-value/@tag", String.valueOf(ElementValueType.CHAR.getTag()));
+    }
+
+    public void testVisitDoubleConstantElementValue() throws Exception {
+        final DoubleConstantElementValue constantElementValue = mock(DoubleConstantElementValue.class);
+        final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
+
+        checking(new Expectations() {{
+            one (constantElementValue).getTag();
+                will(returnValue(ElementValueType.DOUBLE.getTag()));
+            one (constantElementValue).getRawConstValue();
+                will(returnValue(constantPoolEntry));
+            one (constantPoolEntry).accept(printer);
+        }});
+
+        printer.visitDoubleConstantElementValue(constantElementValue);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "double-element-value", 1);
+        assertXPathText(xmlDocument, "double-element-value/@tag", String.valueOf(ElementValueType.DOUBLE.getTag()));
+    }
+
+    public void testVisitFloatConstantElementValue() throws Exception {
+        final FloatConstantElementValue constantElementValue = mock(FloatConstantElementValue.class);
+        final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
+
+        checking(new Expectations() {{
+            one (constantElementValue).getTag();
+                will(returnValue(ElementValueType.FLOAT.getTag()));
+            one (constantElementValue).getRawConstValue();
+                will(returnValue(constantPoolEntry));
+            one (constantPoolEntry).accept(printer);
+        }});
+
+        printer.visitFloatConstantElementValue(constantElementValue);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "float-element-value", 1);
+        assertXPathText(xmlDocument, "float-element-value/@tag", String.valueOf(ElementValueType.FLOAT.getTag()));
+    }
+
+    public void testVisitIntegerConstantElementValue() throws Exception {
+        final IntegerConstantElementValue constantElementValue = mock(IntegerConstantElementValue.class);
+        final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
+
+        checking(new Expectations() {{
+            one (constantElementValue).getTag();
+                will(returnValue(ElementValueType.INTEGER.getTag()));
+            one (constantElementValue).getRawConstValue();
+                will(returnValue(constantPoolEntry));
+            one (constantPoolEntry).accept(printer);
+        }});
+
+        printer.visitIntegerConstantElementValue(constantElementValue);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "integer-element-value", 1);
+        assertXPathText(xmlDocument, "integer-element-value/@tag", String.valueOf(ElementValueType.INTEGER.getTag()));
+    }
+
+    public void testVisitLongConstantElementValue() throws Exception {
+        final LongConstantElementValue constantElementValue = mock(LongConstantElementValue.class);
+        final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
+
+        checking(new Expectations() {{
+            one (constantElementValue).getTag();
+                will(returnValue(ElementValueType.LONG.getTag()));
+            one (constantElementValue).getRawConstValue();
+                will(returnValue(constantPoolEntry));
+            one (constantPoolEntry).accept(printer);
+        }});
+
+        printer.visitLongConstantElementValue(constantElementValue);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "long-element-value", 1);
+        assertXPathText(xmlDocument, "long-element-value/@tag", String.valueOf(ElementValueType.LONG.getTag()));
+    }
+
+    public void testVisitShortConstantElementValue() throws Exception {
+        final ShortConstantElementValue constantElementValue = mock(ShortConstantElementValue.class);
+        final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
+
+        checking(new Expectations() {{
+            one (constantElementValue).getTag();
+                will(returnValue(ElementValueType.SHORT.getTag()));
+            one (constantElementValue).getRawConstValue();
+                will(returnValue(constantPoolEntry));
+            one (constantPoolEntry).accept(printer);
+        }});
+
+        printer.visitShortConstantElementValue(constantElementValue);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "short-element-value", 1);
+        assertXPathText(xmlDocument, "short-element-value/@tag", String.valueOf(ElementValueType.SHORT.getTag()));
+    }
+
+    public void testVisitBooleanConstantElementValue() throws Exception {
+        final BooleanConstantElementValue constantElementValue = mock(BooleanConstantElementValue.class);
+        final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
+
+        checking(new Expectations() {{
+            one (constantElementValue).getTag();
+                will(returnValue(ElementValueType.BOOLEAN.getTag()));
+            one (constantElementValue).getRawConstValue();
+                will(returnValue(constantPoolEntry));
+            one (constantPoolEntry).accept(printer);
+        }});
+
+        printer.visitBooleanConstantElementValue(constantElementValue);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "boolean-element-value", 1);
+        assertXPathText(xmlDocument, "boolean-element-value/@tag", String.valueOf(ElementValueType.BOOLEAN.getTag()));
+    }
+
+    public void testVisitStringConstantElementValue() throws Exception {
+        final StringConstantElementValue constantElementValue = mock(StringConstantElementValue.class);
+        final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
+
+        checking(new Expectations() {{
+            one (constantElementValue).getTag();
+                will(returnValue(ElementValueType.STRING.getTag()));
+            one (constantElementValue).getRawConstValue();
+                will(returnValue(constantPoolEntry));
+            one (constantPoolEntry).accept(printer);
+        }});
+
+        printer.visitStringConstantElementValue(constantElementValue);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "string-element-value", 1);
+        assertXPathText(xmlDocument, "string-element-value/@tag", String.valueOf(ElementValueType.STRING.getTag()));
+    }
+
+    public void testVisitEnumElementValue() throws Exception {
+        final EnumElementValue enumElementValue = mock(EnumElementValue.class);
+        final String constName = "BAR";
+
+        checking(new Expectations() {{
+            one (enumElementValue).getTag();
+                will(returnValue(ElementValueType.ENUM.getTag()));
+            one (enumElementValue).getTypeName();
+                will(returnValue(TEST_CLASS));
+            one (enumElementValue).getConstName();
+                will(returnValue(constName));
+        }});
+
+        printer.visitEnumElementValue(enumElementValue);
+
+        String xmlDocument = buffer.toString();
+        assertXPathText(xmlDocument, "enum-element-value", TEST_CLASS + "." + constName);
+        assertXPathText(xmlDocument, "enum-element-value/@tag", String.valueOf(ElementValueType.ENUM.getTag()));
+    }
+
+    public void testVisitClassElementValue() throws Exception {
+        final ClassElementValue classElementValue = mock(ClassElementValue.class);
+
+        checking(new Expectations() {{
+            one (classElementValue).getTag();
+                will(returnValue(ElementValueType.CLASS.getTag()));
+            one (classElementValue).getClassInfo();
+                will(returnValue(TEST_CLASS));
+        }});
+
+        printer.visitClassElementValue(classElementValue);
+
+        String xmlDocument = buffer.toString();
+        assertXPathText(xmlDocument, "class-element-value", TEST_CLASS);
+        assertXPathText(xmlDocument, "class-element-value/@tag", String.valueOf(ElementValueType.CLASS.getTag()));
+    }
+
+    public void testVisitAnnotationElementValue() throws Exception {
+        final AnnotationElementValue annotationElementValue = mock(AnnotationElementValue.class);
+        final Annotation annotation = mock(Annotation.class);
+
+        checking(new Expectations() {{
+            one (annotationElementValue).getTag();
+                will(returnValue(ElementValueType.ANNOTATION.getTag()));
+            one (annotationElementValue).getAnnotation();
+                will(returnValue(annotation));
+            one (annotation).accept(printer);
+        }});
+
+        printer.visitAnnotationElementValue(annotationElementValue);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "annotation-element-value", 1);
+        assertXPathText(xmlDocument, "annotation-element-value/@tag", String.valueOf(ElementValueType.ANNOTATION.getTag()));
+    }
+
+    public void testVisitArrayElementValue() throws Exception {
+        final ArrayElementValue arrayElementValue = mock(ArrayElementValue.class);
+        final ElementValue elementValue = mock(ElementValue.class);
+
+        checking(new Expectations() {{
+            one (arrayElementValue).getTag();
+                will(returnValue(ElementValueType.ARRAY.getTag()));
+            atLeast(1).of (arrayElementValue).getValues();
+                will(returnValue(Collections.singleton(elementValue)));
+            one (elementValue).accept(printer);
+        }});
+
+        printer.visitArrayElementValue(arrayElementValue);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "array-element-value", 1);
+        assertXPathText(xmlDocument, "array-element-value/@tag", String.valueOf(ElementValueType.ARRAY.getTag()));
     }
 
     private void assertXPathCount(String xmlDocument, String xPathExpression, int expectedCount) throws Exception {
