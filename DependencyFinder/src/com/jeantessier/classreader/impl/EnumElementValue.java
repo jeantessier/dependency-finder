@@ -65,7 +65,7 @@ public class EnumElementValue extends ElementValue implements com.jeantessier.cl
         String result = "";
 
         if (getTypeNameIndex() != 0) {
-            result = ClassNameHelper.convertClassName(getRawTypeName().getValue());
+            result = DescriptorHelper.getType(getRawTypeName().getValue());
         }
 
         return result;
