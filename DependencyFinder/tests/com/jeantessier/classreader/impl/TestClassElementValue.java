@@ -57,6 +57,12 @@ public class TestClassElementValue extends TestAnnotationsBase {
         assertEquals(CLASS_INFO, sut.getClassInfo());
     }
 
+    public void testGetTypeName_void() {
+        expectLookupUtf8(CLASS_INFO_INDEX, "V");
+
+        assertEquals("void", sut.getClassInfo());
+    }
+
     public void testGetTag() {
         assertEquals(ElementValueType.CLASS.getTag(), sut.getTag());
     }

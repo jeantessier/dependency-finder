@@ -61,7 +61,7 @@ public class ClassElementValue extends ElementValue implements com.jeantessier.c
         String result = "";
 
         if (getClassInfoIndex() != 0) {
-            result = ClassNameHelper.convertClassName(getRawClassInfo().getValue());
+            result = DescriptorHelper.convert(getRawClassInfo().getValue());
         }
 
         return result;
