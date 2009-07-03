@@ -89,7 +89,7 @@ public class ExceptionHandler implements com.jeantessier.classreader.ExceptionHa
         String result = "<none>";
 
         if (getCatchTypeIndex() != 0) {
-            result = getRawCatchType().toString();
+            result = getRawCatchType().getName();
         }
 
         return result;

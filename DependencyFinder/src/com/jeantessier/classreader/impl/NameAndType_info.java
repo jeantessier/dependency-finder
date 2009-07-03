@@ -56,7 +56,7 @@ public class NameAndType_info extends ConstantPoolEntry implements com.jeantessi
     }
 
     public String getName() {
-        return getRawName().toString();
+        return getRawName().getValue();
     }
 
     public int getTypeIndex() {
@@ -68,7 +68,7 @@ public class NameAndType_info extends ConstantPoolEntry implements com.jeantessi
     }
 
     public String getType() {
-        return getRawType().toString();
+        return getRawType().getValue();
     }
 
     public String toString() {

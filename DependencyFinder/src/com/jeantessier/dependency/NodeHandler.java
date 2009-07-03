@@ -119,7 +119,7 @@ public class NodeHandler extends DefaultHandler {
                     break;
                 case CLASS:
                     currentNode = getFactory().createClass(currentName.toString(), isConfirmed(currentClassAttributes));
-                    fireBeginClass(currentNode.toString());
+                    fireBeginClass(currentNode.getName());
                     break;
                 case FEATURE:
                     currentNode = getFactory().createFeature(currentName.toString(), isConfirmed(currentFeatureAttributes));

@@ -173,7 +173,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     public String getClassName() {
-        return getRawClass().toString();
+        return getRawClass().getName();
     }
 
     public String getSimpleName() {
@@ -192,7 +192,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         String result = "";
 
         if (getSuperclassIndex() != 0) {
-            result = getRawSuperclass().toString();
+            result = getRawSuperclass().getName();
         }
         
         return result;

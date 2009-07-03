@@ -86,7 +86,7 @@ public class LocalVariable implements com.jeantessier.classreader.LocalVariable 
     }
 
     public String getName() {
-        return getRawName().toString();
+        return getRawName().getValue();
     }
 
     public int getDescriptorIndex() {
@@ -98,7 +98,7 @@ public class LocalVariable implements com.jeantessier.classreader.LocalVariable 
     }
 
     public String getDescriptor() {
-        return getRawDescriptor().toString();
+        return getRawDescriptor().getValue();
     }
 
     public int getIndex() {

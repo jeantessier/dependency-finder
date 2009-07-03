@@ -88,7 +88,7 @@ public class InnerClass implements com.jeantessier.classreader.InnerClass {
         String result = "";
 
         if (getInnerClassInfoIndex() != 0) {
-            result = getRawInnerClassInfo().toString();
+            result = getRawInnerClassInfo().getName();
         }
 
         return result;
@@ -106,7 +106,7 @@ public class InnerClass implements com.jeantessier.classreader.InnerClass {
         String result = "";
 
         if (getOuterClassInfoIndex() != 0) {
-            result = getRawOuterClassInfo().toString();
+            result = getRawOuterClassInfo().getName();
         }
 
         return result;
@@ -124,7 +124,7 @@ public class InnerClass implements com.jeantessier.classreader.InnerClass {
         String result = "";
 
         if (getInnerNameIndex() != 0) {
-            result = getRawInnerName().toString();
+            result = getRawInnerName().getValue();
         }
 
         return result;

@@ -86,7 +86,7 @@ public class LocalVariableType implements com.jeantessier.classreader.LocalVaria
     }
 
     public String getName() {
-        return getRawName().toString();
+        return getRawName().getValue();
     }
 
     public int getSignatureIndex() {
@@ -98,7 +98,7 @@ public class LocalVariableType implements com.jeantessier.classreader.LocalVaria
     }
 
     public String getSignature() {
-        return getRawSignature().toString();
+        return getRawSignature().getValue();
     }
 
     public int getIndex() {

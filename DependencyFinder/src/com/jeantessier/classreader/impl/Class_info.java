@@ -54,7 +54,7 @@ public class Class_info extends ConstantPoolEntry implements com.jeantessier.cla
     }
 
     public String getName() {
-        return ClassNameHelper.convertClassName(getRawName().toString());
+        return ClassNameHelper.convertClassName(getRawName().getValue());
     }
 
     public String getSimpleName() {

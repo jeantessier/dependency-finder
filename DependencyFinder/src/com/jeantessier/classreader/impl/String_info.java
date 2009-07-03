@@ -54,7 +54,7 @@ public class String_info extends ConstantPoolEntry implements com.jeantessier.cl
     }
 
     public String getValue() {
-        return getRawValue().toString();
+        return getRawValue().getValue();
     }
 
     public String toString() {
