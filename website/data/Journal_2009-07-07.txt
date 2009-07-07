@@ -1,0 +1,17 @@
+Played with filtering out files directly from =DependencyExtractor=.  I had
+forgotten about =FileFilteringLoadListener= and
+=ClassfileFilteringLoadListener=.  At first, I thought of using
+=FileFilteringLoadListener= to short-circuit even the parsing of unwanted
+=.class= files, but that didn't work.  It only filters the =beginFile()= and
+=endFile()= events.  It does not remove any of the logic that happens between
+them, nor any =beginClassfile()= and =endClassfile()= event.
+
+At the very least, I need to augment the tests for =GroupFilteringLoadListener=
+and =FileFilteringLoadListener= so they at least suppress all events with
+matching group or file names respectively.  Not just their own =begin ... end=
+events, but also those that happen in between.  After that, maybe I'll consider
+turning the =begin= event into something closer to a =VetoableChangeListener=,
+where I can suppress processing between match =begin= and =end= events based on
+the handling of the =begin= event.
+
+The javadocs for =LoadListener= and =LoadEvent= are dreadfully out of date.
