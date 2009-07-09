@@ -626,10 +626,7 @@ public class XMLPrinter extends Printer {
         indent().append("<annotation-default-attribute>").eol();
         raiseIndent();
 
-        indent();
-        append("<element-value>");
         super.visitAnnotationDefault_attribute(attribute);
-        append("</element-value>").eol();
 
         lowerIndent();
         indent().append("</annotation-default-attribute>").eol();
