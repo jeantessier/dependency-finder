@@ -1,0 +1,4 @@
+Found another example of an annotation that takes array and class values even
+closer to home in =org.junit.Test= and =org.junit.runners.Suite.SuiteClasses=.
+And even better, =TestAll= has both of these, so all I need to do to find an
+example is analyze =TestAll=.
