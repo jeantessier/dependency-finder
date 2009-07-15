@@ -7,7 +7,7 @@ focus on what needs to be done.
 
 [[../images/Visitor_Composition.gif]]
 
-For instance, the =visit*()= methods would look like:
+For instance, the =visitMethod%5Finfo()= methods would look like:
 
     public class *VisitorDecorator* implements Visitor {
         public void *visitMethod%5Finfo*(Method%5Finfo method) {
