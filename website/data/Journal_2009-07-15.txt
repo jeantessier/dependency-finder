@@ -70,6 +70,14 @@ processing of the current node.  The =TraversalVisitor= instead calls
 =attribute.accept(getDelegate())=, moving the processing further along the
 structure.
 
+The flow of control would constantly pass back and forth between the two
+visitors.  It all pretty much depends on which one starts the ball rolling.
+
+The reason I'm revisiting this issue is because I find myself in need of a
+=com.jeantessier.dependency.Visitor= that would traverse the graph depth-first
+along _inbound_ and _outbound_ dimensions, instead of a the current shallow
+traversal.
+
 The code to use this would look like:
 
     Printer printer = new TextPrinter(...);
@@ -80,9 +88,4 @@ The code to use this would look like:
 
     printer.traverseNodes(factory.getPackages().values());
 
-The flow of control would constantly pass back and forth between the two
-visitors.  It all pretty much depends on which one starts the ball rolling.
-
-The reason I'm revisiting this issue is because I find myself in need of a
-text printer that would traverse the graph depth-first instead of a the current
-shallow traversal.
+And I could use it to print transitive closures, based on the _start_ criteria.
