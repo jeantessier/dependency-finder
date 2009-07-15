@@ -171,12 +171,12 @@ sub PrintDocumentPart {
         $line =~ s/=([^=]*)=/<code>\1<\/code>/g;
         $line =~ s/_([^_]*)_/<i>\1<\/i>/g;
         $line =~ s/\*([^*]*)\*/<b>\1<\/b>/g;
-        $line =~ s/\[\[(http[^\]]*)\]\[(http.*\.((gif)|(jpg)))\]\]/<a target="_blank" href="\1"><img border="0" src="\2" \/><\/a><br \/>/gi;
-        $line =~ s/\[\[(http[^\]]*)\]\[(.*\.((gif)|(jpg)))\]\]/<a target="_blank" href="\1"><img border="0" src="http:\/\/depfind.sf.net\/cgi-bin\/\2" \/><\/a><br \/>/gi;
-        $line =~ s/\[\[([^\]]*)\]\[(http.*\.((gif)|(jpg)))\]\]/<a target="_blank" href="http:\/\/depfind.sf.net\/cgi-bin\/\1"><img border="0" src="\2" \/><\/a><br \/>/gi;
-        $line =~ s/\[\[([^\]]*)\]\[(.*\.((gif)|(jpg)))\]\]/<a target="_blank" href="http:\/\/depfind.sf.net\/cgi-bin\/\1"><img border="0" src="http:\/\/depfind.sf.net\/cgi-bin\/\2" \/><\/a><br \/>/gi;
-        $line =~ s/\[\[(http[^\]]*\.((gif)|(jpg)))\]\]/<img src="\1" \/><br \/>/gi;
-        $line =~ s/\[\[([^\]]*\.((gif)|(jpg)))\]\]/<img src="http:\/\/depfind.sf.net\/cgi-bin\/\1" \/><br \/>/gi;
+        $line =~ s/\[\[(http[^\]]*)\]\[(http.*\.((gif)|(jpg)|(png)))\]\]/<a target="_blank" href="\1"><img border="0" src="\2" \/><\/a><br \/>/gi;
+        $line =~ s/\[\[(http[^\]]*)\]\[(.*\.((gif)|(jpg)|(png)))\]\]/<a target="_blank" href="\1"><img border="0" src="http:\/\/depfind.sf.net\/cgi-bin\/\2" \/><\/a><br \/>/gi;
+        $line =~ s/\[\[([^\]]*)\]\[(http.*\.((gif)|(jpg)|(png)))\]\]/<a target="_blank" href="http:\/\/depfind.sf.net\/cgi-bin\/\1"><img border="0" src="\2" \/><\/a><br \/>/gi;
+        $line =~ s/\[\[([^\]]*)\]\[(.*\.((gif)|(jpg)|(png)))\]\]/<a target="_blank" href="http:\/\/depfind.sf.net\/cgi-bin\/\1"><img border="0" src="http:\/\/depfind.sf.net\/cgi-bin\/\2" \/><\/a><br \/>/gi;
+        $line =~ s/\[\[(http[^\]]*\.((gif)|(jpg)|(png)))\]\]/<img src="\1" \/><br \/>/gi;
+        $line =~ s/\[\[([^\]]*\.((gif)|(jpg)|(png)))\]\]/<img src="http:\/\/depfind.sf.net\/cgi-bin\/\1" \/><br \/>/gi;
         $line =~ s/\[\[(\d\d\d\d-\d\d-\d\d)\]\]/<a href="http:\/\/depfind.sf.net\/cgi-bin\/Journal.cgi#\1">\1<\/a>/gi;
         $line =~ s/\[\[(http[^\]]*)\]\[(.*)\]\]/<a target="_blank" href="\1">\2<\/a>/g;
         $line =~ s/\[\[([^\]]*)\]\[(.*)\]\]/<a target="_blank" href="http:\/\/depfind.sf.net\/cgi-bin\/\1">\2<\/a>/g;
