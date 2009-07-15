@@ -1,3 +1,6 @@
+Spiked on printing the call graph for closures as a chain of calls instead of
+a flat dependency graph.
+
 Back on [[2008-11-05]], I troyed with the idea of using composition to deal with
 sharing behavior in the =com.jeantessier.classreader.Visitor= hierarchy.  At the
 time, I was thinking of wrapping a =TextPrinter= inside a =TraversalVisitor=,
