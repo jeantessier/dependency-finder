@@ -1,0 +1,6 @@
+I have been running an experiment to launch Dependency Finder as an instance of
+Jetty with the web app UI.  But Jetty seems flaky.  It runs fine at first, but
+after a while, it starts throwing messages that can cannot find classes that
+are obviously in the JAR.  I don't get it.  I've reverted to using Tomcat for
+now.  I removed all the applications in its =webapps= folder and deployed
+Dependency Finder as =ROOT= so I don't need a path element to access it.
