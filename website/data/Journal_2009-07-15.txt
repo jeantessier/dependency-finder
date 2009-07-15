@@ -13,7 +13,21 @@ to traverse a nodes subsequent structure.  The inner visitor would still have to
 call out to the outer one whenever it moves to a new node, though.  Reminds me
 of cross recursion, somehow.
 
+[[../images/Visitor%5FCross%5FComposition.png]]
+
 The code for =visitMethod%5Finfo()= would look something like:
+
+    public abstract class *VisitorDecorator* implements Visitor {
+        private Visitor delegate;
+
+        public Visitor getDelegate() {
+            return delegate;
+        }
+
+        public void setDelegate(Visitor delegate) {
+            this.delegate = delegate;
+        }
+    }
 
     public class *TraversalVisitor* extends VisitorDecorator {
         public void *visitMethod%5Finfo*(Method%5Finfo method) {
@@ -21,6 +35,10 @@ The code for =visitMethod%5Finfo()= would look something like:
                 attribute.accept(*delegate*);
             }
         }
+    }
+
+    public abstract class Printer extends *VisitorDecorator* {
+        ...
     }
 
     public class *TextPrinter* extends Printer {
@@ -60,3 +78,7 @@ The code to use this would look like:
 
 The flow of control would constantly pass back and forth between the two
 visitors.  It all pretty much depends on which one starts the ball rolling.
+
+The reason I'm revisiting this issue is because I find myself in need of a
+text printer that would traverse the graph depth-first instead of a the current
+shallow traversal.
