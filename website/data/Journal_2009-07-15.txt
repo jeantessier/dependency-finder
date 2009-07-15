@@ -32,7 +32,7 @@ The code for =visitMethod%5Finfo()= would look something like:
     public class *TraversalVisitor* extends VisitorDecorator {
         public void *visitMethod%5Finfo*(Method%5Finfo method) {
             for(Attribute_info attribute : method.getAttributes()) {
-                attribute.accept(*delegate*);
+                attribute.accept(*getDelegate()*);
             }
         }
     }
@@ -44,7 +44,7 @@ The code for =visitMethod%5Finfo()= would look something like:
     public class *TextPrinter* extends Printer {
         public void *visitMethod%5Finfo*(Method%5Finfo method) {
             append("    ").append(method.getDeclaration()).append(";").eol();
-            method.accept(*delegate*);
+            method.accept(*getDelegate()*);
         }
     }
 
@@ -55,16 +55,17 @@ The code for =visitMethod%5Finfo()= would look something like:
 
             indent().append("&lt;declaration&gt;").append(method.getDeclaration()).append("&lt;/declaration&gt;").eol();
 
-            method.accept(*delegate*);
+            method.accept(*getDelegate()*);
 
             lowerIndent();
             indent().append("&lt;/method&gt;").eol();
         }
     }
 
-Notice how the printers call =method.accept(delegate)= to get further processing
-of the current node.  The =TraversalVisitor= instead calls
-=attribute.accept(delegate)=, moving the processing further along the strucutre.
+Notice how the printers call =method.accept(getDelegate())= to get further
+processing of the current node.  The =TraversalVisitor= instead calls
+=attribute.accept(getDelegate())=, moving the processing further along the
+structure.
 
 The code to use this would look like:
 
