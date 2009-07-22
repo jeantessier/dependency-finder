@@ -3,4 +3,7 @@ enum values referenced in annotation values.
 
 Found a bug: when =CodeDependencyCollector= visits the attributes of a class, it
 attaches dependencies to the last method it visited instead of to the class
-itself.
+itself.  Luckily, there is a handy hook called
+=VisitorBase.visitClassAnnotations()= that lets me intercept control and restore
+the current node right after visiting fields and methods and before visiting the
+annotations.

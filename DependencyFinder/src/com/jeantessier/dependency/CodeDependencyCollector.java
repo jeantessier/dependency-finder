@@ -109,6 +109,11 @@ public class CodeDependencyCollector extends CollectorBase {
         fireEndClass(classfile.getClassName());
     }
 
+    protected void visitClassfileAttributes(Classfile classfile) {
+        setCurrent(getFactory().createClass(classfile.getClassName()));
+        super.visitClassfileAttributes(classfile);
+    }
+
     public void visitClass_info(Class_info entry) {
         String classname = entry.getName();
         if (Logger.getLogger(getClass()).isDebugEnabled()) {

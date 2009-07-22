@@ -83,6 +83,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
     }
 
     public void testVisitClassfile_withoutsuperclass() {
+        expectClassNodeForClassname();
+
         checking(new Expectations() {{
             atLeast(1).of (mockClassfile).getClassName();
                 will(returnValue(TEST_CLASS_NAME));
@@ -103,6 +105,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
     public void testVisitClassfile_withsuperclass() {
         final Class_info mockRawSuperclass = mock(Class_info.class);
         final ClassNode mockSuperclassNode = mock(ClassNode.class, "superclass");
+
+        expectClassNodeForClassname();
 
         checking(new Expectations() {{
             atLeast(1).of (mockClassfile).getClassName();
@@ -135,6 +139,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         final Collection<Class_info> allInterfaces = new ArrayList<Class_info>();
         allInterfaces.add(mockInterface);
 
+        expectClassNodeForClassname();
+
         checking(new Expectations() {{
             atLeast(1).of (mockClassfile).getClassName();
                 will(returnValue(TEST_CLASS_NAME));
@@ -160,6 +166,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
 
     public void testVisitClassfile_fireevents() {
         final DependencyListener mockListener = mock(DependencyListener.class);
+
+        expectClassNodeForClassname();
 
         checking(new Expectations() {{
             atLeast(1).of (mockClassfile).getClassName();
@@ -261,6 +269,25 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
 
         sut.setCurrent(mockClassNode);
         sut.visitClassElementValue(mockClassElementValue);
+    }
+
+    public void testVisitClassAnnotations() {
+        expectClassNodeForClassname();
+
+        checking(new Expectations() {{
+            ignoring (mockClassfile).getAttributes();
+        }});
+
+        sut.visitClassfileAttributes(mockClassfile);
+    }
+
+    private void expectClassNodeForClassname() {
+        checking(new Expectations() {{
+            one (mockClassfile).getClassName();
+                will(returnValue(TEST_CLASS_NAME));
+            one (mockFactory).createClass(TEST_CLASS_NAME);
+                will(returnValue(mockClassNode));
+        }});
     }
 
     private Action createEventCheckingAction(final String expectedClassName) {
