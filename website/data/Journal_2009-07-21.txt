@@ -1,0 +1,6 @@
+Fixed =CodeDependencyCollector= to correctly track dependencies on classes and
+enum values referenced in annotation values.
+
+Found a bug: when =CodeDependencyCollector= visits the attributes of a class, it
+attaches dependencies to the last method it visited instead of to the class
+itself.

@@ -229,6 +229,40 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         sut.visitAnnotation(mockAnnotation);
     }
 
+    public void testVisitEnumElementValue() {
+        final EnumElementValue mockEnumElementValue = mock(EnumElementValue.class);
+        final FeatureNode mockDependableFeatureNode = mock(FeatureNode.class, "dependable.CONSTANT");
+
+        checking(new Expectations() {{
+            one (mockEnumElementValue).getTypeName();
+                will(returnValue("dependable.Dependable"));
+            one (mockEnumElementValue).getConstName();
+                will(returnValue("CONSTANT"));
+            one (mockFactory).createFeature("dependable.Dependable.CONSTANT");
+                will(returnValue(mockDependableFeatureNode));
+            one (mockClassNode).addDependency(mockDependableFeatureNode);
+        }});
+
+        sut.setCurrent(mockClassNode);
+        sut.visitEnumElementValue(mockEnumElementValue);
+    }
+
+    public void testVisitClassElementValue() {
+        final ClassElementValue mockClassElementValue = mock(ClassElementValue.class);
+        final ClassNode mockDependableClassNode = mock(ClassNode.class, "dependable");
+
+        checking(new Expectations() {{
+            one (mockClassElementValue).getClassInfo();
+                will(returnValue("dependable.Dependable"));
+            one (mockFactory).createClass("dependable.Dependable");
+                will(returnValue(mockDependableClassNode));
+            one (mockClassNode).addDependency(mockDependableClassNode);
+        }});
+
+        sut.setCurrent(mockClassNode);
+        sut.visitClassElementValue(mockClassElementValue);
+    }
+
     private Action createEventCheckingAction(final String expectedClassName) {
         return
             perform(

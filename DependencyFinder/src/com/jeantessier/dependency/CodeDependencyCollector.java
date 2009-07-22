@@ -118,13 +118,8 @@ public class CodeDependencyCollector extends CollectorBase {
 
         if (classname.startsWith("[")) {
             processDescriptor(classname);
-        } else if (filterCriteria.isMatchingClasses() && filterCriteria.matchesClassName(classname)) {
-            Node other = getFactory().createClass(classname);
-            getCurrent().addDependency(other);
-            if (Logger.getLogger(getClass()).isDebugEnabled()) {
-                Logger.getLogger(getClass()).info("Class_info dependency: " + getCurrent() + " --> " + other);
-            }
-            fireDependency(getCurrent(), other);
+        } else {
+            processClassName(classname);
         }
     }
 
@@ -266,17 +261,29 @@ public class CodeDependencyCollector extends CollectorBase {
     }
 
     public void visitAnnotation(Annotation helper) {
-        String classname = helper.getType();
-        if (filterCriteria.isMatchingClasses() && filterCriteria.matchesClassName(classname)) {
-            Node other = getFactory().createClass(classname);
+        processClassName(helper.getType());
+
+        super.visitAnnotation(helper);
+    }
+
+    public void visitEnumElementValue(EnumElementValue helper) {
+        String signature = helper.getTypeName() + "." + helper.getConstName();
+        if (filterCriteria.isMatchingFeatures() && filterCriteria.matchesFeatureName(signature)) {
+            Node other = getFactory().createFeature(signature);
             getCurrent().addDependency(other);
             if (Logger.getLogger(getClass()).isDebugEnabled()) {
-                Logger.getLogger(getClass()).info("Class_info dependency: " + getCurrent() + " --> " + other);
+                Logger.getLogger(getClass()).info("EnumElementValue dependency: " + getCurrent() + " --> " + other);
             }
             fireDependency(getCurrent(), other);
         }
 
-        super.visitAnnotation(helper);
+        super.visitEnumElementValue(helper);
+    }
+
+    public void visitClassElementValue(ClassElementValue helper) {
+        processClassName(helper.getClassInfo());
+
+        super.visitClassElementValue(helper);
     }
 
     private void processDescriptor(String str) {
@@ -286,22 +293,25 @@ public class CodeDependencyCollector extends CollectorBase {
 
         while ((startPos = str.indexOf('L', currentPos)) != -1) {
             if ((endPos = str.indexOf(';', startPos)) != -1) {
-                String classname = ClassNameHelper.path2ClassName(str.substring(startPos + 1, endPos));
-                if (filterCriteria.isMatchingClasses() && filterCriteria.matchesClassName(classname)) {
-                    if (Logger.getLogger(getClass()).isDebugEnabled()) {
-                        Logger.getLogger(getClass()).debug("    Adding \"" + classname + "\"");
-                    }
-                    Node other = getFactory().createClass(classname);
-                    getCurrent().addDependency(other);
-                    if (Logger.getLogger(getClass()).isDebugEnabled()) {
-                        Logger.getLogger(getClass()).info("descriptor dependency: " + getCurrent() + " --> " + other);
-                    }
-                    fireDependency(getCurrent(), other);
-                }
+                processClassName(ClassNameHelper.path2ClassName(str.substring(startPos + 1, endPos)));
                 currentPos = endPos + 1;
             } else {
                 currentPos = startPos + 1;
             }
+        }
+    }
+
+    private void processClassName(String classname) {
+        if (filterCriteria.isMatchingClasses() && filterCriteria.matchesClassName(classname)) {
+            if (Logger.getLogger(getClass()).isDebugEnabled()) {
+                Logger.getLogger(getClass()).debug("    Adding \"" + classname + "\"");
+            }
+            Node other = getFactory().createClass(classname);
+            getCurrent().addDependency(other);
+            if (Logger.getLogger(getClass()).isDebugEnabled()) {
+                Logger.getLogger(getClass()).info("Class_info dependency: " + getCurrent() + " --> " + other);
+            }
+            fireDependency(getCurrent(), other);
         }
     }
 
