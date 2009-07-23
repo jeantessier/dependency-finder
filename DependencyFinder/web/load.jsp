@@ -80,6 +80,15 @@
 <title>Load <%= application.getInitParameter("name") %></title>
 </head>
 
+<!-- Reading the parameters and setting up the forms -->
+
+<%
+    String label = request.getParameter("label");
+    if (label == null) {
+        label = (String) application.getAttribute("label");
+    }
+%>
+
 <body>
 
 <table cellpadding="5">
@@ -88,8 +97,8 @@
 
 <div class="title">
 <span id="name"><%= application.getInitParameter("name") %></span>
-<% if (application.getAttribute("label") != null ) { %>
-<span id="label"><%= application.getAttribute("label") %></span>
+<% if (label != null ) { %>
+<span id="label"><%= label %></span>
 <% } %>
 </div>
 
@@ -160,7 +169,7 @@
             <br />
             <form method="post" action="<%= request.getRequestURI() %>">
                 <input type="submit" name="launch" value="Launch"/>
-                <font size="smaller">optional label:</font> <input type="text" name="label" value="<%= (application.getAttribute("label") != null) ? application.getAttribute("label") : "" %>" />
+                <font size="smaller">optional label:</font> <input type="text" name="label" value="<%= (label != null) ? label : "" %>" />
             </form>
         </td>
     </tr>

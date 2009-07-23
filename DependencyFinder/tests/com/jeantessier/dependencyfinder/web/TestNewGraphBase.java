@@ -32,22 +32,21 @@
 
 package com.jeantessier.dependencyfinder.web;
 
+import java.util.*;
+
 import com.meterware.httpunit.*;
 
 public abstract class TestNewGraphBase extends TestBase {
-    public void testClearingLabel() throws Exception {
+    public void testTemporaryLabelOverride() throws Exception {
+        String temporaryLabel = "temporary label " + new Random().nextLong();
+        request.setParameter("label", temporaryLabel);
+
         context.service();
         WebResponse response = client.getResponse(request);
         WebForm form = response.getForms()[0];
 
-        assertEquals("label in form", label, form.getParameterValue("label"));
-
-        form.setParameter("label", "");
-        response = form.submit(form.getSubmitButtons()[0]);
-        form = response.getForms()[0];
-
-        assertNull("label is still on page", response.getElementWithID("label"));
-        assertNull("label is still in the application", getApplication().getAttribute("label"));
-        assertNull("label in form", form.getParameterValue("label"));
+        assertEquals("label on page", temporaryLabel, response.getElementWithID("label").getText());
+        assertEquals("label in the application", label, getApplication().getAttribute("label"));
+        assertEquals("label in form", temporaryLabel, form.getParameterValue("label"));
     }
 }
