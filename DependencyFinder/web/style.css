@@ -1,10 +1,10 @@
 body {
     background: rgb(255, 235, 205);
-    color:      rgb( 25,  25, 112);
+    color: rgb(25, 25, 112);
 }
 
 table.controls {
-    background:   rgb(204, 204, 255);
+    background: rgb(204, 204, 255);
     border-width: 3;
 }
 
@@ -21,10 +21,10 @@ legend {
 }
 
 .title {
-    text-align:  center;
-    font-famiy:  courier, monospace;
+    text-align: center;
+    font-family: courier, monospace;
     font-weight: bold;
-    font-size:   larger;
+    font-size: larger;
 }
 
 .navigation {
@@ -35,7 +35,7 @@ legend {
 }
 
 .result {
-    color:  black;
+    color: black;
 }
 
 .footer {
