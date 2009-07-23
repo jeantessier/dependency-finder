@@ -84,8 +84,15 @@
 
 <table cellpadding="5">
     <tr>
-        <td class="title">
-            <code><%= application.getInitParameter("name") %></code>
+        <td>
+
+<div class="title">
+<span id="name"><%= application.getInitParameter("name") %></span>
+<% if (application.getAttribute("label") != null ) { %>
+<span id="label"><%= application.getAttribute("label") %></span>
+<% } %>
+</div>
+
         </td>
     </tr>
     <tr>
@@ -153,6 +160,7 @@
             <br />
             <form method="post" action="<%= request.getRequestURI() %>">
                 <input type="submit" name="launch" value="Launch"/>
+                <font size="smaller">optional label:</font> <input type="text" name="label" value="<%= (application.getAttribute("label") != null) ? application.getAttribute("label") : "" %>" />
             </form>
         </td>
     </tr>
@@ -229,6 +237,12 @@
         application.setAttribute("factory",      factory);
         application.setAttribute("loadStart",    formatter.format(start));
         application.setAttribute("loadDuration", duration);
+
+        if ("".equals(request.getParameter("label"))) {
+            application.setAttribute("label", null);
+        } else {
+            application.setAttribute("label", request.getParameter("label"));
+        }
 
         application.removeAttribute("dispatcher");
         application.removeAttribute("monitor");

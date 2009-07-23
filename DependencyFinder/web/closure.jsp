@@ -3,7 +3,7 @@
 <%@ page errorPage="errorpage.jsp" %>
 
 <!--
-    Copyright (c) 2001-2009, Jean Tessier
+    Copyright (c) 2001-2007, Jean Tessier
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without
@@ -94,7 +94,12 @@
 
 <table border="0" cellpadding="5"><tr><td colspan="2">
 
-<p class="title"><code><%= application.getInitParameter("name") %></code></p>
+<div class="title">
+<span id="name"><%= application.getInitParameter("name") %></span>
+<% if (application.getAttribute("label") != null ) { %>
+<span id="label"><%= application.getAttribute("label") %></span>
+<% } %>
+</div>
 
 </td></tr><tr><td colspan="2" align="center">
 

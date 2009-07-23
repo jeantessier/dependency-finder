@@ -32,22 +32,8 @@
 
 package com.jeantessier.dependencyfinder.web;
 
-import org.junit.runner.*;
-import org.junit.runners.*;
-import static org.junit.runners.Suite.*;
-
-@RunWith(Suite.class)
-@SuiteClasses({
-        TestExtract.class,
-        TestLoad.class,
-        TestQuery.class,
-        TestAdvancedQuery.class,
-        TestClosure.class,
-        TestAdvancedClosure.class,
-        TestCycles.class,
-        TestAdvancedCycles.class,
-        TestMetrics.class,
-        TestAdvancedMetrics.class
-})
-public class TestAll {
+public class TestLoad extends TestNewGraphBase {
+    protected String getStartUrl() {
+        return "http://localhost/web/load.jsp";
+    }
 }

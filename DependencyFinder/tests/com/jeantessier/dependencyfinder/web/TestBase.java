@@ -35,6 +35,8 @@ package com.jeantessier.dependencyfinder.web;
 import java.io.*;
 import java.util.*;
 
+import javax.servlet.*;
+
 import junit.framework.*;
 
 import org.apache.log4j.*;
@@ -67,11 +69,13 @@ public abstract class TestBase extends TestCase {
     protected String rightPackageName;
     protected String rightClassName;
     protected String rightFeatureName;
-    
+
     protected NodeFactory factory;
     protected ServletUnitClient client;
     protected WebRequest request;
     protected InvocationContext context;
+
+    protected String label;
 
     protected void setUp() throws Exception {
         super.setUp();
@@ -115,11 +119,30 @@ public abstract class TestBase extends TestCase {
         request = new GetMethodWebRequest(getStartUrl());
         context = client.newInvocation(request);
 
-        client.getSession(true).getServletContext().setAttribute("factory", factory);
+        label = "label " + random.nextLong();
+
+        getApplication().setAttribute("label", label);
+        getApplication().setAttribute("factory", factory);
+    }
+
+    public void testNoLabel() throws Exception {
+        getApplication().removeAttribute("label");
+
+        context.service();
+        WebResponse response = client.getResponse(request);
+        assertEquals("name", "Dependency Finder", response.getElementWithID("name").getText());
+        assertNull("label", response.getElementWithID("label"));
+    }
+
+    public void testLabel() throws Exception {
+        context.service();
+        WebResponse response = client.getResponse(request);
+        assertEquals("name", "Dependency Finder", response.getElementWithID("name").getText());
+        assertEquals("label", label, response.getElementWithID("label").getText());
     }
 
     public void testNoDependencyGraph() throws Exception {
-        client.getSession(true).getServletContext().removeAttribute("factory");
+        getApplication().removeAttribute("factory");
 
         context.service();
         WebResponse response = client.getResponse(request);
@@ -127,7 +150,7 @@ public abstract class TestBase extends TestCase {
     }
 
     public void testEmptyDependencyGraph() throws Exception {
-        client.getSession(true).getServletContext().setAttribute("factory", new NodeFactory());
+        getApplication().setAttribute("factory", new NodeFactory());
 
         context.service();
         WebResponse response = client.getResponse(request);
@@ -138,6 +161,10 @@ public abstract class TestBase extends TestCase {
         context.service();
         WebResponse response = client.getResponse(request);
         assertFalse("Unexpected text \"" + NO_GRAPH_MESSAGE + "\"", response.getText().contains(NO_GRAPH_MESSAGE));
+    }
+
+    protected ServletContext getApplication() {
+      return client.getSession(true).getServletContext();
     }
 
     protected abstract String getStartUrl();
