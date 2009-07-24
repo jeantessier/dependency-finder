@@ -14,6 +14,24 @@
     </tr>
 </table>
 
+<p>Given the class-level graph:</p>
+
+<pre>
+    a.A --&gt; b.B --&gt; c.C
+     ^               |
+     |               |
+     +---------------+
+</pre>
+
+<p>The cycle should print out as:</p>
+
+<pre>
+    a.A
+        --&gt; b.B
+            --&gt; c.C
+                --&gt; a.A
+</pre>
+
 <h2>Setup</h2>
 
 <p>Create some nodes</p>
