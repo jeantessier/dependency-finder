@@ -519,7 +519,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         printer.visitAnnotationDefault_attribute(annotationDefault);
 
         String xmlDocument = buffer.toString();
-        assertXPathCount(xmlDocument, "annotation-default-attribute/element-value", 1);
+        assertXPathCount(xmlDocument, "annotation-default-attribute", 1);
     }
 
     public void testVisitParameter_WithoutAnnotations() throws Exception {
