@@ -1,0 +1,4 @@
+Fixed some tests.  Some of the Fit tests needed better explanations.  There was
+one broken test in =com.jeantessier.classreader.TestXMLPrinter=.  This last one
+was checked in broken, after I made a last minute change to the XML format.  I
+need to be better disciplined at running all the tests before I check in code.
