@@ -36,6 +36,7 @@ import java.util.*;
 
 import org.jmock.*;
 import org.jmock.integration.junit4.*;
+import org.jmock.lib.legacy.*;
 import org.junit.*;
 import org.junit.runner.*;
 
@@ -43,7 +44,7 @@ import org.junit.runner.*;
 public class TestVisitorDecorator {
     private Mockery context;
 
-    private Visitor mockVisitor;
+    private Visitor delegate;
 
     private PackageNode packageNode;
     private ClassNode classNode;
@@ -54,15 +55,16 @@ public class TestVisitorDecorator {
     @Before
     public void setUp() {
         context = new Mockery();
+        context.setImposteriser(ClassImposteriser.INSTANCE);
 
-        mockVisitor = context.mock(Visitor.class);
+        delegate = context.mock(Visitor.class);
 
-        packageNode = new PackageNode("foo", true);
-        classNode = new ClassNode(packageNode, "foo.Foo", true);
-        featureNode = new FeatureNode(classNode, "foo.Foo.foo", true);
+        packageNode = context.mock(PackageNode.class);
+        classNode = context.mock(ClassNode.class);
+        featureNode = context.mock(FeatureNode.class);
 
         sut = new VisitorDecorator();
-        sut.setDelegate(mockVisitor);
+        sut.setDelegate(delegate);
     }
 
     @Test
@@ -70,7 +72,7 @@ public class TestVisitorDecorator {
         final Collection<? extends Node> nodes = new ArrayList<Node>();
 
         context.checking(new Expectations() {{
-            one (mockVisitor).traverseNodes(nodes);
+            one (delegate).traverseNodes(nodes);
         }});
 
         sut.traverseNodes(nodes);
@@ -79,7 +81,7 @@ public class TestVisitorDecorator {
     @Test
     public void testVisitPackageNodes() {
         context.checking(new Expectations() {{
-            one (mockVisitor).visitPackageNode(packageNode);
+            one (packageNode).accept(delegate);
         }});
 
         sut.visitPackageNode(packageNode);
@@ -88,7 +90,7 @@ public class TestVisitorDecorator {
     @Test
     public void testVisitInboundPackageNodes() {
         context.checking(new Expectations() {{
-            one (mockVisitor).visitInboundPackageNode(packageNode);
+            one (packageNode).acceptInbound(delegate);
         }});
 
         sut.visitInboundPackageNode(packageNode);
@@ -97,7 +99,7 @@ public class TestVisitorDecorator {
     @Test
     public void testVisitOutboundPackageNodes() {
         context.checking(new Expectations() {{
-            one (mockVisitor).visitOutboundPackageNode(packageNode);
+            one (packageNode).acceptOutbound(delegate);
         }});
 
         sut.visitOutboundPackageNode(packageNode);
@@ -106,7 +108,7 @@ public class TestVisitorDecorator {
     @Test
     public void testVisitClassNodes() {
         context.checking(new Expectations() {{
-            one (mockVisitor).visitClassNode(classNode);
+            one (classNode).accept(delegate);
         }});
 
         sut.visitClassNode(classNode);
@@ -115,7 +117,7 @@ public class TestVisitorDecorator {
     @Test
     public void testVisitInboundClassNodes() {
         context.checking(new Expectations() {{
-            one (mockVisitor).visitInboundClassNode(classNode);
+            one (classNode).acceptInbound(delegate);
         }});
 
         sut.visitInboundClassNode(classNode);
@@ -124,7 +126,7 @@ public class TestVisitorDecorator {
     @Test
     public void testVisitOutboundClassNodes() {
         context.checking(new Expectations() {{
-            one (mockVisitor).visitOutboundClassNode(classNode);
+            one (classNode).acceptOutbound(delegate);
         }});
 
         sut.visitOutboundClassNode(classNode);
@@ -133,7 +135,7 @@ public class TestVisitorDecorator {
     @Test
     public void testVisitFeatureNodes() {
         context.checking(new Expectations() {{
-            one (mockVisitor).visitFeatureNode(featureNode);
+            one (featureNode).accept(delegate);
         }});
 
         sut.visitFeatureNode(featureNode);
@@ -142,7 +144,7 @@ public class TestVisitorDecorator {
     @Test
     public void testVisitInboundFeatureNodes() {
         context.checking(new Expectations() {{
-            one (mockVisitor).visitInboundFeatureNode(featureNode);
+            one (featureNode).acceptInbound(delegate);
         }});
 
         sut.visitInboundFeatureNode(featureNode);
@@ -151,7 +153,7 @@ public class TestVisitorDecorator {
     @Test
     public void testVisitOutboundFeatureNodes() {
         context.checking(new Expectations() {{
-            one (mockVisitor).visitOutboundFeatureNode(featureNode);
+            one (featureNode).acceptOutbound(delegate);
         }});
 
         sut.visitOutboundFeatureNode(featureNode);

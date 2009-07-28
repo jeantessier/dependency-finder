@@ -37,47 +37,51 @@ import java.util.*;
 public class VisitorDecorator implements Visitor {
     private Visitor delegate;
 
+    public Visitor getDelegate() {
+        return delegate;
+    }
+
     public void setDelegate(Visitor delegate) {
         this.delegate = delegate;
     }
 
     public void traverseNodes(Collection<? extends Node> nodes) {
-        delegate.traverseNodes(nodes);
+        getDelegate().traverseNodes(nodes);
     }
 
     public void visitPackageNode(PackageNode node) {
-        delegate.visitPackageNode(node);
+        node.accept(getDelegate());
     }
 
     public void visitInboundPackageNode(PackageNode node) {
-        delegate.visitInboundPackageNode(node);
+        node.acceptInbound(getDelegate());
     }
 
     public void visitOutboundPackageNode(PackageNode node) {
-        delegate.visitOutboundPackageNode(node);
+        node.acceptOutbound(getDelegate());
     }
 
     public void visitClassNode(ClassNode node) {
-        delegate.visitClassNode(node);
+        node.accept(getDelegate());
     }
 
     public void visitInboundClassNode(ClassNode node) {
-        delegate.visitInboundClassNode(node);
+        node.acceptInbound(getDelegate());
     }
 
     public void visitOutboundClassNode(ClassNode node) {
-        delegate.visitOutboundClassNode(node);
+        node.acceptOutbound(getDelegate());
     }
 
     public void visitFeatureNode(FeatureNode node) {
-        delegate.visitFeatureNode(node);
+        node.accept(getDelegate());
     }
 
     public void visitInboundFeatureNode(FeatureNode node) {
-        delegate.visitInboundFeatureNode(node);
+        node.acceptInbound(getDelegate());
     }
 
     public void visitOutboundFeatureNode(FeatureNode node) {
-        delegate.visitOutboundFeatureNode(node);
+        node.acceptOutbound(getDelegate());
     }
 }
