@@ -69,13 +69,13 @@ public abstract class VisitorBase implements Visitor {
         }
     }
 
-    protected void traverseInbound(Collection<? extends Node> nodes) {
+    public void traverseInbound(Collection<? extends Node> nodes) {
         for (Node node : getStrategy().order(nodes)) {
             node.acceptInbound(this);
         }
     }
 
-    protected void traverseOutbound(Collection<? extends Node> nodes) {
+    public void traverseOutbound(Collection<? extends Node> nodes) {
         for (Node node : getStrategy().order(nodes)) {
             node.acceptOutbound(this);
         }

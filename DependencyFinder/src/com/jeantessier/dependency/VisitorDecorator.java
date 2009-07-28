@@ -49,6 +49,14 @@ public class VisitorDecorator implements Visitor {
         getDelegate().traverseNodes(nodes);
     }
 
+    public void traverseInbound(Collection<? extends Node> nodes) {
+        getDelegate().traverseInbound(nodes);
+    }
+
+    public void traverseOutbound(Collection<? extends Node> nodes) {
+        getDelegate().traverseOutbound(nodes);
+    }
+
     public void visitPackageNode(PackageNode node) {
         node.accept(getDelegate());
     }

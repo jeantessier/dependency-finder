@@ -46,7 +46,15 @@ public class NodeNamePrinter implements Visitor {
     }
 
     public void traverseNodes(Collection<? extends Node> nodes) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        throw new UnsupportedOperationException("not implemented yet.");
+    }
+
+    public void traverseInbound(Collection<? extends Node> nodes) {
+        throw new UnsupportedOperationException("not implemented yet.");
+    }
+
+    public void traverseOutbound(Collection<? extends Node> nodes) {
+        throw new UnsupportedOperationException("not implemented yet.");
     }
 
     public void visitPackageNode(PackageNode node) {
@@ -54,34 +62,34 @@ public class NodeNamePrinter implements Visitor {
     }
 
     public void visitInboundPackageNode(PackageNode node) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        throw new UnsupportedOperationException("not implemented yet.");
     }
 
     public void visitOutboundPackageNode(PackageNode node) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        throw new UnsupportedOperationException("not implemented yet.");
     }
 
     public void visitClassNode(ClassNode node) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        throw new UnsupportedOperationException("not implemented yet.");
     }
 
     public void visitInboundClassNode(ClassNode node) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        throw new UnsupportedOperationException("not implemented yet.");
     }
 
     public void visitOutboundClassNode(ClassNode node) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        throw new UnsupportedOperationException("not implemented yet.");
     }
 
     public void visitFeatureNode(FeatureNode node) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        throw new UnsupportedOperationException("not implemented yet.");
     }
 
     public void visitInboundFeatureNode(FeatureNode node) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        throw new UnsupportedOperationException("not implemented yet.");
     }
 
     public void visitOutboundFeatureNode(FeatureNode node) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        throw new UnsupportedOperationException("not implemented yet.");
     }
 }

@@ -57,6 +57,14 @@ public class ClosureStopSelector implements Visitor {
         }
     }
 
+    public void traverseInbound(Collection<? extends Node> nodes) {
+        throw new UnsupportedOperationException("not implemented yet.");
+    }
+
+    public void traverseOutbound(Collection<? extends Node> nodes) {
+        throw new UnsupportedOperationException("not implemented yet.");
+    }
+
     public void visitPackageNode(PackageNode node) {
         if (criteria.matches(node)) {
             done = true;

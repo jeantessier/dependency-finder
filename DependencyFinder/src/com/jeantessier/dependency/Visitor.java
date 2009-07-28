@@ -36,6 +36,8 @@ import java.util.*;
 
 public interface Visitor {
     public void traverseNodes(Collection<? extends Node> nodes);
+    public void traverseInbound(Collection<? extends Node> nodes);
+    public void traverseOutbound(Collection<? extends Node> nodes);
 
     public void visitPackageNode(PackageNode node);
     public void visitInboundPackageNode(PackageNode node);

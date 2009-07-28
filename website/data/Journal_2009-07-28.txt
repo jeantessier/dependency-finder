@@ -2,3 +2,7 @@ I don't know what I was thinking when I first wrote =VisitorDecorator=.  It was
 calling the counterpart method on the delegate directly instead of using double
 dispatch like I originally wanted to.  I fixed the tests, mocking more things
 along the way, and then fixed the code.
+
+Cleaning up the interface, I added =traverseInbound()= and =traverseOutbound()=
+to the =Visitor= interface.  Almost all implementations already had them already
+and the others ended up being no-ops.

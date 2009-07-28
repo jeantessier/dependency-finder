@@ -50,13 +50,17 @@ public class DeletingVisitor implements Visitor, RemoveVisitor {
     }
     
     public void traverseNodes(Collection<? extends Node> nodes) {
-//         Iterator i = nodes.iterator();
-//         while (i.hasNext()) {
-//             ((Node) i.next()).accept(this);
-//         }
+        throw new UnsupportedOperationException("not implemented yet.");
     }
 
-    /*
+    public void traverseInbound(Collection<? extends Node> nodes) {
+        throw new UnsupportedOperationException("not implemented yet.");
+    }
+
+    public void traverseOutbound(Collection<? extends Node> nodes) {
+        throw new UnsupportedOperationException("not implemented yet.");
+    }
+/*
      *  Regular visits are used to completely delete sections
      */
     

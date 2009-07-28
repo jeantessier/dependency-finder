@@ -79,6 +79,28 @@ public class TestVisitorDecorator {
     }
 
     @Test
+    public void testTraverseInbound() {
+        final Collection<? extends Node> nodes = new ArrayList<Node>();
+
+        context.checking(new Expectations() {{
+            one (delegate).traverseInbound(nodes);
+        }});
+
+        sut.traverseInbound(nodes);
+    }
+
+    @Test
+    public void testTraverseOutbound() {
+        final Collection<? extends Node> nodes = new ArrayList<Node>();
+
+        context.checking(new Expectations() {{
+            one (delegate).traverseOutbound(nodes);
+        }});
+
+        sut.traverseOutbound(nodes);
+    }
+
+    @Test
     public void testVisitPackageNode() {
         context.checking(new Expectations() {{
             one (packageNode).accept(delegate);

@@ -99,13 +99,13 @@ public class LCOM4Gatherer implements Visitor {
         traverseOutbound(node.getOutboundDependencies());
     }
 
-    private void traverseInbound(Collection<? extends Node> inboundDependencies) {
+    public void traverseInbound(Collection<? extends Node> inboundDependencies) {
         for (Node inboundDependency : inboundDependencies) {
             inboundDependency.acceptInbound(this);
         }
     }
 
-    private void traverseOutbound(Collection<? extends Node> outboundDependencies) {
+    public void traverseOutbound(Collection<? extends Node> outboundDependencies) {
         for (Node outboundDependency : outboundDependencies) {
             outboundDependency.acceptOutbound(this);
         }
