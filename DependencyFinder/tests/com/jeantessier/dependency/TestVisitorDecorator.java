@@ -79,7 +79,7 @@ public class TestVisitorDecorator {
     }
 
     @Test
-    public void testVisitPackageNodes() {
+    public void testVisitPackageNode() {
         context.checking(new Expectations() {{
             one (packageNode).accept(delegate);
         }});
@@ -88,7 +88,7 @@ public class TestVisitorDecorator {
     }
 
     @Test
-    public void testVisitInboundPackageNodes() {
+    public void testVisitInboundPackageNode() {
         context.checking(new Expectations() {{
             one (packageNode).acceptInbound(delegate);
         }});
@@ -97,7 +97,7 @@ public class TestVisitorDecorator {
     }
 
     @Test
-    public void testVisitOutboundPackageNodes() {
+    public void testVisitOutboundPackageNode() {
         context.checking(new Expectations() {{
             one (packageNode).acceptOutbound(delegate);
         }});
@@ -106,7 +106,7 @@ public class TestVisitorDecorator {
     }
 
     @Test
-    public void testVisitClassNodes() {
+    public void testVisitClassNode() {
         context.checking(new Expectations() {{
             one (classNode).accept(delegate);
         }});
@@ -115,7 +115,7 @@ public class TestVisitorDecorator {
     }
 
     @Test
-    public void testVisitInboundClassNodes() {
+    public void testVisitInboundClassNode() {
         context.checking(new Expectations() {{
             one (classNode).acceptInbound(delegate);
         }});
@@ -124,7 +124,7 @@ public class TestVisitorDecorator {
     }
 
     @Test
-    public void testVisitOutboundClassNodes() {
+    public void testVisitOutboundClassNode() {
         context.checking(new Expectations() {{
             one (classNode).acceptOutbound(delegate);
         }});
@@ -133,7 +133,7 @@ public class TestVisitorDecorator {
     }
 
     @Test
-    public void testVisitFeatureNodes() {
+    public void testVisitFeatureNode() {
         context.checking(new Expectations() {{
             one (featureNode).accept(delegate);
         }});
@@ -142,7 +142,7 @@ public class TestVisitorDecorator {
     }
 
     @Test
-    public void testVisitInboundFeatureNodes() {
+    public void testVisitInboundFeatureNode() {
         context.checking(new Expectations() {{
             one (featureNode).acceptInbound(delegate);
         }});
@@ -151,7 +151,7 @@ public class TestVisitorDecorator {
     }
 
     @Test
-    public void testVisitOutboundFeatureNodes() {
+    public void testVisitOutboundFeatureNode() {
         context.checking(new Expectations() {{
             one (featureNode).acceptOutbound(delegate);
         }});
