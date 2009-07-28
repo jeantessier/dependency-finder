@@ -1,0 +1,4 @@
+I don't know what I was thinking when I first wrote =VisitorDecorator=.  It was
+calling the counterpart method on the delegate directly instead of using double
+dispatch like I originally wanted to.  I fixed the tests, mocking more things
+along the way, and then fixed the code.
