@@ -12,3 +12,7 @@ filtering, but I'm not happy with it.  It is not clear where scope versus filter
 activities should happen.  I feel like I need a separate class to do the scoping
 and filtering, but now the composition of decorators is getting quite
 non-trivial.
+
+I changed my IntelliJ IDEA configuration to use JDK 1.6 on my MacBook Pro.  My
+shell is still stuck on JDK 1.5.  I wonder how they will interact, when I happen
+to compile in IDEA and try to run some tool from the command line.
