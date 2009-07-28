@@ -51,6 +51,7 @@ import static org.junit.runners.Suite.*;
         TestRegularExpressionSelectionCriteria.class,
         TestCollectionSelectionCriteria.class,
         TestSelectiveTraversalStrategy.class,
+        TestVisitorDecorator.class,
         TestLinkMinimizer.class,
         TestLinkMinimizerSystematic.class,
         TestLinkMaximizer.class,

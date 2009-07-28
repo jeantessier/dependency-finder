@@ -1,0 +1,3 @@
+Started down the path of composite visitors.  Wrote
+=com.jeantessier.dependency.VisitorDecorator= to start composing visitors for
+dependency graphs.
