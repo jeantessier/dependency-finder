@@ -6,3 +6,9 @@ along the way, and then fixed the code.
 Cleaning up the interface, I added =traverseInbound()= and =traverseOutbound()=
 to the =Visitor= interface.  Almost all implementations already had them already
 and the others ended up being no-ops.
+
+I wrote a =BasicTraversal= visitor that uses a =TraversalStrategy= to do some
+filtering, but I'm not happy with it.  It is not clear where scope versus filter
+activities should happen.  I feel like I need a separate class to do the scoping
+and filtering, but now the composition of decorators is getting quite
+non-trivial.
