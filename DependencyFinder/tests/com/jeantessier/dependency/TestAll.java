@@ -53,6 +53,7 @@ import static org.junit.runners.Suite.*;
         TestSelectiveTraversalStrategy.class,
         TestVisitorDecorator.class,
         TestBasicTraversal.class,
+        TestSelectiveVisitor.class,
         TestLinkMinimizer.class,
         TestLinkMinimizerSystematic.class,
         TestLinkMaximizer.class,
