@@ -35,36 +35,27 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public class BasicTraversal extends VisitorDecorator {
-    private final TraversalStrategy traversalStrategy;
-
-    public BasicTraversal(TraversalStrategy traversalStrategy) {
-        this.traversalStrategy = traversalStrategy;
-    }
-
     public void traverseNodes(Collection<? extends Node> nodes) {
-        for (Node node : traversalStrategy.order(nodes)) {
+        for (Node node : nodes) {
             node.accept(getDelegate());
         }
     }
 
     public void traverseInbound(Collection<? extends Node> nodes) {
-        for (Node node : traversalStrategy.order(nodes)) {
+        for (Node node : nodes) {
             node.acceptInbound(getDelegate());
         }
     }
 
     public void traverseOutbound(Collection<? extends Node> nodes) {
-        for (Node node : traversalStrategy.order(nodes)) {
+        for (Node node : nodes) {
             node.acceptOutbound(getDelegate());
         }
     }
 
     public void visitPackageNode(PackageNode node) {
-        if (traversalStrategy.isInScope(node)) {
-            traverseInbound(node.getInboundDependencies());
-            traverseOutbound(node.getOutboundDependencies());
-            traverseNodes(node.getClasses());
-        }
+        traverseNodeDependencies(node);
+        getDelegate().traverseNodes(node.getClasses());
     }
 
     public void visitInboundPackageNode(PackageNode node) {
@@ -76,11 +67,8 @@ public class BasicTraversal extends VisitorDecorator {
     }
 
     public void visitClassNode(ClassNode node) {
-        if (traversalStrategy.isInScope(node)) {
-            traverseInbound(node.getInboundDependencies());
-            traverseOutbound(node.getOutboundDependencies());
-            traverseNodes(node.getFeatures());
-        }
+        traverseNodeDependencies(node);
+        getDelegate().traverseNodes(node.getFeatures());
     }
 
     public void visitInboundClassNode(ClassNode node) {
@@ -92,10 +80,12 @@ public class BasicTraversal extends VisitorDecorator {
     }
 
     public void visitFeatureNode(FeatureNode node) {
-        if (traversalStrategy.isInScope(node)) {
-            traverseInbound(node.getInboundDependencies());
-            traverseOutbound(node.getOutboundDependencies());
-        }
+        traverseNodeDependencies(node);
+    }
+
+    private void traverseNodeDependencies(Node node) {
+        getDelegate().traverseInbound(node.getInboundDependencies());
+        getDelegate().traverseOutbound(node.getOutboundDependencies());
     }
 
     public void visitInboundFeatureNode(FeatureNode node) {

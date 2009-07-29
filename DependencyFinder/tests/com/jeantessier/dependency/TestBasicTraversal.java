@@ -45,7 +45,6 @@ public class TestBasicTraversal {
     private Mockery context;
 
     private Visitor delegate;
-    private TraversalStrategy strategy;
 
     private PackageNode packageNode;
     private ClassNode classNode;
@@ -59,25 +58,20 @@ public class TestBasicTraversal {
         context.setImposteriser(ClassImposteriser.INSTANCE);
 
         delegate = context.mock(Visitor.class);
-        strategy = context.mock(TraversalStrategy.class);
 
         packageNode = context.mock(PackageNode.class);
         classNode = context.mock(ClassNode.class);
         featureNode = context.mock(FeatureNode.class);
 
-        sut = new BasicTraversal(strategy);
+        sut = new BasicTraversal();
         sut.setDelegate(delegate);
     }
 
     @Test
-    public void testTraverseNodes() {
-        final Collection<? extends Node> nodes = new ArrayList<Node>();
-        final Collection<Node> sortedNodes = new ArrayList<Node>();
-        sortedNodes.add(packageNode);
+    public void testTraverseNodes_CallsAcceptDelegateOnNodes() {
+        final Collection<PackageNode> nodes = Collections.singleton(packageNode);
 
         context.checking(new Expectations() {{
-            one (strategy).order(nodes);
-                will(returnValue(sortedNodes));
             one (packageNode).accept(delegate);
         }});
 
@@ -86,13 +80,9 @@ public class TestBasicTraversal {
 
     @Test
     public void testTraverseInbound() {
-        final Collection<? extends Node> nodes = new ArrayList<Node>();
-        final Collection<Node> sortedNodes = new ArrayList<Node>();
-        sortedNodes.add(packageNode);
+        final Collection<PackageNode> nodes = Collections.singleton(packageNode);
 
         context.checking(new Expectations() {{
-            one (strategy).order(nodes);
-                will(returnValue(sortedNodes));
             one (packageNode).acceptInbound(delegate);
         }});
 
@@ -101,13 +91,9 @@ public class TestBasicTraversal {
 
     @Test
     public void testTraverseOutbound() {
-        final Collection<? extends Node> nodes = new ArrayList<Node>();
-        final Collection<Node> sortedNodes = new ArrayList<Node>();
-        sortedNodes.add(packageNode);
+        final Collection<PackageNode> nodes = Collections.singleton(packageNode);
 
         context.checking(new Expectations() {{
-            one (strategy).order(nodes);
-                will(returnValue(sortedNodes));
             one (packageNode).acceptOutbound(delegate);
         }});
 
@@ -115,160 +101,99 @@ public class TestBasicTraversal {
     }
 
     @Test
-    public void testVisitPackageNode_NotInScope() {
-        context.checking(new Expectations() {{
-            one (strategy).isInScope(packageNode);
-                will(returnValue(false));
-        }});
-
-        sut.visitPackageNode(packageNode);
-    }
-
-    @Test
-    public void testVisitPackageNode_InScope() {
-        final Collection<? extends Node> nodes = new ArrayList<Node>();
-        final Collection<Node> sortedNodes = new ArrayList<Node>();
-        sortedNodes.add(classNode);
+    public void testVisitPackageNode_DelegatesTraversalOfInboundsAndOutboundsAndClasses() {
+        final Collection<ClassNode> nodes = Collections.singleton(classNode);
 
         context.checking(new Expectations() {{
-            one (strategy).isInScope(packageNode);
-                will(returnValue(true));
-
             // Process inbounds
             one (packageNode).getInboundDependencies();
                 will(returnValue(nodes));
-            one (strategy).order(nodes);
-                will(returnValue(sortedNodes));
-            one (classNode).acceptInbound(delegate);
+            one (delegate).traverseInbound(nodes);
 
             // Process outbounds
             one (packageNode).getOutboundDependencies();
                 will(returnValue(nodes));
-            one (strategy).order(nodes);
-                will(returnValue(sortedNodes));
-            one (classNode).acceptOutbound(delegate);
+            one (delegate).traverseOutbound(nodes);
 
             // Process classes
             one (packageNode).getClasses();
                 will(returnValue(nodes));
-            one (strategy).order(nodes);
-                will(returnValue(sortedNodes));
-            one (classNode).accept(delegate);
+            one (delegate).traverseNodes(nodes);
         }});
 
         sut.visitPackageNode(packageNode);
     }
 
     @Test
-    public void testVisitInboundPackageNode() {
+    public void testVisitInboundPackageNode_DoesNothing() {
         sut.visitInboundPackageNode(packageNode);
     }
 
     @Test
-    public void testVisitOutboundPackageNode() {
+    public void testVisitOutboundPackageNode_DoesNothing() {
         sut.visitOutboundPackageNode(packageNode);
     }
 
     @Test
-    public void testVisitClassNode_NotInScope() {
-        context.checking(new Expectations() {{
-            one (strategy).isInScope(classNode);
-                will(returnValue(false));
-        }});
-
-        sut.visitClassNode(classNode);
-    }
-
-    @Test
-    public void testVisitClassNode_InScope() {
-        final Collection<? extends Node> nodes = new ArrayList<Node>();
-        final Collection<Node> sortedNodes = new ArrayList<Node>();
-        sortedNodes.add(featureNode);
+    public void testVisitClassNode_DelegatesTraversalOfInboundsAndOutboundsAndClasses() {
+        final Collection<FeatureNode> nodes = Collections.singleton(featureNode);
 
         context.checking(new Expectations() {{
-            one (strategy).isInScope(classNode);
-                will(returnValue(true));
-
             // Process inbounds
             one (classNode).getInboundDependencies();
                 will(returnValue(nodes));
-            one (strategy).order(nodes);
-                will(returnValue(sortedNodes));
-            one (featureNode).acceptInbound(delegate);
+            one (delegate).traverseInbound(nodes);
 
             // Process outbounds
             one (classNode).getOutboundDependencies();
                 will(returnValue(nodes));
-            one (strategy).order(nodes);
-                will(returnValue(sortedNodes));
-            one (featureNode).acceptOutbound(delegate);
+            one (delegate).traverseOutbound(nodes);
 
             // Process features
             one (classNode).getFeatures();
                 will(returnValue(nodes));
-            one (strategy).order(nodes);
-                will(returnValue(sortedNodes));
-            one (featureNode).accept(delegate);
+            one (delegate).traverseNodes(nodes);
         }});
 
         sut.visitClassNode(classNode);
     }
 
     @Test
-    public void testVisitInboundClassNode() {
+    public void testVisitInboundClassNode_DoesNothing() {
         sut.visitInboundClassNode(classNode);
     }
 
     @Test
-    public void testVisitOutboundClassNode() {
+    public void testVisitOutboundClassNode_DoesNothing() {
         sut.visitOutboundClassNode(classNode);
     }
 
     @Test
-    public void testVisitFeatureNode_NotInScope() {
-        context.checking(new Expectations() {{
-            one (strategy).isInScope(featureNode);
-                will(returnValue(false));
-        }});
-
-        sut.visitFeatureNode(featureNode);
-    }
-
-    @Test
     public void testVisitFeatureNode_InScope() {
-        final Collection<? extends Node> nodes = new ArrayList<Node>();
-        final Collection<Node> sortedNodes = new ArrayList<Node>();
-        sortedNodes.add(featureNode);
+        final Collection<ClassNode> nodes = Collections.singleton(classNode);
 
         context.checking(new Expectations() {{
-            one (strategy).isInScope(featureNode);
-                will(returnValue(true));
-
             // Process inbounds
             one (featureNode).getInboundDependencies();
                 will(returnValue(nodes));
-            one (strategy).order(nodes);
-                will(returnValue(sortedNodes));
-            one (featureNode).acceptInbound(delegate);
+            one (delegate).traverseInbound(nodes);
 
             // Process outbounds
             one (featureNode).getOutboundDependencies();
                 will(returnValue(nodes));
-            one (strategy).order(nodes);
-                will(returnValue(sortedNodes));
-            one (featureNode).acceptOutbound(delegate);
+            one (delegate).traverseOutbound(nodes);
         }});
 
         sut.visitFeatureNode(featureNode);
     }
 
     @Test
-    public void testVisitInboundFeatureNode() {
+    public void testVisitInboundFeatureNode_DoesNothing() {
         sut.visitInboundFeatureNode(featureNode);
     }
 
     @Test
-    public void testVisitOutboundFeatureNode() {
+    public void testVisitOutboundFeatureNode_DoesNothing() {
         sut.visitOutboundFeatureNode(featureNode);
     }
 }
