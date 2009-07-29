@@ -12,7 +12,7 @@ filtering, but I was not happy with it.  It was not clear where scope versus
 filter selections should happen.  I felt like I needed a separate class to do
 the scoping and the filtering, but the composition of decorators would become
 non-trivial.  Finally, I found a way to make it work and I got =BasicTraversal=
-just the way I wanted.
+and =SelectiveVisitor= to be just the way I wanted.
 
 I changed my IntelliJ IDEA configuration to use JDK 1.6 on my MacBook Pro.  My
 shell is still stuck on JDK 1.5.  I wonder how they will interact, when I happen
