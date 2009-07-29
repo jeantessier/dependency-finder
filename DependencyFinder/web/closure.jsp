@@ -1,5 +1,4 @@
-<%@ page import="java.io.*, java.util.*, com.jeantessier.dependency.*" %>
-<%@ page import="java.text.*" %>
+<%@ page import="java.io.*, java.text.*, java.util.*, com.jeantessier.dependency.*" %>
 <%@ page errorPage="errorpage.jsp" %>
 
 <!--
@@ -307,7 +306,7 @@ follow
 
             MessageFormat urlFormat = new MessageFormat(urlPattern.toString());
 
-            TextPrinter printer = new HTMLPrinter(new PrintWriter(out), urlFormat);
+            Printer printer = new HTMLPrinter(new PrintWriter(out), urlFormat);
 
             printer.traverseNodes(summarizer.getScopeFactory().getPackages().values());
 
