@@ -42,68 +42,68 @@ public class SelectiveVisitor extends VisitorDecorator {
     }
 
     public void traverseNodes(Collection<? extends Node> nodes) {
-        getDelegate().traverseNodes(traversalStrategy.order(nodes));
+        super.traverseNodes(traversalStrategy.order(nodes));
     }
 
     public void traverseInbound(Collection<? extends Node> nodes) {
-        getDelegate().traverseInbound(traversalStrategy.order(nodes));
+        super.traverseInbound(traversalStrategy.order(nodes));
     }
 
     public void traverseOutbound(Collection<? extends Node> nodes) {
-        getDelegate().traverseOutbound(traversalStrategy.order(nodes));
+        super.traverseOutbound(traversalStrategy.order(nodes));
     }
 
     public void visitPackageNode(PackageNode node) {
         if (traversalStrategy.isInScope(node)) {
-            getDelegate().visitPackageNode(node);
+            super.visitPackageNode(node);
         }
     }
 
     public void visitInboundPackageNode(PackageNode node) {
         if (traversalStrategy.isInFilter(node)) {
-            getDelegate().visitInboundPackageNode(node);
+            super.visitInboundPackageNode(node);
         }
     }
 
     public void visitOutboundPackageNode(PackageNode node) {
         if (traversalStrategy.isInFilter(node)) {
-            getDelegate().visitOutboundPackageNode(node);
+            super.visitOutboundPackageNode(node);
         }
     }
 
     public void visitClassNode(ClassNode node) {
         if (traversalStrategy.isInScope(node)) {
-            getDelegate().visitClassNode(node);
+            super.visitClassNode(node);
         }
     }
 
     public void visitInboundClassNode(ClassNode node) {
         if (traversalStrategy.isInFilter(node)) {
-            getDelegate().visitInboundClassNode(node);
+            super.visitInboundClassNode(node);
         }
     }
 
     public void visitOutboundClassNode(ClassNode node) {
         if (traversalStrategy.isInFilter(node)) {
-            getDelegate().visitOutboundClassNode(node);
+            super.visitOutboundClassNode(node);
         }
     }
 
     public void visitFeatureNode(FeatureNode node) {
         if (traversalStrategy.isInScope(node)) {
-            getDelegate().visitFeatureNode(node);
+            super.visitFeatureNode(node);
         }
     }
 
     public void visitInboundFeatureNode(FeatureNode node) {
         if (traversalStrategy.isInFilter(node)) {
-            getDelegate().visitInboundFeatureNode(node);
+            super.visitInboundFeatureNode(node);
         }
     }
 
     public void visitOutboundFeatureNode(FeatureNode node) {
         if (traversalStrategy.isInFilter(node)) {
-            getDelegate().visitOutboundFeatureNode(node);
+            super.visitOutboundFeatureNode(node);
         }
     }
 }
