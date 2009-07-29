@@ -1,22 +1,22 @@
 /*
  *  Copyright (c) 2001-2009, Jean Tessier
  *  All rights reserved.
- *  
+ *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
  *  are met:
- *  
+ *
  *      * Redistributions of source code must retain the above copyright
  *        notice, this list of conditions and the following disclaimer.
- *  
+ *
  *      * Redistributions in binary form must reproduce the above copyright
  *        notice, this list of conditions and the following disclaimer in the
  *        documentation and/or other materials provided with the distribution.
- *  
+ *
  *      * Neither the name of Jean Tessier nor the names of his contributors
  *        may be used to endorse or promote products derived from this software
  *        without specific prior written permission.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -32,36 +32,47 @@
 
 package com.jeantessier.dependency;
 
-public class SelectiveTraversalStrategy extends TraversalStrategyBase {
-    private final SelectionCriteria scopeCriteria;
-    private final SelectionCriteria filterCriteria;
+import java.util.*;
 
-    public SelectiveTraversalStrategy(SelectionCriteria scopeCriteria, SelectionCriteria filterCriteria) {
-        this.scopeCriteria = scopeCriteria;
-        this.filterCriteria = filterCriteria;
-    }
+public abstract class TraversalStrategyBase implements TraversalStrategy {
+    private boolean preOutboundTraversal  = true;
+    private boolean preInboundTraversal   = true;
+    private boolean postOutboundTraversal = false;
+    private boolean postInboundTraversal  = false;
 
-    public boolean isInScope(PackageNode node) {
-        return scopeCriteria.matches(node);
-    }
-    
-    public boolean isInScope(ClassNode node) {
-        return scopeCriteria.matches(node);
-    }
-    
-    public boolean isInScope(FeatureNode node) {
-        return scopeCriteria.matches(node);
+    public boolean doPreOutboundTraversal() {
+        return preOutboundTraversal;
     }
 
-    public boolean isInFilter(PackageNode node) {
-        return filterCriteria.matches(node);
+    public void setPreOutboundTraversal(boolean preOutboundTraversal) {
+        this.preOutboundTraversal = preOutboundTraversal;
     }
-    
-    public boolean isInFilter(ClassNode node) {
-        return filterCriteria.matches(node);
+
+    public boolean doPreInboundTraversal() {
+        return preInboundTraversal;
     }
-    
-    public boolean isInFilter(FeatureNode node) {
-        return filterCriteria.matches(node);
+
+    public void setPreInboundTraversal(boolean preInboundTraversal) {
+        this.preInboundTraversal = preInboundTraversal;
+    }
+
+    public boolean doPostOutboundTraversal() {
+        return postOutboundTraversal;
+    }
+
+    public void setPostOutboundTraversal(boolean postOutboundTraversal) {
+        this.postOutboundTraversal = postOutboundTraversal;
+    }
+
+    public boolean doPostInboundTraversal() {
+        return postInboundTraversal;
+    }
+
+    public void setPostInboundTraversal(boolean postInboundTraversal) {
+        this.postInboundTraversal = postInboundTraversal;
+    }
+
+    public <T extends Node> Collection<T> order(Collection<T> collection) {
+        return new ArrayList<T>(collection);
     }
 }

@@ -39,7 +39,7 @@ import junit.framework.*;
 public class TestSelectiveTraversalStrategy extends TestCase {
     private RegularExpressionSelectionCriteria scopeCriteria;
     private RegularExpressionSelectionCriteria filterCriteria;
-    private SelectiveTraversalStrategy         strategy;
+    private SelectiveTraversalStrategy strategy;
 
     private PackageNode a;
     private ClassNode a_A;
@@ -53,13 +53,13 @@ public class TestSelectiveTraversalStrategy extends TestCase {
     private ClassNode c_C;
     private FeatureNode c_C_c;
 
-    private List include;
-    private List exclude;
+    private List<String> include;
+    private List<String> exclude;
 
     protected void setUp() throws Exception {
-        scopeCriteria  = new RegularExpressionSelectionCriteria("//");
+        scopeCriteria = new RegularExpressionSelectionCriteria("//");
         filterCriteria = new RegularExpressionSelectionCriteria("//");
-        strategy       = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
+        strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
 
         NodeFactory factory = new NodeFactory();
 
@@ -75,11 +75,8 @@ public class TestSelectiveTraversalStrategy extends TestCase {
         c_C   = factory.createClass("c.C");
         c_C_c = factory.createFeature("c.C.c");
         
-        include = new LinkedList();
-        include.add("/^b/");
-        
-        exclude = new LinkedList();
-        exclude.add("/^c/");
+        include = Collections.singletonList("/^b/");
+        exclude = Collections.singletonList("/^c/");
     }
     
     public void testScope() {

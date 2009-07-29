@@ -1,0 +1,3 @@
+Refactored =SelectiveTraversalStrategy= to create an actual
+=ComprehensiveTraversalStrategy= to use in defaults instead of an unconfigured
+=SelectiveTraversalStrategy=.  I figure the indent is more explicit this way.

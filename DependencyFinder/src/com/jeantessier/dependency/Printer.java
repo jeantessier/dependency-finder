@@ -47,7 +47,7 @@ public abstract class Printer extends VisitorBase {
     private boolean showEmptyNodes = true;
 
     public Printer(PrintWriter out) {
-        this(new SortedTraversalStrategy(new SelectiveTraversalStrategy()), out);
+        this(new SortedTraversalStrategy(new ComprehensiveTraversalStrategy()), out);
     }
 
     public Printer(TraversalStrategy strategy, PrintWriter out) {

@@ -48,7 +48,7 @@ public abstract class VisitorBase implements Visitor {
     private LinkedList<Node> currentNodes = new LinkedList<Node>();
 
     public VisitorBase() {
-        this(new SelectiveTraversalStrategy());
+        this(new ComprehensiveTraversalStrategy());
     }
 
     public VisitorBase(TraversalStrategy strategy) {
