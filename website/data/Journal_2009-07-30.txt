@@ -1,0 +1,14 @@
+Had a discussion with Russ Rufer, Tracy Bialik, and Gene Volovich on my recent
+exepriment combining decorator and visitor patterns.  Russ recommended that I
+look at the code for [[http://asm.objectweb.org/][ASM]] where he saw a way to
+combine visitors and graph traversal that he liked.  This might be inspirational
+when I try to apply the same model to =com.jeantessier.classreader.Visitor=.
+
+They also suggested that I could migrate Dependency Finder to ASM.  This way, I
+wouldn't have to keep up with language developments.  I vaguely remember taking
+a glance at ASM some time ago and finding it rather ugly.  Maybe it's worth
+another look, if only to properly document why I don't like it.  :-)
+
+Found
+[[http://javaexpert.wordpress.com/2009/07/29/mac-os-x-java-6visualvm-and-setting-currentjdk-for-tomcat-and-other-app-servers/][instructions]]
+for switching my MacBook Pro to JDK 1.6.
