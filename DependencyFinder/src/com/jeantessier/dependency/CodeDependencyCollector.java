@@ -126,6 +126,8 @@ public class CodeDependencyCollector extends CollectorBase {
         } else {
             processClassName(classname);
         }
+
+        super.visitClass_info(entry);
     }
 
     public void visitFieldRef_info(FieldRef_info entry) {
@@ -147,6 +149,8 @@ public class CodeDependencyCollector extends CollectorBase {
         }
 
         processDescriptor(entry.getRawNameAndType().getType());
+
+        super.visitFieldRef_info(entry);
     }
 
     public void visitMethodRef_info(MethodRef_info entry) {
@@ -170,6 +174,8 @@ public class CodeDependencyCollector extends CollectorBase {
 
             processDescriptor(entry.getRawNameAndType().getType());
         }
+
+        super.visitMethodRef_info(entry);
     }
 
     public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
@@ -191,6 +197,8 @@ public class CodeDependencyCollector extends CollectorBase {
         }
 
         processDescriptor(entry.getRawNameAndType().getType());
+
+        super.visitInterfaceMethodRef_info(entry);
     }
 
     public void visitField_info(Field_info entry) {
@@ -263,6 +271,8 @@ public class CodeDependencyCollector extends CollectorBase {
         if (helper.getCatchTypeIndex() != 0) {
             helper.getRawCatchType().accept(this);
         }
+
+        super.visitExceptionHandler(helper);
     }
 
     public void visitAnnotation(Annotation helper) {

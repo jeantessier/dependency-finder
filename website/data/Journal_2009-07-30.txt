@@ -12,3 +12,20 @@ another look, if only to properly document why I don't like it.  :-)
 Found
 [[http://javaexpert.wordpress.com/2009/07/29/mac-os-x-java-6visualvm-and-setting-currentjdk-for-tomcat-and-other-app-servers/][instructions]]
 for switching my MacBook Pro to JDK 1.6.
+
+I was looking at =CodeDependencyCollector= and I noticed that some of the
+=visit...()= methods were not calling their superclass counterparts like the
+others.  They were:
+
+    * =visitClass_info()=
+    * =visitFieldRef_info()=
+    * =visitMethodRef_info()=
+    * =visitInterfaceMethodRef_info()=
+    * =visitExceptionHandler()=
+
+I couldn't think of a reason they should not call to =super=, so I fixed them.
+They all end up calling to =VisitorBase= which has all no-ops anyway.  Strange,
+nonetheless.  This brings me back to a paper I wrote years ago for my M.Sc. on
+what I called
+[[http://www.google.com/url?sa=t&source=web&ct=res&cd=5&url=http%3A%2F%2Fwww.iro.umontreal.ca%2F~keller%2FLayla%2Finherited.pdf&ei=8C5yStrGEou4swOL3dnGCA&usg=AFQjCNF6pNuV_LOGTxgpV0KsUc1I3O-ecA&sig2=mbRzDDjw2ip_UTCgA5Z6qw][Inherited Behavior]]
+at the time.
