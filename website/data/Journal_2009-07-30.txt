@@ -1,5 +1,5 @@
 Had a discussion with Russ Rufer, Tracy Bialik, and Gene Volovich on my recent
-exepriment combining decorator and visitor patterns.  Russ recommended that I
+experiment combining decorator and visitor patterns.  Russ recommended that I
 look at the code for [[http://asm.objectweb.org/][ASM]] where he saw a way to
 combine visitors and graph traversal that he liked.  This might be inspirational
 when I try to apply the same model to =com.jeantessier.classreader.Visitor=.
