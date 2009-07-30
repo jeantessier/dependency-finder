@@ -27,5 +27,5 @@ I couldn't think of a reason they should not call to =super=, so I fixed them.
 They all end up calling to =VisitorBase= which has all no-ops anyway.  Strange,
 nonetheless.  This brings me back to a paper I wrote years ago for my M.Sc. on
 what I called
-[[http://www.google.com/url?sa=t&source=web&ct=res&cd=5&url=http%3A%2F%2Fwww.iro.umontreal.ca%2F~keller%2FLayla%2Finherited.pdf&ei=8C5yStrGEou4swOL3dnGCA&usg=AFQjCNF6pNuV_LOGTxgpV0KsUc1I3O-ecA&sig2=mbRzDDjw2ip_UTCgA5Z6qw][Inherited Behavior]]
+[[http://www.iro.umontreal.ca/~keller/Layla/inherited.pdf][Inherited Behavior]]
 at the time.
