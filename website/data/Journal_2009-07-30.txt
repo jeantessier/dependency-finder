@@ -29,3 +29,12 @@ nonetheless.  This brings me back to a paper I wrote years ago for my M.Sc. on
 what I called
 [[http://www.iro.umontreal.ca/~keller/Layla/inherited.pdf][Inherited Behavior]]
 at the time.
+
+I also noticed that the new SourceForge layout has a large download button on
+the project's home page and that it points to version *1.1.0-beta2*, which is
+about 5 years old.  It took a while to track down how to change it to the latest
+version, 1.2.1-beta1, and I don't know how long it will take for the change to
+propagate all the way to the project's home page.  I don't know how long it's
+been this way.  The download statistics at SourceForge show nothing for the last
+week.  I hope it's just that their stats are down and not that nobody is
+downloading Dependency Finder!
