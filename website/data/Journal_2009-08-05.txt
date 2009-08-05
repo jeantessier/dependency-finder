@@ -1,0 +1,4 @@
+Found [[http://sdedit.sf.net/][sdedit]] for creating sequence diagrams.
+
+Adjusted the yEd transformation so it renders unconfirmed nodes a different
+color from the confirmed nodes.
