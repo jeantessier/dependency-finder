@@ -1,0 +1,13 @@
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>JUnit</td>
+        <td>:</td>
+        <td>4.6</td>
+        <td>-></td>
+        <td>4.7</td>
+    </tr>
+</table>
+</blockquote>
