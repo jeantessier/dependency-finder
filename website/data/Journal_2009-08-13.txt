@@ -13,7 +13,7 @@ Upgraded the following development components:
 </blockquote>
 
 The new [[http://junit.org/][JUnit]] introduces a new concept called
-[[http://github.com/KentBeck/junit/raw/23ffc6baf5768057e366e183e53f4dfa86fbb005/doc/ReleaseNotes4.7.txt][*rules*]].
+[[http://github.com/KentBeck/junit/raw/23ffc6baf5768057e366e183e53f4dfa86fbb005/doc/ReleaseNotes4.7.txt][_rules_]].
 They are essentially interceptors for tests and a new extension mechanism for
 JUnit, now that tests don't have to derive from =TestCase= anymore.  This looks
 promising.  They re-implemented expected exceptions and you can now supply
