@@ -21,3 +21,5 @@ matchers for more precise matching of exceptions thrown by the test methods.
 Rules appear much more flexible, but they are still poorly documented.  It is
 unfortunate that the javadocs bundled with JUnit 4.7 do not include the
 documentation of already provided rules.
+
+Extracted styles from the Resources page.
