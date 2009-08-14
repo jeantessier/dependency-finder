@@ -1,0 +1,5 @@
+Another example sequence diagram for the call flow across composed visitors to,
+this time to render a dependency closure as a call graph in text.  Click the
+image for a better view.  See also the [[../images/CallGraph.sd][source file]].
+
+[[../images/CallGraph.png][../images/s_CallGraph.png]]

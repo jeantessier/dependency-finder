@@ -1,0 +1,139 @@
+#!>>
+#! Input graph:
+#!
+#! a
+#!     --> b
+#!     --> d
+#! b
+#!     <-- a
+#!     --> c
+#! c
+#!     <-- b
+#! d
+#!     <-- a
+#!
+#!
+#! Sample output:
+#!
+#! a
+#!     --> b
+#!         --> c
+#!     --> d
+#!
+#!<<
+
+client:Client[r] "client"
+filter:SelectiveTraversal
+strategy:TraversalStrategy
+text:TextPrinter
+io:Writer
+traversal:DepthFirstTraversal
+a:ClassNode
+b:ClassNode
+c:ClassNode
+d:ClassNode
+
+client:filter.traverseNodes([d,c,b,a])
+  filter:[a,b,c,d]=strategy.order([d,c,b,a])
+  filter:text.traverseNodes([a,b,c,d])
+    text:traversal.traverseNodes([a,b,c,d])
+
+      traversal:a.accept(filter)
+        a:filter.visitClassNode(a)
+          filter:t=strategy.isInScope(a)
+          filter:a.accept(text)
+            a:text.visitClassNode(a)
+              text:"a"=a.getName()
+              text:io.write("a")
+              text:a.accept(traversal)
+                a:traversal.visitClassNode(a)
+
+                  traversal:[d,b]=a.getInboundDependencies()
+                  traversal:filter.traverseInbounds([d,b])
+                    filter:[b,d]=strategy.order([d,b])
+
+                    filter:text.traverseInbounds([b,d])
+                      text:text.raiseIndent()
+                      text[1]:traversal.traverseInbounds([b,d])
+
+                        traversal:b.acceptInbound(filter)
+                          b:filter.visitInboundClassNode(b)
+                            filter:t=strategy.isInFilter(b)
+                            filter:b.acceptInbound(text)
+                              b:text.visitInboundClassNode(b)
+                                text:"b"=b.getName()
+                                text:io.write("<-- " + "b")
+                                text:b.acceptInbound(traversal)
+                                  b:traversal.visitInboundClassNode(b)
+
+                                    traversal:[c]=b.getInboundDependencies()
+                                    traversal:filter.traverseInbounds([c])
+                                      filter:[c]=strategy.order([c])
+                                      filter:text.traverseInbounds([c])
+                                        text:text.raiseIndent()
+                                        text[1]:traversal.traverseInbounds([c])
+
+                                          traversal:c.acceptInbound(filter)
+                                            c:filter.visitInboundClassNode(c)
+                                              filter:t=strategy.isInFilter(c)
+                                              filter:c.acceptInbound(text)
+                                                c:text.visitInboundClassNode(c)
+                                                  text:"c"=c.getName()
+                                                  text:io.write("<-- " + "c")
+                                                  text:c.acceptInbound(traversal)
+                                                    c:traversal.visitInboundClassNode(c)
+
+                                                      traversal:[]=c.getInboundDependencies()
+                                                      traversal:filter.traverseInbounds([])
+                                                        filter:[]=strategy.order([])
+                                                        filter:text.traverseInbounds([])
+                                                          text:text.raiseIndent()
+                                                          text[1]:traversal.traverseInbounds([])
+                                                            traversal:nothing to do
+                                                          text:text.lowerIndent()
+
+                                        text[3]:text.lowerIndent()
+
+                        traversal[1]:d.acceptInbound(filter)
+                          d:filter.visitInboundClassNode(b)
+                            filter:t=strategy.isInFilter(d)
+                            filter:d.acceptInbound(text)
+                              d:text.visitInboundClassNode(d)
+                                text:"d"=d.getName()
+                                text:io.write("<-- " + "d")
+                                text:d.acceptInbound(traversal)
+                                  d:traversal.visitInboundClassNode(d)
+
+                                    traversal:[]=d.getInboundDependencies()
+                                    traversal:filter.traverseInbounds([])
+                                      filter:[c]=strategy.order([])
+                                      filter:text.traverseInbounds([])
+                                        text:text.raiseIndent()
+                                        text[1]:traversal.traverseInbounds([])
+                                          traversal:nothing to do
+                                        text:text.lowerIndent()
+
+                      text[3]:text.lowerIndent()
+
+                  traversal:[]=a.getOutboundDependencies()
+                  traversal:filter.traverseOutbounds([])
+                    filter:[]=strategy.order([])
+
+                    filter:text.traverseOutbounds([])
+                      text:text.raiseIndent()
+                      text[1]:traversal.traverseOutbounds([])
+                        traversal:nothing to do
+                      text:text.lowerIndent()
+
+
+      traversal[1]:b.accept(filter)
+        b:filter.visitClassNode(b)
+          filter:f=strategy.isInScope(b)
+
+      traversal:c.accept(filter)
+        c:filter.visitClassNode(c)
+          filter:f=strategy.isInScope(c)
+
+      traversal:d.accept(filter)
+        d:filter.visitClassNode(d)
+          filter:f=strategy.isInScope(d)
