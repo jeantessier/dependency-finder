@@ -1,0 +1,10 @@
+Refactored =com.jeantessier.metrics.TestMetricsGatherer= so it uses mostly the
+new =assertThat()= syntax from JUnit 4.5 intead of the various =assertTrue()=
+and =assertEquals()= and so forth.  I was able to simplify the tests drastically
+with judicious uses of helper methods and Hamcrest's =hasItems()= matcher.
+
+It is still more an integration test than a pure unit test.  It is somewhat
+brittle since it depends on an actual compiled class and lots of internal
+details of =com.jeantessier.metrics=, but there is only so much I can do in one
+pass.  At least, it is very readalble now that I have removed all the
+duplication.

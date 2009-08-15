@@ -36,8 +36,9 @@ import java.io.*;
 import java.util.*;
 import javax.xml.parsers.*;
 
-import org.junit.*;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
+import org.junit.*;
 import org.xml.sax.*;
 
 import com.jeantessier.classreader.*;
@@ -59,218 +60,162 @@ public class TestMetricsGatherer {
     
     @Test
     public void testNbElements() {
-        assertEquals("factory.ProjectNames().size()", 1, factory.getProjectNames().size());
-        assertTrue(factory.getProjectNames().toString() + " does not contain project \"test\"", factory.getProjectNames().contains("test"));
-
-        assertTrue(factory.getGroupNames().toString() + " does not contain package \"\"", factory.getGroupNames().contains(""));
-        assertEquals(factory.getGroupNames().toString(), 1, factory.getGroupNames().size());
-
-        assertTrue(factory.getClassNames().toString() + " does not contain class \"test\"", factory.getClassNames().contains("test"));
-        assertEquals(factory.getClassNames().toString(), 1, factory.getClassNames().size());
-
-        assertTrue(factory.getMethodNames().toString() + " does not contain method \"test.main(java.lang.String[])\"", factory.getMethodNames().contains("test.main(java.lang.String[])"));
-        assertTrue(factory.getMethodNames().toString() + " does not contain method \"test.test()\"", factory.getMethodNames().contains("test.test()"));
-        assertEquals(factory.getMethodNames().toString(), 2, factory.getMethodNames().size());
+        assertCollectionEquals("project names", factory.getProjectNames(), "test");
+        assertCollectionEquals("group names", factory.getGroupNames(), "");
+        assertCollectionEquals("class names", factory.getClassNames(), "test");
+        assertCollectionEquals("method names", factory.getMethodNames(), "test.main(java.lang.String[])", "test.test()");
     }
     
     @Test
     public void testNbAllElements() {
-        assertEquals("factory.AllProjectNames().size()", 1, factory.getAllProjectNames().size());
-        assertTrue(factory.getAllProjectNames().toString() + " does not contain project \"test\"", factory.getAllProjectNames().contains("test"));
-
-        assertTrue(factory.getAllGroupNames().toString() + " does not contain package \"\"", factory.getAllGroupNames().contains(""));
-        assertTrue(factory.getAllGroupNames().toString() + " does not contain package \"java.lang\"", factory.getAllGroupNames().contains("java.lang"));
-        assertTrue(factory.getAllGroupNames().toString() + " does not contain package \"java.util\"", factory.getAllGroupNames().contains("java.util"));
-        assertTrue(factory.getAllGroupNames().toString() + " does not contain package \"java.io\"", factory.getAllGroupNames().contains("java.util"));
-        assertEquals(factory.getAllGroupNames().toString(), 4, factory.getAllGroupNames().size());
-
-        assertTrue(factory.getAllClassNames().toString() + " does not contain class \"java.io.PrintStream\"", factory.getAllClassNames().contains("java.io.PrintStream"));
-        assertTrue(factory.getAllClassNames().toString() + " does not contain class \"java.lang.NullPointerException\"", factory.getAllClassNames().contains("java.lang.NullPointerException"));
-        assertTrue(factory.getAllClassNames().toString() + " does not contain class \"java.lang.Object\"", factory.getAllClassNames().contains("java.lang.Object"));
-        assertTrue(factory.getAllClassNames().toString() + " does not contain class \"java.lang.String\"", factory.getAllClassNames().contains("java.lang.String"));
-        assertTrue(factory.getAllClassNames().toString() + " does not contain class \"java.lang.System\"", factory.getAllClassNames().contains("java.lang.System"));
-        assertTrue(factory.getAllClassNames().toString() + " does not contain class \"java.util.Collections\"", factory.getAllClassNames().contains("java.util.Collections"));
-        assertTrue(factory.getAllClassNames().toString() + " does not contain class \"java.util.Collection\"", factory.getAllClassNames().contains("java.util.Collection"));
-        assertTrue(factory.getAllClassNames().toString() + " does not contain class \"java.util.Set\"", factory.getAllClassNames().contains("java.util.Set"));
-        assertTrue(factory.getAllClassNames().toString() + " does not contain class \"test\"", factory.getAllClassNames().contains("test"));
-        assertEquals(factory.getAllClassNames().toString(), 9, factory.getAllClassNames().size());
-
-        assertTrue(factory.getAllMethodNames().toString() + " does not contain method \"java.io.PrintStream.println(java.lang.Object)\"", factory.getAllMethodNames().contains("java.io.PrintStream.println(java.lang.Object)"));
-        assertTrue(factory.getAllMethodNames().toString() + " does not contain method \"java.lang.Object.Object()\"", factory.getAllMethodNames().contains("java.lang.Object.Object()"));
-        assertTrue(factory.getAllMethodNames().toString() + " does not contain method \"java.util.Collections.singleton(java.lang.Object)\"", factory.getAllMethodNames().contains("java.util.Collections.singleton(java.lang.Object)"));
-        assertTrue(factory.getAllMethodNames().toString() + " does not contain method \"test.main(java.lang.String[])\"", factory.getAllMethodNames().contains("test.main(java.lang.String[])"));
-        assertTrue(factory.getAllMethodNames().toString() + " does not contain method \"test.test()\"", factory.getAllMethodNames().contains("test.test()"));
-        assertEquals(factory.getAllMethodNames().toString(), 5, factory.getAllMethodNames().size());
+        assertCollectionEquals("all project names", factory.getAllProjectNames(), "test");
+        assertCollectionEquals("all group names", factory.getAllGroupNames(), "", "java.io", "java.lang", "java.util");
+        assertCollectionEquals("all class names", factory.getAllClassNames(), "java.io.PrintStream", "java.lang.NullPointerException", "java.lang.Object", "java.lang.String", "java.lang.System", "java.util.Collections", "java.util.Collection", "java.util.Set", "test");
+        assertCollectionEquals("all method names", factory.getAllMethodNames(), "java.io.PrintStream.println(java.lang.Object)", "java.lang.Object.Object()", "java.util.Collections.singleton(java.lang.Object)", "test.main(java.lang.String[])", "test.test()");
     }
-    
+
     @Test
     public void test_test_test() {
-        assertMeasurementEquals(BasicMeasurements.SLOC, 1, factory.createMethodMetrics("test.test()").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.PARAMETERS, 0, factory.createMethodMetrics("test.test()").getMeasurement(BasicMeasurements.PARAMETERS).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.LOCAL_VARIABLES, 1, factory.createMethodMetrics("test.test()").getMeasurement(BasicMeasurements.LOCAL_VARIABLES).getValue().intValue());
+        Metrics metrics = factory.createMethodMetrics("test.test()");
 
-        //
-        // Dependencies
-        //
-        
-        Collection dependencies;
+        assertMeasurementEquals(metrics, BasicMeasurements.SLOC, 1);
+        assertMeasurementEquals(metrics, BasicMeasurements.PARAMETERS, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.LOCAL_VARIABLES, 1);
 
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(BasicMeasurements.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES)).getValues();
-        assertEquals(BasicMeasurements.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
-
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(BasicMeasurements.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES)).getValues();
-        assertEquals(BasicMeasurements.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
-
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(BasicMeasurements.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES)).getValues();
-        assertEquals(BasicMeasurements.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
-
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(BasicMeasurements.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES)).getValues();
-        assertEquals(BasicMeasurements.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
-
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES)).getValues();
-        assertEquals(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
-
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES)).getValues();
-        assertEquals(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
-
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES)).getValues();
-        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies + "missing java.lang.Object.Object()", dependencies.contains("java.lang.Object.Object()"));
-        assertEquals(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies, 1, dependencies.size());
-
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.test()").getMeasurement(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES)).getValues();
-        assertEquals(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES);
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES);
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES);
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES);
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES);
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES);
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES, "java.lang.Object.Object()");
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES);
     }
     
     @Test
     public void test_test_main() {
-        assertMeasurementEquals(BasicMeasurements.SLOC, 5, factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.PARAMETERS, 1, factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(BasicMeasurements.PARAMETERS).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.LOCAL_VARIABLES, 3, factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(BasicMeasurements.LOCAL_VARIABLES).getValue().intValue());
+        Metrics metrics = factory.createMethodMetrics("test.main(java.lang.String[])");
 
-        //
-        // Dependencies
-        //
-        
-        Collection dependencies;
+        assertMeasurementEquals(metrics, BasicMeasurements.SLOC, 5);
+        assertMeasurementEquals(metrics, BasicMeasurements.PARAMETERS, 1);
+        assertMeasurementEquals(metrics, BasicMeasurements.LOCAL_VARIABLES, 3);
 
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(BasicMeasurements.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES)).getValues();
-        assertEquals(BasicMeasurements.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
-
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(BasicMeasurements.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES)).getValues();
-        assertEquals(BasicMeasurements.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
-
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(BasicMeasurements.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES)).getValues();
-        assertEquals(BasicMeasurements.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
-
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(BasicMeasurements.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES)).getValues();
-        assertEquals(BasicMeasurements.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
-
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES)).getValues();
-        assertEquals(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
-
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES)).getValues();
-        assertEquals(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
-
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES)).getValues();
-        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies + "missing java.util.Collections.singleton(java.lang.Object)", dependencies.contains("java.util.Collections.singleton(java.lang.Object)"));
-        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies + "missing java.lang.Object.Object()", dependencies.contains("java.lang.Object.Object()"));
-        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies + "missing java.io.PrintStream.println(java.lang.Object)", dependencies.contains("java.io.PrintStream.println(java.lang.Object)"));
-        assertEquals(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES + " " + dependencies, 3, dependencies.size());
-
-        dependencies = ((CollectionMeasurement) factory.createMethodMetrics("test.main(java.lang.String[])").getMeasurement(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES)).getValues();
-        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.io.PrintStream", dependencies.contains("java.io.PrintStream"));
-        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.lang.NullPointerException", dependencies.contains("java.lang.NullPointerException"));
-        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.lang.Object", dependencies.contains("java.lang.Object"));
-        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.lang.String", dependencies.contains("java.lang.String"));
-        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.lang.System", dependencies.contains("java.lang.System"));
-        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.util.Collection", dependencies.contains("java.util.Collection"));
-        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies + "missing java.util.Set", dependencies.contains("java.util.Set"));
-        assertEquals(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES + " " + dependencies, 7, dependencies.size());
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES);
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES);
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES);
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES);
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES);
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES);
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES, "java.util.Collections.singleton(java.lang.Object)", "java.lang.Object.Object()", "java.io.PrintStream.println(java.lang.Object)");
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES, "java.io.PrintStream", "java.lang.NullPointerException", "java.lang.Object", "java.lang.String", "java.lang.System", "java.util.Collection", "java.util.Set");
     }
-    
+
     @Test
     public void test_test() {
-        assertMeasurementEquals(BasicMeasurements.SLOC, 7, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
-        assertEquals("M", 2, factory.createClassMetrics("test").getMeasurement("M").getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.PUBLIC_METHODS, 2, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.PUBLIC_METHODS).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.PROTECTED_METHODS, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.PROTECTED_METHODS).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.PRIVATE_METHODS, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.PRIVATE_METHODS).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.PACKAGE_METHODS, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.PACKAGE_METHODS).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.FINAL_METHODS, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.FINAL_METHODS).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.ABSTRACT_METHODS, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.ABSTRACT_METHODS).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.DEPRECATED_METHODS, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.DEPRECATED_METHODS).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.SYNTHETIC_METHODS, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.SYNTHETIC_METHODS).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.STATIC_METHODS, 1, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.STATIC_METHODS).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.SYNCHRONIZED_METHODS, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.SYNCHRONIZED_METHODS).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.NATIVE_METHODS, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.NATIVE_METHODS).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.TRIVIAL_METHODS, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.TRIVIAL_METHODS).getValue().intValue());
-        assertEquals("PuMR", 1, factory.createClassMetrics("test").getMeasurement("PuMR").getValue().doubleValue(), 0.01);
-        assertEquals("ProMR", 0, factory.createClassMetrics("test").getMeasurement("ProMR").getValue().doubleValue(), 0.01);
-        assertEquals("PriMR", 0, factory.createClassMetrics("test").getMeasurement("PriMR").getValue().doubleValue(), 0.01);
-        assertEquals("PaMR", 0, factory.createClassMetrics("test").getMeasurement("PaMR").getValue().doubleValue(), 0.01);
-        assertEquals("FMR", 0, factory.createClassMetrics("test").getMeasurement("FMR").getValue().doubleValue(), 0.01);
-        assertEquals("AMR", 0, factory.createClassMetrics("test").getMeasurement("AMR").getValue().doubleValue(), 0.01);
-        assertEquals("DMR", 0, factory.createClassMetrics("test").getMeasurement("DMR").getValue().doubleValue(), 0.01);
-        assertEquals("SynthMR", 0, factory.createClassMetrics("test").getMeasurement("SynthMR").getValue().doubleValue(), 0.01);
-        assertEquals("SMR", 0.5, factory.createClassMetrics("test").getMeasurement("SMR").getValue().doubleValue(), 0.01);
-        assertEquals("SynchMR", 0, factory.createClassMetrics("test").getMeasurement("SynchMR").getValue().doubleValue(), 0.01);
-        assertEquals("NMR", 0, factory.createClassMetrics("test").getMeasurement("NMR").getValue().doubleValue(), 0.01);
-        assertEquals("TMR", 0, factory.createClassMetrics("test").getMeasurement("TMR").getValue().doubleValue(), 0.01);
-        assertEquals("A", 0, factory.createClassMetrics("test").getMeasurement("A").getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.PUBLIC_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.PUBLIC_ATTRIBUTES).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.PROTECTED_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.PROTECTED_ATTRIBUTES).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.PRIVATE_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.PRIVATE_ATTRIBUTES).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.PACKAGE_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.FINAL_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.FINAL_ATTRIBUTES).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.DEPRECATED_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.DEPRECATED_ATTRIBUTES).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.SYNTHETIC_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.SYNTHETIC_ATTRIBUTES).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.STATIC_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.STATIC_ATTRIBUTES).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.TRANSIENT_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.TRANSIENT_ATTRIBUTES).getValue().intValue());
-        assertMeasurementEquals(BasicMeasurements.VOLATILE_ATTRIBUTES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.VOLATILE_ATTRIBUTES).getValue().intValue());
-        assertTrue("PuAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("PuAR").getValue().doubleValue()));
-        assertTrue("ProAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("ProAR").getValue().doubleValue()));
-        assertTrue("PriAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("PriAR").getValue().doubleValue()));
-        assertTrue("PaAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("PaAR").getValue().doubleValue()));
-        assertTrue("FAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("FAR").getValue().doubleValue()));
-        assertTrue("DAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("DAR").getValue().doubleValue()));
-        assertTrue("SynthAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("SynthAR").getValue().doubleValue()));
-        assertTrue("SAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("SAR").getValue().doubleValue()));
-        assertTrue("TAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("TAR").getValue().doubleValue()));
-        assertTrue("VAR", Double.isNaN(factory.createClassMetrics("test").getMeasurement("VAR").getValue().doubleValue()));
-        assertMeasurementEquals(BasicMeasurements.SUBCLASSES, 0, factory.createClassMetrics("test").getMeasurement(BasicMeasurements.SUBCLASSES).getValue().intValue());
-        assertTrue(BasicMeasurements.DEPTH_OF_INHERITANCE + " should have been ignored", factory.createClassMetrics("test").getMeasurement(BasicMeasurements.DEPTH_OF_INHERITANCE).isEmpty());
+        Metrics metrics = factory.createClassMetrics("test");
 
-        //
-        // Dependencies
-        //
+        assertMeasurementEquals(metrics, BasicMeasurements.SLOC, 7);
+        assertMeasurementEquals(metrics, "M", 2);
+        assertMeasurementEquals(metrics, BasicMeasurements.PUBLIC_METHODS, 2);
+        assertMeasurementEquals(metrics, BasicMeasurements.PROTECTED_METHODS, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.PRIVATE_METHODS, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.PACKAGE_METHODS, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.FINAL_METHODS, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.ABSTRACT_METHODS, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.DEPRECATED_METHODS, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.SYNTHETIC_METHODS, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.STATIC_METHODS, 1);
+        assertMeasurementEquals(metrics, BasicMeasurements.SYNCHRONIZED_METHODS, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.NATIVE_METHODS, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.TRIVIAL_METHODS, 0);
+        assertMeasurementEquals(metrics, "PuMR", 1.0);
+        assertMeasurementEquals(metrics, "ProMR", 0.0);
+        assertMeasurementEquals(metrics, "PriMR", 0.0);
+        assertMeasurementEquals(metrics, "PaMR", 0.0);
+        assertMeasurementEquals(metrics, "FMR", 0.0);
+        assertMeasurementEquals(metrics, "AMR", 0.0);
+        assertMeasurementEquals(metrics, "DMR", 0.0);
+        assertMeasurementEquals(metrics, "SynthMR", 0.0);
+        assertMeasurementEquals(metrics, "SMR", 0.5);
+        assertMeasurementEquals(metrics, "SynchMR", 0.0);
+        assertMeasurementEquals(metrics, "NMR", 0.0);
+        assertMeasurementEquals(metrics, "TMR", 0.0);
+        assertMeasurementEquals(metrics, "A", 0.0);
+        assertMeasurementEquals(metrics, BasicMeasurements.PUBLIC_ATTRIBUTES, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.PROTECTED_ATTRIBUTES, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.PRIVATE_ATTRIBUTES, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.PACKAGE_ATTRIBUTES, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.FINAL_ATTRIBUTES, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.DEPRECATED_ATTRIBUTES, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.SYNTHETIC_ATTRIBUTES, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.STATIC_ATTRIBUTES, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.TRANSIENT_ATTRIBUTES, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.VOLATILE_ATTRIBUTES, 0);
+        assertMeasurementIsNaN(metrics, "PuAR");
+        assertMeasurementIsNaN(metrics, "ProAR");
+        assertMeasurementIsNaN(metrics, "PriAR");
+        assertMeasurementIsNaN(metrics, "PaAR");
+        assertMeasurementIsNaN(metrics, "FAR");
+        assertMeasurementIsNaN(metrics, "DAR");
+        assertMeasurementIsNaN(metrics, "SynthAR");
+        assertMeasurementIsNaN(metrics, "SAR");
+        assertMeasurementIsNaN(metrics, "TAR");
+        assertMeasurementIsNaN(metrics, "VAR");
+        assertMeasurementEquals(metrics, BasicMeasurements.SUBCLASSES, 0);
+        assertMeasurementIsEmpty(metrics, BasicMeasurements.DEPTH_OF_INHERITANCE);
 
-        Collection dependencies;
-
-        dependencies = ((CollectionMeasurement) factory.createClassMetrics("test").getMeasurement(BasicMeasurements.INBOUND_INTRA_PACKAGE_DEPENDENCIES)).getValues();
-        assertEquals(BasicMeasurements.INBOUND_INTRA_PACKAGE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
-        
-        dependencies = ((CollectionMeasurement) factory.createClassMetrics("test").getMeasurement(BasicMeasurements.INBOUND_EXTRA_PACKAGE_DEPENDENCIES)).getValues();
-        assertEquals(BasicMeasurements.INBOUND_EXTRA_PACKAGE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
-        
-        dependencies = ((CollectionMeasurement) factory.createClassMetrics("test").getMeasurement(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_DEPENDENCIES)).getValues();
-        assertEquals(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
-        
-        dependencies = ((CollectionMeasurement) factory.createClassMetrics("test").getMeasurement(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES)).getValues();
-        assertMeasurementEquals(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES, 1, dependencies.size());
-        assertTrue(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES + " " + dependencies + "missing java.lang.Object", dependencies.contains("java.lang.Object"));
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.INBOUND_INTRA_PACKAGE_DEPENDENCIES);
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.INBOUND_EXTRA_PACKAGE_DEPENDENCIES);
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_INTRA_PACKAGE_DEPENDENCIES);
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES, "java.lang.Object");
     }
 
     @Test
     public void test_() {
-        assertMeasurementEquals(BasicMeasurements.SLOC, 7, factory.createGroupMetrics("").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+        assertMeasurementEquals(factory.createGroupMetrics(""), BasicMeasurements.SLOC, 7);
     }
 
     @Test
     public void testProject() {
-        assertMeasurementEquals(BasicMeasurements.SLOC, 7, factory.createProjectMetrics("test").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+        assertMeasurementEquals(factory.createProjectMetrics("test"), BasicMeasurements.SLOC, 7);
     }
 
-    private void assertMeasurementEquals(BasicMeasurements message, int expectedValue, int actualValue) {
-        Assert.assertEquals(message.getAbbreviation(), expectedValue, actualValue);
+    private void assertCollectionEquals(String message, Collection<String> names, String ... values) {
+        assertThat(message, names, hasItems(values));
+        assertThat(message, names.size(), is(values.length));
+    }
+
+    private void assertCollectionMeasurementEquals(Metrics metrics, BasicMeasurements measurement, String ... values) {
+        assertCollectionMeasurementEquals(metrics, measurement.getAbbreviation(), values);
+    }
+
+    private void assertCollectionMeasurementEquals(Metrics metrics, String abbreviation, String ... values) {
+        Collection<String> dependencies = ((CollectionMeasurement) metrics.getMeasurement(abbreviation)).getValues();
+        assertThat(abbreviation, dependencies, hasItems(values));
+        assertThat(abbreviation, dependencies.size(), is(values.length));
+    }
+
+    private void assertMeasurementEquals(Metrics metrics, BasicMeasurements measurement, int expectedValue) {
+        assertMeasurementEquals(metrics, measurement.getAbbreviation(), expectedValue);
+    }
+
+    private void assertMeasurementEquals(Metrics metrics, String abbreviation, int expectedValue) {
+        assertThat(abbreviation, metrics.getMeasurement(abbreviation).getValue().intValue(), is(expectedValue));
+    }
+
+    private void assertMeasurementEquals(Metrics metrics, String abbreviation, double expectedValue) {
+        assertThat(abbreviation, metrics.getMeasurement(abbreviation).getValue().doubleValue(), is(closeTo(expectedValue, 0.01)));
+    }
+
+    private void assertMeasurementIsNaN(Metrics metrics, String abbreviation) {
+        assertTrue(abbreviation, Double.isNaN(metrics.getMeasurement(abbreviation).getValue().doubleValue()));
+    }
+
+    private void assertMeasurementIsEmpty(Metrics metrics, BasicMeasurements measurement) {
+        assertMeasurementIsEmpty(metrics, measurement.getAbbreviation());
+    }
+
+    private void assertMeasurementIsEmpty(Metrics metrics, String abbreviation) {
+        assertTrue(abbreviation + " should have been ignored", metrics.getMeasurement(abbreviation).isEmpty());
     }
 }
