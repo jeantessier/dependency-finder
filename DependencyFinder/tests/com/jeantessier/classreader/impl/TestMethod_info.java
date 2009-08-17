@@ -34,8 +34,8 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
+import static org.hamcrest.Matchers.*;
 import org.jmock.*;
-import static org.jmock.Expectations.*;
 import org.jmock.integration.junit4.*;
 import org.jmock.lib.legacy.*;
 import static org.junit.Assert.*;
@@ -84,7 +84,7 @@ public class TestMethod_info {
         expectReadU2(TEST_NB_ATTRIBUTES);
 
         Method_info sut = new Method_info(mockClassfile, mockIn);
-        assertThat("declaration", sut.getDeclaration(), equal("static {}"));
+        assertThat("declaration", sut.getDeclaration(), is("static {}"));
     }
 
     protected void expectReadU2(final int i) throws IOException {
