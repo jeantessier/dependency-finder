@@ -40,7 +40,7 @@ public class NameAndType_info extends ConstantPoolEntry implements com.jeantessi
     private int nameIndex;
     private int typeIndex;
 
-    public NameAndType_info(ConstantPool constantPool, DataInputStream in) throws IOException {
+    public NameAndType_info(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool);
 
         nameIndex = in.readUnsignedShort();

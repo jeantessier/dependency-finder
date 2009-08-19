@@ -67,11 +67,11 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
      *  Parses the input stream and extracts the class description.
      *  You should only call this constructor from a ClassfileLoader.
      */
-    public Classfile(ClassfileLoader loader, DataInputStream in) throws IOException {
+    public Classfile(ClassfileLoader loader, DataInput in) throws IOException {
         this(loader, in, new AttributeFactory());
     }
 
-    public Classfile(ClassfileLoader loader, DataInputStream in, AttributeFactory attributeFactory) throws IOException {
+    public Classfile(ClassfileLoader loader, DataInput in, AttributeFactory attributeFactory) throws IOException {
         this.loader = loader;
 
         magicNumber = in.readInt();
@@ -256,30 +256,30 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     public com.jeantessier.classreader.Method_info locateMethod(String signature) {
-        com.jeantessier.classreader.Method_info result = getMethod(signature);
+        com.jeantessier.classreader.Method_info localMethod = getMethod(signature);
+        if (localMethod != null) {
+            return localMethod;
+        }
 
-        if (result == null) {
-            com.jeantessier.classreader.Classfile classfile = getLoader().getClassfile(getSuperclassName());
-            if (classfile != null) {
-                com.jeantessier.classreader.Method_info attempt = classfile.locateMethod(signature);
-                if (attempt != null && (attempt.isPublic() || attempt.isProtected())) {
-                    result = attempt;
+        com.jeantessier.classreader.Classfile superclass = getLoader().getClassfile(getSuperclassName());
+        if (superclass != null) {
+            com.jeantessier.classreader.Method_info inheritedMethod = superclass.locateMethod(signature);
+            if (inheritedMethod != null && (inheritedMethod.isPublic() || inheritedMethod.isProtected())) {
+                return inheritedMethod;
+            }
+        }
+
+        for (com.jeantessier.classreader.Class_info inferfaceInfo : getAllInterfaces()) {
+            com.jeantessier.classreader.Classfile interfaceClassfile = getLoader().getClassfile(inferfaceInfo.getName());
+            if (interfaceClassfile != null) {
+                com.jeantessier.classreader.Method_info interfaceMethod = interfaceClassfile.locateMethod(signature);
+                if (interfaceMethod != null && (interfaceMethod.isPublic() || interfaceMethod.isProtected())) {
+                    return interfaceMethod;
                 }
             }
         }
 
-        Iterator i = getAllInterfaces().iterator();
-        while (result == null && i.hasNext()) {
-            com.jeantessier.classreader.Classfile classfile = getLoader().getClassfile(i.next().toString());
-            if (classfile != null) {
-                com.jeantessier.classreader.Method_info attempt = classfile.locateMethod(signature);
-                if (attempt != null && (attempt.isPublic() || attempt.isProtected())) {
-                    result = attempt;
-                }
-            }
-        }
-
-        return result;
+        return null;
     }
 
     public Collection<Attribute_info> getAttributes() {

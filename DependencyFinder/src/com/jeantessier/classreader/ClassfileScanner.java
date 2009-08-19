@@ -67,7 +67,7 @@ public class ClassfileScanner extends ClassfileLoaderEventSource {
         return Collections.emptyList();
     }
 
-    protected Classfile load(DataInputStream in) throws IOException {
+    protected Classfile load(DataInput in) throws IOException {
         return null;
     }
 

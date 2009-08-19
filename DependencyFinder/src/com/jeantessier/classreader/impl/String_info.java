@@ -39,7 +39,7 @@ import com.jeantessier.classreader.*;
 public class String_info extends ConstantPoolEntry implements com.jeantessier.classreader.String_info {
     private int valueIndex;
 
-    public String_info(ConstantPool constantPool, DataInputStream in) throws IOException {
+    public String_info(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool);
 
         valueIndex = in.readUnsignedShort();

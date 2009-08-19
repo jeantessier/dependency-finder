@@ -60,10 +60,10 @@ public class ClassDump {
     }
 
     public static void dumpClass(InputStream in) {
-        dumpClass(new DataInputStream(in));
+        dumpClass((DataInput) new DataInputStream(in));
     }
 
-    public static void dumpClass(DataInputStream in) {
+    public static void dumpClass(DataInput in) {
         int count = 0;
         try {
             while (true) {

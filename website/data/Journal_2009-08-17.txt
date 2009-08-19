@@ -1,1 +1,2 @@
-Tweaked tests to use =is()= matcher with =assertThat()= consistently.
+Changed dependencies on =java.io.DataInputStream= to =java.io.DataInput=
+instead.

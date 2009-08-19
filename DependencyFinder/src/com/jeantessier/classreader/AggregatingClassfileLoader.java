@@ -68,7 +68,7 @@ public class AggregatingClassfileLoader extends ClassfileLoaderEventSource {
         return Collections.unmodifiableCollection(classfiles.keySet());
     }
 
-    protected Classfile load(DataInputStream in) throws IOException {
+    protected Classfile load(DataInput in) throws IOException {
         Classfile result = getFactory().create(this, in);
 
         classfiles.put(result.getClassName(), result);

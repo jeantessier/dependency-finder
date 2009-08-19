@@ -39,7 +39,7 @@ import com.jeantessier.classreader.*;
 public class Float_info extends ConstantPoolEntry implements com.jeantessier.classreader.Float_info {
     private float value;
 
-    public Float_info(ConstantPool constantPool, DataInputStream in) throws IOException {
+    public Float_info(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool);
 
         value = in.readFloat();

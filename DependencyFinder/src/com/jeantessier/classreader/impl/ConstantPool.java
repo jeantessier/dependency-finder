@@ -42,7 +42,7 @@ import com.jeantessier.classreader.*;
 public class ConstantPool extends ArrayList<com.jeantessier.classreader.ConstantPoolEntry> implements com.jeantessier.classreader.ConstantPool {
     private Classfile classfile;
 
-    public ConstantPool(Classfile classfile, DataInputStream in) throws IOException {
+    public ConstantPool(Classfile classfile, DataInput in) throws IOException {
         this.classfile = classfile;
 
         int count = in.readUnsignedShort();

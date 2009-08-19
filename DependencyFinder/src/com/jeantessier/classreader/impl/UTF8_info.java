@@ -39,7 +39,7 @@ import com.jeantessier.classreader.*;
 public class UTF8_info extends ConstantPoolEntry implements com.jeantessier.classreader.UTF8_info {
     private String value;
 
-    public UTF8_info(ConstantPool constantPool, DataInputStream in) throws IOException {
+    public UTF8_info(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool);
 
         value = in.readUTF();

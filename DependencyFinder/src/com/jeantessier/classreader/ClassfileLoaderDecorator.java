@@ -98,7 +98,7 @@ public abstract class ClassfileLoaderDecorator extends ClassfileLoader {
         getLoader().fireEndSession();
     }
     
-    protected Classfile load(DataInputStream in) throws IOException {
+    protected Classfile load(DataInput in) throws IOException {
         return getLoader().load(in);
     }
 }
