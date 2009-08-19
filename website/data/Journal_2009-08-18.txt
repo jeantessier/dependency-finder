@@ -1,0 +1,2 @@
+Changed dependencies on =java.io.DataInputStream= to =java.io.DataInput=
+instead.
