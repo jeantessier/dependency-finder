@@ -1,0 +1,6 @@
+Finished a possible test for =Classfile=, using a test-only constructor.  I
+marked it =@Deprecated= until I figure out how I want to introduce the Google
+Collections API.
+
+I should rewrite =Classfile.locateField()= so it is similar to
+=Classfile.locateMethod()=.  For consistency.
