@@ -12,5 +12,6 @@ a test for it, but the constructor for =Classfile= does *way* too much work.  It
 reads a lot of data from the =DataInput=, including the constant pool and
 interfaces and fields and methods and attributes.  Specifying all of these in a
 test is too brittle, I'd much rather supply mocks for all these collaborators.
-If I use the Google Collections, I could have a special constructor and mark it
-=@VisibleForTesting=.
+If I used the
+[[http://code.google.com/p/google-collections/][Google Collections]], I could
+have a special constructor and mark it =@VisibleForTesting=.

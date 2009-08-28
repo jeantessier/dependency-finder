@@ -1,0 +1,15 @@
+Tried to used
+[[http://code.google.com/p/google-collections/][Google Collections]] in
+=Classfile=.  I was hoping that =Iterables.find()= would simplify methods like
+=getField()= and =getMethod()=, even with the added boilerplate for the
+anonymous inner class for the =Predicate=.  But =find()= throws an exeception
+if it doesn't find a match whereas my code has been returning =null=.  Once I
+throw in the exception handling, the methods is much harder to read than the
+simple =for()= loop I had before.
+
+Google Collections uses the =@Nullable= annotation from
+[[http://code.google.com/p/jsr-305/][JSR 305]].  But the project doesn't have
+any binaries, so I had to steal the JAR file from the
+[[http://code.google.com/p/findbugs/][FindBugs]] project.  It doesn't feel as
+clean as I would want it.  Maybe I need to let Google Collections to bake for a
+little while longer.
