@@ -84,7 +84,8 @@ import static org.junit.runners.Suite.*;
         TestRuntimeInvisibleParameterAnnotations_attributeWithAnnotations.class,
         TestAnnotationDefault_attribute.class,
         TestCustom_attribute.class,
-        TestAttributeFactory.class
+        TestAttributeFactory.class,
+        TestClassfile.class
 })
 public class TestAll {
 }

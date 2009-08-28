@@ -58,8 +58,8 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     private int accessFlag;
     private int classIndex;
     private int superclassIndex;
-    private Map<String, Class_info> interfaces = new TreeMap<String, Class_info>();
-    private Map<String, Field_info> fields = new TreeMap<String, Field_info>();
+    private Collection<Class_info> interfaces = new LinkedList<Class_info>();
+    private Collection<Field_info> fields = new LinkedList<Field_info>();
     private Collection<Method_info> methods = new LinkedList<Method_info>();
     private Collection<Attribute_info> attributes = new LinkedList<Attribute_info>();
 
@@ -110,7 +110,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         for (int i=0; i<interfaceCount; i++) {
             Class_info interfaceInfo = (Class_info) constantPool.get(in.readUnsignedShort());
             Logger.getLogger(getClass()).debug("    " + interfaceInfo.getName());
-            interfaces.put(interfaceInfo.getName(), interfaceInfo);
+            interfaces.add(interfaceInfo);
         }
 
         // Retrieving the fields
@@ -118,8 +118,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         Logger.getLogger(getClass()).debug("Reading " + fieldCount + " field(s)");
         for (int i=0; i<fieldCount; i++) {
             Logger.getLogger(getClass()).debug("Field " + i + ":");
-            Field_info fieldInfo = new Field_info(this, in);
-            fields.put(fieldInfo.getName(), fieldInfo);
+            fields.add(new Field_info(this, in));
         }
 
         // Retrieving the methods
@@ -127,8 +126,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         Logger.getLogger(getClass()).debug("Reading " + methodCount + " method(s)");
         for (int i=0; i<methodCount; i++) {
             Logger.getLogger(getClass()).debug("Method " + i + ":");
-            Method_info methodInfo = new Method_info(this, in);
-            methods.add(methodInfo);
+            methods.add(new Method_info(this, in));
         }
 
         // Retrieving the attributes
@@ -137,6 +135,33 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         for (int i=0; i<attributeCount; i++) {
             Logger.getLogger(getClass()).debug("Attribute " + i + ":");
             attributes.add(attributeFactory.create(constantPool, this, in));
+        }
+    }
+
+    /**
+     * For testing only
+     */
+    Classfile(ClassfileLoader loader, ConstantPool constantPool, int accessFlag, int classIndex, int superclassIndex, Iterable<Class_info> interfaces, Iterable<Field_info> fields, Iterable<Method_info> methods, Iterable<Attribute_info> attributes) {
+        this.loader = loader;
+        this.constantPool = constantPool;
+        this.accessFlag = accessFlag;
+        this.classIndex = classIndex;
+        this.superclassIndex = superclassIndex;
+
+        for (Class_info interfaceInfo : interfaces) {
+            this.interfaces.add(interfaceInfo);
+        }
+
+        for (Field_info field : fields) {
+            this.fields.add(field);
+        }
+
+        for (Method_info method : methods) {
+            this.methods.add(method);
+        }
+
+        for (Attribute_info attribute : attributes) {
+            this.attributes.add(attribute);
         }
     }
 
@@ -199,46 +224,59 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     public Class_info getInterface(String name) {
-        return interfaces.get(name);
+        for (Class_info interfaceInfo : interfaces) {
+            if (interfaceInfo.getName().equals(name)) {
+                return interfaceInfo;
+            }
+        }
+
+        return null;
     }
 
     public Collection<Class_info> getAllInterfaces() {
-        return interfaces.values();
+        return interfaces;
     }
 
     public Collection<Field_info> getAllFields() {
-        return fields.values();
+        return fields;
     }
 
     public Field_info getField(String name) {
-        return fields.get(name);
+        for (Field_info field : fields) {
+            if (field.getName().equals(name)) {
+                return field;
+            }
+        }
+
+        return null;
     }
 
     public com.jeantessier.classreader.Field_info locateField(String name) {
-        com.jeantessier.classreader.Field_info result = getField(name);
+        com.jeantessier.classreader.Field_info localField = getField(name);
+        if (localField != null) {
+            return localField;
+        }
 
-        if (result == null) {
-            com.jeantessier.classreader.Classfile classfile = getLoader().getClassfile(getSuperclassName());
-            if (classfile != null) {
-                com.jeantessier.classreader.Field_info attempt = classfile.locateField(name);
-                if (attempt != null && (attempt.isPublic() || attempt.isProtected())) {
-                    result = attempt;
+        com.jeantessier.classreader.Classfile superclass = getLoader().getClassfile(getSuperclassName());
+        if (superclass != null) {
+            com.jeantessier.classreader.Field_info inheritedField = superclass.locateField(name);
+            if (inheritedField != null && (inheritedField.isPublic() || inheritedField.isProtected())) {
+                return inheritedField;
+            }
+        }
+
+
+        for (com.jeantessier.classreader.Class_info interfaceInfo : getAllInterfaces()) {
+            com.jeantessier.classreader.Classfile interfaceClassfile = getLoader().getClassfile(interfaceInfo.getName());
+            if (interfaceClassfile != null) {
+                com.jeantessier.classreader.Field_info interfaceField = interfaceClassfile.locateField(name);
+                if (interfaceField != null && (interfaceField.isPublic() || interfaceField.isProtected())) {
+                    return interfaceField;
                 }
             }
         }
 
-        Iterator i = getAllInterfaces().iterator();
-        while (result == null && i.hasNext()) {
-            com.jeantessier.classreader.Classfile classfile = getLoader().getClassfile(i.next().toString());
-            if (classfile != null) {
-                com.jeantessier.classreader.Field_info attempt = classfile.locateField(name);
-                if (attempt != null && (attempt.isPublic() || attempt.isProtected())) {
-                    result = attempt;
-                }
-            }
-        }
-
-        return result;
+        return null;
     }
 
     public Collection<Method_info> getAllMethods() {
