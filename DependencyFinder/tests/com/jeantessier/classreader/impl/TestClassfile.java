@@ -134,36 +134,6 @@ public class TestClassfile {
     }
 
     @Test
-    public void testLocateMethod_packageInheritedMethodInSamePackage_succeed() throws Exception {
-        final String superclassName = "superclassInfo";
-        final Class_info superclassInfo = context.mock(Class_info.class, "superclassInfo info");
-        final Classfile superclass = context.mock(Classfile.class, "superclass");
-        final Method_info expectedMethod = context.mock(Method_info.class, "located method");
-
-        context.checking(new Expectations() {{
-            one (constantPool).get(2);
-                will(returnValue(superclassInfo));
-            one (superclassInfo).getName();
-                will(returnValue(superclassName));
-            one (loader).getClassfile(superclassName);
-                will(returnValue(superclass));
-            one (superclass).locateMethod(TEST_METHOD_SIGNATURE);
-                will(returnValue(expectedMethod));
-            one (expectedMethod).isPublic();
-                will(returnValue(false));
-            one (expectedMethod).isProtected();
-                will(returnValue(false));
-            one (expectedMethod).isPackage();
-                will(returnValue(true));
-        }});
-
-        Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.<Class_info>emptyList(), Collections.<Field_info>emptyList(), Collections.<Method_info>emptyList(), Collections.<Attribute_info>emptyList());
-
-        Method_info actualMethod = (Method_info) sut.locateMethod(TEST_METHOD_SIGNATURE);
-        assertThat("", actualMethod, is(expectedMethod));
-    }
-
-    @Test
     public void testLocateMethod_privateInheritedMethod_fail() throws Exception {
         final String superclassName = "superclassInfo";
         final Class_info superclassInfo = context.mock(Class_info.class, "superclassInfo info");
