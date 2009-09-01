@@ -1,0 +1,20 @@
+I'm still debating whether interactions between visitors should use double
+dispatch or not.  Double dispatch is useful when you don't know the exact type
+of the element being visited, so you cannot know which =visit()= method to use.
+But when the decorating visitor is ready to dispatch to the decorated visitor,
+it knows the concrete type of the visited element, so there is no need for
+double dispatch.  I'm still tempted to keep using double dispatch nonetheless,
+since it is the normal mechanism for passing control to a visitor and it makes
+the interactions with the decorated visitor seem more natural.
+
+I have produced an alternate sequence diagram that shows the flow of control
+between three visitors composed visitor to render a dependency graph as text.
+
+[[../images/DecoratedVisitorsWithoutDoubleDispatch.png][../images/s_DecoratedVisitorsWithoutDoubleDispatch.png]]
+
+I also produced a matching version of the dependency graph for rendering a
+dependency closure as a call graph.
+
+[[../images/CallGraphWithoutDoubleDispatch.png][../images/s_CallGraphWithoutDoubleDispatch.png]]
+
+I really like [[http://sdedit.sf.net/][sdedit]] for creating sequence diagrams.
