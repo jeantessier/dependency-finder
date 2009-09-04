@@ -1,1 +1,2 @@
-Added JarJarDiff output for [[http://easymock.org][EasyMock].
+Added JarJarDiff output for [[http://easymock.org][EasyMock] and its class
+extension.
