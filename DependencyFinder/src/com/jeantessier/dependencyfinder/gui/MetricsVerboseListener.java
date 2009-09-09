@@ -43,7 +43,7 @@ public class MetricsVerboseListener extends VerboseListener implements MetricsLi
     }
 
     public void endSession(LoadEvent event) {
-        // Do nothing
+        // Do nothing, cancel behavior from superclass.
     }
 
     public void beginSession(MetricsEvent event) {

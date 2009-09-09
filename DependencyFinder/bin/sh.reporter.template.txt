@@ -35,4 +35,4 @@
 DEPENDENCYFINDER_HOME=${DEPENDENCYFINDER_HOME:=`dirname $0`/..}
 COMMAND=`basename $0`
 
-$JAVA_HOME/bin/java $DEPENDENCYFINDER_OPTS -classpath $DEPENDENCYFINDER_HOME/classes:$DEPENDENCYFINDER_HOME/lib/DependencyFinder.jar:$DEPENDENCYFINDER_HOME/lib/log4j.jar:$DEPENDENCYFINDER_HOME/lib/jakarta-oro.jar com.jeantessier.dependencyfinder.cli.DependencyReporter -$COMMAND $*
+$JAVA_HOME/bin/java $DEPENDENCYFINDER_OPTS -classpath $DEPENDENCYFINDER_HOME/classes:$DEPENDENCYFINDER_HOME/lib/DependencyFinder.jar:$DEPENDENCYFINDER_HOME/lib/google-collect.jar:$DEPENDENCYFINDER_HOME/lib/jakarta-oro.jar:$DEPENDENCYFINDER_HOME/lib/jsr305:$DEPENDENCYFINDER_HOME/lib/log4j.jar com.jeantessier.dependencyfinder.cli.DependencyReporter -$COMMAND $*
