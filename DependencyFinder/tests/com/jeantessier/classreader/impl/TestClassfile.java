@@ -46,7 +46,10 @@ import com.jeantessier.classreader.*;
 
 @RunWith(JMock.class)
 public class TestClassfile {
-    private static final String TEST_METHOD_SIGNATURE = "foo.Foo.foo()";
+    private static final String TEST_PACKAGE_NAME = "foo";
+    private static final String TEST_CLASS_NAME = TEST_PACKAGE_NAME + ".Foo";
+    private static final String TEST_FIELD_NAME = TEST_CLASS_NAME + ".foo";
+    private static final String TEST_METHOD_SIGNATURE = TEST_CLASS_NAME + ".foo()";
 
     private Mockery context;
 
@@ -60,6 +63,105 @@ public class TestClassfile {
 
         loader = context.mock(ClassfileLoader.class);
         constantPool = context.mock(ConstantPool.class);
+    }
+
+    @Test
+    public void testLocateField_localField_succeed() throws Exception {
+        final Field_info expectedField = context.mock(Field_info.class, "located field");
+
+        Collection<Field_info> fields = Collections.singletonList(expectedField);
+
+        context.checking(new Expectations() {{
+            one (expectedField).getName();
+                will(returnValue(TEST_FIELD_NAME));
+        }});
+
+        Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.<Class_info>emptyList(), fields, Collections.<Method_info>emptyList(), Collections.<Attribute_info>emptyList());
+
+        Field_info actualField = (Field_info) sut.locateField(TEST_FIELD_NAME);
+        assertThat("local field", actualField, is(expectedField));
+    }
+
+    @Test
+    public void testLocateField_publicInheritedField_succeed() throws Exception {
+        final String superclassName = "superclassInfo";
+        final Class_info superclassInfo = context.mock(Class_info.class, "superclassInfo info");
+        final Classfile superclass = context.mock(Classfile.class, "superclass");
+        final Field_info expectedField = context.mock(Field_info.class, "located field");
+
+        context.checking(new Expectations() {{
+            one (constantPool).get(2);
+                will(returnValue(superclassInfo));
+            one (superclassInfo).getName();
+                will(returnValue(superclassName));
+            one (loader).getClassfile(superclassName);
+                will(returnValue(superclass));
+            one (superclass).locateField(TEST_FIELD_NAME);
+                will(returnValue(expectedField));
+            one (expectedField).isPublic();
+                will(returnValue(true));
+        }});
+
+        Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.<Class_info>emptyList(), Collections.<Field_info>emptyList(), Collections.<Method_info>emptyList(), Collections.<Attribute_info>emptyList());
+
+        Field_info actualField = (Field_info) sut.locateField(TEST_FIELD_NAME);
+        assertThat("", actualField, is(expectedField));
+    }
+
+    @Test
+    public void testLocateField_protectedInheritedField_succeed() throws Exception {
+        final String superclassName = "superclassInfo";
+        final Class_info superclassInfo = context.mock(Class_info.class, "superclassInfo info");
+        final Classfile superclass = context.mock(Classfile.class, "superclass");
+        final Field_info expectedField = context.mock(Field_info.class, "located field");
+
+        context.checking(new Expectations() {{
+            one (constantPool).get(2);
+                will(returnValue(superclassInfo));
+            one (superclassInfo).getName();
+                will(returnValue(superclassName));
+            one (loader).getClassfile(superclassName);
+                will(returnValue(superclass));
+            one (superclass).locateField(TEST_FIELD_NAME);
+                will(returnValue(expectedField));
+            one (expectedField).isPublic();
+                will(returnValue(false));
+            one (expectedField).isProtected();
+                will(returnValue(true));
+        }});
+
+        Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.<Class_info>emptyList(), Collections.<Field_info>emptyList(), Collections.<Method_info>emptyList(), Collections.<Attribute_info>emptyList());
+
+        Field_info actualField = (Field_info) sut.locateField(TEST_FIELD_NAME);
+        assertThat("", actualField, is(expectedField));
+    }
+
+    @Test
+    public void testLocateField_privateInheritedField_fail() throws Exception {
+        final String superclassName = "superclassInfo";
+        final Class_info superclassInfo = context.mock(Class_info.class, "superclassInfo info");
+        final Classfile superclass = context.mock(Classfile.class, "superclass");
+        final Field_info expectedField = context.mock(Field_info.class, "located field");
+
+        context.checking(new Expectations() {{
+            one (constantPool).get(2);
+                will(returnValue(superclassInfo));
+            one (superclassInfo).getName();
+                will(returnValue(superclassName));
+            one (loader).getClassfile(superclassName);
+                will(returnValue(superclass));
+            one (superclass).locateField(TEST_FIELD_NAME);
+                will(returnValue(expectedField));
+            one (expectedField).isPublic();
+                will(returnValue(false));
+            one (expectedField).isProtected();
+                will(returnValue(false));
+        }});
+
+        Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.<Class_info>emptyList(), Collections.<Field_info>emptyList(), Collections.<Method_info>emptyList(), Collections.<Attribute_info>emptyList());
+
+        Field_info actualField = (Field_info) sut.locateField(TEST_FIELD_NAME);
+        assertThat("", actualField, is(nullValue()));
     }
 
     @Test
