@@ -32,42 +32,14 @@
 
 package com.jeantessier.classreader;
 
-public class LoadListenerVisitorAdapter implements LoadListener {
+public class LoadListenerVisitorAdapter extends LoadAdapter {
     private Visitor visitor;
     
     public LoadListenerVisitorAdapter(Visitor visitor) {
         this.visitor = visitor;
     }
     
-    public void beginSession(LoadEvent event) {
-        // Do nothing
-    }
-    
-    public void beginGroup(LoadEvent event) {
-        // Do nothing
-    }
-    
-    public void beginFile(LoadEvent event) {
-        // Do nothing
-    }
-    
-    public void beginClassfile(LoadEvent event) {
-        // Do nothing
-    }
-    
     public void endClassfile(LoadEvent event) {
         event.getClassfile().accept(visitor);
-    }
-    
-    public void endFile(LoadEvent event) {
-        // Do nothing
-    }
-    
-    public void endGroup(LoadEvent event) {
-        // Do nothing
-    }
-    
-    public void endSession(LoadEvent event) {
-        // Do nothing
     }
 }

@@ -34,60 +34,29 @@ package com.jeantessier.classreader;
 
 import java.util.*;
 
-public class PackageMapper implements LoadListener {
-    private Map<String, Map<String, Classfile>> map = new HashMap<String, Map<String, Classfile>>();
+import com.google.common.collect.*;
+
+public class PackageMapper extends LoadAdapter {
+    private Map<String, Map<String, Classfile>> packages = Maps.newHashMap();
 
     public Collection<String> getPackageNames() {
-        return map.keySet();
+        return packages.keySet();
     }
 
     public Map<String, Classfile> getPackage(String packageName) {
-        return map.get(packageName);
-    }
-
-    public void beginSession(LoadEvent event) {
-        // Do noting
-    }
-
-    public void beginGroup(LoadEvent event) {
-        // Do noting
-    }
-
-    public void beginFile(LoadEvent event) {
-        // Do noting
-    }
-
-    public void beginClassfile(LoadEvent event) {
-        // Do noting
+        return packages.get(packageName);
     }
 
     public void endClassfile(LoadEvent event) {
         Classfile classfile = event.getClassfile();
+        String packageName = classfile.getPackageName();
 
-        String packageName = "";
-        int pos = classfile.getClassName().lastIndexOf(".");
-        if (pos != -1) {
-            packageName = classfile.getClassName().substring(0, pos);
-        }
-
-        Map<String, Classfile> map = this.map.get(packageName);
+        Map<String, Classfile> map = packages.get(packageName);
         if (map == null) {
-            map = new HashMap<String, Classfile>();
-            this.map.put(packageName, map);
+            map = Maps.newHashMap();
+            packages.put(packageName, map);
         }
 
         map.put(classfile.getClassName(), classfile);
-    }
-
-    public void endFile(LoadEvent event) {
-        // Do noting
-    }
-
-    public void endGroup(LoadEvent event) {
-        // Do noting
-    }
-
-    public void endSession(LoadEvent event) {
-        // Do noting
     }
 }
