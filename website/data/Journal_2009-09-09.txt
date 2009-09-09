@@ -1,1 +1,4 @@
-Added tests for =Classfile.locateField()=.
+Pushed the logic for separating fully qualified class names into package name
+and simple class name to the =Class_info= class, with tests.  Added tests for
+=Classfile.locateField()= and =Classfile.locateMethod()=, including proper
+handling of inherited package-visible methods.

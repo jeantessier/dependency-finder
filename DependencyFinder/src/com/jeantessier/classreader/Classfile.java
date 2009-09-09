@@ -48,6 +48,7 @@ public interface Classfile extends Deprecatable, Visitable {
     public int getClassIndex();
     public Class_info getRawClass();
     public String getClassName();
+    public String getPackageName();
     public String getSimpleName();
 
     public int getSuperclassIndex();

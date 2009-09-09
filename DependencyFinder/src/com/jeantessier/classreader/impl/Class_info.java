@@ -45,6 +45,15 @@ public class Class_info extends ConstantPoolEntry implements com.jeantessier.cla
         nameIndex = in.readUnsignedShort();
     }
 
+    /**
+     * For testing only
+     */
+    Class_info(ConstantPool constantPool, int nameIndex) {
+        super(constantPool);
+
+        this.nameIndex = nameIndex;
+    }
+
     public int getNameIndex() {
         return nameIndex;
     }
@@ -57,8 +66,21 @@ public class Class_info extends ConstantPoolEntry implements com.jeantessier.cla
         return ClassNameHelper.convertClassName(getRawName().getValue());
     }
 
+    public String getPackageName() {
+        String result = "";
+
+        String name = getName();
+        int pos = name.lastIndexOf(".");
+        if (pos != -1) {
+            result = name.substring(0, pos);
+        }
+
+        return result;
+    }
+
     public String getSimpleName() {
-        return getName().substring(getName().lastIndexOf(".") + 1);
+        String name = getName();
+        return name.substring(name.lastIndexOf(".") + 1);
     }
 
     public String toString() {

@@ -201,8 +201,12 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         return getRawClass().getName();
     }
 
+    public String getPackageName() {
+        return getRawClass().getPackageName();
+    }
+
     public String getSimpleName() {
-        return getClassName().substring(getClassName().lastIndexOf(".") + 1);
+        return getRawClass().getSimpleName();
     }
 
     public int getSuperclassIndex() {
@@ -260,7 +264,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         com.jeantessier.classreader.Classfile superclass = getLoader().getClassfile(getSuperclassName());
         if (superclass != null) {
             com.jeantessier.classreader.Field_info inheritedField = superclass.locateField(name);
-            if (inheritedField != null && (inheritedField.isPublic() || inheritedField.isProtected())) {
+            if (inheritedField != null && (inheritedField.isPublic() || inheritedField.isProtected() || (inheritedField.isPackage() && inheritedField.getClassfile().getPackageName().equals(superclass.getPackageName())))) {
                 return inheritedField;
             }
         }
@@ -302,7 +306,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         com.jeantessier.classreader.Classfile superclass = getLoader().getClassfile(getSuperclassName());
         if (superclass != null) {
             com.jeantessier.classreader.Method_info inheritedMethod = superclass.locateMethod(signature);
-            if (inheritedMethod != null && (inheritedMethod.isPublic() || inheritedMethod.isProtected())) {
+            if (inheritedMethod != null && (inheritedMethod.isPublic() || inheritedMethod.isProtected() || (inheritedMethod.isPackage() && inheritedMethod.getClassfile().getPackageName().equals(superclass.getPackageName())))) {
                 return inheritedMethod;
             }
         }

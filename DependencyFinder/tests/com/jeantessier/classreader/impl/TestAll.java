@@ -85,7 +85,7 @@ import static org.junit.runners.Suite.*;
         TestAnnotationDefault_attribute.class,
         TestCustom_attribute.class,
         TestAttributeFactory.class,
+        TestClass_info.class,
         TestClassfile.class
 })
-public class TestAll {
-}
+public class TestAll {}
