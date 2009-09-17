@@ -1,0 +1,16 @@
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>HttpUnit</td>
+        <td>:</td>
+        <td>1.6.2</td>
+        <td>-></td>
+        <td>1.7</td>
+    </tr>
+</table>
+</blockquote>
+
+Added the output of =JarJarDiff= on
+[[http://httpunit.sourceforge.net/][HttpUnit]] to the Samples page.

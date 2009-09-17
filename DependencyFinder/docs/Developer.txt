@@ -38,10 +38,10 @@ For testing:
 
 <table>
     <tr><th>Name</th><th>Location</th><th>Tested Version</th></tr>
-    <tr><td>JUnit</td><td>[[http://junit.org/][junit.org]]</td><td align="center">3.8.2</td></tr>
-    <tr><td>jMock</td><td>[[http://jmock.org/][jmock.org]]</td><td align="center">2.4.0</td></tr>
+    <tr><td>JUnit</td><td>[[http://junit.org/][junit.org]]</td><td align="center">4.5</td></tr>
+    <tr><td>jMock</td><td>[[http://jmock.org/][jmock.org]]</td><td align="center">2.5.1</td></tr>
     <tr><td>FitLibrary</td><td>[[http://fitlibrary.sourceforge.net/][fitlibrary.sourceforge.net]]</td><td align="center">2006-01-16</td></tr>
-    <tr><td>HttpUnit</td><td>[[http://httpunit.sourceforge.net/][httpunit.sourceforge.net]]</td><td align="center">1.6.2</td></tr>
+    <tr><td>HttpUnit</td><td>[[http://httpunit.sourceforge.net/][httpunit.sourceforge.net]]</td><td align="center">1.7</td></tr>
     <tr><td>Emma</td><td>[[http://emma.sourceforge.net/][emma.sourceforge.net]]</td><td align="center">2.0.5312</td></tr>
     <tr><td>Clover</td><td>[[http://www.cenqua.com/clover/][cenqua.com/clover]]</td><td align="center">1.3.13</td><td style%3D"font-size: small">You will need the <code>clover-ant</code> distribution.</td></tr>
 </table>
