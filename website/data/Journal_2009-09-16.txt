@@ -1,0 +1,13 @@
+Going through the [[http://groovy.codehaus.org/][Groovy]] tutorial.  It is a
+nice scripting language, a cool extension of Java.  You can name closure
+parameters, just like Ruby, but it also has a default =it= if the closure needs
+only one parameter.  I was able to compile to bytecode, using =groovyc=, and run
+Dependency Finder on it.  But the code it generates is very hard to read, so
+don't try it.  Generated code is meant to stay hidden.
+
+Speaking of generated code, I saw a presentation on
+[[http://ixedit.com][IxEdit]], a tool to generate JavaScript to tie controls on
+a page.  While it is very slick for generating interactions, it generates code
+that you then cut and paste into the HTML page.  I'm pretty sure this is *not*
+maintainable.  The generated JavaScript is fairly opaque.  The demo didn't cover
+how or if you could re-insert the code in the editor to refine interactions.
