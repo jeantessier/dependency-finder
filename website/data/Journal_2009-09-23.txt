@@ -1,0 +1,27 @@
+Added missing flag values on =Classfile= parts when rendered in XML.  I also
+added comprehensive tests for all flag values.
+
+<ul>
+    <li>=Classfile=</li>
+    <ul>
+        <li>=synthetic=</li>
+        <li>=annotation=</li>
+        <li>=enum=</li>
+    </ul>
+    <li>=Field=</li>
+    <ul>
+        <li>=enum=</li>
+    </ul>
+    <li>=Method=</li>
+    <ul>
+        <li>=bridge=</li>
+        <li>=varargs=</li>
+    </ul>
+    <li>=InnerClass=</li>
+    <ul>
+        <li>=annotation=</li>
+        <li>=enum=</li>
+    </ul>
+</ul>
+
+Updated the DTD too.
