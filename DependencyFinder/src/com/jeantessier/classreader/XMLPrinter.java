@@ -368,6 +368,7 @@ public class XMLPrinter extends Printer {
         if (entry.isVolatile())  indent().append("<volatile/>").eol();
         if (entry.isTransient()) indent().append("<transient/>").eol();
         if (entry.isSynthetic()) indent().append("<synthetic/>").eol();
+        if (entry.isEnum())      indent().append("<enum/>").eol();
 
         indent();
         append("<name>");

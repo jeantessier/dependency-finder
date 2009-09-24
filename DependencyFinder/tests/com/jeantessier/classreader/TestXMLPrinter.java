@@ -195,6 +195,202 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "*/classfile", loader.getAllClassfiles().size());
     }
 
+    public void testNonPublicField() throws Exception {
+        final Field_info mockField = mock(Field_info.class);
+
+        checking(new Expectations() {{
+            one (mockField).isPublic(); will(returnValue(false));
+            ignoring (mockField);
+        }});
+
+        printer.visitField_info(mockField);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "field-info/public", 0);
+    }
+
+    public void testPublicField() throws Exception {
+        final Field_info mockField = mock(Field_info.class);
+
+        checking(new Expectations() {{
+            one (mockField).isPublic(); will(returnValue(true));
+            ignoring (mockField);
+        }});
+
+        printer.visitField_info(mockField);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "field-info/public", 1);
+    }
+
+    public void testNonProtectedField() throws Exception {
+        final Field_info mockField = mock(Field_info.class);
+
+        checking(new Expectations() {{
+            one (mockField).isProtected(); will(returnValue(false));
+            ignoring (mockField);
+        }});
+
+        printer.visitField_info(mockField);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "field-info/protected", 0);
+    }
+
+    public void testProtectedField() throws Exception {
+        final Field_info mockField = mock(Field_info.class);
+
+        checking(new Expectations() {{
+            one (mockField).isProtected(); will(returnValue(true));
+            ignoring (mockField);
+        }});
+
+        printer.visitField_info(mockField);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "field-info/protected", 1);
+    }
+
+    public void testNonPrivateField() throws Exception {
+        final Field_info mockField = mock(Field_info.class);
+
+        checking(new Expectations() {{
+            one (mockField).isPrivate(); will(returnValue(false));
+            ignoring (mockField);
+        }});
+
+        printer.visitField_info(mockField);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "field-info/private", 0);
+    }
+
+    public void testPrivateField() throws Exception {
+        final Field_info mockField = mock(Field_info.class);
+
+        checking(new Expectations() {{
+            one (mockField).isPrivate(); will(returnValue(true));
+            ignoring (mockField);
+        }});
+
+        printer.visitField_info(mockField);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "field-info/private", 1);
+    }
+
+    public void testNonStaticField() throws Exception {
+        final Field_info mockField = mock(Field_info.class);
+
+        checking(new Expectations() {{
+            one (mockField).isStatic(); will(returnValue(false));
+            ignoring (mockField);
+        }});
+
+        printer.visitField_info(mockField);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "field-info/static", 0);
+    }
+
+    public void testStaticField() throws Exception {
+        final Field_info mockField = mock(Field_info.class);
+
+        checking(new Expectations() {{
+            one (mockField).isStatic(); will(returnValue(true));
+            ignoring (mockField);
+        }});
+
+        printer.visitField_info(mockField);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "field-info/static", 1);
+    }
+
+    public void testNonFinalField() throws Exception {
+        final Field_info mockField = mock(Field_info.class);
+
+        checking(new Expectations() {{
+            one (mockField).isFinal(); will(returnValue(false));
+            ignoring (mockField);
+        }});
+
+        printer.visitField_info(mockField);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "field-info/final", 0);
+    }
+
+    public void testFinalField() throws Exception {
+        final Field_info mockField = mock(Field_info.class);
+
+        checking(new Expectations() {{
+            one (mockField).isFinal(); will(returnValue(true));
+            ignoring (mockField);
+        }});
+
+        printer.visitField_info(mockField);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "field-info/final", 1);
+    }
+
+    public void testNonVolatileField() throws Exception {
+        final Field_info mockField = mock(Field_info.class);
+
+        checking(new Expectations() {{
+            one (mockField).isVolatile(); will(returnValue(false));
+            ignoring (mockField);
+        }});
+
+        printer.visitField_info(mockField);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "field-info/volatile", 0);
+    }
+
+    public void testVolatileField() throws Exception {
+        final Field_info mockField = mock(Field_info.class);
+
+        checking(new Expectations() {{
+            one (mockField).isVolatile(); will(returnValue(true));
+            ignoring (mockField);
+        }});
+
+        printer.visitField_info(mockField);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "field-info/volatile", 1);
+    }
+
+    public void testNonTransientField() throws Exception {
+        final Field_info mockField = mock(Field_info.class);
+
+        checking(new Expectations() {{
+            one (mockField).isTransient(); will(returnValue(false));
+            ignoring (mockField);
+        }});
+
+        printer.visitField_info(mockField);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "field-info/transient", 0);
+    }
+
+    public void testTransientField() throws Exception {
+        final Field_info mockField = mock(Field_info.class);
+
+        checking(new Expectations() {{
+            one (mockField).isTransient(); will(returnValue(true));
+            ignoring (mockField);
+        }});
+
+        printer.visitField_info(mockField);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "field-info/transient", 1);
+    }
+
     public void testNonSyntheticField() throws Exception {
         final Field_info mockField = mock(Field_info.class);
 
@@ -221,6 +417,34 @@ public class TestXMLPrinter extends MockObjectTestCase {
 
         String xmlDocument = buffer.toString();
         assertXPathCount(xmlDocument, "field-info/synthetic", 1);
+    }
+
+    public void testNonEnumField() throws Exception {
+        final Field_info mockField = mock(Field_info.class);
+
+        checking(new Expectations() {{
+            one (mockField).isEnum(); will(returnValue(false));
+            ignoring (mockField);
+        }});
+
+        printer.visitField_info(mockField);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "field-info/enum", 0);
+    }
+
+    public void testEnumField() throws Exception {
+        final Field_info mockField = mock(Field_info.class);
+
+        checking(new Expectations() {{
+            one (mockField).isEnum(); will(returnValue(true));
+            ignoring (mockField);
+        }});
+
+        printer.visitField_info(mockField);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "field-info/enum", 1);
     }
 
     public void testNonSyntheticMethod() throws Exception {
