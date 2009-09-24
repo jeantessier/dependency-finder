@@ -199,18 +199,8 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            allowing (mockField).getAccessFlag();
-            allowing (mockField).isPublic();
-            allowing (mockField).isProtected();
-            allowing (mockField).isPrivate();
-            allowing (mockField).isStatic();
-            allowing (mockField).isFinal();
-            allowing (mockField).isVolatile();
-            allowing (mockField).isTransient();
             one (mockField).isSynthetic(); will(returnValue(false));
-            allowing (mockField).getRawName();
-            allowing (mockField).getType();
-            allowing (mockField).getAttributes();
+            ignoring (mockField);
         }});
 
         printer.visitField_info(mockField);
@@ -223,18 +213,8 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            allowing (mockField).getAccessFlag();
-            allowing (mockField).isPublic();
-            allowing (mockField).isProtected();
-            allowing (mockField).isPrivate();
-            allowing (mockField).isStatic();
-            allowing (mockField).isFinal();
-            allowing (mockField).isVolatile();
-            allowing (mockField).isTransient();
             one (mockField).isSynthetic(); will(returnValue(true));
-            allowing (mockField).getRawName();
-            allowing (mockField).getType();
-            allowing (mockField).getAttributes();
+            ignoring (mockField);
         }});
 
         printer.visitField_info(mockField);
@@ -247,22 +227,8 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            allowing (mockMethod).getAccessFlag();
-            allowing (mockMethod).isPublic();
-            allowing (mockMethod).isProtected();
-            allowing (mockMethod).isPrivate();
-            allowing (mockMethod).isStatic();
-            allowing (mockMethod).isFinal();
-            allowing (mockMethod).isSynchronized();
-            allowing (mockMethod).isNative();
-            allowing (mockMethod).isAbstract();
-            allowing (mockMethod).isStrict();
             one (mockMethod).isSynthetic(); will(returnValue(false));
-            allowing (mockMethod).getRawName();
-            allowing (mockMethod).getName();
-            allowing (mockMethod).getReturnType();
-            allowing (mockMethod).getSignature();
-            allowing (mockMethod).getAttributes();
+            ignoring (mockMethod);
         }});
 
         printer.visitMethod_info(mockMethod);
@@ -275,22 +241,8 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            allowing (mockMethod).getAccessFlag();
-            allowing (mockMethod).isPublic();
-            allowing (mockMethod).isProtected();
-            allowing (mockMethod).isPrivate();
-            allowing (mockMethod).isStatic();
-            allowing (mockMethod).isFinal();
-            allowing (mockMethod).isSynchronized();
-            allowing (mockMethod).isNative();
-            allowing (mockMethod).isAbstract();
-            allowing (mockMethod).isStrict();
             one (mockMethod).isSynthetic(); will(returnValue(true));
-            allowing (mockMethod).getRawName();
-            allowing (mockMethod).getName();
-            allowing (mockMethod).getReturnType();
-            allowing (mockMethod).getSignature();
-            allowing (mockMethod).getAttributes();
+            ignoring (mockMethod);
         }});
 
         printer.visitMethod_info(mockMethod);
@@ -303,18 +255,8 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            allowing (mockInnerClass).getAccessFlag();
-            allowing (mockInnerClass).isPublic();
-            allowing (mockInnerClass).isProtected();
-            allowing (mockInnerClass).isPrivate();
-            allowing (mockInnerClass).isStatic();
-            allowing (mockInnerClass).isFinal();
-            allowing (mockInnerClass).isInterface();
-            allowing (mockInnerClass).isAbstract();
             one (mockInnerClass).isSynthetic(); will(returnValue(false));
-            allowing (mockInnerClass).getInnerClassInfoIndex();
-            allowing (mockInnerClass).getOuterClassInfoIndex();
-            allowing (mockInnerClass).getInnerNameIndex();
+            ignoring (mockInnerClass);
         }});
 
         printer.visitInnerClass(mockInnerClass);
@@ -327,18 +269,8 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            allowing (mockInnerClass).getAccessFlag();
-            allowing (mockInnerClass).isPublic();
-            allowing (mockInnerClass).isProtected();
-            allowing (mockInnerClass).isPrivate();
-            allowing (mockInnerClass).isStatic();
-            allowing (mockInnerClass).isFinal();
-            allowing (mockInnerClass).isInterface();
-            allowing (mockInnerClass).isAbstract();
             one (mockInnerClass).isSynthetic(); will(returnValue(true));
-            allowing (mockInnerClass).getInnerClassInfoIndex();
-            allowing (mockInnerClass).getOuterClassInfoIndex();
-            allowing (mockInnerClass).getInnerNameIndex();
+            ignoring (mockInnerClass);
         }});
 
         printer.visitInnerClass(mockInnerClass);
