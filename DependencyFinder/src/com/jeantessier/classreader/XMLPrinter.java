@@ -806,14 +806,16 @@ public class XMLPrinter extends Printer {
         indent().append("<inner-class access-flag=\"").append(format.format(helper.getAccessFlag())).append("\">").eol();
         raiseIndent();
 
-        if (helper.isPublic())    indent().append("<public/>").eol();
-        if (helper.isProtected()) indent().append("<protected/>").eol();
-        if (helper.isPrivate())   indent().append("<private/>").eol();
-        if (helper.isStatic())    indent().append("<static/>").eol();
-        if (helper.isFinal())     indent().append("<final/>").eol();
-        if (helper.isInterface()) indent().append("<is-interface/>").eol();
-        if (helper.isAbstract())  indent().append("<abstract/>").eol();
-        if (helper.isSynthetic()) indent().append("<synthetic/>").eol();
+        if (helper.isPublic())     indent().append("<public/>").eol();
+        if (helper.isProtected())  indent().append("<protected/>").eol();
+        if (helper.isPrivate())    indent().append("<private/>").eol();
+        if (helper.isStatic())     indent().append("<static/>").eol();
+        if (helper.isFinal())      indent().append("<final/>").eol();
+        if (helper.isInterface())  indent().append("<is-interface/>").eol();
+        if (helper.isAbstract())   indent().append("<abstract/>").eol();
+        if (helper.isSynthetic())  indent().append("<synthetic/>").eol();
+        if (helper.isAnnotation()) indent().append("<is-annotation/>").eol();
+        if (helper.isEnum())       indent().append("<enum/>").eol();
 
         indent();
         append("<inner-class-info>");

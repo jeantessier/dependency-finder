@@ -783,6 +783,202 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/synthetic", 1);
     }
 
+    public void testNonPublicInnerClass() throws Exception {
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+
+        checking(new Expectations() {{
+            one (mockInnerClass).isPublic(); will(returnValue(false));
+            ignoring (mockInnerClass);
+        }});
+
+        printer.visitInnerClass(mockInnerClass);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "inner-class/public", 0);
+    }
+
+    public void testPublicInnerClass() throws Exception {
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+
+        checking(new Expectations() {{
+            one (mockInnerClass).isPublic(); will(returnValue(true));
+            ignoring (mockInnerClass);
+        }});
+
+        printer.visitInnerClass(mockInnerClass);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "inner-class/public", 1);
+    }
+
+    public void testNonPrivateInnerClass() throws Exception {
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+
+        checking(new Expectations() {{
+            one (mockInnerClass).isPrivate(); will(returnValue(false));
+            ignoring (mockInnerClass);
+        }});
+
+        printer.visitInnerClass(mockInnerClass);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "inner-class/private", 0);
+    }
+
+    public void testPrivateInnerClass() throws Exception {
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+
+        checking(new Expectations() {{
+            one (mockInnerClass).isPrivate(); will(returnValue(true));
+            ignoring (mockInnerClass);
+        }});
+
+        printer.visitInnerClass(mockInnerClass);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "inner-class/private", 1);
+    }
+
+    public void testNonProtectedInnerClass() throws Exception {
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+
+        checking(new Expectations() {{
+            one (mockInnerClass).isProtected(); will(returnValue(false));
+            ignoring (mockInnerClass);
+        }});
+
+        printer.visitInnerClass(mockInnerClass);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "inner-class/protected", 0);
+    }
+
+    public void testProtectedInnerClass() throws Exception {
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+
+        checking(new Expectations() {{
+            one (mockInnerClass).isProtected(); will(returnValue(true));
+            ignoring (mockInnerClass);
+        }});
+
+        printer.visitInnerClass(mockInnerClass);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "inner-class/protected", 1);
+    }
+
+    public void testNonStaticInnerClass() throws Exception {
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+
+        checking(new Expectations() {{
+            one (mockInnerClass).isStatic(); will(returnValue(false));
+            ignoring (mockInnerClass);
+        }});
+
+        printer.visitInnerClass(mockInnerClass);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "inner-class/static", 0);
+    }
+
+    public void testStaticInnerClass() throws Exception {
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+
+        checking(new Expectations() {{
+            one (mockInnerClass).isStatic(); will(returnValue(true));
+            ignoring (mockInnerClass);
+        }});
+
+        printer.visitInnerClass(mockInnerClass);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "inner-class/static", 1);
+    }
+
+    public void testNonFinalInnerClass() throws Exception {
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+
+        checking(new Expectations() {{
+            one (mockInnerClass).isFinal(); will(returnValue(false));
+            ignoring (mockInnerClass);
+        }});
+
+        printer.visitInnerClass(mockInnerClass);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "inner-class/final", 0);
+    }
+
+    public void testFinalInnerClass() throws Exception {
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+
+        checking(new Expectations() {{
+            one (mockInnerClass).isFinal(); will(returnValue(true));
+            ignoring (mockInnerClass);
+        }});
+
+        printer.visitInnerClass(mockInnerClass);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "inner-class/final", 1);
+    }
+
+    public void testNonInterfaceInnerClass() throws Exception {
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+
+        checking(new Expectations() {{
+            one (mockInnerClass).isInterface(); will(returnValue(false));
+            ignoring (mockInnerClass);
+        }});
+
+        printer.visitInnerClass(mockInnerClass);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "inner-class/is-interface", 0);
+    }
+
+    public void testInterfaceInnerClass() throws Exception {
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+
+        checking(new Expectations() {{
+            one (mockInnerClass).isInterface(); will(returnValue(true));
+            ignoring (mockInnerClass);
+        }});
+
+        printer.visitInnerClass(mockInnerClass);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "inner-class/is-interface", 1);
+    }
+
+    public void testNonAbstractInnerClass() throws Exception {
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+
+        checking(new Expectations() {{
+            one (mockInnerClass).isAbstract(); will(returnValue(false));
+            ignoring (mockInnerClass);
+        }});
+
+        printer.visitInnerClass(mockInnerClass);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "inner-class/abstract", 0);
+    }
+
+    public void testAbstractInnerClass() throws Exception {
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+
+        checking(new Expectations() {{
+            one (mockInnerClass).isAbstract(); will(returnValue(true));
+            ignoring (mockInnerClass);
+        }});
+
+        printer.visitInnerClass(mockInnerClass);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "inner-class/abstract", 1);
+    }
+
     public void testNonSyntheticInnerClass() throws Exception {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
@@ -809,6 +1005,62 @@ public class TestXMLPrinter extends MockObjectTestCase {
 
         String xmlDocument = buffer.toString();
         assertXPathCount(xmlDocument, "inner-class/synthetic", 1);
+    }
+
+    public void testNonAnnotationInnerClass() throws Exception {
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+
+        checking(new Expectations() {{
+            one (mockInnerClass).isAnnotation(); will(returnValue(false));
+            ignoring (mockInnerClass);
+        }});
+
+        printer.visitInnerClass(mockInnerClass);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "inner-class/is-annotation", 0);
+    }
+
+    public void testAnnotationInnerClass() throws Exception {
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+
+        checking(new Expectations() {{
+            one (mockInnerClass).isAnnotation(); will(returnValue(true));
+            ignoring (mockInnerClass);
+        }});
+
+        printer.visitInnerClass(mockInnerClass);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "inner-class/is-annotation", 1);
+    }
+
+    public void testNonEnumInnerClass() throws Exception {
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+
+        checking(new Expectations() {{
+            one (mockInnerClass).isEnum(); will(returnValue(false));
+            ignoring (mockInnerClass);
+        }});
+
+        printer.visitInnerClass(mockInnerClass);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "inner-class/enum", 0);
+    }
+
+    public void testEnumInnerClass() throws Exception {
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+
+        checking(new Expectations() {{
+            one (mockInnerClass).isEnum(); will(returnValue(true));
+            ignoring (mockInnerClass);
+        }});
+
+        printer.visitInnerClass(mockInnerClass);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "inner-class/enum", 1);
     }
 
     public void testVisitLocalVariable() throws Exception {
