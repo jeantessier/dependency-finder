@@ -399,6 +399,8 @@ public class XMLPrinter extends Printer {
         if (entry.isStatic())       indent().append("<static/>").eol();
         if (entry.isFinal())        indent().append("<final/>").eol();
         if (entry.isSynchronized()) indent().append("<synchronized/>").eol();
+        if (entry.isBridge())       indent().append("<bridge/>").eol();
+        if (entry.isVarargs())      indent().append("<varargs/>").eol();
         if (entry.isNative())       indent().append("<native/>").eol();
         if (entry.isAbstract())     indent().append("<abstract/>").eol();
         if (entry.isStrict())       indent().append("<strict/>").eol();

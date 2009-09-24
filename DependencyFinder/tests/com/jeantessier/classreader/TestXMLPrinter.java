@@ -447,6 +447,314 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "field-info/enum", 1);
     }
 
+    public void testNonPublicMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).isPublic(); will(returnValue(false));
+            ignoring (mockMethod);
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-info/public", 0);
+    }
+
+    public void testPublicMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).isPublic(); will(returnValue(true));
+            ignoring (mockMethod);
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-info/public", 1);
+    }
+
+    public void testNonPrivateMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).isPrivate(); will(returnValue(false));
+            ignoring (mockMethod);
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-info/private", 0);
+    }
+
+    public void testPrivateMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).isPrivate(); will(returnValue(true));
+            ignoring (mockMethod);
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-info/private", 1);
+    }
+
+    public void testNonProtectedMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).isProtected(); will(returnValue(false));
+            ignoring (mockMethod);
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-info/protected", 0);
+    }
+
+    public void testProtectedMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).isProtected(); will(returnValue(true));
+            ignoring (mockMethod);
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-info/protected", 1);
+    }
+
+    public void testNonStaticMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).isStatic(); will(returnValue(false));
+            ignoring (mockMethod);
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-info/static", 0);
+    }
+
+    public void testStaticMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).isStatic(); will(returnValue(true));
+            ignoring (mockMethod);
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-info/static", 1);
+    }
+
+    public void testNonFinalMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).isFinal(); will(returnValue(false));
+            ignoring (mockMethod);
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-info/final", 0);
+    }
+
+    public void testFinalMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).isFinal(); will(returnValue(true));
+            ignoring (mockMethod);
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-info/final", 1);
+    }
+
+    public void testNonSynchronizedMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).isSynchronized(); will(returnValue(false));
+            ignoring (mockMethod);
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-info/synchronized", 0);
+    }
+
+    public void testSynchronizedMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).isSynchronized(); will(returnValue(true));
+            ignoring (mockMethod);
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-info/synchronized", 1);
+    }
+
+    public void testNonBridgeMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).isBridge(); will(returnValue(false));
+            ignoring (mockMethod);
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-info/bridge", 0);
+    }
+
+    public void testBridgeMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).isBridge(); will(returnValue(true));
+            ignoring (mockMethod);
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-info/bridge", 1);
+    }
+
+    public void testNonVarargsMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).isVarargs(); will(returnValue(false));
+            ignoring (mockMethod);
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-info/varargs", 0);
+    }
+
+    public void testVarargsMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).isVarargs(); will(returnValue(true));
+            ignoring (mockMethod);
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-info/varargs", 1);
+    }
+
+    public void testNonNativeMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).isNative(); will(returnValue(false));
+            ignoring (mockMethod);
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-info/native", 0);
+    }
+
+    public void testNativeMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).isNative(); will(returnValue(true));
+            ignoring (mockMethod);
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-info/native", 1);
+    }
+
+    public void testNonAbstractMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).isAbstract(); will(returnValue(false));
+            ignoring (mockMethod);
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-info/abstract", 0);
+    }
+
+    public void testAbstractMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).isAbstract(); will(returnValue(true));
+            ignoring (mockMethod);
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-info/abstract", 1);
+    }
+
+    public void testNonStrictMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).isStrict(); will(returnValue(false));
+            ignoring (mockMethod);
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-info/strict", 0);
+    }
+
+    public void testStrictMethod() throws Exception {
+        final Method_info mockMethod = mock(Method_info.class);
+
+        checking(new Expectations() {{
+            one (mockMethod).isStrict(); will(returnValue(true));
+            ignoring (mockMethod);
+        }});
+
+        printer.visitMethod_info(mockMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-info/strict", 1);
+    }
+
     public void testNonSyntheticMethod() throws Exception {
         final Method_info mockMethod = mock(Method_info.class);
 
