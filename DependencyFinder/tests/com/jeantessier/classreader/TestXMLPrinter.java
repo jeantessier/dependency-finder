@@ -195,6 +195,230 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "*/classfile", loader.getAllClassfiles().size());
     }
 
+    public void testNonPublicClassfile() throws Exception {
+        final Classfile mockClassfile = mock(Classfile.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).isPublic(); will(returnValue(false));
+            ignoring (mockClassfile);
+        }});
+
+        printer.visitClassfile(mockClassfile);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "classfile/public", 0);
+    }
+
+    public void testPublicClassfile() throws Exception {
+        final Classfile mockClassfile = mock(Classfile.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).isPublic(); will(returnValue(true));
+            ignoring (mockClassfile);
+        }});
+
+        printer.visitClassfile(mockClassfile);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "classfile/public", 1);
+    }
+
+    public void testNonFinalClassfile() throws Exception {
+        final Classfile mockClassfile = mock(Classfile.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).isFinal(); will(returnValue(false));
+            ignoring (mockClassfile);
+        }});
+
+        printer.visitClassfile(mockClassfile);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "classfile/final", 0);
+    }
+
+    public void testFinalClassfile() throws Exception {
+        final Classfile mockClassfile = mock(Classfile.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).isFinal(); will(returnValue(true));
+            ignoring (mockClassfile);
+        }});
+
+        printer.visitClassfile(mockClassfile);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "classfile/final", 1);
+    }
+
+    public void testNonSuperClassfile() throws Exception {
+        final Classfile mockClassfile = mock(Classfile.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).isSuper(); will(returnValue(false));
+            ignoring (mockClassfile);
+        }});
+
+        printer.visitClassfile(mockClassfile);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "classfile/super", 0);
+    }
+
+    public void testSuperClassfile() throws Exception {
+        final Classfile mockClassfile = mock(Classfile.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).isSuper(); will(returnValue(true));
+            ignoring (mockClassfile);
+        }});
+
+        printer.visitClassfile(mockClassfile);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "classfile/super", 1);
+    }
+
+    public void testNonInterfaceClassfile() throws Exception {
+        final Classfile mockClassfile = mock(Classfile.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).isInterface(); will(returnValue(false));
+            ignoring (mockClassfile);
+        }});
+
+        printer.visitClassfile(mockClassfile);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "classfile/is-interface", 0);
+    }
+
+    public void testInterfaceClassfile() throws Exception {
+        final Classfile mockClassfile = mock(Classfile.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).isInterface(); will(returnValue(true));
+            ignoring (mockClassfile);
+        }});
+
+        printer.visitClassfile(mockClassfile);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "classfile/is-interface", 1);
+    }
+
+    public void testNonAbstractClassfile() throws Exception {
+        final Classfile mockClassfile = mock(Classfile.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).isAbstract(); will(returnValue(false));
+            ignoring (mockClassfile);
+        }});
+
+        printer.visitClassfile(mockClassfile);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "classfile/abstract", 0);
+    }
+
+    public void testAbstractClassfile() throws Exception {
+        final Classfile mockClassfile = mock(Classfile.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).isAbstract(); will(returnValue(true));
+            ignoring (mockClassfile);
+        }});
+
+        printer.visitClassfile(mockClassfile);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "classfile/abstract", 1);
+    }
+
+    public void testNonSyntheticClassfile() throws Exception {
+        final Classfile mockClassfile = mock(Classfile.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).isSynthetic(); will(returnValue(false));
+            ignoring (mockClassfile);
+        }});
+
+        printer.visitClassfile(mockClassfile);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "classfile/synthetic", 0);
+    }
+
+    public void testSyntheticClassfile() throws Exception {
+        final Classfile mockClassfile = mock(Classfile.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).isSynthetic(); will(returnValue(true));
+            ignoring (mockClassfile);
+        }});
+
+        printer.visitClassfile(mockClassfile);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "classfile/synthetic", 1);
+    }
+
+    public void testNonAnnotationClassfile() throws Exception {
+        final Classfile mockClassfile = mock(Classfile.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).isAnnotation(); will(returnValue(false));
+            ignoring (mockClassfile);
+        }});
+
+        printer.visitClassfile(mockClassfile);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "classfile/is-annotation", 0);
+    }
+
+    public void testAnnotationClassfile() throws Exception {
+        final Classfile mockClassfile = mock(Classfile.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).isAnnotation(); will(returnValue(true));
+            ignoring (mockClassfile);
+        }});
+
+        printer.visitClassfile(mockClassfile);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "classfile/is-annotation", 1);
+    }
+
+    public void testNonEnumClassfile() throws Exception {
+        final Classfile mockClassfile = mock(Classfile.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).isEnum(); will(returnValue(false));
+            ignoring (mockClassfile);
+        }});
+
+        printer.visitClassfile(mockClassfile);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "classfile/enum", 0);
+    }
+
+    public void testEnumClassfile() throws Exception {
+        final Classfile mockClassfile = mock(Classfile.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).isEnum(); will(returnValue(true));
+            ignoring (mockClassfile);
+        }});
+
+        printer.visitClassfile(mockClassfile);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "classfile/enum", 1);
+    }
+
     public void testNonPublicField() throws Exception {
         final Field_info mockField = mock(Field_info.class);
 
