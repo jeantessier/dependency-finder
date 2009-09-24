@@ -8,16 +8,16 @@
     modification, are permitted provided that the following conditions
     are met:
     
-    	* Redistributions of source code must retain the above copyright
-    	  notice, this list of conditions and the following disclaimer.
+        * Redistributions of source code must retain the above copyright
+          notice, this list of conditions and the following disclaimer.
     
-    	* Redistributions in binary form must reproduce the above copyright
-    	  notice, this list of conditions and the following disclaimer in the
-    	  documentation and/or other materials provided with the distribution.
+        * Redistributions in binary form must reproduce the above copyright
+          notice, this list of conditions and the following disclaimer in the
+          documentation and/or other materials provided with the distribution.
     
-    	* Neither the name of Jean Tessier nor the names of his contributors
-    	  may be used to endorse or promote products derived from this software
-    	  without specific prior written permission.
+        * Neither the name of Jean Tessier nor the names of his contributors
+          may be used to endorse or promote products derived from this software
+          without specific prior written permission.
     
     THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
     "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -34,7 +34,7 @@
 
 <!ELEMENT classfiles (classfile*)>
 
-<!ELEMENT classfile (constant-pool, public?, final?, super?, is-interface?, abstract?, this-class, superclass, interfaces?, fields?, methods?, attributes?)>
+<!ELEMENT classfile (constant-pool, public?, final?, super?, is-interface?, abstract?, synthetic?, is-annotation?, enum?, this-class, superclass, interfaces?, fields?, methods?, attributes?)>
 <!ATTLIST classfile
           magic-number  CDATA #REQUIRED
           minor-version CDATA #REQUIRED
@@ -46,57 +46,57 @@
 
 <!ELEMENT class (#PCDATA) >
 <!ATTLIST class
-          id CDATA #IMPLIED
+          index CDATA #IMPLIED
 >
 
 <!ELEMENT field-ref-info (class, type, name) >
 <!ATTLIST field-ref-info
-          id CDATA #REQUIRED
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT method-ref-info (class, name, type) >
 <!ATTLIST method-ref-info
-          id CDATA #REQUIRED
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT interface-method-ref-info (class, name, type) >
 <!ATTLIST interface-method-ref-info
-          id CDATA #REQUIRED
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT string-info (#PCDATA) >
 <!ATTLIST string-info
-          id CDATA #REQUIRED
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT integer-info (#PCDATA) >
 <!ATTLIST integer-info
-          id CDATA #REQUIRED
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT float-info (#PCDATA) >
 <!ATTLIST float-info
-          id CDATA #REQUIRED
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT long-info (#PCDATA) >
 <!ATTLIST long-info
-          id CDATA #REQUIRED
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT double-info (#PCDATA) >
 <!ATTLIST double-info
-          id CDATA #REQUIRED
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT name-and-type-info (name, type) >
 <!ATTLIST name-and-type-info
-          id CDATA #REQUIRED
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT utf8-info (#PCDATA) >
 <!ATTLIST utf8-info
-          id CDATA #REQUIRED
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT type (#PCDATA) >
@@ -113,6 +113,12 @@
 
 <!ELEMENT abstract EMPTY >
 
+<!ELEMENT synthetic EMPTY >
+
+<!ELEMENT is-annotation EMPTY >
+
+<!ELEMENT enum EMPTY >
+
 <!ELEMENT this-class (#PCDATA) >
 
 <!ELEMENT superclass (#PCDATA) >
@@ -123,7 +129,7 @@
 
 <!ELEMENT fields (field-info*) >
 
-<!ELEMENT field-info (public?, protected?, private?, static?, final?, volatile?, transient?, synthetic?, name, type, attributes?)>
+<!ELEMENT field-info (public?, protected?, private?, static?, final?, volatile?, transient?, synthetic?, enum?, name, type, attributes?)>
 <!ATTLIST field-info
           access-flag CDATA #REQUIRED
 >
@@ -138,16 +144,18 @@
 
 <!ELEMENT transient EMPTY >
 
-<!ELEMENT synthetic EMPTY >
-
 <!ELEMENT methods (method-info*) >
 
-<!ELEMENT method-info (public?, protected?, private?, static?, final?, synchronized?, native?, abstract?, strict?, synthetic?, name, return-type?, signature, attributes?)>
+<!ELEMENT method-info (public?, protected?, private?, static?, final?, synchronized?, bridge?, varargs?, native?, abstract?, strict?, synthetic?, name, return-type?, signature, attributes?)>
 <!ATTLIST method-info
           access-flag CDATA #REQUIRED
 >
 
 <!ELEMENT synchronized EMPTY >
+
+<!ELEMENT bridge EMPTY >
+
+<!ELEMENT varargs EMPTY >
 
 <!ELEMENT native EMPTY >
 
@@ -157,7 +165,7 @@
 
 <!ELEMENT signature (#PCDATA) >
 
-<!ELEMENT attributes (constant-value-attribute | code-attribute | exceptions-attribute | inner-classes-attribute | synthetic-attribute | source-file-attribute | line-number-table-attribute | local-variable-table-attribute | deprecated-attribute)* >
+<!ELEMENT attributes (constant-value-attribute | code-attribute | exceptions-attribute | inner-classes-attribute | enclosing-method-attribute | synthetic-attribute | signature-attribute | source-file-attribute | line-number-table-attribute | local-variable-table-attribute | local-variable-type-table-attribute | deprecated-attribute | custom-attribute)* >
 
 <!ELEMENT constant-value-attribute (#PCDATA) >
 
@@ -171,6 +179,9 @@
 <!ATTLIST instruction
           pc     CDATA #REQUIRED
           length CDATA #REQUIRED
+          index  CDATA #IMPLIED
+          value  CDATA #IMPLIED
+          offset CDATA #IMPLIED
 >
 
 <!ELEMENT exception-handlers (exception-handler*) >
@@ -191,7 +202,7 @@
 
 <!ELEMENT inner-classes-attribute (inner-class*) >
 
-<!ELEMENT inner-class (public?, protected?, private?, static?, final?, is-interface?, abstract?, synthetic?, inner-class-info, outer-class-info, inner-name)>
+<!ELEMENT inner-class (public?, protected?, private?, static?, final?, is-interface?, abstract?, synthetic?, is-annotation?, enum?, inner-class-info, outer-class-info, inner-name)>
 <!ATTLIST inner-class
           access-flag CDATA #REQUIRED
 >
@@ -202,7 +213,13 @@
 
 <!ELEMENT inner-name (#PCDATA) >
 
+<!ELEMENT enclosing-method-attribute (class, method)>
+
+<!ELEMENT method (#PCDATA) >
+
 <!ELEMENT synthetic-attribute EMPTY >
+
+<!ELEMENT signature-attribute (#PCDATA) >
 
 <!ELEMENT source-file-attribute (#PCDATA) >
 
@@ -218,8 +235,23 @@
 <!ATTLIST local-variable
           pc     CDATA #REQUIRED
           length CDATA #REQUIRED
+          index  CDATA #REQUIRED
+>
+
+<!ELEMENT local-variable-type-table-attribute (local-variable-type*) >
+
+<!ELEMENT local-variable-type (name, signature) >
+<!ATTLIST local-variable-type
+          pc     CDATA #REQUIRED
+          length CDATA #REQUIRED
+          index  CDATA #REQUIRED
 >
 
 <!ELEMENT descriptor (#PCDATA) >
 
 <!ELEMENT deprecated-attribute EMPTY >
+
+<!ELEMENT custom-attribute (#PCDATA) >
+<!ATTLIST custom-attribute
+          name CDATA #REQUIRED
+>
