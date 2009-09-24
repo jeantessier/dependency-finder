@@ -34,7 +34,7 @@
 
 <!ELEMENT classfiles (classfile*)>
 
-<!ELEMENT classfile (constant-pool, public?, final?, super?, is-interface?, abstract?, this-class, superclass, interfaces?, fields?, methods?, attributes?)>
+<!ELEMENT classfile (constant-pool, public?, final?, super?, is-interface?, abstract?, synthetic?, is-annotation?, enum?, this-class, superclass, interfaces?, fields?, methods?, attributes?)>
 <!ATTLIST classfile
           magic-number  CDATA #REQUIRED
           minor-version CDATA #REQUIRED
@@ -113,6 +113,12 @@
 
 <!ELEMENT abstract EMPTY >
 
+<!ELEMENT synthetic EMPTY >
+
+<!ELEMENT is-annotation EMPTY >
+
+<!ELEMENT enum EMPTY >
+
 <!ELEMENT this-class (#PCDATA) >
 
 <!ELEMENT superclass (#PCDATA) >
@@ -123,7 +129,7 @@
 
 <!ELEMENT fields (field-info*) >
 
-<!ELEMENT field-info (public?, protected?, private?, static?, final?, volatile?, transient?, synthetic?, name, type, attributes?)>
+<!ELEMENT field-info (public?, protected?, private?, static?, final?, volatile?, transient?, synthetic?, enum?, name, type, attributes?)>
 <!ATTLIST field-info
           access-flag CDATA #REQUIRED
 >
@@ -138,16 +144,18 @@
 
 <!ELEMENT transient EMPTY >
 
-<!ELEMENT synthetic EMPTY >
-
 <!ELEMENT methods (method-info*) >
 
-<!ELEMENT method-info (public?, protected?, private?, static?, final?, synchronized?, native?, abstract?, strict?, synthetic?, name, return-type?, signature, attributes?)>
+<!ELEMENT method-info (public?, protected?, private?, static?, final?, synchronized?, bridge?, varargs?, native?, abstract?, strict?, synthetic?, name, return-type?, signature, attributes?)>
 <!ATTLIST method-info
           access-flag CDATA #REQUIRED
 >
 
 <!ELEMENT synchronized EMPTY >
+
+<!ELEMENT bridge EMPTY >
+
+<!ELEMENT varargs EMPTY >
 
 <!ELEMENT native EMPTY >
 
@@ -194,7 +202,7 @@
 
 <!ELEMENT inner-classes-attribute (inner-class*) >
 
-<!ELEMENT inner-class (public?, protected?, private?, static?, final?, is-interface?, abstract?, synthetic?, inner-class-info, outer-class-info, inner-name)>
+<!ELEMENT inner-class (public?, protected?, private?, static?, final?, is-interface?, abstract?, synthetic?, is-annotation?, enum?, inner-class-info, outer-class-info, inner-name)>
 <!ATTLIST inner-class
           access-flag CDATA #REQUIRED
 >
@@ -206,8 +214,6 @@
 <!ELEMENT inner-name (#PCDATA) >
 
 <!ELEMENT enclosing-method-attribute (class, method)>
-
-<!ELEMENT class (#PCDATA) >
 
 <!ELEMENT method (#PCDATA) >
 
