@@ -1521,10 +1521,10 @@ repository that has been tagged appropriately.
 </p>
 
 <ol>
-<li><code>svn mkdir https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.1 -m "Tagging the 1.2.1 release of Dependency Finder"</code></li>
-<li><code>svn copy https://depfind.svn.sourceforge.net/svnroot/depfind/trunk/DependencyFinder https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.1 -m "Tagging the 1.2.1 release of Dependency Finder"</code></li>
-<li><code>svn copy https://depfind.svn.sourceforge.net/svnroot/depfind/trunk/website https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.1 -m "Tagging the 1.2.1 release of Dependency Finder"</code></li>
-<li><code>svn checkout https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.1/DependencyFinder /tmp/DependencyFinder</code></li>
+<li><code>svn mkdir https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.1-beta3 -m "Tagging the 1.2.1-beta3 release of Dependency Finder"</code></li>
+<li><code>svn copy https://depfind.svn.sourceforge.net/svnroot/depfind/trunk/DependencyFinder https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.1-beta3 -m "Tagging the 1.2.1-beta3 release of Dependency Finder"</code></li>
+<li><code>svn copy https://depfind.svn.sourceforge.net/svnroot/depfind/trunk/website https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.1-beta3 -m "Tagging the 1.2.1-beta3 release of Dependency Finder"</code></li>
+<li><code>svn checkout https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.1-beta3/DependencyFinder /tmp/DependencyFinder</code></li>
 <li><code>cd /tmp/DependencyFinder</code></li>
 <li><code>ant dist</code></li>
 <li>Use SFTP to upload the files to SourceForge.net (<code>ant ftp</code> does not work anymore)</li>
