@@ -1119,8 +1119,10 @@ repository that has been tagged appropriately.
     1 =svn checkout https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-<VERSION />/DependencyFinder /tmp/DependencyFinder=
     1 =cd /tmp/DependencyFinder=
     1 =ant dist=
-    1 Use SFTP to upload the files to SourceForge.net (=ant ftp= does not work anymore)
-    1 Create new release on SourceForge.net
+    1 Go to [[http://sourceforge.net/projects/depfind/][SourceForge project page]], click "Develop" &gt;&gt; "Project Admin" &gt;&gt; "File Manager".
+    1 Create a new folder, upload all files from =dist/= to the new folder.
+    1 Make =DependencyFinder-<VERSION />.bin.zip= the default download for Windows.
+    1 Make =DependencyFinder-<VERSION />.bin.tar.gz= the default download for all others.
     1 Notify monitoring people
     1 Close bugs
     1 Close feature requests
