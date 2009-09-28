@@ -1113,10 +1113,10 @@ or, to run tests manually:
 These instructions make sure you are working from a clean copy from the
 repository that has been tagged appropriately.
 
-    1 =svn mkdir https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.1 -m "Tagging the 1.2.1 release of Dependency Finder"=
-    1 =svn copy https://depfind.svn.sourceforge.net/svnroot/depfind/trunk/DependencyFinder https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.1 -m "Tagging the 1.2.1 release of Dependency Finder"=
-    1 =svn copy https://depfind.svn.sourceforge.net/svnroot/depfind/trunk/website https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.1 -m "Tagging the 1.2.1 release of Dependency Finder"=
-    1 =svn checkout https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.1/DependencyFinder /tmp/DependencyFinder=
+    1 =svn mkdir https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-<VERSION /> -m "Tagging the <VERSION /> release of Dependency Finder"=
+    1 =svn copy https://depfind.svn.sourceforge.net/svnroot/depfind/trunk/DependencyFinder https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-<VERSION /> -m "Tagging the <VERSION /> release of Dependency Finder"=
+    1 =svn copy https://depfind.svn.sourceforge.net/svnroot/depfind/trunk/website https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-<VERSION /> -m "Tagging the <VERSION /> release of Dependency Finder"=
+    1 =svn checkout https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-<VERSION />/DependencyFinder /tmp/DependencyFinder=
     1 =cd /tmp/DependencyFinder=
     1 =ant dist=
     1 Use SFTP to upload the files to SourceForge.net (=ant ftp= does not work anymore)
