@@ -93,7 +93,6 @@
         <cobertura-instrument datafile="${coverage.dir}/cobertura.ser"
                               todir="${out.instr.dir}">
             <includeClasses regex="com.jeantessier.*"/>
-            <excludeClasses regex=".*\.Test.*"/>
             <instrumentationClasspath>
                 <path refid="run.classpath"/>
             </instrumentationClasspath>
@@ -131,8 +130,10 @@
             description="Produces the coverage reports">
         <cobertura-report datafile="${coverage.dir}/cobertura.ser"
                           format="html"
-                          destdir="${cobertura.reports.dir}"
-                          srcdir="${src.dir}"/>
+                          destdir="${cobertura.reports.dir}">
+            <fileset dir="${src.dir}"/>
+            <fileset dir="${tests.dir}"/>
+        </cobertura-report>
     </target>
 
 </project>
