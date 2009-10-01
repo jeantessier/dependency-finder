@@ -1141,7 +1141,7 @@ You can use [[http://emma.sourceforge.net/][Emma]] and the build file in
 Before you can run Emma, you need to set the following environment variable in
 addition to those for testing and compiling Dependency Finder:
 
-    * =EMMA_HOME= to your [[http://emma.sourceforge.net/][Emma]] installation
+    * =EMMA_HOME= to your Emma installation
 
 To run the tests and generate code coverage reports:
 
@@ -1164,10 +1164,10 @@ Or use an archive:
 You can use [[http://www.cenqua.com/clover/][Clover]] and the build file in
 =build.clover.xml=.
 
-Before you can run Emma, you need to set the following environment variable in
+Before you can run Clover, you need to set the following environment variable in
 addition to those for testing and compiling Dependency Finder:
 
-    * =CLOVER_HOME= to your [[http://www.cenqua.com/clover/][Clover]] installation
+    * =CLOVER_HOME= to your Clover installation
 
 You will also need to put =clover.jar= and =clover.license= on Ant's
 =CLASSPATH=.  For this, you can either set the =CLASSPATH= environment
@@ -1186,6 +1186,32 @@ To publish the results:
 Or use an archive:
 
     1 Archive the =reports/clover/html= directory
+    1 Use =scp= to transfer the archive to SourceForge
+    1 Use =ssh= to login to SourceForge
+    1 Extract the archive in the root of the website
+
+---++++ Cobertura
+
+You can use [[http://cobertura.sourceforge.net/][Cobertura]] and the build file
+in =build.cobertura.xml=.
+
+Before you can run Cobertura, you need to set the following environment variable
+in addition to those for testing and compiling Dependency Finder:
+
+    * =COBERTURA_HOME= to your Cobertura installation
+
+To run the tests and generate code coverage reports:
+
+    =ant -f build.cobertura.xml=
+
+To publish the results:
+
+    1 =ssh depfind.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/cobertura=
+    1 =scp reports/cobertura depfind.sourceforge.net:/home/groups/d/de/depfind/htdocs/cobertura=
+
+Or use an archive:
+
+    1 Archive the =reports/cobertura= directory
     1 Use =scp= to transfer the archive to SourceForge
     1 Use =ssh= to login to SourceForge
     1 Extract the archive in the root of the website
