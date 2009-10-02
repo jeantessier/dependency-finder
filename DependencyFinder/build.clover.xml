@@ -102,7 +102,7 @@
     </target>
 
     <target name="report" depends="clover.html, clover.xml, clover.pdf"
-            description="Produces the coverate reports"/>
+            description="Produces the coverage reports"/>
 
     <target name="clover.swing" depends="init">
         <clover-view/>

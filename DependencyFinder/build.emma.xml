@@ -128,7 +128,7 @@
     </target>
 
     <target name="report" depends="init"
-            description="Produces the coverate reports">
+            description="Produces the coverage reports">
         <emma>
             <report>
                 <fileset dir="${coverage.dir}">

@@ -69,7 +69,7 @@
     </target>
 
     <target name="report" depends="report.txt, report.html"
-            description="Produces the coverate reports"/>
+            description="Produces the testability reports"/>
 
     <target name="report.txt" depends="init">
         <mkdir dir="${testabilityexplorer.reports.dir}"/>
