@@ -512,7 +512,8 @@ public class XMLPrinter extends Printer {
 
         indent().append("<method>");
         if (attribute.getMethodIndex() != 0) {
-            attribute.getRawMethod().accept(this);
+            NameAndType_info nat = attribute.getRawMethod();
+            append(DescriptorHelper.getReturnType(nat.getType())).append(" ").append(nat.getName()).append(DescriptorHelper.getSignature(nat.getType()));
         }
         append("</method>").eol();
 
