@@ -75,7 +75,7 @@ public class TransitiveClosureEngine {
     }
     
     public Collection getLayer(int i) {
-        return (Collection) layers.get(i);
+        return layers.get(i);
     }
 
     public void computeAllLayers() {
