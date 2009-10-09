@@ -38,7 +38,7 @@ import static org.junit.runners.Suite.*;
 
 @RunWith(Suite.class)
 @SuiteClasses({
+        TestActionBase.class,
         TestExtractAction.class
 })
-public class TestAll {
-}
+public class TestAll {}

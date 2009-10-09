@@ -45,8 +45,8 @@
 <p>Extract</p>
 
 <ww:form action="extract.action">
-    <ww:submit/>
-    <ww:checkbox label="Update the current graph" name="update" fieldValue="true"/>
+    <ww:submit type="button" method="extract" label="Extract new graph"/>
+    <ww:submit type="button" method="update" label="Update current graph"/>
 </ww:form>
 
 </body>

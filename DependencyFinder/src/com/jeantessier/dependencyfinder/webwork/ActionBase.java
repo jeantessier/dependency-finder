@@ -34,8 +34,9 @@ package com.jeantessier.dependencyfinder.webwork;
 
 import java.util.*;
 
-import com.opensymphony.xwork.*;
 import com.opensymphony.webwork.interceptor.*;
+import com.opensymphony.xwork.*;
+import org.apache.oro.text.perl.*;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.dependency.*;
@@ -65,5 +66,12 @@ public abstract class ActionBase extends ActionSupport implements ApplicationAwa
     private void setUpApplicationParameters() {
         source = (String) application.get("source");
         mode = (String) application.get("mode");
+    }
+
+    public Collection<String> getSources() {
+        Perl5Util perl = new Perl5Util();
+        Collection<String> sources = new LinkedList<String>();
+        perl.split(sources, "/,\\s*/", source);
+        return sources;
     }
 }

@@ -32,40 +32,85 @@
 
 package com.jeantessier.dependencyfinder.webwork;
 
-import java.util.*;
 import java.io.*;
-
-import junit.framework.*;
-
-import com.jeantessier.dependency.*;
-import com.jeantessier.classreader.*;
+import java.util.*;
 
 import com.opensymphony.xwork.*;
+import static org.hamcrest.Matchers.*;
+import static org.jmock.Expectations.*;
+import org.jmock.*;
+import org.jmock.integration.junit4.*;
+import static org.junit.Assert.*;
+import org.junit.*;
+import org.junit.runner.*;
 
-public class TestExtractAction extends TestCase {
+import com.jeantessier.classreader.*;
+import com.jeantessier.dependency.*;
+
+@RunWith(JMock.class)
+public class TestExtractAction {
+    private Mockery context;
+
     private Map<String, Object> application;
 
-    private ExtractAction action;
+    private ExtractAction sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
+        context = new Mockery();
 
         application = new HashMap<String, Object>();
         application.put("source", "classes" + File.separator + "test.class");
 
-        action = new ExtractAction();
+        sut = new ExtractAction();
     }
 
+    @Test
+    public void testExecute() throws Exception {
+        sut.setApplication(application);
+        String result = sut.execute();
+
+        assertThat("Result", result, is(equal(Action.INPUT)));
+        assertThat("Unexpected dispatcher", (ClassfileLoaderDispatcher) application.get("dispatcher"), is(aNull(ClassfileLoaderDispatcher.class)));
+        assertThat("Unexpected factory", (NodeFactory) application.get("factory"), is(aNull(NodeFactory.class)));
+        assertThat("Unexpected monitor", (Monitor) application.get("monitor"), is(aNull(Monitor.class)));
+        assertThat("Unexpected start", (Date) sut.getStart(), is(aNull(Date.class)));
+        assertThat("Unexpected stop", (Date) sut.getStop(), is(aNull(Date.class)));
+    }
+
+    @Test
     public void testFirstExtract() {
-        action.setApplication(application);
-        String result = action.doExtract();
+        sut.setApplication(application);
+        String result = sut.doExtract();
 
-        assertEquals("Result", Action.SUCCESS, result);
-        assertNotNull("Missing dispatcher", application.get("dispatcher"));
-        assertNotNull("Missing factory", application.get("factory"));
-        assertNotNull("Missing monitor", application.get("monitor"));
+        assertThat("Result", result, is(equal(Action.SUCCESS)));
+        assertThat("Missing dispatcher", (ClassfileLoaderDispatcher) application.get("dispatcher"), is(aNonNull(ClassfileLoaderDispatcher.class)));
+        assertThat("Missing factory", (NodeFactory) application.get("factory"), is(aNonNull(NodeFactory.class)));
+        assertThat("Missing monitor", (Monitor) application.get("monitor"), is(aNonNull(Monitor.class)));
     }
 
+    @Test
+    public void testSecondExtract() {
+        ClassfileLoaderDispatcher dispatcher = new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER);
+        NodeFactory factory = new NodeFactory();
+        CodeDependencyCollector collector = new CodeDependencyCollector(factory);
+        DeletingVisitor deletingVisitor = new DeletingVisitor(factory);
+        Monitor monitor = new Monitor(collector, deletingVisitor);
+
+        application.put("dispatcher", dispatcher);
+        application.put("factory", factory);
+        application.put("monitor", monitor);
+
+        sut.setApplication(application);
+        String result = sut.doExtract();
+
+        assertThat("Result", result, is(equal(Action.SUCCESS)));
+        assertThat("Dispatcher", (ClassfileLoaderDispatcher) application.get("dispatcher"), is(not(same(dispatcher))));
+        assertThat("Factory", (NodeFactory) application.get("factory"), is(not(same(factory))));
+        assertThat("Monitor", (Monitor) application.get("monitor"), is(not(same(monitor))));
+    }
+
+    @Test
     public void testUpdate() {
         ClassfileLoaderDispatcher dispatcher = new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER);
         NodeFactory factory = new NodeFactory();
@@ -77,32 +122,12 @@ public class TestExtractAction extends TestCase {
         application.put("factory", factory);
         application.put("monitor", monitor);
 
-        action.setApplication(application);
-        String result = action.doUpdate();
+        sut.setApplication(application);
+        String result = sut.doUpdate();
 
-        assertEquals("Result", Action.SUCCESS, result);
-        assertSame("Dispatcher", dispatcher, application.get("dispatcher"));
-        assertSame("Factory", factory, application.get("factory"));
-        assertSame("Monitor", monitor, application.get("monitor"));
-    }
-
-    public void testExtract() {
-        ClassfileLoaderDispatcher dispatcher = new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER);
-        NodeFactory factory = new NodeFactory();
-        CodeDependencyCollector collector = new CodeDependencyCollector(factory);
-        DeletingVisitor deletingVisitor = new DeletingVisitor(factory);
-        Monitor monitor = new Monitor(collector, deletingVisitor);
-
-        application.put("dispatcher", dispatcher);
-        application.put("factory", factory);
-        application.put("monitor", monitor);
-
-        action.setApplication(application);
-        String result = action.doExtract();
-
-        assertEquals("Result", Action.SUCCESS, result);
-        assertNotSame("Dispatcher", dispatcher, application.get("dispatcher"));
-        assertNotSame("Factory", factory, application.get("factory"));
-        assertNotSame("Monitor", monitor, application.get("monitor"));
+        assertThat("Result", result, is(equal(Action.SUCCESS)));
+        assertThat("Dispatcher", (ClassfileLoaderDispatcher) application.get("dispatcher"), is(same(dispatcher)));
+        assertThat("Factory", (NodeFactory) application.get("factory"), is(same(factory)));
+        assertThat("Monitor", (Monitor) application.get("monitor"), is(same(monitor)));
     }
 }

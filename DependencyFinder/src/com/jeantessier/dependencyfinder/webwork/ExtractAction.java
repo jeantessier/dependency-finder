@@ -32,59 +32,43 @@
 
 package com.jeantessier.dependencyfinder.webwork;
 
-import java.io.*;
 import java.text.*;
 import java.util.*;
-import javax.servlet.http.*;
-
-import com.opensymphony.webwork.interceptor.*;
-import org.apache.oro.text.perl.*;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.dependency.*;
-import com.jeantessier.dependencyfinder.*;
 
-public class ExtractAction extends ActionBase implements ServletResponseAware {
-    private boolean update;
+public class ExtractAction extends ActionBase {
+    private static final SimpleDateFormat START_DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    private PrintWriter out = new NullPrintWriter();
+    private Date start;
+    private Date stop;
 
-    public void setUpdate(boolean update) {
-        this.update = update;
+    public Date getStart() {
+        return start;
     }
 
-    public boolean getUpdate() {
-        return update;
+    public Date getStop() {
+        return stop;
     }
 
-    public void setServletResponse(HttpServletResponse response) {
-        try {
-            out = new PrintWriter(new OutputStreamWriter(response.getOutputStream()));
-        } catch (IOException e) {
-            // Ignore
-        }
+    public double getDurationInSecs() {
+        return (stop.getTime() - start.getTime()) / (double) 1000;
     }
-
+    
     public String execute() throws Exception {
-        return SUCCESS;
-    }
-
-    public String doDefault() {
         return INPUT;
     }
 
     public String doUpdate() {
-        Date start = new Date();
+        start = new Date();
 
         extractGraph();
 
-        Date   stop     = new Date();
-        double duration = (stop.getTime() - start.getTime()) / (double) 1000;
+        stop = new Date();
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        application.put("updateStart",    formatter.format(start));
-        application.put("updateDuration", duration);
+        application.put("updateStart", getStartText());
+        application.put("updateDuration", getDurationInSecs());
 
         application.remove("loadStart");
         application.remove("loadDuration");
@@ -93,28 +77,25 @@ public class ExtractAction extends ActionBase implements ServletResponseAware {
     }
 
     public String doExtract() {
-        Date start = new Date();
+        start = new Date();
 
         dispatcher = new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER);
         factory = new NodeFactory();
-        CodeDependencyCollector collector       = new CodeDependencyCollector(factory);
-        DeletingVisitor         deletingVisitor = new DeletingVisitor(factory);
+        CodeDependencyCollector collector = new CodeDependencyCollector(factory);
+        DeletingVisitor deletingVisitor = new DeletingVisitor(factory);
 
         monitor = new Monitor(collector, deletingVisitor);
 
         extractGraph();
 
-        Date   stop     = new Date();
-        double duration = (stop.getTime() - start.getTime()) / (double) 1000;
-
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        stop = new Date();
 
         application.put("dispatcher", dispatcher);
-        application.put("factory",    factory);
-        application.put("monitor",    monitor);
+        application.put("factory", factory);
+        application.put("monitor", monitor);
 
-        application.put("extractStart",    formatter.format(start));
-        application.put("extractDuration", duration);
+        application.put("extractStart", getStartText());
+        application.put("extractDuration", getDurationInSecs());
         application.remove("updateStart");
         application.remove("updateDuration");
 
@@ -124,23 +105,18 @@ public class ExtractAction extends ActionBase implements ServletResponseAware {
         return SUCCESS;
     }
 
+    private String getStartText() {
+        return START_DATE_FORMATTER.format(start);
+    }
+
     private void extractGraph() {
-        Perl5Util perl = new Perl5Util();
-        Collection<String> sources = new LinkedList<String>();
-        perl.split(sources, "/,\\s*/", source);
-
-        VerboseListener listener = new VerboseListener(out);
-
         ClassfileLoader loader = new TransientClassfileLoader(dispatcher);
-        loader.addLoadListener(listener);
         loader.addLoadListener(monitor);
-        loader.load(sources);
+        loader.load(getSources());
 
         if ("maximize".equalsIgnoreCase(mode)) {
-            listener.print("Maximizing ...");
             new LinkMaximizer().traverseNodes(factory.getPackages().values());
         } else if ("minimize".equalsIgnoreCase(mode)) {
-            listener.print("Minimizing ...");
             new LinkMinimizer().traverseNodes(factory.getPackages().values());
         }
     }
