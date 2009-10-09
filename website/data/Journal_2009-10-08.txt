@@ -5,3 +5,7 @@ Spring config.  But maybe I just don't need Spring IoC.
 Now, the web app starts, but nothing happens when I try to run =extract.action=.
 I know the right method gets called because =start= and =stop= get assigned, but
 =ExtractAction= does not look at the resources listed in =source=.
+
+I tried to update the SVN repo first, in the hopes of copying the change to Git
+afterwards.  This is probably a bad idea if I don't have access to the original
+Git client where I first fetched the SVN repo.
