@@ -355,10 +355,7 @@
             description="Compiles and builds the web application archive">
         <war destfile="${webworkWarFile}"
              webxml="${webworkDir}/WEB-INF/web.xml">
-            <zipfileset dir="${webworkDir}">
-                <exclude name="**/CSV"/>
-                <exclude name="**/WEB-INF/*"/>
-            </zipfileset>
+            <zipfileset dir="${webworkDir}"/>
             <classes dir="${srcDir}"
                      includes="**/*.properties"/>
             <lib dir="${libDir}"

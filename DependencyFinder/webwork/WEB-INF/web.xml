@@ -83,20 +83,15 @@
         <description>One of MINIMIZE, MAXIMIZE, or RAW.  Case insensitive.</description>
     </context-param>
 
-    <servlet>
-        <servlet-name>webwork</servlet-name>
-        <servlet-class>com.opensymphony.webwork.dispatcher.ServletDispatcher</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
+    <filter>
+        <filter-name>webwork</filter-name>
+        <filter-class>com.opensymphony.webwork.dispatcher.FilterDispatcher</filter-class>
+    </filter>
 
-    <servlet-mapping>
-        <servlet-name>webwork</servlet-name>
-        <url-pattern>*.action</url-pattern>
-    </servlet-mapping>
-
-    <!--<welcome-file-list>-->
-        <!--<welcome-file>query.jsp</welcome-file>-->
-    <!--</welcome-file-list>-->
+    <filter-mapping>
+        <filter-name>webwork</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <taglib>
         <taglib-uri>webwork</taglib-uri>

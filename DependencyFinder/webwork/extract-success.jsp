@@ -44,7 +44,10 @@
 
 <p>Extract Success</p>
 
-<p>update is <ww:label name="update"/></p>
+<p>start is <ww:label name="start"/></p>
+<p>stop is <ww:label name="stop"/></p>
+<p>duration is <ww:label name="durationInSecs"/></p>
+<p>sources are <ww:label name="sources"/></p>
 
 </body>
 
