@@ -32,8 +32,8 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.text.*;
@@ -70,6 +70,13 @@ public class ClassMetrics extends DirectoryExplorerCommand {
         getOut().println(metrics.getInterfaces().size() + " interface(s)");
         if (list) {
             for (Object o : metrics.getInterfaces()) {
+                getOut().println("        " + o);
+            }
+        }
+
+        getOut().println(metrics.getAnnotations().size() + " annotation(s)");
+        if (list) {
+            for (Object o : metrics.getAnnotations()) {
                 getOut().println("        " + o);
             }
         }
