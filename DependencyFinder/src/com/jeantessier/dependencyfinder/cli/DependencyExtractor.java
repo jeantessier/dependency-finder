@@ -44,6 +44,9 @@ public class DependencyExtractor extends DirectoryExplorerCommand {
         populateCommandLineSwitchesForXMLOutput(com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING, com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX, com.jeantessier.dependency.XMLPrinter.DEFAULT_INDENT_TEXT);
         populateCommandLineSwitchesForFiltering();
 
+        getCommandLine().addMultipleValuesSwitch("class-includes", DEFAULT_INCLUDES);
+        getCommandLine().addMultipleValuesSwitch("class-excludes");
+
         getCommandLine().addToggleSwitch("maximize");
         getCommandLine().addToggleSwitch("minimize");
 
@@ -68,8 +71,13 @@ public class DependencyExtractor extends DirectoryExplorerCommand {
         NodeFactory factory = new NodeFactory();
         CodeDependencyCollector collector = new CodeDependencyCollector(factory, filterCriteria);
 
+        LoadListener collectorLoadListener = new LoadListenerVisitorAdapter(collector);
+        if (getCommandLine().isPresent("class-includes") || getCommandLine().isPresent("class-excludes")) {
+          collectorLoadListener = new ClassfileFilteringLoadListener(collectorLoadListener, getCommandLine().getMultipleSwitch("class-includes"), getCommandLine().getMultipleSwitch("class-excludes"));
+        }
+
         ClassfileLoader loader = new TransientClassfileLoader();
-        loader.addLoadListener(new LoadListenerVisitorAdapter(collector));
+        loader.addLoadListener(collectorLoadListener);
         loader.addLoadListener(getVerboseListener());
         loader.load(getCommandLine().getParameters());
 
