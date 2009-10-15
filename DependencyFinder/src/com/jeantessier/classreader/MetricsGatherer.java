@@ -39,6 +39,7 @@ import org.apache.log4j.*;
 public class MetricsGatherer extends VisitorBase {
     private Collection<Object> classes = new LinkedList<Object>();
     private Collection<Object> interfaces = new LinkedList<Object>();
+    private Collection<Object> annotations = new LinkedList<Object>();
     private Collection<Method_info> methods = new LinkedList<Method_info>();
     private Collection<Field_info> fields = new LinkedList<Field_info>();
     private Collection<Classfile> syntheticClasses = new LinkedList<Classfile>();
@@ -92,6 +93,10 @@ public class MetricsGatherer extends VisitorBase {
 
     public Collection<Object> getInterfaces() {
         return interfaces;
+    }
+
+    public Collection<Object> getAnnotations() {
+        return annotations;
     }
 
     public Collection<Method_info> getMethods() {
@@ -262,7 +267,9 @@ public class MetricsGatherer extends VisitorBase {
             finalClasses.add(classfile);
         }
 
-        if (classfile.isInterface()) {
+        if (classfile.isAnnotation()) {
+            annotations.add(classfile);
+        } else if (classfile.isInterface()) {
             interfaces.add(classfile);
         } else {
             classes.add(classfile);
