@@ -1,22 +1,22 @@
 /*
  *  Copyright (c) 2001-2009, Jean Tessier
  *  All rights reserved.
- *  
+ *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
  *  are met:
- *  
+ *
  *      * Redistributions of source code must retain the above copyright
  *        notice, this list of conditions and the following disclaimer.
- *  
+ *
  *      * Redistributions in binary form must reproduce the above copyright
  *        notice, this list of conditions and the following disclaimer in the
  *        documentation and/or other materials provided with the distribution.
- *  
+ *
  *      * Neither the name of Jean Tessier nor the names of his contributors
  *        may be used to endorse or promote products derived from this software
  *        without specific prior written permission.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -43,12 +43,12 @@ public class TextPrinter extends Printer {
     private List<MeasurementDescriptor> descriptors;
 
     private boolean expandCollectionMeasurements;
-    
+
     private Metrics currentMetrics = null;
-    
+
     public TextPrinter(PrintWriter out, List<MeasurementDescriptor> descriptors) {
         super(out);
-        
+
         this.descriptors = descriptors;
     }
 
@@ -59,11 +59,11 @@ public class TextPrinter extends Printer {
     public void setExpandCollectionMeasurements(boolean expandCollectionMeasurements) {
         this.expandCollectionMeasurements = expandCollectionMeasurements;
     }
-    
+
     public void visitMetrics(Metrics metrics) {
         if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
             currentMetrics = metrics;
-            
+
             indent().append(metrics.getName()).eol();
             raiseIndent();
 
@@ -72,9 +72,9 @@ public class TextPrinter extends Printer {
                     metrics.getMeasurement(descriptor.getShortName()).accept(this);
                 }
             }
-            
+
             lowerIndent();
-            
+
             eol();
         }
     }
@@ -90,38 +90,41 @@ public class TextPrinter extends Printer {
         }
 
         append(" ").append(measurement);
-        
+
         eol();
     }
-    
+
     public void visitRatioMeasurement(RatioMeasurement measurement) {
         if (!measurement.getShortName().endsWith("R")) {
             super.visitRatioMeasurement(measurement);
         }
     }
-    
+
     public void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
         super.visitContextAccumulatorMeasurement(measurement);
 
         visitCollectionMeasurement(measurement);
     }
-    
+
     public void visitNameListMeasurement(NameListMeasurement measurement) {
         super.visitNameListMeasurement(measurement);
 
         visitCollectionMeasurement(measurement);
     }
-    
+
     public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
         super.visitSubMetricsAccumulatorMeasurement(measurement);
 
         visitCollectionMeasurement(measurement);
     }
-    
+
     protected void visitCollectionMeasurement(CollectionMeasurement measurement) {
         if (isExpandCollectionMeasurements()) {
             raiseIndent();
             for (String value : measurement.getValues()) {
+                if (value.startsWith(measurement.getContext().getName())) {
+                    value = value.substring(measurement.getContext().getName().length() + 1);
+                }
                 indent().append(value).eol();
             }
             lowerIndent();
