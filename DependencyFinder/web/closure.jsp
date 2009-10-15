@@ -1,4 +1,4 @@
-<%@ page import="java.io.*, java.text.*, java.util.*, com.jeantessier.dependency.*" %>
+<%@ page import="java.io.*, java.util.*, com.jeantessier.dependency.*" %>
 <%@ page errorPage="errorpage.jsp" %>
 
 <!--
@@ -304,10 +304,7 @@ follow
                 }
             }
 
-            MessageFormat urlFormat = new MessageFormat(urlPattern.toString());
-
-            Printer printer = new HTMLPrinter(new PrintWriter(out), urlFormat);
-
+            Visitor printer = new DepthFirstPrinter(new PrintWriter(out), startCriteria);
             printer.traverseNodes(summarizer.getScopeFactory().getPackages().values());
 
             Date stop = new Date();

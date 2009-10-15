@@ -32,8 +32,6 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import com.jeantessier.dependency.Printer;
-import com.jeantessier.dependency.TextPrinter;
 import com.jeantessier.dependency.*;
 
 public class DependencyClosure extends DependencyGraphCommand {
@@ -73,12 +71,7 @@ public class DependencyClosure extends DependencyGraphCommand {
 
         getVerboseListener().print("Printing the graph ...");
 
-        Printer printer;
-        if (getCommandLine().isPresent("xml")) {
-            printer = new XMLPrinter(getOut(), getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
-        } else {
-            printer = new TextPrinter(getOut());
-        }
+        DepthFirstPrinter printer = new DepthFirstPrinter(getOut(), getStartCriteria());
 
         if (getCommandLine().isPresent("indent-text")) {
             printer.setIndentText(getCommandLine().getSingleSwitch("indent-text"));
