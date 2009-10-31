@@ -96,12 +96,16 @@ public class CodeDependencyCollector extends CollectorBase {
         if (classfile.getSuperclassIndex() != 0) {
             Class_info superclass = classfile.getRawSuperclass();
             superclass.accept(this);
-            currentClass.addParent(getFactory().createClass(superclass.getName()));
+            if (filterCriteria.isMatchingClasses() && filterCriteria.matchesClassName(superclass.getName())) {
+                currentClass.addParent(getFactory().createClass(superclass.getName()));
+            }
         }
 
         for (Class_info class_info : classfile.getAllInterfaces()) {
             class_info.accept(this);
-            currentClass.addParent(getFactory().createClass(class_info.getName()));
+            if (filterCriteria.isMatchingClasses() && filterCriteria.matchesClassName(class_info.getName())) {
+                currentClass.addParent(getFactory().createClass(class_info.getName()));
+            }
         }
 
         super.visitClassfile(classfile);
