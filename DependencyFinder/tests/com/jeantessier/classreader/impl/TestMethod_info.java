@@ -46,13 +46,20 @@ import org.junit.runner.*;
 public class TestMethod_info {
     private static final int TEST_ACCESS_FLAG = 0x0008;
     private static final int TEST_NAME_INDEX = 123;
+    private static final String TEST_NAME_VALUE = "testMethod";
     private static final int TEST_SIGNATURE_INDEX = 456;
-    private static final int TEST_NB_ATTRIBUTES = 0;
+    private static final String TEST_SIGNATURE_VALUE = "(ILjava/util/List;)I";
+    private static final int NO_ATTRIBUTES = 0;
+    private static final int ONE_ATTRIBUTE = 1;
+    private static final int TEST_SIGNATURE_ATTRIBUTE_TYPE_INDEX = 789;
+    private static final int TEST_SIGNATURE_ATTRIBUTE_LENGTH = 2;
+    private static final int TEST_SIGNATURE_ATTRIBUTE_INDEX = 987;
 
     private Mockery context;
 
-    private DataInput mockIn;
+    private Classfile mockClassfile;
     private ConstantPool mockConstantPool;
+    private DataInput mockIn;
 
     private Sequence dataReads;
 
@@ -61,27 +68,57 @@ public class TestMethod_info {
         context = new Mockery();
         context.setImposteriser(ClassImposteriser.INSTANCE);
 
-        mockIn = context.mock(DataInput.class);
+        mockClassfile = context.mock(Classfile.class);
         mockConstantPool = context.mock(ConstantPool.class);
+        mockIn = context.mock(DataInput.class);
 
         dataReads = context.sequence("dataReads");
-    }
-
-    @Test
-    public void testDeclarationForStaticInitializer() throws IOException {
-        final Classfile mockClassfile = context.mock(Classfile.class);
 
         context.checking(new Expectations() {{
             allowing (mockClassfile).getConstantPool();
                 will(returnValue(mockConstantPool));
         }});
+    }
 
+    @Test
+    public void testGetSignature_FromDescriptor() throws IOException {
+        expectReadU2(TEST_ACCESS_FLAG);
+        expectReadU2(TEST_NAME_INDEX);
+        expectLookupUtf8(TEST_NAME_INDEX, TEST_NAME_VALUE, "name");
+        expectReadU2(TEST_SIGNATURE_INDEX);
+        expectLookupUtf8(TEST_SIGNATURE_INDEX, TEST_SIGNATURE_VALUE, "signature");
+        expectReadU2(NO_ATTRIBUTES);
+
+        Method_info sut = new Method_info(mockClassfile, mockIn);
+        assertThat("signature", sut.getSignature(), is(TEST_NAME_VALUE + "(int, java.util.List)"));
+    }
+
+    @Test
+    public void testGetSignature_FromSignatureAttribute() throws IOException {
+        expectReadU2(TEST_ACCESS_FLAG);
+        expectReadU2(TEST_NAME_INDEX);
+        expectLookupUtf8(TEST_NAME_INDEX, TEST_NAME_VALUE, "name");
+        expectReadU2(TEST_SIGNATURE_INDEX);
+        expectLookupUtf8(TEST_SIGNATURE_INDEX, TEST_SIGNATURE_VALUE, "signature");
+        expectReadU2(ONE_ATTRIBUTE);
+        expectReadU2(TEST_SIGNATURE_ATTRIBUTE_TYPE_INDEX);
+        expectLookupUtf8(TEST_SIGNATURE_ATTRIBUTE_TYPE_INDEX, "Signature", "Signature_attribute");
+        expectReadU4(TEST_SIGNATURE_ATTRIBUTE_LENGTH);
+        expectReadU2(TEST_SIGNATURE_ATTRIBUTE_INDEX);
+        expectLookupUtf8(TEST_SIGNATURE_ATTRIBUTE_INDEX, "(ILjava/util/List<Ljava/lang/String;>;)I", "Generic signature");
+
+        Method_info sut = new Method_info(mockClassfile, mockIn);
+        assertThat("signature", sut.getSignature(), is(TEST_NAME_VALUE + "(int, java.util.List<java.lang.String>)"));
+    }
+
+    @Test
+    public void testDeclarationForStaticInitializer() throws IOException {
         expectReadU2(TEST_ACCESS_FLAG);
         expectReadU2(TEST_NAME_INDEX);
         expectLookupUtf8(TEST_NAME_INDEX, "<clinit>", "name");
         expectReadU2(TEST_SIGNATURE_INDEX);
-        expectLookupUtf8(TEST_SIGNATURE_INDEX, "()V", "signature");
-        expectReadU2(TEST_NB_ATTRIBUTES);
+        expectLookupUtf8(TEST_SIGNATURE_INDEX, TEST_SIGNATURE_VALUE, "signature");
+        expectReadU2(NO_ATTRIBUTES);
 
         Method_info sut = new Method_info(mockClassfile, mockIn);
         assertThat("declaration", sut.getDeclaration(), is("static {}"));
@@ -90,6 +127,14 @@ public class TestMethod_info {
     protected void expectReadU2(final int i) throws IOException {
         context.checking(new Expectations() {{
             one (mockIn).readUnsignedShort();
+                inSequence(dataReads);
+                will(returnValue(i));
+        }});
+    }
+
+    protected void expectReadU4(final int i) throws IOException {
+        context.checking(new Expectations() {{
+            one (mockIn).readInt();
                 inSequence(dataReads);
                 will(returnValue(i));
         }});

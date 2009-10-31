@@ -102,15 +102,33 @@ public class Method_info extends Feature_info implements com.jeantessier.classre
 
         if (isConstructor()) {
             result.append(getClassfile().getSimpleName());
-            result.append(DescriptorHelper.getSignature(getDescriptor()));
+//            if (isGeneric()) {
+//                result.append("foo");
+//            } else {
+                result.append(getDescriptorSignature());
+//            }
         } else if (isStaticInitializer()) {
             result.append("static {}");
         } else {
             result.append(getName());
-            result.append(DescriptorHelper.getSignature(getDescriptor()));
+//            if (isGeneric()) {
+//                result.append(getGenericSignature());
+//            } else {
+                result.append(getDescriptorSignature());
+//            }
         }
 
         return result.toString();
+    }
+
+    private String getDescriptorSignature() {
+        return DescriptorHelper.getSignature(getDescriptor());
+    }
+
+    private String getGenericSignature() {
+        SignatureFinder finder = new SignatureFinder();
+        accept(finder);
+        return SignatureHelper.getSignature(finder.getSignature());
     }
 
     public String getReturnType() {

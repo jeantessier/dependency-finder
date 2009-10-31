@@ -32,16 +32,29 @@
 
 package com.jeantessier.classreader;
 
-import junit.framework.*;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
+import org.junit.*;
 
-public class TestSignatureHelper extends TestCase {
-    public void testGetSignature() {
-        assertEquals("(T)", SignatureHelper.getSignature("<T:Ljava/lang/Object;>(TT;)V"));
-        assertEquals("(T, int, java.lang.String)", SignatureHelper.getSignature("<T:Ljava/lang/Object;>(TT;ILjava/lang/String;)V"));
-//        assertEquals("(int)", SignatureHelper.getSignature("(I)V"));
-//        assertEquals("(int, int)", SignatureHelper.getSignature("(II)V"));
-//        assertEquals("(int[])", SignatureHelper.getSignature("([I)V"));
-//        assertEquals("(java.lang.Object)", SignatureHelper.getSignature("(Ljava/lang/Object;)V"));
-//        assertEquals("(java.lang.Object[])", SignatureHelper.getSignature("([Ljava/lang/Object;)V"));
+public class TestSignatureHelper {
+    @Test
+    public void testGetSignature_NonGeneric() {
+        assertThat(SignatureHelper.getSignature("()V"), is("()"));
+        assertThat(SignatureHelper.getSignature("(I)V"), is("(int)"));
+        assertThat(SignatureHelper.getSignature("(II)V"), is("(int, int)"));
+        assertThat(SignatureHelper.getSignature("([I)V"), is("(int[])"));
+        assertThat(SignatureHelper.getSignature("(Ljava/lang/Object;)V"), is("(java.lang.Object)"));
+        assertThat(SignatureHelper.getSignature("([Ljava/lang/Object;)V"), is("(java.lang.Object[])"));
+    }
+
+    @Test
+    public void testGetSignature_GenericType() {
+        assertThat(SignatureHelper.getSignature("<T:Ljava/lang/Object;>(TT;)V"), is("(T)"));
+        assertThat(SignatureHelper.getSignature("<T:Ljava/lang/Object;>(TT;ILjava/lang/String;)V"), is("(T, int, java.lang.String)"));
+    }
+
+    @Test
+    public void testGetSignature_ParameterizedType() {
+        assertThat(SignatureHelper.getSignature("(Ljava/util/List<Ljava/lang/String;>;)V"), is("java.util.List<java.lang.String>"));
     }
 }
