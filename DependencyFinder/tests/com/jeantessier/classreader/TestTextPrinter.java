@@ -32,12 +32,15 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-import java.util.*;
+import org.jmock.Expectations;
+import org.jmock.Sequence;
+import org.jmock.integration.junit3.MockObjectTestCase;
+import org.jmock.lib.legacy.ClassImposteriser;
 
-import org.jmock.*;
-import org.jmock.integration.junit3.*;
-import org.jmock.lib.legacy.*;
+import java.io.PrintWriter;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 public class TestTextPrinter extends MockObjectTestCase {
     private static final int ICONST_1_INSTRUCTION = 0x04; // iconst_1
@@ -55,7 +58,6 @@ public class TestTextPrinter extends MockObjectTestCase {
     private static final int VALUE = 4;
     private static final String DESCRIPTOR = "i";
 
-    private ConstantPoolEntry mockConstantPoolEntry;
     private Instruction mockInstruction;
     private LocalVariable mockLocalVariable;
     private PrintWriter mockOut;
@@ -69,7 +71,6 @@ public class TestTextPrinter extends MockObjectTestCase {
 
         setImposteriser(ClassImposteriser.INSTANCE);
 
-        mockConstantPoolEntry = mock(ConstantPoolEntry.class);
         mockInstruction = mock(Instruction.class);
         mockLocalVariable = mock(LocalVariable.class);
         mockOut = mock(PrintWriter.class);
@@ -438,6 +439,8 @@ public class TestTextPrinter extends MockObjectTestCase {
     }
 
     public void testVisitInstruction_getfield_WithConstantPoolEntry() {
+        final ConstantPoolEntry mockConstantPoolEntry = mock(ConstantPoolEntry.class);
+
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(GETFIELD_INSTRUCTION));
