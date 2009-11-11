@@ -36,18 +36,30 @@ import java.io.*;
 import java.util.*;
 
 public class TextPrinter extends Printer {
+    private final boolean showConstantPool;
+    private final boolean showCode;
+
     private boolean top = true;
 
     public TextPrinter(PrintWriter out) {
+        this(out, true, true);
+    }
+    
+    public TextPrinter(PrintWriter out, boolean showConstantPool, boolean showCode) {
         super(out);
+
+	this.showConstantPool = showConstantPool;
+	this.showCode = showCode;
     }
     
     public void visitClassfile(Classfile classfile) {
-        top = true;
-        classfile.getConstantPool().accept(this);
-        top = false;
-
-        eol();
+	if (showConstantPool) {
+	    top = true;
+	    classfile.getConstantPool().accept(this);
+	    top = false;
+	    
+	    eol();
+	}
 
         append(classfile.getDeclaration()).append(" {").eol();
 
@@ -204,14 +216,16 @@ public class TextPrinter extends Printer {
     }
 
     public void visitCode_attribute(Code_attribute attribute) {
-        append("        CODE").eol();
-        visitInstructions(attribute);
-
-        Collection<? extends ExceptionHandler> exceptionHandlers = attribute.getExceptionHandlers();
-        if (!exceptionHandlers.isEmpty()) {
-            append("        EXCEPTION HANDLING").eol();
-            visitExceptionHandlers(exceptionHandlers);
-        }
+	if (showCode) {
+	    append("        CODE").eol();
+	    visitInstructions(attribute);
+	    
+	    Collection<? extends ExceptionHandler> exceptionHandlers = attribute.getExceptionHandlers();
+	    if (!exceptionHandlers.isEmpty()) {
+		append("        EXCEPTION HANDLING").eol();
+		visitExceptionHandlers(exceptionHandlers);
+	    }
+	}
     }
 
     public void visitInstruction(Instruction helper) {
