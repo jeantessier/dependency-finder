@@ -45,6 +45,8 @@ public class ClassReader extends Command {
         populateCommandLineSwitchesForXMLOutput(XMLPrinter.DEFAULT_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX, XMLPrinter.DEFAULT_INDENT_TEXT);
 
         getCommandLine().addToggleSwitch("xml");
+	getCommandLine().addToggleSwitch("show-constant-pool");
+	getCommandLine().addToggleSwitch("show-code");
     }
 
     protected ParameterStrategy getParameterStrategy() {
@@ -65,7 +67,7 @@ public class ClassReader extends Command {
         if (getCommandLine().getToggleSwitch("xml")) {
             printer = new XMLPrinter(getOut(), getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
         } else {
-            printer = new TextPrinter(getOut());
+            printer = new TextPrinter(getOut(), getCommandLine().getToggleSwitch("show-constant-pool"), getCommandLine().getToggleSwitch("show-code"));
         }
 
         if (getCommandLine().isPresent("indent-text")) {
