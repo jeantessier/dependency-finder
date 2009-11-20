@@ -5253,7 +5253,7 @@ later to narrow this list down to the symbols that _S_ actually uses.
     C:\>ListSymbols -out *_L_.symbols.txt*
                     -class-names
                     -method-names
-                    -feature-names
+                    -field-names
                     _L_
 
 </div>
