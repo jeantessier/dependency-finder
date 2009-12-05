@@ -32,12 +32,11 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import java.io.*;
-
 import com.jeantessier.classreader.*;
-import com.jeantessier.classreader.Printer;
-import com.jeantessier.classreader.TextPrinter;
-import com.jeantessier.commandline.*;
+import com.jeantessier.commandline.AtLeastParameterStrategy;
+import com.jeantessier.commandline.ParameterStrategy;
+
+import java.io.PrintStream;
 
 public class ClassReader extends Command {
     protected void populateCommandLineSwitches() {
@@ -45,8 +44,8 @@ public class ClassReader extends Command {
         populateCommandLineSwitchesForXMLOutput(XMLPrinter.DEFAULT_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX, XMLPrinter.DEFAULT_INDENT_TEXT);
 
         getCommandLine().addToggleSwitch("xml");
-	getCommandLine().addToggleSwitch("show-constant-pool");
-	getCommandLine().addToggleSwitch("show-code");
+        getCommandLine().addToggleSwitch("show-constant-pool");
+        getCommandLine().addToggleSwitch("show-code");
     }
 
     protected ParameterStrategy getParameterStrategy() {
