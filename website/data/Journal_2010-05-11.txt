@@ -1,0 +1,17 @@
+Pushed the =grails= branch back to the Git origin repository on SourceForge.  I
+had to dig out the commands, since it had been a while.  Roughly, it looked like
+this:
+
+    1 =git checkout -b grails=
+    1 ... a bunch of commits ...
+    1 =git push origin grails=
+    1 =git checkout master=
+    1 =git branch -D grails=
+    1 =git branch grails origin/grails=
+    1 =git checkout grails=
+
+I created the branch locally at first and made some commits to it.  I then
+pushed it to the remote repository.  I wanted to change my setup so my local
+branch would track against the remote branch, so I had to delete the local
+branch before I could create the mapping I wanted.  I have to admit I found this
+part was a little scary.  But it worked just fine.
