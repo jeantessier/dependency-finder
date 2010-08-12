@@ -8,7 +8,7 @@ copied only =DependencyFinder.jar= to its =lib/= directory.  I then started
 
 I want to redo the webapp as a Grails application.  I'm struggling with file
 system issues, though.  Should I create a directory under the current tree where
-I would put the new app, next to =web/= and =webwork/"?  That would be
+I would put the new app, next to =web/= and =webwork/=?  That would be
 consistent, but the new app would get a name from that directory, which would
 most likely be called =grails=.  An alternative is to start a brand new tree
 somewhere else, completely dissociated from the current Dependency Finder
