@@ -125,7 +125,22 @@
 <% } %>
 </div>
 
-</td></tr><tr><td colspan="2">
+</td></tr><tr>
+
+<td></td>
+<td align="right">
+<!-- AddThis Button BEGIN -->
+<script type="text/javascript">var addthis_config = {"data_track_clickback":true};</script>
+<div class="addthis_toolbox addthis_default_style">
+<a class="addthis_button_email"></a>
+<a class="addthis_button_favorites"></a>
+<a class="addthis_button_print"></a>
+</div>
+<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=jeantessier"></script>
+<!-- AddThis Button END -->
+</td>
+
+</tr><tr><td colspan="2">
 
 <table border="0" class="controls" width="100%"><tr>
 
