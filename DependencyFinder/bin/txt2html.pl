@@ -41,6 +41,21 @@ BEGIN {
     $TEXT .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />\n";
     $TEXT .= "<link rel=\"shortcut icon\" href=\"images/logoicon.gif\" type=\"image/gif\" />\n";
     $TEXT .= "<TITLE />\n";
+    $TEXT .= "\n";
+    $TEXT .= "<script type=\"text/javascript\">\n";
+    $TEXT .= "\n";
+    $TEXT .= "  var _gaq = _gaq || [];\n";
+    $TEXT .= "  _gaq.push(['_setAccount', 'UA-2083086-2']);\n";
+    $TEXT .= "  _gaq.push(['_trackPageview']);\n";
+    $TEXT .= "\n";
+    $TEXT .= "  (function() {\n";
+    $TEXT .= "    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;\n";
+    $TEXT .= "    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';\n";
+    $TEXT .= "    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);\n";
+    $TEXT .= "  })();\n";
+    $TEXT .= "\n";
+    $TEXT .= "</script>\n";
+    $TEXT .= "\n";
     $TEXT .= "</head>\n";
     $TEXT .= "\n";
     $TEXT .= "<body>\n";
@@ -144,13 +159,6 @@ s/%5F/_/gi;
 $TEXT .= $_;
 
 END {
-    $TEXT .= "\n";
-    $TEXT .= "<script src=\"http://www.google-analytics.com/urchin.js\" type=\"text/javascript\">\n";
-    $TEXT .= "</script>\n";
-    $TEXT .= "<script type=\"text/javascript\">\n";
-    $TEXT .= "_uacct = \"UA-2083086-2\";\n";
-    $TEXT .= "urchinTracker();\n";
-    $TEXT .= "</script>\n";
     $TEXT .= "\n";
     $TEXT .= "</body>\n";
     $TEXT .= "\n";
