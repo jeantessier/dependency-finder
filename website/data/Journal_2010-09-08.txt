@@ -1,0 +1,2 @@
+Moved the Google Analytics tracking code from the old Urchin-based to their new
+Asynchronous Snippet.  Quite frankly, nobody should notice the difference.
