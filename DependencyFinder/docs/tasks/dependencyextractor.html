@@ -225,7 +225,7 @@ to <code>df.xml</code>:</p>
 to <code>df.xml</code> without any dependencies on <code>java.*</code>:</p>
 
 <pre>  &lt;dependencyextractor destfile=&quot;df.xml&quot; xml=&quot;yes&quot;
-                       filter-excludes=&quot;/^java\./&quot;&gt;
+                       filterexcludes=&quot;/^java\./&quot;&gt;
     &lt;path&gt;
       &lt;pathelement location=&quot;DependencyFinder.jar&quot;/&gt;
       &lt;pathelement location=&quot;rt.jar&quot;/&gt;
