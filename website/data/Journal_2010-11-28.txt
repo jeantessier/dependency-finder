@@ -1,0 +1,7 @@
+Figured out the problem with the =ArrayIndexOutOfBoundsException= on =wide=
+instructions.  There are helper methods inside the =Instruction= class to fetch
+individual bytes from the bytecode.  They all take offsets from the
+instruction's start position in the bytecde.  One branch of a =case= statement
+was adding the instruction's start position to the offset before calling the
+helper, resulting in a fetch at twice the start position.  If the instruction
+was past the half-way park, it resulted in =ArrayIndexOutOfBoundsException=.
