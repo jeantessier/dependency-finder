@@ -1114,7 +1114,7 @@ These instructions make sure you are working from a clean copy of the =master=
 branch of the repository that has been tagged appropriately.
 
     1 =git tag -m "Tagging the <VERSION /> release of Dependency Finder" <VERSION />=
-    1 =git push=
+    1 =git push --tags=
     1 =cd /tmp=
     1 =git clone --local /original/path/to/git/project=
     1 =cd /tmp/depfind/DependencyFinder=
