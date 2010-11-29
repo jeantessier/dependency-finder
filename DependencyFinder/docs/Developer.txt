@@ -1110,14 +1110,14 @@ or, to run tests manually:
 
 ---+++ Making a Release
 
-These instructions make sure you are working from a clean copy from the
-repository that has been tagged appropriately.
+These instructions make sure you are working from a clean copy of the =master=
+branch of the repository that has been tagged appropriately.
 
-    1 =svn mkdir https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-<VERSION /> -m "Tagging the <VERSION /> release of Dependency Finder"=
-    1 =svn copy https://depfind.svn.sourceforge.net/svnroot/depfind/trunk/DependencyFinder https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-<VERSION /> -m "Tagging the <VERSION /> release of Dependency Finder"=
-    1 =svn copy https://depfind.svn.sourceforge.net/svnroot/depfind/trunk/website https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-<VERSION /> -m "Tagging the <VERSION /> release of Dependency Finder"=
-    1 =svn checkout https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-<VERSION />/DependencyFinder /tmp/DependencyFinder=
-    1 =cd /tmp/DependencyFinder=
+    1 =git tag -m "Tagging the <VERSION /> release of Dependency Finder" <VERSION />=
+    1 =git push=
+    1 =cd /tmp=
+    1 =git clone --local /original/path/to/git/project=
+    1 =cd /tmp/depfind/DependencyFinder=
     1 =ant dist=
     1 Go to [[http://sourceforge.net/projects/depfind/][SourceForge project page]], click "Develop" &gt;&gt; "Project Admin" &gt;&gt; "File Manager".
     1 Create a new folder, upload all files from =dist/= to the new folder.
