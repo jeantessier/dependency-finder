@@ -1133,6 +1133,9 @@ branch of the repository that has been tagged appropriately.
 
 ---+++ Computing Code Coverage
 
+You can compute code coverage metrics using a number of tools.  Below
+are some of the more popular ones.
+
 ---++++ Emma
 
 You can use [[http://emma.sourceforge.net/][Emma]] and the build file in
@@ -1149,8 +1152,10 @@ To run the tests and generate code coverage reports:
 
 To publish the results:
 
-    1 =ssh depfind.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/emma=
-    1 =scp reports/emma depfind.sourceforge.net:/home/groups/d/de/depfind/htdocs=
+    1 =ssh ${USER},depfind@shell.sourceforge.net create=
+    1 =ssh ${USER},depfind@shell.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/emma=
+    1 =scp -r reports/emma ${USER},depfind@shell.sourceforge.net:/home/groups/d/de/depfind/htdocs=
+    1 =ssh ${USER},depfind@shell.sourceforge.net shutdown=
 
 Or use an archive:
 
@@ -1180,8 +1185,10 @@ To run the tests and generate code coverage reports:
 
 To publish the results:
 
-    1 =ssh depfind.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/clover=
-    1 =scp reports/clover/html depfind.sourceforge.net:/home/groups/d/de/depfind/htdocs/clover=
+    1 =ssh ${USER},depfind@shell.sourceforge.net create=
+    1 =ssh ${USER},depfind@shell.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/clover=
+    1 =scp -r reports/clover ${USER},depfind@shell.sourceforge.net:/home/groups/d/de/depfind/htdocs=
+    1 =ssh ${USER},depfind@shell.sourceforge.net shutdown=
 
 Or use an archive:
 
@@ -1206,8 +1213,10 @@ To run the tests and generate code coverage reports:
 
 To publish the results:
 
-    1 =ssh depfind.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/cobertura=
-    1 =scp reports/cobertura depfind.sourceforge.net:/home/groups/d/de/depfind/htdocs/cobertura=
+    1 =ssh ${USER},depfind@shell.sourceforge.net create=
+    1 =ssh ${USER},depfind@shell.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/cobertura=
+    1 =scp -r reports/cobertura ${USER},depfind@shell.sourceforge.net:/home/groups/d/de/depfind/htdocs=
+    1 =ssh ${USER},depfind@shell.sourceforge.net shutdown=
 
 Or use an archive:
 

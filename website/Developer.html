@@ -1559,6 +1559,11 @@ branch of the repository that has been tagged appropriately.
 <a name="ComputingCodeCoverage"></a>
 <h3>Computing Code Coverage</h3>
 
+<p>
+You can compute code coverage metrics using a number of tools.  Below
+are some of the more popular ones.
+</p>
+
 <a name="Emma"></a>
 <h4>Emma</h4>
 
@@ -1589,8 +1594,10 @@ To publish the results:
 </p>
 
 <ol>
-<li><code>ssh depfind.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/emma</code></li>
-<li><code>scp reports/emma depfind.sourceforge.net:/home/groups/d/de/depfind/htdocs</code></li>
+<li><code>ssh ${USER},depfind@shell.sourceforge.net create</code></li>
+<li><code>ssh ${USER},depfind@shell.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/emma</code></li>
+<li><code>scp -r reports/emma ${USER},depfind@shell.sourceforge.net:/home/groups/d/de/depfind/htdocs</code></li>
+<li><code>ssh ${USER},depfind@shell.sourceforge.net shutdown</code></li>
 </ol>
 
 <p>
@@ -1641,8 +1648,10 @@ To publish the results:
 </p>
 
 <ol>
-<li><code>ssh depfind.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/clover</code></li>
-<li><code>scp reports/clover/html depfind.sourceforge.net:/home/groups/d/de/depfind/htdocs/clover</code></li>
+<li><code>ssh ${USER},depfind@shell.sourceforge.net create</code></li>
+<li><code>ssh ${USER},depfind@shell.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/clover</code></li>
+<li><code>scp -r reports/clover ${USER},depfind@shell.sourceforge.net:/home/groups/d/de/depfind/htdocs</code></li>
+<li><code>ssh ${USER},depfind@shell.sourceforge.net shutdown</code></li>
 </ol>
 
 <p>
@@ -1686,8 +1695,10 @@ To publish the results:
 </p>
 
 <ol>
-<li><code>ssh depfind.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/cobertura</code></li>
-<li><code>scp reports/cobertura depfind.sourceforge.net:/home/groups/d/de/depfind/htdocs/cobertura</code></li>
+<li><code>ssh ${USER},depfind@shell.sourceforge.net create</code></li>
+<li><code>ssh ${USER},depfind@shell.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/cobertura</code></li>
+<li><code>scp -r reports/cobertura ${USER},depfind@shell.sourceforge.net:/home/groups/d/de/depfind/htdocs</code></li>
+<li><code>ssh ${USER},depfind@shell.sourceforge.net shutdown</code></li>
 </ol>
 
 <p>
