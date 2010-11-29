@@ -15,3 +15,5 @@ visible characters.  So I had to rework
 =com.jeantessier.classreader.XMLPrinter.escapeXMLCharacters()= myself.  I don't
 think I'll have the same problem with the other XML generators because they
 don't deal with the raw constant strings in Java the way =ClassReader= does.
+
+Released version 1.2.1 beta4.
