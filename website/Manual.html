@@ -6,6 +6,8 @@
 <link rel="stylesheet" type="text/css" href="style.css" />
 <link rel="shortcut icon" href="images/logoicon.gif" type="image/gif" />
 <title>The Dependency Finder User Manual</title>
+
+
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -19,6 +21,7 @@
   })();
 
 </script>
+
 </head>
 
 <body>
@@ -26,7 +29,7 @@
 <h1>The Dependency Finder User Manual</h1>
 
 <p>
-For Dependency Finder version 1.2.1-beta3.
+For Dependency Finder version 1.2.1-beta4.
 </p>
 
 <p>
@@ -282,7 +285,7 @@ application to keep the data in memory and play with it a while.
 
 <p>
 Dependency Finder comes as a ZIP file that includes everything you need to run
-it.  The file is named <code>DependencyFinder-1.2.1-beta3.bin.zip</code>.
+it.  The file is named <code>DependencyFinder-1.2.1-beta4.bin.zip</code>.
 </p>
 
 <a name="Step1:JavaVirtualMachine"></a>
@@ -313,13 +316,13 @@ create and edit variables.
 
 <p>
 Extract the ZIP file to some directory you like.  The extraction will create a
-subdirectory named "DependencyFinder-1.2.1-beta3" that is the root of the
+subdirectory named "DependencyFinder-1.2.1-beta4" that is the root of the
 package.
 </p>
 
 <p>
 For example, if you extract it to <code>C:\</code>, you will endup with a directory called
-<code>C:\DependencyFinder-1.2.1-beta3\</code>.
+<code>C:\DependencyFinder-1.2.1-beta4\</code>.
 </p>
 
 <a name="Step3:EnvironmentVariables"></a>
@@ -338,7 +341,7 @@ For example, if you extracted the ZIP file in <code>C:\</code>
 </p>
 
 <pre>
-    SET DEPENDENCYFINDER_HOME=C:\DependencyFinder-1.2.1-beta3
+    SET DEPENDENCYFINDER_HOME=C:\DependencyFinder-1.2.1-beta4
 </pre>
 
 <p>
@@ -359,7 +362,7 @@ For example, if you extracted the ZIP file in <code>C:\</code>
 </p>
 
 <pre>
-    SET PATH=C:\DependencyFinder-1.2.1-beta3\bin;%PATH%
+    SET PATH=C:\DependencyFinder-1.2.1-beta4\bin;%PATH%
 </pre>
 
 <a name="Step5:Reboot"></a>
@@ -418,8 +421,8 @@ everything you need to run it.  The files are:
 </p>
 
 <ul>
-<li><code>DependencyFinder-1.2.1-beta3.bin.tar.gz</code></li>
-<li><code>DependencyFinder-1.2.1-beta3.bin.tar.bz2</code></li>
+<li><code>DependencyFinder-1.2.1-beta4.bin.tar.gz</code></li>
+<li><code>DependencyFinder-1.2.1-beta4.bin.tar.bz2</code></li>
 </ul>
 
 <p>
@@ -487,7 +490,7 @@ subdirectory named "DependencyFinder" that is the root of the package.
 </p>
 
 <pre>
-    $ tar xvzf DependencyFinder-1.2.1-beta3.bin.tar.gz
+    $ tar xvzf DependencyFinder-1.2.1-beta4.bin.tar.gz
 </pre>
 
 <p>
@@ -495,12 +498,12 @@ or
 </p>
 
 <pre>
-    $ bunzip2 DependencyFinder-1.2.1-beta3.bin.tar.bz2 | tar xvf -
+    $ bunzip2 DependencyFinder-1.2.1-beta4.bin.tar.bz2 | tar xvf -
 </pre>
 
 <p>
 For example, if you extract it to <code>$HOME</code>, you will endup with a directory
-called <code>$HOME/DependencyFinder-1.2.1-beta3</code>.
+called <code>$HOME/DependencyFinder-1.2.1-beta4</code>.
 </p>
 
 <a name="Step3:EnvironmentVariablesX"></a>
@@ -528,7 +531,7 @@ For sh:
 </p>
 
 <pre>
-    DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-1.2.1-beta3
+    DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-1.2.1-beta4
     export DEPENDENCYFINDER_HOME
     DEPENDENCYFINDER_OPTS=-Xmx128m
     export DEPENDENCYFINDER_OPTS
@@ -539,7 +542,7 @@ For bash:
 </p>
 
 <pre>
-    export DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-1.2.1-beta3
+    export DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-1.2.1-beta4
     export DEPENDENCYFINDER_OPTS=-Xmx128m
 </pre>
 
@@ -552,7 +555,7 @@ For csh or tcsh:
 </p>
 
 <pre>
-    setenv DEPENDENCYFINDER_HOME $HOME/DependencyFinder-1.2.1-beta3
+    setenv DEPENDENCYFINDER_HOME $HOME/DependencyFinder-1.2.1-beta4
     setenv DEPENDENCYFINDER_OPTS -Xmx128m
 </pre>
 
@@ -634,7 +637,7 @@ For instance, using Tomcat on Windows, you can do the following:
 </pre>
 
 <pre>
-    C:\>copy DependencyFinder-1.2.1-beta3.war %CATALINA_HOME%\webapps
+    C:\>copy DependencyFinder-1.2.1-beta4.war %CATALINA_HOME%\webapps
 </pre>
 
 <pre>
@@ -755,7 +758,7 @@ may allow you to simply restart the web application itself.
 </pre>
 
 <pre>
-    C:\>notepad %CATALINA_HOME%\webapps\DependencyFinder-1.2.1-beta3\WEB-INF\web.xml
+    C:\>notepad %CATALINA_HOME%\webapps\DependencyFinder-1.2.1-beta4\WEB-INF\web.xml
 </pre>
 
 <pre>

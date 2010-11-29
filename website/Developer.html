@@ -6,6 +6,8 @@
 <link rel="stylesheet" type="text/css" href="style.css" />
 <link rel="shortcut icon" href="images/logoicon.gif" type="image/gif" />
 <title>The Dependency Finder Developer Guide</title>
+
+
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -19,6 +21,7 @@
   })();
 
 </script>
+
 </head>
 
 <body>
@@ -26,7 +29,7 @@
 <h1>The Dependency Finder Developer Guide</h1>
 
 <p>
-For Dependency Finder version 1.2.1-beta3.
+For Dependency Finder version 1.2.1-beta4.
 </p>
 
 <p>
@@ -99,6 +102,7 @@ by Jean Tessier
 <ul>
 <li><a href="#Emma">Emma</a></li>
 <li><a href="#Clover">Clover</a></li>
+<li><a href="#Cobertura">Cobertura</a></li>
 </ul>
 </ul>
 </ul>
@@ -1528,19 +1532,21 @@ or, to run tests manually:
 <h3>Making a Release</h3>
 
 <p>
-These instructions make sure you are working from a clean copy from the
-repository that has been tagged appropriately.
+These instructions make sure you are working from a clean copy of the <code>master</code>
+branch of the repository that has been tagged appropriately.
 </p>
 
 <ol>
-<li><code>svn mkdir https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.1-beta3 -m "Tagging the 1.2.1-beta3 release of Dependency Finder"</code></li>
-<li><code>svn copy https://depfind.svn.sourceforge.net/svnroot/depfind/trunk/DependencyFinder https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.1-beta3 -m "Tagging the 1.2.1-beta3 release of Dependency Finder"</code></li>
-<li><code>svn copy https://depfind.svn.sourceforge.net/svnroot/depfind/trunk/website https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.1-beta3 -m "Tagging the 1.2.1-beta3 release of Dependency Finder"</code></li>
-<li><code>svn checkout https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-1.2.1-beta3/DependencyFinder /tmp/DependencyFinder</code></li>
-<li><code>cd /tmp/DependencyFinder</code></li>
+<li><code>git tag -m "Tagging the 1.2.1-beta4 release of Dependency Finder" 1.2.1-beta4</code></li>
+<li><code>git push --tags</code></li>
+<li><code>cd /tmp</code></li>
+<li><code>git clone --local /original/path/to/git/project</code></li>
+<li><code>cd /tmp/depfind/DependencyFinder</code></li>
 <li><code>ant dist</code></li>
-<li>Use SFTP to upload the files to SourceForge.net (<code>ant ftp</code> does not work anymore)</li>
-<li>Create new release on SourceForge.net</li>
+<li>Go to <a href="http://sourceforge.net/projects/depfind/">SourceForge project page</a>, click "Develop" &gt;&gt; "Project Admin" &gt;&gt; "File Manager".</li>
+<li>Create a new folder, upload all files from <code>dist/</code> to the new folder.</li>
+<li>Make <code>DependencyFinder-1.2.1-beta4.bin.zip</code> the default download for Windows.</li>
+<li>Make <code>DependencyFinder-1.2.1-beta4.bin.tar.gz</code> the default download for all others.</li>
 <li>Notify monitoring people</li>
 <li>Close bugs</li>
 <li>Close feature requests</li>
@@ -1567,7 +1573,7 @@ addition to those for testing and compiling Dependency Finder:
 </p>
 
 <ul>
-<li><code>EMMA_HOME</code> to your <a href="http://emma.sourceforge.net/">Emma</a> installation</li>
+<li><code>EMMA_HOME</code> to your Emma installation</li>
 </ul>
 
 <p>
@@ -1607,12 +1613,12 @@ You can use <a href="http://www.cenqua.com/clover/">Clover</a> and the build fil
 </p>
 
 <p>
-Before you can run Emma, you need to set the following environment variable in
+Before you can run Clover, you need to set the following environment variable in
 addition to those for testing and compiling Dependency Finder:
 </p>
 
 <ul>
-<li><code>CLOVER_HOME</code> to your <a href="http://www.cenqua.com/clover/">Clover</a> installation</li>
+<li><code>CLOVER_HOME</code> to your Clover installation</li>
 </ul>
 
 <p>
@@ -1645,6 +1651,51 @@ Or use an archive:
 
 <ol>
 <li>Archive the <code>reports/clover/html</code> directory</li>
+<li>Use <code>scp</code> to transfer the archive to SourceForge</li>
+<li>Use <code>ssh</code> to login to SourceForge</li>
+<li>Extract the archive in the root of the website</li>
+</ol>
+
+<a name="Cobertura"></a>
+<h4>Cobertura</h4>
+
+<p>
+You can use <a href="http://cobertura.sourceforge.net/">Cobertura</a> and the build file
+in <code>build.cobertura.xml</code>.
+</p>
+
+<p>
+Before you can run Cobertura, you need to set the following environment variable
+in addition to those for testing and compiling Dependency Finder:
+</p>
+
+<ul>
+<li><code>COBERTURA_HOME</code> to your Cobertura installation</li>
+</ul>
+
+<p>
+To run the tests and generate code coverage reports:
+</p>
+
+<pre>
+    <code>ant -f build.cobertura.xml</code>
+</pre>
+
+<p>
+To publish the results:
+</p>
+
+<ol>
+<li><code>ssh depfind.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/cobertura</code></li>
+<li><code>scp reports/cobertura depfind.sourceforge.net:/home/groups/d/de/depfind/htdocs/cobertura</code></li>
+</ol>
+
+<p>
+Or use an archive:
+</p>
+
+<ol>
+<li>Archive the <code>reports/cobertura</code> directory</li>
 <li>Use <code>scp</code> to transfer the archive to SourceForge</li>
 <li>Use <code>ssh</code> to login to SourceForge</li>
 <li>Extract the archive in the root of the website</li>
