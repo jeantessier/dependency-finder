@@ -1327,8 +1327,8 @@ public class TestXMLPrinter extends MockObjectTestCase {
             one (mockClassInfo).accept(printer);
             one (mockEnclosingMethod).getMethodIndex(); will(returnValue(methodIndex));
             one (mockEnclosingMethod).getRawMethod(); will(returnValue(mockNameAndType));
+            exactly(2).of (mockNameAndType).getName(); will(returnValue("testMethod"));
             exactly(2).of (mockNameAndType).getType(); will(returnValue("()V"));
-            one (mockNameAndType).getName(); will(returnValue("testMethod"));
         }});
 
         printer.visitEnclosingMethod_attribute(mockEnclosingMethod);
@@ -1348,11 +1348,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         checking(new Expectations() {{
             one (mockEnclosingMethod).getRawClassInfo(); will(returnValue(mockClassInfo));
             one (mockClassInfo).accept(printer);
-            one (mockClassInfo).getName(); will(returnValue("TestClass"));
+            one (mockEnclosingMethod).getClassInfo(); will(returnValue("com.jeantessier.test.TestClass"));
             one (mockEnclosingMethod).getMethodIndex(); will(returnValue(methodIndex));
             one (mockEnclosingMethod).getRawMethod(); will(returnValue(mockNameAndType));
             one (mockNameAndType).getName(); will(returnValue("<init>"));
-            exactly(2).of (mockNameAndType).getType(); will(returnValue("()V"));
+            one (mockNameAndType).getType(); will(returnValue("()V"));
         }});
 
         printer.visitEnclosingMethod_attribute(mockEnclosingMethod);

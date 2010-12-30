@@ -511,7 +511,13 @@ public class XMLPrinter extends Printer {
         indent().append("<method>");
         if (attribute.getMethodIndex() != 0) {
             NameAndType_info nat = attribute.getRawMethod();
-            append(DescriptorHelper.getReturnType(nat.getType())).append(" ").append(nat.getName()).append(DescriptorHelper.getSignature(nat.getType()));
+            if (nat.getName() == "<init>") {
+                String className = attribute.getClassInfo();
+                className = className.substring(className.lastIndexOf(".") + 1);
+                append(className).append(DescriptorHelper.getSignature(nat.getType()));
+            } else {
+                append(DescriptorHelper.getReturnType(nat.getType())).append(" ").append(nat.getName()).append(DescriptorHelper.getSignature(nat.getType()));
+            }
         }
         append("</method>").eol();
 
