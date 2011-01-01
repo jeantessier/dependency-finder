@@ -1056,24 +1056,25 @@ environment variables:
 
 ---+++ Building an Executable
 
+This target will create everything you need to run Dependency Finder in-place.
+
     =ant exec=
 
-This target will create everything you need to run Dependency Finder in-place.
 If you make a change and you simply want to refresh the executable, simply run:
 
     =and jar=
 
 ---+++ Building the Documentation
 
-    =ant docs=
-
 This target will create both Javadocs and the various manuals.
+
+    =ant docs=
 
 ---+++ Compiling a Build
 
-    =ant=
-
 This target will create a set of distribution files from a clean build.
+
+    =ant=
 
 ---+++ Testing the Build
 
