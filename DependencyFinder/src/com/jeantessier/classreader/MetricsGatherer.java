@@ -32,9 +32,12 @@
 
 package com.jeantessier.classreader;
 
-import java.util.*;
+import org.apache.log4j.Logger;
 
-import org.apache.log4j.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 public class MetricsGatherer extends VisitorBase {
     private Collection<Object> classes = new LinkedList<Object>();
@@ -439,6 +442,31 @@ public class MetricsGatherer extends VisitorBase {
         } else {
             Logger.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: " + owner.getClass().getName());
         }
+    }
+
+    public void visitRuntimeVisibleAnnotations_attribute(RuntimeVisibleAnnotations_attribute attribute) {
+        super.visitRuntimeVisibleAnnotations_attribute(attribute);
+        visitAttribute("RuntimeVisibleAnnotations");
+    }
+
+    public void visitRuntimeInvisibleAnnotations_attribute(RuntimeInvisibleAnnotations_attribute attribute) {
+        super.visitRuntimeInvisibleAnnotations_attribute(attribute);
+        visitAttribute("RuntimeInvisibleAnnotations");
+    }
+
+    public void visitRuntimeVisibleParameterAnnotations_attribute(RuntimeVisibleParameterAnnotations_attribute attribute) {
+        super.visitRuntimeVisibleParameterAnnotations_attribute(attribute);
+        visitAttribute("RuntimeVisibleParameterAnnotations");
+    }
+
+    public void visitRuntimeInvisibleParameterAnnotations_attribute(RuntimeInvisibleParameterAnnotations_attribute attribute) {
+        super.visitRuntimeInvisibleParameterAnnotations_attribute(attribute);
+        visitAttribute("RuntimeInvisibleParameterAnnotations");
+    }
+
+    public void visitAnnotationDefault_attribute(AnnotationDefault_attribute attribute) {
+        super.visitAnnotationDefault_attribute(attribute);
+        visitAttribute("AnnotationDefault");
     }
 
     public void visitCustom_attribute(Custom_attribute attribute) {
