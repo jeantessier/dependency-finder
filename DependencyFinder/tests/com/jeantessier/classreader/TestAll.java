@@ -85,7 +85,8 @@ import static org.junit.runners.Suite.SuiteClasses;
         TestVarargs.class,
         TestEnclosingMethodAttribute.class,
         TestSignatureAttribute.class,
-        TestLocalVariableTypeTableAttribute.class
+        TestLocalVariableTypeTableAttribute.class,
+        TestMetricsGatherer.class
 })
 public class TestAll {
 }
