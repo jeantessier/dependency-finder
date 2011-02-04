@@ -32,6 +32,9 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Sets;
 import com.jeantessier.classreader.*;
 import com.jeantessier.text.Hex;
 
@@ -139,8 +142,13 @@ public class ClassMetrics extends DirectoryExplorerCommand {
 
         getOut().println(metrics.getUsedAnnotations().size() + " used annotation(s)");
         if (list) {
-            for (Annotation annotation : metrics.getUsedAnnotations()) {
-                getOut().println("        " + annotation.getType());
+            Iterable<String> annotationTypes = Sets.newTreeSet(Collections2.transform(metrics.getUsedAnnotations(), new Function<Annotation, String>() {
+                public String apply(Annotation annotation) {
+                    return annotation.getType();
+                }
+            }));
+            for (String annotationType : annotationTypes) {
+                getOut().println("        " + annotationType);
             }
         }
 
