@@ -34,10 +34,7 @@ package com.jeantessier.classreader;
 
 import org.apache.log4j.Logger;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 public class MetricsGatherer extends VisitorBase {
     private Collection<Object> classes = new LinkedList<Object>();
@@ -81,6 +78,7 @@ public class MetricsGatherer extends VisitorBase {
     private Collection<Field_info> transientFields = new LinkedList<Field_info>();
     private Map<String, Long> attributeCounts = new HashMap<String, Long>();
     private Collection<Custom_attribute> customAttributes = new LinkedList<Custom_attribute>();
+    private Collection<Annotation> usedAnnotations = new HashSet<Annotation>();
     private long[] instructionCounts = new long[256];
 
     public MetricsGatherer() {
@@ -254,10 +252,14 @@ public class MetricsGatherer extends VisitorBase {
         return customAttributes;
     }
 
+    public Collection<Annotation> getUsedAnnotations() {
+        return usedAnnotations;
+    }
+
     public long[] getInstructionCounts() {
         return instructionCounts;
     }
-    
+
     // Classfile
     public void visitClassfile(Classfile classfile) {
         if (classfile.isPublic()) {
@@ -514,5 +516,12 @@ public class MetricsGatherer extends VisitorBase {
         if (helper.isAbstract()) {
             abstractInnerClasses.add(helper);
         }
+    }
+
+    // Annotations
+    public void visitAnnotation(Annotation helper) {
+        usedAnnotations.add(helper);
+
+        super.visitAnnotation(helper);
     }
 }

@@ -32,11 +32,11 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import java.io.*;
-import java.util.*;
-
 import com.jeantessier.classreader.*;
-import com.jeantessier.text.*;
+import com.jeantessier.text.Hex;
+
+import java.io.IOException;
+import java.util.Collection;
 
 public class ClassMetrics extends DirectoryExplorerCommand {
     private boolean list;
@@ -46,6 +46,7 @@ public class ClassMetrics extends DirectoryExplorerCommand {
 
         getCommandLine().addToggleSwitch("list");
         getCommandLine().addToggleSwitch("instruction-counts");
+        getCommandLine().addToggleSwitch("show-zero-instruction-counts");
     }
 
     public void doProcessing() throws Exception {
@@ -136,13 +137,22 @@ public class ClassMetrics extends DirectoryExplorerCommand {
             }
         }
 
+        getOut().println(metrics.getUsedAnnotations().size() + " used annotation(s)");
+        if (list) {
+            for (Annotation annotation : metrics.getUsedAnnotations()) {
+                getOut().println("        " + annotation.getType());
+            }
+        }
+
         if (getCommandLine().getToggleSwitch("instruction-counts")) {
             getOut().println();
             getOut().println("Instruction counts:");
             for (int opcode=0; opcode<256; opcode++) {
-                getOut().print("        0x");
-                Hex.print(getOut(), (byte) opcode);
-                getOut().println(" " + com.jeantessier.classreader.impl.Instruction.getMnemonic(opcode) + ": " + metrics.getInstructionCounts()[opcode]);
+                if (metrics.getInstructionCounts()[opcode] > 0 || getCommandLine().getToggleSwitch("show-zero-instruction-counts")) {
+                    getOut().print("        0x");
+                    Hex.print(getOut(), (byte) opcode);
+                    getOut().println(" " + com.jeantessier.classreader.impl.Instruction.getMnemonic(opcode) + ": " + metrics.getInstructionCounts()[opcode]);
+                }
             }
         }
     }

@@ -42,6 +42,7 @@ import org.junit.runner.RunWith;
 
 import java.util.Collection;
 
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -153,5 +154,25 @@ public class TestMetricsGatherer {
         metricsGatherer.visitAnnotationDefault_attribute(mockAnnotationDefault_attribute);
 
         assertThat("AnnotationDefault attribute count", metricsGatherer.getAttributeCounts().get("AnnotationDefault"), is(1L));
+    }
+
+    @Test
+    public void testVisitAnnotation() {
+        final Annotation mockAnnotation = context.mock(Annotation.class);
+
+        final ElementValuePair mockElementValuePair1 = context.mock(ElementValuePair.class, "element value pair 1");
+        final ElementValuePair mockElementValuePair2 = context.mock(ElementValuePair.class, "element value pair 2");
+        final Collection<? extends ElementValuePair> elementValuePairs = Lists.newArrayList(mockElementValuePair1, mockElementValuePair2);
+
+        context.checking(new Expectations() {{
+            atLeast(1).of (mockAnnotation).getElementValuePairs();
+                will(returnValue(elementValuePairs));
+            one (mockElementValuePair1).accept(metricsGatherer);
+            one (mockElementValuePair2).accept(metricsGatherer);
+        }});
+
+        metricsGatherer.visitAnnotation(mockAnnotation);
+
+        assertThat("annotations", metricsGatherer.getUsedAnnotations(), hasItem(mockAnnotation));
     }
 }
