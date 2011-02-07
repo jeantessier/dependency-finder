@@ -1089,6 +1089,7 @@ synchronized, or abstract methods, etc.
         [-instruction-counts]
         [-list]
         [-out filename]
+        [-show-zero-instruction-counts]
         [-time]
         [-verbose [filename]]
         [-version]
@@ -1151,7 +1152,7 @@ Lists the programming elements under each measurement.
 
 </blockquote>
 
----++++ =-instruction-count=
+---++++ =-instruction-counts=
 
 <blockquote>
 
@@ -1172,6 +1173,20 @@ instruction set is used in the codebase.
 
 Writes the output to _filename_.  If _filename_ does not exists,
 it is created.  If it already exists, its content is overwritten.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-show-zero-instruction-counts=
+
+<blockquote>
+
+Include unused instructions when combined with =-instruction-count=.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>

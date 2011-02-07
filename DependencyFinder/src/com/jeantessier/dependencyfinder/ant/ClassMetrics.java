@@ -32,18 +32,26 @@
 
 package com.jeantessier.dependencyfinder.ant;
 
-import java.io.*;
-import java.util.*;
-
-import org.apache.tools.ant.*;
-import org.apache.tools.ant.types.*;
-
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Sets;
 import com.jeantessier.classreader.*;
-import com.jeantessier.text.*;
+import com.jeantessier.text.Hex;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Task;
+import org.apache.tools.ant.types.Path;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Collection;
 
 public class ClassMetrics extends Task {
     private boolean list = false;
     private boolean instructionCounts = false;
+    private boolean showZeroInstructionCounts = false;
     private File destfile;
     private Path path;
 
@@ -61,6 +69,14 @@ public class ClassMetrics extends Task {
     
     public void setInstructioncounts(boolean instructionCounts) {
         this.instructionCounts = instructionCounts;
+    }
+
+    public boolean getShowzeroinstructioncounts() {
+        return showZeroInstructionCounts;
+    }
+
+    public void setShowzeroinstructioncounts(boolean showZeroInstructionCounts) {
+        this.showZeroInstructionCounts = showZeroInstructionCounts;
     }
 
     public File getDestfile() {
@@ -179,13 +195,27 @@ public class ClassMetrics extends Task {
                 }
             }
 
+            out.println(metrics.getUsedAnnotations().size() + " used annotation(s)");
+            if (getList()) {
+                Iterable<String> annotationTypes = Sets.newTreeSet(Collections2.transform(metrics.getUsedAnnotations(), new Function<Annotation, String>() {
+                    public String apply(Annotation annotation) {
+                        return annotation.getType();
+                    }
+                }));
+                for (String annotationType : annotationTypes) {
+                    out.println("        " + annotationType);
+                }
+            }
+
             if (getInstructioncounts()) {
                 out.println();
                 out.println("Instruction counts:");
                 for (int opcode=0; opcode<256; opcode++) {
-                    out.print("        0x");
-                    Hex.print(out, (byte) opcode);
-                    out.println(" " + com.jeantessier.classreader.impl.Instruction.getMnemonic(opcode) + ": " + metrics.getInstructionCounts()[opcode]);
+                    if (metrics.getInstructionCounts()[opcode] > 0 || getShowzeroinstructioncounts()) {
+                        out.print("        0x");
+                        Hex.print(out, (byte) opcode);
+                        out.println(" " + com.jeantessier.classreader.impl.Instruction.getMnemonic(opcode) + ": " + metrics.getInstructionCounts()[opcode]);
+                    }
                 }
             }
 
