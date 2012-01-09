@@ -32,29 +32,43 @@
 
 package com.jeantessier.classreader;
 
-import java.util.*;
+import org.apache.oro.text.perl.Perl5Util;
 
-import org.apache.oro.text.perl.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 public class FilteringSymbolGathererStrategy extends SymbolGathererStrategyDecorator {
     private Perl5Util perl = new Perl5Util();
 
     private List<String> includes;
+    private Collection<String> includesList;
     private List<String> excludes;
+    private Collection<String> excludesList;
 
-    public FilteringSymbolGathererStrategy(SymbolGathererStrategy delegate, List<String> includes, List<String> excludes) {
+    public FilteringSymbolGathererStrategy(SymbolGathererStrategy delegate, List<String> includes, Collection<String> includesList, List<String> excludes, Collection<String> excludesList) {
         super(delegate);
 
         this.includes = includes;
+        this.includesList = includesList;
         this.excludes = excludes;
+        this.excludesList = excludesList;
     }
 
     public List<String> getIncludes() {
         return includes;
     }
 
+    public Collection<String> getIncludesList() {
+        return includesList;
+    }
+
     public List<String> getExcludes() {
         return excludes;
+    }
+
+    public Collection<String> getExcludesList() {
+        return excludesList;
     }
 
     public boolean isMatching(Classfile classfile) {
@@ -98,15 +112,19 @@ public class FilteringSymbolGathererStrategy extends SymbolGathererStrategyDecor
     }
 
     private boolean matches(String name) {
-        return matches(getIncludes(), name) && !matches(getExcludes(), name);
+        return matches(getIncludes(), getIncludesList(), name) && !matches(getExcludes(), getExcludesList(), name);
     }
 
-    private boolean matches(List<String> regularExpressions, String name) {
+    private boolean matches(List<String> regularExpressions, Collection<String> valueList, String name) {
         boolean result = false;
 
         Iterator<String> i = regularExpressions.iterator();
         while (!result && i.hasNext()) {
             result = perl.match(i.next(), name);
+        }
+
+        if (!result) {
+            result = valueList.contains(name);
         }
 
         return result;
