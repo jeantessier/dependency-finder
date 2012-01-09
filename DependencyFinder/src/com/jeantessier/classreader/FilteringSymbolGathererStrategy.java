@@ -123,7 +123,7 @@ public class FilteringSymbolGathererStrategy extends SymbolGathererStrategyDecor
             result = perl.match(i.next(), name);
         }
 
-        if (!result) {
+        if (!result && valueList != null) {
             result = valueList.contains(name);
         }
 

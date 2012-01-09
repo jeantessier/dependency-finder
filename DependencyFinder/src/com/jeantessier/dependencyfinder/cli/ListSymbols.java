@@ -93,7 +93,7 @@ public class ListSymbols extends DirectoryExplorerCommand {
             gathererStrategy = defaultGathererStrategy;
         }
 
-        if (getCommandLine().isPresent("includes") || getCommandLine().isPresent("excludes")) {
+        if (getCommandLine().isPresent("includes") || getCommandLine().isPresent("includes-list") || getCommandLine().isPresent("excludes") || getCommandLine().isPresent("excludes-list")) {
             gathererStrategy = new FilteringSymbolGathererStrategy(gathererStrategy, getCommandLine().getMultipleSwitch("includes"), loadCollection(getCommandLine().getMultipleSwitch("includes-list")), getCommandLine().getMultipleSwitch("excludes"), loadCollection(getCommandLine().getMultipleSwitch("excludes-list")));
         }
 
