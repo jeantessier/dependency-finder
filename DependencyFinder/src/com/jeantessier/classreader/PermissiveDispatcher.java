@@ -39,13 +39,13 @@ import org.apache.log4j.*;
 public class PermissiveDispatcher implements ClassfileLoaderDispatcher {
     public ClassfileLoaderAction dispatch(String filename) {
         ClassfileLoaderAction result;
-  
-        if (filename.endsWith(".zip")) {
-            result = ClassfileLoaderAction.ZIP;
-            Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_ZIP");
-        } else if (filename.endsWith(".jar")) {
+
+        if (filename.endsWith(".jar")) {
             result = ClassfileLoaderAction.JAR;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_JAR");
+        } else if (filename.endsWith(".zip")) {
+            result = ClassfileLoaderAction.ZIP;
+            Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_ZIP");
         } else if (filename.endsWith(".class")) {
             result = ClassfileLoaderAction.CLASS;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_CLASS");
