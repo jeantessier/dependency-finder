@@ -1,0 +1,13 @@
+At [[http://shopwell.com][ShopWell]], we do a lot of design using post-it
+stickies on foam boards.  We have many, many very large foam boards, to the
+order of 100"x60".  We can stand at the foam board and have a hallway chat about
+things.  We can more stickies around and group them and shift things around.  We
+can easily more boards from one room to the next as needed.
+
+On Dependency Finder, I'm a little overwhelmed by all the tasks I've identified
+and written up over time, in so many places: the Release Plan, Pivotal Tracker,
+5"x7" cards, notes, etc.  So I figured that if I could get them all on one foam
+board, where I could see them all and easily manipulate them, it might get me
+going again.  I went out, bought myself a board (a more modest 36"x24"), some
+stickies, and a bunch of sharpies, and I'll get started running my own board
+for Dependency Finder.

@@ -103,7 +103,7 @@
 
     <target name="compile" depends="init, main.compile, main.log4j.config"
             description="Compiles everything required to run all the tests">
-        <javac destdir="${classesDir}" debug="on">
+        <javac includeantruntime="true" destdir="${classesDir}" debug="on">
             <src path="${testsDir}"/>
             <classpath>
                 <path refid="classpath.dependencyfinder"/>
@@ -116,7 +116,7 @@
 	        <exclude name="JarJarDiff/**"/>
 	        <exclude name="Metrics/**"/>
         </javac>
-        <javac destdir="${classesDir}" debug="on">
+        <javac includeantruntime="true" destdir="${classesDir}" debug="on">
             <src path="${fitDir}"/>
             <classpath>
                 <path refid="classpath.dependencyfinder"/>
@@ -130,7 +130,7 @@
     </target>
 
     <target name="deprecation" depends="init">
-        <javac destdir="${classesDir}" deprecation="yes">
+        <javac includeantruntime="true" destdir="${classesDir}" deprecation="yes">
             <src path="${testsDir}"/>
             <classpath>
                 <path refid="classpath.dependencyfinder"/>
@@ -143,7 +143,7 @@
             <exclude name="JarJarDiff/**"/>
             <exclude name="Metrics/**"/>
         </javac>
-        <javac destdir="${classesDir}" deprecation="yes">
+        <javac includeantruntime="true" destdir="${classesDir}" deprecation="yes">
             <src path="${fitDir}"/>
             <classpath>
                 <path refid="classpath.dependencyfinder"/>

@@ -7,6 +7,21 @@
 <link rel="shortcut icon" href="images/logoicon.gif" type="image/gif" />
 <title>The Dependency Finder User Manual</title>
 
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2083086-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
 </head>
 
 <body>
@@ -14,7 +29,7 @@
 <h1>The Dependency Finder User Manual</h1>
 
 <p>
-For Dependency Finder version 1.2.1-beta3.
+For Dependency Finder version 1.2.1-beta4.
 </p>
 
 <p>
@@ -270,7 +285,7 @@ application to keep the data in memory and play with it a while.
 
 <p>
 Dependency Finder comes as a ZIP file that includes everything you need to run
-it.  The file is named <code>DependencyFinder-1.2.1-beta3.bin.zip</code>.
+it.  The file is named <code>DependencyFinder-1.2.1-beta4.bin.zip</code>.
 </p>
 
 <a name="Step1:JavaVirtualMachine"></a>
@@ -301,13 +316,13 @@ create and edit variables.
 
 <p>
 Extract the ZIP file to some directory you like.  The extraction will create a
-subdirectory named "DependencyFinder-1.2.1-beta3" that is the root of the
+subdirectory named "DependencyFinder-1.2.1-beta4" that is the root of the
 package.
 </p>
 
 <p>
 For example, if you extract it to <code>C:\</code>, you will endup with a directory called
-<code>C:\DependencyFinder-1.2.1-beta3\</code>.
+<code>C:\DependencyFinder-1.2.1-beta4\</code>.
 </p>
 
 <a name="Step3:EnvironmentVariables"></a>
@@ -326,7 +341,7 @@ For example, if you extracted the ZIP file in <code>C:\</code>
 </p>
 
 <pre>
-    SET DEPENDENCYFINDER_HOME=C:\DependencyFinder-1.2.1-beta3
+    SET DEPENDENCYFINDER_HOME=C:\DependencyFinder-1.2.1-beta4
 </pre>
 
 <p>
@@ -347,7 +362,7 @@ For example, if you extracted the ZIP file in <code>C:\</code>
 </p>
 
 <pre>
-    SET PATH=C:\DependencyFinder-1.2.1-beta3\bin;%PATH%
+    SET PATH=C:\DependencyFinder-1.2.1-beta4\bin;%PATH%
 </pre>
 
 <a name="Step5:Reboot"></a>
@@ -406,8 +421,8 @@ everything you need to run it.  The files are:
 </p>
 
 <ul>
-<li><code>DependencyFinder-1.2.1-beta3.bin.tar.gz</code></li>
-<li><code>DependencyFinder-1.2.1-beta3.bin.tar.bz2</code></li>
+<li><code>DependencyFinder-1.2.1-beta4.bin.tar.gz</code></li>
+<li><code>DependencyFinder-1.2.1-beta4.bin.tar.bz2</code></li>
 </ul>
 
 <p>
@@ -475,7 +490,7 @@ subdirectory named "DependencyFinder" that is the root of the package.
 </p>
 
 <pre>
-    $ tar xvzf DependencyFinder-1.2.1-beta3.bin.tar.gz
+    $ tar xvzf DependencyFinder-1.2.1-beta4.bin.tar.gz
 </pre>
 
 <p>
@@ -483,12 +498,12 @@ or
 </p>
 
 <pre>
-    $ bunzip2 DependencyFinder-1.2.1-beta3.bin.tar.bz2 | tar xvf -
+    $ bunzip2 DependencyFinder-1.2.1-beta4.bin.tar.bz2 | tar xvf -
 </pre>
 
 <p>
 For example, if you extract it to <code>$HOME</code>, you will endup with a directory
-called <code>$HOME/DependencyFinder-1.2.1-beta3</code>.
+called <code>$HOME/DependencyFinder-1.2.1-beta4</code>.
 </p>
 
 <a name="Step3:EnvironmentVariablesX"></a>
@@ -516,7 +531,7 @@ For sh:
 </p>
 
 <pre>
-    DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-1.2.1-beta3
+    DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-1.2.1-beta4
     export DEPENDENCYFINDER_HOME
     DEPENDENCYFINDER_OPTS=-Xmx128m
     export DEPENDENCYFINDER_OPTS
@@ -527,7 +542,7 @@ For bash:
 </p>
 
 <pre>
-    export DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-1.2.1-beta3
+    export DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-1.2.1-beta4
     export DEPENDENCYFINDER_OPTS=-Xmx128m
 </pre>
 
@@ -540,7 +555,7 @@ For csh or tcsh:
 </p>
 
 <pre>
-    setenv DEPENDENCYFINDER_HOME $HOME/DependencyFinder-1.2.1-beta3
+    setenv DEPENDENCYFINDER_HOME $HOME/DependencyFinder-1.2.1-beta4
     setenv DEPENDENCYFINDER_OPTS -Xmx128m
 </pre>
 
@@ -622,7 +637,7 @@ For instance, using Tomcat on Windows, you can do the following:
 </pre>
 
 <pre>
-    C:\>copy DependencyFinder-1.2.1-beta3.war %CATALINA_HOME%\webapps
+    C:\>copy DependencyFinder-1.2.1-beta4.war %CATALINA_HOME%\webapps
 </pre>
 
 <pre>
@@ -639,7 +654,7 @@ Next, you need to tell the wep application where to find the dependency graph
 on which it will operate.  This is done via the application's context
 parameters.  Some application servers let you set them using some form of
 application management tool.  But for others, such as Tomcat, you need to edit
-them manually using a text editor.  You can find them in the<code>WEB-INF\web.xml</code>
+them manually using a text editor.  You can find them in the <code>WEB-INF\web.xml</code>
 file from the WAR file.
 </p>
 
@@ -743,7 +758,7 @@ may allow you to simply restart the web application itself.
 </pre>
 
 <pre>
-    C:\>notepad %CATALINA_HOME%\webapps\DependencyFinder-1.2.1-beta3\WEB-INF\web.xml
+    C:\>notepad %CATALINA_HOME%\webapps\DependencyFinder-1.2.1-beta4\WEB-INF\web.xml
 </pre>
 
 <pre>
@@ -1909,40 +1924,53 @@ Dependency Finder does not track the line numbers where dependencies occur.
 </p>
 
 <p>
-Dependency Finder works on compiled code and the compiler leaves very little
-data as far as line numbers are concerned.  The only information available is
-the <code>LineNumberTable</code> attribute, part of the <code>Code</code> attribute, which is itself
-part of the <code>Method_info</code> structure inside the <code>.class</code> file.  Now, the
-<code>LineNumberTable</code> attribute is optional.  "<code>javac</code>" won't include it if you use
-the <code>-g:none</code> option.  And even when it does, it is not always very helpful.
+First, the dependency graph records a given dependency only once, regardless of
+how many times it is present in the code.  If a method <code>a()</code> calls another
+method <code>b()</code> more than once, there is only one edge in the graph.  Right now,
+the graph does not use separate objects to represent the dependency to save on
+memory footprint, so the graph cannot record dependency-specific details, such
+as how many times it occurred or on which line it occurred.
 </p>
 
 <p>
-You can run a quick test with:
+Second, Dependency Finder works on compiled code and the compiler leaves very
+little as far as line numbers are concerned.  The only information available is
+the <code>LineNumberTable</code> attribute, part of the <code>Code</code> attribute, which is itself
+part of the <code>Method_info</code> structure inside the <code>.class</code> file.  The
+<code>LineNumberTable</code> attribute is optional and "<code>javac</code>" will not include it if you
+use the <code>-g:none</code> option.  And even when it does include that attribute, the
+information is not always useful.
+</p>
+
+<p>
+You can do a quick test with the following class.  The listing shows line
+numbers to help illustrate the point.
 </p>
 
 <div class="highlight">
 
 <pre>
-    public class A {
-        public void f1() {
-            // Do nothing
-        }
-    }
+    1: public class A {
+    2:     public void f1() {
+    3:         // Do nothing
+    4:     }
+    5: }
 </pre>
 
 </div>
 
 <p>
-And get an entry for line 1 for an implicit constructor (this happens to be the
-location of the class declaration) and another entry for line 4 for <code>f1()</code>
-(this is the closing '<code>}</code>' that ends the method).  In both cases, they are not
-obvious locations.
+The compiled class has two methods: an implicit constructor <code>A()</code> and the method
+<code>f1()</code>.  The constructor has a single entry in its <code>LineNumberTable</code> attribute
+stating that it starts on line 1.  But from the listing, we see no constructor
+on line 1, so this line number information is misleading.  The method also has a
+single entry in its <code>LineNumberTable</code> attribute stating that its <code>return</code>
+statement is on line 4.  But there is only a closing brace on line 4, so this
+line number information is also misleading.
 </p>
 
 <p>
-Also, the <code>.class</code> file has absolutely no line number information whatsoever
-about:
+The <code>.class</code> file does not contain line number information for:
 </p>
 
 <ul>
@@ -1953,17 +1981,10 @@ about:
 </ul>
 
 <p>
-Given all this, Dependency Finder does not do anything with line numbers, given
-that the information is sketchy and what little is there is hard to work with.
-</p>
-
-<p>
-And there is an additional limitation.  Dependency graphs only record a
-specific dependency once, regardless how many times it is present in the code.
-If a method <code>a()</code> calls another method <code>b()</code> more than once, there is only one
-edge in the graph.  Also, there is no object to represent the dependency so the
-graph cannot record dependency-specific details, such as how many times it
-occured or on which line it occured.
+For these reasons, Dependency Finder does not do anything with line numbers,
+since the information is sketchy and what little is there is hard to work with.
+Other tools usually generate their own parse tree of the original Java code so
+they can precisely pinpoint declarations
 </p>
 
 <a name="ExtractingWiththeGUI"></a>
@@ -6696,7 +6717,7 @@ step.
 <h3>Narrowing API Differences to Actually Used API</h3>
 
 <p>
-You often rely on third-party libraries for speciic functions in your own
+You often rely on third-party libraries for specific functions in your own
 software.  For example, Dependency Finder uses Log4J for logging and
 Jakarta-ORO for matching regular expressions.  When these third-party libraries
 release new versions, you need to figure out the impact that upgrading to the
@@ -6730,7 +6751,7 @@ later to narrow this list down to the symbols that <i>S</i> actually uses.
     C:\>ListSymbols -out <b><i>L</i>.symbols.txt</b>
                     -class-names
                     -method-names
-                    -feature-names
+                    -field-names
                     <i>L</i>
 </pre>
 
@@ -6939,13 +6960,6 @@ You can also email me at
 </p>
 
 <hr />
-
-<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
-</script>
-<script type="text/javascript">
-_uacct = "UA-2083086-2";
-urchinTracker();
-</script>
 
 </body>
 

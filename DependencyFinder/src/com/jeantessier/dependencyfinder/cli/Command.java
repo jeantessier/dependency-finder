@@ -32,15 +32,32 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import java.io.*;
-import java.util.*;
-
-import com.jeantessier.commandline.*;
+import com.jeantessier.commandline.CollectingParameterStrategy;
+import com.jeantessier.commandline.CommandLine;
+import com.jeantessier.commandline.CommandLineException;
+import com.jeantessier.commandline.CommandLineUsage;
+import com.jeantessier.commandline.ParameterStrategy;
 import com.jeantessier.commandline.Printer;
 import com.jeantessier.commandline.TextPrinter;
-import com.jeantessier.dependencyfinder.*;
-import com.jeantessier.dependency.*;
-import org.apache.log4j.*;
+import com.jeantessier.dependency.CollectionSelectionCriteria;
+import com.jeantessier.dependency.ComprehensiveSelectionCriteria;
+import com.jeantessier.dependency.NullSelectionCriteria;
+import com.jeantessier.dependency.RegularExpressionSelectionCriteria;
+import com.jeantessier.dependency.SelectionCriteria;
+import com.jeantessier.dependencyfinder.Version;
+import org.apache.log4j.Logger;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
 
 public abstract class Command {
     public static final String DEFAULT_LOGFILE = "System.out";
@@ -418,7 +435,7 @@ public abstract class Command {
         return new CollectionSelectionCriteria(loadCollection(includes), loadCollection(excludes));
     }
 
-    private Collection<String> loadCollection(Collection<String> filenames) {
+    protected Collection<String> loadCollection(Collection<String> filenames) {
         Collection<String> result = null;
 
         if (!filenames.isEmpty()) {

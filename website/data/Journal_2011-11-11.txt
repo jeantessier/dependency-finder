@@ -1,0 +1,13 @@
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>Ant</td>
+        <td>:</td>
+        <td>1.7.0</td>
+        <td>-></td>
+        <td>1.8.2</td>
+    </tr>
+</table>
+</blockquote>
