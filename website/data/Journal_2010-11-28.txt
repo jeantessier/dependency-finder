@@ -1,0 +1,19 @@
+Figured out the problem with the =ArrayIndexOutOfBoundsException= on =wide=
+instructions.  There are helper methods inside the =Instruction= class to fetch
+individual bytes from the bytecode.  They all take offsets from the
+instruction's start position in the bytecde.  One branch of a =case= statement
+was adding the instruction's start position to the offset before calling the
+helper, resulting in a fetch at twice the start position.  If the instruction
+was past the half-way park, it resulted in =ArrayIndexOutOfBoundsException=.
+
+Found another problem with escaping text in XML documents from =ClassReader=.
+It is possible for some string constants in the bytecode to contains characters
+that are not strictly UTF-8.  I had to brush up on my XML to fix this one.  I
+found a promising library in Commons Lang from the Apache Project, but it did
+not handle low value control characters that are below the range of normal
+visible characters.  So I had to rework
+=com.jeantessier.classreader.XMLPrinter.escapeXMLCharacters()= myself.  I don't
+think I'll have the same problem with the other XML generators because they
+don't deal with the raw constant strings in Java the way =ClassReader= does.
+
+Released version 1.2.1 beta4.

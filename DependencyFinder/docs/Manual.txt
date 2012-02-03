@@ -289,7 +289,7 @@ Next, you need to tell the wep application where to find the dependency graph
 on which it will operate.  This is done via the application's context
 parameters.  Some application servers let you set them using some form of
 application management tool.  But for others, such as Tomcat, you need to edit
-them manually using a text editor.  You can find them in the=WEB-INF\web.xml=
+them manually using a text editor.  You can find them in the =WEB-INF\web.xml=
 file from the WAR file.
 
 You will need to decide how you feed information into the web application.  You
@@ -1399,47 +1399,53 @@ impact runtime dependencies anyway.
 
 Dependency Finder does not track the line numbers where dependencies occur.
 
-Dependency Finder works on compiled code and the compiler leaves very little
-data as far as line numbers are concerned.  The only information available is
-the =LineNumberTable= attribute, part of the =Code= attribute, which is itself
-part of the =Method_info= structure inside the =.class= file.  Now, the
-=LineNumberTable= attribute is optional.  "=javac=" won't include it if you use
-the =-g:none= option.  And even when it does, it is not always very helpful.
+First, the dependency graph records a given dependency only once, regardless of
+how many times it is present in the code.  If a method =a()= calls another
+method =b()= more than once, there is only one edge in the graph.  Right now,
+the graph does not use separate objects to represent the dependency to save on
+memory footprint, so the graph cannot record dependency-specific details, such
+as how many times it occurred or on which line it occurred.
 
-You can run a quick test with:
+Second, Dependency Finder works on compiled code and the compiler leaves very
+little as far as line numbers are concerned.  The only information available is
+the =LineNumberTable= attribute, part of the =Code= attribute, which is itself
+part of the =Method_info= structure inside the =.class= file.  The
+=LineNumberTable= attribute is optional and "=javac=" will not include it if you
+use the =-g:none= option.  And even when it does include that attribute, the
+information is not always useful.
+
+You can do a quick test with the following class.  The listing shows line
+numbers to help illustrate the point.
 
 <div class="highlight">
 
-    public class A {
-        public void f1() {
-            // Do nothing
-        }
-    }
+    1: public class A {
+    2:     public void f1() {
+    3:         // Do nothing
+    4:     }
+    5: }
 
 </div>
 
-And get an entry for line 1 for an implicit constructor (this happens to be the
-location of the class declaration) and another entry for line 4 for =f1()=
-(this is the closing '=}=' that ends the method).  In both cases, they are not
-obvious locations.
+The compiled class has two methods: an implicit constructor =A()= and the method
+=f1()=.  The constructor has a single entry in its =LineNumberTable= attribute
+stating that it starts on line 1.  But from the listing, we see no constructor
+on line 1, so this line number information is misleading.  The method also has a
+single entry in its =LineNumberTable= attribute stating that its =return=
+statement is on line 4.  But there is only a closing brace on line 4, so this
+line number information is also misleading.
 
-Also, the =.class= file has absolutely no line number information whatsoever
-about:
+The =.class= file does not contain line number information for:
 
    * class declarations
    * abstract methods (they don't have a =Code= attribute)
    * fields
    * interfaces (they are just asbtract methods and fields)
 
-Given all this, Dependency Finder does not do anything with line numbers, given
-that the information is sketchy and what little is there is hard to work with.
-
-And there is an additional limitation.  Dependency graphs only record a
-specific dependency once, regardless how many times it is present in the code.
-If a method =a()= calls another method =b()= more than once, there is only one
-edge in the graph.  Also, there is no object to represent the dependency so the
-graph cannot record dependency-specific details, such as how many times it
-occured or on which line it occured.
+For these reasons, Dependency Finder does not do anything with line numbers,
+since the information is sketchy and what little is there is hard to work with.
+Other tools usually generate their own parse tree of the original Java code so
+they can precisely pinpoint declarations
 
 ---++++ Extracting With the GUI
 

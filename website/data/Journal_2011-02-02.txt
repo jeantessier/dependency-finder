@@ -1,0 +1,2 @@
+Working on a unit tests to check that =MetricsGatherer= also accumulates
+annotations that are being used by the code under examination.

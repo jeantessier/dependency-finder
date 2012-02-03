@@ -32,9 +32,10 @@
 
 package com.jeantessier.classreader;
 
-import org.junit.runner.*;
-import org.junit.runners.*;
-import static org.junit.runners.Suite.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
+import static org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
@@ -65,6 +66,7 @@ import static org.junit.runners.Suite.*;
         TestClassfileScanner.class,
         TestTextPrinter.class,
         TestXMLPrinter.class,
+        TestXMLPrinterEscaping.class,
         TestDeprecationPrinter.class,
         TestLoadListenerDecorator.class,
         TestGroupFilteringLoadListener.class,
