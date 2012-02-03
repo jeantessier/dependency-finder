@@ -32,10 +32,18 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import java.util.*;
+import com.jeantessier.classreader.ClassfileLoader;
+import com.jeantessier.classreader.DefaultSymbolGathererStrategy;
+import com.jeantessier.classreader.FilteringSymbolGathererStrategy;
+import com.jeantessier.classreader.FinalMethodOrClassSymbolGathererStrategy;
+import com.jeantessier.classreader.LoadListenerVisitorAdapter;
+import com.jeantessier.classreader.NonPrivateFieldSymbolGathererStrategy;
+import com.jeantessier.classreader.SymbolGatherer;
+import com.jeantessier.classreader.SymbolGathererStrategy;
+import com.jeantessier.classreader.TransientClassfileLoader;
+import com.jeantessier.commandline.CommandLineException;
 
-import com.jeantessier.classreader.*;
-import com.jeantessier.commandline.*;
+import java.util.Collection;
 
 public class ListSymbols extends DirectoryExplorerCommand {
     protected void populateCommandLineSwitches() {
@@ -50,8 +58,9 @@ public class ListSymbols extends DirectoryExplorerCommand {
         getCommandLine().addToggleSwitch("final-method-or-class-names");
 
         getCommandLine().addMultipleValuesSwitch("includes", DEFAULT_INCLUDES);
+        getCommandLine().addMultipleValuesSwitch("includes-list");
         getCommandLine().addMultipleValuesSwitch("excludes");
-
+        getCommandLine().addMultipleValuesSwitch("excludes-list");
     }
 
     protected Collection<CommandLineException> parseCommandLine(String[] args) {
@@ -84,8 +93,8 @@ public class ListSymbols extends DirectoryExplorerCommand {
             gathererStrategy = defaultGathererStrategy;
         }
 
-        if (getCommandLine().isPresent("includes") || getCommandLine().isPresent("excludes")) {
-            gathererStrategy = new FilteringSymbolGathererStrategy(gathererStrategy, getCommandLine().getMultipleSwitch("includes"), getCommandLine().getMultipleSwitch("excludes"));
+        if (getCommandLine().isPresent("includes") || getCommandLine().isPresent("includes-list") || getCommandLine().isPresent("excludes") || getCommandLine().isPresent("excludes-list")) {
+            gathererStrategy = new FilteringSymbolGathererStrategy(gathererStrategy, getCommandLine().getMultipleSwitch("includes"), loadCollection(getCommandLine().getMultipleSwitch("includes-list")), getCommandLine().getMultipleSwitch("excludes"), loadCollection(getCommandLine().getMultipleSwitch("excludes-list")));
         }
 
         SymbolGatherer gatherer = new SymbolGatherer(gathererStrategy);

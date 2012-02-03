@@ -1,0 +1,13 @@
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>Guava</td>
+        <td>:</td>
+        <td>r08</td>
+        <td>-></td>
+        <td>r09</td>
+    </tr>
+</table>
+</blockquote>

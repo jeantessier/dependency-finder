@@ -1924,40 +1924,53 @@ Dependency Finder does not track the line numbers where dependencies occur.
 </p>
 
 <p>
-Dependency Finder works on compiled code and the compiler leaves very little
-data as far as line numbers are concerned.  The only information available is
-the <code>LineNumberTable</code> attribute, part of the <code>Code</code> attribute, which is itself
-part of the <code>Method_info</code> structure inside the <code>.class</code> file.  Now, the
-<code>LineNumberTable</code> attribute is optional.  "<code>javac</code>" won't include it if you use
-the <code>-g:none</code> option.  And even when it does, it is not always very helpful.
+First, the dependency graph records a given dependency only once, regardless of
+how many times it is present in the code.  If a method <code>a()</code> calls another
+method <code>b()</code> more than once, there is only one edge in the graph.  Right now,
+the graph does not use separate objects to represent the dependency to save on
+memory footprint, so the graph cannot record dependency-specific details, such
+as how many times it occurred or on which line it occurred.
 </p>
 
 <p>
-You can run a quick test with:
+Second, Dependency Finder works on compiled code and the compiler leaves very
+little as far as line numbers are concerned.  The only information available is
+the <code>LineNumberTable</code> attribute, part of the <code>Code</code> attribute, which is itself
+part of the <code>Method_info</code> structure inside the <code>.class</code> file.  The
+<code>LineNumberTable</code> attribute is optional and "<code>javac</code>" will not include it if you
+use the <code>-g:none</code> option.  And even when it does include that attribute, the
+information is not always useful.
+</p>
+
+<p>
+You can do a quick test with the following class.  The listing shows line
+numbers to help illustrate the point.
 </p>
 
 <div class="highlight">
 
 <pre>
-    public class A {
-        public void f1() {
-            // Do nothing
-        }
-    }
+    1: public class A {
+    2:     public void f1() {
+    3:         // Do nothing
+    4:     }
+    5: }
 </pre>
 
 </div>
 
 <p>
-And get an entry for line 1 for an implicit constructor (this happens to be the
-location of the class declaration) and another entry for line 4 for <code>f1()</code>
-(this is the closing '<code>}</code>' that ends the method).  In both cases, they are not
-obvious locations.
+The compiled class has two methods: an implicit constructor <code>A()</code> and the method
+<code>f1()</code>.  The constructor has a single entry in its <code>LineNumberTable</code> attribute
+stating that it starts on line 1.  But from the listing, we see no constructor
+on line 1, so this line number information is misleading.  The method also has a
+single entry in its <code>LineNumberTable</code> attribute stating that its <code>return</code>
+statement is on line 4.  But there is only a closing brace on line 4, so this
+line number information is also misleading.
 </p>
 
 <p>
-Also, the <code>.class</code> file has absolutely no line number information whatsoever
-about:
+The <code>.class</code> file does not contain line number information for:
 </p>
 
 <ul>
@@ -1968,17 +1981,10 @@ about:
 </ul>
 
 <p>
-Given all this, Dependency Finder does not do anything with line numbers, given
-that the information is sketchy and what little is there is hard to work with.
-</p>
-
-<p>
-And there is an additional limitation.  Dependency graphs only record a
-specific dependency once, regardless how many times it is present in the code.
-If a method <code>a()</code> calls another method <code>b()</code> more than once, there is only one
-edge in the graph.  Also, there is no object to represent the dependency so the
-graph cannot record dependency-specific details, such as how many times it
-occured or on which line it occured.
+For these reasons, Dependency Finder does not do anything with line numbers,
+since the information is sketchy and what little is there is hard to work with.
+Other tools usually generate their own parse tree of the original Java code so
+they can precisely pinpoint declarations
 </p>
 
 <a name="ExtractingWiththeGUI"></a>

@@ -7,7 +7,7 @@
     <target name="all" depends="compile"/>
 
     <target name="compile">
-        <javac>
+        <javac includeantruntime="false">
             <src path="."/>
             <patternset refid="all.sources"/>
         </javac>
