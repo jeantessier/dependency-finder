@@ -32,13 +32,15 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.junit.runner.*;
-import org.junit.runners.*;
-import static org.junit.runners.Suite.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
+import static org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
         TestInterfaceMethodRef_info.class,
+        TestField_info.class,
         TestMethod_info.class,
         TestInstruction.class,
         TestConstantValue_attribute.class,

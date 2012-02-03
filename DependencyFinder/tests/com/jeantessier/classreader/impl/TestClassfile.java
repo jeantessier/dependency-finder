@@ -32,17 +32,21 @@
 
 package com.jeantessier.classreader.impl;
 
-import java.util.*;
+import com.jeantessier.classreader.ClassfileLoader;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.jmock.lib.legacy.ClassImposteriser;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import static org.hamcrest.Matchers.*;
-import org.jmock.*;
-import org.jmock.integration.junit4.*;
-import org.jmock.lib.legacy.*;
-import static org.junit.Assert.*;
-import org.junit.*;
-import org.junit.runner.*;
+import java.util.Collection;
+import java.util.Collections;
 
-import com.jeantessier.classreader.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertThat;
 
 @RunWith(JMock.class)
 public class TestClassfile {
@@ -408,6 +412,51 @@ public class TestClassfile {
 
         Method_info actualMethod = (Method_info) sut.locateMethod(TEST_METHOD_SIGNATURE);
         assertThat("private method", actualMethod, is(nullValue()));
+    }
+
+    @Test
+    public void testIsInnerClass_matchingInnerClassInfo_returnsTrue() throws Exception {
+        final InnerClasses_attribute innerClasses_attribute = context.mock(InnerClasses_attribute.class);
+        final InnerClass innerClass = context.mock(InnerClass.class);
+
+        expectClassNameLookup(1, TEST_CLASS_NAME);
+
+        context.checking(new Expectations() {{
+            one (innerClasses_attribute).getInnerClasses();
+                will(returnValue(Collections.<InnerClass>singleton(innerClass)));
+            one (innerClass).getInnerClassInfo();
+                will(returnValue(TEST_CLASS_NAME));
+        }});
+
+        Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.<Class_info>emptyList(), Collections.<Field_info>emptyList(), Collections.<Method_info>emptyList(), Collections.<Attribute_info>singleton(innerClasses_attribute));
+
+        assertThat("inner class", sut.isInnerClass(), is(true));
+    }
+
+    @Test
+    public void testIsInnerClass_emptyInnerClassInfo_returnsFalse() throws Exception {
+        final InnerClasses_attribute innerClasses_attribute = context.mock(InnerClasses_attribute.class);
+        final InnerClass innerClass = context.mock(InnerClass.class);
+
+        expectClassNameLookup(1, TEST_CLASS_NAME);
+
+        context.checking(new Expectations() {{
+            one (innerClasses_attribute).getInnerClasses();
+                will(returnValue(Collections.<InnerClass>singleton(innerClass)));
+            one (innerClass).getInnerClassInfo();
+                will(returnValue(""));
+        }});
+
+        Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.<Class_info>emptyList(), Collections.<Field_info>emptyList(), Collections.<Method_info>emptyList(), Collections.<Attribute_info>singleton(innerClasses_attribute));
+
+        assertThat("inner class", sut.isInnerClass(), is(false));
+    }
+
+    @Test
+    public void testIsInnerClass_noInnerClassInfo_returnsFalse() throws Exception {
+        Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.<Class_info>emptyList(), Collections.<Field_info>emptyList(), Collections.<Method_info>emptyList(), Collections.<Attribute_info>emptyList());
+
+        assertThat("inner class", sut.isInnerClass(), is(false));
     }
 
     private void expectClassNameLookup(final int index, final String value) {

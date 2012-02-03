@@ -32,9 +32,11 @@
 
 package com.jeantessier.dependency;
 
-import java.util.*;
+import junit.framework.TestCase;
 
-import junit.framework.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
 
 public class TestLCOM4Gatherer extends TestCase {
     private NodeFactory factory;
@@ -114,7 +116,7 @@ public class TestLCOM4Gatherer extends TestCase {
         assertTrue(featureNode1.getClassNode().getName() + " is missing from " + actualResults, actualResults.containsKey(featureNode1.getClassNode()));
 
         Collection<Collection<FeatureNode>> components = actualResults.get(featureNode1.getClassNode());
-        assertEquals("LCOM4 of class w/ two connected features", 2, components.size());
+        assertEquals("LCOM4 of class w/ two disjoint features", 2, components.size());
 
         assertAtLeastOneComponentEquals(components, featureNode1);
         assertAtLeastOneComponentEquals(components, featureNode2);
