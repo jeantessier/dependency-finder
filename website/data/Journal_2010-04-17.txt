@@ -1,0 +1,20 @@
+My license for IntelliJ IDEA is about to expire.  I haven't been able to work
+on Dependency Finder since I started working at
+[[http://shopwell.com][ShopWell]], so I don't know if they'll consider the
+project active enough to deserve a free license still.  But JetBrains has a
+_community edition_ that is free and does everything I need, so it is not a
+complete loss.  I installed it tonight to try it out.
+
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>IntelliJ IDEA</td>
+        <td>:</td>
+        <td>9.0</td>
+        <td>-></td>
+        <td>9.0.1 CE</td>
+    </tr>
+</table>
+</blockquote>

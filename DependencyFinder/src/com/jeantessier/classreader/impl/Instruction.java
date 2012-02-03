@@ -32,7 +32,8 @@
 
 package com.jeantessier.classreader.impl;
 
-import com.jeantessier.classreader.*;
+import com.jeantessier.classreader.LocalVariableFinder;
+import com.jeantessier.classreader.Visitor;
 
 public class Instruction implements com.jeantessier.classreader.Instruction {
     private static final int NB_OPCODES = 0x100;
@@ -838,7 +839,7 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
                 result = getSignedByte(2);
                 break;
             case 0xc4: // wide
-                if (getByte(getStart() + 1) == 0x84 /* iinc */) {
+                if (getByte(1) == 0x84 /* iinc */) {
                     result = (getSignedByte(4) << 8) | getByte(5);
                 } else {
                     result = 0;

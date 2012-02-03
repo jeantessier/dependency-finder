@@ -32,14 +32,32 @@
 
 package com.jeantessier.dependencyfinder.ant;
 
-import java.io.*;
-import java.util.*;
+import com.jeantessier.classreader.ClassfileLoader;
+import com.jeantessier.classreader.DefaultSymbolGathererStrategy;
+import com.jeantessier.classreader.FilteringSymbolGathererStrategy;
+import com.jeantessier.classreader.FinalMethodOrClassSymbolGathererStrategy;
+import com.jeantessier.classreader.LoadListenerVisitorAdapter;
+import com.jeantessier.classreader.NonPrivateFieldSymbolGathererStrategy;
+import com.jeantessier.classreader.SymbolGatherer;
+import com.jeantessier.classreader.SymbolGathererStrategy;
+import com.jeantessier.classreader.TransientClassfileLoader;
+import com.jeantessier.text.RegularExpressionParser;
+import org.apache.log4j.Logger;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Task;
+import org.apache.tools.ant.types.Path;
 
-import org.apache.tools.ant.*;
-import org.apache.tools.ant.types.*;
-
-import com.jeantessier.classreader.*;
-import com.jeantessier.text.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 
 public class ListSymbols extends Task {
     private boolean classNames = false;
@@ -49,7 +67,9 @@ public class ListSymbols extends Task {
     private boolean nonPrivateFieldNames = false;
     private boolean finalMethodOrClassNames = false;
     private List<String> includes = Collections.singletonList("//");
+    private Path includesList;
     private List<String> excludes = Collections.emptyList();
+    private Path excludesList;
     private File destfile;
     private Path path;
 
@@ -109,12 +129,36 @@ public class ListSymbols extends Task {
         this.includes = RegularExpressionParser.parseRE(includes);
     }
 
+    public Path createIncludeslist() {
+        if (includesList == null) {
+            includesList = new Path(getProject());
+        }
+
+        return includesList;
+    }
+
+    public Path getIncludeslist() {
+        return includesList;
+    }
+
     public List<String> getExcludes() {
         return excludes;
     }
 
     public void setExcludes(String excludes) {
         this.excludes = RegularExpressionParser.parseRE(excludes);
+    }
+
+    public Path createExcludeslist() {
+        if (excludesList == null) {
+            excludesList = new Path(getProject());
+        }
+
+        return excludesList;
+    }
+
+    public Path getExcludeslist() {
+        return excludesList;
     }
 
     public File getDestfile() {
@@ -187,7 +231,7 @@ public class ListSymbols extends Task {
             result = createDefaultSymbolGathererStrategy();
         }
 
-        result = new FilteringSymbolGathererStrategy(result, getIncludes(), getExcludes());
+        result = new FilteringSymbolGathererStrategy(result, getIncludes(), loadCollection(getIncludeslist()), getExcludes(), loadCollection(getExcludeslist()));
 
         return result;
     }
@@ -221,6 +265,38 @@ public class ListSymbols extends Task {
 
         if (getLocalnames()) {
             result.setMatchingLocalNames(true);
+        }
+
+        return result;
+    }
+
+    private Collection<String> loadCollection(Path path) {
+        Collection<String> result = null;
+
+        if (path != null) {
+            result = new HashSet<String>();
+
+            for (String filename : path.list()) {
+                BufferedReader reader = null;
+                String line;
+
+                try {
+                    reader = new BufferedReader(new FileReader(filename));
+                    while ((line = reader.readLine()) != null) {
+                        result.add(line);
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(getClass()).error("Couldn't read file " + filename, ex);
+                } finally {
+                    try {
+                        if (reader != null) {
+                            reader.close();
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(getClass()).error("Couldn't close file " + filename, ex);
+                    }
+                }
+            }
         }
 
         return result;

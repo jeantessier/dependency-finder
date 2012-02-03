@@ -1,0 +1,3 @@
+Researched the bug with =EnclosingMethod_attribute= when the enclosing method is
+a constructor.  It turns out that when the enclosing method is a static
+initializer, the =EnclosingMethod= structure does not have a method reference.
