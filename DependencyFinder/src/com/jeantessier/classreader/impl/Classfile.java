@@ -32,12 +32,15 @@
 
 package com.jeantessier.classreader.impl;
 
-import java.io.*;
-import java.util.*;
+import com.jeantessier.classreader.ClassfileLoader;
+import com.jeantessier.classreader.Visitor;
+import org.apache.log4j.Logger;
 
-import org.apache.log4j.*;
-
-import com.jeantessier.classreader.*;
+import java.io.DataInput;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 public class Classfile implements com.jeantessier.classreader.Classfile {
     private static final int ACC_PUBLIC = 0x0001;
@@ -452,7 +455,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     public boolean isInnerClass() {
-        return getMatchingInnerClass() == null;
+        return getMatchingInnerClass() != null;
     }
 
     public boolean isMemberClass() {

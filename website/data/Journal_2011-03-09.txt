@@ -1,0 +1,4 @@
+Tried to convert =extract.jsp= to a Grails GSP.  All the scriptlets are really
+getting in the way.  And the same problem I had with WebWork is surfacing again:
+=extract.jsp= streams its progress directly to the browser and I haven't quite
+found how to do this in these frameworks.  Maybe a taglib can help.

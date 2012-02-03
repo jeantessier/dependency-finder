@@ -1,0 +1,7 @@
+Someone was asking for help with the =dependencyextractor= And task, and I
+noticed that the documentation contained a typo.  It mentioned a task attribute
+named =filter-excludes= but the task has a setter for =setFilterexcludes()=
+instead.  So where would the dash in the XML attribute come from?  I read the
+documentation and confirmed that Ant is case-insensitive when it comes to task
+attributes, but it does not add or remove dashes.  So the sample code in the
+documentation does not work.  Oops.  All fixed now.

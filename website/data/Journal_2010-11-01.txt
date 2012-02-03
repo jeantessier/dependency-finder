@@ -1,0 +1,4 @@
+Back on [[2010-08-29]], I switched from =google-collect= to
+[[http://code.google.com/p/guava-libraries/][Guava]].  Then, on 2010-09-08, I
+removed the now obsolete =google-collect.jar= file but I forgot to update the
+scripts that lists JAR files explicitly.  That's now fixed.
