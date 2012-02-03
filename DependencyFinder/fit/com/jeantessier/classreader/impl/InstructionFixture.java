@@ -32,38 +32,46 @@
 
 package com.jeantessier.classreader.impl;
 
-import java.util.*;
+import fit.ColumnFixture;
 
-import fit.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 public class InstructionFixture extends ColumnFixture {
+    private static final int PADDING_BYTE = 0xA;
+    private static final int PADDING_LENGTH = 16;
+
     public String opCode;
     public String data;
 
     public String mnemonic() {
-        return new Instruction(null, buildDataBytes(), 0).getMnemonic();
+        return new Instruction(null, buildDataBytes(), PADDING_LENGTH).getMnemonic();
     }
 
     public int length() {
-        return new Instruction(null, buildDataBytes(), 0).getLength();
+        return new Instruction(null, buildDataBytes(), PADDING_LENGTH).getLength();
     }
 
     public int index() {
-        return new Instruction(null, buildDataBytes(), 0).getIndex();
+        return new Instruction(null, buildDataBytes(), PADDING_LENGTH).getIndex();
     }
 
     public int offset() {
-        return new Instruction(null, buildDataBytes(), 0).getOffset();
+        return new Instruction(null, buildDataBytes(), PADDING_LENGTH).getOffset();
     }
 
     public int value() {
-        return new Instruction(null, buildDataBytes(), 0).getValue();
+        return new Instruction(null, buildDataBytes(), PADDING_LENGTH).getValue();
     }
 
     private byte[] buildDataBytes() {
         byte[] result;
 
         List<Integer> bytes = new ArrayList<Integer>();
+        for (int i=0; i<PADDING_LENGTH; i++) {
+            bytes.add(PADDING_BYTE);
+        }
         bytes.add(Integer.parseInt(opCode, 16));
 
         try {

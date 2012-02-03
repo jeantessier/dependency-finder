@@ -32,16 +32,24 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-import java.util.*;
-import javax.xml.parsers.*;
-import javax.xml.xpath.*;
+import org.apache.oro.text.perl.Perl5Util;
+import org.jmock.Expectations;
+import org.jmock.integration.junit3.MockObjectTestCase;
+import org.w3c.dom.NodeList;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.XMLReader;
 
-import org.apache.oro.text.perl.*;
-import org.jmock.*;
-import org.jmock.integration.junit3.*;
-import org.w3c.dom.*;
-import org.xml.sax.*;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.Collections;
 
 public class TestXMLPrinter extends MockObjectTestCase {
     private static final String TEST_CLASS = "test";
@@ -199,8 +207,9 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).isPublic(); will(returnValue(false));
-            ignoring (mockClassfile);
+            one(mockClassfile).isPublic();
+            will(returnValue(false));
+            ignoring(mockClassfile);
         }});
 
         printer.visitClassfile(mockClassfile);
@@ -1285,6 +1294,73 @@ public class TestXMLPrinter extends MockObjectTestCase {
 
         String xmlDocument = buffer.toString();
         assertXPathCount(xmlDocument, "inner-class/enum", 1);
+    }
+
+    public void testVisitEnclosingMethod_noMethod() throws Exception {
+        final EnclosingMethod_attribute mockEnclosingMethod = mock(EnclosingMethod_attribute.class);
+        final Class_info mockClassInfo = mock(Class_info.class);
+        final int methodIndex = 0;
+
+        checking(new Expectations() {{
+            one(mockEnclosingMethod).getRawClassInfo();
+            will(returnValue(mockClassInfo));
+            one(mockClassInfo).accept(printer);
+            one(mockEnclosingMethod).getMethodIndex();
+            will(returnValue(methodIndex));
+        }});
+
+        printer.visitEnclosingMethod_attribute(mockEnclosingMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "enclosing-method-attribute/class", 1);
+        assertXPathCount(xmlDocument, "enclosing-method-attribute/method", 1);
+    }
+
+    public void testVisitEnclosingMethod_regularMethod() throws Exception {
+        final EnclosingMethod_attribute mockEnclosingMethod = mock(EnclosingMethod_attribute.class);
+        final Class_info mockClassInfo = mock(Class_info.class);
+        final int methodIndex = 123;
+        final NameAndType_info mockNameAndType = mock(NameAndType_info.class);
+
+        checking(new Expectations() {{
+            one (mockEnclosingMethod).getRawClassInfo(); will(returnValue(mockClassInfo));
+            one (mockClassInfo).accept(printer);
+            one (mockEnclosingMethod).getMethodIndex(); will(returnValue(methodIndex));
+            one (mockEnclosingMethod).getRawMethod(); will(returnValue(mockNameAndType));
+            exactly(2).of (mockNameAndType).getName(); will(returnValue("testMethod"));
+            exactly(2).of (mockNameAndType).getType(); will(returnValue("()V"));
+        }});
+
+        printer.visitEnclosingMethod_attribute(mockEnclosingMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "enclosing-method-attribute/class", 1);
+        assertXPathCount(xmlDocument, "enclosing-method-attribute/method", 1);
+        assertXPathText(xmlDocument, "enclosing-method-attribute/method", "void testMethod()");
+    }
+
+    public void testVisitEnclosingMethod_constructor() throws Exception {
+        final EnclosingMethod_attribute mockEnclosingMethod = mock(EnclosingMethod_attribute.class);
+        final Class_info mockClassInfo = mock(Class_info.class);
+        final int methodIndex = 123;
+        final NameAndType_info mockNameAndType = mock(NameAndType_info.class);
+
+        checking(new Expectations() {{
+            one (mockEnclosingMethod).getRawClassInfo(); will(returnValue(mockClassInfo));
+            one (mockClassInfo).accept(printer);
+            one (mockEnclosingMethod).getClassInfo(); will(returnValue("com.jeantessier.test.TestClass"));
+            one (mockEnclosingMethod).getMethodIndex(); will(returnValue(methodIndex));
+            one (mockEnclosingMethod).getRawMethod(); will(returnValue(mockNameAndType));
+            one (mockNameAndType).getName(); will(returnValue("<init>"));
+            one (mockNameAndType).getType(); will(returnValue("()V"));
+        }});
+
+        printer.visitEnclosingMethod_attribute(mockEnclosingMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "enclosing-method-attribute/class", 1);
+        assertXPathCount(xmlDocument, "enclosing-method-attribute/method", 1);
+        assertXPathText(xmlDocument, "enclosing-method-attribute/method", "TestClass()");
     }
 
     public void testVisitLocalVariable() throws Exception {

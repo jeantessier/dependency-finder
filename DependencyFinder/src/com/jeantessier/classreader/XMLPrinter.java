@@ -32,19 +32,17 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-import java.util.*;
+import com.google.common.annotations.VisibleForTesting;
+import com.jeantessier.text.Hex;
 
-import org.apache.oro.text.perl.*;
-
-import com.jeantessier.text.*;
+import java.io.PrintWriter;
+import java.util.Collection;
 
 public class XMLPrinter extends Printer {
     public static final String DEFAULT_ENCODING   = "utf-8";
     public static final String DEFAULT_DTD_PREFIX = "http://depfind.sourceforge.net/dtd";
 
     private static final BitFormat format = new BitFormat(16);
-    private static final Perl5Util perl = new Perl5Util();
 
     private boolean top = true;
 
@@ -513,7 +511,13 @@ public class XMLPrinter extends Printer {
         indent().append("<method>");
         if (attribute.getMethodIndex() != 0) {
             NameAndType_info nat = attribute.getRawMethod();
-            append(DescriptorHelper.getReturnType(nat.getType())).append(" ").append(nat.getName()).append(DescriptorHelper.getSignature(nat.getType()));
+            if (nat.getName().equals("<init>")) {
+                String className = attribute.getClassInfo();
+                className = className.substring(className.lastIndexOf(".") + 1);
+                append(className).append(DescriptorHelper.getSignature(nat.getType()));
+            } else {
+                append(DescriptorHelper.getReturnType(nat.getType())).append(" ").append(nat.getName()).append(DescriptorHelper.getSignature(nat.getType()));
+            }
         }
         append("</method>").eol();
 
@@ -1008,13 +1012,33 @@ public class XMLPrinter extends Printer {
         }
     }
 
-    private String escapeXMLCharacters(String text) {
-        String result = text;
+    @VisibleForTesting
+    String escapeXMLCharacters(String text) {
+        StringBuilder result = new StringBuilder();
+        boolean containsControlCharacters = false;
 
-        result = perl.substitute("s/&/&amp;/g", result);
-        result = perl.substitute("s/</&lt;/g", result);
-        result = perl.substitute("s/>/&gt;/g", result);
+        for (int i=0; i<text.length(); i++) {
+            char c = text.charAt(i);
+            if (c == '&') {
+                result.append("&amp;");
+            } else if (c == '<') {
+                result.append("&lt;");
+            } else if (c == '>') {
+                result.append("&gt;");
+            } else if (Character.isISOControl(c) || c > 0x9F) {
+                containsControlCharacters = true;
+                result.append("&#x");
+                result.append(Integer.toString(c, 16).toUpperCase());
+                result.append(";");
+            } else {
+                result.append(c);
+            }
+        }
 
-        return result;
+        if (containsControlCharacters) {
+            return "<![CDATA[" + result.toString() + "]]>";
+        } else {
+            return result.toString();
+        }
     }
 }

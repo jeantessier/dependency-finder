@@ -1056,24 +1056,25 @@ environment variables:
 
 ---+++ Building an Executable
 
+This target will create everything you need to run Dependency Finder in-place.
+
     =ant exec=
 
-This target will create everything you need to run Dependency Finder in-place.
 If you make a change and you simply want to refresh the executable, simply run:
 
     =and jar=
 
 ---+++ Building the Documentation
 
-    =ant docs=
-
 This target will create both Javadocs and the various manuals.
+
+    =ant docs=
 
 ---+++ Compiling a Build
 
-    =ant=
-
 This target will create a set of distribution files from a clean build.
+
+    =ant=
 
 ---+++ Testing the Build
 
@@ -1110,14 +1111,14 @@ or, to run tests manually:
 
 ---+++ Making a Release
 
-These instructions make sure you are working from a clean copy from the
-repository that has been tagged appropriately.
+These instructions make sure you are working from a clean copy of the =master=
+branch of the repository that has been tagged appropriately.
 
-    1 =svn mkdir https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-<VERSION /> -m "Tagging the <VERSION /> release of Dependency Finder"=
-    1 =svn copy https://depfind.svn.sourceforge.net/svnroot/depfind/trunk/DependencyFinder https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-<VERSION /> -m "Tagging the <VERSION /> release of Dependency Finder"=
-    1 =svn copy https://depfind.svn.sourceforge.net/svnroot/depfind/trunk/website https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-<VERSION /> -m "Tagging the <VERSION /> release of Dependency Finder"=
-    1 =svn checkout https://depfind.svn.sourceforge.net/svnroot/depfind/tags/release-<VERSION />/DependencyFinder /tmp/DependencyFinder=
-    1 =cd /tmp/DependencyFinder=
+    1 =git tag -m "Tagging the <VERSION /> release of Dependency Finder" <VERSION />=
+    1 =git push --tags=
+    1 =cd /tmp=
+    1 =git clone --local /original/path/to/git/project=
+    1 =cd /tmp/depfind/DependencyFinder=
     1 =ant dist=
     1 Go to [[http://sourceforge.net/projects/depfind/][SourceForge project page]], click "Develop" &gt;&gt; "Project Admin" &gt;&gt; "File Manager".
     1 Create a new folder, upload all files from =dist/= to the new folder.
@@ -1132,6 +1133,9 @@ repository that has been tagged appropriately.
     1 Generate sample files
 
 ---+++ Computing Code Coverage
+
+You can compute code coverage metrics using a number of tools.  Below
+are some of the more popular ones.
 
 ---++++ Emma
 
@@ -1149,8 +1153,10 @@ To run the tests and generate code coverage reports:
 
 To publish the results:
 
-    1 =ssh depfind.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/emma=
-    1 =scp reports/emma depfind.sourceforge.net:/home/groups/d/de/depfind/htdocs=
+    1 =ssh ${USER},depfind@shell.sourceforge.net create=
+    1 =ssh ${USER},depfind@shell.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/emma=
+    1 =scp -r reports/emma ${USER},depfind@shell.sourceforge.net:/home/groups/d/de/depfind/htdocs=
+    1 =ssh ${USER},depfind@shell.sourceforge.net shutdown=
 
 Or use an archive:
 
@@ -1180,8 +1186,10 @@ To run the tests and generate code coverage reports:
 
 To publish the results:
 
-    1 =ssh depfind.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/clover=
-    1 =scp reports/clover/html depfind.sourceforge.net:/home/groups/d/de/depfind/htdocs/clover=
+    1 =ssh ${USER},depfind@shell.sourceforge.net create=
+    1 =ssh ${USER},depfind@shell.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/clover=
+    1 =scp -r reports/clover ${USER},depfind@shell.sourceforge.net:/home/groups/d/de/depfind/htdocs=
+    1 =ssh ${USER},depfind@shell.sourceforge.net shutdown=
 
 Or use an archive:
 
@@ -1206,8 +1214,10 @@ To run the tests and generate code coverage reports:
 
 To publish the results:
 
-    1 =ssh depfind.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/cobertura=
-    1 =scp reports/cobertura depfind.sourceforge.net:/home/groups/d/de/depfind/htdocs/cobertura=
+    1 =ssh ${USER},depfind@shell.sourceforge.net create=
+    1 =ssh ${USER},depfind@shell.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/cobertura=
+    1 =scp -r reports/cobertura ${USER},depfind@shell.sourceforge.net:/home/groups/d/de/depfind/htdocs=
+    1 =ssh ${USER},depfind@shell.sourceforge.net shutdown=
 
 Or use an archive:
 

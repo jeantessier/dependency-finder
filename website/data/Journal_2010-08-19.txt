@@ -1,0 +1,5 @@
+Looked at [[http://addthis.com/][AddThis]] as a possible mechanism for coworkers
+to share interesting Dependency Finder results on the webapp.  The default
+AddThis email button puts the URL in the email message.  The URL is enough to
+recreate the query and see the results.  I need to explore further if I can add
+the query's results to the message.

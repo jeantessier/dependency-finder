@@ -39,7 +39,7 @@
             <format property="NOW" pattern="yyyy-MM-dd HH:mm:ss"/>
         </tstamp>
 
-        <property name="release"        value="1.2.1-beta4"/>
+        <property name="release"        value="1.2.1-beta5"/>
 
         <property name="packageNames"   value="com.jeantessier.*"/>
 
@@ -87,7 +87,7 @@
 
     <target name="compile" depends="init"
             description="Compiles all classes">
-        <javac destdir="${classesDir}" debug="on">
+        <javac includeantruntime="true" destdir="${classesDir}" debug="on">
             <src path="${srcDir}"/>
             <classpath>
                 <path refid="classpath.dependencyfinder"/>
@@ -99,7 +99,7 @@
     </target>
 
     <target name="deprecation" depends="init">
-        <javac destdir="${classesDir}" deprecation="yes">
+        <javac includeantruntime="true" destdir="${classesDir}" deprecation="yes">
             <src path="${srcDir}"/>
             <classpath>
                 <path refid="classpath.dependencyfinder"/>

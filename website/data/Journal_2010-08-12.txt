@@ -1,0 +1,13 @@
+A user asked for clarifications on the behavior of the advanced view in the GUI.
+From the layout of the interface, in appears the checkboxes govern the use of
+regular expressions for packages, classes, and features.  But they don't.  You
+can think of it as a two-step process:
+
+    1 Select nodes based on all the regular expressions.
+    1 Summarize the selected nodes based on the checkboxes.
+
+=GraphSummarizer= does both steps at the same time, but conceptually, this is
+what is happening.
+
+I never claimed the UI was very intuitive.  There is definitely room for
+improvement.
