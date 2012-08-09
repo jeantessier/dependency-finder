@@ -7,7 +7,7 @@
     <target name="all" depends="archives, olddoc, newdoc, published.old, published.new"/>
 
     <target name="old">
-        <javac>
+        <javac includeantruntime="false">
             <src path="old"/>
             <patternset refid="all.sources"/>
         </javac>
@@ -29,7 +29,7 @@
     </target>
 
     <target name="new">
-        <javac>
+        <javac includeantruntime="false">
             <src path="new"/>
             <patternset refid="all.sources"/>
         </javac>
@@ -84,14 +84,14 @@
     </target>
 
     <target name="published.old">
-        <javac>
+        <javac includeantruntime="false">
             <src path="oldpublished"/>
             <patternset refid="all.sources"/>
         </javac>
     </target>
 
     <target name="published.new">
-        <javac>
+        <javac includeantruntime="false">
             <src path="newpublished"/>
             <patternset refid="all.sources"/>
         </javac>
