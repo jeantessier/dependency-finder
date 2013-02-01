@@ -1,4 +1,4 @@
-Fixed calls to =&lt;javac&gt;= in the various =build.xml= files ot include the
+Fixed calls to =&lt;javac&gt;= in the various =build.xml= files to include the
 =includeantruntime= attribute needed by Ant 1.8.
 
 This is stupid.  For the sake of preserving some old =build.xml= files, they
