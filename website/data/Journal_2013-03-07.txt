@@ -1,0 +1,70 @@
+Someone asked for an example of using =OOMetrics=, such as a constructor that scans an entire folder and a simple getter
+that returns all metrics for a given class.  =OOMetrics= is highly configurable and slices and dices the data many
+different ways.  This usecase is very simple and setting things up for it is a little involved.
+
+Here's the code:
+
+    import java.util.*;
+
+    import com.jeantessier.classreader.*;
+    import com.jeantessier.metrics.*;
+
+    class OOMetrics {
+        /%2A%2A names the file that describes which metrics to compute. */
+        public static String METRICS%5FCONFIG%5FFILE = "config.xml";
+
+        /%2A%2A holds the metrics definitions and collected data. */
+        private MetricsFactory metricsFactory;
+
+        /%2A%2A
+         * reads the metrics descriptions from the config file and
+         * collects metrics on all the .class files on paths.
+         */
+        public OOMetrics(Collection&lt;String&gt; paths) throws Exception {
+            // Setup the MetricsFactory which will hold all the metrics.
+            MetricsConfiguration metricsConfiguration = new MetricsConfigurationLoader().load(METRICS%5FCONFIG%5FFILE);
+            metricsFactory = new MetricsFactory("OOMetrics", metricsConfiguration);
+            com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer(metricsFactory);
+
+            // Read in all the classes to analyze
+            ClassfileLoader classfileLoader = new AggregatingClassfileLoader();
+            classfileLoader.load(paths);
+
+            // Collect metrics on all the classes.
+            gatherer.visitClassfiles(classfileLoader.getAllClassfiles());
+        }
+
+        /%2A%2A
+         * converts the internal metrics data to name-value pairs.
+         */
+        public Map&lt;String, Number&gt; getMetrics(String className) {
+            Map&lt;String, Number&gt; results = new TreeMap&lt;String, Number&gt;();
+
+            Metrics metrics = metricsFactory.createClassMetrics(className);
+            for (String measurementName : metrics.getMeasurementNames()) {
+                results.put(measurementName, metrics.getMeasurement(measurementName).getValue());
+            }
+
+            return results;
+        }
+    }
+
+The constructor reads the configuration from an external file because hard-coding a configuration would have been very
+complex.  It is using an =AggregatingClassfileLoader= because it is more versatile even though it uses a lot more memory
+to hold all the classes at the same time.
+
+The getter reduces the measurements to simple numbers.  It could return the whole =Measurement= object and let the
+caller sort it out.  The traversal is a little awkward because =Metrics= is meant to be traversed using the visitor
+pattern instead of through the programmatic API.  It ends up with the measurements' short names, which can be a little
+cryptic.  An alternative that shows the longer names would look like this:
+
+    Measurement measurement = metrics.getMeasurement(measurementName);
+    results.put(measurement.getLongName() + " (" + measurement.getShortName() + ")", measurement.getValue());
+
+I don't know the full context in which they want to use these metrics, but it may be simpler to use =OOMetrics= as is,
+either from the CLI or through Ant, and then parse the output file.
+
+    OOMetrics -classes -xml -out metrics.xml dist/classes/
+
+There is good support for parsing XML in most languages and application frameworks.  You'd use it to read the output
+from the tool and convert it to a lookup table and use XPath expressions to narrow in on the classes you want.
