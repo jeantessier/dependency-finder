@@ -48,7 +48,7 @@ public enum BasicMeasurements {
 
     PUBLIC_METHODS("PuM"),
     PROTECTED_METHODS("ProM"),
-    PRIVATE_METHODS("ProM"),
+    PRIVATE_METHODS("PriM"),
     PACKAGE_METHODS("PaM"),
     FINAL_METHODS("FM"),
     ABSTRACT_METHODS("AM"),
