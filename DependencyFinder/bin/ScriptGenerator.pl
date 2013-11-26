@@ -34,9 +34,9 @@
 
 use TemplateProcessor;
 
-require "getopts.pl";
+use Getopt::Std;
 
-&Getopts (":cguvw");
+getopts(":cguvw");
 
 %TEMPLATES = (
               "ClassClassDiff" => ".cli.template.txt",
