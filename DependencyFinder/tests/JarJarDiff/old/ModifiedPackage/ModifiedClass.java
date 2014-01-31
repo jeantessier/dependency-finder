@@ -9,7 +9,7 @@ public class ModifiedClass {
     public static final String REMOVED_GREATER_THAN_STRING = ">";
     public static final String REMOVED_QUOTE_STRING = "\"";
     public static final String REMOVED_APOSTROPHE_STRING = "'";
-    public static final String REMOVED_NON_ASCII_STRING = "¥";
+    public static final String REMOVED_NON_ASCII_STRING = "\u00A5";
 
     public int deprecatedField;
 
@@ -23,7 +23,7 @@ public class ModifiedClass {
     public static final char MODIFIED_GREATER_THAN_STRING = '>';
     public static final char MODIFIED_QUOTE_STRING = '"';
     public static final char MODIFIED_APOSTROPHE_STRING = '\'';
-    public static final char MODIFIED_NON_ASCII_STRING = '¥';
+    public static final char MODIFIED_NON_ASCII_STRING = '\u00A5';
 
     /** @level private */
     public int documentedField;

@@ -121,7 +121,7 @@ public class TestClassReport extends TestDifferencesFactoryBase implements Error
 
         classReport.visitClassDifferences(classDifferences);
 
-        assertAttributeValue("removed-fields/declaration", name, "¥");
+        assertAttributeValue("removed-fields/declaration", name, "\u00A5");
     }
 
     public void testXmlEscapingModifiedLessThanFieldValue() throws Exception {
@@ -175,7 +175,7 @@ public class TestClassReport extends TestDifferencesFactoryBase implements Error
 
         classReport.visitClassDifferences(classDifferences);
 
-        assertAttributeValue("modified-fields/feature/modified-declaration/new-declaration", name, "¥");
+        assertAttributeValue("modified-fields/feature/modified-declaration/new-declaration", name, "\u00A5");
     }
 
     public void testXmlEscapingNewLessThanFieldValue() throws Exception {
@@ -229,7 +229,7 @@ public class TestClassReport extends TestDifferencesFactoryBase implements Error
 
         classReport.visitClassDifferences(classDifferences);
 
-        assertAttributeValue("new-fields/declaration", name, "¥");
+        assertAttributeValue("new-fields/declaration", name, "\u00A5");
     }
 
     private void addRemovedFieldDifferences(String name) {

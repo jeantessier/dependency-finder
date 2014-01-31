@@ -15,7 +15,7 @@ public class ModifiedClass {
     public static final String MODIFIED_GREATER_THAN_STRING = ">";
     public static final String MODIFIED_QUOTE_STRING = "\"";
     public static final String MODIFIED_APOSTROPHE_STRING = "'";
-    public static final String MODIFIED_NON_ASCII_STRING = "¥";
+    public static final String MODIFIED_NON_ASCII_STRING = "\u00A5";
 
     /** @level public */
     public int documentedField;
@@ -29,7 +29,7 @@ public class ModifiedClass {
     public static final String NEW_GREATER_THAN_STRING = ">";
     public static final String NEW_QUOTE_STRING = "\"";
     public static final String NEW_APOSTROPHE_STRING = "'";
-    public static final String NEW_NON_ASCII_STRING = "¥";
+    public static final String NEW_NON_ASCII_STRING = "\u00A5";
 
     /**
      *  Deprecated Constructor
