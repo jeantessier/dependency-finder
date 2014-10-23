@@ -40,7 +40,10 @@ public class PermissiveDispatcher implements ClassfileLoaderDispatcher {
     public ClassfileLoaderAction dispatch(String filename) {
         ClassfileLoaderAction result;
 
-        if (filename.endsWith(".jar")) {
+        if (new File(filename).isDirectory()) {
+            result = ClassfileLoaderAction.DIRECTORY;
+            Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_DIRECTORY");
+        } else if (filename.endsWith(".jar")) {
             result = ClassfileLoaderAction.JAR;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_JAR");
         } else if (filename.endsWith(".zip")) {
@@ -49,9 +52,6 @@ public class PermissiveDispatcher implements ClassfileLoaderDispatcher {
         } else if (filename.endsWith(".class")) {
             result = ClassfileLoaderAction.CLASS;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_CLASS");
-        } else if (new File(filename).isDirectory()) {
-            result = ClassfileLoaderAction.DIRECTORY;
-            Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_DIRECTORY");
         } else if (filename.endsWith("/")           ||
                    filename.endsWith(".bat")        ||
                    filename.endsWith(".css")        ||
