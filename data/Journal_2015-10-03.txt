@@ -1,0 +1,10 @@
+Moved the project hosting to
+[[http://github.com/jeantessier/dependency-finder][GitHub]].
+
+I can use GitHub Pages to host the project's website, so I moved the older
+=website= folder to the =gh-pages= branch and moved everything in the older
+=DependencyFinder= folder up one level.  GitHub Pages cannot run CGI scripts, so
+I will have to find an alternative for the Journal.
+
+I will also need to change references to SourceForge from the pages and fix
+deployment instructions.
