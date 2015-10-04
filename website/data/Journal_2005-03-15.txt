@@ -1,2 +1,0 @@
-Finished setting up a =favicon.ico= for the documentation
-and the website.

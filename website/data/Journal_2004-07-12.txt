@@ -1,9 +1,0 @@
-Someone pointed out that the HTML in the website have a
-=DOCTYPE= for HTML 4.01 but actually contain XHTML
-markup.  Things like =&lt;br /&gt;= and
-=&lt;a name="..." /&gt;=.  This last one is specially
-troublesome since most browsers start looking for the closing
-=&lt;/a&gt;= tag and consider everything past the opening
-tag a hyperlink.  I should change them to
-=&lt;a name="..." &gt;&lt;/a&gt;= instead.  I'll try to fix
-them shortly.

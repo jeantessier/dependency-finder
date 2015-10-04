@@ -1,9 +1,0 @@
-Fixed =DependencyFinder= to use the new
-=Monitor= when re-extracting =.class= file.  In
-the process, I fixed it so it retains all extracted locations instead
-of just the last one, like it used to do.  I had to make changes to
-many of the action classes, but overall the structure has improved a
-little.  It still needs more testing.
-
-Adjusted =load.jsp= to remove the monitor and dispatcher
-when loading the graph from XML files.

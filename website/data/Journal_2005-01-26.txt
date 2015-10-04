@@ -1,3 +1,0 @@
-Started coding =Monitor=, but I keep on missing some
-aspect of tracking files because the behavior is not quite there
-yet.

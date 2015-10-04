@@ -1,4 +1,0 @@
-I want to finish putting web links in the results of the webapp, but how am I
-going to test them?  I searched for "testing servlets" and "testing jsp out of
-container" and found references to =ServletUnit=, a part of
-[[http://httpunit.sourceforge.net/][HttpUnit]].

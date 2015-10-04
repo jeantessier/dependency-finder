@@ -1,2 +1,0 @@
-Finished simplifying the UI in the Swing application of
-=DependencyFinder=.

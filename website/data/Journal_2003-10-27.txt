@@ -1,9 +1,0 @@
-The "=No more DTM IDs=" problem with using Ant's
-=&lt;xslt&gt;= task has surfaced again.  I had not given it
-any thoughts since last April.  The solution is to upgrade Xalan in JDK
-1.4.1 or use its =java.endorsed.dirs= settings.  I added
-an additional documentation page under "tasks", but I will need to
-explain it further and tests workarounds.
-
-Added =dependencyfindertasks.properties= so defining Ant
-tasks is made easier.

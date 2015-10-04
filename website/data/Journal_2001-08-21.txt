@@ -1,5 +1,0 @@
-I fixed a scoping problem in =jt.dependency.GraphCopier=.
-It did not follow inbound dependencies and was therefore missing many
-dependencies.  I suspect that the same goes for
-=jt.dependency.TransitiveClosure=, but I have not had the
-time to investigate.

@@ -1,4 +1,0 @@
-Finished =MetricsConfig.xml= and the constants
-=com.jeantessier.metrics.Metrics=.  I adjusted
-some of the reporting functions in printers and in concrete
-implementations of =Measurement=.

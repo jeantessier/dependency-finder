@@ -1,4 +1,0 @@
-Worked on tools documentation.  Got rid of original
-=Tools.xml=, copied the information so far into
-=Tools.txt=.  Pretty soon, I will have to put
-the Perl script generator under source control too.

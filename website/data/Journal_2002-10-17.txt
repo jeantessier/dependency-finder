@@ -1,4 +1,0 @@
-I'm planning to populate the =manifest.mf=
-file in =DependencyFinder.jar=.  I will also
-put in code to printout version info, including versions
-of all 3rd party JARs.

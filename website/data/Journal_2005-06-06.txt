@@ -1,7 +1,0 @@
-Started on computing code differences for methods that have not
-changed otherwise.
-
-Working with IntelliJ IDEA and all its refactorings is really nice.
-I still have a little difficulty configuring the project just right,
-especially with support for JSPs without turning the entire project
-into a web app.

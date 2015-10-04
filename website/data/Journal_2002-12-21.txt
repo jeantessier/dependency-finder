@@ -1,5 +1,0 @@
-Refactored
-=com.jeantessier.dependencyfinder.gui.DependencyFinder=.
-
-Also refactored some of the metrics handling code to simplify
-processing of multiple measurements.

@@ -1,1 +1,0 @@
-Wrote a quick XML renderer for =Cycle= and an initial DTD.

@@ -1,6 +1,0 @@
-Worked on simplifying the UI in the Swing application.  So
-far, it eludes me.  But I'm done with the web application
-version.
-
-In the meantime, I'm producing dependency reports and API
-difference reports for past versions of Dependency Finder.

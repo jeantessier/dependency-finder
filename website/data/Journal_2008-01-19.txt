@@ -1,1 +1,0 @@
-Used [[http://jmock.org/][jMock]] to rewrite =TestLoadListenerVisitorAdapter=.

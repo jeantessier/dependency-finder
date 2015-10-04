@@ -1,3 +1,0 @@
-Fixed =ClassReport= so it does not show modified
-declarations for classes whose declaration has not changed, according
-to the strategy in use.

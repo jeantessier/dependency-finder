@@ -1,8 +1,0 @@
-Wrote a new unit test for =TransitiveClosure=.
-Right now, it requires a maximized graph to be useful.  I want
-to have it accept any graph, like I did for =GraphCopier=
-with =GraphSummarizer=.
-
-Running the tests reminded me that I still have a bunch of
-unit tests for metrics to fix, with regard to the fact that I
-moved to JDK 1.4.

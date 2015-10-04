@@ -1,2 +1,0 @@
-Adjusted dependency graph-related stylesheets to use the new
-information about inferred versus confirmed nodes.  More to come.

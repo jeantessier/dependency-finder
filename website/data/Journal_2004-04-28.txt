@@ -1,4 +1,0 @@
-Removed trace, new =OOMetrics= now takes 6 minutes
-instead of four hours.
-
-CVS on SourceForge is down.  I cannot check in changes.

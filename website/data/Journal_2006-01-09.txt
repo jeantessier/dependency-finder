@@ -1,3 +1,0 @@
-Built a CGI script to rebuild the Journal from the
-individual text entries.  I had to do a fair bit of
-scrubbing of the text files.

@@ -1,1 +1,0 @@
-Added status messages in the processing of Ant tasks.

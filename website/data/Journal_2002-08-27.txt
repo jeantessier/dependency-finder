@@ -1,6 +1,0 @@
-Fixed yesterday's problem with =CodeDependencyCollector=.
-It now treats the static initializer like any other feature.
-I also set the static initializer's signature to
-=static {}=.  I decided to fix it since the
-=com.jeantessier.metrics= package was already treating
-it that way.

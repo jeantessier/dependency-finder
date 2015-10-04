@@ -1,5 +1,0 @@
-While looking for the latest version of
-[[http://code.google.com/p/google-collections/][Google Collections]], I found
-out it was now something called
-[[http://code.google.com/p/guava-libraries/][Guava]].  I might consider
-switching.

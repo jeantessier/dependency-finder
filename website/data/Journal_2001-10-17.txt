@@ -1,6 +1,0 @@
-I adjusted the display of ratio metrics in
-=jt.metrics.PrettyPrinter= and reorganized the code
-in the subclasses of =jt.metrics.Printer=, making it
-implement =jt.metrics.MeasurementVisitor=.  I used
-the occasion to normalize the behavior of the =-time=
-switch to =OOMetrics=.

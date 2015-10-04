@@ -1,4 +1,0 @@
-Finished tools docs.
-
-Removed useless =-dispose= switch to
-=OOMetrics=.

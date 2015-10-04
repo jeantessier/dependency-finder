@@ -1,5 +1,0 @@
-Added a feature to =ClassMetrics= that counts the occurrence of each VM
-instruction in the analyzed codebase.  I had to do some minor refactoring of
-classes =Hex= and =Instruction=.  The feature is actually in the class
-=com.jeantessier.classreader.MetricsGatherer= and used by the UI classes for
-the CLI and the matching Ant task.

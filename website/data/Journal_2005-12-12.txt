@@ -1,5 +1,0 @@
-Tech docs around the event-based processing when loading a
-=.class= file using a =ClassfileLoder=.
-
-Enhanced =NodeFactoryFixture= so I can test both inbound
-and outbound dependencies in a single Fit table.

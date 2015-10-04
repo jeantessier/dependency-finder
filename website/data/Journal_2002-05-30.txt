@@ -1,9 +1,0 @@
-I'm working out =MetricsGatherer= to bring it
-closer to the old, hard-coded =MetricsFactory=.
-This is going to take a while ...
-
-The optional validation was not enough when working in a
-disconnected environment.  It still tried to load the DTD,
-even though it was not using it to validate the document.
-I've used an Apache feature to turn off loading of external
-DTDs when validation is turned off.  It now works fine.

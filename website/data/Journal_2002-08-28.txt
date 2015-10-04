@@ -1,6 +1,0 @@
-Added filtering to =NbSubMetricsMeasurement=.  I
-was misled into thinking I could simply count classes that have
-outbound dependencies and classes that have inbound ones, and
-that would be enough to compute coupling metrics.  But I was
-wrong.  This modification is pretty useless, I can't think of
-a valid use case.  But what the heck, it's in there already.

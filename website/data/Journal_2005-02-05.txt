@@ -1,2 +1,0 @@
-Started to work out how to have =DependencyFinder= use
-the new =Monitor=.  That GUI code is a mess!

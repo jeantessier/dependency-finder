@@ -1,5 +1,0 @@
-Fixed
-[[http://sourceforge.net/tracker/index.php?func%3Ddetail&aid%3D1822770&group_id%3D43305&atid%3D435884][bug 1822770]]
-where a missing switch value on the command-line was throwing
-=CommandLine.parse()= into an infinite loop.  Thanks to
-[[http://sourceforge.net/users/monperrm/][monperm]] for reporting the issue.

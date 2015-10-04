@@ -1,7 +1,0 @@
-Fixed the problem that prevented me from compiling Dependency Finder.  A test class was embedding an irregular
-character "&yen;" saved directly in the source Java code.  The compiler decided that it was going to choke on it from
-now on.  So I changed it for the escape sequence =\u00A5= instead and it worked just fine.
-
-There are still 77 broken tests.  I vaguely remember that some were broken when I last ran them (years ago).  But 77!
-Many of them relate to a missing Tomcat class, so it's probably because have shifted in Tomcat 7.0.14.  If only there
-was a tool to help me locate a class in folders with a bunch a JAR files in them.  :-)

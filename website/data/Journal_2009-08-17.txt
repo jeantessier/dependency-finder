@@ -1,1 +1,0 @@
-Tweaked tests to use =is()= matcher with =assertThat()= consistently.

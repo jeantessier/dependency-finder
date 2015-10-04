@@ -1,6 +1,0 @@
-Today is 6/6/6!!!
-
-Wrote a functional test to investigate finding dependency cycles at the class
-or package level with a graph that goes down to the feature level.  The fact
-that =CycleDetector= extends =VisitorBase=, with all its baggage, will not make
-it easy to sort it all out.

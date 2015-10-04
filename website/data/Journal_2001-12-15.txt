@@ -1,3 +1,0 @@
-I switched from =com.jeantessier.log= to
-Log4J.  I must now figure out how to send the
-information to a log file instead of the console.

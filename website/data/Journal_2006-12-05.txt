@@ -1,8 +1,0 @@
-Reorganized =build.xml= into a number of build file.  This way, someone can
-compile Dependency Finder with a minimum of third-party libraries, namely
-the Servlets API and WebWork, instead of needing all the libraries used for
-testing like Fit and HttpUnit.
-
-I should get rid of the CVS report tasks eventually, now that everything is in
-Subversion.  I don't know if I will create equivalent reports like Subversion,
-given that SourceForge already has some statistics on source control.

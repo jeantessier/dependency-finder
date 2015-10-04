@@ -1,9 +1,0 @@
-I starting to lose patience with =ServletUnit=.  This is a case where I can do
-something in 10 minutes, but it is taking me weeks to get it under test.  This
-is frustrating.  If I don't find a way to get =ServletUnit= to work soon, I
-will have to drop it and go without test for the outermost layer of the UI.
-
-I took a look at JUnit 4.1.  It uses annotations to mark the test methods and
-the fixture setup and tear down code.  It would be a significant effort to
-switch to JUnit 4.  Plus, I hear that support in IntelliJ and Ant is still
-behind.  I think I'll stick with JUnit 3.8.2 for now.

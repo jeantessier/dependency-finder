@@ -1,3 +1,0 @@
-Added caching of values to =MeasurementBase=
-subclasses.  This is to speed up rendering in
-=OOMetricsGUI= and other reports.

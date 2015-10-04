@@ -1,5 +1,0 @@
-Minor tweaks to text docs.
-
-Started working on
-[[https://sourceforge.net/tracker/?func%3Ddetail&aid%3D1766486&group_id%3D43305&atid%3D435884][bug 1766486]]
-about escaping special characters when rendering classes as XML.

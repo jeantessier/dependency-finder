@@ -1,6 +1,0 @@
-Extracted the regular expression parsing logic out of
-=RegularExpressionSelectionCriteria= and put it in its own class,
-=RegularExpresisonParser=, so I can reuse it the Ant version of =ListSymbols=.
-
-Added =FilteringSymbolGatheringStrategy= to the Ant task version of
-=ListSymbols=.

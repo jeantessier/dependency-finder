@@ -1,3 +1,0 @@
-Switched from using a combination of TABs and spaces for indentation
-to using spaces only.  This way, the code will look the same no matter
-what is used to view it, especially in SourceForge's ViewCVS.

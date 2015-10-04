@@ -1,4 +1,0 @@
-A user was having difficulty accessing the DTDs.  After investigating, I
-realized SourceForge disabled automatic directory listings ... in 2008.  They
-left instructions on how to re-enable it, so I added =.htaccess= in the =dtd/=
-folder to take care of it.

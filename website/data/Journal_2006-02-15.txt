@@ -1,1 +1,0 @@
-Fixed typos in Manual around examples for extracting with the CLI.

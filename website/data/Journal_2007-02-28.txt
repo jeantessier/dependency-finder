@@ -1,7 +1,0 @@
-Tech docs.  Still need to document:
-
-    * =ClassClassDiff=
-    * =DependencyGraphToRDF=
-
-=DependencyGraphToRDF= appears broken and I have no way to verify the validity
-of its output.

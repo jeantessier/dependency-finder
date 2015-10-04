@@ -1,2 +1,0 @@
-Following a recommendation from a user, I reworked the documentation
-for scoping and filtering in Ant tasks.

@@ -1,6 +1,0 @@
-Looking at [[https://javacc.dev.java.net/][JavaCC]] as a potential help in
-parsing =Signature_attribute= values.  While looking for possible books on
-JavaCC, I stumbled upon
-[[http://www.amazon.com/Decompiling-Java-Godfrey-Nolan/dp/1590592654/ref=sr_1_7?ie=UTF8&s=books&qid=1244247160&sr=8-7][Decompiling Java]]
-quite by accident.  It came out in 2008, so it might even be up-to-date, but the
-reviews give me pause.

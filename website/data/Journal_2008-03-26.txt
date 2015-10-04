@@ -1,8 +1,0 @@
-Fixed the Fit test for =ClassFinder=.  A colleague suggested that rather than
-getting Fit to parse four spaces as four spaces for the expected value, I try
-rewriting the actual value in the fixture instead.  Now it works fine, even if
-it is kind of an ugly hack.  At first, I tried to have the replacement text as
-"=&lt;em&gt;four spaces&lt;/em&gt;=" so that it would render in the Fit HTML
-page as "=_four spaces_=".  But that didn't work on MacOS for some reason.  So
-I switched to the less pretty but also less controversial
-"=%2A%2A%2A%2Afour spaces%2A%2A%2A%2A=" instead.

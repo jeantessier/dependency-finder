@@ -1,1 +1,0 @@
-More Fit tests to show how closures behave in the presence of a stop condition.

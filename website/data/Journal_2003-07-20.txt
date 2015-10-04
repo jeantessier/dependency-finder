@@ -1,6 +1,0 @@
-Regenerated the code coverage
-[[clover/][output]] from
-[[http://www.thecortex.net/clover][Clover]].
-Added the code coverage
-[[jcoverage/][output]] from
-[[http://jcoverage.com/][jcoverage]].

@@ -1,6 +1,0 @@
-Ran [[http://code.google.com/p/testability-metrics/][testability-metrics]]
-against Dependency Finder for fun.  With no surprise, the biggest cyclomatic
-complexity culprits were =com.jeantessier.dependencyfinder.gui.DependencyFinder=
-and =com.jeantessier.dependencyfinder.gui.OOMetrics= because of Swing.  The
-class with the biggest global state cost was =Instruction= because it stores so
-much data in the static context.

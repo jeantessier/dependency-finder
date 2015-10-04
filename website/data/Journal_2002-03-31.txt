@@ -1,7 +1,0 @@
-I finished the reorganization of the =Differences=
-hierarchy for the Decorator pattern.  I have made this change to
-ease listing of documentation status changes.  Come to think of
-it, I might not have needed this change to do the new feature.
-
-I have added some documentation for =JarJarDiff=
-in preparation for the new feature..

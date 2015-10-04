@@ -1,3 +1,0 @@
-Fixed the bug with =EnclosingMethod_attribute= when the enclosing method is a
-constructor.  I took this opportunity to write some tests for generating XML for
-=EnclosingMethod_attribute=.

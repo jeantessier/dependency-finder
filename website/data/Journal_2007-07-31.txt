@@ -1,2 +1,0 @@
-Fixed an error in =metrics.dtd=.  =members= was defined as a list of =members=
-when it is actually a list of =member= elements, with no 's' at the end.

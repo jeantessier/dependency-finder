@@ -1,3 +1,0 @@
-I have been using [[http://jmock.org/][jMock]] at work and it is very
-interesting.  The syntax takes some getting used to, but I might actually
-consider using it on Dependency Finder.

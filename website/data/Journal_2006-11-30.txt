@@ -1,1 +1,0 @@
-Major refactoring of =ClassClassDiff= to use common code from =Command=.

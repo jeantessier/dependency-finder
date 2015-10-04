@@ -1,5 +1,0 @@
-Fixed binary files for version 1.1.0 beta3 which had been compiled
-with JDK 1.4 by accident.  I recompiled them with JDK 1.3 and uploaded
-them again to SourceForge.  I'm curious if anyone noticed.
-
-Removed some old sample files that dated prior to version 1.0.

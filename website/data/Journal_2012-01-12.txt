@@ -1,7 +1,0 @@
-Fixed calls to =&lt;javac&gt;= in the various =build.xml= files to include the
-=includeantruntime= attribute needed by Ant 1.8.
-
-This is stupid.  For the sake of preserving some old =build.xml= files, they
-polluted all future =build.xml= files.  They could have made it a command-line
-switch on Ant itself so old projects could fix it without corrupting all of our
-projects.

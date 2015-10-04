@@ -1,2 +1,0 @@
-Finished the equivalence table.  In the end, I decided to put it in
-the manual.

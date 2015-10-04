@@ -1,3 +1,0 @@
-It turns out [[http://code.google.com/p/guava-libraries/][Guava]], strictly
-speaking, also depends on [[http://code.google.com/p/jsr-305/][JSR 305]].  But I
-am still able to compile Dependency Finder without it and run the tests.

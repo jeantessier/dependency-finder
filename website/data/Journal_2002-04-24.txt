@@ -1,4 +1,0 @@
-I have changed how =Metrics= manages
-=Measurement= instances.  If the =Metrics=
-instance is not tracking a given measurement, it returns a
-=NullMeasurement= object instead of =null=.

@@ -1,6 +1,0 @@
-Added code difference information to the XML reports that come out
-of JarJarDiff.  The XSL stylesheets are giving me trouble.  They can't
-seem to pick up the new XML tags.  Strange.
-
-It turns out that my CVS configuration in IDEA missed two test data
-files the other day.  I guess I'll stick to SmartCVS for checkins.

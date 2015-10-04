@@ -1,8 +1,0 @@
-Finished separating the classes that make up =Classfile= into interfaces and
-a implementation classes in a sub-package.
-
-Next, I want to break the visitor hierarchy in =com.jeantessier.dependency= to
-use compisition instead of inheritance for separating graph traversal from the
-specific functions.  A wrapper will take care of traversal and delegate to
-another visitor for the work to do.  This way, I will be able to test traversal
-logic with jMock instead of relying on a subclass.

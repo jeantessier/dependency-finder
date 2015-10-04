@@ -1,2 +1,0 @@
-Better escaping of &amp; in Atom feed.  Fixed some broken entity references in
-the Journal.

@@ -1,9 +1,0 @@
-I wrote =ListBasedValidator= and I have
-=ListVisibleElements=, a doclet for listing programming
-elements that have been flagged through their javadoc comments.
-This way, one can use javadoc tags to flag classes and features
-as part of the published API and guide =DiffToExternalHTML=
-to limit the report to those classes and features.
-
-I've started to adjust =DiffToExternalHTML=, but
-that XSL non-trivial.

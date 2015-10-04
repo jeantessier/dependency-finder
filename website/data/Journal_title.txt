@@ -1,4 +1,0 @@
-Jean's Journal
-<a target="_blank" href="http://www.linkedin.com/in/jeantessier" style="text-decoration:none;">
-    <img src="http://www.linkedin.com/img/webpromo/btn_liprofile_blue_80x15.gif" width="80" height="15" border="0" alt="View Jean Tessier's LinkedIn profile">
-</a>

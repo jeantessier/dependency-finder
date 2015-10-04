@@ -1,5 +1,0 @@
-Took another look at the impact of logging.  When analyzing Dependency
-Finder itself with all logging turned on, some of the lines from
-=VisitorBase= are over 300 KB long!  But these logging calls are
-guarded by calls to =Logger.isDebugEnabled()=, so those 300K lines
-usually aren't generated.

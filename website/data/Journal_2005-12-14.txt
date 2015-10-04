@@ -1,6 +1,0 @@
-Augmenting the Developer Guide to incorporate the extra explanations
-from yesterday's email.  I also want to explain how
-=com.jeantessier.dependency.VisitorBase= uses multiple
-cases of the Template pattern to present a generic graph traversal
-mechanism with multiple extension points.  And I do mean
-_multiple_.

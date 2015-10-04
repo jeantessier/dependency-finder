@@ -1,4 +1,0 @@
-The extractor is half-way done.  The current version
-is not very good at keeping track of which signatures
-are really useful, and I'm not very happy with the
-large =switch()= statements.

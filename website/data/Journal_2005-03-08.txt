@@ -1,7 +1,0 @@
-Finished installing =Monitor= in the GUI.  The
-=Monitor= now has a notion of open vs. closed sessions.
-An open session keeps accumulating data across load sessions.  It never
-tries to remove files that were "not visited".  A closed session works
-like the previous version of =Monitor= and follows closely
-the load sessions, removing classes from files that were not visited in
-the latest session.

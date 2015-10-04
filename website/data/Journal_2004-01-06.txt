@@ -1,5 +1,0 @@
-Someone is asking about classes depending on methods they inherit
-from interfaces or abstract supeclasses.  If a concrete class calls one
-of its own methods that it inherited from an interface or an abstract
-superclass, there is no dependency recorded between the concrete class
-and its ancestor.  I'll need to research this a little further.

@@ -1,5 +1,0 @@
-I noticed that calling CLI commands with the =-version= switch when the command
-has mandatory parameters or switches resulted in an error message and no
-version information.  I reorganized the command-line parsing logic so it
-collects error messages in a manner that does not prevent processing a
-=-version= or a =-help= switch.

@@ -1,1 +1,0 @@
-Fixed typos in Manual for UNIX installation instructions.

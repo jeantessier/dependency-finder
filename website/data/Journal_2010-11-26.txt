@@ -1,3 +1,0 @@
-Received the class that was breaking Dependency Finder back on [[2010-10-23]].
-=ClassReader= chokes on it but =javap= is fine.  Today's a holiday and I'm busy
-with visitors from out of town, so it'll have to wait a little.

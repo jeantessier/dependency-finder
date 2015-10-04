@@ -1,4 +1,0 @@
-Created =OrCompositeSelectionCriteria= with _either / or_
-logic.  I think that's the one I want to use.  I'll keep
-=AndCompositeSelectionCriteria= around as a curiosity.  It
-might come in handy eventually.

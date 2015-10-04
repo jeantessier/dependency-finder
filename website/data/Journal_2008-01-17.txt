@@ -1,2 +1,0 @@
-Started separating the classes that make up =Classfile= into interfaces and
-a implementation classes in a sub-package.

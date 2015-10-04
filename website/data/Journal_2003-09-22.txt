@@ -1,4 +1,0 @@
-I'm rewriting the =VerboseListener= classes to use the
-group tracking behavior I wrote for =extract.jsp=.  I
-started by extracting the basis from it and moving it into the
-=com.jeantessier.dependencyfinder= package.

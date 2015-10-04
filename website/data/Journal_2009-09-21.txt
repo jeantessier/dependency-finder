@@ -1,3 +1,0 @@
-Found a bug with the latest release.  When I added Google Collections, I forgot
-to update some of the Unix launch scripts.  I'll probably cut a new release with
-the fixed scripts.

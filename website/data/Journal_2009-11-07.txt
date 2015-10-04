@@ -1,2 +1,0 @@
-I'm thinking of replacing the web app with a [[http://grails.org/][Grails]] app
-instead.

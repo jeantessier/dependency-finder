@@ -1,3 +1,0 @@
-Finished updating the documentation to account for the Unix
-distribution.  I also used this occasion to update the documentation
-for the web application and explain =load.jsp=.

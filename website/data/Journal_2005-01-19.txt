@@ -1,6 +1,0 @@
-Tried =ModifiedOnlyDispatcher= with
-=extract.jsp=.  It was a little overeager, skipping
-directories without even looking if files in them had changed.  So I
-modified it to not do anything special with directories and always
-delegate to the underlying dispatcher.  Somehow, it doesn't seem to
-really skip unmodified files, so I'll have to investigate further.

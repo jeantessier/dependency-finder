@@ -1,8 +1,0 @@
-Created some test data and a FIT test for tracking extra-package dependencies
-using OOMetrics.  Right now, it can control access to methods, including
-constructors, but it does not handle fields.  That would require a bigger
-change in =OOMetrics=.
-
-I'm also considering adding a filtering function similar to the one in
-=OOMetricsGUI=.  If I can find a way to extract symbols at a given access
-level, I could then use them to filter the metrics report.

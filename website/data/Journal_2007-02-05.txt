@@ -1,8 +1,0 @@
-Someone raised a problem with =JarJarDiff= and =PublishedDiffToHTML.xsl=.  I
-was able to reproduce their problem, but when I looked how it works in the
-latest version, I found some bad text in the =Tools= documentation as well as
-the documentation of the matching Ant task.  I want to remind everyone that in
-version 1.2.0, you won't use XSLT to narrow down the diff report but do it
-right inside =JarJarDiff= instead with the _level_ switch.
-
-Worked on documenting the new =AliasSwitch=.

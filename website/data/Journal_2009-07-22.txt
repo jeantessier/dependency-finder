@@ -1,4 +1,0 @@
-Adding a secondary title to the web app pages, called "label", and which can be
-set from =load.jsp= or =extract.jsp=.  The goal is to let automated graph
-updates tack a label to the current data set, such as a revision number or a
-timestamp.  This lets users know which data their queries are running against.

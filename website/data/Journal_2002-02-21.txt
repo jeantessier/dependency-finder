@@ -1,4 +1,0 @@
-I rewrote the Documentation page to the new [[../Resources.html][Resources]]
-center.  I hope to keep track of articles and competing software there.
-
-I'm going to upgrade Xerces, Xalan, Jakarta ORO.

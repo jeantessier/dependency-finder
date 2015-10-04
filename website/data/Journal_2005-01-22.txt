@@ -1,5 +1,0 @@
-Worked on a possible design for an object that could monitor what
-files are being read and what classes are in them, so it can roll back
-changes to the dependency graph from a class before it is re-read.  I
-don't have a name for it yet, so I'll just call it =Monitor=
-in the meantime.

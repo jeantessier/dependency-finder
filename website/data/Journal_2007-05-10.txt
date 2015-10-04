@@ -1,4 +1,0 @@
-Implemented =EnclosingMethod_attribute= to handle "EnclosingMethod" attributes
-of classes.  Changed the =classfile= DTD to reflect the new attribute.
-
-Fixed some tests that dealt with the =ldc= instruction.

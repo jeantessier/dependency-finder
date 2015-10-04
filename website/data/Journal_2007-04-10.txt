@@ -1,1 +1,0 @@
-Added a Fit test for the merging behavior of =NodeFactory=.

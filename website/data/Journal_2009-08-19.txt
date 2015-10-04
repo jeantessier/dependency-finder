@@ -1,8 +1,0 @@
-Looked at how I'm using =MaximumCapacityPatternCache= and how its =capacity()=
-method returns a hard-coded _20_.  This capacity serves to seed the expression
-cache in ORO's =Perl5Util=.  I'm thinking that most of the time, 20 is overkill.
-And when I need more than 20, I need _a lot more_ than 20.  So it's never quite
-the right number, but I cannot refine it without lots of experimentation.  At
-least, ORO's =GenericCache.DEFAULT%5FCAPACITY= is also _20_, so somebody thinks
-it's a sensible value.  Maybe I should reference it instead of hard-coding a
-mysterious _20_.

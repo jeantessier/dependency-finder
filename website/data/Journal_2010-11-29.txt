@@ -1,1 +1,0 @@
-Updated the code coverage reports for release 1.2.1 beta4.

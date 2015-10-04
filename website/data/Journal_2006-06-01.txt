@@ -1,5 +1,0 @@
-Wrote a page for dependency cycles in the webapp.  I still have only a minor
-issue with the layout of a table.
-
-Cannot commit to SourceForge's Subversion for some reason.  I am getting a
-=403 Forbidden= error code.

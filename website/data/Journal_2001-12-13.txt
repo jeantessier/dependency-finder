@@ -1,9 +1,0 @@
-I merged back together =JT= and =JarJarDiff=
-into =DependencyFinder=.
-
-I renamed =com.jeantessier.util.commandline= to
-=com.jeantessier.commandline= and
-=com.jeantessier.util.log= to
-=com.jeantessier.log=.  The next step is to replace
-=com.jeantessier.log= with Log4J from the Jakarta
-project.

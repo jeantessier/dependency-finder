@@ -1,9 +1,0 @@
-When extracting from ZIP or JAR files, the progress reports always
-fall short of 100%.  I realized that this is because the size estimates
-include directory entries and non-=.class= files.  The
-progress function only counts =.class= files, and therefore
-always comes up short a bit.  So I have added two new load-time events
-for when the =ClassfileLoader= start on a file, regardless
-of its extension, and when it is done with a file.  These events occur
-before and after the =BeginClassfile= and
-=EndClassfile= respectively.

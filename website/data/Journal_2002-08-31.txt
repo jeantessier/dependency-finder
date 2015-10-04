@@ -1,3 +1,0 @@
-Finished =MartinMetrics.xml= for the metrics
-in Robert C. Martin's
-[[http://www.objectmentor.com/resources/articles/Principles%5Fand%5FPatterns.PDF][Design Principles and Design Patterns]] article.

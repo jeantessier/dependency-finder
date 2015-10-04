@@ -1,7 +1,0 @@
-Wrote the Ant task for =ListDiff=.  Just a little more documentation for the Ant
-tasks and the beta will be ready.
-
-Fixed a typo in the license's text.  I went to check it all in, but the same
-person who locked the CVS repository on [[2003-02-10]] has locked it again.  I
-logged a bug report with SourceForge.net, but it might be up to 24 hours before
-they break the stale locks.

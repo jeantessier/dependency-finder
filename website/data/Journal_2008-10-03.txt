@@ -1,7 +1,0 @@
-Found a way to update the project website on SourceForge.  I cannot SSH into
-SourceForge anymore, but I could upload files with SFTP.  This is annoying.  I
-was used to updating the project webpage direcly from Subversion.  I remember a
-long time ago when I had it as a cron job that ran automatically at 3am.  Now,
-I need to maintain a client and then upload files to the site.  Some of the
-documentation on SourceForge about the new tools for administrators hint at a
-new cron-like service, so maybe there is still hope.

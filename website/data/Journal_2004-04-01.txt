@@ -1,8 +1,0 @@
-Built a stop condition for the new closure engine and came up with
-the public interface so I can control how many layers it computes.
-
-Remove all remaining signs of support for object serialization.
-This consisted namely of removing code that used
-=java.io.ObjectInputStream= to read files and having
-=com.jeantessier.dependency.Node= not implement
-=java.io.Serializable= anymore.

@@ -1,7 +1,0 @@
-Finished converting all my development environments to Subversion.
-
-Fixed =TestDirectoryExplorer= to use dedicated temporary files instead of some
-arbitrary folder within the project.  The tests would break everytime that
-folder would gain or lose files.  With the switch to Subversion, there was an
-explosion of ancillary files that finally decided me to do something about this
-test.

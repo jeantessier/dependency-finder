@@ -1,2 +1,0 @@
-The good people at SourceForge have removed the stale locks and the
-1.0 beta is finally here!  Go get it!

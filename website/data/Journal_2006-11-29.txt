@@ -1,5 +1,0 @@
-Better use of the facilities in FitLibrary to minimize the amount of fixture
-code and maximize reuse.
-
-Major refactoring of =DependencyExtractor= and =ClassReader= to pull common
-code into the new base class =Command=.

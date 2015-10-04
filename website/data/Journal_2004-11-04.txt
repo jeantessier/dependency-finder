@@ -1,5 +1,0 @@
-It turns out the problem with the switch
-=-start-includes /^com.jeantessier.dependency.NodeFactory/=
-was related to the DOS command interpreter.  It somehow stripped the
-caret from the regular expression.  Putting double quotes around it
-fixed it.

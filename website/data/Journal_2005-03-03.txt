@@ -1,4 +1,0 @@
-Continued revamping of JSPs.  Tested using =title=
-attributes to make popup hints; they seem to work great, but the amount
-of text I can put in them varies by browser.  I'll have to keep it
-short and get rid of the sample Perl expressions, I'm afraid.

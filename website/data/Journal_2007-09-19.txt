@@ -1,4 +1,0 @@
-Moved the
-[[http://docs.google.com/TeamPresent?fs%3Dtrue&docid%3Ddd268fqt_253hjsxw&skipauth%3Dtrue][Tutorial]]
-from MS PowerPoint-generated HTML to the new
-[[http://docs.google.com/][Google Docs]] presentation.

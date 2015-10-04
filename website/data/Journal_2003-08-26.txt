@@ -1,3 +1,0 @@
-I have been thinking some more about the flow of control to manage
-to recursively process ZIP-like files.  But I can't quite wrap my head
-around it right now.

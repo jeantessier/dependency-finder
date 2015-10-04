@@ -1,5 +1,0 @@
-Fixed the Tools docs and Ant task documentation to account for new
-switches to =DependencyClosure=.  I also started reworking
-the UI for =closure.jsp= and
-=advancedclosure.jsp=, but I'm going to need some more time
-to finalize it and apply it to the GUI too.

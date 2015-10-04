@@ -1,5 +1,0 @@
-Use specialized collections in =com.jeantessier.dependency.Cycle= and related
-classes.
-
-Added acceptance tests and code to pass a =SelectionCriteria= to
-=CycleDetector= so I can use scope specifiers when looking for cycles.

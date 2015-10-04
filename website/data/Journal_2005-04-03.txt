@@ -1,6 +1,0 @@
-Wrote a sequence diagram of what happens when you call
-=ClassfileLoader.load()=.  This will help me figure out
-how to handle the case where processing a group consisting of a single
-=.class= file.
-
-[[../images/ClassfileLoader.load.jpg]]

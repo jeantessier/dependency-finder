@@ -1,2 +1,0 @@
-Added character count and word count for method names.  I added all the word
-and character count measurements to the default =OOMetrics= configuration.

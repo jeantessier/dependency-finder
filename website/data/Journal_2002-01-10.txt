@@ -1,5 +1,0 @@
-I moved the code to the BSD-style license.
-
-Emacs behaves strangely when under CVS.  I'll need to
-adjust the code formatting.  It is back to indenting with
-tabs and spaces.

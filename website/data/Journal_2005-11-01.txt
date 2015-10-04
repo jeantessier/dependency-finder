@@ -1,4 +1,0 @@
-More tests for =IncompatibleDifferenceStragegy=.  I am
-done with class-level tests and starting field-level tests.  Then, I
-will have to do constructor and method level tests.  It's gonna be a
-while, still.

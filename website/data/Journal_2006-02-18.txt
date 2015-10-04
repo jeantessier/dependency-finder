@@ -1,4 +1,0 @@
-Fixed default value for =level= in the Ant version of =JarJarDiff=.  Somebody
-brought to my attention that it wasn't initialized and caused a
-=NullPointerException= if you didn't specify it in the =&lt;jarjardiff&gt;=
-tag.  I also fixed its documentation.

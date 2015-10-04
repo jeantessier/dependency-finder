@@ -1,3 +1,0 @@
-Fixed the progress bar in the GUI.  =DependencyFinder=
-and =OOMetricsGUI= now scan ahead to count files and classes
-and use this information to drive a more accurate progress bar.

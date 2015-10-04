@@ -1,8 +1,0 @@
-I added a filtering function to =OOMetricsGUI=.
-With this feature, I can filter a set of metrics to only show
-the rows that interest me, out of a large body of code.
-
-There is a bug with the sorting function.  If a column contains
-NaN values, only the segments between NaN values get sorted.  The
-NaN values don't move and I then have islands of data, each one
-sorted by itself.

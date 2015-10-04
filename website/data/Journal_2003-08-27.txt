@@ -1,5 +1,0 @@
-Finally figured out the flow between ClassfileLoaders.  Did most of
-the coding for =ZipClassfileLoader=, which also takes care
-of =JarClassfileLoader=.  But I could not get to
-=DirectoryClassfileLoader=, so the unit tests are still
-failing.

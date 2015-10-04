@@ -1,8 +1,0 @@
-Played with [[http://www.stack.nl/~dimitri/doxygen/index.html][Doxygen]] to
-generate UML diagrams.  The documentation it generates looks nice and includes
-where symbols are referenced from.  The diagrams are rather busy because they
-tend to include _everything_.  If I want to make it part of the normal
-documentation build, it would require people to include Doxygen too.  I'm not
-sure I want to take it that far just yet.
-
-Refactored =NbSubMetricsMeasurement= to remove some duplication.

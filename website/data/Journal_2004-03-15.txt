@@ -1,3 +1,0 @@
-Finished the initial step in the new transitive closure algorithm.
-Now, I need to work on each step's processing, where I incrementally
-build the closure, one level at a time.

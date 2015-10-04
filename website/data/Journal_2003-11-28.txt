@@ -1,9 +1,0 @@
-Fixed bug #804400.  It dealt with "=start ...=" commands
-in both =DependencyFinder.bat= and =OOMetrics.bat=
-batch files.  I added a quoted string right after the initial
-=start= so the shell interprets the executable name
-correctly under all circumstances.
-
-Ant's latest version of their
-[[http://ant.apache.org/external.html][list of external tools]]
-now includes Dependency Finder.  That was quick!

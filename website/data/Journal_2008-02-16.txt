@@ -1,2 +1,0 @@
-Adjusted vocabulary in Fit tests to reflect Four-Phase Test pattern from the
-book _xUnit Test Patterns_.

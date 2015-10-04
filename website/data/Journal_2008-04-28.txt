@@ -1,9 +1,0 @@
-More test for =MetricsGatherer= using jMock in
-=TestMetricsGathererAccumulators=, trying to cover =InnerClass=.  But the logic
-surrounding =InnerClasses= attributes and their =InnerClass= structure is
-pretty convoluted.  Each inner class has seems to have an =InnerClass=
-structure referencing itself.  In =enum= members, they also seem to reference
-the first value in the =enum=.  Then, the enclosing class has an =InnerClass=
-structure for each inner class in contains.  It is proving difficult to
-understand what I am looking at when processing an arbitrary =InnerClass=
-structure.

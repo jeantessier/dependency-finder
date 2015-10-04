@@ -1,4 +1,0 @@
-Fixed the problem with =ListDiff=.  I'll
-double check with the person who first complained about
-the problem before definitely hanging my hat on this one,
-though.

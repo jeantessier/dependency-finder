@@ -1,1 +1,0 @@
-Quick comparison of minimized vs. raw vs. maximized graphs.

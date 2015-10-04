@@ -1,9 +1,0 @@
-Someone asked about listing methods in a code JAR file that are not called from
-a separate test JAR file.  They put their code in one JAR file and their tests
-in another one, and they want to use Dependency Finder to find what methods are
-not called directly from the tests.
-
-I figured out a way by listing symbols and using them in an exclusion list, but
-=ListSymbols= does not have that switch.  Adding it is not too complicated, but
-there are quite a few tests to adapt.  I have to immerse myself in that code
-again.  It's been a while.

@@ -1,6 +1,0 @@
-Back from a lengthy vacation break.
-
-Found and fixed a bug in =load.jsp= where it was setting the load timestamp and
-duration in the application context using one name and reading it back using
-another name.  A reminder of the dangers of using explicit strings to save and
-lookup values.

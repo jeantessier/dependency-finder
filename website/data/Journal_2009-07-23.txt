@@ -1,3 +1,0 @@
-Fixed a typo in the web app's =style.css=.
-
-Finished adding the label to the web app pages, complete with HttpUnit tests.

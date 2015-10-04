@@ -1,4 +1,0 @@
-Added support for enum and annotation access modifiers for classes.  I put
-together a test for the =ACC%5FENUM= flag, but not for the =ACC%5FANNOTATION=
-flag yet.  A lot of this Java 1.5 support work is not going to be tested: it is
-just too hard to generate all the possible byte streams for all the structures.

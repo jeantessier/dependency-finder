@@ -1,1 +1,0 @@
-Upgraded my testing environment from Tomcat 4.1.18 to 4.1.24.

@@ -1,9 +1,0 @@
-I have fixed all the unit tests except the one for
-=StatisticalMeasurement=.  I've got it pretty much
-figured out, but there is just a lot of code to change to fix
-these.
-
-I stumbled by pure chance on articles by Martin Fowler on
-coupling and public vs. published interfaces.  I am now
-thinking of writing follow up articles that show how
-Dependency Finder helps with addressing these issues.

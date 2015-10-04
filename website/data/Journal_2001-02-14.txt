@@ -1,6 +1,0 @@
-Refactored the
-=jt.dependencyfinder.model=
-package to have a =Node= hierarchy and
-=Visitor= classes.  This way, I will be
-able to use visitors to implement reporting functions
-in Java.

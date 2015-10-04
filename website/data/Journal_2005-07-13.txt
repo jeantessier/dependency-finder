@@ -1,4 +1,0 @@
-Finished support for negative closure.
-
-Checked in a "cleaned up" version of
-=DependencyGraphToRDF.xsl= and associated script.

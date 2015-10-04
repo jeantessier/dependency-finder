@@ -1,4 +1,0 @@
-Release 1.1.1.
-
-Also found about a new graphics package for rendering graphs:
-[[http://jung.sourceforge.net/][JUNG]].

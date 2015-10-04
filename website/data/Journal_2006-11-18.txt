@@ -1,7 +1,0 @@
-Added =com.jeantessier.commandline.TextPrinter= to echo the command-line, as
-perceived by a program.  Some recent problems with the CLI stemmed from
-improper escaping of shell metacharacters.  I hope that with some kind of
-=-echo= switch users will be able to see what values made it into the program.
-
-I had to rework =CommandLineSwitch= so each switch contained its own name.
-This gave me the occasion to add unit tests to that package.

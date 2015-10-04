@@ -1,5 +1,0 @@
-Memorial Day has come and gone and I was too busy with other things
-to spend much time with Dependency Finder, let alone do the 1.0
-release as I had hoped.  In the meantime, the number of daily
-downloads is still at zero; I must get this release out quickly so the
-downloads start up again.

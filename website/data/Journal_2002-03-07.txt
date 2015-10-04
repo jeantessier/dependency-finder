@@ -1,4 +1,0 @@
-I refactored =PackageValidator= to create the
-=Validator= interface.  This is in preparation to a
-more granular validation that would have a feature-level
-resolution.

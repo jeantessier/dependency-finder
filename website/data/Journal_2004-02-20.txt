@@ -1,5 +1,0 @@
-Worked on having XML writers take an optional encoding identifier.
-The default is UTF-8 but may not be enough if some Java identifiers
-contain multibyte characters.  I tried UTF-16, but IE and Xerces had
-trouble with it.  So I'll just let the caller pick something they
-like.

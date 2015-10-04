@@ -1,7 +1,0 @@
-Added an [[AvsI.html][analysis]] study of Robert
-Martin's metrics, as described in Robert C. Martin's
-[[http://www.objectmentor.com/resources/articles/Principles%5Fand%5FPatterns.PDF][Design Principles and Design Patterns]] article.
-
-Also added [[CVSDiff/][output]] from
-=&lt;cvsTagDiff&gt;= tasks in Ant that list files
-that changed between release.

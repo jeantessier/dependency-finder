@@ -1,2 +1,0 @@
-Finished initial SLOC testing.  I need to check a few more
-things dealing with synthetic elements and inner classes.

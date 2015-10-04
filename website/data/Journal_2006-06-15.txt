@@ -1,1 +1,0 @@
-Use specialized collections in package =com.jeantessier.dependency=.

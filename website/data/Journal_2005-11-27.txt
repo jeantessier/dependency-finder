@@ -1,1 +1,0 @@
-Started reading about the [[http://fit.c2.com][Fit]] testing framework.

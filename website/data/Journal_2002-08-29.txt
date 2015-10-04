@@ -1,3 +1,0 @@
-Refactored =AccumulatorMeasurement= so I can
-aggregate extra-package dependencies and compute coupling
-metrics.

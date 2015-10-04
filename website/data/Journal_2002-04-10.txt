@@ -1,8 +1,0 @@
-I have been looking at the =DiffToExternalHTML.xsl=
-stylesheet, looking for a way to get the additional validation
-now that the resolution has gone down to the feature level.
-I have noticed that the =match= expression for
-=class= nodes has exceeded some internal buffer in
-Xalan.  If a add a few characters, I get an
-=ArrayIndexOutOfBoundsException= from the transformation
-engine.

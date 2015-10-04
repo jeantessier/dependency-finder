@@ -1,3 +1,0 @@
-Found more ideas for object-oriented metrics from the works of
-[[http://irb.cs.uni-magdeburg.de/sw-eng/us/oop/morris.shtml][Kenneth L. Morris]].
-I will have to research it a little further.

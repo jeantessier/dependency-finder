@@ -1,2 +1,0 @@
-Added Fit tests to the all tests suite.  I don't know why I had not done it
-before.

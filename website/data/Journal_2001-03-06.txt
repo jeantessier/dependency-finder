@@ -1,9 +1,0 @@
-Fixed the =.bat= files.  Also created the =readme.txt= file that explains how to
-install the tool.  The =.bat= files still depend on the =JAVA_EXE= environment
-variable.  I need to fix that so that the =.bat= files try =JAVA_HOME= and/or
-give a nice error message when they cannot find the JVM.
-
-Added =Metrics= to handle class metrics gathering, as described on
-[[2001-03-05]].  I have yet to gather metrics about dependencies.
-
-Fixed some bugs with parsing =.class= files.

@@ -1,4 +1,0 @@
-Phase II: finished =com.jeantessier.classreader=.
-
-Phase III: did =com.jeantessier.commandline= and started
-=com.jeantessier.dependency=.

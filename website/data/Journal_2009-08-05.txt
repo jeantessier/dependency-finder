@@ -1,9 +1,0 @@
-Found [[http://sdedit.sf.net/][sdedit]] for creating sequence diagrams.  Here is
-an example for the call flow across composed visitors to render a dependency
-graph as text.  Click the image for a better view.  See also the
-[[../images/DecoratedVisitors.sd][source file]].
-
-[[../images/DecoratedVisitors.png][../images/s_DecoratedVisitors.png]]
-
-Adjusted the yEd transformation so it renders unconfirmed nodes a different
-color from the confirmed nodes.

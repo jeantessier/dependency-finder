@@ -1,2 +1,0 @@
-Fixed the problem with Perl.  I was using an older syntax to load the "getopt" module to parse command-line switches.  I
-updated to a newer syntax and now it's loading just fine.

@@ -1,2 +1,0 @@
-IntelliJ has really awesome support for making internationalized resource
-bundles.  Makes me want to build one for the webapp so I can i18n it.

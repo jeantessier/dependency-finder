@@ -1,5 +1,0 @@
-Wrote an Ant build file for running
-[[http://testabilityexplorer.org/][Testability Explorer]] against Dependency
-Finder.  I know the guys who work on it and it has some interesting ideas
-about testability behind it.  I might start publishing its report along-side
-the coverage reports with the next release of Dependency Finder.

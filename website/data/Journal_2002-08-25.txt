@@ -1,3 +1,0 @@
-Removed obsolete constructors in tests, now that I've upgraded
-JUnit and that =junit.framework.TestCase= now has a
-no argument constructor.

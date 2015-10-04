@@ -1,5 +1,0 @@
-Finally got around to checking that the upgrade to Xalan
-did fix
-[[http://nagoya.apache.org/bugzilla/show_bug.cgi?id=13106][bug 13106]].
-It works, but I must still rewrite the stylesheet to comply
-with XSLT rules.

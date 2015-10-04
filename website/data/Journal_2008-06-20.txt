@@ -1,4 +1,0 @@
-Added support for inheritance data in the dependency graph.  =ClassNode= will
-point to its parents (classes and interfaces) and children.  Other tools will
-be able to use this information to navigate the inheritance tree when trying
-to resolve dependencies.

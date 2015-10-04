@@ -1,7 +1,0 @@
-I modified the =com.jeantessier.classreader= package
-so that =ClassfileLoader= can notify listeners as soon
-as a =.class= file is loaded.  This way, tools like
-=DependencyExtractor= can use a
-=TransientClassfileLoader= since it does not need the
-=Classfile= instance once the dependencies have been
-extracted.

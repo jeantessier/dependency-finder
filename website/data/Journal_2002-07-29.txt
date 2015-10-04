@@ -1,1 +1,0 @@
-Added date of last extraction to =extract.jsp=.

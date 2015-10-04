@@ -1,6 +1,0 @@
-Released version 1.2.1 beta2.
-
-The distribution file management has changed a lot since the last release.  I
-need to update the release instructions.  See
-[[https://sourceforge.net/apps/trac/sourceforge/wiki/Release%20files%20for%20download][release instructions]]
-on SourceForge in the meantime.

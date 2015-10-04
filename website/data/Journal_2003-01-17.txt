@@ -1,5 +1,0 @@
-Tech docs.
-
-Looked into Poseidon for UML, Community Edition, to generate
-UML diagrams of Dependency Finder for the documentation.  It
-still has a few quirks, but hey, it's free.

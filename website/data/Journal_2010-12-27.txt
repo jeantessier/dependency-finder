@@ -1,8 +1,0 @@
-A user reported a bug with =EnclosingMethod_attribute= when the enclosing method
-is a constructor.  When producing XML output from =ClassReader=, they sometimes
-get the string "&lt;init&gt;" in some of the text, which XML parsers think is a
-start tag and that the overall XML document is not well-formed.  I suspect this
-is because an anonymous inner class is declared inside a constructor, since the
-bytecode calls all constructors "&lt;init&gt;".  I also suspect that anonymous
-inner classes declared inside a static initializer might produce an
-=EnclosingMethod= structure with a method name of "&lt;clinit&gt;".

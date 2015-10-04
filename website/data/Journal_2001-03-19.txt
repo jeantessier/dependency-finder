@@ -1,8 +1,0 @@
-Pretty much done.
-
-In =DiffToExternalHTML.xsl=, I now use an XSLT Extension
-in Xalan-Java to limit the report to a subset of packages defined in a
-separate file.  The XSL stylesheet has a default value for the filename,
-and I should be able to pass in a value from the command-line.  I can
-now trap changes in =extends=, =implements=, and
-=throws= clauses, as well as in the return type of methods.

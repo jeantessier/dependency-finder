@@ -1,4 +1,0 @@
-I added controls for the printer of dependency reports in
-=DependencyFinder=.  This way, we can now limit the
-results to inbound or outbound dependencies only, and remove
-empty nodes from the result.

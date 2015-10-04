@@ -1,7 +1,0 @@
-Augmented =DependencyMetrics= to report the number of confirmed packages,
-classes, and features in the graph.
-
-A friend of mine brought
-[[http://headwaysoftware.com/products/structure101/][Structure 101]] to my
-attention.  They have a really nice user interface.  Maybe some day I'll have
-something just as nice.

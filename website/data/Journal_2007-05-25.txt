@@ -1,4 +1,0 @@
-Added =isSynthetic()=, =isAnnotation()=, and =isEnum()= to =InnerClass=.  I was
-even able to test =isEnum()=!
-
-Rev'ed up the release number to 1.2.1 _(-beta1)_ and adjusted the Release Plan.

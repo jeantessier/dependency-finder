@@ -1,8 +1,0 @@
-I've been setting up another development on a new laptop.  I couldn't find the
-version of [[http://sourceforge.net/projects/fitlibrary/][FitLibrary]] that I'm
-using with Dependency Finder.  I'm using =FitLibraryRunner20060116=, but the
-oldest version available is =FitLibraryRunner20070217=.  There were some API
-changes, starting with this version, that are incompatible with my code and I
-have not found a workaround.  I am going to have to include my copy of the
-2006-01-16 version with the source for Dependency Finder if people want to run
-the Fit tests.

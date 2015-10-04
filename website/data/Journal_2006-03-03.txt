@@ -1,7 +1,0 @@
-Wrote a long Fit test to check name, length, and index calculation for every
-instrunction in the VM's instruction set.
-
-I fixed a mispelling of =dup_x2= (0x5B) and the reserved opcode =breakpoint=
-(0xCA).
-
-I also added the new Java 1.5 instruction =invokedynamic= (0xBA).

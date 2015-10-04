@@ -1,6 +1,0 @@
-More clamping down on non-private fields, this time in =MetricsReport=.
-
-Fixed some broken URLs for images in the Journal.
-
-Still can't update the website because SourceForge's Shell service still cannot
-talk to the Subversion service.  Grrr!

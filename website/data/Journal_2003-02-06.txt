@@ -1,5 +1,0 @@
-Tweaked the website.
-
-The tables for the controls in the JSP do not come out correctly
-in Mozilla.  The frames are missing.  I will have to rewrite them
-so that they show up correctly in either Mozilla or IE.

@@ -1,2 +1,0 @@
-SourceForge broke the locks on the CVS repository and I was
-able to check in the minor improvements to the JSPs.

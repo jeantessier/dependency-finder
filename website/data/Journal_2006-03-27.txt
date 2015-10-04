@@ -1,7 +1,0 @@
-Created a Fit test to try to capture the dependency cycle in the Visitor
-pattern.  Adjusted =CycleDetector= to drill down packages and classes in its
-search for cycles.
-
-Added =CycleComparator= to order cycles within a detector to ease testing.
-Short cycles come before long ones.  Cycles of the same length are ordered
-according to the lexical ordering of the nodes in their path.

@@ -1,7 +1,0 @@
-Looked into using the JSP compiler from Tomcat to automatically
-compile the web app's JSPs.  This way, I can include their dependencies
-in reports and so forth.
-
-At the same time, I noticed some nice patterns in how to use Ant
-with external properties files.  I might even apply some of them to
-Dependency Finder.

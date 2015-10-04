@@ -1,2 +1,0 @@
-More tests for =IncompatibleDifferenceStragegy=.  I had a
-little bout of analysis paralysis, but I think I'm out of it now.

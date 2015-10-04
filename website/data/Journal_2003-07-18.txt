@@ -1,4 +1,0 @@
-Toyed with the idea of using a =GraphCopier= instead
-of a =GraphSummarizer= again.  I could prototype JSPs
-very quickly that I'll need to work into CVS.  I might also apply
-the same logic to the CLI and Ant tools.

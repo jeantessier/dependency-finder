@@ -1,9 +1,0 @@
-Turns out the discussion on
-[[http://groups.yahoo.com/group/pragprog/][praprog]] was aimed
-at code analyzers that are part of the language compilers and how they
-traverse parse trees to determine the type of expressions in loosely
-typed languages.  It was not directly related to the work done by
-Dependency Finder, but there were still some interesting ideas.  Like
-Tarjan's algorithm for finding minimum spanning trees using depth-first
-search.  It was a good exercise, even if the knowledge will not be
-immediately useful.

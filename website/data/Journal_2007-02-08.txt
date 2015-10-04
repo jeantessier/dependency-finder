@@ -1,4 +1,0 @@
-Modified =extract.jsp= so the webapp can filter out dependencies at extraction
-time too.  I also changed the default values of =showSource= and =showFile= to
-=true=.  It makes more sense to show these values while someone is trying to
-configure Dependency Finder and hide them later, if needed.

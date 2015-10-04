@@ -1,5 +1,0 @@
-Added some documentation for the
-=com.jeantessier.commandline= package.  I had kept the
-=main()= method on =CommandLine= as a sample,
-but it started to bug me.  So I replaced it with actual written
-documentation, both in Javadoc and in the developer guide.

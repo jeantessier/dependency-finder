@@ -1,4 +1,0 @@
-Simplified =build.test.xml= by grouping all JUnit tests under one target.  With
-=junit-4.4.jar= in =$HOME/.ant/lib=, it can run JUnit 4 tests too.
-=com.jeantessier.metrics.TestMetricsGatherer= is a JUnit 4 test and it cannot
-run as part of a JUnit 3 test suite.

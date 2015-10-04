@@ -1,9 +1,0 @@
-Found some typos in the page on A vs. I graphs.
-
-The GUI could really benefit from a "reload" button.  I keep
-having to do "New" and then "Extract", but that resets the controls,
-which can have complex regular expressions in them.  All this is too
-tedious.
-
-Again in the GUI, it would be nice to save the results from
-dependency queries to an XML document for future reference.

@@ -1,8 +1,0 @@
-Adjusted =PermissiveDispatcher= so it ignores HTML files.
-I also gave it its own unit tests.
-
-A number of people have been asking about why Dependency Finder does
-not list line numbers where dependencies occur.  I added a section in
-the User Manual that explains how the line number information in
-=.class= files is so fragmented as to be useless.  I put it
-under the "Limitations" heading.

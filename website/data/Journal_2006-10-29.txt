@@ -1,4 +1,0 @@
-More closure functional tests to test hyperlinks in the HTML.  Also created
-some functional tests for cycle detection and metrics.  I added an HTML
-implementation of =CyclePrinter= to provide hyperlinks for the cycle detector
-portion of the webapp.

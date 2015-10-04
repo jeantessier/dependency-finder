@@ -1,3 +1,0 @@
-Refactored =CycleDetector= to have better logging so maybe I can find what's
-the problem when looking for cycles in large graphs.  I also simplified =Cycle=
-slightly.

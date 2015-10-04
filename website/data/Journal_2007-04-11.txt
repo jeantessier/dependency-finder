@@ -1,2 +1,0 @@
-Fixed Ant build files to place the WebWork webapp WAR file in the =dist=
-directory, next to the other distribution files.

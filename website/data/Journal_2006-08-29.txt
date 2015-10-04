@@ -1,3 +1,0 @@
-Downloaded [[http://httpunit.sourceforge.net/][HttpUnit]] and checked the
-documentation for =ServletUnit=.  It doesn't seem as trivial to use as I would
-have hoped.

@@ -1,6 +1,0 @@
-Changed the next version number from 1.1.2 to 1.2.0.  The scope of changes
-warrants a higher version number.
-
-Added package comment to =com.jeantessier.dependency= to give an overview of
-the package hierarchy.  Maybe that would better belong in an =overview.html=
-file, I have fully made up my mind, yet.

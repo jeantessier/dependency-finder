@@ -1,3 +1,0 @@
-Created some more test data to test the new
-=DifferenceStrategy= to replace
-=PublishedDiffToHTML.xsl=.

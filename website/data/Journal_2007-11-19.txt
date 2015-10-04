@@ -1,1 +1,0 @@
-Added version information for [[http://www.cenqua.com/clover/][Clover]].

@@ -1,4 +1,0 @@
-I am rediscovering the =com.jeantessier.diff=
-package in an attempt to incorporate a _documented_
-attribute to programming entities.  I have added javadocs
-to explain some of the classes and interfaces.

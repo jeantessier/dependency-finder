@@ -1,5 +1,0 @@
-The [[http://jakarta.apache.org/][Jakarta Project]]
-at [[http://www.apache.org/][Apache]] has
-[[http://jakarta.apache.org/bcel/][BCEL]],
-a subproject that does the same thing as
-=com.jeantessier.classreader= and more.

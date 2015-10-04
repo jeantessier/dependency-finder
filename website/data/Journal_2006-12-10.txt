@@ -1,1 +1,0 @@
-Refactored =ClassMetrics= as part of the grand CLI refactoring.

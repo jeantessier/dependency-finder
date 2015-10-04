@@ -1,3 +1,0 @@
-Finally got [[http://emma.sourceforge.net][Emma]] to run.  Looking at the
-coverage data, I found some test classes that were not included in the
-appropriate =TestAll= class.

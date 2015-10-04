@@ -1,2 +1,0 @@
-I'm working on the manual.  I started to use MS Word for some
-of the figures.  I'll use Poseidon for the UML.

@@ -1,6 +1,0 @@
-Got an idea for undoing extraction of a single class on the graph.
-If I can do that, then I can re-extract a single class that I just
-recompiled and see it's effect on the graph without re-extracting the
-whole graph.  I'm still strugling with detecting if a file has changed
-since it was last extracted, so I can launch a re-extraction on a whole
-codebase and have it pick only the files that have changed.

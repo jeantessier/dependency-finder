@@ -1,2 +1,0 @@
-Discovered that new versions of Ant have a =&lt;war&gt;=
-task to help creating =.war= files.

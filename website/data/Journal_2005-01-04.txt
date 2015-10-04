@@ -1,3 +1,0 @@
-Stated implementing a =ClassfileLoaderDispatcher=
-decorator to support reloading only =.class= files that have
-changed.

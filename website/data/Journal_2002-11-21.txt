@@ -1,3 +1,0 @@
-Technical documentation.
-
-Fixed some minor bugs in how I generate the manual.

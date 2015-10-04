@@ -1,4 +1,0 @@
-Created some UML diagrams for =com.jeantessier.dependency=
-and =com.jeantessier.metrics= packages.  As I'm trying
-to describe the internals of dependency graphs to Jeff Harman, I
-figured they would come in handy.

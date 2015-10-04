@@ -1,7 +1,0 @@
-A coworker requested that pages from the web app be bookmarkable.
-The easy solution is to replace the "method" attribute of
-=&lt;form&gt;= tags in the JSPs.  The URLs can get pretty
-large.  Just the parameter names for =advancedquery= make it
-600 characters long.  With web proxies that can truncate URLs at 1K,
-that leaves about 400 characters for specifying regular expressions.  I
-haven't checked it in yet.

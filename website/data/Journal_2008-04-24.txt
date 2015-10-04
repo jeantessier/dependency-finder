@@ -1,7 +1,0 @@
-Looked at a subset of metrics to compare how many =final= elements are in a
-given codebase.  I will need to list elements (fields, methods, etc.) in order
-to make sense of it all.  Right now, =MetricsGatherer= simply keeps counters
-for all of these measurements and simply increments them by 1 as it traverses
-the code.  I will need to change =MetricsGatherer= to send the name along to
-the measurements so I can start using =NameListMeasurement= to get a list of
-element names.

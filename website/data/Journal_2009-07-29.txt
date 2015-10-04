@@ -1,8 +1,0 @@
-Refactored =SelectiveTraversalStrategy= to create an actual
-=ComprehensiveTraversalStrategy= to use in defaults instead of an unconfigured
-=SelectiveTraversalStrategy=.  I figure the indent is more explicit this way.
-
-Changed =SelectiveVisitor= to reuse the superclass implementations when it is
-appropriate.  This meant changing the tests because the superclass was using
-double dispatch to pass control to the delegate visitor and the original
-implementation of =SelectiveVisitor= was calling the delegate directly.

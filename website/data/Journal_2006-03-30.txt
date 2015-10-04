@@ -1,7 +1,0 @@
-I want to add metrics to find long identifiers.  I could have length, in
-characters, of class names, package names, and feature names.  With some clever
-parsing, I could also compute length in number of words.
-
-Modified code using =ClassfileLoader= and =CommandLine= to use the generics
-version of Collection classes so they can use the new =for()= loop to iterate
-over collections.

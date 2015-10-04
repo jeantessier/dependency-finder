@@ -1,8 +1,0 @@
-Deleted =DeprecationReporter=.
-
-Updated the UML diagrams for the package
-=com.jeantessier.metrics=.
-
-Fixed javadocs for =DocumentableDifference=.
-
-CVS on SourceForge is out again.  Grrr.

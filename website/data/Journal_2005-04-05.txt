@@ -1,2 +1,0 @@
-Checked in fix for case where group is a single =.class=
-file.

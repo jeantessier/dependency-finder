@@ -1,6 +1,0 @@
-Someone found a problem with =ListDiff= and
-how it compresses lists.  It turns out that my simple use
-of prefixes when performing compression was a little too
-simplistic after all.  Packages mask subpackages.  Classes
-and fields with names that are prefix of others mask those
-others.  This should be easy enough to fix.

@@ -1,3 +1,0 @@
-Updated =&lt;cvstagdiff&gt;= and
-=&lt;cvschangelog&gt;= reports to account for the release of
-version 1.1.0 beta3.

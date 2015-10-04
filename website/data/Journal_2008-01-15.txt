@@ -1,6 +1,0 @@
-Played with [[http://docs.codehaus.org/display/ASH/Home][Ashcroft]] to see how
-well-behaved my unit tests really were.  Out of 1403 unit tests, 1224 did *not*
-pass the test.  This is not totally surprising since most tests get their data
-from reading =.class= files.  Also, I couldn't run the tests with Ant because
-Ant tries to write test reports to files and Ashcroft won't let it open the
-output file.

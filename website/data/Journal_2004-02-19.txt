@@ -1,7 +1,0 @@
-Fixed =ClassReader= so it processes multiple
-=.class= files correctly.  I modified the DTD to allow
-multiple =&lt;classfile&gt;= tags within an all inclusive
-=&lt;classfiles&gt;= tag.  I logged it as bug #900938.
-
-I fixed it immediately as
-[[http://sourceforge.net/tracker/index.php?func%3Ddetail&aid%3D900942&group_id%3D43305&atid%3D435886][patch #900942]].

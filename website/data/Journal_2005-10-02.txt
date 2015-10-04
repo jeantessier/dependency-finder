@@ -1,4 +1,0 @@
-Introduced =APIOnlyDifferenceStrategy= to compute API
-differences without regard for code-only variations.  I also want it to
-not show the value of constants, but that will require more tweaking.
-At least, I now have tests in place.

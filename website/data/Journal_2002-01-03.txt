@@ -1,7 +1,0 @@
-I requested a SourceForge project and had it approved the
-same day.  I got SSH to work, but CVS still eludes me.
-
-I'm going to change the licensing.  I'm going to move away
-from [[http://www.gnu.org/licenses/lgpl.html][LGPL]]
-to a [[http://www.opensource.org/licenses/bsd-license.html][BSD-style]]
-license.

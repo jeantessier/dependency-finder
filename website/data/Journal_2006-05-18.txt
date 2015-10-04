@@ -1,8 +1,0 @@
-Re-did the text rendering of =Cycle= from scratch.  This time, I created unit
-tests around =TextCyclePrinter=.  Getting Fit to process text somewhat properly
-was more difficult than I expected.  At first, I tried using _check_ rows, but
-it got confused by \r\n versus \n line terminations.  Then, I tried using and
-=ArrayFixture= to break down the lines of the text, but when Fit reads in the
-expected cells, it strips the leading whitespace, which again breaks text
-comparison.  For now, I check indentation in unit tests and general order of
-the lines in Fit.

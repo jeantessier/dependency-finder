@@ -1,8 +1,0 @@
-Found some references to =StackMap= in the release notes for JDK 1.6.  They
-point to [[http://jcp.org/en/jsr/detail?id=202][JSR 202]], which itself points
-to JSR 030 and [[http://jcp.org/en/jsr/detail?id=139][JSR 139]].  It appears
-=StackMap= is used to simplify class verification by splitting the process
-between the compiler and the runtime.  JSR 139 has an early specification where
-the attribute is named "StackMap" instead of "StackMap_Table_".  JSR 202 has the
-full specification, so I will be able to use it to parse "StackMapTable"
-attributes fully in =com.jeantessier.classreader=.

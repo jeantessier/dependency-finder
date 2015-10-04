@@ -1,7 +1,0 @@
-Finally got back to working on =SignatureHelper= to process the signature of
-generics.  For starters, I simply copied the code from =DescriptorHelper= and
-modified it slightly.  I will need to figure out how to extract common code
-to a shared superclass.  I also added Fit tests for =DescriptorHelper= and
-=SignatureHelper=, to eventually replace the JUnit tests.  It is easier to
-test multiple operations on a given string using Fit tests than with JUnit,
-which would require a certain amount of code duplication.

@@ -1,3 +1,0 @@
-Phase IX: assess work to change naming in test code.
-
-Phase X: fixed test code.  I'm done.

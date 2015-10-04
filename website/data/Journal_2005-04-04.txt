@@ -1,3 +1,0 @@
-Fixed the =ClassfileLoaderEventSource= to record the
-first dispatch call and use it when dealing with a group of a single
-=.class= file.

@@ -1,6 +1,0 @@
-First pass at =FeatureResolver=.  Added functionality to =ClassNode= and
-=FeatureNode= to navigate the inheritance hierarchy to resolve feature names.
-
-Fixed a typo in the Fit tests for =LinkMaximizer= and =LinkMinimizer=, but
-checked them in the same commit as the =FeatureResolver= work by accident.  Oh!
-and I had the wrong commit message for that, to make matters worse.

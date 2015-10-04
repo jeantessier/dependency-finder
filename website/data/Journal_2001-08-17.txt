@@ -1,2 +1,0 @@
-I fixed a scoping problem in the =jt.dependency.Visitor=
-hierarchy.  I also added some new unit tests in the process.

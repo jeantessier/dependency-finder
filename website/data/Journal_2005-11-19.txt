@@ -1,7 +1,0 @@
-Refactored the code to instantiate the strategy in
-=JarJarDiff= into private utility methods.  This helps
-clean up the main code.
-
-Also cleaned up some of the JSPs in the webapp.  Now, both
-=extract.jsp= and =load.jsp= highlight missing
-files.

@@ -1,6 +1,0 @@
-Finished revamping of JSPs.  I changed the labels around the
-controls for showing inbound or outbound dependencies.  Instead of
-saying "inbounds" and "outbounds", they now show "=&lt;--="
-and "=--&gt;=" respectively.  Hopefully, this will make it
-a little clearer what each one does.  I will need to find a way to do
-the same in the GUI.

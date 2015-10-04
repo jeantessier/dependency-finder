@@ -1,7 +1,0 @@
-Started working on a new printer for transitive closures.  This will
-be harder than I thought.
-=com.jeantessier.dependency.Printer= has way too much
-machinery geared solely at printing graphs to be useful.  I also need
-to figure out a way to find the closure's starting point _after_
-the engine has computed it and possibly after the graph has been
-reduced possibly as far as package-to-package.

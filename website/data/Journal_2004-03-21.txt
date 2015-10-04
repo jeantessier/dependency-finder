@@ -1,3 +1,0 @@
-Refactored closure selectors to share common code.  This will also
-help me pass an abstract selector to the engine when calculating
-closures.

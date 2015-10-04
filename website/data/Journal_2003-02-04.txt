@@ -1,8 +1,0 @@
-Updated the example for =LinkMinimizer= and
-=LinkMaximizer= and merged it with the User Manual.
-
-I also had a idea to use a =Writer= in the various
-=Printer= classes.  This would ease the resource needs
-of various command-line operations since the tools would not need
-to hold all the output in memory.  Anyway, I'm just thinking about
-it at this time.

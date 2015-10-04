@@ -1,4 +1,0 @@
-Started modifying =MetricsGatherer= in a test-driven way.  I will need to use
-jMock if I want to get through this one.  I started with some precompiled
-classes, but there is just too much noise.  Plus, the ones I have so far don't
-exercise some of the corner cases that interest me.

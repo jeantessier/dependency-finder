@@ -1,2 +1,0 @@
-Wrote a unit test to replicate the problem with groups of a single
-=.class= file.

@@ -1,4 +1,0 @@
-Nominated Dependency Finder for the 2003 Jolt Award at
-[[http://www.sdmagazine.com/jolts/][Software Development]]
-magazine.  When I have a URL for people to use to vote for Dependency
-Finder, I'll post it here.

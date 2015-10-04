@@ -1,5 +1,0 @@
-For now, I'll treat typed arrays as independent classes.  We'll see
-how it goes.
-
-Continued work on the circular dependency detector.  Dealt with
-comparing and ordering cycles.

@@ -1,3 +1,0 @@
-I have a new design for =Measurement=
-implementations.  Now I get over 100 compile time errors when
-compiling the unit tests.  This is going to take forever...

@@ -1,3 +1,0 @@
-More test for =MetricsGatherer= using jMock in
-=TestMetricsGathererAccumulators=, covering =Synthetic_attribute= on classes
-and =Deprecated_attribute= on classes, fields, and methods.

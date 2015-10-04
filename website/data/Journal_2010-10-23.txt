@@ -1,3 +1,0 @@
-Someone is getting =ArrayIndexOutOfBoundsException= when Dependency Finder
-encounters a =wide= instruction (opcode =0xCA=).  If they can send me the class
-that causes the problem, I might be able to figure where the problem lies.

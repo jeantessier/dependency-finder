@@ -1,3 +1,0 @@
-Fixed a broken link to
-[[http://www.gentleware.com?redirect=products][Poseidon for UML]]
-in the user manual.

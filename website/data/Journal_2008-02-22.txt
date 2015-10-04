@@ -1,9 +1,0 @@
-Someone pointed me to
-[[http://code.google.com/p/google-singleton-detector/][Google Singleton Detector]],
-a static analyzer that looks for singleton and produces nice graph output.  They
-use [[http://graphml.graphdrawing.org/][GraphML]] to render the graphs and
-[[http://www.yworks.com/en/products%5Fyed%5Fabout.htm][yEd]] to view them.
-
-The same people that offer yEd also have a UML tool called
-[[http://www.yworks.com/en/products_ydoc.htm][yDoc]], but you have to
-pay for that one.

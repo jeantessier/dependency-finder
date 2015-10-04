@@ -1,4 +1,0 @@
-Tested the Unix distribution on MacOS X.  Also changed the
-distribution to have =.zip= files for Windows and
-=.tar.gz= and =.tar.bz2= for Unix.  I also have
-matching archives for source code.

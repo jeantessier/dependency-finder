@@ -1,2 +1,0 @@
-Trying simpler UI with web application JSPs because
-they are easier to manipulate than the Swing code.

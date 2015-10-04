@@ -1,6 +1,0 @@
-Finished the "about..." box for the GUI.  I used Swing and
-=JOptionPane.showMessageDialog()=, the =Internal=
-version was for MDI applications.
-
-Reorganized the release plan.  Pushed back documentation and moved
-unscheduled HTML output forward.

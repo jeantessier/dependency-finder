@@ -1,2 +1,0 @@
-Tech docs for the developer guide.  Added an additional reference
-to the =OOMetricsGUI= screenshot for after the extract.

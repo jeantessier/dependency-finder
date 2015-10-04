@@ -1,5 +1,0 @@
-Looked at using JDK 1.5 to compile Dependency Finder for the 1.3
-runtime.  I can use =source= and =target=
-attributes on the Ant targets, but the =.class= files are
-different from the ones compiled with JDK 1.3.  I need to investigate
-further to make sure they will run fine with the 1.3 runtime.

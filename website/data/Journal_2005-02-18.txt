@@ -1,6 +1,0 @@
-Updated the code coverage reports, both jcoverage and Clover.  The last time
-went all the way back to [[2003-07-20]].  The number have improved a bit but
-they are still rather laughable.  I added the procedure for generating them to
-the Developer Guide.
-
-Upgraded my testing environment from Clover 1.3_01 to 1.3.4.

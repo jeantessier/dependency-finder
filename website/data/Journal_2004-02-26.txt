@@ -1,9 +1,0 @@
-I've been reading "UML for Java Programmers" by Robert C. Martin.
-In one chapter, he talks about dependency management and recommends
-using tools to automatically track them in code.  He goes so far as to
-recommend JDepend to readers.  I wonder if he'd recommend Dependency
-Finder too.  Maybe if I add a package-level dependency cycle detection
-feature, it would make the tool even more useful.  At some point, I
-will have to start thinking about going beyond the raw data and have
-the tools do more work when it comes to analyzing design quality
-factors.

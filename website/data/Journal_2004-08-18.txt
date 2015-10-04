@@ -1,6 +1,0 @@
-At work, we're using
-[[http://htmlunit.sourceforge.net/][HtmlUnit]]
-to test a web app through a browser.  I really like the way it
-simulates the user connection and allows you to query the resulting
-HTML, including following hyperlinks and submiting forms.  This could
-be very helpful in testing Dependency Finder's web app.

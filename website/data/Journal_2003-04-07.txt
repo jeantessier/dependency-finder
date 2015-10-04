@@ -1,5 +1,0 @@
-Ant task documentation.
-
-When I changed =PrettyPrinter= to
-=TextPrinter=, I forgot to update the JSPs.  This is now
-fixed.

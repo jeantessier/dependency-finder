@@ -1,2 +1,0 @@
-Started using =PackageMapper= in
-=DifferencesFactory=.

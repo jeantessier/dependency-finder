@@ -1,5 +1,0 @@
-Finished te support for removing nodes from the dependency graph.
-It turns out the logic was so twisted that I had to resort to using a
-visitor in the end.  The new class is called
-=DeletingVisitor=.  It traverses the graph and removes
-specified nodes and cleans up after them.

@@ -1,2 +1,0 @@
-Minor fix to =data2html.cgi= to remove =target= attribute from generated
-&lt;a&gt; tags.

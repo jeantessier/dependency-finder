@@ -1,4 +1,0 @@
-Documented the new switches on =DependencyReporter= and
-=OOMetrics=.
-
-CVS on SourceForge is back.

@@ -1,7 +1,0 @@
-Modified journal entries to turn dates into hyperlinks.
-
-Extracted the implicit index from instructions =_x_load%5F_&lt;i&gt;_= and
-=_x_store%5F_&lt;i&gt;_= to be the value of =_&lt;i&gt;_=.  Those values point
-to entries in the local variable array of the current frame.  I could use them
-to provide better text rendering of instructions by naming the variable (when
-there is a =LocalVariableTable= present in the =Code_attribute=).

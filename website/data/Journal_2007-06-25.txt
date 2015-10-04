@@ -1,6 +1,0 @@
-Extracted common code from =DependencyCycles=, =DependencyClosure=, and
-=DependencyMetrics= and put it into =DependencyGraphCommand=.  They load and
-merge all the graphs before they can start processing.  =DependencyReporter=
-benefited also, but to a lesser degree because it optimizes the processing of
-graphs as they are being loaded instead of waiting for one big graph of
-everything.

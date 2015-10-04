@@ -1,7 +1,0 @@
-I decided not to make an Ant task for =ClassReader=, but
-I will need one for =ListDiff= to complete the workflow
-outlined in the manual.  Now I'm going to pay for not separating behavior
-properly.  =ListDiff= has all the behavior and a utility
-class that is in the =com.jeantessier.dependencyfinder.cli=
-package.  How am I going to reuse this from the
-=com.jeantessier.dependencyfinder.ant= package?

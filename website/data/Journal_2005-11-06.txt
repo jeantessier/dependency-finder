@@ -1,7 +1,0 @@
-Fixed interaction between =DifferencesStrategy= and its
-=DifferenceStrategy= so we can overlook class differences
-when the stategy dictates that we do.  This is to support the case when
-a class has a backwards compatible change to its declaration but some
-of its features have non-backwards compatible changes.  I still want to
-report the feature changes, but I want to ignore the class declaration
-difference.

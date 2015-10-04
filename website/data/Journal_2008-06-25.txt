@@ -1,4 +1,0 @@
-First attempt at computing LCOM4 from the dependency graph.  Right now, the
-data structure to store components of a class is simply
-=Collection&lt;Collection&lt;FeatureNode&gt;&gt;= as I don't really have any
-metadata that is not represented just as well by =Collection=.

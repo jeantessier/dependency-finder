@@ -1,8 +1,0 @@
-Refactored =JarJarDiff= and the
-=jt.dependencyfinder.diff= package.  I adjusted the
-XSL stylesheet accordingly.  Now, all I need to do is be more
-strict on what features are reported, and restrict the report
-to a subset of packages.
-
-Also, do we want feature signatures or full declarations in
-lists?

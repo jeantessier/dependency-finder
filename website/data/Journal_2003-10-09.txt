@@ -1,9 +1,0 @@
-For a while, I had thought about modifying =OOMetrics= to
-output multiple formats in one call.  You could call it with
-=-csv=, =-txt=, and =-xml= to generate
-all three formats at the same time.  And I could do the same thing with
-other tools than generate multiple output formats.  I finally decided
-against.  There is very little value in this feature and it would need
-broad sweeping changes in the way tools interpret command-line
-arguments, such as figuring out the extension for the output filename.
-I'll just leave things as they are for now.

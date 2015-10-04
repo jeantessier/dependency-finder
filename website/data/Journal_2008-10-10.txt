@@ -1,3 +1,0 @@
-Worked on logging from the webapp.  I instrumented =extract.jsp= and =load.jsp=
-to log progress both to Log4J and to the servlet container logs.  But maybe
-this logs too much data, so I will not submit this change just yet.

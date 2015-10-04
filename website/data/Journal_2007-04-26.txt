@@ -1,2 +1,0 @@
-Modified =com.jeantessier.classreader.XMLPrinter= so it shows custom attributes
-and their contents.

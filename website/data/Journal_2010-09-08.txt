@@ -1,8 +1,0 @@
-Moved the Google Analytics tracking code from the old Urchin-based to their new
-Asynchronous Snippet.  Quite frankly, nobody should notice the difference.
-
-I had to cut and paste the snippet to many files.  That was annoying, so I
-extracted it to a separate =.js= so I could copy a single line script inclusion
-instead.  Then, I realized that defeated the purpose of Google's Asynchronous
-Snippet, whose purpose is to not delay the loading of the page by including
-other scripts synchronously.  So I'm back to cut and pasting "large" snippets.

@@ -1,1 +1,0 @@
-Fixed a bunch of URLs in the Journal.

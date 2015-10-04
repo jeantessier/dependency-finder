@@ -1,9 +1,0 @@
-Found another example of an annotation that takes array and class values even
-closer to home in =org.junit.Test= and =org.junit.runners.Suite.SuiteClasses=.
-And even better, =TestAll= has both of these, so all I need to do to find an
-example is analyze =TestAll=.
-
-I did a quick spike to try to track annotations as part of
-=com.jeantessier.classreader.MetricsGatherer=.  Early results are promissing,
-but this was just a spike so I will have to trown away that code and redo it
-properly, test-first.

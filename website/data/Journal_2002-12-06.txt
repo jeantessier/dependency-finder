@@ -1,8 +1,0 @@
-Refactored =CanAddDependency()=.
-
-Fixed references in slides for the tutorial.  I need to think
-about this before I publish it on the website.  I used the slides
-from a previous presentation, but this would mean that I would have
-to come up with some new material if my submission to JavaOne is
-picked up.  Then again, I would have to come up with some new stuff
-anyway!

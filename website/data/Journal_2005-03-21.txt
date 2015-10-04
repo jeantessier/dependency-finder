@@ -1,5 +1,0 @@
-Added support in the dependency graph's =TextPrinter= and
-=XMLPrinter= to show inferred versus confirmed status of
-nodes.  I had done most of it during a spike back in January, but I
-didn't have any tests for it.  Now, I need to fix the DTD and the XSL
-transformations.  And =NodeHandler= too.

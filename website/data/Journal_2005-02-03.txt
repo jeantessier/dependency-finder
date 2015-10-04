@@ -1,4 +1,0 @@
-Started thinking about reorganizing the build process to compile
-everything into a =build= directory, like many other
-projects do.  I must investigate further what the current Ant best
-practices are like.

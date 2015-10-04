@@ -1,6 +1,0 @@
-Found [[http://www.ihep.ac.cn/~chep01/paper/8-024.pdf][an interesting article]]
-by a group at CERN who built a dependency analyzer for looking at their software:
-large C++ systems used in high-energy physics.  This was really interesting since
-they had roughly the same motivations I had to come up with Dependency Finder.
-They have a nice introduction as to why you need to manage dependencies very
-closely and how painful it can be if you don't automate the whole thing.

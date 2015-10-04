@@ -1,5 +1,0 @@
-Refactored =Classfile= to rework =locateField()= and =locateMethod()=.  I now
-have a special constructor to allow testing.  I marked it with a comment while I
-decide whether or not I want to pull
-[[http://code.google.com/p/google-collections/][Google Collections]] into the
-project so I can use its =@VisibleForTesting= annotation.

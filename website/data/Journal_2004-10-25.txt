@@ -1,5 +1,0 @@
-Changed =GraphSummarizer= so it does not create
-extraneous dependencies, going from
-=a.A.a&nbsp;--&gt;&nbsp;b.B.b= to
-=a.A&nbsp;--&gt;&nbsp;b.B= and
-=a&nbsp;--&gt;&nbsp;b= unnecessarily.

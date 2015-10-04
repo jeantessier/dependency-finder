@@ -1,9 +1,0 @@
-Added =DirectoryExplorer= and the
-=jt.dependencyfinder.model=
-package.  The new =DependencyFinder=
-tool either prints the _forest of packages_
-or the burgeoning [[Components.html#xml][XML output]].
-
-We may have a problem with inlined code.  Features
-marked as =public static final= do not
-show up.

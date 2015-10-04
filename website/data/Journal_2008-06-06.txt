@@ -1,8 +1,0 @@
-Found a way to run my tests with JUnit 4.4 from the command-line.  I found
-[[http://www.devx.com/Java/Article/31983/0/page/3][this article on JUnit4] on
-the web and modified =textjunit= accordingly, and it worked just fine.
-Essentially, it is this command-line:
-
-    java org.junit.runner.JUnitCore $*
-
-With a =CLASSPATH= that has all the right JARs on it.

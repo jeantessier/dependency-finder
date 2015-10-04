@@ -1,9 +1,0 @@
-Finished refactoring the CLI commands.  Made some fixed to the tools
-documentation in the process.
-
-Adapted the build file for Clover for Clover 1.3 and streamlined the flow to
-generate a coverage analysis report.  Emma copies instrumented files to a
-separate directory, but I can't seem to get Clover to do the same.  Since some
-of the metrics and API difference tests operate on compiled Dependency Finder
-classes themselves, the instrumentation throws them off.  But the resulting
-code coverage analysis seems close enough just the same.

@@ -1,7 +1,0 @@
-I found two other tools that do similar things as
-Dependency Finder: [[http://remotejava.com/classdep/][classdep]]
-and [[http://www.headwaysoftware.com/][reView]].
-
-Faced with the declining number of downloads of Dependency
-Finder recently, I'm going to have to start advertising.  I'm going to
-start by spamming newsgroups...  See you in comp.lang.java.*  :-)

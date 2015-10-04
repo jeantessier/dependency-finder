@@ -1,8 +1,0 @@
-Did a quick study of the download rates for Dependency Finder, based on the
-statistics from SourceForge.  It's nice how downloads flow from one release to
-the next, except that every once in a while, some of the old releases still get
-downloads even when there are multiple new releases after them.  I wonder what
-could motivate someone to fetch an old release.  Release 1.1.1 is holding up at
-over 300 downloads per month; I'm happy.
-
-Cleaned up =HTMLCyclePrinter=.

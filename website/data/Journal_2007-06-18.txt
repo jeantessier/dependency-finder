@@ -1,2 +1,0 @@
-Plugged into [[http://google.com/analytics/][Google Analytics]].
-

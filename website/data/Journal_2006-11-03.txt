@@ -1,3 +1,0 @@
-Tried to convert the tutorial to HTML using
-[[http://openoffice.org/][OpenOffice]] instead of PowerPoint.  The resulting
-HTML works in more browsers, but the embedded images look crappy.

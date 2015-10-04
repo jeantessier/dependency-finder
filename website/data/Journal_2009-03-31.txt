@@ -1,6 +1,0 @@
-Tried to get a simple example of
-[[http://code.google.com/p/google-guice/][Guice]] working with
-[[http://struts.apache.org/2.x/][Struts2]] in Tomcat, but no matter what I
-tried, I couldn't get it to work. It's like it cannot find my bindings, for
-some reason.  I would really love to use Guice and WebWork (now Struts2) in the
-webapp.

@@ -1,4 +1,0 @@
-Fixed a bug with name length-related metrics.  It was assuming method names
-with parentheses in them and some of the tests were using plain names like
-"foo".  I reworked the name computation so it is more reliable, for features
-and for classes alike.

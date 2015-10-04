@@ -1,8 +1,0 @@
-Document dependency-related metrics in Developer Guide.
-
-UC Irvine team to do Eclipse plugin using Dependency Finder.
-
-Managed to get Poseidon license on laptop.  Latest version supports
-UML 2.0 with new notation for interfaces.  Might be interesting.
-
-CVS on SourceForge is back.

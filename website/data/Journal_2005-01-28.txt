@@ -1,8 +1,0 @@
-Finally got =Monitor= to behave properly.  But now, it's
-the =DeletingVisitor= that seems to be missing some
-dependencies.  I extract a graph, change a space in one file,
-recompile, and re-extract (just the one file) and all of a sudden, the
-graph has different numbers of inbound and outbound dependencies.
-Worse, if I remove all =.class= files and re-extract,
-effectively removing the entire graph, I end up with a partial graph
-with no outbound dependencies but some inbound ones left.  Puzzling

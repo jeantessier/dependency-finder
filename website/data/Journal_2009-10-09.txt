@@ -1,5 +1,0 @@
-Found some useful instructions on tying Git and SVN at the
-[[http://kernel.org/pub/software/scm/git/docs/][online documentation for Git]]
-for the
-[[http://www.kernel.org/pub/software/scm/git/docs/git-svn.html][=git-svn=]]
-command.

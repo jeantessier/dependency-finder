@@ -1,7 +1,0 @@
-I added =SwingDependencyReporter=, a Swing-based
-GUI for =DependencyReporter=.  It is still a
-little buggy, but it works.
-
-I also reorganized the =jt.dependency=
-package to isolate the UI-related stuff in subpackages.
-The package hierarchy may still need some tweaking.

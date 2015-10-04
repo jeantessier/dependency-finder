@@ -1,9 +1,0 @@
-Upgraded Ant (1.0.8 -> 1.3) and Jakarta ORO (1.2 -> 1.2.1).
-
-I need to get JUnit involved!
-
-I thought of adding support in the =jt.classreader=
-package for generating the =.class= file.  This way,
-I can easily test the whole package by parsing and then rewriting
-a =.class= file.  If the bytes are the same, then no
-information was lost during parsing.

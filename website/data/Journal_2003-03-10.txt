@@ -1,8 +1,0 @@
-Still investigating Xerces/Xalan upgrades.  Having troubles with
-=PublishedDiffToHTML=; for some reason, it prints out
-nothing.
-
-Was approached by Jeff Harman about writing dependency graphs
-to database.  This could be the first contribution to the project
-that did not originate from me!  I'll let you know how it turns
-out.

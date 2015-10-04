@@ -1,4 +1,0 @@
-Installed IntelliJ IDEA.  Ran the built-in analysis tool and found a
-few places where signatures included exceptions that were no longer
-thrown and some unused parameters.  I'm used to IDEA on the Mac, so I
-need to adapt to the key bindings on Windows.

@@ -1,5 +1,0 @@
-For some reason, I thought Log4J had moved to Jakarta Commons as the
-Logging library.  But after a little bit of investigation, I realized
-that was not the case.  And there are no new version of Log4J yet.
-
-Started looking at Maven.

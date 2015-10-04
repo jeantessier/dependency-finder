@@ -1,5 +1,0 @@
-I revised all the =.bat= files to support an
-arbitrary number of arguments.  On Windows machines, this
-can require messing with the =CONFIG.SYS= file
-to increment the amount of memory dedicated to environment
-variables.

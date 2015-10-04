@@ -1,3 +1,0 @@
-Added a test to =TestQueryBase= to check for properly escaped =[= and =]= in
-order to fix
-[[http://sourceforge.net/tracker/index.php?func%3Ddetail&aid%3D1800017&group_id%3D43305&atid%3D435884][bug 1800017]].

@@ -1,4 +1,0 @@
-Someone found a problem with the =.bat= files.  If
-=DEPENDENCYFINDER_HOME= contains any spaces, they don't
-work.  I need to put quotes around variable uses in each and every
-file.

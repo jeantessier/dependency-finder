@@ -1,3 +1,0 @@
-I am having problem with unit testing Xerces.
-=XMLReaderFactory= complains that the default
-=XMLReader= is not a =XMLReader=.

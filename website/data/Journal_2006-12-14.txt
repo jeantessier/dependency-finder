@@ -1,5 +1,0 @@
-Refactored =DependencyMetrics= as part of the grand CLI refactoring.
-
-Refactored the control flow for parsing and validating the command-line in
-=Command=.  One problem I still have is that multiple errors trigger multiple
-printing of the usage text.

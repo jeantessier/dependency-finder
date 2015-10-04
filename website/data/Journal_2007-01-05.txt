@@ -1,1 +1,0 @@
-Working on release instructions with Subversion instead of CVS.

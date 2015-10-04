@@ -1,1 +1,0 @@
-I'm looking at having a Java Web Start version too.

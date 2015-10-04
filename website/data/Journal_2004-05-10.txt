@@ -1,7 +1,0 @@
-Documented the new attributes of the=DependencyReporter=
-and =OOMetrics= Ant tasks.
-
-Adjusted the metrics's CSV printer to include each measurement's
-long name, in addition to their short name, to reduce confusion.
-
-CVS on SourceForge is out.  Again.

@@ -1,3 +1,0 @@
-Played with DOM and JAXP to try and figure out how non-ASCII characters get
-encoded by the platform.  So far, they don't.  I can generate an XML document
-using DOM that cannot be parsed back in.

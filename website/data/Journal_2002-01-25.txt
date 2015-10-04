@@ -1,7 +1,0 @@
-I finally found a practical way to parse the input from the
-GUI to allow users to specify multiple regular expressions.
-
-I have a plan for making a web application version.  The
-=application= implicit object can hold on to the
-dependency factory and a query JSP can run queries and format
-the results.  This is going to be cool!

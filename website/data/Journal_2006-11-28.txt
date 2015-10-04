@@ -1,2 +1,0 @@
-Started refactoring the CLI classes, with the help of FIT tests.  It hints that
-more refactoring is needed in =com.jeantessier.commandline=.

@@ -1,8 +1,0 @@
-Refactored the way =APIDifferenceStrategy= collects field names and method
-signatures.  I extracted a method that takes a function object, a poor cousin
-to blocks in Ruby.  At first, I used an inner interface inside
-=APIDifferenceStrategy= and anonymous inner classes at the call sites.  But
-then I thought I might reuse it elsewhere, so I pulled everything out as
-stand-alone classes in =com.jeantessier.classreader=: interface =FeatureMapper=
-and implementations =NameMapper= and =SignatureMapper=.  Don't confuse them
-with =PackageMapper= which is completely different.

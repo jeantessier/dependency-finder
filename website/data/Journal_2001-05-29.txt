@@ -1,7 +1,0 @@
-I fixed bugs in =SwingDependencyReporter=.
-
-    * The class =XMLFileFilter= no longer ignores directories.
-    * I now use the Metal look and feel.
-    * I made the result area non-editable.  You can still cut and paste from it (at least on Windows).
-
-

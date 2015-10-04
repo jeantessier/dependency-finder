@@ -1,2 +1,0 @@
-=JarJarDiff= is a mess.  I have started writing
-unit tests in an effort to regain control.

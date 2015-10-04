@@ -1,2 +1,0 @@
-Added TOC elements to =PublishedDiffToHTML.xsl=, so it
-looks more like =DiffToHTML.xsl=.

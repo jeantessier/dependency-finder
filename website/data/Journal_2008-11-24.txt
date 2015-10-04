@@ -1,9 +1,0 @@
-Added =Instruction.getIndexedLocalVariable()=, =Instruction.getOffset()=, and
-=Instruction.getValue()= to help with text rendering of instructions.  Used them
-to make traces in =Code_attribute= and instruction data from =XMLPrinter= more
-useful.
-
-Simplified =Instruction= tests by using jMock and putting many of the tests
-methods in one test class.
-
-Bad news for Dependency Finder: I just got Tomb Raider: Underworld!  >:-)

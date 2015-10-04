@@ -1,4 +1,0 @@
-Second beta release for version 1.1.0.  I opened the developer
-discussion forum for people who use the API to write extensions or
-custom processors.  Hopefully, the familiarity of Java camel-case names
-will outweigh the pain of moving their code to the new method names.

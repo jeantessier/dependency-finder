@@ -1,3 +1,0 @@
-I have been thinking some more about the progress status and
-what information would be displayed in a dialog, such as elapsed
-time and a guesstimate of how much more time will be required.

@@ -1,1 +1,0 @@
-Experimented with [[http://emma.sourceforge.net][Emma]] for code coverage.

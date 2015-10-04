@@ -1,3 +1,0 @@
-Wrote unit test that uses XPath to validate the generated XML from
-=com.jeantessier.diff.Report=.  This will later help me
-write tests that use Xalan to test the XSL transformations.

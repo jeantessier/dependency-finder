@@ -1,8 +1,0 @@
-Fixed =ListDiff= so the =-old-label= switch defaults to the value of the =-old=
-switch, the way it does for =JarJarDiff=.  And the same for =-new-label= and
-=-new=.  Added tests for the Ant task versions of =ListDiff= and =JarJarDiff=
-
-Refactored the changes to the CLI version of =JarJarDiff= by pulling them up to
-the base class =DiffCommand= so they can be shared with =ClassClassDiff=.
-
-Fixed tech docs accordingly.

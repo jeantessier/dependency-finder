@@ -1,5 +1,0 @@
-I fixed =JarJarDiff=.  I forgot to adjust it when
-I changed =ClassfileLoader= to add support for
-"progress report"-type of information.  =JarJarDiff=
-did not call =Start()= on its =ClassfileLoader=
-instances.

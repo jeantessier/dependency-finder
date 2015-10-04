@@ -1,3 +1,0 @@
-Someone complained that the behavior of the closure engine was not intuitive.
-I think I will write some acceptance tests to nail down the current behavior
-and consider some of the improvements they suggested.

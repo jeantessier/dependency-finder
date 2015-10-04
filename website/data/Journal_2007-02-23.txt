@@ -1,3 +1,0 @@
-Use the new (in JDK 1.5) =Class.getSimpleName()= instead of cutting it out
-myself as I used to.  I also added a similar method on objects that tend to
-model classes, like =Class_info=, =Classfile=, and =ClassNode=.

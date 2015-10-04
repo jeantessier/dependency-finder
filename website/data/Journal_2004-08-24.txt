@@ -1,5 +1,0 @@
-Configuring FitNesse and HtmlFixture still eludes me.  I need some
-kind of tutorial on how to set them up together.  And once that is
-done, how do I put the tests under source control?  Let alone running
-them automatically from an Ant script?  That includes starting a web
-container, deploying the web app, and connecting to it.

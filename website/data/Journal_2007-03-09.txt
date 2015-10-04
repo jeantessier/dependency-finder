@@ -1,5 +1,0 @@
-Finished documentation for =ClassClassDiff= and =DependencyGraphToRDF= in Tools
-docs.
-
-Refactored common parts of =com.jeantessier.diff= to use specialized generic
-structures instead of unqualified ones.

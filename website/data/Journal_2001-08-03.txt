@@ -1,5 +1,0 @@
-The status line of =DependencyFinder= (previously
-known as =SwingDependencyReporter=) was using up too
-much CPU time, so I trimmed down the number of messages that get
-displayed.  I also had =OpenFileAction= display class
-names on the status line as they are being loaded.

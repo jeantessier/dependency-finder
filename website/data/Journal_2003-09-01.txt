@@ -1,1 +1,0 @@
-Fixed backlog in journal entries.

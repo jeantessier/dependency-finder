@@ -1,3 +1,0 @@
-Found
-[[http://www.java.net/][java.net]] and took
-initial steps to have Dependnecy Finder listed there too.

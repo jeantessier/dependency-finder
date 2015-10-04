@@ -1,1 +1,0 @@
-Getting familiar with writing Ant tasks.

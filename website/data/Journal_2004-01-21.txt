@@ -1,4 +1,0 @@
-Tried the web application with Tomcat 5.0.  Someone claimed they had
-trouble deploying Dependency Finder with it.  I'm afraid this is going
-to turn into one of those nasty "_It works fine on my machine_" as
-I was unable to reproduce their problem.

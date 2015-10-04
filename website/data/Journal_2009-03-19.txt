@@ -1,5 +1,0 @@
-Got a presentation on [[http://findbugs.sourceforge.net/][FindBugs]] by
-[[http://www.cs.umd.edu/~pugh/][Bill Pugh]], the author himself.  It is a
-really cool tool that uses bytecode analysis, just like Dependency Finder, but
-in a much more targeted way to find patterns in the code that are likely to be
-bugs.

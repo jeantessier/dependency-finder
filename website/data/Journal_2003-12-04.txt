@@ -1,7 +1,0 @@
-Steve Kirk has been having problems analyzing =rt.jar=
-from JDK 1.4.2_01 on Linux.  From the error message he sent me, it
-seems the bytecode is screwed up.  One instruction tries to look up
-entry 47105 in a constant pool that has only 445 entries.  It would
-appear that the compiler generated bad bytecode.  In any other
-software, I'd believe that.  But in the JDK itself?  I'll have him
-send me the file so I can investigate this myself.

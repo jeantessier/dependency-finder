@@ -1,5 +1,0 @@
-Fixed the typos in the page on A vs. I graphs.
-
-Added a "reload" button to =DependencyFinder=.  It
-re-extracts the last extracted file and clears the result areas in
-the GUI.

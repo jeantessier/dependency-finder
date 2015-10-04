@@ -1,7 +1,0 @@
-Updated the website with data regarding Release 1.1.1.
-
-Applied for a free license for
-[[http://www.jetbrains.com/idea/][IntelliJ IDEA]]
-as part of their Open Source License program.  I may finally move away
-from Emacs.  It does have a lot more refactories and a lot of smart
-features.  We'll see.

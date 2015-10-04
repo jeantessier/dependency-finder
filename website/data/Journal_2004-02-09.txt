@@ -1,5 +1,0 @@
-Last November, I nominated Dependency Finder for the 2003 Jolt Award
-at [[http://www.sdmagazine.com/jolts/][Software Development]]
-magazine.  Today, they announced the finalists.  I'm afraid it didn't
-make the cut.  Not that I had high hopes or anything.  It did get a
-mention in the magazine after all.

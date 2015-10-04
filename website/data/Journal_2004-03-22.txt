@@ -1,4 +1,0 @@
-Outfitted the closure engine with an inbound selector in unit
-tests.
-
-Fixed broken links on the Resources page.

@@ -1,6 +1,0 @@
-Added the IntelliJ logo on the website, at the request of JetBrains.  They
-asked for it as a small favor and I like IntelliJ so much that it was a
-no-brainer to put it up.  I really think it's the best Java IDE around at this
-time.
-
-Started working on text representation of =Cycle=.

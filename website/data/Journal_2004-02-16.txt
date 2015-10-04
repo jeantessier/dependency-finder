@@ -1,8 +1,0 @@
-Someone at work brought
-[[http://www.touchgraph.com/index.html][TouchGraph]] to my
-attention.  It's a graph package for complex graphs that lay themselves
-out.  You can collapse nodes and stretch things around.  It looks very
-cool and maybe I could make use of it in Dependency Finder for some
-kind of rendering of dependency graphs.  I looked at the code on
-SourceForge, but there is no documentation and I don't have the time to
-investigate further right now.  Maybe later...

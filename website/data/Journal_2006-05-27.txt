@@ -1,5 +1,0 @@
-Added code to specify the indentation text on =CyclePrinter= classes and stream
-data to a =Writer=.
-
-Wrote a CLI tool for dependency cycles.  Next will be an Ant task, a webapp
-page, and a GUI tab, not necessarily in that order.

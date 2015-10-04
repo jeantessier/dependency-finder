@@ -1,8 +1,0 @@
-Found a nice example of an annotation that takes array and class values in
-=org.testng.annotations.Test=.  Though, looking closer to home,
-=java.lang.annotations.Retention= takes an =enum= value and
-=java.lang.annotations.Target= takes an array of =enum= values.  I can play with
-these manually to validate the XML format for annotation information.
-
-Fixed XML rendering of =AnnotationDefault_attribute= to remove the extraneous
-=&lt;element-value&gt;= node around the actual element value.

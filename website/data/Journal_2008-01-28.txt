@@ -1,7 +1,0 @@
-Minor clean up: removing trailing spaces.
-
-There was a feature added to =JProgressBar= in JDK 1.4 where you could put it in
-an _indeterminate_ state when you didn't know how long a task would be.  Back in
-January 2003, I commented out the calls to =JProgressBar.setIndeterminate()= in
-=OpenFileAction= and =MetricsExtractAction=.  I think it is safe to uncomment
-them now.

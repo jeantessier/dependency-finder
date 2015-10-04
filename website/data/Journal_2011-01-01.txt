@@ -1,7 +1,0 @@
-Trying to write unit tests for =Field_info= so I can tackle
-[[https://sourceforge.net/tracker/?func%3Ddetail&aid%3D1766486&group_id%3D43305&atid%3D435884][bug 1766486]].
-Because I decided, a long time ago, to create everything from data streams in
-constructors and strictly mirroring the data structure from the classfile
-specification, I end up having to mock a lot of things to setup a test for a
-field with a string value.  There are times when you question some of the
-earliest design decisions.

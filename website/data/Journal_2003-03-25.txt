@@ -1,3 +1,0 @@
-Wrote the Ant task for =DependencyClosure=.
-
-Cleaned up some of the documentation.

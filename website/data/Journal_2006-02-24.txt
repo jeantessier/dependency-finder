@@ -1,7 +1,0 @@
-Changed =CodeDifferenceStrategy= to compare instructions instead of the raw
-bytes.  The next step will be to make instruction comparison smarter.
-
-Also added =Hex.toString(byte[])= to make it easy to log byte arrays.
-Previously,  =Hex= could only write to =OutputStream= or =Writer=, which
-forced traces to write bytecode to a =StringWriter= in order to log it.  Now,
-=Hex= uses a =StringBuffer= instead, which should speed things up a bit.

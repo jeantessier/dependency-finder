@@ -1,4 +1,0 @@
-I have moved all the difference computation code from the
-constructors to the various =Differences= classes to a
-single =DifferencesFactory= class.  I have added
-additional unit tests that cover most cases.

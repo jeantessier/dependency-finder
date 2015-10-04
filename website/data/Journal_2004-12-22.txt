@@ -1,5 +1,0 @@
-Updated CVS diff and change log data.
-
-Generated some
-[[statcvs/][CVS statistics]] using
-[[http://statcvs.sf.net/][StatCVS]].

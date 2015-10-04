@@ -1,4 +1,0 @@
-I got started on a user manual.  I want to enter the core text
-quickly, so I wrote a Perl script to replicate the TWiki shorthand.
-I'll use it to generate the initial version of the text and we'll
-see later if it's worth while to keep the original shorthand.

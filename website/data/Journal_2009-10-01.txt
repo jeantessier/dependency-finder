@@ -1,4 +1,0 @@
-Added sample data files for 1.2.1 beta releases.
-
-Added =build.cobertura.xml= for computing code coverage using
-[[http://cobertura.sourceforge.net/][Cobertura]].

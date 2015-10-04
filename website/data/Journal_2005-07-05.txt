@@ -1,9 +1,0 @@
-Somebody suggested using Dependency Finder to generate data flow
-graphs.  They asked if inbound dependencies on fields couldn't map to
-setting the value and outbound dependencies to reading the value.  The
-goals are different between dependency graphs and data flow graps.  But
-this got me thinking that maybe just having a different collector could
-do the trick.  The =Node= class and its related classes are
-generic enough to represent any kind of relationships.  It is up to the
-consumer of the graph to infer meaning from things like "inbound" and
-"outbound" nodes.

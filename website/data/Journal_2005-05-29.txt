@@ -1,4 +1,0 @@
-Still looking at tracking changes in the bytecode as part of
-=JarJarDiff= report.
-
-A few additional fixes from IDEA's analysis.

@@ -1,2 +1,0 @@
-Started rewriting =TestMetricsGathererAccumulators= using jMock.  I got through
-dealing with fields and most aspects of methods, so far.

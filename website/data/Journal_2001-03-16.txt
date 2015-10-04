@@ -1,9 +1,0 @@
-In =DiffToExternalHTML.xsl=, I can use an XSLT Extension
-in Xalan-Java to limit the report to a subset of packages defined in a
-separate file.
-
-In =DiffToExternalHTML.xsl=, I need to filter out
-declarations that only remove =abstract=, =final=,
-and =static=, instead of filtering in declarations that
-add it.  This way, I might be able to trap changes in =extends=,
-=implements=, and =throws=, as well as return type.

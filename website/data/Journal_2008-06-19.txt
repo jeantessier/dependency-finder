@@ -1,4 +1,0 @@
-Looked at capturing class hierarchy information in the dependency graph as part
-of =CodeDependencyCollector=.  It needs to keep track of the superclass as well
-as interfaces the class implements, but maybe it does not need to distinguish
-between the two.

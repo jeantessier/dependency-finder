@@ -1,7 +1,0 @@
-Minor changes to phrasing in the Tools page.
-
-Added a link to Pivotal Tracker for Dependency Finder as one of the menu items
-on the site's left-hand panel.  I also tried to make the "Download" like more
-proeminent by using a &lt;strong&gt; tag (I wanted to use &lt;b&gt; but IntelliJ
-IDEA complained that it was deprecated and suggested &lt;strong&gt; instead),
-but the effect may be too light still.

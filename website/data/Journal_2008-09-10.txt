@@ -1,5 +1,0 @@
-Used the new [[http://www.jmock.org/scripting.html][jMock scripting feature]]
-for custom actions in =TestCodeDependencyCollectorUsingMocks=.
-
-Added named anchors to the entries in the Journal so I can create hyperlinks to
-specific entries.

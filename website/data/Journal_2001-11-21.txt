@@ -1,5 +1,0 @@
-I added the ability to sort the columns in tables from =OOMetrics=.
-
-I also fixed a minor bug in =jt.dependency.GraphSummarizer=
-where it was not using the right level for scope and filters (class when
-it should have been package).

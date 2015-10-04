@@ -1,4 +1,0 @@
-Attended a session at JavaOne on the new annotation mechanism in the
-upcoming JDK 5.0.  This is going to be interesting, from the point of
-view of parsing =.class= files and defining language
-constructs.

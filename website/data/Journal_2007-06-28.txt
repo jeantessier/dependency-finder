@@ -1,4 +1,0 @@
-Refactored classes in =com.jeantessier.classreader= to encapsulate knowledge of
-field types and method signatures in the appropriate classes.  I want to better
-encapsulate use of =DescriptorHelper=.  This is a little hairy because this
-package has rather poor coverage from the tests.

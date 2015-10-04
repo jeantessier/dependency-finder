@@ -1,2 +1,0 @@
-Copied changes to =ClassMetrics= CLI to the corresponding Ant task.  Also
-updated the documentation for both of them.

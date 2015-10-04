@@ -1,3 +1,0 @@
-Searched the web for examples of how to use =ServletUnit=.
-
-Good news for Dependency Finder: I finally finished Half-Life 2!  >:-)

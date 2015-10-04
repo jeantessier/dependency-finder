@@ -1,1 +1,0 @@
-Minor refactoring in the GUI code to remove warnings.

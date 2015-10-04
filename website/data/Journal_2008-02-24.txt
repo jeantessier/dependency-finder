@@ -1,5 +1,0 @@
-Tried to write an XSL transformation to convert a dependency graph from the XML
-format of Dependency Finder to GraphML.  So far, XSLT doesn't like for me to
-define another =&lt;?xml?&gt;= tag inside the XSL template.  So unless I can
-find a way to circumvent this, I will have to create a full-blown =Printer=
-instead.

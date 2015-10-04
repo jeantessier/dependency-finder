@@ -1,9 +1,0 @@
-Dependency Finder is now four years old.
-
-It turns out the problem with re-extracting graphs had to do with
-=CodeDependencyCollector= not setting _concreteness_
-correctly.  That would throw off =DeletingVistor= when
-rolling back a class during re-extraction.  One problem fixed.
-
-Now, I need to get the GUI to use the new =Monitor=
-too.

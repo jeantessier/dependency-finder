@@ -1,6 +1,0 @@
-Wrote =LocalVariableFinder= to help find the =LocalVariable= of a
-=Code_attribute= from its index in an =Instruction=.
-
-Removed =getCode()= from the =Instruction= interface.  The implementation can
-still hold on to the =Code_attribute=, but that's an implementation detail, and
-does not need to be part of the exposed interface.

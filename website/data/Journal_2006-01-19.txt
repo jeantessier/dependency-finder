@@ -1,7 +1,0 @@
-Edited the Developer Guide to clarify the source of dependency events and how
-Dependency Finder removes duplicates.
-
-Incremented the date in the copyright to 2006.
-
-Started writing tests for =ExtractAction=.  The WebWork people did a great job
-of encapsulating things to make it easy to test.  Kudos to them.

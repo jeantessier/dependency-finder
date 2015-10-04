@@ -1,4 +1,0 @@
-Added a CLI tool for computing class cohesion as per the LCOM4 metric.  The
-current output is still a work in progress.  It will need to ignore unconfirmed
-classes and possibly sort the output by LCOM4 value, both ascending and
-descending.

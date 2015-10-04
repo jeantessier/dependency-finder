@@ -1,2 +1,0 @@
-Started looking at [[http://fitnesse.org/][FitNesse]] in
-combination with its HtmlFixture to test the web app.

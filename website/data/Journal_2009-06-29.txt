@@ -1,1 +1,0 @@
-Tweaked the CSS used when converting dependency graphs to HTML (with XSLT).

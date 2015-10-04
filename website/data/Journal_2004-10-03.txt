@@ -1,8 +1,0 @@
-As I developed =SymbolList=, I realized that the way it
-ties a =LoadListener= and a =Visitor= was common
-to a few classes and that each one was reimplementing it, always in the
-same manner.  I decided to get rid of this code duplication by putting
-it in a =LoadListenerVisitorAdapter=.  From now on, if you
-want a visitor to get called as classfiles are loaded, you will be able
-to wrap the visitor in a =LoadListenerVisitorAdapter= and
-then register it as a load listener.

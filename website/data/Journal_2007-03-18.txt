@@ -1,4 +1,0 @@
-I tried to upgrade Tomcat and FitLibrary as part of setting up my environment
-on MacOS X.  Tomcat changed its directory structure between versions 5.5.17 and
-6.0.10.  FitLibrary changed some of its code so my code no longer compiles
-against the latest version, =FitLibraryRunner20070217=.

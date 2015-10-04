@@ -1,2 +1,0 @@
-Wrote unit tests for =MetricsGatherer='s handling of runtime annotations when
-compiling class metrics.

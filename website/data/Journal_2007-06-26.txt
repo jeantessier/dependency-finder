@@ -1,3 +1,0 @@
-Added a test generic method where some parameters are not generic and some are
-simple types.  I think I can use the optional =Signature= attribute in lieu of
-the descriptor, instead of trying to merge them somehow.

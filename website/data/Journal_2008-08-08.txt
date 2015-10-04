@@ -1,2 +1,0 @@
-Store class hierarchy information in the dependency graph as part of
-=CodeDependencyCollector=.

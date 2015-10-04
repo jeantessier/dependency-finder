@@ -1,7 +1,0 @@
-Played with better logging in the webapp.  Right now, the application does not
-log anything.  I cannot get any usage statistics from Tomcat's logs, since they
-are essentially empty.  In a JSP, I can use =applicationContext.log()=, but it
-writes no information about the context of the call.  Each page would have to
-identify itself in the message it's trying to log.  I tried to use Log4J
-instead, but I'm struggling with how to specify a package that only gets the
-JSPs and not all of Dependency Finder.

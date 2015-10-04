@@ -1,6 +1,0 @@
-Renamed =JarDifferences= to
-=ProjectDifferences=, since it deals with the entire project
-and not any single JAR file.
-
-Finished =ComprehensiveDifferenceStrategy=.  Now I have
-to use it in =DifferencesFactory=.

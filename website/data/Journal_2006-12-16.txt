@@ -1,2 +1,0 @@
-Unit tests around command-line parsing to prepare for upcoming support for
-aliasing.

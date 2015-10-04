@@ -1,5 +1,0 @@
-Started to revamp the JSPs in the web application to use
-=&lt;fieldset&gt;= and =&lt;legend&gt;= tags to
-group UI elements, instead of twisted =&lt;table&gt;=
-tags.  This is going to take a while and there is way too much
-duplication between the JSPs.

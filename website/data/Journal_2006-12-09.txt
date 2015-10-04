@@ -1,9 +1,0 @@
-When I reorganized =build.xml=, I changed the project's name from
-"DependencyFinder" to "Dependency Finder" with a space.  Now, I use the project
-name to build the name of the JAR file when creating a distribution, so now the
-JAR file had a space in its name.  Yuck!  So I changed the name back to
-"DependencyFinder", without the space.
-
-Refactored =ClassFinder= and =ClassList= as part of the grand CLI refactoring.
-
-Cleaned up dependencies between Ant targets for Emma coverage analysis.
