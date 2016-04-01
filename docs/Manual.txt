@@ -4834,7 +4834,9 @@ creating a dependency on a deprecated symbol.
 <div class="highlight">
 
     public class DeprecatedExample {
-        /%2A%2A @deprecated */
+        /**
+         * @deprecated
+         */
         public void deprecatedMethod() {}
         
         public void callingMethod() {
