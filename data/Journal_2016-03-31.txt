@@ -1,0 +1,44 @@
+Someone emailed me a question about dependencies on types in declarations for
+generics.
+
+Here is an example:
+
+    import java.util.*;
+
+    public class SomeClass {
+        private Set<OtherClass> property = new LinkedHashSet<OtherClass>();
+    }
+
+And its dependency graph:
+
+    Main
+        --&gt; java.lang.Object *
+        Main()
+            --&gt java.lang.Object.Object() *
+            --&gt java.util.LinkedHashSet.LinkedHashSet() *
+            --&gt java.util.Set *
+            --&gt Main.property
+        property
+            --&gt java.util.Set *
+            &lt-- Main.Main()
+
+No mention of =OtherClass= whatsoever.
+
+This is because the Java compiler applies
+[[https://docs.oracle.com/javase/tutorial/java/generics/erasure.html][type erasure]]
+to generics.  It stores the original signature in =Signature_attribute=
+attributes attached to the class, field, and/or method that had a generic
+declaration.  At this time, =CodeDependencyCollector= ignores the contents of
+these attributes.  Their production rules are very complex, given the wide
+variety of generic declarations.
+
+For instance, the signature for =SomeClass.property= above is:
+
+    Ljava/util/Set&lt;LOtherClass;&gt;;
+
+In parsing it, we have to detect the inner =L...;= sequence before we can
+process the outer one.  And this is a trivial case.  Method declatations and
+wildcards introduce other levels of complexity that only compound each other.
+
+I looked a little into it back on [[2009-06-04]], but haven't made any progress
+since, I'm afraid.

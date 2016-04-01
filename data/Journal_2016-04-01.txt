@@ -1,0 +1,4 @@
+Here is the most recent link to the
+[[https://docs.oracle.com/javase/specs/jvms/se7/html/][JVM specification]] and
+the
+[[https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.3.4][production rules for signatures]].
