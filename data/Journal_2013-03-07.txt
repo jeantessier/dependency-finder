@@ -10,13 +10,17 @@ Here's the code:
     import com.jeantessier.metrics.*;
 
     class OOMetrics {
-        /%2A%2A names the file that describes which metrics to compute. */
+        /**
+         * names the file that describes which metrics to compute.
+         */
         public static String METRICS%5FCONFIG%5FFILE = "config.xml";
 
-        /%2A%2A holds the metrics definitions and collected data. */
+        /**
+         * holds the metrics definitions and collected data.
+         */
         private MetricsFactory metricsFactory;
 
-        /%2A%2A
+        /**
          * reads the metrics descriptions from the config file and
          * collects metrics on all the .class files on paths.
          */
@@ -34,7 +38,7 @@ Here's the code:
             gatherer.visitClassfiles(classfileLoader.getAllClassfiles());
         }
 
-        /%2A%2A
+        /**
          * converts the internal metrics data to name-value pairs.
          */
         public Map&lt;String, Number&gt; getMetrics(String className) {
