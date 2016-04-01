@@ -168,9 +168,9 @@ sub PrintDocumentPart {
             }
         }
 
-        $line =~ s/=([^=]*)=/<code>\1<\/code>/g;
-        $line =~ s/_([^_]*)_/<i>\1<\/i>/g;
-        $line =~ s/\*([^*]*)\*/<b>\1<\/b>/g;
+        $line =~ s/=([^=]+)=/<code>\1<\/code>/g;
+        $line =~ s/_([^_]+)_/<i>\1<\/i>/g;
+        $line =~ s/\*([^*]+)\*/<b>\1<\/b>/g;
         $line =~ s/\[\[(http[^\]]*)\]\[(http.*\.((gif)|(jpg)|(png)))\]\]/<a target="_blank" href="\1"><img border="0" src="\2" \/><\/a><br \/>/gi;
         $line =~ s/\[\[(http[^\]]*)\]\[(.*\.((gif)|(jpg)|(png)))\]\]/<a target="_blank" href="\1"><img border="0" src="http:\/\/depfind.sf.net\/cgi-bin\/\2" \/><\/a><br \/>/gi;
         $line =~ s/\[\[([^\]]*)\]\[(http.*\.((gif)|(jpg)|(png)))\]\]/<a target="_blank" href="http:\/\/depfind.sf.net\/cgi-bin\/\1"><img border="0" src="\2" \/><\/a><br \/>/gi;

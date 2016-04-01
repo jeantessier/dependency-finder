@@ -624,7 +624,7 @@ Ant equivalent is very similar.
 
 <pre>
     01:    List <b>parameters</b> = commandLine.getParameters();
-    02:    if (parameters.size() <code></code> 0) {
+    02:    if (parameters.size() == 0) {
     03:        parameters.add(".");
     04:    }
     05:
@@ -740,17 +740,17 @@ multiple classes in the <code>com.jeantessier.dependencyfinder.gui</code> packag
     05:    VerboseListener <b>verboseListener</b> = new VerboseListener(out);
     06:
     07:    ClassfileLoaderDispatcher <b>dispatcher</b> = (ClassfileLoaderDispatcher) application.getAttribute("dispatcher");
-    08:    if (dispatcher <code></code> null || request.getParameter("update") <code></code> null) {
+    08:    if (dispatcher == null || request.getParameter("update") == null) {
     09:        dispatcher = new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER);
     10:    }
     11:
     12:    NodeFactory factory = (NodeFactory) application.getAttribute("factory");
-    13:    if (factory <code></code> null || request.getParameter("update") <code></code> null) {
+    13:    if (factory == null || request.getParameter("update") == null) {
     14:        factory = new NodeFactory();
     15:    }
     16:
     17:    Monitor <b>monitor</b> = (Monitor) application.getAttribute("monitor");
-    18:    if (monitor <code></code> null || request.getParameter("update") <code></code> null) {
+    18:    if (monitor == null || request.getParameter("update") == null) {
     19:        CodeDependencyCollector <b>collector</b>       = new CodeDependencyCollector(factory);
     20:        DeletingVisitor         <b>deletingVisitor</b> = new DeletingVisitor(factory);
     21:

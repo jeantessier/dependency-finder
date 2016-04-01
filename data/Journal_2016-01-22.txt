@@ -1,0 +1,8 @@
+I found out some of my code samples in the Developer Guide got mangled by the
+pseudo-wiki generator.  Whenever a code sample had a =%3D%3d= check, the
+generator took it to mean an empty =&lt;code&gt;= tag.  I fixed it to leave
+these alone.
+
+A [[https://lescastcodeurs.com/2015/09/15/lcc-132-louer-ou-acheter/][podcast]]
+mentioned [[https://www.gitbook.com/][GitBook]] for publishing books.  I could
+move the guides there, provided I rewrite them using Markdown.
