@@ -16,5 +16,12 @@ Upgraded the following development components:
         <td>-></td>
         <td>4.12</td>
     </tr>
+    <tr>
+        <td>Log4J</td>
+        <td>:</td>
+        <td>1.2.15</td>
+        <td>-></td>
+        <td>1.2.17</td>
+    </tr>
 </table>
 </blockquote>
