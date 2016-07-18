@@ -1,0 +1,20 @@
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>Ant</td>
+        <td>:</td>
+        <td>1.9.4</td>
+        <td>-></td>
+        <td>1.9.7</td>
+    </tr>
+    <tr>
+        <td>JUnit</td>
+        <td>:</td>
+        <td>4.8.2</td>
+        <td>-></td>
+        <td>4.12</td>
+    </tr>
+</table>
+</blockquote>
