@@ -10,6 +10,13 @@ Upgraded the following development components:
         <td>1.9.7</td>
     </tr>
     <tr>
+        <td>Guava</td>
+        <td>:</td>
+        <td>r09</td>
+        <td>-></td>
+        <td>19.0</td>
+    </tr>
+    <tr>
         <td>JUnit</td>
         <td>:</td>
         <td>4.8.2</td>
