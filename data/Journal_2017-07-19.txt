@@ -1,0 +1,7 @@
+Figured out how to let Gradle know where to find the classes for Javadoc Doclets
+with the following dependency in =build.gradle=:
+
+    compile files(org.gradle.internal.jvm.Jvm.current().toolsJar)
+
+It adds =tools.jar= to the compiler's classpath.  It which contains the
+=com.sun.*= classes used by the Doclet code.
