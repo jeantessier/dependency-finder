@@ -53,8 +53,6 @@ EXTERNAL_LIBRARIES="
     $HTTPUNIT_HOME/jars
     $CATALINA_HOME/bin
     $CATALINA_HOME/lib
-    $WEBWORK_HOME/lib/default
-    $WEBWORK_HOME
     $ANT_HOME/lib
 "
 

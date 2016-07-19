@@ -26,14 +26,6 @@
         </fileset>
     </path>
 
-    <path id="classpath.webwork">
-        <fileset dir="${env.WEBWORK_HOME}">
-            <include name="webwork-*.jar"/>
-            <exclude name="webwork-src*.jar"/>
-            <include name="lib/default/*.jar"/>
-        </fileset>
-    </path>
-
     <target name="init">
         <tstamp>
             <format property="NOW" pattern="yyyy-MM-dd HH:mm:ss"/>
@@ -70,9 +62,6 @@
         <property name="srcArchive"     value="${distDir}/${ant.project.name}-${release}.src"/>
         <property name="binArchive"     value="${distDir}/${ant.project.name}-${release}.bin"/>
 
-        <property name="webworkWarFile" value="${distDir}/${ant.project.name}-${release}.webwork.war"/>
-        <property name="webworkDir"     value="webwork"/>
-
         <mkdir dir="${classesDir}"/>
         <mkdir dir="${apiDir}"/>
         <mkdir dir="${logsDir}"/>
@@ -92,7 +81,6 @@
             <classpath>
                 <path refid="classpath.dependencyfinder"/>
                 <path refid="classpath.servlet"/>
-                <path refid="classpath.webwork"/>
             </classpath>
             <patternset refid="all.sources"/>
         </javac>
@@ -104,7 +92,6 @@
             <classpath>
                 <path refid="classpath.dependencyfinder"/>
                 <path refid="classpath.servlet"/>
-                <path refid="classpath.webwork"/>
             </classpath>
             <patternset refid="all.sources"/>
         </javac>
@@ -351,18 +338,6 @@
         </war>
     </target>
 
-    <target name="webwork.war" depends="jar"
-            description="Compiles and builds the web application archive">
-        <war destfile="${webworkWarFile}"
-             webxml="${webworkDir}/WEB-INF/web.xml">
-            <zipfileset dir="${webworkDir}"/>
-            <classes dir="${srcDir}"
-                     includes="**/*.properties"/>
-            <lib dir="${libDir}"
-                 includes="**/*.jar"/>
-        </war>
-    </target>
-
     <!--
         Docs
     -->
@@ -406,7 +381,6 @@
             <classpath>
                 <path refid="classpath.dependencyfinder"/>
                 <path refid="classpath.servlet"/>
-                <path refid="classpath.webwork"/>
                 <pathelement location="${ant.home}/lib/ant.jar"/>
                 <pathelement location="${java.home}/../lib/tools.jar"/>
             </classpath>
@@ -423,7 +397,6 @@
             <classpath>
                 <path refid="classpath.dependencyfinder"/>
                 <path refid="classpath.servlet"/>
-                <path refid="classpath.webwork"/>
             </classpath>
             <doclet name="com.jollem.doclint.DocLint"
                     path="C:\language\Java\doclint-1.0a2\doclint.jar"/>

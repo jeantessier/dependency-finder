@@ -43,11 +43,6 @@
                 <include name="bin/*.jar"/>
                 <include name="lib/*.jar"/>
             </fileset>
-            <fileset dir="${env.WEBWORK_HOME}">
-                <include name="webwork-*.jar"/>
-                <exclude name="webwork-src*.jar"/>
-                <include name="lib/default/*.jar"/>
-            </fileset>
             <pathelement location="${env.FITLIBRARY_HOME}/fitlibraryRunner.jar"/>
             <fileset dir="${env.HTTPUNIT_HOME}">
                 <include name="**/jars/*.jar"/>

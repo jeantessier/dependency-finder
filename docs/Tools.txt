@@ -4888,8 +4888,6 @@ Another example, using =DependencyFinder-1.2.0/lib/DependencyFinder.jar=:
 <div class="lowlight">
 
     &nbsp;
-    com.opensymphony.webwork.interceptor
-    com.opensymphony.xwork
     com.sun.javadoc
     com.sun.org.apache.xalan.internal.xslt
     java.awt
@@ -4925,9 +4923,7 @@ Another example, using =DependencyFinder-1.2.0/lib/DependencyFinder.jar=:
 From this, I can figure out the other JARs it needs.  The packages =java.%2A=,
 =javax.swing.%2A=, and those related to XML come with the JDK.  I know
 =com.sun.javadoc= is in =tools.jar=, also with the JDK but not part of the
-normal =CLASSPATH=.  I will need the Log4J and Jakarta-ORO JARs.  And I happen
-to know that the WebWork/XWork classes are only needed in a web app, so maybe I
-don't need them right now.
+normal =CLASSPATH=.  I will need the Log4J and Jakarta-ORO JARs.
 
 If there had been a package that I really didn't know about in the list, I
 could have used [[#ClassFinder][ClassFinder]] to located it among a group of

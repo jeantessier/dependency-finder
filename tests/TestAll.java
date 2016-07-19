@@ -46,7 +46,6 @@ import static org.junit.runners.Suite.*;
         com.jeantessier.dependencyfinder.ant.TestAll.class,
         com.jeantessier.dependencyfinder.cli.TestAll.class,
         com.jeantessier.dependencyfinder.web.TestAll.class,
-        com.jeantessier.dependencyfinder.webwork.TestAll.class
 })
 public class TestAll {
 }

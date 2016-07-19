@@ -44,14 +44,6 @@
         </fileset>
     </path>
 
-    <path id="classpath.webwork">
-        <fileset dir="${env.WEBWORK_HOME}">
-            <include name="webwork-*.jar"/>
-            <exclude name="webwork-src*.jar"/>
-            <include name="lib/default/*.jar"/>
-        </fileset>
-    </path>
-
     <path id="classpath.fitlibrary">
         <pathelement location="${env.FITLIBRARY_HOME}/fitlibraryRunner.jar"/>
     </path>
@@ -109,7 +101,6 @@
                 <path refid="classpath.dependencyfinder"/>
                 <path refid="classpath.junit"/>
                 <path refid="classpath.jmock"/>
-                <path refid="classpath.webwork"/>
                 <path refid="classpath.httpunit"/>
             </classpath>
             <patternset refid="all.sources"/>
@@ -136,7 +127,6 @@
                 <path refid="classpath.dependencyfinder"/>
                 <path refid="classpath.junit"/>
                 <path refid="classpath.jmock"/>
-                <path refid="classpath.webwork"/>
                 <path refid="classpath.httpunit"/>
             </classpath>
             <patternset refid="all.sources"/>
@@ -166,7 +156,6 @@
                 <path refid="classpath.dependencyfinder"/>
                 <path refid="classpath.jmock"/>
                 <path refid="classpath.tomcat"/>
-                <path refid="classpath.webwork"/>
                 <path refid="classpath.httpunit"/>
             </classpath>
             <formatter type="xml"/>
