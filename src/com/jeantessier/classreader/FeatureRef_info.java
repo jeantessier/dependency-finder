@@ -43,9 +43,9 @@ public interface FeatureRef_info extends ConstantPoolEntry {
     public NameAndType_info getRawNameAndType();
     public String getNameAndType();
 
-    public abstract String getName();
+    public String getName();
     public String getFullName();
 
-    public abstract String getSignature();
+    public String getSignature();
     public String getFullSignature();
 }
