@@ -1,0 +1,10 @@
+A user pointed out to me that they were not able to analyse some Lucene files.
+I determined that the files contained new constant pool entries for Java 7/8 and
+quickly added support for them in the =com.jeantessier.classreader= package.
+This way, we can at the very least parse the files.  The support is very
+barebone for now, only printing them out in logs and as part of =ClassReader=.
+After reading about it, I think there are also new attributes that I'll have to
+look into.
+
+I realized that the installation instructions still reference Sun Microsystems.
+I should update them to point to Oracle instead.
