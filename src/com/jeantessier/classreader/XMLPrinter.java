@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2001-2009, Jean Tessier
+ *  Copyright (c) 2001-2016, Jean Tessier
  *  All rights reserved.
  *  
  *  Redistribution and use in source and binary forms, with or without
@@ -354,6 +354,64 @@ public class XMLPrinter extends Printer {
             top = true;
         } else {
             append(escapeXMLCharacters(entry.getValue()));
+        }
+    }
+
+    public void visitMethodHandle_info(MethodHandle_info entry) {
+        if (top) {
+            top = false;
+            indent();
+            append("<method-handle-info index=\"").append(currentCount()).append("\">");
+            append("<reference-kind kind=\"").append(entry.getRawReferenceKind()).append("\">");
+            append(entry.getReferenceKind().getDescription());
+            append("</reference-kind>");
+            append("<reference index=\"").append(entry.getReferenceIndex()).append("\">");
+            entry.getReference().accept(this);
+            append("</reference>");
+            append("</method-handle-info>").eol();
+            top = true;
+        } else {
+            append(entry.getReferenceKind().getDescription());
+            append(" ");
+            entry.getReference().accept(this);
+        }
+    }
+
+    public void visitMethodType_info(MethodType_info entry) {
+        if (top) {
+            top = false;
+            indent();
+            append("<method-type-info index=\"").append(currentCount()).append("\">");
+            entry.getRawDescriptor().accept(this);
+            append("</method-type-info>").eol();
+            top = true;
+        } else {
+            entry.getRawDescriptor().accept(this);
+        }
+    }
+
+    public void visitInvokeDynamic_info(InvokeDynamic_info entry) {
+        NameAndType_info nat = entry.getRawNameAndType();
+
+        if (top) {
+            top = false;
+            indent();
+            append("<invoke-dynamic-info index=\"").append(currentCount()).append("\">");
+            append("<bootstrap-method-attr index=\"").append(entry.getBootstrapMethodAttrIndex()).append("\">");
+            append("</bootstrap-method-attr>");
+            append("<name>");
+            nat.getRawName().accept(this);
+            append("</name>");
+            append("<type>");
+            nat.getRawType().accept(this);
+            append("</type>");
+            append("</invoke-dynamic-info>").eol();
+            top = true;
+        } else {
+            if (!entry.isStaticInitializer()) {
+                append(DescriptorHelper.getReturnType(nat.getType())).append(" ");
+            }
+            append(entry.getSignature());
         }
     }
 

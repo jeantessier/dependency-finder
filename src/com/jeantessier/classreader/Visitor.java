@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2001-2009, Jean Tessier
+ *  Copyright (c) 2001-2016, Jean Tessier
  *  All rights reserved.
  *  
  *  Redistribution and use in source and binary forms, with or without
@@ -32,7 +32,7 @@
 
 package com.jeantessier.classreader;
 
-import java.util.*;
+import java.util.Collection;
 
 public interface Visitor {
     // Classfile
@@ -52,6 +52,9 @@ public interface Visitor {
     public void visitDouble_info(Double_info entry);
     public void visitNameAndType_info(NameAndType_info entry);
     public void visitUTF8_info(UTF8_info entry);
+    public void visitMethodHandle_info(MethodHandle_info entry);
+    public void visitMethodType_info(MethodType_info entry);
+    public void visitInvokeDynamic_info(InvokeDynamic_info entry);
 
     // Features
     public void visitField_info(Field_info entry);

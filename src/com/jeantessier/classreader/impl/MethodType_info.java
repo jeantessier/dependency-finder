@@ -1,22 +1,22 @@
 /*
  *  Copyright (c) 2001-2016, Jean Tessier
  *  All rights reserved.
- *  
+ *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
  *  are met:
- *  
+ *
  *      * Redistributions of source code must retain the above copyright
  *        notice, this list of conditions and the following disclaimer.
- *  
+ *
  *      * Redistributions in binary form must reproduce the above copyright
  *        notice, this list of conditions and the following disclaimer in the
  *        documentation and/or other materials provided with the distribution.
- *  
+ *
  *      * Neither the name of Jean Tessier nor the names of his contributors
  *        may be used to endorse or promote products derived from this software
  *        without specific prior written permission.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -32,29 +32,45 @@
 
 package com.jeantessier.classreader.impl;
 
-public abstract class ConstantPoolEntry implements com.jeantessier.classreader.ConstantPoolEntry {
-    public static final byte CONSTANT_Class = 7;
-    public static final byte CONSTANT_Fieldref = 9;
-    public static final byte CONSTANT_Methodref = 10;
-    public static final byte CONSTANT_InterfaceMethodref = 11;
-    public static final byte CONSTANT_String = 8;
-    public static final byte CONSTANT_Integer = 3;
-    public static final byte CONSTANT_Float = 4;
-    public static final byte CONSTANT_Long = 5;
-    public static final byte CONSTANT_Double = 6;
-    public static final byte CONSTANT_NameAndType = 12;
-    public static final byte CONSTANT_Utf8 = 1;
-    public static final byte CONSTANT_MethodHandle = 15;
-    public static final byte CONSTANT_MethodType = 16;
-    public static final byte CONSTANT_InvokeDynamic = 18;
+import com.jeantessier.classreader.UTF8_info;
+import com.jeantessier.classreader.Visitor;
 
-    private ConstantPool constantPool;
+import java.io.DataInput;
+import java.io.IOException;
 
-    protected ConstantPoolEntry(ConstantPool constantPool) {
-        this.constantPool = constantPool;
+public class MethodType_info extends ConstantPoolEntry implements com.jeantessier.classreader.MethodType_info {
+    private int descriptorIndex;
+
+    public MethodType_info(ConstantPool constantPool, DataInput in) throws IOException {
+        super(constantPool);
+
+        descriptorIndex = in.readUnsignedShort();
     }
 
-    public ConstantPool getConstantPool() {
-        return constantPool;
+    public int getDescriptorIndex() { return descriptorIndex; }
+
+    public UTF8_info getRawDescriptor() {
+        return (UTF8_info) getConstantPool().get(getDescriptorIndex());
     }
+
+    public String getDescriptor() { return getRawDescriptor().getValue(); }
+
+    public int hashCode() {
+        return getRawDescriptor().hashCode();
+    }
+
+    public boolean equals(Object object) {
+        boolean result = false;
+
+        if (this == object) {
+            result = true;
+        } else if (object != null && this.getClass().equals(object.getClass())) {
+            MethodType_info other = (MethodType_info) object;
+            result = this.getRawDescriptor().equals(other.getRawDescriptor());
+        }
+
+        return result;
+    }
+
+    public void accept(Visitor visitor) { visitor.visitMethodType_info(this); }
 }

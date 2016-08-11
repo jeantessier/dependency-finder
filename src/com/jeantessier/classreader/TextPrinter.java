@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2001-2009, Jean Tessier
+ *  Copyright (c) 2001-2016, Jean Tessier
  *  All rights reserved.
  *  
  *  Redistribution and use in source and binary forms, with or without
@@ -32,8 +32,8 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-import java.util.*;
+import java.io.PrintWriter;
+import java.util.Collection;
 
 public class TextPrinter extends Printer {
     private boolean top = true;
@@ -65,8 +65,7 @@ public class TextPrinter extends Printer {
     public void visitClass_info(Class_info entry) {
         if (top) {
             top = false;
-            append(currentCount()).append(": ");
-            append("Class ");
+            append(currentCount()).append(": Class ");
             append(entry);
             eol();
             top = true;
@@ -78,8 +77,7 @@ public class TextPrinter extends Printer {
     public void visitFieldRef_info(FieldRef_info entry) {
         if (top) {
             top = false;
-            append(currentCount()).append(": ");
-            append("Field ");
+            append(currentCount()).append(": Field ");
             append(entry);
             eol();
             top = true;
@@ -91,8 +89,7 @@ public class TextPrinter extends Printer {
     public void visitMethodRef_info(MethodRef_info entry) {
         if (top) {
             top = false;
-            append(currentCount()).append(": ");
-            append("Method ");
+            append(currentCount()).append(": Method ");
             append(entry);
             eol();
             top = true;
@@ -104,8 +101,7 @@ public class TextPrinter extends Printer {
     public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
         if (top) {
             top = false;
-            append(currentCount()).append(": ");
-            append("Interface Method ");
+            append(currentCount()).append(": Interface Method ");
             append(entry);
             eol();
             top = true;
@@ -179,6 +175,48 @@ public class TextPrinter extends Printer {
             append(currentCount()).append(": \"").append(entry.getValue()).append("\"").eol();
         } else {
             append(entry.getValue());
+        }
+    }
+
+    public void visitMethodHandle_info(MethodHandle_info entry) {
+        if (top) {
+            top = false;
+            append(currentCount()).append(": Method Handle ");
+            append(entry.getReferenceKind().getDescription());
+            append(" ");
+            entry.getReference().accept(this);
+            eol();
+            top = true;
+        } else {
+            append(entry.getReferenceKind().getDescription());
+            append(" ");
+            entry.getReference().accept(this);
+        }
+    }
+
+    public void visitMethodType_info(MethodType_info entry) {
+        if (top) {
+            top = false;
+            append(currentCount()).append(": Method Type ");
+            entry.getRawDescriptor().accept(this);
+            eol();
+            top = true;
+        } else {
+            entry.getRawDescriptor().accept(this);
+        }
+    }
+
+    public void visitInvokeDynamic_info(InvokeDynamic_info entry) {
+        if (top) {
+            top = false;
+            append(currentCount()).append(": Invoke Dynamic ");
+            append(entry.getBootstrapMethodAttrIndex());
+            append(" ");
+            append(entry);
+            eol();
+            top = true;
+        } else {
+            append(entry);
         }
     }
 

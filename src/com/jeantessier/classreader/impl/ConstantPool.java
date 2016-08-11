@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2001-2009, Jean Tessier
+ *  Copyright (c) 2001-2016, Jean Tessier
  *  All rights reserved.
  *  
  *  Redistribution and use in source and binary forms, with or without
@@ -32,12 +32,16 @@
 
 package com.jeantessier.classreader.impl;
 
-import java.io.*;
-import java.util.*;
+import com.jeantessier.classreader.Printer;
+import com.jeantessier.classreader.TextPrinter;
+import com.jeantessier.classreader.Visitor;
+import org.apache.log4j.Logger;
 
-import org.apache.log4j.*;
-
-import com.jeantessier.classreader.*;
+import java.io.DataInput;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
 
 public class ConstantPool extends ArrayList<com.jeantessier.classreader.ConstantPoolEntry> implements com.jeantessier.classreader.ConstantPool {
     private Classfile classfile;
@@ -54,6 +58,8 @@ public class ConstantPool extends ArrayList<com.jeantessier.classreader.Constant
 
         for (int i=1; i<count; i++) {
             byte tag = in.readByte();
+
+            Logger.getLogger(getClass()).info("Entry " + i + " has tag " + tag);
 
             switch(tag) {
                 case ConstantPoolEntry.CONSTANT_Class:
@@ -92,6 +98,15 @@ public class ConstantPool extends ArrayList<com.jeantessier.classreader.Constant
                     break;
                 case ConstantPoolEntry.CONSTANT_Utf8:
                     add(new UTF8_info(this, in));
+                    break;
+                case ConstantPoolEntry.CONSTANT_MethodHandle:
+                    add(new MethodHandle_info(this, in));
+                    break;
+                case ConstantPoolEntry.CONSTANT_MethodType:
+                    add(new MethodType_info(this, in));
+                    break;
+                case ConstantPoolEntry.CONSTANT_InvokeDynamic:
+                    add(new InvokeDynamic_info(this, in));
                     break;
                 default:
                     Logger.getLogger(getClass()).info("Unknown Tag " + tag);
