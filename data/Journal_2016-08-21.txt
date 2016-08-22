@@ -1,0 +1,21 @@
+I've been looking at what's needed to bring the =com.jeantessier.classreader=
+package up to date with the latest JVM spec for Java 8.  I already took care of
+the new constant pool elements, but there are new attributes too.  And those are
+not trivial.
+
+Here is the class structure that supports Java 4.  The constant pool is in blue
+and the various attributes are in yellow.
+
+[[../images/ClassreaderObjectModelJava4.png][../images/s_ClassreaderObjectModelJava4.png]]
+
+And here is the class structure needed for Java 8.  The new elements are in
+green.
+
+[[../images/ClassreaderObjectModelJava8.png][../images/s_ClassreaderObjectModelJava8.png]]
+
+Bear in mind, these are only the public interfaces in
+=com.jeantessier.classreader= that will be visible to other callers.  There will
+also be implentation classes in =com.jeantessier.classreader.impl= and
+additional support classes, like factories for the =Target=, =StackMapFrame=,
+and =VerificationType_info= hierarchies.  It will also impact implementation of
+the =Visitor= interface.
