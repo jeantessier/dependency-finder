@@ -36,6 +36,8 @@ use TemplateProcessor;
 
 use Getopt::Std;
 
+use constant { true => 1, false => 0 };
+
 getopts(":cguvw");
 
 %TEMPLATES = (
@@ -87,8 +89,8 @@ getopts(":cguvw");
 );
 
 if ($opt_g) {
-    &Generate("sh", "");
-    &Generate("bat", ".bat");
+    &Generate("sh", "", true);
+    &Generate("bat", ".bat", false);
 } elsif ($opt_c) {
     &Clean("");
     &Clean(".bat");
@@ -97,12 +99,13 @@ if ($opt_g) {
 }
 
 sub Generate {
-    local ($target_shell, $target_extension) = @_;
+    local ($target_shell, $target_extension, $executable) = @_;
 
     foreach $command (sort keys %TEMPLATES) {
         &Process($command,
                  $target_shell . $TEMPLATES{$command},
-                 $command . $target_extension);
+                 $command . $target_extension,
+                 $executable);
     }
 }
 
@@ -118,7 +121,7 @@ sub Clean {
 }
 
 sub Process {
-    local ($command, $template, $filename) = @_;
+    local ($command, $template, $filename, $executable) = @_;
     
     local ($template_mtime) = (stat $template)[9];
     local ($filename_mtime) = (stat $filename)[9];
@@ -132,5 +135,8 @@ sub Process {
         open (FILEHANDLE, "> $filename");
         print FILEHANDLE $processor->Process;
         close (FILEHANDLE);
+
+        
+        chmod 0755, $filename if $executable
     }
 }
