@@ -384,7 +384,7 @@
                 <pathelement location="${ant.home}/lib/ant.jar"/>
                 <pathelement location="${java.home}/../lib/tools.jar"/>
             </classpath>
-            <bottom><![CDATA[<i>Dependency Finder ${release} &#169; 2001-2009 Jean Tessier.</i>]]></bottom>
+            <bottom><![CDATA[<i>Dependency Finder ${release} &#169; 2001-2016 Jean Tessier.</i>]]></bottom>
         </javadoc>
     </target>
 
