@@ -316,7 +316,7 @@ you can let it create an empty one for you.  =CodeDependencyCollector= is a
 
     Collection sources = /%2A Get filenames to read ... %2A/
     NodeFactory factory = new NodeFactory();
-    Visitor visitor = CodeDependencyCollector(factory);
+    Visitor visitor = new CodeDependencyCollector(factory);
     ClassfileLoader loader = new TransientClassfileLoader();
     loader.addLoadListener(new LoadListenerVisitorAdapter(visitor));
     loader.load(sources);
