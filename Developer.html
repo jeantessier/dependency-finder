@@ -519,7 +519,7 @@ you can let it create an empty one for you.  <code>CodeDependencyCollector</code
 <pre>
     Collection sources = /* Get filenames to read ... */
     NodeFactory factory = new NodeFactory();
-    Visitor visitor = CodeDependencyCollector(factory);
+    Visitor visitor = new CodeDependencyCollector(factory);
     ClassfileLoader loader = new TransientClassfileLoader();
     loader.addLoadListener(new LoadListenerVisitorAdapter(visitor));
     loader.load(sources);
