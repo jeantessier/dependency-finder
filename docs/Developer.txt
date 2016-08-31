@@ -447,7 +447,7 @@ What I typically do is pass =factory.getPackages().values()= to some visitor.
 All visitors have a =traverseNodes()= method that takes a collection of
 =Nodes=.  So it usually looks like:
 
-    visitor.traverseNodes (factory.getPackages().values());
+    visitor.traverseNodes(factory.getPackages().values());
 
 You might also want to look at =GraphCopier= and =GraphSummarizer= as example
 visitors.  They use two factories and a =TraversalStrategy= to make a partial
