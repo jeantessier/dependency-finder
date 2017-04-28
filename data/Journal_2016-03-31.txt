@@ -6,7 +6,7 @@ Here is an example:
     import java.util.*;
 
     public class SomeClass {
-        private Set<OtherClass> property = new LinkedHashSet<OtherClass>();
+        private Set&lt;OtherClass&gt; property = new LinkedHashSet&lt;OtherClass&gt;();
     }
 
 And its dependency graph:
@@ -37,7 +37,7 @@ For instance, the signature for =SomeClass.property= above is:
     Ljava/util/Set&lt;LOtherClass;&gt;;
 
 In parsing it, we have to detect the inner =L...;= sequence before we can
-process the outer one.  And this is a trivial case.  Method declatations and
+process the outer one.  And this is a trivial case.  Method declarations and
 wildcards introduce other levels of complexity that only compound each other.
 
 I looked a little into it back on [[2009-06-04]], but haven't made any progress
