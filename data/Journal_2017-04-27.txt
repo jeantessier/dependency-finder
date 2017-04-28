@@ -1,0 +1,7 @@
+Aborting efforts to convert to Grails, for now.
+
+Grails 3.2.9 just came out, and this project is still on Grails 1.3.7.  One the
+one side, there is no obvious upgrade path for Grails apps out of 1.x.  And,
+I never really got around to do anything major, yet.  So, I surrendered and
+deleted the =grails= branch; I'd have to start over anyway and there wasn't much
+to salvage anyway.
