@@ -32,17 +32,21 @@
 
 package com.jeantessier.metrics;
 
-import java.io.*;
-import java.util.*;
+import org.apache.log4j.Logger;
 
-import org.apache.log4j.*;
+import java.io.BufferedReader;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *  Counts the number of submetrics according to selection
  *  criteria.  If there are no criteria, it matches all
  *  submetrics.  Each criterion is a boolean expression
  *  with measurement names, numbers, and boolean operators
- *  (<, <=, >, >=, ==, and !=).  If a submetric matches
+ *  (&lt;, &lt;=, &gt;, &gt;=, ==, and !=).  If a submetric matches
  *  any one of the expressions in the criteria, it is
  *  included in the count.
  *  
