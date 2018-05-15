@@ -1,0 +1,37 @@
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>JDK</td>
+        <td>:</td>
+        <td>1.5.0_04 (?)</td>
+        <td>-></td>
+        <td>1.8.0_172</td>
+    </tr>
+    <tr>
+        <td>Ant</td>
+        <td>:</td>
+        <td>1.9.7</td>
+        <td>-></td>
+        <td>1.10.1</td>
+    </tr>
+</table>
+</blockquote>
+
+I don't know when it started, but the default Ant target no longer works.
+These three invocation all do the same thing:
+
+    ant
+    ant all
+    ant distclean dist
+
+Both =distclean= and =dist= depend on the =init= target, which sets a bunch of
+variables and creates output folders.  But `distclean` deletes these output
+folders so they no longer exist by the time `dist` runs.
+
+I tried to generate a new release, =1.2.1-beta5=.  However, I am now using Java
+8 and it generates =.class= files that older versions of Java will not be able
+to execute.  I wonder if that wil be a problem.
+
+The instructions for generating a build need some updating.
