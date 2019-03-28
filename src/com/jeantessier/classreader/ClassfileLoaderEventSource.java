@@ -128,6 +128,13 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
 
             case CLASS:
                 Logger.getLogger(getClass()).debug("CLASS \"" + filename + "\"");
+                
+                // Ignore Java 9 Jigsaw module info class (fix issue #4) 
+                if ("module-info.class".equals(filename)) {
+                  Logger.getLogger(getClass()).debug("Ignore module info class");
+                  break;
+                }
+                
                 try {
                     fireBeginClassfile(filename);
                     Classfile classfile = load(new DataInputStream(in));
