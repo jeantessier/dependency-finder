@@ -1,0 +1,10 @@
+A user pointed out a problem analyzing some JAXB files.  Once again, the files
+contain new constant pool entries for Java 9.  They proposed a patch to ignore
+a specific filename, but I think it's better to catch the Exception, log it, and
+continue extracting the class information.  Now, there is a small risk that
+=.class= files will be skipped "silently".  Users could find out by scrutinizing
+the output with =-verbose=, or with clever Log4J settings, but it's more likely
+they won't realize they only have partial data.
+
+I will need to update the =com.jeantessier.classreader= package to the latest
+bytecode.
