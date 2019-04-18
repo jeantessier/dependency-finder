@@ -1,0 +1,2 @@
+I found a large number of files that were in DOS format, with =\r\n= as line
+terminators.  I fixed them all to be in UNIX =\n\ format, instead.
