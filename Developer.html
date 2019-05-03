@@ -29,7 +29,7 @@
 <h1>The Dependency Finder Developer Guide</h1>
 
 <p>
-For Dependency Finder version 1.2.1-beta4.
+For Dependency Finder version 1.2.1-beta5.
 </p>
 
 <p>
@@ -138,7 +138,6 @@ For simple compilation:
 <table>
     <tr><th>Name</th><th>Location</th><th>Tested Version</th></tr>
     <tr><td>Tomcat</td><td><a href="http://tomcat.apache.org/">tomcat.apache.org</a></td><td align="center">5.5.17</td></tr>
-    <tr><td>WebWork</td><td><a href="http://www.opensymphony.org/webwork/">www.opensymphony.org/webwork</a></td><td align="center">2.2.4</td><td style="font-size: small">You may need to change the JAR's name in <code>[text]junit[.bat]</code>.</td></tr>
 </table>
 
 <p>
@@ -740,17 +739,17 @@ multiple classes in the <code>com.jeantessier.dependencyfinder.gui</code> packag
     05:    VerboseListener <b>verboseListener</b> = new VerboseListener(out);
     06:
     07:    ClassfileLoaderDispatcher <b>dispatcher</b> = (ClassfileLoaderDispatcher) application.getAttribute("dispatcher");
-    08:    if (dispatcher == null || request.getParameter("update") == null) {
+    08:    if (dispatcher =<code> null || request.getParameter("update") </code>= null) {
     09:        dispatcher = new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER);
     10:    }
     11:
     12:    NodeFactory factory = (NodeFactory) application.getAttribute("factory");
-    13:    if (factory == null || request.getParameter("update") == null) {
+    13:    if (factory =<code> null || request.getParameter("update") </code>= null) {
     14:        factory = new NodeFactory();
     15:    }
     16:
     17:    Monitor <b>monitor</b> = (Monitor) application.getAttribute("monitor");
-    18:    if (monitor == null || request.getParameter("update") == null) {
+    18:    if (monitor =<code> null || request.getParameter("update") </code>= null) {
     19:        CodeDependencyCollector <b>collector</b>       = new CodeDependencyCollector(factory);
     20:        DeletingVisitor         <b>deletingVisitor</b> = new DeletingVisitor(factory);
     21:
@@ -1437,18 +1436,20 @@ environment variables:
 
 <ul>
 <li><code>CATALINA_HOME</code> to your <a href="http://tomcat.apache.org/">Tomcat</a> installation</li>
-<li><code>WEBWORK_HOME</code> to your <a href="http://www.opensymphony.com/webwork/">WebWork</a> installation</li>
 </ul>
 
 <a name="BuildinganExecutable"></a>
 <h3>Building an Executable</h3>
+
+<p>
+This target will create everything you need to run Dependency Finder in-place.
+</p>
 
 <pre>
     <code>ant exec</code>
 </pre>
 
 <p>
-This target will create everything you need to run Dependency Finder in-place.
 If you make a change and you simply want to refresh the executable, simply run:
 </p>
 
@@ -1459,24 +1460,24 @@ If you make a change and you simply want to refresh the executable, simply run:
 <a name="BuildingtheDocumentation"></a>
 <h3>Building the Documentation</h3>
 
-<pre>
-    <code>ant docs</code>
-</pre>
-
 <p>
 This target will create both Javadocs and the various manuals.
 </p>
 
+<pre>
+    <code>ant docs</code>
+</pre>
+
 <a name="CompilingaBuild"></a>
 <h3>Compiling a Build</h3>
-
-<pre>
-    <code>ant</code>
-</pre>
 
 <p>
 This target will create a set of distribution files from a clean build.
 </p>
+
+<pre>
+    <code>ant</code>
+</pre>
 
 <a name="TestingtheBuild"></a>
 <h3>Testing the Build</h3>
@@ -1537,7 +1538,7 @@ branch of the repository that has been tagged appropriately.
 </p>
 
 <ol>
-<li><code>git tag -m "Tagging the 1.2.1-beta4 release of Dependency Finder" 1.2.1-beta4</code></li>
+<li><code>git tag -m "Tagging the 1.2.1-beta5 release of Dependency Finder" 1.2.1-beta5</code></li>
 <li><code>git push --tags</code></li>
 <li><code>cd /tmp</code></li>
 <li><code>git clone --local /original/path/to/git/project</code></li>
@@ -1545,8 +1546,8 @@ branch of the repository that has been tagged appropriately.
 <li><code>ant dist</code></li>
 <li>Go to <a href="http://sourceforge.net/projects/depfind/">SourceForge project page</a>, click "Develop" &gt;&gt; "Project Admin" &gt;&gt; "File Manager".</li>
 <li>Create a new folder, upload all files from <code>dist/</code> to the new folder.</li>
-<li>Make <code>DependencyFinder-1.2.1-beta4.bin.zip</code> the default download for Windows.</li>
-<li>Make <code>DependencyFinder-1.2.1-beta4.bin.tar.gz</code> the default download for all others.</li>
+<li>Make <code>DependencyFinder-1.2.1-beta5.bin.zip</code> the default download for Windows.</li>
+<li>Make <code>DependencyFinder-1.2.1-beta5.bin.tar.gz</code> the default download for all others.</li>
 <li>Notify monitoring people</li>
 <li>Close bugs</li>
 <li>Close feature requests</li>
