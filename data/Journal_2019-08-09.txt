@@ -1,0 +1,13 @@
+Upgraded the following development components:
+
+<blockquote>
+<table>
+    <tr>
+        <td>JDK</td>
+        <td>:</td>
+        <td>1.8.0_172</td>
+        <td>-></td>
+        <td>1.8.0_181</td>
+    </tr>
+</table>
+</blockquote>
