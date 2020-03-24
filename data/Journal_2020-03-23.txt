@@ -1,0 +1,5 @@
+Somewhere between Java 8 and Java 11, they removed
+=com.sun.org.apache.xalan.internal.xslt.Process= from the JDK.  This means that
+I have to change =XSLTProcess= if I want to continue using XSL templates to
+convert XML documents to HTML.  I have over 45 tools that are based on XSL and
+I am not looking forward to having to rewrite all of them.
