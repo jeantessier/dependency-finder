@@ -4720,7 +4720,7 @@ This command will only list elements that you did *not* mark as
 <div class="highlight">
 
     C:\>ListDocumentedElements -tag level
-                               -invalid published
+                               -invalid developer
                                -out old-list.txt
                                old.java
 
