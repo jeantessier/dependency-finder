@@ -971,7 +971,7 @@ level of detail: package, class, or method.
 
 All the tools support =-help= command-line switch, which prints the list of
 valid command-line switches for that particular tool.  Many of the tools also
-support some or all of the following four command-line switches:
+support some or all of the following five command-line switches:
 
 <blockquote>
 <table border="0"
@@ -979,12 +979,23 @@ support some or all of the following four command-line switches:
     <tr>
         <td valign="top"
             nowrap="true">
-            =-in=
+            =-s:filename=
         </td>
         <td>
             Many of the CLI tools are automated translations of XML data
             into either HTML or plain text.  The scripts have hard-coded
             XSL stylesheets.  You specify the XML input with this switch.
+        </td>
+    </tr>
+    <tr>
+        <td valign="top"
+            nowrap="true">
+            =-o:filename=
+        </td>
+        <td>
+            Many of the CLI tools are automated translations of XML data
+            into either HTML or plain text.  The scripts have hard-coded
+            XSL stylesheets.  You specify the output with this switch.
         </td>
     </tr>
     <tr>
@@ -2449,7 +2460,7 @@ with the following tools:
 
 <div class="highlight">
 
-    C:\>DependablesToText -in test.xml
+    C:\>DependablesToText -s:test.xml
 
 </div>
 
@@ -2483,7 +2494,7 @@ If you only want to remove outbound dependencies and keep empty nodes, use:
 
 <div class="highlight">
 
-    C:\>HideOutboundDependenciesToText -in test.xml
+    C:\>HideOutboundDependenciesToText -s:test.xml
 
 </div>
 
@@ -2551,7 +2562,7 @@ following tools:
 
 <div class="highlight">
 
-    C:\>DependentsToText -in test.xml
+    C:\>DependentsToText -s:test.xml
 
 </div>
 
@@ -2581,7 +2592,7 @@ If you only want to remove inbound dependencies and keep empty nodes, use:
 
 <div class="highlight">
 
-    C:\>HideInboundDependenciesToText -in test.xml
+    C:\>HideInboundDependenciesToText -s:test.xml
 
 </div>
 
@@ -2643,7 +2654,7 @@ navigation.
 
 <div class="highlight">
 
-    C:\>DependencyGraphToText -in test.xml
+    C:\>DependencyGraphToText -s:test.xml
 
 </div>
 
@@ -3334,7 +3345,7 @@ First, we extract the complete graph and get a list of all the symbols in it.
 <div class="highlight">
 
     C:\>DependencyExtractor -xml -out df.xml _classes_
-    C:\>ListFullyQualifiedNames -in df.xml -out df.symbols.txt
+    C:\>ListFullyQualifiedNames -s:df.xml -o:df.symbols.txt
 
 </div>
 
@@ -3357,7 +3368,7 @@ Next, we compute the closure and get a list of the symbols in the closure.
 <div class="highlight">
 
     C:\>DependencyClosure -xml -out closure.xml -maximum-outbound-depth -start-includes /a.A.a/ df.xml
-    C:\>ListFullyQualifiedNames -in closure.xml -out closure.symbols.txt
+    C:\>ListFullyQualifiedNames -s:closure.xml -o:closure.symbols.txt
 
 </div>
 
@@ -3417,7 +3428,7 @@ So first, process the complete graph.
 
     C:\>DependencyExtractor -xml -out df.xml _classes_
     C:\>c2c -xml -out df.c2c.xml df.xml
-    C:\>ListFullyQualifiedNames -in df.c2c.xml -out df.c2c.symbols.txt
+    C:\>ListFullyQualifiedNames -s:df.c2c.xml -o:df.c2c.symbols.txt
 
 </div>
 
@@ -3438,7 +3449,7 @@ Next, compute the closure.
 
     C:\>DependencyClosure -xml -out closure.xml -maximum-outbound-depth -start-includes /a.A.a/ df.xml
     C:\>c2c -xml -out closure.c2c.xml closure.xml
-    C:\>ListFullyQualifiedNames -in closure.c2c.xml -out closure.c2c.symbols.txt
+    C:\>ListFullyQualifiedNames -s:closure.c2c.xml -o:closure.c2c.symbols.txt
 
 </div>
 
@@ -4504,7 +4515,7 @@ There are two stylesheets:
 =ListInheritanceDiffToText= only shows changes in the inheritance hierarchy.
 
 You can run them using the scripts of the same names and their =-in= and =-out=
-switches.  The scripts call =XSLTProcess= and specify the XSL stylesheet with
+switches.  The scripts call Saxon and specify the XSL stylesheet with
 the =-xsl= switch.  You can convert the reports yourself, if you want to,
 either with Dependency Finder's stylesheets or any others that understand the
 internal structure of the reports.  See the [[Developer.html][Developer Guide]]
@@ -4533,8 +4544,8 @@ the report.
                    -old old.jar
                    -new new.jar
                    -out codediff.xml
-    C:\>DiffToHTML -in  codediff.xml
-                   -out *codediff.html*
+    C:\>DiffToHTML -s:codediff.xml
+                   -o:*codediff.html*
 
 </div>
 
@@ -4562,8 +4573,8 @@ options.
                    -old old.jar
                    -new new.jar
                    -out fulldiff.xml
-    C:\>DiffToHTML -in  fulldiff.xml
-                   -out *fulldiff.html*
+    C:\>DiffToHTML -s:fulldiff.xml
+                   -o:*fulldiff.html*
 
 </div>
 
@@ -4596,8 +4607,8 @@ This time, the switch =-level incompatible= is no longer optional.
                    -old old.jar
                    -new new.jar
                    -out incompatdiff.xml
-    C:\>DiffToHTML -in  incompatdiff.xml
-                   -out *incompatdiff.html*
+    C:\>DiffToHTML -s:incompatdiff.xml
+                   -o:*incompatdiff.html*
 
 </div>
 
@@ -4614,8 +4625,8 @@ of implementing this interface.
                    -old old.jar
                    -new new.jar
                    -out customdiff.xml
-    C:\>DiffToHTML -in  customdiff.xml
-                   -out *customdiff.html*
+    C:\>DiffToHTML -s:customdiff.xml
+                   -o:*customdiff.html*
 
 </div>
 
@@ -4634,8 +4645,8 @@ fully-qualified targets, one per line, in a simple text file and pass it to
                    -old old.jar
                    -new new.jar
                    -out filterdiff.xml
-    C:\>DiffToHTML -in  filterdiff.xml
-                   -out *filterdiff.html*
+    C:\>DiffToHTML -s:filterdiff.xml
+                   -o:*filterdiff.html*
 
 </div>
 
@@ -4759,8 +4770,8 @@ required.
 
 <div class="highlight">
 
-    C:\>ListDiffToHTML -in listdiff.xml
-                       -out docreport.html
+    C:\>ListDiffToHTML -s:listdiff.xml
+                       -o:docreport.html
 
 </div>
 
@@ -4931,7 +4942,7 @@ For an HTML report organized by deprecated element:
                            -*scope*-includes-list deprecated.txt
                            graph.xml
 
-    C:\>DependencyGraphToHTML -in report.xml -out report.html
+    C:\>DependencyGraphToHTML -s:report.xml -o:report.html
 
 </div>
 
@@ -4968,7 +4979,7 @@ For an HTML report organized by caller:
                            -*filter*-includes-list deprecated.txt
                            graph.xml
 
-    C:\>DependencyGraphToHTML -in report.xml -out report.html
+    C:\>DependencyGraphToHTML -s:report.xml -o:report.html
 
 </div>
 
@@ -5093,7 +5104,7 @@ class:
                   -expand
                   DeprecatedExample.class
 
-    C:\>MetricsToText -in report.xml -out report.txt
+    C:\>MetricsToText -s:report.xml -o:report.txt
 
 </div>
 
@@ -5199,7 +5210,7 @@ For a text report organized by caller, with methods grouped by class:
                   -expand
                   DeprecatedExample.class
 
-    C:\>MetricsToText -in report.xml -out report.txt
+    C:\>MetricsToText -s:report.xml -o:report.txt
 
 </div>
 
@@ -5284,8 +5295,8 @@ Step 3: Get a subgraph from the symbols from _L_.
                            -scope-includes-list *_L_.symbols.txt*
                            _S_.graph.xml
 
-    C:\>DependencyGraphToText -in _S_-_L_.graph.xml
-                              -out *_S_-_L_.symbols.txt*
+    C:\>DependencyGraphToText -s:_S_-_L_.graph.xml
+                              -o:*_S_-_L_.symbols.txt*
 
 </div>
 
@@ -5317,8 +5328,8 @@ Step 5: Convert to HTML
 
 <div class="highlight">
 
-    C:\>DiffToHTML -in _L_-_L'_.diff.xml
-                   -out _L_-_L'_.diff.html
+    C:\>DiffToHTML -s:_L_-_L'_.diff.xml
+                   -o:_L_-_L'_.diff.html
 
 </div>
 
@@ -5386,7 +5397,7 @@ For a text report from the XML output:
                   *-xml*
                   classes
 
-    C:\>MetricsToText -in report.xml -out report.txt
+    C:\>MetricsToText -s:report.xml -o:report.txt
 
 </div>
 

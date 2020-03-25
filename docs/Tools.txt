@@ -431,7 +431,7 @@ to =result.xml=.  The title will say "Version OldClass to Version NewClass".
 <div class="highlight">
 
     ClassClassDiff -old OldClass.class -new NewClass.class -out report.xml
-    DiffToHTML -in report.xml -out report.html
+    DiffToHTML -s:report.xml -o:report.html
 
 </div>
 
@@ -1765,8 +1765,8 @@ Lists the programming elements in a closure.
 ---+++ Synopsis
 
     ClosureToText
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 
 ---+++ Description
 
@@ -1782,7 +1782,7 @@ representing a closure.  You generate these graphs with
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -1800,7 +1800,7 @@ such as the output of [[#DependencyExtractor][DependencyExtractor]],
 
 </blockquote>
 
----++++ =-out output_file.txt=
+---++++ =-o:output_file.txt=
 
 <blockquote>
 
@@ -1850,7 +1850,7 @@ To save the output to a text file:
 
 <div class="highlight">
 
-    ClosureToText -in dg.closure.xml -out dg.closure.txt
+    ClosureToText -s:dg.closure.xml -o:dg.closure.txt
 
 </div>
 
@@ -1886,8 +1886,8 @@ have no inbound dependencies.
 ---+++ Synopsis
 
     DependablesToHTML
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 
 ---+++ Description
 
@@ -1903,7 +1903,7 @@ elements for easy navigation.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -1921,7 +1921,7 @@ such as the output of [[#DependencyExtractor][DependencyExtractor]],
 
 </blockquote>
 
----++++ =-out output_file.html=
+---++++ =-o:output_file.html=
 
 <blockquote>
 
@@ -1964,7 +1964,7 @@ HTML file with only inbound dependencies:
 
 <div class="highlight">
 
-    DependablesToHTML -in dg.xml -out dependencies.html
+    DependablesToHTML -s:dg.xml -o:dependencies.html
 
 </div>
 
@@ -2003,8 +2003,8 @@ have no inbound dependencies.
 ---+++ Synopsis
 
     DependablesToText
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 
 ---+++ Description
 
@@ -2019,7 +2019,7 @@ Lists only non-empty nodes.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -2037,7 +2037,7 @@ such as the output of [[#DependencyExtractor][DependencyExtractor]],
 
 </blockquote>
 
----++++ =-out output_file.txt=
+---++++ =-o:output_file.txt=
 
 <blockquote>
 
@@ -2089,7 +2089,7 @@ file with only inbound dependencies:
 
 <div class="highlight">
 
-    DependablesToText -in dg.xml -out dependencies.txt
+    DependablesToText -s:dg.xml -o:dependencies.txt
 
 </div>
 
@@ -4095,8 +4095,8 @@ Lists symbols from a dependency graph.
 ---+++ Synopsis
 
     DependencyGraphToFullyQualifiedNames
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 
 ---+++ Description
 
@@ -4113,7 +4113,7 @@ names that are in it.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -4131,7 +4131,7 @@ such as the output of [[#DependencyExtractor][DependencyExtractor]],
 
 </blockquote>
 
----++++ =-out output_file.txt=
+---++++ =-o:output_file.txt=
 
 <blockquote>
 
@@ -4183,7 +4183,7 @@ file with only inbound dependencies:
 
 <div class="highlight">
 
-    DependencyGraphToFullyQualifiedNames -in dg.xml -out dependencies.txt
+    DependencyGraphToFullyQualifiedNames -s:dg.xml -o:dependencies.txt
 
 </div>
 
@@ -4252,8 +4252,8 @@ Translates the whole graph to GraphML.
 ---+++ Synopsis
 
     DependencyGraphToGraphML
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 
 ---+++ Description
 
@@ -4267,7 +4267,7 @@ Translates both outbound and inbound dependencies to basic GraphML.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -4285,7 +4285,7 @@ such as the output of [[#DependencyExtractor][DependencyExtractor]],
 
 </blockquote>
 
----++++ =-out output_file.html=
+---++++ =-o:output_file.html=
 
 <blockquote>
 
@@ -4327,7 +4327,7 @@ To convert the dependency graph in =dg.xml= to a GraphML file:
 
 <div class="highlight">
 
-    DependencyGraphToGraphML -in dg.xml -out dg.graphml
+    DependencyGraphToGraphML -s:dg.xml -o:dg.graphml
 
 </div>
 
@@ -4364,8 +4364,8 @@ Translates the whole graph to HTML.
 ---+++ Synopsis
 
     DependencyGraphToHTML
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 
 ---+++ Description
 
@@ -4381,7 +4381,7 @@ elements for easy navigation.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -4399,7 +4399,7 @@ such as the output of [[#DependencyExtractor][DependencyExtractor]],
 
 </blockquote>
 
----++++ =-out output_file.html=
+---++++ =-o:output_file.html=
 
 <blockquote>
 
@@ -4442,7 +4442,7 @@ HTML file, for ease of use:
 
 <div class="highlight">
 
-    DependencyGraphToHTML -in dg.xml -out dependencies.html
+    DependencyGraphToHTML -s:dg.xml -o:dependencies.html
 
 </div>
 
@@ -4479,8 +4479,8 @@ Translates the whole graph to RDF.
 ---+++ Synopsis
 
     DependencyGraphToRDF
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 
 ---+++ Description
 
@@ -4494,7 +4494,7 @@ Translates both outbound and inbound dependencies to RDF.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -4512,7 +4512,7 @@ such as the output of [[#DependencyExtractor][DependencyExtractor]],
 
 </blockquote>
 
----++++ =-out output_file.html=
+---++++ =-o:output_file.html=
 
 <blockquote>
 
@@ -4555,7 +4555,7 @@ HTML file, for ease of use:
 
 <div class="highlight">
 
-    DependencyGraphToHTML -in dg.xml -out dependencies.html
+    DependencyGraphToHTML -s:dg.xml -o:dependencies.html
 
 </div>
 
@@ -4592,8 +4592,8 @@ Translates the whole graph to text.
 ---+++ Synopsis
 
     DependencyGraphToText
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 
 ---+++ Description
 
@@ -4607,7 +4607,7 @@ Translates both outbound and inbound dependencies to text.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -4625,7 +4625,7 @@ such as the output of [[#DependencyExtractor][DependencyExtractor]],
 
 </blockquote>
 
----++++ =-out output_file.txt=
+---++++ =-o:output_file.txt=
 
 <blockquote>
 
@@ -4676,7 +4676,7 @@ file, for ease of use:
 
 <div class="highlight">
 
-    DependencyGraphToText -in dg.xml -out dependencies.txt
+    DependencyGraphToText -s:dg.xml -o:dependencies.txt
 
 </div>
 
@@ -4754,8 +4754,8 @@ Lists unconfirmed symbols from a dependency graph.
 ---+++ Synopsis
 
     DependencyGraphToUnconfirmedFullyQualifiedNames
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 
 ---+++ Description
 
@@ -4772,7 +4772,7 @@ names that are in it and that are unconfirmed.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -4790,7 +4790,7 @@ such as the output of [[#DependencyExtractor][DependencyExtractor]],
 
 </blockquote>
 
----++++ =-out output_file.txt=
+---++++ =-o:output_file.txt=
 
 <blockquote>
 
@@ -4841,7 +4841,7 @@ a file:
 
 <div class="highlight">
 
-    DependencyGraphToUnconfirmedFullyQualifiedNames -in dg.xml -out dg.unconfirmed.txt
+    DependencyGraphToUnconfirmedFullyQualifiedNames -s:dg.xml -o:dg.unconfirmed.txt
 
 </div>
 
@@ -4853,7 +4853,7 @@ find which packages it needs that are not in it already with:
 
     DependencyExtractor -xml -out myjar.xml myjar.jar
     p2p -xml -out myjar.p2p.xml myjar.xml
-    DependencyGraphToUnconfirmedFullyQualifiedNames -in myjar.p2p.xml -out myjar.unconfirmed.txt
+    DependencyGraphToUnconfirmedFullyQualifiedNames -s:myjar.p2p.xml -o:myjar.unconfirmed.txt
 
 </div>
 
@@ -4960,8 +4960,8 @@ Translates the whole graph to GraphML for the yEd application.
 ---+++ Synopsis
 
     DependencyGraphToHTML
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 
 ---+++ Description
 
@@ -4985,7 +4985,7 @@ See also:
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -5003,7 +5003,7 @@ such as the output of [[#DependencyExtractor][DependencyExtractor]],
 
 </blockquote>
 
----++++ =-out output_file.html=
+---++++ =-o:output_file.html=
 
 <blockquote>
 
@@ -5045,7 +5045,7 @@ To convert the dependency graph in =dg.xml= to a GraphML suitable for yEd:
 
 <div class="highlight">
 
-    DependencyGraphToyEd -in dg.xml -out dg.graphml
+    DependencyGraphToyEd -s:dg.xml -o:dg.graphml
 
 </div>
 
@@ -7166,8 +7166,8 @@ have no outbound dependencies.
 ---+++ Synopsis
 
     DependentsToHTML
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 
 ---+++ Description
 
@@ -7183,7 +7183,7 @@ elements for easy navigation.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -7201,7 +7201,7 @@ such as the output of [[#DependencyExtractor][DependencyExtractor]],
 
 </blockquote>
 
----++++ =-out output_file.html=
+---++++ =-o:output_file.html=
 
 <blockquote>
 
@@ -7244,7 +7244,7 @@ HTML file with only outboud dependencies:
 
 <div class="highlight">
 
-    DependentsToHTML -in dg.xml -out dependencies.html
+    DependentsToHTML -s:dg.xml -o:dependencies.html
 
 </div>
 
@@ -7283,8 +7283,8 @@ have no outbound dependencies.
 ---+++ Synopsis
 
     DependentsToText
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 
 ---+++ Description
 
@@ -7299,7 +7299,7 @@ Lists only non-empty nodes.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -7317,7 +7317,7 @@ such as the output of [[#DependencyExtractor][DependencyExtractor]],
 
 </blockquote>
 
----++++ =-out output_file.txt=
+---++++ =-o:output_file.txt=
 
 <blockquote>
 
@@ -7369,7 +7369,7 @@ file with only outboud dependencies:
 
 <div class="highlight">
 
-    DependentsToText -in dg.xml -out dependencies.txt
+    DependentsToText -s:dg.xml -o:dependencies.txt
 
 </div>
 
@@ -7441,8 +7441,8 @@ Lists changed symbols from =JarJarDiff= reports.
 ---+++ Synopsis
 
     DiffToFullyQualifiedNames
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 
 ---+++ Description
 
@@ -7457,7 +7457,7 @@ interface, field, constructor, and method names that have changed.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -7473,7 +7473,7 @@ such as the output of [[#JarJarDiff][JarJarDiff]].
 
 </blockquote>
 
----++++ =-out output_file.txt=
+---++++ =-o:output_file.txt=
 
 <blockquote>
 
@@ -7514,7 +7514,7 @@ See =-out= above.
 <div class="highlight">
 
     JarJarDiff -old old.jar -new new.jar -out report.xml
-    DiffToFullyQualifiedNames -in report.xml -out diff-symbols.txt
+    DiffToFullyQualifiedNames -s:report.xml -o:diff-symbols.txt
 
 </div>
 
@@ -7549,8 +7549,8 @@ Converts the output of [[#JarJarDiff][JarJarDiff]] to HTML.
 ---+++ Synopsis
 
     DiffToHTML
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 
 ---+++ Description
 
@@ -7564,7 +7564,7 @@ Converts the output of [[#JarJarDiff][JarJarDiff]] to HTML.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -7580,7 +7580,7 @@ such as the output of [[#JarJarDiff][JarJarDiff]].
 
 </blockquote>
 
----++++ =-out output_file.html=
+---++++ =-o:output_file.html=
 
 <blockquote>
 
@@ -7658,8 +7658,8 @@ have no outbound dependencies.
 ---+++ Synopsis
 
     HideInboundDependenciesToHTML
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 
 ---+++ Description
 
@@ -7675,7 +7675,7 @@ elements for easy navigation.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -7693,7 +7693,7 @@ such as the output of [[#DependencyExtractor][DependencyExtractor]],
 
 </blockquote>
 
----++++ =-out output_file.html=
+---++++ =-o:output_file.html=
 
 <blockquote>
 
@@ -7736,7 +7736,7 @@ HTML file with only outboud dependencies:
 
 <div class="highlight">
 
-    HideInboundDependenciesToHTML -in dg.xml -out dependencies.html
+    HideInboundDependenciesToHTML -s:dg.xml -o:dependencies.html
 
 </div>
 
@@ -7775,8 +7775,8 @@ have no outbound dependencies.
 ---+++ Synopsis
 
     HideInboundDependenciesToText
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 
 ---+++ Description
 
@@ -7790,7 +7790,7 @@ Translates only outbound dependencies to text.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -7808,7 +7808,7 @@ such as the output of [[#DependencyExtractor][DependencyExtractor]],
 
 </blockquote>
 
----++++ =-out output_file.txt=
+---++++ =-o:output_file.txt=
 
 <blockquote>
 
@@ -7860,7 +7860,7 @@ file with only outboud dependencies:
 
 <div class="highlight">
 
-    HideInboundDependenciesToText -in dg.xml -out dependencies.txt
+    HideInboundDependenciesToText -s:dg.xml -o:dependencies.txt
 
 </div>
 
@@ -7935,8 +7935,8 @@ have no inbound dependencies.
 ---+++ Synopsis
 
     HideOutboundDependenciesToHTML
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 
 ---+++ Description
 
@@ -7952,7 +7952,7 @@ elements for easy navigation.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -7970,7 +7970,7 @@ such as the output of [[#DependencyExtractor][DependencyExtractor]],
 
 </blockquote>
 
----++++ =-out output_file.html=
+---++++ =-o:output_file.html=
 
 <blockquote>
 
@@ -8013,7 +8013,7 @@ HTML file with only inbound dependencies:
 
 <div class="highlight">
 
-    HideOutboundDependenciesToHTML -in dg.xml -out dependencies.html
+    HideOutboundDependenciesToHTML -s:dg.xml -o:dependencies.html
 
 </div>
 
@@ -8052,8 +8052,8 @@ have no inbound dependencies.
 ---+++ Synopsis
 
     HideOutboundDependenciesToText
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 
 ---+++ Description
 
@@ -8067,7 +8067,7 @@ Translates only inbound dependencies to text.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -8085,7 +8085,7 @@ such as the output of [[#DependencyExtractor][DependencyExtractor]],
 
 </blockquote>
 
----++++ =-out output_file.txt=
+---++++ =-o:output_file.txt=
 
 <blockquote>
 
@@ -8137,7 +8137,7 @@ file with only inbound dependencies:
 
 <div class="highlight">
 
-    HideOutboundDependenciesToText -in dg.xml -out dependencies.txt
+    HideOutboundDependenciesToText -s:dg.xml -o:dependencies.txt
 
 </div>
 
@@ -8542,7 +8542,7 @@ title by supplying =-old-label= and =-new-label= to JarJarDiff.
 <div class="highlight">
 
     JarJarDiff -old old.jar -new new.jar -out report.xml
-    DiffToHTML -in report.xml -out report.html
+    DiffToHTML -s:report.xml -o:report.html
 
 </div>
 
@@ -9069,8 +9069,8 @@ Converts the output of [[#ListDiff][ListDiff]] to HTML.
 ---+++ Synopsis
 
     ListDiffToHTML
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 
 ---+++ Description
 
@@ -9084,7 +9084,7 @@ Converts the output of [[#ListDiff][ListDiff]] to HTML.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -9100,7 +9100,7 @@ such as the output of [[#ListDiff][ListDiff]].
 
 </blockquote>
 
----++++ =-out output_file.html=
+---++++ =-o:output_file.html=
 
 <blockquote>
 
@@ -9141,7 +9141,7 @@ See =-out= above.
 <div class="highlight">
 
     ListDiff -name sample -old old.txt -new new.txt -out listdiff.xml
-    ListDiffToHTML -in listdiff.xml -out listdiff.html
+    ListDiffToHTML -s:listdiff.xml -o:listdiff.html
 
 </div>
 
@@ -9176,8 +9176,8 @@ Converts the output of [[#ListDiff][ListDiff]] to human-readable text.
 ---+++ Synopsis
 
     ListDiffToText
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 
 ---+++ Description
 
@@ -9191,7 +9191,7 @@ Converts the output of [[#ListDiff][ListDiff]] to human-readable text.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -9207,7 +9207,7 @@ such as the output of [[#ListDiff][ListDiff]].
 
 </blockquote>
 
----++++ =-out output_file.txt=
+---++++ =-o:output_file.txt=
 
 <blockquote>
 
@@ -9460,8 +9460,8 @@ Lists inheritance changes in =JarJarDiff= reports.
 ---+++ Synopsis
 
     ListInheritanceDiffToText
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 
 ---+++ Description
 
@@ -9477,7 +9477,7 @@ clauses.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -9493,7 +9493,7 @@ such as the output of [[#JarJarDiff][JarJarDiff]].
 
 </blockquote>
 
----++++ =-out output_file.txt=
+---++++ =-o:output_file.txt=
 
 <blockquote>
 
@@ -9534,7 +9534,7 @@ See =-out= above.
 <div class="highlight">
 
     JarJarDiff -old old.jar -new new.jar -out report.xml
-    ListInheritanceDiffToText -in report.xml -out inheritance.txt
+    ListInheritanceDiffToText -s:report.xml -o:inheritance.txt
 
 </div>
 
@@ -9927,8 +9927,8 @@ Lists programming elements that have no inbound dependencies.
 ---+++ Synopsis
 
     ListUnused
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 
 ---+++ Description
 
@@ -9953,7 +9953,7 @@ are not in reality.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -9971,7 +9971,7 @@ such as the output of [[#DependencyExtractor][DependencyExtractor]],
 
 </blockquote>
 
----++++ =-out output_file.txt=
+---++++ =-o:output_file.txt=
 
 <blockquote>
 
@@ -10024,7 +10024,7 @@ Running this tool on that graph yields this output:
 
 <div class="highlight">
 
-    ListUnused sample.xml
+    ListUnused -s:sample.xml
 
 </div>
 
@@ -10067,8 +10067,8 @@ Translates the whole report to HTML.
 ---+++ Synopsis
 
     MetricsToHTML
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 
 ---+++ Description
 
@@ -10084,7 +10084,7 @@ anchors inside the HTML.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -10100,7 +10100,7 @@ such as the output of [[#OOMetrics][OOMetrics]].
 
 </blockquote>
 
----++++ =-out output_file.html=
+---++++ =-o:output_file.html=
 
 <blockquote>
 
@@ -10142,7 +10142,7 @@ To convert the metrics report in =metrics.xml= to a hyperlinked HTML file:
 
 <div class="highlight">
 
-    MetricsToHTML -in metrics.xml -out metrics.html
+    MetricsToHTML -s:metrics.xml -o:metrics.html
 
 </div>
 
@@ -10177,8 +10177,8 @@ Translates the whole report to text.
 ---+++ Synopsis
 
     MetricsToText
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 
 ---+++ Description
 
@@ -10196,7 +10196,7 @@ and finally by all methods.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -10212,7 +10212,7 @@ such as the output of [[#OOMetrics][OOMetrics]].
 
 </blockquote>
 
----++++ =-out output_file.html=
+---++++ =-o:output_file.html=
 
 <blockquote>
 
@@ -10254,7 +10254,7 @@ To convert the dependency graph in =metrics.xml= to a text file:
 
 <div class="highlight">
 
-    MetricsToText -in metrics.xml -out metrics.txt
+    MetricsToText -s:metrics.xml -o:metrics.txt
 
 </div>
 
@@ -11058,9 +11058,9 @@ Applies an XSL stylesheet to an XML document.
 ---+++ Synopsis
 
     XSLTProcess
-        -in input_file.xml
-        [-out filename]
-        -xsl stylesheet.xsl
+        -s:input_file.xml
+        [-o:filename]
+        -xsl:stylesheet.xsl
 
 ---+++ Description
 
@@ -11076,7 +11076,7 @@ appropriate =-xsl= value.
 
 <blockquote>
 
----++++ =-in input_file.xml=
+---++++ =-s:input_file.xml=
 
 <blockquote>
 
@@ -11091,7 +11091,7 @@ compatible with the stylesheet specified with =-xsl=.
 
 </blockquote>
 
----++++ =-out filename=
+---++++ =-o:filename=
 
 <blockquote>
 
@@ -11108,7 +11108,7 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
----++++ =-xsl stylesheet.xsl=
+---++++ =-xsl:stylesheet.xsl=
 
 <blockquote>
 
@@ -11136,7 +11136,7 @@ None.
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -11148,7 +11148,7 @@ Instead of using [[#DependablesToHTML][DependablesToHTML]], you can use:
 
 <div class="highlight">
 
-    XSLTProcess -xsl _&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependablesToHTML.xsl -in dg.xml -out dependencies.html
+    XSLTProcess -xsl:_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependablesToHTML.xsl -s:dg.xml -o:dependencies.html
 
 </div>
 
@@ -11158,7 +11158,7 @@ Instead of using [[#DependablesToHTML][DependablesToHTML]], you can use:
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 

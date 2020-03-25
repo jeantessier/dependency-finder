@@ -78,8 +78,6 @@ bin/MetricsToHTML
 bin/MetricsToHTML.bat
 bin/MetricsToText
 bin/MetricsToText.bat
-bin/XSLTProcess
-bin/XSLTProcess.bat
 bin/c2c
 bin/c2c.bat
 bin/c2p
