@@ -21,7 +21,7 @@ a:hover {
 }
 
 .groups {
-    margin: 15 0 15 0;
+    margin: 15px 0 15px 0;
 }
 
 .groupname {
@@ -32,7 +32,7 @@ a:hover {
 }
 
 .classes {
-    margin: 15 0 15 50;
+    margin: 15px 0 15px 50px;
 }
 
 .classname {
@@ -41,7 +41,7 @@ a:hover {
 }
 
 .methods {
-    margin: 15 0 15 50;
+    margin: 15px 0 15px 50px;
 }
 
 .methodname {
@@ -49,7 +49,7 @@ a:hover {
 }
 
 .measurements {
-    margin: 15 0 15 50;
+    margin: 15px 0 15px 50px;
 }
 
 .measurementname {
@@ -61,7 +61,7 @@ a:hover {
 }
 
 .members {
-    margin: 0 0 0 50;
+    margin: 0 0 0 50px;
 }
 
 .member {

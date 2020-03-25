@@ -30,7 +30,7 @@ a:hover {
 }
 
 .classes {
-    margin: 15 0 15 50;
+    margin: 15px 0 15px 50px;
 }
 
 .classname {
@@ -39,7 +39,7 @@ a:hover {
 }
 
 .features {
-    margin: 15 0 15 50;
+    margin: 15px 0 15px 50px;
 }
 
 .featurename {
@@ -47,7 +47,7 @@ a:hover {
 }
 
 .dependencies {
-    margin: 0 0 15 50;
+    margin: 0 0 15px 50px;
 }
 
 .dependency {
