@@ -1,0 +1,5 @@
+In Java 9, the =com.sun.javadoc= package was rewritten into the
+=[[https://docs.oracle.com/en/java/javase/13/docs/api/jdk.javadoc/jdk/javadoc/doclet/package-summary.html][jdk.javadoc.doclet]]=
+package.  Some functionality was moved around and some of the classes changed
+names.  In Java 13, they finally removed the old, deprecated =com.sun.javadoc=
+package.  As a result, I will need to rewrite =ListDocumentedElements=.
