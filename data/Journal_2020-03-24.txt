@@ -1,18 +1,18 @@
 Explored using [[http://www.saxonica.com/][Saxon]] for XSLT processing.  I can
 run a CLI tool straight out of the JAR file.  I could add its JAR file to
 Dependency Finder's =lib/= folder and only change the XSL script templates to
-refer to that JAR file only.  One problem, though, the command-line switches to
-specify input and output files are different.  (And not to my taste.)
+refer to that JAR file only.  One problem, though, is the command-line switches
+to specify input and output files are different.  (And not to my taste.)
 
     $ DependencyGraphToHTML -in df.xml -out df.html
 
-would become:
+has become:
 
     $ DependencyGraphToHTML -s:df.xml -o:df.html
 
-Unless I parse the parameters inside the script and re-write =in= and =out=
-switches on the fly.  I can do it in UNIX shell scripts, but I don't have access
-to a DOS machine to do the same for the Windows batch files.
+I could have parsed the parameters inside the scripts and re-write =in= and
+=out= switches on the fly.  I could have done it for the UNIX shell scripts, but
+I don't have access to a DOS machine to do the same for the Windows batch files.
 
 Saxon's HTML output specifies a =DOCTYPE=.  With any =DOCTYPE=, browsers are
 more strict with the CSS stylesheet.  Without a =DOCTYPE=, I can get away with
