@@ -8,7 +8,8 @@ Tests for =CodeDependencyCollector= were testing filtering by excuding
 =/java.lang/= and making sure =java.lang= entities were absent from the
 dependency graph.  But after I added inheritance data to the graph, it became
 impossible to avoid =java.lang.Object= since =test= derives from it.  So I
-switched the package to exlcude to =java.io= instead.
+switched the package to exclude to =java.io= instead.  These tests were broken
+since 2008-08-17.
 
 I realized that when I ran tests with Ant instead of =textjunit=, some tests
 were failing.  I had to add JUnit classes to the =CLASSPATH= used by Ant's task.
