@@ -154,6 +154,7 @@
         <junit fork="true">
             <classpath>
                 <path refid="classpath.dependencyfinder"/>
+                <path refid="classpath.junit"/>
                 <path refid="classpath.jmock"/>
                 <path refid="classpath.tomcat"/>
                 <path refid="classpath.httpunit"/>
