@@ -163,6 +163,7 @@
             <batchtest todir="${testReportsDir}">
                 <fileset dir="${testsDir}">
                     <include name="com/jeantessier/**/Test*.java"/>
+                    <exclude name="com/jeantessier/dependencyfinder/web/**/Test*.java"/>
                     <exclude name="**/TestAll.java"/>
                     <exclude name="**/Test*Base.java"/>
                 </fileset>

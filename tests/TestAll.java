@@ -30,9 +30,10 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import org.junit.runner.*;
-import org.junit.runners.*;
-import static org.junit.runners.Suite.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
+import static org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
@@ -45,7 +46,7 @@ import static org.junit.runners.Suite.*;
         com.jeantessier.metrics.TestAll.class,
         com.jeantessier.dependencyfinder.ant.TestAll.class,
         com.jeantessier.dependencyfinder.cli.TestAll.class,
-        com.jeantessier.dependencyfinder.web.TestAll.class,
+//        com.jeantessier.dependencyfinder.web.TestAll.class,
 })
 public class TestAll {
 }
