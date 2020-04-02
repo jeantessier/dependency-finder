@@ -32,12 +32,13 @@
 
 package com.jeantessier.dependency;
 
-import java.io.*;
-import java.util.*;
+import com.jeantessier.classreader.AggregatingClassfileLoader;
+import com.jeantessier.classreader.ClassfileLoader;
+import com.jeantessier.classreader.LoadListenerVisitorAdapter;
+import junit.framework.TestCase;
 
-import junit.framework.*;
-
-import com.jeantessier.classreader.*;
+import java.io.File;
+import java.util.Collections;
 
 public class TestCodeDependencyCollectorWithFiltering extends TestCase {
     public static final String TEST_CLASS    = "test";
@@ -49,7 +50,7 @@ public class TestCodeDependencyCollectorWithFiltering extends TestCase {
         factory = new NodeFactory();
 
         RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria("//");
-        filterCriteria.setGlobalExcludes("/java.lang/");
+        filterCriteria.setGlobalExcludes("/java.util/");
 
         ClassfileLoader loader = new AggregatingClassfileLoader();
         loader.addLoadListener(new LoadListenerVisitorAdapter(new CodeDependencyCollector(factory, filterCriteria)));
@@ -69,13 +70,13 @@ public class TestCodeDependencyCollectorWithFiltering extends TestCase {
         assertNotNull("package java.io missing", node);
         assertFalse("package java.io is concrete", node.isConfirmed());
 
-        node = factory.getPackages().get("java.util");
-        assertNotNull("package java.util missing", node);
-        assertFalse("package java.util is concrete", node.isConfirmed());
+        node = factory.getPackages().get("java.lang");
+        assertNotNull("package java.lang missing", node);
+        assertFalse("package java.lang is concrete", node.isConfirmed());
     }
 
     public void testClasses() {
-        assertEquals("nb classes", 3, factory.getClasses().size());
+        assertEquals("nb classes", 6, factory.getClasses().size());
 
         Node node;
 
@@ -87,13 +88,25 @@ public class TestCodeDependencyCollectorWithFiltering extends TestCase {
         assertNotNull("class java.io.PrintStream missing", node);
         assertFalse("class java.io.PrintStream is concrete", node.isConfirmed());
 
-        node = factory.getClasses().get("java.util.Set");
-        assertNotNull("class java.util.Set missing", node);
-        assertFalse("class java.util.Set is concrete", node.isConfirmed());
+        node = factory.getClasses().get("java.lang.NullPointerException");
+        assertNotNull("class java.lang.NullPointerException missing", node);
+        assertFalse("class java.lang.NullPointerException is concrete", node.isConfirmed());
+
+        node = factory.getClasses().get("java.lang.Object");
+        assertNotNull("class java.lang.Object missing", node);
+        assertFalse("class java.lang.Object is concrete", node.isConfirmed());
+
+        node = factory.getClasses().get("java.lang.String");
+        assertNotNull("class java.lang.String missing", node);
+        assertFalse("class java.lang.String is concrete", node.isConfirmed());
+
+        node = factory.getClasses().get("java.lang.System");
+        assertNotNull("class java.lang.System missing", node);
+        assertFalse("class java.lang.System is concrete", node.isConfirmed());
     }
 
     public void testFeatures() {
-        assertEquals("nb features", 2, factory.getFeatures().size());
+        assertEquals("nb features", 5, factory.getFeatures().size());
 
         Node node;
 
@@ -104,5 +117,17 @@ public class TestCodeDependencyCollectorWithFiltering extends TestCase {
         node = factory.getFeatures().get("test.test()");
         assertNotNull("feature test.test() missing", node);
         assertTrue("feature test.test() not concrete", node.isConfirmed());
+
+        node = factory.getFeatures().get("java.io.PrintStream.println(java.lang.Object)");
+        assertNotNull("feature java.io.PrintStream.println(java.lang.Object) missing", node);
+        assertFalse("feature java.io.PrintStream.println(java.lang.Object) is concrete", node.isConfirmed());
+
+        node = factory.getFeatures().get("java.lang.Object.Object()");
+        assertNotNull("feature java.lang.Object.Object() missing", node);
+        assertFalse("feature java.lang.Object.Object() is concrete", node.isConfirmed());
+
+        node = factory.getFeatures().get("java.lang.System.out");
+        assertNotNull("feature java.lang.System.out missing", node);
+        assertFalse("feature java.lang.System.out is concrete", node.isConfirmed());
     }
 }
