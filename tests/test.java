@@ -30,12 +30,14 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
 
 public class test {
     public static void main(String[] args) {
+        Collection c;
         try {
-            Collection c = Collections.singleton(new Object());
+            c = Collections.singleton(new Object());
         } catch (NullPointerException ex) {
             System.out.println(ex);
         }
