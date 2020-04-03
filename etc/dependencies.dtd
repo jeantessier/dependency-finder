@@ -40,12 +40,12 @@
 >
 
 <!ELEMENT class (name,outbound*,inbound*,feature*) >
-<!ATTLIST package
+<!ATTLIST class
           confirmed (yes|no) #IMPLIED
 >
 
 <!ELEMENT feature (name,outbound*,inbound*) >
-<!ATTLIST package
+<!ATTLIST feature
           confirmed (yes|no) #IMPLIED
 >
 
