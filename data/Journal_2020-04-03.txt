@@ -1,0 +1,2 @@
+Fixed a cut'n'paste error in the =dependencies= DTD that had been going
+unchecked since [[2005-03-22]].

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!--
-    Copyright (c) 2001-2009, Jean Tessier
+    Copyright (c) 2001-2020, Jean Tessier
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without
@@ -40,12 +40,12 @@
 >
 
 <!ELEMENT class (name,outbound*,inbound*,feature*) >
-<!ATTLIST package
+<!ATTLIST class
           confirmed (yes|no) #IMPLIED
 >
 
 <!ELEMENT feature (name,outbound*,inbound*) >
-<!ATTLIST package
+<!ATTLIST feature
           confirmed (yes|no) #IMPLIED
 >
 
