@@ -25,4 +25,4 @@ A list of the tools and their usage is in `docs/Tools.html`.
 
 These documents are also available online at:
 
-> http://depfind.sourceforge.net/
+> https://depfind.sourceforge.io/

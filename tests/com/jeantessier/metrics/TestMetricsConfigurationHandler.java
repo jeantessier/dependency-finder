@@ -32,11 +32,15 @@
 
 package com.jeantessier.metrics;
 
-import java.io.*;
-import javax.xml.parsers.*;
+import junit.framework.TestCase;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.XMLReader;
 
-import junit.framework.*;
-import org.xml.sax.*;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.IOException;
+import java.io.StringReader;
 
 public class TestMetricsConfigurationHandler extends TestCase {
     private MetricsConfigurationHandler handler;
@@ -104,7 +108,7 @@ public class TestMetricsConfigurationHandler extends TestCase {
     public void testValidation() throws IOException, SAXException {
         StringBuffer document = new StringBuffer();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements/>\n");
@@ -125,7 +129,7 @@ public class TestMetricsConfigurationHandler extends TestCase {
     public void testPackageMeasurement() throws IOException, SAXException {
         StringBuffer document = new StringBuffer();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements>\n");
         document.append("        <measurement>\n");
@@ -164,7 +168,7 @@ public class TestMetricsConfigurationHandler extends TestCase {
     public void testGroupMeasurement() throws IOException, SAXException {
         StringBuffer document = new StringBuffer();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements>\n");
@@ -203,7 +207,7 @@ public class TestMetricsConfigurationHandler extends TestCase {
     public void testClassMeasurement() throws IOException, SAXException {
         StringBuffer document = new StringBuffer();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements/>\n");
@@ -241,7 +245,7 @@ public class TestMetricsConfigurationHandler extends TestCase {
     public void testMethodMeasurement() throws IOException, SAXException {
         StringBuffer document = new StringBuffer();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements/>\n");
@@ -277,7 +281,7 @@ public class TestMetricsConfigurationHandler extends TestCase {
     public void testTrueVisible() throws IOException, SAXException {
         StringBuffer document = new StringBuffer();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements/>\n");
@@ -302,7 +306,7 @@ public class TestMetricsConfigurationHandler extends TestCase {
     public void testYesVisible() throws IOException, SAXException {
         StringBuffer document = new StringBuffer();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements/>\n");
@@ -327,7 +331,7 @@ public class TestMetricsConfigurationHandler extends TestCase {
     public void testOnVisible() throws IOException, SAXException {
         StringBuffer document = new StringBuffer();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements/>\n");
@@ -352,7 +356,7 @@ public class TestMetricsConfigurationHandler extends TestCase {
     public void testDefaultVisible() throws IOException, SAXException {
         StringBuffer document = new StringBuffer();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements/>\n");
@@ -377,7 +381,7 @@ public class TestMetricsConfigurationHandler extends TestCase {
     public void testNotVisible() throws IOException, SAXException {
         StringBuffer document = new StringBuffer();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements/>\n");
@@ -402,7 +406,7 @@ public class TestMetricsConfigurationHandler extends TestCase {
     public void testGroupDefinitions() throws IOException, SAXException {
         StringBuffer document = new StringBuffer();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-definitions>\n");

@@ -32,17 +32,19 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import java.util.*;
-import java.io.*;
+import com.jeantessier.commandline.CommandLineException;
+import com.jeantessier.dependency.ClassNode;
+import com.jeantessier.dependency.FeatureNode;
+import com.jeantessier.dependency.LCOM4Gatherer;
+import org.apache.log4j.Logger;
 
-import org.apache.log4j.*;
-
-import com.jeantessier.commandline.*;
-import com.jeantessier.dependency.*;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Map;
 
 public class ClassCohesion extends DependencyGraphCommand {
     private static final String DEFAULT_ENCODING = "utf-8";
-    private static final String DEFAULT_DTD_PREFIX = "http://depfind.sourceforge.net/dtd";
+    private static final String DEFAULT_DTD_PREFIX = "https://depfind.sourceforge.io/dtd";
     private static final String DEFAULT_INDENT_TEXT = "    ";
 
     protected void populateCommandLineSwitches()  {

@@ -300,7 +300,7 @@
                 <attribute name="Implementation-Title"   value="Dependency Finder"/>
                 <attribute name="Implementation-Version" value="${release}"/>
                 <attribute name="Implementation-Date"    value="${NOW}"/>
-                <attribute name="Implementation-URL"     value="http://depfind.sourceforge.net/"/>
+                <attribute name="Implementation-URL"     value="https://depfind.sourceforge.io/"/>
                 <attribute name="Copyright-Holder"       value="Jean Tessier"/>
                 <attribute name="Copyright-Date"         value="2001-2009"/>
                 <attribute name="Compiler-Vendor"        value="${java.vendor}"/>

@@ -32,13 +32,15 @@
 
 package com.jeantessier.diff;
 
-import java.util.*;
+import com.jeantessier.classreader.Classfile;
 
-import com.jeantessier.classreader.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 public class Report extends Printer {
     public static final String DEFAULT_ENCODING   = "utf-8";
-    public static final String DEFAULT_DTD_PREFIX = "http://depfind.sourceforge.net/dtd";
+    public static final String DEFAULT_DTD_PREFIX = "https://depfind.sourceforge.io/dtd";
 
     private String name;
     private String oldVersion;

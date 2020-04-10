@@ -32,13 +32,12 @@
 
 package com.jeantessier.dependency;
 
-import java.io.*;
+import junit.framework.TestCase;
+import org.xml.sax.SAXException;
 
-import javax.xml.parsers.*;
-
-import org.xml.sax.*;
-
-import junit.framework.*;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.io.StringReader;
 
 public class TestNodeLoader extends TestCase {
     private static final String MY_PACKAGE_NAME = "mypackage";
@@ -53,7 +52,7 @@ public class TestNodeLoader extends TestCase {
 
         xml.append("<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n");
         xml.append("\n");
-        xml.append("<!DOCTYPE dependencies SYSTEM \"http://depfind.sourceforge.net/dtd/dependencies.dtd\">\n");
+        xml.append("<!DOCTYPE dependencies SYSTEM \"https://depfind.sourceforge.io/dtd/dependencies.dtd\">\n");
         xml.append("\n");
         xml.append("<dependencies>\n");
         xml.append("    <package confirmed=\"yes\">\n");

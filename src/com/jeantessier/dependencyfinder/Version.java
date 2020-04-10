@@ -32,13 +32,15 @@
 
 package com.jeantessier.dependencyfinder;
 
-import java.io.*;
-import java.util.jar.*;
+import org.apache.log4j.Logger;
 
-import org.apache.log4j.*;
+import java.io.IOException;
+import java.util.jar.Attributes;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 
 public class Version {
-    public static final String DEFAULT_URL              = "http://depfind.sourceforge.net/";
+    public static final String DEFAULT_URL              = "https://depfind.sourceforge.io/";
     public static final String DEFAULT_TITLE            = "Dependency Finder";
     public static final String DEFAULT_VERSION          = "<i>unknown</i>";
     public static final String DEFAULT_VENDOR           = "Jean Tessier";

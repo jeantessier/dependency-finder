@@ -40,7 +40,7 @@ import java.util.Collection;
 
 public class XMLPrinter extends Printer {
     public static final String DEFAULT_ENCODING   = "utf-8";
-    public static final String DEFAULT_DTD_PREFIX = "http://depfind.sourceforge.net/dtd";
+    public static final String DEFAULT_DTD_PREFIX = "https://depfind.sourceforge.io/dtd";
 
     private static final BitFormat format = new BitFormat(16);
 

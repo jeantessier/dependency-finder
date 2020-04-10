@@ -161,7 +161,7 @@ The prefix of the DTD URL for the XML output document.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>=http://depfind.sourceforge.net/dtd=</td></tr>
+<tr><td>Default value:</td><td>=https://depfind.sourceforge.io/dtd=</td></tr>
 </table>
 
 </blockquote>
@@ -417,7 +417,7 @@ _none_
 <blockquote>
 
 It writes all differences into an XML document that follows the
-=[[http://depfind.sourceforge.net/dtd/differences.dtd][differences]]= DTD.
+=[[https://depfind.sourceforge.io/dtd/differences.dtd][differences]]= DTD.
 
 </blockquote>
 
@@ -1374,7 +1374,7 @@ The prefix of the DTD URL for the XML output document.  Only useful with =-xml=.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>=http://depfind.sourceforge.net/dtd=</td></tr>
+<tr><td>Default value:</td><td>=https://depfind.sourceforge.io/dtd=</td></tr>
 </table>
 
 </blockquote>
@@ -1498,7 +1498,7 @@ Prints version information.
 <blockquote>
 
 Writes the =.class= file information as an XML document with the
-=[[http://depfind.sourceforge.net/dtd/classfile.dtd][classfile]]= DTD.
+=[[https://depfind.sourceforge.io/dtd/classfile.dtd][classfile]]= DTD.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -1535,7 +1535,7 @@ of the class that looks similar to the output of _javap_.
 
 With =-xml=, it converts the entire =Classfile= structure into an XML
 document that follows the
-=[[http://depfind.sourceforge.net/dtd/classfile.dtd][classfile]]= DTD.
+=[[https://depfind.sourceforge.io/dtd/classfile.dtd][classfile]]= DTD.
 
 </blockquote>
 
@@ -1615,7 +1615,7 @@ And here is the XML document, built from a =.class= file.
 
     &lt;?xml version%3D"1.0" encoding%3D"UTF-8" ?&gt;
     &nbsp;
-    &lt;!DOCTYPE classfile SYSTEM "http://depfind.sourceforge.net/dtd/classfile.dtd"&gt;
+    &lt;!DOCTYPE classfile SYSTEM "https://depfind.sourceforge.io/dtd/classfile.dtd"&gt;
     &nbsp;
     &lt;classfile magic-number%3D"-889275714" minor-version%3D"0" major-version%3D"46" access-number%3D"00000000 00100001"&gt;
         &lt;constant-pool&gt;
@@ -1787,7 +1787,7 @@ representing a closure.  You generate these graphs with
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD,
 such as the output of [[#DependencyExtractor][DependencyExtractor]],
 [[#DependencyReporter][DependencyReporter]], or
 [[#DependencyClosure][DependencyClosure]].
@@ -1908,7 +1908,7 @@ elements for easy navigation.
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD,
 such as the output of [[#DependencyExtractor][DependencyExtractor]],
 [[#DependencyReporter][DependencyReporter]], or
 [[#DependencyClosure][DependencyClosure]].
@@ -2024,7 +2024,7 @@ Lists only non-empty nodes.
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD,
 such as the output of [[#DependencyExtractor][DependencyExtractor]],
 [[#DependencyReporter][DependencyReporter]], or
 [[#DependencyClosure][DependencyClosure]].
@@ -2321,7 +2321,7 @@ The prefix of the DTD URL for the XML output document.  Only useful with =-xml=.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>=http://depfind.sourceforge.net/dtd=</td></tr>
+<tr><td>Default value:</td><td>=https://depfind.sourceforge.io/dtd=</td></tr>
 </table>
 
 </blockquote>
@@ -2799,7 +2799,7 @@ Prints version information.
 <blockquote>
 
 Writes the dependency graph as an XML document with the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD.
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2837,7 +2837,7 @@ The normal output is the resulting dependency graph, rendered as text.
 
 With =-xml=, it converts the resulting dependency graph into an XML
 document that follows the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD.
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD.
 
 </blockquote>
 
@@ -2999,7 +2999,7 @@ The prefix of the DTD URL for the XML output document.  Only useful with =-xml=.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>=http://depfind.sourceforge.net/dtd=</td></tr>
+<tr><td>Default value:</td><td>=https://depfind.sourceforge.io/dtd=</td></tr>
 </table>
 
 </blockquote>
@@ -3289,7 +3289,7 @@ Prints version information.
 <blockquote>
 
 Writes the cycles as an XML document with the
-=[[http://depfind.sourceforge.net/dtd/cycles.dtd][cycles]]= DTD.
+=[[https://depfind.sourceforge.io/dtd/cycles.dtd][cycles]]= DTD.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3326,7 +3326,7 @@ standard input.
 The normal output is the resulting dependency cycles, rendered as text.
 
 With =-xml=, it converts the cycles into an XML document that follows the
-=[[http://depfind.sourceforge.net/dtd/cycles.dtd][cycles]]= DTD.
+=[[https://depfind.sourceforge.io/dtd/cycles.dtd][cycles]]= DTD.
 
 </blockquote>
 
@@ -3505,7 +3505,7 @@ The prefix of the DTD URL for the XML output document.  Only useful with =-xml=.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>=http://depfind.sourceforge.net/dtd=</td></tr>
+<tr><td>Default value:</td><td>=https://depfind.sourceforge.io/dtd=</td></tr>
 </table>
 
 </blockquote>
@@ -3829,7 +3829,7 @@ Prints version information.
 <blockquote>
 
 Writes the dependency graph as an XML document with the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD.
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3865,7 +3865,7 @@ The normal output is the dependency graph, rendered as text.
 
 With =-xml=, it converts the entire dependency graph into an XML
 document that follows the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD.
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD.
 
 </blockquote>
 
@@ -3987,7 +3987,7 @@ The prefix of the DTD URL for the saving dependency graphs to XML documents.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>=http://depfind.sourceforge.net/dtd=</td></tr>
+<tr><td>Default value:</td><td>=https://depfind.sourceforge.io/dtd=</td></tr>
 </table>
 
 </blockquote>
@@ -4118,7 +4118,7 @@ names that are in it.
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD,
 such as the output of [[#DependencyExtractor][DependencyExtractor]],
 [[#DependencyReporter][DependencyReporter]], or
 [[#DependencyClosure][DependencyClosure]].
@@ -4272,7 +4272,7 @@ Translates both outbound and inbound dependencies to basic GraphML.
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD,
 such as the output of [[#DependencyExtractor][DependencyExtractor]],
 [[#DependencyReporter][DependencyReporter]], or
 [[#DependencyClosure][DependencyClosure]].
@@ -4386,7 +4386,7 @@ elements for easy navigation.
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD,
 such as the output of [[#DependencyExtractor][DependencyExtractor]],
 [[#DependencyReporter][DependencyReporter]], or
 [[#DependencyClosure][DependencyClosure]].
@@ -4499,7 +4499,7 @@ Translates both outbound and inbound dependencies to RDF.
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD,
 such as the output of [[#DependencyExtractor][DependencyExtractor]],
 [[#DependencyReporter][DependencyReporter]], or
 [[#DependencyClosure][DependencyClosure]].
@@ -4612,7 +4612,7 @@ Translates both outbound and inbound dependencies to text.
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD,
 such as the output of [[#DependencyExtractor][DependencyExtractor]],
 [[#DependencyReporter][DependencyReporter]], or
 [[#DependencyClosure][DependencyClosure]].
@@ -4777,7 +4777,7 @@ names that are in it and that are unconfirmed.
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD,
 such as the output of [[#DependencyExtractor][DependencyExtractor]],
 [[#DependencyReporter][DependencyReporter]], or
 [[#DependencyClosure][DependencyClosure]].
@@ -4990,7 +4990,7 @@ See also:
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD,
 such as the output of [[#DependencyExtractor][DependencyExtractor]],
 [[#DependencyReporter][DependencyReporter]], or
 [[#DependencyClosure][DependencyClosure]].
@@ -6428,7 +6428,7 @@ The prefix of the DTD URL for the XML output document.  Only useful with =-xml=.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>=http://depfind.sourceforge.net/dtd=</td></tr>
+<tr><td>Default value:</td><td>=https://depfind.sourceforge.io/dtd=</td></tr>
 </table>
 
 </blockquote>
@@ -7049,7 +7049,7 @@ Prints version information.
 <blockquote>
 
 Writes the dependency graph as an XML document with the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD.
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -7087,7 +7087,7 @@ The normal output is the resulting dependency graph, rendered as text.
 
 With =-xml=, it converts the resulting dependency graph into an XML document
 that follows the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD.
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD.
 
 </blockquote>
 
@@ -7188,7 +7188,7 @@ elements for easy navigation.
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD,
 such as the output of [[#DependencyExtractor][DependencyExtractor]],
 [[#DependencyReporter][DependencyReporter]], or
 [[#DependencyClosure][DependencyClosure]].
@@ -7304,7 +7304,7 @@ Lists only non-empty nodes.
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD,
 such as the output of [[#DependencyExtractor][DependencyExtractor]],
 [[#DependencyReporter][DependencyReporter]], or
 [[#DependencyClosure][DependencyClosure]].
@@ -7462,7 +7462,7 @@ interface, field, constructor, and method names that have changed.
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/differences.dtd][differences]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/differences.dtd][differences]]= DTD,
 such as the output of [[#JarJarDiff][JarJarDiff]].
 
 <table border="0">
@@ -7569,7 +7569,7 @@ Converts the output of [[#JarJarDiff][JarJarDiff]] to HTML.
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/differences.dtd][differences]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/differences.dtd][differences]]= DTD,
 such as the output of [[#JarJarDiff][JarJarDiff]].
 
 <table border="0">
@@ -7680,7 +7680,7 @@ elements for easy navigation.
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD,
 such as the output of [[#DependencyExtractor][DependencyExtractor]],
 [[#DependencyReporter][DependencyReporter]], or
 [[#DependencyClosure][DependencyClosure]].
@@ -7795,7 +7795,7 @@ Translates only outbound dependencies to text.
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD,
 such as the output of [[#DependencyExtractor][DependencyExtractor]],
 [[#DependencyReporter][DependencyReporter]], or
 [[#DependencyClosure][DependencyClosure]].
@@ -7957,7 +7957,7 @@ elements for easy navigation.
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD,
 such as the output of [[#DependencyExtractor][DependencyExtractor]],
 [[#DependencyReporter][DependencyReporter]], or
 [[#DependencyClosure][DependencyClosure]].
@@ -8072,7 +8072,7 @@ Translates only inbound dependencies to text.
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD,
 such as the output of [[#DependencyExtractor][DependencyExtractor]],
 [[#DependencyReporter][DependencyReporter]], or
 [[#DependencyClosure][DependencyClosure]].
@@ -8271,7 +8271,7 @@ The prefix of the DTD URL for the XML output document.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>=http://depfind.sourceforge.net/dtd=</td></tr>
+<tr><td>Default value:</td><td>=https://depfind.sourceforge.io/dtd=</td></tr>
 </table>
 
 </blockquote>
@@ -8527,7 +8527,7 @@ _none_
 <blockquote>
 
 It writes all differences into an XML document that follows the
-=[[http://depfind.sourceforge.net/dtd/differences.dtd][differences]]= DTD.
+=[[https://depfind.sourceforge.io/dtd/differences.dtd][differences]]= DTD.
 
 </blockquote>
 
@@ -8796,7 +8796,7 @@ The prefix of the DTD URL for the XML output document.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>=http://depfind.sourceforge.net/dtd=</td></tr>
+<tr><td>Default value:</td><td>=https://depfind.sourceforge.io/dtd=</td></tr>
 </table>
 
 </blockquote>
@@ -9000,7 +9000,7 @@ _none_
 <blockquote>
 
 It writes the list of differences into an XML document that follows the
-=[[http://depfind.sourceforge.net/dtd/list-diff.dtd][list-diff]]= DTD.
+=[[https://depfind.sourceforge.io/dtd/list-diff.dtd][list-diff]]= DTD.
 
 </blockquote>
 
@@ -9030,7 +9030,7 @@ Then =ListDiff= will show:
 
     &lt;?xml version%3D"1.0" encoding%3D"UTF-8" ?&gt;
     &nbsp;
-    &lt;!DOCTYPE list-diff SYSTEM "http://depfind.sourceforge.net/dtd/list-diff.dtd"&gt;
+    &lt;!DOCTYPE list-diff SYSTEM "https://depfind.sourceforge.io/dtd/list-diff.dtd"&gt;
     &nbsp;
     &lt;list-diff&gt;
         &lt;name&gt;sample&lt;/name&gt;
@@ -9089,7 +9089,7 @@ Converts the output of [[#ListDiff][ListDiff]] to HTML.
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/list-diff.dtd][list-diff]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/list-diff.dtd][list-diff]]= DTD,
 such as the output of [[#ListDiff][ListDiff]].
 
 <table border="0">
@@ -9196,7 +9196,7 @@ Converts the output of [[#ListDiff][ListDiff]] to human-readable text.
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/list-diff.dtd][list-diff]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/list-diff.dtd][list-diff]]= DTD,
 such as the output of [[#ListDiff][ListDiff]].
 
 <table border="0">
@@ -9482,7 +9482,7 @@ clauses.
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/differences.dtd][differences]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/differences.dtd][differences]]= DTD,
 such as the output of [[#JarJarDiff][JarJarDiff]].
 
 <table border="0">
@@ -9958,7 +9958,7 @@ are not in reality.
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/dependencies.dtd][dependencies]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD,
 such as the output of [[#DependencyExtractor][DependencyExtractor]],
 [[#DependencyReporter][DependencyReporter]], or
 [[#DependencyClosure][DependencyClosure]].
@@ -10089,7 +10089,7 @@ anchors inside the HTML.
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/metrics.dtd][metrics]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/metrics.dtd][metrics]]= DTD,
 such as the output of [[#OOMetrics][OOMetrics]].
 
 <table border="0">
@@ -10201,7 +10201,7 @@ and finally by all methods.
 <blockquote>
 
 The XML file to be translated.  The document has to follow the
-=[[http://depfind.sourceforge.net/dtd/metrics.dtd][metrics]]= DTD,
+=[[https://depfind.sourceforge.io/dtd/metrics.dtd][metrics]]= DTD,
 such as the output of [[#OOMetrics][OOMetrics]].
 
 <table border="0">
@@ -10408,7 +10408,7 @@ Only useful with =-xml=.
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
-<tr><td>Default value:</td><td>=http://depfind.sourceforge.net/dtd=</td></tr>
+<tr><td>Default value:</td><td>=https://depfind.sourceforge.io/dtd=</td></tr>
 </table>
 
 </blockquote>
@@ -10807,7 +10807,7 @@ Prints version information.
 <blockquote>
 
 Writes the metrics report as an XML document with the
-=[[http://depfind.sourceforge.net/dtd/metrics.dtd][metrics]]= DTD.
+=[[https://depfind.sourceforge.io/dtd/metrics.dtd][metrics]]= DTD.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -10854,7 +10854,7 @@ generates up to four files, one for each group of metrics:
 
 With =-xml=, it converts the entire metrics structure into an XML document that
 follows the
-=[[http://depfind.sourceforge.net/dtd/metrics.dtd][metrics]]= DTD.  You can use
+=[[https://depfind.sourceforge.io/dtd/metrics.dtd][metrics]]= DTD.  You can use
 =-out filename= to save the output to a file.
 
 </blockquote>

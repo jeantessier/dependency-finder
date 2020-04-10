@@ -32,7 +32,7 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<!DOCTYPE metrics-configuration SYSTEM "http://depfind.sourceforge.net/dtd/metrics-configuration.dtd">
+<!DOCTYPE metrics-configuration SYSTEM "https://depfind.sourceforge.io/dtd/metrics-configuration.dtd">
 
 <!--
         <measurement>

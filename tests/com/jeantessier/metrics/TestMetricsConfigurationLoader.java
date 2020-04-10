@@ -32,13 +32,14 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
+import junit.framework.TestCase;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
-import java.io.*;
-
-import javax.xml.parsers.*;
-
-import org.xml.sax.*;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 
 public class TestMetricsConfigurationLoader extends TestCase {
     private MetricsConfiguration       configuration;
@@ -96,7 +97,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
     public void testValidation() throws IOException, SAXException, ParserConfigurationException {
         StringBuffer document = new StringBuffer();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements/>\n");
@@ -118,7 +119,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
     public void testPackageMeasurement() throws IOException, SAXException, ParserConfigurationException {
         StringBuffer document = new StringBuffer();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements>\n");
         document.append("        <measurement>\n");
@@ -158,7 +159,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
     public void testGroupMeasurement() throws IOException, SAXException, ParserConfigurationException {
         StringBuffer document = new StringBuffer();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements>\n");
@@ -198,7 +199,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
     public void testClassMeasurement() throws IOException, SAXException, ParserConfigurationException {
         StringBuffer document = new StringBuffer();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements/>\n");
@@ -237,7 +238,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
     public void testMethodMeasurement() throws IOException, SAXException, ParserConfigurationException {
         StringBuffer document = new StringBuffer();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements/>\n");
@@ -274,7 +275,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
     public void testGroupDefinitions() throws IOException, SAXException, ParserConfigurationException {
         StringBuffer document = new StringBuffer();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"http://depfind.sourceforge.net/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-definitions>\n");

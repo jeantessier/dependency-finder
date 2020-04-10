@@ -32,16 +32,17 @@
 
 package com.jeantessier.diff;
 
-import java.util.*;
+import com.jeantessier.text.PrinterBuffer;
+import org.apache.oro.text.perl.Perl5Util;
 
-import org.apache.oro.text.perl.*;
-
-import com.jeantessier.text.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.TreeSet;
 
 public class ListDiffPrinter {
     public static final boolean DEFAULT_COMPRESS = false;
     public static final String DEFAULT_ENCODING = "utf-8";
-    public static final String DEFAULT_DTD_PREFIX  = "http://depfind.sourceforge.net/dtd";
+    public static final String DEFAULT_DTD_PREFIX  = "https://depfind.sourceforge.io/dtd";
     public static final String DEFAULT_INDENT_TEXT = PrinterBuffer.DEFAULT_INDENT_TEXT;
 
     private static final Perl5Util perl = new Perl5Util();

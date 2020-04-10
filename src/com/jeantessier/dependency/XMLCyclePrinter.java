@@ -32,12 +32,12 @@
 
 package com.jeantessier.dependency;
 
-import java.io.*;
-import java.util.*;
+import java.io.PrintWriter;
+import java.util.Collection;
 
 public class XMLCyclePrinter implements CyclePrinter, Visitor {
     public static final String DEFAULT_ENCODING   = "utf-8";
-    public static final String DEFAULT_DTD_PREFIX = "http://depfind.sourceforge.net/dtd";
+    public static final String DEFAULT_DTD_PREFIX = "https://depfind.sourceforge.io/dtd";
 
     private PrintWriter out;
 
