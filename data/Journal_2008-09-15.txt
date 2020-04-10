@@ -27,6 +27,6 @@ Replace =lib= with your own JARs, and =/cli/= with your own starting point, and
 you should be well on your way.
 
 Bear in mind the
-[[http://depfind.sourceforge.net/Manual.html#TrickyBehavior][tricky behavior]]
+[[https://depfind.sourceforge.io/Manual.html#TrickyBehavior][tricky behavior]]
 around computing closures.  So you might want to reduce the dependency graph to
 class-to-class dependencies before you compute the closure.

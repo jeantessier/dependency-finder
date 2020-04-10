@@ -4,7 +4,7 @@ have an "official" web site, I can store the DTDs there for
 all to share.  When the release is ready, I'll put the DTDs
 at:
 
-    [[dtd][http://depfind.sourceforge.net/dtd/]]
+    [[dtd][https://depfind.sourceforge.io/dtd/]]
 
 I have got a design for the configuration of metrics system.
 I have started writing some unit tests.

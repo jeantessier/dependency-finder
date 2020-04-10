@@ -3,7 +3,7 @@ and dependency measurements.
 
 Created =metrics.dtd= and put it at:
 
-    [[dtd][http://depfind.sourceforge.net/dtd/]]
+    [[dtd][https://depfind.sourceforge.io/dtd/]]
 
 Fixed a mistyped measurement in =MetricsConfig.xml=.
 
