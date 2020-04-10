@@ -1,0 +1,4 @@
+Turned on HTTPS on SourceForge.  This changed the URL from
+=http://depfind.sourceforge.net/= to =https://depfind.sourceforge.io/=.
+SourceForge put some redirects in place, but I tried my best to change all
+references nonetheless.
