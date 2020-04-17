@@ -426,7 +426,7 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
         opcode[0xb9] = "invokeinterface";
         length[0xb9] = 5;
         opcode[0xba] = "invokedynamic";
-        length[0xba] = 3;
+        length[0xba] = 5;
         opcode[0xbb] = "new";
         length[0xbb] = 3;
         opcode[0xbc] = "newarray";
