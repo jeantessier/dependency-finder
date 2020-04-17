@@ -1,0 +1,5 @@
+Somewhere between Java 5 in 2006(?) and Java 7 in 2013, the  =invokedynamic=
+instructions grew from 3 bytes to 5 bytes.  The two extra bytes are nulled out
+all the way through to Java 14.
+
+I should do a pass through all instructions to see if any others have changed.
