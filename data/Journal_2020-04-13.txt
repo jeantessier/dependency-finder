@@ -1,0 +1,31 @@
+I noticed a new issue
+([[https://github.com/jeantessier/dependency-finder/issues/6][#6]]).  It shows a
+limitation of Dependency Extractor: it fails to capture dependencies on lambda
+expressions.  Take the following example:
+
+    import java.util.function.*;
+    &nbsp;
+    public class Test {
+        public void someMethod(){
+            Consumer&lt;String&gt; function = (x-&gt;System.out.println(x));
+        }
+    }
+
+You would expect a dependency graph that includes the following:
+
+        Test
+            lambda$someMethod$0(java.lang.String)
+                <-- Test.someMethod()
+            someMethod()
+                --> Test.lambda$someMethod$0(java.lang.String)
+
+The  problem is that the reference to the lambda in the bytecode is through the
+=invokedynamic 0xBA=  instruction.  This instruction allows the JVM to resolve a
+method call at runtime.  It relies on very intricate data structures and its
+description in the
+[[https://docs.oracle.com/javase/specs/jvms/se8/html/index.html][Java Virtual Machine Specification, Java SE 8 Edition]],
+took five entire pages.  I don't know when I will find the time to work on this
+very tricky piece of code.  The latest
+[[https://docs.oracle.com/javase/specs/jvms/se14/html/index.html][Java Virtual Machine Specification]]
+is a little more concise, so maybe there is hope, yet.  I'll have to take a look
+at what else is new or changed.
