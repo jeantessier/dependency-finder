@@ -48,7 +48,7 @@
     </context-param>
     <context-param>
         <param-name>source</param-name>
-        <param-value>C:\language\Java\myprojects\depfind\DependencyFinder\classes</param-value>
+        <param-value>/code</param-value>
         <description>Where to extract dependencies from.  Separate multiple
         locations with commas.  Each location can either be a JAR file, a
         ZIP file, a .class file, or a directory that will be recursively
@@ -80,7 +80,7 @@
     </context-param>
     <context-param>
         <param-name>file</param-name>
-        <param-value>C:\language\Java\myprojects\depfind\DependencyFinder\df.xml</param-value>
+        <param-value>/code/df.xml</param-value>
         <description>Where to load dependencies from.  Separate multiple
         locations with commas.  Each location should be an XML document
         that follows the dependencies DTD.</description>
