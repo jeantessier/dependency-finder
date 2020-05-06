@@ -392,6 +392,14 @@ may allow you to simply restart the web application itself.
 Or you can edit the WAR file directly and then use the deployment tool in
 Tomcat Manager to redeploy the web application.
 
+---+++ Docker Container
+
+You can find a pre-configured image on
+[[https://hub.docker.com/r/jeantessier/dependency-finder-tomcat/][Docker Hub]].
+It will  look for code to extract dependencies from at the =/code= folder in the
+container.  All you have to do is to mount your code somewhere under =/code=.
+Or, you can mount a pre-extracted graph as =/code/df.xml=.
+
 ----
 
 ---++ Running Dependency Finder
