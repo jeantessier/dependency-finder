@@ -67,6 +67,7 @@ by Jean Tessier
 <li><a href="#Step1:DeployWARFile">Step 1: Deploy WAR File</a></li>
 <li><a href="#Step2:Configureweb.xmlfile">Step 2: Configure <code>web.xml</code> file</a></li>
 </ul>
+<li><a href="#DockerContainer">Docker Container</a></li>
 </ul>
 <li><a href="#RunningDependencyFinder">Running Dependency Finder</a></li>
 <ul>
@@ -770,6 +771,17 @@ may allow you to simply restart the web application itself.
 <p>
 Or you can edit the WAR file directly and then use the deployment tool in
 Tomcat Manager to redeploy the web application.
+</p>
+
+<a name="DockerContainer"></a>
+<h3>Docker Container</h3>
+
+<p>
+You can find a pre-configured image on
+<a href="https://hub.docker.com/r/jeantessier/dependency-finder-tomcat/">Docker Hub</a>.
+It will  look for code to extract dependencies from at the <code>/code</code> folder in the
+container.  All you have to do is to mount your code somewhere under <code>/code</code>.
+Or, you can mount a pre-extracted graph as <code>/code/df.xml</code>.
 </p>
 
 <hr />
