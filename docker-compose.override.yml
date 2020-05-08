@@ -1,0 +1,13 @@
+version: '3.7'
+
+#
+# docker-compose up -d
+#
+
+services:
+
+    dependencyfinder:
+        ports:
+          - 8080:8080
+        volumes:
+          - ./lib/DependencyFinder.jar:/code/DependencyFinder.jar:ro

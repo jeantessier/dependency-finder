@@ -1,0 +1,12 @@
+version: '3.7'
+
+#
+# docker-compose up -d
+#
+
+services:
+
+    dependencyfinder:
+        image: jeantessier/dependency-finder-tomcat
+        expose:
+          - 8080
