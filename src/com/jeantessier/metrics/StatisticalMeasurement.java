@@ -1,22 +1,22 @@
 /*
  *  Copyright (c) 2001-2009, Jean Tessier
  *  All rights reserved.
- *  
+ *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
  *  are met:
- *  
+ *
  *      * Redistributions of source code must retain the above copyright
  *        notice, this list of conditions and the following disclaimer.
- *  
+ *
  *      * Redistributions in binary form must reproduce the above copyright
  *        notice, this list of conditions and the following disclaimer in the
  *        documentation and/or other materials provided with the distribution.
- *  
+ *
  *      * Neither the name of Jean Tessier nor the names of his contributors
  *        may be used to endorse or promote products derived from this software
  *        without specific prior written permission.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -44,7 +44,7 @@ import org.apache.log4j.*;
  *  explores the tree of metrics rooted at the context and finds the numerical
  *  value of these named measurements in the tree.  For these measurements, it
  *  computes:</p>
- *  
+ *
  *  <ul>
  *      <li>minimum value</li>
  *      <li>median value</li>
@@ -56,7 +56,7 @@ import org.apache.log4j.*;
  *  </ul>
  *
  *  <p>This is the syntax for initializing this type of measurement:</p>
- *  
+ *
  *  <pre>
  *  &lt;init&gt;
  *      monitored measurement name [DISPOSE_x]
@@ -109,36 +109,36 @@ public class StatisticalMeasurement extends MeasurementBase {
             case DISPOSE_MINIMUM:
                 result = "minimum";
                 break;
-        
+
             case DISPOSE_MEDIAN:
                 result = "median";
                 break;
-        
+
             case DISPOSE_AVERAGE:
                 result = "average";
                 break;
-        
+
             case DISPOSE_STANDARD_DEVIATION:
                 result = "standard deviation";
                 break;
-        
+
             case DISPOSE_MAXIMUM:
                 result = "maximum";
                 break;
-        
+
             case DISPOSE_SUM:
                 result = "sum";
                 break;
-        
+
             case DISPOSE_NB_DATA_POINTS:
                 result = "number of data points";
                 break;
-        
+
             case DISPOSE_IGNORE:
             default:
                 break;
         }
-        
+
         return result;
     }
 
@@ -149,43 +149,43 @@ public class StatisticalMeasurement extends MeasurementBase {
             case DISPOSE_MINIMUM:
                 result = "min";
                 break;
-        
+
             case DISPOSE_MEDIAN:
                 result = "med";
                 break;
-        
+
             case DISPOSE_AVERAGE:
                 result = "avg";
                 break;
-        
+
             case DISPOSE_STANDARD_DEVIATION:
                 result = "sdv";
                 break;
-        
+
             case DISPOSE_MAXIMUM:
                 result = "max";
                 break;
-        
+
             case DISPOSE_SUM:
                 result = "sum";
                 break;
-        
+
             case DISPOSE_NB_DATA_POINTS:
                 result = "nb";
                 break;
-        
+
             case DISPOSE_IGNORE:
             default:
                 break;
         }
-        
+
         return result;
     }
 
     private String monitoredMeasurement;
     private int    dispose;
     private int    selfDispose;
-    
+
     private List<Double> data = new LinkedList<Double>();
 
     private double minimum           = 0.0;
@@ -208,9 +208,9 @@ public class StatisticalMeasurement extends MeasurementBase {
             synchronized (perl()) {
                 if (perl().match("/(.*)\\s+(dispose_\\w+)$/i", monitoredMeasurement)) {
                     monitoredMeasurement = perl().group(1);
-                    
+
                     String disposeText = perl().group(2);
-                    
+
                     if (disposeText.equalsIgnoreCase("DISPOSE_IGNORE")) {
                         dispose = DISPOSE_IGNORE;
                     } else if (disposeText.equalsIgnoreCase("DISPOSE_MINIMUM")) {
@@ -261,14 +261,14 @@ public class StatisticalMeasurement extends MeasurementBase {
             } else {
                 selfDispose = DISPOSE_AVERAGE;
             }
-            
+
             in.close();
         } catch (Exception ex) {
             Logger.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\"", ex);
             monitoredMeasurement = null;
         }
     }
-    
+
     public double getMinimum() {
         collectData();
         return minimum;
@@ -307,7 +307,7 @@ public class StatisticalMeasurement extends MeasurementBase {
         collectData();
         return nbDataPoints;
     }
-    
+
     private void collectData() {
         if (getContext().getSubMetrics().size() != nbSubmetrics) {
             synchronized (this) {
@@ -318,57 +318,81 @@ public class StatisticalMeasurement extends MeasurementBase {
                     for (Metrics metrics : getContext().getSubMetrics()) {
                         visitMetrics(metrics);
                     }
-                    
+
                     if (!data.isEmpty()) {
                         Collections.sort(data);
-                        
+
                         minimum      = data.get(0);
-                        median       = data.get(data.size() / 2);
                         maximum      = data.get(data.size() - 1);
                         nbDataPoints = data.size();
-                        
+
                         sum = 0.0;
                         for (Double number : data) {
                             sum += number;
                         }
                     } else {
                         minimum      = Double.NaN;
-                        median       = Double.NaN;
                         maximum      = Double.NaN;
                         nbDataPoints = 0;
-                        sum            = 0.0;
+                        sum          = 0.0;
                     }
-                    
+
+                    median = findMedianOf(data);
                     average = sum / nbDataPoints;
-                    
+
                     if (!data.isEmpty()) {
                         double temp = 0.0;
 
                         for (Double number : data) {
                             temp += Math.pow(number - average, 2);
                         }
-                        
+
                         standardDeviation = Math.sqrt(temp / nbDataPoints);
                     } else {
                         standardDeviation = Double.NaN;
                     }
-                    
+
                     nbSubmetrics = getContext().getSubMetrics().size();
                 }
             }
         }
     }
-    
+
+    private double findMedianOf(List<Double> data) {
+        if (data.isEmpty()) {
+            return findMedianOfEmptyList(data);
+        }
+        if (data.size() % 2 == 0) {
+            return findMedianEvenSizedList(data);
+        }
+        return findMedianOfOddSizedList(data);
+    }
+
+    private double findMedianOfEmptyList(List<Double> data) {
+        return Double.NaN;
+    }
+
+    private double findMedianEvenSizedList(List<Double> data) {
+        int pos = data.size() / 2;
+        double leftMiddleElement = data.get(pos - 1);
+        double rightMiddleElement = data.get(pos);
+        return (leftMiddleElement + rightMiddleElement) / 2;
+    }
+
+    private double findMedianOfOddSizedList(List<Double> data) {
+        return data.get(data.size() / 2);
+    }
+
     private void visitMetrics(Metrics metrics) {
         Logger.getLogger(getClass()).debug("VisitMetrics: " + metrics.getName());
-        
+
         Measurement measurement = metrics.getMeasurement(monitoredMeasurement);
 
         Logger.getLogger(getClass()).debug("measurement for " + monitoredMeasurement + " is " + measurement.getClass());
-        
+
         if (measurement instanceof StatisticalMeasurement) {
             StatisticalMeasurement stats = (StatisticalMeasurement) measurement;
-            
+
             Logger.getLogger(getClass()).debug("dispose of StatisticalMeasurements is " + dispose);
 
             switch (dispose) {
@@ -376,32 +400,32 @@ public class StatisticalMeasurement extends MeasurementBase {
                     Logger.getLogger(getClass()).debug("using Minimum(): " + stats.getMinimum());
                     data.add(stats.getMinimum());
                     break;
-                    
+
                 case DISPOSE_MEDIAN:
                     Logger.getLogger(getClass()).debug("using Median(): " + stats.getMedian());
                     data.add(stats.getMedian());
                     break;
-                    
+
                 case DISPOSE_AVERAGE:
                     Logger.getLogger(getClass()).debug("using Average(): " + stats.getAverage());
                     data.add(stats.getAverage());
                     break;
-                            
+
                 case DISPOSE_STANDARD_DEVIATION:
                     Logger.getLogger(getClass()).debug("using StandardDeviation(): " + stats.getStandardDeviation());
                     data.add(stats.getStandardDeviation());
                     break;
-            
+
                 case DISPOSE_MAXIMUM:
                     Logger.getLogger(getClass()).debug("using Maximum(): " + stats.getMaximum());
                     data.add(stats.getMaximum());
                     break;
-                    
+
                 case DISPOSE_SUM:
                     Logger.getLogger(getClass()).debug("using Sum(): " + stats.getSum());
                     data.add(stats.getSum());
                     break;
-                    
+
                 case DISPOSE_NB_DATA_POINTS:
                     Logger.getLogger(getClass()).debug("using NbDataPoints(): " + stats.getNbDataPoints());
                     data.add((double) stats.getNbDataPoints());
@@ -422,7 +446,7 @@ public class StatisticalMeasurement extends MeasurementBase {
             }
         } else {
             Number value = measurement.getValue();
-            
+
             Logger.getLogger(getClass()).debug(monitoredMeasurement + " on " + metrics.getName() + " is " + value);
 
             if (value != null) {
@@ -437,7 +461,7 @@ public class StatisticalMeasurement extends MeasurementBase {
 
     public boolean isEmpty() {
         collectData();
-        
+
         return super.isEmpty();
     }
 
@@ -447,32 +471,32 @@ public class StatisticalMeasurement extends MeasurementBase {
 
     protected double compute() {
         double result = Double.NaN;
-        
+
         switch (selfDispose) {
             case DISPOSE_MINIMUM:
                 result = getMinimum();
                 break;
-                
+
             case DISPOSE_MEDIAN:
                 result = getMedian();
                 break;
-                
+
             case DISPOSE_AVERAGE:
                 result = getAverage();
                 break;
-                
+
             case DISPOSE_STANDARD_DEVIATION:
                 result = getStandardDeviation();
                 break;
-                
+
             case DISPOSE_MAXIMUM:
                 result = getMaximum();
                 break;
-                
+
             case DISPOSE_SUM:
                 result = getSum();
                 break;
-                
+
             case DISPOSE_NB_DATA_POINTS:
                 result = getNbDataPoints();
                 break;
@@ -495,7 +519,7 @@ public class StatisticalMeasurement extends MeasurementBase {
         result.append(" ").append(valueFormat.format(getMaximum()));
         result.append(" ").append(valueFormat.format(getSum()));
         result.append(" (").append(valueFormat.format(getNbDataPoints())).append(")]");
-        
+
         return result.toString();
     }
 }

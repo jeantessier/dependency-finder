@@ -1,22 +1,22 @@
 /*
  *  Copyright (c) 2001-2009, Jean Tessier
  *  All rights reserved.
- *  
+ *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
  *  are met:
- *  
+ *
  *      * Redistributions of source code must retain the above copyright
  *        notice, this list of conditions and the following disclaimer.
- *  
+ *
  *      * Redistributions in binary form must reproduce the above copyright
  *        notice, this list of conditions and the following disclaimer in the
  *        documentation and/or other materials provided with the distribution.
- *  
+ *
  *      * Neither the name of Jean Tessier nor the names of his contributors
  *        may be used to endorse or promote products derived from this software
  *        without specific prior written permission.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -40,14 +40,14 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
     private StatisticalMeasurement measurement;
     private Metrics metrics;
     private Measurement visited;
-    
+
     protected void setUp() throws Exception {
         Logger.getLogger(getClass()).info("Starting test: " + getName());
 
         metrics = new Metrics("foo");
         measurement = new StatisticalMeasurement(null, metrics, "bar");
     }
-    
+
     protected void tearDown() throws Exception {
         Logger.getLogger(getClass()).info("End of " + getName());
     }
@@ -90,7 +90,7 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
 
         metrics.addSubMetrics(m1);
         metrics.addSubMetrics(m2);
-        
+
         m1.track("bar", new CounterMeasurement(null, null, null));
         m2.track("bar", new CounterMeasurement(null, null, null));
 
@@ -99,7 +99,7 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
 
         assertEquals("size",      2,   measurement.getNbDataPoints());
         assertEquals("minimum",   1.0, measurement.getMinimum(), 0.01);
-        assertEquals("median",  100.0, measurement.getMedian(),  0.01);
+        assertEquals("median",   50.5, measurement.getMedian(),  0.01);
         assertEquals("average",  50.5, measurement.getAverage(), 0.01);
         assertEquals("standard deviation", 49.5, measurement.getStandardDeviation(), 0.01);
         assertEquals("maximum", 100.0, measurement.getMaximum(), 0.01);
@@ -114,7 +114,7 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
         metrics.addSubMetrics(m1);
         metrics.addSubMetrics(m2);
         metrics.addSubMetrics(m3);
-        
+
         m1.track("bar", new CounterMeasurement(null, null, null));
         m2.track("bar", new CounterMeasurement(null, null, null));
         m3.track("bar", new CounterMeasurement(null, null, null));
@@ -146,7 +146,7 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
         metrics.addSubMetrics(m4);
         metrics.addSubMetrics(m5);
         metrics.addSubMetrics(m6);
-        
+
         m1.track("bar", new CounterMeasurement(null, null, null));
         m2.track("bar", new CounterMeasurement(null, null, null));
         m3.track("bar", new CounterMeasurement(null, null, null));
@@ -163,7 +163,7 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
 
         assertEquals("size",                6,    measurement.getNbDataPoints());
         assertEquals("minimum",             1.0,  measurement.getMinimum(), 0.01);
-        assertEquals("median",              4.0,  measurement.getMedian(),  0.01);
+        assertEquals("median",              3.5,  measurement.getMedian(),  0.01);
         assertEquals("average",             3.5,  measurement.getAverage(), 0.01);
         assertEquals("standard deviation",  1.71, measurement.getStandardDeviation(), 0.01);
         assertEquals("maximum",             6.0,  measurement.getMaximum(), 0.01);
@@ -184,7 +184,7 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
         metrics.addSubMetrics(m4);
         metrics.addSubMetrics(m5);
         metrics.addSubMetrics(m6);
-        
+
         m1.track("bar", new CounterMeasurement(null, null, null));
         m2.track("bar", new CounterMeasurement(null, null, null));
         m3.track("bar", new CounterMeasurement(null, null, null));
@@ -232,7 +232,7 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
         metrics.addSubMetrics(m09);
         metrics.addSubMetrics(m10);
         metrics.addSubMetrics(m11);
-        
+
         m01.track("bar", new CounterMeasurement(null, null, null));
         m02.track("bar", new CounterMeasurement(null, null, null));
         m03.track("bar", new CounterMeasurement(null, null, null));
@@ -292,7 +292,7 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
         assertEquals("StatisticalMeasurement.DISPOSE_SUM",                "sum",                   StatisticalMeasurement.getDisposeLabel(StatisticalMeasurement.DISPOSE_SUM));
         assertEquals("StatisticalMeasurement.DISPOSE_NB_DATA_POINTS",     "number of data points", StatisticalMeasurement.getDisposeLabel(StatisticalMeasurement.DISPOSE_NB_DATA_POINTS));
     }
-    
+
     public void testDisposeAbbreviation() {
         assertEquals("StatisticalMeasurement.DISPOSE_IGNORE",             "",    StatisticalMeasurement.getDisposeAbbreviation(StatisticalMeasurement.DISPOSE_IGNORE));
         assertEquals("StatisticalMeasurement.DISPOSE_MINIMUM",            "min", StatisticalMeasurement.getDisposeAbbreviation(StatisticalMeasurement.DISPOSE_MINIMUM));
@@ -306,7 +306,7 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
 
     public void testEmpty() {
         assertTrue("Before AddSubMetrics()", measurement.isEmpty());
-        
+
         Metrics m = new Metrics("m");
         m.track("bar", new CounterMeasurement(null, null, null));
         m.addToMeasurement("bar", 1);
@@ -319,27 +319,27 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
     public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
         visited = measurement;
     }
-    
+
     public void visitRatioMeasurement(RatioMeasurement measurement) {
         // Do nothing
     }
-    
+
     public void visitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
         // Do nothing
     }
-    
+
     public void visitCounterMeasurement(CounterMeasurement measurement) {
         // Do nothing
     }
-    
+
     public void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
         // Do nothing
     }
-    
+
     public void visitNameListMeasurement(NameListMeasurement measurement) {
         // Do nothing
     }
-    
+
     public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
         // Do nothing
     }

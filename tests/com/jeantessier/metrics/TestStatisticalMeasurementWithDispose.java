@@ -1,22 +1,22 @@
 /*
  *  Copyright (c) 2001-2009, Jean Tessier
  *  All rights reserved.
- *  
+ *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
  *  are met:
- *  
+ *
  *      * Redistributions of source code must retain the above copyright
  *        notice, this list of conditions and the following disclaimer.
- *  
+ *
  *      * Redistributions in binary form must reproduce the above copyright
  *        notice, this list of conditions and the following disclaimer in the
  *        documentation and/or other materials provided with the distribution.
- *  
+ *
  *      * Neither the name of Jean Tessier nor the names of his contributors
  *        may be used to endorse or promote products derived from this software
  *        without specific prior written permission.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -50,13 +50,13 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
     private Metrics g;
 
     private MeasurementDescriptor descriptor;
-    
+
     protected void setUp() throws Exception {
         Logger.getLogger(getClass()).info("Starting test: " + getName());
 
         descriptor = new MeasurementDescriptor();
         descriptor.setShortName("bar");
-        
+
         m1 = new Metrics("m1");
         m2 = new Metrics("m2");
         m3 = new Metrics("m3");
@@ -70,7 +70,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
         m4.track("bar", new CounterMeasurement(null, null, null));
         m5.track("bar", new CounterMeasurement(null, null, null));
         m6.track("bar", new CounterMeasurement(null, null, null));
-    
+
         m1.addToMeasurement("bar", 1);
         m2.addToMeasurement("bar", 2);
         m3.addToMeasurement("bar", 3);
@@ -83,7 +83,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 
         c1.track("bar", new StatisticalMeasurement(descriptor, c1, "bar"));
         c2.track("bar", new StatisticalMeasurement(descriptor, c2, "bar"));
-        
+
         c1.addSubMetrics(m1);
         c1.addSubMetrics(m2);
         c2.addSubMetrics(m3);
@@ -106,7 +106,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 
         assertEquals("size "               + sm,  6,    sm.getNbDataPoints());
         assertEquals("Minimum "            + sm,  1.0,  sm.getMinimum(), 0.01);
-        assertEquals("Median "             + sm,  4.0,  sm.getMedian(),  0.01);
+        assertEquals("Median "             + sm,  3.5,  sm.getMedian(),  0.01);
         assertEquals("Average "            + sm,  3.5,  sm.getAverage(), 0.01);
         assertEquals("Standard Deviation " + sm,  1.71, sm.getStandardDeviation(),  0.01);
         assertEquals("Maximum "            + sm,  6.0,  sm.getMaximum(), 0.01);
@@ -118,7 +118,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 
         assertEquals("size "               + sm,  6,    sm.getNbDataPoints());
         assertEquals("Minimum "            + sm,  1.0,  sm.getMinimum(), 0.01);
-        assertEquals("Median "             + sm,  4.0,  sm.getMedian(),  0.01);
+        assertEquals("Median "             + sm,  3.5,  sm.getMedian(),  0.01);
         assertEquals("Average "            + sm,  3.5,  sm.getAverage(), 0.01);
         assertEquals("Standard Deviation " + sm,  1.71, sm.getStandardDeviation(),  0.01);
         assertEquals("Maximum "            + sm,  6.0,  sm.getMaximum(), 0.01);
@@ -130,7 +130,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 
         assertEquals("size "               + sm, 2,   sm.getNbDataPoints());
         assertEquals("Minimum "            + sm, 1.0, sm.getMinimum(), 0.01);
-        assertEquals("Median "             + sm, 3.0, sm.getMedian(),  0.01);
+        assertEquals("Median "             + sm, 2.0, sm.getMedian(),  0.01);
         assertEquals("Average "            + sm, 2.0, sm.getAverage(), 0.01);
         assertEquals("Standard Deviation " + sm, 1.0, sm.getStandardDeviation(),  0.01);
         assertEquals("Maximum "            + sm, 3.0, sm.getMaximum(), 0.01);
@@ -141,12 +141,12 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
         StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_MEDIAN");
 
         assertEquals("size "               + sm, 2,   sm.getNbDataPoints());
-        assertEquals("Minimum "            + sm, 2.0, sm.getMinimum(), 0.01);
-        assertEquals("Median "             + sm, 5.0, sm.getMedian(),  0.01);
-        assertEquals("Average "            + sm, 3.5, sm.getAverage(), 0.01);
+        assertEquals("Minimum "            + sm, 1.5, sm.getMinimum(), 0.01);
+        assertEquals("Median "             + sm, 3.0, sm.getMedian(),  0.01);
+        assertEquals("Average "            + sm, 3.0, sm.getAverage(), 0.01);
         assertEquals("Standard Deviation " + sm, 1.5, sm.getStandardDeviation(),  0.01);
-        assertEquals("Maximum "            + sm, 5.0, sm.getMaximum(), 0.01);
-        assertEquals("Sum "                + sm, 7.0, sm.getSum(),     0.01);
+        assertEquals("Maximum "            + sm, 4.5, sm.getMaximum(), 0.01);
+        assertEquals("Sum "                + sm, 6.0, sm.getSum(),     0.01);
     }
 
     public void testAverage() {
@@ -154,7 +154,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 
         assertEquals("size "               + sm, 2,   sm.getNbDataPoints());
         assertEquals("Minimum "            + sm, 1.5, sm.getMinimum(), 0.01);
-        assertEquals("Median "             + sm, 4.5, sm.getMedian(),  0.01);
+        assertEquals("Median "             + sm, 3.0, sm.getMedian(),  0.01);
         assertEquals("Average "            + sm, 3.0, sm.getAverage(), 0.01);
         assertEquals("Standard Deviation " + sm, 1.5, sm.getStandardDeviation(),  0.01);
         assertEquals("Maximum "            + sm, 4.5, sm.getMaximum(), 0.01);
@@ -166,7 +166,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 
         assertEquals("size "               + sm, 2,    sm.getNbDataPoints());
         assertEquals("Minimum "            + sm, 0.5,  sm.getMinimum(),            0.01);
-        assertEquals("Median "             + sm, 1.12, sm.getMedian(),             0.01);
+        assertEquals("Median "             + sm, 0.81, sm.getMedian(),             0.01);
         assertEquals("Average "            + sm, 0.81, sm.getAverage(),            0.01);
         assertEquals("Standard Deviation " + sm, 0.31, sm.getStandardDeviation(),  0.01);
         assertEquals("Maximum "            + sm, 1.12, sm.getMaximum(),            0.01);
@@ -178,7 +178,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 
         assertEquals("size "               + sm, 2,   sm.getNbDataPoints());
         assertEquals("Minimum "            + sm, 2.0, sm.getMinimum(), 0.01);
-        assertEquals("Median "             + sm, 6.0, sm.getMedian(),  0.01);
+        assertEquals("Median "             + sm, 4.0, sm.getMedian(),  0.01);
         assertEquals("Average "            + sm, 4.0, sm.getAverage(), 0.01);
         assertEquals("Standard Deviation " + sm, 2.0, sm.getStandardDeviation(),  0.01);
         assertEquals("Maximum "            + sm, 6.0, sm.getMaximum(), 0.01);
@@ -190,7 +190,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 
         assertEquals("size "               + sm,  2,   sm.getNbDataPoints());
         assertEquals("Minimum "            + sm,  3.0, sm.getMinimum(), 0.01);
-        assertEquals("Median "             + sm, 18.0, sm.getMedian(),  0.01);
+        assertEquals("Median "             + sm, 10.5, sm.getMedian(),  0.01);
         assertEquals("Average "            + sm, 10.5, sm.getAverage(), 0.01);
         assertEquals("Standard Deviation " + sm,  7.5, sm.getStandardDeviation(),  0.01);
         assertEquals("Maximum "            + sm, 18.0, sm.getMaximum(), 0.01);
@@ -202,7 +202,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 
         assertEquals("size "               + sm, 2,   sm.getNbDataPoints());
         assertEquals("Minimum "            + sm, 2.0, sm.getMinimum(), 0.01);
-        assertEquals("Median "             + sm, 4.0, sm.getMedian(),  0.01);
+        assertEquals("Median "             + sm, 3.0, sm.getMedian(),  0.01);
         assertEquals("Average "            + sm, 3.0, sm.getAverage(), 0.01);
         assertEquals("Standard Deviation " + sm, 1.0, sm.getStandardDeviation(),  0.01);
         assertEquals("Maximum "            + sm, 4.0, sm.getMaximum(), 0.01);
