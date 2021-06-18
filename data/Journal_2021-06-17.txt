@@ -1,0 +1,6 @@
+Fixed the calculation of =median= values for =StatisticalMeasurement=.  I'd
+always believed that the median value of a list had to be a member of that list.
+When the list's size is odd, that's easy enough.  But when the list size is
+even, I would use the rightmost of the two middle elements.  It turns out that
+for lists of numbers, we're supposed to use the average of the two middle
+numbers instead.
