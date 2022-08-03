@@ -1,7 +1,8 @@
 I was reading an
 [[https://gist.github.com/SuperCoder7979/c7171b0e34b6eccf0b9f1c37030867dc][article comparing Fernflower and Quiltflower]]
-where they showed something in Java called _try-with-resources_.  It's a way to
-write =try= blocks where you close a resource in the =finally= clause.  It's
-been in Java since Java 7.  I switched all the places where I would close a
-resource in a =finally= clause, usually reading files, and replaced them with
-the _try-with-resource_ pattern.
+where they showed something in Java called
+_[[https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html][try-with-resources]]_.
+It's a way to write =try= blocks where you close a resource in the =finally=
+clause.  It's been in Java since Java 7.  I switched all the places where I
+would close a resource in a =finally= clause, usually reading files, and
+replaced them with the _try-with-resource_ pattern.
