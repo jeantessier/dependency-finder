@@ -442,24 +442,13 @@ public abstract class Command {
             result = new HashSet<String>();
 
             for (String filename : filenames) {
-                BufferedReader reader = null;
-                try {
-                    reader = new BufferedReader(new FileReader(filename));
-
+                try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
                     String line;
                     while ((line = reader.readLine()) != null) {
                         result.add(line);
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(getClass()).error("Couldn't read file " + filename, ex);
-                } finally {
-                    try {
-                        if (reader != null) {
-                            reader.close();
-                        }
-                    } catch (IOException ex) {
-                        Logger.getLogger(getClass()).error("Couldn't close file " + filename, ex);
-                    }
                 }
             }
         }

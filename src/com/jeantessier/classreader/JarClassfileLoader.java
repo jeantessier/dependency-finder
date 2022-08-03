@@ -32,10 +32,12 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-import java.util.jar.*;
+import org.apache.log4j.Logger;
 
-import org.apache.log4j.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.jar.JarFile;
+import java.util.jar.JarInputStream;
 
 public class JarClassfileLoader extends ZipClassfileLoader {
     public JarClassfileLoader(ClassfileLoader loader) {
@@ -45,46 +47,24 @@ public class JarClassfileLoader extends ZipClassfileLoader {
     protected void load(String filename) {
         Logger.getLogger(getClass()).debug("Reading " + filename);
 
-        JarFile jarfile = null;
-        try {
-            jarfile = new JarFile(filename);
-
+        try (JarFile jarfile = new JarFile(filename)) {
             fireBeginGroup(filename, jarfile.size());
             load(jarfile);
             fireEndGroup(filename);
         } catch (IOException ex) {
             Logger.getLogger(getClass()).error("Cannot load JAR file \"" + filename + "\"", ex);
-        } finally {
-            if (jarfile != null) {
-                try {
-                    jarfile.close();
-                } catch (IOException ex) {
-                    // Ignore
-                }
-            }
         }
     }
 
     protected void load(String filename, InputStream in) {
         Logger.getLogger(getClass()).debug("Reading " + filename);
         
-        JarInputStream jarfile = null;
-        try {
-            jarfile = new JarInputStream(in);
-
+        try (JarInputStream jarfile = new JarInputStream(in)) {
             fireBeginGroup(filename, -1);
             load(jarfile);
             fireEndGroup(filename);
         } catch (IOException ex) {
             Logger.getLogger(getClass()).error("Cannot load JAR file \"" + filename + "\"", ex);
-        } finally {
-            if (jarfile != null) {
-                try {
-                    jarfile.close();
-                } catch (IOException ex) {
-                    // Ignore
-                }
-            }
         }
     }
 }

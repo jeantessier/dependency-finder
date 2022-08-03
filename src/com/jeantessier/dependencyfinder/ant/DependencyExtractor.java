@@ -32,15 +32,31 @@
 
 package com.jeantessier.dependencyfinder.ant;
 
-import java.io.*;
-import java.util.*;
+import com.jeantessier.classreader.ClassfileLoader;
+import com.jeantessier.classreader.LoadListenerVisitorAdapter;
+import com.jeantessier.classreader.TransientClassfileLoader;
+import com.jeantessier.dependency.CodeDependencyCollector;
+import com.jeantessier.dependency.CollectionSelectionCriteria;
+import com.jeantessier.dependency.ComprehensiveSelectionCriteria;
+import com.jeantessier.dependency.LinkMaximizer;
+import com.jeantessier.dependency.LinkMinimizer;
+import com.jeantessier.dependency.NodeFactory;
+import com.jeantessier.dependency.RegularExpressionSelectionCriteria;
+import com.jeantessier.dependency.SelectionCriteria;
+import org.apache.log4j.Logger;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Task;
+import org.apache.tools.ant.types.Path;
 
-import org.apache.tools.ant.*;
-import org.apache.tools.ant.types.*;
-import org.apache.log4j.*;
-
-import com.jeantessier.classreader.*;
-import com.jeantessier.dependency.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
 
 public class DependencyExtractor extends Task {
     private String filterIncludes = "//";
@@ -370,26 +386,14 @@ public class DependencyExtractor extends Task {
         if (path != null) {
             result = new HashSet<String>();
 
-            String[] filenames = path.list();
-            for (int i = 0; i < filenames.length; i++) {
-                BufferedReader reader = null;
-                String line;
-
-                try {
-                    reader = new BufferedReader(new FileReader(filenames[i]));
+            for (String filename : path.list()) {
+                try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+                    String line;
                     while ((line = reader.readLine()) != null) {
                         result.add(line);
                     }
                 } catch (IOException ex) {
-                    Logger.getLogger(getClass()).error("Couldn't read file " + filenames[i], ex);
-                } finally {
-                    try {
-                        if (reader != null) {
-                            reader.close();
-                        }
-                    } catch (IOException ex) {
-                        Logger.getLogger(getClass()).error("Couldn't close file " + filenames[i], ex);
-                    }
+                    Logger.getLogger(getClass()).error("Couldn't read file " + filename, ex);
                 }
             }
         }

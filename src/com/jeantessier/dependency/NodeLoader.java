@@ -32,12 +32,17 @@
 
 package com.jeantessier.dependency;
 
-import java.io.*;
+import org.apache.log4j.Logger;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
-import javax.xml.parsers.*;
-
-import org.apache.log4j.*;
-import org.xml.sax.*;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
 
 public class NodeLoader {
     private static final boolean DEFAULT_VALIDATE = false;
@@ -63,19 +68,9 @@ public class NodeLoader {
     }
 
     public NodeFactory load(String filename) throws IOException, SAXException, ParserConfigurationException {
-        NodeFactory result = null;
-
-        FileReader in = null;
-        try {
-            in = new FileReader(filename);
-            result = load(in);
-        } finally {
-            if (in != null) {
-                in.close();
-            }
+        try (FileReader in = new FileReader(filename)) {
+            return load(in);
         }
-
-        return result;
     }
 
     public NodeFactory load(InputStream in) throws IOException, ParserConfigurationException, SAXException {

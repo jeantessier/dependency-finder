@@ -32,11 +32,16 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-import java.util.*;
-import java.util.zip.*;
+import org.apache.log4j.Logger;
 
-import org.apache.log4j.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 public class ZipClassfileLoader extends ClassfileLoaderDecorator {
     private static final int BUFFER_SIZE = 16 * 1024;
@@ -48,10 +53,7 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
     protected void load(String filename) {
         Logger.getLogger(getClass()).debug("Starting group in file " + filename);
         
-        ZipFile zipfile = null;
-        try {
-            zipfile = new ZipFile(filename);
-
+        try (ZipFile zipfile = new ZipFile(filename)) {
             fireBeginGroup(filename, zipfile.size());
 
             Logger.getLogger(getClass()).debug("Loading ZipFile " + filename);
@@ -61,24 +63,13 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
             fireEndGroup(filename);
         } catch (IOException ex) {
             Logger.getLogger(getClass()).error("Cannot load Zip file \"" + filename + "\"", ex);
-        } finally {
-            if (zipfile != null) {
-                try {
-                    zipfile.close();
-                } catch (IOException ex) {
-                    // Ignore
-                }
-            }
         }
     }
 
     protected void load(String filename, InputStream in) {
         Logger.getLogger(getClass()).debug("Starting group in stream " + filename);
         
-        ZipInputStream zipfile = null;
-        try {
-            zipfile = new ZipInputStream(in);
-
+        try (ZipInputStream zipfile = new ZipInputStream(in)) {
             fireBeginGroup(filename, -1);
 
             Logger.getLogger(getClass()).debug("Loading ZipInputStream " + filename);
@@ -88,39 +79,21 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
             fireEndGroup(filename);
         } catch (IOException ex) {
             Logger.getLogger(getClass()).error("Cannot load Zip file \"" + filename + "\"", ex);
-        } finally {
-            if (zipfile != null) {
-                try {
-                    zipfile.close();
-                } catch (IOException ex) {
-                    // Ignore
-                }
-            }
         }
     }
 
     protected void load(ZipFile zipfile) throws IOException {
         Enumeration entries = zipfile.entries();
-        while(entries.hasMoreElements()) {
+        while (entries.hasMoreElements()) {
             ZipEntry entry = (ZipEntry) entries.nextElement();
 
             fireBeginFile(entry.getName());
                 
             Logger.getLogger(getClass()).debug("Starting file " + entry.getName() + " (" + entry.getSize() + " bytes)");
 
-            byte[]      bytes = null;
-            InputStream in    = null;
-            try {
-                in    = zipfile.getInputStream(entry);
+            byte[] bytes = null;
+            try (InputStream in = zipfile.getInputStream(entry)) {
                 bytes = readBytes(in);
-            } finally {
-                if (in != null) {
-                    try {
-                        in.close();
-                    } catch (IOException ex) {
-                        // Ignore
-                    }
-                }
             }
             
             Logger.getLogger(getClass()).debug("Passing up file " + entry.getName() + " (" + bytes.length + " bytes)");
@@ -149,8 +122,8 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
         byte[] result = null;
         
         try {
-            ByteArrayOutputStream out        = new ByteArrayOutputStream();
-            byte[]                buffer     = new byte[BUFFER_SIZE];
+            ByteArrayOutputStream out       = new ByteArrayOutputStream();
+            byte[]                buffer    = new byte[BUFFER_SIZE];
             int                   bytesRead = 0;
             while ((bytesRead = in.read(buffer, 0, BUFFER_SIZE)) != -1) {
                 out.write(buffer, 0, bytesRead);

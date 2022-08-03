@@ -32,17 +32,30 @@
 
 package com.jeantessier.dependencyfinder.ant;
 
-import java.io.*;
-import java.util.*;
+import com.jeantessier.dependency.CollectionSelectionCriteria;
+import com.jeantessier.dependency.ComprehensiveSelectionCriteria;
+import com.jeantessier.dependency.CycleDetector;
+import com.jeantessier.dependency.CyclePrinter;
+import com.jeantessier.dependency.NodeFactory;
+import com.jeantessier.dependency.NodeLoader;
+import com.jeantessier.dependency.RegularExpressionSelectionCriteria;
+import com.jeantessier.dependency.SelectionCriteria;
+import com.jeantessier.dependency.TextCyclePrinter;
+import com.jeantessier.dependency.XMLCyclePrinter;
+import com.jeantessier.dependency.XMLPrinter;
+import org.apache.log4j.Logger;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.types.Path;
+import org.xml.sax.SAXException;
 
-import javax.xml.parsers.*;
-
-import org.apache.tools.ant.*;
-import org.apache.tools.ant.types.*;
-import org.apache.log4j.*;
-import org.xml.sax.*;
-
-import com.jeantessier.dependency.*;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Collection;
+import java.util.HashSet;
 
 public class DependencyCycles extends GraphTask {
     private String startIncludes = "//";
@@ -310,24 +323,13 @@ public class DependencyCycles extends GraphTask {
             result = new HashSet<String>();
 
             for (String filename : path.list()) {
-                BufferedReader reader = null;
-                String line;
-
-                try {
-                    reader = new BufferedReader(new FileReader(filename));
+                try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+                    String line;
                     while ((line = reader.readLine()) != null) {
                         result.add(line);
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(getClass()).error("Couldn't read file " + filename, ex);
-                } finally {
-                    try {
-                        if (reader != null) {
-                            reader.close();
-                        }
-                    } catch (IOException ex) {
-                        Logger.getLogger(getClass()).error("Couldn't close file " + filename, ex);
-                    }
                 }
             }
         }

@@ -32,9 +32,12 @@
 
 package com.jeantessier.classreader;
 
- import java.io.*;
+ import org.apache.log4j.Logger;
 
- import org.apache.log4j.*;
+ import java.io.File;
+ import java.io.FileInputStream;
+ import java.io.IOException;
+ import java.io.InputStream;
 
 public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
     public DirectoryClassfileLoader(ClassfileLoader loader) {
@@ -55,13 +58,9 @@ public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
                 Logger.getLogger(getClass()).debug("Starting file \"" + file.getPath() + "\" (" + file.length() + " bytes)");
 
                 if (!file.isDirectory()) {
-                    // No need to close "in" in finally block.  Only problems can
-                    // be with opening "file".
                     // Errors with contents format will be handled and logged by Load().
-                    try {
-                        InputStream in = new FileInputStream(file);
+                    try (InputStream in = new FileInputStream(file)) {
                         getLoader().load(file.getPath(), in);
-                        in.close();
                     } catch (IOException ex) {
                         Logger.getLogger(getClass()).error("Cannot load file \"" + file.getPath() + "\"", ex);
                     }

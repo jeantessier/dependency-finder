@@ -32,10 +32,17 @@
 
 package com.jeantessier.diff;
 
-import java.io.*;
-import java.util.*;
+import com.jeantessier.classreader.Classfile;
+import com.jeantessier.classreader.Field_info;
+import com.jeantessier.classreader.Method_info;
 
-import com.jeantessier.classreader.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
 
 public class ListBasedDifferenceStrategy extends DifferenceStrategyDecorator {
     private Collection<String> allowedElements = new HashSet<String>();
@@ -59,28 +66,14 @@ public class ListBasedDifferenceStrategy extends DifferenceStrategyDecorator {
     }
 
     public void load(String filename) throws IOException {
-        BufferedReader in = null;
-
-        try {
-            in = new BufferedReader(new FileReader(filename));
+        try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
             load(in);
-        } finally {
-            if (in != null) {
-                in.close();
-            }
         }
     }
 
     public void load(File file) throws IOException {
-        BufferedReader in = null;
-
-        try {
-            in = new BufferedReader(new FileReader(file));
+        try (BufferedReader in = new BufferedReader(new FileReader(file))) {
             load(in);
-        } finally {
-            if (in != null) {
-                in.close();
-            }
         }
     }
 
