@@ -1,0 +1,38 @@
+@startuml
+
+skin rose
+skinparam style strictuml
+
+hide empty members
+
+interface Classfile
+interface Field_info
+Classfile *--> "*" Field_info
+interface Method_info
+Classfile *--> "*" Method_info
+interface LocalVariable
+Classfile -[hidden]> LocalVariable
+
+interface SymbolGathererStrategy <<interface>>
+SymbolGathererStrategy .> Classfile
+SymbolGathererStrategy .> Field_info
+SymbolGathererStrategy .> Method_info
+SymbolGathererStrategy .> LocalVariable
+
+class DefaultSymbolGathererStrategy
+SymbolGathererStrategy <|.. DefaultSymbolGathererStrategy
+
+class SymbolGathererStrategyDecorator
+SymbolGathererStrategy <|.. SymbolGathererStrategyDecorator
+SymbolGathererStrategyDecorator -up-> SymbolGathererStrategy : delegate
+
+class FilteringSymbolGathererStrategy
+SymbolGathererStrategyDecorator <|-- FilteringSymbolGathererStrategy
+
+class FinalMethodOrClassSymbolGathererStrategy
+SymbolGathererStrategyDecorator <|-- FinalMethodOrClassSymbolGathererStrategy
+
+class NonPrivateFieldSymbolGathererStrategy
+SymbolGathererStrategyDecorator <|-- NonPrivateFieldSymbolGathererStrategy
+
+@enduml

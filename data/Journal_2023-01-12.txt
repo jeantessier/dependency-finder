@@ -1,0 +1,17 @@
+A user asked for a way to limit =ListSymbols= to public and protected feature.
+There are a number of decorators for the =SymbolGathererStrategy= that
+=ListSymbols= uses to filter symbols, but none of them match this specific
+requirement.
+
+[[../images/SymbolGathererHierarchy.png]]
+
+I would like to add a new decorator subclass that would filter based on
+visibility, but the test matrix is daunting.  I looked a doing
+[[https://junit.org/junit5/docs/current/user-guide/#writing-tests-parameterized-tests][parameterized tests]]
+in JUnit, and found a way in JUnit5.  I'm still on JUnit4.  I will need to
+figure out the impact of an upgrade.   I now wish I had a
+[[https://gradle.org/][Gradle]] project setup so I could use
+[[https://spockframework.org/][Spock]] and write my tests in
+[[https://groovy-lang.org/][Groovy]].
+
+Maybe I can use Fit tests instead.
