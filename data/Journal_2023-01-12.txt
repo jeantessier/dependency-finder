@@ -1,4 +1,4 @@
-A user asked for a way to limit =ListSymbols= to public and protected feature.
+A user asked for a way to limit =ListSymbols= to public and protected features.
 There are a number of decorators for the =SymbolGathererStrategy= that
 =ListSymbols= uses to filter symbols, but none of them match this specific
 requirement.
@@ -14,4 +14,4 @@ figure out the impact of an upgrade.   I now wish I had a
 [[https://spockframework.org/][Spock]] and write my tests in
 [[https://groovy-lang.org/][Groovy]].
 
-Maybe I can use Fit tests instead.
+Maybe I can use Fit tests instead, to minimize the immediate impact.
