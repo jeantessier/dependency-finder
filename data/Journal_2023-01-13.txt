@@ -1,0 +1,5 @@
+Wrote =VisibilitySymbolGathererStrategy= to filter symbols based on their
+visibility, as determined by access flags.  I realized that top-level classes
+can only be =public= or else package-visible, but inner classes use the full
+range of visibility.  =ListSymbols= does not look at inner class metadata, but
+I will need to make it do so to properly filter inner classes.
