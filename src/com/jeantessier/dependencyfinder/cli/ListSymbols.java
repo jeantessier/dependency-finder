@@ -41,6 +41,7 @@ import com.jeantessier.classreader.NonPrivateFieldSymbolGathererStrategy;
 import com.jeantessier.classreader.SymbolGatherer;
 import com.jeantessier.classreader.SymbolGathererStrategy;
 import com.jeantessier.classreader.TransientClassfileLoader;
+import com.jeantessier.classreader.VisibilitySymbolGathererStrategy;
 import com.jeantessier.commandline.CommandLineException;
 
 import java.util.Collection;
@@ -53,6 +54,11 @@ public class ListSymbols extends DirectoryExplorerCommand {
         getCommandLine().addToggleSwitch("field-names");
         getCommandLine().addToggleSwitch("method-names");
         getCommandLine().addToggleSwitch("local-names");
+
+        getCommandLine().addToggleSwitch("public-visibility");
+        getCommandLine().addToggleSwitch("protected-visibility");
+        getCommandLine().addToggleSwitch("private-visibility");
+        getCommandLine().addToggleSwitch("package-visibility");
 
         getCommandLine().addToggleSwitch("non-private-field-names");
         getCommandLine().addToggleSwitch("final-method-or-class-names");
@@ -95,6 +101,10 @@ public class ListSymbols extends DirectoryExplorerCommand {
 
         if (getCommandLine().isPresent("includes") || getCommandLine().isPresent("includes-list") || getCommandLine().isPresent("excludes") || getCommandLine().isPresent("excludes-list")) {
             gathererStrategy = new FilteringSymbolGathererStrategy(gathererStrategy, getCommandLine().getMultipleSwitch("includes"), loadCollection(getCommandLine().getMultipleSwitch("includes-list")), getCommandLine().getMultipleSwitch("excludes"), loadCollection(getCommandLine().getMultipleSwitch("excludes-list")));
+        }
+
+        if (getCommandLine().isPresent("public-visibility") || getCommandLine().isPresent("protected-visibility") || getCommandLine().isPresent("private-visibility") || getCommandLine().isPresent("package-visibility")) {
+            gathererStrategy = new VisibilitySymbolGathererStrategy(gathererStrategy, getCommandLine().getToggleSwitch("public-visibility"), getCommandLine().getToggleSwitch("protected-visibility"), getCommandLine().getToggleSwitch("private-visibility"), getCommandLine().getToggleSwitch("package-visibility"));
         }
 
         SymbolGatherer gatherer = new SymbolGatherer(gathererStrategy);

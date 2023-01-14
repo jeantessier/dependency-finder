@@ -9582,6 +9582,10 @@ Lists all symbols it could find, based on parameters.
         [-method-names]
         [-non-private-field-names]
         [-out filename]
+        [-package-visibility]
+        [-private-visibility]
+        [-protected-visibility]
+        [-public-visibility]
         [-time]
         [-verbose [filename]]
         [-version]
@@ -9800,6 +9804,62 @@ lax by allowing access to members that should have been private.
 
 Writes the output to _filename_.  If _filename_ does not exists,
 it is created.  If it already exists, its content is overwritten.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-package-visibility=
+
+<blockquote>
+
+Lists names of package-level classes, fields, and methods.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-private-visibility=
+
+<blockquote>
+
+Lists names of private fields and methods.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-protected-visibility=
+
+<blockquote>
+
+Lists names of protected fields and methods.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-public-visibility=
+
+<blockquote>
+
+Lists names of public classes, fields, and methods.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>

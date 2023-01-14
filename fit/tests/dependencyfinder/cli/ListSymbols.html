@@ -36,6 +36,10 @@
     <tr><td>method-names</td><td>false</td><td>false</td></tr>
     <tr><td>non-private-field-names</td><td>false</td><td>false</td></tr>
     <tr><td>out</td><td></td><td>false</td></tr>
+    <tr><td>package-visibility</td><td>false</td><td>false</td></tr>
+    <tr><td>private-visibility</td><td>false</td><td>false</td></tr>
+    <tr><td>protected-visibility</td><td>false</td><td>false</td></tr>
+    <tr><td>public-visibility</td><td>false</td><td>false</td></tr>
     <tr><td>time</td><td>false</td><td>false</td></tr>
     <tr><td>verbose</td><td>System.out</td><td>false</td></tr>
     <tr><td>version</td><td>false</td><td>false</td></tr>
@@ -89,6 +93,46 @@
     <tr><td>check</td><td>is</td><td>field-names</td><td>present</td><td>true</td></tr>
     <tr><td>check</td><td>is</td><td>method-names</td><td>present</td><td>true</td></tr>
     <tr><td>check</td><td>is</td><td>local-names</td><td>present</td><td>false</td></tr>
+</table>
+
+<table border="1">
+    <tr><td>parse</td><td colspan="4">-public-visibility</td></tr>
+    <tr><td>check</td><td>is</td><td>public-visibility</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>is</td><td>protected-visibility</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>private-visibility</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>package-visibility</td><td>present</td><td>false</td></tr>
+</table>
+
+<table border="1">
+    <tr><td>parse</td><td colspan="4">-protected-visibility</td></tr>
+    <tr><td>check</td><td>is</td><td>public-visibility</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>protected-visibility</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>is</td><td>private-visibility</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>package-visibility</td><td>present</td><td>false</td></tr>
+</table>
+
+<table border="1">
+    <tr><td>parse</td><td colspan="4">-private-visibility</td></tr>
+    <tr><td>check</td><td>is</td><td>public-visibility</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>protected-visibility</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>private-visibility</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>is</td><td>package-visibility</td><td>present</td><td>false</td></tr>
+</table>
+
+<table border="1">
+    <tr><td>parse</td><td colspan="4">-package-visibility</td></tr>
+    <tr><td>check</td><td>is</td><td>public-visibility</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>protected-visibility</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>private-visibility</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>package-visibility</td><td>present</td><td>true</td></tr>
+</table>
+
+<table border="1">
+    <tr><td>parse</td><td colspan="4">-public-visibility -protected-visibility</td></tr>
+    <tr><td>check</td><td>is</td><td>public-visibility</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>is</td><td>protected-visibility</td><td>present</td><td>true</td></tr>
+    <tr><td>check</td><td>is</td><td>private-visibility</td><td>present</td><td>false</td></tr>
+    <tr><td>check</td><td>is</td><td>package-visibility</td><td>present</td><td>false</td></tr>
 </table>
 
 <h2>Checking validation rules</h2>

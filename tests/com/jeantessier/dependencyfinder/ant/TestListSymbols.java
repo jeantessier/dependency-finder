@@ -32,13 +32,23 @@
 
 package com.jeantessier.dependencyfinder.ant;
 
-import java.util.*;
-import java.io.*;
+import com.jeantessier.classreader.Classfile;
+import com.jeantessier.classreader.DefaultSymbolGathererStrategy;
+import com.jeantessier.classreader.Field_info;
+import com.jeantessier.classreader.FilteringSymbolGathererStrategy;
+import com.jeantessier.classreader.FinalMethodOrClassSymbolGathererStrategy;
+import com.jeantessier.classreader.LocalVariable;
+import com.jeantessier.classreader.Method_info;
+import com.jeantessier.classreader.NonPrivateFieldSymbolGathererStrategy;
+import com.jeantessier.classreader.SymbolGathererStrategy;
+import com.jeantessier.classreader.SymbolGathererStrategyDecorator;
+import com.jeantessier.classreader.VisibilitySymbolGathererStrategy;
+import org.apache.tools.ant.BuildException;
+import org.jmock.Expectations;
+import org.jmock.integration.junit3.MockObjectTestCase;
 
-import org.jmock.integration.junit3.*;
-import org.apache.tools.ant.*;
-
-import com.jeantessier.classreader.*;
+import java.io.File;
+import java.util.List;
 
 public class TestListSymbols extends MockObjectTestCase {
     private Classfile mockClassfile;
@@ -145,6 +155,132 @@ public class TestListSymbols extends MockObjectTestCase {
         assertFalse("field names", strategy.isMatching(mockField));
         assertFalse("method names", strategy.isMatching(mockMethod));
         assertTrue("local variable names", strategy.isMatching(mockLocalVariable));
+    }
+
+    public void testCreateStrategy_publicvisibility() {
+        sut.setPublicvisibility(true);
+
+        checking(new Expectations() {{
+            one (mockClassfile).isPublic();
+                will(returnValue(true));
+            one (mockClassfile).getClassName();
+                will(returnValue("Foo"));
+            one (mockClassfile).isPublic();
+                will(returnValue(false));
+            one (mockField).isPublic();
+                will(returnValue(true));
+            one (mockField).getFullSignature();
+                will(returnValue("int foo"));
+            one (mockField).isPublic();
+                will(returnValue(false));
+            one (mockMethod).isPublic();
+                will(returnValue(true));
+            one (mockMethod).getFullSignature();
+                will(returnValue("void foo()"));
+            one (mockMethod).isPublic();
+                will(returnValue(false));
+        }});
+
+        SymbolGathererStrategy strategy = sut.createStrategy();
+        assertEquals("strategy class", VisibilitySymbolGathererStrategy.class, strategy.getClass());
+        assertTrue("public class", strategy.isMatching(mockClassfile));
+        assertFalse("non-public class", strategy.isMatching(mockClassfile));
+        assertTrue("public field", strategy.isMatching(mockField));
+        assertFalse("non-public field", strategy.isMatching(mockField));
+        assertTrue("public method", strategy.isMatching(mockMethod));
+        assertFalse("non-public method", strategy.isMatching(mockMethod));
+        assertFalse("local variable", strategy.isMatching(mockLocalVariable));
+    }
+
+    public void testCreateStrategy_protectedvisibility() {
+        sut.setProtectedvisibility(true);
+
+        checking(new Expectations() {{
+            one (mockField).isProtected();
+            will(returnValue(true));
+            one (mockField).getFullSignature();
+            will(returnValue("int foo"));
+            one (mockField).isProtected();
+            will(returnValue(false));
+            one (mockMethod).isProtected();
+            will(returnValue(true));
+            one (mockMethod).getFullSignature();
+            will(returnValue("void foo()"));
+            one (mockMethod).isProtected();
+            will(returnValue(false));
+        }});
+
+        SymbolGathererStrategy strategy = sut.createStrategy();
+        assertEquals("strategy class", VisibilitySymbolGathererStrategy.class, strategy.getClass());
+        assertFalse("class", strategy.isMatching(mockClassfile));
+        assertTrue("protected field", strategy.isMatching(mockField));
+        assertFalse("non-protected field", strategy.isMatching(mockField));
+        assertTrue("protected method", strategy.isMatching(mockMethod));
+        assertFalse("non-protected method", strategy.isMatching(mockMethod));
+        assertFalse("local variable", strategy.isMatching(mockLocalVariable));
+    }
+
+    public void testCreateStrategy_privatevisibility() {
+        sut.setPrivatevisibility(true);
+
+        checking(new Expectations() {{
+            one (mockField).isPrivate();
+            will(returnValue(true));
+            one (mockField).getFullSignature();
+            will(returnValue("int foo"));
+            one (mockField).isPrivate();
+            will(returnValue(false));
+            one (mockMethod).isPrivate();
+            will(returnValue(true));
+            one (mockMethod).getFullSignature();
+            will(returnValue("void foo()"));
+            one (mockMethod).isPrivate();
+            will(returnValue(false));
+        }});
+
+        SymbolGathererStrategy strategy = sut.createStrategy();
+        assertEquals("strategy class", VisibilitySymbolGathererStrategy.class, strategy.getClass());
+        assertFalse("class", strategy.isMatching(mockClassfile));
+        assertTrue("private field", strategy.isMatching(mockField));
+        assertFalse("non-private field", strategy.isMatching(mockField));
+        assertTrue("private method", strategy.isMatching(mockMethod));
+        assertFalse("non-private method", strategy.isMatching(mockMethod));
+        assertFalse("local variable", strategy.isMatching(mockLocalVariable));
+    }
+
+    public void testCreateStrategy_packagevisibility() {
+        sut.setPackagevisibility(true);
+
+        checking(new Expectations() {{
+            one (mockClassfile).isPackage();
+            will(returnValue(true));
+            one (mockClassfile).getClassName();
+            will(returnValue("Foo"));
+            one (mockClassfile).isPackage();
+            will(returnValue(false));
+            one (mockField).isPackage();
+            will(returnValue(true));
+            one (mockField).getFullSignature();
+            will(returnValue("int foo"));
+            one (mockField).isPackage();
+            will(returnValue(false));
+            one (mockMethod).isPackage();
+            will(returnValue(true));
+            one (mockMethod).getFullSignature();
+            will(returnValue("void foo()"));
+            one (mockMethod).isPackage();
+            will(returnValue(false));
+        }});
+
+        SymbolGathererStrategy strategy = sut.createStrategy();
+        assertEquals("strategy class", VisibilitySymbolGathererStrategy.class, strategy.getClass());
+        assertTrue("package class", strategy.isMatching(mockClassfile));
+        assertFalse("non-package class", strategy.isMatching(mockClassfile));
+        assertTrue("package field", strategy.isMatching(mockField));
+        assertFalse("non-package field", strategy.isMatching(mockField));
+        assertTrue("package method", strategy.isMatching(mockMethod));
+        assertFalse("non-package method", strategy.isMatching(mockMethod));
+        assertFalse("local variable", strategy.isMatching(mockLocalVariable));
     }
 
     public void testCreateStrategy_nonprivatefieldnames() {
