@@ -42,7 +42,7 @@ import com.jeantessier.classreader.Method_info;
 import com.jeantessier.classreader.NonPrivateFieldSymbolGathererStrategy;
 import com.jeantessier.classreader.SymbolGathererStrategy;
 import com.jeantessier.classreader.SymbolGathererStrategyDecorator;
-import com.jeantessier.classreader.VisibilitySymbolGathererStrategy;
+import com.jeantessier.classreader.AccessibilitySymbolGathererStrategy;
 import org.apache.tools.ant.BuildException;
 import org.jmock.Expectations;
 import org.jmock.integration.junit3.MockObjectTestCase;
@@ -157,8 +157,8 @@ public class TestListSymbols extends MockObjectTestCase {
         assertTrue("local variable names", strategy.isMatching(mockLocalVariable));
     }
 
-    public void testCreateStrategy_publicvisibility() {
-        sut.setPublicvisibility(true);
+    public void testCreateStrategy_publicaccessibility() {
+        sut.setPublicaccessibility(true);
 
         checking(new Expectations() {{
             one (mockClassfile).isPublic();
@@ -182,7 +182,7 @@ public class TestListSymbols extends MockObjectTestCase {
         }});
 
         SymbolGathererStrategy strategy = sut.createStrategy();
-        assertEquals("strategy class", VisibilitySymbolGathererStrategy.class, strategy.getClass());
+        assertEquals("strategy class", AccessibilitySymbolGathererStrategy.class, strategy.getClass());
         assertTrue("public class", strategy.isMatching(mockClassfile));
         assertFalse("non-public class", strategy.isMatching(mockClassfile));
         assertTrue("public field", strategy.isMatching(mockField));
@@ -192,8 +192,8 @@ public class TestListSymbols extends MockObjectTestCase {
         assertFalse("local variable", strategy.isMatching(mockLocalVariable));
     }
 
-    public void testCreateStrategy_protectedvisibility() {
-        sut.setProtectedvisibility(true);
+    public void testCreateStrategy_protectedaccessibility() {
+        sut.setProtectedaccessibility(true);
 
         checking(new Expectations() {{
             one (mockField).isProtected();
@@ -211,7 +211,7 @@ public class TestListSymbols extends MockObjectTestCase {
         }});
 
         SymbolGathererStrategy strategy = sut.createStrategy();
-        assertEquals("strategy class", VisibilitySymbolGathererStrategy.class, strategy.getClass());
+        assertEquals("strategy class", AccessibilitySymbolGathererStrategy.class, strategy.getClass());
         assertFalse("class", strategy.isMatching(mockClassfile));
         assertTrue("protected field", strategy.isMatching(mockField));
         assertFalse("non-protected field", strategy.isMatching(mockField));
@@ -220,8 +220,8 @@ public class TestListSymbols extends MockObjectTestCase {
         assertFalse("local variable", strategy.isMatching(mockLocalVariable));
     }
 
-    public void testCreateStrategy_privatevisibility() {
-        sut.setPrivatevisibility(true);
+    public void testCreateStrategy_privateaccessibility() {
+        sut.setPrivateaccessibility(true);
 
         checking(new Expectations() {{
             one (mockField).isPrivate();
@@ -239,7 +239,7 @@ public class TestListSymbols extends MockObjectTestCase {
         }});
 
         SymbolGathererStrategy strategy = sut.createStrategy();
-        assertEquals("strategy class", VisibilitySymbolGathererStrategy.class, strategy.getClass());
+        assertEquals("strategy class", AccessibilitySymbolGathererStrategy.class, strategy.getClass());
         assertFalse("class", strategy.isMatching(mockClassfile));
         assertTrue("private field", strategy.isMatching(mockField));
         assertFalse("non-private field", strategy.isMatching(mockField));
@@ -248,8 +248,8 @@ public class TestListSymbols extends MockObjectTestCase {
         assertFalse("local variable", strategy.isMatching(mockLocalVariable));
     }
 
-    public void testCreateStrategy_packagevisibility() {
-        sut.setPackagevisibility(true);
+    public void testCreateStrategy_packageaccessibility() {
+        sut.setPackageaccessibility(true);
 
         checking(new Expectations() {{
             one (mockClassfile).isPackage();
@@ -273,7 +273,7 @@ public class TestListSymbols extends MockObjectTestCase {
         }});
 
         SymbolGathererStrategy strategy = sut.createStrategy();
-        assertEquals("strategy class", VisibilitySymbolGathererStrategy.class, strategy.getClass());
+        assertEquals("strategy class", AccessibilitySymbolGathererStrategy.class, strategy.getClass());
         assertTrue("package class", strategy.isMatching(mockClassfile));
         assertFalse("non-package class", strategy.isMatching(mockClassfile));
         assertTrue("package field", strategy.isMatching(mockField));

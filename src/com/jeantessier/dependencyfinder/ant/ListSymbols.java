@@ -41,7 +41,7 @@ import com.jeantessier.classreader.NonPrivateFieldSymbolGathererStrategy;
 import com.jeantessier.classreader.SymbolGatherer;
 import com.jeantessier.classreader.SymbolGathererStrategy;
 import com.jeantessier.classreader.TransientClassfileLoader;
-import com.jeantessier.classreader.VisibilitySymbolGathererStrategy;
+import com.jeantessier.classreader.AccessibilitySymbolGathererStrategy;
 import com.jeantessier.text.RegularExpressionParser;
 import org.apache.log4j.Logger;
 import org.apache.tools.ant.BuildException;
@@ -65,10 +65,10 @@ public class ListSymbols extends Task {
     private boolean fieldNames = false;
     private boolean methodNames = false;
     private boolean localNames = false;
-    private  boolean publicVisibility = false;
-    private  boolean protectedVisibility = false;
-    private  boolean privateVisibility = false;
-    private  boolean packageVisibility = false;
+    private  boolean publicAccessibility = false;
+    private  boolean protectedAccessibility = false;
+    private  boolean privateAccessibility = false;
+    private  boolean packageAccessibility = false;
     private boolean nonPrivateFieldNames = false;
     private boolean finalMethodOrClassNames = false;
     private List<String> includes = Collections.singletonList("//");
@@ -110,36 +110,36 @@ public class ListSymbols extends Task {
         this.localNames = localNames;
     }
 
-    public boolean getPublicvisibility() {
-        return publicVisibility;
+    public boolean getPublicaccessibility() {
+        return publicAccessibility;
     }
 
-    public void setPublicvisibility(boolean publicVisibility) {
-        this.publicVisibility = publicVisibility;
+    public void setPublicaccessibility(boolean publicAccessibility) {
+        this.publicAccessibility = publicAccessibility;
     }
 
-    public boolean getProtectedvisibility() {
-        return protectedVisibility;
+    public boolean getProtectedaccessibility() {
+        return protectedAccessibility;
     }
 
-    public void setProtectedvisibility(boolean protectedVisibility) {
-        this.protectedVisibility = protectedVisibility;
+    public void setProtectedaccessibility(boolean protectedAccessibility) {
+        this.protectedAccessibility = protectedAccessibility;
     }
 
-    public boolean getPrivatevisibility() {
-        return privateVisibility;
+    public boolean getPrivateaccessibility() {
+        return privateAccessibility;
     }
 
-    public void setPrivatevisibility(boolean privateVisibility) {
-        this.privateVisibility = privateVisibility;
+    public void setPrivateaccessibility(boolean privateAccessibility) {
+        this.privateAccessibility = privateAccessibility;
     }
 
-    public boolean getPackagevisibility() {
-        return packageVisibility;
+    public boolean getPackageaccessibility() {
+        return packageAccessibility;
     }
 
-    public void setPackagevisibility(boolean packageVisibility) {
-        this.packageVisibility = packageVisibility;
+    public void setPackageaccessibility(boolean packageAccessibility) {
+        this.packageAccessibility = packageAccessibility;
     }
 
     public boolean getNonprivatefieldnames() {
@@ -270,8 +270,8 @@ public class ListSymbols extends Task {
 
         result = new FilteringSymbolGathererStrategy(result, getIncludes(), loadCollection(getIncludeslist()), getExcludes(), loadCollection(getExcludeslist()));
 
-        if (getPublicvisibility() || getProtectedvisibility() || getPrivatevisibility() || getPackagevisibility()) {
-            result = new VisibilitySymbolGathererStrategy(result, getPublicvisibility(), getProtectedvisibility(), getPrivatevisibility(), getPackagevisibility());
+        if (getPublicaccessibility() || getProtectedaccessibility() || getPrivateaccessibility() || getPackageaccessibility()) {
+            result = new AccessibilitySymbolGathererStrategy(result, getPublicaccessibility(), getProtectedaccessibility(), getPrivateaccessibility(), getPackageaccessibility());
         }
 
         return result;

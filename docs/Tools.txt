@@ -9582,10 +9582,10 @@ Lists all symbols it could find, based on parameters.
         [-method-names]
         [-non-private-field-names]
         [-out filename]
-        [-package-visibility]
-        [-private-visibility]
-        [-protected-visibility]
-        [-public-visibility]
+        [-package-accessibility]
+        [-private-accessibility]
+        [-protected-accessibility]
+        [-public-accessibility]
         [-time]
         [-verbose [filename]]
         [-version]
@@ -9813,7 +9813,7 @@ it is created.  If it already exists, its content is overwritten.
 
 </blockquote>
 
----++++ =-package-visibility=
+---++++ =-package-accessibility=
 
 <blockquote>
 
@@ -9827,7 +9827,7 @@ Lists names of package-level classes, fields, and methods.
 
 </blockquote>
 
----++++ =-private-visibility=
+---++++ =-private-accessibility=
 
 <blockquote>
 
@@ -9841,7 +9841,7 @@ Lists names of private fields and methods.
 
 </blockquote>
 
----++++ =-protected-visibility=
+---++++ =-protected-accessibility=
 
 <blockquote>
 
@@ -9855,7 +9855,7 @@ Lists names of protected fields and methods.
 
 </blockquote>
 
----++++ =-public-visibility=
+---++++ =-public-accessibility=
 
 <blockquote>
 

@@ -32,25 +32,25 @@
 
 package com.jeantessier.classreader;
 
-public class VisibilitySymbolGathererStrategy extends SymbolGathererStrategyDecorator {
-    private final boolean publicVisibility;
-    private final boolean protectedVisibility;
-    private final boolean privateVisibility;
-    private final boolean packageVisibility;
+public class AccessibilitySymbolGathererStrategy extends SymbolGathererStrategyDecorator {
+    private final boolean publicAccessibility;
+    private final boolean protectedAccessibility;
+    private final boolean privateAccessibility;
+    private final boolean packageAccessibility;
 
-    public VisibilitySymbolGathererStrategy(SymbolGathererStrategy delegate, boolean publicVisibility, boolean protectedVisibility, boolean privateVisibility, boolean packageVisibility) {
+    public AccessibilitySymbolGathererStrategy(SymbolGathererStrategy delegate, boolean publicAccessibility, boolean protectedAccessibility, boolean privateAccessibility, boolean packageAccessibility) {
         super(delegate);
 
-        this.publicVisibility = publicVisibility;
-        this.protectedVisibility = protectedVisibility;
-        this.privateVisibility = privateVisibility;
-        this.packageVisibility = packageVisibility;
+        this.publicAccessibility = publicAccessibility;
+        this.protectedAccessibility = protectedAccessibility;
+        this.privateAccessibility = privateAccessibility;
+        this.packageAccessibility = packageAccessibility;
     }
 
     public boolean isMatching(Classfile classfile) {
         boolean result = false;
 
-        if ((publicVisibility && classfile.isPublic()) || (packageVisibility && classfile.isPackage())) {
+        if ((publicAccessibility && classfile.isPublic()) || (packageAccessibility && classfile.isPackage())) {
             result = super.isMatching(classfile);
         }
 
@@ -60,7 +60,7 @@ public class VisibilitySymbolGathererStrategy extends SymbolGathererStrategyDeco
     public boolean isMatching(Field_info field) {
         boolean result = false;
 
-        if ((publicVisibility && field.isPublic()) || (protectedVisibility && field.isProtected()) || (privateVisibility && field.isPrivate()) || (packageVisibility && field.isPackage())) {
+        if ((publicAccessibility && field.isPublic()) || (protectedAccessibility && field.isProtected()) || (privateAccessibility && field.isPrivate()) || (packageAccessibility && field.isPackage())) {
             result = super.isMatching(field);
         }
 
@@ -70,7 +70,7 @@ public class VisibilitySymbolGathererStrategy extends SymbolGathererStrategyDeco
     public boolean isMatching(Method_info method) {
         boolean result = false;
 
-        if ((publicVisibility && method.isPublic()) || (protectedVisibility && method.isProtected()) || (privateVisibility && method.isPrivate()) || (packageVisibility && method.isPackage())) {
+        if ((publicAccessibility && method.isPublic()) || (protectedAccessibility && method.isProtected()) || (privateAccessibility && method.isPrivate()) || (packageAccessibility && method.isPackage())) {
             result = super.isMatching(method);
         }
 
