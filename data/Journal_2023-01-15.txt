@@ -1,0 +1,3 @@
+[[https://docs.oracle.com/javase/specs/jls/se19/html/jls-6.html#jls-6.6][Java specs]]
+talk of _accessibility_.  So, I renamed =VisibilitySymbolGathererStrategy= to
+=AccessibilitySymbolGathererStrategy=.
