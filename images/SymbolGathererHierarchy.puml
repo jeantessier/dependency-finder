@@ -24,7 +24,7 @@ SymbolGathererStrategy <|.. DefaultSymbolGathererStrategy
 
 class SymbolGathererStrategyDecorator
 SymbolGathererStrategy <|.. SymbolGathererStrategyDecorator
-SymbolGathererStrategyDecorator -up-> SymbolGathererStrategy : delegate
+SymbolGathererStrategyDecorator --> SymbolGathererStrategy : delegate
 
 class FilteringSymbolGathererStrategy
 SymbolGathererStrategyDecorator <|-- FilteringSymbolGathererStrategy
@@ -33,6 +33,6 @@ class FinalMethodOrClassSymbolGathererStrategy
 SymbolGathererStrategyDecorator <|-- FinalMethodOrClassSymbolGathererStrategy
 
 class NonPrivateFieldSymbolGathererStrategy
-SymbolGathererStrategyDecorator <|-- NonPrivateFieldSymbolGathererStrategy
+SymbolGathererStrategy <|.. NonPrivateFieldSymbolGathererStrategy
 
 @enduml
