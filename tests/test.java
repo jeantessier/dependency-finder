@@ -34,6 +34,9 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class test {
+    public static class InnerClass {
+    }
+
     public static void main(String[] args) {
         Collection c;
         try {

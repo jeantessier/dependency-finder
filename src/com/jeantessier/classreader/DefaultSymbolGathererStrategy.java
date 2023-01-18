@@ -37,6 +37,7 @@ public class DefaultSymbolGathererStrategy implements SymbolGathererStrategy {
     private boolean matchingFieldNames = true;
     private boolean matchingMethodNames = true;
     private boolean matchingLocalNames = true;
+    private boolean matchingInnerClassNames = true;
 
     public void setMatchingClassNames(boolean matchingClassNames) {
         this.matchingClassNames = matchingClassNames;
@@ -54,6 +55,10 @@ public class DefaultSymbolGathererStrategy implements SymbolGathererStrategy {
         this.matchingLocalNames = matchingLocalNames;
     }
 
+    public void setMatchingInnerClassNames(boolean matchingInnerClassNames) {
+        this.matchingInnerClassNames = matchingInnerClassNames;
+    }
+
     public boolean isMatching(Classfile classfile) {
         return matchingClassNames;
     }
@@ -68,5 +73,9 @@ public class DefaultSymbolGathererStrategy implements SymbolGathererStrategy {
 
     public boolean isMatching(LocalVariable localVariable) {
         return matchingLocalNames;
+    }
+
+    public boolean isMatching(InnerClass innerClass) {
+        return matchingInnerClassNames;
     }
 }

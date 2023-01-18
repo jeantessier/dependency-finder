@@ -80,4 +80,14 @@ public class AccessibilitySymbolGathererStrategy extends SymbolGathererStrategyD
     public boolean isMatching(LocalVariable localVariable) {
         return false;
     }
+
+    public boolean isMatching(InnerClass innerClass) {
+        boolean result = false;
+
+        if ((publicAccessibility && innerClass.isPublic()) || (protectedAccessibility && innerClass.isProtected()) || (privateAccessibility && innerClass.isPrivate()) || (packageAccessibility && innerClass.isPackage())) {
+            result = super.isMatching(innerClass    );
+        }
+
+        return result;
+    }
 }

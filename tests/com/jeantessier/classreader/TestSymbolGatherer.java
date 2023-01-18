@@ -39,7 +39,9 @@ import junit.framework.*;
 
 public class TestSymbolGatherer extends TestCase {
     public static final String TEST_CLASS = "test";
-    public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
+    public static final String TEST_FILENAME = "classes" + File.separator + TEST_CLASS + ".class";
+    public static final String INNER_TEST_CLASS = "test$InnerClass";
+    public static final String INNER_TEST_FILENAME = "classes" + File.separator + INNER_TEST_CLASS + ".class";
 
     private DefaultSymbolGathererStrategy strategy;
     private SymbolGatherer gatherer;
@@ -109,5 +111,14 @@ public class TestSymbolGatherer extends TestCase {
         assertTrue("Missing ex local variable from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[]): ex"));
         assertTrue("Missing this parameter from " + gatherer.getCollection(), gatherer.getCollection().contains("test.test(): this"));
         assertEquals("Different number of symbols in " + gatherer.getCollection(), 4, gatherer.getCollection().size());
+    }
+
+    public void testInnerClass() {
+        loader.load(Collections.singleton(INNER_TEST_FILENAME));
+
+        assertTrue("Missing test$InnerClass class name from " + gatherer.getCollection(), gatherer.getCollection().contains("test$InnerClass"));
+        assertTrue("Missing test$InnerClass.test$InnerClass() method from " + gatherer.getCollection(), gatherer.getCollection().contains("test$InnerClass.test$InnerClass()"));
+        assertTrue("Missing this parameter from " + gatherer.getCollection(), gatherer.getCollection().contains("test$InnerClass.test$InnerClass(): this"));
+        assertEquals("Different number of symbols in " + gatherer.getCollection(), 3, gatherer.getCollection().size());
     }
 }

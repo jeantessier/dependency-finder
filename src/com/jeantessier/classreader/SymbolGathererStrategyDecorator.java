@@ -59,4 +59,8 @@ public class SymbolGathererStrategyDecorator implements SymbolGathererStrategy {
     public boolean isMatching(LocalVariable localVariable) {
         return getDelegate().isMatching(localVariable);
     }
+
+    public boolean isMatching(InnerClass innerClass) {
+        return getDelegate().isMatching(innerClass);
+    }
 }

@@ -36,6 +36,7 @@ public class SymbolGatherer extends CollectorBase {
     private SymbolGathererStrategy strategy;
 
     private Method_info currentMethod = null;
+    private InnerClass innerClass;
 
     public SymbolGatherer(SymbolGathererStrategy strategy) {
         this.strategy = strategy;
@@ -47,11 +48,16 @@ public class SymbolGatherer extends CollectorBase {
 
     // Classfile
     public void visitClassfile(Classfile classfile) {
-        if (strategy.isMatching(classfile)) {
+        innerClass = null;
+        super.visitClassfile(classfile);
+
+        if (innerClass != null) {
+            if (strategy.isMatching(innerClass)) {
+                add(innerClass.getInnerClassInfo());
+            }
+        } else if (strategy.isMatching(classfile)) {
             add(classfile.getClassName());
         }
-
-        super.visitClassfile(classfile);
     }
 
     // Features
@@ -80,5 +86,14 @@ public class SymbolGatherer extends CollectorBase {
         }
 
         super.visitLocalVariable(helper);
+    }
+
+    public void visitInnerClass(InnerClass helper) {
+        Classfile owner = (Classfile) helper.getInnerClasses().getOwner();
+        if (owner.getRawClass() == helper.getRawInnerClassInfo()) {
+            this.innerClass = helper;
+        }
+
+        super.visitInnerClass(helper);
     }
 }

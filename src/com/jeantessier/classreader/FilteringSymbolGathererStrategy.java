@@ -111,6 +111,16 @@ public class FilteringSymbolGathererStrategy extends SymbolGathererStrategyDecor
         return result;
     }
 
+    public boolean isMatching(InnerClass innerClass) {
+        boolean result = false;
+
+        if (matches(innerClass.getInnerClassInfo())) {
+            result = super.isMatching(innerClass);
+        }
+
+        return result;
+    }
+
     private boolean matches(String name) {
         return matches(getIncludes(), getIncludesList(), name) && !matches(getExcludes(), getExcludesList(), name);
     }

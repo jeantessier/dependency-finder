@@ -48,4 +48,8 @@ public class FinalMethodOrClassSymbolGathererStrategy implements SymbolGathererS
     public boolean isMatching(LocalVariable localVariable) {
         return false;
     }
+
+    public boolean isMatching(InnerClass innerClass) {
+        return false;
+    }
 }

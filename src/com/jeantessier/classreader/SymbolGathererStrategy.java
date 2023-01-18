@@ -37,4 +37,5 @@ public interface SymbolGathererStrategy {
     boolean isMatching(Field_info field);
     boolean isMatching(Method_info method);
     boolean isMatching(LocalVariable localVariable);
+    boolean isMatching(InnerClass innerClass);
 }

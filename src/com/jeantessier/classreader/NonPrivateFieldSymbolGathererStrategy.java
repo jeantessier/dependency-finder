@@ -48,4 +48,8 @@ public class NonPrivateFieldSymbolGathererStrategy implements SymbolGathererStra
     public boolean isMatching(LocalVariable localVariable) {
         return false;
     }
+
+    public boolean isMatching(InnerClass innerClass) {
+        return false;
+    }
 }
