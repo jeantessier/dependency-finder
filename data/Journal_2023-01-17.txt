@@ -1,0 +1,5 @@
+I tried to get some code coverage numbers for the changes I've been making to
+=ListSymbols=, but all three ways that I know of, Emma, Cobertura, and Clover,
+are broken at the moment.  I don't know if it's the Java version, or the tool
+versions, or what the latest recommended way to get code coverage in Java these
+days.
