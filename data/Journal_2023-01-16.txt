@@ -1,0 +1,5 @@
+Fixed how SymbolGatherer gets accessibility of inner classes.  When visiting
+classfiles, =SymbolGatherer= waits to see if there is an =InnerClass= structure
+for it.  If so, it passes this =InnerClass= structure to the =Strategy= to
+determine whether to gather it or not.  If there is no =InnerClass= structure,
+then it uses the =Classfile= structure to make that determination.
