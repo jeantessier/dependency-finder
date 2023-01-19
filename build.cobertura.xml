@@ -106,6 +106,7 @@
                 <path refid="run.classpath"/>
                 <path refid="cobertura.classpath"/>
             </classpath>
+            <jvmarg value="-noverify"/>
         </junit>
 
         <junit fork="true">
@@ -118,6 +119,7 @@
                 <path refid="run.classpath"/>
                 <path refid="cobertura.classpath"/>
             </classpath>
+            <jvmarg value="-noverify"/>
         </junit>
     </target>
 

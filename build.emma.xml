@@ -107,6 +107,7 @@
             </classpath>
             <jvmarg value="-Demma.coverage.out.file=${coverage.dir}/coverage.emma"/>
             <jvmarg value="-Demma.coverage.out.merge=true"/>
+            <jvmarg value="-noverify"/>
         </junit>
 
         <junit fork="true">
@@ -119,6 +120,7 @@
             </classpath>
             <jvmarg value="-Demma.coverage.out.file=${coverage.dir}/coverage.emma"/>
             <jvmarg value="-Demma.coverage.out.merge=true"/>
+            <jvmarg value="-noverify"/>
         </junit>
     </target>
 

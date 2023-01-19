@@ -84,6 +84,7 @@
                 <path refid="run.classpath"/>
                 <pathelement location="${env.CLOVER_HOME}/lib/clover.jar"/>
             </classpath>
+            <jvmarg value="-noverify"/>
         </junit>
 
         <junit fork="true">
@@ -93,6 +94,7 @@
                 <path refid="run.classpath"/>
                 <pathelement location="${env.CLOVER_HOME}/lib/clover.jar"/>
             </classpath>
+            <jvmarg value="-noverify"/>
         </junit>
     </target>
 
