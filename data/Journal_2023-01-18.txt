@@ -1,0 +1,9 @@
+Fixed instrumenting code for code coverage.  When going from Java =1.7= to Java
+=1.8=, the JVM became more strict when validating bytecode.  The instrumented
+bytecode is failing this stricter validation in Java =1.8=.  Passing the
+=-noverify= JVM arg allows it to skip this verification and run the instrumented
+code just the same.
+
+- *Emma*: code coverage now works with Emma =2.0.5312=.
+- *Clover*: Clover =1.3.13= is still failing to create its coverage database.
+- *Cobertura*: Cobertura =1.9.3= cannot handle try-with-resource code.
