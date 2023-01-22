@@ -206,12 +206,50 @@ public class TextPrinter extends Printer {
         }
     }
 
+    public void visitDynamic_info(Dynamic_info entry) {
+        if (top) {
+            top = false;
+            append(currentCount()).append(": Dynamic ");
+            append(entry.getBootstrapMethodAttrIndex());
+            append(" ");
+            append(entry);
+            eol();
+            top = true;
+        } else {
+            append(entry);
+        }
+    }
+
     public void visitInvokeDynamic_info(InvokeDynamic_info entry) {
         if (top) {
             top = false;
             append(currentCount()).append(": Invoke Dynamic ");
             append(entry.getBootstrapMethodAttrIndex());
             append(" ");
+            append(entry);
+            eol();
+            top = true;
+        } else {
+            append(entry);
+        }
+    }
+
+    public void visitModule_info(Module_info entry) {
+        if (top) {
+            top = false;
+            append(currentCount()).append(": Module ");
+            append(entry);
+            eol();
+            top = true;
+        } else {
+            append(entry);
+        }
+    }
+
+    public void visitPackage_info(Package_info entry) {
+        if (top) {
+            top = false;
+            append(currentCount()).append(": Package ");
             append(entry);
             eol();
             top = true;

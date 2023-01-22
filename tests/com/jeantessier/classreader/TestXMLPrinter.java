@@ -428,6 +428,34 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "classfile/enum", 1);
     }
 
+    public void testNonModuleClassfile() throws Exception {
+        final Classfile mockClassfile = mock(Classfile.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).isModule(); will(returnValue(false));
+            ignoring (mockClassfile);
+        }});
+
+        printer.visitClassfile(mockClassfile);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "classfile/module", 0);
+    }
+
+    public void testModuleClassfile() throws Exception {
+        final Classfile mockClassfile = mock(Classfile.class);
+
+        checking(new Expectations() {{
+            one (mockClassfile).isModule(); will(returnValue(true));
+            ignoring (mockClassfile);
+        }});
+
+        printer.visitClassfile(mockClassfile);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "classfile/module", 1);
+    }
+
     public void testNonPublicField() throws Exception {
         final Field_info mockField = mock(Field_info.class);
 

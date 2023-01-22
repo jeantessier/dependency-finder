@@ -89,6 +89,7 @@ public class XMLPrinter extends Printer {
         if (classfile.isSynthetic())  indent().append("<synthetic/>").eol();
         if (classfile.isAnnotation()) indent().append("<is-annotation/>").eol();
         if (classfile.isEnum())       indent().append("<enum/>").eol();
+        if (classfile.isModule())     indent().append("<module/>").eol();
 
         indent();
         append("<this-class>");
@@ -390,6 +391,31 @@ public class XMLPrinter extends Printer {
         }
     }
 
+    public void visitDynamic_info(Dynamic_info entry) {
+        NameAndType_info nat = entry.getRawNameAndType();
+
+        if (top) {
+            top = false;
+            indent();
+            append("<dynamic-info index=\"").append(currentCount()).append("\">");
+            append("<bootstrap-method-attr index=\"").append(entry.getBootstrapMethodAttrIndex()).append("\">");
+            append("</bootstrap-method-attr>");
+            append("<name>");
+            nat.getRawName().accept(this);
+            append("</name>");
+            append("<type>");
+            nat.getRawType().accept(this);
+            append("</type>");
+            append("</dynamic-info>").eol();
+            top = true;
+        } else {
+            if (!entry.isStaticInitializer()) {
+                append(DescriptorHelper.getReturnType(nat.getType())).append(" ");
+            }
+            append(entry.getSignature());
+        }
+    }
+
     public void visitInvokeDynamic_info(InvokeDynamic_info entry) {
         NameAndType_info nat = entry.getRawNameAndType();
 
@@ -412,6 +438,36 @@ public class XMLPrinter extends Printer {
                 append(DescriptorHelper.getReturnType(nat.getType())).append(" ");
             }
             append(entry.getSignature());
+        }
+    }
+
+    public void visitModule_info(Module_info entry) {
+        if (top) {
+            top = false;
+            indent();
+            append("<module index=\"").append(currentCount()).append("\">");
+            // entry.getRawName().accept(this);
+            append(entry.getName());
+            append("</module>").eol();
+            top = true;
+        } else {
+            // entry.getRawName().accept(this);
+            append(entry.getName());
+        }
+    }
+
+    public void visitPackage_info(Package_info entry) {
+        if (top) {
+            top = false;
+            indent();
+            append("<package index=\"").append(currentCount()).append("\">");
+            // entry.getRawName().accept(this);
+            append(entry.getName());
+            append("</package>").eol();
+            top = true;
+        } else {
+            // entry.getRawName().accept(this);
+            append(entry.getName());
         }
     }
 

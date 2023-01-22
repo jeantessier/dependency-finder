@@ -179,6 +179,36 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitUTF8_info(mockUTF8);
     }
 
+    public void testVisitMethodHandle_info() {
+        MethodHandle_info mockMethodHandle = mock(MethodHandle_info.class);
+        sut.visitMethodHandle_info(mockMethodHandle);
+    }
+
+    public void testVisitMethodType_info() {
+        MethodType_info mockMethodType = mock(MethodType_info.class);
+        sut.visitMethodType_info(mockMethodType);
+    }
+
+    public void testVisitDynamic_info() {
+        Dynamic_info mockDynamic = mock(Dynamic_info.class);
+        sut.visitDynamic_info(mockDynamic);
+    }
+
+    public void testVisitInvokeDynamic_info() {
+        InvokeDynamic_info mockInvokeDynamic = mock(InvokeDynamic_info.class);
+        sut.visitInvokeDynamic_info(mockInvokeDynamic);
+    }
+
+    public void testVisitModule_info() {
+        Module_info mockModule = mock(Module_info.class);
+        sut.visitModule_info(mockModule);
+    }
+
+    public void testVisitPackage_info() {
+        Package_info mockPackage = mock(Package_info.class);
+        sut.visitPackage_info(mockPackage);
+    }
+
     public void testVisitField_info() {
         final Field_info mockField = mock(Field_info.class);
         final Attribute_info mockAttribute = mock(Attribute_info.class);

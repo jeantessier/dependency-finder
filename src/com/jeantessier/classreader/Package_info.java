@@ -32,59 +32,8 @@
 
 package com.jeantessier.classreader;
 
-import java.util.*;
-
-public interface Classfile extends Deprecatable, Visitable {
-    public ClassfileLoader getLoader();
-
-    public int getMagicNumber();
-    public int getMinorVersion();
-    public int getMajorVersion();
-
-    public ConstantPool getConstantPool();
-
-    public int getAccessFlag();
-
-    public int getClassIndex();
-    public Class_info getRawClass();
-    public String getClassName();
-    public String getPackageName();
-    public String getSimpleName();
-
-    public int getSuperclassIndex();
-    public Class_info getRawSuperclass();
-    public String getSuperclassName();
-
-    public Collection<? extends Class_info> getAllInterfaces();
-    public Class_info getInterface(String name);
-
-    public Collection<? extends Field_info> getAllFields();
-    public Field_info getField(String name);
-    public Field_info locateField(String name);
-
-    public Collection<? extends Method_info> getAllMethods();
-    public Method_info getMethod(String signature);
-    public Method_info locateMethod(String signature);
-
-    public Collection<? extends Attribute_info> getAttributes();
-
-    public boolean isPublic();
-    public boolean isPackage();
-    public boolean isFinal();
-    public boolean isSuper();
-    public boolean isInterface();
-    public boolean isAbstract();
-    public boolean isSynthetic();
-    public boolean isAnnotation();
-    public boolean isEnum();
-    public boolean isModule();
-    public boolean isDeprecated();
-    public boolean isGeneric();
-
-    public String getDeclaration();
-
-    public boolean isInnerClass();
-    public boolean isMemberClass();
-    public boolean isLocalClass();
-    public boolean isAnonymousClass();
+public interface Package_info extends ConstantPoolEntry {
+    public int getNameIndex();
+    public UTF8_info getRawName();
+    public String getName();
 }

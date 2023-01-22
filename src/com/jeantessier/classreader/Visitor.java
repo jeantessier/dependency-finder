@@ -54,7 +54,10 @@ public interface Visitor {
     public void visitUTF8_info(UTF8_info entry);
     public void visitMethodHandle_info(MethodHandle_info entry);
     public void visitMethodType_info(MethodType_info entry);
+    public void visitDynamic_info(Dynamic_info entry);
     public void visitInvokeDynamic_info(InvokeDynamic_info entry);
+    public void visitModule_info(Module_info entry);
+    public void visitPackage_info(Package_info entry);
 
     // Features
     public void visitField_info(Field_info entry);

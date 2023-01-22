@@ -210,7 +210,19 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
         // Do nothing
     }
 
+    public void visitDynamic_info(Dynamic_info entry) {
+        // Do nothing
+    }
+
     public void visitInvokeDynamic_info(InvokeDynamic_info entry) {
+        // Do nothing
+    }
+
+    public void visitModule_info(Module_info entry) {
+        // Do nothing
+    }
+
+    public void visitPackage_info(Package_info entry) {
         // Do nothing
     }
 

@@ -105,8 +105,17 @@ public class ConstantPool extends ArrayList<com.jeantessier.classreader.Constant
                 case ConstantPoolEntry.CONSTANT_MethodType:
                     add(new MethodType_info(this, in));
                     break;
+                case ConstantPoolEntry.CONSTANT_Dynamic:
+                    add(new Dynamic_info(this, in));
+                    break;
                 case ConstantPoolEntry.CONSTANT_InvokeDynamic:
                     add(new InvokeDynamic_info(this, in));
+                    break;
+                case ConstantPoolEntry.CONSTANT_Module:
+                    add(new Module_info(this, in));
+                    break;
+                case ConstantPoolEntry.CONSTANT_Package:
+                    add(new Package_info(this, in));
                     break;
                 default:
                     Logger.getLogger(getClass()).info("Unknown Tag " + tag);

@@ -42,7 +42,7 @@
           access-flag CDATA #REQUIRED
 >
 
-<!ELEMENT constant-pool (class | field-ref-info | method-ref-info | interface-method-ref-info | string-info | integer-info | float-info | long-info | double-info | name-and-type-info | utf8-info)* >
+<!ELEMENT constant-pool (class | field-ref-info | method-ref-info | interface-method-ref-info | string-info | integer-info | float-info | long-info | double-info | name-and-type-info | utf8-info | module-info | package-info)* >
 
 <!ELEMENT class (#PCDATA) >
 <!ATTLIST class
@@ -99,6 +99,16 @@
           index CDATA #REQUIRED
 >
 
+<!ELEMENT module-info (#PCDATA) >
+<!ATTLIST module-info
+          index CDATA #IMPLIED
+>
+
+<!ELEMENT package-info (#PCDATA) >
+<!ATTLIST package-info
+          index CDATA #IMPLIED
+>
+
 <!ELEMENT type (#PCDATA) >
 
 <!ELEMENT name (#PCDATA) >
@@ -118,6 +128,8 @@
 <!ELEMENT is-annotation EMPTY >
 
 <!ELEMENT enum EMPTY >
+
+<!ELEMENT module EMPTY >
 
 <!ELEMENT this-class (#PCDATA) >
 

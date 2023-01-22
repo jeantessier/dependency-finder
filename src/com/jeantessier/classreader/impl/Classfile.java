@@ -51,6 +51,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     private static final int ACC_SYNTHETIC = 0x1000;
     private static final int ACC_ANNOTATION = 0x2000;
     private static final int ACC_ENUM = 0x4000;
+    private static final int ACC_MODULE = 0x8000;
 
     private ClassfileLoader loader;
 
@@ -355,6 +356,10 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         return (getAccessFlag() & ACC_ABSTRACT) != 0;
     }
 
+    public boolean isSynthetic() {
+        return isSyntheticFromAccessFlag() || isSyntheticFromAttribute();
+    }
+
     public boolean isAnnotation() {
         return (getAccessFlag() & ACC_ANNOTATION) != 0;
     }
@@ -363,8 +368,8 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         return (getAccessFlag() & ACC_ENUM) != 0;
     }
 
-    public boolean isSynthetic() {
-        return isSyntheticFromAccessFlag() || isSyntheticFromAttribute();
+    public boolean isModule() {
+        return (getAccessFlag() & ACC_MODULE) != 0;
     }
 
     private boolean isSyntheticFromAccessFlag() {

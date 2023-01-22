@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2001-2016, Jean Tessier
+ *  Copyright (c) 2001-2009, Jean Tessier
  *  All rights reserved.
  *  
  *  Redistribution and use in source and binary forms, with or without
@@ -32,32 +32,64 @@
 
 package com.jeantessier.classreader.impl;
 
-public abstract class ConstantPoolEntry implements com.jeantessier.classreader.ConstantPoolEntry {
-    public static final byte CONSTANT_Class = 7;
-    public static final byte CONSTANT_Fieldref = 9;
-    public static final byte CONSTANT_Methodref = 10;
-    public static final byte CONSTANT_InterfaceMethodref = 11;
-    public static final byte CONSTANT_String = 8;
-    public static final byte CONSTANT_Integer = 3;
-    public static final byte CONSTANT_Float = 4;
-    public static final byte CONSTANT_Long = 5;
-    public static final byte CONSTANT_Double = 6;
-    public static final byte CONSTANT_NameAndType = 12;
-    public static final byte CONSTANT_Utf8 = 1;
-    public static final byte CONSTANT_MethodHandle = 15;
-    public static final byte CONSTANT_MethodType = 16;
-    public static final byte CONSTANT_Dynamic = 17;
-    public static final byte CONSTANT_InvokeDynamic = 18;
-    public static final byte CONSTANT_Module = 19;
-    public static final byte CONSTANT_Package = 20;
+import com.jeantessier.classreader.ClassNameHelper;
+import com.jeantessier.classreader.Visitor;
 
-    private ConstantPool constantPool;
+import java.io.DataInput;
+import java.io.IOException;
 
-    protected ConstantPoolEntry(ConstantPool constantPool) {
-        this.constantPool = constantPool;
+public class Module_info extends ConstantPoolEntry implements com.jeantessier.classreader.Module_info {
+    private int nameIndex;
+
+    public Module_info(ConstantPool constantPool, DataInput in) throws IOException {
+        super(constantPool);
+
+        nameIndex = in.readUnsignedShort();
     }
 
-    public ConstantPool getConstantPool() {
-        return constantPool;
+    /**
+     * For testing only
+     */
+    Module_info(ConstantPool constantPool, int nameIndex) {
+        super(constantPool);
+
+        this.nameIndex = nameIndex;
+    }
+
+    public int getNameIndex() {
+        return nameIndex;
+    }
+
+    public UTF8_info getRawName() {
+        return (UTF8_info) getConstantPool().get(getNameIndex());
+    }
+
+    public String getName() {
+        return ClassNameHelper.convertClassName(getRawName().getValue());
+    }
+
+    public String toString() {
+        return getName();
+    }
+
+    public int hashCode() {
+        return getRawName().hashCode();
+    }
+
+    public boolean equals(Object object) {
+        boolean result = false;
+
+        if (this == object) {
+            result = true;
+        } else if (object != null && this.getClass().equals(object.getClass())) {
+            Module_info other = (Module_info) object;
+            result = this.getRawName().equals(other.getRawName());
+        }
+
+        return result;
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitModule_info(this);
     }
 }
