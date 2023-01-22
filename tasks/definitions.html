@@ -4,19 +4,6 @@
 <meta http-equiv="Content-Language" content="en-us">
 <link rel="stylesheet" type="text/css" href="../style.css" />
 <title>Ant Task Definitions</title>
-<script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-2083086-2']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
 </head>
 
 <body>
@@ -33,8 +20,10 @@ support classes.  The tasks need the following elements on the
 <ul>
 <li><code>&lt;DEPENDENCYFINDER_HOME&gt;/classes</code></li>
 <li><code>&lt;DEPENDENCYFINDER_HOME&gt;/lib/DependencyFinder.jar</code></li>
+<li><code>&lt;DEPENDENCYFINDER_HOME&gt;/lib/guava.jar</code></li>
 <li><code>&lt;DEPENDENCYFINDER_HOME&gt;/lib/jakarta-oro.jar</code></li>
 <li><code>&lt;DEPENDENCYFINDER_HOME&gt;/lib/log4j.jar</code></li>
+<li><code>&lt;DEPENDENCYFINDER_HOME&gt;/lib/saxon-he.jar</code></li>
 </ul>
 
 <p>It is better if you put <code>classes</code> first.  This way, patch files
@@ -53,8 +42,10 @@ part of the Ant project.</p>
     &lt;path id="dependencyfinder"&gt;
         &lt;pathelement location="${dependencyfinder.home}/classes"/&gt;
         &lt;pathelement location="${dependencyfinder.home}/lib/DependencyFinder.jar"/&gt;
+        &lt;pathelement location="${dependencyfinder.home}/lib/guava.jar"/&gt;
         &lt;pathelement location="${dependencyfinder.home}/lib/jakarta-oro.jar"/&gt;
         &lt;pathelement location="${dependencyfinder.home}/lib/log4j.jar"/&gt;
+        &lt;pathelement location="${dependencyfinder.home}/lib/saxon-he.jar"/&gt;
     &lt;/path&gt;
 </pre>
 

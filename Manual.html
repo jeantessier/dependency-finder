@@ -585,7 +585,7 @@ For sh:
 </pre>
 
 <p>
-For bash:
+For bash or zsh:
 </p>
 
 <pre>
@@ -593,7 +593,7 @@ For bash:
 </pre>
 
 <p>
-You can put these lines in your <code>.profile</code> or <code>.bashrc</code> file.
+You can put these lines in your <code>.profile</code> or <code>.bashrc</code> or <code>.zshrc</code> file.
 </p>
 
 <p>
@@ -634,15 +634,15 @@ For instance, using Tomcat on Windows, you can do the following:
 <div class="highlight">
 
 <pre>
-    C:\>%CATALINA_HOME%\bin\shutdown
+    $ ${CATALINA_HOME}/bin/shutdown
 </pre>
 
 <pre>
-    C:\>copy DependencyFinder-1.2.1-beta6.war %CATALINA_HOME%\webapps
+    $ cp DependencyFinder-1.2.1-beta6.war ${CATALINA_HOME}/webapps
 </pre>
 
 <pre>
-    C:\>%CATALINA_HOME%\bin\startup
+    $ ${CATALINA_HOME}/bin/startup
 </pre>
 
 </div>
@@ -655,7 +655,7 @@ Next, you need to tell the wep application where to find the dependency graph
 on which it will operate.  This is done via the application's context
 parameters.  Some application servers let you set them using some form of
 application management tool.  But for others, such as Tomcat, you need to edit
-them manually using a text editor.  You can find them in the <code>WEB-INF\web.xml</code>
+them manually using a text editor.  You can find them in the <code>WEB-INF/web.xml</code>
 file from the WAR file.
 </p>
 
@@ -755,15 +755,15 @@ may allow you to simply restart the web application itself.
 <div class="highlight">
 
 <pre>
-    C:\>%CATALINA_HOME%\bin\shutdown
+    $ ${CATALINA_HOME}/bin/shutdown
 </pre>
 
 <pre>
-    C:\>notepad %CATALINA_HOME%\webapps\DependencyFinder-1.2.1-beta6\WEB-INF\web.xml
+    $ vi ${CATALINA_HOME}/webapps/DependencyFinder-1.2.1-beta6/WEB-INF/web.xml
 </pre>
 
 <pre>
-    C:\>%CATALINA_HOME%\bin\startup
+    $ ${CATALINA_HOME}/bin/startup
 </pre>
 
 </div>
@@ -1378,7 +1378,7 @@ level of detail: package, class, or method.
 <p>
 All the tools support <code>-help</code> command-line switch, which prints the list of
 valid command-line switches for that particular tool.  Many of the tools also
-support some or all of the following four command-line switches:
+support some or all of the following five command-line switches:
 </p>
 
 <blockquote>
@@ -1387,12 +1387,23 @@ support some or all of the following four command-line switches:
     <tr>
         <td valign="top"
             nowrap="true">
-            <code>-in</code>
+            <code>-s:filename</code>
         </td>
         <td>
             Many of the CLI tools are automated translations of XML data
             into either HTML or plain text.  The scripts have hard-coded
             XSL stylesheets.  You specify the XML input with this switch.
+        </td>
+    </tr>
+    <tr>
+        <td valign="top"
+            nowrap="true">
+            <code>-o:filename</code>
+        </td>
+        <td>
+            Many of the CLI tools are automated translations of XML data
+            into either HTML or plain text.  The scripts have hard-coded
+            XSL stylesheets.  You specify the output with this switch.
         </td>
     </tr>
     <tr>
@@ -2033,8 +2044,8 @@ are merged into a single output.
 <div class="highlight">
 
 <pre>
-    C:\>DependencyExtractor classes
-                            %JAVA_HOME%\JRE\lib\rt.jar
+    $ DependencyExtractor classes
+                          ${JAVA_HOME}/JRE/lib/rt.jar
 </pre>
 
 </div>
@@ -2046,8 +2057,8 @@ You can specify an output file with the <code>-out</code> switch:
 <div class="highlight">
 
 <pre>
-    C:\>DependencyExtractor <b>-out df.txt</b>
-                            %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar
+    $ DependencyExtractor <b>-out df.txt</b>
+                          ${DEPENDENCYFINDER_HOME}/lib/DependencyFinder.jar
 </pre>
 
 </div>
@@ -2059,8 +2070,8 @@ You can save the graph to XML with the <code>-xml</code> switch:
 <div class="highlight">
 
 <pre>
-    C:\>DependencyExtractor <b>-xml</b> -out df.xml
-                            %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar
+    $ DependencyExtractor <b>-xml</b> -out df.xml
+                          ${DEPENDENCYFINDER_HOME}/lib/DependencyFinder.jar
 </pre>
 
 </div>
@@ -2096,7 +2107,7 @@ Here is the raw output dependency graph.
 <div class="highlight">
 
 <pre>
-    C:\>DependencyExtractor test.class
+    $ DependencyExtractor test.class
 </pre>
 
 </div>
@@ -2141,8 +2152,8 @@ We can save it to an XML document for use with the other tools.
 <div class="highlight">
 
 <pre>
-    C:\>DependencyExtractor <b>-xml -out test.xml</b>
-                            test.class
+    $ DependencyExtractor <b>-xml -out test.xml</b>
+                          test.class
 </pre>
 
 </div>
@@ -2154,7 +2165,7 @@ And narrow down the graph to class-to-class dependencies.
 <div class="highlight">
 
 <pre>
-    C:\>c2c -scope-includes /test/ test.xml
+    $ c2c -scope-includes /test/ test.xml
 </pre>
 
 </div>
@@ -2180,26 +2191,26 @@ following commands are equivalent.
 <div class="highlight">
 
 <pre>
-    C:\>c2c -scope-includes /test/
-            test.xml
+    $ c2c -scope-includes /test/
+          test.xml
 </pre>
 
 <pre>
-    C:\>c2c -class-scope-includes /test/
-            test.xml
+    $ c2c -class-scope-includes /test/
+          test.xml
 </pre>
 
 <pre>
-    C:\>DependencyReporter -c2c
-                           -class-scope-includes /test/
-                           test.xml
+    $ DependencyReporter -c2c
+                         -class-scope-includes /test/
+                         test.xml
 </pre>
 
 <pre>
-    C:\>DependencyReporter -class-scope
-                           -class-scope-includes /test/
-                           -class-filter
-                           test.xml
+    $ DependencyReporter -class-scope
+                         -class-scope-includes /test/
+                         -class-filter
+                         test.xml
 </pre>
 
 </div>
@@ -2222,26 +2233,26 @@ these commands are equivalent.
 <div class="highlight">
 
 <pre>
-    C:\>c2p -scope-includes /test/
-            test.xml
+    $ c2p -scope-includes /test/
+          test.xml
 </pre>
 
 <pre>
-    C:\>c2p -class-scope-includes /test/
-            test.xml
+    $ c2p -class-scope-includes /test/
+          test.xml
 </pre>
 
 <pre>
-    C:\>DependencyReporter -c2p
-                           -scope-includes /test/
-                           test.xml
+    $ DependencyReporter -c2p
+                         -scope-includes /test/
+                         test.xml
 </pre>
 
 <pre>
-    C:\>DependencyReporter -class-scope
-                           -class-scope-includes /test/
-                           -package-filter
-                           test.xml
+    $ DependencyReporter -class-scope
+                         -class-scope-includes /test/
+                         -package-filter
+                         test.xml
 </pre>
 
 </div>
@@ -2270,15 +2281,15 @@ equivalent.
 <div class="highlight">
 
 <pre>
-    C:\>p2p test.xml
+    $ p2p test.xml
 </pre>
 
 <pre>
-    C:\>DependencyReporter -p2p
-                           test.xml
-    C:\>DependencyReporter -package-scope
-                           -package-filter
-                           test.xml
+    $ DependencyReporter -p2p
+                         test.xml
+    $ DependencyReporter -package-scope
+                         -package-filter
+                         test.xml
 </pre>
 
 </div>
@@ -2836,13 +2847,13 @@ effect through command-line switches.
 <div class="highlight">
 
 <pre>
-    C:\>DependencyReporter -package-scope
-                           -class-scope
-                           -feature-scope
+    $ DependencyReporter -package-scope
+                         -class-scope
+                         -feature-scope
 </pre>
 
 <pre>
-    C:\>DependencyReporter -f2f
+    $ DependencyReporter -f2f
 </pre>
 
 </div>
@@ -2868,8 +2879,9 @@ switches.
 <div class="highlight">
 
 <pre>
-    C:\>DependencyReporter -scope-includes //
-                           -scope-excludes /Test/
+    $ DependencyReporter \
+        -scope-includes // \
+        -scope-excludes /Test/
 </pre>
 
 </div>
@@ -3150,24 +3162,24 @@ used in scoping feature nodes, if you use it along with <code>-feature-scope</co
 <div class="highlight">
 
 <pre>
-    C:\>DependencyReporter -package-scope
-                           -class-scope
-                           -feature-scope
+    $ DependencyReporter -package-scope
+                         -class-scope
+                         -feature-scope
 </pre>
 
 <pre>
-    C:\>DependencyReporter -f2f
+    $ DependencyReporter -f2f
 </pre>
 
 <pre>
-    C:\>DependencyReporter -scope-includes //
+    $ DependencyReporter -scope-includes //
 </pre>
 
 <pre>
-    C:\>DependencyReporter -scope-includes //
-                           -scope-excludes /Test/
-                           -feature-scope-includes /someMethod/
-                           -feature-scope-includes /anotherMethod/
+    $ DependencyReporter -scope-includes //
+                         -scope-excludes /Test/
+                         -feature-scope-includes /someMethod/
+                         -feature-scope-includes /anotherMethod/
 </pre>
 
 </div>
@@ -3227,7 +3239,7 @@ with the following tools:
 <div class="highlight">
 
 <pre>
-    C:\>DependablesToText -in test.xml
+    $ DependablesToText -s:test.xml
 </pre>
 
 </div>
@@ -3271,7 +3283,7 @@ If you only want to remove outbound dependencies and keep empty nodes, use:
 <div class="highlight">
 
 <pre>
-    C:\>HideOutboundDependenciesToText -in test.xml
+    $ HideOutboundDependenciesToText -s:test.xml
 </pre>
 
 </div>
@@ -3358,7 +3370,7 @@ following tools:
 <div class="highlight">
 
 <pre>
-    C:\>DependentsToText -in test.xml
+    $ DependentsToText -s:test.xml
 </pre>
 
 </div>
@@ -3398,7 +3410,7 @@ If you only want to remove inbound dependencies and keep empty nodes, use:
 <div class="highlight">
 
 <pre>
-    C:\>HideInboundDependenciesToText -in test.xml
+    $ HideInboundDependenciesToText -s:test.xml
 </pre>
 
 </div>
@@ -3475,7 +3487,7 @@ navigation.
 <div class="highlight">
 
 <pre>
-    C:\>DependencyGraphToText -in test.xml
+    $ DependencyGraphToText -s:test.xml
 </pre>
 
 </div>
@@ -4160,9 +4172,9 @@ class-to-class graph.
 <div class="highlight">
 
 <pre>
-    C:\>DependencyExtractor -xml -out df.xml <i>classes</i>
-    C:\>DependencyClosure -xml -out closureA.xml -start-includes /A/ -stop-includes /C/ df.xml
-    C:\>c2c closureA.xml
+    $ DependencyExtractor -xml -out df.xml <i>classes</i>
+    $ DependencyClosure -xml -out closureA.xml -start-includes /A/ -stop-includes /C/ df.xml
+    $ c2c closureA.xml
 </pre>
 
 </div>
@@ -4209,9 +4221,9 @@ different.
 <div class="highlight">
 
 <pre>
-    C:\>DependencyExtractor -xml -out df.xml <i>classes</i>
-    C:\>c2c -xml -out df.c2c.xml df.xml
-    C:\>DependencyClosure -start-includes /A/ -stop-includes /C/ df.c2c.xml
+    $ DependencyExtractor -xml -out df.xml <i>classes</i>
+    $ c2c -xml -out df.c2c.xml df.xml
+    $ DependencyClosure -start-includes /A/ -stop-includes /C/ df.c2c.xml
 </pre>
 
 </div>
@@ -4278,8 +4290,8 @@ First, we extract the complete graph and get a list of all the symbols in it.
 <div class="highlight">
 
 <pre>
-    C:\>DependencyExtractor -xml -out df.xml <i>classes</i>
-    C:\>ListFullyQualifiedNames -in df.xml -out df.symbols.txt
+    $ DependencyExtractor -xml -out df.xml <i>classes</i>
+    $ ListFullyQualifiedNames -s:df.xml -o:df.symbols.txt
 </pre>
 
 </div>
@@ -4307,8 +4319,8 @@ Next, we compute the closure and get a list of the symbols in the closure.
 <div class="highlight">
 
 <pre>
-    C:\>DependencyClosure -xml -out closure.xml -maximum-outbound-depth -start-includes /a.A.a/ df.xml
-    C:\>ListFullyQualifiedNames -in closure.xml -out closure.symbols.txt
+    $ DependencyClosure -xml -out closure.xml -maximum-outbound-depth -start-includes /a.A.a/ df.xml
+    $ ListFullyQualifiedNames -s:closure.xml -o:closure.symbols.txt
 </pre>
 
 </div>
@@ -4334,7 +4346,7 @@ Finally, we get the difference between the two lists using <code>ListDiff</code>
 <div class="highlight">
 
 <pre>
-    C:\>ListDiff -out symbols.diff.xml -old df.symbols.txt -new closure.symbols.txt
+    $ ListDiff -out symbols.diff.xml -old df.symbols.txt -new closure.symbols.txt
 </pre>
 
 </div>
@@ -4380,9 +4392,9 @@ So first, process the complete graph.
 <div class="highlight">
 
 <pre>
-    C:\>DependencyExtractor -xml -out df.xml <i>classes</i>
-    C:\>c2c -xml -out df.c2c.xml df.xml
-    C:\>ListFullyQualifiedNames -in df.c2c.xml -out df.c2c.symbols.txt
+    $ DependencyExtractor -xml -out df.xml <i>classes</i>
+    $ c2c -xml -out df.c2c.xml df.xml
+    $ ListFullyQualifiedNames -s:df.c2c.xml -o:df.c2c.symbols.txt
 </pre>
 
 </div>
@@ -4407,9 +4419,9 @@ Next, compute the closure.
 <div class="highlight">
 
 <pre>
-    C:\>DependencyClosure -xml -out closure.xml -maximum-outbound-depth -start-includes /a.A.a/ df.xml
-    C:\>c2c -xml -out closure.c2c.xml closure.xml
-    C:\>ListFullyQualifiedNames -in closure.c2c.xml -out closure.c2c.symbols.txt
+    $ DependencyClosure -xml -out closure.xml -maximum-outbound-depth -start-includes /a.A.a/ df.xml
+    $ c2c -xml -out closure.c2c.xml closure.xml
+    $ ListFullyQualifiedNames -s:closure.c2c.xml -o:closure.c2c.symbols.txt
 </pre>
 
 </div>
@@ -4433,7 +4445,7 @@ Finally, we get the difference between the two lists using <code>ListDiff</code>
 <div class="highlight">
 
 <pre>
-    C:\>ListDiff -out c2c.symbols.diff.xml -old df.c2c.symbols.txt -new closure.c2c.symbols.txt
+    $ ListDiff -out c2c.symbols.diff.xml -old df.c2c.symbols.txt -new closure.c2c.symbols.txt
 </pre>
 
 </div>
@@ -4516,7 +4528,7 @@ Dependency Finder recognizes four levels of metrics:
 Each metrics is composed of a number of measurements.  What measurements make
 up a given metrics level is defined in a configuration file written in XML.
 You can specify a custom configuration file or let the tool use the default
-one in <code>%DEPENDENCYFINDER_HOME%\etc\MetricsConfig.xml</code>.
+one in <code>${DEPENDENCYFINDER_HOME}/etc/MetricsConfig.xml</code>.
 </p>
 
 <a name="Explanation"></a>
@@ -4568,7 +4580,7 @@ defines the recommanded range for that measurement.
 
 <p>
 Here is a brief overview of some of the measurements, grouped by <i>chunk</i>.  The
-definitive list is in <code>%DEPENDENCYFINDER_HOME%\etc\MetricsConfig.xml</code>.
+definitive list is in <code>${DEPENDENCYFINDER_HOME}/etc/MetricsConfig.xml</code>.
 </p>
 
 <a name="BasicMethodMeasurements"></a>
@@ -5277,7 +5289,7 @@ written in XML.  You set the file with the <code>-configuration</code> switch to
 either command.  There is also a <code>-default-configuration</code> switch that
 kicks if you do not provide a <code>-configuration</code> switch.  This is how the
 launching scripts can point to the standard configuration in
-<code>%DEPENDENCYFINDER_HOME%\etc\MetricsConfig.xml</code> even if you don't
+<code>${DEPENDENCYFINDER_HOME}/etc/MetricsConfig.xml</code> even if you don't
 specify a configuration on the command-line.
 </p>
 
@@ -5287,13 +5299,13 @@ There are two configurations that come bundled with Dependency Finder.
 
 <blockquote>
 <dl>
-    <dt><code>%DEPENDENCYFINDER_HOME%\etc\MetricsConfig.xml</code></dt>
+    <dt><code>${DEPENDENCYFINDER_HOME}/etc/MetricsConfig.xml</code></dt>
     <dd>It has a series of measurements and statistical compilations at
     various levels.  It can assist you in evaluating the size and
     complexity of your software.  You can use it to find large classes
     or methods, or to find pieces with a disproportionate number of
     dependencies.</dd>
-    <dt><code>%DEPENDENCYFINDER_HOME%\etc\MartinConfig.xml</code></dt>
+    <dt><code>${DEPENDENCYFINDER_HOME}/etc/MartinConfig.xml</code></dt>
     <dd>Computes <code>I</code>, <code>A</code>, and <code>D'</code>, as per Robert C. Martin's
     article.</dd>
 </dl>
@@ -5331,7 +5343,7 @@ exist.
 </blockquote>
 
 <p>
-Look at <code>%DEPENDENCYFINDER_HOME%\etc\MartinConfig.xml</code> for an exemple
+Look at <code>${DEPENDENCYFINDER_HOME}/etc/MartinConfig.xml</code> for an exemple
 of how you can combine these types of measurements to compute complex
 values.
 </p>
@@ -5455,9 +5467,9 @@ depends on the switches on the command-line.
 <div class="highlight">
 
 <pre>
-    C:\>OOMetrics -txt
-                  classes
-                  %JAVA_HOME%\JRE\lib\rt.jar
+    $ OOMetrics -txt
+                classes
+                ${JAVA_HOME}/JRE/lib/rt.jar
 </pre>
 
 </div>
@@ -5511,9 +5523,9 @@ and ends with the "<code>.csv</code>" suffix.
 <div class="highlight">
 
 <pre>
-    C:\>OOMetrics -out df
-                  -txt
-                  %DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar
+    $ OOMetrics -out df
+                -txt
+                ${DEPENDENCYFINDER_HOME}/lib/DependencyFinder.jar
 </pre>
 
 </div>
@@ -5654,12 +5666,12 @@ The differences are saved as an XML document in the file <code>diff.xml</code>.
 <div class="highlight">
 
 <pre>
-    C:\>JarJarDiff -out <b>diff.xml</b>
-                   -name "My Project"
-                   -old-label Old
-                   -old <b>old.jar</b>
-                   -new-label New
-                   -new <b>new.jar</b>
+    $ JarJarDiff -out <b>diff.xml</b>
+                 -name "My Project"
+                 -old-label Old
+                 -old <b>old.jar</b>
+                 -new-label New
+                 -new <b>new.jar</b>
 </pre>
 
 </div>
@@ -5761,7 +5773,7 @@ There are two stylesheets:
 
 <p>
 You can run them using the scripts of the same names and their <code>-in</code> and <code>-out</code>
-switches.  The scripts call <code>XSLTProcess</code> and specify the XSL stylesheet with
+switches.  The scripts call Saxon and specify the XSL stylesheet with
 the <code>-xsl</code> switch.  You can convert the reports yourself, if you want to,
 either with Dependency Finder's stylesheets or any others that understand the
 internal structure of the reports.  See the <a href="Developer.html">Developer Guide</a>
@@ -5796,12 +5808,12 @@ the report.
 <div class="highlight">
 
 <pre>
-    C:\>JarJarDiff <b>-code</b>
-                   -old old.jar
-                   -new new.jar
-                   -out codediff.xml
-    C:\>DiffToHTML -in  codediff.xml
-                   -out <b>codediff.html</b>
+    $ JarJarDiff <b>-code</b>
+                 -old old.jar
+                 -new new.jar
+                 -out codediff.xml
+    $ DiffToHTML -s:codediff.xml
+                 -o:<b>codediff.html</b>
 </pre>
 
 </div>
@@ -5835,12 +5847,12 @@ options.
 <div class="highlight">
 
 <pre>
-    C:\>JarJarDiff -level <b>api</b>
-                   -old old.jar
-                   -new new.jar
-                   -out fulldiff.xml
-    C:\>DiffToHTML -in  fulldiff.xml
-                   -out <b>fulldiff.html</b>
+    $ JarJarDiff -level <b>api</b>
+                 -old old.jar
+                 -new new.jar
+                 -out fulldiff.xml
+    $ DiffToHTML -s:fulldiff.xml
+                 -o:<b>fulldiff.html</b>
 </pre>
 
 </div>
@@ -5880,12 +5892,12 @@ This time, the switch <code>-level incompatible</code> is no longer optional.
 <div class="highlight">
 
 <pre>
-    C:\>JarJarDiff -level <b>incompatible</b>
-                   -old old.jar
-                   -new new.jar
-                   -out incompatdiff.xml
-    C:\>DiffToHTML -in  incompatdiff.xml
-                   -out <b>incompatdiff.html</b>
+    $ JarJarDiff -level <b>incompatible</b>
+                 -old old.jar
+                 -new new.jar
+                 -out incompatdiff.xml
+    $ DiffToHTML -s:incompatdiff.xml
+                 -o:<b>incompatdiff.html</b>
 </pre>
 
 </div>
@@ -5903,12 +5915,12 @@ of implementing this interface.
 <div class="highlight">
 
 <pre>
-    C:\>JarJarDiff -level <b>com.acme.MyCustomDifferenceStrategy</b>
-                   -old old.jar
-                   -new new.jar
-                   -out customdiff.xml
-    C:\>DiffToHTML -in  customdiff.xml
-                   -out <b>customdiff.html</b>
+    $ JarJarDiff -level <b>com.acme.MyCustomDifferenceStrategy</b>
+                 -old old.jar
+                 -new new.jar
+                 -out customdiff.xml
+    $ DiffToHTML -s:customdiff.xml
+                 -o:<b>customdiff.html</b>
 </pre>
 
 </div>
@@ -5930,12 +5942,12 @@ fully-qualified targets, one per line, in a simple text file and pass it to
 <div class="highlight">
 
 <pre>
-    C:\>JarJarDiff -filter <b>filter.txt</b>
-                   -old old.jar
-                   -new new.jar
-                   -out filterdiff.xml
-    C:\>DiffToHTML -in  filterdiff.xml
-                   -out <b>filterdiff.html</b>
+    $ JarJarDiff -filter <b>filter.txt</b>
+                 -old old.jar
+                 -new new.jar
+                 -out filterdiff.xml
+    $ DiffToHTML -s:filterdiff.xml
+                 -o:<b>filterdiff.html</b>
 </pre>
 
 </div>
@@ -5969,17 +5981,17 @@ This command will only list elements that you marked as <code>@level published</
 <div class="highlight">
 
 <pre>
-    C:\>ListDocumentedElements -tag level
-                               -valid published
-                               -out old-list.txt
-                               old.java
+    $ ListDocumentedElements -tag level
+                             -valid published
+                             -out old-list.txt
+                             old.java
 </pre>
 
 <pre>
-    C:\>ListDocumentedElements -tag level
-                               -valid published
-                               -out new-list.txt
-                               new.java
+    $ ListDocumentedElements -tag level
+                             -valid published
+                             -out new-list.txt
+                             new.java
 </pre>
 
 </div>
@@ -5997,19 +6009,19 @@ If you add Dependency Finder's JAR file to your <code>CLASSPATH</code>, you can 
 <div class="highlight">
 
 <pre>
-    C:\>javadoc -doclet com.jeantessier.diff.ListDocumentedElements
-               -tag level
-               -valid published
-               -out old-list.txt
-               old.java
+    $ javadoc -doclet com.jeantessier.diff.ListDocumentedElements
+              -tag level
+              -valid published
+              -out old-list.txt
+              old.java
 </pre>
 
 <pre>
-    C:\>javadoc -doclet com.jeantessier.diff.ListDocumentedElements
-               -tag level
-               -valid published
-               -out new-list.txt
-               new.java
+    $ javadoc -doclet com.jeantessier.diff.ListDocumentedElements
+              -tag level
+              -valid published
+              -out new-list.txt
+              new.java
 </pre>
 
 </div>
@@ -6045,17 +6057,17 @@ This command will only list elements that you did <b>not</b> mark as
 <div class="highlight">
 
 <pre>
-    C:\>ListDocumentedElements -tag level
-                               -invalid developer
-                               -out old-list.txt
-                               old.java
+    $ ListDocumentedElements -tag level
+                             -invalid developer
+                             -out old-list.txt
+                             old.java
 </pre>
 
 <pre>
-    C:\>ListDocumentedElements -tag level
-                               -invalid developer
-                               -out new-list.txt
-                               new.java
+    $ ListDocumentedElements -tag level
+                             -invalid developer
+                             -out new-list.txt
+                             new.java
 </pre>
 
 </div>
@@ -6072,13 +6084,13 @@ required.
 <div class="highlight">
 
 <pre>
-    C:\>ListDiff -out listdiff.xml
-                 -name "My Project"
-                 -old-label Old
-                 -old old-list.txt
-                 -new-label New
-                 -new new-list.txt
-                 -compress
+    $ ListDiff -out listdiff.xml
+               -name "My Project"
+               -old-label Old
+               -old old-list.txt
+               -new-label New
+               -new new-list.txt
+               -compress
 </pre>
 
 </div>
@@ -6096,8 +6108,8 @@ required.
 <div class="highlight">
 
 <pre>
-    C:\>ListDiffToHTML -in listdiff.xml
-                       -out docreport.html
+    $ ListDiffToHTML -s:listdiff.xml
+                     -o:docreport.html
 </pre>
 
 </div>
@@ -6144,10 +6156,10 @@ output to a file that will list each deprecated element, one per line.
 <div class="highlight">
 
 <pre>
-    C:\>ListDeprecatedElements -out deprecated.txt
-                               %JAVA_HOME%\jre\lib\rt.jar
-                               lib
-                               classes
+    $ ListDeprecatedElements -out deprecated.txt
+                             ${JAVA_HOME}/jre/lib/rt.jar
+                             lib
+                             classes
 </pre>
 
 </div>
@@ -6170,14 +6182,14 @@ changes).
 <div class="highlight">
 
 <pre>
-    C:\>ListDeprecatedElements -out <b>deprecated.libs.txt</b>
-                               %JAVA_HOME%\jre\lib\rt.jar
-                               lib
+    $ ListDeprecatedElements -out <b>deprecated.libs.txt</b>
+                             ${JAVA_HOME}/jre/lib/rt.jar
+                             lib
 </pre>
 
 <pre>
-    C:\>ListDeprecatedElements -out <b>deprecated.code.txt</b>
-                               classes
+    $ ListDeprecatedElements -out <b>deprecated.code.txt</b>
+                             classes
 </pre>
 
 </div>
@@ -6219,7 +6231,7 @@ You can extract a list of deprecated symbols from it.
 <div class="highlight">
 
 <pre>
-    C:\>ListDeprecatedElements -out deprecated.txt DeprecatedExample.class
+    $ ListDeprecatedElements -out deprecated.txt DeprecatedExample.class
 </pre>
 
 </div>
@@ -6248,7 +6260,7 @@ Generate a dependency graph to work from:
 <div class="highlight">
 
 <pre>
-    C:\>DependencyExtractor -xml -out graph.xml DeprecatedExample.class
+    $ DependencyExtractor -xml -out graph.xml DeprecatedExample.class
 </pre>
 
 </div>
@@ -6294,10 +6306,10 @@ For a text report organized by deprecated element:
 <div class="highlight">
 
 <pre>
-    C:\>DependencyReporter -out report.txt
-                           -show-<b>inbounds</b>
-                           -<b>scope</b>-includes-list deprecated.txt
-                           graph.xml
+    $ DependencyReporter -out report.txt
+                         -show-<b>inbounds</b>
+                         -<b>scope</b>-includes-list deprecated.txt
+                         graph.xml
 </pre>
 
 </div>
@@ -6320,14 +6332,14 @@ For an HTML report organized by deprecated element:
 <div class="highlight">
 
 <pre>
-    C:\>DependencyReporter -xml -out report.xml
-                           -show-<b>inbounds</b>
-                           -<b>scope</b>-includes-list deprecated.txt
-                           graph.xml
+    $ DependencyReporter -xml -out report.xml
+                         -show-<b>inbounds</b>
+                         -<b>scope</b>-includes-list deprecated.txt
+                         graph.xml
 </pre>
 
 <pre>
-    C:\>DependencyGraphToHTML -in report.xml -out report.html
+    $ DependencyGraphToHTML -s:report.xml -o:report.html
 </pre>
 
 </div>
@@ -6345,10 +6357,10 @@ For a text report organized by caller:
 <div class="highlight">
 
 <pre>
-    C:\>DependencyReporter -out report.txt
-                           -show-<b>outbounds</b>
-                           -<b>filter</b>-includes-list deprecated.txt
-                           graph.xml
+    $ DependencyReporter -out report.txt
+                         -show-<b>outbounds</b>
+                         -<b>filter</b>-includes-list deprecated.txt
+                         graph.xml
 </pre>
 
 </div>
@@ -6371,14 +6383,14 @@ For an HTML report organized by caller:
 <div class="highlight">
 
 <pre>
-    C:\>DependencyReporter -xml -out report.xml
-                           -show-<b>outbounds</b>
-                           -<b>filter</b>-includes-list deprecated.txt
-                           graph.xml
+    $ DependencyReporter -xml -out report.xml
+                         -show-<b>outbounds</b>
+                         -<b>filter</b>-includes-list deprecated.txt
+                         graph.xml
 </pre>
 
 <pre>
-    C:\>DependencyGraphToHTML -in report.xml -out report.html
+    $ DependencyGraphToHTML -s:report.xml -o:report.html
 </pre>
 
 </div>
@@ -6391,19 +6403,19 @@ switches if your deprecated API list consists of more than one file.
 <div class="highlight">
 
 <pre>
-    C:\>DependencyReporter -out report.txt
-                           -show-inbounds
-                           <b>-scope-includes-list deprecated.libs.txt</b>
-                           <b>-scope-includes-list deprecated.code.txt</b>
-                           graph.xml
+    $ DependencyReporter -out report.txt
+                         -show-inbounds
+                         <b>-scope-includes-list deprecated.libs.txt</b>
+                         <b>-scope-includes-list deprecated.code.txt</b>
+                         graph.xml
 </pre>
 
 <pre>
-    C:\>DependencyReporter -out report.txt
-                           -show-outbounds
-                           <b>-filter-includes-list deprecated.libs.txt</b>
-                           <b>-filter-includes-list deprecated.code.txt</b>
-                           graph.xml
+    $ DependencyReporter -out report.txt
+                         -show-outbounds
+                         <b>-filter-includes-list deprecated.libs.txt</b>
+                         <b>-filter-includes-list deprecated.code.txt</b>
+                         graph.xml
 </pre>
 
 </div>
@@ -6421,12 +6433,12 @@ to <code>DependencyReporter</code>, it will be remove them from the <i>includes<
 <div class="highlight">
 
 <pre>
-    C:\>DependencyReporter -out report.txt
-                           -show-inbounds
-                           -scope-includes-list deprecated.libs.txt
-                           -scope-includes-list deprecated.code.txt
-                           <b>-scope-excludes-list deprecated.skip.txt</b>
-                           graph.xml
+    $ DependencyReporter -out report.txt
+                         -show-inbounds
+                         -scope-includes-list deprecated.libs.txt
+                         -scope-includes-list deprecated.code.txt
+                         <b>-scope-excludes-list deprecated.skip.txt</b>
+                         graph.xml
 </pre>
 
 </div>
@@ -6447,7 +6459,7 @@ report formats.
 
 <p>
 To generate reports organized by deprecated elements, use the configuration
-file in <code>etc\InboundDependencyConfig.xml</code>.
+file in <code>etc/InboundDependencyConfig.xml</code>.
 </p>
 
 <div align="center">
@@ -6472,12 +6484,12 @@ together:
 <div class="highlight">
 
 <pre>
-    C:\>OOMetrics -out report
-                  -configuration %DEPENDENCYFINDER_HOME%\etc\<b>InboundDependencyConfig</b>.xml
-                  -filter-includes-list deprecated.txt
-                  <b>-txt</b>
-                  -expand
-                  DeprecatedExample.class
+    $ OOMetrics -out report
+                -configuration ${DEPENDENCYFINDER_HOME}/etc/<b>InboundDependencyConfig</b>.xml
+                -filter-includes-list deprecated.txt
+                <b>-txt</b>
+                -expand
+                DeprecatedExample.class
 </pre>
 
 </div>
@@ -6533,16 +6545,16 @@ class:
 <div class="highlight">
 
 <pre>
-    C:\>OOMetrics -out report
-                  -configuration %DEPENDENCYFINDER_HOME%\etc\<b>InboundDependencyConfig</b>.xml
-                  -filter-includes-list deprecated.txt
-                  <b>-xml</b>
-                  -expand
-                  DeprecatedExample.class
+    $ OOMetrics -out report
+                -configuration ${DEPENDENCYFINDER_HOME}/etc/<b>InboundDependencyConfig</b>.xml
+                -filter-includes-list deprecated.txt
+                <b>-xml</b>
+                -expand
+                DeprecatedExample.class
 </pre>
 
 <pre>
-    C:\>MetricsToText -in report.xml -out report.txt
+    $ MetricsToText -s:report.xml -o:report.txt
 </pre>
 
 </div>
@@ -6589,7 +6601,7 @@ step.
 
 <p>
 To generate reports organized by caller, use the configuration file in
-<code>etc\OutboundDependencyConfig.xml</code>.
+<code>etc/OutboundDependencyConfig.xml</code>.
 </p>
 
 <div align="center">
@@ -6613,12 +6625,12 @@ For a text report organized by caller, with all methods listed together:
 <div class="highlight">
 
 <pre>
-    C:\>OOMetrics -out report
-                  -configuration %DEPENDENCYFINDER_HOME%\etc\<b>OutboundDependencyConfig</b>.xml
-                  -filter-includes-list deprecated.txt
-                  <b>-txt</b>
-                  -expand
-                  DeprecatedExample.class
+    $ OOMetrics -out report
+                -configuration ${DEPENDENCYFINDER_HOME}/etc/<b>OutboundDependencyConfig</b>.xml
+                -filter-includes-list deprecated.txt
+                <b>-txt</b>
+                -expand
+                DeprecatedExample.class
 </pre>
 
 </div>
@@ -6673,16 +6685,16 @@ For a text report organized by caller, with methods grouped by class:
 <div class="highlight">
 
 <pre>
-    C:\>OOMetrics -out report
-                  -configuration %DEPENDENCYFINDER_HOME%\etc\<b>OutboundDependencyConfig</b>.xml
-                  -filter-includes-list deprecated.txt
-                  <b>-xml</b>
-                  -expand
-                  DeprecatedExample.class
+    $ OOMetrics -out report
+                -configuration ${DEPENDENCYFINDER_HOME}/etc/<b>OutboundDependencyConfig</b>.xml
+                -filter-includes-list deprecated.txt
+                <b>-xml</b>
+                -expand
+                DeprecatedExample.class
 </pre>
 
 <pre>
-    C:\>MetricsToText -in report.xml -out report.txt
+    $ MetricsToText -s:report.xml -o:report.txt
 </pre>
 
 </div>
@@ -6762,11 +6774,11 @@ later to narrow this list down to the symbols that <i>S</i> actually uses.
 <div class="highlight">
 
 <pre>
-    C:\>ListSymbols -out <b><i>L</i>.symbols.txt</b>
-                    -class-names
-                    -method-names
-                    -field-names
-                    <i>L</i>
+    $ ListSymbols -out <b><i>L</i>.symbols.txt</b>
+                  -class-names
+                  -method-names
+                  -field-names
+                  <i>L</i>
 </pre>
 
 </div>
@@ -6778,8 +6790,8 @@ Step 2: Build a dependency graph from <i>S</i>.
 <div class="highlight">
 
 <pre>
-    C:\>DependencyExtractor -xml -out <i>S</i>.graph.xml
-                            <i>S</i>
+    $ DependencyExtractor -xml -out <i>S</i>.graph.xml
+                          <i>S</i>
 </pre>
 
 </div>
@@ -6791,15 +6803,15 @@ Step 3: Get a subgraph from the symbols from <i>L</i>.
 <div class="highlight">
 
 <pre>
-    C:\>DependencyReporter -xml -out <i>S</i>-<i>L</i>.graph.xml
-                           -show-empty-nodes
-                           -scope-includes-list <b><i>L</i>.symbols.txt</b>
-                           <i>S</i>.graph.xml
+    $ DependencyReporter -xml -out <i>S</i>-<i>L</i>.graph.xml
+                         -show-empty-nodes
+                         -scope-includes-list <b><i>L</i>.symbols.txt</b>
+                         <i>S</i>.graph.xml
 </pre>
 
 <pre>
-    C:\>DependencyGraphToText -in <i>S</i>-<i>L</i>.graph.xml
-                              -out <b><i>S</i>-<i>L</i>.symbols.txt</b>
+    $ DependencyGraphToText -s:<i>S</i>-<i>L</i>.graph.xml
+                            -o:<b><i>S</i>-<i>L</i>.symbols.txt</b>
 </pre>
 
 </div>
@@ -6825,13 +6837,13 @@ to what is used by <i>S</i>.
 <div class="highlight">
 
 <pre>
-    C:\>JarJarDiff -filter <b><i>S</i>-<i>L</i>.symbols.txt</b>
-                   -name L
-                   -old-label L
-                   -old <i>L</i>
-                   -new-label L'
-                   -new <i>L'</i>
-                   -out <i>L</i>-<i>L'</i>.diff.xml
+    $ JarJarDiff -filter <b><i>S</i>-<i>L</i>.symbols.txt</b>
+                 -name L
+                 -old-label L
+                 -old <i>L</i>
+                 -new-label L'
+                 -new <i>L'</i>
+                 -out <i>L</i>-<i>L'</i>.diff.xml
 </pre>
 
 </div>
@@ -6843,8 +6855,8 @@ Step 5: Convert to HTML
 <div class="highlight">
 
 <pre>
-    C:\>DiffToHTML -in <i>L</i>-<i>L'</i>.diff.xml
-                   -out <i>L</i>-<i>L'</i>.diff.html
+    $ DiffToHTML -s:<i>L</i>-<i>L'</i>.diff.xml
+                 -o:<i>L</i>-<i>L'</i>.diff.html
 </pre>
 
 </div>
@@ -6861,7 +6873,7 @@ use with <code>JarJarDiff</code>.  This example focuses exclusively on those par
 <p>
 You can use <code>OOMetrics</code> to compute Robert C. Martin's D metric.  Dependency
 Finder comes with a special configuration that computes a normalized variation,
-called D', in the configuration file <code>etc\MartinConfig.xml</code>.
+called D', in the configuration file <code>etc/MartinConfig.xml</code>.
 </p>
 
 <div align="center">
@@ -6925,10 +6937,10 @@ For a text report straight from the tool:
 <div class="highlight">
 
 <pre>
-    C:\>OOMetrics -out report
-                  -configuration %DEPENDENCYFINDER_HOME%\etc\<b>MartinConfig</b>.xml
-                  <b>-txt</b>
-                  classes
+    $ OOMetrics -out report
+                -configuration ${DEPENDENCYFINDER_HOME}/etc/<b>MartinConfig</b>.xml
+                <b>-txt</b>
+                classes
 </pre>
 
 </div>
@@ -6940,14 +6952,14 @@ For a text report from the XML output:
 <div class="highlight">
 
 <pre>
-    C:\>OOMetrics -out report
-                  -configuration %DEPENDENCYFINDER_HOME%\etc\<b>MartinConfig</b>.xml
-                  <b>-xml</b>
-                  classes
+    $ OOMetrics -out report
+                -configuration ${DEPENDENCYFINDER_HOME}/etc/<b>MartinConfig</b>.xml
+                <b>-xml</b>
+                classes
 </pre>
 
 <pre>
-    C:\>MetricsToText -in report.xml -out report.txt
+    $ MetricsToText -s:report.xml -o:report.txt
 </pre>
 
 </div>
@@ -6964,8 +6976,8 @@ step.
 
 <p>
 Look at the current bug list on
-<a href="http://sourceforge.net/projects/depfind">SourceForge</a>.  There is also a
-help-oriented discussion forum.
+<a href="https://github.com/jeantessier/dependency-finder/issues">GitHub</a>.  There is
+also a help-oriented discussion forum.
 </p>
 
 <p>

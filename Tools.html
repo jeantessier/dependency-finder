@@ -590,7 +590,7 @@ to <code>result.xml</code>.  The title will say "Version OldClass to Version New
 
 <pre>
     ClassClassDiff -old OldClass.class -new NewClass.class -out report.xml
-    DiffToHTML -in report.xml -out report.html
+    DiffToHTML -s:report.xml -o:report.html
 </pre>
 
 </div>
@@ -2179,8 +2179,8 @@ Lists the programming elements in a closure.
 
 <pre>
     ClosureToText
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 </pre>
 
 <a name="DescriptionXXXXXX"></a>
@@ -2201,8 +2201,8 @@ representing a closure.  You generate these graphs with
 
 <blockquote>
 
-<a name="-ininput_file.xml"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xml"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -2222,8 +2222,8 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.txt"></a>
-<h4><code>-out output_file.txt</code></h4>
+<a name="-o:output_file.txt"></a>
+<h4><code>-o:output_file.txt</code></h4>
 
 <blockquote>
 
@@ -2291,7 +2291,7 @@ To save the output to a text file:
 <div class="highlight">
 
 <pre>
-    ClosureToText -in dg.closure.xml -out dg.closure.txt
+    ClosureToText -s:dg.closure.xml -o:dg.closure.txt
 </pre>
 
 </div>
@@ -2339,8 +2339,8 @@ have no inbound dependencies.
 
 <pre>
     DependablesToHTML
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 </pre>
 
 <a name="DescriptionXXXXXXX"></a>
@@ -2361,8 +2361,8 @@ elements for easy navigation.
 
 <blockquote>
 
-<a name="-ininput_file.xmlX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -2382,8 +2382,8 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.html"></a>
-<h4><code>-out output_file.html</code></h4>
+<a name="-o:output_file.html"></a>
+<h4><code>-o:output_file.html</code></h4>
 
 <blockquote>
 
@@ -2440,7 +2440,7 @@ HTML file with only inbound dependencies:
 <div class="highlight">
 
 <pre>
-    DependablesToHTML -in dg.xml -out dependencies.html
+    DependablesToHTML -s:dg.xml -o:dependencies.html
 </pre>
 
 </div>
@@ -2493,8 +2493,8 @@ have no inbound dependencies.
 
 <pre>
     DependablesToText
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 </pre>
 
 <a name="DescriptionXXXXXXXX"></a>
@@ -2514,8 +2514,8 @@ Lists only non-empty nodes.
 
 <blockquote>
 
-<a name="-ininput_file.xmlXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -2535,8 +2535,8 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.txtX"></a>
-<h4><code>-out output_file.txt</code></h4>
+<a name="-o:output_file.txtX"></a>
+<h4><code>-o:output_file.txt</code></h4>
 
 <blockquote>
 
@@ -2606,7 +2606,7 @@ file with only inbound dependencies:
 <div class="highlight">
 
 <pre>
-    DependablesToText -in dg.xml -out dependencies.txt
+    DependablesToText -s:dg.xml -o:dependencies.txt
 </pre>
 
 </div>
@@ -5148,8 +5148,8 @@ Lists symbols from a dependency graph.
 
 <pre>
     DependencyGraphToFullyQualifiedNames
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXX"></a>
@@ -5171,8 +5171,8 @@ names that are in it.
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -5192,8 +5192,8 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.txtXX"></a>
-<h4><code>-out output_file.txt</code></h4>
+<a name="-o:output_file.txtXX"></a>
+<h4><code>-o:output_file.txt</code></h4>
 
 <blockquote>
 
@@ -5263,7 +5263,7 @@ file with only inbound dependencies:
 <div class="highlight">
 
 <pre>
-    DependencyGraphToFullyQualifiedNames -in dg.xml -out dependencies.txt
+    DependencyGraphToFullyQualifiedNames -s:dg.xml -o:dependencies.txt
 </pre>
 
 </div>
@@ -5356,8 +5356,8 @@ Translates the whole graph to GraphML.
 
 <pre>
     DependencyGraphToGraphML
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXX"></a>
@@ -5376,8 +5376,8 @@ Translates both outbound and inbound dependencies to basic GraphML.
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXXXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -5397,8 +5397,8 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.htmlX"></a>
-<h4><code>-out output_file.html</code></h4>
+<a name="-o:output_file.htmlX"></a>
+<h4><code>-o:output_file.html</code></h4>
 
 <blockquote>
 
@@ -5454,7 +5454,7 @@ To convert the dependency graph in <code>dg.xml</code> to a GraphML file:
 <div class="highlight">
 
 <pre>
-    DependencyGraphToGraphML -in dg.xml -out dg.graphml
+    DependencyGraphToGraphML -s:dg.xml -o:dg.graphml
 </pre>
 
 </div>
@@ -5505,8 +5505,8 @@ Translates the whole graph to HTML.
 
 <pre>
     DependencyGraphToHTML
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXX"></a>
@@ -5527,8 +5527,8 @@ elements for easy navigation.
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXXXXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -5548,8 +5548,8 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXX"></a>
-<h4><code>-out output_file.html</code></h4>
+<a name="-o:output_file.htmlXX"></a>
+<h4><code>-o:output_file.html</code></h4>
 
 <blockquote>
 
@@ -5606,7 +5606,7 @@ HTML file, for ease of use:
 <div class="highlight">
 
 <pre>
-    DependencyGraphToHTML -in dg.xml -out dependencies.html
+    DependencyGraphToHTML -s:dg.xml -o:dependencies.html
 </pre>
 
 </div>
@@ -5657,8 +5657,8 @@ Translates the whole graph to RDF.
 
 <pre>
     DependencyGraphToRDF
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXX"></a>
@@ -5677,8 +5677,8 @@ Translates both outbound and inbound dependencies to RDF.
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXXXXXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -5698,8 +5698,8 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXX"></a>
-<h4><code>-out output_file.html</code></h4>
+<a name="-o:output_file.htmlXXX"></a>
+<h4><code>-o:output_file.html</code></h4>
 
 <blockquote>
 
@@ -5756,7 +5756,7 @@ HTML file, for ease of use:
 <div class="highlight">
 
 <pre>
-    DependencyGraphToHTML -in dg.xml -out dependencies.html
+    DependencyGraphToHTML -s:dg.xml -o:dependencies.html
 </pre>
 
 </div>
@@ -5807,8 +5807,8 @@ Translates the whole graph to text.
 
 <pre>
     DependencyGraphToText
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXX"></a>
@@ -5827,8 +5827,8 @@ Translates both outbound and inbound dependencies to text.
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXXXXXXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -5848,8 +5848,8 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.txtXXX"></a>
-<h4><code>-out output_file.txt</code></h4>
+<a name="-o:output_file.txtXXX"></a>
+<h4><code>-o:output_file.txt</code></h4>
 
 <blockquote>
 
@@ -5918,7 +5918,7 @@ file, for ease of use:
 <div class="highlight">
 
 <pre>
-    DependencyGraphToText -in dg.xml -out dependencies.txt
+    DependencyGraphToText -s:dg.xml -o:dependencies.txt
 </pre>
 
 </div>
@@ -6020,8 +6020,8 @@ Lists unconfirmed symbols from a dependency graph.
 
 <pre>
     DependencyGraphToUnconfirmedFullyQualifiedNames
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXX"></a>
@@ -6043,8 +6043,8 @@ names that are in it and that are unconfirmed.
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXXXXXXXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -6064,8 +6064,8 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.txtXXXX"></a>
-<h4><code>-out output_file.txt</code></h4>
+<a name="-o:output_file.txtXXXX"></a>
+<h4><code>-o:output_file.txt</code></h4>
 
 <blockquote>
 
@@ -6134,7 +6134,7 @@ a file:
 <div class="highlight">
 
 <pre>
-    DependencyGraphToUnconfirmedFullyQualifiedNames -in dg.xml -out dg.unconfirmed.txt
+    DependencyGraphToUnconfirmedFullyQualifiedNames -s:dg.xml -o:dg.unconfirmed.txt
 </pre>
 
 </div>
@@ -6150,7 +6150,7 @@ find which packages it needs that are not in it already with:
 <pre>
     DependencyExtractor -xml -out myjar.xml myjar.jar
     p2p -xml -out myjar.p2p.xml myjar.xml
-    DependencyGraphToUnconfirmedFullyQualifiedNames -in myjar.p2p.xml -out myjar.unconfirmed.txt
+    DependencyGraphToUnconfirmedFullyQualifiedNames -s:myjar.p2p.xml -o:myjar.unconfirmed.txt
 </pre>
 
 </div>
@@ -6285,8 +6285,8 @@ Translates the whole graph to GraphML for the yEd application.
 
 <pre>
     DependencyGraphToHTML
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXX"></a>
@@ -6321,8 +6321,8 @@ See also:
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXXXXXXXXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -6342,8 +6342,8 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXX"></a>
-<h4><code>-out output_file.html</code></h4>
+<a name="-o:output_file.htmlXXXX"></a>
+<h4><code>-o:output_file.html</code></h4>
 
 <blockquote>
 
@@ -6399,7 +6399,7 @@ To convert the dependency graph in <code>dg.xml</code> to a GraphML suitable for
 <div class="highlight">
 
 <pre>
-    DependencyGraphToyEd -in dg.xml -out dg.graphml
+    DependencyGraphToyEd -s:dg.xml -o:dg.graphml
 </pre>
 
 </div>
@@ -9059,8 +9059,8 @@ have no outbound dependencies.
 
 <pre>
     DependentsToHTML
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXX"></a>
@@ -9081,8 +9081,8 @@ elements for easy navigation.
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXXXXXXXXXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -9102,8 +9102,8 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXXX"></a>
-<h4><code>-out output_file.html</code></h4>
+<a name="-o:output_file.htmlXXXXX"></a>
+<h4><code>-o:output_file.html</code></h4>
 
 <blockquote>
 
@@ -9160,7 +9160,7 @@ HTML file with only outboud dependencies:
 <div class="highlight">
 
 <pre>
-    DependentsToHTML -in dg.xml -out dependencies.html
+    DependentsToHTML -s:dg.xml -o:dependencies.html
 </pre>
 
 </div>
@@ -9213,8 +9213,8 @@ have no outbound dependencies.
 
 <pre>
     DependentsToText
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXX"></a>
@@ -9234,8 +9234,8 @@ Lists only non-empty nodes.
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXXXXXXXXXXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -9255,8 +9255,8 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.txtXXXXX"></a>
-<h4><code>-out output_file.txt</code></h4>
+<a name="-o:output_file.txtXXXXX"></a>
+<h4><code>-o:output_file.txt</code></h4>
 
 <blockquote>
 
@@ -9326,7 +9326,7 @@ file with only outboud dependencies:
 <div class="highlight">
 
 <pre>
-    DependentsToText -in dg.xml -out dependencies.txt
+    DependentsToText -s:dg.xml -o:dependencies.txt
 </pre>
 
 </div>
@@ -9422,8 +9422,8 @@ Lists changed symbols from <code>JarJarDiff</code> reports.
 
 <pre>
     DiffToFullyQualifiedNames
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXX"></a>
@@ -9443,8 +9443,8 @@ interface, field, constructor, and method names that have changed.
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXXXXXXXXXXXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -9462,8 +9462,8 @@ such as the output of <a href="#JarJarDiff">JarJarDiff</a>.
 
 </blockquote>
 
-<a name="-outoutput_file.txtXXXXXX"></a>
-<h4><code>-out output_file.txt</code></h4>
+<a name="-o:output_file.txtXXXXXX"></a>
+<h4><code>-o:output_file.txt</code></h4>
 
 <blockquote>
 
@@ -9516,7 +9516,7 @@ See <code>-out</code> above.
 
 <pre>
     JarJarDiff -old old.jar -new new.jar -out report.xml
-    DiffToFullyQualifiedNames -in report.xml -out diff-symbols.txt
+    DiffToFullyQualifiedNames -s:report.xml -o:diff-symbols.txt
 </pre>
 
 </div>
@@ -9563,8 +9563,8 @@ Converts the output of <a href="#JarJarDiff">JarJarDiff</a> to HTML.
 
 <pre>
     DiffToHTML
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
@@ -9583,8 +9583,8 @@ Converts the output of <a href="#JarJarDiff">JarJarDiff</a> to HTML.
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXXXXXXXXXXXXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -9602,8 +9602,8 @@ such as the output of <a href="#JarJarDiff">JarJarDiff</a>.
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXXXX"></a>
-<h4><code>-out output_file.html</code></h4>
+<a name="-o:output_file.htmlXXXXXX"></a>
+<h4><code>-o:output_file.html</code></h4>
 
 <blockquote>
 
@@ -9707,8 +9707,8 @@ have no outbound dependencies.
 
 <pre>
     HideInboundDependenciesToHTML
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
@@ -9729,8 +9729,8 @@ elements for easy navigation.
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXXXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXXXXXXXXXXXXXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -9750,8 +9750,8 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXXXXX"></a>
-<h4><code>-out output_file.html</code></h4>
+<a name="-o:output_file.htmlXXXXXXX"></a>
+<h4><code>-o:output_file.html</code></h4>
 
 <blockquote>
 
@@ -9808,7 +9808,7 @@ HTML file with only outboud dependencies:
 <div class="highlight">
 
 <pre>
-    HideInboundDependenciesToHTML -in dg.xml -out dependencies.html
+    HideInboundDependenciesToHTML -s:dg.xml -o:dependencies.html
 </pre>
 
 </div>
@@ -9861,8 +9861,8 @@ have no outbound dependencies.
 
 <pre>
     HideInboundDependenciesToText
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
@@ -9881,8 +9881,8 @@ Translates only outbound dependencies to text.
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXXXXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXXXXXXXXXXXXXXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -9902,8 +9902,8 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.txtXXXXXXX"></a>
-<h4><code>-out output_file.txt</code></h4>
+<a name="-o:output_file.txtXXXXXXX"></a>
+<h4><code>-o:output_file.txt</code></h4>
 
 <blockquote>
 
@@ -9973,7 +9973,7 @@ file with only outboud dependencies:
 <div class="highlight">
 
 <pre>
-    HideInboundDependenciesToText -in dg.xml -out dependencies.txt
+    HideInboundDependenciesToText -s:dg.xml -o:dependencies.txt
 </pre>
 
 </div>
@@ -10072,8 +10072,8 @@ have no inbound dependencies.
 
 <pre>
     HideOutboundDependenciesToHTML
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
@@ -10094,8 +10094,8 @@ elements for easy navigation.
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXXXXXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXXXXXXXXXXXXXXXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -10115,8 +10115,8 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXXXXXX"></a>
-<h4><code>-out output_file.html</code></h4>
+<a name="-o:output_file.htmlXXXXXXXX"></a>
+<h4><code>-o:output_file.html</code></h4>
 
 <blockquote>
 
@@ -10173,7 +10173,7 @@ HTML file with only inbound dependencies:
 <div class="highlight">
 
 <pre>
-    HideOutboundDependenciesToHTML -in dg.xml -out dependencies.html
+    HideOutboundDependenciesToHTML -s:dg.xml -o:dependencies.html
 </pre>
 
 </div>
@@ -10226,8 +10226,8 @@ have no inbound dependencies.
 
 <pre>
     HideOutboundDependenciesToText
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
@@ -10246,8 +10246,8 @@ Translates only inbound dependencies to text.
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXXXXXXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXXXXXXXXXXXXXXXXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -10267,8 +10267,8 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.txtXXXXXXXX"></a>
-<h4><code>-out output_file.txt</code></h4>
+<a name="-o:output_file.txtXXXXXXXX"></a>
+<h4><code>-o:output_file.txt</code></h4>
 
 <blockquote>
 
@@ -10338,7 +10338,7 @@ file with only inbound dependencies:
 <div class="highlight">
 
 <pre>
-    HideOutboundDependenciesToText -in dg.xml -out dependencies.txt
+    HideOutboundDependenciesToText -s:dg.xml -o:dependencies.txt
 </pre>
 
 </div>
@@ -10839,7 +10839,7 @@ title by supplying <code>-old-label</code> and <code>-new-label</code> to JarJar
 
 <pre>
     JarJarDiff -old old.jar -new new.jar -out report.xml
-    DiffToHTML -in report.xml -out report.html
+    DiffToHTML -s:report.xml -o:report.html
 </pre>
 
 </div>
@@ -11111,7 +11111,7 @@ Compares two lists of programming elements and computes differences.
 <blockquote>
 
 <p>
-You use <code>ListDiff</code> to list changes in what is considered part of the
+You use <code>ListDiff</code> to list changes in what you consider part of your
 published API.  It only needs the lists generated by the doclet.  No
 source or bytecode required.
 </p>
@@ -11496,8 +11496,8 @@ Converts the output of <a href="#ListDiff">ListDiff</a> to HTML.
 
 <pre>
     ListDiffToHTML
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
@@ -11516,8 +11516,8 @@ Converts the output of <a href="#ListDiff">ListDiff</a> to HTML.
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXXXXXXXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXXXXXXXXXXXXXXXXXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -11535,8 +11535,8 @@ such as the output of <a href="#ListDiff">ListDiff</a>.
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXXXXXXX"></a>
-<h4><code>-out output_file.html</code></h4>
+<a name="-o:output_file.htmlXXXXXXXXX"></a>
+<h4><code>-o:output_file.html</code></h4>
 
 <blockquote>
 
@@ -11589,7 +11589,7 @@ See <code>-out</code> above.
 
 <pre>
     ListDiff -name sample -old old.txt -new new.txt -out listdiff.xml
-    ListDiffToHTML -in listdiff.xml -out listdiff.html
+    ListDiffToHTML -s:listdiff.xml -o:listdiff.html
 </pre>
 
 </div>
@@ -11636,8 +11636,8 @@ Converts the output of <a href="#ListDiff">ListDiff</a> to human-readable text.
 
 <pre>
     ListDiffToText
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
@@ -11656,8 +11656,8 @@ Converts the output of <a href="#ListDiff">ListDiff</a> to human-readable text.
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXXXXXXXXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXXXXXXXXXXXXXXXXXXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -11675,8 +11675,8 @@ such as the output of <a href="#ListDiff">ListDiff</a>.
 
 </blockquote>
 
-<a name="-outoutput_file.txtXXXXXXXXX"></a>
-<h4><code>-out output_file.txt</code></h4>
+<a name="-o:output_file.txtXXXXXXXXX"></a>
+<h4><code>-o:output_file.txt</code></h4>
 
 <blockquote>
 
@@ -11926,12 +11926,12 @@ respectively to help <code>ListDiff</code> compress the lists.
 
 <p>
 You can pass this output to <a href="#ListDiff">ListDiff</a> to get a list of additions
-and removals from the published documentation.
+and removals from your published documentation.
 </p>
 
 <p>
 You can pass this output to <a href="#JarJarDiff">JarJarDiff</a> to further constrain
-the report and limit it to the published API.
+the report and limit it to your published API.
 </p>
 
 </blockquote>
@@ -11999,8 +11999,8 @@ Lists inheritance changes in <code>JarJarDiff</code> reports.
 
 <pre>
     ListInheritanceDiffToText
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
@@ -12021,8 +12021,8 @@ clauses.
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXXXXXXXXXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXXXXXXXXXXXXXXXXXXXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -12040,8 +12040,8 @@ such as the output of <a href="#JarJarDiff">JarJarDiff</a>.
 
 </blockquote>
 
-<a name="-outoutput_file.txtXXXXXXXXXX"></a>
-<h4><code>-out output_file.txt</code></h4>
+<a name="-o:output_file.txtXXXXXXXXXX"></a>
+<h4><code>-o:output_file.txt</code></h4>
 
 <blockquote>
 
@@ -12094,7 +12094,7 @@ See <code>-out</code> above.
 
 <pre>
     JarJarDiff -old old.jar -new new.jar -out report.xml
-    ListInheritanceDiffToText -in report.xml -out inheritance.txt
+    ListInheritanceDiffToText -s:report.xml -o:inheritance.txt
 </pre>
 
 </div>
@@ -12150,10 +12150,15 @@ Lists all symbols it could find, based on parameters.
         [-help]
         [-includes value]*
         [-includes-list filename]*
+        [-inner-class-names]
         [-local-names]
         [-method-names]
         [-non-private-field-names]
         [-out filename]
+        [-package-accessibility]
+        [-private-accessibility]
+        [-protected-accessibility]
+        [-public-accessibility]
         [-time]
         [-verbose [filename]]
         [-version]
@@ -12364,6 +12369,23 @@ the files.
 
 </blockquote>
 
+<a name="-inner-class-names"></a>
+<h4><code>-inner-class-names</code></h4>
+
+<blockquote>
+
+<p>
+Lists names of inner classes.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 <a name="-local-names"></a>
 <h4><code>-local-names</code></h4>
 
@@ -12429,6 +12451,74 @@ lax by allowing access to members that should have been private.
 <p>
 Writes the output to <i>filename</i>.  If <i>filename</i> does not exists,
 it is created.  If it already exists, its content is overwritten.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-package-accessibility"></a>
+<h4><code>-package-accessibility</code></h4>
+
+<blockquote>
+
+<p>
+Lists names of package-level classes, fields, and methods.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-private-accessibility"></a>
+<h4><code>-private-accessibility</code></h4>
+
+<blockquote>
+
+<p>
+Lists names of private fields and methods.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-protected-accessibility"></a>
+<h4><code>-protected-accessibility</code></h4>
+
+<blockquote>
+
+<p>
+Lists names of protected fields and methods.
+</p>
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+<a name="-public-accessibility"></a>
+<h4><code>-public-accessibility</code></h4>
+
+<blockquote>
+
+<p>
+Lists names of public classes, fields, and methods.
 </p>
 
 <table border="0">
@@ -12585,8 +12675,8 @@ Lists programming elements that have no inbound dependencies.
 
 <pre>
     ListUnused
-        -in input_file.xml
-        [-out output_file.txt]
+        -s:input_file.xml
+        [-o:output_file.txt]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
@@ -12618,8 +12708,8 @@ are not in reality.
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXXXXXXXXXXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXXXXXXXXXXXXXXXXXXXXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -12639,8 +12729,8 @@ such as the output of <a href="#DependencyExtractor">DependencyExtractor</a>,
 
 </blockquote>
 
-<a name="-outoutput_file.txtXXXXXXXXXXX"></a>
-<h4><code>-out output_file.txt</code></h4>
+<a name="-o:output_file.txtXXXXXXXXXXX"></a>
+<h4><code>-o:output_file.txt</code></h4>
 
 <blockquote>
 
@@ -12711,7 +12801,7 @@ Running this tool on that graph yields this output:
 <div class="highlight">
 
 <pre>
-    ListUnused sample.xml
+    ListUnused -s:sample.xml
 </pre>
 
 </div>
@@ -12768,8 +12858,8 @@ Translates the whole report to HTML.
 
 <pre>
     MetricsToHTML
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
@@ -12790,8 +12880,8 @@ anchors inside the HTML.
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXXXXXXXXXXXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXXXXXXXXXXXXXXXXXXXXXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -12809,8 +12899,8 @@ such as the output of <a href="#OOMetrics">OOMetrics</a>.
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXXXXXXXX"></a>
-<h4><code>-out output_file.html</code></h4>
+<a name="-o:output_file.htmlXXXXXXXXXX"></a>
+<h4><code>-o:output_file.html</code></h4>
 
 <blockquote>
 
@@ -12866,7 +12956,7 @@ To convert the metrics report in <code>metrics.xml</code> to a hyperlinked HTML 
 <div class="highlight">
 
 <pre>
-    MetricsToHTML -in metrics.xml -out metrics.html
+    MetricsToHTML -s:metrics.xml -o:metrics.html
 </pre>
 
 </div>
@@ -12913,8 +13003,8 @@ Translates the whole report to text.
 
 <pre>
     MetricsToText
-        -in input_file.xml
-        [-out output_file.html]
+        -s:input_file.xml
+        [-o:output_file.html]
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
@@ -12939,8 +13029,8 @@ and finally by all methods.
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXXXXXXXXXXXXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXXXXXXXXXXXXXXXXXXXXXXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -12958,8 +13048,8 @@ such as the output of <a href="#OOMetrics">OOMetrics</a>.
 
 </blockquote>
 
-<a name="-outoutput_file.htmlXXXXXXXXXXX"></a>
-<h4><code>-out output_file.html</code></h4>
+<a name="-o:output_file.htmlXXXXXXXXXXX"></a>
+<h4><code>-o:output_file.html</code></h4>
 
 <blockquote>
 
@@ -13015,7 +13105,7 @@ To convert the dependency graph in <code>metrics.xml</code> to a text file:
 <div class="highlight">
 
 <pre>
-    MetricsToText -in metrics.xml -out metrics.txt
+    MetricsToText -s:metrics.xml -o:metrics.txt
 </pre>
 
 </div>
@@ -14017,9 +14107,9 @@ Applies an XSL stylesheet to an XML document.
 
 <pre>
     XSLTProcess
-        -in input_file.xml
-        [-out filename]
-        -xsl stylesheet.xsl
+        -s:input_file.xml
+        [-o:filename]
+        -xsl:stylesheet.xsl
 </pre>
 
 <a name="DescriptionXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></a>
@@ -14040,8 +14130,8 @@ appropriate <code>-xsl</code> value.
 
 <blockquote>
 
-<a name="-ininput_file.xmlXXXXXXXXXXXXXXXXXXXXXXXX"></a>
-<h4><code>-in input_file.xml</code></h4>
+<a name="-s:input_file.xmlXXXXXXXXXXXXXXXXXXXXXXXX"></a>
+<h4><code>-s:input_file.xml</code></h4>
 
 <blockquote>
 
@@ -14058,8 +14148,8 @@ compatible with the stylesheet specified with <code>-xsl</code>.
 
 </blockquote>
 
-<a name="-outfilenameXXXXXXXXXXXXXXXX"></a>
-<h4><code>-out filename</code></h4>
+<a name="-o:filename"></a>
+<h4><code>-o:filename</code></h4>
 
 <blockquote>
 
@@ -14080,8 +14170,8 @@ If not specified, the translation goes to the standard output.
 
 </blockquote>
 
-<a name="-xslstylesheet.xsl"></a>
-<h4><code>-xsl stylesheet.xsl</code></h4>
+<a name="-xsl:stylesheet.xsl"></a>
+<h4><code>-xsl:stylesheet.xsl</code></h4>
 
 <blockquote>
 
@@ -14116,7 +14206,7 @@ None.
 <blockquote>
 
 <p>
-See <code>-out</code> above.
+See <code>-o</code> above.
 </p>
 
 </blockquote>
@@ -14133,7 +14223,7 @@ Instead of using <a href="#DependablesToHTML">DependablesToHTML</a>, you can use
 <div class="highlight">
 
 <pre>
-    XSLTProcess -xsl <i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/DependablesToHTML.xsl -in dg.xml -out dependencies.html
+    XSLTProcess -xsl:<i>&lt;DEPENDENCYFINDER_HOME&gt;</i>/etc/DependablesToHTML.xsl -s:dg.xml -o:dependencies.html
 </pre>
 
 </div>
@@ -14146,7 +14236,7 @@ Instead of using <a href="#DependablesToHTML">DependablesToHTML</a>, you can use
 <blockquote>
 
 <p>
-<code>org.apache.xalan.xslt.Process</code>
+<code>net.sf.saxon.Transform</code>
 </p>
 
 </blockquote>
