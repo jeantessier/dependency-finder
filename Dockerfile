@@ -1,9 +1,9 @@
 #
 # To build:
-#     $ docker build . --build-arg version=1.2.1-beta6 --tag jeantessier/dependency-finder-tomcat:1.2.1-beta6 --tag jeantessier/dependency-finder-tomcat:latest
+#     $ docker build . --build-arg version=1.2.1-beta7 --tag jeantessier/dependency-finder-tomcat:1.2.1-beta7 --tag jeantessier/dependency-finder-tomcat:latest
 #
 # To upload to hub.docker.com:
-#     $ docker push jeantessier/dependency-finder-tomcat:1.2.1-beta6
+#     $ docker push jeantessier/dependency-finder-tomcat:1.2.1-beta7
 #     $ docker push jeantessier/dependency-finder-tomcat:latest
 #
 # To run:
