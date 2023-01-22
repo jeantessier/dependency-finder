@@ -32,10 +32,11 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-import java.util.*;
+import com.google.common.collect.Lists;
+import junit.framework.TestCase;
 
-import junit.framework.*;
+import java.io.File;
+import java.util.Collections;
 
 public class TestSymbolGatherer extends TestCase {
     public static final String TEST_CLASS = "test";
@@ -57,6 +58,8 @@ public class TestSymbolGatherer extends TestCase {
     }
 
     public void testEmpty() {
+        loader.load(Collections.<String>emptyList());
+
         assertEquals("Different number of symbols", 0, gatherer.getCollection().size());
     }
     
@@ -72,53 +75,85 @@ public class TestSymbolGatherer extends TestCase {
         assertTrue("Missing this parameter from " + gatherer.getCollection(), gatherer.getCollection().contains("test.test(): this"));
         assertEquals("Different number of symbols in " + gatherer.getCollection(), 7, gatherer.getCollection().size());
     }
-    
+
+    public void testOnOneInnerClass() {
+        loader.load(Collections.singleton(INNER_TEST_FILENAME));
+
+        assertTrue("Missing test$InnerClass class name from " + gatherer.getCollection(), gatherer.getCollection().contains("test$InnerClass"));
+        assertTrue("Missing test$InnerClass.innerField field from " + gatherer.getCollection(), gatherer.getCollection().contains("test$InnerClass.innerField"));
+        assertTrue("Missing test$InnerClass.test$InnerClass() method from " + gatherer.getCollection(), gatherer.getCollection().contains("test$InnerClass.test$InnerClass()"));
+        assertTrue("Missing this parameter from " + gatherer.getCollection(), gatherer.getCollection().contains("test$InnerClass.test$InnerClass(): this"));
+        assertEquals("Different number of symbols in " + gatherer.getCollection(), 4, gatherer.getCollection().size());
+    }
+
     public void testClassNamesOnly() {
         strategy.setMatchingClassNames(true);
         strategy.setMatchingFieldNames(false);
         strategy.setMatchingMethodNames(false);
         strategy.setMatchingLocalNames(false);
-        
-        loader.load(Collections.singleton(TEST_FILENAME));
+        strategy.setMatchingInnerClassNames(false);
+
+        loader.load(Lists.newArrayList(TEST_FILENAME, INNER_TEST_FILENAME));
 
         assertTrue("Missing test class name from " + gatherer.getCollection(), gatherer.getCollection().contains("test"));
         assertEquals("Different number of symbols in " + gatherer.getCollection(), 1, gatherer.getCollection().size());
     }
-    
+
+    public void testFieldNamesOnly() {
+        strategy.setMatchingClassNames(false);
+        strategy.setMatchingFieldNames(true);
+        strategy.setMatchingMethodNames(false);
+        strategy.setMatchingLocalNames(false);
+        strategy.setMatchingInnerClassNames(false);
+
+        loader.load(Lists.newArrayList(TEST_FILENAME, INNER_TEST_FILENAME));
+
+        assertTrue("Missing test$InnerClass.innerField field from " + gatherer.getCollection(), gatherer.getCollection().contains("test$InnerClass.innerField"));
+        assertEquals("Different number of symbols in " + gatherer.getCollection(), 1, gatherer.getCollection().size());
+    }
+
     public void testMethodNamesOnly() {
         strategy.setMatchingClassNames(false);
         strategy.setMatchingFieldNames(false);
         strategy.setMatchingMethodNames(true);
         strategy.setMatchingLocalNames(false);
-        
-        loader.load(Collections.singleton(TEST_FILENAME));
+        strategy.setMatchingInnerClassNames(false);
 
+        loader.load(Lists.newArrayList(TEST_FILENAME, INNER_TEST_FILENAME));
+
+        assertTrue("Missing test$InnerClass.test$InnerClass() method from " + gatherer.getCollection(), gatherer.getCollection().contains("test$InnerClass.test$InnerClass()"));
         assertTrue("Missing test.main() method from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[])"));
         assertTrue("Missing test.test() method from " + gatherer.getCollection(), gatherer.getCollection().contains("test.test()"));
-        assertEquals("Different number of symbols in " + gatherer.getCollection(), 2, gatherer.getCollection().size());
+        assertEquals("Different number of symbols in " + gatherer.getCollection(), 3, gatherer.getCollection().size());
     }
-    
+
     public void testLocalNamesOnly() {
         strategy.setMatchingClassNames(false);
         strategy.setMatchingFieldNames(false);
         strategy.setMatchingMethodNames(false);
         strategy.setMatchingLocalNames(true);
-        
-        loader.load(Collections.singleton(TEST_FILENAME));
+        strategy.setMatchingInnerClassNames(false);
 
+        loader.load(Lists.newArrayList(TEST_FILENAME, INNER_TEST_FILENAME));
+
+        assertTrue("Missing this parameter from " + gatherer.getCollection(), gatherer.getCollection().contains("test$InnerClass.test$InnerClass(): this"));
         assertTrue("Missing args parameter from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[]): args"));
         assertTrue("Missing c local variable from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[]): c"));
         assertTrue("Missing ex local variable from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[]): ex"));
         assertTrue("Missing this parameter from " + gatherer.getCollection(), gatherer.getCollection().contains("test.test(): this"));
-        assertEquals("Different number of symbols in " + gatherer.getCollection(), 4, gatherer.getCollection().size());
+        assertEquals("Different number of symbols in " + gatherer.getCollection(), 5, gatherer.getCollection().size());
     }
 
-    public void testInnerClass() {
-        loader.load(Collections.singleton(INNER_TEST_FILENAME));
+    public void testInnerClassNamesOnly() {
+        strategy.setMatchingClassNames(false);
+        strategy.setMatchingFieldNames(false);
+        strategy.setMatchingMethodNames(false);
+        strategy.setMatchingLocalNames(false);
+        strategy.setMatchingInnerClassNames(true);
+
+        loader.load(Lists.newArrayList(TEST_FILENAME, INNER_TEST_FILENAME));
 
         assertTrue("Missing test$InnerClass class name from " + gatherer.getCollection(), gatherer.getCollection().contains("test$InnerClass"));
-        assertTrue("Missing test$InnerClass.test$InnerClass() method from " + gatherer.getCollection(), gatherer.getCollection().contains("test$InnerClass.test$InnerClass()"));
-        assertTrue("Missing this parameter from " + gatherer.getCollection(), gatherer.getCollection().contains("test$InnerClass.test$InnerClass(): this"));
-        assertEquals("Different number of symbols in " + gatherer.getCollection(), 3, gatherer.getCollection().size());
+        assertEquals("Different number of symbols in " + gatherer.getCollection(), 1, gatherer.getCollection().size());
     }
 }

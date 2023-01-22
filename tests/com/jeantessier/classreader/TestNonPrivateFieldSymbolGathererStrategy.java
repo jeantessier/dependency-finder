@@ -32,8 +32,8 @@
 
 package com.jeantessier.classreader;
 
-import org.jmock.integration.junit3.*;
-import org.jmock.*;
+import org.jmock.Expectations;
+import org.jmock.integration.junit3.MockObjectTestCase;
 
 public class TestNonPrivateFieldSymbolGathererStrategy extends MockObjectTestCase {
     private NonPrivateFieldSymbolGathererStrategy sut;
@@ -102,5 +102,10 @@ public class TestNonPrivateFieldSymbolGathererStrategy extends MockObjectTestCas
     public void testIsMatching_local() {
         LocalVariable mockLocalVariable = mock(LocalVariable.class);
         assertFalse("Should not match local variables", sut.isMatching(mockLocalVariable));
+    }
+
+    public void testIsMatching_innerClass() {
+        InnerClass mockInnerClass = mock(InnerClass.class);
+        assertFalse("Should not match inner classes", sut.isMatching(mockInnerClass));
     }
 }

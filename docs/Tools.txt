@@ -9578,6 +9578,7 @@ Lists all symbols it could find, based on parameters.
         [-help]
         [-includes value]*
         [-includes-list filename]*
+        [-inner-class-names]
         [-local-names]
         [-method-names]
         [-non-private-field-names]
@@ -9748,6 +9749,20 @@ the files.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
 <tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-inner-class-names=
+
+<blockquote>
+
+Lists names of inner classes.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>

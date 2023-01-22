@@ -32,8 +32,8 @@
 
 package com.jeantessier.classreader;
 
-import org.jmock.integration.junit3.*;
-import org.jmock.*;
+import org.jmock.Expectations;
+import org.jmock.integration.junit3.MockObjectTestCase;
 
 public class TestSymbolGathererStrategyDecorator extends MockObjectTestCase {
     private SymbolGathererStrategy mockStrategy;
@@ -86,5 +86,15 @@ public class TestSymbolGathererStrategyDecorator extends MockObjectTestCase {
         }});
 
         sut.isMatching(mockLocalVariable);
+    }
+
+    public void testIsMatching_innerClass() {
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+
+        checking(new Expectations() {{
+            one (mockStrategy).isMatching(mockInnerClass);
+        }});
+
+        sut.isMatching(mockInnerClass);
     }
 }

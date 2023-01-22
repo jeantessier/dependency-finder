@@ -32,6 +32,7 @@
 
 package com.jeantessier.dependencyfinder.ant;
 
+import com.jeantessier.classreader.AccessibilitySymbolGathererStrategy;
 import com.jeantessier.classreader.ClassfileLoader;
 import com.jeantessier.classreader.DefaultSymbolGathererStrategy;
 import com.jeantessier.classreader.FilteringSymbolGathererStrategy;
@@ -41,7 +42,6 @@ import com.jeantessier.classreader.NonPrivateFieldSymbolGathererStrategy;
 import com.jeantessier.classreader.SymbolGatherer;
 import com.jeantessier.classreader.SymbolGathererStrategy;
 import com.jeantessier.classreader.TransientClassfileLoader;
-import com.jeantessier.classreader.AccessibilitySymbolGathererStrategy;
 import com.jeantessier.text.RegularExpressionParser;
 import org.apache.log4j.Logger;
 import org.apache.tools.ant.BuildException;
@@ -65,6 +65,7 @@ public class ListSymbols extends Task {
     private boolean fieldNames = false;
     private boolean methodNames = false;
     private boolean localNames = false;
+    private boolean innerClassNames = false;
     private  boolean publicAccessibility = false;
     private  boolean protectedAccessibility = false;
     private  boolean privateAccessibility = false;
@@ -104,6 +105,14 @@ public class ListSymbols extends Task {
 
     public boolean getLocalnames() {
         return localNames;
+    }
+
+    public void setInnerclassnames(boolean innerClassNames) {
+        this.innerClassNames = innerClassNames;
+    }
+
+    public boolean getInnerclassnames() {
+        return innerClassNames;
     }
 
     public void setLocalnames(boolean localNames) {
@@ -285,11 +294,12 @@ public class ListSymbols extends Task {
         // This way, if you pass nothing, you get the default behavior and
         // the tool shows everything.  If you pass in one or more, you only
         // see symbols of the kind(s) you specified.
-        if (getClassnames() || getFieldnames() || getMethodnames() || getLocalnames()) {
+        if (getClassnames() || getFieldnames() || getMethodnames() || getLocalnames() || getInnerclassnames()) {
             result.setMatchingClassNames(false);
             result.setMatchingFieldNames(false);
             result.setMatchingMethodNames(false);
             result.setMatchingLocalNames(false);
+            result.setMatchingInnerClassNames(false);
         }
 
         if (getClassnames()) {
@@ -306,6 +316,10 @@ public class ListSymbols extends Task {
 
         if (getLocalnames()) {
             result.setMatchingLocalNames(true);
+        }
+
+        if (getInnerclassnames()) {
+            result.setMatchingInnerClassNames(true);
         }
 
         return result;

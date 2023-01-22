@@ -32,6 +32,7 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
+import com.jeantessier.classreader.AccessibilitySymbolGathererStrategy;
 import com.jeantessier.classreader.ClassfileLoader;
 import com.jeantessier.classreader.DefaultSymbolGathererStrategy;
 import com.jeantessier.classreader.FilteringSymbolGathererStrategy;
@@ -41,7 +42,6 @@ import com.jeantessier.classreader.NonPrivateFieldSymbolGathererStrategy;
 import com.jeantessier.classreader.SymbolGatherer;
 import com.jeantessier.classreader.SymbolGathererStrategy;
 import com.jeantessier.classreader.TransientClassfileLoader;
-import com.jeantessier.classreader.AccessibilitySymbolGathererStrategy;
 import com.jeantessier.commandline.CommandLineException;
 
 import java.util.Collection;
@@ -54,6 +54,7 @@ public class ListSymbols extends DirectoryExplorerCommand {
         getCommandLine().addToggleSwitch("field-names");
         getCommandLine().addToggleSwitch("method-names");
         getCommandLine().addToggleSwitch("local-names");
+        getCommandLine().addToggleSwitch("inner-class-names");
 
         getCommandLine().addToggleSwitch("public-accessibility");
         getCommandLine().addToggleSwitch("protected-accessibility");
@@ -72,11 +73,12 @@ public class ListSymbols extends DirectoryExplorerCommand {
     protected Collection<CommandLineException> parseCommandLine(String[] args) {
         Collection<CommandLineException> exceptions = super.parseCommandLine(args);
 
-        if (!getCommandLine().isPresent("class-names") && !getCommandLine().isPresent("field-names") && !getCommandLine().isPresent("method-names") && !getCommandLine().isPresent("local-names")) {
+        if (!getCommandLine().isPresent("class-names") && !getCommandLine().isPresent("field-names") && !getCommandLine().isPresent("method-names") && !getCommandLine().isPresent("local-names") && !getCommandLine().isPresent("inner-class-names")) {
             getCommandLine().getSwitch("class-names").setValue(true);
             getCommandLine().getSwitch("field-names").setValue(true);
             getCommandLine().getSwitch("method-names").setValue(true);
             getCommandLine().getSwitch("local-names").setValue(true);
+            getCommandLine().getSwitch("inner-class-names").setValue(true);
         }
 
         return exceptions;
@@ -95,6 +97,7 @@ public class ListSymbols extends DirectoryExplorerCommand {
             defaultGathererStrategy.setMatchingFieldNames(getCommandLine().getToggleSwitch("field-names"));
             defaultGathererStrategy.setMatchingMethodNames(getCommandLine().getToggleSwitch("method-names"));
             defaultGathererStrategy.setMatchingLocalNames(getCommandLine().getToggleSwitch("local-names"));
+            defaultGathererStrategy.setMatchingInnerClassNames(getCommandLine().getToggleSwitch("inner-class-names"));
 
             gathererStrategy = defaultGathererStrategy;
         }

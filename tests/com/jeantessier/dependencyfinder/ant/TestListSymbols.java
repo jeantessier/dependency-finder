@@ -32,17 +32,18 @@
 
 package com.jeantessier.dependencyfinder.ant;
 
+import com.jeantessier.classreader.AccessibilitySymbolGathererStrategy;
 import com.jeantessier.classreader.Classfile;
 import com.jeantessier.classreader.DefaultSymbolGathererStrategy;
 import com.jeantessier.classreader.Field_info;
 import com.jeantessier.classreader.FilteringSymbolGathererStrategy;
 import com.jeantessier.classreader.FinalMethodOrClassSymbolGathererStrategy;
+import com.jeantessier.classreader.InnerClass;
 import com.jeantessier.classreader.LocalVariable;
 import com.jeantessier.classreader.Method_info;
 import com.jeantessier.classreader.NonPrivateFieldSymbolGathererStrategy;
 import com.jeantessier.classreader.SymbolGathererStrategy;
 import com.jeantessier.classreader.SymbolGathererStrategyDecorator;
-import com.jeantessier.classreader.AccessibilitySymbolGathererStrategy;
 import org.apache.tools.ant.BuildException;
 import org.jmock.Expectations;
 import org.jmock.integration.junit3.MockObjectTestCase;
@@ -55,6 +56,7 @@ public class TestListSymbols extends MockObjectTestCase {
     private Field_info mockField;
     private Method_info mockMethod;
     private LocalVariable mockLocalVariable;
+    private InnerClass mockInnerClass;
 
     private ListSymbols sut;
 
@@ -65,6 +67,7 @@ public class TestListSymbols extends MockObjectTestCase {
         mockField = mock(Field_info.class);
         mockMethod = mock(Method_info.class);
         mockLocalVariable = mock(LocalVariable.class);
+        mockInnerClass = mock(InnerClass.class);
 
         sut = new ListSymbols();
     }
@@ -111,6 +114,7 @@ public class TestListSymbols extends MockObjectTestCase {
         assertTrue("field names", delegateStrategy.isMatching(mockField));
         assertTrue("method names", delegateStrategy.isMatching(mockMethod));
         assertTrue("local variable names", delegateStrategy.isMatching(mockLocalVariable));
+        assertTrue("inner class names", delegateStrategy.isMatching(mockInnerClass));
     }
 
     public void testCreateStrategy_classnames() {
@@ -122,6 +126,7 @@ public class TestListSymbols extends MockObjectTestCase {
         assertFalse("field names", strategy.isMatching(mockField));
         assertFalse("method names", strategy.isMatching(mockMethod));
         assertFalse("local variable names", strategy.isMatching(mockLocalVariable));
+        assertFalse("inner class names", strategy.isMatching(mockInnerClass));
     }
 
     public void testCreateStrategy_fieldnames() {
@@ -133,6 +138,7 @@ public class TestListSymbols extends MockObjectTestCase {
         assertTrue("field names", strategy.isMatching(mockField));
         assertFalse("method names", strategy.isMatching(mockMethod));
         assertFalse("local variable names", strategy.isMatching(mockLocalVariable));
+        assertFalse("inner class names", strategy.isMatching(mockInnerClass));
     }
 
     public void testCreateStrategy_methodnames() {
@@ -144,6 +150,7 @@ public class TestListSymbols extends MockObjectTestCase {
         assertFalse("field names", strategy.isMatching(mockField));
         assertTrue("method names", strategy.isMatching(mockMethod));
         assertFalse("local variable names", strategy.isMatching(mockLocalVariable));
+        assertFalse("inner class names", strategy.isMatching(mockInnerClass));
     }
 
     public void testCreateStrategy_localnames() {
@@ -155,6 +162,19 @@ public class TestListSymbols extends MockObjectTestCase {
         assertFalse("field names", strategy.isMatching(mockField));
         assertFalse("method names", strategy.isMatching(mockMethod));
         assertTrue("local variable names", strategy.isMatching(mockLocalVariable));
+        assertFalse("inner class names", strategy.isMatching(mockInnerClass));
+    }
+
+    public void testCreateStrategy_innerclassnames() {
+        sut.setInnerclassnames(true);
+
+        SymbolGathererStrategy strategy = ((SymbolGathererStrategyDecorator) sut.createStrategy()).getDelegate();
+        assertEquals("strategy class", DefaultSymbolGathererStrategy.class, strategy.getClass());
+        assertFalse("class names", strategy.isMatching(mockClassfile));
+        assertFalse("field names", strategy.isMatching(mockField));
+        assertFalse("method names", strategy.isMatching(mockMethod));
+        assertFalse("local variable names", strategy.isMatching(mockLocalVariable));
+        assertTrue("inner class names", strategy.isMatching(mockInnerClass));
     }
 
     public void testCreateStrategy_publicaccessibility() {
@@ -179,6 +199,12 @@ public class TestListSymbols extends MockObjectTestCase {
                 will(returnValue("void foo()"));
             one (mockMethod).isPublic();
                 will(returnValue(false));
+            one (mockInnerClass).isPublic();
+                will(returnValue(true));
+            one (mockInnerClass).getInnerClassInfo();
+                will(returnValue("Foo.InnerFoo"));
+            one (mockInnerClass).isPublic();
+                will(returnValue(false));
         }});
 
         SymbolGathererStrategy strategy = sut.createStrategy();
@@ -190,6 +216,8 @@ public class TestListSymbols extends MockObjectTestCase {
         assertTrue("public method", strategy.isMatching(mockMethod));
         assertFalse("non-public method", strategy.isMatching(mockMethod));
         assertFalse("local variable", strategy.isMatching(mockLocalVariable));
+        assertTrue("public inner class", strategy.isMatching(mockInnerClass));
+        assertFalse("non-public inner class", strategy.isMatching(mockInnerClass));
     }
 
     public void testCreateStrategy_protectedaccessibility() {
@@ -197,17 +225,23 @@ public class TestListSymbols extends MockObjectTestCase {
 
         checking(new Expectations() {{
             one (mockField).isProtected();
-            will(returnValue(true));
+                will(returnValue(true));
             one (mockField).getFullSignature();
-            will(returnValue("int foo"));
+                will(returnValue("int foo"));
             one (mockField).isProtected();
-            will(returnValue(false));
+                will(returnValue(false));
             one (mockMethod).isProtected();
-            will(returnValue(true));
+                will(returnValue(true));
             one (mockMethod).getFullSignature();
-            will(returnValue("void foo()"));
+                will(returnValue("void foo()"));
             one (mockMethod).isProtected();
-            will(returnValue(false));
+                will(returnValue(false));
+            one (mockInnerClass).isProtected();
+                will(returnValue(true));
+            one (mockInnerClass).getInnerClassInfo();
+                will(returnValue("Foo.InnerFoo"));
+            one (mockInnerClass).isProtected();
+                will(returnValue(false));
         }});
 
         SymbolGathererStrategy strategy = sut.createStrategy();
@@ -218,6 +252,8 @@ public class TestListSymbols extends MockObjectTestCase {
         assertTrue("protected method", strategy.isMatching(mockMethod));
         assertFalse("non-protected method", strategy.isMatching(mockMethod));
         assertFalse("local variable", strategy.isMatching(mockLocalVariable));
+        assertTrue("protected inner class", strategy.isMatching(mockInnerClass));
+        assertFalse("non-protected inner class", strategy.isMatching(mockInnerClass));
     }
 
     public void testCreateStrategy_privateaccessibility() {
@@ -225,17 +261,23 @@ public class TestListSymbols extends MockObjectTestCase {
 
         checking(new Expectations() {{
             one (mockField).isPrivate();
-            will(returnValue(true));
+                will(returnValue(true));
             one (mockField).getFullSignature();
-            will(returnValue("int foo"));
+                will(returnValue("int foo"));
             one (mockField).isPrivate();
-            will(returnValue(false));
+                will(returnValue(false));
             one (mockMethod).isPrivate();
-            will(returnValue(true));
+                will(returnValue(true));
             one (mockMethod).getFullSignature();
-            will(returnValue("void foo()"));
+                will(returnValue("void foo()"));
             one (mockMethod).isPrivate();
-            will(returnValue(false));
+                will(returnValue(false));
+            one (mockInnerClass).isPrivate();
+                will(returnValue(true));
+            one (mockInnerClass).getInnerClassInfo();
+                will(returnValue("Foo.InnerFoo"));
+            one (mockInnerClass).isPrivate();
+                will(returnValue(false));
         }});
 
         SymbolGathererStrategy strategy = sut.createStrategy();
@@ -246,6 +288,8 @@ public class TestListSymbols extends MockObjectTestCase {
         assertTrue("private method", strategy.isMatching(mockMethod));
         assertFalse("non-private method", strategy.isMatching(mockMethod));
         assertFalse("local variable", strategy.isMatching(mockLocalVariable));
+        assertTrue("private inner class", strategy.isMatching(mockInnerClass));
+        assertFalse("non-private inner class", strategy.isMatching(mockInnerClass));
     }
 
     public void testCreateStrategy_packageaccessibility() {
@@ -253,23 +297,29 @@ public class TestListSymbols extends MockObjectTestCase {
 
         checking(new Expectations() {{
             one (mockClassfile).isPackage();
-            will(returnValue(true));
+                will(returnValue(true));
             one (mockClassfile).getClassName();
-            will(returnValue("Foo"));
+                will(returnValue("Foo"));
             one (mockClassfile).isPackage();
-            will(returnValue(false));
+                will(returnValue(false));
             one (mockField).isPackage();
-            will(returnValue(true));
+                will(returnValue(true));
             one (mockField).getFullSignature();
-            will(returnValue("int foo"));
+                will(returnValue("int foo"));
             one (mockField).isPackage();
-            will(returnValue(false));
+                will(returnValue(false));
             one (mockMethod).isPackage();
-            will(returnValue(true));
+                will(returnValue(true));
             one (mockMethod).getFullSignature();
-            will(returnValue("void foo()"));
+                will(returnValue("void foo()"));
             one (mockMethod).isPackage();
-            will(returnValue(false));
+                will(returnValue(false));
+            one (mockInnerClass).isPackage();
+                will(returnValue(true));
+            one (mockInnerClass).getInnerClassInfo();
+                will(returnValue("Foo.InnerFoo"));
+            one (mockInnerClass).isPackage();
+                will(returnValue(false));
         }});
 
         SymbolGathererStrategy strategy = sut.createStrategy();
@@ -281,6 +331,8 @@ public class TestListSymbols extends MockObjectTestCase {
         assertTrue("package method", strategy.isMatching(mockMethod));
         assertFalse("non-package method", strategy.isMatching(mockMethod));
         assertFalse("local variable", strategy.isMatching(mockLocalVariable));
+        assertTrue("package inner class", strategy.isMatching(mockInnerClass));
+        assertFalse("non-package inner class", strategy.isMatching(mockInnerClass));
     }
 
     public void testCreateStrategy_nonprivatefieldnames() {

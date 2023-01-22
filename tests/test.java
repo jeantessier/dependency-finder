@@ -35,6 +35,7 @@ import java.util.Collections;
 
 public class test {
     public static class InnerClass {
+        int innerField;
     }
 
     public static void main(String[] args) {

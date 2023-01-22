@@ -32,8 +32,8 @@
 
 package com.jeantessier.classreader;
 
-import org.jmock.integration.junit3.*;
-import org.jmock.*;
+import org.jmock.Expectations;
+import org.jmock.integration.junit3.MockObjectTestCase;
 
 public class TestFinalMethodOrClassSymbolGathererStrategy extends MockObjectTestCase {
     private FinalMethodOrClassSymbolGathererStrategy sut;
@@ -128,5 +128,10 @@ public class TestFinalMethodOrClassSymbolGathererStrategy extends MockObjectTest
     public void testIsMatching_local() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
         assertFalse(sut.isMatching(mockLocalVariable));
+    }
+
+    public void testIsMatching_innerClass() {
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+        assertFalse(sut.isMatching(mockInnerClass));
     }
 }

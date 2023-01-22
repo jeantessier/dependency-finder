@@ -45,16 +45,19 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
     private static final String SOME_FIELD_SIGNATURE = SOME_CLASS_NAME + ".someField";
     private static final String SOME_METHOD_SIGNATURE = SOME_CLASS_NAME + ".someMethod()";
     private static final String SOME_LOCAL_VARIABLE_NAME = "someLocalVariable";
+    private static final String SOME_INNER_CLASS_NAME = SOME_CLASS_NAME + "$SomeInnerClass";
     private static final String ANOTHER_PACKAGE_NAME = "another.package";
     private static final String ANOTHER_CLASS_NAME = ANOTHER_PACKAGE_NAME + ".AnotherClass";
     private static final String ANOTHER_FIELD_SIGNATURE = ANOTHER_CLASS_NAME + ".anotherField";
     private static final String ANOTHER_METHOD_SIGNATURE = ANOTHER_CLASS_NAME + ".anotherMethod()";
     private static final String ANOTHER_LOCAL_VARIABLE_NAME = "anotherLocalVariable";
+    private static final String ANOTHER_INNER_CLASS_NAME = ANOTHER_CLASS_NAME + "$AnotherInnerClass";
 
     private Classfile mockClassfile;
     private Field_info mockField;
     private Method_info mockMethod;
     private LocalVariable mockLocalVariable;
+    private InnerClass mockInnerClass;
     private SymbolGathererStrategy mockStrategy;
 
     private List<String> noMatch;
@@ -67,6 +70,7 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         mockField = mock(Field_info.class);
         mockMethod = mock(Method_info.class);
         mockLocalVariable = mock(LocalVariable.class);
+        mockInnerClass = mock(InnerClass.class);
         mockStrategy = mock(SymbolGathererStrategy.class);
 
         noMatch = Collections.emptyList();
@@ -735,6 +739,173 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         FilteringSymbolGathererStrategy sut = new FilteringSymbolGathererStrategy(mockStrategy, allMatch, noMatch, Collections.singletonList("/some"), noMatch);
         try {
             sut.isMatching(mockLocalVariable);
+            fail("did not throw expection for bad includes regular expression");
+        } catch (MalformedCachePatternException ex) {
+            // expected
+        }
+    }
+
+    /*
+     * Inner Classes
+     */
+
+    public void testIsMatching_innerClass_matchingincludes() {
+        checking(new Expectations() {{
+            one (mockInnerClass).getInnerClassInfo();
+            will(returnValue(SOME_INNER_CLASS_NAME));
+            one (mockStrategy).isMatching(mockInnerClass);
+        }});
+
+        FilteringSymbolGathererStrategy sut = new FilteringSymbolGathererStrategy(mockStrategy, Collections.singletonList("/some/"), noMatch, noMatch, noMatch);
+        sut.isMatching(mockInnerClass);
+    }
+
+    public void testIsMatching_innerClass_notmatchingincludes() {
+        checking(new Expectations() {{
+            one (mockInnerClass).getInnerClassInfo();
+            will(returnValue(ANOTHER_INNER_CLASS_NAME));
+        }});
+
+        FilteringSymbolGathererStrategy sut = new FilteringSymbolGathererStrategy(mockStrategy, Collections.singletonList("/some/"), noMatch, noMatch, noMatch);
+        assertFalse(sut.isMatching(mockInnerClass));
+    }
+
+    public void testIsMatching_innerClass_matchingincludeslist() {
+        checking(new Expectations() {{
+            one (mockInnerClass).getInnerClassInfo();
+            will(returnValue(SOME_INNER_CLASS_NAME));
+            one (mockStrategy).isMatching(mockInnerClass);
+        }});
+
+        FilteringSymbolGathererStrategy sut = new FilteringSymbolGathererStrategy(mockStrategy, noMatch, Collections.singletonList(SOME_INNER_CLASS_NAME), noMatch, noMatch);
+        sut.isMatching(mockInnerClass);
+    }
+
+    public void testIsMatching_innerClass_partialmatchingincludeslist() {
+        checking(new Expectations() {{
+            one (mockInnerClass).getInnerClassInfo();
+            will(returnValue(SOME_INNER_CLASS_NAME));
+        }});
+
+        FilteringSymbolGathererStrategy sut = new FilteringSymbolGathererStrategy(mockStrategy, noMatch, Collections.singletonList("SomeInnerClass"), noMatch, noMatch);
+        assertFalse(sut.isMatching(mockInnerClass));
+    }
+
+    public void testIsMatching_innerClass_notmatchingincludeslist() {
+        checking(new Expectations() {{
+            one (mockInnerClass).getInnerClassInfo();
+            will(returnValue(ANOTHER_INNER_CLASS_NAME));
+        }});
+
+        FilteringSymbolGathererStrategy sut = new FilteringSymbolGathererStrategy(mockStrategy, noMatch, Collections.singletonList(SOME_INNER_CLASS_NAME), noMatch, noMatch);
+        assertFalse(sut.isMatching(mockInnerClass));
+    }
+
+    public void testIsMatching_innerClass_nullmatchingincludeslist() {
+        checking(new Expectations() {{
+            one (mockInnerClass).getInnerClassInfo();
+            will(returnValue(SOME_INNER_CLASS_NAME));
+        }});
+
+        FilteringSymbolGathererStrategy sut = new FilteringSymbolGathererStrategy(mockStrategy, noMatch, null, noMatch, noMatch);
+        assertFalse(sut.isMatching(mockInnerClass));
+    }
+
+    public void testIsMatching_innerClass_noincludes() {
+        checking(new Expectations() {{
+            one (mockInnerClass).getInnerClassInfo();
+        }});
+
+        FilteringSymbolGathererStrategy sut = new FilteringSymbolGathererStrategy(mockStrategy, noMatch, noMatch, noMatch, noMatch);
+        assertFalse(sut.isMatching(mockInnerClass));
+    }
+
+    public void testIsMatching_innerClass_badincludes() {
+        checking(new Expectations() {{
+            one (mockInnerClass).getInnerClassInfo();
+        }});
+
+        FilteringSymbolGathererStrategy sut = new FilteringSymbolGathererStrategy(mockStrategy, Collections.singletonList("/some"), noMatch, noMatch, noMatch);
+        try {
+            sut.isMatching(mockInnerClass);
+            fail("did not throw expection for bad excludes regular expression");
+        } catch (MalformedCachePatternException ex) {
+            // expected
+        }
+    }
+
+    public void testIsMatching_innerClass_matchingexcludes() {
+        checking(new Expectations() {{
+            one (mockInnerClass).getInnerClassInfo();
+            will(returnValue(SOME_INNER_CLASS_NAME));
+        }});
+
+        FilteringSymbolGathererStrategy sut = new FilteringSymbolGathererStrategy(mockStrategy, allMatch, noMatch, Collections.singletonList("/some/"), noMatch);
+        assertFalse(sut.isMatching(mockInnerClass));
+    }
+
+    public void testIsMatching_innerClass_notmatchingexcludes() {
+        checking(new Expectations() {{
+            one (mockInnerClass).getInnerClassInfo();
+            will(returnValue(ANOTHER_INNER_CLASS_NAME));
+            one (mockStrategy).isMatching(mockInnerClass);
+        }});
+
+        FilteringSymbolGathererStrategy sut = new FilteringSymbolGathererStrategy(mockStrategy, allMatch, noMatch, Collections.singletonList("/some/"), noMatch);
+        sut.isMatching(mockInnerClass);
+    }
+
+    public void testIsMatching_innerClass_matchingexcludeslist() {
+        checking(new Expectations() {{
+            one (mockInnerClass).getInnerClassInfo();
+            will(returnValue(SOME_INNER_CLASS_NAME));
+        }});
+
+        FilteringSymbolGathererStrategy sut = new FilteringSymbolGathererStrategy(mockStrategy, allMatch, noMatch, noMatch, Collections.singletonList(SOME_INNER_CLASS_NAME));
+        assertFalse(sut.isMatching(mockInnerClass));
+    }
+
+    public void testIsMatching_innerClass_partialmatchingexcludeslist() {
+        checking(new Expectations() {{
+            one (mockInnerClass).getInnerClassInfo();
+            will(returnValue(SOME_INNER_CLASS_NAME));
+            one (mockStrategy).isMatching(mockInnerClass);
+        }});
+
+        FilteringSymbolGathererStrategy sut = new FilteringSymbolGathererStrategy(mockStrategy, allMatch, noMatch, noMatch, Collections.singletonList("SomeInnerClass"));
+        sut.isMatching(mockInnerClass);
+    }
+
+    public void testIsMatching_innerClass_notmatchingexcludeslist() {
+        checking(new Expectations() {{
+            one (mockInnerClass).getInnerClassInfo();
+            will(returnValue(ANOTHER_INNER_CLASS_NAME));
+            one (mockStrategy).isMatching(mockInnerClass);
+        }});
+
+        FilteringSymbolGathererStrategy sut = new FilteringSymbolGathererStrategy(mockStrategy, allMatch, noMatch, noMatch, Collections.singletonList(SOME_INNER_CLASS_NAME));
+        sut.isMatching(mockInnerClass);
+    }
+
+    public void testIsMatching_innerClass_nullmatchingexcludeslist() {
+        checking(new Expectations() {{
+            one (mockInnerClass).getInnerClassInfo();
+            will(returnValue(SOME_INNER_CLASS_NAME));
+            one (mockStrategy).isMatching(mockInnerClass);
+        }});
+
+        FilteringSymbolGathererStrategy sut = new FilteringSymbolGathererStrategy(mockStrategy, allMatch, noMatch, noMatch, null);
+        sut.isMatching(mockInnerClass);
+    }
+
+    public void testIsMatching_innerClass_badexcludes() {
+        checking(new Expectations() {{
+            one (mockInnerClass).getInnerClassInfo();
+        }});
+
+        FilteringSymbolGathererStrategy sut = new FilteringSymbolGathererStrategy(mockStrategy, allMatch, noMatch, Collections.singletonList("/some"), noMatch);
+        try {
+            sut.isMatching(mockInnerClass);
             fail("did not throw expection for bad includes regular expression");
         } catch (MalformedCachePatternException ex) {
             // expected
