@@ -1,2 +1,4 @@
 Added tests for inner classes treatment in =ListSymbols= to improve code
 coverage.  And added switches to =ListSymbols= tools.
+
+Released versison `1.2.1-beta6`.
