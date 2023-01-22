@@ -1,0 +1,3 @@
+Added some support for Java 9 modules.  I added the support for accessibility
+and constant pool entries.  I'm still missing the =Module=, =ModulePackages=,
+and =ModuleMainClass= attributes.
