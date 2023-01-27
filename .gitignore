@@ -30,12 +30,16 @@ bin/DependencyGraphToGraphML
 bin/DependencyGraphToGraphML.bat
 bin/DependencyGraphToHTML
 bin/DependencyGraphToHTML.bat
+bin/DependencyGraphToJSON
+bin/DependencyGraphToJSON.bat
 bin/DependencyGraphToRDF
 bin/DependencyGraphToRDF.bat
 bin/DependencyGraphToText
 bin/DependencyGraphToText.bat
 bin/DependencyGraphToUnconfirmedFullyQualifiedNames
 bin/DependencyGraphToUnconfirmedFullyQualifiedNames.bat
+bin/DependencyGraphToYAML
+bin/DependencyGraphToYAML.bat
 bin/DependencyGraphToyEd
 bin/DependencyGraphToyEd.bat
 bin/DependencyMetrics

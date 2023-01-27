@@ -21,8 +21,10 @@ For Dependency Finder version <VERSION />.
 <li><a href="#DependencyReporter">DependencyReporter</a></li>
 <li><a href="#DependencyGraphToGraphML">DependencyGraphToGraphML</a></li>
 <li><a href="#DependencyGraphToHTML">DependencyGraphToHTML</a></li>
+<li><a href="#DependencyGraphToJSON">DependencyGraphToJSON</a></li>
 <li><a href="#DependencyGraphToRDF">DependencyGraphToRDF</a></li>
 <li><a href="#DependencyGraphToText">DependencyGraphToText</a></li>
+<li><a href="#DependencyGraphToYAML">DependencyGraphToYAML</a></li>
 <li><a href="#DependencyGraphToyEd">DependencyGraphToyEd</a></li>
 <li><a href="#DependablesToHTML">DependablesToHTML</a></li>
 <li><a href="#DependablesToText">DependablesToText</a></li>
@@ -1830,7 +1832,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -1951,7 +1953,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -2067,7 +2069,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -2219,7 +2221,9 @@ See also:
    * [[#DependencyExtractor][DependencyExtractor]]
    * [[#DependencyReporter][DependencyReporter]]
    * [[#DependencyGraphToHTML][DependencyGraphToHTML]]
+   * [[#DependencyGraphToJSON][DependencyGraphToJSON]]
    * [[#DependencyGraphToText][DependencyGraphToText]]
+   * [[#DependencyGraphToYAML][DependencyGraphToYAML]]
    * [[#DependencyGraphToGraphML][DependencyGraphToGraphML]]
    * [[#DependablesToHTML][DependablesToHTML]]
    * [[#DependablesToText][DependablesToText]]
@@ -3429,7 +3433,9 @@ dependencies.
 See also:
 
    * [[#DependencyGraphToHTML][DependencyGraphToHTML]]
+   * [[#DependencyGraphToJSON][DependencyGraphToJSON]]
    * [[#DependencyGraphToText][DependencyGraphToText]]
+   * [[#DependencyGraphToYAML][DependencyGraphToYAML]]
    * [[#DependencyGraphToGraphML][DependencyGraphToGraphML]]
    * [[#DependablesToHTML][DependablesToHTML]]
    * [[#DependablesToText][DependablesToText]]
@@ -4161,7 +4167,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -4253,7 +4259,7 @@ Translates the whole graph to GraphML.
 
     DependencyGraphToGraphML
         -s:input_file.xml
-        [-o:output_file.html]
+        [-o:output_file.graphml]
 
 ---+++ Description
 
@@ -4285,7 +4291,7 @@ such as the output of [[#DependencyExtractor][DependencyExtractor]],
 
 </blockquote>
 
----++++ =-o:output_file.html=
+---++++ =-o:output_file.graphml=
 
 <blockquote>
 
@@ -4315,7 +4321,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -4429,7 +4435,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -4468,6 +4474,119 @@ This HTML file shows both outbound and inbound dependencies.
 
 ----
 
+---++ DependencyGraphToJSON
+
+<blockquote>
+
+Translates the whole graph to JSON.
+
+</blockquote>
+
+---+++ Synopsis
+
+    DependencyGraphToJSON
+        -s:input_file.xml
+        [-o:output_file.json]
+
+---+++ Description
+
+<blockquote>
+
+Translates both outbound and inbound dependencies to JSON.
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-s:input_file.xml=
+
+<blockquote>
+
+The XML file to be translated.  The document has to follow the
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD,
+such as the output of [[#DependencyExtractor][DependencyExtractor]],
+[[#DependencyReporter][DependencyReporter]], or
+[[#DependencyClosure][DependencyClosure]].
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-o:output_file.json=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Parameters
+
+<blockquote>
+
+_none_
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-o= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+To convert the dependency graph in =dg.xml= to a JSON
+file, for ease of use:
+
+<div class="highlight">
+
+    DependencyGraphToJSON -s:dg.xml -o:dg.json
+
+</div>
+
+This JSON file shows both outbound and inbound dependencies.
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+---+++ XSL Stylesheet
+
+<blockquote>
+
+=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependencyGraphToJSON.xsl=
+
+</blockquote>
+
+----
+
 ---++ DependencyGraphToRDF
 
 <blockquote>
@@ -4480,7 +4599,7 @@ Translates the whole graph to RDF.
 
     DependencyGraphToRDF
         -s:input_file.xml
-        [-o:output_file.html]
+        [-o:output_file.rdf]
 
 ---+++ Description
 
@@ -4512,7 +4631,7 @@ such as the output of [[#DependencyExtractor][DependencyExtractor]],
 
 </blockquote>
 
----++++ =-o:output_file.html=
+---++++ =-o:output_file.rdf=
 
 <blockquote>
 
@@ -4542,7 +4661,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -4555,7 +4674,7 @@ HTML file, for ease of use:
 
 <div class="highlight">
 
-    DependencyGraphToHTML -s:dg.xml -o:dependencies.html
+    DependencyGraphToRDF -s:dg.xml -o:dependencies.rdf
 
 </div>
 
@@ -4655,7 +4774,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -4820,7 +4939,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -4949,6 +5068,119 @@ candidate JARs.
 
 ----
 
+---++ DependencyGraphToYAML
+
+<blockquote>
+
+Translates the whole graph to YAML.
+
+</blockquote>
+
+---+++ Synopsis
+
+    DependencyGraphToYAML
+        -s:input_file.xml
+        [-o:output_file.yml]
+
+---+++ Description
+
+<blockquote>
+
+Translates both outbound and inbound dependencies to YAML.
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-s:input_file.xml=
+
+<blockquote>
+
+The XML file to be translated.  The document has to follow the
+=[[https://depfind.sourceforge.io/dtd/dependencies.dtd][dependencies]]= DTD,
+such as the output of [[#DependencyExtractor][DependencyExtractor]],
+[[#DependencyReporter][DependencyReporter]], or
+[[#DependencyClosure][DependencyClosure]].
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-o:output_file.yml=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Parameters
+
+<blockquote>
+
+_none_
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-o= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+To convert the dependency graph in =dg.xml= to a YAML
+file, for ease of use:
+
+<div class="highlight">
+
+    DependencyGraphToYAML -s:dg.xml -o:dg.yml
+
+</div>
+
+This YAML file shows both outbound and inbound dependencies.
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=org.apache.xalan.xslt.Process=
+
+</blockquote>
+
+---+++ XSL Stylesheet
+
+<blockquote>
+
+=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependencyGraphToYAML.xsl=
+
+</blockquote>
+
+----
+
 ---++ DependencyGraphToyEd
 
 <blockquote>
@@ -4959,9 +5191,9 @@ Translates the whole graph to GraphML for the yEd application.
 
 ---+++ Synopsis
 
-    DependencyGraphToHTML
+    DependencyGraphToyEd
         -s:input_file.xml
-        [-o:output_file.html]
+        [-o:output_file.graphml]
 
 ---+++ Description
 
@@ -5003,7 +5235,7 @@ such as the output of [[#DependencyExtractor][DependencyExtractor]],
 
 </blockquote>
 
----++++ =-o:output_file.html=
+---++++ =-o:output_file.graphml=
 
 <blockquote>
 
@@ -5033,7 +5265,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -6243,7 +6475,9 @@ can use this tool to combine multiple graphs into one.
 See also:
 
    * [[#DependencyGraphToHTML][DependencyGraphToHTML]]
+   * [[#DependencyGraphToJSON][DependencyGraphToJSON]]
    * [[#DependencyGraphToText][DependencyGraphToText]]
+   * [[#DependencyGraphToYAML][DependencyGraphToYAML]]
    * [[#DependencyGraphToGraphML][DependencyGraphToGraphML]]
    * [[#DependablesToHTML][DependablesToHTML]]
    * [[#DependablesToText][DependablesToText]]
@@ -7231,7 +7465,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -7347,7 +7581,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -7503,7 +7737,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -7610,7 +7844,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -7723,7 +7957,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -7838,7 +8072,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -8000,7 +8234,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -8115,7 +8349,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -9130,7 +9364,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -9237,7 +9471,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -9523,7 +9757,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -10076,7 +10310,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -10205,7 +10439,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
@@ -10253,7 +10487,7 @@ Translates the whole report to text.
 
     MetricsToText
         -s:input_file.xml
-        [-o:output_file.html]
+        [-o:output_file.txt]
 
 ---+++ Description
 
@@ -10287,7 +10521,7 @@ such as the output of [[#OOMetrics][OOMetrics]].
 
 </blockquote>
 
----++++ =-o:output_file.html=
+---++++ =-o:output_file.txt=
 
 <blockquote>
 
@@ -10317,7 +10551,7 @@ _none_
 
 <blockquote>
 
-See =-out= above.
+See =-o= above.
 
 </blockquote>
 
