@@ -1,0 +1,11 @@
+I'm playing with the idea adding JSON and YAML output formats, in addition to
+text and XML.  At first, I thought of simply adding new =Printer= subclasses.
+
+[[../images/Printer_JSON_YAML.png]]
+
+I started drafting what the outputs might look like for dependency graphs.
+
+Then, I realized I might be able to pull it off using XSLT.  It wouldn't be
+much different from =DependencyGraphToText.xsl=.  It already has logic to treat
+inbound and outbound dependencies as separate collections, even though they are
+a thrown together in a single collection in XML.

@@ -1,0 +1,109 @@
+@startuml
+
+skin rose
+skinparam style strictuml
+hide empty members
+
+namespace com.jeantessier.classreader {
+
+    interface Visitor <<interface>>
+
+    abstract class VisitorBase
+    Visitor <|.. VisitorBase
+
+    abstract class Printer
+    VisitorBase <|-- Printer
+
+    class DeprecationPrinter
+    Printer <|-- DeprecationPrinter
+
+    class TextPrinter
+    Printer <|-- TextPrinter
+
+    class XMLPrinter
+    Printer <|-- XMLPrinter
+
+    class JSONPrinter #lightgreen
+    Printer <|-- JSONPrinter
+    DeprecationPrinter -[hidden]-> JSONPrinter
+
+    class YAMLPrinter #lightgreen
+    Printer <|-- YAMLPrinter
+    TextPrinter -[hidden]-> YAMLPrinter
+
+}
+
+namespace com.jeantessier.dependency {
+
+    interface Visitor <<interface>>
+
+    abstract class VisitorBase
+    Visitor <|.. VisitorBase
+
+    abstract class Printer
+    VisitorBase <|-- Printer
+
+    class HTMLPrinter
+    Printer <|-- HTMLPrinter
+
+    class TextPrinter
+    Printer <|-- TextPrinter
+
+    class XMLPrinter
+    Printer <|-- XMLPrinter
+
+    class JSONPrinter #lightgreen
+    Printer <|-- JSONPrinter
+    HTMLPrinter -[hidden]-> JSONPrinter
+
+    class YAMLPrinter #lightgreen
+    Printer <|-- YAMLPrinter
+    TextPrinter -[hidden]-> YAMLPrinter
+
+}
+
+namespace com.jeantessier.diff {
+
+    interface Visitor <<interface>>
+
+    abstract class VisitorBase
+    Visitor <|.. VisitorBase
+
+    abstract class Printer
+    VisitorBase <|-- Printer
+
+    class ClassReport
+    Printer <|-- ClassReport
+
+    class Report
+    Printer <|-- Report
+
+}
+
+namespace com.jeantessier.metrics {
+
+    interface MeasurementVisitor <<interface>>
+
+    abstract class Printer
+    MeasurementVisitor <|.. Printer
+
+    class CSVPrinter
+    Printer <|-- CSVPrinter
+
+    class TextPrinter
+    Printer <|-- TextPrinter
+
+    class XMLPrinter
+    Printer <|-- XMLPrinter
+
+    class JSONPrinter #lightgreen
+    Printer <|-- JSONPrinter
+    CSVPrinter -[hidden]-> JSONPrinter
+
+    class YAMLPrinter #lightgreen
+    Printer <|-- YAMLPrinter
+    TextPrinter -[hidden]-> YAMLPrinter
+
+}
+
+@enduml
