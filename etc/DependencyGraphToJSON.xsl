@@ -61,7 +61,7 @@
         <xsl:text>"name":"</xsl:text><xsl:value-of select="name"/><xsl:text>",</xsl:text>
         <xsl:text>"outbound":[</xsl:text><xsl:for-each select="outbound"><xsl:apply-templates select="."/><xsl:if test="following-sibling::outbound"><xsl:text>,</xsl:text></xsl:if></xsl:for-each><xsl:text>],</xsl:text>
         <xsl:text>"inbound":[</xsl:text><xsl:for-each select="inbound"><xsl:apply-templates select="."/><xsl:if test="following-sibling::inbound"><xsl:text>,</xsl:text></xsl:if></xsl:for-each><xsl:text>],</xsl:text>
-        <xsl:text>"features":[</xsl:text><xsl:for-each select="features"><xsl:apply-templates select="."/><xsl:if test="following-sibling::feature"><xsl:text>,</xsl:text></xsl:if></xsl:for-each><xsl:text>]</xsl:text>
+        <xsl:text>"features":[</xsl:text><xsl:for-each select="feature"><xsl:apply-templates select="."/><xsl:if test="following-sibling::feature"><xsl:text>,</xsl:text></xsl:if></xsl:for-each><xsl:text>]</xsl:text>
         <xsl:text>}</xsl:text>
     </xsl:template>
 
