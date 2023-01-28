@@ -34,4 +34,4 @@
 
 DEPENDENCYFINDER_HOME=${DEPENDENCYFINDER_HOME:=`dirname $0`/..}
 
-$JAVA_HOME/bin/java $DEPENDENCYFINDER_OPTS -classpath $DEPENDENCYFINDER_HOME/lib/saxon-he.jar net.sf.saxon.Transform $*
+$JAVA_HOME/bin/java $DEPENDENCYFINDER_OPTS -jar $DEPENDENCYFINDER_HOME/lib/saxon-he.jar $*

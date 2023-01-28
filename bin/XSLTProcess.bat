@@ -65,7 +65,7 @@ goto setupArgs
 rem This label provides a place for the argument list loop to break out
 rem and for NT handling to skip to.
 
-"%JAVA_HOME%\bin\java" %DEPENDENCYFINDER_OPTS% -classpath "%DEPENDENCYFINDER_HOME%\lib\saxon-he.jar" net.sf.saxon.Transform %DEPENDENCYFINDER_CMD_LINE_ARGS%
+"%JAVA_HOME%\bin\java" %DEPENDENCYFINDER_OPTS% -jar "%DEPENDENCYFINDER_HOME%\lib\saxon-he.jar" %DEPENDENCYFINDER_CMD_LINE_ARGS%
 
 if not "%OS%"=="Windows_NT" goto mainEnd
 :winNTend
