@@ -32,15 +32,20 @@
 
 package com.jeantessier.text;
 
-import java.util.*;
+import org.apache.oro.text.MalformedCachePatternException;
+import org.apache.oro.text.PatternCache;
+import org.apache.oro.text.regex.MalformedPatternException;
+import org.apache.oro.text.regex.Pattern;
+import org.apache.oro.text.regex.PatternCompiler;
+import org.apache.oro.text.regex.Perl5Compiler;
 
-import org.apache.oro.text.*;
-import org.apache.oro.text.regex.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MaximumCapacityPatternCache implements PatternCache {
-    private PatternCompiler compiler;
+    private final PatternCompiler compiler;
 
-    private Map<String, Pattern> map = new HashMap<String, Pattern>();
+    private final Map<String, Pattern> map = new HashMap<>();
 
     public MaximumCapacityPatternCache() {
         this(new Perl5Compiler());
