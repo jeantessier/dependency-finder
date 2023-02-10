@@ -36,7 +36,7 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
-import com.jeantessier.dependency.*;
+import com.jeantessier.dependency.MatchException;
 
 public class DependencyQueryAction extends AbstractAction implements Runnable {
     private DependencyFinder model = null;
