@@ -1,0 +1,10 @@
+Removed the dependency on [[https://github.com/google/guava][Guava]].  I wasn't
+really using it and some of the functionalities have equivalents in recent JDK
+versions.  This makes one fewer external dependency to manage.
+
+I could go one step further and replace Jakarta-ORO with =java.util.regex=.  It
+would allow me to get rid of =MaximumCapacityPatternCache=.  But the
+Jakarta-ORO API is so much simpler.
+
+And if I were to replace Log4J with =java.util.logging=, I would have no
+external dependencies at all.  I like the Log4J API much more, though.
