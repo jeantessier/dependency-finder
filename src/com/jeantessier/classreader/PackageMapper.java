@@ -34,10 +34,8 @@ package com.jeantessier.classreader;
 
 import java.util.*;
 
-import com.google.common.collect.*;
-
 public class PackageMapper extends LoadAdapter {
-    private Map<String, Map<String, Classfile>> packages = Maps.newHashMap();
+    private final Map<String, Map<String, Classfile>> packages = new HashMap<>();
 
     public Collection<String> getPackageNames() {
         return packages.keySet();
@@ -53,7 +51,7 @@ public class PackageMapper extends LoadAdapter {
 
         Map<String, Classfile> map = packages.get(packageName);
         if (map == null) {
-            map = Maps.newHashMap();
+            map = new HashMap<>();
             packages.put(packageName, map);
         }
 

@@ -32,10 +32,10 @@
 
 package com.jeantessier.classreader;
 
-import com.google.common.collect.Lists;
 import junit.framework.TestCase;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class TestSymbolGatherer extends TestCase {
@@ -93,7 +93,7 @@ public class TestSymbolGatherer extends TestCase {
         strategy.setMatchingLocalNames(false);
         strategy.setMatchingInnerClassNames(false);
 
-        loader.load(Lists.newArrayList(TEST_FILENAME, INNER_TEST_FILENAME));
+        loader.load(Arrays.asList(TEST_FILENAME, INNER_TEST_FILENAME));
 
         assertTrue("Missing test class name from " + gatherer.getCollection(), gatherer.getCollection().contains("test"));
         assertEquals("Different number of symbols in " + gatherer.getCollection(), 1, gatherer.getCollection().size());
@@ -106,7 +106,7 @@ public class TestSymbolGatherer extends TestCase {
         strategy.setMatchingLocalNames(false);
         strategy.setMatchingInnerClassNames(false);
 
-        loader.load(Lists.newArrayList(TEST_FILENAME, INNER_TEST_FILENAME));
+        loader.load(Arrays.asList(TEST_FILENAME, INNER_TEST_FILENAME));
 
         assertTrue("Missing test$InnerClass.innerField field from " + gatherer.getCollection(), gatherer.getCollection().contains("test$InnerClass.innerField"));
         assertEquals("Different number of symbols in " + gatherer.getCollection(), 1, gatherer.getCollection().size());
@@ -119,7 +119,7 @@ public class TestSymbolGatherer extends TestCase {
         strategy.setMatchingLocalNames(false);
         strategy.setMatchingInnerClassNames(false);
 
-        loader.load(Lists.newArrayList(TEST_FILENAME, INNER_TEST_FILENAME));
+        loader.load(Arrays.asList(TEST_FILENAME, INNER_TEST_FILENAME));
 
         assertTrue("Missing test$InnerClass.test$InnerClass() method from " + gatherer.getCollection(), gatherer.getCollection().contains("test$InnerClass.test$InnerClass()"));
         assertTrue("Missing test.main() method from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[])"));
@@ -134,7 +134,7 @@ public class TestSymbolGatherer extends TestCase {
         strategy.setMatchingLocalNames(true);
         strategy.setMatchingInnerClassNames(false);
 
-        loader.load(Lists.newArrayList(TEST_FILENAME, INNER_TEST_FILENAME));
+        loader.load(Arrays.asList(TEST_FILENAME, INNER_TEST_FILENAME));
 
         assertTrue("Missing this parameter from " + gatherer.getCollection(), gatherer.getCollection().contains("test$InnerClass.test$InnerClass(): this"));
         assertTrue("Missing args parameter from " + gatherer.getCollection(), gatherer.getCollection().contains("test.main(java.lang.String[]): args"));
@@ -151,7 +151,7 @@ public class TestSymbolGatherer extends TestCase {
         strategy.setMatchingLocalNames(false);
         strategy.setMatchingInnerClassNames(true);
 
-        loader.load(Lists.newArrayList(TEST_FILENAME, INNER_TEST_FILENAME));
+        loader.load(Arrays.asList(TEST_FILENAME, INNER_TEST_FILENAME));
 
         assertTrue("Missing test$InnerClass class name from " + gatherer.getCollection(), gatherer.getCollection().contains("test$InnerClass"));
         assertEquals("Different number of symbols in " + gatherer.getCollection(), 1, gatherer.getCollection().size());

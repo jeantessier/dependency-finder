@@ -32,7 +32,6 @@
 
 package com.jeantessier.classreader;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.jeantessier.text.Hex;
 
 import java.io.PrintWriter;
@@ -1126,7 +1125,7 @@ public class XMLPrinter extends Printer {
         }
     }
 
-    @VisibleForTesting
+    // Visible for testing
     String escapeXMLCharacters(String text) {
         StringBuilder result = new StringBuilder();
         boolean containsControlCharacters = false;
@@ -1150,7 +1149,7 @@ public class XMLPrinter extends Printer {
         }
 
         if (containsControlCharacters) {
-            return "<![CDATA[" + result.toString() + "]]>";
+            return "<![CDATA[" + result + "]]>";
         } else {
             return result.toString();
         }

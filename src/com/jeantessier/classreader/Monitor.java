@@ -36,23 +36,20 @@ import java.util.*;
 
 import org.apache.log4j.*;
 
-import com.google.common.annotations.*;
-import com.google.common.collect.*;
-
 /**
  * TODO Class comments
  */
 public class Monitor extends LoadListenerVisitorAdapter {
-    private RemoveVisitor removeVisitor;
+    private final RemoveVisitor removeVisitor;
     
-    private Map<String, String> fileToClass = Maps.newHashMap();
+    private final Map<String, String> fileToClass = new HashMap<>();
     private boolean closedSession = true;
 
-    @VisibleForTesting
-    Collection<String> previousFiles = Sets.newTreeSet();
+    // Visible for testing.
+    Collection<String> previousFiles = new TreeSet<>();
 
-    @VisibleForTesting
-    Collection<String> currentFiles = Sets.newTreeSet();
+    // Visible for testing.
+    Collection<String> currentFiles = new TreeSet<>();
 
     public Monitor(Visitor addVisitor, RemoveVisitor removeVisitor) {
         super(addVisitor);
@@ -116,6 +113,6 @@ public class Monitor extends LoadListenerVisitorAdapter {
 
     private void closeSession() {
         previousFiles = currentFiles;
-        currentFiles = new TreeSet<String>();
+        currentFiles = new TreeSet<>();
     }
 }
