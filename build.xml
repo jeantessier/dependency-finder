@@ -334,7 +334,7 @@
                      includes="**/*.properties"/>
             <lib dir="${libDir}"
                  includes="**/*.jar"
-                 excludes="**/xalan.jar"/>
+                 excludes="**/saxon-he.jar"/>
         </war>
     </target>
 

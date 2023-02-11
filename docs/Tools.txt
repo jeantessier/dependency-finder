@@ -1861,7 +1861,7 @@ To save the output to a text file:
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -1978,7 +1978,7 @@ meaning that many other elements rely on it being stable.
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -2137,7 +2137,7 @@ Running this tool on that graph yields this output:
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -4232,7 +4232,7 @@ Running this tool on that graph yields this output:
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -4344,7 +4344,7 @@ This GraphML file shows both outbound and inbound dependencies.
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -4459,7 +4459,7 @@ This HTML file shows both outbound and inbound dependencies.
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -4572,7 +4572,7 @@ This JSON file shows both outbound and inbound dependencies.
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -4685,7 +4685,7 @@ This HTML file shows both outbound and inbound dependencies.
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -4847,7 +4847,7 @@ Running this tool on that graph yields this output:
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -5053,7 +5053,7 @@ candidate JARs.
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -5166,7 +5166,7 @@ This YAML file shows both outbound and inbound dependencies.
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -5288,7 +5288,7 @@ This GraphML file shows both outbound and inbound dependencies.
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -7490,7 +7490,7 @@ meaning that it relies on many other elements being stable.
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -7649,7 +7649,7 @@ Running this tool on that graph yields this output:
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -7757,7 +7757,7 @@ See =-o= above.
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -7865,7 +7865,7 @@ To convert the difference report in =report.xml= to HTML:
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -7982,7 +7982,7 @@ meaning that it relies on many other elements being stable.
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -8142,7 +8142,7 @@ Running this tool on that graph yields this output:
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -8259,7 +8259,7 @@ meaning that many other elements rely on it being stable.
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -8419,7 +8419,7 @@ Running this tool on that graph yields this output:
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -9384,7 +9384,7 @@ See =-o= above.
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -9507,7 +9507,7 @@ See =-o= above.
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -9616,7 +9616,7 @@ See =-o= above.
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -10189,7 +10189,7 @@ Running this tool on that graph yields this output:
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -10299,7 +10299,7 @@ To convert the metrics report in =metrics.xml= to a hyperlinked HTML file:
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -10411,7 +10411,7 @@ To convert the dependency graph in =metrics.xml= to a text file:
 
 <blockquote>
 
-=org.apache.xalan.xslt.Process=
+=net.sf.saxon.Transform=
 
 </blockquote>
 
@@ -11213,7 +11213,7 @@ Applies an XSL stylesheet to an XML document.
 
 <blockquote>
 
-This is a direct call to the processor that comes with Xalan.  It is used
+This is a direct call to the processor that comes with Saxon.  It is used
 by all the other XSL transform tools; their script simply hardcodes the
 appropriate =-xsl= value.
 
