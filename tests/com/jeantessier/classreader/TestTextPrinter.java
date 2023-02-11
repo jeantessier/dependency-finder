@@ -32,12 +32,19 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-import java.util.*;
+import org.jmock.Expectations;
+import org.jmock.Sequence;
+import org.jmock.imposters.ByteBuddyClassImposteriser;
+import org.jmock.integration.junit3.MockObjectTestCase;
 
-import org.jmock.*;
-import org.jmock.integration.junit3.*;
-import org.jmock.lib.legacy.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 public class TestTextPrinter extends MockObjectTestCase {
     private static final int ICONST_1_INSTRUCTION = 0x04; // iconst_1
@@ -58,7 +65,7 @@ public class TestTextPrinter extends MockObjectTestCase {
     private ConstantPoolEntry mockConstantPoolEntry;
     private Instruction mockInstruction;
     private LocalVariable mockLocalVariable;
-    private PrintWriter mockOut;
+    private StringWriter out;
 
     private Sequence dataWrites;
 
@@ -67,19 +74,19 @@ public class TestTextPrinter extends MockObjectTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        setImposteriser(ClassImposteriser.INSTANCE);
+        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
 
         mockConstantPoolEntry = mock(ConstantPoolEntry.class);
         mockInstruction = mock(Instruction.class);
         mockLocalVariable = mock(LocalVariable.class);
-        mockOut = mock(PrintWriter.class);
+        out = new StringWriter();
 
         dataWrites = sequence("dataWrites");
 
-        sut = new TextPrinter(mockOut);
+        sut = new TextPrinter(new PrintWriter(out));
     }
 
-    public void testVisitClassfiles_TwoClassfiles_ResetConstantPoolIndices() {
+    public void testVisitClassfiles_TwoClassfiles_ResetConstantPoolIndices() throws IOException {
         final Classfile mockClassfile1 = mock(Classfile.class, "classfile 1");
         final Classfile mockClassfile2 = mock(Classfile.class, "classfile 2");
 
@@ -93,9 +100,11 @@ public class TestTextPrinter extends MockObjectTestCase {
         }});
 
         sut.visitClassfiles(classfiles);
+
+        assertOut();
     }
 
-    public void testVisitMethod_info_AbstractMethodDoesNotCallsToCode_attribute() {
+    public void testVisitMethod_info_AbstractMethodDoesNotCallToCode_attribute() throws IOException {
         final String methodDeclaration = "int foo()";
 
         final Method_info mockMethod = mock(Method_info.class);
@@ -109,16 +118,15 @@ public class TestTextPrinter extends MockObjectTestCase {
                 will(returnValue(true));
         }});
 
-        expectNewLineOut();
-        expectTextOut("    ");
-        expectTextOut(methodDeclaration);
-        expectTextOut(";");
-        expectNewLineOut();
-
         sut.visitMethod_info(mockMethod);
+
+        assertOut(
+                "",
+                "    " + methodDeclaration + ";"
+        );
     }
 
-    public void testVisitMethod_info_NativeMethodDoesNotCallsToCode_attribute() {
+    public void testVisitMethod_info_NativeMethodDoesNotCallsToCode_attribute() throws IOException {
         final String methodDeclaration = "int foo()";
 
         final Method_info mockMethod = mock(Method_info.class);
@@ -134,16 +142,15 @@ public class TestTextPrinter extends MockObjectTestCase {
                 will(returnValue(true));
         }});
 
-        expectNewLineOut();
-        expectTextOut("    ");
-        expectTextOut(methodDeclaration);
-        expectTextOut(";");
-        expectNewLineOut();
-
         sut.visitMethod_info(mockMethod);
+
+        assertOut(
+                "",
+                "    " + methodDeclaration + ";"
+        );
     }
 
-    public void testVisitMethod_info_CallsToCode_attribute() {
+    public void testVisitMethod_info_CallsToCode_attribute() throws IOException {
         final String methodDeclaration = "int foo()";
 
         final Method_info mockMethod = mock(Method_info.class);
@@ -163,16 +170,15 @@ public class TestTextPrinter extends MockObjectTestCase {
             one (mockCode).accept(sut);
         }});
 
-        expectNewLineOut();
-        expectTextOut("    ");
-        expectTextOut(methodDeclaration);
-        expectTextOut(";");
-        expectNewLineOut();
-
         sut.visitMethod_info(mockMethod);
+
+        assertOut(
+                "",
+                "    " + methodDeclaration + ";"
+        );
     }
 
-    public void testVisitMethod_info_StaticInitializer() {
+    public void testVisitMethod_info_StaticInitializer() throws IOException {
         final String methodDeclaration = "static {}";
 
         final Method_info mockMethod = mock(Method_info.class);
@@ -192,65 +198,62 @@ public class TestTextPrinter extends MockObjectTestCase {
             one (mockCode).accept(sut);
         }});
 
-        expectNewLineOut();
-        expectTextOut("    ");
-        expectTextOut(methodDeclaration);
-        expectNewLineOut();
-
         sut.visitMethod_info(mockMethod);
+
+        assertOut(
+                "",
+                "    " + methodDeclaration
+        );
     }
 
-    public void testVisitCode_attribute_WithoutExceptionHandlers() {
+    public void testVisitCode_attribute_WithoutExceptionHandlers() throws IOException {
         final Code_attribute mockCode = mock(Code_attribute.class);
 
         checking(new Expectations() {{
-            one (mockOut).print("        CODE");
-
             one (mockCode).iterator();
             one (mockCode).getExceptionHandlers();
                 will(returnValue(Collections.EMPTY_LIST));
-
-            ignoring (mockOut).println();
         }});
 
         sut.visitCode_attribute(mockCode);
+
+        assertOut(
+                "        CODE"
+        );
     }
 
-    public void testVisitCode_attribute_WithExceptionHandlers() {
+    public void testVisitCode_attribute_WithExceptionHandlers() throws IOException {
         final Code_attribute mockCode = mock(Code_attribute.class);
         final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
 
         checking(new Expectations() {{
-            one (mockOut).print("        CODE");
-            one (mockOut).print("        EXCEPTION HANDLING");
-
             one (mockCode).iterator();
             one (mockCode).getExceptionHandlers();
                 will(returnValue(Collections.singleton(mockExceptionHandler)));
             one (mockExceptionHandler).accept(sut);
-
-            ignoring (mockOut).println();
         }});
 
         sut.visitCode_attribute(mockCode);
+
+        assertOut(
+                "        CODE",
+                "        EXCEPTION HANDLING"
+        );
     }
 
-    public void testVisitInstruction_iinc_WithLocalVariableAndIndexAndValue() {
+    public void testVisitInstruction_iinc_WithLocalVariableAndIndexAndValue() throws IOException {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(IINC_INSTRUCTION));
 
             one (mockInstruction).getStart();
                 will(returnValue(START));
-            one (mockOut).print(START);
 
             one (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
-            one (mockOut).print(MNEMONIC);
 
             one (mockInstruction).getIndex();
                 will(returnValue(INDEX));
-            one (mockOut).print(INDEX);
 
             one (mockInstruction).getIndexedLocalVariable();
                 will(returnValue(mockLocalVariable));
@@ -260,225 +263,214 @@ public class TestTextPrinter extends MockObjectTestCase {
 
             one (mockInstruction).getValue();
                 will(returnValue(VALUE));
-            one (mockOut).print(VALUE);
-
-            ignoring (mockOut);
         }});
 
         sut.visitInstruction(mockInstruction);
+
+        assertOut(
+                "        " + START + ":\t" + MNEMONIC + " null  (#" + INDEX + ") " + VALUE
+        );
     }
 
-    public void testVisitInstruction_iconst_1_WithNothing() {
+    public void testVisitInstruction_iconst_1_WithNothing() throws IOException {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(ICONST_1_INSTRUCTION));
 
             one (mockInstruction).getStart();
                 will(returnValue(START));
-            one (mockOut).print(START);
 
             one (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
-            one (mockOut).print(MNEMONIC);
-
-            ignoring (mockOut);
         }});
 
         sut.visitInstruction(mockInstruction);
+
+        assertOut(
+                "        " + START + ":\t" + MNEMONIC
+        );
     }
 
-    public void testVisitInstruction_goto_WithNegativeOffset() {
+    public void testVisitInstruction_goto_WithNegativeOffset() throws IOException {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(GOTO_INSTRUCTION));
 
             atLeast(1).of (mockInstruction).getStart();
                 will(returnValue(START));
-            one (mockOut).print(START);
 
             one (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
-            one (mockOut).print(MNEMONIC);
 
             atLeast(1).of (mockInstruction).getOffset();
                 will(returnValue(-OFFSET));
-            one (mockOut).print(-OFFSET);
-            one (mockOut).print(START - OFFSET);
-
-            ignoring (mockOut);
         }});
 
         sut.visitInstruction(mockInstruction);
+
+        assertOut(
+                "        " + START + ":\t" + MNEMONIC + " " + (START - OFFSET) + " (-" + OFFSET + ")"
+        );
     }
 
-    public void testVisitInstruction_goto_WithOffsetOfZero() {
+    public void testVisitInstruction_goto_WithOffsetOfZero() throws IOException {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(GOTO_INSTRUCTION));
 
             atLeast(1).of (mockInstruction).getStart();
                 will(returnValue(START));
-            one (mockOut).print(START);
 
             one (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
-            one (mockOut).print(MNEMONIC);
 
             atLeast(1).of (mockInstruction).getOffset();
                 will(returnValue(0));
-            one (mockOut).print("+");
-            one (mockOut).print(0);
-            one (mockOut).print(START);
-
-            ignoring (mockOut);
         }});
 
         sut.visitInstruction(mockInstruction);
+
+        assertOut(
+                "        " + START + ":\t" + MNEMONIC + " " + START + " (+0)"
+        );
     }
 
-    public void testVisitInstruction_goto_WithPositiveOffset() {
+    public void testVisitInstruction_goto_WithPositiveOffset() throws IOException {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(GOTO_INSTRUCTION));
 
             atLeast(1).of (mockInstruction).getStart();
                 will(returnValue(START));
-            one (mockOut).print(START);
 
             one (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
-            one (mockOut).print(MNEMONIC);
 
             atLeast(1).of (mockInstruction).getOffset();
                 will(returnValue(OFFSET));
-            one (mockOut).print("+");
-            one (mockOut).print(OFFSET);
-            one (mockOut).print(START + OFFSET);
-
-            ignoring (mockOut);
         }});
 
         sut.visitInstruction(mockInstruction);
+
+        assertOut(
+                "        " + START + ":\t" + MNEMONIC + " " + (START + OFFSET) + " (+" + OFFSET + ")"
+        );
     }
 
-    public void testVisitInstruction_iload_WithLocalVariableAndIndex() {
+    public void testVisitInstruction_iload_WithLocalVariableAndIndex() throws IOException {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(ILOAD_INSTRUCTION));
 
             one (mockInstruction).getStart();
                 will(returnValue(START));
-            one (mockOut).print(START);
 
             one (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
-            one (mockOut).print(MNEMONIC);
 
             one (mockInstruction).getIndex();
                 will(returnValue(INDEX));
-            one (mockOut).print(INDEX);
 
             one (mockInstruction).getIndexedLocalVariable();
                 will(returnValue(mockLocalVariable));
             one (mockLocalVariable).getDescriptor();
                 will(returnValue(DESCRIPTOR));
             one (mockLocalVariable).getName();
-
-            ignoring (mockOut);
         }});
 
         sut.visitInstruction(mockInstruction);
+
+        assertOut(
+                "        " + START + ":\t" + MNEMONIC + " null  (#" + INDEX + ")"
+        );
     }
 
-    public void testVisitInstruction_iload_1_WithLocalVariableButNoIndex() {
+    public void testVisitInstruction_iload_1_WithLocalVariableButNoIndex() throws IOException {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(ILOAD_1_INSTRUCTION));
 
             one (mockInstruction).getStart();
                 will(returnValue(START));
-            one (mockOut).print(START);
 
             one (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
-            one (mockOut).print(MNEMONIC);
 
             one (mockInstruction).getIndexedLocalVariable();
                 will(returnValue(mockLocalVariable));
             one (mockLocalVariable).getDescriptor();
                 will(returnValue(DESCRIPTOR));
             one (mockLocalVariable).getName();
-
-            ignoring (mockOut);
         }});
 
         sut.visitInstruction(mockInstruction);
+
+        assertOut(
+                "        " + START + ":\t" + MNEMONIC + " null "
+        );
     }
 
-    public void testVisitInstruction_iload_1_WithMissingLocalVariableAndNoIndex() {
+    public void testVisitInstruction_iload_1_WithMissingLocalVariableAndNoIndex() throws IOException {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(ILOAD_1_INSTRUCTION));
 
             one (mockInstruction).getStart();
                 will(returnValue(START));
-            one (mockOut).print(START);
 
             one (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
-            one (mockOut).print(MNEMONIC);
 
             one (mockInstruction).getIndexedLocalVariable();
                 will(returnValue(null));
-
-            ignoring (mockOut);
         }});
 
         sut.visitInstruction(mockInstruction);
+
+        assertOut(
+                "        " + START + ":\t" + MNEMONIC
+        );
     }
 
-    public void testVisitInstruction_getfield_WithConstantPoolEntry() {
+    public void testVisitInstruction_getfield_WithConstantPoolEntry() throws IOException {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(GETFIELD_INSTRUCTION));
 
             one (mockInstruction).getStart();
                 will(returnValue(START));
-            one (mockOut).print(START);
 
             one (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
-            one (mockOut).print(MNEMONIC);
 
             one (mockInstruction).getIndexedConstantPoolEntry();
                 will(returnValue(mockConstantPoolEntry));
             one (mockConstantPoolEntry).accept(sut);
-
-            ignoring (mockOut);
         }});
 
         sut.visitInstruction(mockInstruction);
+
+        assertOut(
+                "        " + START + ":\t" + MNEMONIC + " "
+        );
     }
 
-    public void testVisitInstruction_wide_iinc_WithLocalVariableAndIndexAndValue() {
+    public void testVisitInstruction_wide_iinc_WithLocalVariableAndIndexAndValue() throws IOException {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(WIDE_INSTRUCTION));
 
             one (mockInstruction).getStart();
                 will(returnValue(START));
-            one (mockOut).print(START);
 
             one (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
-            one (mockOut).print(MNEMONIC);
 
             one (mockInstruction).getByte(1);
                 will(returnValue(IINC_INSTRUCTION));
 
             one (mockInstruction).getIndex();
                 will(returnValue(INDEX));
-            one (mockOut).print(INDEX);
 
             one (mockInstruction).getIndexedLocalVariable();
                 will(returnValue(mockLocalVariable));
@@ -488,47 +480,47 @@ public class TestTextPrinter extends MockObjectTestCase {
 
             one (mockInstruction).getValue();
                 will(returnValue(VALUE));
-            one (mockOut).print(VALUE);
-
-            ignoring (mockOut);
         }});
 
         sut.visitInstruction(mockInstruction);
+
+        assertOut(
+                "        " + START + ":\t" + MNEMONIC + " null  (#" + INDEX + ") " + VALUE
+        );
     }
 
-    public void testVisitInstruction_wide_iload_WithLocalVariableAndIndex() {
+    public void testVisitInstruction_wide_iload_WithLocalVariableAndIndex() throws IOException {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(WIDE_INSTRUCTION));
 
             one (mockInstruction).getStart();
                 will(returnValue(START));
-            one (mockOut).print(START);
 
             one (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
-            one (mockOut).print(MNEMONIC);
 
             one (mockInstruction).getByte(1);
                 will(returnValue(ILOAD_INSTRUCTION));
 
             one (mockInstruction).getIndex();
                 will(returnValue(INDEX));
-            one (mockOut).print(INDEX);
 
             one (mockInstruction).getIndexedLocalVariable();
                 will(returnValue(mockLocalVariable));
             one (mockLocalVariable).getDescriptor();
                 will(returnValue(DESCRIPTOR));
             one (mockLocalVariable).getName();
-
-            ignoring (mockOut);
         }});
 
         sut.visitInstruction(mockInstruction);
+
+        assertOut(
+                "        " + START + ":\t" + MNEMONIC + " null  (#" + INDEX + ")"
+        );
     }
 
-    public void testVisitExceptionHandler_WithCatchType() {
+    public void testVisitExceptionHandler_WithCatchType() throws IOException {
         final int startPc = 1;
         final int endPc = 2;
         final int handlerPc = 3;
@@ -540,29 +532,27 @@ public class TestTextPrinter extends MockObjectTestCase {
         checking(new Expectations() {{
             one (mockExceptionHandler).getStartPC();
                 will(returnValue(startPc));
-            one (mockOut).print(startPc);
 
             one (mockExceptionHandler).getEndPC();
                 will(returnValue(endPc));
-            one (mockOut).print(endPc);
 
             one (mockExceptionHandler).getHandlerPC();
                 will(returnValue(handlerPc));
-            one (mockOut).print(handlerPc);
 
             one (mockExceptionHandler).getCatchTypeIndex();
                 will(returnValue(catchTypeIndex));
             one (mockExceptionHandler).getCatchType();
                 will(returnValue(catchType));
-            one (mockOut).print(catchType);
-
-            ignoring (mockOut);
         }});
 
         sut.visitExceptionHandler(mockExceptionHandler);
+
+        assertOut(
+                "        " + startPc + "-" + endPc + ": " + handlerPc + " (" + catchType + ")"
+        );
     }
 
-    public void testVisitExceptionHandler_WithoutCatchType() {
+    public void testVisitExceptionHandler_WithoutCatchType() throws IOException {
         final int startPc = 1;
         final int endPc = 2;
         final int handlerPc = 3;
@@ -573,36 +563,32 @@ public class TestTextPrinter extends MockObjectTestCase {
         checking(new Expectations() {{
             one (mockExceptionHandler).getStartPC();
                 will(returnValue(startPc));
-            one (mockOut).print(startPc);
 
             one (mockExceptionHandler).getEndPC();
                 will(returnValue(endPc));
-            one (mockOut).print(endPc);
 
             one (mockExceptionHandler).getHandlerPC();
                 will(returnValue(handlerPc));
-            one (mockOut).print(handlerPc);
 
             one (mockExceptionHandler).getCatchTypeIndex();
                 will(returnValue(catchTypeIndex));
-
-            ignoring (mockOut);
         }});
 
         sut.visitExceptionHandler(mockExceptionHandler);
+
+        assertOut(
+                "        " + startPc + "-" + endPc + ": " + handlerPc
+        );
     }
 
-    private void expectTextOut(final String text) {
-        checking(new Expectations() {{
-            one (mockOut).print(text);
-                inSequence(dataWrites);
-        }});
-    }
+    private void assertOut(String ...expectedLines) throws IOException {
+        int            lineNumber = 0;
+        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
 
-    private void expectNewLineOut() {
-        checking(new Expectations() {{
-            one (mockOut).println();
-                inSequence(dataWrites);
-        }});
+        for (String expectedLine : expectedLines) {
+            assertEquals("line " + ++lineNumber, expectedLine, in.readLine());
+        }
+
+        assertEquals("End of file", null, in.readLine());
     }
 }

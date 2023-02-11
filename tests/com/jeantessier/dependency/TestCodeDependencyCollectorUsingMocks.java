@@ -32,15 +32,21 @@
 
 package com.jeantessier.dependency;
 
-import java.util.*;
+import com.jeantessier.classreader.Annotation;
+import com.jeantessier.classreader.ClassElementValue;
+import com.jeantessier.classreader.Class_info;
+import com.jeantessier.classreader.Classfile;
+import com.jeantessier.classreader.EnumElementValue;
+import com.jeantessier.classreader.ExceptionHandler;
+import org.jmock.Expectations;
+import org.jmock.api.Action;
+import org.jmock.imposters.ByteBuddyClassImposteriser;
+import org.jmock.integration.junit3.MockObjectTestCase;
 
-import org.jmock.*;
-import org.jmock.api.*;
-import org.jmock.integration.junit3.*;
-import org.jmock.lib.legacy.*;
-import static org.jmock.lib.script.ScriptedAction.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
-import com.jeantessier.classreader.*;
+import static org.jmock.lib.script.ScriptedAction.perform;
 
 public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
     private static final String TEST_CLASS_NAME = "a.A";
@@ -57,7 +63,7 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        setImposteriser(ClassImposteriser.INSTANCE);
+        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
 
         mockFactory = mock(NodeFactory.class);
         mockClassfile = mock(Classfile.class);
@@ -136,7 +142,7 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         final Class_info mockInterface = mock(Class_info.class);
         final ClassNode mockInterfaceNode = mock(ClassNode.class, "interface");
 
-        final Collection<Class_info> allInterfaces = new ArrayList<Class_info>();
+        final Collection<Class_info> allInterfaces = new ArrayList<>();
         allInterfaces.add(mockInterface);
 
         expectClassNodeForClassname();

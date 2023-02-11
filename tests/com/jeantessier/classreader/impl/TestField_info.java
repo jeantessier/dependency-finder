@@ -33,13 +33,12 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.Expectations;
-import org.jmock.Mockery;
 import org.jmock.Sequence;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.lib.legacy.ClassImposteriser;
+import org.jmock.imposters.ByteBuddyClassImposteriser;
+import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -48,13 +47,13 @@ import static org.hamcrest.Matchers.is;
 import static org.jmock.Expectations.aNull;
 import static org.junit.Assert.assertThat;
 
-@RunWith(JMock.class)
 public class TestField_info {
     private static final int TEST_ACCESS_FLAG = 0x0000;
     private static final int TEST_NAME_INDEX = 123;
     private static final int TEST_SIGNATURE_INDEX = 456;
 
-    private Mockery context;
+    @Rule
+    public JUnitRuleMockery context = new JUnitRuleMockery();
 
     private DataInput mockIn;
     private ConstantPool mockConstantPool;
@@ -63,8 +62,7 @@ public class TestField_info {
 
     @Before
     public void setUp() {
-        context = new Mockery();
-        context.setImposteriser(ClassImposteriser.INSTANCE);
+        context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
 
         mockIn = context.mock(DataInput.class);
         mockConstantPool = context.mock(ConstantPool.class);

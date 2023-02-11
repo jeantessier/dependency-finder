@@ -32,15 +32,16 @@
 
 package com.jeantessier.classreader.impl;
 
-import static org.hamcrest.Matchers.*;
-import org.jmock.*;
-import org.jmock.integration.junit4.*;
-import org.jmock.lib.legacy.*;
-import static org.junit.Assert.*;
-import org.junit.*;
-import org.junit.runner.*;
+import org.jmock.Expectations;
+import org.jmock.imposters.ByteBuddyClassImposteriser;
+import org.jmock.integration.junit4.JUnitRuleMockery;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 
-@RunWith(JMock.class)
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+
 public class TestClass_info {
     private static final int CLASS_NAME_INDEX = 1;
     private static final String PACKAGE_NAME = "foo";
@@ -49,7 +50,8 @@ public class TestClass_info {
     private static final String ENCODED_FULL_CLASS_NAME = "L" + PACKAGE_NAME + "/" + SIMPLE_CLASS_NAME + ";";
     private static final String FULL_CLASS_NAME = PACKAGE_NAME + "." + SIMPLE_CLASS_NAME;
 
-    private Mockery context;
+    @Rule
+    public JUnitRuleMockery context = new JUnitRuleMockery();
 
     private ConstantPool constantPool;
 
@@ -57,8 +59,7 @@ public class TestClass_info {
 
     @Before
     public void setUp() throws Exception {
-        context = new Mockery();
-        context.setImposteriser(ClassImposteriser.INSTANCE);
+        context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
 
         constantPool = context.mock(ConstantPool.class);
 

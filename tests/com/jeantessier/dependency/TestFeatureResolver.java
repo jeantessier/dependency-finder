@@ -32,11 +32,13 @@
 
 package com.jeantessier.dependency;
 
-import java.util.*;
+import org.jmock.Expectations;
+import org.jmock.imposters.ByteBuddyClassImposteriser;
+import org.jmock.integration.junit3.MockObjectTestCase;
 
-import org.jmock.*;
-import org.jmock.integration.junit3.*;
-import org.jmock.lib.legacy.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
 
 public class TestFeatureResolver extends MockObjectTestCase {
     private FeatureResolver sut;
@@ -44,7 +46,7 @@ public class TestFeatureResolver extends MockObjectTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        setImposteriser(ClassImposteriser.INSTANCE);
+        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
 
         sut = new FeatureResolver();
     }

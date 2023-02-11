@@ -32,24 +32,28 @@
 
 package com.jeantessier.classreader.impl;
 
-import java.io.*;
+import org.jmock.Expectations;
+import org.jmock.Sequence;
+import org.jmock.imposters.ByteBuddyClassImposteriser;
+import org.jmock.integration.junit4.JUnitRuleMockery;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 
-import static org.hamcrest.Matchers.*;
-import org.jmock.*;
-import org.jmock.integration.junit4.*;
-import org.jmock.lib.legacy.*;
-import static org.junit.Assert.*;
-import org.junit.*;
-import org.junit.runner.*;
+import java.io.DataInput;
+import java.io.IOException;
 
-@RunWith(JMock.class)
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+
 public class TestMethod_info {
     private static final int TEST_ACCESS_FLAG = 0x0008;
     private static final int TEST_NAME_INDEX = 123;
     private static final int TEST_SIGNATURE_INDEX = 456;
     private static final int TEST_NB_ATTRIBUTES = 0;
 
-    private Mockery context;
+    @Rule
+    public JUnitRuleMockery context = new JUnitRuleMockery();
 
     private DataInput mockIn;
     private ConstantPool mockConstantPool;
@@ -58,8 +62,7 @@ public class TestMethod_info {
 
     @Before
     public void setUp() {
-        context = new Mockery();
-        context.setImposteriser(ClassImposteriser.INSTANCE);
+        context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
 
         mockIn = context.mock(DataInput.class);
         mockConstantPool = context.mock(ConstantPool.class);

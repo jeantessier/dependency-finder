@@ -32,17 +32,19 @@
 
 package com.jeantessier.dependency;
 
-import java.util.*;
+import org.jmock.Expectations;
+import org.jmock.imposters.ByteBuddyClassImposteriser;
+import org.jmock.integration.junit4.JUnitRuleMockery;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 
-import org.jmock.*;
-import org.jmock.integration.junit4.*;
-import org.jmock.lib.legacy.*;
-import org.junit.*;
-import org.junit.runner.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
-@RunWith(JMock.class)
 public class TestVisitorDecorator {
-    private Mockery context;
+    @Rule
+    public JUnitRuleMockery context = new JUnitRuleMockery();
 
     private Visitor delegate;
 
@@ -54,8 +56,7 @@ public class TestVisitorDecorator {
 
     @Before
     public void setUp() {
-        context = new Mockery();
-        context.setImposteriser(ClassImposteriser.INSTANCE);
+        context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
 
         delegate = context.mock(Visitor.class);
 

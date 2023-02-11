@@ -32,13 +32,13 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.jmock.*;
-import org.jmock.api.*;
-import org.jmock.integration.junit3.*;
-import org.jmock.lib.action.*;
-import org.jmock.lib.legacy.*;
-
-import com.jeantessier.classreader.*;
+import com.jeantessier.classreader.LocalVariableFinder;
+import com.jeantessier.classreader.Visitor;
+import org.jmock.Expectations;
+import org.jmock.api.Invocation;
+import org.jmock.imposters.ByteBuddyClassImposteriser;
+import org.jmock.integration.junit3.MockObjectTestCase;
+import org.jmock.lib.action.CustomAction;
 
 public class TestInstruction extends MockObjectTestCase {
     private static final byte ICONST_0_INSTRUCTION = (byte) 0x03;
@@ -55,7 +55,7 @@ public class TestInstruction extends MockObjectTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        setImposteriser(ClassImposteriser.INSTANCE);
+        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
 
         mockCode_attribute = mock(Code_attribute.class);
     }

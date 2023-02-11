@@ -32,22 +32,18 @@
 
 package com.jeantessier.classreader;
 
-import static org.hamcrest.Matchers.*;
-import org.jmock.*;
-import static org.jmock.Expectations.*;
-import org.jmock.integration.junit4.*;
-import static org.junit.Assert.*;
-import org.junit.*;
-import org.junit.runner.*;
+import org.jmock.Expectations;
+import org.jmock.integration.junit4.JUnitRuleMockery;
+import org.junit.Rule;
+import org.junit.Test;
 
-@RunWith(JMock.class)
+import static org.hamcrest.Matchers.is;
+import static org.jmock.Expectations.aNull;
+import static org.junit.Assert.assertThat;
+
 public class TestSignatureFinder {
-    private Mockery context;
-
-    @Before
-    public void setUp() throws Exception {
-        context = new Mockery();
-    }
+    @Rule
+    public JUnitRuleMockery context = new JUnitRuleMockery();
 
     @Test
     public void testVisitCode_attribute() {

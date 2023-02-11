@@ -34,12 +34,11 @@ package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.ClassfileLoader;
 import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.lib.legacy.ClassImposteriser;
+import org.jmock.imposters.ByteBuddyClassImposteriser;
+import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -48,22 +47,21 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-@RunWith(JMock.class)
 public class TestClassfile {
     private static final String TEST_PACKAGE_NAME = "foo";
     private static final String TEST_CLASS_NAME = TEST_PACKAGE_NAME + ".Foo";
     private static final String TEST_FIELD_NAME = TEST_CLASS_NAME + ".foo";
     private static final String TEST_METHOD_SIGNATURE = TEST_CLASS_NAME + ".foo()";
 
-    private Mockery context;
+    @Rule
+    public JUnitRuleMockery context = new JUnitRuleMockery();
 
     private ClassfileLoader loader;
     private ConstantPool constantPool;
 
     @Before
     public void setUp() throws Exception {
-        context = new Mockery();
-        context.setImposteriser(ClassImposteriser.INSTANCE);
+        context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
 
         loader = context.mock(ClassfileLoader.class);
         constantPool = context.mock(ConstantPool.class);

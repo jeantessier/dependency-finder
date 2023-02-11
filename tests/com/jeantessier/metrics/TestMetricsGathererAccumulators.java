@@ -32,13 +32,21 @@
 
 package com.jeantessier.metrics;
 
-import java.util.*;
+import com.jeantessier.classreader.Attribute_info;
+import com.jeantessier.classreader.Classfile;
+import com.jeantessier.classreader.Deprecated_attribute;
+import com.jeantessier.classreader.Field_info;
+import com.jeantessier.classreader.InnerClass;
+import com.jeantessier.classreader.LocalVariable;
+import com.jeantessier.classreader.Method_info;
+import com.jeantessier.classreader.Synthetic_attribute;
+import com.jeantessier.classreader.Visitable;
+import org.jmock.Expectations;
+import org.jmock.imposters.ByteBuddyClassImposteriser;
+import org.jmock.integration.junit3.MockObjectTestCase;
 
-import org.jmock.*;
-import org.jmock.integration.junit3.*;
-import org.jmock.lib.legacy.*;
-
-import com.jeantessier.classreader.*;
+import java.util.Collection;
+import java.util.Collections;
 
 public class TestMetricsGathererAccumulators extends MockObjectTestCase {
     private static final String PACKAGE_NAME = "test.package";
@@ -51,7 +59,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        setImposteriser(ClassImposteriser.INSTANCE);
+        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }
 
     public void testVisitClassfile_public() throws Exception {

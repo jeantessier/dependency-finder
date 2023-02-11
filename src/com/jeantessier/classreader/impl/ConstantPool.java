@@ -46,6 +46,11 @@ import java.util.ArrayList;
 public class ConstantPool extends ArrayList<com.jeantessier.classreader.ConstantPoolEntry> implements com.jeantessier.classreader.ConstantPool {
     private Classfile classfile;
 
+    // Visible for testing
+    public ConstantPool() {
+        // No-op
+    }
+
     public ConstantPool(Classfile classfile, DataInput in) throws IOException {
         this.classfile = classfile;
 

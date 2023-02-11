@@ -32,13 +32,14 @@
 
 package com.jeantessier.classreader.impl;
 
-import java.io.*;
+import com.jeantessier.classreader.Visitable;
+import org.jmock.Expectations;
+import org.jmock.Sequence;
+import org.jmock.imposters.ByteBuddyClassImposteriser;
+import org.jmock.integration.junit3.MockObjectTestCase;
 
-import org.jmock.*;
-import org.jmock.integration.junit3.*;
-import org.jmock.lib.legacy.*;
-
-import com.jeantessier.classreader.*;
+import java.io.DataInput;
+import java.io.IOException;
 
 public class TestAttributeBase extends MockObjectTestCase {
     protected Classfile mockClassfile;
@@ -51,7 +52,7 @@ public class TestAttributeBase extends MockObjectTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        setImposteriser(ClassImposteriser.INSTANCE);
+        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
 
         mockClassfile = mock(Classfile.class);
         mockConstantPool = mock(ConstantPool.class);
