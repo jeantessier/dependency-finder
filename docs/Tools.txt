@@ -2948,11 +2948,6 @@ You can limit the number of dependencies on any cycles with
 =-maximum-cycle-length=.  By default, the tool will go as far as possible
 looking for cycles.
 
-See also:
-
-   * [[#CyclesToHTML][CyclesToHTML]]
-   * [[#CyclesToText][CyclesToText]]
-
 </blockquote>
 
 ---+++ Switches
@@ -5208,7 +5203,7 @@ each node cover its label.  Then, layout the graph using the "Layout" menu.
 
 See also:
 
-   * [[http://www.yworks.com/en/products%5Fyed%5Fabout.htm][yEd]]
+   * [[https://www.yworks.com/products/yed][yEd]]
 
 </blockquote>
 
