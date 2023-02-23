@@ -1,0 +1,15 @@
+Came upon [[https://github.com/kordamp/jarviz][Jarviz]] after seeing a
+[[https://techhub.social/@shaaf@fosstodon.org/109908135360633134][toot]] about
+it on Mastodon and an
+[[https://www.infoq.com/news/2023/02/introducing-jarviz/][article]] on InfoQ.
+One interesting use case for Jarviz is finding the version of Java classfiles,
+so we can make sure dependencies are compatible.
+
+I looked at adding something similar to =OOMetrics=.  But the current metrics
+are assumed to be numbers.  And the set of metrics is fixed by the config,
+instead of creating metrics based on the data, like versions "60" and "63".
+
+I  added class-level metrics for "major version" and "minor version".  But I
+will need to do more work to aggregate them at the group- or project-level.  I
+would like to build a histogram of different major versions in JAR files.  And
+maybe go so far as listing out the classes by version number.
