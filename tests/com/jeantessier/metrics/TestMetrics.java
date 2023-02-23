@@ -32,7 +32,7 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
+import junit.framework.TestCase;
 
 public class TestMetrics extends TestCase {
     public void testCreate() {
@@ -92,10 +92,10 @@ public class TestMetrics extends TestCase {
         assertEquals(2.0, metrics.getMeasurement("test1").getValue().doubleValue(), 0.01);
         assertEquals(3.5, metrics.getMeasurement("test2").getValue().doubleValue(), 0.01);
 
-        metrics.addToMeasurement("test",  new Double(1.0));
-        metrics.addToMeasurement("test0", new Double(1.0));
-        metrics.addToMeasurement("test1", new Double(1.0));
-        metrics.addToMeasurement("test2", new Double(1.0));
+        metrics.addToMeasurement("test",  1);
+        metrics.addToMeasurement("test0", 1);
+        metrics.addToMeasurement("test1", 1);
+        metrics.addToMeasurement("test2", 1);
         
         assertEquals(NullMeasurement.class, metrics.getMeasurement("test").getClass());
         assertEquals(2.0, metrics.getMeasurement("test0").getValue().doubleValue(), 0.01);

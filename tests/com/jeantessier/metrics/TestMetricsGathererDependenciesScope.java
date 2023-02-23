@@ -32,14 +32,15 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
+import com.jeantessier.classreader.AggregatingClassfileLoader;
+import com.jeantessier.classreader.ClassfileLoader;
+import junit.framework.TestCase;
+import org.apache.log4j.Logger;
 
-import java.io.*;
-import java.util.*;
-
-import org.apache.log4j.*;
-
-import com.jeantessier.classreader.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 
 public class TestMetricsGathererDependenciesScope extends TestCase {
     public static final String TEST_DIRNAME = "classes" + File.separator + "testpackage";
@@ -56,7 +57,7 @@ public class TestMetricsGathererDependenciesScope extends TestCase {
         
         factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).load("etc" + File.separator + "MetricsConfig.xml"));
 
-        Collection<String> dirs = new ArrayList<String>();
+        Collection<String> dirs = new ArrayList<>();
         dirs.add(TEST_DIRNAME);
         dirs.add(OTHER_DIRNAME);
         loader = new AggregatingClassfileLoader();
@@ -74,13 +75,13 @@ public class TestMetricsGathererDependenciesScope extends TestCase {
     }
     
     public void testpackage_TestClass_testMethod_IntraClass() {
-        Collection<String> scopeIncludes = new HashSet<String>();
+        Collection<String> scopeIncludes = new HashSet<>();
         scopeIncludes.add("testpackage.TestClass.sourceMethod()");
 
         gatherer.setScopeIncludes(scopeIncludes);
         gatherer.visitClassfiles(loader.getAllClassfiles());
 
-        Collection dependencies;
+        Collection<String> dependencies;
 
         dependencies = ((CollectionMeasurement) factory.createMethodMetrics("testpackage.TestClass.testMethod(java.lang.String)").getMeasurement(BasicMeasurements.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES)).getValues();
         assertTrue(BasicMeasurements.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES + " " + dependencies + " missing testpackage.TestClass.sourceMethod()", dependencies.contains("testpackage.TestClass.sourceMethod()"));
@@ -109,13 +110,13 @@ public class TestMetricsGathererDependenciesScope extends TestCase {
     }
     
     public void testpackage_TestClass_testMethod_IntraPackage() {
-        Collection<String> scopeIncludes = new HashSet<String>();
+        Collection<String> scopeIncludes = new HashSet<>();
         scopeIncludes.add("testpackage.SourceClass.sourceMethod()");
 
         gatherer.setScopeIncludes(scopeIncludes);
         gatherer.visitClassfiles(loader.getAllClassfiles());
 
-        Collection dependencies;
+        Collection<String> dependencies;
 
         dependencies = ((CollectionMeasurement) factory.createMethodMetrics("testpackage.TestClass.testMethod(java.lang.String)").getMeasurement(BasicMeasurements.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES)).getValues();
         assertEquals(BasicMeasurements.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
@@ -144,13 +145,13 @@ public class TestMetricsGathererDependenciesScope extends TestCase {
     }
     
     public void testpackage_TestClass_testMethod_ExtraPackage() {
-        Collection<String> filterIncludes = new HashSet<String>();
+        Collection<String> filterIncludes = new HashSet<>();
         filterIncludes.add("otherpackage.SourceClass.sourceMethod()");
 
         gatherer.setScopeIncludes(filterIncludes);
         gatherer.visitClassfiles(loader.getAllClassfiles());
 
-        Collection dependencies;
+        Collection<String> dependencies;
 
         dependencies = ((CollectionMeasurement) factory.createMethodMetrics("testpackage.TestClass.testMethod(java.lang.String)").getMeasurement(BasicMeasurements.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES)).getValues();
         assertEquals(BasicMeasurements.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
@@ -179,13 +180,13 @@ public class TestMetricsGathererDependenciesScope extends TestCase {
     }
     
     public void testpackage_TestClass_IntraPackageClass() {
-        Collection<String> scopeIncludes = new HashSet<String>();
+        Collection<String> scopeIncludes = new HashSet<>();
         scopeIncludes.add("testpackage.SourceClass");
 
         gatherer.setScopeIncludes(scopeIncludes);
         gatherer.visitClassfiles(loader.getAllClassfiles());
 
-        Collection dependencies;
+        Collection<String> dependencies;
 
         dependencies = ((CollectionMeasurement) factory.createClassMetrics("testpackage.TestClass").getMeasurement(BasicMeasurements.INBOUND_INTRA_PACKAGE_DEPENDENCIES)).getValues();
         assertTrue(BasicMeasurements.INBOUND_INTRA_PACKAGE_DEPENDENCIES + " " + dependencies + " missing testpackage.SourceClass", dependencies.contains("testpackage.SourceClass"));
@@ -208,13 +209,13 @@ public class TestMetricsGathererDependenciesScope extends TestCase {
     }
     
     public void testpackage_TestClass_ExtraPackageClass() {
-        Collection<String> scopeIncludes = new HashSet<String>();
+        Collection<String> scopeIncludes = new HashSet<>();
         scopeIncludes.add("otherpackage.SourceClass");
 
         gatherer.setScopeIncludes(scopeIncludes);
         gatherer.visitClassfiles(loader.getAllClassfiles());
 
-        Collection dependencies;
+        Collection<String> dependencies;
 
         dependencies = ((CollectionMeasurement) factory.createClassMetrics("testpackage.TestClass").getMeasurement(BasicMeasurements.INBOUND_INTRA_PACKAGE_DEPENDENCIES)).getValues();
         assertEquals(BasicMeasurements.INBOUND_INTRA_PACKAGE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
@@ -237,13 +238,13 @@ public class TestMetricsGathererDependenciesScope extends TestCase {
     }
     
     public void testpackage_TestClass_IntraPackageMethod() {
-        Collection<String> scopeIncludes = new HashSet<String>();
+        Collection<String> scopeIncludes = new HashSet<>();
         scopeIncludes.add("testpackage.SourceClass.sourceMethod()");
 
         gatherer.setScopeIncludes(scopeIncludes);
         gatherer.visitClassfiles(loader.getAllClassfiles());
 
-        Collection dependencies;
+        Collection<String> dependencies;
 
         dependencies = ((CollectionMeasurement) factory.createClassMetrics("testpackage.TestClass").getMeasurement(BasicMeasurements.INBOUND_INTRA_PACKAGE_DEPENDENCIES)).getValues();
         assertEquals(BasicMeasurements.INBOUND_INTRA_PACKAGE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());
@@ -266,13 +267,13 @@ public class TestMetricsGathererDependenciesScope extends TestCase {
     }
     
     public void testpackage_TestClass_ExtraPackageMethod() {
-        Collection<String> scopeIncludes = new HashSet<String>();
+        Collection<String> scopeIncludes = new HashSet<>();
         scopeIncludes.add("otherpackage.SourceClass.sourceMethod()");
 
         gatherer.setScopeIncludes(scopeIncludes);
         gatherer.visitClassfiles(loader.getAllClassfiles());
 
-        Collection dependencies;
+        Collection<String> dependencies;
 
         dependencies = ((CollectionMeasurement) factory.createClassMetrics("testpackage.TestClass").getMeasurement(BasicMeasurements.INBOUND_INTRA_PACKAGE_DEPENDENCIES)).getValues();
         assertEquals(BasicMeasurements.INBOUND_INTRA_PACKAGE_DEPENDENCIES + " " + dependencies, 0, dependencies.size());

@@ -32,9 +32,8 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
-
-import org.apache.log4j.*;
+import junit.framework.TestCase;
+import org.apache.log4j.Logger;
 
 public class TestStatisticalMeasurement extends TestCase implements MeasurementVisitor {
     private StatisticalMeasurement measurement;
@@ -53,7 +52,7 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
     }
 
     public void testAdd() {
-        measurement.add(new Integer(1));
+        measurement.add(1);
 
         assertEquals(0, measurement.getNbDataPoints());
     }

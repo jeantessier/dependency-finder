@@ -32,9 +32,9 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
+import junit.framework.TestCase;
 
-import java.util.*;
+import java.util.Collection;
 
 public class TestMetricsConfiguration extends TestCase {
     private MetricsConfiguration config;
@@ -120,7 +120,7 @@ public class TestMetricsConfiguration extends TestCase {
     }
 
     public void testGroupDefinitions() {
-        Collection groups;
+        Collection<String> groups;
 
         groups = config.getGroups("foobar");
         assertEquals(0, groups.size());
@@ -144,7 +144,7 @@ public class TestMetricsConfiguration extends TestCase {
     }
 
     public void testGroupDefinitionsWithMultipleREs() {
-        Collection groups;
+        Collection<String> groups;
 
         groups = config.getGroups("foobar");
         assertEquals(0, groups.size());

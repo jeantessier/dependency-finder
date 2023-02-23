@@ -32,7 +32,7 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
+import junit.framework.TestCase;
 
 public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
     private MeasurementDescriptor descriptor;
@@ -230,7 +230,7 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 
     public void testInLowerBoundRange() throws Exception {
         descriptor.setInitText("bar");
-        descriptor.setLowerThreshold(new Integer(1));
+        descriptor.setLowerThreshold(1);
 
         metrics.track("bar", new CounterMeasurement(null, null, null));
 
@@ -252,7 +252,7 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 
     public void testInUpperBoundRange() throws Exception {
         descriptor.setInitText("bar");
-        descriptor.setUpperThreshold(new Float(1.5));
+        descriptor.setUpperThreshold(1.5);
 
         metrics.track("bar", new CounterMeasurement(null, null, null));
 
@@ -271,8 +271,8 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 
     public void testInBoundRange() throws Exception {
         descriptor.setInitText("bar");
-        descriptor.setLowerThreshold(new Integer(1));
-        descriptor.setUpperThreshold(new Float(1.5));
+        descriptor.setLowerThreshold(1);
+        descriptor.setUpperThreshold(1.5);
 
         metrics.track("bar", new CounterMeasurement(null, null, null));
 

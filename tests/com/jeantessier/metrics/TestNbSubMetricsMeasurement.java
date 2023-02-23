@@ -32,7 +32,7 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
+import junit.framework.TestCase;
 
 public class TestNbSubMetricsMeasurement extends TestCase implements MeasurementVisitor {
     private MeasurementDescriptor descriptor;
@@ -118,11 +118,11 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
     }
 
     public void testInLowerBoundRange() throws Exception {
-        descriptor.setLowerThreshold(new Integer(1));
+        descriptor.setLowerThreshold(1);
 
         measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
 
         metrics.addSubMetrics(new Metrics("foo"));
         
@@ -135,7 +135,7 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
     }
 
     public void testInUpperBoundRange() throws Exception {
-        descriptor.setUpperThreshold(new Float(1.5));
+        descriptor.setUpperThreshold(1.5);
 
         measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
         
@@ -147,17 +147,17 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 
         metrics.addSubMetrics(new Metrics("bar"));
         metrics.addSubMetrics(new Metrics("baz"));
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
     }
 
     public void testInBoundRange() throws Exception {
-        descriptor.setLowerThreshold(new Integer(1));
-        descriptor.setUpperThreshold(new Float(1.5));
+        descriptor.setLowerThreshold(1);
+        descriptor.setUpperThreshold(1.5);
 
         measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
 
         metrics.addSubMetrics(new Metrics("foo"));
         
@@ -165,8 +165,8 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
 
         metrics.addSubMetrics(new Metrics("bar"));
         metrics.addSubMetrics(new Metrics("baz"));
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
     }
 
     public void testCachedValue() throws Exception {

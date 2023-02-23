@@ -95,7 +95,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
     }
 
     public void testValidation() throws IOException, SAXException, ParserConfigurationException {
-        StringBuffer document = new StringBuffer();
+        StringBuilder document = new StringBuilder();
 
         document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
@@ -117,7 +117,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
     }
 
     public void testPackageMeasurement() throws IOException, SAXException, ParserConfigurationException {
-        StringBuffer document = new StringBuffer();
+        StringBuilder document = new StringBuilder();
 
         document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
@@ -147,7 +147,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
         assertEquals("ClassMeasurements",   0, configuration.getClassMeasurements().size());
         assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
 
-        MeasurementDescriptor descriptor = (MeasurementDescriptor) configuration.getProjectMeasurements().get(0);
+        MeasurementDescriptor descriptor = configuration.getProjectMeasurements().get(0);
         assertEquals("SLOC", descriptor.getShortName());
         assertEquals("Single Lines of Code", descriptor.getLongName());
         assertEquals(com.jeantessier.metrics.StatisticalMeasurement.class, descriptor.getClassFor());
@@ -157,7 +157,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
     }
 
     public void testGroupMeasurement() throws IOException, SAXException, ParserConfigurationException {
-        StringBuffer document = new StringBuffer();
+        StringBuilder document = new StringBuilder();
 
         document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
@@ -187,7 +187,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
         assertEquals("ClassMeasurements",   0, configuration.getClassMeasurements().size());
         assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
 
-        MeasurementDescriptor descriptor = (MeasurementDescriptor) configuration.getGroupMeasurements().get(0);
+        MeasurementDescriptor descriptor = configuration.getGroupMeasurements().get(0);
         assertEquals("SLOC", descriptor.getShortName());
         assertEquals("Single Lines of Code", descriptor.getLongName());
         assertEquals(com.jeantessier.metrics.StatisticalMeasurement.class, descriptor.getClassFor());
@@ -197,7 +197,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
     }
 
     public void testClassMeasurement() throws IOException, SAXException, ParserConfigurationException {
-        StringBuffer document = new StringBuffer();
+        StringBuilder document = new StringBuilder();
 
         document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
@@ -226,7 +226,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
         assertEquals("ClassMeasurements",   1, configuration.getClassMeasurements().size());
         assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
 
-        MeasurementDescriptor descriptor = (MeasurementDescriptor) configuration.getClassMeasurements().get(0);
+        MeasurementDescriptor descriptor = configuration.getClassMeasurements().get(0);
         assertEquals("SLOC", descriptor.getShortName());
         assertEquals("Single Lines of Code", descriptor.getLongName());
         assertEquals(com.jeantessier.metrics.StatisticalMeasurement.class, descriptor.getClassFor());
@@ -236,7 +236,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
     }
 
     public void testMethodMeasurement() throws IOException, SAXException, ParserConfigurationException {
-        StringBuffer document = new StringBuffer();
+        StringBuilder document = new StringBuilder();
 
         document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
@@ -263,7 +263,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
         assertEquals("ClassMeasurements",   0, configuration.getClassMeasurements().size());
         assertEquals("MethodMeasurements",  1, configuration.getMethodMeasurements().size());
 
-        MeasurementDescriptor descriptor = (MeasurementDescriptor) configuration.getMethodMeasurements().get(0);
+        MeasurementDescriptor descriptor = configuration.getMethodMeasurements().get(0);
         assertEquals("SLOC", descriptor.getShortName());
         assertEquals("Single Lines of Code", descriptor.getLongName());
         assertEquals(com.jeantessier.metrics.CounterMeasurement.class, descriptor.getClassFor());
@@ -273,7 +273,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
     }
 
     public void testGroupDefinitions() throws IOException, SAXException, ParserConfigurationException {
-        StringBuffer document = new StringBuffer();
+        StringBuilder document = new StringBuilder();
 
         document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");

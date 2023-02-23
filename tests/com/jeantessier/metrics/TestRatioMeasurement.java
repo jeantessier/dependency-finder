@@ -32,7 +32,7 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
+import junit.framework.TestCase;
 
 public class TestRatioMeasurement extends TestCase implements MeasurementVisitor {
     private MeasurementDescriptor descriptor;
@@ -261,13 +261,13 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
     }
 
     public void testInLowerBoundRange() throws Exception {
-        descriptor.setLowerThreshold(new Integer(1));
+        descriptor.setLowerThreshold(1);
 
         measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
         
         m2.add(1);
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
 
         m1.add(1);
         
@@ -279,7 +279,7 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
     }
 
     public void testInUpperBoundRange() throws Exception {
-        descriptor.setUpperThreshold(new Float(1.5));
+        descriptor.setUpperThreshold(1.5);
 
         measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
         
@@ -292,27 +292,27 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
         assertTrue(measurement.isInRange());
 
         m1.add(2);
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
     }
 
     public void testInBoundRange() throws Exception {
-        descriptor.setLowerThreshold(new Integer(1));
-        descriptor.setUpperThreshold(new Float(1.5));
+        descriptor.setLowerThreshold(1);
+        descriptor.setUpperThreshold(1.5);
 
         measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
         
         m2.add(1);
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
 
         m1.add(1);
         
         assertTrue(measurement.isInRange());
 
         m1.add(2);
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
     }
 
     public void testCachedValue() throws Exception {

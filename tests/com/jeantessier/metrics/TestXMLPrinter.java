@@ -32,18 +32,27 @@
 
 package com.jeantessier.metrics;
 
-import java.io.*;
-import java.util.*;
-import javax.xml.parsers.*;
-import javax.xml.xpath.*;
+import com.jeantessier.classreader.AggregatingClassfileLoader;
+import com.jeantessier.classreader.ClassfileLoader;
+import org.apache.oro.text.perl.Perl5Util;
+import org.jmock.Expectations;
+import org.jmock.integration.junit3.MockObjectTestCase;
+import org.w3c.dom.NodeList;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.XMLReader;
 
-import org.apache.oro.text.perl.*;
-import org.xml.sax.*;
-import org.jmock.integration.junit3.*;
-import org.jmock.*;
-import org.w3c.dom.*;
-
-import com.jeantessier.classreader.*;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.Collections;
 
 public class TestXMLPrinter extends MockObjectTestCase {
     private static final String TEST_CLASS = "test";
@@ -78,7 +87,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
 
     public void testDefaultDTDPrefix() throws Exception {
         checking(new Expectations() {{
-            one (errorHandler).fatalError(with(any(SAXParseException.class)));
+            oneOf (errorHandler).fatalError(with(any(SAXParseException.class)));
         }});
 
         XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration);
@@ -97,7 +106,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
     
     public void testSpecificDTDPrefix() throws Exception {
         checking(new Expectations() {{
-            one (errorHandler).fatalError(with(any(SAXParseException.class)));
+            oneOf (errorHandler).fatalError(with(any(SAXParseException.class)));
         }});
 
         XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration, XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
@@ -116,7 +125,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
 
     public void testDefaultEncoding() throws Exception {
         checking(new Expectations() {{
-            one (errorHandler).fatalError(with(any(SAXParseException.class)));
+            oneOf (errorHandler).fatalError(with(any(SAXParseException.class)));
         }});
 
         XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration);
@@ -135,7 +144,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
 
     public void testSpecificEncoding() throws Exception {
         checking(new Expectations() {{
-            one (errorHandler).fatalError(with(any(SAXParseException.class)));
+            oneOf (errorHandler).fatalError(with(any(SAXParseException.class)));
         }});
 
         XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration, SPECIFIC_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);

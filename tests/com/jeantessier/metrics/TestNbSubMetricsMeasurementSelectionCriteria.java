@@ -32,11 +32,11 @@
 
 package com.jeantessier.metrics;
 
-import java.util.*;
+import junit.framework.TestCase;
+import org.apache.oro.text.perl.Perl5Util;
 
-import org.apache.oro.text.perl.*;
-
-import junit.framework.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestNbSubMetricsMeasurementSelectionCriteria extends TestCase {
     private Metrics metrics;
@@ -172,8 +172,8 @@ public class TestNbSubMetricsMeasurementSelectionCriteria extends TestCase {
         String operators = "/(<)|(<=)|(>)|(>=)|(==)|(!=)/";
         Perl5Util perl = new org.apache.oro.text.perl.Perl5Util();
 
-        List   list = new ArrayList();
-        String str;
+        List<String> list = new ArrayList<>();
+        String       str;
 
         list.clear();
         str = "";

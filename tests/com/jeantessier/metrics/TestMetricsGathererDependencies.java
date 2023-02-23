@@ -32,14 +32,14 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
+import com.jeantessier.classreader.AggregatingClassfileLoader;
+import com.jeantessier.classreader.ClassfileLoader;
+import junit.framework.TestCase;
+import org.apache.log4j.Logger;
 
-import java.io.*;
-import java.util.*;
-
-import org.apache.log4j.*;
-
-import com.jeantessier.classreader.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class TestMetricsGathererDependencies extends TestCase {
     public static final String TEST_DIRNAME  = "classes" + File.separator + "testpackage";
@@ -55,7 +55,7 @@ public class TestMetricsGathererDependencies extends TestCase {
         factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).load("etc" + File.separator + "MetricsConfig.xml"));
 
         ClassfileLoader loader = new AggregatingClassfileLoader();
-        Collection<String> dirs = new ArrayList<String>();
+        Collection<String> dirs = new ArrayList<>();
         dirs.add(TEST_DIRNAME);
         dirs.add(OTHER_DIRNAME);
         loader.load(dirs);
@@ -73,7 +73,7 @@ public class TestMetricsGathererDependencies extends TestCase {
     }
     
     public void testpackage_TestClass_testMethod() {
-        Collection dependencies;
+        Collection<String> dependencies;
 
         dependencies = ((CollectionMeasurement) factory.createMethodMetrics("testpackage.TestClass.testMethod(java.lang.String)").getMeasurement(BasicMeasurements.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES)).getValues();
         assertTrue(BasicMeasurements.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES + " " + dependencies + " missing testpackage.TestClass.sourceMethod()", dependencies.contains("testpackage.TestClass.sourceMethod()"));
@@ -111,7 +111,7 @@ public class TestMetricsGathererDependencies extends TestCase {
     }
     
     public void testpackage_TestClass() {
-        Collection dependencies;
+        Collection<String> dependencies;
 
         dependencies = ((CollectionMeasurement) factory.createClassMetrics("testpackage.TestClass").getMeasurement(BasicMeasurements.INBOUND_INTRA_PACKAGE_DEPENDENCIES)).getValues();
         assertTrue(BasicMeasurements.INBOUND_INTRA_PACKAGE_DEPENDENCIES + " " + dependencies + " missing testpackage.SourceClass", dependencies.contains("testpackage.SourceClass"));

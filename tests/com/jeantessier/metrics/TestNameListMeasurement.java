@@ -32,7 +32,7 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
+import junit.framework.TestCase;
 
 public class TestNameListMeasurement extends TestCase implements MeasurementVisitor {
     private NameListMeasurement measurement;
@@ -231,8 +231,8 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
         descriptor.setLowerThreshold(1);
 
         measurement = (NameListMeasurement) descriptor.createMeasurement();
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
 
         measurement.add("foo");
         
@@ -249,7 +249,7 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
         descriptor.setClassFor(NameListMeasurement.class);
-        descriptor.setUpperThreshold(new Float(1.5));
+        descriptor.setUpperThreshold(1.5);
 
         measurement = (NameListMeasurement) descriptor.createMeasurement();
         
@@ -261,8 +261,8 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
 
         measurement.add("bar");
         measurement.add("baz");
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
     }
 
     public void testInBoundRange() throws Exception {
@@ -274,8 +274,8 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
         descriptor.setUpperThreshold(1.5);
 
         measurement = (NameListMeasurement) descriptor.createMeasurement();
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
 
         measurement.add("foo");
         
@@ -283,8 +283,8 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
 
         measurement.add("bar");
         measurement.add("baz");
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
     }
 
     public void testAccept() {

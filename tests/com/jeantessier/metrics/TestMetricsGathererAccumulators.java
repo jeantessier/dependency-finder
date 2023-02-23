@@ -62,7 +62,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }
 
-    public void testVisitClassfile_public() throws Exception {
+    public void testVisitClassfile_public() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Classfile mockClassfile = mock(Classfile.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "project");
@@ -70,25 +70,25 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockClassMetrics = mock(Metrics.class, "class");
 
         checking(new Expectations() {{
-            one (mockFactory).createProjectMetrics();
+            oneOf (mockFactory).createProjectMetrics();
             will(returnValue(mockProjectMetrics));
-            one (mockClassfile).getClassName();
+            oneOf (mockClassfile).getClassName();
             will(returnValue(CLASS_NAME));
-            one (mockFactory).createClassMetrics(CLASS_NAME);
+            oneOf (mockFactory).createClassMetrics(CLASS_NAME);
             will(returnValue(mockClassMetrics));
-            one (mockFactory).includeClassMetrics(mockClassMetrics);
-            one (mockClassMetrics).getParent();
+            oneOf (mockFactory).includeClassMetrics(mockClassMetrics);
+            oneOf (mockClassMetrics).getParent();
             will(returnValue(mockGroupMetrics));
-            one (mockGroupMetrics).getParent();
+            oneOf (mockGroupMetrics).getParent();
             will(returnValue(mockProjectMetrics));
             atLeast(1).of (mockGroupMetrics).getName();
             will(returnValue(PACKAGE_NAME));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
 
             allowing (mockClassfile).isPublic();
             will(returnValue(true));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PUBLIC_CLASSES, CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.PUBLIC_CLASSES, CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PUBLIC_CLASSES, CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.PUBLIC_CLASSES, CLASS_NAME);
             ignoring (mockClassfile).isPackage();
             ignoring (mockClassfile).isFinal();
             ignoring (mockClassfile).isSuper();
@@ -109,14 +109,14 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
             ignoring (mockClassfile).getAttributes();
 
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_package() throws Exception {
+    public void testVisitClassfile_package() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Classfile mockClassfile = mock(Classfile.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "project");
@@ -124,26 +124,26 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockClassMetrics = mock(Metrics.class, "class");
 
         checking(new Expectations() {{
-            one (mockFactory).createProjectMetrics();
+            oneOf (mockFactory).createProjectMetrics();
             will(returnValue(mockProjectMetrics));
-            one (mockClassfile).getClassName();
+            oneOf (mockClassfile).getClassName();
             will(returnValue(CLASS_NAME));
-            one (mockFactory).createClassMetrics(CLASS_NAME);
+            oneOf (mockFactory).createClassMetrics(CLASS_NAME);
             will(returnValue(mockClassMetrics));
-            one (mockFactory).includeClassMetrics(mockClassMetrics);
-            one (mockClassMetrics).getParent();
+            oneOf (mockFactory).includeClassMetrics(mockClassMetrics);
+            oneOf (mockClassMetrics).getParent();
             will(returnValue(mockGroupMetrics));
-            one (mockGroupMetrics).getParent();
+            oneOf (mockGroupMetrics).getParent();
             will(returnValue(mockProjectMetrics));
             atLeast(1).of (mockGroupMetrics).getName();
             will(returnValue(PACKAGE_NAME));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
 
             ignoring (mockClassfile).isPublic();
             allowing (mockClassfile).isPackage();
             will(returnValue(true));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);
             ignoring (mockClassfile).isFinal();
             ignoring (mockClassfile).isSuper();
             ignoring (mockClassfile).isInterface();
@@ -163,14 +163,14 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
             ignoring (mockClassfile).getAttributes();
 
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_final() throws Exception {
+    public void testVisitClassfile_final() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Classfile mockClassfile = mock(Classfile.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "project");
@@ -178,20 +178,20 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockClassMetrics = mock(Metrics.class, "class");
 
         checking(new Expectations() {{
-            one (mockFactory).createProjectMetrics();
+            oneOf (mockFactory).createProjectMetrics();
             will(returnValue(mockProjectMetrics));
-            one (mockClassfile).getClassName();
+            oneOf (mockClassfile).getClassName();
             will(returnValue(CLASS_NAME));
-            one (mockFactory).createClassMetrics(CLASS_NAME);
+            oneOf (mockFactory).createClassMetrics(CLASS_NAME);
             will(returnValue(mockClassMetrics));
-            one (mockFactory).includeClassMetrics(mockClassMetrics);
-            one (mockClassMetrics).getParent();
+            oneOf (mockFactory).includeClassMetrics(mockClassMetrics);
+            oneOf (mockClassMetrics).getParent();
             will(returnValue(mockGroupMetrics));
-            one (mockGroupMetrics).getParent();
+            oneOf (mockGroupMetrics).getParent();
             will(returnValue(mockProjectMetrics));
             atLeast(1).of (mockGroupMetrics).getName();
             will(returnValue(PACKAGE_NAME));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
 
             ignoring (mockClassfile).isPublic();
             ignoring (mockClassfile).isPackage();
@@ -199,8 +199,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);
             allowing (mockClassfile).isFinal();
             will(returnValue(true));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.FINAL_CLASSES, CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.FINAL_CLASSES, CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.FINAL_CLASSES, CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.FINAL_CLASSES, CLASS_NAME);
             ignoring (mockClassfile).isSuper();
             ignoring (mockClassfile).isInterface();
             ignoring (mockClassfile).isAbstract();
@@ -219,14 +219,14 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
             ignoring (mockClassfile).getAttributes();
 
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_super() throws Exception {
+    public void testVisitClassfile_super() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Classfile mockClassfile = mock(Classfile.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "project");
@@ -234,20 +234,20 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockClassMetrics = mock(Metrics.class, "class");
 
         checking(new Expectations() {{
-            one (mockFactory).createProjectMetrics();
+            oneOf (mockFactory).createProjectMetrics();
             will(returnValue(mockProjectMetrics));
-            one (mockClassfile).getClassName();
+            oneOf (mockClassfile).getClassName();
             will(returnValue(CLASS_NAME));
-            one (mockFactory).createClassMetrics(CLASS_NAME);
+            oneOf (mockFactory).createClassMetrics(CLASS_NAME);
             will(returnValue(mockClassMetrics));
-            one (mockFactory).includeClassMetrics(mockClassMetrics);
-            one (mockClassMetrics).getParent();
+            oneOf (mockFactory).includeClassMetrics(mockClassMetrics);
+            oneOf (mockClassMetrics).getParent();
             will(returnValue(mockGroupMetrics));
-            one (mockGroupMetrics).getParent();
+            oneOf (mockGroupMetrics).getParent();
             will(returnValue(mockProjectMetrics));
             atLeast(1).of (mockGroupMetrics).getName();
             will(returnValue(PACKAGE_NAME));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
 
             ignoring (mockClassfile).isPublic();
             ignoring (mockClassfile).isPackage();
@@ -256,8 +256,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockClassfile).isFinal();
             allowing (mockClassfile).isSuper();
             will(returnValue(true));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.SUPER_CLASSES, CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.SUPER_CLASSES, CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.SUPER_CLASSES, CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.SUPER_CLASSES, CLASS_NAME);
             ignoring (mockClassfile).isInterface();
             ignoring (mockClassfile).isAbstract();
 
@@ -275,14 +275,14 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
             ignoring (mockClassfile).getAttributes();
 
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_interface() throws Exception {
+    public void testVisitClassfile_interface() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Classfile mockClassfile = mock(Classfile.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "project");
@@ -290,20 +290,20 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockClassMetrics = mock(Metrics.class, "class");
 
         checking(new Expectations() {{
-            one (mockFactory).createProjectMetrics();
+            oneOf (mockFactory).createProjectMetrics();
             will(returnValue(mockProjectMetrics));
-            one (mockClassfile).getClassName();
+            oneOf (mockClassfile).getClassName();
             will(returnValue(CLASS_NAME));
-            one (mockFactory).createClassMetrics(CLASS_NAME);
+            oneOf (mockFactory).createClassMetrics(CLASS_NAME);
             will(returnValue(mockClassMetrics));
-            one (mockFactory).includeClassMetrics(mockClassMetrics);
-            one (mockClassMetrics).getParent();
+            oneOf (mockFactory).includeClassMetrics(mockClassMetrics);
+            oneOf (mockClassMetrics).getParent();
             will(returnValue(mockGroupMetrics));
-            one (mockGroupMetrics).getParent();
+            oneOf (mockGroupMetrics).getParent();
             will(returnValue(mockProjectMetrics));
             atLeast(1).of (mockGroupMetrics).getName();
             will(returnValue(PACKAGE_NAME));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
 
             ignoring (mockClassfile).isPublic();
             ignoring (mockClassfile).isPackage();
@@ -313,8 +313,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockClassfile).isSuper();
             allowing (mockClassfile).isInterface();
             will(returnValue(true));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.INTERFACES, CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.INTERFACES, CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.INTERFACES, CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.INTERFACES, CLASS_NAME);
             ignoring (mockClassfile).isAbstract();
 
             ignoring (mockClassfile).getSuperclassIndex();
@@ -331,14 +331,14 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
             ignoring (mockClassfile).getAttributes();
 
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_abstract() throws Exception {
+    public void testVisitClassfile_abstract() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Classfile mockClassfile = mock(Classfile.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "project");
@@ -346,20 +346,20 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockClassMetrics = mock(Metrics.class, "class");
 
         checking(new Expectations() {{
-            one (mockFactory).createProjectMetrics();
+            oneOf (mockFactory).createProjectMetrics();
             will(returnValue(mockProjectMetrics));
-            one (mockClassfile).getClassName();
+            oneOf (mockClassfile).getClassName();
             will(returnValue(CLASS_NAME));
-            one (mockFactory).createClassMetrics(CLASS_NAME);
+            oneOf (mockFactory).createClassMetrics(CLASS_NAME);
             will(returnValue(mockClassMetrics));
-            one (mockFactory).includeClassMetrics(mockClassMetrics);
-            one (mockClassMetrics).getParent();
+            oneOf (mockFactory).includeClassMetrics(mockClassMetrics);
+            oneOf (mockClassMetrics).getParent();
             will(returnValue(mockGroupMetrics));
-            one (mockGroupMetrics).getParent();
+            oneOf (mockGroupMetrics).getParent();
             will(returnValue(mockProjectMetrics));
             atLeast(1).of (mockGroupMetrics).getName();
             will(returnValue(PACKAGE_NAME));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
 
             ignoring (mockClassfile).isPublic();
             ignoring (mockClassfile).isPackage();
@@ -370,8 +370,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockClassfile).isInterface();
             allowing (mockClassfile).isAbstract();
             will(returnValue(true));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_CLASSES, CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_CLASSES, CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_CLASSES, CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_CLASSES, CLASS_NAME);
 
             ignoring (mockClassfile).getSuperclassIndex();
             ignoring (mockClassfile).getAllInterfaces();
@@ -387,14 +387,14 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
             ignoring (mockClassfile).getAttributes();
 
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_synthetic_withSyntheticAttribute() throws Exception {
+    public void testVisitClassfile_synthetic_withSyntheticAttribute() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Classfile mockClassfile = mock(Classfile.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "project");
@@ -403,20 +403,20 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Synthetic_attribute mockSynthetic_attribute = mock(Synthetic_attribute.class);
 
         checking(new Expectations() {{
-            one (mockFactory).createProjectMetrics();
+            oneOf (mockFactory).createProjectMetrics();
             will(returnValue(mockProjectMetrics));
-            one (mockClassfile).getClassName();
+            oneOf (mockClassfile).getClassName();
             will(returnValue(CLASS_NAME));
-            one (mockFactory).createClassMetrics(CLASS_NAME);
+            oneOf (mockFactory).createClassMetrics(CLASS_NAME);
             will(returnValue(mockClassMetrics));
-            one (mockFactory).includeClassMetrics(mockClassMetrics);
-            one (mockClassMetrics).getParent();
+            oneOf (mockFactory).includeClassMetrics(mockClassMetrics);
+            oneOf (mockClassMetrics).getParent();
             will(returnValue(mockGroupMetrics));
-            one (mockGroupMetrics).getParent();
+            oneOf (mockGroupMetrics).getParent();
             will(returnValue(mockProjectMetrics));
             atLeast(1).of (mockGroupMetrics).getName();
             will(returnValue(PACKAGE_NAME));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
 
             ignoring (mockClassfile).isPublic();
             ignoring (mockClassfile).isPackage();
@@ -437,8 +437,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockClassfile).isEnum();
             allowing (mockClassfile).isSynthetic();
             will(returnValue(true));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES, CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES, CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES, CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES, CLASS_NAME);
             ignoring (mockClassfile).isDeprecated();
             ignoring (mockClassfile).isGeneric();
         }});
@@ -454,7 +454,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_synthetic_withoutSyntheticAttribute() throws Exception {
+    public void testVisitClassfile_synthetic_withoutSyntheticAttribute() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Classfile mockClassfile = mock(Classfile.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "project");
@@ -462,20 +462,20 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final Metrics mockClassMetrics = mock(Metrics.class, "class");
 
         checking(new Expectations() {{
-            one (mockFactory).createProjectMetrics();
+            oneOf (mockFactory).createProjectMetrics();
             will(returnValue(mockProjectMetrics));
-            one (mockClassfile).getClassName();
+            oneOf (mockClassfile).getClassName();
             will(returnValue(CLASS_NAME));
-            one (mockFactory).createClassMetrics(CLASS_NAME);
+            oneOf (mockFactory).createClassMetrics(CLASS_NAME);
             will(returnValue(mockClassMetrics));
-            one (mockFactory).includeClassMetrics(mockClassMetrics);
-            one (mockClassMetrics).getParent();
+            oneOf (mockFactory).includeClassMetrics(mockClassMetrics);
+            oneOf (mockClassMetrics).getParent();
             will(returnValue(mockGroupMetrics));
-            one (mockGroupMetrics).getParent();
+            oneOf (mockGroupMetrics).getParent();
             will(returnValue(mockProjectMetrics));
             atLeast(1).of (mockGroupMetrics).getName();
             will(returnValue(PACKAGE_NAME));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
 
             ignoring (mockClassfile).isPublic();
             ignoring (mockClassfile).isPackage();
@@ -496,8 +496,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockClassfile).isEnum();
             allowing (mockClassfile).isSynthetic();
             will(returnValue(true));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES, CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES, CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES, CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES, CLASS_NAME);
             ignoring (mockClassfile).isDeprecated();
             ignoring (mockClassfile).isGeneric();
 
@@ -508,22 +508,22 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitField_info_public() throws Exception {
+    public void testVisitField_info_public() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            one (mockField).getFullName();
+            oneOf (mockField).getFullName();
             will(returnValue(FIELD_NAME));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
             allowing (mockField).getAccessFlag();
             allowing (mockField).isPublic();
             will(returnValue(true));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PUBLIC_ATTRIBUTES, FIELD_NAME);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PUBLIC_ATTRIBUTES, FIELD_NAME);
             ignoring (mockField).isPrivate();
             ignoring (mockField).isProtected();
             ignoring (mockField).isPackage();
@@ -533,7 +533,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockField).isTransient();
             ignoring (mockField).isSynthetic();
             ignoring (mockField).getAttributes();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
             ignoring (mockField).getDescriptor();
         }});
 
@@ -542,23 +542,23 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitField_info_private() throws Exception {
+    public void testVisitField_info_private() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            one (mockField).getFullName();
+            oneOf (mockField).getFullName();
             will(returnValue(FIELD_NAME));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
             allowing (mockField).getAccessFlag();
             ignoring (mockField).isPublic();
             allowing (mockField).isPrivate();
             will(returnValue(true));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PRIVATE_ATTRIBUTES, FIELD_NAME);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PRIVATE_ATTRIBUTES, FIELD_NAME);
             ignoring (mockField).isProtected();
             ignoring (mockField).isPackage();
             ignoring (mockField).isStatic();
@@ -567,7 +567,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockField).isTransient();
             ignoring (mockField).isSynthetic();
             ignoring (mockField).getAttributes();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
             ignoring (mockField).getDescriptor();
         }});
 
@@ -576,16 +576,16 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitField_info_protected() throws Exception {
+    public void testVisitField_info_protected() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            one (mockField).getFullName();
+            oneOf (mockField).getFullName();
             will(returnValue(FIELD_NAME));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
             allowing (mockField).getAccessFlag();
@@ -593,7 +593,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockField).isPrivate();
             allowing (mockField).isProtected();
             will(returnValue(true));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PROTECTED_ATTRIBUTES, FIELD_NAME);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PROTECTED_ATTRIBUTES, FIELD_NAME);
             ignoring (mockField).isPackage();
             ignoring (mockField).isStatic();
             ignoring (mockField).isFinal();
@@ -601,7 +601,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockField).isTransient();
             ignoring (mockField).isSynthetic();
             ignoring (mockField).getAttributes();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
             ignoring (mockField).getDescriptor();
         }});
 
@@ -610,16 +610,16 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitField_info_package() throws Exception {
+    public void testVisitField_info_package() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            one (mockField).getFullName();
+            oneOf (mockField).getFullName();
             will(returnValue(FIELD_NAME));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
             allowing (mockField).getAccessFlag();
@@ -628,14 +628,14 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockField).isProtected();
             allowing (mockField).isPackage();
             will(returnValue(true));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES, FIELD_NAME);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES, FIELD_NAME);
             ignoring (mockField).isStatic();
             ignoring (mockField).isFinal();
             ignoring (mockField).isVolatile();
             ignoring (mockField).isTransient();
             ignoring (mockField).isSynthetic();
             ignoring (mockField).getAttributes();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
             ignoring (mockField).getDescriptor();
         }});
 
@@ -644,16 +644,16 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitField_info_static() throws Exception {
+    public void testVisitField_info_static() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            one (mockField).getFullName();
+            oneOf (mockField).getFullName();
             will(returnValue(FIELD_NAME));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
             allowing (mockField).getAccessFlag();
@@ -664,13 +664,13 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES, FIELD_NAME);
             allowing (mockField).isStatic();
             will(returnValue(true));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.STATIC_ATTRIBUTES, FIELD_NAME);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.STATIC_ATTRIBUTES, FIELD_NAME);
             ignoring (mockField).isFinal();
             ignoring (mockField).isVolatile();
             ignoring (mockField).isTransient();
             ignoring (mockField).isSynthetic();
             ignoring (mockField).getAttributes();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
             ignoring (mockField).getDescriptor();
         }});
 
@@ -679,16 +679,16 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitField_info_final() throws Exception {
+    public void testVisitField_info_final() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            one (mockField).getFullName();
+            oneOf (mockField).getFullName();
             will(returnValue(FIELD_NAME));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
             allowing (mockField).getAccessFlag();
@@ -700,12 +700,12 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockField).isStatic();
             allowing (mockField).isFinal();
             will(returnValue(true));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.FINAL_ATTRIBUTES, FIELD_NAME);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.FINAL_ATTRIBUTES, FIELD_NAME);
             ignoring (mockField).isVolatile();
             ignoring (mockField).isTransient();
             ignoring (mockField).isSynthetic();
             ignoring (mockField).getAttributes();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
             ignoring (mockField).getDescriptor();
         }});
 
@@ -714,16 +714,16 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitField_info_volatile() throws Exception {
+    public void testVisitField_info_volatile() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            one (mockField).getFullName();
+            oneOf (mockField).getFullName();
             will(returnValue(FIELD_NAME));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
             allowing (mockField).getAccessFlag();
@@ -736,11 +736,11 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockField).isFinal();
             allowing (mockField).isVolatile();
             will(returnValue(true));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.VOLATILE_ATTRIBUTES, FIELD_NAME);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.VOLATILE_ATTRIBUTES, FIELD_NAME);
             ignoring (mockField).isTransient();
             ignoring (mockField).isSynthetic();
             ignoring (mockField).getAttributes();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
             ignoring (mockField).getDescriptor();
         }});
 
@@ -749,16 +749,16 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitField_info_transient() throws Exception {
+    public void testVisitField_info_transient() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            one (mockField).getFullName();
+            oneOf (mockField).getFullName();
             will(returnValue(FIELD_NAME));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
             allowing (mockField).getAccessFlag();
@@ -772,10 +772,10 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockField).isVolatile();
             allowing (mockField).isTransient();
             will(returnValue(true));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.TRANSIENT_ATTRIBUTES, FIELD_NAME);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.TRANSIENT_ATTRIBUTES, FIELD_NAME);
             ignoring (mockField).isSynthetic();
             ignoring (mockField).getAttributes();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
             ignoring (mockField).getDescriptor();
         }});
 
@@ -784,7 +784,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitField_info_synthetic() throws Exception {
+    public void testVisitField_info_synthetic() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -799,9 +799,9 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            one (mockField).getFullName();
+            oneOf (mockField).getFullName();
             will(returnValue(FIELD_NAME));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
             allowing (mockField).getAccessFlag();
@@ -817,9 +817,9 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockField).isSynthetic();
             will(returnValue(true));
             never (mockMetrics).addToMeasurement(with(equal(BasicMeasurements.SYNTHETIC_ATTRIBUTES)), with(any(String.class)));
-            one (mockField).getAttributes();
+            oneOf (mockField).getAttributes();
             will(returnValue(attributes));
-            one (mockSyntheticAttribute).accept(sut);
+            oneOf (mockSyntheticAttribute).accept(sut);
             never (mockMetrics).addToMeasurement(with(equal(BasicMeasurements.CLASS_SLOC)), with(any(Number.class)));
             ignoring (mockField).getDescriptor();
         }});
@@ -828,7 +828,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitMethod_info_public() throws Exception {
+    public void testVisitMethod_info_public() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -838,14 +838,14 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
-            one (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
+            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
             will(returnValue(mockMetrics));
-            one (mockFactory).includeMethodMetrics(mockMetrics);
+            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
             allowing (mockMethod).getAccessFlag();
             allowing (mockMethod).isPublic();
             will(returnValue(true));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PUBLIC_METHODS, METHOD_SIGNATURE);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PUBLIC_METHODS, METHOD_SIGNATURE);
             ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isProtected();
             ignoring (mockMethod).isPackage();
@@ -857,9 +857,9 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockMethod).isSynthetic();
             allowing (mockMethod).getDescriptor();
             will(returnValue("()V"));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -867,7 +867,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_private() throws Exception {
+    public void testVisitMethod_info_private() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -877,15 +877,15 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
-            one (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
+            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
             will(returnValue(mockMetrics));
-            one (mockFactory).includeMethodMetrics(mockMetrics);
+            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
             allowing (mockMethod).getAccessFlag();
             ignoring (mockMethod).isPublic();
             allowing (mockMethod).isPrivate();
             will(returnValue(true));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PRIVATE_METHODS, METHOD_SIGNATURE);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PRIVATE_METHODS, METHOD_SIGNATURE);
             ignoring (mockMethod).isProtected();
             ignoring (mockMethod).isPackage();
             ignoring (mockMethod).isStatic();
@@ -896,9 +896,9 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockMethod).isSynthetic();
             allowing (mockMethod).getDescriptor();
             will(returnValue("()V"));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -906,7 +906,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_protected() throws Exception {
+    public void testVisitMethod_info_protected() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -916,16 +916,16 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
-            one (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
+            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
             will(returnValue(mockMetrics));
-            one (mockFactory).includeMethodMetrics(mockMetrics);
+            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
             allowing (mockMethod).getAccessFlag();
             ignoring (mockMethod).isPublic();
             ignoring (mockMethod).isPrivate();
             allowing (mockMethod).isProtected();
             will(returnValue(true));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PROTECTED_METHODS, METHOD_SIGNATURE);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PROTECTED_METHODS, METHOD_SIGNATURE);
             ignoring (mockMethod).isPackage();
             ignoring (mockMethod).isStatic();
             ignoring (mockMethod).isFinal();
@@ -935,9 +935,9 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockMethod).isSynthetic();
             allowing (mockMethod).getDescriptor();
             will(returnValue("()V"));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -945,7 +945,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_package() throws Exception {
+    public void testVisitMethod_info_package() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -955,9 +955,9 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
-            one (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
+            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
             will(returnValue(mockMetrics));
-            one (mockFactory).includeMethodMetrics(mockMetrics);
+            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
             allowing (mockMethod).getAccessFlag();
             ignoring (mockMethod).isPublic();
@@ -965,7 +965,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockMethod).isProtected();
             allowing (mockMethod).isPackage();
             will(returnValue(true));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
             ignoring (mockMethod).isStatic();
             ignoring (mockMethod).isFinal();
             ignoring (mockMethod).isSynchronized();
@@ -974,9 +974,9 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockMethod).isSynthetic();
             allowing (mockMethod).getDescriptor();
             will(returnValue("()V"));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -984,7 +984,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_static() throws Exception {
+    public void testVisitMethod_info_static() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -994,19 +994,19 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
-            one (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
+            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
             will(returnValue(mockMetrics));
-            one (mockFactory).includeMethodMetrics(mockMetrics);
+            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
             allowing (mockMethod).getAccessFlag();
             ignoring (mockMethod).isPublic();
             ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isProtected();
             ignoring (mockMethod).isPackage();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
             allowing (mockMethod).isStatic();
             will(returnValue(true));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.STATIC_METHODS, METHOD_SIGNATURE);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.STATIC_METHODS, METHOD_SIGNATURE);
             ignoring (mockMethod).isFinal();
             ignoring (mockMethod).isSynchronized();
             ignoring (mockMethod).isNative();
@@ -1014,9 +1014,9 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockMethod).isSynthetic();
             allowing (mockMethod).getDescriptor();
             will(returnValue("()V"));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1024,7 +1024,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_final() throws Exception {
+    public void testVisitMethod_info_final() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1034,29 +1034,29 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
-            one (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
+            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
             will(returnValue(mockMetrics));
-            one (mockFactory).includeMethodMetrics(mockMetrics);
+            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
             allowing (mockMethod).getAccessFlag();
             ignoring (mockMethod).isPublic();
             ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isProtected();
             ignoring (mockMethod).isPackage();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
             ignoring (mockMethod).isStatic();
             allowing (mockMethod).isFinal();
             will(returnValue(true));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.FINAL_METHODS, METHOD_SIGNATURE);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.FINAL_METHODS, METHOD_SIGNATURE);
             ignoring (mockMethod).isSynchronized();
             ignoring (mockMethod).isNative();
             ignoring (mockMethod).isAbstract();
             ignoring (mockMethod).isSynthetic();
             allowing (mockMethod).getDescriptor();
             will(returnValue("()V"));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1064,7 +1064,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_synchronized() throws Exception {
+    public void testVisitMethod_info_synchronized() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1074,29 +1074,29 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
-            one (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
+            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
             will(returnValue(mockMetrics));
-            one (mockFactory).includeMethodMetrics(mockMetrics);
+            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
             allowing (mockMethod).getAccessFlag();
             ignoring (mockMethod).isPublic();
             ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isProtected();
             ignoring (mockMethod).isPackage();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
             ignoring (mockMethod).isStatic();
             ignoring (mockMethod).isFinal();
             allowing (mockMethod).isSynchronized();
             will(returnValue(true));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.SYNCHRONIZED_METHODS, METHOD_SIGNATURE);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SYNCHRONIZED_METHODS, METHOD_SIGNATURE);
             ignoring (mockMethod).isNative();
             ignoring (mockMethod).isAbstract();
             ignoring (mockMethod).isSynthetic();
             allowing (mockMethod).getDescriptor();
             will(returnValue("()V"));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1104,7 +1104,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_native() throws Exception {
+    public void testVisitMethod_info_native() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1114,29 +1114,29 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
-            one (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
+            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
             will(returnValue(mockMetrics));
-            one (mockFactory).includeMethodMetrics(mockMetrics);
+            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
             allowing (mockMethod).getAccessFlag();
             ignoring (mockMethod).isPublic();
             ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isProtected();
             ignoring (mockMethod).isPackage();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
             ignoring (mockMethod).isStatic();
             ignoring (mockMethod).isFinal();
             ignoring (mockMethod).isSynchronized();
             allowing (mockMethod).isNative();
             will(returnValue(true));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.NATIVE_METHODS, METHOD_SIGNATURE);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.NATIVE_METHODS, METHOD_SIGNATURE);
             ignoring (mockMethod).isAbstract();
             ignoring (mockMethod).isSynthetic();
             allowing (mockMethod).getDescriptor();
             will(returnValue("()V"));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1144,7 +1144,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_abstract() throws Exception {
+    public void testVisitMethod_info_abstract() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1154,29 +1154,29 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
-            one (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
+            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
             will(returnValue(mockMetrics));
-            one (mockFactory).includeMethodMetrics(mockMetrics);
+            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
             allowing (mockMethod).getAccessFlag();
             ignoring (mockMethod).isPublic();
             ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isProtected();
             ignoring (mockMethod).isPackage();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
             ignoring (mockMethod).isStatic();
             ignoring (mockMethod).isFinal();
             ignoring (mockMethod).isSynchronized();
             ignoring (mockMethod).isNative();
             allowing (mockMethod).isAbstract();
             will(returnValue(true));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_METHODS, METHOD_SIGNATURE);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_METHODS, METHOD_SIGNATURE);
             ignoring (mockMethod).isSynthetic();
             allowing (mockMethod).getDescriptor();
             will(returnValue("()V"));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 1);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 1);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1184,7 +1184,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_synthetic() throws Exception {
+    public void testVisitMethod_info_synthetic() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1194,16 +1194,16 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
-            one (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
+            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
             will(returnValue(mockMetrics));
-            one (mockFactory).includeMethodMetrics(mockMetrics);
+            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
             allowing (mockMethod).getAccessFlag();
             ignoring (mockMethod).isPublic();
             ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isProtected();
             ignoring (mockMethod).isPackage();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
             ignoring (mockMethod).isStatic();
             ignoring (mockMethod).isFinal();
             ignoring (mockMethod).isSynchronized();
@@ -1214,7 +1214,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             never (mockMetrics).addToMeasurement(with(equal(BasicMeasurements.SYNTHETIC_METHODS)), with(any(String.class)));
             allowing (mockMethod).getDescriptor();
             will(returnValue("()V"));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
             never (mockMetrics).addToMeasurement(with(equal(BasicMeasurements.SLOC)), with(any(Number.class)));
         }});
@@ -1224,7 +1224,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_parameters() throws Exception {
+    public void testVisitMethod_info_parameters() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1234,16 +1234,16 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
-            one (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
+            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
             will(returnValue(mockMetrics));
-            one (mockFactory).includeMethodMetrics(mockMetrics);
+            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
             allowing (mockMethod).getAccessFlag();
             ignoring (mockMethod).isPublic();
             ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isProtected();
             ignoring (mockMethod).isPackage();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
             ignoring (mockMethod).isStatic();
             ignoring (mockMethod).isFinal();
             ignoring (mockMethod).isSynchronized();
@@ -1255,9 +1255,9 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockFactory).createClassMetrics("java.lang.Object");
             ignoring (mockMetrics).getParent();
             ignoring (mockMetrics).addToMeasurement(with(equal(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES)), with(any(String.class)));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 2);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 2);
             ignoring (mockMethod).getAttributes();
-            one (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1265,14 +1265,14 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testIsInnerClassOfCurrentClass_NamedInnerClass_OfCurrentClass() throws Exception {
+    public void testIsInnerClassOfCurrentClass_NamedInnerClass_OfCurrentClass() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            one (mockMetrics).getName();
+            oneOf (mockMetrics).getName();
                 will(returnValue(CLASS_NAME));
             exactly(2).of (mockInnerClass).getOuterClassInfo();
                 will(returnValue(CLASS_NAME));
@@ -1283,7 +1283,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         assertEquals("return value", true, sut.isInnerClassOfCurrentClass(mockInnerClass));
     }
 
-    public void testIsInnerClassOfCurrentClass_NamedInnerClass_OfOtherClass() throws Exception {
+    public void testIsInnerClassOfCurrentClass_NamedInnerClass_OfOtherClass() {
         final String otherClassName = "otherpackage.OtherClass";
 
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
@@ -1292,7 +1292,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            one (mockMetrics).getName();
+            oneOf (mockMetrics).getName();
                 will(returnValue(CLASS_NAME));
             exactly(2).of (mockInnerClass).getOuterClassInfo();
                 will(returnValue(otherClassName));
@@ -1303,18 +1303,18 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         assertEquals("return value", false, sut.isInnerClassOfCurrentClass(mockInnerClass));
     }
 
-    public void testIsInnerClassOfCurrentClass_AnonymousInnerClass_OfCurrentClass() throws Exception {
+    public void testIsInnerClassOfCurrentClass_AnonymousInnerClass_OfCurrentClass() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockMetrics = mock(Metrics.class);
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            one (mockMetrics).getName();
+            oneOf (mockMetrics).getName();
                 will(returnValue(CLASS_NAME));
-            one (mockInnerClass).getOuterClassInfo();
+            oneOf (mockInnerClass).getOuterClassInfo();
                 will(returnValue(""));
-            one (mockInnerClass).getInnerClassInfo();
+            oneOf (mockInnerClass).getInnerClassInfo();
                 will(returnValue(ANONYMOUS_INNER_CLASS_NAME));
         }});
 
@@ -1323,7 +1323,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         assertEquals("return value", true, sut.isInnerClassOfCurrentClass(mockInnerClass));
     }
 
-    public void testIsInnerClassOfCurrentClass_AnonymousInnerClass_OfOtherClass() throws Exception {
+    public void testIsInnerClassOfCurrentClass_AnonymousInnerClass_OfOtherClass() {
         final String otherInnerClassName = "otherpackage.OtherClass$1";
 
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
@@ -1332,11 +1332,11 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            one (mockMetrics).getName();
+            oneOf (mockMetrics).getName();
                 will(returnValue(CLASS_NAME));
-            one (mockInnerClass).getOuterClassInfo();
+            oneOf (mockInnerClass).getOuterClassInfo();
                 will(returnValue(""));
-            one (mockInnerClass).getInnerClassInfo();
+            oneOf (mockInnerClass).getInnerClassInfo();
                 will(returnValue(otherInnerClassName));
         }});
 
@@ -1345,7 +1345,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         assertEquals("return value", false, sut.isInnerClassOfCurrentClass(mockInnerClass));
     }
 
-    public void testVisitInnerClass_public() throws Exception {
+    public void testVisitInnerClass_public() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
@@ -1355,20 +1355,20 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
                 will(returnValue(mockProjectMetrics));
-            one (mockClassMetrics).getName();
+            oneOf (mockClassMetrics).getName();
                 will(returnValue(CLASS_NAME));
             exactly(2).of (mockInnerClass).getOuterClassInfo();
                 will(returnValue(CLASS_NAME));
             allowing (mockInnerClass).getInnerClassInfo();
                 will(returnValue(INNER_CLASS_NAME));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
             allowing (mockInnerClass).isPublic();
                 will(returnValue(true));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES, INNER_CLASS_NAME);
             ignoring (mockInnerClass).isPrivate();
             ignoring (mockInnerClass).isProtected();
             ignoring (mockInnerClass).isPackage();
@@ -1383,7 +1383,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitInnerClass(mockInnerClass);
     }
 
-    public void testVisitInnerClass_private() throws Exception {
+    public void testVisitInnerClass_private() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
@@ -1393,21 +1393,21 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
                 will(returnValue(mockProjectMetrics));
-            one (mockClassMetrics).getName();
+            oneOf (mockClassMetrics).getName();
                 will(returnValue(CLASS_NAME));
             exactly(2).of (mockInnerClass).getOuterClassInfo();
                 will(returnValue(CLASS_NAME));
             allowing (mockInnerClass).getInnerClassInfo();
                 will(returnValue(INNER_CLASS_NAME));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
             ignoring (mockInnerClass).isPublic();
             allowing (mockInnerClass).isPrivate();
                 will(returnValue(true));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES, INNER_CLASS_NAME);
             ignoring (mockInnerClass).isProtected();
             ignoring (mockInnerClass).isPackage();
             ignoring (mockInnerClass).isStatic();
@@ -1421,7 +1421,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitInnerClass(mockInnerClass);
     }
 
-    public void testVisitInnerClass_protected() throws Exception {
+    public void testVisitInnerClass_protected() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
@@ -1431,22 +1431,22 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
                 will(returnValue(mockProjectMetrics));
-            one (mockClassMetrics).getName();
+            oneOf (mockClassMetrics).getName();
                 will(returnValue(CLASS_NAME));
             exactly(2).of (mockInnerClass).getOuterClassInfo();
                 will(returnValue(CLASS_NAME));
             allowing (mockInnerClass).getInnerClassInfo();
                 will(returnValue(INNER_CLASS_NAME));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
             ignoring (mockInnerClass).isPublic();
             ignoring (mockInnerClass).isPrivate();
             allowing (mockInnerClass).isProtected();
                 will(returnValue(true));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PROTECTED_INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.PROTECTED_INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.PROTECTED_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PROTECTED_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.PROTECTED_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.PROTECTED_INNER_CLASSES, INNER_CLASS_NAME);
             ignoring (mockInnerClass).isPackage();
             ignoring (mockInnerClass).isStatic();
             ignoring (mockInnerClass).isFinal();
@@ -1459,7 +1459,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitInnerClass(mockInnerClass);
     }
 
-    public void testVisitInnerClass_package() throws Exception {
+    public void testVisitInnerClass_package() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
@@ -1469,23 +1469,23 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
                 will(returnValue(mockProjectMetrics));
-            one (mockClassMetrics).getName();
+            oneOf (mockClassMetrics).getName();
                 will(returnValue(CLASS_NAME));
             exactly(2).of (mockInnerClass).getOuterClassInfo();
                 will(returnValue(CLASS_NAME));
             allowing (mockInnerClass).getInnerClassInfo();
                 will(returnValue(INNER_CLASS_NAME));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
             ignoring (mockInnerClass).isPublic();
             ignoring (mockInnerClass).isPrivate();
             ignoring (mockInnerClass).isProtected();
             allowing (mockInnerClass).isPackage();
                 will(returnValue(true));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
             ignoring (mockInnerClass).isStatic();
             ignoring (mockInnerClass).isFinal();
             ignoring (mockInnerClass).isAbstract();
@@ -1497,7 +1497,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitInnerClass(mockInnerClass);
     }
 
-    public void testVisitInnerClass_static() throws Exception {
+    public void testVisitInnerClass_static() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
@@ -1507,27 +1507,27 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
                 will(returnValue(mockProjectMetrics));
-            one (mockClassMetrics).getName();
+            oneOf (mockClassMetrics).getName();
                 will(returnValue(CLASS_NAME));
             exactly(2).of (mockInnerClass).getOuterClassInfo();
                 will(returnValue(CLASS_NAME));
             allowing (mockInnerClass).getInnerClassInfo();
                 will(returnValue(INNER_CLASS_NAME));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
             ignoring (mockInnerClass).isPublic();
             ignoring (mockInnerClass).isPrivate();
             ignoring (mockInnerClass).isProtected();
             ignoring (mockInnerClass).isPackage();
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
             allowing (mockInnerClass).isStatic();
                 will(returnValue(true));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.STATIC_INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.STATIC_INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.STATIC_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.STATIC_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.STATIC_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.STATIC_INNER_CLASSES, INNER_CLASS_NAME);
             ignoring (mockInnerClass).isFinal();
             ignoring (mockInnerClass).isAbstract();
         }});
@@ -1538,7 +1538,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitInnerClass(mockInnerClass);
     }
 
-    public void testVisitInnerClass_final() throws Exception {
+    public void testVisitInnerClass_final() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
@@ -1548,28 +1548,28 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
                 will(returnValue(mockProjectMetrics));
-            one (mockClassMetrics).getName();
+            oneOf (mockClassMetrics).getName();
                 will(returnValue(CLASS_NAME));
             exactly(2).of (mockInnerClass).getOuterClassInfo();
                 will(returnValue(CLASS_NAME));
             allowing (mockInnerClass).getInnerClassInfo();
                 will(returnValue(INNER_CLASS_NAME));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
             ignoring (mockInnerClass).isPublic();
             ignoring (mockInnerClass).isPrivate();
             ignoring (mockInnerClass).isProtected();
             ignoring (mockInnerClass).isPackage();
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
             ignoring (mockInnerClass).isStatic();
             allowing (mockInnerClass).isFinal();
                 will(returnValue(true));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES, INNER_CLASS_NAME);
             ignoring (mockInnerClass).isAbstract();
         }});
 
@@ -1579,7 +1579,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitInnerClass(mockInnerClass);
     }
 
-    public void testVisitInnerClass_abstract() throws Exception {
+    public void testVisitInnerClass_abstract() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
@@ -1589,29 +1589,29 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
                 will(returnValue(mockProjectMetrics));
-            one (mockClassMetrics).getName();
+            oneOf (mockClassMetrics).getName();
                 will(returnValue(CLASS_NAME));
             exactly(2).of (mockInnerClass).getOuterClassInfo();
                 will(returnValue(CLASS_NAME));
             allowing (mockInnerClass).getInnerClassInfo();
                 will(returnValue(INNER_CLASS_NAME));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
             ignoring (mockInnerClass).isPublic();
             ignoring (mockInnerClass).isPrivate();
             ignoring (mockInnerClass).isProtected();
             ignoring (mockInnerClass).isPackage();
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
             ignoring (mockInnerClass).isStatic();
             ignoring (mockInnerClass).isFinal();
             allowing (mockInnerClass).isAbstract();
                 will(returnValue(true));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, INNER_CLASS_NAME);
-            one (mockClassMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, INNER_CLASS_NAME);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1620,14 +1620,14 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitInnerClass(mockInnerClass);
     }
 
-    public void testVisitSynthetic_attribute_class() throws Exception {
+    public void testVisitSynthetic_attribute_class() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Classfile mockClassfile = mock(Classfile.class);
         final Synthetic_attribute mockSyntheticAttribute = mock(Synthetic_attribute.class);
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            one (mockSyntheticAttribute).getOwner();
+            oneOf (mockSyntheticAttribute).getOwner();
             will(returnValue(mockClassfile));
         }});
 
@@ -1635,7 +1635,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitSynthetic_attribute(mockSyntheticAttribute);
     }
 
-    public void testVisitSynthetic_attribute_field() throws Exception {
+    public void testVisitSynthetic_attribute_field() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Synthetic_attribute mockSyntheticAttribute = mock(Synthetic_attribute.class);
@@ -1643,11 +1643,11 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            one (mockSyntheticAttribute).getOwner();
+            oneOf (mockSyntheticAttribute).getOwner();
             will(returnValue(mockField));
-            one (mockField).getFullName();
+            oneOf (mockField).getFullName();
             will(returnValue(FIELD_NAME));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.SYNTHETIC_ATTRIBUTES, FIELD_NAME);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SYNTHETIC_ATTRIBUTES, FIELD_NAME);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1655,7 +1655,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitSynthetic_attribute(mockSyntheticAttribute);
     }
 
-    public void testVisitSynthetic_attribute_method() throws Exception {
+    public void testVisitSynthetic_attribute_method() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Synthetic_attribute mockSyntheticAttribute = mock(Synthetic_attribute.class);
@@ -1663,11 +1663,11 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            one (mockSyntheticAttribute).getOwner();
+            oneOf (mockSyntheticAttribute).getOwner();
             will(returnValue(mockMethod));
-            one (mockMethod).getFullSignature();
+            oneOf (mockMethod).getFullSignature();
             will(returnValue(METHOD_SIGNATURE));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.SYNTHETIC_METHODS, METHOD_SIGNATURE);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SYNTHETIC_METHODS, METHOD_SIGNATURE);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1675,14 +1675,14 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitSynthetic_attribute(mockSyntheticAttribute);
     }
 
-    public void testVisitSynthetic_attribute_other() throws Exception {
+    public void testVisitSynthetic_attribute_other() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Synthetic_attribute mockSyntheticAttribute = mock(Synthetic_attribute.class);
         final Visitable mockOwner = mock(Visitable.class);
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            one (mockSyntheticAttribute).getOwner();
+            oneOf (mockSyntheticAttribute).getOwner();
             will(returnValue(mockOwner));
         }});
 
@@ -1690,7 +1690,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitSynthetic_attribute(mockSyntheticAttribute);
     }
 
-    public void testVisitDeprecated_attribute_class() throws Exception {
+    public void testVisitDeprecated_attribute_class() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Classfile mockClassfile = mock(Classfile.class);
         final Deprecated_attribute mockDeprecatedAttribute = mock(Deprecated_attribute.class);
@@ -1699,12 +1699,12 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            one (mockDeprecatedAttribute).getOwner();
+            oneOf (mockDeprecatedAttribute).getOwner();
             will(returnValue(mockClassfile));
-            one (mockClassfile).getClassName();
+            oneOf (mockClassfile).getClassName();
             will(returnValue(CLASS_NAME));
-            one (mockProjectMetrics).addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, CLASS_NAME);
-            one (mockGroupMetrics).addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, CLASS_NAME);
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, CLASS_NAME);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1713,7 +1713,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitDeprecated_attribute(mockDeprecatedAttribute);
     }
 
-    public void testVisitDeprecated_attribute_field() throws Exception {
+    public void testVisitDeprecated_attribute_field() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Deprecated_attribute mockDeprecatedAttribute = mock(Deprecated_attribute.class);
@@ -1721,11 +1721,11 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            one (mockDeprecatedAttribute).getOwner();
+            oneOf (mockDeprecatedAttribute).getOwner();
             will(returnValue(mockField));
-            one (mockField).getFullName();
+            oneOf (mockField).getFullName();
             will(returnValue(FIELD_NAME));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.DEPRECATED_ATTRIBUTES, FIELD_NAME);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.DEPRECATED_ATTRIBUTES, FIELD_NAME);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1733,7 +1733,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitDeprecated_attribute(mockDeprecatedAttribute);
     }
 
-    public void testVisitDeprecated_attribute_method() throws Exception {
+    public void testVisitDeprecated_attribute_method() {
         final String methodSignature = METHOD_SIGNATURE;
 
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
@@ -1743,11 +1743,11 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            one (mockDeprecatedAttribute).getOwner();
+            oneOf (mockDeprecatedAttribute).getOwner();
             will(returnValue(mockMethod));
-            one (mockMethod).getFullSignature();
+            oneOf (mockMethod).getFullSignature();
             will(returnValue(methodSignature));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.DEPRECATED_METHODS, methodSignature);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.DEPRECATED_METHODS, methodSignature);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1755,14 +1755,14 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitDeprecated_attribute(mockDeprecatedAttribute);
     }
 
-    public void testVisitDeprecated_attribute_other() throws Exception {
+    public void testVisitDeprecated_attribute_other() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Deprecated_attribute mockDeprecatedAttribute = mock(Deprecated_attribute.class);
         final Visitable mockOwner = mock(Visitable.class);
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            one (mockDeprecatedAttribute).getOwner();
+            oneOf (mockDeprecatedAttribute).getOwner();
             will(returnValue(mockOwner));
         }});
 
@@ -1770,7 +1770,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitDeprecated_attribute(mockDeprecatedAttribute);
     }
 
-    public void testVisitLocalVariable() throws Exception {
+    public void testVisitLocalVariable() {
         final String localVariableName = "localVariableName";
 
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
@@ -1779,10 +1779,10 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            one (mockLocalVariable).getName();
+            oneOf (mockLocalVariable).getName();
             will(returnValue(localVariableName));
-            one (mockMetrics).addToMeasurement(BasicMeasurements.LOCAL_VARIABLES, localVariableName);
-            one (mockLocalVariable).getDescriptor();
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.LOCAL_VARIABLES, localVariableName);
+            oneOf (mockLocalVariable).getDescriptor();
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);

@@ -32,12 +32,15 @@
 
 package com.jeantessier.metrics;
 
-import java.io.*;
-import java.util.*;
+import com.jeantessier.classreader.AggregatingClassfileLoader;
+import com.jeantessier.classreader.ClassfileLoader;
+import junit.framework.TestCase;
 
-import junit.framework.*;
-
-import com.jeantessier.classreader.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
 
 public class TestMetricsGathererEvents extends TestCase implements MetricsListener {
     public static final String TEST_CLASS = "test";
@@ -64,12 +67,12 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
         gatherer = new MetricsGatherer(factory);
         gatherer.addMetricsListener(this);
 
-        beginSessionEvents = new LinkedList<MetricsEvent>();
-        beginClassEvents = new LinkedList<MetricsEvent>();
-        beginMethodEvents = new LinkedList<MetricsEvent>();
-        endMethodEvents = new LinkedList<MetricsEvent>();
-        endClassEvents = new LinkedList<MetricsEvent>();
-        endSessionEvents = new LinkedList<MetricsEvent>();
+        beginSessionEvents = new LinkedList<>();
+        beginClassEvents = new LinkedList<>();
+        beginMethodEvents = new LinkedList<>();
+        endMethodEvents = new LinkedList<>();
+        endClassEvents = new LinkedList<>();
+        endSessionEvents = new LinkedList<>();
     }
     
     public void testEvents() {
@@ -89,7 +92,7 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
     }
     
     public void testMultipleEvents() {
-        Collection<String> dirs = new ArrayList<String>();
+        Collection<String> dirs = new ArrayList<>();
         dirs.add(TEST_DIRNAME);
         dirs.add(OTHER_DIRNAME);
         loader.load(dirs);
@@ -105,7 +108,7 @@ public class TestMetricsGathererEvents extends TestCase implements MetricsListen
     }
     
     public void testEventsWithNothing() {
-        loader.load(Collections.<String>emptySet());
+        loader.load(Collections.emptySet());
 
         gatherer.visitClassfiles(loader.getAllClassfiles());
 

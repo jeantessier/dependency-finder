@@ -32,7 +32,7 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
+import junit.framework.TestCase;
 
 public class TestCounterMeasurement extends TestCase implements MeasurementVisitor {
     private CounterMeasurement measurement;
@@ -112,13 +112,13 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
     }
     
     public void testAddNumber() {
-        measurement.add(new Integer(1));
+        measurement.add(Double.valueOf(1));
 
         assertEquals(1, measurement.getValue().intValue());
         assertEquals(1, measurement.getValue().doubleValue(), 0.01);
         assertEquals(1, measurement.getValue().intValue());
 
-        measurement.add(new Float(0.5));
+        measurement.add(Double.valueOf(0.5));
 
         assertEquals(1, measurement.getValue().intValue());
         assertEquals(1.5, measurement.getValue().doubleValue(), 0.01);
@@ -153,17 +153,17 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
     }
 
     public void testSubstract() {
-        measurement.add(new Integer(-1));
+        measurement.add(-1);
 
         assertEquals(-1, measurement.getValue().intValue());
         assertEquals(-1, measurement.getValue().doubleValue(), 0.01);
 
-        measurement.add(new Float(0.4));
+        measurement.add(0.4);
 
         assertEquals(0, measurement.getValue().intValue());
         assertEquals(-0.6, measurement.getValue().doubleValue(), 0.01);
 
-        measurement.add(new Float(0.1));
+        measurement.add(0.1);
 
         assertEquals(0, measurement.getValue().intValue());
         assertEquals(-0.5, measurement.getValue().doubleValue(), 0.01);
@@ -205,11 +205,11 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
         descriptor.setClassFor(CounterMeasurement.class);
-        descriptor.setLowerThreshold(new Integer(1));
+        descriptor.setLowerThreshold(1);
 
         measurement = (CounterMeasurement) descriptor.createMeasurement();
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
 
         measurement.add(1);
         
@@ -228,8 +228,8 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
         descriptor.setLowerThreshold("1");
 
         measurement = (CounterMeasurement) descriptor.createMeasurement();
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
 
         measurement.add(1);
         
@@ -245,7 +245,7 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
         descriptor.setClassFor(CounterMeasurement.class);
-        descriptor.setUpperThreshold(new Float(1.5));
+        descriptor.setUpperThreshold(1.5);
 
         measurement = (CounterMeasurement) descriptor.createMeasurement();
         
@@ -256,8 +256,8 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
         assertTrue(measurement.isInRange());
 
         measurement.add(2);
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
     }
 
     public void testInStringUpperBoundRange() throws Exception {
@@ -276,8 +276,8 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
         assertTrue(measurement.isInRange());
 
         measurement.add(2);
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
     }
 
     public void testInBoundRange() throws Exception {
@@ -285,20 +285,20 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
         descriptor.setClassFor(CounterMeasurement.class);
-        descriptor.setLowerThreshold(new Integer(1));
-        descriptor.setUpperThreshold(new Float(1.5));
+        descriptor.setLowerThreshold(1);
+        descriptor.setUpperThreshold(1.5);
 
         measurement = (CounterMeasurement) descriptor.createMeasurement();
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
 
         measurement.add(1);
         
         assertTrue(measurement.isInRange());
 
         measurement.add(2);
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
     }
 
     public void testInStringBoundRange() throws Exception {
@@ -310,16 +310,16 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
         descriptor.setUpperThreshold("1.5");
 
         measurement = (CounterMeasurement) descriptor.createMeasurement();
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
 
         measurement.add(1);
         
         assertTrue(measurement.isInRange());
 
         measurement.add(2);
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
     }
 
     public void testAccept() {
