@@ -32,9 +32,12 @@
 
 package com.jeantessier.metrics;
 
-import java.util.*;
+import org.apache.log4j.Logger;
 
-import org.apache.log4j.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
 
 /**
  *  <p>Accumulates a set of values.  Its numerical value is the
@@ -53,23 +56,23 @@ import org.apache.log4j.*;
  *  <p>Defaults to SET (i.e., does not count duplicates).</p>
  */
 public class NameListMeasurement extends MeasurementBase implements CollectionMeasurement {
-    private Collection<String> values;
+    private final Collection<String> values;
 
     public NameListMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
         super(descriptor, context, initText);
 
         if (initText != null) {
             if (initText.trim().equalsIgnoreCase("list")) {
-                values = new LinkedList<String>();
+                values = new LinkedList<>();
             } else if (initText.trim().equalsIgnoreCase("set")) {
-                values = new HashSet<String>();
+                values = new HashSet<>();
             } else {
                 Logger.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\", using default value of SET instead");
-                values = new HashSet<String>();
+                values = new HashSet<>();
             }
         } else {
             Logger.getLogger(getClass()).debug("Cannot initialize with null text, using default value of SET instead");
-            values = new HashSet<String>();
+            values = new HashSet<>();
         }
     }
 

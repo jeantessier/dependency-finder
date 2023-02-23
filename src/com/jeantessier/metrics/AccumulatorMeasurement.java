@@ -32,10 +32,17 @@
 
 package com.jeantessier.metrics;
 
-import java.io.*;
-import java.util.*;
+import org.apache.log4j.Logger;
 
-import org.apache.log4j.*;
+import java.io.BufferedReader;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeSet;
 
 /**
  *  <p>Base class that accumulates entries, filtering with regular
@@ -58,8 +65,8 @@ import org.apache.log4j.*;
  *  </pre>
  */
 public abstract class AccumulatorMeasurement extends MeasurementBase implements CollectionMeasurement {
-    private Map<String, Collection<String>> terms  = new HashMap<String, Collection<String>>();
-    private Collection<String> values = new TreeSet<String>();
+    private final Map<String, Collection<String>> terms = new HashMap<>();
+    private final Collection<String> values = new TreeSet<>();
 
     public AccumulatorMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
         super(descriptor, context, initText);
@@ -77,7 +84,7 @@ public abstract class AccumulatorMeasurement extends MeasurementBase implements 
 
                             Collection<String> res = terms.get(name);
                             if (res == null) {
-                                res = new ArrayList<String>();
+                                res = new ArrayList<>();
                                 terms.put(name, res);
                             }
 

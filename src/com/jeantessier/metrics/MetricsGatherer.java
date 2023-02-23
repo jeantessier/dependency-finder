@@ -32,12 +32,30 @@
 
 package com.jeantessier.metrics;
 
-import java.util.*;
+import com.jeantessier.classreader.Attribute_info;
+import com.jeantessier.classreader.ClassNameHelper;
+import com.jeantessier.classreader.Class_info;
+import com.jeantessier.classreader.Classfile;
+import com.jeantessier.classreader.Deprecated_attribute;
+import com.jeantessier.classreader.DescriptorHelper;
+import com.jeantessier.classreader.ExceptionHandler;
+import com.jeantessier.classreader.FieldRef_info;
+import com.jeantessier.classreader.Field_info;
+import com.jeantessier.classreader.InnerClass;
+import com.jeantessier.classreader.Instruction;
+import com.jeantessier.classreader.InterfaceMethodRef_info;
+import com.jeantessier.classreader.LineNumber;
+import com.jeantessier.classreader.LocalVariable;
+import com.jeantessier.classreader.MethodRef_info;
+import com.jeantessier.classreader.Method_info;
+import com.jeantessier.classreader.Synthetic_attribute;
+import com.jeantessier.classreader.VisitorBase;
+import org.apache.log4j.Logger;
+import org.apache.oro.text.perl.Perl5Util;
 
-import org.apache.log4j.*;
-import org.apache.oro.text.perl.*;
-
-import com.jeantessier.classreader.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedList;
 
 /**
  *  Collects metrics from Classfile instances.
@@ -135,6 +153,9 @@ public class MetricsGatherer extends VisitorBase {
         setCurrentProject(getCurrentGroup().getParent());
 
         getMetricsFactory().includeClassMetrics(getCurrentClass());
+
+        getCurrentClass().addToMeasurement(BasicMeasurements.MAJOR_VERSION, classfile.getMajorVersion());
+        getCurrentClass().addToMeasurement(BasicMeasurements.MINOR_VERSION, classfile.getMinorVersion());
 
         getCurrentProject().addToMeasurement(BasicMeasurements.PACKAGES, getCurrentGroup().getName());
 

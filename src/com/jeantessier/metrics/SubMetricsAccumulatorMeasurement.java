@@ -32,8 +32,6 @@
 
 package com.jeantessier.metrics;
 
-import java.util.*;
-
 /**
  *  <p>Accumulates entries in submetrics, filtering with regular
  *  expressions.  If no regular expressions are given, matches

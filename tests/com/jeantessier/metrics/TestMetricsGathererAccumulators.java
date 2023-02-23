@@ -89,6 +89,11 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(true));
             oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PUBLIC_CLASSES, CLASS_NAME);
             oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.PUBLIC_CLASSES, CLASS_NAME);
+
+            ignoring (mockClassfile).getMajorVersion();
+            ignoring (mockClassMetrics).addToMeasurement(BasicMeasurements.MAJOR_VERSION, 0);
+            ignoring (mockClassfile).getMinorVersion();
+            ignoring (mockClassMetrics).addToMeasurement(BasicMeasurements.MINOR_VERSION, 0);
             ignoring (mockClassfile).isPackage();
             ignoring (mockClassfile).isFinal();
             ignoring (mockClassfile).isSuper();
@@ -139,6 +144,10 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(PACKAGE_NAME));
             oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
 
+            ignoring (mockClassfile).getMajorVersion();
+            ignoring (mockClassMetrics).addToMeasurement(BasicMeasurements.MAJOR_VERSION, 0);
+            ignoring (mockClassfile).getMinorVersion();
+            ignoring (mockClassMetrics).addToMeasurement(BasicMeasurements.MINOR_VERSION, 0);
             ignoring (mockClassfile).isPublic();
             allowing (mockClassfile).isPackage();
             will(returnValue(true));
@@ -193,6 +202,10 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(PACKAGE_NAME));
             oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
 
+            ignoring (mockClassfile).getMajorVersion();
+            ignoring (mockClassMetrics).addToMeasurement(BasicMeasurements.MAJOR_VERSION, 0);
+            ignoring (mockClassfile).getMinorVersion();
+            ignoring (mockClassMetrics).addToMeasurement(BasicMeasurements.MINOR_VERSION, 0);
             ignoring (mockClassfile).isPublic();
             ignoring (mockClassfile).isPackage();
             ignoring (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);
@@ -249,6 +262,10 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(PACKAGE_NAME));
             oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
 
+            ignoring (mockClassfile).getMajorVersion();
+            ignoring (mockClassMetrics).addToMeasurement(BasicMeasurements.MAJOR_VERSION, 0);
+            ignoring (mockClassfile).getMinorVersion();
+            ignoring (mockClassMetrics).addToMeasurement(BasicMeasurements.MINOR_VERSION, 0);
             ignoring (mockClassfile).isPublic();
             ignoring (mockClassfile).isPackage();
             ignoring (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);
@@ -305,6 +322,10 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(PACKAGE_NAME));
             oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
 
+            ignoring (mockClassfile).getMajorVersion();
+            ignoring (mockClassMetrics).addToMeasurement(BasicMeasurements.MAJOR_VERSION, 0);
+            ignoring (mockClassfile).getMinorVersion();
+            ignoring (mockClassMetrics).addToMeasurement(BasicMeasurements.MINOR_VERSION, 0);
             ignoring (mockClassfile).isPublic();
             ignoring (mockClassfile).isPackage();
             ignoring (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);
@@ -361,6 +382,10 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(PACKAGE_NAME));
             oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
 
+            ignoring (mockClassfile).getMajorVersion();
+            ignoring (mockClassMetrics).addToMeasurement(BasicMeasurements.MAJOR_VERSION, 0);
+            ignoring (mockClassfile).getMinorVersion();
+            ignoring (mockClassMetrics).addToMeasurement(BasicMeasurements.MINOR_VERSION, 0);
             ignoring (mockClassfile).isPublic();
             ignoring (mockClassfile).isPackage();
             ignoring (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);
@@ -418,6 +443,10 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(PACKAGE_NAME));
             oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
 
+            ignoring (mockClassfile).getMajorVersion();
+            ignoring (mockClassMetrics).addToMeasurement(BasicMeasurements.MAJOR_VERSION, 0);
+            ignoring (mockClassfile).getMinorVersion();
+            ignoring (mockClassMetrics).addToMeasurement(BasicMeasurements.MINOR_VERSION, 0);
             ignoring (mockClassfile).isPublic();
             ignoring (mockClassfile).isPackage();
             ignoring (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);
@@ -477,6 +506,10 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(PACKAGE_NAME));
             oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
 
+            ignoring (mockClassfile).getMajorVersion();
+            ignoring (mockClassMetrics).addToMeasurement(BasicMeasurements.MAJOR_VERSION, 0);
+            ignoring (mockClassfile).getMinorVersion();
+            ignoring (mockClassMetrics).addToMeasurement(BasicMeasurements.MINOR_VERSION, 0);
             ignoring (mockClassfile).isPublic();
             ignoring (mockClassfile).isPackage();
             ignoring (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);

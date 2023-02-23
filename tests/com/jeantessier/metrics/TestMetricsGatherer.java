@@ -32,22 +32,31 @@
 
 package com.jeantessier.metrics;
 
-import java.io.*;
-import java.util.*;
-import javax.xml.parsers.*;
+import com.jeantessier.classreader.AggregatingClassfileLoader;
+import com.jeantessier.classreader.Classfile;
+import com.jeantessier.classreader.ClassfileLoader;
+import org.junit.Before;
+import org.junit.Test;
+import org.xml.sax.SAXException;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
-import org.junit.*;
-import org.xml.sax.*;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
 
-import com.jeantessier.classreader.*;
+import static org.hamcrest.Matchers.closeTo;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class TestMetricsGatherer {
     public static final String TEST_CLASS = "test";
     public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
 
     private MetricsFactory factory;
+    private Classfile classfile;
 
     @Before
     public void loadTestData() throws IOException, ParserConfigurationException, SAXException {
@@ -55,7 +64,9 @@ public class TestMetricsGatherer {
 
         ClassfileLoader loader = new AggregatingClassfileLoader();
         loader.load(Collections.singleton(TEST_FILENAME));
-        loader.getClassfile(TEST_CLASS).accept(new MetricsGatherer(factory));
+
+        classfile = loader.getClassfile(TEST_CLASS);
+        classfile.accept(new MetricsGatherer(factory));
     }
     
     @Test
@@ -113,6 +124,9 @@ public class TestMetricsGatherer {
     @Test
     public void test_test() {
         Metrics metrics = factory.createClassMetrics("test");
+
+        assertMeasurementEquals(metrics, BasicMeasurements.MAJOR_VERSION, classfile.getMajorVersion());
+        assertMeasurementEquals(metrics, BasicMeasurements.MINOR_VERSION, classfile.getMinorVersion());
 
         assertMeasurementEquals(metrics, BasicMeasurements.SLOC, 7);
         assertMeasurementEquals(metrics, "M", 2);

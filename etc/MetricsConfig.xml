@@ -331,6 +331,16 @@
     </group-measurements>
     <class-measurements>
         <measurement>
+            <short-name>MaV</short-name>
+            <long-name>Major Version</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>MiV</short-name>
+            <long-name>Minor Version</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
             <short-name>CNCC</short-name>
             <long-name>Character Count</long-name>
             <class>com.jeantessier.metrics.CounterMeasurement</class>

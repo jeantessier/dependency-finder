@@ -46,6 +46,8 @@ public enum BasicMeasurements {
     DEPRECATED_CLASSES("DC"),
     STATIC_CLASSES("SC"),
 
+    MAJOR_VERSION("MaV"),
+    MINOR_VERSION("MiV"),
     PUBLIC_METHODS("PuM"),
     PROTECTED_METHODS("ProM"),
     PRIVATE_METHODS("PriM"),
