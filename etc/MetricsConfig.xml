@@ -49,6 +49,15 @@
 <metrics-configuration>
     <project-measurements>
         <measurement>
+            <short-name>MaV</short-name>
+            <long-name>Major Version</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                MaV
+                DISPOSE_MAXIMUM
+            </init>
+        </measurement>
+        <measurement>
             <short-name>G</short-name>
             <long-name>Groups</long-name>
             <class>com.jeantessier.metrics.NbSubMetricsMeasurement</class>
@@ -160,6 +169,15 @@
         </measurement>
     </project-measurements>
     <group-measurements>
+        <measurement>
+            <short-name>MaV</short-name>
+            <long-name>Major Version</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                MaV
+                DISPOSE_MAXIMUM
+            </init>
+        </measurement>
         <measurement>
             <short-name>GNCC</short-name>
             <long-name>Character Count</long-name>
