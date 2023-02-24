@@ -80,8 +80,8 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 
     private static final double DELTA = 0.1;
 
-    private List<String> terms = new LinkedList<String>();
-    private int  value = 0;
+    private final List<String> terms = new LinkedList<>();
+    private int value = 0;
 
     public NbSubMetricsMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
         super(descriptor, context, initText);
@@ -159,7 +159,7 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 
         Logger.getLogger(getClass()).debug("EvaluateTerm(\"" + term + "\", " + metrics + ")");
         
-        List<String> elements = new ArrayList<String>();
+        List<String> elements = new ArrayList<>();
         perl().split(elements, OPERATORS_REGULAR_EXPRESSION, term);
 
         result = (elements.size() > 0) && ((elements.size() % 2) == 1);
@@ -195,19 +195,22 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
                 }
 
                 if (result) {
-                    if (operator.equals(LESSER_THAN)) {
-                        result = leftOperand < rightOperand;
-                    } else if (operator.equals(LESSER_THAN_OR_EQUAL)) {
-                        result = leftOperand <= rightOperand;
-                    } else if (operator.equals(GREATER_THAN)) {
-                        result = leftOperand > rightOperand;
-                    } else if (operator.equals(GREATER_THAN_OR_EQUAL)) {
-                        result = leftOperand >= rightOperand;
-                    } else if (operator.equals(EQUALS)) {
-                        result = Math.abs(leftOperand - rightOperand) <= DELTA;
-                    } else if (operator.equals(NOT_EQUALS)) {
-                        result = Math.abs(leftOperand - rightOperand) > DELTA;
-                    }
+                    result = switch (operator) {
+                        case LESSER_THAN ->
+                                leftOperand < rightOperand;
+                        case LESSER_THAN_OR_EQUAL ->
+                                leftOperand <= rightOperand;
+                        case GREATER_THAN ->
+                                leftOperand > rightOperand;
+                        case GREATER_THAN_OR_EQUAL ->
+                                leftOperand >= rightOperand;
+                        case EQUALS ->
+                                Math.abs(leftOperand - rightOperand) <= DELTA;
+                        case NOT_EQUALS ->
+                                Math.abs(leftOperand - rightOperand) > DELTA;
+                        default ->
+                                true;
+                    };
                 }
             }
         }
@@ -259,36 +262,25 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
             
             Measurement measurement = metrics.getMeasurement(name);
             
-            if (measurement instanceof StatisticalMeasurement) {
-                StatisticalMeasurement stats = (StatisticalMeasurement) measurement;
-                
-                switch (dispose) {
-                    case StatisticalMeasurement.DISPOSE_MINIMUM:
-                        result = stats.getMinimum();
-                        break;
-                    case StatisticalMeasurement.DISPOSE_MEDIAN:
-                        result = stats.getMedian();
-                        break;
-                    case StatisticalMeasurement.DISPOSE_AVERAGE:
-                        result = stats.getAverage();
-                        break;
-                    case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
-                        result = stats.getStandardDeviation();
-                        break;
-                    case StatisticalMeasurement.DISPOSE_MAXIMUM:
-                        result = stats.getMaximum();
-                        break;
-                    case StatisticalMeasurement.DISPOSE_SUM:
-                        result = stats.getSum();
-                        break;
-                    case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
-                        result = stats.getNbDataPoints();
-                        break;
-                    case StatisticalMeasurement.DISPOSE_IGNORE:
-                    default:
-                        result = stats.getValue().doubleValue();
-                        break;
-                }
+            if (measurement instanceof StatisticalMeasurement stats) {
+                result = switch (dispose) {
+                    case StatisticalMeasurement.DISPOSE_MINIMUM ->
+                            stats.getMinimum();
+                    case StatisticalMeasurement.DISPOSE_MEDIAN ->
+                            stats.getMedian();
+                    case StatisticalMeasurement.DISPOSE_AVERAGE ->
+                            stats.getAverage();
+                    case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION ->
+                            stats.getStandardDeviation();
+                    case StatisticalMeasurement.DISPOSE_MAXIMUM ->
+                            stats.getMaximum();
+                    case StatisticalMeasurement.DISPOSE_SUM ->
+                            stats.getSum();
+                    case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS ->
+                            stats.getNbDataPoints();
+                    default ->
+                            stats.getValue().doubleValue();
+                };
             } else if (measurement instanceof NullMeasurement) {
                 throw new NullPointerException();
             } else {
