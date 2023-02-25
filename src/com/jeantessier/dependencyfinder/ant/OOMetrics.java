@@ -32,15 +32,31 @@
 
 package com.jeantessier.dependencyfinder.ant;
 
-import java.io.*;
-import java.util.*;
-import javax.xml.parsers.*;
+import com.jeantessier.classreader.AggregatingClassfileLoader;
+import com.jeantessier.classreader.ClassfileLoader;
+import com.jeantessier.classreader.LoadListenerVisitorAdapter;
+import com.jeantessier.classreader.TransientClassfileLoader;
+import com.jeantessier.metrics.Metrics;
+import com.jeantessier.metrics.MetricsComparator;
+import com.jeantessier.metrics.MetricsConfigurationLoader;
+import com.jeantessier.metrics.MetricsFactory;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Task;
+import org.apache.tools.ant.types.Path;
+import org.xml.sax.SAXException;
 
-import com.jeantessier.classreader.*;
-import com.jeantessier.metrics.*;
-import org.apache.tools.ant.*;
-import org.apache.tools.ant.types.*;
-import org.xml.sax.*;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 
 public class OOMetrics extends Task {
     public static final String DEFAULT_PROJECT_NAME = "Project";
@@ -141,7 +157,7 @@ public class OOMetrics extends Task {
         return indentText;
     }
     
-    public void setIntenttext(String indentText) {
+    public void setIndenttext(String indentText) {
         this.indentText = indentText;
     }
 
@@ -364,13 +380,13 @@ public class OOMetrics extends Task {
             }
 
             if (getShowallmetrics()) {
-                for (Metrics metrics : gatherer.getMetricsFactory().getAllClassMetrics()) {
+                gatherer.getMetricsFactory().getAllClassMetrics().forEach(metrics -> {
                     gatherer.getMetricsFactory().includeClassMetrics(metrics);
-                }
+                });
 
-                for (Metrics metrics : gatherer.getMetricsFactory().getAllMethodMetrics()) {
+                gatherer.getMetricsFactory().getAllMethodMetrics().forEach(metrics -> {
                     gatherer.getMetricsFactory().includeMethodMetrics(metrics);
-                }
+                });
             }
 
             if (getCsv()) {
@@ -380,39 +396,23 @@ public class OOMetrics extends Task {
             } else if (getXml()) {
                 printXMLFile(gatherer.getMetricsFactory());
             }
-        } catch (SAXException ex) {
-            throw new BuildException(ex);
-        } catch (ParserConfigurationException ex) {
-            throw new BuildException(ex);
-        } catch (IOException ex) {
+        } catch (SAXException | ParserConfigurationException | IOException ex) {
             throw new BuildException(ex);
         }
     }
 
     private Collection<String> createCollection(Path includes, Path excludes) throws IOException {
-        Collection<String> result = new HashSet<String>();
+        Collection<String> result = new HashSet<>();
 
         if (includes != null) {
-            String[] filenames = includes.list();
-            for (String filename : filenames) {
-                BufferedReader reader = new BufferedReader(new FileReader(filename));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    result.add(line);
-                }
-                reader.close();
+            for (String filename : includes.list()) {
+                result.addAll(Files.readAllLines(Paths.get(filename)));
             }
         }
         
         if (excludes != null) {
-            String[] filenames = excludes.list();
-            for (String filename : filenames) {
-                BufferedReader reader = new BufferedReader(new FileReader(filename));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    result.remove(line);
-                }
-                reader.close();
+            for (String filename : excludes.list()) {
+                result.removeAll(Files.readAllLines(Paths.get(filename)));
             }
         }
         
@@ -434,8 +434,8 @@ public class OOMetrics extends Task {
 
             PrintWriter out = new PrintWriter(new FileWriter(filename));
             
-            metrics = new ArrayList<Metrics>(factory.getProjectMetrics());
-            Collections.sort(metrics, comparator);
+            metrics = new ArrayList<>(factory.getProjectMetrics());
+            metrics.sort(comparator);
             printer = new com.jeantessier.metrics.CSVPrinter(out, factory.getConfiguration().getProjectMeasurements());
             printer.setShowEmptyMetrics(getShowemptymetrics());
             printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
@@ -454,8 +454,8 @@ public class OOMetrics extends Task {
 
             PrintWriter out = new PrintWriter(new FileWriter(filename));
 
-            metrics = new ArrayList<Metrics>(factory.getGroupMetrics());
-            Collections.sort(metrics, comparator);
+            metrics = new ArrayList<>(factory.getGroupMetrics());
+            metrics.sort(comparator);
             printer = new com.jeantessier.metrics.CSVPrinter(out, factory.getConfiguration().getGroupMeasurements());
             printer.setShowEmptyMetrics(getShowemptymetrics());
             printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
@@ -474,8 +474,8 @@ public class OOMetrics extends Task {
 
             PrintWriter out = new PrintWriter(new FileWriter(filename));
 
-            metrics = new ArrayList<Metrics>(factory.getClassMetrics());
-            Collections.sort(metrics, comparator);
+            metrics = new ArrayList<>(factory.getClassMetrics());
+            metrics.sort(comparator);
             printer = new com.jeantessier.metrics.CSVPrinter(out, factory.getConfiguration().getClassMeasurements());
             printer.setShowEmptyMetrics(getShowemptymetrics());
             printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
@@ -494,8 +494,8 @@ public class OOMetrics extends Task {
 
             PrintWriter out = new PrintWriter(new FileWriter(filename));
 
-            metrics = new ArrayList<Metrics>(factory.getMethodMetrics());
-            Collections.sort(metrics, comparator);
+            metrics = new ArrayList<>(factory.getMethodMetrics());
+            metrics.sort(comparator);
             printer = new com.jeantessier.metrics.CSVPrinter(out, factory.getConfiguration().getMethodMeasurements());
             printer.setShowEmptyMetrics(getShowemptymetrics());
             printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
@@ -525,8 +525,8 @@ public class OOMetrics extends Task {
         if (getProjectmetrics()) {
             out.println("Project metrics");
             out.println("---------------");
-            metrics = new ArrayList<Metrics>(factory.getProjectMetrics());
-            Collections.sort(metrics, comparator);
+            metrics = new ArrayList<>(factory.getProjectMetrics());
+            metrics.sort(comparator);
             com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.getConfiguration().getProjectMeasurements());
             printer.setShowEmptyMetrics(getShowemptymetrics());
             printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
@@ -543,8 +543,8 @@ public class OOMetrics extends Task {
         if (getGroupmetrics()) {
             out.println("Group metrics");
             out.println("-------------");
-            metrics = new ArrayList<Metrics>(factory.getGroupMetrics());
-            Collections.sort(metrics, comparator);
+            metrics = new ArrayList<>(factory.getGroupMetrics());
+            metrics.sort(comparator);
             com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.getConfiguration().getGroupMeasurements());
             printer.setShowEmptyMetrics(getShowemptymetrics());
             printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
@@ -561,8 +561,8 @@ public class OOMetrics extends Task {
         if (getClassmetrics()) {
             out.println("Class metrics");
             out.println("-------------");
-            metrics = new ArrayList<Metrics>(factory.getClassMetrics());
-            Collections.sort(metrics, comparator);
+            metrics = new ArrayList<>(factory.getClassMetrics());
+            metrics.sort(comparator);
             com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.getConfiguration().getClassMeasurements());
             printer.setShowEmptyMetrics(getShowemptymetrics());
             printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
@@ -579,8 +579,8 @@ public class OOMetrics extends Task {
         if (getMethodmetrics()) {
             out.println("Method metrics");
             out.println("--------------");
-            metrics = new ArrayList<Metrics>(factory.getMethodMetrics());
-            Collections.sort(metrics, comparator);
+            metrics = new ArrayList<>(factory.getMethodMetrics());
+            metrics.sort(comparator);
             com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.getConfiguration().getMethodMeasurements());
             printer.setShowEmptyMetrics(getShowemptymetrics());
             printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
@@ -608,8 +608,8 @@ public class OOMetrics extends Task {
         
         PrintWriter out = new PrintWriter(new FileWriter(filename));
 
-        List<Metrics> metrics = new ArrayList<Metrics>(factory.getProjectMetrics());
-        Collections.sort(metrics, comparator);
+        List<Metrics> metrics = new ArrayList<>(factory.getProjectMetrics());
+        metrics.sort(comparator);
         com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.XMLPrinter(out, factory.getConfiguration(), getEncoding(), getDtdprefix());
         printer.setShowEmptyMetrics(getShowemptymetrics());
         printer.setShowHiddenMeasurements(getShowhiddenmeasurements());

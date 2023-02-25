@@ -32,14 +32,14 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
+import com.jeantessier.classreader.LoadEvent;
+import com.jeantessier.dependencyfinder.VerboseListenerBase;
+
 import javax.swing.*;
 
-import com.jeantessier.classreader.*;
-import com.jeantessier.dependencyfinder.*;
-
 public class VerboseListener extends VerboseListenerBase {
-    private StatusLine statusLine;
-    private JProgressBar progressBar;
+    private final StatusLine statusLine;
+    private final JProgressBar progressBar;
 
     public VerboseListener(StatusLine statusLine, JProgressBar progressBar) {
         this.statusLine = statusLine;

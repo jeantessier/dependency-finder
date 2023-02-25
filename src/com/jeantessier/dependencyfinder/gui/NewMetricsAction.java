@@ -32,15 +32,12 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
-import java.awt.event.*;
-import java.util.*;
-
 import javax.swing.*;
-
-import com.jeantessier.metrics.*;
+import java.awt.event.ActionEvent;
+import java.util.Collections;
 
 public class NewMetricsAction extends AbstractAction implements Runnable {
-    private OOMetrics model;
+    private final OOMetrics model;
 
     public NewMetricsAction(OOMetrics model) {
         this.model = model;
@@ -60,8 +57,8 @@ public class NewMetricsAction extends AbstractAction implements Runnable {
         model.getMetricsFactory().clear();
 
         model.getProjectArea().setText("");
-        model.getGroupsModel().setMetrics(Collections.<Metrics>emptyList());
-        model.getClassesModel().setMetrics(Collections.<Metrics>emptyList());
-        model.getMethodsModel().setMetrics(Collections.<Metrics>emptyList());
+        model.getGroupsModel().setMetrics(Collections.emptyList());
+        model.getClassesModel().setMetrics(Collections.emptyList());
+        model.getMethodsModel().setMetrics(Collections.emptyList());
     }
 }

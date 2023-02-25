@@ -32,7 +32,8 @@
 
 package com.jeantessier.dependencyfinder;
 
-import com.jeantessier.classreader.*;
+import com.jeantessier.classreader.LoadEvent;
+import com.jeantessier.classreader.LoadListenerBase;
 
 public class VerboseListenerBase extends LoadListenerBase {
     private String ratioIndicator = "";
@@ -58,7 +59,7 @@ public class VerboseListenerBase extends LoadListenerBase {
             int newRatio = computeCurrentRatio();
 
             if (previousRatio != newRatio) {
-                StringBuffer buffer = new StringBuffer(4);
+                StringBuilder buffer = new StringBuilder(4);
 
                 if (newRatio < 10) {
                     buffer.append(" ");

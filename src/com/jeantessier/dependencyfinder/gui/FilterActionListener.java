@@ -32,19 +32,22 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
-import java.awt.event.*;
-import java.util.*;
+import com.jeantessier.metrics.Metrics;
+import org.apache.oro.text.MalformedCachePatternException;
+import org.apache.oro.text.perl.Perl5Util;
+
 import javax.swing.*;
-
-import org.apache.oro.text.*;
-import org.apache.oro.text.perl.*;
-
-import com.jeantessier.metrics.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.stream.Collectors;
 
 public class FilterActionListener implements Runnable, ActionListener {
     private static final Perl5Util perl = new Perl5Util();
 
-    private OOMetrics model;
+    private final OOMetrics model;
 
     public FilterActionListener(OOMetrics model) {
         this.model = model;
@@ -77,14 +80,8 @@ public class FilterActionListener implements Runnable, ActionListener {
     }
 
     private Collection<Metrics> getFilterMetrics(Collection<Metrics> metricsList) {
-        Collection<Metrics> result = new ArrayList<Metrics>(metricsList.size());
-
-        for (Metrics metrics : metricsList) {
-            if (perl.match(model.getFilterField().getText(), metrics.getName())) {
-                result.add(metrics);
-            }
-        }
-
-        return result;
+        return metricsList.stream()
+                .filter(metrics -> perl.match(model.getFilterField().getText(), metrics.getName()))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 }

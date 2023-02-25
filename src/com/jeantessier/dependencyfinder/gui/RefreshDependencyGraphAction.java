@@ -32,15 +32,18 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
+import com.jeantessier.classreader.ClassfileLoader;
+import com.jeantessier.classreader.ClassfileScanner;
+import com.jeantessier.classreader.TransientClassfileLoader;
+import com.jeantessier.dependency.LinkMaximizer;
+import com.jeantessier.dependency.LinkMinimizer;
 
-import com.jeantessier.classreader.*;
-import com.jeantessier.dependency.*;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.util.Date;
 
 public class RefreshDependencyGraphAction extends AbstractAction implements Runnable {
-    private DependencyFinder model = null;
+    private final DependencyFinder model;
 
     public RefreshDependencyGraphAction(DependencyFinder model) {
         this.model = model;

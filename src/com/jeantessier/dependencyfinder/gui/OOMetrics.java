@@ -32,40 +32,43 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.table.*;
-import javax.swing.text.*;
+import com.jeantessier.commandline.CommandLine;
+import com.jeantessier.commandline.CommandLineUsage;
+import com.jeantessier.commandline.NullParameterStrategy;
+import com.jeantessier.metrics.MetricsConfigurationLoader;
+import com.jeantessier.metrics.MetricsFactory;
+import org.apache.log4j.Logger;
 
-import com.jeantessier.commandline.*;
-import com.jeantessier.metrics.*;
-import org.apache.log4j.*;
+import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.text.JTextComponent;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.io.File;
 
 public class OOMetrics extends JFrame {
     private static final TableCellRenderer RENDERER = new MeasurementTableCellRenderer();
 
     private MetricsFactory factory;
 
-    private JMenuBar menuBar = new JMenuBar();
-    private JMenu fileMenu = new JMenu();
-    private JMenu helpMenu = new JMenu();
-    private JToolBar toolbar = new JToolBar();
-    private JTextArea projectArea = new JTextArea();
-    private JButton filterButton = new JButton("Filter:");
-    private JTextField filterField = new JTextField("//");
-    private StatusLine statusLine = new StatusLine(420);
-    private JProgressBar progressBar = new JProgressBar();
+    private final JMenuBar menuBar = new JMenuBar();
+    private final JMenu fileMenu = new JMenu();
+    private final JMenu helpMenu = new JMenu();
+    private final JToolBar toolbar = new JToolBar();
+    private final JTextArea projectArea = new JTextArea();
+    private final JButton filterButton = new JButton("Filter:");
+    private final JTextField filterField = new JTextField("//");
+    private final StatusLine statusLine = new StatusLine(420);
+    private final JProgressBar progressBar = new JProgressBar();
 
-    private OOMetricsTableModel groupsModel;
-    private OOMetricsTableModel classesModel;
-    private OOMetricsTableModel methodsModel;
+    private final OOMetricsTableModel groupsModel;
+    private final OOMetricsTableModel classesModel;
+    private final OOMetricsTableModel methodsModel;
 
     private File inputFile = new File(".");
 
-    private boolean enableCrossClassMeasurements;
+    private final boolean enableCrossClassMeasurements;
 
     public OOMetrics(MetricsFactory factory, boolean enableCrossClassMeasurements) {
         this.factory = factory;

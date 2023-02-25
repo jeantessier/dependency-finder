@@ -32,74 +32,95 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.util.*;
+import com.jeantessier.classreader.ClassfileLoaderDispatcher;
+import com.jeantessier.classreader.ClassfileLoaderEventSource;
+import com.jeantessier.classreader.ModifiedOnlyDispatcher;
+import com.jeantessier.classreader.Monitor;
+import com.jeantessier.commandline.CommandLine;
+import com.jeantessier.commandline.CommandLineUsage;
+import com.jeantessier.commandline.NullParameterStrategy;
+import com.jeantessier.dependency.CodeDependencyCollector;
+import com.jeantessier.dependency.DeletingVisitor;
+import com.jeantessier.dependency.GraphCopier;
+import com.jeantessier.dependency.GraphSummarizer;
+import com.jeantessier.dependency.MetricsReport;
+import com.jeantessier.dependency.NodeFactory;
+import com.jeantessier.dependency.PackageNode;
+import com.jeantessier.dependency.RegularExpressionSelectionCriteria;
+import com.jeantessier.dependency.SelectiveTraversalStrategy;
+import com.jeantessier.dependency.TransitiveClosure;
+import com.jeantessier.dependency.TraversalStrategy;
+import org.apache.log4j.Logger;
+
 import javax.swing.*;
-import javax.swing.border.*;
-
-import org.apache.log4j.*;
-
-import com.jeantessier.classreader.*;
-import com.jeantessier.commandline.*;
-import com.jeantessier.dependency.*;
+import javax.swing.border.BevelBorder;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
 
 public class DependencyFinder extends JFrame {
+    private static final String DEFAULT_FONT_NAME = "Monospaced";
+    private static final String DESIRED_FONT_NAME = "Courier";
+
     private boolean minimize;
     private boolean maximize;
 
     private boolean advancedMode;
-    private JPanel  queryPanel   = new JPanel();
+    private final JPanel  queryPanel   = new JPanel();
     
-    private JMenuBar          menuBar                = new JMenuBar();
-    private JMenu             fileMenu               = new JMenu();
-    private JMenu             viewMenu               = new JMenu();
-    private JMenu             helpMenu               = new JMenu();
-    private JToolBar          toolbar                = new JToolBar();
-    private JTextArea         dependenciesResultArea = new JTextArea();
-    private JTextArea         closureResultArea      = new JTextArea();
-    private JTextArea         metricsResultArea      = new JTextArea();
-    private MetricsTableModel metricsChartModel      = new MetricsTableModel();
-    private StatusLine        statusLine             = new StatusLine(420);
-    private JProgressBar      progressBar            = new JProgressBar();
+    private final JMenuBar          menuBar                = new JMenuBar();
+    private final JMenu             fileMenu               = new JMenu();
+    private final JMenu             viewMenu               = new JMenu();
+    private final JMenu             helpMenu               = new JMenu();
+    private final JToolBar          toolbar                = new JToolBar();
+    private final JTextArea         dependenciesResultArea = new JTextArea();
+    private final JTextArea         closureResultArea      = new JTextArea();
+    private final JTextArea         metricsResultArea      = new JTextArea();
+    private final MetricsTableModel metricsChartModel      = new MetricsTableModel();
+    private final StatusLine        statusLine             = new StatusLine(420);
+    private final JProgressBar      progressBar            = new JProgressBar();
 
     private Collection<String>        inputFiles  = null;
     private ClassfileLoaderDispatcher dispatcher  = null;
     private NodeFactory               nodeFactory = null;
     private Monitor                   monitor     = null;
 
-    private JCheckBox  packageScope          = new JCheckBox("packages");
-    private JCheckBox  classScope            = new JCheckBox("classes");
-    private JCheckBox  featureScope          = new JCheckBox("features");
-    private JTextField scopeIncludes         = new JTextField();
-    private JTextField packageScopeIncludes  = new JTextField();
-    private JTextField classScopeIncludes    = new JTextField();
-    private JTextField featureScopeIncludes  = new JTextField();
-    private JTextField scopeExcludes         = new JTextField();
-    private JTextField packageScopeExcludes  = new JTextField();
-    private JTextField classScopeExcludes    = new JTextField();
-    private JTextField featureScopeExcludes  = new JTextField();
+    private final JCheckBox  packageScope          = new JCheckBox("packages");
+    private final JCheckBox  classScope            = new JCheckBox("classes");
+    private final JCheckBox  featureScope          = new JCheckBox("features");
+    private final JTextField scopeIncludes         = new JTextField();
+    private final JTextField packageScopeIncludes  = new JTextField();
+    private final JTextField classScopeIncludes    = new JTextField();
+    private final JTextField featureScopeIncludes  = new JTextField();
+    private final JTextField scopeExcludes         = new JTextField();
+    private final JTextField packageScopeExcludes  = new JTextField();
+    private final JTextField classScopeExcludes    = new JTextField();
+    private final JTextField featureScopeExcludes  = new JTextField();
     
-    private JCheckBox  packageFilter         = new JCheckBox("packages");
-    private JCheckBox  classFilter           = new JCheckBox("classes");
-    private JCheckBox  featureFilter         = new JCheckBox("features");
-    private JTextField filterIncludes        = new JTextField();
-    private JTextField packageFilterIncludes = new JTextField();
-    private JTextField classFilterIncludes   = new JTextField();
-    private JTextField featureFilterIncludes = new JTextField();
-    private JTextField filterExcludes        = new JTextField();
-    private JTextField packageFilterExcludes = new JTextField();
-    private JTextField classFilterExcludes   = new JTextField();
-    private JTextField featureFilterExcludes = new JTextField();
+    private final JCheckBox  packageFilter         = new JCheckBox("packages");
+    private final JCheckBox  classFilter           = new JCheckBox("classes");
+    private final JCheckBox  featureFilter         = new JCheckBox("features");
+    private final JTextField filterIncludes        = new JTextField();
+    private final JTextField packageFilterIncludes = new JTextField();
+    private final JTextField classFilterIncludes   = new JTextField();
+    private final JTextField featureFilterIncludes = new JTextField();
+    private final JTextField filterExcludes        = new JTextField();
+    private final JTextField packageFilterExcludes = new JTextField();
+    private final JTextField classFilterExcludes   = new JTextField();
+    private final JTextField featureFilterExcludes = new JTextField();
 
-    private JCheckBox  showInbounds          = new JCheckBox("<--");
-    private JCheckBox  showOutbounds         = new JCheckBox("-->");
-    private JCheckBox  showEmptyNodes        = new JCheckBox("empty elements");
-    private JCheckBox  copyOnly              = new JCheckBox("copy only");
+    private final JCheckBox  showInbounds          = new JCheckBox("<--");
+    private final JCheckBox  showOutbounds         = new JCheckBox("-->");
+    private final JCheckBox  showEmptyNodes        = new JCheckBox("empty elements");
+    private final JCheckBox  copyOnly              = new JCheckBox("copy only");
     
-    private JTextField maximumInboundDepth   = new JTextField("0", 2);
-    private JTextField maximumOutboundDepth  = new JTextField(2);
+    private final JTextField maximumInboundDepth   = new JTextField("0", 2);
+    private final JTextField maximumOutboundDepth  = new JTextField(2);
 
     private GraphCopier dependenciesQuery    = null;
     
@@ -163,14 +184,10 @@ public class DependencyFinder extends JFrame {
     }
 
     private Font getCodeFont(int style, int size) {
-        String fontName = "Monospaced";
-        
-        String[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-        for (String fontName1 : fontNames) {
-            if (fontName1.indexOf("Courier") != -1) {
-                fontName = fontName1;
-            }
-        }
+        String fontName = Arrays.stream(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames())
+                .filter(name -> name.contains(DESIRED_FONT_NAME))
+                .findFirst()
+                .orElse(DEFAULT_FONT_NAME);
 
         return new Font(fontName, style, size);
     }
@@ -1267,7 +1284,7 @@ public class DependencyFinder extends JFrame {
     }
 
     void setNewDependencyGraph() {
-        setInputFiles(new LinkedList<String>());
+        setInputFiles(new LinkedList<>());
         setClassfileLoaderDispatcher(new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER));
 
         NodeFactory factory = new NodeFactory();

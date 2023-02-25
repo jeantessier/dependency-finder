@@ -32,17 +32,11 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
-import java.io.*;
+import java.io.File;
 
 public class XMLFileFilter extends javax.swing.filechooser.FileFilter {
     public boolean accept(File f) {
-        boolean result = false;
-
-        if (f.isDirectory() || f.getName().endsWith(".xml")) {
-            result = true;
-        }
-
-        return result;
+        return f.isDirectory() || f.getName().endsWith(".xml");
     }
 
     public String getDescription() {

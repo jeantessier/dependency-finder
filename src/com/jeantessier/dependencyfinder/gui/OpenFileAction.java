@@ -32,18 +32,23 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
-import java.awt.event.*;
-import java.io.*;
-import java.util.*;
+import com.jeantessier.dependency.DependencyEvent;
+import com.jeantessier.dependency.DependencyListener;
+import com.jeantessier.dependency.LinkMaximizer;
+import com.jeantessier.dependency.LinkMinimizer;
+import com.jeantessier.dependency.NodeLoader;
+import org.xml.sax.SAXException;
+
 import javax.swing.*;
-import javax.xml.parsers.*;
-
-import org.xml.sax.*;
-
-import com.jeantessier.dependency.*;
+import javax.xml.parsers.ParserConfigurationException;
+import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Date;
 
 public class OpenFileAction extends AbstractAction implements Runnable, DependencyListener {
-    private DependencyFinder model;
+    private final DependencyFinder model;
     private File file;
 
     public OpenFileAction(DependencyFinder model) {
@@ -95,9 +100,7 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
             Date stop = new Date();
 
             model.getStatusLine().showInfo("Done (" + ((stop.getTime() - start.getTime()) / (double) 1000) + " secs).");
-        } catch (SAXException ex) {
-            model.getStatusLine().showError("Cannot parse: " + ex.getClass().getName() + ": " + ex.getMessage());
-        } catch (ParserConfigurationException ex) {
+        } catch (SAXException | ParserConfigurationException ex) {
             model.getStatusLine().showError("Cannot parse: " + ex.getClass().getName() + ": " + ex.getMessage());
         } catch (IOException ex) {
             model.getStatusLine().showError("Cannot load: " + ex.getClass().getName() + ": " + ex.getMessage());

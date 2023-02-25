@@ -32,17 +32,18 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
-import java.awt.event.*;
+import com.jeantessier.metrics.MeasurementDescriptor;
+import com.jeantessier.metrics.StatisticalMeasurement;
+import org.apache.log4j.Logger;
 
 import javax.swing.*;
-
-import org.apache.log4j.*;
-
-import com.jeantessier.metrics.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 class TableHeaderListener implements MouseListener, MouseMotionListener {
-    private JTable table;
-    private OOMetricsTableModel model;
+    private final JTable table;
+    private final OOMetricsTableModel model;
 
     public TableHeaderListener(JTable table, OOMetricsTableModel model) {
         this.table = table;
@@ -86,9 +87,7 @@ class TableHeaderListener implements MouseListener, MouseMotionListener {
     }
 
     public void mouseMoved(MouseEvent event) {
-        if (event.getComponent() instanceof JComponent) {
-            JComponent component = (JComponent) event.getComponent();
-
+        if (event.getComponent() instanceof JComponent component) {
             int viewColumn = table.getColumnModel().getColumnIndexAtX(event.getX());
             int column = table.convertColumnIndexToModel(viewColumn);
             MeasurementDescriptor descriptor = model.getColumnDescriptor(column);
@@ -97,7 +96,7 @@ class TableHeaderListener implements MouseListener, MouseMotionListener {
             String text = null;
 
             if (descriptor != null) {
-                StringBuffer tooltip = new StringBuffer();
+                StringBuilder tooltip = new StringBuilder();
                 tooltip.append("<html><body><p>");
                 tooltip.append(descriptor.getLongName());
 

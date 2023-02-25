@@ -32,14 +32,14 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-
 import com.jeantessier.dependency.MatchException;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.util.Date;
+
 public class MetricsQueryAction extends AbstractAction implements Runnable {
-    private DependencyFinder model = null;
+    private final DependencyFinder model;
 
     public MetricsQueryAction(DependencyFinder model) {
         this.model = model;

@@ -32,15 +32,23 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
-import java.awt.event.*;
-import java.io.*;
-import java.util.*;
-import javax.swing.*;
+import com.jeantessier.classreader.AggregatingClassfileLoader;
+import com.jeantessier.classreader.ClassfileLoader;
+import com.jeantessier.classreader.ClassfileScanner;
+import com.jeantessier.classreader.LoadListenerVisitorAdapter;
+import com.jeantessier.classreader.TransientClassfileLoader;
 
-import com.jeantessier.classreader.*;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Collection;
+import java.util.Date;
+import java.util.LinkedList;
 
 public class MetricsExtractAction extends AbstractAction implements Runnable {
-    private OOMetrics model;
+    private final OOMetrics model;
     private Collection<String> filenames;
 
     public MetricsExtractAction(OOMetrics model) {
@@ -59,7 +67,7 @@ public class MetricsExtractAction extends AbstractAction implements Runnable {
         int returnValue = chooser.showDialog(model, "Extract");
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File[] selectedFiles = chooser.getSelectedFiles();
-            filenames = new LinkedList<String>();
+            filenames = new LinkedList<>();
             for (File file : selectedFiles) {
                 filenames.add(file.toString());
             }

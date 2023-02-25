@@ -32,12 +32,11 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
-import java.awt.event.*;
-
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 
 public class AdvancedQueryPanelAction extends AbstractAction {
-    private DependencyFinder model = null;
+    private final DependencyFinder model;
 
     public AdvancedQueryPanelAction(DependencyFinder model) {
         this.model = model;

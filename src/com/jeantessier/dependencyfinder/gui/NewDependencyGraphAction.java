@@ -32,11 +32,11 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
-import java.awt.event.*;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 
 public class NewDependencyGraphAction extends AbstractAction implements Runnable {
-    private DependencyFinder model = null;
+    private final DependencyFinder model;
 
     public NewDependencyGraphAction(DependencyFinder model) {
         this.model = model;

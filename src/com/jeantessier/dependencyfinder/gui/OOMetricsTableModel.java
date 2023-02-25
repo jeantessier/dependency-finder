@@ -32,10 +32,17 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
-import java.util.*;
-import javax.swing.table.*;
+import com.jeantessier.metrics.Measurement;
+import com.jeantessier.metrics.MeasurementDescriptor;
+import com.jeantessier.metrics.Metrics;
+import com.jeantessier.metrics.MetricsComparator;
+import com.jeantessier.metrics.StatisticalMeasurement;
 
-import com.jeantessier.metrics.*;
+import javax.swing.table.AbstractTableModel;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 public class OOMetricsTableModel extends AbstractTableModel {
     private static final Integer LOCAL_DISPOSE_IGNORE = StatisticalMeasurement.DISPOSE_IGNORE;
@@ -47,7 +54,7 @@ public class OOMetricsTableModel extends AbstractTableModel {
     private static final Integer LOCAL_DISPOSE_SUM = StatisticalMeasurement.DISPOSE_SUM;
 //    private static final Integer LOCAL_DISPOSE_NB_DATA_POINTS = StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
 
-    private List<MeasurementDescriptor> descriptors;
+    private final List<MeasurementDescriptor> descriptors;
     private List<Metrics> metricsList;
 
     private String[] measurementNames;
@@ -55,7 +62,7 @@ public class OOMetricsTableModel extends AbstractTableModel {
     private int[] measurementDispose;
     private Object[][] measurementValues;
 
-    private MetricsComparator comparator = new MetricsComparator("name");
+    private final MetricsComparator comparator = new MetricsComparator("name");
 
     public OOMetricsTableModel(List<MeasurementDescriptor> descriptors) {
         this.descriptors = descriptors;
@@ -65,12 +72,12 @@ public class OOMetricsTableModel extends AbstractTableModel {
     }
 
     public void setMetrics(Collection<Metrics> metricsList) {
-        this.metricsList = new ArrayList<Metrics>(metricsList);
+        this.metricsList = new ArrayList<>(metricsList);
 
         if (metricsList.isEmpty()) {
             buildMetricValues();
         } else {
-            Collections.sort(this.metricsList, comparator);
+            this.metricsList.sort(comparator);
             buildMetricValues(this.metricsList);
         }
 
@@ -82,12 +89,12 @@ public class OOMetricsTableModel extends AbstractTableModel {
     }
 
     public void updateMetrics(Collection<Metrics> metricsList) {
-        this.metricsList = new ArrayList<Metrics>(metricsList);
+        this.metricsList = new ArrayList<>(metricsList);
 
         if (metricsList.isEmpty()) {
             buildMetricValues();
         } else {
-            Collections.sort(this.metricsList, comparator);
+            this.metricsList.sort(comparator);
             buildMetricValues(this.metricsList);
         }
 
@@ -97,23 +104,23 @@ public class OOMetricsTableModel extends AbstractTableModel {
     public void sortOn(String name, int dispose) {
         comparator.sortOn(name, dispose);
 
-        Collections.sort(metricsList, comparator);
+        metricsList.sort(comparator);
         buildMetricValues(metricsList);
 
         fireTableDataChanged();
     }
 
     private void buildMetricNames() {
-        List<String> names = new LinkedList<String>();
+        List<String> names = new LinkedList<>();
         names.add("name");
 
-        List<MeasurementDescriptor> columnDescriptors = new LinkedList<MeasurementDescriptor>();
+        List<MeasurementDescriptor> columnDescriptors = new LinkedList<>();
         columnDescriptors.add(null);
 
-        List<Integer> dispose = new LinkedList<Integer>();
+        List<Integer> dispose = new LinkedList<>();
         dispose.add(LOCAL_DISPOSE_IGNORE);
 
-        for (MeasurementDescriptor descriptor : descriptors) {
+        descriptors.forEach(descriptor -> {
             if (descriptor.isVisible()) {
                 if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
                     names.add(descriptor.getShortName());
@@ -140,7 +147,7 @@ public class OOMetricsTableModel extends AbstractTableModel {
                     dispose.add(LOCAL_DISPOSE_IGNORE);
                 }
             }
-        }
+        });
 
         measurementNames = names.toArray(new String[0]);
         measurementDescriptors = columnDescriptors.toArray(new MeasurementDescriptor[0]);
@@ -159,7 +166,7 @@ public class OOMetricsTableModel extends AbstractTableModel {
 
         int i = 0;
         for (Metrics currentMetrics : metricsList) {
-            List<Measurement> measurements = new ArrayList<Measurement>(measurementNames.length);
+            List<Measurement> measurements = new ArrayList<>(measurementNames.length);
             for (MeasurementDescriptor descriptor : descriptors) {
                 if (descriptor.isVisible()) {
                     Measurement measurement = currentMetrics.getMeasurement(descriptor.getShortName());

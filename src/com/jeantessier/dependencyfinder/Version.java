@@ -37,7 +37,6 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
-import java.util.jar.Manifest;
 
 public class Version {
     public static final String DEFAULT_URL              = "https://depfind.sourceforge.io/";
@@ -48,7 +47,7 @@ public class Version {
     public static final String DEFAULT_COPYRIGHT_HOLDER = "Jean Tessier";
     public static final String DEFAULT_COPYRIGHT_DATE   = "2001-2009";
 
-    private String resourceURL = null;
+    private final String resourceURL;
     private String jarName     = null;
 
     private Attributes attributes = null;
@@ -59,11 +58,8 @@ public class Version {
         if (resourceURL.startsWith("jar:file:")) {
             jarName = resourceURL.substring(9, resourceURL.indexOf(".jar!") + 4);
 
-            try {
-                JarFile  jar      = new JarFile(jarName);
-                Manifest manifest = jar.getManifest();
-                
-                attributes = manifest.getMainAttributes();
+            try (JarFile jar = new JarFile(jarName)) {
+                attributes = jar.getManifest().getMainAttributes();
             } catch (IOException ex) {
                 Logger.getLogger(getClass()).error("Could not get version information, using defaults", ex);
             }

@@ -32,13 +32,13 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
-import java.awt.event.*;
-import javax.swing.*;
+import com.jeantessier.dependencyfinder.Version;
 
-import com.jeantessier.dependencyfinder.*;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
 
 public class AboutAction extends AbstractAction {
-    private JFrame model;
+    private final JFrame model;
 
     public AboutAction(JFrame model) {
         this.model = model;

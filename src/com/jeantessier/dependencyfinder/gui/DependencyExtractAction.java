@@ -32,18 +32,19 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
-import java.awt.event.*;
-import java.io.*;
-import java.util.*;
+import com.jeantessier.classreader.ClassfileLoader;
+import com.jeantessier.classreader.ClassfileScanner;
+import com.jeantessier.classreader.TransientClassfileLoader;
+import com.jeantessier.dependency.LinkMaximizer;
+import com.jeantessier.dependency.LinkMinimizer;
 
 import javax.swing.*;
-
-import com.jeantessier.classreader.*;
-import com.jeantessier.classreader.impl.*;
-import com.jeantessier.dependency.*;
+import java.awt.event.ActionEvent;
+import java.io.File;
+import java.util.Date;
 
 public class DependencyExtractAction extends AbstractAction implements Runnable {
-    private DependencyFinder model;
+    private final DependencyFinder model;
 
     public DependencyExtractAction(DependencyFinder model) {
         this.model = model;

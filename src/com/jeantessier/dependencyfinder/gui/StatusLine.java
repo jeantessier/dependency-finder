@@ -32,9 +32,9 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
-import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.*;
+import javax.swing.border.BevelBorder;
+import java.awt.*;
 
 public class StatusLine extends JTextField {
     public static final Font PLAIN_FONT = new Font("dialog", Font.PLAIN, 12);
@@ -63,11 +63,11 @@ public class StatusLine extends JTextField {
 }
 
 class StatusLineUpdater implements Runnable {
-    private StatusLine statusLine;
-    private Font font;
-    private Color color;
-    private String message;
-    private String tooltip;
+    private final StatusLine statusLine;
+    private final Font font;
+    private final Color color;
+    private final String message;
+    private final String tooltip;
 
     public StatusLineUpdater(StatusLine statusLine, Font font, Color color, String message, String tooltip) {
         this.statusLine = statusLine;

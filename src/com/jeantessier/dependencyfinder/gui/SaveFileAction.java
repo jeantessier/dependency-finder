@@ -32,15 +32,17 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
-import java.awt.event.*;
-import java.io.*;
-
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class SaveFileAction extends AbstractAction implements Runnable {
-    private DependencyFinder model;
-    private String encoding;
-    private String dtdPrefix;
+    private final DependencyFinder model;
+    private final String encoding;
+    private final String dtdPrefix;
 
     private String indentText;
     private File file;
