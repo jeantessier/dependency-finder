@@ -32,15 +32,16 @@
 
 package com.jeantessier.metrics;
 
-import java.io.*;
-import java.text.*;
-import java.util.*;
+import java.io.PrintWriter;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.List;
 
 public class TextPrinter extends Printer {
     private static final NumberFormat valueFormat = new DecimalFormat("#.##");
     private static final NumberFormat ratioFormat = new DecimalFormat("#%");
 
-    private List<MeasurementDescriptor> descriptors;
+    private final List<MeasurementDescriptor> descriptors;
 
     private boolean expandCollectionMeasurements;
     

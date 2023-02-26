@@ -39,7 +39,7 @@ public class XMLPrinter extends Printer {
     public static final String DEFAULT_ENCODING   = "utf-8";
     public static final String DEFAULT_DTD_PREFIX = "https://depfind.sourceforge.io/dtd";
 
-    private MetricsConfiguration configuration;
+    private final MetricsConfiguration configuration;
     
     public XMLPrinter(PrintWriter out, MetricsConfiguration configuration) {
         this(out, configuration, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);

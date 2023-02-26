@@ -199,9 +199,6 @@ public class OOMetrics extends DirectoryExplorerCommand {
             comparator.reverse();
         }
 
-        List<Metrics> metrics;
-        com.jeantessier.metrics.Printer printer;
-
         if (getCommandLine().getToggleSwitch("project")) {
             if (getCommandLine().isPresent("out")) {
                 setOut(new PrintWriter(new FileWriter(getCommandLine().getSingleSwitch("out") + "_project.csv")));
@@ -209,9 +206,10 @@ public class OOMetrics extends DirectoryExplorerCommand {
                 getOut().println("Project:");
             }
 
-            metrics = new ArrayList<>(factory.getProjectMetrics());
+            List<Metrics> metrics = new ArrayList<>(factory.getProjectMetrics());
             metrics.sort(comparator);
-            printer = new com.jeantessier.metrics.CSVPrinter(getOut(), factory.getConfiguration().getProjectMeasurements());
+
+            com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.CSVPrinter(getOut(), factory.getConfiguration().getProjectMeasurements());
             printer.setShowEmptyMetrics(getCommandLine().isPresent("show-empty-metrics"));
             printer.setShowHiddenMeasurements(getCommandLine().isPresent("show-hidden-measurements"));
             if (getCommandLine().isPresent("indent-text")) {
@@ -234,9 +232,10 @@ public class OOMetrics extends DirectoryExplorerCommand {
                 getOut().println("Packages:");
             }
 
-            metrics = new ArrayList<>(factory.getGroupMetrics());
+            List<Metrics> metrics = new ArrayList<>(factory.getGroupMetrics());
             metrics.sort(comparator);
-            printer = new com.jeantessier.metrics.CSVPrinter(getOut(), factory.getConfiguration().getGroupMeasurements());
+
+            com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.CSVPrinter(getOut(), factory.getConfiguration().getGroupMeasurements());
             printer.setShowEmptyMetrics(getCommandLine().isPresent("show-empty-metrics"));
             printer.setShowHiddenMeasurements(getCommandLine().isPresent("show-hidden-measurements"));
             if (getCommandLine().isPresent("indent-text")) {
@@ -259,9 +258,10 @@ public class OOMetrics extends DirectoryExplorerCommand {
                 getOut().println("Classes:");
             }
 
-            metrics = new ArrayList<>(factory.getClassMetrics());
+            List<Metrics> metrics = new ArrayList<>(factory.getClassMetrics());
             metrics.sort(comparator);
-            printer = new com.jeantessier.metrics.CSVPrinter(getOut(), factory.getConfiguration().getClassMeasurements());
+
+            com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.CSVPrinter(getOut(), factory.getConfiguration().getClassMeasurements());
             printer.setShowEmptyMetrics(getCommandLine().isPresent("show-empty-metrics"));
             printer.setShowHiddenMeasurements(getCommandLine().isPresent("show-hidden-measurements"));
             if (getCommandLine().isPresent("indent-text")) {
@@ -284,9 +284,10 @@ public class OOMetrics extends DirectoryExplorerCommand {
                 getOut().println("Methods:");
             }
 
-            metrics = new ArrayList<>(factory.getMethodMetrics());
+            List<Metrics> metrics = new ArrayList<>(factory.getMethodMetrics());
             metrics.sort(comparator);
-            printer = new com.jeantessier.metrics.CSVPrinter(getOut(), factory.getConfiguration().getMethodMeasurements());
+
+            com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.CSVPrinter(getOut(), factory.getConfiguration().getMethodMeasurements());
             printer.setShowEmptyMetrics(getCommandLine().isPresent("show-empty-metrics"));
             printer.setShowHiddenMeasurements(getCommandLine().isPresent("show-hidden-measurements"));
             if (getCommandLine().isPresent("indent-text")) {
@@ -307,21 +308,20 @@ public class OOMetrics extends DirectoryExplorerCommand {
             comparator.reverse();
         }
 
-        List<Metrics> metrics;
+        com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(getOut(), factory.getConfiguration().getProjectMeasurements());
+        printer.setExpandCollectionMeasurements(getCommandLine().getToggleSwitch("expand"));
+        printer.setShowEmptyMetrics(getCommandLine().isPresent("show-empty-metrics"));
+        printer.setShowHiddenMeasurements(getCommandLine().isPresent("show-hidden-measurements"));
+        if (getCommandLine().isPresent("indent-text")) {
+            printer.setIndentText(getCommandLine().getSingleSwitch("indent-text"));
+        }
 
         if (getCommandLine().getToggleSwitch("project")) {
             getOut().println("Project metrics");
             getOut().println("---------------");
-            metrics = new ArrayList<>(factory.getProjectMetrics());
-            metrics.sort(comparator);
-            com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(getOut(), factory.getConfiguration().getProjectMeasurements());
-            printer.setExpandCollectionMeasurements(getCommandLine().getToggleSwitch("expand"));
-            printer.setShowEmptyMetrics(getCommandLine().isPresent("show-empty-metrics"));
-            printer.setShowHiddenMeasurements(getCommandLine().isPresent("show-hidden-measurements"));
-            if (getCommandLine().isPresent("indent-text")) {
-                printer.setIndentText(getCommandLine().getSingleSwitch("indent-text"));
-            }
 
+            List<Metrics> metrics = new ArrayList<>(factory.getProjectMetrics());
+            metrics.sort(comparator);
             printer.visitMetrics(metrics);
 
             getOut().println();
@@ -330,16 +330,9 @@ public class OOMetrics extends DirectoryExplorerCommand {
         if (getCommandLine().getToggleSwitch("groups")) {
             getOut().println("Group metrics");
             getOut().println("-------------");
-            metrics = new ArrayList<>(factory.getGroupMetrics());
-            metrics.sort(comparator);
-            com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(getOut(), factory.getConfiguration().getGroupMeasurements());
-            printer.setExpandCollectionMeasurements(getCommandLine().getToggleSwitch("expand"));
-            printer.setShowEmptyMetrics(getCommandLine().isPresent("show-empty-metrics"));
-            printer.setShowHiddenMeasurements(getCommandLine().isPresent("show-hidden-measurements"));
-            if (getCommandLine().isPresent("indent-text")) {
-                printer.setIndentText(getCommandLine().getSingleSwitch("indent-text"));
-            }
 
+            List<Metrics> metrics = new ArrayList<>(factory.getGroupMetrics());
+            metrics.sort(comparator);
             printer.visitMetrics(metrics);
 
             getOut().println();
@@ -348,16 +341,9 @@ public class OOMetrics extends DirectoryExplorerCommand {
         if (getCommandLine().getToggleSwitch("classes")) {
             getOut().println("Class metrics");
             getOut().println("-------------");
-            metrics = new ArrayList<>(factory.getClassMetrics());
-            metrics.sort(comparator);
-            com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(getOut(), factory.getConfiguration().getClassMeasurements());
-            printer.setExpandCollectionMeasurements(getCommandLine().getToggleSwitch("expand"));
-            printer.setShowEmptyMetrics(getCommandLine().isPresent("show-empty-metrics"));
-            printer.setShowHiddenMeasurements(getCommandLine().isPresent("show-hidden-measurements"));
-            if (getCommandLine().isPresent("indent-text")) {
-                printer.setIndentText(getCommandLine().getSingleSwitch("indent-text"));
-            }
 
+            List<Metrics> metrics = new ArrayList<>(factory.getClassMetrics());
+            metrics.sort(comparator);
             printer.visitMetrics(metrics);
 
             getOut().println();
@@ -366,16 +352,9 @@ public class OOMetrics extends DirectoryExplorerCommand {
         if (getCommandLine().getToggleSwitch("methods")) {
             getOut().println("Method metrics");
             getOut().println("--------------");
-            metrics = new ArrayList<>(factory.getMethodMetrics());
-            metrics.sort(comparator);
-            com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(getOut(), factory.getConfiguration().getMethodMeasurements());
-            printer.setExpandCollectionMeasurements(getCommandLine().getToggleSwitch("expand"));
-            printer.setShowEmptyMetrics(getCommandLine().isPresent("show-empty-metrics"));
-            printer.setShowHiddenMeasurements(getCommandLine().isPresent("show-hidden-measurements"));
-            if (getCommandLine().isPresent("indent-text")) {
-                printer.setIndentText(getCommandLine().getSingleSwitch("indent-text"));
-            }
 
+            List<Metrics> metrics = new ArrayList<>(factory.getMethodMetrics());
+            metrics.sort(comparator);
             printer.visitMetrics(metrics);
 
             getOut().println();
@@ -390,12 +369,10 @@ public class OOMetrics extends DirectoryExplorerCommand {
             comparator.reverse();
         }
 
-        List<Metrics> metrics;
-        com.jeantessier.metrics.Printer printer;
-
-        metrics = new ArrayList<>(factory.getProjectMetrics());
+        List<Metrics> metrics = new ArrayList<>(factory.getProjectMetrics());
         metrics.sort(comparator);
-        printer = new com.jeantessier.metrics.XMLPrinter(getOut(), factory.getConfiguration(), getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
+
+        com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.XMLPrinter(getOut(), factory.getConfiguration(), getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
         printer.setShowEmptyMetrics(getCommandLine().isPresent("show-empty-metrics"));
         printer.setShowHiddenMeasurements(getCommandLine().isPresent("show-hidden-measurements"));
         if (getCommandLine().isPresent("indent-text")) {
