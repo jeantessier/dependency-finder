@@ -106,13 +106,11 @@ fit/tests/files/css
 fit/tests/files/images/collapsableClosed.gif
 fit/tests/files/images/collapsableOpen.gif
 reports/
-tests/JarJarDiff/new.txt
 tests/JarJarDiff/new/ModifiedPackage/*.class
 tests/JarJarDiff/new/NewPackage/*.class
 tests/JarJarDiff/new/UnmodifiedPackage/*.class
 tests/JarJarDiff/newpublished/ModifiedPackage/*.class
 tests/JarJarDiff/newpublished/UnmodifiedPackage/*.class
-tests/JarJarDiff/old.txt
 tests/JarJarDiff/old/ModifiedPackage/*.class
 tests/JarJarDiff/old/RemovedPackage/*.class
 tests/JarJarDiff/old/UnmodifiedPackage/*.class
