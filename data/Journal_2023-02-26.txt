@@ -1,0 +1,10 @@
+Found a bug in =OOMetrics=.  Group-level basic measurements were not being
+computed for _defined groups_, that is, groups that don't match a Java package
+name, but rather a regular expression in a =group-definition=.  The metrics
+gatherer was only computing them for the group metrics of the current package.
+It was never looking for matching defined groups.
+
+I also moved the =P= measurement for packages from the top-level project to each
+group, and used a =SubMetricsAccumulatorMeasurement= to aggregate them at the
+project-level.  Groups that represent individual packages will have a value of
+=1=, but defined groups using regular expressions can cover multiple packages.
