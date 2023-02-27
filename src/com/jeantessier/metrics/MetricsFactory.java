@@ -32,32 +32,38 @@
 
 package com.jeantessier.metrics;
 
-import java.lang.reflect.*;
-import java.util.*;
+import org.apache.log4j.Logger;
+import org.apache.oro.text.perl.Perl5Util;
 
-import org.apache.log4j.*;
-import org.apache.oro.text.perl.*;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+
+import static java.util.stream.Collectors.toCollection;
 
 public class MetricsFactory {
     private static final Perl5Util perl = new Perl5Util();
 
-    private String               projectName;
-    private MetricsConfiguration configuration;
+    private final String projectName;
+    private final MetricsConfiguration configuration;
 
-    private Map<String, Metrics> projects = new HashMap<String, Metrics>();
-    private Map<String, Metrics> groups   = new HashMap<String, Metrics>();
-    private Map<String, Metrics> classes  = new HashMap<String, Metrics>();
-    private Map<String, Metrics> methods  = new HashMap<String, Metrics>();
+    private final Map<String, Metrics> projects = new HashMap<>();
+    private final Map<String, Metrics> groups = new HashMap<>();
+    private final Map<String, Metrics> classes = new HashMap<>();
+    private final Map<String, Metrics> methods = new HashMap<>();
 
-    private Map<String, Metrics> includedProjects = new HashMap<String, Metrics>();
-    private Map<String, Metrics> includedGroups   = new HashMap<String, Metrics>();
-    private Map<String, Metrics> includedClasses  = new HashMap<String, Metrics>();
-    private Map<String, Metrics> includedMethods  = new HashMap<String, Metrics>();
+    private final Map<String, Metrics> includedProjects = new HashMap<>();
+    private final Map<String, Metrics> includedGroups = new HashMap<>();
+    private final Map<String, Metrics> includedClasses = new HashMap<>();
+    private final Map<String, Metrics> includedMethods = new HashMap<>();
 
-    private WordCounter counter = new WordCounter();
+    private final WordCounter counter = new WordCounter();
     
     public MetricsFactory(String projectName, MetricsConfiguration configuration) {
-        this.projectName   = projectName;
+        this.projectName = projectName;
         this.configuration = configuration;
     }
 
@@ -125,7 +131,7 @@ public class MetricsFactory {
 
     private Metrics buildGroupMetrics(String name) {
         Metrics projectMetrics = createProjectMetrics();
-        Metrics result         = new Metrics(projectMetrics, name);
+        Metrics result = new Metrics(projectMetrics, name);
 
         populateMetrics(result, getConfiguration().getGroupMeasurements());
         initializeGroupMetrics(name, result);
@@ -160,6 +166,12 @@ public class MetricsFactory {
         return Collections.unmodifiableCollection(includedGroups.values());
     }
 
+    public Collection<Metrics> getGroupMetrics(String classsName) {
+        return getConfiguration().getGroups(classsName).stream()
+                .map(this::createGroupMetrics)
+                .collect(toCollection(HashSet::new));
+    }
+
     public Collection<String> getAllGroupNames() {
         return Collections.unmodifiableCollection(groups.keySet());
     }
@@ -187,7 +199,7 @@ public class MetricsFactory {
         }
         String className = name.substring(pos + 1);
         Metrics packageMetrics = createGroupMetrics(packageName);
-        Metrics result         = new Metrics(packageMetrics, name);
+        Metrics result = new Metrics(packageMetrics, name);
         
         populateMetrics(result, getConfiguration().getClassMeasurements());
         initializeClassMetrics(className, result);
@@ -213,11 +225,11 @@ public class MetricsFactory {
         metrics.getParent().addSubMetrics(metrics);
         includeGroupMetrics(metrics.getParent());
 
-        for (String name : getConfiguration().getGroups(metrics.getName())) {
+        getConfiguration().getGroups(metrics.getName()).forEach(name -> {
             Metrics groupMetrics = createGroupMetrics(name);
             groupMetrics.addSubMetrics(metrics);
             includeGroupMetrics(groupMetrics);
-        }
+        });
     }
 
     public Collection<String> getClassNames() {
@@ -261,7 +273,7 @@ public class MetricsFactory {
             featureName = perl.group(2);
         }
         Metrics classMetrics = createClassMetrics(className);
-        Metrics result       = new Metrics(classMetrics, name);
+        Metrics result = new Metrics(classMetrics, name);
         classMetrics.addSubMetrics(result);
 
         populateMetrics(result, getConfiguration().getMethodMeasurements());
@@ -318,46 +330,34 @@ public class MetricsFactory {
     }
     
     private void populateMetrics(Metrics metrics, Collection<MeasurementDescriptor> descriptors) {
-        for (MeasurementDescriptor descriptor : descriptors) {
+        descriptors.forEach(descriptor -> {
             try {
                 metrics.track(descriptor.createMeasurement(metrics));
-            } catch (InstantiationException ex) {
-                Logger.getLogger(getClass()).warn("Unable to create measurement \"" + descriptor.getShortName() + "\"", ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(getClass()).warn("Unable to create measurement \"" + descriptor.getShortName() + "\"", ex);
-            } catch (NoSuchMethodException ex) {
-                Logger.getLogger(getClass()).warn("Unable to create measurement \"" + descriptor.getShortName() + "\"", ex);
-            } catch (InvocationTargetException ex) {
+            } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
                 Logger.getLogger(getClass()).warn("Unable to create measurement \"" + descriptor.getShortName() + "\"", ex);
             }
-        }
+        });
     }
 
     public String toString() {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
-        result.append("Factory for project \"").append(getProjectName()).append("\"").append(System.getProperty("line.separator", "\n"));
+        String newline = System.getProperty("line.separator", "\n");
 
-        result.append("projects:").append(System.getProperty("line.separator", "\n"));
-        for (Map.Entry<String, Metrics> entry : projects.entrySet()) {
-            result.append("    ").append(entry.getKey()).append(" -> ").append(entry.getValue().getName()).append("").append(System.getProperty("line.separator", "\n"));
-        }
-        
-        result.append("groups:").append(System.getProperty("line.separator", "\n"));
-        for (Map.Entry<String, Metrics> entry : groups.entrySet()) {
-            result.append("    ").append(entry.getKey()).append(" -> ").append(entry.getValue().getName()).append("").append(System.getProperty("line.separator", "\n"));
-        }
-        
-        result.append("classes:").append(System.getProperty("line.separator", "\n"));
-        for (Map.Entry<String, Metrics> entry : classes.entrySet()) {
-            result.append("    ").append(entry.getKey()).append(" -> ").append(entry.getValue().getName()).append("").append(System.getProperty("line.separator", "\n"));
-        }
-        
-        result.append("methods:").append(System.getProperty("line.separator", "\n"));
-        for (Map.Entry<String, Metrics> entry : methods.entrySet()) {
-            result.append("    ").append(entry.getKey()).append(" -> ").append(entry.getValue().getName()).append("").append(System.getProperty("line.separator", "\n"));
-        }
-        
+        result.append("Factory for project \"").append(getProjectName()).append("\"").append(newline);
+
+        result.append("projects:").append(newline);
+        projects.forEach((name, metrics) -> result.append("    ").append(name).append(" -> ").append(metrics.getName()).append(newline));
+
+        result.append("groups:").append(newline);
+        groups.forEach((name, metrics) -> result.append("    ").append(name).append(" -> ").append(metrics.getName()).append(newline));
+
+        result.append("classes:").append(newline);
+        classes.forEach((name, metrics) -> result.append("    ").append(name).append(" -> ").append(metrics.getName()).append(newline));
+
+        result.append("methods:").append(newline);
+        methods.forEach((name, metrics) -> result.append("    ").append(name).append(" -> ").append(metrics.getName()).append(newline));
+
         return result.toString();
     }
 }

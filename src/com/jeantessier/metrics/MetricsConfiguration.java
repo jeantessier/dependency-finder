@@ -32,20 +32,27 @@
 
 package com.jeantessier.metrics;
 
-import java.util.*;
+import com.jeantessier.text.MaximumCapacityPatternCache;
+import org.apache.oro.text.perl.Perl5Util;
 
-import org.apache.oro.text.perl.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
-import com.jeantessier.text.*;
+import static java.util.stream.Collectors.toCollection;
 
 public class MetricsConfiguration {
     private static final Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
     
-    private List<MeasurementDescriptor> projectMeasurements = new LinkedList<MeasurementDescriptor>();
-    private List<MeasurementDescriptor> groupMeasurements = new LinkedList<MeasurementDescriptor>();
-    private List<MeasurementDescriptor> classMeasurements = new LinkedList<MeasurementDescriptor>();
-    private List<MeasurementDescriptor> methodMeasurements = new LinkedList<MeasurementDescriptor>();
-    private Map<String, Collection<String>> groupDefinitions = new HashMap<String, Collection<String>>();
+    private final List<MeasurementDescriptor> projectMeasurements = new LinkedList<>();
+    private final List<MeasurementDescriptor> groupMeasurements = new LinkedList<>();
+    private final List<MeasurementDescriptor> classMeasurements = new LinkedList<>();
+    private final List<MeasurementDescriptor> methodMeasurements = new LinkedList<>();
+    private final Map<String, Collection<String>> groupDefinitions = new HashMap<>();
     
     public List<MeasurementDescriptor> getProjectMeasurements() {
         return Collections.unmodifiableList(projectMeasurements);
@@ -80,29 +87,13 @@ public class MetricsConfiguration {
     }
 
     public void addGroupDefinition(String name, String pattern) {
-        Collection<String> bucket = groupDefinitions.get(name);
-
-        if (bucket == null) {
-            bucket = new LinkedList<String>();
-            groupDefinitions.put(name, bucket);
-        }
-
-        bucket.add(pattern);
+        groupDefinitions.computeIfAbsent(name, k -> new LinkedList<>()).add(pattern);
     }
 
     public Collection<String> getGroups(String name) {
-        Collection<String> result = new HashSet<String>();
-
-        for (String key : groupDefinitions.keySet()) {
-            if (groupDefinitions.get(key) != null) {
-                for (String pattern : groupDefinitions.get(key)) {
-                    if (perl.match(pattern, name)) {
-                        result.add(key);
-                    }
-                }
-            }
-        }
-        
-        return result;
+        return groupDefinitions.entrySet().stream()
+                .filter(entry -> entry.getValue().stream().anyMatch(pattern -> perl.match(pattern, name)))
+                .map(Map.Entry::getKey)
+                .collect(toCollection(HashSet::new));
     }
 }

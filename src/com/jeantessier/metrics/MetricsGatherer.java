@@ -66,7 +66,7 @@ import java.util.LinkedList;
 public class MetricsGatherer extends VisitorBase {
     private static final Perl5Util perl = new Perl5Util();
 
-    private MetricsFactory factory;
+    private final MetricsFactory factory;
 
     private Collection<String> scope = null;
     private Collection<String> filter = null;
@@ -79,7 +79,7 @@ public class MetricsGatherer extends VisitorBase {
     private int sloc;
     private boolean isSynthetic;
     
-    private HashSet<MetricsListener> metricsListeners = new HashSet<MetricsListener>();
+    private final HashSet<MetricsListener> metricsListeners = new HashSet<>();
 
     public MetricsGatherer(MetricsFactory factory) {
         this.factory = factory;
@@ -131,6 +131,15 @@ public class MetricsGatherer extends VisitorBase {
         this.currentMethod = currentMethod;
     }
 
+    private Collection<Metrics> getAllMatchingGroups(String className) {
+        Collection<Metrics> result = new java.util.ArrayList<>();
+
+        result.add(getCurrentGroup());
+        result.addAll(getMetricsFactory().getGroupMetrics(className));
+
+        return result;
+    }
+
     public void visitClassfiles(Collection<Classfile> classfiles) {
         fireBeginSession(classfiles.size());
 
@@ -157,39 +166,41 @@ public class MetricsGatherer extends VisitorBase {
         getCurrentClass().addToMeasurement(BasicMeasurements.MAJOR_VERSION, classfile.getMajorVersion());
         getCurrentClass().addToMeasurement(BasicMeasurements.MINOR_VERSION, classfile.getMinorVersion());
 
-        getCurrentProject().addToMeasurement(BasicMeasurements.PACKAGES, getCurrentGroup().getName());
+        Collection<Metrics> groups = getAllMatchingGroups(className);
+
+        groups.forEach(group -> group.addToMeasurement(BasicMeasurements.PACKAGES, getCurrentGroup().getName()));
 
         if (classfile.isPublic()) {
             getCurrentProject().addToMeasurement(BasicMeasurements.PUBLIC_CLASSES, className);
-            getCurrentGroup().addToMeasurement(BasicMeasurements.PUBLIC_CLASSES, className);
+            groups.forEach(group -> group.addToMeasurement(BasicMeasurements.PUBLIC_CLASSES, className));
         } else {
             getCurrentProject().addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, className);
-            getCurrentGroup().addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, className);
+            groups.forEach(group -> group.addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, className));
         }
 
         if (classfile.isFinal()) {
             getCurrentProject().addToMeasurement(BasicMeasurements.FINAL_CLASSES, className);
-            getCurrentGroup().addToMeasurement(BasicMeasurements.FINAL_CLASSES, className);
+            groups.forEach(group -> group.addToMeasurement(BasicMeasurements.FINAL_CLASSES, className));
         }
 
         if (classfile.isSuper()) {
             getCurrentProject().addToMeasurement(BasicMeasurements.SUPER_CLASSES, className);
-            getCurrentGroup().addToMeasurement(BasicMeasurements.SUPER_CLASSES, className);
+            groups.forEach(group -> group.addToMeasurement(BasicMeasurements.SUPER_CLASSES, className));
         }
 
         if (classfile.isInterface()) {
             getCurrentProject().addToMeasurement(BasicMeasurements.INTERFACES, className);
-            getCurrentGroup().addToMeasurement(BasicMeasurements.INTERFACES, className);
+            groups.forEach(group -> group.addToMeasurement(BasicMeasurements.INTERFACES, className));
         }
 
         if (classfile.isAbstract()) {
             getCurrentProject().addToMeasurement(BasicMeasurements.ABSTRACT_CLASSES, className);
-            getCurrentGroup().addToMeasurement(BasicMeasurements.ABSTRACT_CLASSES, className);
+            groups.forEach(group -> group.addToMeasurement(BasicMeasurements.ABSTRACT_CLASSES, className));
         }
 
         if (classfile.isSynthetic()) {
             getCurrentProject().addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES, className);
-            getCurrentGroup().addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES, className);
+            groups.forEach(group -> group.addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES, className));
         }
 
         if (classfile.getSuperclassIndex() != 0) {
@@ -389,10 +400,10 @@ public class MetricsGatherer extends VisitorBase {
 
         isSynthetic = true;
         
-        if (owner instanceof Field_info) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_ATTRIBUTES, ((Field_info) owner).getFullName());
-        } else if (owner instanceof Method_info) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_METHODS, ((Method_info) owner).getFullSignature());
+        if (owner instanceof Field_info fieldInfo) {
+            getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_ATTRIBUTES, fieldInfo.getFullName());
+        } else if (owner instanceof Method_info methodInfo) {
+            getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_METHODS, methodInfo.getFullSignature());
         } else {
             Logger.getLogger(getClass()).warn("Synthetic attribute on unknown Visitable: " + owner.getClass().getName());
         }
@@ -400,15 +411,15 @@ public class MetricsGatherer extends VisitorBase {
 
     public void visitDeprecated_attribute(Deprecated_attribute attribute) {
         Object owner = attribute.getOwner();
-    
-        if (owner instanceof Classfile) {
-            String className = ((Classfile) owner).getClassName();
+
+        if (owner instanceof Classfile classfile) {
+            String className = classfile.getClassName();
             getCurrentProject().addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, className);
-            getCurrentGroup().addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, className);
-        } else if (owner instanceof Field_info) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_ATTRIBUTES, ((Field_info) owner).getFullName());
-        } else if (owner instanceof Method_info) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_METHODS, ((Method_info) owner).getFullSignature());
+            getAllMatchingGroups(className).forEach(group -> group.addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, className));
+        } else if (owner instanceof Field_info fieldInfo) {
+            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_ATTRIBUTES, fieldInfo.getFullName());
+        } else if (owner instanceof Method_info methodInfo) {
+            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_METHODS, methodInfo.getFullSignature());
         } else {
             Logger.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: " + owner.getClass().getName());
         }
@@ -460,43 +471,45 @@ public class MetricsGatherer extends VisitorBase {
         if (isInnerClassOfCurrentClass(helper)) {
             String innerClassName = helper.getInnerClassInfo();
 
+            Collection<Metrics> groups = getAllMatchingGroups(innerClassName);
+
             getCurrentProject().addToMeasurement(BasicMeasurements.INNER_CLASSES, innerClassName);
-            getCurrentGroup().addToMeasurement(BasicMeasurements.INNER_CLASSES, innerClassName);
+            groups.forEach(group -> group.addToMeasurement(BasicMeasurements.INNER_CLASSES, innerClassName));
             getCurrentClass().addToMeasurement(BasicMeasurements.INNER_CLASSES, innerClassName);
         
             if (helper.isPublic()) {
                 getCurrentProject().addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES, innerClassName);
-                getCurrentGroup().addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES, innerClassName);
+                groups.forEach(group -> group.addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES, innerClassName));
                 getCurrentClass().addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES, innerClassName);
             } else if (helper.isPrivate()) {
                 getCurrentProject().addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES, innerClassName);
-                getCurrentGroup().addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES, innerClassName);
+                groups.forEach(group -> group.addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES, innerClassName));
                 getCurrentClass().addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES, innerClassName);
             } else if (helper.isProtected()) {
                 getCurrentProject().addToMeasurement(BasicMeasurements.PROTECTED_INNER_CLASSES, innerClassName);
-                getCurrentGroup().addToMeasurement(BasicMeasurements.PROTECTED_INNER_CLASSES, innerClassName);
+                groups.forEach(group -> group.addToMeasurement(BasicMeasurements.PROTECTED_INNER_CLASSES, innerClassName));
                 getCurrentClass().addToMeasurement(BasicMeasurements.PROTECTED_INNER_CLASSES, innerClassName);
             } else {
                 getCurrentProject().addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, innerClassName);
-                getCurrentGroup().addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, innerClassName);
+                groups.forEach(group -> group.addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, innerClassName));
                 getCurrentClass().addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, innerClassName);
             }
 
             if (helper.isStatic()) {
                 getCurrentProject().addToMeasurement(BasicMeasurements.STATIC_INNER_CLASSES, innerClassName);
-                getCurrentGroup().addToMeasurement(BasicMeasurements.STATIC_INNER_CLASSES, innerClassName);
+                groups.forEach(group -> group.addToMeasurement(BasicMeasurements.STATIC_INNER_CLASSES, innerClassName));
                 getCurrentClass().addToMeasurement(BasicMeasurements.STATIC_INNER_CLASSES, innerClassName);
             }
 
             if (helper.isFinal()) {
                 getCurrentProject().addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES, innerClassName);
-                getCurrentGroup().addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES, innerClassName);
+                groups.forEach(group -> group.addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES, innerClassName));
                 getCurrentClass().addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES, innerClassName);
             }
 
             if (helper.isAbstract()) {
                 getCurrentProject().addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, innerClassName);
-                getCurrentGroup().addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, innerClassName);
+                groups.forEach(group -> group.addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, innerClassName));
                 getCurrentClass().addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, innerClassName);
             }
         }
@@ -537,7 +550,7 @@ public class MetricsGatherer extends VisitorBase {
     }
     
     private Collection<String> processDescriptor(String str) {
-        Collection<String> result = new LinkedList<String>();
+        Collection<String> result = new LinkedList<>();
         
         Logger.getLogger(getClass()).debug("ProcessDescriptor: " + str);
 
@@ -561,9 +574,7 @@ public class MetricsGatherer extends VisitorBase {
     }
 
     private void addClassDependencies(Collection<String> classnames) {
-        for (String classname : classnames) {
-            addClassDependency(classname);
-        }
+        classnames.forEach(this::addClassDependency);
     }
     
     private void addClassDependency(String name) {
@@ -656,44 +667,32 @@ public class MetricsGatherer extends VisitorBase {
 
     protected void fireBeginSession(int size) {
         MetricsEvent event = new MetricsEvent(this, size);
-        for (MetricsListener listener : cloneListeners()) {
-            listener.beginSession(event);
-        }
+        cloneListeners().forEach(listener -> listener.beginSession(event));
     }
 
     protected void fireBeginClass(Classfile classfile) {
         MetricsEvent event = new MetricsEvent(this, classfile);
-        for (MetricsListener listener : cloneListeners()) {
-            listener.beginClass(event);
-        }
+        cloneListeners().forEach(listener -> listener.beginClass(event));
     }
 
     protected void fireBeginMethod(Method_info method) {
         MetricsEvent event = new MetricsEvent(this, method);
-        for (MetricsListener listener : cloneListeners()) {
-            listener.beginMethod(event);
-        }
+        cloneListeners().forEach(listener -> listener.beginMethod(event));
     }
 
     protected void fireEndMethod(Method_info method, Metrics metrics) {
         MetricsEvent event = new MetricsEvent(this, method, metrics);
-        for (MetricsListener listener : cloneListeners()) {
-            listener.endMethod(event);
-        }
+        cloneListeners().forEach(listener -> listener.endMethod(event));
     }
 
     protected void fireEndClass(Classfile classfile, Metrics metrics) {
         MetricsEvent event = new MetricsEvent(this, classfile, metrics);
-        for (MetricsListener listener : cloneListeners()) {
-            listener.endClass(event);
-        }
+        cloneListeners().forEach(listener -> listener.endClass(event));
     }
 
     protected void fireEndSession() {
         MetricsEvent event = new MetricsEvent(this);
-        for (MetricsListener listener : cloneListeners()) {
-            listener.endSession(event);
-        }
+        cloneListeners().forEach(listener -> listener.endSession(event));
     }
 
     private Collection<MetricsListener> cloneListeners() {
