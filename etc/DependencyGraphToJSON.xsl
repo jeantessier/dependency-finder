@@ -77,7 +77,7 @@
 
     <xsl:template match="outbound | inbound">
         <xsl:text>{</xsl:text>
-        <xsl:text>"type":"feature",</xsl:text>
+        <xsl:text>"type":"</xsl:text><xsl:value-of select="@type"/><xsl:text>",</xsl:text>
         <xsl:text>"confirmed":"</xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>",</xsl:text>
         <xsl:text>"name":"</xsl:text><xsl:value-of select="."/><xsl:text>"</xsl:text>
         <xsl:text>}</xsl:text>
