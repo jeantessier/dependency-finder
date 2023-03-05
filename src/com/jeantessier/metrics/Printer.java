@@ -38,10 +38,11 @@ import java.util.*;
 public abstract class Printer implements MeasurementVisitor {
     public static final String DEFAULT_INDENT_TEXT = "    ";
 
-    private PrintWriter out;
+    private final PrintWriter out;
 
     private boolean showEmptyMetrics = false;
     private boolean showHiddenMeasurements = false;
+    private boolean expandCollectionMeasurements = false;
     private String indentText = DEFAULT_INDENT_TEXT;
     private int indentLevel = 0;
 
@@ -72,7 +73,15 @@ public abstract class Printer implements MeasurementVisitor {
     public void setShowHiddenMeasurements(boolean showHiddenMeasurements) {
         this.showHiddenMeasurements = showHiddenMeasurements;
     }
-    
+
+    public boolean isExpandCollectionMeasurements() {
+        return expandCollectionMeasurements;
+    }
+
+    public void setExpandCollectionMeasurements(boolean expandCollectionMeasurements) {
+        this.expandCollectionMeasurements = expandCollectionMeasurements;
+    }
+
     protected Printer append(boolean b) {
         out.print(b);
         return this;
@@ -140,9 +149,7 @@ public abstract class Printer implements MeasurementVisitor {
     }
 
     public void visitMetrics(Collection<Metrics> metrics) {
-        for (Metrics metric : metrics) {
-            visitMetrics(metric);
-        }
+        metrics.forEach(this::visitMetrics);
     }
     
     public abstract void visitMetrics(Metrics metrics);
@@ -176,4 +183,15 @@ public abstract class Printer implements MeasurementVisitor {
     }
 
     protected abstract void visitMeasurement(Measurement measurement);
+
+    protected boolean hasVisibleMeasurements(List<MeasurementDescriptor> descriptors) {
+        return descriptors.stream()
+                .anyMatch(descriptor -> isShowHiddenMeasurements() || descriptor.isVisible());
+    }
+
+    protected void visitMeasurements(Metrics metrics, List<MeasurementDescriptor> descriptors) {
+        descriptors.stream()
+                .filter(descriptor -> isShowHiddenMeasurements() || descriptor.isVisible())
+                .forEach(descriptor -> metrics.getMeasurement(descriptor.getShortName()).accept(this));
+    }
 }

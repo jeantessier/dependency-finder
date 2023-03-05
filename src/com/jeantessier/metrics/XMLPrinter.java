@@ -33,7 +33,6 @@
 package com.jeantessier.metrics;
 
 import java.io.PrintWriter;
-import java.util.List;
 
 public class XMLPrinter extends Printer {
     public static final String DEFAULT_ENCODING   = "utf-8";
@@ -77,10 +76,7 @@ public class XMLPrinter extends Printer {
             indent().append("<name>").append(metrics.getName()).append("</name>").eol();
             
             visitMeasurements(metrics, configuration.getProjectMeasurements());
-
-            for (Metrics subMetrics : metrics.getSubMetrics()) {
-                visitGroupMetrics(subMetrics);
-            }
+            metrics.getSubMetrics().forEach(this::visitGroupMetrics);
             
             lowerIndent();
             indent().append("</project>").eol();
@@ -94,10 +90,7 @@ public class XMLPrinter extends Printer {
             indent().append("<name>").append(metrics.getName()).append("</name>").eol();
             
             visitMeasurements(metrics, configuration.getGroupMeasurements());
-
-            for (Metrics subMetrics : metrics.getSubMetrics()) {
-                visitClassMetrics(subMetrics);
-            }
+            metrics.getSubMetrics().forEach(this::visitClassMetrics);
             
             lowerIndent();
             indent().append("</group>").eol();
@@ -111,11 +104,8 @@ public class XMLPrinter extends Printer {
             indent().append("<name>").append(metrics.getName()).append("</name>").eol();
             
             visitMeasurements(metrics, configuration.getClassMeasurements());
+            metrics.getSubMetrics().forEach(this::visitMethodMetrics);
 
-            for (Metrics subMetrics : metrics.getSubMetrics()) {
-                visitMethodMetrics(subMetrics);
-            }
-            
             lowerIndent();
             indent().append("</class>").eol();
         }
@@ -131,14 +121,6 @@ public class XMLPrinter extends Printer {
             
             lowerIndent();
             indent().append("</method>").eol();
-        }
-    }
-
-    private void visitMeasurements(Metrics metrics, List<MeasurementDescriptor> descriptors) {
-        for (MeasurementDescriptor descriptor : descriptors) {
-            if (isShowHiddenMeasurements() || descriptor.isVisible()) {
-                metrics.getMeasurement(descriptor.getShortName()).accept(this);
-            }
         }
     }
 
@@ -177,13 +159,15 @@ public class XMLPrinter extends Printer {
         indent().append("<short-name>").append(measurement.getShortName()).append("</short-name>").eol();
         indent().append("<long-name>").append(measurement.getLongName()).append("</long-name>").eol();
         indent().append("<value>").append(measurement.getValue()).append("</value>").eol();
-        indent().append("<members>").eol();
-        raiseIndent();
-        for (Object member : measurement.getValues()) {
-            indent().append("<member>").append(member).append("</member>").eol();
+
+        if (isExpandCollectionMeasurements()) {
+            indent().append("<members>").eol();
+            raiseIndent();
+            measurement.getValues().forEach(member -> indent().append("<member>").append(member).append("</member>").eol());
+            lowerIndent();
+            indent().append("</members>").eol();
         }
-        lowerIndent();
-        indent().append("</members>").eol();
+
         lowerIndent();
         indent().append("</measurement>").eol();
     }

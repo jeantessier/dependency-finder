@@ -43,8 +43,6 @@ public class TextPrinter extends Printer {
 
     private final List<MeasurementDescriptor> descriptors;
 
-    private boolean expandCollectionMeasurements;
-    
     private Metrics currentMetrics = null;
     
     public TextPrinter(PrintWriter out, List<MeasurementDescriptor> descriptors) {
@@ -53,14 +51,6 @@ public class TextPrinter extends Printer {
         this.descriptors = descriptors;
     }
 
-    public boolean isExpandCollectionMeasurements() {
-        return expandCollectionMeasurements;
-    }
-
-    public void setExpandCollectionMeasurements(boolean expandCollectionMeasurements) {
-        this.expandCollectionMeasurements = expandCollectionMeasurements;
-    }
-    
     public void visitMetrics(Metrics metrics) {
         if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
             currentMetrics = metrics;
@@ -68,12 +58,8 @@ public class TextPrinter extends Printer {
             indent().append(metrics.getName()).eol();
             raiseIndent();
 
-            for (MeasurementDescriptor descriptor : descriptors) {
-                if (isShowHiddenMeasurements() || descriptor.isVisible()) {
-                    metrics.getMeasurement(descriptor.getShortName()).accept(this);
-                }
-            }
-            
+            visitMeasurements(metrics, descriptors);
+
             lowerIndent();
             
             eol();
@@ -122,9 +108,7 @@ public class TextPrinter extends Printer {
     protected void visitCollectionMeasurement(CollectionMeasurement measurement) {
         if (isExpandCollectionMeasurements()) {
             raiseIndent();
-            for (String value : measurement.getValues()) {
-                indent().append(value).eol();
-            }
+            measurement.getValues().forEach(value -> indent().append(value).eol());
             lowerIndent();
         }
     }
