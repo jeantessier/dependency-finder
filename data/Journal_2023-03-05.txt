@@ -1,0 +1,5 @@
+Used XSLT to convert XML metrics to YAML format.  It is also somewhat easier
+than doing it in Java.  But I'm toying with the idea of keeping both
+implementations.  There were some interesting uses of the Stream API in those
+=Printer= subclasses.  But I still need to fix how =JSONPrinter= deals with
+commas in lists.

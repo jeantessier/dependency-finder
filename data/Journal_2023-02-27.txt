@@ -1,0 +1,6 @@
+Created YAML and JSON formats for =OOMetrics=.  The JSON format is particularly
+tricky because it uses commas as separators in lists, and the Visitor pattern I
+am using doesn't know where it is in the list.  How is it supposed to know not
+to put a comma after the last element?  The Stream API has a =joining()=
+collector, but I will have to skip the Visitor pattern in the JSON
+implementation if I want use it.
