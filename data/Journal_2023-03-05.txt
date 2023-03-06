@@ -3,3 +3,8 @@ than doing it in Java.  But I'm toying with the idea of keeping both
 implementations.  There were some interesting uses of the Stream API in those
 =Printer= subclasses.  But I still need to fix how =JSONPrinter= deals with
 commas in lists.
+
+I re-wrote the =JSONPrinter= to capitalize on =Collections.joining()=.  It
+clones itself to render sub-parts.  It will end up using more memory as it
+writes sub-parts using =java.io.StringWriter= and only writes them out at the
+very end.
