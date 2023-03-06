@@ -1,2 +1,2 @@
 Added =DependencyGraphToJSON= and =DependencyGraphToYAML=.  They use XSLT to
-translate XML to the target format.
+translate dependency graphs in XML to JSON and YAML formats respectively.
