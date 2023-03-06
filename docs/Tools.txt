@@ -53,7 +53,9 @@ For Dependency Finder version <VERSION />.
 <ul>
 <li><a href="#OOMetrics">OOMetrics</a></li>
 <li><a href="#MetricsToHTML">MetricsToHTML</a></li>
+<li><a href="#MetricsToJSON">MetricsToJSON</a></li>
 <li><a href="#MetricsToText">MetricsToText</a></li>
+<li><a href="#MetricsToYAML">MetricsToYAML</a></li>
 <li><a href="#OOMetricsGUI">OOMetricsGUI</a></li>
 <p></p>
 <li><a href="#ClassMetrics">ClassMetrics</a></li>
@@ -10308,6 +10310,115 @@ To convert the metrics report in =metrics.xml= to a hyperlinked HTML file:
 
 ----
 
+---++ MetricsToJSON
+
+<blockquote>
+
+Translates the whole report to JSON.
+
+</blockquote>
+
+---+++ Synopsis
+
+    MetricsToJSON
+        -s:input_file.xml
+        [-o:output_file.json]
+
+---+++ Description
+
+<blockquote>
+
+Translates the entire report to JSON.  If the report includes expanded
+collection measurements, it will render them inside the document.
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-s:input_file.xml=
+
+<blockquote>
+
+The XML file to be translated.  The document has to follow the
+=[[https://depfind.sourceforge.io/dtd/metrics.dtd][metrics]]= DTD,
+such as the output of [[#OOMetrics][OOMetrics]].
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-o:output_file.json=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Parameters
+
+<blockquote>
+
+_none_
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-o= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+To convert the metrics report in =metrics.xml= to a JSON document:
+
+<div class="highlight">
+
+    MetricsToJSON -s:metrics.xml -o:metrics.json
+
+</div>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=net.sf.saxon.Transform=
+
+</blockquote>
+
+---+++ XSL Stylesheet
+
+<blockquote>
+
+=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/MetricsToJSON.xsl=
+
+</blockquote>
+
+----
+
 ---++ MetricsToText
 
 <blockquote>
@@ -10415,6 +10526,115 @@ To convert the dependency graph in =metrics.xml= to a text file:
 <blockquote>
 
 =_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/MetricsToText.xsl=
+
+</blockquote>
+
+----
+
+---++ MetricsToYAML
+
+<blockquote>
+
+Translates the whole report to YAML.
+
+</blockquote>
+
+---+++ Synopsis
+
+    MetricsToYAML
+        -s:input_file.xml
+        [-o:output_file.yaml]
+
+---+++ Description
+
+<blockquote>
+
+Translates the entire report to YAML.  If the report includes expanded
+collection measurements, it will render them inside the YAML structure.
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-s:input_file.xml=
+
+<blockquote>
+
+The XML file to be translated.  The document has to follow the
+=[[https://depfind.sourceforge.io/dtd/metrics.dtd][metrics]]= DTD,
+such as the output of [[#OOMetrics][OOMetrics]].
+
+<table border="0">
+<tr><td>Mandatory:</td><td>yes</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-o:output_file.yaml=
+
+<blockquote>
+
+Where to put the outcome of the translation.
+
+If not specified, the translation goes to the standard output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Parameters
+
+<blockquote>
+
+_none_
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+See =-o= above.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+To convert the metrics report in =metrics.xml= to a YAML file:
+
+<div class="highlight">
+
+    MetricsToYAML -s:metrics.xml -o:metrics.yaml
+
+</div>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=net.sf.saxon.Transform=
+
+</blockquote>
+
+---+++ XSL Stylesheet
+
+<blockquote>
+
+=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/MetricsToYAML.xsl=
 
 </blockquote>
 
