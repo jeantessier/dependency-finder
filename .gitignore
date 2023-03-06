@@ -80,8 +80,12 @@ bin/ListUnused
 bin/ListUnused.bat
 bin/MetricsToHTML
 bin/MetricsToHTML.bat
+bin/MetricsToJSON
+bin/MetricsToJSON.bat
 bin/MetricsToText
 bin/MetricsToText.bat
+bin/MetricsToYAML
+bin/MetricsToYAML.bat
 bin/c2c
 bin/c2c.bat
 bin/c2p
