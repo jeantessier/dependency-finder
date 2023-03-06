@@ -41,8 +41,11 @@
         <xsl:apply-templates/>
     </xsl:template>
 
+    <!-- Project Metrics-->
+
     <xsl:template match="project">
-        <xsl:value-of select="name"/><xsl:text>
+        <xsl:value-of select="name"/>
+        <xsl:text>
 </xsl:text>
         <xsl:apply-templates select="measurement"/>
         <xsl:text>
@@ -52,8 +55,25 @@
 </xsl:text>
     </xsl:template>
 
+    <xsl:template match="project/measurement">
+        <xsl:text>    </xsl:text><xsl:value-of select="long-name"/>: <xsl:value-of select="value"/>
+        <xsl:if test="minimum"><xsl:text> </xsl:text>[<xsl:value-of select="minimum"/>, <xsl:value-of select="median"/>, <xsl:value-of select="average"/>, <xsl:value-of select="standard-deviation"/>, <xsl:value-of select="maximum"/>, <xsl:value-of select="sum"/>, <xsl:value-of select="nb-data-points"/>]</xsl:if>
+        <xsl:text>
+</xsl:text>
+        <xsl:apply-templates select="members"/>
+    </xsl:template>
+
+    <xsl:template match="project/measurement/members/member">
+        <xsl:text>        </xsl:text><xsl:value-of select="text()"/>
+        <xsl:text>
+</xsl:text>
+    </xsl:template>
+
+    <!-- Group Metrics-->
+
     <xsl:template match="group">
-        <xsl:text>    </xsl:text><xsl:value-of select="name"/><xsl:text>
+        <xsl:text>    </xsl:text><xsl:value-of select="name"/>
+        <xsl:text>
 </xsl:text>
         <xsl:apply-templates select="measurement"/>
         <xsl:text>
@@ -63,8 +83,25 @@
 </xsl:text>
     </xsl:template>
 
+    <xsl:template match="group/measurement">
+        <xsl:text>        </xsl:text><xsl:value-of select="long-name"/>: <xsl:value-of select="value"/>
+        <xsl:if test="minimum"><xsl:text> </xsl:text>[<xsl:value-of select="minimum"/>, <xsl:value-of select="median"/>, <xsl:value-of select="average"/>, <xsl:value-of select="standard-deviation"/>, <xsl:value-of select="maximum"/>, <xsl:value-of select="sum"/>, <xsl:value-of select="nb-data-points"/>]</xsl:if>
+        <xsl:text>
+</xsl:text>
+        <xsl:apply-templates select="members"/>
+    </xsl:template>
+
+    <xsl:template match="group/measurement/members/member">
+        <xsl:text>            </xsl:text><xsl:value-of select="text()"/>
+        <xsl:text>
+</xsl:text>
+    </xsl:template>
+
+    <!-- Class Metrics-->
+
     <xsl:template match="class">
-        <xsl:text>        </xsl:text><xsl:value-of select="name"/><xsl:text>
+        <xsl:text>        </xsl:text><xsl:value-of select="name"/>
+        <xsl:text>
 </xsl:text>
         <xsl:apply-templates select="measurement"/>
         <xsl:text>
@@ -74,79 +111,42 @@
 </xsl:text>
     </xsl:template>
 
+    <xsl:template match="class/measurement">
+        <xsl:text>            </xsl:text><xsl:value-of select="long-name"/>: <xsl:value-of select="value"/>
+        <xsl:if test="minimum"><xsl:text> </xsl:text>[<xsl:value-of select="minimum"/>, <xsl:value-of select="median"/>, <xsl:value-of select="average"/>, <xsl:value-of select="standard-deviation"/>, <xsl:value-of select="maximum"/>, <xsl:value-of select="sum"/>, <xsl:value-of select="nb-data-points"/>]</xsl:if>
+        <xsl:text>
+</xsl:text>
+        <xsl:apply-templates select="members"/>
+    </xsl:template>
+
+    <xsl:template match="class/measurement/members/member">
+        <xsl:text>                </xsl:text><xsl:value-of select="text()"/>
+        <xsl:text>
+</xsl:text>
+    </xsl:template>
+
+    <!-- Method Metrics-->
+
     <xsl:template match="method">
-        <xsl:text>            </xsl:text><xsl:value-of select="name"/><xsl:text>
+        <xsl:text>            </xsl:text><xsl:value-of select="name"/>
+        <xsl:text>
 </xsl:text>
         <xsl:apply-templates select="measurement"/>
         <xsl:text>
 </xsl:text>
     </xsl:template>
 
-    <xsl:template match="project/measurement">
-        <xsl:text>    </xsl:text><xsl:value-of select="long-name"/>: <xsl:value-of select="value"/><xsl:text>
+    <xsl:template match="method/measurement">
+        <xsl:text>                </xsl:text><xsl:value-of select="long-name"/>: <xsl:value-of select="value"/>
+        <xsl:if test="minimum"><xsl:text> </xsl:text>[<xsl:value-of select="minimum"/>, <xsl:value-of select="median"/>, <xsl:value-of select="average"/>, <xsl:value-of select="standard-deviation"/>, <xsl:value-of select="maximum"/>, <xsl:value-of select="sum"/>, <xsl:value-of select="nb-data-points"/>]</xsl:if>
+        <xsl:text>
 </xsl:text>
         <xsl:apply-templates select="members"/>
     </xsl:template>
 
-    <xsl:template match="project/group/measurement">
-        <xsl:text>        </xsl:text><xsl:value-of select="long-name"/>: <xsl:value-of select="value"/><xsl:text>
-</xsl:text>
-        <xsl:apply-templates select="members"/>
-    </xsl:template>
-
-    <xsl:template match="project/group/class/measurement">
-        <xsl:text>            </xsl:text><xsl:value-of select="long-name"/>: <xsl:value-of select="value"/><xsl:text>
-</xsl:text>
-        <xsl:apply-templates select="members"/>
-    </xsl:template>
-
-    <xsl:template match="project/group/class/method/measurement">
-        <xsl:text>                </xsl:text><xsl:value-of select="long-name"/>: <xsl:value-of select="value"/><xsl:text>
-</xsl:text>
-        <xsl:apply-templates select="members"/>
-    </xsl:template>
-
-    <xsl:template match="project/measurement[minimum]">
-        <xsl:text>    </xsl:text><xsl:value-of select="long-name"/>: <xsl:value-of select="value"/> [<xsl:value-of select="minimum"/>, <xsl:value-of select="median"/>, <xsl:value-of select="average"/>, <xsl:value-of select="standard-deviation"/>, <xsl:value-of select="maximum"/>, <xsl:value-of select="sum"/>, <xsl:value-of select="nb-data-points"/>]<xsl:text>
-</xsl:text>
-    </xsl:template>
-
-    <xsl:template match="project/group/measurement[minimum]">
-        <xsl:text>        </xsl:text><xsl:value-of select="long-name"/>: <xsl:value-of select="value"/> [<xsl:value-of select="minimum"/>, <xsl:value-of select="median"/>, <xsl:value-of select="average"/>, <xsl:value-of select="standard-deviation"/>, <xsl:value-of select="maximum"/>, <xsl:value-of select="sum"/>, <xsl:value-of select="nb-data-points"/>]<xsl:text>
-</xsl:text>
-    </xsl:template>
-
-    <xsl:template match="project/group/class/measurement[minimum]">
-        <xsl:text>            </xsl:text><xsl:value-of select="long-name"/>: <xsl:value-of select="value"/> [<xsl:value-of select="minimum"/>, <xsl:value-of select="median"/>, <xsl:value-of select="average"/>, <xsl:value-of select="standard-deviation"/>, <xsl:value-of select="maximum"/>, <xsl:value-of select="sum"/>, <xsl:value-of select="nb-data-points"/>]<xsl:text>
-</xsl:text>
-    </xsl:template>
-
-    <xsl:template match="project/group/class/method/measurement[minimum]">
-        <xsl:text>                </xsl:text><xsl:value-of select="long-name"/>: <xsl:value-of select="value"/> [<xsl:value-of select="minimum"/>, <xsl:value-of select="median"/>, <xsl:value-of select="average"/>, <xsl:value-of select="standard-deviation"/>, <xsl:value-of select="maximum"/>, <xsl:value-of select="sum"/>, <xsl:value-of select="nb-data-points"/>]<xsl:text>
-</xsl:text>
-    </xsl:template>
-
-    <xsl:template match="members">
-        <xsl:apply-templates/>
-    </xsl:template>
-
-    <xsl:template match="project/measurement/members/member">
-        <xsl:text>        </xsl:text><xsl:value-of select="text()"/><xsl:text>
-</xsl:text>
-    </xsl:template>
-  
-    <xsl:template match="project/group/measurement/members/member">
-        <xsl:text>            </xsl:text><xsl:value-of select="text()"/><xsl:text>
-</xsl:text>
-    </xsl:template>
-  
-    <xsl:template match="project/group/class/measurement/members/member">
-        <xsl:text>                </xsl:text><xsl:value-of select="text()"/><xsl:text>
-</xsl:text>
-    </xsl:template>
-  
-    <xsl:template match="project/group/class/method/measurement/members/member">
-        <xsl:text>                    </xsl:text><xsl:value-of select="text()"/><xsl:text>
+    <xsl:template match="method/measurement/members/member">
+        <xsl:text>                    </xsl:text><xsl:value-of select="text()"/>
+        <xsl:text>
 </xsl:text>
     </xsl:template>
 
