@@ -65,8 +65,10 @@ public class OOMetrics extends Task {
     private String projectName = DEFAULT_PROJECT_NAME;
     private File configuration;
     private boolean csv = false;
-    private boolean txt = false;
+    private boolean json = false;
+    private boolean text = false;
     private boolean xml = false;
+    private boolean yaml = false;
     private boolean validate = false;
     private String encoding = com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING;
     private String dtdPrefix = com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX;
@@ -108,17 +110,29 @@ public class OOMetrics extends Task {
     public boolean getCsv() {
         return csv;
     }
-    
+
     public void setCsv(boolean csv) {
         this.csv = csv;
     }
 
-    public boolean getTxt() {
-        return txt;
+    public boolean getJson() {
+        return json;
     }
-    
-    public void setTxt(boolean txt) {
-        this.txt = txt;
+
+    public void setJson(boolean json) {
+        this.json = json;
+    }
+
+    public boolean getText() {
+        return text;
+    }
+
+    public void setText(boolean text) {
+        this.text = text;
+    }
+
+    public void setTxt(boolean text) {
+        setText(text);
     }
 
     public boolean getXml() {
@@ -127,6 +141,18 @@ public class OOMetrics extends Task {
 
     public void setXml(boolean xml) {
         this.xml = xml;
+    }
+
+    public boolean getYaml() {
+        return yaml;
+    }
+
+    public void setYaml(boolean yaml) {
+        this.yaml = yaml;
+    }
+
+    public void setYml(boolean yaml) {
+        setYaml(yaml);
     }
 
     public boolean getValidate() {
@@ -380,21 +406,20 @@ public class OOMetrics extends Task {
             }
 
             if (getShowallmetrics()) {
-                gatherer.getMetricsFactory().getAllClassMetrics().forEach(metrics -> {
-                    gatherer.getMetricsFactory().includeClassMetrics(metrics);
-                });
-
-                gatherer.getMetricsFactory().getAllMethodMetrics().forEach(metrics -> {
-                    gatherer.getMetricsFactory().includeMethodMetrics(metrics);
-                });
+                gatherer.getMetricsFactory().getAllClassMetrics().forEach(metrics -> gatherer.getMetricsFactory().includeClassMetrics(metrics));
+                gatherer.getMetricsFactory().getAllMethodMetrics().forEach(metrics -> gatherer.getMetricsFactory().includeMethodMetrics(metrics));
             }
 
             if (getCsv()) {
                 printCSVFiles(gatherer.getMetricsFactory());
-            } else if (getTxt()) {
+            } else if (getJson()) {
+                printJSONFile(gatherer.getMetricsFactory());
+            } else if (getText()) {
                 printTextFile(gatherer.getMetricsFactory());
             } else if (getXml()) {
                 printXMLFile(gatherer.getMetricsFactory());
+            } else if (getYaml()) {
+                printYAMLFile(gatherer.getMetricsFactory());
             }
         } catch (SAXException | ParserConfigurationException | IOException ex) {
             throw new BuildException(ex);
@@ -434,6 +459,7 @@ public class OOMetrics extends Task {
                 metrics.sort(comparator);
 
                 com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.CSVPrinter(out, factory.getConfiguration().getProjectMeasurements());
+                printer.setExpandCollectionMeasurements(getExpand());
                 printer.setShowEmptyMetrics(getShowemptymetrics());
                 printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
                 if (getIndenttext() != null) {
@@ -453,6 +479,7 @@ public class OOMetrics extends Task {
                 metrics.sort(comparator);
 
                 com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.CSVPrinter(out, factory.getConfiguration().getGroupMeasurements());
+                printer.setExpandCollectionMeasurements(getExpand());
                 printer.setShowEmptyMetrics(getShowemptymetrics());
                 printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
                 if (getIndenttext() != null) {
@@ -472,6 +499,7 @@ public class OOMetrics extends Task {
                 metrics.sort(comparator);
 
                 com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.CSVPrinter(out, factory.getConfiguration().getClassMeasurements());
+                printer.setExpandCollectionMeasurements(getExpand());
                 printer.setShowEmptyMetrics(getShowemptymetrics());
                 printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
                 if (getIndenttext() != null) {
@@ -491,6 +519,7 @@ public class OOMetrics extends Task {
                 metrics.sort(comparator);
 
                 com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.CSVPrinter(out, factory.getConfiguration().getMethodMeasurements());
+                printer.setExpandCollectionMeasurements(getExpand());
                 printer.setShowEmptyMetrics(getShowemptymetrics());
                 printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
                 if (getIndenttext() != null) {
@@ -499,6 +528,31 @@ public class OOMetrics extends Task {
 
                 printer.visitMetrics(metrics);
             }
+        }
+    }
+
+    private void printJSONFile(MetricsFactory factory) throws IOException {
+        MetricsComparator comparator = new MetricsComparator(getSort());
+        if (getReverse()) {
+            comparator.reverse();
+        }
+
+        String filename = getDestprefix().getAbsolutePath() + ".json";
+        log("Saving metrics to " + filename);
+
+        try (PrintWriter out = new PrintWriter(new FileWriter(filename))) {
+            List<Metrics> metrics = new ArrayList<>(factory.getProjectMetrics());
+            metrics.sort(comparator);
+
+            com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.JSONPrinter(out, factory.getConfiguration());
+            printer.setExpandCollectionMeasurements(getExpand());
+            printer.setShowEmptyMetrics(getShowemptymetrics());
+            printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
+            if (getIndenttext() != null) {
+                printer.setIndentText(getIndenttext());
+            }
+
+            printer.visitMetrics(metrics);
         }
     }
 
@@ -513,9 +567,9 @@ public class OOMetrics extends Task {
         
         try (PrintWriter out = new PrintWriter(new FileWriter(filename))) {
             com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.getConfiguration().getProjectMeasurements());
+            printer.setExpandCollectionMeasurements(getExpand());
             printer.setShowEmptyMetrics(getShowemptymetrics());
             printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
-            printer.setExpandCollectionMeasurements(getExpand());
             if (getIndenttext() != null) {
                 printer.setIndentText(getIndenttext());
             }
@@ -574,12 +628,38 @@ public class OOMetrics extends Task {
 
         String filename = getDestprefix().getAbsolutePath() + ".xml";
         log("Saving metrics to " + filename);
-        
+
         try (PrintWriter out = new PrintWriter(new FileWriter(filename))) {
             List<Metrics> metrics = new ArrayList<>(factory.getProjectMetrics());
             metrics.sort(comparator);
 
             com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.XMLPrinter(out, factory.getConfiguration(), getEncoding(), getDtdprefix());
+            printer.setExpandCollectionMeasurements(getExpand());
+            printer.setShowEmptyMetrics(getShowemptymetrics());
+            printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
+            if (getIndenttext() != null) {
+                printer.setIndentText(getIndenttext());
+            }
+
+            printer.visitMetrics(metrics);
+        }
+    }
+
+    private void printYAMLFile(MetricsFactory factory) throws IOException {
+        MetricsComparator comparator = new MetricsComparator(getSort());
+        if (getReverse()) {
+            comparator.reverse();
+        }
+
+        String filename = getDestprefix().getAbsolutePath() + ".yaml";
+        log("Saving metrics to " + filename);
+
+        try (PrintWriter out = new PrintWriter(new FileWriter(filename))) {
+            List<Metrics> metrics = new ArrayList<>(factory.getProjectMetrics());
+            metrics.sort(comparator);
+
+            com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.YAMLPrinter(out, factory.getConfiguration());
+            printer.setExpandCollectionMeasurements(getExpand());
             printer.setShowEmptyMetrics(getShowemptymetrics());
             printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
             if (getIndenttext() != null) {

@@ -10445,6 +10445,7 @@ Computes object-oriented metrics on a codebase.
         [-groups]
         [-help]
         [-indent-text text]
+        [-json]
         [-methods]
         [-out filename]
         [-project]
@@ -10457,11 +10458,14 @@ Computes object-oriented metrics on a codebase.
         [-show-hidden-measurements]
         [-sort name]
         [-time]
+        [-text]
         [-txt]
         [-validate]
         [-verbose [filename]]
         [-version]
         [-xml]
+        [-yaml]
+        [-yml]
         [filename ...]
 
 ---+++ Description
@@ -10702,6 +10706,20 @@ Uses _text_ for each indentation level in textual and XML output.
 
 </blockquote>
 
+---++++ =-json=
+
+<blockquote>
+
+Writes the metrics report as a JSON document.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 ---++++ =-methods=
 
 <blockquote>
@@ -10873,6 +10891,21 @@ ascending order of package, class, or method name (fully qualified).
 
 </blockquote>
 
+---++++ =-text=
+
+<blockquote>
+
+Writes a single text report with all requested sections.  This is the same as
+=-txt=.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 ---++++ =-time=
 
 <blockquote>
@@ -10891,7 +10924,8 @@ Prints how long it took to run the command.
 
 <blockquote>
 
-Writes a single text report with all requested sections.
+Writes a single text report with all requested sections.  This is the same as
+=-text=.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -10961,6 +10995,38 @@ Writes the metrics report as an XML document with the
 
 </blockquote>
 
+---++++ =-yaml=
+
+<blockquote>
+
+Writes the metrics report as a YAML document.  This is the same as =-yml=.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---++++ =-yml=
+
+<blockquote>
+
+Writes the metrics report as a YAML document.  This is the same as =-yaml=.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
 ---+++ Parameters
 
 <blockquote>
@@ -10994,8 +11060,8 @@ generates up to four files, one for each group of metrics:
    * _prefix_%5Fclasses.csv
    * _prefix_%5Fmethods.csv
 
-With =-xml=, it converts the entire metrics structure into an XML document that
-follows the
+With =-json=, =-xml=, =-yaml=, or =-yml=, it converts the entire metrics
+structure into a single document.  With =-xml=, the XML document follows the
 =[[https://depfind.sourceforge.io/dtd/metrics.dtd][metrics]]= DTD.  You can use
 =-out filename= to save the output to a file.
 

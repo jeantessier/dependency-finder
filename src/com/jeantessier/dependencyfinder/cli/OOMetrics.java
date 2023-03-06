@@ -65,8 +65,12 @@ public class OOMetrics extends DirectoryExplorerCommand {
         getCommandLine().addSingleValueSwitch("default-configuration", true);
         getCommandLine().addSingleValueSwitch("configuration");
         getCommandLine().addToggleSwitch("csv");
+        getCommandLine().addToggleSwitch("json");
+        getCommandLine().addToggleSwitch("text");
         getCommandLine().addToggleSwitch("txt");
         getCommandLine().addToggleSwitch("xml");
+        getCommandLine().addToggleSwitch("yaml");
+        getCommandLine().addToggleSwitch("yml");
         getCommandLine().addToggleSwitch("validate");
         getCommandLine().addToggleSwitch("project");
         getCommandLine().addToggleSwitch("groups");
@@ -103,11 +107,23 @@ public class OOMetrics extends DirectoryExplorerCommand {
         if (getCommandLine().getToggleSwitch("txt")) {
             modeSwitch++;
         }
+        if (getCommandLine().getToggleSwitch("text")) {
+            modeSwitch++;
+        }
         if (getCommandLine().getToggleSwitch("xml")) {
             modeSwitch++;
         }
+        if (getCommandLine().getToggleSwitch("json")) {
+            modeSwitch++;
+        }
+        if (getCommandLine().getToggleSwitch("yaml")) {
+            modeSwitch++;
+        }
+        if (getCommandLine().getToggleSwitch("yml")) {
+            modeSwitch++;
+        }
         if (modeSwitch != 1) {
-            exceptions.add(new CommandLineException("Must have one and only one of -csv, -txt, or -xml"));
+            exceptions.add(new CommandLineException("Must have one and only one of -csv, -json, -text, -txt, -xml, -yml, or -yaml"));
         }
 
         return exceptions;
@@ -156,13 +172,8 @@ public class OOMetrics extends DirectoryExplorerCommand {
         }
 
         if (getCommandLine().isPresent("show-all-metrics")) {
-            gatherer.getMetricsFactory().getAllClassMetrics().forEach(metrics ->
-                    gatherer.getMetricsFactory().includeClassMetrics(metrics)
-            );
-
-            gatherer.getMetricsFactory().getAllMethodMetrics().forEach(metrics ->
-                    gatherer.getMetricsFactory().includeMethodMetrics(metrics)
-            );
+            gatherer.getMetricsFactory().getAllClassMetrics().forEach(metrics -> gatherer.getMetricsFactory().includeClassMetrics(metrics));
+            gatherer.getMetricsFactory().getAllMethodMetrics().forEach(metrics -> gatherer.getMetricsFactory().includeMethodMetrics(metrics));
         }
 
         Logger.getLogger(OOMetrics.class).debug("Printing results ...");
@@ -170,10 +181,14 @@ public class OOMetrics extends DirectoryExplorerCommand {
 
         if (getCommandLine().isPresent("csv")) {
             printCSVFiles(gatherer.getMetricsFactory());
-        } else if (getCommandLine().isPresent("txt")) {
+        } else if (getCommandLine().isPresent("json")) {
+            printJSONFile(gatherer.getMetricsFactory());
+        } else if (getCommandLine().isPresent("text") || getCommandLine().isPresent("txt")) {
             printTextFile(gatherer.getMetricsFactory());
         } else if (getCommandLine().isPresent("xml")) {
             printXMLFile(gatherer.getMetricsFactory());
+        } else if (getCommandLine().isPresent("yaml") || getCommandLine().isPresent("yml")) {
+            printYAMLFile(gatherer.getMetricsFactory());
         }
 
         Logger.getLogger(OOMetrics.class).debug("Done.");
@@ -210,6 +225,7 @@ public class OOMetrics extends DirectoryExplorerCommand {
             metrics.sort(comparator);
 
             com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.CSVPrinter(getOut(), factory.getConfiguration().getProjectMeasurements());
+            printer.setExpandCollectionMeasurements(getCommandLine().getToggleSwitch("expand"));
             printer.setShowEmptyMetrics(getCommandLine().isPresent("show-empty-metrics"));
             printer.setShowHiddenMeasurements(getCommandLine().isPresent("show-hidden-measurements"));
             if (getCommandLine().isPresent("indent-text")) {
@@ -236,6 +252,7 @@ public class OOMetrics extends DirectoryExplorerCommand {
             metrics.sort(comparator);
 
             com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.CSVPrinter(getOut(), factory.getConfiguration().getGroupMeasurements());
+            printer.setExpandCollectionMeasurements(getCommandLine().getToggleSwitch("expand"));
             printer.setShowEmptyMetrics(getCommandLine().isPresent("show-empty-metrics"));
             printer.setShowHiddenMeasurements(getCommandLine().isPresent("show-hidden-measurements"));
             if (getCommandLine().isPresent("indent-text")) {
@@ -262,6 +279,7 @@ public class OOMetrics extends DirectoryExplorerCommand {
             metrics.sort(comparator);
 
             com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.CSVPrinter(getOut(), factory.getConfiguration().getClassMeasurements());
+            printer.setExpandCollectionMeasurements(getCommandLine().getToggleSwitch("expand"));
             printer.setShowEmptyMetrics(getCommandLine().isPresent("show-empty-metrics"));
             printer.setShowHiddenMeasurements(getCommandLine().isPresent("show-hidden-measurements"));
             if (getCommandLine().isPresent("indent-text")) {
@@ -288,6 +306,7 @@ public class OOMetrics extends DirectoryExplorerCommand {
             metrics.sort(comparator);
 
             com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.CSVPrinter(getOut(), factory.getConfiguration().getMethodMeasurements());
+            printer.setExpandCollectionMeasurements(getCommandLine().getToggleSwitch("expand"));
             printer.setShowEmptyMetrics(getCommandLine().isPresent("show-empty-metrics"));
             printer.setShowHiddenMeasurements(getCommandLine().isPresent("show-hidden-measurements"));
             if (getCommandLine().isPresent("indent-text")) {
@@ -300,6 +319,28 @@ public class OOMetrics extends DirectoryExplorerCommand {
                 getOut().close();
             }
         }
+    }
+
+    private void printJSONFile(MetricsFactory factory) throws IOException {
+        MetricsComparator comparator = new MetricsComparator(getCommandLine().getSingleSwitch("sort"));
+        if (getCommandLine().getToggleSwitch("reverse")) {
+            comparator.reverse();
+        }
+
+        List<Metrics> metrics = new ArrayList<>(factory.getProjectMetrics());
+        metrics.sort(comparator);
+
+        com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.JSONPrinter(getOut(), factory.getConfiguration());
+        printer.setExpandCollectionMeasurements(getCommandLine().getToggleSwitch("expand"));
+        printer.setShowEmptyMetrics(getCommandLine().isPresent("show-empty-metrics"));
+        printer.setShowHiddenMeasurements(getCommandLine().isPresent("show-hidden-measurements"));
+        if (getCommandLine().isPresent("indent-text")) {
+            printer.setIndentText(getCommandLine().getSingleSwitch("indent-text"));
+        }
+
+        printer.visitMetrics(metrics);
+
+        getOut().close();
     }
 
     private void printTextFile(MetricsFactory factory) throws IOException {
@@ -373,6 +414,29 @@ public class OOMetrics extends DirectoryExplorerCommand {
         metrics.sort(comparator);
 
         com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.XMLPrinter(getOut(), factory.getConfiguration(), getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
+        printer.setExpandCollectionMeasurements(getCommandLine().getToggleSwitch("expand"));
+        printer.setShowEmptyMetrics(getCommandLine().isPresent("show-empty-metrics"));
+        printer.setShowHiddenMeasurements(getCommandLine().isPresent("show-hidden-measurements"));
+        if (getCommandLine().isPresent("indent-text")) {
+            printer.setIndentText(getCommandLine().getSingleSwitch("indent-text"));
+        }
+
+        printer.visitMetrics(metrics);
+
+        getOut().close();
+    }
+
+    private void printYAMLFile(MetricsFactory factory) throws IOException {
+        MetricsComparator comparator = new MetricsComparator(getCommandLine().getSingleSwitch("sort"));
+        if (getCommandLine().getToggleSwitch("reverse")) {
+            comparator.reverse();
+        }
+
+        List<Metrics> metrics = new ArrayList<>(factory.getProjectMetrics());
+        metrics.sort(comparator);
+
+        com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.YAMLPrinter(getOut(), factory.getConfiguration());
+        printer.setExpandCollectionMeasurements(getCommandLine().getToggleSwitch("expand"));
         printer.setShowEmptyMetrics(getCommandLine().isPresent("show-empty-metrics"));
         printer.setShowHiddenMeasurements(getCommandLine().isPresent("show-hidden-measurements"));
         if (getCommandLine().isPresent("indent-text")) {

@@ -58,6 +58,16 @@ public abstract class Printer implements MeasurementVisitor {
         this.indentText = indentText;
     }
 
+    // For cloning
+    int getIndentLevel() {
+        return indentLevel;
+    }
+
+    // For cloning
+    void setIndentLevel(int indentLevel) {
+        this.indentLevel = indentLevel;
+    }
+
     public boolean isShowEmptyMetrics() {
         return showEmptyMetrics;
     }
@@ -128,7 +138,7 @@ public abstract class Printer implements MeasurementVisitor {
     }
 
     protected Printer indent() {
-        for (int i=0; i<indentLevel; i++) {
+        for (int i=0; i<getIndentLevel(); i++) {
             append(getIndentText());
         }
 
