@@ -604,7 +604,7 @@ public class XMLPrinter extends Printer {
     }
 
     public void visitInnerClasses_attribute(InnerClasses_attribute attribute) {
-        indent().append("<inner-classes-attribute owner=\"").append(attribute.getOwner()).append("\">").eol();
+        indent().append("<inner-classes-attribute>").eol();
         raiseIndent();
 
         super.visitInnerClasses_attribute(attribute);
