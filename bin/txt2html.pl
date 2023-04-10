@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl -n
 
 #   
-#   Copyright (c) 2001-2009, Jean Tessier
+#   Copyright (c) 2001-2023, Jean Tessier
 #   All rights reserved.
 #   
 #   Redistribution and use in source and binary forms, with or without
