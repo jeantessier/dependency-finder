@@ -1,5 +1,6 @@
 #
 # To build:
+#     $ ant war
 #     $ docker build . --build-arg version=1.2.1-beta7 --tag jeantessier/dependency-finder-tomcat:1.2.1-beta7 --tag jeantessier/dependency-finder-tomcat:latest
 #
 # To upload to hub.docker.com:
@@ -15,7 +16,7 @@
 # Mount existing graph as /code/df.xml.
 #
 
-FROM tomcat:10.0
+FROM tomcat
 
 ARG version
 
