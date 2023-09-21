@@ -3,3 +3,12 @@ default methods in interfaces and some more use of the Streams API.  I had
 been trying them out a while back but never got around to committing the
 changes.  I have not applied the changes across the codebase, which is why I
 hadn't committed them.
+
+I noticed the number of methods (=M=) measurement didn't have a constant in
+=BasicMeasurements=.  This is because it is a computed measurement instead of
+being fundamentally derived from the =.class= file.  =MetricsGatherer= creates
+a submetrics for each method, and only for methods.  So, we can compute the
+number of methods in a class by counting these submetrics.  If we ever decide
+to have submetrics for things other than methods, we'd have to derive =M= from
+the =.class= file, just like we do for the number attributes (=A=) and the
+number of inner classes (=IC=).
