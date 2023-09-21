@@ -32,11 +32,10 @@
 
 package com.jeantessier.classreader;
 
-import java.util.*;
+import com.jeantessier.text.MaximumCapacityPatternCache;
+import org.apache.oro.text.perl.Perl5Util;
 
-import org.apache.oro.text.perl.*;
-
-import com.jeantessier.text.*;
+import java.util.List;
 
 public class FilteringLoadListener extends LoadListenerDecorator {
     private Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
@@ -56,14 +55,6 @@ public class FilteringLoadListener extends LoadListenerDecorator {
     }
 
     private boolean matches(List<String> regularExpressions, String name) {
-        boolean found = false;
-
-        Iterator<String> i = regularExpressions.iterator();
-        while (!found && i.hasNext()) {
-            String condition = i.next();
-            found = perl.match(condition, name);
-        }
-
-        return found;
+        return regularExpressions.stream().anyMatch(condition -> perl.match(condition, name));
     }
 }
