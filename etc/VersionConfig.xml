@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE metrics-configuration SYSTEM "https://depfind.sourceforge.io/dtd/metrics-configuration.dtd">
+
+<metrics-configuration>
+    <project-measurements>
+        <measurement>
+            <short-name>MaV</short-name>
+            <long-name>Major Version</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                MaV
+                DISPOSE_MAXIMUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>P</short-name>
+            <long-name>Packages</long-name>
+            <class>com.jeantessier.metrics.SubMetricsAccumulatorMeasurement</class>
+            <init>
+                P
+            </init>
+        </measurement>
+    </project-measurements>
+    <group-definitions>
+        <group-definition>
+            <name>Dependency Finder</name>
+            <pattern>/^com.jeantessier/</pattern>
+        </group-definition>
+        <group-definition>
+            <name>Log4J</name>
+            <pattern>/^org.apache.log4j/</pattern>
+        </group-definition>
+        <group-definition>
+            <name>Jakarta ORO</name>
+            <pattern>/^org.apache.oro/</pattern>
+        </group-definition>
+        <group-definition>
+            <name>Saxon HE</name>
+            <pattern>/^net.sf.saxon/</pattern>
+        </group-definition>
+    </group-definitions>
+    <group-measurements>
+        <measurement>
+            <short-name>MaV</short-name>
+            <long-name>Major Version</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                MaV
+                DISPOSE_MAXIMUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>P</short-name>
+            <long-name>Packages</long-name>
+            <class>com.jeantessier.metrics.NameListMeasurement</class>
+        </measurement>
+    </group-measurements>
+    <class-measurements>
+        <measurement>
+            <short-name>MaV</short-name>
+            <long-name>Major Version</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+    </class-measurements>
+    <method-measurements/>
+</metrics-configuration>
