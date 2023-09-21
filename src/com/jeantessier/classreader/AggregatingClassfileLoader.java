@@ -32,10 +32,14 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-import java.util.*;
+import com.jeantessier.classreader.impl.DefaultClassfileFactory;
 
-import com.jeantessier.classreader.impl.*;
+import java.io.DataInput;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class AggregatingClassfileLoader extends ClassfileLoaderEventSource {
     private final Map<String, Classfile> classfiles = new TreeMap<>();
@@ -69,7 +73,7 @@ public class AggregatingClassfileLoader extends ClassfileLoaderEventSource {
     }
 
     protected Classfile load(DataInput in) throws IOException {
-        Classfile result = getFactory().create(this, in);
+        var result = getFactory().create(this, in);
 
         classfiles.put(result.getClassName(), result);
 
