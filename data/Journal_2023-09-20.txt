@@ -1,0 +1,5 @@
+I committed some changes that introduce some modern Java constructs, such as
+default methods in interfaces and some more use of the Streams API.  I had
+been trying them out a while back but never got around to committing the
+changes.  I have not applied the changes across the codebase, which is why I
+hadn't committed them.
