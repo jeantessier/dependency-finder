@@ -3555,7 +3555,7 @@ the =MetricsGatherer=.  It decides which basic values are computed.  You can
 make minor adjustments by specifying the class used for the measurement.  There
 are classes for counters, lists, simple mathematical expressions, etc.  Each
 measurement can be expressed as a numeric value and the configuration file can
-defines the recommanded range for that measurement.
+define the recommended range for that measurement.
 
 Here is a brief overview of some of the measurements, grouped by _chunk_.  The
 definitive list is in =${DEPENDENCYFINDER_HOME}/etc/MetricsConfig.xml=.
@@ -3622,6 +3622,9 @@ The following are simple numerical measurements taken against the class.
     <dd>Number of characters in the class's name.</dd>
     <dt>Name Word Count (CNWC)</dt>
     <dd>Number of words that make up the class's name.</dd>
+    <dt>Major Version Number (MaV)</dt>
+    <dd>The major version number of the =.class= file, set by the compiler, and
+    tells which version of the virtual machine can execute it.</dd>
     <dt>Single Line of Code (SLOC)</dt>
     <dd>Number of code lines in the class.  Comments and empty lines are not
     counted.  Large classes are usually a sign of poor design.</dd>
