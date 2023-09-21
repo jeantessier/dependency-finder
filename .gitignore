@@ -127,6 +127,7 @@ tests/Metrics/onewordpackagename/*.class
 tests/Metrics/provider/*.class
 tests/Metrics/three/words/packagename/*.class
 tests/Metrics/tla/*.class
-tests/Metrics/tla/*.class
-tests/Metrics/tla/*.class
 tests/Metrics/twowords/packagename/*.class
+
+# Code coverage byproducts
+cobertura
