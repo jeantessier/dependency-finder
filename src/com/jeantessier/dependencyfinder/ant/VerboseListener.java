@@ -40,7 +40,7 @@ import com.jeantessier.dependencyfinder.*;
 import com.jeantessier.metrics.*;
 
 public class VerboseListener extends VerboseListenerBase implements DependencyListener, MetricsListener {
-    private Task task;
+    private final Task task;
 
     public VerboseListener(Task task) {
         this.task = task;

@@ -32,10 +32,11 @@
 
 package com.jeantessier.classreader;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.TreeSet;
 
 public abstract class CollectorBase extends VisitorBase implements Collector {
-    private Collection<String> collection = new TreeSet<String>();
+    private final Collection<String> collection = new TreeSet<>();
 
     protected void add(String name) {
         collection.add(name);

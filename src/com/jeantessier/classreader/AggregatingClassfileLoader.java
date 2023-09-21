@@ -38,7 +38,7 @@ import java.util.*;
 import com.jeantessier.classreader.impl.*;
 
 public class AggregatingClassfileLoader extends ClassfileLoaderEventSource {
-    private Map<String, Classfile> classfiles = new TreeMap<String, Classfile>();
+    private final Map<String, Classfile> classfiles = new TreeMap<>();
 
     public AggregatingClassfileLoader() {
         this(new DefaultClassfileFactory());

@@ -37,7 +37,7 @@
 
 <%!
     private class VerboseListener implements DependencyListener {
-        private JspWriter out;
+        private final JspWriter out;
 
         public VerboseListener(JspWriter out) {
             this.out = out;
@@ -223,9 +223,7 @@
         for (String filename : files) {
             try {
                 loader.load(filename);
-            } catch (SAXException ex) {
-                out.println("<i class=\"error\">Could not load graph from file \"" + filename + "\": " + ex.getMessage() + "</i>");
-            } catch (FileNotFoundException ex) {
+            } catch (SAXException | FileNotFoundException ex) {
                 out.println("<i class=\"error\">Could not load graph from file \"" + filename + "\": " + ex.getMessage() + "</i>");
             }
         }
