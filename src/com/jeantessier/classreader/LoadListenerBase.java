@@ -34,9 +34,9 @@ package com.jeantessier.classreader;
 
 import java.util.*;
 
-public class LoadListenerBase extends LoadAdapter {
-    private LinkedList<GroupData> groups = new LinkedList<GroupData>();
-    private Collection<String> visitedFiles = new HashSet<String>();
+public class LoadListenerBase implements LoadListener {
+    private final LinkedList<GroupData> groups = new LinkedList<>();
+    private final Collection<String> visitedFiles = new HashSet<>();
 
     protected GroupData getCurrentGroup() {
         GroupData result = null;

@@ -121,10 +121,6 @@ public class VerboseListener extends VerboseListenerBase implements DependencyLi
         }
     }
 
-    public void beginSession(DependencyEvent event) {
-        // Do nothing
-    }
-
     public void beginClass(DependencyEvent event) {
         getWriter().print("Getting dependencies from ");
         getWriter().print(event.getClassName());
@@ -133,43 +129,11 @@ public class VerboseListener extends VerboseListenerBase implements DependencyLi
         getWriter().flush();
     }
 
-    public void dependency(DependencyEvent event) {
-        // Do nothing
-    }
-
-    public void endClass(DependencyEvent event) {
-        // Do nothing
-    }
-
-    public void endSession(DependencyEvent event) {
-        // Do nothing
-    }
-
-    public void beginSession(MetricsEvent event) {
-        // Do nothing
-    }
-
     public void beginClass(MetricsEvent event) {
         getWriter().print("Computing metrics for ");
         getWriter().print(event.getClassfile());
         getWriter().print(" ...");
         getWriter().println();
         getWriter().flush();
-    }
-
-    public void beginMethod(MetricsEvent event) {
-        // Do nothing
-    }
-
-    public void endMethod(MetricsEvent event) {
-        // Do nothing
-    }
-
-    public void endClass(MetricsEvent event) {
-        // Do nothing
-    }
-
-    public void endSession(MetricsEvent event) {
-        // Do nothing
     }
 }

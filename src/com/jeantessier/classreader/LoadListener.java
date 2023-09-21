@@ -35,7 +35,9 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface LoadListener extends EventListener {
-    public void beginSession(LoadEvent event);
+    default void beginSession(LoadEvent event) {
+        // Do nothing
+    }
 
     /**
      *  <p>The loader is starting on a new group of files.
@@ -48,7 +50,9 @@ public interface LoadListener extends EventListener {
      *
      *  <p>The element and classfile attributes are null.</p>
      */
-    public void beginGroup(LoadEvent event);
+    default void beginGroup(LoadEvent event) {
+        // Do nothing
+    }
     
     /**
      *  <p>The loader is starting on a new file.</p>
@@ -63,7 +67,9 @@ public interface LoadListener extends EventListener {
      *
      *  <p>The classfile attribute is null.</p>
      */
-    public void beginFile(LoadEvent event);
+    default void beginFile(LoadEvent event) {
+        // Do nothing
+    }
     
     /**
      *  <p>The loader is starting on a new <code>.class</code>
@@ -79,7 +85,9 @@ public interface LoadListener extends EventListener {
      *
      *  <p>The classfile attribute is null.</p>
      */
-    public void beginClassfile(LoadEvent event);
+    default void beginClassfile(LoadEvent event) {
+        // Do nothing
+    }
     
     /**
      *  <p>The loader is finished loading a <code>.class</code>
@@ -96,7 +104,9 @@ public interface LoadListener extends EventListener {
      *
      *  <p>The element attribute is null.</p>
      */
-    public void endClassfile(LoadEvent event);
+    default void endClassfile(LoadEvent event) {
+        // Do nothing
+    }
     
     /**
      *  <p>The loader is finished with a file.</p>
@@ -112,7 +122,9 @@ public interface LoadListener extends EventListener {
      *  <p>The event's classfile attribute may contains a newly
      *  loaded Classfile instance from the file.</p>
      */
-    public void endFile(LoadEvent event);
+    default void endFile(LoadEvent event) {
+        // Do nothing
+    }
 
     /**
      *  <p>The loader finished the group of files. For
@@ -125,7 +137,11 @@ public interface LoadListener extends EventListener {
      *
      *  <p>The element and classfile attributes are null.</p>
      */
-    public void endGroup(LoadEvent event);
+    default void endGroup(LoadEvent event) {
+        // Do nothing
+    }
 
-    public void endSession(LoadEvent event);
+    default void endSession(LoadEvent event) {
+        // Do nothing
+    }
 }

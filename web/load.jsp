@@ -1,5 +1,4 @@
 <%@ page import="java.io.*, java.text.*, java.util.*, javax.servlet.jsp.*, org.apache.oro.text.perl.*, org.xml.sax.*, com.jeantessier.dependency.*" %>
-<%@ page errorPage="errorpage.jsp" %>
 
 <!--
     Copyright (c) 2001-2023, Jean Tessier
@@ -43,10 +42,6 @@
             this.out = out;
         }
 
-        public void beginSession(DependencyEvent event) {
-            // Do nothing
-        }
-
         public void beginClass(DependencyEvent event) {
             try {
                 out.print("Loading dependencies for ");
@@ -56,18 +51,6 @@
             } catch (IOException ex) {
                 // Ignore
             }
-        }
-
-        public void dependency(DependencyEvent event) {
-            // Do nothing
-        }
-
-        public void endClass(DependencyEvent event) {
-            // Do nothing
-        }
-
-        public void endSession(DependencyEvent event) {
-            // Do nothing
         }
     }
 %>

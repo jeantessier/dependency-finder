@@ -34,7 +34,7 @@ package com.jeantessier.classreader;
 
 import java.util.*;
 
-public class PackageMapper extends LoadAdapter {
+public class PackageMapper implements LoadListener {
     private final Map<String, Map<String, Classfile>> packages = new HashMap<>();
 
     public Collection<String> getPackageNames() {

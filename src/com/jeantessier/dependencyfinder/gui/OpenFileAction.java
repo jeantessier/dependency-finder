@@ -32,20 +32,15 @@
 
 package com.jeantessier.dependencyfinder.gui;
 
-import com.jeantessier.dependency.DependencyEvent;
-import com.jeantessier.dependency.DependencyListener;
-import com.jeantessier.dependency.LinkMaximizer;
-import com.jeantessier.dependency.LinkMinimizer;
-import com.jeantessier.dependency.NodeLoader;
-import org.xml.sax.SAXException;
-
+import java.awt.event.*;
+import java.io.*;
+import java.util.*;
 import javax.swing.*;
-import javax.xml.parsers.ParserConfigurationException;
-import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Date;
+import javax.xml.parsers.*;
+
+import org.xml.sax.*;
+
+import com.jeantessier.dependency.*;
 
 public class OpenFileAction extends AbstractAction implements Runnable, DependencyListener {
     private final DependencyFinder model;
@@ -113,23 +108,7 @@ public class OpenFileAction extends AbstractAction implements Runnable, Dependen
         }
     }
 
-    public void beginSession(DependencyEvent event) {
-        // Do nothing
-    }
-
     public void beginClass(DependencyEvent event) {
         model.getStatusLine().showInfo("Loading dependencies for " + event.getClassName() + " ...");
-    }
-
-    public void dependency(DependencyEvent event) {
-        // Do nothing
-    }
-
-    public void endClass(DependencyEvent event) {
-        // Do nothing
-    }
-
-    public void endSession(DependencyEvent event) {
-        // Do nothing
     }
 }

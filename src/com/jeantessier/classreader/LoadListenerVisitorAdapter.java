@@ -32,7 +32,7 @@
 
 package com.jeantessier.classreader;
 
-public class LoadListenerVisitorAdapter extends LoadAdapter {
+public class LoadListenerVisitorAdapter implements LoadListener {
     private Visitor visitor;
     
     public LoadListenerVisitorAdapter(Visitor visitor) {
