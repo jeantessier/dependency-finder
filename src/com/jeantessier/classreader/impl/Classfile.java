@@ -39,7 +39,6 @@ import org.apache.log4j.Logger;
 import java.io.DataInput;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Classfile implements com.jeantessier.classreader.Classfile {
@@ -53,19 +52,19 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     private static final int ACC_ENUM = 0x4000;
     private static final int ACC_MODULE = 0x8000;
 
-    private ClassfileLoader loader;
+    private final ClassfileLoader loader;
 
-    private int magicNumber;
-    private int minorVersion;
-    private int majorVersion;
-    private ConstantPool constantPool;
-    private int accessFlag;
-    private int classIndex;
-    private int superclassIndex;
-    private Collection<Class_info> interfaces = new LinkedList<Class_info>();
-    private Collection<Field_info> fields = new LinkedList<Field_info>();
-    private Collection<Method_info> methods = new LinkedList<Method_info>();
-    private Collection<Attribute_info> attributes = new LinkedList<Attribute_info>();
+    private final int magicNumber;
+    private final int minorVersion;
+    private final int majorVersion;
+    private final ConstantPool constantPool;
+    private final int accessFlag;
+    private final int classIndex;
+    private final int superclassIndex;
+    private final Collection<Class_info> interfaces = new LinkedList<>();
+    private final Collection<Field_info> fields = new LinkedList<>();
+    private final Collection<Method_info> methods = new LinkedList<>();
+    private final Collection<Attribute_info> attributes = new LinkedList<>();
 
     /**
      *  Parses the input stream and extracts the class description.
@@ -108,10 +107,10 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         superclassIndex = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("superclass = " + superclassIndex + " (" + getSuperclassName() + ")");
 
-        // Retrieving the inferfaces
+        // Retrieving the interfaces
         int interfaceCount = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Reading " + interfaceCount + " interface(s)");
-        for (int i=0; i<interfaceCount; i++) {
+        for (var i=0; i<interfaceCount; i++) {
             Class_info interfaceInfo = (Class_info) constantPool.get(in.readUnsignedShort());
             Logger.getLogger(getClass()).debug("    " + interfaceInfo.getName());
             interfaces.add(interfaceInfo);
@@ -120,7 +119,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         // Retrieving the fields
         int fieldCount = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Reading " + fieldCount + " field(s)");
-        for (int i=0; i<fieldCount; i++) {
+        for (var i=0; i<fieldCount; i++) {
             Logger.getLogger(getClass()).debug("Field " + i + ":");
             fields.add(new Field_info(this, in));
         }
@@ -128,7 +127,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         // Retrieving the methods
         int methodCount = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Reading " + methodCount + " method(s)");
-        for (int i=0; i<methodCount; i++) {
+        for (var i=0; i<methodCount; i++) {
             Logger.getLogger(getClass()).debug("Method " + i + ":");
             methods.add(new Method_info(this, in));
         }
@@ -136,7 +135,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         // Retrieving the attributes
         int attributeCount = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Reading " + attributeCount + " class attribute(s)");
-        for (int i=0; i<attributeCount; i++) {
+        for (var i=0; i<attributeCount; i++) {
             Logger.getLogger(getClass()).debug("Attribute " + i + ":");
             attributes.add(attributeFactory.create(constantPool, this, in));
         }
@@ -145,28 +144,22 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     /**
      * For testing only
      */
-    Classfile(ClassfileLoader loader, ConstantPool constantPool, int accessFlag, int classIndex, int superclassIndex, Iterable<Class_info> interfaces, Iterable<Field_info> fields, Iterable<Method_info> methods, Iterable<Attribute_info> attributes) {
+    Classfile(ClassfileLoader loader, ConstantPool constantPool, int accessFlag, int classIndex, int superclassIndex, Collection<Class_info> interfaces, Collection<Field_info> fields, Collection<Method_info> methods, Collection<Attribute_info> attributes) {
         this.loader = loader;
         this.constantPool = constantPool;
+
+        this.magicNumber = 0xCAFEBABE;
+        this.minorVersion = Integer.MIN_VALUE;
+        this.majorVersion = Integer.MAX_VALUE;
+
         this.accessFlag = accessFlag;
         this.classIndex = classIndex;
         this.superclassIndex = superclassIndex;
 
-        for (Class_info interfaceInfo : interfaces) {
-            this.interfaces.add(interfaceInfo);
-        }
-
-        for (Field_info field : fields) {
-            this.fields.add(field);
-        }
-
-        for (Method_info method : methods) {
-            this.methods.add(method);
-        }
-
-        for (Attribute_info attribute : attributes) {
-            this.attributes.add(attribute);
-        }
+        this.interfaces.addAll(interfaces);
+        this.fields.addAll(fields);
+        this.methods.addAll(methods);
+        this.attributes.addAll(attributes);
     }
 
     public ClassfileLoader getLoader() {
@@ -222,23 +215,18 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     public String getSuperclassName() {
-        String result = "";
-
         if (getSuperclassIndex() != 0) {
-            result = getRawSuperclass().getName();
+            return getRawSuperclass().getName();
         }
         
-        return result;
+        return "";
     }
 
     public Class_info getInterface(String name) {
-        for (Class_info interfaceInfo : interfaces) {
-            if (interfaceInfo.getName().equals(name)) {
-                return interfaceInfo;
-            }
-        }
-
-        return null;
+        return interfaces.stream()
+                .filter(interfaceInfo -> interfaceInfo.getName().equals(name))
+                .findFirst()
+                .orElse(null);
     }
 
     public Collection<Class_info> getAllInterfaces() {
@@ -250,34 +238,30 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     public Field_info getField(String name) {
-        for (Field_info field : fields) {
-            if (field.getName().equals(name)) {
-                return field;
-            }
-        }
-
-        return null;
+        return fields.stream()
+                .filter(field -> field.getName().equals(name))
+                .findFirst()
+                .orElse(null);
     }
 
     public com.jeantessier.classreader.Field_info locateField(String name) {
-        com.jeantessier.classreader.Field_info localField = getField(name);
+        var localField = getField(name);
         if (localField != null) {
             return localField;
         }
 
-        com.jeantessier.classreader.Classfile superclass = getLoader().getClassfile(getSuperclassName());
+        var superclass = getLoader().getClassfile(getSuperclassName());
         if (superclass != null) {
-            com.jeantessier.classreader.Field_info inheritedField = superclass.locateField(name);
+            var inheritedField = superclass.locateField(name);
             if (inheritedField != null && (inheritedField.isPublic() || inheritedField.isProtected() || (inheritedField.isPackage() && inheritedField.getClassfile().getPackageName().equals(superclass.getPackageName())))) {
                 return inheritedField;
             }
         }
 
-
-        for (com.jeantessier.classreader.Class_info interfaceInfo : getAllInterfaces()) {
-            com.jeantessier.classreader.Classfile interfaceClassfile = getLoader().getClassfile(interfaceInfo.getName());
+        for (var interfaceInfo : getAllInterfaces()) {
+            var interfaceClassfile = getLoader().getClassfile(interfaceInfo.getName());
             if (interfaceClassfile != null) {
-                com.jeantessier.classreader.Field_info interfaceField = interfaceClassfile.locateField(name);
+                var interfaceField = interfaceClassfile.locateField(name);
                 if (interfaceField != null && (interfaceField.isPublic() || interfaceField.isProtected())) {
                     return interfaceField;
                 }
@@ -292,33 +276,30 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     public Method_info getMethod(String signature) {
-        for (Method_info method : methods) {
-            if (method.getSignature().equals(signature)) {
-                return method;
-            }
-        }
-
-        return null;
+        return methods.stream()
+                .filter(method -> method.getSignature().equals(signature))
+                .findFirst()
+                .orElse(null);
     }
 
     public com.jeantessier.classreader.Method_info locateMethod(String signature) {
-        com.jeantessier.classreader.Method_info localMethod = getMethod(signature);
+        var localMethod = getMethod(signature);
         if (localMethod != null) {
             return localMethod;
         }
 
-        com.jeantessier.classreader.Classfile superclass = getLoader().getClassfile(getSuperclassName());
+        var superclass = getLoader().getClassfile(getSuperclassName());
         if (superclass != null) {
-            com.jeantessier.classreader.Method_info inheritedMethod = superclass.locateMethod(signature);
+            var inheritedMethod = superclass.locateMethod(signature);
             if (inheritedMethod != null && (inheritedMethod.isPublic() || inheritedMethod.isProtected() || (inheritedMethod.isPackage() && inheritedMethod.getClassfile().getPackageName().equals(superclass.getPackageName())))) {
                 return inheritedMethod;
             }
         }
 
-        for (com.jeantessier.classreader.Class_info inferfaceInfo : getAllInterfaces()) {
-            com.jeantessier.classreader.Classfile interfaceClassfile = getLoader().getClassfile(inferfaceInfo.getName());
+        for (var interfaceInfo : getAllInterfaces()) {
+            var interfaceClassfile = getLoader().getClassfile(interfaceInfo.getName());
             if (interfaceClassfile != null) {
-                com.jeantessier.classreader.Method_info interfaceMethod = interfaceClassfile.locateMethod(signature);
+                var interfaceMethod = interfaceClassfile.locateMethod(signature);
                 if (interfaceMethod != null && (interfaceMethod.isPublic() || interfaceMethod.isProtected())) {
                     return interfaceMethod;
                 }
@@ -377,40 +358,19 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     private boolean isSyntheticFromAttribute() {
-        boolean result = false;
-
-        Iterator i = getAttributes().iterator();
-        while (!result && i.hasNext()) {
-            result = i.next() instanceof Synthetic_attribute;
-        }
-
-        return result;
+        return getAttributes().stream().anyMatch(attribute -> attribute instanceof Synthetic_attribute);
     }
 
     public boolean isDeprecated() {
-        boolean result = false;
-
-        Iterator i = getAttributes().iterator();
-        while (!result && i.hasNext()) {
-            result = i.next() instanceof Deprecated_attribute;
-        }
-    
-        return result;
+        return getAttributes().stream().anyMatch(attribute -> attribute instanceof Deprecated_attribute);
     }
 
     public boolean isGeneric() {
-        boolean result = false;
-
-        Iterator i = getAttributes().iterator();
-        while (!result && i.hasNext()) {
-            result = i.next() instanceof Signature_attribute;
-        }
-
-        return result;
+        return getAttributes().stream().anyMatch(attribute -> attribute instanceof Signature_attribute);
     }
 
     public String getDeclaration() {
-        StringBuffer result = new StringBuffer();
+        var result = new StringBuilder();
 
         if (isPublic()) result.append("public ");
         if (isFinal()) result.append("final ");
@@ -418,15 +378,9 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         if (isInterface()) {
             result.append("interface ").append(getClassName());
 
-            if (getAllInterfaces().size() != 0) {
+            if (!getAllInterfaces().isEmpty()) {
                 result.append(" extends ");
-                Iterator i = getAllInterfaces().iterator();
-                while (i.hasNext()) {
-                    result.append(i.next());
-                    if (i.hasNext()) {
-                        result.append(", ");
-                    }
-                }
+                result.append(String.join(", ", getAllInterfaces().stream().map(Class_info::toString).toList()));
             }
         } else {
             if (isAbstract()) result.append("abstract ");
@@ -436,15 +390,9 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
                 result.append(" extends ").append(getSuperclassName());
             }
             
-            if (getAllInterfaces().size() != 0) {
+            if (!getAllInterfaces().isEmpty()) {
                 result.append(" implements ");
-                Iterator i = getAllInterfaces().iterator();
-                while (i.hasNext()) {
-                    result.append(i.next());
-                    if (i.hasNext()) {
-                        result.append(", ");
-                    }
-                }
+                result.append(String.join(", ", getAllInterfaces().stream().map(Class_info::toString).toList()));
             }
         }
 
@@ -464,64 +412,54 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     public boolean isMemberClass() {
-        boolean result = false;
-
-        InnerClass innerClass = getMatchingInnerClass();
+        var innerClass = getMatchingInnerClass();
         if (innerClass != null) {
-            result = innerClass.isMemberClass();
+            return innerClass.isMemberClass();
         }
 
-        return result;
+        return false;
     }
 
     public boolean isLocalClass() {
-        boolean result = false;
-
-        InnerClass innerClass = getMatchingInnerClass();
-        EnclosingMethod_attribute enclosingMethod = getEnclosingMethod();
+        var innerClass = getMatchingInnerClass();
+        var enclosingMethod = getEnclosingMethod();
         if (innerClass != null && enclosingMethod != null) {
-            result = !innerClass.isAnonymousClass();
+            return !innerClass.isAnonymousClass();
         }
 
-        return result;
+        return false;
     }
 
     public boolean isAnonymousClass() {
-        boolean result = false;
-
-        InnerClass innerClass = getMatchingInnerClass();
+        var innerClass = getMatchingInnerClass();
         if (innerClass != null) {
-            result = innerClass.isAnonymousClass();
+            return innerClass.isAnonymousClass();
         }
 
-        return result;
+        return false;
     }
 
     private InnerClass getMatchingInnerClass() {
-        InnerClass result = null;
-
-        for (Attribute_info attribute : getAttributes()) {
-            if (attribute instanceof InnerClasses_attribute) {
-                for (InnerClass innerClass : ((InnerClasses_attribute) attribute).getInnerClasses()) {
+        for (var attribute : getAttributes()) {
+            if (attribute instanceof InnerClasses_attribute innerClasses_attribute) {
+                for (var innerClass : innerClasses_attribute.getInnerClasses()) {
                     if (innerClass.getInnerClassInfo().equals(getClassName())) {
-                        result = innerClass;
+                        return innerClass;
                     }
                 }
             }
         }
 
-        return result;
+        return null;
     }
 
     private EnclosingMethod_attribute getEnclosingMethod() {
-        EnclosingMethod_attribute result = null;
-
-        for (Attribute_info attribute : getAttributes()) {
-            if (attribute instanceof EnclosingMethod_attribute) {
-                result = (EnclosingMethod_attribute) attribute;
+        for (var attribute : getAttributes()) {
+            if (attribute instanceof EnclosingMethod_attribute enclosingMethod_attribute) {
+                return enclosingMethod_attribute;
             }
         }
 
-        return result;
+        return null;
     }
 }
