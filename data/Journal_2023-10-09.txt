@@ -1,2 +1,2 @@
-I refactored =com.jeantessier.classreader.impl.Classfile= to use more modern
-Java constructs, such as =var= local variables and using the Streams API.
+Refactored =com.jeantessier.classreader.impl.Classfile= to use more modern Java
+constructs, such as =var= local variables and using the Streams API.
