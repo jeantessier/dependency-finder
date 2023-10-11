@@ -41,6 +41,7 @@ import static org.junit.runners.Suite.*;
         TestMaximumCapacityPatternCache.class,
         TestHex.class,
         TestHexNull.class,
+        TestHexCharGroups.class,
         TestPrinterBuffer.class,
         TestRegularExpressionParser.class
 })

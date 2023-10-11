@@ -32,20 +32,72 @@
 
 package com.jeantessier.text;
 
+import java.nio.*;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
+
 public final class Hex {
+    private static final int DEFAULT_CHAR_GROUP_SIZE = 8;
+
     private Hex() {
         // Do nothing
     }
 
     public static String toString(byte[] bytes) {
-        StringBuffer result = new StringBuffer();
-        for (byte b : bytes) {
-            int highBits = (b & 0xF0) >> 4;
-            int lowBits  = (b & 0x0F);
+        return toString(ByteBuffer.wrap(bytes), DEFAULT_CHAR_GROUP_SIZE);
+    }
 
-            result.append(Integer.toHexString(highBits).toUpperCase());
-            result.append(Integer.toHexString(lowBits).toUpperCase());
+    public static String toString(byte[] bytes, int charGroupSize) {
+        return toString(ByteBuffer.wrap(bytes), charGroupSize);
+    }
+
+    private static String toString(ByteBuffer buffer, int charGroupSize) {
+        return Stream.generate(buffer::get)
+                .limit(buffer.capacity())
+                .map(b -> String.format("%02X", b))
+                .map(s -> s.split(""))
+                .flatMap(Arrays::stream)
+                .collect(new TextCollector(charGroupSize));
+    }
+
+    private static class TextCollector implements Collector<String, StringBuilder, String> {
+        private final int charGroupSize;
+
+        private long currentGroupSize = 0;
+
+        public TextCollector(int charGroupSize) {
+            this.charGroupSize = charGroupSize;
         }
-        return result.toString();
+
+        public Supplier<StringBuilder> supplier() {
+            return StringBuilder::new;
+        }
+
+        public BiConsumer<StringBuilder, String> accumulator() {
+            return (builder, c) -> {
+                builder.append(c);
+                currentGroupSize += c.length();
+                if (currentGroupSize % charGroupSize == 0) {
+                    builder.append(" ");
+                }
+            };
+        }
+
+        public Function<StringBuilder, String> finisher() {
+            return (builder) -> builder.toString().trim();
+        }
+
+        public BinaryOperator<StringBuilder> combiner() {
+            return (builder1, builder2) -> {
+                builder1.append(builder2);
+                currentGroupSize += builder2.length();
+                return builder1;
+            };
+        }
+
+        public Set<Characteristics> characteristics() {
+            return Collections.emptySet();
+        }
     }
 }

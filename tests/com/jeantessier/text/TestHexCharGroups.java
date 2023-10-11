@@ -40,31 +40,28 @@ import static org.junit.Assert.*;
 import static org.junit.runners.Parameterized.*;
 
 @RunWith(Parameterized.class)
-public class TestHex {
-    @Parameters(name="Hex string with {0}")
+public class TestHexCharGroups {
+    @Parameters(name="Hex string with group size {1}")
     public static Object[][] data() {
         return new Object[][] {
-            {"empty", new byte[0], ""},
-            {"one byte", new byte[] {0}, "00"},
-            {"four bits", new byte[] {7}, "07"},
-            {"use capitals", new byte[] {10}, "0A"},
-            {"eight bits", new byte[] {(byte) 255}, "FF"},
-            {"two bytes", new byte[] {0, 1}, "0001"},
-            {"default group size", new byte[] {1, 2, 3, 4, 5, 6}, "01020304 0506"},
+            {new byte[] {1, 2, 3, 4, 5, 6}, 2, "01 02 03 04 05 06"},
+            {new byte[] {1, 2, 3, 4, 5, 6}, 3, "010 203 040 506"},
+            {new byte[] {1, 2, 3, 4, 5, 6}, 8, "01020304 0506"},
+            {new byte[] {1, 2, 3, 4}, 8, "01020304"},
         };
     }
 
     @Parameter(0)
-    public String label;
+    public byte[] bytes;
 
     @Parameter(1)
-    public byte[] bytes;
+    public int charGroupSize;
 
     @Parameter(2)
     public String expectedResult;
 
     @Test
     public void test() {
-        assertEquals(label, expectedResult, Hex.toString(bytes));
+        assertEquals("group size " + charGroupSize, expectedResult, Hex.toString(bytes, charGroupSize));
     }
 }
