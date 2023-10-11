@@ -1,0 +1,7 @@
+Refactored =com.jeantessier.text.Hex= to use the Streams API and
+=java.util.Formatter= to render bytes in text and XML outputs.  All the
+=print()= methods were used for single bytes, so I replaced them with calls to
+=Formatter= instead.  That left the =toString()= static method, which I
+refactored to use streams to traverse the byte array and write to a =String=.
+I used this opportunity to format the bytes with extra spaces that make the
+output easier to read.
