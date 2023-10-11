@@ -1,0 +1,6 @@
+More tweaking of =com.jeantessier.classreader.impl.Classfile= to allow for
+parallel streams.
+
+I researched how to process byte arrays using streams.  I drew inspiration from
+[[https://www.adam-bien.com/roller/abien/entry/converting_a_byte_to_stream][this article]]
+where they use =java.nio.ByteBuffer=.
