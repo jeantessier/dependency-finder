@@ -41,6 +41,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import static java.util.stream.Collectors.joining;
+
 public class Classfile implements com.jeantessier.classreader.Classfile {
     private static final int ACC_PUBLIC = 0x0001;
     private static final int ACC_FINAL = 0x0010;
@@ -223,9 +225,9 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     public Class_info getInterface(String name) {
-        return interfaces.stream()
+        return interfaces.parallelStream()
                 .filter(interfaceInfo -> interfaceInfo.getName().equals(name))
-                .findFirst()
+                .findAny()
                 .orElse(null);
     }
 
@@ -238,9 +240,9 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     public Field_info getField(String name) {
-        return fields.stream()
+        return fields.parallelStream()
                 .filter(field -> field.getName().equals(name))
-                .findFirst()
+                .findAny()
                 .orElse(null);
     }
 
@@ -276,9 +278,9 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     public Method_info getMethod(String signature) {
-        return methods.stream()
+        return methods.parallelStream()
                 .filter(method -> method.getSignature().equals(signature))
-                .findFirst()
+                .findAny()
                 .orElse(null);
     }
 
@@ -358,15 +360,15 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     private boolean isSyntheticFromAttribute() {
-        return getAttributes().stream().anyMatch(attribute -> attribute instanceof Synthetic_attribute);
+        return getAttributes().parallelStream().anyMatch(attribute -> attribute instanceof Synthetic_attribute);
     }
 
     public boolean isDeprecated() {
-        return getAttributes().stream().anyMatch(attribute -> attribute instanceof Deprecated_attribute);
+        return getAttributes().parallelStream().anyMatch(attribute -> attribute instanceof Deprecated_attribute);
     }
 
     public boolean isGeneric() {
-        return getAttributes().stream().anyMatch(attribute -> attribute instanceof Signature_attribute);
+        return getAttributes().parallelStream().anyMatch(attribute -> attribute instanceof Signature_attribute);
     }
 
     public String getDeclaration() {
@@ -380,7 +382,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
 
             if (!getAllInterfaces().isEmpty()) {
                 result.append(" extends ");
-                result.append(String.join(", ", getAllInterfaces().stream().map(Class_info::toString).toList()));
+                result.append(getAllInterfaces().stream().map(Class_info::toString).collect(joining(", ")));
             }
         } else {
             if (isAbstract()) result.append("abstract ");
@@ -392,7 +394,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
             
             if (!getAllInterfaces().isEmpty()) {
                 result.append(" implements ");
-                result.append(String.join(", ", getAllInterfaces().stream().map(Class_info::toString).toList()));
+                result.append(getAllInterfaces().stream().map(Class_info::toString).collect(joining(", ")));
             }
         }
 
