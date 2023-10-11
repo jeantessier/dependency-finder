@@ -34,9 +34,9 @@ package com.jeantessier.dependencyfinder.cli;
 
 import java.util.*;
 import java.io.*;
+import java.util.stream.*;
 
 import com.jeantessier.classreader.*;
-import com.jeantessier.text.*;
 
 public class ClassMetrics extends DirectoryExplorerCommand {
     private boolean list;
@@ -132,11 +132,9 @@ public class ClassMetrics extends DirectoryExplorerCommand {
         if (getCommandLine().getToggleSwitch("instruction-counts")) {
             getOut().println();
             getOut().println("Instruction counts:");
-            for (int opcode=0; opcode<256; opcode++) {
-                getOut().print("        0x");
-                Hex.print(getOut(), (byte) opcode);
-                getOut().println(" " + com.jeantessier.classreader.impl.Instruction.getMnemonic(opcode) + ": " + metrics.getInstructionCounts()[opcode]);
-            }
+
+            var formatter = new Formatter(getOut());
+            IntStream.range(0, 256).forEach(opcode -> formatter.format("        0x%02X %s: %d%n", opcode, com.jeantessier.classreader.impl.Instruction.getMnemonic(opcode), metrics.getInstructionCounts()[opcode]));
         }
     }
 

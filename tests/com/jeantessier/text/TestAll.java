@@ -40,6 +40,7 @@ import static org.junit.runners.Suite.*;
 @SuiteClasses({
         TestMaximumCapacityPatternCache.class,
         TestHex.class,
+        TestHexNull.class,
         TestPrinterBuffer.class,
         TestRegularExpressionParser.class
 })

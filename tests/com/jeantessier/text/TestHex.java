@@ -32,156 +32,39 @@
 
 package com.jeantessier.text;
 
-import java.io.*;
+import org.junit.*;
+import org.junit.runner.*;
+import org.junit.runners.Parameterized;
 
-import junit.framework.*;
+import static org.junit.Assert.*;
+import static org.junit.runners.Parameterized.*;
 
-public class TestHex extends TestCase {
-    private StringWriter sw;
-    private PrintWriter pw;
-
-    private ByteArrayOutputStream baos;
-    private PrintStream ps;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        sw = new StringWriter();
-        pw = new PrintWriter(sw);
-
-        baos = new ByteArrayOutputStream();
-        ps = new PrintStream(baos);
+@RunWith(Parameterized.class)
+public class TestHex {
+    @Parameters(name="Hex string with {0}")
+    public static Object[][] data() {
+        return new Object[][] {
+            {"empty", new byte[0], ""},
+            {"one byte", new byte[] {0}, "00"},
+            {"four bits", new byte[] {7}, "07"},
+            {"use capitals", new byte[] {10}, "0A"},
+            {"eight bits", new byte[] {(byte) 255}, "FF"},
+            {"two bytes", new byte[] {0, 1}, "0001"},
+            {"space between groups", new byte[] {1, 2, 3, 4, 5, 6}, "01020304 0506"},
+        };
     }
 
-    protected void tearDown() throws Exception {
-        try {
-            pw.close();
-            ps.close();
-        } finally {
-            super.tearDown();
-        }
-    }
+    @Parameter(0)
+    public String label;
 
-    public void testPrintNullToWriter() {
-        try {
-            Hex.print(pw, null);
-            fail("Printed null byte array");
-        } catch (NullPointerException ex) {
-            // Expected
-        }
-    }
+    @Parameter(1)
+    public byte[] bytes;
 
-    public void testPrintNullToStream() {
-        try {
-            Hex.print(ps, null);
-            fail("Printed null byte array");
-        } catch (NullPointerException ex) {
-            // Expected
-        }
-    }
+    @Parameter(2)
+    public String expectedResult;
 
-    public void testPrintEmptyToWriter() {
-        Hex.print(pw, new byte[0]);
-        pw.close();
-        assertEquals("", sw.toString());
-    }
-
-    public void testPrintEmptyToStream() {
-        Hex.print(ps, new byte[0]);
-        pw.close();
-        assertEquals("", baos.toString());
-    }
-
-    public void testPrintOneByteToWriter() {
-        Hex.print(pw, new byte[] {0});
-        pw.close();
-        assertEquals("00", sw.toString());
-    }
-
-    public void testPrintOneByteToStream() {
-        Hex.print(ps, new byte[] {0});
-        pw.close();
-        assertEquals("00", baos.toString());
-    }
-
-    public void testPrintFourBitsToWriter() {
-        Hex.print(pw, new byte[] {7});
-        pw.close();
-        assertEquals("07", sw.toString());
-    }
-
-    public void testPrintFourBitsToStream() {
-        Hex.print(ps, new byte[] {7});
-        pw.close();
-        assertEquals("07", baos.toString());
-    }
-
-    public void testPrintGeneratesCapitalsToWriter() {
-        Hex.print(pw, new byte[] {10});
-        pw.close();
-        assertEquals("0A", sw.toString());
-    }
-
-    public void testPrintGeneratesCapitalsToStream() {
-        Hex.print(ps, new byte[] {10});
-        pw.close();
-        assertEquals("0A", baos.toString());
-    }
-
-    public void testPrintEightBitsToWriter() {
-        Hex.print(pw, new byte[] {(byte) 255});
-        pw.close();
-        assertEquals("FF", sw.toString());
-    }
-
-    public void testPrintEightBitsToStream() {
-        Hex.print(ps, new byte[] {(byte) 255});
-        pw.close();
-        assertEquals("FF", baos.toString());
-    }
-
-    public void testPrintTwoBytesToWriter() {
-        Hex.print(pw, new byte[] {0, 1});
-        pw.close();
-        assertEquals("0001", sw.toString());
-    }
-
-    public void testPrintTwoBytesToStream() {
-        Hex.print(ps, new byte[] {0, 1});
-        pw.close();
-        assertEquals("0001", baos.toString());
-    }
-
-    public void testNullToString() {
-        try {
-            Hex.toString(null);
-            fail("Printed null byte array");
-        } catch (NullPointerException ex) {
-            // Expected
-        }
-    }
-
-    public void testEmptyToString() {
-        assertEquals("", Hex.toString(new byte[0]));
-    }
-
-    public void testOneByteToString() {
-        assertEquals("00", Hex.toString(new byte[] {0}));
-    }
-
-    public void testFourBitsToString() {
-        assertEquals("07", Hex.toString(new byte[] {7}));
-    }
-
-    public void testToStringGeneratesCapitals() {
-        assertEquals("0A", Hex.toString(new byte[] {10}));
-    }
-
-    public void testEightBitsToString() {
-        assertEquals("FF", Hex.toString(new byte[] {(byte) 255}));
-    }
-
-    public void testTwoBytesToString() {
-        assertEquals("0001", Hex.toString(new byte[] {0, 1}));
+    @Test
+    public void test() {
+        assertEquals(label, expectedResult, Hex.toString(bytes));
     }
 }

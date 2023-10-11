@@ -34,12 +34,12 @@ package com.jeantessier.dependencyfinder.ant;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.*;
 
 import org.apache.tools.ant.*;
 import org.apache.tools.ant.types.*;
 
 import com.jeantessier.classreader.*;
-import com.jeantessier.text.*;
 
 public class ClassMetrics extends Task {
     private boolean list = false;
@@ -182,11 +182,9 @@ public class ClassMetrics extends Task {
             if (getInstructioncounts()) {
                 out.println();
                 out.println("Instruction counts:");
-                for (int opcode=0; opcode<256; opcode++) {
-                    out.print("        0x");
-                    Hex.print(out, (byte) opcode);
-                    out.println(" " + com.jeantessier.classreader.impl.Instruction.getMnemonic(opcode) + ": " + metrics.getInstructionCounts()[opcode]);
-                }
+
+                var formatter = new Formatter(out);
+                IntStream.range(0, 256).forEach(opcode -> formatter.format("        0x%02X %s: %d%n", opcode, com.jeantessier.classreader.impl.Instruction.getMnemonic(opcode), metrics.getInstructionCounts()[opcode]));
             }
 
             out.close();

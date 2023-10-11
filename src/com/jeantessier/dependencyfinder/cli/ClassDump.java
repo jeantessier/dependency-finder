@@ -33,8 +33,7 @@
 package com.jeantessier.dependencyfinder.cli;
 
 import java.io.*;
-
-import com.jeantessier.text.*;
+import java.util.*;
 
 public class ClassDump {
     public static void main(String[] args) throws Exception {
@@ -49,27 +48,28 @@ public class ClassDump {
         }
     }
 
-    public static void dumpClass(String classname) throws ClassNotFoundException  {
+    private static void dumpClass(String classname) throws ClassNotFoundException  {
         dumpClass(Class.forName(classname));
     }
 
-    public static void dumpClass(Class c) {
+    private static void dumpClass(Class c) {
         String resource = c.getSimpleName() + ".class";
         System.out.println(resource + " -> " + c.getResource(resource));
         dumpClass(c.getResourceAsStream(resource));
     }
 
-    public static void dumpClass(InputStream in) {
+    private static void dumpClass(InputStream in) {
         dumpClass((DataInput) new DataInputStream(in));
     }
 
-    public static void dumpClass(DataInput in) {
+    private static void dumpClass(DataInput in) {
+        var formatter = new Formatter(System.out);
         int count = 0;
         try {
             while (true) {
                 byte b = in.readByte();
 
-                Hex.print(System.out, b);
+                formatter.format("%02X", b);
 
                 count++;
 
