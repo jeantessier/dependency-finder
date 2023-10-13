@@ -40,6 +40,7 @@ import java.io.DataInput;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.joining;
 
@@ -112,35 +113,51 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         // Retrieving the interfaces
         int interfaceCount = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Reading " + interfaceCount + " interface(s)");
-        for (var i=0; i<interfaceCount; i++) {
-            Class_info interfaceInfo = (Class_info) constantPool.get(in.readUnsignedShort());
-            Logger.getLogger(getClass()).debug("    " + interfaceInfo.getName());
-            interfaces.add(interfaceInfo);
-        }
+        IntStream.range(0, interfaceCount).forEach(i -> {
+            try {
+                Class_info interfaceInfo = (Class_info) constantPool.get(in.readUnsignedShort());
+                Logger.getLogger(getClass()).debug("    " + interfaceInfo.getName());
+                interfaces.add(interfaceInfo);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         // Retrieving the fields
         int fieldCount = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Reading " + fieldCount + " field(s)");
-        for (var i=0; i<fieldCount; i++) {
-            Logger.getLogger(getClass()).debug("Field " + i + ":");
-            fields.add(new Field_info(this, in));
-        }
+        IntStream.range(0, fieldCount).forEach(i -> {
+            try {
+                Logger.getLogger(getClass()).debug("Field " + i + ":");
+                fields.add(new Field_info(this, in));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         // Retrieving the methods
         int methodCount = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Reading " + methodCount + " method(s)");
-        for (var i=0; i<methodCount; i++) {
-            Logger.getLogger(getClass()).debug("Method " + i + ":");
-            methods.add(new Method_info(this, in));
-        }
+        IntStream.range(0, methodCount).forEach(i -> {
+            try {
+                Logger.getLogger(getClass()).debug("Method " + i + ":");
+                methods.add(new Method_info(this, in));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         // Retrieving the attributes
         int attributeCount = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Reading " + attributeCount + " class attribute(s)");
-        for (var i=0; i<attributeCount; i++) {
-            Logger.getLogger(getClass()).debug("Attribute " + i + ":");
-            attributes.add(attributeFactory.create(constantPool, this, in));
-        }
+        IntStream.range(0, attributeCount).forEach(i -> {
+            try {
+                Logger.getLogger(getClass()).debug("Attribute " + i + ":");
+                attributes.add(attributeFactory.create(constantPool, this, in));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     /**
