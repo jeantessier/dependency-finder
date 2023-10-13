@@ -1,0 +1,26 @@
+Refactored =com.jeantessier.classreader.impl.Classreader= to use
+=IntStream.range()= instead of a =for= loop when reading parts of a =.class=
+file.
+
+The code used to look like this:
+
+    for (var i=0; i<attributeCount; i++) {
+        Logger.getLogger(getClass()).debug("Attribute " + i + ":");
+        attributes.add(attributeFactory.create(constantPool, this, in));
+    }
+
+And now it looks like this:
+
+    IntStream.range(0, methodCount).forEach(i -&gt; {
+        try {
+            Logger.getLogger(getClass()).debug("Method " + i + ":");
+            methods.add(new Method_info(this, in));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    });
+
+I think it looks "clever" and more modern, but I have to wrap exceptions
+because the functional interface does not allow for checked exceptions such as
+=IOException=.  The =try=/=catch= block makes it a little ugly, and I am not
+sure that the resulting code is really that much better.
