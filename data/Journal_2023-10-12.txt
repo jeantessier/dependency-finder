@@ -4,7 +4,7 @@ file.
 
 The code used to look like this:
 
-    for (var i=0; i<attributeCount; i++) {
+    for (var i=0; i&lt;attributeCount; i++) {
         Logger.getLogger(getClass()).debug("Attribute " + i + ":");
         attributes.add(attributeFactory.create(constantPool, this, in));
     }
