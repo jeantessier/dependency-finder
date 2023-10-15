@@ -34,13 +34,14 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.*;
 
 import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
 
 public abstract class RuntimeAnnotations_attribute extends Annotations_attribute implements com.jeantessier.classreader.RuntimeAnnotations_attribute {
-    private Collection<Annotation> annotations = new LinkedList<Annotation>();
+    private final Collection<Annotation> annotations = new LinkedList<>();
 
     public RuntimeAnnotations_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
         super(constantPool, owner);
@@ -50,10 +51,14 @@ public abstract class RuntimeAnnotations_attribute extends Annotations_attribute
 
         int numAnnotations = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Reading " + numAnnotations + " annotation(s) ...");
-        for (int i=0; i<numAnnotations; i++) {
-            Logger.getLogger(getClass()).debug("annotation " + i + ":");
-            annotations.add(new Annotation(constantPool, in));
-        }
+        IntStream.range(0, numAnnotations).forEach(i -> {
+            try {
+                Logger.getLogger(getClass()).debug("annotation " + i + ":");
+                annotations.add(new Annotation(constantPool, in));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     public Collection<? extends Annotation> getAnnotations() {

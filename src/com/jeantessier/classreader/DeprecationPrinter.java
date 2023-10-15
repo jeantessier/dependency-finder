@@ -42,23 +42,16 @@ public class DeprecationPrinter extends Printer {
     public void visitDeprecated_attribute(Deprecated_attribute attribute) {
         Object owner = attribute.getOwner();
 
-        if (owner instanceof Feature_info) {
-            if (!((Feature_info) owner).getClassfile().isDeprecated()) {
-                append(((Feature_info) owner).getFullSignature()).eol();
+        if (owner instanceof Feature_info feature_info) {
+            if (!feature_info.getClassfile().isDeprecated()) {
+                append(feature_info.getFullSignature()).eol();
             }
         } else {
             append(owner).eol();
             
-            if (owner instanceof Classfile) {
-                Classfile classfile = (Classfile) owner;
-
-                for (Field_info field : classfile.getAllFields()) {
-                    append(field.getFullSignature()).eol();
-                }
-
-                for (Method_info method : classfile.getAllMethods()) {
-                    append(method.getFullSignature()).eol();
-                }
+            if (owner instanceof Classfile classfile) {
+                classfile.getAllFields().forEach(field -> append(field.getFullSignature()).eol());
+                classfile.getAllMethods().forEach(method -> append(method.getFullSignature()).eol());
             }
         }
     }

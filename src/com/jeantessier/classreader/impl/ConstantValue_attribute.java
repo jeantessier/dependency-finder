@@ -39,7 +39,7 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class ConstantValue_attribute extends Attribute_info implements com.jeantessier.classreader.ConstantValue_attribute {
-    private int valueIndex;
+    private final int valueIndex;
 
     public ConstantValue_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
         super(constantPool, owner);

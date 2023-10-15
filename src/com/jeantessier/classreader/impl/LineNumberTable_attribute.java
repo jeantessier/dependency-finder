@@ -34,13 +34,14 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.*;
 
 import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
 
 public class LineNumberTable_attribute extends Attribute_info implements com.jeantessier.classreader.LineNumberTable_attribute {
-    private Collection<LineNumber> lineNumbers = new LinkedList<LineNumber>();
+    private final Collection<LineNumber> lineNumbers = new LinkedList<>();
 
     public LineNumberTable_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
         super(constantPool, owner);
@@ -50,10 +51,14 @@ public class LineNumberTable_attribute extends Attribute_info implements com.jea
 
         int lineNumberTableLength = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Reading " + lineNumberTableLength + " line number(s) ...");
-        for (int i=0; i<lineNumberTableLength; i++) {
-            Logger.getLogger(getClass()).debug("Line number entry " + i + ":");
-            lineNumbers.add(new LineNumber(this, in));
-        }
+        IntStream.range(0, lineNumberTableLength).forEach(i -> {
+            try {
+                Logger.getLogger(getClass()).debug("Line number entry " + i + ":");
+                lineNumbers.add(new LineNumber(this, in));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     public Collection<LineNumber> getLineNumbers() {

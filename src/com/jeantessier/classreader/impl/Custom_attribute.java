@@ -40,8 +40,8 @@ import com.jeantessier.classreader.*;
 import com.jeantessier.text.*;
 
 public class Custom_attribute extends Attribute_info implements com.jeantessier.classreader.Custom_attribute {
-    private String name;
-    private byte[] info;
+    private final String name;
+    private final byte[] info;
 
     public Custom_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
         this("", constantPool, owner, in);

@@ -40,8 +40,8 @@ import com.jeantessier.classreader.*;
 
 public class LineNumber implements com.jeantessier.classreader.LineNumber {
     private LineNumberTable_attribute lineNumberTable;
-    private int                       startPC;
-    private int                       lineNumber;
+    private final int startPC;
+    private final int lineNumber;
 
     public LineNumber(LineNumberTable_attribute lineNumberTable, DataInput in) throws IOException {
         setLineNumberTable(lineNumberTable);

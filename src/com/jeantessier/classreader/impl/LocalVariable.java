@@ -39,12 +39,12 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class LocalVariable implements com.jeantessier.classreader.LocalVariable {
-    private LocalVariableTable_attribute localVariableTable;
-    private int startPC;
-    private int length;
-    private int nameIndex;
-    private int descriptorIndex;
-    private int index;
+    private final LocalVariableTable_attribute localVariableTable;
+    private final int startPC;
+    private final int length;
+    private final int nameIndex;
+    private final int descriptorIndex;
+    private final int index;
 
     public LocalVariable(LocalVariableTable_attribute localVariableTable, DataInput in) throws IOException {
         this.localVariableTable = localVariableTable;

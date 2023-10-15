@@ -34,6 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.*;
 
 import org.apache.log4j.*;
 
@@ -43,11 +44,11 @@ import com.jeantessier.classreader.*;
 import com.jeantessier.text.*;
 
 public class Code_attribute extends Attribute_info implements Iterable<Instruction>, com.jeantessier.classreader.Code_attribute {
-    private int maxStack;
-    private int maxLocals;
-    private byte[] code;
-    private Collection<ExceptionHandler> exceptionHandlers = new LinkedList<ExceptionHandler>();
-    private Collection<Attribute_info> attributes = new LinkedList<Attribute_info>();
+    private final int maxStack;
+    private final int maxLocals;
+    private final byte[] code;
+    private final Collection<ExceptionHandler> exceptionHandlers = new LinkedList<>();
+    private final Collection<Attribute_info> attributes = new LinkedList<>();
 
     public Code_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
         this(constantPool, owner, in, new AttributeFactory());
@@ -74,17 +75,25 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
 
         int exceptionTableLength = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Reading " + exceptionTableLength + " exception handler(s) ...");
-        for (int i=0; i<exceptionTableLength; i++) {
-            Logger.getLogger(getClass()).debug("Exception handler " + i + ":");
-            exceptionHandlers.add(new ExceptionHandler(this, in));
-        }
+        IntStream.range (0, exceptionTableLength).forEach(i -> {
+            try {
+                Logger.getLogger(getClass()).debug("Exception handler " + i + ":");
+                exceptionHandlers.add(new ExceptionHandler(this, in));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         int attributeCount = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Reading " + attributeCount + " code attribute(s)");
-        for (int i=0; i<attributeCount; i++) {
-            Logger.getLogger(getClass()).debug("code attribute " + i + ":");
-            attributes.add(attributeFactory.create(getConstantPool(), this, in));
-        }
+        IntStream.range(0, attributeCount).forEach(i -> {
+            try {
+                Logger.getLogger(getClass()).debug("code attribute " + i + ":");
+                attributes.add(attributeFactory.create(getConstantPool(), this, in));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         if (Logger.getLogger(getClass()).isDebugEnabled()) {
             Logger.getLogger(getClass()).debug("Read instructions(s):");

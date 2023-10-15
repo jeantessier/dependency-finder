@@ -39,7 +39,7 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class AnnotationDefault_attribute extends Attribute_info implements com.jeantessier.classreader.AnnotationDefault_attribute {
-    private ElementValue elementValue;
+    private final ElementValue elementValue;
 
     public AnnotationDefault_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
         this(constantPool, owner, in, new ElementValueFactory());

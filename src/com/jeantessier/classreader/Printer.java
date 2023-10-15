@@ -37,7 +37,7 @@ import java.io.*;
 public abstract class Printer extends VisitorBase {
     public static final String DEFAULT_INDENT_TEXT = "    ";
 
-    private PrintWriter out;
+    private final PrintWriter out;
     private String indentText = DEFAULT_INDENT_TEXT;
     private int indentLevel = 0;
 
@@ -99,10 +99,7 @@ public abstract class Printer extends VisitorBase {
     }
 
     protected Printer indent() {
-        for (int i=0; i<indentLevel; i++) {
-            append(getIndentText());
-        }
-
+        append(getIndentText().repeat(indentLevel));
         return this;
     }
 

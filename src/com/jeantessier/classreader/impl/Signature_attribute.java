@@ -39,7 +39,7 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class Signature_attribute extends Attribute_info implements com.jeantessier.classreader.Signature_attribute {
-    private int signatureIndex;
+    private final int signatureIndex;
 
     public Signature_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
         super(constantPool, owner);

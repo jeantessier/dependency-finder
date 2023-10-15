@@ -39,8 +39,8 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class EnclosingMethod_attribute extends Attribute_info implements com.jeantessier.classreader.EnclosingMethod_attribute {
-    private int classIndex;
-    private int methodIndex;
+    private final int classIndex;
+    private final int methodIndex;
 
     public EnclosingMethod_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
         super(constantPool, owner);

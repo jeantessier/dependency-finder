@@ -50,11 +50,11 @@ public class InnerClass implements com.jeantessier.classreader.InnerClass {
     private static final int ACC_ANNOTATION = 0x2000;
     private static final int ACC_ENUM = 0x4000;
 
-    private InnerClasses_attribute innerClasses;
-    private int innerClassInfoIndex;
-    private int outerClassInfoIndex;
-    private int innerNameIndex;
-    private int accessFlag;
+    private final InnerClasses_attribute innerClasses;
+    private final int innerClassInfoIndex;
+    private final int outerClassInfoIndex;
+    private final int innerNameIndex;
+    private final int accessFlag;
 
     public InnerClass(InnerClasses_attribute innerClasses, DataInput in) throws IOException {
         this.innerClasses = innerClasses;

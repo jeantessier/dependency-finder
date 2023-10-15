@@ -34,13 +34,14 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.*;
 
 import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
 
 public class InnerClasses_attribute extends Attribute_info implements com.jeantessier.classreader.InnerClasses_attribute {
-    private Collection<InnerClass> classes = new LinkedList<InnerClass>();
+    private final Collection<InnerClass> classes = new LinkedList<>();
 
     public InnerClasses_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
         super(constantPool, owner);
@@ -50,10 +51,14 @@ public class InnerClasses_attribute extends Attribute_info implements com.jeante
 
         int classCount = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Reading " + classCount + " inner class(es) ...");
-        for (int i=0; i<classCount; i++) {
-            Logger.getLogger(getClass()).debug("Inner class " + i + ":");
-            classes.add(new InnerClass(this, in));
-        }
+        IntStream.range(0, classCount).forEach(i -> {
+            try {
+                Logger.getLogger(getClass()).debug("Inner class " + i + ":");
+                classes.add(new InnerClass(this, in));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     public Collection<InnerClass> getInnerClasses() {

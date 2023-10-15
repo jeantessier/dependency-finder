@@ -35,8 +35,8 @@ package com.jeantessier.classreader.impl;
 import com.jeantessier.classreader.*;
 
 public abstract class Attribute_info implements com.jeantessier.classreader.Attribute_info {
-    private ConstantPool constantPool;
-    private Visitable owner;
+    private final ConstantPool constantPool;
+    private final Visitable owner;
 
     public Attribute_info(ConstantPool constantPool, Visitable owner) {
         this.constantPool = constantPool;

@@ -34,13 +34,14 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.*;
 
 import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
 
 public class LocalVariableTypeTable_attribute extends Attribute_info implements com.jeantessier.classreader.LocalVariableTypeTable_attribute {
-    private Collection<LocalVariableType> localVariableTypes = new LinkedList<LocalVariableType>();
+    private final Collection<LocalVariableType> localVariableTypes = new LinkedList<>();
 
     public LocalVariableTypeTable_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
         super(constantPool, owner);
@@ -50,10 +51,14 @@ public class LocalVariableTypeTable_attribute extends Attribute_info implements 
 
         int localVariableTableTypeLength = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Reading " + localVariableTableTypeLength + " local variable type(s) ...");
-        for (int i=0; i<localVariableTableTypeLength; i++) {
-            Logger.getLogger(getClass()).debug("Local variable type " + i + ":");
-            localVariableTypes.add(new LocalVariableType(this, in));
-        }
+        IntStream.range(0, localVariableTableTypeLength).forEach(i -> {
+            try {
+                Logger.getLogger(getClass()).debug("Local variable type " + i + ":");
+                localVariableTypes.add(new LocalVariableType(this, in));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     public Collection<LocalVariableType> getLocalVariableTypes() {

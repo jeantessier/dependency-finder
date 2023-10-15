@@ -34,13 +34,14 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.*;
 
 import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
 
 public class Exceptions_attribute extends Attribute_info implements com.jeantessier.classreader.Exceptions_attribute {
-    private Collection<Class_info> exceptions = new LinkedList<Class_info>();
+    private final Collection<Class_info> exceptions = new LinkedList<>();
 
     public Exceptions_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
         super(constantPool, owner);
@@ -50,12 +51,16 @@ public class Exceptions_attribute extends Attribute_info implements com.jeantess
 
         int exceptionCount = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Reading " + exceptionCount + " exception(s) ...");
-        for (int i=0; i<exceptionCount; i++) {
-            Logger.getLogger(getClass()).debug("Exception " + i + ":");
-            Class_info exception = (Class_info) constantPool.get(in.readUnsignedShort());
-            exceptions.add(exception);
-            Logger.getLogger(getClass()).debug("Class " + exception);
-        }
+        IntStream.range(0, exceptionCount).forEach(i -> {
+            try {
+                Logger.getLogger(getClass()).debug("Exception " + i + ":");
+                Class_info exception = (Class_info) constantPool.get(in.readUnsignedShort());
+                exceptions.add(exception);
+                Logger.getLogger(getClass()).debug("Class " + exception);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     public Collection<Class_info> getExceptions() {

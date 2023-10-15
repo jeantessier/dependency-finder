@@ -39,7 +39,7 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class SourceFile_attribute extends Attribute_info implements com.jeantessier.classreader.SourceFile_attribute {
-    private int sourceFileIndex;
+    private final int sourceFileIndex;
 
     public SourceFile_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
         super(constantPool, owner);
