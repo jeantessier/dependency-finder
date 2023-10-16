@@ -35,9 +35,9 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public class DependencyEvent extends EventObject {
-    private String classname;
-    private Node   dependent;
-    private Node   dependable;
+    private final String classname;
+    private final Node dependent;
+    private final Node dependable;
 
     public DependencyEvent(Object source) {
         this(source, null, null, null);
@@ -50,12 +50,12 @@ public class DependencyEvent extends EventObject {
     public DependencyEvent(Object source, Node dependent, Node dependable) {
         this(source, null, dependent, dependable);
     }
-        
+
     private DependencyEvent(Object source, String classname, Node dependent, Node dependable) {
         super(source);
 
-        this.classname  = classname;
-        this.dependent  = dependent;
+        this.classname = classname;
+        this.dependent = dependent;
         this.dependable = dependable;
     }
 

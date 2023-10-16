@@ -43,7 +43,7 @@ public class NodeHandler extends DefaultHandler {
     private static final int CLASS   = 2;
     private static final int FEATURE = 3;
 
-    private NodeFactory  factory;
+    private final NodeFactory  factory;
 
     private int          currentNodeType;
     private int          currentDependencyType;
@@ -52,9 +52,9 @@ public class NodeHandler extends DefaultHandler {
     private Attributes   currentPackageAttributes;
     private Attributes   currentClassAttributes;
     private Attributes   currentFeatureAttributes;
-    private StringBuffer currentName = new StringBuffer();
+    private final StringBuffer currentName = new StringBuffer();
 
-    private HashSet<DependencyListener> dependencyListeners = new HashSet<DependencyListener>();
+    private final HashSet<DependencyListener> dependencyListeners = new HashSet<>();
 
     public NodeHandler() {
         this(new NodeFactory());

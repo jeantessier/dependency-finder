@@ -36,9 +36,7 @@ import java.util.*;
 
 public class FeatureResolver implements Visitor {
     public void traverseNodes(Collection<? extends Node> nodes) {
-        for (Node node : nodes) {
-            node.accept(this);
-        }
+        nodes.forEach(node -> node.accept(this));
     }
 
     public void traverseInbound(Collection<? extends Node> nodes) {

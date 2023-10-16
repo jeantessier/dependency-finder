@@ -36,7 +36,7 @@ import java.io.*;
 import java.util.*;
 
 public class MetricsReport {
-    private PrintWriter out;
+    private final PrintWriter out;
 
     private boolean listingElements = false;
     private boolean chartingClassesPerPackage = false;
@@ -128,40 +128,34 @@ public class MetricsReport {
         int nbPackages = metrics.getPackages().size();
         out.print(nbPackages + " package(s)");
         if (nbPackages > 0) {
-            int nbConfirmedPackages = countConfirmedNodes(metrics.getPackages());
+            var nbConfirmedPackages = countConfirmedNodes(metrics.getPackages());
             out.print(" (" + nbConfirmedPackages + " confirmed, " + (nbConfirmedPackages / (double) nbPackages) + ")");
         }
         out.println();
         if (isListingElements()) {
-            for (PackageNode packageNode : metrics.getPackages()) {
-                out.println("    " + packageNode);
-            }
+            metrics.getPackages().forEach(node -> out.println("    " + node));
         }
 
         int nbClasses = metrics.getClasses().size();
         out.print(nbClasses + " class(es)");
         if (nbClasses > 0) {
-            int nbConfirmedClasses = countConfirmedNodes(metrics.getClasses());
+            var nbConfirmedClasses = countConfirmedNodes(metrics.getClasses());
             out.print(" (" + nbConfirmedClasses + " confirmed, " + (nbConfirmedClasses / (double) nbClasses) + ")");
         }
         out.println();
         if (isListingElements()) {
-            for (ClassNode classNode : metrics.getClasses()) {
-                out.println("    " + classNode);
-            }
+            metrics.getClasses().forEach(node -> out.println("    " + node));
         }
 
         int nbFeatures = metrics.getFeatures().size();
         out.print(nbFeatures + " feature(s)");
         if (nbFeatures > 0) {
-            int nbConfirmedFeatures = countConfirmedNodes(metrics.getFeatures());
+            var nbConfirmedFeatures = countConfirmedNodes(metrics.getFeatures());
             out.print(" (" + nbConfirmedFeatures + " confirmed, " + (nbConfirmedFeatures / (double) nbFeatures) + ")");
         }
         out.println();
         if (isListingElements()) {
-            for (FeatureNode featureNode : metrics.getFeatures()) {
-                out.println("    " + featureNode);
-            }
+            metrics.getFeatures().forEach(node -> out.println("    " + node));
         }
 
         out.println();
@@ -283,15 +277,7 @@ public class MetricsReport {
         }
     }
 
-    private int countConfirmedNodes(Collection<? extends Node> nodes) {
-        int result = 0;
-
-        for (Node node : nodes) {
-            if (node.isConfirmed()) {
-                result++;
-            }
-        }
-
-        return result;
+    private long countConfirmedNodes(Collection<? extends Node> nodes) {
+        return nodes.parallelStream().filter(Node::isConfirmed).count();
     }
 }

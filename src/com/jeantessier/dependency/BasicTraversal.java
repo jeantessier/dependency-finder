@@ -36,21 +36,15 @@ import java.util.*;
 
 public class BasicTraversal extends VisitorDecorator {
     public void traverseNodes(Collection<? extends Node> nodes) {
-        for (Node node : nodes) {
-            node.accept(getDelegate());
-        }
+        nodes.forEach(node -> node.accept(getDelegate()));
     }
 
     public void traverseInbound(Collection<? extends Node> nodes) {
-        for (Node node : nodes) {
-            node.acceptInbound(getDelegate());
-        }
+        nodes.forEach(node -> node.acceptInbound(getDelegate()));
     }
 
     public void traverseOutbound(Collection<? extends Node> nodes) {
-        for (Node node : nodes) {
-            node.acceptOutbound(getDelegate());
-        }
+        nodes.forEach(node -> node.acceptOutbound(getDelegate()));
     }
 
     public void visitPackageNode(PackageNode node) {

@@ -43,17 +43,9 @@ public class ClassDependencyCollector extends CollectorBase {
 
         classfile.getRawSuperclass().accept(this);
 
-        for (Class_info class_info : classfile.getAllInterfaces()) {
-            class_info.accept(this);
-        }
-
-        for (Field_info field : classfile.getAllFields()) {
-            field.accept(this);
-        }
-
-        for (Method_info method : classfile.getAllMethods()) {
-            method.accept(this);
-        }
+        classfile.getAllInterfaces().forEach(class_info -> class_info.accept(this));
+        classfile.getAllFields().forEach(field_info -> field_info.accept(this));
+        classfile.getAllMethods().forEach(method_info -> method_info.accept(this));
     }
 
     public void visitClass_info(Class_info entry) {

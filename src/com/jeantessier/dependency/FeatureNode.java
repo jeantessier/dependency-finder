@@ -33,7 +33,7 @@
 package com.jeantessier.dependency;
 
 public class FeatureNode extends Node {
-    private ClassNode parent;
+    private final ClassNode parent;
 
     public FeatureNode(ClassNode parent, String name, boolean concrete) {
         super(name, concrete);

@@ -47,8 +47,8 @@ import java.io.Reader;
 public class NodeLoader {
     private static final boolean DEFAULT_VALIDATE = false;
 
-    private NodeHandler handler;
-    private boolean     validate;
+    private final NodeHandler handler;
+    private final boolean validate;
 
     public NodeLoader() {
         this(new NodeFactory(), DEFAULT_VALIDATE);

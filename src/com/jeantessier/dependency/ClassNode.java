@@ -35,11 +35,11 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public class ClassNode extends Node {
-    private PackageNode packageNode;
-    private Collection<FeatureNode> features = new HashSet<FeatureNode>();
+    private final PackageNode packageNode;
+    private final Collection<FeatureNode> features = new HashSet<>();
 
-    private Collection<ClassNode> parents = new HashSet<ClassNode>();
-    private Collection<ClassNode> children = new HashSet<ClassNode>();
+    private final Collection<ClassNode> parents = new HashSet<>();
+    private final Collection<ClassNode> children = new HashSet<>();
 
     public ClassNode(PackageNode packageNode, String name, boolean concrete) {
         super(name, concrete);
@@ -121,7 +121,7 @@ public class ClassNode extends Node {
     }
 
     public Collection<FeatureNode> getInheritedFeatures(String featureSimpleName) {
-        Collection<FeatureNode> results = new LinkedList<FeatureNode>();
+        Collection<FeatureNode> results = new LinkedList<>();
 
         FeatureNode featureNode = getFeature(featureSimpleName);
         if (featureNode != null) {

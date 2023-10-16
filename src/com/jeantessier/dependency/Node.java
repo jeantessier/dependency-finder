@@ -34,15 +34,15 @@ package com.jeantessier.dependency;
 
 import java.util.*;
 
-public abstract class Node implements Comparable {
-    private String  name      = "";
-    private boolean confirmed = false;
+public abstract class Node implements Comparable<Node> {
+    private final String name;
+    private boolean confirmed;
     
-    private Collection<Node> inbound  = new HashSet<Node>();
-    private Collection<Node> outbound = new HashSet<Node>();
+    private final Collection<Node> inbound  = new HashSet<>();
+    private final Collection<Node> outbound = new HashSet<>();
 
     public Node(String name, boolean confirmed) {
-        this.name      = name;
+        this.name = name;
         this.confirmed = confirmed;
     }
 
@@ -71,9 +71,7 @@ public abstract class Node implements Comparable {
     }
 
     public void addDependencies(Collection<Node> nodes) {
-        for (Node node : nodes) {
-            addDependency(node);
-        }
+        nodes.forEach(this::addDependency);
     }
 
     public void removeDependency(Node node) {
@@ -82,9 +80,7 @@ public abstract class Node implements Comparable {
     }
 
     public void removeDependencies(Collection<? extends Node> nodes) {
-        for (Node node : nodes) {
-            removeDependency(node);
-        }
+        nodes.forEach(this::removeDependency);
     }
 
     public Collection<Node> getInboundDependencies() {
@@ -118,17 +114,14 @@ public abstract class Node implements Comparable {
         return result;
     }
 
-    public int compareTo(Object object) {
+    public int compareTo(Node other) {
         int result;
 
-        if (this == object) {
+        if (this == other) {
             result = 0;
-        } else if (object == null) {
+        } else if (other == null) {
             throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got null");
-        } else if (!(object instanceof Node)) {
-            throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got a " + object.getClass().getName());
         } else {
-            Node other = (Node) object;
             result = getName().compareTo(other.getName());
         }
 

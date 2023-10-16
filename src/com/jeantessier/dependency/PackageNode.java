@@ -35,7 +35,7 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public class PackageNode extends Node {
-    private Collection<ClassNode> classes = new HashSet<ClassNode>();
+    private final Collection<ClassNode> classes = new HashSet<>();
 
     public PackageNode(String name, boolean concrete) {
         super(name, concrete);

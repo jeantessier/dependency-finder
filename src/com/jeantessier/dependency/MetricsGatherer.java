@@ -66,7 +66,7 @@ public class MetricsGatherer extends VisitorBase {
 
     private static final String[] CHART_NAMES = {"n",
                                                  "Classes per Package",
-                                                 "Feafures per Class",
+                                                 "Features per Class",
                                                  "Inbounds per Package",
                                                  "Outbounds per Package",
                                                  "Inbounds per Class",

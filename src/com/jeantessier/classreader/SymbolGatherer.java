@@ -33,7 +33,7 @@
 package com.jeantessier.classreader;
 
 public class SymbolGatherer extends CollectorBase {
-    private SymbolGathererStrategy strategy;
+    private final SymbolGathererStrategy strategy;
 
     private Method_info currentMethod = null;
     private InnerClass innerClass;

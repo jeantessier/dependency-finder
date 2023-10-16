@@ -40,9 +40,9 @@ import org.apache.oro.text.perl.*;
 public class NodeFactory {
     private static final Perl5Util perl = new Perl5Util();
 
-    private Map<String, PackageNode> packages = new HashMap<String, PackageNode>();
-    private Map<String, ClassNode> classes = new HashMap<String, ClassNode>();
-    private Map<String, FeatureNode> features = new HashMap<String, FeatureNode>();
+    private final Map<String, PackageNode> packages = new HashMap<>();
+    private final Map<String, ClassNode> classes = new HashMap<>();
+    private final Map<String, FeatureNode> features = new HashMap<>();
 
     public PackageNode createPackage(String packageName) {
         return createPackage(packageName, false);
