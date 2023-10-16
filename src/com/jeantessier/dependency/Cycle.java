@@ -37,13 +37,13 @@ import java.util.*;
 /**
  * TODO Class comment
  */
-public class Cycle implements Comparable {
-    private List<Node> path;
+public class Cycle implements Comparable<Cycle> {
+    private final List<Node> path;
 
     public Cycle(List<Node> path) {
-        Set<Node> nodes = new TreeSet<Node>(path);
+        Set<Node> nodes = new TreeSet<>(path);
         Node first = nodes.iterator().next();
-        LinkedList<Node> rawPath = new LinkedList<Node>(path);
+        LinkedList<Node> rawPath = new LinkedList<>(path);
         while (!rawPath.getFirst().equals(first)) {
             rawPath.addLast(rawPath.removeFirst());
         }
@@ -78,18 +78,14 @@ public class Cycle implements Comparable {
         return getPath().hashCode();
     }
 
-    public int compareTo(Object object) {
+    public int compareTo(Cycle other) {
         int result;
 
-        if (this == object) {
+        if (this == other) {
             result = 0;
-        } else if (object == null) {
+        } else if (other == null) {
             throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got null");
-        } else if (!(object instanceof Cycle)) {
-            throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got a " + object.getClass().getName());
         } else {
-            Cycle other = (Cycle) object;
-
             result = getLength() - other.getLength();
             Iterator<Node> theseNodes = getPath().iterator();
             Iterator<Node> otherNodes = other.getPath().iterator();

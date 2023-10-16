@@ -40,19 +40,19 @@ import org.apache.oro.text.*;
 import com.jeantessier.text.*;
 
 public class RegularExpressionSelectionCriteria implements SelectionCriteria {
-    private Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
+    private final Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
 
-    private List<String> globalIncludes = new LinkedList<String>();
-    private List<String> globalExcludes = new LinkedList<String>();
+    private List<String> globalIncludes = new LinkedList<>();
+    private List<String> globalExcludes = new LinkedList<>();
     private boolean matchingPackages = true;
-    private List<String> packageIncludes = new LinkedList<String>();
-    private List<String> packageExcludes = new LinkedList<String>();
+    private List<String> packageIncludes = new LinkedList<>();
+    private List<String> packageExcludes = new LinkedList<>();
     private boolean matchingClasses  = true;
-    private List<String> classIncludes = new LinkedList<String>();
-    private List<String> classExcludes = new LinkedList<String>();
+    private List<String> classIncludes = new LinkedList<>();
+    private List<String> classExcludes = new LinkedList<>();
     private boolean matchingFeatures = true;
-    private List<String> featureIncludes = new LinkedList<String>();
-    private List<String> featureExcludes = new LinkedList<String>();
+    private List<String> featureIncludes = new LinkedList<>();
+    private List<String> featureExcludes = new LinkedList<>();
     
     public RegularExpressionSelectionCriteria() {
         // Do nothing

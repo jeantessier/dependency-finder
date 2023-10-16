@@ -35,7 +35,7 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public abstract class CompositeSelectionCriteria implements SelectionCriteria {
-    private Collection<? extends SelectionCriteria> subcriteria;
+    private final Collection<? extends SelectionCriteria> subcriteria;
     
     public CompositeSelectionCriteria(Collection<? extends SelectionCriteria> subcriteria) {
         this.subcriteria = subcriteria;
