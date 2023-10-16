@@ -35,69 +35,69 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public abstract class DecoratorTraversalStrategy implements TraversalStrategy {
-    private final TraversalStrategy strategy;
+    private final TraversalStrategy delegate;
 
-    public DecoratorTraversalStrategy(TraversalStrategy strategy) {
-        this.strategy = strategy;
+    public DecoratorTraversalStrategy(TraversalStrategy delegate) {
+        this.delegate = delegate;
     }
     
     public boolean doPreOutboundTraversal() {
-        return strategy.doPreOutboundTraversal();
+        return delegate.doPreOutboundTraversal();
     }
     
     public void setPreOutboundTraversal(boolean preOutboundTraversal) {
-        strategy.setPreOutboundTraversal(preOutboundTraversal);
+        delegate.setPreOutboundTraversal(preOutboundTraversal);
     }
     
     public boolean doPreInboundTraversal() {
-        return strategy.doPreInboundTraversal();
+        return delegate.doPreInboundTraversal();
     }
     
     public void setPreInboundTraversal(boolean preInboundTraversal) {
-        strategy.setPreInboundTraversal(preInboundTraversal);
+        delegate.setPreInboundTraversal(preInboundTraversal);
     }
     
     public boolean doPostOutboundTraversal() {
-        return strategy.doPostOutboundTraversal();
+        return delegate.doPostOutboundTraversal();
     }
     
     public void setPostOutboundTraversal(boolean postOutboundTraversal) {
-        strategy.setPostOutboundTraversal(postOutboundTraversal);
+        delegate.setPostOutboundTraversal(postOutboundTraversal);
     }
     
     public boolean doPostInboundTraversal() {
-        return strategy.doPostInboundTraversal();
+        return delegate.doPostInboundTraversal();
     }
 
     public void setPostInboundTraversal(boolean postInboundTraversal) {
-        strategy.setPostInboundTraversal(postInboundTraversal);
+        delegate.setPostInboundTraversal(postInboundTraversal);
     }
     
     public boolean isInScope(PackageNode node) {
-        return strategy.isInScope(node);
+        return delegate.isInScope(node);
     }
 
     public boolean isInScope(ClassNode node) {
-        return strategy.isInScope(node);
+        return delegate.isInScope(node);
     }
 
     public boolean isInScope(FeatureNode node) {
-        return strategy.isInScope(node);
+        return delegate.isInScope(node);
     }
 
     public boolean isInFilter(PackageNode node) {
-        return strategy.isInFilter(node);
+        return delegate.isInFilter(node);
     }
 
     public boolean isInFilter(ClassNode node) {
-        return strategy.isInFilter(node);
+        return delegate.isInFilter(node);
     }
 
     public boolean isInFilter(FeatureNode node) {
-        return strategy.isInFilter(node);
+        return delegate.isInFilter(node);
     }
 
     public <T extends Node> Collection<T> order(Collection<T> collection) {
-        return strategy.order(collection);
+        return delegate.order(collection);
     }
 }
