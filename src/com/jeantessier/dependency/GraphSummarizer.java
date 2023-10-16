@@ -33,8 +33,8 @@
 package com.jeantessier.dependency;
 
 public class GraphSummarizer extends GraphCopier {
-    private SelectionCriteria scopeCriteria;
-    private SelectionCriteria filterCriteria;
+    private final SelectionCriteria scopeCriteria;
+    private final SelectionCriteria filterCriteria;
 
     public GraphSummarizer(SelectionCriteria scopeCriteria, SelectionCriteria filterCriteria) {
         super(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));

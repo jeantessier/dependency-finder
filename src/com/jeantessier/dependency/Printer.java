@@ -33,12 +33,11 @@
 package com.jeantessier.dependency;
 
 import java.io.*;
-import java.util.*;
 
 public abstract class Printer extends VisitorBase {
     public static final String DEFAULT_INDENT_TEXT = "    ";
 
-    private PrintWriter out;
+    private final PrintWriter out;
 
     private String indentText = DEFAULT_INDENT_TEXT;
     private int indentLevel = 0;
@@ -175,25 +174,11 @@ public abstract class Printer extends VisitorBase {
     }
 
     protected boolean shouldShowPackageNode(PackageNode node) {
-        boolean result = shouldShowNode(node);
-
-        Iterator i = node.getClasses().iterator();
-        while (!result && i.hasNext()) {
-            result = shouldShowClassNode((ClassNode) i.next());
-        }
-        
-        return result;
+        return shouldShowNode(node) || node.getClasses().parallelStream().anyMatch(this::shouldShowClassNode);
     }
 
     protected boolean shouldShowClassNode(ClassNode node) {
-        boolean result = shouldShowNode(node);
-
-        Iterator i = node.getFeatures().iterator();
-        while (!result && i.hasNext()) {
-            result = shouldShowFeatureNode((FeatureNode) i.next());
-        }
-        
-        return result;
+        return shouldShowNode(node) || node.getFeatures().parallelStream().anyMatch(this::shouldShowFeatureNode);
     }
     
     protected boolean shouldShowFeatureNode(FeatureNode node) {

@@ -48,10 +48,10 @@ public class TransitiveClosure {
     private long maximumInboundDepth = DO_NOT_FOLLOW;
     private long maximumOutboundDepth = UNBOUNDED_DEPTH;
 
-    private SelectionCriteria startCriteria;
-    private SelectionCriteria stopCriteria;
+    private final SelectionCriteria startCriteria;
+    private final SelectionCriteria stopCriteria;
 
-    private NodeFactory factory = new NodeFactory();
+    private final NodeFactory factory = new NodeFactory();
     
     public TransitiveClosure(SelectionCriteria startCriteria, SelectionCriteria stopCriteria) {
         this.startCriteria = startCriteria;

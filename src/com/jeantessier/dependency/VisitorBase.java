@@ -43,9 +43,9 @@ import org.apache.log4j.*;
  *  @author Jean Tessier
  */
 public abstract class VisitorBase implements Visitor {
-    private TraversalStrategy strategy;
+    private final TraversalStrategy strategy;
 
-    private LinkedList<Node> currentNodes = new LinkedList<Node>();
+    private final LinkedList<Node> currentNodes = new LinkedList<>();
 
     public VisitorBase() {
         this(new ComprehensiveTraversalStrategy());
@@ -64,21 +64,15 @@ public abstract class VisitorBase implements Visitor {
             Logger.getLogger(getClass()).debug("nodes = " + nodes);
         }
 
-        for (Node node : getStrategy().order(nodes)) {
-            node.accept(this);
-        }
+        getStrategy().order(nodes).forEach(node -> node.accept(this));
     }
 
     public void traverseInbound(Collection<? extends Node> nodes) {
-        for (Node node : getStrategy().order(nodes)) {
-            node.acceptInbound(this);
-        }
+        getStrategy().order(nodes).forEach(node -> node.acceptInbound(this));
     }
 
     public void traverseOutbound(Collection<? extends Node> nodes) {
-        for (Node node : getStrategy().order(nodes)) {
-            node.acceptOutbound(this);
-        }
+        getStrategy().order(nodes).forEach(node -> node.acceptOutbound(this));
     }
 
     protected Node getCurrentNode() {

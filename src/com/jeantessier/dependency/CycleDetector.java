@@ -40,8 +40,8 @@ import org.apache.log4j.*;
  * TODO Class comment
  */
 public class CycleDetector extends VisitorBase {
-    private LinkedList<Node> currentPath = new LinkedList<Node>();
-    private Collection<Cycle> cycles = new TreeSet<Cycle>(new CycleComparator());
+    private final LinkedList<Node> currentPath = new LinkedList<>();
+    private final Collection<Cycle> cycles = new TreeSet<>(new CycleComparator());
     private int maximumCycleLength = Integer.MAX_VALUE;
 
     public CycleDetector() {

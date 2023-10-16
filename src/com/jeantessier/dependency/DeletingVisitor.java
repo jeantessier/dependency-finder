@@ -39,7 +39,7 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class DeletingVisitor implements Visitor, RemoveVisitor {
-    private NodeFactory factory;
+    private final NodeFactory factory;
     
     public DeletingVisitor(NodeFactory factory) {
         this.factory = factory;
@@ -67,7 +67,7 @@ public class DeletingVisitor implements Visitor, RemoveVisitor {
     public void visitPackageNode(PackageNode node) {
         Logger.getLogger(getClass()).debug("visitPackageNode(" + node + ")");
 
-        for (ClassNode classNode : new ArrayList<ClassNode>(node.getClasses())) {
+        for (ClassNode classNode : new ArrayList<>(node.getClasses())) {
             classNode.accept(this);
         }
 
@@ -77,7 +77,7 @@ public class DeletingVisitor implements Visitor, RemoveVisitor {
     public void visitClassNode(ClassNode node) {
         Logger.getLogger(getClass()).debug("visitClassNode(" + node + ")");
 
-        for (FeatureNode featureNode : new ArrayList<FeatureNode>(node.getFeatures())) {
+        for (FeatureNode featureNode : new ArrayList<>(node.getFeatures())) {
             featureNode.accept(this);
         }
 
@@ -93,7 +93,7 @@ public class DeletingVisitor implements Visitor, RemoveVisitor {
     private void visitNode(Node node) {
         node.setConfirmed(false);
 
-        for (Node outbound : new ArrayList<Node>(node.getOutboundDependencies())) {
+        for (Node outbound : new ArrayList<>(node.getOutboundDependencies())) {
             node.removeDependency(outbound);
             outbound.acceptOutbound(this);
         }

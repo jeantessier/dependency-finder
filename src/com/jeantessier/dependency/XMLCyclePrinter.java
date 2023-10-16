@@ -39,7 +39,7 @@ public class XMLCyclePrinter implements CyclePrinter, Visitor {
     public static final String DEFAULT_ENCODING   = "utf-8";
     public static final String DEFAULT_DTD_PREFIX = "https://depfind.sourceforge.io/dtd";
 
-    private PrintWriter out;
+    private final PrintWriter out;
 
     private String indentText = "    ";
 
@@ -66,11 +66,7 @@ public class XMLCyclePrinter implements CyclePrinter, Visitor {
 
     public void visitCycles(Collection<Cycle> cycles) {
         out.append("<cycles>").println();
-
-        for (Cycle cycle : cycles) {
-            visitCycle(cycle);
-        }
-        
+        cycles.forEach(this::visitCycle);
         out.append("</cycles>").println();
     }
 
@@ -81,9 +77,7 @@ public class XMLCyclePrinter implements CyclePrinter, Visitor {
     }
 
     public void traverseNodes(Collection<? extends Node> nodes) {
-        for (Node node : nodes) {
-            node.accept(this);
-        }
+        nodes.forEach(node -> node.accept(this));
     }
 
     public void traverseInbound(Collection<? extends Node> nodes) {

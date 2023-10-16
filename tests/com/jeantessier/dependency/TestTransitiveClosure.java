@@ -39,18 +39,6 @@ import org.apache.log4j.*;
 
 public class TestTransitiveClosure extends TestCase {
     private NodeFactory factory;
-    
-    private PackageNode a;
-    private ClassNode   a_A;
-    private FeatureNode a_A_a;
-    
-    private PackageNode b;
-    private ClassNode   b_B;
-    private FeatureNode b_B_b;
-    
-    private PackageNode c;
-    private ClassNode   c_C;
-    private FeatureNode c_C_c;
 
     private RegularExpressionSelectionCriteria startCriteria;
     private RegularExpressionSelectionCriteria stopCriteria;
@@ -64,17 +52,9 @@ public class TestTransitiveClosure extends TestCase {
         
         factory = new NodeFactory();
 
-        a     = factory.createPackage("a");
-        a_A   = factory.createClass("a.A");
-        a_A_a = factory.createFeature("a.A.a");
-        
-        b     = factory.createPackage("b");
-        b_B   = factory.createClass("b.B");
-        b_B_b = factory.createFeature("b.B.b");
-        
-        c     = factory.createPackage("c");
-        c_C   = factory.createClass("c.C");
-        c_C_c = factory.createFeature("c.C.c");
+        var a_A_a = factory.createFeature("a.A.a");
+        var b_B_b = factory.createFeature("b.B.b");
+        var c_C_c = factory.createFeature("c.C.c");
 
         a_A_a.addDependency(b_B_b);
         b_B_b.addDependency(c_C_c);
@@ -179,7 +159,7 @@ public class TestTransitiveClosure extends TestCase {
 
     public void testZeroBothDirections() {
         startCriteria.setGlobalIncludes("/b.B.b/");
-        stopCriteria.setGlobalIncludes(Collections.<String>emptyList());
+        stopCriteria.setGlobalIncludes(Collections.emptyList());
 
         selector.setMaximumInboundDepth(0);
         selector.setMaximumOutboundDepth(0);
@@ -193,7 +173,7 @@ public class TestTransitiveClosure extends TestCase {
 
     public void testOneBothDirections() {
         startCriteria.setGlobalIncludes("/b.B.b/");
-        stopCriteria.setGlobalIncludes(Collections.<String>emptyList());
+        stopCriteria.setGlobalIncludes(Collections.emptyList());
 
         selector.setMaximumInboundDepth(1);
         selector.setMaximumOutboundDepth(1);
@@ -207,7 +187,7 @@ public class TestTransitiveClosure extends TestCase {
 
     public void testAllBothDirections() {
         startCriteria.setGlobalIncludes("/b.B.b/");
-        stopCriteria.setGlobalIncludes(Collections.<String>emptyList());
+        stopCriteria.setGlobalIncludes(Collections.emptyList());
 
         selector.setMaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
         selector.setMaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);

@@ -33,8 +33,8 @@
 package com.jeantessier.dependency;
 
 public class GraphCopier extends VisitorBase {
-    private NodeFactory scopeFactory  = new NodeFactory();
-    private NodeFactory filterFactory = new NodeFactory();
+    private final NodeFactory scopeFactory  = new NodeFactory();
+    private final NodeFactory filterFactory = new NodeFactory();
 
     public GraphCopier() {
         super();

@@ -37,7 +37,7 @@ import java.util.*;
 public class ClosureStopSelector implements Visitor {
     private boolean done = false;
     
-    private SelectionCriteria criteria;
+    private final SelectionCriteria criteria;
     
     public ClosureStopSelector(SelectionCriteria criteria) {
         this.criteria = criteria;
@@ -51,9 +51,7 @@ public class ClosureStopSelector implements Visitor {
         if (nodes.isEmpty()) {
             done = true;
         } else {
-            for (Node node : nodes) {
-                node.accept(this);
-            }
+            nodes.forEach(node -> node.accept(this));
         }
     }
 

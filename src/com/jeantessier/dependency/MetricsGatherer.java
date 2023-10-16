@@ -38,9 +38,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class MetricsGatherer extends VisitorBase {
-    private Collection<PackageNode> packages = new LinkedList<PackageNode>();
-    private Collection<ClassNode> classes  = new LinkedList<ClassNode>();
-    private Collection<FeatureNode> features = new LinkedList<FeatureNode>();
+    private final Collection<PackageNode> packages = new LinkedList<>();
+    private final Collection<ClassNode> classes  = new LinkedList<>();
+    private final Collection<FeatureNode> features = new LinkedList<>();
 
     private long nbOutbound = 0;
     private long nbInbound = 0;
@@ -51,7 +51,7 @@ public class MetricsGatherer extends VisitorBase {
     private long nbOutboundFeatures = 0;
     private long nbInboundFeatures = 0;
 
-    private Map<Integer, long[]> chartData = new TreeMap<Integer, long[]>();
+    private final Map<Integer, long[]> chartData = new TreeMap<>();
     private int chartMaximum = 0;
     public static final int CHART_INDEX           = 0;
     public static final int CLASSES_PER_PACKAGE   = 1;

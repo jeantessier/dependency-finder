@@ -33,7 +33,7 @@
 package com.jeantessier.dependency;
 
 public class ClosureStartSelector extends ClosureSelector {
-    private SelectionCriteria criteria;
+    private final SelectionCriteria criteria;
 
     public ClosureStartSelector(NodeFactory factory, SelectionCriteria criteria) {
         super(factory);

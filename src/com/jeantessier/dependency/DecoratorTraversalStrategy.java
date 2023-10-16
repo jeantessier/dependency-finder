@@ -35,7 +35,7 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public abstract class DecoratorTraversalStrategy implements TraversalStrategy {
-    private TraversalStrategy strategy;
+    private final TraversalStrategy strategy;
 
     public DecoratorTraversalStrategy(TraversalStrategy strategy) {
         this.strategy = strategy;

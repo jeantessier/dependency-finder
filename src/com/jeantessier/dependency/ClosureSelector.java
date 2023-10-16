@@ -50,8 +50,8 @@ public abstract class ClosureSelector implements Visitor {
     }
 
     public void reset() {
-        selectedNodes = new HashSet<Node>();
-        copiedNodes = new HashSet<Node>();
+        selectedNodes = new HashSet<>();
+        copiedNodes = new HashSet<>();
     }
 
     public NodeFactory getFactory() {
@@ -71,20 +71,14 @@ public abstract class ClosureSelector implements Visitor {
     }
     
     public void traverseNodes(Collection<? extends Node> nodes) {
-        for (Node node : nodes) {
-            node.accept(this);
-        }
+        nodes.forEach(node -> node.accept(this));
     }
 
     public void traverseInbound(Collection<? extends Node> nodes) {
-        for (Node node : nodes) {
-            node.acceptInbound(this);
-        }
+        nodes.forEach(node -> node.acceptInbound(this));
     }
 
     public void traverseOutbound(Collection<? extends Node> nodes) {
-        for (Node node : nodes) {
-            node.acceptOutbound(this);
-        }
+        nodes.forEach(node -> node.acceptOutbound(this));
     }
 }

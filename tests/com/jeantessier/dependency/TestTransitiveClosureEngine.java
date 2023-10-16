@@ -98,7 +98,7 @@ public class TestTransitiveClosureEngine extends TestCase {
     public void testOutboundStartingPoint() {
         startCriteria.setGlobalIncludes("/a.A.a/");
 
-        TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureOutboundSelector());
+        var engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureOutboundSelector());
 
         assertEquals("Nb layers", 1, engine.getNbLayers());
 
@@ -120,7 +120,7 @@ public class TestTransitiveClosureEngine extends TestCase {
     public void testOneOutboundLayer() {
         startCriteria.setGlobalIncludes("/a.A.a/");
 
-        TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureOutboundSelector());
+        var engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureOutboundSelector());
         engine.computeNextLayer();
 
         assertEquals("Nb layers", 2, engine.getNbLayers());
@@ -147,7 +147,7 @@ public class TestTransitiveClosureEngine extends TestCase {
     public void testTwoOutboundLayers() {
         startCriteria.setGlobalIncludes("/a.A.a/");
 
-        TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureOutboundSelector());
+        var engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureOutboundSelector());
         engine.computeNextLayer();
         engine.computeNextLayer();
 
@@ -179,7 +179,7 @@ public class TestTransitiveClosureEngine extends TestCase {
     public void testThreeOutboundLayers() {
         startCriteria.setGlobalIncludes("/a.A.a/");
 
-        TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureOutboundSelector());
+        var engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureOutboundSelector());
         engine.computeNextLayer();
         engine.computeNextLayer();
         engine.computeNextLayer();
@@ -208,7 +208,7 @@ public class TestTransitiveClosureEngine extends TestCase {
     public void testFourOutboundLayers() {
         startCriteria.setGlobalIncludes("/a.A.a/");
 
-        TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureOutboundSelector());
+        var engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureOutboundSelector());
         engine.computeNextLayer();
         engine.computeNextLayer();
         engine.computeNextLayer();
@@ -238,7 +238,7 @@ public class TestTransitiveClosureEngine extends TestCase {
     public void testInboundStartingPoint() {
         startCriteria.setGlobalIncludes("/c.C.c/");
 
-        TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
+        var engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
 
         assertEquals("Nb layers", 1, engine.getNbLayers());
 
@@ -260,7 +260,7 @@ public class TestTransitiveClosureEngine extends TestCase {
     public void testOneInboundLayer() {
         startCriteria.setGlobalIncludes("/c.C.c/");
 
-        TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
+        var engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
         engine.computeNextLayer();
 
         assertEquals("Nb layers", 2, engine.getNbLayers());
@@ -287,7 +287,7 @@ public class TestTransitiveClosureEngine extends TestCase {
     public void testTwoInboundLayers() {
         startCriteria.setGlobalIncludes("/c.C.c/");
 
-        TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
+        var engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
         engine.computeNextLayer();
         engine.computeNextLayer();
 
@@ -319,7 +319,7 @@ public class TestTransitiveClosureEngine extends TestCase {
     public void testThreeInboundLayers() {
         startCriteria.setGlobalIncludes("/c.C.c/");
 
-        TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
+        var engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
         engine.computeNextLayer();
         engine.computeNextLayer();
         engine.computeNextLayer();
@@ -348,7 +348,7 @@ public class TestTransitiveClosureEngine extends TestCase {
     public void testFourInboundLayers() {
         startCriteria.setGlobalIncludes("/c.C.c/");
 
-        TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
+        var engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
         engine.computeNextLayer();
         engine.computeNextLayer();
         engine.computeNextLayer();
@@ -379,7 +379,7 @@ public class TestTransitiveClosureEngine extends TestCase {
         startCriteria.setGlobalIncludes("/c.C.c/");
         stopCriteria.setGlobalIncludes("/b.B.b/");
 
-        TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
+        var engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
         engine.computeNextLayer();
         engine.computeNextLayer();
         engine.computeNextLayer();
@@ -405,7 +405,7 @@ public class TestTransitiveClosureEngine extends TestCase {
     public void testComputeAllLayers() {
         startCriteria.setGlobalIncludes("/c.C.c/");
 
-        TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
+        var engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
         engine.computeAllLayers();
 
         assertEquals("Nb layers", 3, engine.getNbLayers());
@@ -433,7 +433,7 @@ public class TestTransitiveClosureEngine extends TestCase {
         startCriteria.setGlobalIncludes("/c.C.c/");
         stopCriteria.setGlobalIncludes("/b.B.b/");
 
-        TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
+        var engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
         engine.computeAllLayers();
 
         assertEquals("Nb layers", 2, engine.getNbLayers());
@@ -457,7 +457,7 @@ public class TestTransitiveClosureEngine extends TestCase {
         startCriteria.setGlobalIncludes("/c.C.c/");
         stopCriteria.setGlobalIncludes("//");
 
-        TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
+        var engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
         engine.computeAllLayers();
 
         assertEquals("Nb layers", 1, engine.getNbLayers());
@@ -477,7 +477,7 @@ public class TestTransitiveClosureEngine extends TestCase {
         startCriteria.setGlobalIncludes("/c.C.c/");
         stopCriteria.setGlobalIncludes("");
 
-        TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
+        var engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
         engine.computeLayers(1);
 
         assertEquals("Nb layers", 2, engine.getNbLayers());
@@ -501,7 +501,7 @@ public class TestTransitiveClosureEngine extends TestCase {
         startCriteria.setGlobalIncludes("/c.C.c/");
         stopCriteria.setGlobalIncludes("/b.B.b/");
 
-        TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
+        var engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
         engine.computeLayers(4);
 
         assertEquals("Nb layers", 2, engine.getNbLayers());
@@ -525,19 +525,15 @@ public class TestTransitiveClosureEngine extends TestCase {
         startCriteria.setGlobalIncludes("/^a/");
         stopCriteria.setGlobalIncludes("/^c/");
 
-        TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureOutboundSelector());
+        var engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureOutboundSelector());
         engine.computeAllLayers();
 
         assertEquals("Nb layers", 3, engine.getNbLayers());
 
-        Node node = null;
-        Iterator i = engine.getLayer(0).iterator();
-        while (i.hasNext()) {
-            Node temp = (Node) i.next();
-            if (temp.equals(a_A_a)) {
-                node = temp;
-            }
-        }
+        var node = engine.getLayer(0).stream()
+                .filter(n -> n.equals(a_A_a))
+                .findAny()
+                .orElse(null);
 
         assertEquals("Layer 0 size", 3, engine.getLayer(0).size());
         assertEquals("Layer 0 content", a_A_a.getName(), node.getName());
@@ -568,19 +564,15 @@ public class TestTransitiveClosureEngine extends TestCase {
         startCriteria.setGlobalIncludes("/^c/");
         stopCriteria.setGlobalIncludes("/^a/");
 
-        TransitiveClosureEngine engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
+        var engine = new TransitiveClosureEngine(factory.getPackages().values(), startCriteria, stopCriteria, new ClosureInboundSelector());
         engine.computeAllLayers();
 
         assertEquals("Nb layers", 3, engine.getNbLayers());
 
-        Node node = null;
-        Iterator i = engine.getLayer(0).iterator();
-        while (i.hasNext()) {
-            Node temp = (Node) i.next();
-            if (temp.equals(c_C_c)) {
-                node = temp;
-            }
-        }
+        var node = engine.getLayer(0).stream()
+                .filter(n -> n.equals(c_C_c))
+                .findAny()
+                .orElse(null);
 
         assertEquals("Layer 0 size", 3, engine.getLayer(0).size());
         assertEquals("Layer 0 content", c_C_c.getName(), node.getName());

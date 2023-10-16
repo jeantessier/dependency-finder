@@ -39,7 +39,7 @@ import java.util.*;
  * TODO Class comment
  */
 public class NodeNamePrinter implements Visitor {
-    private PrintWriter out;
+    private final PrintWriter out;
 
     public NodeNamePrinter(PrintWriter out) {
         this.out = out;

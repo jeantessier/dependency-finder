@@ -46,7 +46,7 @@ public class TextPrinter extends Printer {
     }
 
     private boolean showInferred = true;
-    private Map<Node, Integer> dependencies = new TreeMap<Node, Integer>();
+    private final Map<Node, Integer> dependencies = new TreeMap<>();
 
     public TextPrinter(PrintWriter out) {
         super(out);

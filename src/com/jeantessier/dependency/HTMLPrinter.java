@@ -41,7 +41,7 @@ public class HTMLPrinter extends TextPrinter {
     private static final String TO = "--&gt;";
     private static final String BIDIRECTIONAL = "&lt;-&gt;";
 
-    private MessageFormat urlFormat;
+    private final MessageFormat urlFormat;
 
     public HTMLPrinter(PrintWriter out, MessageFormat format) {
         super(out);

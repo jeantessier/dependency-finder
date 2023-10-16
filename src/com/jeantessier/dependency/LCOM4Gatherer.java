@@ -33,13 +33,14 @@
 package com.jeantessier.dependency;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.apache.oro.text.perl.*;
 
 public class LCOM4Gatherer implements Visitor {
     private static final Perl5Util perl = new Perl5Util();
 
-    private Map<ClassNode, Collection<Collection<FeatureNode>>> results = new HashMap<ClassNode, Collection<Collection<FeatureNode>>>();
+    private final Map<ClassNode, Collection<Collection<FeatureNode>>> results = new HashMap<>();
     private Collection<FeatureNode> currentComponent;
     private ClassNode currentClass;
     private LinkedList<FeatureNode> unvisitedNodes;
@@ -51,11 +52,9 @@ public class LCOM4Gatherer implements Visitor {
     }
 
     public void traverseNodes(Collection<? extends Node> nodes) {
-        for (Node node : nodes) {
-            if (node.isConfirmed()) {
-                node.accept(this);
-            }
-        }
+        nodes.stream()
+                .filter(Node::isConfirmed)
+                .forEach(node -> node.accept(this));
     }
 
     public void visitPackageNode(PackageNode node) {
@@ -73,7 +72,7 @@ public class LCOM4Gatherer implements Visitor {
     public void visitClassNode(ClassNode node) {
         currentClass = node;
 
-        currentComponents = new HashSet<Collection<FeatureNode>>();
+        currentComponents = new HashSet<>();
         results.put(currentClass, currentComponents);
 
         unvisitedNodes = filterOutConstructors(currentClass.getFeatures());
@@ -91,7 +90,7 @@ public class LCOM4Gatherer implements Visitor {
     }
 
     public void visitFeatureNode(FeatureNode node) {
-        currentComponent = new HashSet<FeatureNode>();
+        currentComponent = new HashSet<>();
         currentComponents.add(currentComponent);
         currentComponent.add(node);
 
@@ -100,15 +99,11 @@ public class LCOM4Gatherer implements Visitor {
     }
 
     public void traverseInbound(Collection<? extends Node> inboundDependencies) {
-        for (Node inboundDependency : inboundDependencies) {
-            inboundDependency.acceptInbound(this);
-        }
+        inboundDependencies.forEach(inboundDependency -> inboundDependency.acceptInbound(this));
     }
 
     public void traverseOutbound(Collection<? extends Node> outboundDependencies) {
-        for (Node outboundDependency : outboundDependencies) {
-            outboundDependency.acceptOutbound(this);
-        }
+        outboundDependencies.forEach(outboundDependency -> outboundDependency.acceptOutbound(this));
     }
 
     public void visitInboundFeatureNode(FeatureNode node) {
@@ -129,9 +124,9 @@ public class LCOM4Gatherer implements Visitor {
     }
 
     private LinkedList<FeatureNode> filterOutConstructors(Collection<FeatureNode> featureNodes) {
-        LinkedList<FeatureNode> result = new LinkedList<FeatureNode>();
+        var result = new LinkedList<FeatureNode>();
 
-        for (FeatureNode featureNode : featureNodes) {
+        for (var featureNode : featureNodes) {
             if (featureNode.isConfirmed() && !isConstructor(featureNode)) {
                 result.add(featureNode);
             }
