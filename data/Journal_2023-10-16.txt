@@ -6,9 +6,9 @@ exercise in combining streams.  Merging two streams was easy enough to do with
 tags was more tricky.
 
     return Stream.of(
-        Stream.of("<tag>"),
+        Stream.of("&lt;tag&gt;"),
         getStreamForContents(contents),
-        Stream.of("</tag>")
+        Stream.of("&lt;/tag&gt;")
     )
     .flatMap(Function.identity())
     .collect(joining(System.getProperty("line.separator")));
