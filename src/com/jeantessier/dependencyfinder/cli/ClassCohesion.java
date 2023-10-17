@@ -36,11 +36,15 @@ import com.jeantessier.commandline.CommandLineException;
 import com.jeantessier.dependency.ClassNode;
 import com.jeantessier.dependency.FeatureNode;
 import com.jeantessier.dependency.LCOM4Gatherer;
+import com.jeantessier.dependency.Node;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
+
+import static java.util.stream.Collectors.*;
 
 public class ClassCohesion extends DependencyGraphCommand {
     private static final String DEFAULT_ENCODING = "utf-8";
@@ -52,16 +56,26 @@ public class ClassCohesion extends DependencyGraphCommand {
         populateCommandLineSwitchesForXMLOutput(DEFAULT_ENCODING, DEFAULT_DTD_PREFIX, DEFAULT_INDENT_TEXT);
 
         getCommandLine().addToggleSwitch("csv");
+        getCommandLine().addToggleSwitch("json");
+        getCommandLine().addToggleSwitch("text");
         getCommandLine().addToggleSwitch("txt");
         getCommandLine().addToggleSwitch("xml");
+        getCommandLine().addToggleSwitch("yaml");
+        getCommandLine().addToggleSwitch("yml");
         getCommandLine().addToggleSwitch("list");
     }
 
     protected Collection<CommandLineException> parseCommandLine(String[] args) {
-        Collection<CommandLineException> exceptions = super.parseCommandLine(args);
+        var exceptions = super.parseCommandLine(args);
         int modeSwitch = 0;
 
         if (getCommandLine().getToggleSwitch("csv")) {
+            modeSwitch++;
+        }
+        if (getCommandLine().getToggleSwitch("json")) {
+            modeSwitch++;
+        }
+        if (getCommandLine().getToggleSwitch("text")) {
             modeSwitch++;
         }
         if (getCommandLine().getToggleSwitch("txt")) {
@@ -70,15 +84,21 @@ public class ClassCohesion extends DependencyGraphCommand {
         if (getCommandLine().getToggleSwitch("xml")) {
             modeSwitch++;
         }
+        if (getCommandLine().getToggleSwitch("yaml")) {
+            modeSwitch++;
+        }
+        if (getCommandLine().getToggleSwitch("yml")) {
+            modeSwitch++;
+        }
         if (modeSwitch != 1) {
-            exceptions.add(new CommandLineException("Must have one and only one of -csv, -txt, or -xml"));
+            exceptions.add(new CommandLineException("Must have one and only one of -csv, -json, -text, -txt, -xml, -yaml, or -yml"));
         }
 
         return exceptions;
     }
 
     public void doProcessing() throws Exception {
-        LCOM4Gatherer gatherer = new LCOM4Gatherer();
+        var gatherer = new LCOM4Gatherer();
 
         Logger.getLogger(OOMetrics.class).debug("Reading classes and computing metrics as we go ...");
         getVerboseListener().print("Reading classes and computing metrics as we go ...");
@@ -89,10 +109,14 @@ public class ClassCohesion extends DependencyGraphCommand {
 
         if (getCommandLine().isPresent("csv")) {
             printCSVFiles(gatherer.getResults());
-        } else if (getCommandLine().isPresent("txt")) {
+        } else if (getCommandLine().isPresent("json")) {
+             printJSONFile(gatherer.getResults());
+        } else if (getCommandLine().isPresent("text") || getCommandLine().isPresent("txt")) {
             printTextFile(gatherer.getResults());
         } else if (getCommandLine().isPresent("xml")) {
             printXMLFile(gatherer.getResults());
+        } else if (getCommandLine().isPresent("yaml") || getCommandLine().isPresent("yml")) {
+             printYAMLFile(gatherer.getResults());
         }
 
         Logger.getLogger(OOMetrics.class).debug("Done.");
@@ -100,48 +124,174 @@ public class ClassCohesion extends DependencyGraphCommand {
 
     private void printCSVFiles(Map<ClassNode, Collection<Collection<FeatureNode>>> results) throws IOException {
         getOut().println("class, LCOM4");
-        for (Map.Entry<ClassNode, Collection<Collection<FeatureNode>>> entry : results.entrySet()) {
-            getOut().println(entry.getKey().getName() + ", " + entry.getValue().size());
+        getOut().println(results.entrySet().stream()
+                .map(entry -> entry.getKey().getName() + ", " + entry.getValue().size())
+                .collect(joining(System.getProperty("line.separator"))));
+    }
+
+    private void printJSONFile(Map<ClassNode, Collection<Collection<FeatureNode>>> results) throws IOException {
+        getOut().print("[");
+        getOut().print(results.entrySet().stream()
+                .map(entry -> entryToJSON(entry.getKey(), entry.getValue()))
+                .collect(joining(", ")));
+        getOut().println("]");
+    }
+
+    private String entryToJSON(ClassNode classNode, Collection<Collection<FeatureNode>> components) {
+        var builder = new StringBuilder();
+
+        builder.append("{\"class\": \"").append(classNode.getName()).append("\"");
+        builder.append(", \"LCOM4\": ").append(components.size());
+
+        if (components.size() > 1 && getCommandLine().isPresent("list")) {
+            builder.append(", \"components\": [");
+            builder.append(componentsToJSON(components));
+            builder.append("]");
         }
+        builder.append("}");
+
+        return builder.toString();
+    }
+
+    private String componentsToJSON(Collection<Collection<FeatureNode>> components) {
+        return components.stream()
+                .map(this::componentToJSON)
+                .map(component -> "[" + component + "]")
+                .collect(joining(", "));
+    }
+
+    private String componentToJSON(Collection<FeatureNode> nodes) {
+        return nodes.stream()
+                .map(Node::getName)
+                .map(name -> "\"" + name + "\"")
+                .collect(joining(", "));
     }
 
     private void printTextFile(Map<ClassNode, Collection<Collection<FeatureNode>>> results) throws IOException {
-        String indentText = getCommandLine().getSingleSwitch("indent-text");
+        getOut().println(results.entrySet().stream()
+                .flatMap(entry -> entryToText(entry.getKey(), entry.getValue()))
+                .collect(joining(System.getProperty("line.separator"))));
+    }
 
-        for (Map.Entry<ClassNode, Collection<Collection<FeatureNode>>> entry : results.entrySet()) {
-            getOut().println(entry.getKey().getName() + ": " + entry.getValue().size());
-            if (entry.getValue().size() > 1 && getCommandLine().isPresent("list")) {
-                getOut().println(indentText + "--------");
-                for (Collection<FeatureNode> component : entry.getValue()) {
-                    for (FeatureNode feature : component) {
-                        getOut().println(indentText + feature.getName().substring(feature.getClassNode().getName().length() + 1));
-                    }
-                    getOut().println(indentText + "--------");
-                }
-            }
+    private Stream<String> entryToText(ClassNode classNode, Collection<Collection<FeatureNode>> components) {
+        return Stream.concat(
+                Stream.of(classNode.getName() + ": " + components.size()),
+                componentsToText(components)
+        );
+    }
+
+    private Stream<String> componentsToText(Collection<Collection<FeatureNode>> components) {
+        if (components.size() > 1 && getCommandLine().isPresent("list")) {
+            return Stream.concat(
+                    Stream.of(getTextSeparator()),
+                    components.stream()
+                            .flatMap(component -> Stream.concat(
+                                    componentToText(component),
+                                    Stream.of(getTextSeparator())
+                            ))
+            );
+        } else {
+            return Stream.empty();
         }
     }
 
-    private void printXMLFile(Map<ClassNode, Collection<Collection<FeatureNode>>> results) throws IOException {
-        String indentText = getCommandLine().getSingleSwitch("indent-text");
+    private Stream<String> componentToText(Collection<FeatureNode> nodes) {
+        return nodes.stream()
+                .map(feature -> feature.getName().substring(feature.getClassNode().getName().length() + 1))
+                .map(name -> getIndentText() + name);
+    }
 
+    private String getTextSeparator() {
+        return getIndentText() + "--------";
+    }
+
+    private void printXMLFile(Map<ClassNode, Collection<Collection<FeatureNode>>> results) throws IOException {
+        getOut().println("<?xml version=\"1.0\" encoding=\"" + getEncoding() + "\" ?>");
+        getOut().println();
+        getOut().println("<!DOCTYPE classes SYSTEM \"" + getDTDPrefix() + "/cohesion.dtd\">");
+        getOut().println();
         getOut().println("<classes>");
-        for (Map.Entry<ClassNode, Collection<Collection<FeatureNode>>> entry : results.entrySet()) {
-            if (entry.getValue().size() > 1) {
-                getOut().println(indentText + "<class name=\"" + entry.getKey().getName() + "\" lcom4=\"" + entry.getValue().size() + "\">");
-                for (Collection<FeatureNode> component : entry.getValue()) {
-                    getOut().println(indentText + indentText + "<component>");
-                    for (FeatureNode feature : component) {
-                        getOut().println(indentText + indentText + indentText + "<feature name=\"" + feature.getName() + "\"/>");
-                    }
-                    getOut().println(indentText + indentText + "</component>");
-                }
-                getOut().println(indentText + "</class>");
-            } else {
-                getOut().println(indentText + "<class name=\"" + entry.getKey().getName() + "\" lcom4=\"" + entry.getValue().size() + "\"/>");
-            }
-        }
+        getOut().println(results.entrySet().stream()
+                .flatMap(entry -> entryToXML(entry.getKey(), entry.getValue()))
+                .collect(joining(System.getProperty("line.separator"))));
         getOut().println("</classes>");
+    }
+
+    private Stream<String> entryToXML(ClassNode classNode, Collection<Collection<FeatureNode>> components) {
+            if (components.size() > 1 && getCommandLine().isPresent("list")) {
+                return Stream.of(
+                            Stream.of(getIndentText() + "<class name=\"" + classNode.getName() + "\" lcom4=\"" + components.size() + "\">"),
+                            componentsToXML(components),
+                            Stream.of(getIndentText() + "</class>")
+                        )
+                        .flatMap(Function.identity());
+            } else {
+                return Stream.of(getIndentText() + "<class name=\"" + classNode.getName() + "\" lcom4=\"" + components.size() + "\"/>");
+            }
+    }
+
+    private Stream<String> componentsToXML(Collection<Collection<FeatureNode>> components) {
+        return components.stream()
+                .flatMap(component -> Stream.of(
+                        Stream.of(getIndentText().repeat(2) + "<component>"),
+                        componentToXML(component),
+                        Stream.of(getIndentText().repeat(2) + "</component>")
+                )
+                .flatMap(Function.identity()));
+    }
+
+    private Stream<String> componentToXML(Collection<FeatureNode> nodes) {
+        return nodes.stream()
+                .map(Node::getName)
+                .map(name -> getIndentText().repeat(3) + "<feature name=\"" + name + "\"/>");
+    }
+
+    private void printYAMLFile(Map<ClassNode, Collection<Collection<FeatureNode>>> results) throws IOException {
+        getOut().println(results.entrySet().stream()
+                .flatMap(entry -> entryToYAML(entry.getKey(), entry.getValue()))
+                .collect(joining(System.getProperty("line.separator"))));
+    }
+
+    private Stream<String> entryToYAML(ClassNode classNode, Collection<Collection<FeatureNode>> components) {
+        return Stream.concat(
+                Stream.of(
+                        "-",
+                        getIndentText().repeat(1) + "name: " + classNode.getName(),
+                        getIndentText().repeat(1) + "lcom4: " + components.size()
+                ),
+                componentsToYAML(components)
+        );
+    }
+
+    private Stream<String> componentsToYAML(Collection<Collection<FeatureNode>> components) {
+        if (components.size() > 1 && getCommandLine().isPresent("list")) {
+            return Stream.concat(
+                    Stream.of(getIndentText().repeat(1) + "components:"),
+                    components.stream()
+                            .flatMap(this::componentToYAML));
+        } else {
+            return Stream.empty();
+        }
+    }
+
+    private Stream<String> componentToYAML(Collection<FeatureNode> nodes) {
+        return Stream.concat(
+                Stream.of(getIndentText().repeat(2) + "-"),
+                nodes.stream()
+                        .map(Node::getName)
+                        .map(name -> getIndentText().repeat(3) + "- " + name));
+    }
+
+    private String getEncoding() {
+        return getCommandLine().getSingleSwitch("encoding");
+    }
+
+    private String getDTDPrefix() {
+        return getCommandLine().getSingleSwitch("dtd-prefix");
+    }
+
+    private String getIndentText() {
+        return getCommandLine().getSingleSwitch("indent-text");
     }
 
     public static void main(String[] args) throws Exception {

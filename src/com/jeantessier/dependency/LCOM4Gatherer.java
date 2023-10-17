@@ -33,7 +33,6 @@
 package com.jeantessier.dependency;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import org.apache.oro.text.perl.*;
 

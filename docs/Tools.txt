@@ -60,6 +60,7 @@ For Dependency Finder version <VERSION />.
 <p></p>
 <li><a href="#ClassMetrics">ClassMetrics</a></li>
 <li><a href="#DependencyMetrics">DependencyMetrics</a></li>
+<li><a href="#ClassCohesion">ClassCohesion</a></li>
 </ul>
 <b>API Differences</b>
 <ul>
@@ -445,6 +446,433 @@ to =result.xml=.  The title will say "Version OldClass to Version NewClass".
 <blockquote>
 
 =com.jeantessier.dependencyfinder.cli.ClassClassDiff=
+
+</blockquote>
+
+----
+
+---++ ClassCohesion
+
+<blockquote>
+
+Computes the LCOM4 class cohesion for the classes in a dependency graph.  This
+metric attempts to count connected components within a class, with the aim that
+a highly connected class with have a single component.  Classes with more than
+one component are potentially doing more than one thing and could be candidates
+for splitting.
+
+</blockquote>
+
+---+++ Synopsis
+
+    ClassCohesion
+        [-csv]
+        [-dtd-prefix uri]
+        [-echo]
+        [-encoding name]
+        [-help]
+        [-indent-text text]
+        [-json]
+        [-list]
+        [-out filename]
+        [-text]
+        [-time]
+        [-txt]
+        [-validate]
+        [-verbose [filename]]
+        [-version]
+        [-xml]
+        [-yaml]
+        [-yml]
+        [filename ...]
+
+---+++ Description
+
+<blockquote>
+
+This is a list of the classes in a graph and their LCOM4 value.  When used with
+the =-list= switch, it will list each connected components in classes with
+LCOM4 greater than 1.
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-csv=
+
+<blockquote>
+
+Writes the metrics report as a CSV file, perfect for loading in Google Docs or
+Microsoft Excel and for charting.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-dtd-prefix uri=
+
+<blockquote>
+
+The prefix of the DTD URL for the XML output document.
+Only useful with =-xml=.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=https://depfind.sourceforge.io/dtd=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-echo=
+
+<blockquote>
+
+Prints the command-line, as seen by the tool.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-encoding name=
+
+<blockquote>
+
+The encoding used for the XML output document.  Only useful with =-xml=.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=utf-8=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+Prints synopsis.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-indent-text text=
+
+<blockquote>
+
+Uses _text_ for each indentation level in textual and XML output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>Four spaces, "=&nbsp;&nbsp;&nbsp;&nbsp;="</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-json=
+
+<blockquote>
+
+Writes the metrics report as a JSON document.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-list=
+
+<blockquote>
+
+Lists the connected clusters of features in classes with an LCOM4 value greater
+than one.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out filename=
+
+<blockquote>
+
+Writes the output to _filename_.  If _filename_ does not exists,
+it is created.  If it already exists, its content is overwritten.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-text=
+
+<blockquote>
+
+Writes a text report readable by humans.  This is the same as =-txt=.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-time=
+
+<blockquote>
+
+Prints how long it took to run the command.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-txt=
+
+<blockquote>
+
+Writes a text report readable by humans.  This is the same as =-text=.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-validate=
+
+<blockquote>
+
+Validate the input XML against its DTD.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [filename]=
+
+<blockquote>
+
+Writes summary processing information to _filename_.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-version=
+
+<blockquote>
+
+Prints version information.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-xml=
+
+<blockquote>
+
+Writes the metrics report as an XML document with the
+=[[https://depfind.sourceforge.io/dtd/cohesion.dtd][cohesion]]= DTD.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-yaml=
+
+<blockquote>
+
+Writes the metrics report as a YAML document.  This is the same as =-yml=.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-yml=
+
+<blockquote>
+
+Writes the metrics report as a YAML document.  This is the same as =-yaml=.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Parameters
+
+<blockquote>
+
+Filenames of the XML documents containing the dependency graphs.  The tool
+merges the graphs together into a single dependency graph.
+
+If you don't specify any filenames, it reads the dependency graph straight from
+standard input.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>standard input</td></tr>
+</table>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+The output format is self-explanatory.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+Here is a sample output:
+
+<div class="highlight">
+
+    DependencyExtractor -xml -out testpackage.xml classes\testpackage
+    ClassCohesion -txt testpackage.xml
+
+</div>
+
+<div class="lowlight">
+
+    testpackage.TargetClass: 2
+    testpackage.TargetInterface: 0
+    testpackage.TestClass: 3
+    testpackage.ThisClass: 0
+    testpackage.LocalOtherClass: 0
+    testpackage.SourceClass: 2
+
+</div>
+
+And here it is with =-list=:
+
+<div class="highlight">
+
+    DependencyExtractor -xml -out testpackage.xml classes\testpackage
+    ClassCohesion -txt -list testpackage.xml
+
+</div>
+
+<div class="lowlight">
+
+    testpackage.TargetClass: 2
+        --------
+        targetMethod()
+        --------
+        targetAttribute
+        --------
+    testpackage.TargetInterface: 0
+    testpackage.TestClass: 3
+        --------
+        targetAttribute
+        testMethod(java.lang.String)
+        targetMethod()
+        sourceMethod()
+        --------
+        testAttribute
+        --------
+        sourceAttribute
+        --------
+    testpackage.ThisClass: 0
+    testpackage.LocalOtherClass: 0
+    testpackage.SourceClass: 2
+        --------
+        sourceMethod()
+        --------
+        sourceAttribute
+        --------
+
+</div>
+
+You can also write them simply as:
+
+<div class="highlight">
+
+    DependencyExtractor -xml classes\testpackage | ClassCohesion -txt
+
+</div>
+
+or
+
+<div class="highlight">
+
+    DependencyExtractor -xml classes\testpackage | ClassCohesion -txt -list
+
+</div>
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.cli.ClassCohesion=
 
 </blockquote>
 
@@ -11213,8 +11641,6 @@ Writes the metrics report as an XML document with the
 
 </blockquote>
 
-</blockquote>
-
 ---++++ =-yaml=
 
 <blockquote>
@@ -11226,8 +11652,6 @@ Writes the metrics report as a YAML document.  This is the same as =-yml=.
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
 </table>
-
-</blockquote>
 
 </blockquote>
 
