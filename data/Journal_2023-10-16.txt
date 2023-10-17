@@ -1,0 +1,20 @@
+Refactored the =ClassCohesion= CLI tool and wrote documentation for it on the
+Tools page.  At the moment, it is only accessible via the CLI.  There is no Ant
+task for it.  Refactoring the various =print...()= helper functions was a nice
+exercise in combining streams.  Merging two streams was easy enough to do with
+=Stream.concat()=.  But merging a stream of XML text with opening and closing
+tags was more tricky.
+
+    return Stream.of(
+        Stream.of("<tag>"),
+        getStreamForContents(contents),
+        Stream.of("</tag>")
+    )
+    .flatMap(Function.identity())
+    .collect(joining(System.getProperty("line.separator")));
+
+I have to wrap the opening and closing tags in streams of a single value and
+then use =flatMap()= to convert =Stream&lt;Stream&lt;String&gt;&gt;= to a
+=Stream&lt;String&gt;=.  The nice thing was building up streams of streams of
+streams with a single =joining()= at the very top to collapse them back
+together.
