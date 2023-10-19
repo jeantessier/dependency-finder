@@ -38,9 +38,9 @@ import static org.junit.runners.Suite.*;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-        TestVerboseListener.class,
         TestClassMatcher.class,
-        TestCommand.class
+        TestCommand.class,
+        TestVerboseListener.class,
 })
 public class TestAll {
 }

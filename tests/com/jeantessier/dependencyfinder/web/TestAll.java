@@ -38,16 +38,16 @@ import static org.junit.runners.Suite.*;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-        TestExtract.class,
-        TestLoad.class,
-        TestQuery.class,
+        TestAdvancedClosure.class,
+        TestAdvancedCycles.class,
+        TestAdvancedMetrics.class,
         TestAdvancedQuery.class,
         TestClosure.class,
-        TestAdvancedClosure.class,
         TestCycles.class,
-        TestAdvancedCycles.class,
+        TestExtract.class,
+        TestLoad.class,
         TestMetrics.class,
-        TestAdvancedMetrics.class
+        TestQuery.class,
 })
 public class TestAll {
 }

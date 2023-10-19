@@ -37,16 +37,16 @@ import static org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-        com.jeantessier.commandline.TestAll.class,
         com.jeantessier.classreader.TestAll.class,
         com.jeantessier.classreader.impl.TestAll.class,
-        com.jeantessier.text.TestAll.class,
+        com.jeantessier.commandline.TestAll.class,
         com.jeantessier.dependency.TestAll.class,
-        com.jeantessier.diff.TestAll.class,
-        com.jeantessier.metrics.TestAll.class,
         com.jeantessier.dependencyfinder.ant.TestAll.class,
         com.jeantessier.dependencyfinder.cli.TestAll.class,
 //        com.jeantessier.dependencyfinder.web.TestAll.class,
+        com.jeantessier.diff.TestAll.class,
+        com.jeantessier.metrics.TestAll.class,
+        com.jeantessier.text.TestAll.class,
 })
 public class TestAll {
 }

@@ -38,19 +38,19 @@ import static org.junit.runners.Suite.*;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-        TestToggleSwitch.class,
-        TestSingleValueSwitch.class,
-        TestOptionalValueSwitch.class,
-        TestMultipleValuesSwitch.class,
         TestAliasSwitch.class,
-        TestNullParameterStrategy.class,
-        TestCollectingParameterStrategy.class,
         TestAtLeastParameterStrategy.class,
-        TestExactlyParameterStrategy.class,
         TestAtMostParameterStrategy.class,
+        TestCollectingParameterStrategy.class,
         TestCommandLine.class,
         TestCommandLineUsage.class,
-        TestTextPrinter.class
+        TestExactlyParameterStrategy.class,
+        TestMultipleValuesSwitch.class,
+        TestNullParameterStrategy.class,
+        TestOptionalValueSwitch.class,
+        TestSingleValueSwitch.class,
+        TestTextPrinter.class,
+        TestToggleSwitch.class,
 })
 public class TestAll {
 }

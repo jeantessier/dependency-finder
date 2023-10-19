@@ -38,12 +38,12 @@ import static org.junit.runners.Suite.*;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-        TestMaximumCapacityPatternCache.class,
         TestHex.class,
-        TestHexNull.class,
         TestHexCharGroups.class,
+        TestHexNull.class,
+        TestMaximumCapacityPatternCache.class,
         TestPrinterBuffer.class,
-        TestRegularExpressionParser.class
+        TestRegularExpressionParser.class,
 })
 public class TestAll {
 }

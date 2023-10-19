@@ -40,7 +40,7 @@ import static org.junit.runners.Suite.*;
 @SuiteClasses({
         TestJarJarDiff.class,
         TestListDiff.class,
-        TestListSymbols.class
+        TestListSymbols.class,
 })
 public class TestAll {
 }

@@ -38,22 +38,22 @@ import static org.junit.runners.Suite.*;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-        TestCodeDifferenceStrategy.class,
         TestAPIDifferenceStrategy.class,
+        TestClassReport.class,
+        TestCodeDifferenceStrategy.class,
+        TestDeprecatableDifferences.class,
+        TestDifferencesFactory.class,
+        TestDifferencesFactoryForCompatibleClassWithIncompatibleMethod.class,
+        TestDifferencesFactoryWithAPIAndCodeDifferenceStrategy.class,
+        TestDifferencesFactoryWithAPIDifferenceStrategy.class,
+        TestDifferencesFactoryWithFilter.class,
+        TestDifferencesFactoryWithIncompatibleDifferenceStrategy.class,
+        TestDifferencesFactoryWithStrategy.class,
         TestIncompatibleDifferenceStrategy.class,
         TestIncompatibleDifferenceStrategyWithPublishedAPI.class,
         TestListBasedDifferenceStrategy.class,
-        TestDeprecatableDifferences.class,
-        TestDifferencesFactory.class,
-        TestDifferencesFactoryWithFilter.class,
-        TestDifferencesFactoryWithStrategy.class,
-        TestDifferencesFactoryWithAPIDifferenceStrategy.class,
-        TestDifferencesFactoryWithAPIAndCodeDifferenceStrategy.class,
-        TestDifferencesFactoryWithIncompatibleDifferenceStrategy.class,
-        TestDifferencesFactoryForCompatibleClassWithIncompatibleMethod.class,
-        TestClassReport.class,
+        TestListDiffPrinter.class,
         TestReport.class,
-        TestListDiffPrinter.class
 })
 public class TestAll {
 }
