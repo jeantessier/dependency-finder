@@ -22,3 +22,6 @@ I removed some dead code, mostly "testing only" constructors that were not
 being used.  I noticed that I've been meaning to remove
 =ClassDependencyCollector= and =FeatureDependencyCollector= since
 [[2003-08-29]]!
+
+The code coverage on the website dates back to [[2010-11-29]].   It is woefully
+out of date.
