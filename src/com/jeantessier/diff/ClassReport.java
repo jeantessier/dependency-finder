@@ -302,6 +302,10 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
         // Do nothing
     }
 
+    public void visitBootstrapMethod(BootstrapMethod helper) {
+        // Do nothing
+    }
+
     public void visitDeprecated_attribute(Deprecated_attribute attribute) {
         // Do nothing
     }

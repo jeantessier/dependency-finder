@@ -70,6 +70,10 @@ public class TestAttributeBase extends MockObjectTestCase {
         expectReadU2(numAnnotations);
     }
 
+    protected void expectReadNumArguments(int numArguments) throws IOException {
+        expectReadU2(numArguments);
+    }
+
     protected void expectReadNumParameters(int numParameters) throws IOException {
         expectReadU1(numParameters);
     }

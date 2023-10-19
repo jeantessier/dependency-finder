@@ -307,6 +307,11 @@ public abstract class VisitorBase implements Visitor {
         // Do nothing
     }
 
+    public void visitBootstrapMethod(BootstrapMethod helper) {
+        Logger.getLogger(getClass()).debug("Visiting " + helper.getArguments().size() + " argument(s) ...");
+        helper.getArguments().forEach(argument -> argument.accept(this));
+    }
+
     public void visitParameter(Parameter helper) {
         Logger.getLogger(getClass()).debug("Visiting " + helper.getAnnotations().size() + " annotation(s) ...");
         helper.getAnnotations().forEach(annotation -> annotation.accept(this));

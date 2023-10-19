@@ -91,6 +91,7 @@ public interface Visitor {
     public void visitLineNumber(LineNumber helper);
     public void visitLocalVariable(LocalVariable helper);
     public void visitLocalVariableType(LocalVariableType helper);
+    public void visitBootstrapMethod(BootstrapMethod helper);
 
     // Annotations
     public void visitParameter(Parameter helper);
