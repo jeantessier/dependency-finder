@@ -40,8 +40,8 @@ import org.apache.log4j.*;
  *  codebase.  This includes classes, interfaces, fields,
  *  constructors, and methods.
  */
-public abstract class RemovableDifferences implements Differences, Comparable {
-    private String name;
+public abstract class RemovableDifferences implements Differences, Comparable<RemovableDifferences> {
+    private final String name;
 
     protected RemovableDifferences(String name) {
         this.name = name;
@@ -82,13 +82,15 @@ public abstract class RemovableDifferences implements Differences, Comparable {
         return getName();
     }
 
-    public int compareTo(Object other) {
-        int result = 0;
+    public int compareTo(RemovableDifferences other) {
+        int result;
 
-        if (other instanceof RemovableDifferences) {
-            result = getName().compareTo(((RemovableDifferences) other).getName());
+        if (this == other) {
+            result = 0;
+        } else if (other == null) {
+            throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got null");
         } else {
-            throw new ClassCastException("Unable to compare RemovableDifferences to " + other.getClass().getName());
+            result = getName().compareTo(other.getName());
         }
 
         return result;

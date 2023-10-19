@@ -35,27 +35,27 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public class MockVisitor extends VisitorBase {
-    private List<Classfile> visitedClassfiles = new LinkedList<Classfile>();
-    private List<ConstantValue_attribute> visitedConstantValue_attributes = new LinkedList<ConstantValue_attribute>();
-    private List<Code_attribute> visitedCode_attributes = new LinkedList<Code_attribute>();
-    private List<Exceptions_attribute> visitedExceptions_attributes = new LinkedList<Exceptions_attribute>();
-    private List<InnerClasses_attribute> visitedInnerClasses_attributes = new LinkedList<InnerClasses_attribute>();
-    private List<EnclosingMethod_attribute> visitedEnclosingMethod_attributes = new LinkedList<EnclosingMethod_attribute>();
-    private List<Synthetic_attribute> visitedSynthetic_attributes = new LinkedList<Synthetic_attribute>();
-    private List<Signature_attribute> visitedSignature_attributes = new LinkedList<Signature_attribute>();
-    private List<SourceFile_attribute> visitedSourceFile_attributes = new LinkedList<SourceFile_attribute>();
-    private List<SourceDebugExtension_attribute> visitedSourceDebugExtension_attributes = new LinkedList<SourceDebugExtension_attribute>();
-    private List<LineNumberTable_attribute> visitedLineNumberTable_attributes = new LinkedList<LineNumberTable_attribute>();
-    private List<LocalVariableTable_attribute> visitedLocalVariableTable_attributes = new LinkedList<LocalVariableTable_attribute>();
-    private List<LocalVariableTypeTable_attribute> visitedLocalVariableTypeTable_attributes = new LinkedList<LocalVariableTypeTable_attribute>();
-    private List<Deprecated_attribute> visitedDeprecated_attributes = new LinkedList<Deprecated_attribute>();
-    private List<Custom_attribute> visitedCustom_attributes = new LinkedList<Custom_attribute>();
-    private List<Instruction> visitedInstructions = new LinkedList<Instruction>();
-    private List<ExceptionHandler> visitedExceptionHandlers = new LinkedList<ExceptionHandler>();
-    private List<InnerClass> visitedInnerClasses = new LinkedList<InnerClass>();
-    private List<LineNumber> visitedLineNumbers = new LinkedList<LineNumber>();
-    private List<LocalVariable> visitedLocalVariables = new LinkedList<LocalVariable>();
-    private List<LocalVariableType> visitedLocalVariableTypes = new LinkedList<LocalVariableType>();
+    private final List<Classfile> visitedClassfiles = new LinkedList<>();
+    private final List<ConstantValue_attribute> visitedConstantValue_attributes = new LinkedList<>();
+    private final List<Code_attribute> visitedCode_attributes = new LinkedList<>();
+    private final List<Exceptions_attribute> visitedExceptions_attributes = new LinkedList<>();
+    private final List<InnerClasses_attribute> visitedInnerClasses_attributes = new LinkedList<>();
+    private final List<EnclosingMethod_attribute> visitedEnclosingMethod_attributes = new LinkedList<>();
+    private final List<Synthetic_attribute> visitedSynthetic_attributes = new LinkedList<>();
+    private final List<Signature_attribute> visitedSignature_attributes = new LinkedList<>();
+    private final List<SourceFile_attribute> visitedSourceFile_attributes = new LinkedList<>();
+    private final List<SourceDebugExtension_attribute> visitedSourceDebugExtension_attributes = new LinkedList<>();
+    private final List<LineNumberTable_attribute> visitedLineNumberTable_attributes = new LinkedList<>();
+    private final List<LocalVariableTable_attribute> visitedLocalVariableTable_attributes = new LinkedList<>();
+    private final List<LocalVariableTypeTable_attribute> visitedLocalVariableTypeTable_attributes = new LinkedList<>();
+    private final List<Deprecated_attribute> visitedDeprecated_attributes = new LinkedList<>();
+    private final List<Custom_attribute> visitedCustom_attributes = new LinkedList<>();
+    private final List<Instruction> visitedInstructions = new LinkedList<>();
+    private final List<ExceptionHandler> visitedExceptionHandlers = new LinkedList<>();
+    private final List<InnerClass> visitedInnerClasses = new LinkedList<>();
+    private final List<LineNumber> visitedLineNumbers = new LinkedList<>();
+    private final List<LocalVariable> visitedLocalVariables = new LinkedList<>();
+    private final List<LocalVariableType> visitedLocalVariableTypes = new LinkedList<>();
 
     public List<Classfile> getVisitedClassfiles() {
         return visitedClassfiles;

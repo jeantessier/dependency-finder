@@ -35,8 +35,8 @@ package com.jeantessier.classreader;
 import org.apache.log4j.*;
 
 public class LocalVariableFinder extends VisitorBase {
-    private int localVariableIndex;
-    private int pc;
+    private final int localVariableIndex;
+    private final int pc;
 
     private LocalVariable localVariable;
 

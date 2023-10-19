@@ -39,30 +39,30 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-public class ClassReport extends Printer implements Comparable, com.jeantessier.classreader.Visitor {
+public class ClassReport extends Printer implements Comparable<ClassReport>, com.jeantessier.classreader.Visitor {
     private static final Perl5Util perl = new Perl5Util();
 
     private ClassDifferences differences;
 
-    private Collection<FeatureDifferences> removedFields = new TreeSet<FeatureDifferences>();
-    private Collection<FeatureDifferences> removedConstructors = new TreeSet<FeatureDifferences>();
-    private Collection<FeatureDifferences> removedMethods = new TreeSet<FeatureDifferences>();
+    private final Collection<FeatureDifferences> removedFields = new TreeSet<>();
+    private final Collection<FeatureDifferences> removedConstructors = new TreeSet<>();
+    private final Collection<FeatureDifferences> removedMethods = new TreeSet<>();
 
-    private Collection<FeatureDifferences> deprecatedFields = new TreeSet<FeatureDifferences>();
-    private Collection<FeatureDifferences> deprecatedConstructors = new TreeSet<FeatureDifferences>();
-    private Collection<FeatureDifferences> deprecatedMethods = new TreeSet<FeatureDifferences>();
+    private final Collection<FeatureDifferences> deprecatedFields = new TreeSet<>();
+    private final Collection<FeatureDifferences> deprecatedConstructors = new TreeSet<>();
+    private final Collection<FeatureDifferences> deprecatedMethods = new TreeSet<>();
 
-    private Collection<FieldDifferences> modifiedFields = new TreeSet<FieldDifferences>();
-    private Collection<CodeDifferences> modifiedConstructors = new TreeSet<CodeDifferences>();
-    private Collection<CodeDifferences> modifiedMethods = new TreeSet<CodeDifferences>();
+    private final Collection<FieldDifferences> modifiedFields = new TreeSet<>();
+    private final Collection<CodeDifferences> modifiedConstructors = new TreeSet<>();
+    private final Collection<CodeDifferences> modifiedMethods = new TreeSet<>();
 
-    private Collection<FeatureDifferences> undeprecatedFields = new TreeSet<FeatureDifferences>();
-    private Collection<FeatureDifferences> undeprecatedConstructors = new TreeSet<FeatureDifferences>();
-    private Collection<FeatureDifferences> undeprecatedMethods = new TreeSet<FeatureDifferences>();
+    private final Collection<FeatureDifferences> undeprecatedFields = new TreeSet<>();
+    private final Collection<FeatureDifferences> undeprecatedConstructors = new TreeSet<>();
+    private final Collection<FeatureDifferences> undeprecatedMethods = new TreeSet<>();
 
-    private Collection<FeatureDifferences> newFields = new TreeSet<FeatureDifferences>();
-    private Collection<FeatureDifferences> newConstructors = new TreeSet<FeatureDifferences>();
-    private Collection<FeatureDifferences> newMethods = new TreeSet<FeatureDifferences>();
+    private final Collection<FeatureDifferences> newFields = new TreeSet<>();
+    private final Collection<FeatureDifferences> newConstructors = new TreeSet<>();
+    private final Collection<FeatureDifferences> newMethods = new TreeSet<>();
 
     public void visitClassDifferences(ClassDifferences differences) {
         this.differences = differences;
@@ -438,7 +438,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
             indent().append("</modified-declaration>").eol();
         }
 
-        if (removedFields.size() != 0) {
+        if (!removedFields.isEmpty()) {
             indent().append("<removed-fields>").eol();
             raiseIndent();
 
@@ -459,7 +459,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
             indent().append("</removed-fields>").eol();
         }
 
-        if (removedConstructors.size() != 0) {
+        if (!removedConstructors.isEmpty()) {
             indent().append("<removed-constructors>").eol();
             raiseIndent();
 
@@ -471,7 +471,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
             indent().append("</removed-constructors>").eol();
         }
 
-        if (removedMethods.size() != 0) {
+        if (!removedMethods.isEmpty()) {
             indent().append("<removed-methods>").eol();
             raiseIndent();
 
@@ -483,7 +483,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
             indent().append("</removed-methods>").eol();
         }
 
-        if (deprecatedFields.size() != 0) {
+        if (!deprecatedFields.isEmpty()) {
             indent().append("<deprecated-fields>").eol();
             raiseIndent();
 
@@ -495,7 +495,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
             indent().append("</deprecated-fields>").eol();
         }
 
-        if (deprecatedConstructors.size() != 0) {
+        if (!deprecatedConstructors.isEmpty()) {
             indent().append("<deprecated-constructors>").eol();
             raiseIndent();
 
@@ -507,7 +507,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
             indent().append("</deprecated-constructors>").eol();
         }
 
-        if (deprecatedMethods.size() != 0) {
+        if (!deprecatedMethods.isEmpty()) {
             indent().append("<deprecated-methods>").eol();
             raiseIndent();
 
@@ -519,7 +519,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
             indent().append("</deprecated-methods>").eol();
         }
 
-        if (modifiedFields.size() != 0) {
+        if (!modifiedFields.isEmpty()) {
             indent().append("<modified-fields>").eol();
             raiseIndent();
 
@@ -569,7 +569,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
             indent().append("</modified-fields>").eol();
         }
 
-        if (modifiedConstructors.size() != 0) {
+        if (!modifiedConstructors.isEmpty()) {
             indent().append("<modified-constructors>").eol();
             raiseIndent();
 
@@ -600,7 +600,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
             indent().append("</modified-constructors>").eol();
         }
 
-        if (modifiedMethods.size() != 0) {
+        if (!modifiedMethods.isEmpty()) {
             indent().append("<modified-methods>").eol();
             raiseIndent();
 
@@ -631,7 +631,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
             indent().append("</modified-methods>").eol();
         }
 
-        if (undeprecatedFields.size() != 0) {
+        if (!undeprecatedFields.isEmpty()) {
             indent().append("<undeprecated-fields>").eol();
             raiseIndent();
 
@@ -643,7 +643,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
             indent().append("</undeprecated-fields>").eol();
         }
 
-        if (undeprecatedConstructors.size() != 0) {
+        if (!undeprecatedConstructors.isEmpty()) {
             indent().append("<undeprecated-constructors>").eol();
             raiseIndent();
 
@@ -655,7 +655,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
             indent().append("</undeprecated-constructors>").eol();
         }
 
-        if (undeprecatedMethods.size() != 0) {
+        if (!undeprecatedMethods.isEmpty()) {
             indent().append("<undeprecated-methods>").eol();
             raiseIndent();
 
@@ -667,7 +667,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
             indent().append("</undeprecated-methods>").eol();
         }
 
-        if (newFields.size() != 0) {
+        if (!newFields.isEmpty()) {
             indent().append("<new-fields>").eol();
             raiseIndent();
 
@@ -685,7 +685,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
             indent().append("</new-fields>").eol();
         }
 
-        if (newConstructors.size() != 0) {
+        if (!newConstructors.isEmpty()) {
             indent().append("<new-constructors>").eol();
             raiseIndent();
 
@@ -697,7 +697,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
             indent().append("</new-constructors>").eol();
         }
 
-        if (newMethods.size() != 0) {
+        if (!newMethods.isEmpty()) {
             indent().append("<new-methods>").eol();
             raiseIndent();
 
@@ -719,7 +719,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
     }
 
     private String breakdownDeclaration(Classfile element) {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         if (element != null) {
             if (element.isPublic())     result.append(" visibility=\"public\"");
@@ -735,7 +735,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
                 result.append(" interface=\"yes\"");
 
                 result.append(" extends=\"");
-                Iterator i = element.getAllInterfaces().iterator();
+                Iterator<? extends Class_info> i = element.getAllInterfaces().iterator();
                 while (i.hasNext()) {
                     result.append(i.next());
                     if (i.hasNext()) {
@@ -749,7 +749,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
                 result.append(" extends=\"").append(element.getSuperclassName()).append("\"");
 
                 result.append(" implements=\"");
-                Iterator i = element.getAllInterfaces().iterator();
+                Iterator<? extends Class_info> i = element.getAllInterfaces().iterator();
                 while (i.hasNext()) {
                     result.append(i.next());
                     if (i.hasNext()) {
@@ -764,7 +764,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
     }
 
     private String breakdownDeclaration(Field_info element) {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         if (element != null) {
             if (element.isPublic())     result.append(" visibility=\"public\"");
@@ -792,7 +792,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
     }
 
     private String breakdownDeclaration(Method_info element) {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         if (element != null) {
             if (element.isPublic())       result.append(" visibility=\"public\"");
@@ -816,7 +816,7 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
             result.append(" full-signature=\"").append(element.getFullSignature()).append("\"");
 
             result.append(" throws=\"");
-            Iterator i = element.getExceptions().iterator();
+            Iterator<? extends Class_info> i = element.getExceptions().iterator();
             while (i.hasNext()) {
                 result.append(i.next());
                 if (i.hasNext()) {
@@ -829,13 +829,15 @@ public class ClassReport extends Printer implements Comparable, com.jeantessier.
         return result.toString();
     }
 
-    public int compareTo(Object other) {
+    public int compareTo(ClassReport other) {
         int result;
 
-        if (other instanceof ClassReport) {
-            result = differences.compareTo(((ClassReport) other).differences);
+        if (this == other) {
+            result = 0;
+        } else if (other == null) {
+            throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got null");
         } else {
-            throw new ClassCastException("Unable to compare ClassReport to " + other.getClass().getName());
+            result = differences.compareTo(other.differences);
         }
 
         return result;
