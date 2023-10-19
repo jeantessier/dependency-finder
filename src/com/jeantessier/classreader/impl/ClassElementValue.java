@@ -40,13 +40,13 @@ import com.jeantessier.classreader.*;
 import com.jeantessier.classreader.UTF8_info;
 
 public class ClassElementValue extends ElementValue implements com.jeantessier.classreader.ClassElementValue {
-    private int classInfoIndex;
+    private final int classInfoIndex;
 
     public ClassElementValue(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool);
 
         classInfoIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Class info index: " + classInfoIndex);
+        Logger.getLogger(getClass()).debug("Class info index: " + classInfoIndex + " (" + getClassInfo() + ")");
     }
 
     public int getClassInfoIndex() {

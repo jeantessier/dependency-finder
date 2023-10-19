@@ -39,12 +39,12 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class LineNumber implements com.jeantessier.classreader.LineNumber {
-    private LineNumberTable_attribute lineNumberTable;
+    private final LineNumberTable_attribute lineNumberTable;
     private final int startPC;
     private final int lineNumber;
 
     public LineNumber(LineNumberTable_attribute lineNumberTable, DataInput in) throws IOException {
-        setLineNumberTable(lineNumberTable);
+        this.lineNumberTable = lineNumberTable;
 
         startPC = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Line number table start PC: " + startPC);
@@ -55,10 +55,6 @@ public class LineNumber implements com.jeantessier.classreader.LineNumber {
 
     public LineNumberTable_attribute getLineNumberTable() {
         return lineNumberTable;
-    }
-
-    private void setLineNumberTable(LineNumberTable_attribute lineNumberTable) {
-        this.lineNumberTable = lineNumberTable;
     }
 
     public int getStartPC() {

@@ -35,11 +35,14 @@ package com.jeantessier.classreader.impl;
 import java.io.*;
 
 public class TestElementValueFactory extends TestAnnotationsBase {
-    private static final int CONST_VALUE_INDEX = 2;
-    private static final int CONST_VALUE = 3;
+    private static final int CONST_VALUE_INDEX = 1;
+    private static final int CONST_VALUE = 2;
     private static final int TYPE_NAME_INDEX = 3;
+    private static final String ENCODED_TYPE_NAME = "LAbc;";
     private static final int CONST_NAME_INDEX = 4;
+    private static final String CONST_NAME = "DEF";
     private static final int CLASS_INFO_INDEX = 5;
+    private static final String CLASS_INFO = "LAbc;";
     private static final int TYPE_INDEX = 6;
     private static final String TYPE = "Labc;";
 
@@ -99,11 +102,13 @@ public class TestElementValueFactory extends TestAnnotationsBase {
     public void testCreateEnumElementValue() throws Exception {
         expectReadTag('e');
         expectReadU2(TYPE_NAME_INDEX);
+        expectLookupUtf8(TYPE_NAME_INDEX, ENCODED_TYPE_NAME, "lookup type name during construction");
         expectReadU2(CONST_NAME_INDEX);
+        expectLookupUtf8(CONST_NAME_INDEX, CONST_NAME, "lookup const name during construction");
 
         ElementValue elementValue = sut.create(mockConstantPool, mockIn);
         assertNotNull("ElementValueFactory returned null", elementValue);
-        assertTrue("Not a " + EnumElementValue.class.getSimpleName(), EnumElementValue.class.isInstance(elementValue));
+        assertTrue("Not a " + EnumElementValue.class.getSimpleName(), elementValue instanceof EnumElementValue);
         assertEquals("Type name index", TYPE_NAME_INDEX, ((EnumElementValue) elementValue).getTypeNameIndex());
         assertEquals("Const name index", CONST_NAME_INDEX, ((EnumElementValue) elementValue).getConstNameIndex());
     }
@@ -111,10 +116,11 @@ public class TestElementValueFactory extends TestAnnotationsBase {
     public void testCreateClassElementValue() throws Exception {
         expectReadTag('c');
         expectReadClassInfoIndex(CLASS_INFO_INDEX);
+        expectLookupUtf8(CLASS_INFO_INDEX, CLASS_INFO, "lookup during construction");
 
         ElementValue elementValue = sut.create(mockConstantPool, mockIn);
         assertNotNull("ElementValueFactory returned null", elementValue);
-        assertTrue("Not a " + ClassElementValue.class.getSimpleName(), ClassElementValue.class.isInstance(elementValue));
+        assertTrue("Not a " + ClassElementValue.class.getSimpleName(), elementValue instanceof ClassElementValue);
         assertEquals("Class info index", CLASS_INFO_INDEX, ((ClassElementValue) elementValue).getClassInfoIndex());
     }
 
@@ -126,7 +132,7 @@ public class TestElementValueFactory extends TestAnnotationsBase {
 
         ElementValue elementValue = sut.create(mockConstantPool, mockIn);
         assertNotNull("ElementValueFactory returned null", elementValue);
-        assertTrue("Not a " + AnnotationElementValue.class.getSimpleName(), AnnotationElementValue.class.isInstance(elementValue));
+        assertTrue("Not a " + AnnotationElementValue.class.getSimpleName(), elementValue instanceof AnnotationElementValue);
         assertNotNull("Annotation value", ((AnnotationElementValue) elementValue).getAnnotation());
         assertEquals("Type index", TYPE_INDEX, ((AnnotationElementValue) elementValue).getAnnotation().getTypeIndex());
         assertEquals("Number of element value pairs", 0, ((AnnotationElementValue) elementValue).getAnnotation().getElementValuePairs().size());
@@ -138,8 +144,8 @@ public class TestElementValueFactory extends TestAnnotationsBase {
 
         ElementValue elementValue = sut.create(mockConstantPool, mockIn);
         assertNotNull("ElementValueFactory returned null", elementValue);
-        assertTrue("Not a " + ArrayElementValue.class.getSimpleName(), ArrayElementValue.class.isInstance(elementValue));
-        assertNotNull("Number of element values", ((ArrayElementValue) elementValue).getValues().size());
+        assertTrue("Not a " + ArrayElementValue.class.getSimpleName(), elementValue instanceof ArrayElementValue);
+        assertEquals("Number of element values", 0, ((ArrayElementValue) elementValue).getValues().size());
     }
 
     public void testCreateWithUnknownTag() throws Exception {

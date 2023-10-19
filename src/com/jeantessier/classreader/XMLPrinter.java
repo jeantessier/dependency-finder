@@ -118,9 +118,9 @@ public class XMLPrinter extends Printer {
         if (!classfile.getAllFields().isEmpty()) {
             indent().append("<fields>").eol();
             raiseIndent();
-            for (Field_info field : classfile.getAllFields()) {
-                field.accept(this);
-            }
+
+            visitClassfileFields(classfile);
+
             lowerIndent();
             indent().append("</fields>").eol();
         }
@@ -128,9 +128,9 @@ public class XMLPrinter extends Printer {
         if (!classfile.getAllMethods().isEmpty()) {
             indent().append("<methods>").eol();
             raiseIndent();
-            for (Method_info method : classfile.getAllMethods()) {
-                method.accept(this);
-            }
+
+            visitClassfileMethods(classfile);
+
             lowerIndent();
             indent().append("</methods>").eol();
         }
@@ -138,9 +138,9 @@ public class XMLPrinter extends Printer {
         if (!classfile.getAttributes().isEmpty()) {
             indent().append("<attributes>").eol();
             raiseIndent();
-            for (Attribute_info attribute : classfile.getAttributes()) {
-                attribute.accept(this);
-            }
+
+            visitClassfileAttributes(classfile);
+
             lowerIndent();
             indent().append("</attributes>").eol();
         }
@@ -150,7 +150,7 @@ public class XMLPrinter extends Printer {
     }
 
     public void visitConstantPool(ConstantPool constantPool) {
-        resetCount();
+        resetIndex();
 
         indent().append("<constant-pool>").eol();
         raiseIndent();
@@ -159,7 +159,7 @@ public class XMLPrinter extends Printer {
             if (entry != null) {
                 entry.accept(this);
             }
-            incrementCount();
+            incrementIndex();
         }
 
         lowerIndent();
@@ -170,7 +170,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<class index=\"").append(currentCount()).append("\">");
+            append("<class index=\"").append(currentIndex()).append("\">");
             // entry.getRawName().accept(this);
             append(entry.getName());
             append("</class>").eol();
@@ -188,7 +188,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<field-ref-info index=\"").append(currentCount()).append("\">");
+            append("<field-ref-info index=\"").append(currentIndex()).append("\">");
             append("<class>");
             c.accept(this);
             append("</class>");
@@ -214,7 +214,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<method-ref-info index=\"").append(currentCount()).append("\">");
+            append("<method-ref-info index=\"").append(currentIndex()).append("\">");
             append("<class>");
             c.accept(this);
             append("</class>");
@@ -241,7 +241,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<interface-method-ref-info index=\"").append(currentCount()).append("\">");
+            append("<interface-method-ref-info index=\"").append(currentIndex()).append("\">");
             append("<class>");
             c.accept(this);
             append("</class>");
@@ -264,7 +264,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<string-info index=\"").append(currentCount()).append("\">");
+            append("<string-info index=\"").append(currentIndex()).append("\">");
             entry.getRawValue().accept(this);
             append("</string-info>").eol();
             top = true;
@@ -277,7 +277,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<integer-info index=\"").append(currentCount()).append("\">");
+            append("<integer-info index=\"").append(currentIndex()).append("\">");
             append(entry.getValue());
             append("</integer-info>").eol();
             top = true;
@@ -290,7 +290,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<float-info index=\"").append(currentCount()).append("\">");
+            append("<float-info index=\"").append(currentIndex()).append("\">");
             append(entry.getValue());
             append("</float-info>").eol();
             top = true;
@@ -303,7 +303,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<long-info index=\"").append(currentCount()).append("\">");
+            append("<long-info index=\"").append(currentIndex()).append("\">");
             append(entry.getValue());
             append("</long-info>").eol();
             top = true;
@@ -316,7 +316,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<double-info index=\"").append(currentCount()).append("\">");
+            append("<double-info index=\"").append(currentIndex()).append("\">");
             append(entry.getValue());
             append("</double-info>").eol();
             top = true;
@@ -329,7 +329,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<name-and-type-info index=\"").append(currentCount()).append("\">");
+            append("<name-and-type-info index=\"").append(currentIndex()).append("\">");
             append("<name>");
             entry.getRawName().accept(this);
             append("</name>");
@@ -348,7 +348,7 @@ public class XMLPrinter extends Printer {
     public void visitUTF8_info(UTF8_info entry) {
         if (top) {
             top = false;
-            indent().append("<utf8-info index=\"").append(currentCount()).append("\">");
+            indent().append("<utf8-info index=\"").append(currentIndex()).append("\">");
             append(escapeXMLCharacters(entry.getValue()));
             append("</utf8-info>").eol();
             top = true;
@@ -361,7 +361,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<method-handle-info index=\"").append(currentCount()).append("\">");
+            append("<method-handle-info index=\"").append(currentIndex()).append("\">");
             append("<reference-kind kind=\"").append(entry.getRawReferenceKind()).append("\">");
             append(entry.getReferenceKind().getDescription());
             append("</reference-kind>");
@@ -381,7 +381,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<method-type-info index=\"").append(currentCount()).append("\">");
+            append("<method-type-info index=\"").append(currentIndex()).append("\">");
             entry.getRawDescriptor().accept(this);
             append("</method-type-info>").eol();
             top = true;
@@ -396,7 +396,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<dynamic-info index=\"").append(currentCount()).append("\">");
+            append("<dynamic-info index=\"").append(currentIndex()).append("\">");
             append("<bootstrap-method-attr index=\"").append(entry.getBootstrapMethodAttrIndex()).append("\">");
             append("</bootstrap-method-attr>");
             append("<name>");
@@ -421,7 +421,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<invoke-dynamic-info index=\"").append(currentCount()).append("\">");
+            append("<invoke-dynamic-info index=\"").append(currentIndex()).append("\">");
             append("<bootstrap-method-attr index=\"").append(entry.getBootstrapMethodAttrIndex()).append("\">");
             append("</bootstrap-method-attr>");
             append("<name>");
@@ -444,7 +444,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<module index=\"").append(currentCount()).append("\">");
+            append("<module index=\"").append(currentIndex()).append("\">");
             // entry.getRawName().accept(this);
             append(entry.getName());
             append("</module>").eol();
@@ -459,7 +459,7 @@ public class XMLPrinter extends Printer {
         if (top) {
             top = false;
             indent();
-            append("<package index=\"").append(currentCount()).append("\">");
+            append("<package index=\"").append(currentIndex()).append("\">");
             // entry.getRawName().accept(this);
             append(entry.getName());
             append("</package>").eol();
@@ -762,7 +762,7 @@ public class XMLPrinter extends Printer {
 
     public void visitInstruction(Instruction instruction) {
         indent();
-        append("<instruction pc=\"").append(instruction.getStart()).append("\" length=\"").append(instruction.getLength()).append("\"");
+        append("<instruction pc=\"").append(instruction.getStart()).append("\" length=\"").append(instruction.getLength()).append("\" op-code=\"0x").append(String.format("%02X", instruction.getOpcode())).append("\"");
         switch (instruction.getOpcode()) {
             case 0x02: // iconst_m1
             case 0x03: // iconst_0

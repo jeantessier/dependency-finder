@@ -39,11 +39,11 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class ExceptionHandler implements com.jeantessier.classreader.ExceptionHandler {
-    private Code_attribute code;
-    private int            startPC;
-    private int            endPC;
-    private int            handlerPC;
-    private int            catchTypeIndex;
+    private final Code_attribute code;
+    private final int            startPC;
+    private final int            endPC;
+    private final int            handlerPC;
+    private final int            catchTypeIndex;
 
     public ExceptionHandler(Code_attribute code, DataInput in) throws IOException {
         this.code = code;

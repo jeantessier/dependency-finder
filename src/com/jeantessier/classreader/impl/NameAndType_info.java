@@ -37,8 +37,8 @@ import java.io.*;
 import com.jeantessier.classreader.*;
 
 public class NameAndType_info extends ConstantPoolEntry implements com.jeantessier.classreader.NameAndType_info {
-    private int nameIndex;
-    private int typeIndex;
+    private final int nameIndex;
+    private final int typeIndex;
 
     public NameAndType_info(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool);
@@ -72,11 +72,7 @@ public class NameAndType_info extends ConstantPoolEntry implements com.jeantessi
     }
 
     public String toString() {
-        StringBuffer result = new StringBuffer();
-
-        result.append(getName()).append(" -> ").append(getType());
-
-        return result.toString();
+        return getName() + " -> " + getType();
     }
 
     public int hashCode() {

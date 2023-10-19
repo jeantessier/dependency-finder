@@ -39,7 +39,7 @@ import java.io.DataInput;
 import java.io.IOException;
 
 public class MethodType_info extends ConstantPoolEntry implements com.jeantessier.classreader.MethodType_info {
-    private int descriptorIndex;
+    private final int descriptorIndex;
 
     public MethodType_info(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool);

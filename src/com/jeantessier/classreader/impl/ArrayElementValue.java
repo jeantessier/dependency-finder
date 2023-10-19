@@ -40,7 +40,7 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class ArrayElementValue extends ElementValue implements com.jeantessier.classreader.ArrayElementValue {
-    private Collection<ElementValue> values = new ArrayList<ElementValue>();
+    private final Collection<ElementValue> values = new ArrayList<>();
 
     public ArrayElementValue(ConstantPool constantPool, DataInput in) throws IOException {
         this(constantPool, in, new ElementValueFactory());

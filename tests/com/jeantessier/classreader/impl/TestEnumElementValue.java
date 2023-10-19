@@ -38,10 +38,10 @@ import com.jeantessier.classreader.*;
 
 public class TestEnumElementValue extends TestAnnotationsBase {
     private static final int TYPE_NAME_INDEX = 2;
-    private static final String ENCODED_TYPE_NAME = "Labc;";
-    private static final String TYPE_NAME = "abc";
+    private static final String ENCODED_TYPE_NAME = "LAbc;";
+    private static final String TYPE_NAME = "Abc";
     private static final int CONST_NAME_INDEX = 3;
-    private static final String CONST_NAME = "def";
+    private static final String CONST_NAME = "DEF";
 
     private EnumElementValue sut;
 
@@ -49,7 +49,9 @@ public class TestEnumElementValue extends TestAnnotationsBase {
         super.setUp();
 
         expectReadU2(TYPE_NAME_INDEX);
+        expectLookupUtf8(TYPE_NAME_INDEX, ENCODED_TYPE_NAME, "lookup type name during construction");
         expectReadU2(CONST_NAME_INDEX);
+        expectLookupUtf8(CONST_NAME_INDEX, CONST_NAME, "lookup const name during construction");
 
         sut = new EnumElementValue(mockConstantPool, mockIn);
     }

@@ -47,6 +47,7 @@ public class TestClassElementValue extends TestAnnotationsBase {
         super.setUp();
 
         expectReadU2(CLASS_INFO_INDEX);
+        expectLookupUtf8(CLASS_INFO_INDEX, ENCODED_CLASS_INFO, "lookup during construction");
 
         sut = new ClassElementValue(mockConstantPool, mockIn);
     }

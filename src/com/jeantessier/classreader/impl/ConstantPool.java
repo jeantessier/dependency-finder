@@ -44,11 +44,11 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 
 public class ConstantPool extends ArrayList<com.jeantessier.classreader.ConstantPoolEntry> implements com.jeantessier.classreader.ConstantPool {
-    private Classfile classfile;
+    private final Classfile classfile;
 
     // Visible for testing
     public ConstantPool() {
-        // No-op
+        this.classfile = null;
     }
 
     public ConstantPool(Classfile classfile, DataInput in) throws IOException {

@@ -35,14 +35,14 @@ package com.jeantessier.classreader.impl;
 import java.util.*;
 
 public class CodeIterator implements Iterator<com.jeantessier.classreader.Instruction> {
-    private Code_attribute code;
-    private byte[] bytecode;
-    private int    pc;
+    private final Code_attribute code;
+    private final byte[] bytecode;
+    private int pc;
 
     public CodeIterator(Code_attribute code, byte[] bytecode) {
         this.code = code;
         this.bytecode = bytecode;
-        this.pc   = 0;
+        this.pc = 0;
     }
 
     public boolean hasNext() {

@@ -45,6 +45,7 @@ import java.io.StringWriter;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class TestTextPrinter extends MockObjectTestCase {
     private static final int ICONST_1_INSTRUCTION = 0x04; // iconst_1
@@ -210,7 +211,7 @@ public class TestTextPrinter extends MockObjectTestCase {
         final Code_attribute mockCode = mock(Code_attribute.class);
 
         checking(new Expectations() {{
-            one (mockCode).iterator();
+            one (mockCode).forEach(with(any(Consumer.class)));
             one (mockCode).getExceptionHandlers();
                 will(returnValue(Collections.EMPTY_LIST));
         }});
@@ -227,7 +228,7 @@ public class TestTextPrinter extends MockObjectTestCase {
         final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
 
         checking(new Expectations() {{
-            one (mockCode).iterator();
+            one (mockCode).forEach(with(any(Consumer.class)));
             one (mockCode).getExceptionHandlers();
                 will(returnValue(Collections.singleton(mockExceptionHandler)));
             one (mockExceptionHandler).accept(sut);

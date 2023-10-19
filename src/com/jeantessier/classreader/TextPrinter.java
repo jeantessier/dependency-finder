@@ -51,13 +51,8 @@ public class TextPrinter extends Printer {
 
         append(classfile.getDeclaration()).append(" {").eol();
 
-        for (Field_info field : classfile.getAllFields()) {
-            field.accept(this);
-        }
-
-        for (Method_info method : classfile.getAllMethods()) {
-            method.accept(this);
-        }
+        visitClassfileFields(classfile);
+        visitClassfileMethods(classfile);
 
         append("}").eol();
     }
@@ -65,7 +60,7 @@ public class TextPrinter extends Printer {
     public void visitClass_info(Class_info entry) {
         if (top) {
             top = false;
-            append(currentCount()).append(": Class ");
+            append(currentIndex()).append(": Class ");
             append(entry);
             eol();
             top = true;
@@ -77,7 +72,7 @@ public class TextPrinter extends Printer {
     public void visitFieldRef_info(FieldRef_info entry) {
         if (top) {
             top = false;
-            append(currentCount()).append(": Field ");
+            append(currentIndex()).append(": Field ");
             append(entry);
             eol();
             top = true;
@@ -89,7 +84,7 @@ public class TextPrinter extends Printer {
     public void visitMethodRef_info(MethodRef_info entry) {
         if (top) {
             top = false;
-            append(currentCount()).append(": Method ");
+            append(currentIndex()).append(": Method ");
             append(entry);
             eol();
             top = true;
@@ -101,7 +96,7 @@ public class TextPrinter extends Printer {
     public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
         if (top) {
             top = false;
-            append(currentCount()).append(": Interface Method ");
+            append(currentIndex()).append(": Interface Method ");
             append(entry);
             eol();
             top = true;
@@ -113,7 +108,7 @@ public class TextPrinter extends Printer {
     public void visitString_info(String_info entry) {
         if (top) {
             top = false;
-            append(currentCount()).append(": String \"");
+            append(currentIndex()).append(": String \"");
             entry.getRawValue().accept(this);
             append("\"").eol();
             top = true;
@@ -124,7 +119,7 @@ public class TextPrinter extends Printer {
 
     public void visitInteger_info(Integer_info entry) {
         if (top) {
-            append(currentCount()).append(": Integer ").append(entry.getValue()).eol();
+            append(currentIndex()).append(": Integer ").append(entry.getValue()).eol();
         } else {
             append(entry.getValue());
         }
@@ -132,7 +127,7 @@ public class TextPrinter extends Printer {
 
     public void visitFloat_info(Float_info entry) {
         if (top) {
-            append(currentCount()).append(": Float ").append(entry.getValue()).eol();
+            append(currentIndex()).append(": Float ").append(entry.getValue()).eol();
         } else {
             append(entry.getValue());
         }
@@ -140,7 +135,7 @@ public class TextPrinter extends Printer {
 
     public void visitLong_info(Long_info entry) {
         if (top) {
-            append(currentCount()).append(": Long ").append(entry.getValue()).eol();
+            append(currentIndex()).append(": Long ").append(entry.getValue()).eol();
         } else {
             append(entry.getValue());
         }
@@ -148,7 +143,7 @@ public class TextPrinter extends Printer {
 
     public void visitDouble_info(Double_info entry) {
         if (top) {
-            append(currentCount()).append(": Double ").append(entry.getValue()).eol();
+            append(currentIndex()).append(": Double ").append(entry.getValue()).eol();
         } else {
             append(entry.getValue());
         }
@@ -157,7 +152,7 @@ public class TextPrinter extends Printer {
     public void visitNameAndType_info(NameAndType_info entry) {
         if (top) {
             top = false;
-            append(currentCount()).append(": Name and Type ");
+            append(currentIndex()).append(": Name and Type ");
             entry.getRawName().accept(this);
             append(" ");
             entry.getRawType().accept(this);
@@ -172,7 +167,7 @@ public class TextPrinter extends Printer {
 
     public void visitUTF8_info(UTF8_info entry) {
         if (top) {
-            append(currentCount()).append(": \"").append(entry.getValue()).append("\"").eol();
+            append(currentIndex()).append(": \"").append(entry.getValue()).append("\"").eol();
         } else {
             append(entry.getValue());
         }
@@ -181,7 +176,7 @@ public class TextPrinter extends Printer {
     public void visitMethodHandle_info(MethodHandle_info entry) {
         if (top) {
             top = false;
-            append(currentCount()).append(": Method Handle ");
+            append(currentIndex()).append(": Method Handle ");
             append(entry.getReferenceKind().getDescription());
             append(" ");
             entry.getReference().accept(this);
@@ -197,7 +192,7 @@ public class TextPrinter extends Printer {
     public void visitMethodType_info(MethodType_info entry) {
         if (top) {
             top = false;
-            append(currentCount()).append(": Method Type ");
+            append(currentIndex()).append(": Method Type ");
             entry.getRawDescriptor().accept(this);
             eol();
             top = true;
@@ -209,7 +204,7 @@ public class TextPrinter extends Printer {
     public void visitDynamic_info(Dynamic_info entry) {
         if (top) {
             top = false;
-            append(currentCount()).append(": Dynamic ");
+            append(currentIndex()).append(": Dynamic ");
             append(entry.getBootstrapMethodAttrIndex());
             append(" ");
             append(entry);
@@ -223,7 +218,7 @@ public class TextPrinter extends Printer {
     public void visitInvokeDynamic_info(InvokeDynamic_info entry) {
         if (top) {
             top = false;
-            append(currentCount()).append(": Invoke Dynamic ");
+            append(currentIndex()).append(": Invoke Dynamic ");
             append(entry.getBootstrapMethodAttrIndex());
             append(" ");
             append(entry);
@@ -237,7 +232,7 @@ public class TextPrinter extends Printer {
     public void visitModule_info(Module_info entry) {
         if (top) {
             top = false;
-            append(currentCount()).append(": Module ");
+            append(currentIndex()).append(": Module ");
             append(entry);
             eol();
             top = true;
@@ -249,7 +244,7 @@ public class TextPrinter extends Printer {
     public void visitPackage_info(Package_info entry) {
         if (top) {
             top = false;
-            append(currentCount()).append(": Package ");
+            append(currentIndex()).append(": Package ");
             append(entry);
             eol();
             top = true;

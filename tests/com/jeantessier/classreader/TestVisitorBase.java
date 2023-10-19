@@ -33,9 +33,13 @@
 package com.jeantessier.classreader;
 
 import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 import org.jmock.*;
+import org.jmock.api.*;
 import org.jmock.integration.junit3.*;
+import org.jmock.lib.action.*;
 
 public class TestVisitorBase extends MockObjectTestCase {
     private VisitorBase sut;
@@ -44,18 +48,18 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut = new VisitorBase() {};
     }
 
-    public void testIncrementCount() {
-        int oldValue = sut.currentCount();
-        sut.incrementCount();
-        int newValue = sut.currentCount();
-        assertEquals("count", oldValue + 1, newValue);
+    public void testIncrementIndex() {
+        int oldValue = sut.currentIndex();
+        sut.incrementIndex();
+        int newValue = sut.currentIndex();
+        assertEquals("index", oldValue + 1, newValue);
     }
 
-    public void testResetCount() {
-        sut.incrementCount();
-        assertTrue("count should not be zero", sut.currentCount() != 0);
-        sut.resetCount();
-        assertEquals("count", 0, sut.currentCount());
+    public void testResetIndex() {
+        sut.incrementIndex();
+        assertTrue("index should not be the starting index", sut.currentIndex() != sut.STARTING_INDEX);
+        sut.resetIndex();
+        assertEquals("index", 1, sut.currentIndex());
     }
 
     public void testVisitConstantPool() {
@@ -63,35 +67,39 @@ public class TestVisitorBase extends MockObjectTestCase {
         final ConstantPoolEntry mockEntry = mock(ConstantPoolEntry.class);
 
         checking(new Expectations() {{
-            one (mockConstantPool).iterator();
-                will(returnIterator(mockEntry));
+            one (mockConstantPool).stream();
+                will(returnValue(Stream.of(null, mockEntry)));
             one (mockEntry).accept(sut);
         }});
 
         sut.visitConstantPool(mockConstantPool);
-        assertEquals("current count", 1, sut.currentCount());
+        assertEquals("current index", sut.STARTING_INDEX + 1, sut.currentIndex());
     }
 
-    public void testVisitConstantPool_ResetCountBetweenCalls() {
+    public void testVisitConstantPool_ResetIndexBetweenCalls() {
         final ConstantPool mockConstantPool = mock(ConstantPool.class);
         final ConstantPoolEntry mockEntry = mock(ConstantPoolEntry.class);
 
         checking(new Expectations() {{
-            exactly(2).of (mockConstantPool).iterator();
-                will(returnIterator(mockEntry));
+            // If I use exactly(2).of, they share the return value.
+            // The test ends up trying to operate over a closed stream.
+            one (mockConstantPool).stream();
+                will(returnValue(Stream.of(null, mockEntry)));
+            one (mockConstantPool).stream();
+                will(returnValue(Stream.of(null, mockEntry)));
             exactly(2).of (mockEntry).accept(sut);
         }});
 
         sut.visitConstantPool(mockConstantPool);
         sut.visitConstantPool(mockConstantPool);
-        assertEquals("current count", 1, sut.currentCount());
+        assertEquals("current index", sut.STARTING_INDEX + 1, sut.currentIndex());
     }
 
     public void testVisitClassfiles() {
         final Classfile mockClassfile1 = mock(Classfile.class, "classfile1");
         final Classfile mockClassfile2 = mock(Classfile.class, "classfile2");
 
-        Collection<Classfile> classfiles = new ArrayList<Classfile>();
+        Collection<Classfile> classfiles = new ArrayList<>();
         classfiles.add(mockClassfile1);
         classfiles.add(mockClassfile2);
 
@@ -234,7 +242,7 @@ public class TestVisitorBase extends MockObjectTestCase {
 
         sut.visitMethod_info(mockMethod);
     }
-    
+
     public void testVisitConstantValue_attribute() {
         ConstantValue_attribute mockConstantValue = mock(ConstantValue_attribute.class);
         sut.visitConstantValue_attribute(mockConstantValue);
@@ -247,8 +255,13 @@ public class TestVisitorBase extends MockObjectTestCase {
         final Attribute_info mockAttribute = mock(Attribute_info.class);
 
         checking(new Expectations() {{
-            one (mockCode).iterator();
-                will(returnIterator(mockInstruction));
+            one (mockCode).forEach(with(any(Consumer.class)));
+                will(new CustomAction("Iterate over the mock instruction") {
+                    public Object invoke(Invocation invocation) {
+                        ((Consumer<Instruction>) invocation.getParameter(0)).accept(mockInstruction);
+                        return null;
+                    }
+                });
             one (mockInstruction).accept(sut);
             one (mockCode).getExceptionHandlers();
                 will(returnValue(Collections.singleton(mockExceptionHandler)));

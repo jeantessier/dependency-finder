@@ -37,7 +37,7 @@ import java.io.*;
 import com.jeantessier.classreader.*;
 
 public class Double_info extends ConstantPoolEntry implements com.jeantessier.classreader.Double_info {
-    private double value;
+    private final double value;
 
     public Double_info(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool);

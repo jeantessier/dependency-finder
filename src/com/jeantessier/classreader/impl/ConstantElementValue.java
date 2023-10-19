@@ -37,7 +37,7 @@ import java.io.*;
 import com.jeantessier.classreader.ConstantPoolEntry;
 
 public abstract class ConstantElementValue extends ElementValue implements com.jeantessier.classreader.ConstantElementValue {
-    private int constValueIndex;
+    private final int constValueIndex;
 
     public ConstantElementValue(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool);

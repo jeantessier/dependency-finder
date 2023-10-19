@@ -38,8 +38,8 @@ import com.jeantessier.classreader.Visitor;
 public class Instruction implements com.jeantessier.classreader.Instruction {
     private static final int NB_OPCODES = 0x100;
 
-    private static String[] opcode = new String[NB_OPCODES];
-    private static int[] length = new int[NB_OPCODES];
+    private static final String[] opcode = new String[NB_OPCODES];
+    private static final int[] length = new int[NB_OPCODES];
 
     static {
         opcode[0x00] = "nop";
@@ -571,9 +571,9 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
         length[0xff] = 1;
     }
 
-    private Code_attribute code;
-    private byte[] bytecode;
-    private int start;
+    private final Code_attribute code;
+    private final byte[] bytecode;
+    private final int start;
 
     public Instruction(Code_attribute code, byte[] bytecode, int start) {
         this.code = code;

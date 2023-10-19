@@ -40,7 +40,7 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class Parameter implements com.jeantessier.classreader.Parameter {
-    private Collection<Annotation> annotations = new LinkedList<Annotation>();
+    private final Collection<Annotation> annotations = new LinkedList<>();
 
     public Parameter(ConstantPool constantPool, DataInput in) throws IOException {
         int numAnnotations = in.readUnsignedShort();

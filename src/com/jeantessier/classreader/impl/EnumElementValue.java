@@ -40,17 +40,17 @@ import com.jeantessier.classreader.*;
 import com.jeantessier.classreader.UTF8_info;
 
 public class EnumElementValue extends ElementValue implements com.jeantessier.classreader.EnumElementValue {
-    private int typeNameIndex;
-    private int constNameIndex;
+    private final int typeNameIndex;
+    private final int constNameIndex;
 
     public EnumElementValue(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool);
 
         typeNameIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Type name index: " + typeNameIndex);
+        Logger.getLogger(getClass()).debug("Type name index: " + typeNameIndex + "(" + getTypeName() + ")");
 
         constNameIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Const name index: " + constNameIndex);
+        Logger.getLogger(getClass()).debug("Const name index: " + constNameIndex + "(" + getConstName() + ")");
     }
 
     public int getTypeNameIndex() {

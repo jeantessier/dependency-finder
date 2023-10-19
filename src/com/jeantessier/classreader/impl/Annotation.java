@@ -40,11 +40,11 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class Annotation implements com.jeantessier.classreader.Annotation {
-    private ConstantPool constantPool;
+    private final ConstantPool constantPool;
 
-    private Collection<ElementValuePair> elementValuePairs = new LinkedList<ElementValuePair>();
+    private final Collection<ElementValuePair> elementValuePairs = new LinkedList<>();
 
-    private int typeIndex;
+    private final int typeIndex;
 
     public Annotation(ConstantPool constantPool, DataInput in) throws IOException {
         this(constantPool, in, new ElementValueFactory());

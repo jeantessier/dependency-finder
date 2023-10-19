@@ -39,7 +39,7 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class AnnotationElementValue extends ElementValue implements com.jeantessier.classreader.AnnotationElementValue {
-    private Annotation annotation;
+    private final Annotation annotation;
 
     public AnnotationElementValue(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool);

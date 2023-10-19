@@ -39,21 +39,12 @@ import java.io.DataInput;
 import java.io.IOException;
 
 public class Module_info extends ConstantPoolEntry implements com.jeantessier.classreader.Module_info {
-    private int nameIndex;
+    private final int nameIndex;
 
     public Module_info(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool);
 
         nameIndex = in.readUnsignedShort();
-    }
-
-    /**
-     * For testing only
-     */
-    Module_info(ConstantPool constantPool, int nameIndex) {
-        super(constantPool);
-
-        this.nameIndex = nameIndex;
     }
 
     public int getNameIndex() {

@@ -39,8 +39,8 @@ import java.io.DataInput;
 import java.io.IOException;
 
 public class MethodHandle_info extends ConstantPoolEntry implements com.jeantessier.classreader.MethodHandle_info {
-    private int referenceKind;
-    private int referenceIndex;
+    private final int referenceKind;
+    private final int referenceIndex;
 
     public MethodHandle_info(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool);
@@ -52,10 +52,6 @@ public class MethodHandle_info extends ConstantPoolEntry implements com.jeantess
     public int getRawReferenceKind() { return referenceKind; }
 
     public ReferenceKind getReferenceKind() { return ReferenceKind.forKind(getRawReferenceKind()); }
-
-    public String getReferenceKindDescription() {
-        return null;
-    }
 
     public int getReferenceIndex() { return referenceIndex; }
 

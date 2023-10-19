@@ -37,7 +37,7 @@ import java.io.*;
 import com.jeantessier.classreader.*;
 
 public class Long_info extends ConstantPoolEntry implements com.jeantessier.classreader.Long_info {
-    private long value;
+    private final long value;
 
     public Long_info(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool);

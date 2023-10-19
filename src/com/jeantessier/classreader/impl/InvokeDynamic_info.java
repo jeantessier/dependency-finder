@@ -40,8 +40,8 @@ import java.io.DataInput;
 import java.io.IOException;
 
 public class InvokeDynamic_info extends ConstantPoolEntry implements com.jeantessier.classreader.InvokeDynamic_info {
-    private int bootstrapMethodAttrIndex;
-    private int nameAndTypeIndex;
+    private final int bootstrapMethodAttrIndex;
+    private final int nameAndTypeIndex;
 
     public InvokeDynamic_info(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool);

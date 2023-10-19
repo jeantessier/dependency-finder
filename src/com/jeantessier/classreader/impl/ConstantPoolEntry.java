@@ -51,7 +51,7 @@ public abstract class ConstantPoolEntry implements com.jeantessier.classreader.C
     public static final byte CONSTANT_Module = 19;
     public static final byte CONSTANT_Package = 20;
 
-    private ConstantPool constantPool;
+    private final ConstantPool constantPool;
 
     protected ConstantPoolEntry(ConstantPool constantPool) {
         this.constantPool = constantPool;

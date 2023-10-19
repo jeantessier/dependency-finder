@@ -33,7 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 public abstract class ElementValue implements com.jeantessier.classreader.ElementValue {
-    private ConstantPool constantPool;
+    private final ConstantPool constantPool;
 
     public ElementValue(ConstantPool constantPool) {
         this.constantPool = constantPool;

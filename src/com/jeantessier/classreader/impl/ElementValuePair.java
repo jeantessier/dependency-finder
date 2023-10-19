@@ -40,10 +40,10 @@ import com.jeantessier.classreader.UTF8_info;
 import com.jeantessier.classreader.*;
 
 public class ElementValuePair implements com.jeantessier.classreader.ElementValuePair {
-    private ConstantPool constantPool;
+    private final ConstantPool constantPool;
 
-    private int elementNameIndex;
-    private ElementValue elementValue;
+    private final int elementNameIndex;
+    private final ElementValue elementValue;
 
     public ElementValuePair(ConstantPool constantPool, DataInput in) throws IOException {
         this(constantPool, in, new ElementValueFactory());

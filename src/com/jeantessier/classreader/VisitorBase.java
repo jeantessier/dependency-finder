@@ -37,35 +37,36 @@ import org.apache.log4j.Logger;
 import java.util.Collection;
 
 public abstract class VisitorBase implements Visitor {
-    private int currentCount;
+    protected static final int STARTING_INDEX = 1;
 
-    protected void resetCount() {
-        currentCount = 0;
+    private int currentIndex = STARTING_INDEX;
+
+    protected void resetIndex() {
+        currentIndex = STARTING_INDEX;
     }
 
-    protected void incrementCount() {
-        currentCount++;
+    protected void incrementIndex() {
+        currentIndex++;
     }
 
-    protected int currentCount() {
-        return currentCount;
+    protected int currentIndex() {
+        return currentIndex;
     }
 
     public void visitConstantPool(ConstantPool constantPool) {
-        resetCount();
-        for (ConstantPoolEntry entry : constantPool) {
-            if (entry != null) {
-                entry.accept(this);
-            }
-            incrementCount();
-        }
+        resetIndex();
+
+        constantPool.stream()
+                .skip(1) // Constant pool indices start at 1
+                .forEach(entry -> {
+                    incrementIndex();
+                    entry.accept(this);
+                });
     }
 
     // Classfile
     public void visitClassfiles(Collection<Classfile> classfiles) {
-        for (Classfile classfile : classfiles) {
-            classfile.accept(this);
-        }
+        classfiles.forEach(classfile -> classfile.accept(this));
     }
 
     public void visitClassfile(Classfile classfile) {
@@ -75,15 +76,11 @@ public abstract class VisitorBase implements Visitor {
     }
 
     protected void visitClassfileFields(Classfile classfile) {
-        for (Field_info field : classfile.getAllFields()) {
-            field.accept(this);
-        }
+        classfile.getAllFields().forEach(field -> field.accept(this));
     }
 
     protected void visitClassfileMethods(Classfile classfile) {
-        for (Method_info method : classfile.getAllMethods()) {
-            method.accept(this);
-        }
+        classfile.getAllMethods().forEach(method -> method.accept(this));
     }
 
     protected void visitClassfileAttributes(Classfile classfile) {
@@ -173,9 +170,7 @@ public abstract class VisitorBase implements Visitor {
     // Attributes
 
     protected void visitAttributes(Collection<? extends Attribute_info> attributes) {
-        for (Attribute_info attribute_info : attributes) {
-            attribute_info.accept(this);
-        }
+        attributes.forEach(attributeInfo -> attributeInfo.accept(this));
     }
 
     public void visitConstantValue_attribute(ConstantValue_attribute attribute) {
@@ -197,18 +192,12 @@ public abstract class VisitorBase implements Visitor {
 
     public void visitExceptions_attribute(Exceptions_attribute attribute) {
         Logger.getLogger(getClass()).debug("Visiting " + attribute.getExceptions().size() + " exception class(es) ...");
-
-        for (Class_info exception : attribute.getExceptions()) {
-            exception.accept(this);
-        }
+        attribute.getExceptions().forEach(exception -> exception.accept(this));
     }
 
     public void visitInnerClasses_attribute(InnerClasses_attribute attribute) {
         Logger.getLogger(getClass()).debug("Visiting " + attribute.getInnerClasses().size() + " inner class(es) ...");
-
-        for (InnerClass innerClass : attribute.getInnerClasses()) {
-            innerClass.accept(this);
-        }
+        attribute.getInnerClasses().forEach(innerClass -> innerClass.accept(this));
     }
 
     public void visitEnclosingMethod_attribute(EnclosingMethod_attribute attribute) {
@@ -233,26 +222,17 @@ public abstract class VisitorBase implements Visitor {
 
     public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
         Logger.getLogger(getClass()).debug("Visiting " + attribute.getLineNumbers().size() + " line number(s) ...");
-
-        for (LineNumber lineNumber : attribute.getLineNumbers()) {
-            lineNumber.accept(this);
-        }
+        attribute.getLineNumbers().forEach(lineNumber -> lineNumber.accept(this));
     }
 
     public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
         Logger.getLogger(getClass()).debug("Visiting " + attribute.getLocalVariables().size() + " local variable(s) ...");
-
-        for (LocalVariable localVariable : attribute.getLocalVariables()) {
-            localVariable.accept(this);
-        }
+        attribute.getLocalVariables().forEach(localVariable -> localVariable.accept(this));
     }
 
     public void visitLocalVariableTypeTable_attribute(LocalVariableTypeTable_attribute attribute) {
         Logger.getLogger(getClass()).debug("Visiting " + attribute.getLocalVariableTypes().size() + " local variable type(s) ...");
-
-        for (LocalVariableType localVariableType : attribute.getLocalVariableTypes()) {
-            localVariableType.accept(this);
-        }
+        attribute.getLocalVariableTypes().forEach(localVariableType -> localVariableType.accept(this));
     }
 
     public void visitDeprecated_attribute(Deprecated_attribute attribute) {
@@ -269,10 +249,7 @@ public abstract class VisitorBase implements Visitor {
 
     protected void visitRuntimeAnnotations_attribute(RuntimeAnnotations_attribute attribute) {
         Logger.getLogger(getClass()).debug("Visiting " + attribute.getAnnotations().size() + " annotation(s) ...");
-
-        for (Annotation annotation : attribute.getAnnotations()) {
-            annotation.accept(this);
-        }
+        attribute.getAnnotations().forEach(annotation -> annotation.accept(this));
     }
 
     public void visitRuntimeVisibleParameterAnnotations_attribute(RuntimeVisibleParameterAnnotations_attribute attribute) {
@@ -285,10 +262,7 @@ public abstract class VisitorBase implements Visitor {
 
     protected void visitRuntimeParameterAnnotations_attribute(RuntimeParameterAnnotations_attribute attribute) {
         Logger.getLogger(getClass()).debug("Visiting " + attribute.getParameterAnnotations().size() + " parameter annotation(s) ...");
-
-        for (Parameter parameter : attribute.getParameterAnnotations()) {
-            parameter.accept(this);
-        }
+        attribute.getParameterAnnotations().forEach(parameter -> parameter.accept(this));
     }
 
     public void visitAnnotationDefault_attribute(AnnotationDefault_attribute attribute) {
@@ -302,9 +276,7 @@ public abstract class VisitorBase implements Visitor {
     // Attribute helpers
 
     protected void visitInstructions(Code_attribute attribute) {
-        for (Instruction instruction : attribute) {
-            instruction.accept(this);
-        }
+        attribute.forEach(instruction -> instruction.accept(this));
     }
 
     public void visitInstruction(Instruction helper) {
@@ -312,9 +284,7 @@ public abstract class VisitorBase implements Visitor {
     }
 
     protected void visitExceptionHandlers(Collection<? extends ExceptionHandler> exceptionHandlers) {
-        for (ExceptionHandler exceptionHandler : exceptionHandlers) {
-            exceptionHandler.accept(this);
-        }
+        exceptionHandlers.forEach(exceptionHandler -> exceptionHandler.accept(this));
     }
 
     public void visitExceptionHandler(ExceptionHandler helper) {
@@ -339,18 +309,12 @@ public abstract class VisitorBase implements Visitor {
 
     public void visitParameter(Parameter helper) {
         Logger.getLogger(getClass()).debug("Visiting " + helper.getAnnotations().size() + " annotation(s) ...");
-
-        for (Annotation annotation : helper.getAnnotations()) {
-            annotation.accept(this);
-        }
+        helper.getAnnotations().forEach(annotation -> annotation.accept(this));
     }
 
     public void visitAnnotation(Annotation helper) {
         Logger.getLogger(getClass()).debug("Visiting " + helper.getElementValuePairs().size() + " element value pair(s) ...");
-
-        for (ElementValuePair elementValuePair : helper.getElementValuePairs()) {
-            elementValuePair.accept(this);
-        }
+        helper.getElementValuePairs().forEach(elementValuePair -> elementValuePair.accept(this));
     }
 
     public void visitElementValuePair(ElementValuePair helper) {
@@ -407,9 +371,6 @@ public abstract class VisitorBase implements Visitor {
 
     public void visitArrayElementValue(ArrayElementValue helper) {
         Logger.getLogger(getClass()).debug("Visiting " + helper.getValues().size() + " value(s) ...");
-
-        for (ElementValue elementValue : helper.getValues()) {
-            elementValue.accept(this);
-        }
+        helper.getValues().forEach(elementValue -> elementValue.accept(this));
     }
 }

@@ -37,7 +37,7 @@ import java.io.*;
 import com.jeantessier.classreader.*;
 
 public class String_info extends ConstantPoolEntry implements com.jeantessier.classreader.String_info {
-    private int valueIndex;
+    private final int valueIndex;
 
     public String_info(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool);

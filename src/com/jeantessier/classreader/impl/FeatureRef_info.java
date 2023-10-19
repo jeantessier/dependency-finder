@@ -35,8 +35,8 @@ package com.jeantessier.classreader.impl;
 import java.io.*;
 
 public abstract class FeatureRef_info extends ConstantPoolEntry implements com.jeantessier.classreader.FeatureRef_info {
-    private int classIndex;
-    private int nameAndTypeIndex;
+    private final int classIndex;
+    private final int nameAndTypeIndex;
 
     public FeatureRef_info(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool);
@@ -87,7 +87,7 @@ public abstract class FeatureRef_info extends ConstantPoolEntry implements com.j
     }
 
     public String toString() {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         Class_info       c   = getRawClass();
         NameAndType_info nat = getRawNameAndType();
