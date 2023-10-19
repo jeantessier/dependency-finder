@@ -1,0 +1,24 @@
+Looked at what it would take to bring Dependency Finder support up to Java 21.
+
+I have had an open feature to handle Java 5.0 additions to the =.class= file
+format since 2007.  The code to parse these additions is there, but I'm missing
+the piece to interpret generic signatures.  The specification for these
+signatures is very complex and is mostly text processing.
+
+Back on [[2016-08-21]], I had drafted the classes I would need to bring support
+up to Java 8.  There are a lot of new structures and those for the =StackMap=
+element are particularly gnarly.
+
+The additions for Java 9 through 21 seem fairly straightforward.
+
+I took the opportunity to refactor many classes in
+=com.jeantessier.classreader.impl= to deal make private fields =final= and use
+the Stream API to traverse the =Classfile= structure.  I managed to find a few
+tricks to mock streams in visitor tests.  For instance, I can mock =stream()=
+to return a canned stream with =Stream.of()=.  I can mock =forEach()= by
+creating a side effect with =CustomAction=.
+
+I removed some dead code, mostly "testing only" constructors that were not
+being used.  I noticed that I've been meaning to remove
+=ClassDependencyCollector= and =FeatureDependencyCollector= since
+[[2003-08-29]]!
