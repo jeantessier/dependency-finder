@@ -1,0 +1,8 @@
+I'm going to skip the remainder of Java 5 support for now.  Generic signatures
+don't add enough information to what's already there to make it worth the
+complexity of parsing their signatures.  And the =StackMap= is just too crazy.
+I will look for some lower-hanging fruits, first.
+
+I implemented the =BootstrapMethods_attribute= structure and attendant helpers.
+It took all day.  I had a couple false starts and fell in a couple of traps,
+but it worked out in the end.
