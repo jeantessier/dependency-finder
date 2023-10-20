@@ -50,6 +50,7 @@ import static org.junit.runners.Suite.SuiteClasses;
         TestBootstrapMethod.class,
         TestBootstrapMethodWithMultipleArguments.class,
         TestBootstrapMethodWithOneArgument.class,
+        TestBootstrapMethods_attribute.class,
         TestByteConstantElementValue.class,
         TestCharConstantElementValue.class,
         TestClassElementValue.class,

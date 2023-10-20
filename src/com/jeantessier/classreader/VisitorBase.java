@@ -34,7 +34,7 @@ package com.jeantessier.classreader;
 
 import org.apache.log4j.Logger;
 
-import java.util.Collection;
+import java.util.*;
 
 public abstract class VisitorBase implements Visitor {
     protected static final int STARTING_INDEX = 1;
@@ -269,6 +269,11 @@ public abstract class VisitorBase implements Visitor {
         attribute.getElemementValue().accept(this);
     }
 
+    public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute) {
+        Logger.getLogger(getClass()).debug("Visiting " + attribute.getBootstrapMethods().size() + " bootstrap method(s) ...");
+        attribute.getBootstrapMethods().forEach(bootstrapMethod -> bootstrapMethod.accept(this));
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         // Do nothing
     }
@@ -308,6 +313,9 @@ public abstract class VisitorBase implements Visitor {
     }
 
     public void visitBootstrapMethod(BootstrapMethod helper) {
+        Logger.getLogger(getClass()).debug("Visiting bootstrap method handle ...");
+        helper.getBootstrapMethod().accept(this);
+
         Logger.getLogger(getClass()).debug("Visiting " + helper.getArguments().size() + " argument(s) ...");
         helper.getArguments().forEach(argument -> argument.accept(this));
     }

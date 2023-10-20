@@ -4,6 +4,7 @@ import com.jeantessier.classreader.Integer_info;
 import org.jmock.Expectations;
 
 public class TestBootstrapMethodWithMultipleArguments extends TestAttributeBase {
+    private static final int BOOTSTRAP_METHOD_REF = 123;
     private static final int FIRST_ARGUMENT_INDEX = 4;
     private static final int FIRST_ARGUMENT_VALUE = 1234;
     private static final int SECOND_ARGUMENT_INDEX = 12;
@@ -20,6 +21,17 @@ public class TestBootstrapMethodWithMultipleArguments extends TestAttributeBase 
     protected void setUp() throws Exception {
         super.setUp();
 
+        var mockBootstrapMethods = mock(BootstrapMethods_attribute.class);
+        var mockBootstrapMethod = mock(MethodHandle_info.class);
+
+        checking(new Expectations() {{
+            allowing (mockBootstrapMethods).getConstantPool();
+                will(returnValue(mockConstantPool));
+            allowing (mockConstantPool).get(BOOTSTRAP_METHOD_REF);
+                will(returnValue(mockBootstrapMethod));
+        }});
+
+        expectReadU2(BOOTSTRAP_METHOD_REF);
         expectReadNumArguments(3);
 
         firstArgument = mock(Integer_info.class);
@@ -43,7 +55,7 @@ public class TestBootstrapMethodWithMultipleArguments extends TestAttributeBase 
             will(returnValue(thirdArgument));
         }});
 
-        sut = new BootstrapMethod(mockConstantPool, mockIn);
+        sut = new BootstrapMethod(mockBootstrapMethods, mockIn);
     }
 
     public void testNumArguments() {

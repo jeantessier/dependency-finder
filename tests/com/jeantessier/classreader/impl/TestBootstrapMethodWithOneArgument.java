@@ -17,15 +17,15 @@ public class TestBootstrapMethodWithOneArgument {
     @Parameters(name="BootstrapMethod with {0} argument")
     public static Object[][] data() {
         return new Object[][] {
-                {"an integer", 1, com.jeantessier.classreader.Integer_info.class},
-                {"a float", 2, com.jeantessier.classreader.Float_info.class},
-                {"a long", 3, com.jeantessier.classreader.Long_info.class},
-                {"a double", 4, com.jeantessier.classreader.Double_info.class},
-                {"a Class", 5, com.jeantessier.classreader.Class_info.class},
-                {"a String", 6, com.jeantessier.classreader.String_info.class},
-                {"a MethodHandle", 7, com.jeantessier.classreader.MethodHandle_info.class},
-                {"a MethodType", 8, com.jeantessier.classreader.MethodType_info.class},
-                {"a Dynamic", 9, com.jeantessier.classreader.Dynamic_info.class},
+                {"an integer", 123, 1, com.jeantessier.classreader.Integer_info.class},
+                {"a float", 234, 2, com.jeantessier.classreader.Float_info.class},
+                {"a long", 345, 3, com.jeantessier.classreader.Long_info.class},
+                {"a double", 456, 4, com.jeantessier.classreader.Double_info.class},
+                {"a Class", 567, 5, com.jeantessier.classreader.Class_info.class},
+                {"a String", 678, 6, com.jeantessier.classreader.String_info.class},
+                {"a MethodHandle", 789, 7, com.jeantessier.classreader.MethodHandle_info.class},
+                {"a MethodType", 890, 8, com.jeantessier.classreader.MethodType_info.class},
+                {"a Dynamic", 909, 9, com.jeantessier.classreader.Dynamic_info.class},
         };
     }
 
@@ -33,9 +33,12 @@ public class TestBootstrapMethodWithOneArgument {
     public String label;
 
     @Parameterized.Parameter(1)
-    public int argumentIndex;
+    public int bootstrapMethodRef;
 
     @Parameterized.Parameter(2)
+    public int argumentIndex;
+
+    @Parameterized.Parameter(3)
     public Class<? extends ConstantPoolEntry> argumentClass;
 
     private Mockery context;
@@ -43,6 +46,8 @@ public class TestBootstrapMethodWithOneArgument {
     private ConstantPool mockConstantPool;
     private DataInput mockIn;
     private com.jeantessier.classreader.ConstantPoolEntry mockArgument;
+
+    private BootstrapMethods_attribute mockBootstrapMethods;
 
     private BootstrapMethod sut;
 
@@ -55,18 +60,28 @@ public class TestBootstrapMethodWithOneArgument {
         mockIn = context.mock(DataInput.class);
         mockArgument = context.mock(argumentClass);
 
+        var mockBootstrapMethods = context.mock(BootstrapMethods_attribute.class);
+        var mockBootstrapMethod = context.mock(MethodHandle_info.class, "bootstrap method");
+
         context.checking(new Expectations() {{
+            allowing (mockBootstrapMethods).getConstantPool();
+                will(returnValue(mockConstantPool));
+
+            oneOf (mockIn).readUnsignedShort();
+                will(returnValue(bootstrapMethodRef));
             // num arguments
             oneOf (mockIn).readUnsignedShort();
                 will(returnValue(1));
             oneOf (mockIn).readUnsignedShort();
                 will(returnValue(argumentIndex));
             // Lookup during construction
+            oneOf (mockConstantPool).get(bootstrapMethodRef);
+                will(returnValue(mockBootstrapMethod));
             oneOf (mockConstantPool).get(argumentIndex);
                 will(returnValue(mockArgument));
         }});
 
-        sut = new BootstrapMethod(mockConstantPool, mockIn);
+        sut = new BootstrapMethod(mockBootstrapMethods, mockIn);
     }
 
     @Test

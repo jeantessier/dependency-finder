@@ -50,7 +50,8 @@ public enum AttributeType {
     RUNTIME_INVISIBLE_ANNOTATIONS("RuntimeInvisibleAnnotations"),
     RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS("RuntimeVisibleParameterAnnotations"),
     RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS("RuntimeInvisibleParameterAnnotations"),
-    ANNOTATION_DEFAULT("AnnotationDefault");
+    ANNOTATION_DEFAULT("AnnotationDefault"),
+    BOOTSTRAP_METHODS("BootstrapMethods");
 
     private final String attributeName;
 

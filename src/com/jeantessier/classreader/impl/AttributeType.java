@@ -143,6 +143,12 @@ public enum AttributeType {
         public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
             return new AnnotationDefault_attribute(constantPool, owner, in);
         }
+    },
+
+    BOOTSTRAP_METHODS(com.jeantessier.classreader.AttributeType.BOOTSTRAP_METHODS) {
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+            return new BootstrapMethods_attribute(constantPool, owner, in);
+        }
     };
 
     private final com.jeantessier.classreader.AttributeType attributeType;

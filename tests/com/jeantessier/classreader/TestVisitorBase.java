@@ -434,6 +434,19 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitAnnotationDefault_attribute(mockAnnotationDefault);
     }
 
+    public void testVisitBootstrapMethods_attribute() {
+        final BootstrapMethods_attribute mockBootstrapMethods = mock(BootstrapMethods_attribute.class);
+        final BootstrapMethod mockBootstrapMethod = mock(BootstrapMethod.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockBootstrapMethods).getBootstrapMethods();
+                will(returnValue(Collections.singleton(mockBootstrapMethod)));
+            one (mockBootstrapMethod).accept(sut);
+        }});
+
+        sut.visitBootstrapMethods_attribute(mockBootstrapMethods);
+    }
+
     public void testVisitCustom_attribute() {
         Custom_attribute mockCustom = mock(Custom_attribute.class);
         sut.visitCustom_attribute(mockCustom);
@@ -587,5 +600,22 @@ public class TestVisitorBase extends MockObjectTestCase {
         }});
 
         sut.visitArrayElementValue(mockArrayElementValue);
+    }
+
+    public void testVisitBootstrapMethod() {
+        final BootstrapMethod mockBootstrapMethod = mock(BootstrapMethod.class);
+        final MethodHandle_info mockMethodHandle = mock(MethodHandle_info.class);
+        final ConstantPoolEntry mockArgument = mock(Integer_info.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockBootstrapMethod).getBootstrapMethod();
+                will(returnValue(mockMethodHandle));
+            atLeast(1).of (mockBootstrapMethod).getArguments();
+                will(returnValue(Collections.singleton(mockArgument)));
+            one (mockMethodHandle).accept(sut);
+            one (mockArgument).accept(sut);
+        }});
+
+        sut.visitBootstrapMethod(mockBootstrapMethod);
     }
 }

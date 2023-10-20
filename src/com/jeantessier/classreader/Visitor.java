@@ -82,6 +82,7 @@ public interface Visitor {
     public void visitRuntimeVisibleParameterAnnotations_attribute(RuntimeVisibleParameterAnnotations_attribute attribute);
     public void visitRuntimeInvisibleParameterAnnotations_attribute(RuntimeInvisibleParameterAnnotations_attribute attribute);
     public void visitAnnotationDefault_attribute(AnnotationDefault_attribute attribute);
+    public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute);
     public void visitCustom_attribute(Custom_attribute attribute);
 
     // Attribute helpers
