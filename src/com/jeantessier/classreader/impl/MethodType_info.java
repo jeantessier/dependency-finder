@@ -32,6 +32,7 @@
 
 package com.jeantessier.classreader.impl;
 
+import com.jeantessier.classreader.DescriptorHelper;
 import com.jeantessier.classreader.UTF8_info;
 import com.jeantessier.classreader.Visitor;
 
@@ -57,6 +58,11 @@ public class MethodType_info extends ConstantPoolEntry implements com.jeantessie
 
     public int hashCode() {
         return getRawDescriptor().hashCode();
+    }
+
+    public String toString() {
+        var descriptor = getDescriptor();
+        return DescriptorHelper.getSignature(descriptor) + " -> " + DescriptorHelper.getReturnType(descriptor);
     }
 
     public boolean equals(Object object) {

@@ -155,12 +155,12 @@ public class XMLPrinter extends Printer {
         indent().append("<constant-pool>").eol();
         raiseIndent();
 
-        for (ConstantPoolEntry entry : constantPool) {
-            if (entry != null) {
-                entry.accept(this);
-            }
-            incrementIndex();
-        }
+        constantPool.stream()
+                .skip(1) // Constant pool indices start at 1
+                .forEach(entry -> {
+                    entry.accept(this);
+                    incrementIndex();
+                });
 
         lowerIndent();
         indent().append("</constant-pool>").eol();
@@ -756,6 +756,16 @@ public class XMLPrinter extends Printer {
         indent().append("</annotation-default-attribute>").eol();
     }
 
+    public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute) {
+        indent().append("<bootstrap-methods-attribute>").eol();
+        raiseIndent();
+
+        super.visitBootstrapMethods_attribute(attribute);
+
+        lowerIndent();
+        indent().append("</bootstrap-methods-attribute>").eol();
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         indent().append("<custom-attribute name=\"").append(escapeXMLCharacters(attribute.getName())).append("\">").append(Hex.toString(attribute.getInfo())).append("</custom-attribute>").eol();
     }
@@ -797,6 +807,7 @@ public class XMLPrinter extends Printer {
             case 0xb7: // invokespecial
             case 0xb8: // invokestatic
             case 0xb9: // invokeinterface
+            case 0xba: // invokedynamic
             case 0xbb: // new
             case 0xbd: // anewarray
             case 0xc0: // checkcast
@@ -993,6 +1004,33 @@ public class XMLPrinter extends Printer {
         helper.getRawSignature().accept(this);
         append("</signature>");
         append("</local-variable-type>").eol();
+    }
+
+    public void visitBootstrapMethod(BootstrapMethod helper) {
+        indent().append("<bootstrap-method>").eol();
+        raiseIndent();
+
+        indent();
+        append("<bootstrap-method-ref index=\"").append(helper.getBootstrapMethodRef()).append("\">");
+        helper.getBootstrapMethod().accept(this);
+        append("</bootstrap-method-ref>").eol();
+
+        indent().append("<arguments>").eol();
+        raiseIndent();
+
+        helper.getArgumentIndices()
+                .forEach(index -> {
+                    indent();
+                    append("<argument index=\"").append(index).append("\">");
+                    helper.getArgument(index).accept(this);
+                    append("</argument>").eol();
+                });
+
+        lowerIndent();
+        indent().append("</arguments>").eol();
+
+        lowerIndent();
+        indent().append("</bootstrap-method>").eol();
     }
 
     public void visitParameter(Parameter helper) {

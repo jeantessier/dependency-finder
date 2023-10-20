@@ -59,6 +59,10 @@ public class MethodHandle_info extends ConstantPoolEntry implements com.jeantess
         return (FeatureRef_info) getConstantPool().get(getReferenceIndex());
     }
 
+    public String toString() {
+        return getReferenceKind().getDescription() + " " + getReference();
+    }
+
     public int hashCode() {
         return Integer.valueOf(getRawReferenceKind()).hashCode() ^ getReference().hashCode();
     }

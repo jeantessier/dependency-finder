@@ -192,12 +192,10 @@ public class TextPrinter extends Printer {
     public void visitMethodType_info(MethodType_info entry) {
         if (top) {
             top = false;
-            append(currentIndex()).append(": Method Type ");
-            entry.getRawDescriptor().accept(this);
-            eol();
+            append(currentIndex()).append(": Method Type ").append(entry).eol();
             top = true;
         } else {
-            entry.getRawDescriptor().accept(this);
+            append(entry);
         }
     }
 
@@ -317,6 +315,7 @@ public class TextPrinter extends Printer {
             case 0xb7: // invokespecial
             case 0xb8: // invokestatic
             case 0xb9: // invokeinterface
+            case 0xba: // invokedynamic
             case 0xbb: // new
             case 0xbd: // anewarray
             case 0xc0: // checkcast

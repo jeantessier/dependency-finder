@@ -50,6 +50,7 @@ import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Collections;
+import java.util.List;
 
 public class TestXMLPrinter extends MockObjectTestCase {
     private static final String TEST_CLASS = "test";
@@ -1434,6 +1435,102 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "local-variable-type/@index", 1);
     }
 
+    public void testVisitBootstrapMethod_noArguments() throws Exception {
+        final BootstrapMethod bootstrapMethod = mock(BootstrapMethod.class);
+        final int bootstrapMethodRef = 123;
+        final MethodHandle_info methodHandle = mock(MethodHandle_info.class);
+
+        checking(new Expectations() {{
+            one (bootstrapMethod).getBootstrapMethodRef();
+                will(returnValue(bootstrapMethodRef));
+            one (bootstrapMethod).getBootstrapMethod();
+                will(returnValue(methodHandle));
+            one (methodHandle).accept(printer);
+            one (bootstrapMethod).getArgumentIndices();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        printer.visitBootstrapMethod(bootstrapMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "bootstrap-method", 1);
+        assertXPathCount(xmlDocument, "bootstrap-method/bootstrap-method-ref", 1);
+        assertXPathCount(xmlDocument, "bootstrap-method/bootstrap-method-ref/@index", 1);
+        assertXPathText(xmlDocument, "bootstrap-method/bootstrap-method-ref/@index", String.valueOf(bootstrapMethodRef));
+        assertXPathCount(xmlDocument, "bootstrap-method/arguments", 1);
+        assertXPathCount(xmlDocument, "bootstrap-method/arguments/argument", 0);
+        assertXPathCount(xmlDocument, "bootstrap-method/arguments/argument/@index", 0);
+    }
+
+    public void testVisitBootstrapMethod_oneArgument() throws Exception {
+        final BootstrapMethod bootstrapMethod = mock(BootstrapMethod.class);
+        final int bootstrapMethodRef = 123;
+        final MethodHandle_info methodHandle = mock(MethodHandle_info.class);
+        final int argumentIndex = 456;
+        final ConstantPoolEntry argument = mock(ConstantPoolEntry.class);
+
+        checking(new Expectations() {{
+            one (bootstrapMethod).getBootstrapMethodRef();
+                will(returnValue(bootstrapMethodRef));
+            one (bootstrapMethod).getBootstrapMethod();
+                will(returnValue(methodHandle));
+            one (methodHandle).accept(printer);
+            one (bootstrapMethod).getArgumentIndices();
+                will(returnValue(Collections.singleton(argumentIndex)));
+            one (bootstrapMethod).getArgument(argumentIndex);
+                will(returnValue(argument));
+            one (argument).accept(printer);
+        }});
+
+        printer.visitBootstrapMethod(bootstrapMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "bootstrap-method", 1);
+        assertXPathCount(xmlDocument, "bootstrap-method/bootstrap-method-ref", 1);
+        assertXPathCount(xmlDocument, "bootstrap-method/bootstrap-method-ref/@index", 1);
+        assertXPathText(xmlDocument, "bootstrap-method/bootstrap-method-ref/@index", String.valueOf(bootstrapMethodRef));
+        assertXPathCount(xmlDocument, "bootstrap-method/arguments", 1);
+        assertXPathCount(xmlDocument, "bootstrap-method/arguments/argument", 1);
+        assertXPathCount(xmlDocument, "bootstrap-method/arguments/argument/@index", 1);
+        assertXPathText(xmlDocument, "bootstrap-method/arguments/argument/@index", String.valueOf(argumentIndex));
+    }
+
+    public void testVisitBootstrapMethod_multipleArguments() throws Exception {
+        final BootstrapMethod bootstrapMethod = mock(BootstrapMethod.class);
+        final int bootstrapMethodRef = 123;
+        final MethodHandle_info methodHandle = mock(MethodHandle_info.class);
+        final int firstArgumentIndex = 456;
+        final ConstantPoolEntry firstArgument = mock(ConstantPoolEntry.class, "first argument");
+        final int secondArgumentIndex = 789;
+        final ConstantPoolEntry secondArgument = mock(ConstantPoolEntry.class, "second argument");
+
+        checking(new Expectations() {{
+            one (bootstrapMethod).getBootstrapMethodRef();
+                will(returnValue(bootstrapMethodRef));
+            one (bootstrapMethod).getBootstrapMethod();
+                will(returnValue(methodHandle));
+            one (methodHandle).accept(printer);
+            one (bootstrapMethod).getArgumentIndices();
+                will(returnValue(List.of(firstArgumentIndex, secondArgumentIndex)));
+            one (bootstrapMethod).getArgument(firstArgumentIndex);
+                will(returnValue(firstArgument));
+            one (firstArgument).accept(printer);
+            one (bootstrapMethod).getArgument(secondArgumentIndex);
+                will(returnValue(secondArgument));
+            one (secondArgument).accept(printer);
+        }});
+
+        printer.visitBootstrapMethod(bootstrapMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "bootstrap-method", 1);
+        assertXPathCount(xmlDocument, "bootstrap-method/bootstrap-method-ref", 1);
+        assertXPathCount(xmlDocument, "bootstrap-method/bootstrap-method-ref/@index", 1);
+        assertXPathCount(xmlDocument, "bootstrap-method/arguments", 1);
+        assertXPathCount(xmlDocument, "bootstrap-method/arguments/argument", 2);
+        assertXPathCount(xmlDocument, "bootstrap-method/arguments/argument/@index", 2);
+    }
+
     public void testVisitRuntimeVisibleAnnotations_attribute_WithoutAnnotations() throws Exception {
         final RuntimeVisibleAnnotations_attribute runtimeVisibleAnnotations = mock(RuntimeVisibleAnnotations_attribute.class);
 
@@ -1564,6 +1661,36 @@ public class TestXMLPrinter extends MockObjectTestCase {
 
         String xmlDocument = buffer.toString();
         assertXPathCount(xmlDocument, "annotation-default-attribute", 1);
+    }
+
+    public void testVisitBootstrapMethods_attribute_noBootstrapMethods() throws Exception {
+        final BootstrapMethods_attribute bootstrapMethods = mock(BootstrapMethods_attribute.class);
+
+        checking(new Expectations() {{
+            atLeast (1).of (bootstrapMethods).getBootstrapMethods();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        printer.visitBootstrapMethods_attribute(bootstrapMethods);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "bootstrap-methods-attribute", 1);
+    }
+
+    public void testVisitBootstrapMethods_attribute_oneBootstrapMethod() throws Exception {
+        final BootstrapMethods_attribute bootstrapMethods = mock(BootstrapMethods_attribute.class);
+        final BootstrapMethod bootstrapMethod = mock(BootstrapMethod.class);
+
+        checking(new Expectations() {{
+            atLeast (1).of (bootstrapMethods).getBootstrapMethods();
+                will(returnValue(Collections.singleton(bootstrapMethod)));
+            one (bootstrapMethod).accept(printer);
+        }});
+
+        printer.visitBootstrapMethods_attribute(bootstrapMethods);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "bootstrap-methods-attribute", 1);
     }
 
     public void testVisitParameter_WithoutAnnotations() throws Exception {

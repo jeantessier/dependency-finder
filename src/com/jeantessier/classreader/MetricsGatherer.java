@@ -434,6 +434,36 @@ public class MetricsGatherer extends VisitorBase {
         }
     }
 
+    public void visitRuntimeVisibleAnnotations_attribute(RuntimeVisibleAnnotations_attribute attribute) {
+        super.visitRuntimeVisibleAnnotations_attribute(attribute);
+        visitAttribute("RuntimeVisibleAnnotations");
+    }
+
+    public void visitRuntimeInvisibleAnnotations_attribute(RuntimeInvisibleAnnotations_attribute attribute) {
+        super.visitRuntimeInvisibleAnnotations_attribute(attribute);
+        visitAttribute("RuntimeInvisibleAnnotations");
+    }
+
+    public void visitRuntimeVisibleParameterAnnotations_attribute(RuntimeVisibleParameterAnnotations_attribute attribute) {
+        super.visitRuntimeVisibleParameterAnnotations_attribute(attribute);
+        visitAttribute("RuntimeVisibleParameterAnnotations");
+    }
+
+    public void visitRuntimeInvisibleParameterAnnotations_attribute(RuntimeInvisibleParameterAnnotations_attribute attribute) {
+        super.visitRuntimeInvisibleParameterAnnotations_attribute(attribute);
+        visitAttribute("RuntimeInvisibleParameterAnnotations");
+    }
+
+    public void visitAnnotationDefault_attribute(AnnotationDefault_attribute attribute) {
+        super.visitAnnotationDefault_attribute(attribute);
+        visitAttribute("AnnotationDefault");
+    }
+
+    public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute) {
+        super.visitBootstrapMethods_attribute(attribute);
+        visitAttribute("BootstrapMethods");
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         super.visitCustom_attribute(attribute);
         visitAttribute("custom");

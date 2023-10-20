@@ -9,15 +9,14 @@ import com.jeantessier.classreader.*;
 
 public class BootstrapMethod implements com.jeantessier.classreader.BootstrapMethod {
     private final BootstrapMethods_attribute bootstrapMethods;
-    private final MethodHandle_info bootstrapMethod;
-    private final Collection<com.jeantessier.classreader.ConstantPoolEntry> arguments = new LinkedList<>();
+    private final int bootstrapMethodRef;
+    private final Collection<Integer> argumentIndices = new LinkedList<>();
 
     public BootstrapMethod(BootstrapMethods_attribute bootstrapMethods, DataInput in) throws IOException {
         this.bootstrapMethods = bootstrapMethods;
 
-        var bootstrapMethodRef = in.readUnsignedShort();
-        bootstrapMethod = (MethodHandle_info) bootstrapMethods.getConstantPool().get(bootstrapMethodRef);
-        Logger.getLogger(getClass()).debug("Bootstrap method ref: " + bootstrapMethodRef + " (" + bootstrapMethod + ")");
+        bootstrapMethodRef = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Bootstrap method ref: " + bootstrapMethodRef + " (" + getBootstrapMethod() + ")");
 
         var numArgument = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Reading " + numArgument + " argument(s) ...");
@@ -26,21 +25,32 @@ public class BootstrapMethod implements com.jeantessier.classreader.BootstrapMet
             var argumentIndex = in.readUnsignedShort();
             var argument = bootstrapMethods.getConstantPool().get(argumentIndex);
             Logger.getLogger(getClass()).debug("Argument " + i + ": " + argumentIndex + " (" + argument + ")");
-            arguments.add(argument);
+            argumentIndices.add(argumentIndex);
         }
-
     }
 
     public BootstrapMethods_attribute getBootstrapMethods() {
         return bootstrapMethods;
     }
 
+    public int getBootstrapMethodRef() { return bootstrapMethodRef; }
+
     public com.jeantessier.classreader.MethodHandle_info getBootstrapMethod() {
-        return bootstrapMethod;
+        return (MethodHandle_info) bootstrapMethods.getConstantPool().get(bootstrapMethodRef);
+    }
+
+    public Collection<Integer> getArgumentIndices() {
+        return Collections.unmodifiableCollection(argumentIndices);
+    }
+
+    public com.jeantessier.classreader.ConstantPoolEntry getArgument(int index) {
+        return getBootstrapMethods().getConstantPool().get(index);
     }
 
     public Collection<com.jeantessier.classreader.ConstantPoolEntry> getArguments() {
-        return arguments;
+        return argumentIndices.stream()
+                .map(this::getArgument)
+                .toList();
     }
 
     public void accept(Visitor visitor) {

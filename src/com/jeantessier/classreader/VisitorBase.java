@@ -59,8 +59,8 @@ public abstract class VisitorBase implements Visitor {
         constantPool.stream()
                 .skip(1) // Constant pool indices start at 1
                 .forEach(entry -> {
-                    incrementIndex();
                     entry.accept(this);
+                    incrementIndex();
                 });
     }
 
