@@ -46,13 +46,10 @@ public class DeprecationPrinter extends Printer {
             if (!feature_info.getClassfile().isDeprecated()) {
                 append(feature_info.getFullSignature()).eol();
             }
-        } else {
-            append(owner).eol();
-            
-            if (owner instanceof Classfile classfile) {
-                classfile.getAllFields().forEach(field -> append(field.getFullSignature()).eol());
-                classfile.getAllMethods().forEach(method -> append(method.getFullSignature()).eol());
-            }
+        } else if (owner instanceof Classfile classfile) {
+            append(classfile).eol();
+            classfile.getAllFields().forEach(field -> append(field.getFullSignature()).eol());
+            classfile.getAllMethods().forEach(method -> append(method.getFullSignature()).eol());
         }
     }
 }

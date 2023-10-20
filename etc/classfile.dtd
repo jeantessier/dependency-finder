@@ -266,7 +266,7 @@
 
 <!ELEMENT bootstrap-methods-attribute (bootstrap-method*) >
 
-<!ELEMENT bootstrap-method (bootstrap-method-ref arguments) >
+<!ELEMENT bootstrap-method (bootstrap-method-ref, arguments) >
 
 <!ELEMENT bootstrap-method-ref (#PCDATA) >
 <!ATTLIST bootstrap-method-ref
