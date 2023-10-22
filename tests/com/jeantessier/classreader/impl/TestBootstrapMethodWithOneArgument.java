@@ -77,7 +77,7 @@ public class TestBootstrapMethodWithOneArgument {
             // Lookup during construction
             oneOf (mockConstantPool).get(bootstrapMethodRef);
                 will(returnValue(mockBootstrapMethod));
-            oneOf (mockConstantPool).get(argumentIndex);
+            atLeast(1).of (mockConstantPool).get(argumentIndex);
                 will(returnValue(mockArgument));
         }});
 

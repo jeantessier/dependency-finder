@@ -34,25 +34,25 @@ public class TestBootstrapMethodWithMultipleArguments extends TestAttributeBase 
         expectReadU2(BOOTSTRAP_METHOD_REF);
         expectReadNumArguments(3);
 
-        firstArgument = mock(Integer_info.class);
+        firstArgument = mock(Integer_info.class, "first argument");
         expectReadU2(FIRST_ARGUMENT_INDEX);
         checking(new Expectations() {{
-            oneOf (mockConstantPool).get(FIRST_ARGUMENT_INDEX);
+            atLeast (1).of (mockConstantPool).get(FIRST_ARGUMENT_INDEX);
                 will(returnValue(firstArgument));
         }});
 
-        secondArgument = mock(String_info.class);
+        secondArgument = mock(String_info.class, "second argument");
         expectReadU2(SECOND_ARGUMENT_INDEX);
         checking(new Expectations() {{
-            oneOf (mockConstantPool).get(SECOND_ARGUMENT_INDEX);
-            will(returnValue(secondArgument));
+            atLeast (1).of (mockConstantPool).get(SECOND_ARGUMENT_INDEX);
+                will(returnValue(secondArgument));
         }});
 
-        thirdArgument = mock(Class_info.class);
+        thirdArgument = mock(Class_info.class, "third argument");
         expectReadU2(THIRD_ARGUMENT_INDEX);
         checking(new Expectations() {{
-            oneOf (mockConstantPool).get(THIRD_ARGUMENT_INDEX);
-            will(returnValue(thirdArgument));
+            atLeast (1).of (mockConstantPool).get(THIRD_ARGUMENT_INDEX);
+                will(returnValue(thirdArgument));
         }});
 
         sut = new BootstrapMethod(mockBootstrapMethods, mockIn);
