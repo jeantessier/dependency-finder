@@ -32,6 +32,8 @@
 
 package com.jeantessier.classreader;
 
+import java.util.Arrays;
+
 public enum AttributeType {
     CONSTANT_VALUE("ConstantValue"),
     CODE("Code"),
@@ -64,14 +66,9 @@ public enum AttributeType {
     }
 
     public static AttributeType forName(String attributeName) {
-        AttributeType result = null;
-
-        for (AttributeType attributeType : values()) {
-            if (attributeType.attributeName.equals(attributeName)) {
-                result = attributeType;
-            }
-        }
-        
-        return result;
+        return Arrays.stream(values())
+                .filter(attributeType -> attributeType.getAttributeName().equals(attributeName))
+                .findFirst()
+                .orElse(null);
     }
 }

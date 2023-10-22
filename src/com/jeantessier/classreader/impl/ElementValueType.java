@@ -33,6 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 import java.io.*;
+import java.util.*;
 
 public enum ElementValueType {
     BYTE(com.jeantessier.classreader.ElementValueType.BYTE) {
@@ -126,14 +127,9 @@ public enum ElementValueType {
     public abstract ElementValue create(ConstantPool constantPool, DataInput in) throws IOException;
 
     public static ElementValueType forTag(char tag) {
-        ElementValueType result = null;
-
-        for (ElementValueType elementValueType : values()) {
-            if (elementValueType.getTag() == tag) {
-                result = elementValueType;
-            }
-        }
-
-        return result;
+        return Arrays.stream(values())
+                .filter(elementValueType -> elementValueType.getTag() == tag)
+                .findFirst()
+                .orElse(null);
     }
 }

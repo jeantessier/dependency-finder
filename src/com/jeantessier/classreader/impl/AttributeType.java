@@ -33,6 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 import java.io.*;
+import java.util.Arrays;
 
 import com.jeantessier.classreader.*;
 
@@ -164,14 +165,9 @@ public enum AttributeType {
     public abstract Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException;
 
     public static AttributeType forName(String attributeName) {
-        AttributeType result = null;
-
-        for (AttributeType attributeType : values()) {
-            if (attributeType.getAttributeName().equals(attributeName)) {
-                result = attributeType;
-            }
-        }
-        
-        return result;
+        return Arrays.stream(values())
+                .filter(attributeType -> attributeType.getAttributeName().equals(attributeName))
+                .findFirst()
+                .orElse(null);
     }
 }

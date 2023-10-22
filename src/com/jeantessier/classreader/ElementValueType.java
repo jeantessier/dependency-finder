@@ -32,6 +32,8 @@
 
 package com.jeantessier.classreader;
 
+import java.util.*;
+
 public enum ElementValueType {
     BYTE('B'),
     CHAR('C'),
@@ -58,14 +60,9 @@ public enum ElementValueType {
     }
 
     public static ElementValueType forTag(char tag) {
-        ElementValueType result = null;
-
-        for (ElementValueType elementValueType : values()) {
-            if (elementValueType.getTag() == tag) {
-                result = elementValueType;
-            }
-        }
-
-        return result;
+        return Arrays.stream(values())
+                .filter(elementValueType -> elementValueType.getTag() == tag)
+                .findFirst()
+                .orElse(null);
     }
 }
