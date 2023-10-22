@@ -52,15 +52,15 @@ public class TestVerificationTypeInfoFactory_create {
     @Parameters(name="VerificationType from tag {0}")
     public static Object[][] data() {
         return new Object[][] {
-            {"ITEM_Top", 0, TopVariableInfo.class},
-            {"ITEM_Integer", 1, IntegerVariableInfo.class},
-            {"ITEM_Float", 2, FloatVariableInfo.class},
-            {"ITEM_Null", 5, NullVariableInfo.class},
-            {"ITEM_UninitializedThis", 6, UninitializedThisVariableInfo.class},
-            {"ITEM_Object", 7, ObjectVariableInfo.class},
-            {"ITEM_Uninitialized", 8, UninitializedVariableInfo.class},
-            {"ITEM_Long", 4, LongVariableInfo.class},
-            {"ITEM_Double", 3, DoubleVariableInfo.class},
+                {"ITEM_Top", 0, null, null, TopVariableInfo.class},
+                {"ITEM_Integer", 1, null, null, IntegerVariableInfo.class},
+                {"ITEM_Float", 2, null, null, FloatVariableInfo.class},
+                {"ITEM_Null", 5, null, null, NullVariableInfo.class},
+                {"ITEM_UninitializedThis", 6, null, null, UninitializedThisVariableInfo.class},
+                {"ITEM_Object", 7, 123, Class_info.class, ObjectVariableInfo.class},
+                {"ITEM_Uninitialized", 8, 456, null, UninitializedVariableInfo.class},
+                {"ITEM_Long", 4, null, null, LongVariableInfo.class},
+                {"ITEM_Double", 3, null, null, DoubleVariableInfo.class},
         };
     }
 
@@ -71,6 +71,12 @@ public class TestVerificationTypeInfoFactory_create {
     public int tag;
 
     @Parameter(2)
+    public Integer indexOrOffset;
+
+    @Parameter(3)
+    public Class<? extends ConstantPoolEntry> constantPoolEntryClass;
+
+    @Parameter(4)
     public Class<? extends VerificationTypeInfo> expectedClass;
 
     @Rule
@@ -94,15 +100,21 @@ public class TestVerificationTypeInfoFactory_create {
         }});
 
         // for ObjectVariableInfo's cpool_index and UninitializedVariableInfo's offset
-        final int classInfoIndex = 2;
-        final Class_info mockClassInfo = context.mock(Class_info.class);
+        if (indexOrOffset != null) {
+            context.checking(new Expectations() {{
+                allowing (mockIn).readUnsignedShort();
+                    will(returnValue(indexOrOffset));
+            }});
+        }
 
-        context.checking(new Expectations() {{
-            allowing (mockIn).readUnsignedShort();
-                will(returnValue(classInfoIndex));
-            allowing (mockConstantPool).get(classInfoIndex);
-                will(returnValue(mockClassInfo));
-        }});
+        // for ObjectVariableInfo's cpool_index
+        if (constantPoolEntryClass != null) {
+            final ConstantPoolEntry mockConstantPoolEntry = context.mock(constantPoolEntryClass);
+            context.checking(new Expectations() {{
+                allowing (mockConstantPool).get(indexOrOffset);
+                    will(returnValue(mockConstantPoolEntry));
+            }});
+        }
     }
 
     @Test
