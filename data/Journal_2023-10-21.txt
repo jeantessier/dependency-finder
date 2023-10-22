@@ -1,0 +1,22 @@
+I used =ClassMetrics= to see which attributes I'm currently skipping in a given
+codebase.  I looked at Dependency Finder itself, and a JAR file in my JDK
+installation and the JAR files for Groovy.  =StackMap= is by far the most
+common attribute.
+
+I took another look at what I would need to support it.  There are many
+ancillary classes that will require interfaces in =com.jeantessier.classreader=
+and implementations in =com.jeantessier.classreader.impl=.  I looked at how I
+had done it for =ElementValue= and I could see a way through if I skimped on
+the testing for the more obvious wiring bits.
+
+I implemented the =VerificationTypeInfo= parts.  In doing this, I came upon a
+way to test even the wiring with some judicious data-driven tests.  I haven't
+made them =Visitable=, yet.  The total support for =StackMap= will add many,
+many methods to =Visitor= and I will do them all at once.
+
+Working on =VerificationTypeInfo= gave me a path through implementing
+=StackMapFrame= next.  The tagging for frames is different from what I've
+encountered before.  Previous tags were each discreet values.  Specific
+characters for =ElementValue= and specific integers for
+=VerificationTypeInfo=.  But =StackMapFrame= uses ranges.  This is going to be
+fun!
