@@ -98,5 +98,7 @@ import static org.junit.runners.Suite.SuiteClasses;
         TestVerificationType_Invalid.class,
         TestVerificationType_create.class,
         TestVerificationType_forTag.class,
+        TestVerificationTypeInfoFactory_Invalid.class,
+        TestVerificationTypeInfoFactory_create.class,
 })
 public class TestAll {}

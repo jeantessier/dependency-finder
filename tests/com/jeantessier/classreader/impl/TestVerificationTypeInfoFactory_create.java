@@ -48,7 +48,7 @@ import static org.junit.runners.Parameterized.Parameters;
 import static org.junit.runners.Parameterized.Parameter;
 
 @RunWith(Parameterized.class)
-public class TestVerificationType_create {
+public class TestVerificationTypeInfoFactory_create {
     @Parameters(name="VerificationType from tag {0}")
     public static Object[][] data() {
         return new Object[][] {
@@ -79,7 +79,7 @@ public class TestVerificationType_create {
     private ConstantPool mockConstantPool;
     private DataInput mockIn;
 
-    private VerificationType sut;
+    private final VerificationTypeInfoFactory sut = new VerificationTypeInfoFactory();
 
     @Before
     public void setUp() throws IOException {
@@ -87,6 +87,11 @@ public class TestVerificationType_create {
 
         mockConstantPool = context.mock(ConstantPool.class);
         mockIn = context.mock(DataInput.class);
+
+        context.checking(new Expectations() {{
+            oneOf (mockIn).readUnsignedByte();
+                will(returnValue(tag));
+        }});
 
         // for ObjectVariableInfo's cpool_index and UninitializedVariableInfo's offset
         final int classInfoIndex = 2;
@@ -98,9 +103,6 @@ public class TestVerificationType_create {
             allowing (mockConstantPool).get(classInfoIndex);
                 will(returnValue(mockClassInfo));
         }});
-
-        // And
-        sut = VerificationType.forTag(tag);
     }
 
     @Test
