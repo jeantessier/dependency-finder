@@ -41,6 +41,8 @@ import org.apache.tools.ant.types.*;
 
 import com.jeantessier.classreader.*;
 
+import static java.util.stream.Collectors.*;
+
 public class ClassMetrics extends Task {
     private boolean list = false;
     private boolean instructionCounts = false;
@@ -174,9 +176,19 @@ public class ClassMetrics extends Task {
 
             out.println(metrics.getCustomAttributes().size() + " custom attribute(s)");
             if (getList()) {
-                for (Custom_attribute attribute : metrics.getCustomAttributes()) {
-                    out.println("        " + attribute);
-                }
+                out.println(
+                        metrics.getCustomAttributes().stream()
+                                .collect(groupingBy(Custom_attribute::getName))
+                                .entrySet().stream()
+                                .flatMap(entry -> Stream.concat(
+                                        Stream.of("        " + entry.getValue().size() + " " + entry.getKey()),
+                                        entry.getValue().stream()
+                                                .collect(groupingBy(attribute -> attribute.getInfo().length))
+                                                .entrySet().stream()
+                                                .sorted(Map.Entry.comparingByKey())
+                                                .map(histoEntry -> "                " + histoEntry.getValue().size() + "x " + histoEntry.getKey() + " bytes")))
+                                .collect(joining(System.getProperty("line.separator")))
+                );
             }
 
             if (getInstructioncounts()) {

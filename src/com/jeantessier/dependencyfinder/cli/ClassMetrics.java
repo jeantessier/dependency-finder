@@ -38,6 +38,8 @@ import java.util.stream.*;
 
 import com.jeantessier.classreader.*;
 
+import static java.util.stream.Collectors.*;
+
 public class ClassMetrics extends DirectoryExplorerCommand {
     private boolean list;
 
@@ -124,9 +126,19 @@ public class ClassMetrics extends DirectoryExplorerCommand {
 
         getOut().println(metrics.getCustomAttributes().size() + " custom attribute(s)");
         if (list) {
-            for (Custom_attribute attribute : metrics.getCustomAttributes()) {
-                getOut().println("        " + attribute);
-            }
+            getOut().println(
+                    metrics.getCustomAttributes().stream()
+                            .collect(groupingBy(Custom_attribute::getName))
+                            .entrySet().stream()
+                            .flatMap(entry -> Stream.concat(
+                                    Stream.of("        " + entry.getValue().size() + " " + entry.getKey()),
+                                    entry.getValue().stream()
+                                            .collect(groupingBy(attribute -> attribute.getInfo().length))
+                                            .entrySet().stream()
+                                            .sorted(Map.Entry.comparingByKey())
+                                            .map(histoEntry -> "                " + histoEntry.getValue().size() + "x " + histoEntry.getKey() + " bytes")))
+                            .collect(joining(System.getProperty("line.separator")))
+            );
         }
 
         if (getCommandLine().getToggleSwitch("instruction-counts")) {
