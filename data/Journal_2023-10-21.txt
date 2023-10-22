@@ -1,7 +1,7 @@
 I used =ClassMetrics= to see which attributes I'm currently skipping in a given
-codebase.  I looked at Dependency Finder itself, and a JAR file in my JDK
-installation and the JAR files for Groovy.  =StackMap= is by far the most
-common attribute.
+codebase.  I looked at Dependency Finder itself, a JAR file that was in my JDK
+installation, and the JAR files for Groovy.  =StackMap= is by far the most
+common attribute being skipped at the moment.
 
 I took another look at what I would need to support it.  There are many
 ancillary classes that will require interfaces in =com.jeantessier.classreader=
