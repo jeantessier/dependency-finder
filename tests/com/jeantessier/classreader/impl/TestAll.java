@@ -77,6 +77,7 @@ import static org.junit.runners.Suite.SuiteClasses;
         TestLocalVariableTypeTable_attribute.class,
         TestLongConstantElementValue.class,
         TestMethod_info.class,
+        TestObjectVariableInfo.class,
         TestParameter.class,
         TestParameterWithAnnotations.class,
         TestRuntimeInvisibleAnnotations_attribute.class,
@@ -93,5 +94,9 @@ import static org.junit.runners.Suite.SuiteClasses;
         TestSourceFile_attribute.class,
         TestStringConstantElementValue.class,
         TestSynthetic_attribute.class,
+        TestUninitializedVariableInfo.class,
+        TestVerificationType_Invalid.class,
+        TestVerificationType_create.class,
+        TestVerificationType_forTag.class,
 })
 public class TestAll {}

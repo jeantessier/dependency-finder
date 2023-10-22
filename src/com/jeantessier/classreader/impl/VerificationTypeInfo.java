@@ -30,14 +30,16 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
-import java.util.*;
+public abstract class VerificationTypeInfo implements com.jeantessier.classreader.VerificationTypeInfo {
+    private final ConstantPool constantPool;
 
-public interface BootstrapMethod extends Visitable {
-    public int getBootstrapMethodRef();
-    public MethodHandle_info getBootstrapMethod();
-    public Collection<Integer> getArgumentIndices();
-    public ConstantPoolEntry getArgument(int index);
-    public Collection<ConstantPoolEntry> getArguments();
+    public VerificationTypeInfo(ConstantPool constantPool) {
+        this.constantPool = constantPool;
+    }
+
+    public ConstantPool getConstantPool() {
+        return constantPool;
+    }
 }

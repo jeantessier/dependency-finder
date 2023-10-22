@@ -30,14 +30,27 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
-import java.util.*;
+import org.apache.log4j.Logger;
 
-public interface BootstrapMethod extends Visitable {
-    public int getBootstrapMethodRef();
-    public MethodHandle_info getBootstrapMethod();
-    public Collection<Integer> getArgumentIndices();
-    public ConstantPoolEntry getArgument(int index);
-    public Collection<ConstantPoolEntry> getArguments();
+import java.io.*;
+
+public class UninitializedVariableInfo extends VerificationTypeInfo implements com.jeantessier.classreader.UninitializedVariableInfo {
+    private final int offset;
+
+    public UninitializedVariableInfo(ConstantPool constantPool, DataInput in) throws IOException {
+        super(constantPool);
+
+        offset = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Offset: " + offset);
+    }
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public int getTag() {
+        return VerificationType.UNINITIALIZED.getTag();
+    }
 }

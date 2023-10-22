@@ -32,12 +32,33 @@
 
 package com.jeantessier.classreader;
 
-import java.util.*;
+import java.util.Arrays;
 
-public interface BootstrapMethod extends Visitable {
-    public int getBootstrapMethodRef();
-    public MethodHandle_info getBootstrapMethod();
-    public Collection<Integer> getArgumentIndices();
-    public ConstantPoolEntry getArgument(int index);
-    public Collection<ConstantPoolEntry> getArguments();
+public enum VerificationType {
+    TOP(0),
+    INTEGER(1),
+    FLOAT(2),
+    LONG(4),
+    DOUBLE(3),
+    NULL(5),
+    UNINITIALIZED_THIS(6),
+    OBJECT(7),
+    UNINITIALIZED(8);
+
+    private final int tag;
+
+    VerificationType(int tag) {
+        this.tag = tag;
+    }
+
+    public int getTag() {
+        return tag;
+    }
+
+    public static VerificationType forTag(int tag) {
+        return Arrays.stream(values())
+                .filter(verificationType -> verificationType.getTag() == tag)
+                .findFirst()
+                .orElse(null);
+    }
 }

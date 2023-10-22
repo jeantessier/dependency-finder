@@ -30,14 +30,31 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
-import java.util.*;
+import org.apache.log4j.Logger;
 
-public interface BootstrapMethod extends Visitable {
-    public int getBootstrapMethodRef();
-    public MethodHandle_info getBootstrapMethod();
-    public Collection<Integer> getArgumentIndices();
-    public ConstantPoolEntry getArgument(int index);
-    public Collection<ConstantPoolEntry> getArguments();
+import java.io.*;
+
+public class ObjectVariableInfo extends VerificationTypeInfo implements com.jeantessier.classreader.ObjectVariableInfo {
+    private final int classInfoIndex;
+
+    public ObjectVariableInfo(ConstantPool constantPool, DataInput in) throws IOException {
+        super(constantPool);
+
+        classInfoIndex = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Class info index: " + classInfoIndex + " (" + getClassInfo() + ")");
+    }
+
+    public int getClassInfoIndex() {
+        return classInfoIndex;
+    }
+
+    public Class_info getClassInfo() {
+        return (Class_info) getConstantPool().get(getClassInfoIndex());
+    }
+
+    public int getTag() {
+        return VerificationType.OBJECT.getTag();
+    }
 }

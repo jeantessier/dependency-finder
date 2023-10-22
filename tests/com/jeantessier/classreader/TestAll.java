@@ -82,6 +82,8 @@ import static org.junit.runners.Suite.SuiteClasses;
         TestTextPrinter.class,
         TestTransientClassfileLoader.class,
         TestVarargs.class,
+        TestVerificationType.class,
+        TestVerificationType_Invalid.class,
         TestVisitorBase.class,
         TestXMLPrinter.class,
         TestXMLPrinterEscaping.class,

@@ -30,14 +30,16 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
-import java.util.*;
+import java.io.*;
 
-public interface BootstrapMethod extends Visitable {
-    public int getBootstrapMethodRef();
-    public MethodHandle_info getBootstrapMethod();
-    public Collection<Integer> getArgumentIndices();
-    public ConstantPoolEntry getArgument(int index);
-    public Collection<ConstantPoolEntry> getArguments();
+public class UninitializedThisVariableInfo extends VerificationTypeInfo implements com.jeantessier.classreader.UninitializedThisVariableInfo {
+    public UninitializedThisVariableInfo(ConstantPool constantPool, DataInput in) throws IOException {
+        super(constantPool);
+    }
+
+    public int getTag() {
+        return VerificationType.UNINITIALIZED_THIS.getTag();
+    }
 }

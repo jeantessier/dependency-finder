@@ -30,14 +30,16 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
-import java.util.*;
+import java.io.*;
 
-public interface BootstrapMethod extends Visitable {
-    public int getBootstrapMethodRef();
-    public MethodHandle_info getBootstrapMethod();
-    public Collection<Integer> getArgumentIndices();
-    public ConstantPoolEntry getArgument(int index);
-    public Collection<ConstantPoolEntry> getArguments();
+public class DoubleVariableInfo extends VerificationTypeInfo implements com.jeantessier.classreader.DoubleVariableInfo {
+    public DoubleVariableInfo(ConstantPool constantPool, DataInput in) throws IOException {
+        super(constantPool);
+    }
+
+    public int getTag() {
+        return VerificationType.DOUBLE.getTag();
+    }
 }

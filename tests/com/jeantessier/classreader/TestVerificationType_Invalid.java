@@ -32,12 +32,10 @@
 
 package com.jeantessier.classreader;
 
-import java.util.*;
+import junit.framework.*;
 
-public interface BootstrapMethod extends Visitable {
-    public int getBootstrapMethodRef();
-    public MethodHandle_info getBootstrapMethod();
-    public Collection<Integer> getArgumentIndices();
-    public ConstantPoolEntry getArgument(int index);
-    public Collection<ConstantPoolEntry> getArguments();
+public class TestVerificationType_Invalid extends TestCase {
+    public void testNullToString() {
+        assertNull("Tag value of 9", VerificationType.forTag(9));
+    }
 }

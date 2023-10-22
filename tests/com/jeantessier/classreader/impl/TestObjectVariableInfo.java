@@ -30,14 +30,39 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
-import java.util.*;
+import com.jeantessier.classreader.VerificationType;
+import org.jmock.*;
 
-public interface BootstrapMethod extends Visitable {
-    public int getBootstrapMethodRef();
-    public MethodHandle_info getBootstrapMethod();
-    public Collection<Integer> getArgumentIndices();
-    public ConstantPoolEntry getArgument(int index);
-    public Collection<ConstantPoolEntry> getArguments();
+public class TestObjectVariableInfo extends TestAnnotationsBase {
+    private static final int CLASS_INFO_INDEX = 2;
+
+    private ObjectVariableInfo sut;
+
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        expectReadU2(CLASS_INFO_INDEX);
+
+        final Class_info mockClassInfo = mock(Class_info.class, "lookup during construction");
+
+        checking(new Expectations() {{
+            oneOf (mockConstantPool).get(CLASS_INFO_INDEX);
+                will(returnValue(mockClassInfo));
+        }});
+
+        sut = new ObjectVariableInfo(mockConstantPool, mockIn);
+    }
+
+    public void testGetClassInfo() {
+        final Class_info mockClassInfo = mock(Class_info.class);
+
+        checking(new Expectations() {{
+            oneOf (mockConstantPool).get(CLASS_INFO_INDEX);
+                will(returnValue(mockClassInfo));
+        }});
+
+        assertSame(mockClassInfo, sut.getClassInfo());
+    }
 }

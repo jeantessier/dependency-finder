@@ -2,6 +2,7 @@ package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
 import org.jmock.imposters.ByteBuddyClassImposteriser;
+import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.*;
 import org.junit.runner.*;
 import org.junit.runners.Parameterized;
@@ -41,7 +42,8 @@ public class TestBootstrapMethodWithOneArgument {
     @Parameterized.Parameter(3)
     public Class<? extends ConstantPoolEntry> argumentClass;
 
-    private Mockery context;
+    @Rule
+    public JUnitRuleMockery context = new JUnitRuleMockery();
 
     private ConstantPool mockConstantPool;
     private DataInput mockIn;
@@ -53,7 +55,6 @@ public class TestBootstrapMethodWithOneArgument {
 
     @Before
     public void setUp() throws IOException {
-        context = new Mockery();
         context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
 
         mockConstantPool = context.mock(ConstantPool.class);
@@ -85,13 +86,8 @@ public class TestBootstrapMethodWithOneArgument {
     }
 
     @Test
-    public void testArgument() {
-        context.checking(new Expectations() {{
-            oneOf (mockConstantPool).get(argumentIndex);
-                will(returnValue(mockArgument));
-        }});
-
+    public void testGetArguments() {
         assertEquals("num arguments", 1, sut.getArguments().size());
-        assertSame("argument", mockArgument, sut.getArguments().stream().findFirst().get());
+        assertSame("argument", mockArgument, sut.getArguments().stream().findFirst().orElseThrow());
     }
 }

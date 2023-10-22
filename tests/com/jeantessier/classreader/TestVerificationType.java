@@ -32,12 +32,43 @@
 
 package com.jeantessier.classreader;
 
-import java.util.*;
+import org.junit.*;
+import org.junit.runner.*;
+import org.junit.runners.Parameterized;
 
-public interface BootstrapMethod extends Visitable {
-    public int getBootstrapMethodRef();
-    public MethodHandle_info getBootstrapMethod();
-    public Collection<Integer> getArgumentIndices();
-    public ConstantPoolEntry getArgument(int index);
-    public Collection<ConstantPoolEntry> getArguments();
+import static org.junit.Assert.*;
+import static org.junit.runners.Parameterized.*;
+import static org.junit.runners.Parameterized.Parameter;
+
+@RunWith(Parameterized.class)
+public class TestVerificationType {
+    @Parameters(name="VerificationType from tag {0}")
+    public static Object[][] data() {
+        return new Object[][] {
+            {"ITEM_Top", 0, VerificationType.TOP},
+            {"ITEM_Integer", 1, VerificationType.INTEGER},
+            {"ITEM_Float", 2, VerificationType.FLOAT},
+            {"ITEM_Null", 5, VerificationType.NULL},
+            {"ITEM_UninitializedThis", 6, VerificationType.UNINITIALIZED_THIS},
+            {"ITEM_Object", 7, VerificationType.OBJECT},
+            {"ITEM_Uninitialized", 8, VerificationType.UNINITIALIZED},
+            {"ITEM_Long", 4, VerificationType.LONG},
+            {"ITEM_Double", 3, VerificationType.DOUBLE},
+        };
+    }
+
+    @Parameter(0)
+    public String label;
+
+    @Parameter(1)
+    public int tag;
+
+    @Parameter(2)
+    public VerificationType expectedResult;
+
+    @Test
+    public void test() {
+        assertEquals(label, expectedResult, VerificationType.forTag(tag));
+        assertEquals(label, tag, VerificationType.forTag(tag).getTag());
+    }
 }
