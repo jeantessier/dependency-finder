@@ -39,10 +39,10 @@ import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
 
-public class Parameter implements com.jeantessier.classreader.Parameter {
+public class ParameterAnnotation implements com.jeantessier.classreader.ParameterAnnotation {
     private final Collection<Annotation> annotations = new LinkedList<>();
 
-    public Parameter(ConstantPool constantPool, DataInput in) throws IOException {
+    public ParameterAnnotation(ConstantPool constantPool, DataInput in) throws IOException {
         int numAnnotations = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Reading " + numAnnotations + " annotation(s) ...");
         for (int i=0; i<numAnnotations; i++) {
@@ -56,6 +56,6 @@ public class Parameter implements com.jeantessier.classreader.Parameter {
     }
 
     public void accept(Visitor visitor) {
-        visitor.visitParameter(this);
+        visitor.visitParameterAnnotation(this);
     }
 }

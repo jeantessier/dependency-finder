@@ -397,12 +397,12 @@ public class TestVisitorBase extends MockObjectTestCase {
 
     public void testVisitRuntimeVisibleParameterAnnotations_attribute() {
         final RuntimeVisibleParameterAnnotations_attribute mockRuntimeVisibleParameterAnnotations = mock(RuntimeVisibleParameterAnnotations_attribute.class);
-        final Parameter mockParameter = mock(Parameter.class);
+        final ParameterAnnotation mockParameterAnnotation = mock(ParameterAnnotation.class);
 
         checking(new Expectations() {{
             atLeast(1).of (mockRuntimeVisibleParameterAnnotations).getParameterAnnotations();
-                will(returnValue(Collections.singletonList(mockParameter)));
-            oneOf (mockParameter).accept(sut);
+                will(returnValue(Collections.singletonList(mockParameterAnnotation)));
+            oneOf (mockParameterAnnotation).accept(sut);
         }});
 
         sut.visitRuntimeVisibleParameterAnnotations_attribute(mockRuntimeVisibleParameterAnnotations);
@@ -410,12 +410,12 @@ public class TestVisitorBase extends MockObjectTestCase {
 
     public void testVisitRuntimeInvisibleParameterAnnotations_attribute() {
         final RuntimeInvisibleParameterAnnotations_attribute mockRuntimeInvisibleParameterAnnotations = mock(RuntimeInvisibleParameterAnnotations_attribute.class);
-        final Parameter mockParameter = mock(Parameter.class);
+        final ParameterAnnotation mockParameterAnnotation = mock(ParameterAnnotation.class);
 
         checking(new Expectations() {{
             atLeast(1).of (mockRuntimeInvisibleParameterAnnotations).getParameterAnnotations();
-                will(returnValue(Collections.singletonList(mockParameter)));
-            oneOf (mockParameter).accept(sut);
+                will(returnValue(Collections.singletonList(mockParameterAnnotation)));
+            oneOf (mockParameterAnnotation).accept(sut);
         }});
 
         sut.visitRuntimeInvisibleParameterAnnotations_attribute(mockRuntimeInvisibleParameterAnnotations);
@@ -495,17 +495,17 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitLocalVariableType(mockLocalVariableType);
     }
 
-    public void testVisitParameter() {
-        final Parameter mockParameter = mock(Parameter.class);
+    public void testVisitParameterAnnotation() {
+        final ParameterAnnotation mockParameterAnnotation = mock(ParameterAnnotation.class);
         final Annotation mockAnnotation = mock(Annotation.class);
 
         checking(new Expectations() {{
-            atLeast(1).of (mockParameter).getAnnotations();
+            atLeast(1).of (mockParameterAnnotation).getAnnotations();
                 will(returnValue(Collections.singleton(mockAnnotation)));
             oneOf (mockAnnotation).accept(sut);
         }});
 
-        sut.visitParameter(mockParameter);
+        sut.visitParameterAnnotation(mockParameterAnnotation);
     }
 
     public void testVisitAnnotation() {

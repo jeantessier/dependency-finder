@@ -1016,20 +1016,20 @@ public class XMLPrinter extends Printer {
         append("</local-variable-type>").eol();
     }
 
-    public void visitParameter(Parameter helper) {
-        indent().append("<parameter>").eol();
+    public void visitParameterAnnotation(ParameterAnnotation helper) {
+        indent().append("<parameter-annotation>").eol();
         raiseIndent();
 
         indent().append("<annotations>").eol();
         raiseIndent();
 
-        super.visitParameter(helper);
+        super.visitParameterAnnotation(helper);
 
         lowerIndent();
         indent().append("</annotations>").eol();
 
         lowerIndent();
-        indent().append("</parameter>").eol();
+        indent().append("</parameter-annotation>").eol();
     }
 
     public void visitAnnotation(Annotation helper) {

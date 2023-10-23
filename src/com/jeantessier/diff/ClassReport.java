@@ -362,7 +362,7 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
         // Do nothing
     }
 
-    public void visitParameter(Parameter helper) {
+    public void visitParameterAnnotation(ParameterAnnotation helper) {
         // Do nothing
     }
 

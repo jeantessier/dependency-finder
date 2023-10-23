@@ -41,7 +41,7 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 public abstract class RuntimeParameterAnnotations_attribute extends Annotations_attribute implements com.jeantessier.classreader.RuntimeParameterAnnotations_attribute {
-    private final List<Parameter> parameterAnnotations = new ArrayList<>();
+    private final List<ParameterAnnotation> parameterAnnotations = new ArrayList<>();
 
     public RuntimeParameterAnnotations_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
         super(constantPool, owner);
@@ -54,14 +54,14 @@ public abstract class RuntimeParameterAnnotations_attribute extends Annotations_
         IntStream.range(0, numParameters).forEach(i -> {
             try {
                 Logger.getLogger(getClass()).debug("parameter " + i + ":");
-                parameterAnnotations.add(new Parameter(constantPool, in));
+                parameterAnnotations.add(new ParameterAnnotation(constantPool, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
     }
 
-    public List<? extends Parameter> getParameterAnnotations() {
+    public List<? extends ParameterAnnotation> getParameterAnnotations() {
         return parameterAnnotations;
     }
 }

@@ -95,7 +95,7 @@ public interface Visitor {
     public void visitLocalVariableType(LocalVariableType helper);
 
     // Annotations
-    public void visitParameter(Parameter helper);
+    public void visitParameterAnnotation(ParameterAnnotation helper);
     public void visitAnnotation(Annotation helper);
     public void visitElementValuePair(ElementValuePair helper);
     public void visitByteConstantElementValue(ByteConstantElementValue helper);

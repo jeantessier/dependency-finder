@@ -30,38 +30,10 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader.impl;
+package com.jeantessier.classreader;
 
-import java.io.*;
+import java.util.*;
 
-public class TestParameterWithAnnotations extends TestAttributeBase {
-    private static final int TYPE_INDEX = 2;
-    private static final String TYPE = "Labc;";
-
-    public void testConstructorWithNoAnnotations() throws Exception {
-        doTestConstructorWithAnnotations(0);
-    }
-
-    public void testConstructorWithASingleAnnotation() throws Exception {
-        doTestConstructorWithAnnotations(1);
-    }
-
-    public void testConstructorWithMultipleAnnotations() throws Exception {
-        doTestConstructorWithAnnotations(2);
-    }
-
-    private void doTestConstructorWithAnnotations(int numAnnotations) throws IOException {
-        expectReadNumAnnotations(numAnnotations);
-        for (int i = 0; i < numAnnotations; i++) {
-            expectReadTypeIndex(TYPE_INDEX);
-            expectLookupUtf8(TYPE_INDEX, TYPE, "type for annotation " + i);
-            expectReadNumElementValuePairs(0);
-        }
-
-        Parameter sut = new Parameter(mockConstantPool, mockIn);
-        assertEquals("Num annotations", numAnnotations, sut.getAnnotations().size());
-        for (Annotation annotation : sut.getAnnotations()) {
-            assertEquals("Num element value pairs", 0, annotation.getElementValuePairs().size());
-        }
-    }
+public interface ParameterAnnotation extends Visitable {
+    public Collection<? extends Annotation> getAnnotations();
 }

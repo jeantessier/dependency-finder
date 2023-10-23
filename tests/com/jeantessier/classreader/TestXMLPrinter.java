@@ -1508,12 +1508,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
 
     public void testVisitRuntimeVisibleParameterAnnotations_attribute_WithAParameterAnnotation() throws Exception {
         final RuntimeVisibleParameterAnnotations_attribute runtimeVisibleParameterAnnotations = mock(RuntimeVisibleParameterAnnotations_attribute.class);
-        final Parameter parameter = mock(Parameter.class);
+        final ParameterAnnotation parameterAnnotation = mock(ParameterAnnotation.class);
 
         checking(new Expectations() {{
             atLeast(1).of (runtimeVisibleParameterAnnotations).getParameterAnnotations();
-                will(returnValue(Collections.singletonList(parameter)));
-            oneOf (parameter).accept(printer);
+                will(returnValue(Collections.singletonList(parameterAnnotation)));
+            oneOf (parameterAnnotation).accept(printer);
         }});
 
         printer.visitRuntimeVisibleParameterAnnotations_attribute(runtimeVisibleParameterAnnotations);
@@ -1537,12 +1537,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
 
     public void testVisitRuntimeInvisibleParameterAnnotations_attribute_WithAParameterAnnotation() throws Exception {
         final RuntimeInvisibleParameterAnnotations_attribute runtimeInvisibleParameterAnnotations = mock(RuntimeInvisibleParameterAnnotations_attribute.class);
-        final Parameter parameter = mock(Parameter.class);
+        final ParameterAnnotation parameterAnnotation = mock(ParameterAnnotation.class);
 
         checking(new Expectations() {{
             atLeast(1).of (runtimeInvisibleParameterAnnotations).getParameterAnnotations();
-                will(returnValue(Collections.singletonList(parameter)));
-            oneOf (parameter).accept(printer);
+                will(returnValue(Collections.singletonList(parameterAnnotation)));
+            oneOf (parameterAnnotation).accept(printer);
         }});
 
         printer.visitRuntimeInvisibleParameterAnnotations_attribute(runtimeInvisibleParameterAnnotations);
@@ -1627,35 +1627,35 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "bootstrap-methods-attribute", 1);
     }
 
-    public void testVisitParameter_WithoutAnnotations() throws Exception {
-        final Parameter parameter = mock(Parameter.class);
+    public void testVisitParameterAnnotation_WithoutAnnotations() throws Exception {
+        final ParameterAnnotation parameterAnnotation = mock(ParameterAnnotation.class);
 
         checking(new Expectations() {{
-            atLeast(1).of (parameter).getAnnotations();
+            atLeast(1).of (parameterAnnotation).getAnnotations();
         }});
 
-        printer.visitParameter(parameter);
+        printer.visitParameterAnnotation(parameterAnnotation);
 
         String xmlDocument = buffer.toString();
-        assertXPathCount(xmlDocument, "parameter", 1);
-        assertXPathCount(xmlDocument, "parameter/annotations", 1);
+        assertXPathCount(xmlDocument, "parameter-annotation", 1);
+        assertXPathCount(xmlDocument, "parameter-annotation/annotations", 1);
     }
 
-    public void testVisitParameter_WithAnAnnotation() throws Exception {
-        final Parameter parameter = mock(Parameter.class);
+    public void testVisitParameterAnnotation_WithAnAnnotation() throws Exception {
+        final ParameterAnnotation parameterAnnotation = mock(ParameterAnnotation.class);
         final Annotation annotation = mock(Annotation.class);
 
         checking(new Expectations() {{
-            atLeast(1).of (parameter).getAnnotations();
+            atLeast(1).of (parameterAnnotation).getAnnotations();
                 will(returnValue(Collections.singleton(annotation)));
             oneOf (annotation).accept(printer);
         }});
 
-        printer.visitParameter(parameter);
+        printer.visitParameterAnnotation(parameterAnnotation);
 
         String xmlDocument = buffer.toString();
-        assertXPathCount(xmlDocument, "parameter", 1);
-        assertXPathCount(xmlDocument, "parameter/annotations", 1);
+        assertXPathCount(xmlDocument, "parameter-annotation", 1);
+        assertXPathCount(xmlDocument, "parameter-annotation/annotations", 1);
     }
 
     public void testVisitAnnotation_WithoutElementValuePairs() throws Exception {
