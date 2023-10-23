@@ -49,6 +49,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.runners.Parameterized.Parameters;
+import static org.junit.runners.Parameterized.Parameter;
 
 @RunWith(Parameterized.class)
 public class TestStackMapFrameFactory_create {
@@ -114,6 +115,11 @@ public class TestStackMapFrameFactory_create {
         mockConstantPool = context.mock(ConstantPool.class);
         mockIn = context.mock(DataInput.class);
 
+        context.checking(new Expectations() {{
+            oneOf (mockIn).readUnsignedByte();
+                will(returnValue(frameType));
+        }});
+
         if (offsetDelta != null) {
             context.checking(new Expectations() {{
                 oneOf (mockIn).readUnsignedShort();
@@ -152,7 +158,7 @@ public class TestStackMapFrameFactory_create {
         }
 
         // And
-        sut = new StackMapFrame(mockVerificationTypeInfoFactory);
+        sut = new StackMapFrameFactory(mockVerificationTypeInfoFactory);
     }
 
     @Test
