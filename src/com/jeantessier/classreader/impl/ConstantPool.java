@@ -64,7 +64,7 @@ public class ConstantPool extends ArrayList<com.jeantessier.classreader.Constant
         for (int i=1; i<count; i++) {
             byte tag = in.readByte();
 
-            Logger.getLogger(getClass()).info("Entry " + i + " has tag " + tag);
+            Logger.getLogger(getClass()).info("Entry " + i + " has tag " + tag + " (" + ConstantPoolEntry.stringValueOf(tag) + ")");
 
             switch(tag) {
                 case ConstantPoolEntry.CONSTANT_Class:
@@ -91,12 +91,14 @@ public class ConstantPool extends ArrayList<com.jeantessier.classreader.Constant
                 case ConstantPoolEntry.CONSTANT_Long:
                     add(new Long_info(this, in));
                     i++;
-                    add(null);
+                    Logger.getLogger(getClass()).info("Entry " + i + " will be unusable.");
+                    add(new UnusableEntry(this, in));
                     break;
                 case ConstantPoolEntry.CONSTANT_Double:
                     add(new Double_info(this, in));
                     i++;
-                    add(null);
+                    Logger.getLogger(getClass()).info("Entry " + i + " will be unusable.");
+                    add(new UnusableEntry(this, in));
                     break;
                 case ConstantPoolEntry.CONSTANT_NameAndType:
                     add(new NameAndType_info(this, in));

@@ -33,6 +33,7 @@
 package com.jeantessier.classreader;
 
 import com.jeantessier.text.Hex;
+import org.apache.log4j.Logger;
 
 import java.io.PrintWriter;
 import java.util.Collection;
@@ -73,6 +74,7 @@ public class XMLPrinter extends Printer {
     }
     
     public void visitClassfile(Classfile classfile) {
+        indent().append("<!-- ").append(classfile.getClassName()).append(" -->").eol();
         indent().append("<classfile magic-number=\"0x").append(Integer.toHexString(classfile.getMagicNumber()).toUpperCase()).append("\" minor-version=\"").append(classfile.getMinorVersion()).append("\" major-version=\"").append(classfile.getMajorVersion()).append("\" access-flag=\"").append(format.format(classfile.getAccessFlag())).append("\">").eol();
         raiseIndent();
 
@@ -150,17 +152,10 @@ public class XMLPrinter extends Printer {
     }
 
     public void visitConstantPool(ConstantPool constantPool) {
-        resetIndex();
-
         indent().append("<constant-pool>").eol();
         raiseIndent();
 
-        constantPool.stream()
-                .skip(1) // Constant pool indices start at 1
-                .forEach(entry -> {
-                    entry.accept(this);
-                    incrementIndex();
-                });
+        super.visitConstantPool(constantPool);
 
         lowerIndent();
         indent().append("</constant-pool>").eol();
@@ -467,6 +462,16 @@ public class XMLPrinter extends Printer {
         } else {
             // entry.getRawName().accept(this);
             append(entry.getName());
+        }
+    }
+
+    public void visitUnusableEntry(UnusableEntry entry) {
+        if (top) {
+            top = false;
+            indent().append("<unusable index=\"").append(currentIndex()).append("\"/>").eol();
+            top = true;
+        } else {
+            append(entry);
         }
     }
 

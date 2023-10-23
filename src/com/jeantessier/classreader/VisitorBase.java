@@ -60,6 +60,7 @@ public abstract class VisitorBase implements Visitor {
         constantPool.stream()
                 .skip(1) // Constant pool indices start at 1
                 .forEach(entry -> {
+                    Logger.getLogger(getClass()).debug("Visiting constant pool entry " + currentIndex() + ": " + entry);
                     entry.accept(this);
                     incrementIndex();
                 });
@@ -155,6 +156,10 @@ public abstract class VisitorBase implements Visitor {
     }
 
     public void visitPackage_info(Package_info entry) {
+        // Do nothing
+    }
+
+    public void visitUnusableEntry(UnusableEntry entry) {
         // Do nothing
     }
 

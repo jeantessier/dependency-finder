@@ -42,7 +42,7 @@
           access-flag CDATA #REQUIRED
 >
 
-<!ELEMENT constant-pool (class | field-ref-info | method-ref-info | interface-method-ref-info | string-info | integer-info | float-info | long-info | double-info | name-and-type-info | utf8-info | module-info | package-info)* >
+<!ELEMENT constant-pool (class | field-ref-info | method-ref-info | interface-method-ref-info | string-info | integer-info | float-info | long-info | double-info | name-and-type-info | utf8-info | module-info | package-info | unusable)* >
 
 <!ELEMENT class (#PCDATA) >
 <!ATTLIST class
@@ -107,6 +107,11 @@
 <!ELEMENT package-info (#PCDATA) >
 <!ATTLIST package-info
           index CDATA #IMPLIED
+>
+
+<!ELEMENT unusable EMPTY >
+<!ATTLIST unusable
+        index CDATA #IMPLIED
 >
 
 <!ELEMENT type (#PCDATA) >

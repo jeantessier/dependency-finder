@@ -60,4 +60,27 @@ public abstract class ConstantPoolEntry implements com.jeantessier.classreader.C
     public ConstantPool getConstantPool() {
         return constantPool;
     }
+
+    public static String stringValueOf(byte tag) {
+        return switch (tag) {
+            case CONSTANT_Class -> "CONSTANT_Class";
+            case CONSTANT_Fieldref -> "CONSTANT_Fieldref";
+            case CONSTANT_Methodref -> "CONSTANT_Methodref";
+            case CONSTANT_InterfaceMethodref -> "CONSTANT_InterfaceMethodref";
+            case CONSTANT_String -> "CONSTANT_String";
+            case CONSTANT_Integer -> "CONSTANT_Integer";
+            case CONSTANT_Float -> "CONSTANT_Float";
+            case CONSTANT_Long -> "CONSTANT_Long";
+            case CONSTANT_Double -> "CONSTANT_Double";
+            case CONSTANT_NameAndType -> "CONSTANT_NameAndType";
+            case CONSTANT_Utf8 -> "CONSTANT_Utf8";
+            case CONSTANT_MethodHandle -> "CONSTANT_MethodHandle";
+            case CONSTANT_MethodType -> "CONSTANT_MethodType";
+            case CONSTANT_Dynamic -> "CONSTANT_Dynamic";
+            case CONSTANT_InvokeDynamic -> "CONSTANT_InvokeDynamic";
+            case CONSTANT_Module -> "CONSTANT_Module";
+            case CONSTANT_Package -> "CONSTANT_Package";
+            default -> "<unidentified tag " + tag + ">";
+        };
+    }
 }

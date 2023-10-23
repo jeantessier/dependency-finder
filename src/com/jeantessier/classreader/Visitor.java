@@ -58,6 +58,7 @@ public interface Visitor {
     public void visitInvokeDynamic_info(InvokeDynamic_info entry);
     public void visitModule_info(Module_info entry);
     public void visitPackage_info(Package_info entry);
+    public void visitUnusableEntry(UnusableEntry entry);
 
     // Features
     public void visitField_info(Field_info entry);

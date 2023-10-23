@@ -226,6 +226,10 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
         // Do nothing
     }
 
+    public void visitUnusableEntry(UnusableEntry entry) {
+        // Do nothing
+    }
+
     public void visitField_info(Field_info entry) {
         if (entry.isPublic())     append(" visibility=\"public\"");
         if (entry.isProtected())  append(" visibility=\"protected\"");

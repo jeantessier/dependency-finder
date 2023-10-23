@@ -60,9 +60,7 @@ public class TextPrinter extends Printer {
     public void visitClass_info(Class_info entry) {
         if (top) {
             top = false;
-            append(currentIndex()).append(": Class ");
-            append(entry);
-            eol();
+            append(currentIndex()).append(": Class ").append(entry).eol();
             top = true;
         } else {
             append(entry);
@@ -72,9 +70,7 @@ public class TextPrinter extends Printer {
     public void visitFieldRef_info(FieldRef_info entry) {
         if (top) {
             top = false;
-            append(currentIndex()).append(": Field ");
-            append(entry);
-            eol();
+            append(currentIndex()).append(": Field ").append(entry).eol();
             top = true;
         } else {
             append(entry);
@@ -84,9 +80,7 @@ public class TextPrinter extends Printer {
     public void visitMethodRef_info(MethodRef_info entry) {
         if (top) {
             top = false;
-            append(currentIndex()).append(": Method ");
-            append(entry);
-            eol();
+            append(currentIndex()).append(": Method ").append(entry).eol();
             top = true;
         } else {
             append(entry);
@@ -96,9 +90,7 @@ public class TextPrinter extends Printer {
     public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
         if (top) {
             top = false;
-            append(currentIndex()).append(": Interface Method ");
-            append(entry);
-            eol();
+            append(currentIndex()).append(": Interface Method ").append(entry).eol();
             top = true;
         } else {
             append(entry);
@@ -230,9 +222,7 @@ public class TextPrinter extends Printer {
     public void visitModule_info(Module_info entry) {
         if (top) {
             top = false;
-            append(currentIndex()).append(": Module ");
-            append(entry);
-            eol();
+            append(currentIndex()).append(": Module ").append(entry).eol();
             top = true;
         } else {
             append(entry);
@@ -242,10 +232,16 @@ public class TextPrinter extends Printer {
     public void visitPackage_info(Package_info entry) {
         if (top) {
             top = false;
-            append(currentIndex()).append(": Package ");
-            append(entry);
-            eol();
+            append(currentIndex()).append(": Package ").append(entry).eol();
             top = true;
+        } else {
+            append(entry);
+        }
+    }
+
+    public void visitUnusableEntry(UnusableEntry entry) {
+        if (top) {
+            append(currentIndex()).append(": ").append(entry).eol();
         } else {
             append(entry);
         }
