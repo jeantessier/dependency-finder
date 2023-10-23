@@ -1,0 +1,8 @@
+Implemented the =StackMapFrame= parts, including a =StackMapFrameFactory=.  I
+did all the wiring for =Visitable= and =Visitor= support.  I implemented
+rendering as XML using =XMLPrinter=.
+
+I adjusted the Release Plan to have separate items for each Java version that
+introduced changes to the =.class= file format.  I filled in dates for the work
+I've just been doing.  The remainder work for Java 8 through 21 should be
+straightforward.  (The last change was for Java 17.)
