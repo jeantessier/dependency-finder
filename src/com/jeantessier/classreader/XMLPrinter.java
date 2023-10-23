@@ -756,6 +756,16 @@ public class XMLPrinter extends Printer {
         indent().append("</annotation-default-attribute>").eol();
     }
 
+    public void visitStackMapTable_attribute(StackMapTable_attribute attribute) {
+        indent().append("<stack-map-table-attribute>").eol();
+        raiseIndent();
+
+        super.visitStackMapTable_attribute(attribute);
+
+        lowerIndent();
+        indent().append("</stack-map-table-attribute>").eol();
+    }
+
     public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute) {
         indent().append("<bootstrap-methods-attribute>").eol();
         raiseIndent();
@@ -1006,33 +1016,6 @@ public class XMLPrinter extends Printer {
         append("</local-variable-type>").eol();
     }
 
-    public void visitBootstrapMethod(BootstrapMethod helper) {
-        indent().append("<bootstrap-method>").eol();
-        raiseIndent();
-
-        indent();
-        append("<bootstrap-method-ref index=\"").append(helper.getBootstrapMethodRef()).append("\">");
-        helper.getBootstrapMethod().accept(this);
-        append("</bootstrap-method-ref>").eol();
-
-        indent().append("<arguments>").eol();
-        raiseIndent();
-
-        helper.getArgumentIndices()
-                .forEach(index -> {
-                    indent();
-                    append("<argument index=\"").append(index).append("\">");
-                    helper.getArgument(index).accept(this);
-                    append("</argument>").eol();
-                });
-
-        lowerIndent();
-        indent().append("</arguments>").eol();
-
-        lowerIndent();
-        indent().append("</bootstrap-method>").eol();
-    }
-
     public void visitParameter(Parameter helper) {
         indent().append("<parameter>").eol();
         raiseIndent();
@@ -1154,6 +1137,151 @@ public class XMLPrinter extends Printer {
 
         lowerIndent();
         indent().append("</array-element-value>").eol();
+    }
+
+    public void visitSameFrame(SameFrame helper) {
+        indent().append("<same-frame frame-type=\"").append(helper.getFrameType()).append("\"/>").eol();
+    }
+
+    public void visitSameLocals1StackItemFrame(SameLocals1StackItemFrame helper) {
+        indent().append("<same-locals-1-stack-item-frame frame-type=\"").append(helper.getFrameType()).append("\">").eol();
+        raiseIndent();
+
+        indent().append("<stack>").eol();
+        raiseIndent();
+        super.visitSameLocals1StackItemFrame(helper);
+        lowerIndent();
+        indent().append("</stack>").eol();
+
+        lowerIndent();
+        indent().append("</same-locals-1-stack-item-frame>").eol();
+    }
+
+    public void visitSameLocals1StackItemFrameExtended(SameLocals1StackItemFrameExtended helper) {
+        indent().append("<same-locals-1-stack-item-frame-extended frame-type=\"").append(helper.getFrameType()).append("\" offset-delta=\"").append(helper.getOffsetDelta()).append("\">").eol();
+        raiseIndent();
+
+        indent().append("<stack>").eol();
+        raiseIndent();
+        super.visitSameLocals1StackItemFrameExtended(helper);
+        lowerIndent();
+        indent().append("</stack>").eol();
+
+        lowerIndent();
+        indent().append("</same-locals-1-stack-item-frame-extended>").eol();
+    }
+
+    public void visitChopFrame(ChopFrame helper) {
+        indent().append("<chop-frame frame-type=\"").append(helper.getFrameType()).append("\" offset-delta=\"").append(helper.getOffsetDelta()).append("\"/>").eol();
+    }
+
+    public void visitSameFrameExtended(SameFrameExtended helper) {
+        indent().append("<same-frame-extended frame-type=\"").append(helper.getFrameType()).append("\" offset-delta=\"").append(helper.getOffsetDelta()).append("\"/>").eol();
+    }
+
+    public void visitAppendFrame(AppendFrame helper) {
+        indent().append("<append-frame frame-type=\"").append(helper.getFrameType()).append("\" offset-delta=\"").append(helper.getOffsetDelta()).append("\">").eol();
+        raiseIndent();
+
+        indent().append("<locals>").eol();
+        raiseIndent();
+        super.visitAppendFrame(helper);
+        lowerIndent();
+        indent().append("</locals>").eol();
+
+        lowerIndent();
+        indent().append("</append-frame>").eol();
+    }
+
+    public void visitFullFrame(FullFrame helper) {
+        indent().append("<full-frame frame-type=\"").append(helper.getFrameType()).append("\" offset-delta=\"").append(helper.getOffsetDelta()).append("\">").eol();
+        raiseIndent();
+
+        indent().append("<locals>").eol();
+        raiseIndent();
+        helper.getLocals().forEach(local -> local.accept(this));
+        lowerIndent();
+        indent().append("</locals>").eol();
+
+        indent().append("<stack>").eol();
+        raiseIndent();
+        helper.getStack().forEach(local -> local.accept(this));
+        lowerIndent();
+        indent().append("</stack>").eol();
+
+        lowerIndent();
+        indent().append("</full-frame>").eol();
+    }
+
+    public void visitTopVariableInfo(TopVariableInfo helper) {
+        indent().append("<top-variable-info tag=\"").append(helper.getTag()).append("\"/>").eol();
+    }
+
+    public void visitIntegerVariableInfo(IntegerVariableInfo helper) {
+        indent().append("<integer-variable-info tag=\"").append(helper.getTag()).append("\"/>").eol();
+    }
+
+    public void visitFloatVariableInfo(FloatVariableInfo helper) {
+        indent().append("<float-variable-info tag=\"").append(helper.getTag()).append("\"/>").eol();
+    }
+
+    public void visitLongVariableInfo(LongVariableInfo helper) {
+        indent().append("<long-variable-info tag=\"").append(helper.getTag()).append("\"/>").eol();
+    }
+
+    public void visitDoubleVariableInfo(DoubleVariableInfo helper) {
+        indent().append("<double-variable-info tag=\"").append(helper.getTag()).append("\"/>").eol();
+    }
+
+    public void visitNullVariableInfo(NullVariableInfo helper) {
+        indent().append("<null-variable-info tag=\"").append(helper.getTag()).append("\"/>").eol();
+    }
+
+    public void visitUninitializedThisVariableInfo(UninitializedThisVariableInfo helper) {
+        indent().append("<uninitialized-this-variable-info tag=\"").append(helper.getTag()).append("\"/>").eol();
+    }
+
+    public void visitObjectVariableInfo(ObjectVariableInfo helper) {
+        indent().append("<object-variable-info tag=\"").append(helper.getTag()).append("\">").eol();
+        raiseIndent();
+
+        top = true;
+        super.visitObjectVariableInfo(helper);
+        top = false;
+
+        lowerIndent();
+        indent().append("</object-variable-info>").eol();
+    }
+
+    public void visitUninitializedVariableInfo(UninitializedVariableInfo helper) {
+        indent().append("<uninitialized-variable-info tag=\"").append(helper.getTag()).append("\" offset=\"").append(helper.getOffset()).append("\"/>").eol();
+    }
+
+    public void visitBootstrapMethod(BootstrapMethod helper) {
+        indent().append("<bootstrap-method>").eol();
+        raiseIndent();
+
+        indent();
+        append("<bootstrap-method-ref index=\"").append(helper.getBootstrapMethodRef()).append("\">");
+        helper.getBootstrapMethod().accept(this);
+        append("</bootstrap-method-ref>").eol();
+
+        indent().append("<arguments>").eol();
+        raiseIndent();
+
+        helper.getArgumentIndices()
+                .forEach(index -> {
+                    indent();
+                    append("<argument index=\"").append(index).append("\">");
+                    helper.getArgument(index).accept(this);
+                    append("</argument>").eol();
+                });
+
+        lowerIndent();
+        indent().append("</arguments>").eol();
+
+        lowerIndent();
+        indent().append("</bootstrap-method>").eol();
     }
 
     private void appendLocalVariable(LocalVariable localVariable) {

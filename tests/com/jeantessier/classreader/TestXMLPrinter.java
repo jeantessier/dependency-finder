@@ -92,7 +92,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
     
     public void testDefaultDTDPrefix() throws Exception {
         checking(new Expectations() {{
-            one (errorHandler).fatalError(with(any(SAXParseException.class)));
+            oneOf (errorHandler).fatalError(with(any(SAXParseException.class)));
         }});
 
         buffer = new StringWriter();
@@ -104,7 +104,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));
-            fail("Parsed non-existant document\n" + xmlDocument);
+            fail("Parsed non-existent document\n" + xmlDocument);
         } catch (SAXParseException ex) {
             // Expected
         }
@@ -112,7 +112,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
     
     public void testSpecificDTDPrefix() throws Exception {
         checking(new Expectations() {{
-            one (errorHandler).fatalError(with(any(SAXParseException.class)));
+            oneOf (errorHandler).fatalError(with(any(SAXParseException.class)));
         }});
 
         buffer = new StringWriter();
@@ -124,7 +124,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));
-            fail("Parsed non-existant document\n" + xmlDocument);
+            fail("Parsed non-existent document\n" + xmlDocument);
         } catch (SAXParseException ex) {
             // Expected
         }
@@ -132,7 +132,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
 
     public void testDefaultEncoding() throws Exception {
         checking(new Expectations() {{
-            one (errorHandler).fatalError(with(any(SAXParseException.class)));
+            oneOf (errorHandler).fatalError(with(any(SAXParseException.class)));
         }});
 
         buffer = new StringWriter();
@@ -144,7 +144,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));
-            fail("Parsed non-existant document\n" + xmlDocument);
+            fail("Parsed non-existent document\n" + xmlDocument);
         } catch (SAXParseException ex) {
             // Expected
         }
@@ -152,7 +152,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
 
     public void testSpecificEncoding() throws Exception {
         checking(new Expectations() {{
-            one (errorHandler).fatalError(with(any(SAXParseException.class)));
+            oneOf (errorHandler).fatalError(with(any(SAXParseException.class)));
         }});
 
         buffer = new StringWriter();
@@ -164,7 +164,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));
-            fail("Parsed non-existant document\n" + xmlDocument);
+            fail("Parsed non-existent document\n" + xmlDocument);
         } catch (SAXParseException ex) {
             // Expected
         }
@@ -180,7 +180,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
     }
 
     public void testZeroClassfile() throws Exception {
-        printer.visitClassfiles(Collections.<Classfile>emptyList());
+        printer.visitClassfiles(Collections.emptyList());
 
         String xmlDocument = buffer.toString();
         assertXPathCount(xmlDocument, "*/classfile[this-class='" + TEST_CLASS + "']", 0);
@@ -208,8 +208,8 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one(mockClassfile).isPublic();
-            will(returnValue(false));
+            oneOf (mockClassfile).isPublic();
+                will(returnValue(false));
             ignoring(mockClassfile);
         }});
 
@@ -223,7 +223,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).isPublic(); will(returnValue(true));
+            oneOf (mockClassfile).isPublic(); will(returnValue(true));
             ignoring (mockClassfile);
         }});
 
@@ -237,7 +237,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).isFinal(); will(returnValue(false));
+            oneOf (mockClassfile).isFinal(); will(returnValue(false));
             ignoring (mockClassfile);
         }});
 
@@ -251,7 +251,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).isFinal(); will(returnValue(true));
+            oneOf (mockClassfile).isFinal(); will(returnValue(true));
             ignoring (mockClassfile);
         }});
 
@@ -265,7 +265,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).isSuper(); will(returnValue(false));
+            oneOf (mockClassfile).isSuper(); will(returnValue(false));
             ignoring (mockClassfile);
         }});
 
@@ -279,7 +279,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).isSuper(); will(returnValue(true));
+            oneOf (mockClassfile).isSuper(); will(returnValue(true));
             ignoring (mockClassfile);
         }});
 
@@ -293,7 +293,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).isInterface(); will(returnValue(false));
+            oneOf (mockClassfile).isInterface(); will(returnValue(false));
             ignoring (mockClassfile);
         }});
 
@@ -307,7 +307,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).isInterface(); will(returnValue(true));
+            oneOf (mockClassfile).isInterface(); will(returnValue(true));
             ignoring (mockClassfile);
         }});
 
@@ -321,7 +321,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).isAbstract(); will(returnValue(false));
+            oneOf (mockClassfile).isAbstract(); will(returnValue(false));
             ignoring (mockClassfile);
         }});
 
@@ -335,7 +335,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).isAbstract(); will(returnValue(true));
+            oneOf (mockClassfile).isAbstract(); will(returnValue(true));
             ignoring (mockClassfile);
         }});
 
@@ -349,7 +349,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).isSynthetic(); will(returnValue(false));
+            oneOf (mockClassfile).isSynthetic(); will(returnValue(false));
             ignoring (mockClassfile);
         }});
 
@@ -363,7 +363,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).isSynthetic(); will(returnValue(true));
+            oneOf (mockClassfile).isSynthetic(); will(returnValue(true));
             ignoring (mockClassfile);
         }});
 
@@ -377,7 +377,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).isAnnotation(); will(returnValue(false));
+            oneOf (mockClassfile).isAnnotation(); will(returnValue(false));
             ignoring (mockClassfile);
         }});
 
@@ -391,7 +391,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).isAnnotation(); will(returnValue(true));
+            oneOf (mockClassfile).isAnnotation(); will(returnValue(true));
             ignoring (mockClassfile);
         }});
 
@@ -405,7 +405,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).isEnum(); will(returnValue(false));
+            oneOf (mockClassfile).isEnum(); will(returnValue(false));
             ignoring (mockClassfile);
         }});
 
@@ -419,7 +419,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).isEnum(); will(returnValue(true));
+            oneOf (mockClassfile).isEnum(); will(returnValue(true));
             ignoring (mockClassfile);
         }});
 
@@ -433,7 +433,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).isModule(); will(returnValue(false));
+            oneOf (mockClassfile).isModule(); will(returnValue(false));
             ignoring (mockClassfile);
         }});
 
@@ -447,7 +447,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).isModule(); will(returnValue(true));
+            oneOf (mockClassfile).isModule(); will(returnValue(true));
             ignoring (mockClassfile);
         }});
 
@@ -461,7 +461,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockField).isPublic(); will(returnValue(false));
+            oneOf (mockField).isPublic(); will(returnValue(false));
             ignoring (mockField);
         }});
 
@@ -475,7 +475,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockField).isPublic(); will(returnValue(true));
+            oneOf (mockField).isPublic(); will(returnValue(true));
             ignoring (mockField);
         }});
 
@@ -489,7 +489,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockField).isProtected(); will(returnValue(false));
+            oneOf (mockField).isProtected(); will(returnValue(false));
             ignoring (mockField);
         }});
 
@@ -503,7 +503,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockField).isProtected(); will(returnValue(true));
+            oneOf (mockField).isProtected(); will(returnValue(true));
             ignoring (mockField);
         }});
 
@@ -517,7 +517,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockField).isPrivate(); will(returnValue(false));
+            oneOf (mockField).isPrivate(); will(returnValue(false));
             ignoring (mockField);
         }});
 
@@ -531,7 +531,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockField).isPrivate(); will(returnValue(true));
+            oneOf (mockField).isPrivate(); will(returnValue(true));
             ignoring (mockField);
         }});
 
@@ -545,7 +545,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockField).isStatic(); will(returnValue(false));
+            oneOf (mockField).isStatic(); will(returnValue(false));
             ignoring (mockField);
         }});
 
@@ -559,7 +559,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockField).isStatic(); will(returnValue(true));
+            oneOf (mockField).isStatic(); will(returnValue(true));
             ignoring (mockField);
         }});
 
@@ -573,7 +573,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockField).isFinal(); will(returnValue(false));
+            oneOf (mockField).isFinal(); will(returnValue(false));
             ignoring (mockField);
         }});
 
@@ -587,7 +587,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockField).isFinal(); will(returnValue(true));
+            oneOf (mockField).isFinal(); will(returnValue(true));
             ignoring (mockField);
         }});
 
@@ -601,7 +601,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockField).isVolatile(); will(returnValue(false));
+            oneOf (mockField).isVolatile(); will(returnValue(false));
             ignoring (mockField);
         }});
 
@@ -615,7 +615,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockField).isVolatile(); will(returnValue(true));
+            oneOf (mockField).isVolatile(); will(returnValue(true));
             ignoring (mockField);
         }});
 
@@ -629,7 +629,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockField).isTransient(); will(returnValue(false));
+            oneOf (mockField).isTransient(); will(returnValue(false));
             ignoring (mockField);
         }});
 
@@ -643,7 +643,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockField).isTransient(); will(returnValue(true));
+            oneOf (mockField).isTransient(); will(returnValue(true));
             ignoring (mockField);
         }});
 
@@ -657,7 +657,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockField).isSynthetic(); will(returnValue(false));
+            oneOf (mockField).isSynthetic(); will(returnValue(false));
             ignoring (mockField);
         }});
 
@@ -671,7 +671,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockField).isSynthetic(); will(returnValue(true));
+            oneOf (mockField).isSynthetic(); will(returnValue(true));
             ignoring (mockField);
         }});
 
@@ -685,7 +685,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockField).isEnum(); will(returnValue(false));
+            oneOf (mockField).isEnum(); will(returnValue(false));
             ignoring (mockField);
         }});
 
@@ -699,7 +699,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockField).isEnum(); will(returnValue(true));
+            oneOf (mockField).isEnum(); will(returnValue(true));
             ignoring (mockField);
         }});
 
@@ -713,7 +713,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isPublic(); will(returnValue(false));
+            oneOf (mockMethod).isPublic(); will(returnValue(false));
             ignoring (mockMethod);
         }});
 
@@ -727,7 +727,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isPublic(); will(returnValue(true));
+            oneOf (mockMethod).isPublic(); will(returnValue(true));
             ignoring (mockMethod);
         }});
 
@@ -741,7 +741,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isPrivate(); will(returnValue(false));
+            oneOf (mockMethod).isPrivate(); will(returnValue(false));
             ignoring (mockMethod);
         }});
 
@@ -755,7 +755,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isPrivate(); will(returnValue(true));
+            oneOf (mockMethod).isPrivate(); will(returnValue(true));
             ignoring (mockMethod);
         }});
 
@@ -769,7 +769,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isProtected(); will(returnValue(false));
+            oneOf (mockMethod).isProtected(); will(returnValue(false));
             ignoring (mockMethod);
         }});
 
@@ -783,7 +783,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isProtected(); will(returnValue(true));
+            oneOf (mockMethod).isProtected(); will(returnValue(true));
             ignoring (mockMethod);
         }});
 
@@ -797,7 +797,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isStatic(); will(returnValue(false));
+            oneOf (mockMethod).isStatic(); will(returnValue(false));
             ignoring (mockMethod);
         }});
 
@@ -811,7 +811,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isStatic(); will(returnValue(true));
+            oneOf (mockMethod).isStatic(); will(returnValue(true));
             ignoring (mockMethod);
         }});
 
@@ -825,7 +825,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isFinal(); will(returnValue(false));
+            oneOf (mockMethod).isFinal(); will(returnValue(false));
             ignoring (mockMethod);
         }});
 
@@ -839,7 +839,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isFinal(); will(returnValue(true));
+            oneOf (mockMethod).isFinal(); will(returnValue(true));
             ignoring (mockMethod);
         }});
 
@@ -853,7 +853,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isSynchronized(); will(returnValue(false));
+            oneOf (mockMethod).isSynchronized(); will(returnValue(false));
             ignoring (mockMethod);
         }});
 
@@ -867,7 +867,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isSynchronized(); will(returnValue(true));
+            oneOf (mockMethod).isSynchronized(); will(returnValue(true));
             ignoring (mockMethod);
         }});
 
@@ -881,7 +881,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isBridge(); will(returnValue(false));
+            oneOf (mockMethod).isBridge(); will(returnValue(false));
             ignoring (mockMethod);
         }});
 
@@ -895,7 +895,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isBridge(); will(returnValue(true));
+            oneOf (mockMethod).isBridge(); will(returnValue(true));
             ignoring (mockMethod);
         }});
 
@@ -909,7 +909,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isVarargs(); will(returnValue(false));
+            oneOf (mockMethod).isVarargs(); will(returnValue(false));
             ignoring (mockMethod);
         }});
 
@@ -923,7 +923,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isVarargs(); will(returnValue(true));
+            oneOf (mockMethod).isVarargs(); will(returnValue(true));
             ignoring (mockMethod);
         }});
 
@@ -937,7 +937,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isNative(); will(returnValue(false));
+            oneOf (mockMethod).isNative(); will(returnValue(false));
             ignoring (mockMethod);
         }});
 
@@ -951,7 +951,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isNative(); will(returnValue(true));
+            oneOf (mockMethod).isNative(); will(returnValue(true));
             ignoring (mockMethod);
         }});
 
@@ -965,7 +965,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isAbstract(); will(returnValue(false));
+            oneOf (mockMethod).isAbstract(); will(returnValue(false));
             ignoring (mockMethod);
         }});
 
@@ -979,7 +979,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isAbstract(); will(returnValue(true));
+            oneOf (mockMethod).isAbstract(); will(returnValue(true));
             ignoring (mockMethod);
         }});
 
@@ -993,7 +993,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isStrict(); will(returnValue(false));
+            oneOf (mockMethod).isStrict(); will(returnValue(false));
             ignoring (mockMethod);
         }});
 
@@ -1007,7 +1007,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isStrict(); will(returnValue(true));
+            oneOf (mockMethod).isStrict(); will(returnValue(true));
             ignoring (mockMethod);
         }});
 
@@ -1021,7 +1021,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isSynthetic(); will(returnValue(false));
+            oneOf (mockMethod).isSynthetic(); will(returnValue(false));
             ignoring (mockMethod);
         }});
 
@@ -1035,7 +1035,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isSynthetic(); will(returnValue(true));
+            oneOf (mockMethod).isSynthetic(); will(returnValue(true));
             ignoring (mockMethod);
         }});
 
@@ -1049,7 +1049,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            one (mockInnerClass).isPublic(); will(returnValue(false));
+            oneOf (mockInnerClass).isPublic(); will(returnValue(false));
             ignoring (mockInnerClass);
         }});
 
@@ -1063,7 +1063,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            one (mockInnerClass).isPublic(); will(returnValue(true));
+            oneOf (mockInnerClass).isPublic(); will(returnValue(true));
             ignoring (mockInnerClass);
         }});
 
@@ -1077,7 +1077,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            one (mockInnerClass).isPrivate(); will(returnValue(false));
+            oneOf (mockInnerClass).isPrivate(); will(returnValue(false));
             ignoring (mockInnerClass);
         }});
 
@@ -1091,7 +1091,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            one (mockInnerClass).isPrivate(); will(returnValue(true));
+            oneOf (mockInnerClass).isPrivate(); will(returnValue(true));
             ignoring (mockInnerClass);
         }});
 
@@ -1105,7 +1105,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            one (mockInnerClass).isProtected(); will(returnValue(false));
+            oneOf (mockInnerClass).isProtected(); will(returnValue(false));
             ignoring (mockInnerClass);
         }});
 
@@ -1119,7 +1119,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            one (mockInnerClass).isProtected(); will(returnValue(true));
+            oneOf (mockInnerClass).isProtected(); will(returnValue(true));
             ignoring (mockInnerClass);
         }});
 
@@ -1133,7 +1133,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            one (mockInnerClass).isStatic(); will(returnValue(false));
+            oneOf (mockInnerClass).isStatic(); will(returnValue(false));
             ignoring (mockInnerClass);
         }});
 
@@ -1147,7 +1147,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            one (mockInnerClass).isStatic(); will(returnValue(true));
+            oneOf (mockInnerClass).isStatic(); will(returnValue(true));
             ignoring (mockInnerClass);
         }});
 
@@ -1161,7 +1161,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            one (mockInnerClass).isFinal(); will(returnValue(false));
+            oneOf (mockInnerClass).isFinal(); will(returnValue(false));
             ignoring (mockInnerClass);
         }});
 
@@ -1175,7 +1175,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            one (mockInnerClass).isFinal(); will(returnValue(true));
+            oneOf (mockInnerClass).isFinal(); will(returnValue(true));
             ignoring (mockInnerClass);
         }});
 
@@ -1189,7 +1189,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            one (mockInnerClass).isInterface(); will(returnValue(false));
+            oneOf (mockInnerClass).isInterface(); will(returnValue(false));
             ignoring (mockInnerClass);
         }});
 
@@ -1203,7 +1203,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            one (mockInnerClass).isInterface(); will(returnValue(true));
+            oneOf (mockInnerClass).isInterface(); will(returnValue(true));
             ignoring (mockInnerClass);
         }});
 
@@ -1217,7 +1217,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            one (mockInnerClass).isAbstract(); will(returnValue(false));
+            oneOf (mockInnerClass).isAbstract(); will(returnValue(false));
             ignoring (mockInnerClass);
         }});
 
@@ -1231,7 +1231,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            one (mockInnerClass).isAbstract(); will(returnValue(true));
+            oneOf (mockInnerClass).isAbstract(); will(returnValue(true));
             ignoring (mockInnerClass);
         }});
 
@@ -1245,7 +1245,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            one (mockInnerClass).isSynthetic(); will(returnValue(false));
+            oneOf (mockInnerClass).isSynthetic(); will(returnValue(false));
             ignoring (mockInnerClass);
         }});
 
@@ -1259,7 +1259,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            one (mockInnerClass).isSynthetic(); will(returnValue(true));
+            oneOf (mockInnerClass).isSynthetic(); will(returnValue(true));
             ignoring (mockInnerClass);
         }});
 
@@ -1273,7 +1273,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            one (mockInnerClass).isAnnotation(); will(returnValue(false));
+            oneOf (mockInnerClass).isAnnotation(); will(returnValue(false));
             ignoring (mockInnerClass);
         }});
 
@@ -1287,7 +1287,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            one (mockInnerClass).isAnnotation(); will(returnValue(true));
+            oneOf (mockInnerClass).isAnnotation(); will(returnValue(true));
             ignoring (mockInnerClass);
         }});
 
@@ -1301,7 +1301,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            one (mockInnerClass).isEnum(); will(returnValue(false));
+            oneOf (mockInnerClass).isEnum(); will(returnValue(false));
             ignoring (mockInnerClass);
         }});
 
@@ -1315,7 +1315,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            one (mockInnerClass).isEnum(); will(returnValue(true));
+            oneOf (mockInnerClass).isEnum(); will(returnValue(true));
             ignoring (mockInnerClass);
         }});
 
@@ -1331,11 +1331,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final int methodIndex = 0;
 
         checking(new Expectations() {{
-            one(mockEnclosingMethod).getRawClassInfo();
-            will(returnValue(mockClassInfo));
-            one(mockClassInfo).accept(printer);
-            one(mockEnclosingMethod).getMethodIndex();
-            will(returnValue(methodIndex));
+            oneOf (mockEnclosingMethod).getRawClassInfo();
+                will(returnValue(mockClassInfo));
+            oneOf (mockClassInfo).accept(printer);
+            oneOf (mockEnclosingMethod).getMethodIndex();
+                will(returnValue(methodIndex));
         }});
 
         printer.visitEnclosingMethod_attribute(mockEnclosingMethod);
@@ -1352,10 +1352,10 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final NameAndType_info mockNameAndType = mock(NameAndType_info.class);
 
         checking(new Expectations() {{
-            one (mockEnclosingMethod).getRawClassInfo(); will(returnValue(mockClassInfo));
-            one (mockClassInfo).accept(printer);
-            one (mockEnclosingMethod).getMethodIndex(); will(returnValue(methodIndex));
-            one (mockEnclosingMethod).getRawMethod(); will(returnValue(mockNameAndType));
+            oneOf (mockEnclosingMethod).getRawClassInfo(); will(returnValue(mockClassInfo));
+            oneOf (mockClassInfo).accept(printer);
+            oneOf (mockEnclosingMethod).getMethodIndex(); will(returnValue(methodIndex));
+            oneOf (mockEnclosingMethod).getRawMethod(); will(returnValue(mockNameAndType));
             exactly(2).of (mockNameAndType).getName(); will(returnValue("testMethod"));
             exactly(2).of (mockNameAndType).getType(); will(returnValue("()V"));
         }});
@@ -1375,13 +1375,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final NameAndType_info mockNameAndType = mock(NameAndType_info.class);
 
         checking(new Expectations() {{
-            one (mockEnclosingMethod).getRawClassInfo(); will(returnValue(mockClassInfo));
-            one (mockClassInfo).accept(printer);
-            one (mockEnclosingMethod).getClassInfo(); will(returnValue("com.jeantessier.test.TestClass"));
-            one (mockEnclosingMethod).getMethodIndex(); will(returnValue(methodIndex));
-            one (mockEnclosingMethod).getRawMethod(); will(returnValue(mockNameAndType));
-            one (mockNameAndType).getName(); will(returnValue("<init>"));
-            one (mockNameAndType).getType(); will(returnValue("()V"));
+            oneOf (mockEnclosingMethod).getRawClassInfo(); will(returnValue(mockClassInfo));
+            oneOf (mockClassInfo).accept(printer);
+            oneOf (mockEnclosingMethod).getClassInfo(); will(returnValue("com.jeantessier.test.TestClass"));
+            oneOf (mockEnclosingMethod).getMethodIndex(); will(returnValue(methodIndex));
+            oneOf (mockEnclosingMethod).getRawMethod(); will(returnValue(mockNameAndType));
+            oneOf (mockNameAndType).getName(); will(returnValue("<init>"));
+            oneOf (mockNameAndType).getType(); will(returnValue("()V"));
         }});
 
         printer.visitEnclosingMethod_attribute(mockEnclosingMethod);
@@ -1396,12 +1396,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final LocalVariable localVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
-            one (localVariable).getStartPC();
-            one (localVariable).getLength();
-            one (localVariable).getRawName();
-            one (localVariable).getDescriptor();
+            oneOf (localVariable).getStartPC();
+            oneOf (localVariable).getLength();
+            oneOf (localVariable).getRawName();
+            oneOf (localVariable).getDescriptor();
                 will(returnValue("I"));
-            one (localVariable).getIndex();
+            oneOf (localVariable).getIndex();
         }});
 
         printer.visitLocalVariable(localVariable);
@@ -1418,11 +1418,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final LocalVariableType localVariableType = mock(LocalVariableType.class);
 
         checking(new Expectations() {{
-            one (localVariableType).getStartPC();
-            one (localVariableType).getLength();
-            one (localVariableType).getRawName();
-            one (localVariableType).getRawSignature();
-            one (localVariableType).getIndex();
+            oneOf (localVariableType).getStartPC();
+            oneOf (localVariableType).getLength();
+            oneOf (localVariableType).getRawName();
+            oneOf (localVariableType).getRawSignature();
+            oneOf (localVariableType).getIndex();
         }});
 
         printer.visitLocalVariableType(localVariableType);
@@ -1433,102 +1433,6 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "local-variable-type/name", 1);
         assertXPathCount(xmlDocument, "local-variable-type/signature", 1);
         assertXPathCount(xmlDocument, "local-variable-type/@index", 1);
-    }
-
-    public void testVisitBootstrapMethod_noArguments() throws Exception {
-        final BootstrapMethod bootstrapMethod = mock(BootstrapMethod.class);
-        final int bootstrapMethodRef = 123;
-        final MethodHandle_info methodHandle = mock(MethodHandle_info.class);
-
-        checking(new Expectations() {{
-            one (bootstrapMethod).getBootstrapMethodRef();
-                will(returnValue(bootstrapMethodRef));
-            one (bootstrapMethod).getBootstrapMethod();
-                will(returnValue(methodHandle));
-            one (methodHandle).accept(printer);
-            one (bootstrapMethod).getArgumentIndices();
-                will(returnValue(Collections.emptyList()));
-        }});
-
-        printer.visitBootstrapMethod(bootstrapMethod);
-
-        String xmlDocument = buffer.toString();
-        assertXPathCount(xmlDocument, "bootstrap-method", 1);
-        assertXPathCount(xmlDocument, "bootstrap-method/bootstrap-method-ref", 1);
-        assertXPathCount(xmlDocument, "bootstrap-method/bootstrap-method-ref/@index", 1);
-        assertXPathText(xmlDocument, "bootstrap-method/bootstrap-method-ref/@index", String.valueOf(bootstrapMethodRef));
-        assertXPathCount(xmlDocument, "bootstrap-method/arguments", 1);
-        assertXPathCount(xmlDocument, "bootstrap-method/arguments/argument", 0);
-        assertXPathCount(xmlDocument, "bootstrap-method/arguments/argument/@index", 0);
-    }
-
-    public void testVisitBootstrapMethod_oneArgument() throws Exception {
-        final BootstrapMethod bootstrapMethod = mock(BootstrapMethod.class);
-        final int bootstrapMethodRef = 123;
-        final MethodHandle_info methodHandle = mock(MethodHandle_info.class);
-        final int argumentIndex = 456;
-        final ConstantPoolEntry argument = mock(ConstantPoolEntry.class);
-
-        checking(new Expectations() {{
-            one (bootstrapMethod).getBootstrapMethodRef();
-                will(returnValue(bootstrapMethodRef));
-            one (bootstrapMethod).getBootstrapMethod();
-                will(returnValue(methodHandle));
-            one (methodHandle).accept(printer);
-            one (bootstrapMethod).getArgumentIndices();
-                will(returnValue(Collections.singleton(argumentIndex)));
-            one (bootstrapMethod).getArgument(argumentIndex);
-                will(returnValue(argument));
-            one (argument).accept(printer);
-        }});
-
-        printer.visitBootstrapMethod(bootstrapMethod);
-
-        String xmlDocument = buffer.toString();
-        assertXPathCount(xmlDocument, "bootstrap-method", 1);
-        assertXPathCount(xmlDocument, "bootstrap-method/bootstrap-method-ref", 1);
-        assertXPathCount(xmlDocument, "bootstrap-method/bootstrap-method-ref/@index", 1);
-        assertXPathText(xmlDocument, "bootstrap-method/bootstrap-method-ref/@index", String.valueOf(bootstrapMethodRef));
-        assertXPathCount(xmlDocument, "bootstrap-method/arguments", 1);
-        assertXPathCount(xmlDocument, "bootstrap-method/arguments/argument", 1);
-        assertXPathCount(xmlDocument, "bootstrap-method/arguments/argument/@index", 1);
-        assertXPathText(xmlDocument, "bootstrap-method/arguments/argument/@index", String.valueOf(argumentIndex));
-    }
-
-    public void testVisitBootstrapMethod_multipleArguments() throws Exception {
-        final BootstrapMethod bootstrapMethod = mock(BootstrapMethod.class);
-        final int bootstrapMethodRef = 123;
-        final MethodHandle_info methodHandle = mock(MethodHandle_info.class);
-        final int firstArgumentIndex = 456;
-        final ConstantPoolEntry firstArgument = mock(ConstantPoolEntry.class, "first argument");
-        final int secondArgumentIndex = 789;
-        final ConstantPoolEntry secondArgument = mock(ConstantPoolEntry.class, "second argument");
-
-        checking(new Expectations() {{
-            one (bootstrapMethod).getBootstrapMethodRef();
-                will(returnValue(bootstrapMethodRef));
-            one (bootstrapMethod).getBootstrapMethod();
-                will(returnValue(methodHandle));
-            one (methodHandle).accept(printer);
-            one (bootstrapMethod).getArgumentIndices();
-                will(returnValue(List.of(firstArgumentIndex, secondArgumentIndex)));
-            one (bootstrapMethod).getArgument(firstArgumentIndex);
-                will(returnValue(firstArgument));
-            one (firstArgument).accept(printer);
-            one (bootstrapMethod).getArgument(secondArgumentIndex);
-                will(returnValue(secondArgument));
-            one (secondArgument).accept(printer);
-        }});
-
-        printer.visitBootstrapMethod(bootstrapMethod);
-
-        String xmlDocument = buffer.toString();
-        assertXPathCount(xmlDocument, "bootstrap-method", 1);
-        assertXPathCount(xmlDocument, "bootstrap-method/bootstrap-method-ref", 1);
-        assertXPathCount(xmlDocument, "bootstrap-method/bootstrap-method-ref/@index", 1);
-        assertXPathCount(xmlDocument, "bootstrap-method/arguments", 1);
-        assertXPathCount(xmlDocument, "bootstrap-method/arguments/argument", 2);
-        assertXPathCount(xmlDocument, "bootstrap-method/arguments/argument/@index", 2);
     }
 
     public void testVisitRuntimeVisibleAnnotations_attribute_WithoutAnnotations() throws Exception {
@@ -1551,7 +1455,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         checking(new Expectations() {{
             atLeast(1).of (runtimeVisibleAnnotations).getAnnotations();
                 will(returnValue(Collections.singleton(annotation)));
-            one (annotation).accept(printer);
+            oneOf (annotation).accept(printer);
         }});
 
         printer.visitRuntimeVisibleAnnotations_attribute(runtimeVisibleAnnotations);
@@ -1580,7 +1484,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         checking(new Expectations() {{
             atLeast(1).of (runtimeInvisibleAnnotations).getAnnotations();
                 will(returnValue(Collections.singleton(annotation)));
-            one (annotation).accept(printer);
+            oneOf (annotation).accept(printer);
         }});
 
         printer.visitRuntimeInvisibleAnnotations_attribute(runtimeInvisibleAnnotations);
@@ -1609,7 +1513,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         checking(new Expectations() {{
             atLeast(1).of (runtimeVisibleParameterAnnotations).getParameterAnnotations();
                 will(returnValue(Collections.singletonList(parameter)));
-            one (parameter).accept(printer);
+            oneOf (parameter).accept(printer);
         }});
 
         printer.visitRuntimeVisibleParameterAnnotations_attribute(runtimeVisibleParameterAnnotations);
@@ -1638,7 +1542,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         checking(new Expectations() {{
             atLeast(1).of (runtimeInvisibleParameterAnnotations).getParameterAnnotations();
                 will(returnValue(Collections.singletonList(parameter)));
-            one (parameter).accept(printer);
+            oneOf (parameter).accept(printer);
         }});
 
         printer.visitRuntimeInvisibleParameterAnnotations_attribute(runtimeInvisibleParameterAnnotations);
@@ -1654,13 +1558,43 @@ public class TestXMLPrinter extends MockObjectTestCase {
         checking(new Expectations() {{
             atLeast(1).of (annotationDefault).getElemementValue();
                 will(returnValue(elementValue));
-            one (elementValue).accept(printer);
+            oneOf (elementValue).accept(printer);
         }});
 
         printer.visitAnnotationDefault_attribute(annotationDefault);
 
         String xmlDocument = buffer.toString();
         assertXPathCount(xmlDocument, "annotation-default-attribute", 1);
+    }
+
+    public void testVisitStackMapTable_attribute_noStackMapFrames() throws Exception {
+        final StackMapTable_attribute stackMapTable = mock(StackMapTable_attribute.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (stackMapTable).getEntries();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        printer.visitStackMapTable_attribute(stackMapTable);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "stack-map-table-attribute", 1);
+    }
+
+    public void testVisitStackMapTable_attribute_oneStackMapFrame() throws Exception {
+        final StackMapTable_attribute stackMapTable = mock(StackMapTable_attribute.class);
+        final StackMapFrame stackMapFrame = mock(StackMapFrame.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (stackMapTable).getEntries();
+                will(returnValue(Collections.singleton(stackMapFrame)));
+            oneOf (stackMapFrame).accept(printer);
+        }});
+
+        printer.visitStackMapTable_attribute(stackMapTable);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "stack-map-table-attribute", 1);
     }
 
     public void testVisitBootstrapMethods_attribute_noBootstrapMethods() throws Exception {
@@ -1684,7 +1618,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         checking(new Expectations() {{
             atLeast (1).of (bootstrapMethods).getBootstrapMethods();
                 will(returnValue(Collections.singleton(bootstrapMethod)));
-            one (bootstrapMethod).accept(printer);
+            oneOf (bootstrapMethod).accept(printer);
         }});
 
         printer.visitBootstrapMethods_attribute(bootstrapMethods);
@@ -1714,7 +1648,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         checking(new Expectations() {{
             atLeast(1).of (parameter).getAnnotations();
                 will(returnValue(Collections.singleton(annotation)));
-            one (annotation).accept(printer);
+            oneOf (annotation).accept(printer);
         }});
 
         printer.visitParameter(parameter);
@@ -1750,7 +1684,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
                 will(returnValue(ANNOTATION_TYPE));
             atLeast(1).of (annotation).getElementValuePairs();
                 will(returnValue(Collections.singleton(elementValuePair)));
-            one (elementValuePair).accept(printer);
+            oneOf (elementValuePair).accept(printer);
         }});
 
         printer.visitAnnotation(annotation);
@@ -1766,11 +1700,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final ElementValue elementValue = mock(ElementValue.class);
 
         checking(new Expectations() {{
-            one (elementValuePair).getElementName();
+            oneOf (elementValuePair).getElementName();
                 will(returnValue(ELEMENT_NAME));
-            one (elementValuePair).getElementValue();
+            oneOf (elementValuePair).getElementValue();
                 will(returnValue(elementValue));
-            one (elementValue).accept(printer);
+            oneOf (elementValue).accept(printer);
         }});
 
         printer.visitElementValuePair(elementValuePair);
@@ -1785,11 +1719,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
 
         checking(new Expectations() {{
-            one (constantElementValue).getTag();
+            oneOf (constantElementValue).getTag();
                 will(returnValue(ElementValueType.BYTE.getTag()));
-            one (constantElementValue).getRawConstValue();
+            oneOf (constantElementValue).getRawConstValue();
                 will(returnValue(constantPoolEntry));
-            one (constantPoolEntry).accept(printer);
+            oneOf (constantPoolEntry).accept(printer);
         }});
 
         printer.visitByteConstantElementValue(constantElementValue);
@@ -1804,11 +1738,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
 
         checking(new Expectations() {{
-            one (constantElementValue).getTag();
+            oneOf (constantElementValue).getTag();
                 will(returnValue(ElementValueType.CHAR.getTag()));
-            one (constantElementValue).getRawConstValue();
+            oneOf (constantElementValue).getRawConstValue();
                 will(returnValue(constantPoolEntry));
-            one (constantPoolEntry).accept(printer);
+            oneOf (constantPoolEntry).accept(printer);
         }});
 
         printer.visitCharConstantElementValue(constantElementValue);
@@ -1823,11 +1757,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
 
         checking(new Expectations() {{
-            one (constantElementValue).getTag();
+            oneOf (constantElementValue).getTag();
                 will(returnValue(ElementValueType.DOUBLE.getTag()));
-            one (constantElementValue).getRawConstValue();
+            oneOf (constantElementValue).getRawConstValue();
                 will(returnValue(constantPoolEntry));
-            one (constantPoolEntry).accept(printer);
+            oneOf (constantPoolEntry).accept(printer);
         }});
 
         printer.visitDoubleConstantElementValue(constantElementValue);
@@ -1842,11 +1776,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
 
         checking(new Expectations() {{
-            one (constantElementValue).getTag();
+            oneOf (constantElementValue).getTag();
                 will(returnValue(ElementValueType.FLOAT.getTag()));
-            one (constantElementValue).getRawConstValue();
+            oneOf (constantElementValue).getRawConstValue();
                 will(returnValue(constantPoolEntry));
-            one (constantPoolEntry).accept(printer);
+            oneOf (constantPoolEntry).accept(printer);
         }});
 
         printer.visitFloatConstantElementValue(constantElementValue);
@@ -1861,11 +1795,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
 
         checking(new Expectations() {{
-            one (constantElementValue).getTag();
+            oneOf (constantElementValue).getTag();
                 will(returnValue(ElementValueType.INTEGER.getTag()));
-            one (constantElementValue).getRawConstValue();
+            oneOf (constantElementValue).getRawConstValue();
                 will(returnValue(constantPoolEntry));
-            one (constantPoolEntry).accept(printer);
+            oneOf (constantPoolEntry).accept(printer);
         }});
 
         printer.visitIntegerConstantElementValue(constantElementValue);
@@ -1880,11 +1814,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
 
         checking(new Expectations() {{
-            one (constantElementValue).getTag();
+            oneOf (constantElementValue).getTag();
                 will(returnValue(ElementValueType.LONG.getTag()));
-            one (constantElementValue).getRawConstValue();
+            oneOf (constantElementValue).getRawConstValue();
                 will(returnValue(constantPoolEntry));
-            one (constantPoolEntry).accept(printer);
+            oneOf (constantPoolEntry).accept(printer);
         }});
 
         printer.visitLongConstantElementValue(constantElementValue);
@@ -1899,11 +1833,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
 
         checking(new Expectations() {{
-            one (constantElementValue).getTag();
+            oneOf (constantElementValue).getTag();
                 will(returnValue(ElementValueType.SHORT.getTag()));
-            one (constantElementValue).getRawConstValue();
+            oneOf (constantElementValue).getRawConstValue();
                 will(returnValue(constantPoolEntry));
-            one (constantPoolEntry).accept(printer);
+            oneOf (constantPoolEntry).accept(printer);
         }});
 
         printer.visitShortConstantElementValue(constantElementValue);
@@ -1918,11 +1852,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
 
         checking(new Expectations() {{
-            one (constantElementValue).getTag();
+            oneOf (constantElementValue).getTag();
                 will(returnValue(ElementValueType.BOOLEAN.getTag()));
-            one (constantElementValue).getRawConstValue();
+            oneOf (constantElementValue).getRawConstValue();
                 will(returnValue(constantPoolEntry));
-            one (constantPoolEntry).accept(printer);
+            oneOf (constantPoolEntry).accept(printer);
         }});
 
         printer.visitBooleanConstantElementValue(constantElementValue);
@@ -1937,11 +1871,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
 
         checking(new Expectations() {{
-            one (constantElementValue).getTag();
+            oneOf (constantElementValue).getTag();
                 will(returnValue(ElementValueType.STRING.getTag()));
-            one (constantElementValue).getRawConstValue();
+            oneOf (constantElementValue).getRawConstValue();
                 will(returnValue(constantPoolEntry));
-            one (constantPoolEntry).accept(printer);
+            oneOf (constantPoolEntry).accept(printer);
         }});
 
         printer.visitStringConstantElementValue(constantElementValue);
@@ -1956,11 +1890,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final String constName = "BAR";
 
         checking(new Expectations() {{
-            one (enumElementValue).getTag();
+            oneOf (enumElementValue).getTag();
                 will(returnValue(ElementValueType.ENUM.getTag()));
-            one (enumElementValue).getTypeName();
+            oneOf (enumElementValue).getTypeName();
                 will(returnValue(TEST_CLASS));
-            one (enumElementValue).getConstName();
+            oneOf (enumElementValue).getConstName();
                 will(returnValue(constName));
         }});
 
@@ -1975,9 +1909,9 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final ClassElementValue classElementValue = mock(ClassElementValue.class);
 
         checking(new Expectations() {{
-            one (classElementValue).getTag();
+            oneOf (classElementValue).getTag();
                 will(returnValue(ElementValueType.CLASS.getTag()));
-            one (classElementValue).getClassInfo();
+            oneOf (classElementValue).getClassInfo();
                 will(returnValue(TEST_CLASS));
         }});
 
@@ -1993,11 +1927,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final Annotation annotation = mock(Annotation.class);
 
         checking(new Expectations() {{
-            one (annotationElementValue).getTag();
+            oneOf (annotationElementValue).getTag();
                 will(returnValue(ElementValueType.ANNOTATION.getTag()));
-            one (annotationElementValue).getAnnotation();
+            oneOf (annotationElementValue).getAnnotation();
                 will(returnValue(annotation));
-            one (annotation).accept(printer);
+            oneOf (annotation).accept(printer);
         }});
 
         printer.visitAnnotationElementValue(annotationElementValue);
@@ -2012,11 +1946,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final ElementValue elementValue = mock(ElementValue.class);
 
         checking(new Expectations() {{
-            one (arrayElementValue).getTag();
+            oneOf (arrayElementValue).getTag();
                 will(returnValue(ElementValueType.ARRAY.getTag()));
             atLeast(1).of (arrayElementValue).getValues();
                 will(returnValue(Collections.singleton(elementValue)));
-            one (elementValue).accept(printer);
+            oneOf (elementValue).accept(printer);
         }});
 
         printer.visitArrayElementValue(arrayElementValue);
@@ -2024,6 +1958,417 @@ public class TestXMLPrinter extends MockObjectTestCase {
         String xmlDocument = buffer.toString();
         assertXPathCount(xmlDocument, "array-element-value", 1);
         assertXPathText(xmlDocument, "array-element-value/@tag", String.valueOf(ElementValueType.ARRAY.getTag()));
+    }
+
+    public void testVisitSameFrame() throws Exception {
+        final SameFrame mockStackMapFrame = mock(SameFrame.class);
+        final int frameType = 123;
+
+        checking(new Expectations() {{
+            oneOf (mockStackMapFrame).getFrameType();
+                will(returnValue(frameType));
+        }});
+
+        printer.visitSameFrame(mockStackMapFrame);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "same-frame", 1);
+        assertXPathText(xmlDocument, "same-frame/@frame-type", String.valueOf(frameType));
+    }
+
+    public void testVisitSameLocals1StackItemFrame() throws Exception {
+        final SameLocals1StackItemFrame mockStackMapFrame = mock(SameLocals1StackItemFrame.class);
+        final int frameType = 123;
+        final VerificationTypeInfo mockStack = mock(VerificationTypeInfo.class);
+
+        checking(new Expectations() {{
+            oneOf (mockStackMapFrame).getFrameType();
+                will(returnValue(frameType));
+            oneOf (mockStackMapFrame).getStack();
+                will(returnValue(mockStack));
+            oneOf (mockStack).accept(printer);
+        }});
+
+        printer.visitSameLocals1StackItemFrame(mockStackMapFrame);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "same-locals-1-stack-item-frame", 1);
+        assertXPathText(xmlDocument, "same-locals-1-stack-item-frame/@frame-type", String.valueOf(frameType));
+        assertXPathCount(xmlDocument, "same-locals-1-stack-item-frame/stack", 1);
+    }
+
+    public void testVisitSameLocals1StackItemFrameExtended() throws Exception {
+        final SameLocals1StackItemFrameExtended mockStackMapFrame = mock(SameLocals1StackItemFrameExtended.class);
+        final int frameType = 123;
+        final int offsetDelta = 456;
+        final VerificationTypeInfo mockStack = mock(VerificationTypeInfo.class);
+
+        checking(new Expectations() {{
+            oneOf (mockStackMapFrame).getFrameType();
+                will(returnValue(frameType));
+            oneOf (mockStackMapFrame).getOffsetDelta();
+                will(returnValue(offsetDelta));
+            oneOf (mockStackMapFrame).getStack();
+                will(returnValue(mockStack));
+            oneOf (mockStack).accept(printer);
+        }});
+
+        printer.visitSameLocals1StackItemFrameExtended(mockStackMapFrame);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "same-locals-1-stack-item-frame-extended", 1);
+        assertXPathText(xmlDocument, "same-locals-1-stack-item-frame-extended/@frame-type", String.valueOf(frameType));
+        assertXPathText(xmlDocument, "same-locals-1-stack-item-frame-extended/@offset-delta", String.valueOf(offsetDelta));
+        assertXPathCount(xmlDocument, "same-locals-1-stack-item-frame-extended/stack", 1);
+    }
+
+    public void testVisitChopFrame() throws Exception {
+        final ChopFrame mockStackMapFrame = mock(ChopFrame.class);
+        final int frameType = 123;
+        final int offsetDelta = 456;
+
+        checking(new Expectations() {{
+            oneOf (mockStackMapFrame).getFrameType();
+                will(returnValue(frameType));
+            oneOf (mockStackMapFrame).getOffsetDelta();
+                will(returnValue(offsetDelta));
+        }});
+
+        printer.visitChopFrame(mockStackMapFrame);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "chop-frame", 1);
+        assertXPathText(xmlDocument, "chop-frame/@frame-type", String.valueOf(frameType));
+        assertXPathText(xmlDocument, "chop-frame/@offset-delta", String.valueOf(offsetDelta));
+    }
+
+    public void testVisitSameFrameExtended() throws Exception {
+        final SameFrameExtended mockStackMapFrame = mock(SameFrameExtended.class);
+        final int frameType = 123;
+        final int offsetDelta = 456;
+
+        checking(new Expectations() {{
+            oneOf (mockStackMapFrame).getFrameType();
+                will(returnValue(frameType));
+            oneOf (mockStackMapFrame).getOffsetDelta();
+                will(returnValue(offsetDelta));
+        }});
+
+        printer.visitSameFrameExtended(mockStackMapFrame);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "same-frame-extended", 1);
+        assertXPathText(xmlDocument, "same-frame-extended/@frame-type", String.valueOf(frameType));
+        assertXPathText(xmlDocument, "same-frame-extended/@offset-delta", String.valueOf(offsetDelta));
+    }
+
+    public void testVisitAppendFrame() throws Exception {
+        final AppendFrame mockStackMapFrame = mock(AppendFrame.class);
+        final int frameType = 123;
+        final int offsetDelta = 456;
+        final VerificationTypeInfo mockLocal1 = mock(VerificationTypeInfo.class, "first local");
+        final VerificationTypeInfo mockLocal2 = mock(VerificationTypeInfo.class, "second local");
+
+        checking(new Expectations() {{
+            oneOf (mockStackMapFrame).getFrameType();
+                will(returnValue(frameType));
+            oneOf (mockStackMapFrame).getOffsetDelta();
+                will(returnValue(offsetDelta));
+            oneOf (mockStackMapFrame).getLocals();
+                will(returnValue(List.of(mockLocal1, mockLocal2)));
+            oneOf (mockLocal1).accept(printer);
+            oneOf (mockLocal2).accept(printer);
+        }});
+
+        printer.visitAppendFrame(mockStackMapFrame);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "append-frame", 1);
+        assertXPathText(xmlDocument, "append-frame/@frame-type", String.valueOf(frameType));
+        assertXPathText(xmlDocument, "append-frame/@offset-delta", String.valueOf(offsetDelta));
+        assertXPathCount(xmlDocument, "append-frame/locals", 1);
+    }
+
+    public void testVisitFullFrame() throws Exception {
+        final FullFrame mockStackMapFrame = mock(FullFrame.class);
+        final int frameType = 123;
+        final int offsetDelta = 456;
+        final VerificationTypeInfo mockLocal1 = mock(VerificationTypeInfo.class, "first local");
+        final VerificationTypeInfo mockLocal2 = mock(VerificationTypeInfo.class, "second local");
+        final VerificationTypeInfo mockStack1 = mock(VerificationTypeInfo.class, "first stack");
+        final VerificationTypeInfo mockStack2 = mock(VerificationTypeInfo.class, "second stack");
+
+        checking(new Expectations() {{
+            oneOf (mockStackMapFrame).getFrameType();
+                will(returnValue(frameType));
+            oneOf (mockStackMapFrame).getOffsetDelta();
+                will(returnValue(offsetDelta));
+            oneOf (mockStackMapFrame).getLocals();
+                will(returnValue(List.of(mockLocal1, mockLocal2)));
+            oneOf (mockStackMapFrame).getStack();
+                will(returnValue(List.of(mockStack1, mockStack2)));
+            oneOf (mockLocal1).accept(printer);
+            oneOf (mockLocal2).accept(printer);
+            oneOf (mockStack1).accept(printer);
+            oneOf (mockStack2).accept(printer);
+        }});
+
+        printer.visitFullFrame(mockStackMapFrame);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "full-frame", 1);
+        assertXPathText(xmlDocument, "full-frame/@frame-type", String.valueOf(frameType));
+        assertXPathText(xmlDocument, "full-frame/@offset-delta", String.valueOf(offsetDelta));
+        assertXPathCount(xmlDocument, "full-frame/locals", 1);
+        assertXPathCount(xmlDocument, "full-frame/stack", 1);
+    }
+
+    public void testVisitTopVariableInfo() throws Exception {
+        final TopVariableInfo mockTopVariableInfo = mock(TopVariableInfo.class);
+        final int tag = 123;
+
+        checking(new Expectations() {{
+            oneOf (mockTopVariableInfo).getTag();
+                will(returnValue(tag));
+        }});
+
+        printer.visitTopVariableInfo(mockTopVariableInfo);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "top-variable-info", 1);
+        assertXPathText(xmlDocument, "top-variable-info/@tag", String.valueOf(tag));
+    }
+
+    public void testVisitIntegerVariableInfo() throws Exception {
+        final IntegerVariableInfo mockIntegerVariableInfo = mock(IntegerVariableInfo.class);
+        final int tag = 123;
+
+        checking(new Expectations() {{
+            oneOf (mockIntegerVariableInfo).getTag();
+                will(returnValue(tag));
+        }});
+
+        printer.visitIntegerVariableInfo(mockIntegerVariableInfo);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "integer-variable-info", 1);
+        assertXPathText(xmlDocument, "integer-variable-info/@tag", String.valueOf(tag));
+    }
+
+    public void testVisitFloatVariableInfo() throws Exception {
+        final FloatVariableInfo mockFloatVariableInfo = mock(FloatVariableInfo.class);
+        final int tag = 123;
+
+        checking(new Expectations() {{
+            oneOf (mockFloatVariableInfo).getTag();
+                will(returnValue(tag));
+        }});
+
+        printer.visitFloatVariableInfo(mockFloatVariableInfo);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "float-variable-info", 1);
+        assertXPathText(xmlDocument, "float-variable-info/@tag", String.valueOf(tag));
+    }
+
+    public void testVisitLongVariableInfo() throws Exception {
+        final LongVariableInfo mockLongVariableInfo = mock(LongVariableInfo.class);
+        final int tag = 123;
+
+        checking(new Expectations() {{
+            oneOf (mockLongVariableInfo).getTag();
+                will(returnValue(tag));
+        }});
+
+        printer.visitLongVariableInfo(mockLongVariableInfo);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "long-variable-info", 1);
+        assertXPathText(xmlDocument, "long-variable-info/@tag", String.valueOf(tag));
+    }
+
+    public void testVisitDoubleVariableInfo() throws Exception {
+        final DoubleVariableInfo mockDoubleVariableInfo = mock(DoubleVariableInfo.class);
+        final int tag = 123;
+
+        checking(new Expectations() {{
+            oneOf (mockDoubleVariableInfo).getTag();
+                will(returnValue(tag));
+        }});
+
+        printer.visitDoubleVariableInfo(mockDoubleVariableInfo);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "double-variable-info", 1);
+        assertXPathText(xmlDocument, "double-variable-info/@tag", String.valueOf(tag));
+    }
+
+    public void testVisitNullVariableInfo() throws Exception {
+        final NullVariableInfo mockNullVariableInfo = mock(NullVariableInfo.class);
+        final int tag = 123;
+
+        checking(new Expectations() {{
+            oneOf (mockNullVariableInfo).getTag();
+                will(returnValue(tag));
+        }});
+
+        printer.visitNullVariableInfo(mockNullVariableInfo);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "null-variable-info", 1);
+        assertXPathText(xmlDocument, "null-variable-info/@tag", String.valueOf(tag));
+    }
+
+    public void testVisitUninitializedThisVariableInfo() throws Exception {
+        final UninitializedThisVariableInfo mockUninitializedThisVariableInfo = mock(UninitializedThisVariableInfo.class);
+        final int tag = 123;
+
+        checking(new Expectations() {{
+            oneOf (mockUninitializedThisVariableInfo).getTag();
+                will(returnValue(tag));
+        }});
+
+        printer.visitUninitializedThisVariableInfo(mockUninitializedThisVariableInfo);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "uninitialized-this-variable-info", 1);
+        assertXPathText(xmlDocument, "uninitialized-this-variable-info/@tag", String.valueOf(tag));
+    }
+
+    public void testVisitObjectVariableInfo() throws Exception {
+        final ObjectVariableInfo mockObjectVariableInfo = mock(ObjectVariableInfo.class);
+        final int tag = 123;
+        final Class_info mockClassInfo = mock(Class_info.class);
+
+        checking(new Expectations() {{
+            oneOf (mockObjectVariableInfo).getTag();
+                will(returnValue(tag));
+            oneOf (mockObjectVariableInfo).getClassInfo();
+                will(returnValue(mockClassInfo));
+            oneOf (mockClassInfo).accept(printer);
+        }});
+
+        printer.visitObjectVariableInfo(mockObjectVariableInfo);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "object-variable-info", 1);
+        assertXPathText(xmlDocument, "object-variable-info/@tag", String.valueOf(tag));
+    }
+
+    public void testVisitUninitializedVariableInfo() throws Exception {
+        final UninitializedVariableInfo mockUninitializedVariableInfo = mock(UninitializedVariableInfo.class);
+        final int tag = 123;
+        final int offset = 456;
+
+        checking(new Expectations() {{
+            oneOf (mockUninitializedVariableInfo).getTag();
+                will(returnValue(tag));
+            oneOf (mockUninitializedVariableInfo).getOffset();
+                will(returnValue(offset));
+        }});
+
+        printer.visitUninitializedVariableInfo(mockUninitializedVariableInfo);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "uninitialized-variable-info", 1);
+        assertXPathText(xmlDocument, "uninitialized-variable-info/@tag", String.valueOf(tag));
+        assertXPathText(xmlDocument, "uninitialized-variable-info/@offset", String.valueOf(offset));
+    }
+
+    public void testVisitBootstrapMethod_noArguments() throws Exception {
+        final BootstrapMethod bootstrapMethod = mock(BootstrapMethod.class);
+        final int bootstrapMethodRef = 123;
+        final MethodHandle_info methodHandle = mock(MethodHandle_info.class);
+
+        checking(new Expectations() {{
+            oneOf (bootstrapMethod).getBootstrapMethodRef();
+            will(returnValue(bootstrapMethodRef));
+            oneOf (bootstrapMethod).getBootstrapMethod();
+            will(returnValue(methodHandle));
+            oneOf (methodHandle).accept(printer);
+            oneOf (bootstrapMethod).getArgumentIndices();
+            will(returnValue(Collections.emptyList()));
+        }});
+
+        printer.visitBootstrapMethod(bootstrapMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "bootstrap-method", 1);
+        assertXPathCount(xmlDocument, "bootstrap-method/bootstrap-method-ref", 1);
+        assertXPathCount(xmlDocument, "bootstrap-method/bootstrap-method-ref/@index", 1);
+        assertXPathText(xmlDocument, "bootstrap-method/bootstrap-method-ref/@index", String.valueOf(bootstrapMethodRef));
+        assertXPathCount(xmlDocument, "bootstrap-method/arguments", 1);
+        assertXPathCount(xmlDocument, "bootstrap-method/arguments/argument", 0);
+        assertXPathCount(xmlDocument, "bootstrap-method/arguments/argument/@index", 0);
+    }
+
+    public void testVisitBootstrapMethod_oneArgument() throws Exception {
+        final BootstrapMethod bootstrapMethod = mock(BootstrapMethod.class);
+        final int bootstrapMethodRef = 123;
+        final MethodHandle_info methodHandle = mock(MethodHandle_info.class);
+        final int argumentIndex = 456;
+        final ConstantPoolEntry argument = mock(ConstantPoolEntry.class);
+
+        checking(new Expectations() {{
+            oneOf (bootstrapMethod).getBootstrapMethodRef();
+            will(returnValue(bootstrapMethodRef));
+            oneOf (bootstrapMethod).getBootstrapMethod();
+            will(returnValue(methodHandle));
+            oneOf (methodHandle).accept(printer);
+            oneOf (bootstrapMethod).getArgumentIndices();
+            will(returnValue(Collections.singleton(argumentIndex)));
+            oneOf (bootstrapMethod).getArgument(argumentIndex);
+            will(returnValue(argument));
+            oneOf (argument).accept(printer);
+        }});
+
+        printer.visitBootstrapMethod(bootstrapMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "bootstrap-method", 1);
+        assertXPathCount(xmlDocument, "bootstrap-method/bootstrap-method-ref", 1);
+        assertXPathCount(xmlDocument, "bootstrap-method/bootstrap-method-ref/@index", 1);
+        assertXPathText(xmlDocument, "bootstrap-method/bootstrap-method-ref/@index", String.valueOf(bootstrapMethodRef));
+        assertXPathCount(xmlDocument, "bootstrap-method/arguments", 1);
+        assertXPathCount(xmlDocument, "bootstrap-method/arguments/argument", 1);
+        assertXPathCount(xmlDocument, "bootstrap-method/arguments/argument/@index", 1);
+        assertXPathText(xmlDocument, "bootstrap-method/arguments/argument/@index", String.valueOf(argumentIndex));
+    }
+
+    public void testVisitBootstrapMethod_multipleArguments() throws Exception {
+        final BootstrapMethod bootstrapMethod = mock(BootstrapMethod.class);
+        final int bootstrapMethodRef = 123;
+        final MethodHandle_info methodHandle = mock(MethodHandle_info.class);
+        final int firstArgumentIndex = 456;
+        final ConstantPoolEntry firstArgument = mock(ConstantPoolEntry.class, "first argument");
+        final int secondArgumentIndex = 789;
+        final ConstantPoolEntry secondArgument = mock(ConstantPoolEntry.class, "second argument");
+
+        checking(new Expectations() {{
+            oneOf (bootstrapMethod).getBootstrapMethodRef();
+            will(returnValue(bootstrapMethodRef));
+            oneOf (bootstrapMethod).getBootstrapMethod();
+            will(returnValue(methodHandle));
+            oneOf (methodHandle).accept(printer);
+            oneOf (bootstrapMethod).getArgumentIndices();
+            will(returnValue(List.of(firstArgumentIndex, secondArgumentIndex)));
+            oneOf (bootstrapMethod).getArgument(firstArgumentIndex);
+            will(returnValue(firstArgument));
+            oneOf (firstArgument).accept(printer);
+            oneOf (bootstrapMethod).getArgument(secondArgumentIndex);
+            will(returnValue(secondArgument));
+            oneOf (secondArgument).accept(printer);
+        }});
+
+        printer.visitBootstrapMethod(bootstrapMethod);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "bootstrap-method", 1);
+        assertXPathCount(xmlDocument, "bootstrap-method/bootstrap-method-ref", 1);
+        assertXPathCount(xmlDocument, "bootstrap-method/bootstrap-method-ref/@index", 1);
+        assertXPathCount(xmlDocument, "bootstrap-method/arguments", 1);
+        assertXPathCount(xmlDocument, "bootstrap-method/arguments/argument", 2);
+        assertXPathCount(xmlDocument, "bootstrap-method/arguments/argument/@index", 2);
     }
 
     private void assertXPathCount(String xmlDocument, String xPathExpression, int expectedCount) throws Exception {
