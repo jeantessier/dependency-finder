@@ -35,6 +35,7 @@ package com.jeantessier.classreader;
 import org.apache.log4j.Logger;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public abstract class VisitorBase implements Visitor {
     protected static final int STARTING_INDEX = 1;
@@ -269,6 +270,11 @@ public abstract class VisitorBase implements Visitor {
         attribute.getElemementValue().accept(this);
     }
 
+    public void visitStackMapTable_attribute(StackMapTable_attribute attribute) {
+        Logger.getLogger(getClass()).debug("Visiting " + attribute.getEntries().size() + " stack map frame(s) ...");
+        attribute.getEntries().forEach(stackMapFrame -> stackMapFrame.accept(this));
+    }
+
     public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute) {
         Logger.getLogger(getClass()).debug("Visiting " + attribute.getBootstrapMethods().size() + " bootstrap method(s) ...");
         attribute.getBootstrapMethods().forEach(bootstrapMethod -> bootstrapMethod.accept(this));
@@ -310,14 +316,6 @@ public abstract class VisitorBase implements Visitor {
 
     public void visitLocalVariableType(LocalVariableType helper) {
         // Do nothing
-    }
-
-    public void visitBootstrapMethod(BootstrapMethod helper) {
-        Logger.getLogger(getClass()).debug("Visiting bootstrap method handle ...");
-        helper.getBootstrapMethod().accept(this);
-
-        Logger.getLogger(getClass()).debug("Visiting " + helper.getArguments().size() + " argument(s) ...");
-        helper.getArguments().forEach(argument -> argument.accept(this));
     }
 
     public void visitParameter(Parameter helper) {
@@ -385,5 +383,81 @@ public abstract class VisitorBase implements Visitor {
     public void visitArrayElementValue(ArrayElementValue helper) {
         Logger.getLogger(getClass()).debug("Visiting " + helper.getValues().size() + " value(s) ...");
         helper.getValues().forEach(elementValue -> elementValue.accept(this));
+    }
+
+    public void visitSameFrame(SameFrame helper) {
+        // Do nothing
+    }
+
+    public void visitSameLocals1StackItemFrame(SameLocals1StackItemFrame helper) {
+        visitVerificationTypeInfos(Stream.of(helper.getStack()));
+    }
+
+    public void visitSameLocals1StackItemFrameExtended(SameLocals1StackItemFrameExtended helper) {
+        visitVerificationTypeInfos(Stream.of(helper.getStack()));
+    }
+
+    public void visitChopFrame(ChopFrame helper) {
+        // Do nothing
+    }
+
+    public void visitSameFrameExtended(SameFrameExtended helper) {
+        // Do nothing
+    }
+
+    public void visitAppendFrame(AppendFrame helper) {
+        visitVerificationTypeInfos(helper.getLocals().stream());
+    }
+
+    public void visitFullFrame(FullFrame helper) {
+        visitVerificationTypeInfos(Stream.concat(helper.getLocals().stream(), helper.getStack().stream()));
+    }
+
+    protected void visitVerificationTypeInfos(Stream<? extends VerificationTypeInfo> stacks) {
+        stacks.forEach(stack -> stack.accept(this));
+    }
+
+    public void visitTopVariableInfo(TopVariableInfo helper) {
+        // Do nothing
+    }
+
+    public void visitIntegerVariableInfo(IntegerVariableInfo helper) {
+        // Do nothing
+    }
+
+    public void visitFloatVariableInfo(FloatVariableInfo helper) {
+        // Do nothing
+    }
+
+    public void visitLongVariableInfo(LongVariableInfo helper) {
+        // Do nothing
+    }
+
+    public void visitDoubleVariableInfo(DoubleVariableInfo helper) {
+        // Do nothing
+    }
+
+    public void visitNullVariableInfo(NullVariableInfo helper) {
+        // Do nothing
+    }
+
+    public void visitUninitializedThisVariableInfo(UninitializedThisVariableInfo helper) {
+        // Do nothing
+    }
+
+    public void visitObjectVariableInfo(ObjectVariableInfo helper) {
+        helper.getClassInfo().accept(this);
+    }
+
+    public void visitUninitializedVariableInfo(UninitializedVariableInfo helper) {
+        // Do nothing
+    }
+
+    public void visitBootstrapMethod(BootstrapMethod helper) {
+        Logger.getLogger(getClass()).debug("Visiting bootstrap method handle ...");
+        helper.getBootstrapMethod().accept(this);
+
+        Logger.getLogger(getClass()).debug("Visiting " + helper.getArguments().size() + " argument(s) ...");
+        helper.getArguments().forEach(argument -> argument.accept(this));
     }
 }

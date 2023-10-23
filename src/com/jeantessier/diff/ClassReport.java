@@ -302,10 +302,6 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
         // Do nothing
     }
 
-    public void visitBootstrapMethod(BootstrapMethod helper) {
-        // Do nothing
-    }
-
     public void visitDeprecated_attribute(Deprecated_attribute attribute) {
         // Do nothing
     }
@@ -327,6 +323,10 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
     }
 
     public void visitAnnotationDefault_attribute(AnnotationDefault_attribute attribute) {
+        // Do nothing
+    }
+
+    public void visitStackMapTable_attribute(StackMapTable_attribute attribute) {
         // Do nothing
     }
 
@@ -423,6 +423,74 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
     }
 
     public void visitArrayElementValue(ArrayElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitSameFrame(SameFrame helper) {
+        // Do nothing
+    }
+
+    public void visitSameLocals1StackItemFrame(SameLocals1StackItemFrame helper) {
+        // Do nothing
+    }
+
+    public void visitSameLocals1StackItemFrameExtended(SameLocals1StackItemFrameExtended helper) {
+        // Do nothing
+    }
+
+    public void visitChopFrame(ChopFrame helper) {
+        // Do nothing
+    }
+
+    public void visitSameFrameExtended(SameFrameExtended helper) {
+        // Do nothing
+    }
+
+    public void visitAppendFrame(AppendFrame helper) {
+        // Do nothing
+    }
+
+    public void visitFullFrame(FullFrame helper) {
+        // Do nothing
+    }
+
+    public void visitTopVariableInfo(TopVariableInfo helper) {
+        // Do nothing
+    }
+
+    public void visitIntegerVariableInfo(IntegerVariableInfo helper) {
+        // Do nothing
+    }
+
+    public void visitFloatVariableInfo(FloatVariableInfo helper) {
+        // Do nothing
+    }
+
+    public void visitLongVariableInfo(LongVariableInfo helper) {
+        // Do nothing
+    }
+
+    public void visitDoubleVariableInfo(DoubleVariableInfo helper) {
+        // Do nothing
+    }
+
+    public void visitNullVariableInfo(NullVariableInfo helper) {
+        // Do nothing
+    }
+
+    public void visitUninitializedThisVariableInfo(UninitializedThisVariableInfo helper) {
+        // Do nothing
+    }
+
+    public void visitObjectVariableInfo(ObjectVariableInfo helper) {
+        // Do nothing
+    }
+
+    public void visitUninitializedVariableInfo(UninitializedVariableInfo helper) {
+        // Do nothing
+    }
+
+    public void visitBootstrapMethod(BootstrapMethod helper) {
         // Do nothing
     }
 

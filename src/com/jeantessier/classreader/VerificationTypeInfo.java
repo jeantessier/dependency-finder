@@ -32,6 +32,6 @@
 
 package com.jeantessier.classreader;
 
-public interface VerificationTypeInfo {
+public interface VerificationTypeInfo extends Visitable {
     public int getTag();
 }

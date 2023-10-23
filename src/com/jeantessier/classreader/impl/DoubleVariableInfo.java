@@ -32,6 +32,8 @@
 
 package com.jeantessier.classreader.impl;
 
+import com.jeantessier.classreader.Visitor;
+
 import java.io.*;
 
 public class DoubleVariableInfo extends VerificationTypeInfo implements com.jeantessier.classreader.DoubleVariableInfo {
@@ -41,5 +43,9 @@ public class DoubleVariableInfo extends VerificationTypeInfo implements com.jean
 
     public int getTag() {
         return VerificationType.DOUBLE.getTag();
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitDoubleVariableInfo(this);
     }
 }

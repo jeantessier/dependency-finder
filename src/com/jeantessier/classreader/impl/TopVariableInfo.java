@@ -32,6 +32,8 @@
 
 package com.jeantessier.classreader.impl;
 
+import com.jeantessier.classreader.Visitor;
+
 import java.io.*;
 
 public class TopVariableInfo extends VerificationTypeInfo implements com.jeantessier.classreader.TopVariableInfo {
@@ -41,5 +43,9 @@ public class TopVariableInfo extends VerificationTypeInfo implements com.jeantes
 
     public int getTag() {
         return VerificationType.TOP.getTag();
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitTopVariableInfo(this);
     }
 }

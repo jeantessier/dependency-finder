@@ -32,6 +32,8 @@
 
 package com.jeantessier.classreader.impl;
 
+import com.jeantessier.classreader.Visitor;
+
 import java.io.*;
 
 public class FloatVariableInfo extends VerificationTypeInfo implements com.jeantessier.classreader.FloatVariableInfo {
@@ -41,5 +43,9 @@ public class FloatVariableInfo extends VerificationTypeInfo implements com.jeant
 
     public int getTag() {
         return VerificationType.FLOAT.getTag();
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitFloatVariableInfo(this);
     }
 }

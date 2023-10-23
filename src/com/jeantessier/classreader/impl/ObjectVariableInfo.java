@@ -32,6 +32,7 @@
 
 package com.jeantessier.classreader.impl;
 
+import com.jeantessier.classreader.Visitor;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -56,5 +57,9 @@ public class ObjectVariableInfo extends VerificationTypeInfo implements com.jean
 
     public int getTag() {
         return VerificationType.OBJECT.getTag();
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitObjectVariableInfo(this);
     }
 }

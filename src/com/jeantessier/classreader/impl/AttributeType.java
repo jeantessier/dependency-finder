@@ -146,6 +146,12 @@ public enum AttributeType {
         }
     },
 
+    STACK_MAP_TABLE(com.jeantessier.classreader.AttributeType.STACK_MAP_TABLE) {
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+            return new StackMapTable_attribute(constantPool, owner, in);
+        }
+    },
+
     BOOTSTRAP_METHODS(com.jeantessier.classreader.AttributeType.BOOTSTRAP_METHODS) {
         public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
             return new BootstrapMethods_attribute(constantPool, owner, in);

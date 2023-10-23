@@ -32,6 +32,8 @@
 
 package com.jeantessier.classreader.impl;
 
+import com.jeantessier.classreader.Visitor;
+
 import java.io.*;
 
 public class LongVariableInfo extends VerificationTypeInfo implements com.jeantessier.classreader.LongVariableInfo {
@@ -41,5 +43,9 @@ public class LongVariableInfo extends VerificationTypeInfo implements com.jeante
 
     public int getTag() {
         return VerificationType.LONG.getTag();
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitLongVariableInfo(this);
     }
 }

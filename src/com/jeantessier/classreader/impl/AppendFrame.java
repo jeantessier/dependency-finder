@@ -32,6 +32,8 @@
 
 package com.jeantessier.classreader.impl;
 
+import com.jeantessier.classreader.Visitor;
+
 import java.io.*;
 import java.util.*;
 
@@ -60,5 +62,9 @@ public class AppendFrame extends StackMapFrame implements com.jeantessier.classr
 
     public Collection<? extends com.jeantessier.classreader.VerificationTypeInfo> getLocals() {
         return locals;
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitAppendFrame(this);
     }
 }

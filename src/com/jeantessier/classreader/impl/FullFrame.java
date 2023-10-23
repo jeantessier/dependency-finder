@@ -32,6 +32,8 @@
 
 package com.jeantessier.classreader.impl;
 
+import com.jeantessier.classreader.Visitor;
+
 import java.io.DataInput;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -73,5 +75,9 @@ public class FullFrame extends StackMapFrame implements com.jeantessier.classrea
     }
     public Collection<? extends com.jeantessier.classreader.VerificationTypeInfo> getStack() {
         return stack;
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitFullFrame(this);
     }
 }

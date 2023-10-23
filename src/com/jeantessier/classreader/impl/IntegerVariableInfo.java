@@ -32,6 +32,8 @@
 
 package com.jeantessier.classreader.impl;
 
+import com.jeantessier.classreader.Visitor;
+
 import java.io.*;
 
 public class IntegerVariableInfo extends VerificationTypeInfo implements com.jeantessier.classreader.IntegerVariableInfo {
@@ -41,5 +43,9 @@ public class IntegerVariableInfo extends VerificationTypeInfo implements com.jea
 
     public int getTag() {
         return VerificationType.INTEGER.getTag();
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitIntegerVariableInfo(this);
     }
 }

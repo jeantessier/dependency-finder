@@ -32,6 +32,8 @@
 
 package com.jeantessier.classreader.impl;
 
+import com.jeantessier.classreader.Visitor;
+
 import java.io.DataInput;
 import java.io.IOException;
 
@@ -50,5 +52,9 @@ public class ChopFrame extends StackMapFrame implements com.jeantessier.classrea
 
     public int getOffsetDelta() {
         return offsetDelta;
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitChopFrame(this);
     }
 }

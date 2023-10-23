@@ -53,6 +53,7 @@ public enum AttributeType {
     RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS("RuntimeVisibleParameterAnnotations"),
     RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS("RuntimeInvisibleParameterAnnotations"),
     ANNOTATION_DEFAULT("AnnotationDefault"),
+    STACK_MAP_TABLE("StackMapTable"),
     BOOTSTRAP_METHODS("BootstrapMethods");
 
     private final String attributeName;

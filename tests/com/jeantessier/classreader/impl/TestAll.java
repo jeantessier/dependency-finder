@@ -95,6 +95,8 @@ import static org.junit.runners.Suite.SuiteClasses;
         TestSourceFile_attribute.class,
         TestStackMapFrameFactory_Invalid.class,
         TestStackMapFrameFactory_create.class,
+        TestStackMapTable_attribute.class,
+        TestStackMapTable_attributeWithStackMapFrames.class,
         TestStringConstantElementValue.class,
         TestSynthetic_attribute.class,
         TestUninitializedVariableInfo.class,

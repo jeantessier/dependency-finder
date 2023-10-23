@@ -32,6 +32,8 @@
 
 package com.jeantessier.classreader.impl;
 
+import com.jeantessier.classreader.Visitor;
+
 import java.io.*;
 
 public class NullVariableInfo extends VerificationTypeInfo implements com.jeantessier.classreader.NullVariableInfo {
@@ -41,5 +43,9 @@ public class NullVariableInfo extends VerificationTypeInfo implements com.jeante
 
     public int getTag() {
         return VerificationType.NULL.getTag();
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitNullVariableInfo(this);
     }
 }

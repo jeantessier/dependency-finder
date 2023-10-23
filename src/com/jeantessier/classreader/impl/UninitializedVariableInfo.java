@@ -32,6 +32,7 @@
 
 package com.jeantessier.classreader.impl;
 
+import com.jeantessier.classreader.Visitor;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -52,5 +53,9 @@ public class UninitializedVariableInfo extends VerificationTypeInfo implements c
 
     public int getTag() {
         return VerificationType.UNINITIALIZED.getTag();
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitUninitializedVariableInfo(this);
     }
 }

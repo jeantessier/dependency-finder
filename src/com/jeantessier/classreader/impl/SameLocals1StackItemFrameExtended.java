@@ -32,6 +32,8 @@
 
 package com.jeantessier.classreader.impl;
 
+import com.jeantessier.classreader.Visitor;
+
 import java.io.DataInput;
 import java.io.IOException;
 
@@ -56,5 +58,9 @@ public class SameLocals1StackItemFrameExtended extends StackMapFrame implements 
 
     public com.jeantessier.classreader.VerificationTypeInfo getStack() {
         return stack;
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitSameLocals1StackItemFrameExtended(this);
     }
 }

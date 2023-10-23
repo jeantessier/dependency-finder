@@ -32,6 +32,8 @@
 
 package com.jeantessier.classreader.impl;
 
+import com.jeantessier.classreader.Visitor;
+
 import java.io.*;
 
 public class UninitializedThisVariableInfo extends VerificationTypeInfo implements com.jeantessier.classreader.UninitializedThisVariableInfo {
@@ -41,5 +43,9 @@ public class UninitializedThisVariableInfo extends VerificationTypeInfo implemen
 
     public int getTag() {
         return VerificationType.UNINITIALIZED_THIS.getTag();
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitUninitializedThisVariableInfo(this);
     }
 }

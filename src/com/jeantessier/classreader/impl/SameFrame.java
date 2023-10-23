@@ -32,6 +32,8 @@
 
 package com.jeantessier.classreader.impl;
 
+import com.jeantessier.classreader.Visitor;
+
 import java.io.*;
 
 public class SameFrame extends StackMapFrame implements com.jeantessier.classreader.SameFrame {
@@ -41,5 +43,9 @@ public class SameFrame extends StackMapFrame implements com.jeantessier.classrea
 
     public com.jeantessier.classreader.FrameType getType() {
         return FrameType.SAME.getFrameType();
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitSameFrame(this);
     }
 }

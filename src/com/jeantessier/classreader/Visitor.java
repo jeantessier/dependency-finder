@@ -82,6 +82,7 @@ public interface Visitor {
     public void visitRuntimeVisibleParameterAnnotations_attribute(RuntimeVisibleParameterAnnotations_attribute attribute);
     public void visitRuntimeInvisibleParameterAnnotations_attribute(RuntimeInvisibleParameterAnnotations_attribute attribute);
     public void visitAnnotationDefault_attribute(AnnotationDefault_attribute attribute);
+    public void visitStackMapTable_attribute(StackMapTable_attribute attribute);
     public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute);
     public void visitCustom_attribute(Custom_attribute attribute);
 
@@ -92,7 +93,6 @@ public interface Visitor {
     public void visitLineNumber(LineNumber helper);
     public void visitLocalVariable(LocalVariable helper);
     public void visitLocalVariableType(LocalVariableType helper);
-    public void visitBootstrapMethod(BootstrapMethod helper);
 
     // Annotations
     public void visitParameter(Parameter helper);
@@ -111,4 +111,21 @@ public interface Visitor {
     public void visitClassElementValue(ClassElementValue helper);
     public void visitAnnotationElementValue(AnnotationElementValue helper);
     public void visitArrayElementValue(ArrayElementValue helper);
+    public void visitSameFrame(SameFrame helper);
+    public void visitSameLocals1StackItemFrame(SameLocals1StackItemFrame helper);
+    public void visitSameLocals1StackItemFrameExtended(SameLocals1StackItemFrameExtended helper);
+    public void visitChopFrame(ChopFrame helper);
+    public void visitSameFrameExtended(SameFrameExtended helper);
+    public void visitAppendFrame(AppendFrame helper);
+    public void visitFullFrame(FullFrame helper);
+    public void visitBootstrapMethod(BootstrapMethod helper);
+    public void visitTopVariableInfo(TopVariableInfo helper);
+    public void visitIntegerVariableInfo(IntegerVariableInfo helper);
+    public void visitFloatVariableInfo(FloatVariableInfo helper);
+    public void visitLongVariableInfo(LongVariableInfo helper);
+    public void visitDoubleVariableInfo(DoubleVariableInfo helper);
+    public void visitNullVariableInfo(NullVariableInfo helper);
+    public void visitUninitializedThisVariableInfo(UninitializedThisVariableInfo helper);
+    public void visitObjectVariableInfo(ObjectVariableInfo helper);
+    public void visitUninitializedVariableInfo(UninitializedVariableInfo helper);
 }
