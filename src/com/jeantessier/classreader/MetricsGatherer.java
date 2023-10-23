@@ -83,7 +83,7 @@ public class MetricsGatherer extends VisitorBase {
         for (AttributeType attributeType : AttributeType.values()) {
             attributeCounts.put(attributeType.getAttributeName(), 0L);
         }
-        attributeCounts.put("custom", 0L);
+        attributeCounts.put("Custom", 0L);
     }
 
     public Collection<Object> getClasses() {
@@ -347,32 +347,32 @@ public class MetricsGatherer extends VisitorBase {
     // Attributes
     public void visitConstantValue_attribute(ConstantValue_attribute attribute) {
         super.visitConstantValue_attribute(attribute);
-        visitAttribute("ConstantValue");
+        visitAttribute(attribute.getAttributeName());
     }
 
     public void visitCode_attribute(Code_attribute attribute) {
         super.visitCode_attribute(attribute);
-        visitAttribute("Code");
+        visitAttribute(attribute.getAttributeName());
     }
 
     public void visitExceptions_attribute(Exceptions_attribute attribute) {
         super.visitExceptions_attribute(attribute);
-        visitAttribute("Exceptions");
+        visitAttribute(attribute.getAttributeName());
     }
 
     public void visitInnerClasses_attribute(InnerClasses_attribute attribute) {
         super.visitInnerClasses_attribute(attribute);
-        visitAttribute("InnerClasses");
+        visitAttribute(attribute.getAttributeName());
     }
 
     public void visitEnclosingMethod_attribute(EnclosingMethod_attribute attribute) {
         super.visitEnclosingMethod_attribute(attribute);
-        visitAttribute("EnclosingMethod");
+        visitAttribute(attribute.getAttributeName());
     }
 
     public void visitSynthetic_attribute(Synthetic_attribute attribute) {
         super.visitSynthetic_attribute(attribute);
-        visitAttribute("Synthetic");
+        visitAttribute(attribute.getAttributeName());
 
         Object owner = attribute.getOwner();
 
@@ -389,37 +389,37 @@ public class MetricsGatherer extends VisitorBase {
 
     public void visitSignature_attribute(Signature_attribute attribute) {
         super.visitSignature_attribute(attribute);
-        visitAttribute("Signature");
+        visitAttribute(attribute.getAttributeName());
     }
 
     public void visitSourceFile_attribute(SourceFile_attribute attribute) {
         super.visitSourceFile_attribute(attribute);
-        visitAttribute("SourceFile");
+        visitAttribute(attribute.getAttributeName());
     }
 
     public void visitSourceDebugExtension_attribute(SourceDebugExtension_attribute attribute) {
         super.visitSourceDebugExtension_attribute(attribute);
-        visitAttribute("SourceDebugExtension");
+        visitAttribute(attribute.getAttributeName());
     }
 
     public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
         super.visitLineNumberTable_attribute(attribute);
-        visitAttribute("LineNumberTable");
+        visitAttribute(attribute.getAttributeName());
     }
 
     public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
         super.visitLocalVariableTable_attribute(attribute);
-        visitAttribute("LocalVariableTable");
+        visitAttribute(attribute.getAttributeName());
     }
 
-    public void visitLocalVariableType(LocalVariableType helper) {
-        super.visitLocalVariableType(helper);
-        visitAttribute("LocalVariableTypeTable");
+    public void visitLocalVariableTypeTable_attribute(LocalVariableTypeTable_attribute attribute) {
+        super.visitLocalVariableTypeTable_attribute(attribute);
+        visitAttribute(attribute.getAttributeName());
     }
 
     public void visitDeprecated_attribute(Deprecated_attribute attribute) {
         super.visitDeprecated_attribute(attribute);
-        visitAttribute("Deprecated");
+        visitAttribute(attribute.getAttributeName());
 
         Object owner = attribute.getOwner();
 
@@ -436,37 +436,42 @@ public class MetricsGatherer extends VisitorBase {
 
     public void visitRuntimeVisibleAnnotations_attribute(RuntimeVisibleAnnotations_attribute attribute) {
         super.visitRuntimeVisibleAnnotations_attribute(attribute);
-        visitAttribute("RuntimeVisibleAnnotations");
+        visitAttribute(attribute.getAttributeName());
     }
 
     public void visitRuntimeInvisibleAnnotations_attribute(RuntimeInvisibleAnnotations_attribute attribute) {
         super.visitRuntimeInvisibleAnnotations_attribute(attribute);
-        visitAttribute("RuntimeInvisibleAnnotations");
+        visitAttribute(attribute.getAttributeName());
     }
 
     public void visitRuntimeVisibleParameterAnnotations_attribute(RuntimeVisibleParameterAnnotations_attribute attribute) {
         super.visitRuntimeVisibleParameterAnnotations_attribute(attribute);
-        visitAttribute("RuntimeVisibleParameterAnnotations");
+        visitAttribute(attribute.getAttributeName());
     }
 
     public void visitRuntimeInvisibleParameterAnnotations_attribute(RuntimeInvisibleParameterAnnotations_attribute attribute) {
         super.visitRuntimeInvisibleParameterAnnotations_attribute(attribute);
-        visitAttribute("RuntimeInvisibleParameterAnnotations");
+        visitAttribute(attribute.getAttributeName());
     }
 
     public void visitAnnotationDefault_attribute(AnnotationDefault_attribute attribute) {
         super.visitAnnotationDefault_attribute(attribute);
-        visitAttribute("AnnotationDefault");
+        visitAttribute(attribute.getAttributeName());
+    }
+
+    public void visitStackMapTable_attribute(StackMapTable_attribute attribute) {
+        super.visitStackMapTable_attribute(attribute);
+        visitAttribute(attribute.getAttributeName());
     }
 
     public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute) {
         super.visitBootstrapMethods_attribute(attribute);
-        visitAttribute("BootstrapMethods");
+        visitAttribute(attribute.getAttributeName());
     }
 
     public void visitCustom_attribute(Custom_attribute attribute) {
         super.visitCustom_attribute(attribute);
-        visitAttribute("custom");
+        visitAttribute(attribute.getAttributeName());
         customAttributes.add(attribute);
     }
 
