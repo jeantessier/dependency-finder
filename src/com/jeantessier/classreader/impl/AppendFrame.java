@@ -32,25 +32,33 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.apache.log4j.Logger;
-
 import java.io.*;
+import java.util.*;
 
-public class VerificationTypeInfoFactory {
-    public VerificationTypeInfo create(ConstantPool constantPool, DataInput in) throws IOException {
-        VerificationTypeInfo result;
+public class AppendFrame extends StackMapFrame implements com.jeantessier.classreader.AppendFrame {
+    private final int offsetDelta;
+    private final Collection<VerificationTypeInfo> locals = new ArrayList<>();
 
-        int tag = in.readUnsignedByte();
-        VerificationType verificationType = VerificationType.forTag(tag);
-        Logger.getLogger(getClass()).debug("tag " + tag + " (" + verificationType + ")");
-        if (verificationType != null) {
-            result = verificationType.create(constantPool, in);
-        } else {
-            String message = "Unknown verification type info tag '" + tag + "'";
-            Logger.getLogger(AttributeFactory.class).warn(message);
-            throw new IOException(message);
+    public AppendFrame(int frameType, VerificationTypeInfoFactory verificationTypeInfoFactory, ConstantPool constantPool, DataInput in) throws IOException {
+        super(frameType);
+
+        offsetDelta = in.readUnsignedShort();
+
+        var numberOfLocals = frameType - 251;
+        for (int i=0; i<numberOfLocals; i++) {
+            locals.add(verificationTypeInfoFactory.create(constantPool, in));
         }
+    }
 
-        return result;
+    public com.jeantessier.classreader.FrameType getType() {
+        return FrameType.SAME.getFrameType();
+    }
+
+    public int getOffsetDelta() {
+        return offsetDelta;
+    }
+
+    public Collection<? extends com.jeantessier.classreader.VerificationTypeInfo> getLocals() {
+        return locals;
     }
 }

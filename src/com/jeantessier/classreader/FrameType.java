@@ -30,27 +30,47 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader.impl;
+package com.jeantessier.classreader;
 
-import org.apache.log4j.Logger;
+import java.util.Arrays;
 
-import java.io.*;
+public enum FrameType {
+    SAME(0, 63),
+    SAME_LOCALS_1_STACK_ITEM(64, 127),
+    SAME_LOCALS_1_STACK_ITEM_EXTENDED(247),
+    CHOP(248, 250),
+    SAME_FRAME_EXTENDED(251),
+    APPEND(252, 254),
+    FULL_FRAME(255);
 
-public class VerificationTypeInfoFactory {
-    public VerificationTypeInfo create(ConstantPool constantPool, DataInput in) throws IOException {
-        VerificationTypeInfo result;
+    private final int rangeStart;
+    private final int rangeStop;
 
-        int tag = in.readUnsignedByte();
-        VerificationType verificationType = VerificationType.forTag(tag);
-        Logger.getLogger(getClass()).debug("tag " + tag + " (" + verificationType + ")");
-        if (verificationType != null) {
-            result = verificationType.create(constantPool, in);
-        } else {
-            String message = "Unknown verification type info tag '" + tag + "'";
-            Logger.getLogger(AttributeFactory.class).warn(message);
-            throw new IOException(message);
-        }
+    FrameType(int tag) {
+        this(tag, tag);
+    }
 
-        return result;
+    FrameType(int rangeStart, int rangeStop) {
+        this.rangeStart = rangeStart;
+        this.rangeStop = rangeStop;
+    }
+
+    public int getRangeStart() {
+        return rangeStart;
+    }
+
+    public int getRangeStop() {
+        return rangeStop;
+    }
+
+    public boolean inRange(int tag) {
+        return tag >= rangeStart && tag <= rangeStop;
+    }
+
+    public static FrameType forTag(int tag) {
+        return Arrays.stream(values())
+                .filter(frameType -> frameType.inRange(tag))
+                .findFirst()
+                .orElse(null);
     }
 }

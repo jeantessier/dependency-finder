@@ -32,25 +32,23 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.apache.log4j.Logger;
+import java.io.DataInput;
+import java.io.IOException;
 
-import java.io.*;
+public class ChopFrame extends StackMapFrame implements com.jeantessier.classreader.ChopFrame {
+    private final int offsetDelta;
 
-public class VerificationTypeInfoFactory {
-    public VerificationTypeInfo create(ConstantPool constantPool, DataInput in) throws IOException {
-        VerificationTypeInfo result;
+    public ChopFrame(int frameType, VerificationTypeInfoFactory verificationTypeInfoFactory, ConstantPool constantPool, DataInput in) throws IOException {
+        super(frameType);
 
-        int tag = in.readUnsignedByte();
-        VerificationType verificationType = VerificationType.forTag(tag);
-        Logger.getLogger(getClass()).debug("tag " + tag + " (" + verificationType + ")");
-        if (verificationType != null) {
-            result = verificationType.create(constantPool, in);
-        } else {
-            String message = "Unknown verification type info tag '" + tag + "'";
-            Logger.getLogger(AttributeFactory.class).warn(message);
-            throw new IOException(message);
-        }
+        offsetDelta = in.readUnsignedShort();
+    }
 
-        return result;
+    public com.jeantessier.classreader.FrameType getType() {
+        return FrameType.SAME.getFrameType();
+    }
+
+    public int getOffsetDelta() {
+        return offsetDelta;
     }
 }

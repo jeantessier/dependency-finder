@@ -32,25 +32,14 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.apache.log4j.Logger;
+public abstract class StackMapFrame implements com.jeantessier.classreader.StackMapFrame {
+    private final int frameType;
 
-import java.io.*;
+    public StackMapFrame(int frameType) {
+        this.frameType = frameType;
+    }
 
-public class VerificationTypeInfoFactory {
-    public VerificationTypeInfo create(ConstantPool constantPool, DataInput in) throws IOException {
-        VerificationTypeInfo result;
-
-        int tag = in.readUnsignedByte();
-        VerificationType verificationType = VerificationType.forTag(tag);
-        Logger.getLogger(getClass()).debug("tag " + tag + " (" + verificationType + ")");
-        if (verificationType != null) {
-            result = verificationType.create(constantPool, in);
-        } else {
-            String message = "Unknown verification type info tag '" + tag + "'";
-            Logger.getLogger(AttributeFactory.class).warn(message);
-            throw new IOException(message);
-        }
-
-        return result;
+    public int getFrameType() {
+        return frameType;
     }
 }

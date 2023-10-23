@@ -32,9 +32,8 @@
 
 package com.jeantessier.classreader.impl;
 
-import java.io.DataInput;
-import java.io.IOException;
-import java.util.Arrays;
+import java.io.*;
+import java.util.*;
 
 public enum VerificationType {
     TOP(com.jeantessier.classreader.VerificationType.TOP) {
@@ -93,8 +92,8 @@ public enum VerificationType {
 
     private final com.jeantessier.classreader.VerificationType verificationType;
 
-    VerificationType(com.jeantessier.classreader.VerificationType tag) {
-        this.verificationType = tag;
+    VerificationType(com.jeantessier.classreader.VerificationType verificationType) {
+        this.verificationType = verificationType;
     }
 
     public int getTag() {

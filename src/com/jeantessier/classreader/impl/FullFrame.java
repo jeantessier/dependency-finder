@@ -32,25 +32,46 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.apache.log4j.Logger;
+import java.io.DataInput;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 
-import java.io.*;
+public class FullFrame extends StackMapFrame implements com.jeantessier.classreader.FullFrame {
+    private final int offsetDelta;
+    private final int numberOfLocals;
+    private final Collection<VerificationTypeInfo> locals = new ArrayList<>();
+    private final int numberOfStackItems;
+    private final Collection<VerificationTypeInfo> stack = new ArrayList<>();
 
-public class VerificationTypeInfoFactory {
-    public VerificationTypeInfo create(ConstantPool constantPool, DataInput in) throws IOException {
-        VerificationTypeInfo result;
+    public FullFrame(int frameType, VerificationTypeInfoFactory verificationTypeInfoFactory, ConstantPool constantPool, DataInput in) throws IOException {
+        super(frameType);
 
-        int tag = in.readUnsignedByte();
-        VerificationType verificationType = VerificationType.forTag(tag);
-        Logger.getLogger(getClass()).debug("tag " + tag + " (" + verificationType + ")");
-        if (verificationType != null) {
-            result = verificationType.create(constantPool, in);
-        } else {
-            String message = "Unknown verification type info tag '" + tag + "'";
-            Logger.getLogger(AttributeFactory.class).warn(message);
-            throw new IOException(message);
+        offsetDelta = in.readUnsignedShort();
+
+        numberOfLocals = in.readUnsignedShort();
+        for (int i=0; i<numberOfLocals; i++) {
+            locals.add(verificationTypeInfoFactory.create(constantPool, in));
         }
 
-        return result;
+        numberOfStackItems = in.readUnsignedShort();
+        for (int i=0; i<numberOfStackItems; i++) {
+            stack.add(verificationTypeInfoFactory.create(constantPool, in));
+        }
+    }
+
+    public com.jeantessier.classreader.FrameType getType() {
+        return FrameType.SAME.getFrameType();
+    }
+
+    public int getOffsetDelta() {
+        return offsetDelta;
+    }
+
+    public Collection<? extends com.jeantessier.classreader.VerificationTypeInfo> getLocals() {
+        return locals;
+    }
+    public Collection<? extends com.jeantessier.classreader.VerificationTypeInfo> getStack() {
+        return stack;
     }
 }
