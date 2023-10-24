@@ -50,6 +50,12 @@ public enum AttributeType {
         }
     },
 
+    STACK_MAP_TABLE(com.jeantessier.classreader.AttributeType.STACK_MAP_TABLE) {
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+            return new StackMapTable_attribute(constantPool, owner, in);
+        }
+    },
+
     EXCEPTIONS(com.jeantessier.classreader.AttributeType.EXCEPTIONS) {
         public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
             return new Exceptions_attribute(constantPool, owner, in);
@@ -143,12 +149,6 @@ public enum AttributeType {
     ANNOTATION_DEFAULT(com.jeantessier.classreader.AttributeType.ANNOTATION_DEFAULT) {
         public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
             return new AnnotationDefault_attribute(constantPool, owner, in);
-        }
-    },
-
-    STACK_MAP_TABLE(com.jeantessier.classreader.AttributeType.STACK_MAP_TABLE) {
-        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
-            return new StackMapTable_attribute(constantPool, owner, in);
         }
     },
 
