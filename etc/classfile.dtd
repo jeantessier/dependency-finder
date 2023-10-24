@@ -8,14 +8,14 @@
     modification, are permitted provided that the following conditions
     are met:
     
-        * Redistributions of source code must retain the above copyright
+          * Redistributions of source code must retain the above copyright
           notice, this list of conditions and the following disclaimer.
     
-        * Redistributions in binary form must reproduce the above copyright
+          * Redistributions in binary form must reproduce the above copyright
           notice, this list of conditions and the following disclaimer in the
           documentation and/or other materials provided with the distribution.
     
-        * Neither the name of Jean Tessier nor the names of his contributors
+          * Neither the name of Jean Tessier nor the names of his contributors
           may be used to endorse or promote products derived from this software
           without specific prior written permission.
     
@@ -42,7 +42,7 @@
           access-flag CDATA #REQUIRED
 >
 
-<!ELEMENT constant-pool (class | field-ref-info | method-ref-info | interface-method-ref-info | string-info | integer-info | float-info | long-info | double-info | name-and-type-info | utf8-info | module-info | package-info | unusable)* >
+<!ELEMENT constant-pool (class | field-ref-info | method-ref-info | interface-method-ref-info | string-info | integer-info | float-info | long-info | double-info | name-and-type-info | utf8-info | method-handle-info | method-type-info | dynamic-info | invoke-dynamic-info | module-info | package-info | unusable)* >
 
 <!ELEMENT class (#PCDATA) >
 <!ATTLIST class
@@ -99,6 +99,41 @@
           index CDATA #REQUIRED
 >
 
+<!ELEMENT method-handle-info (reference-kind, reference) >
+<!ATTLIST method-handle-info
+          index CDATA #REQUIRED
+>
+
+<!ELEMENT reference-kind (#PCDATA) >
+<!ATTLIST reference-kind
+          kind CDATA #REQUIRED
+>
+
+<!ELEMENT reference (#PCDATA) >
+<!ATTLIST reference
+          index CDATA #REQUIRED
+>
+
+<!ELEMENT method-type-info (#PCDATA) >
+<!ATTLIST method-type-info
+          index CDATA #REQUIRED
+>
+
+<!ELEMENT dynamic-info (bootstrap-method-attr, name, type) >
+<!ATTLIST dynamic-info
+          index CDATA #REQUIRED
+>
+
+<!ELEMENT invoke-dynamic-info (bootstrap-method-attr, name, type) >
+<!ATTLIST invoke-dynamic-info
+          index CDATA #REQUIRED
+>
+
+<!ELEMENT bootstrap-method-attr EMPTY >
+<!ATTLIST bootstrap-method-attr
+          index CDATA #REQUIRED
+>
+
 <!ELEMENT module-info (#PCDATA) >
 <!ATTLIST module-info
           index CDATA #IMPLIED
@@ -111,7 +146,7 @@
 
 <!ELEMENT unusable EMPTY >
 <!ATTLIST unusable
-        index CDATA #IMPLIED
+          index CDATA #IMPLIED
 >
 
 <!ELEMENT type (#PCDATA) >
@@ -182,7 +217,7 @@
 
 <!ELEMENT signature (#PCDATA) >
 
-<!ELEMENT attributes (constant-value-attribute | code-attribute | exceptions-attribute | inner-classes-attribute | enclosing-method-attribute | synthetic-attribute | signature-attribute | source-file-attribute | line-number-table-attribute | local-variable-table-attribute | local-variable-type-table-attribute | deprecated-attribute | bootstrap-methods-attribute | custom-attribute)* >
+<!ELEMENT attributes (constant-value-attribute | code-attribute | stack-map-table-attribute | exceptions-attribute | inner-classes-attribute | enclosing-method-attribute | synthetic-attribute | signature-attribute | source-file-attribute | source-debug-extension | line-number-table-attribute | local-variable-table-attribute | local-variable-type-table-attribute | deprecated-attribute | runtime-visible-annotations-attribute | runtime-invisible-parameter-annotations-attribute | runtime-visible-parameter-annotations-attribute | runtime-invisible-annotations-attribute | annotation-default-attribute | bootstrap-methods-attribute | custom-attribute)* >
 
 <!ELEMENT constant-value-attribute (#PCDATA) >
 
@@ -214,6 +249,98 @@
 
 <!ELEMENT catch-type (#PCDATA) >
 
+<!ELEMENT stack-map-table-attribute (same-frame | same-locals-1-stack-item-frame | same-locals-1-stack-item-frame-extended | chop-frame | same-frame-extended | append-frame | full-frame)* >
+
+<!ELEMENT same-frame EMPTY >
+<!ATTLIST same-frame
+          frame-type CDATA #REQUIRED
+>
+
+<!ELEMENT same-locals-1-stack-item-frame (stack) >
+<!ATTLIST same-locals-1-stack-item-frame
+          frame-type CDATA #REQUIRED
+>
+
+<!ELEMENT same-locals-1-stack-item-frame-extended (stack) >
+<!ATTLIST same-locals-1-stack-item-frame-extended
+          frame-type CDATA #REQUIRED
+          offset-delta CDATA #REQUIRED
+>
+
+<!ELEMENT chop-frame EMPTY >
+<!ATTLIST chop-frame
+          frame-type CDATA #REQUIRED
+          offset-delta CDATA #REQUIRED
+>
+
+<!ELEMENT same-frame-extended EMPTY >
+<!ATTLIST same-frame-extended
+          frame-type CDATA #REQUIRED
+          offset-delta CDATA #REQUIRED
+>
+
+<!ELEMENT append-frame (locals) >
+<!ATTLIST append-frame
+          frame-type CDATA #REQUIRED
+          offset-delta CDATA #REQUIRED
+>
+
+<!ELEMENT full-frame (locals, stack) >
+<!ATTLIST full-frame
+          frame-type CDATA #REQUIRED
+          offset-delta CDATA #REQUIRED
+>
+
+<!ELEMENT stack (top-variable-info | integer-variable-info | float-variable-info | long-variable-info | double-variable-info | null-variable-info | uninitialized-this-variable-info | object-variable-info | uninitialized-variable-info)*) >
+
+<!ELEMENT locals (top-variable-info | integer-variable-info | float-variable-info | long-variable-info | double-variable-info | null-variable-info | uninitialized-this-variable-info | object-variable-info | uninitialized-variable-info)*) >
+
+<!ELEMENT top-variable-info EMPTY >
+<!ATTLIST top-variable-info
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT integer-variable-info EMPTY >
+<!ATTLIST integer-variable-info
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT float-variable-info EMPTY >
+<!ATTLIST float-variable-info
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT long-variable-info EMPTY >
+<!ATTLIST long-variable-info
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT double-variable-info EMPTY >
+<!ATTLIST double-variable-info
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT null-variable-info EMPTY >
+<!ATTLIST null-variable-info
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT uninitialized-this-variable-info EMPTY >
+<!ATTLIST uninitialized-this-variable-info
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT object-variable-info (class) >
+<!ATTLIST object-variable-info
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT uninitialized-variable-info EMPTY >
+<!ATTLIST uninitialized-variable-info
+          tag CDATA #REQUIRED
+          offset CDATA #REQUIRED
+>
+
 <!ELEMENT exceptions-attribute (exception*) >
 
 <!ELEMENT exception (#PCDATA) >
@@ -241,6 +368,8 @@
 
 <!ELEMENT source-file-attribute (#PCDATA) >
 
+<!ELEMENT source-debug-extension (#PCDATA) >
+
 <!ELEMENT line-number-table-attribute (line-number*) >
 
 <!ELEMENT line-number (start-pc, line) >
@@ -265,9 +394,99 @@
           index  CDATA #REQUIRED
 >
 
-<!ELEMENT descriptor (#PCDATA) >
-
 <!ELEMENT deprecated-attribute EMPTY >
+
+<!ELEMENT runtime-visible-annotations-attribute (annotations) >
+
+<!ELEMENT runtime-invisible-annotations-attribute (annotations) >
+
+<!ELEMENT runtime-visible-parameter-annotations-attribute (parameter-annotations) >
+
+<!ELEMENT runtime-invisible-parameter-annotations-attribute (parameter-annotations) >
+
+<!ELEMENT parameter-annotations (parameter-annotation*) >
+
+<!ELEMENT parameter-annotation (annotations) >
+
+<!ELEMENT annotations (annotation*) >
+
+<!ELEMENT annotation (type, element-value-pairs) >
+
+<!ELEMENT element-value-pairs (element-value-pair*) >
+
+<!ELEMENT element-value-pair (element-name, byte-element-value | char-element-value | double-element-value | float-element-value | integer-element-value | long-element-value | short-element-value | boolean-element-value | string-element-value | enum-element-value | class-element-value | annotation-element-value | array-element-value) >
+
+<!ELEMENT element-name (#PCDATA) >
+<!ATTLIST element-name
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT byte-element-value (#PCDATA) >
+<!ATTLIST byte-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT char-element-value (#PCDATA) >
+<!ATTLIST char-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT double-element-value (#PCDATA) >
+<!ATTLIST double-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT float-element-value (#PCDATA) >
+<!ATTLIST float-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT integer-element-value (#PCDATA) >
+<!ATTLIST integer-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT long-element-value (#PCDATA) >
+<!ATTLIST long-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT short-element-value (#PCDATA) >
+<!ATTLIST short-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT boolean-element-value (#PCDATA) >
+<!ATTLIST boolean-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT string-element-value (#PCDATA) >
+<!ATTLIST string-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT enum-element-value (#PCDATA) >
+<!ATTLIST enum-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT class-element-value (#PCDATA) >
+<!ATTLIST class-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT annotation-element-value (annotation) >
+<!ATTLIST annotation-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT array-element-value (byte-element-value | char-element-value | double-element-value | float-element-value | integer-element-value | long-element-value | short-element-value | boolean-element-value | string-element-value | enum-element-value | class-element-value | annotation-element-value | array-element-value)* >
+<!ATTLIST array-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT annotation-default-attribute (byte-element-value | char-element-value | double-element-value | float-element-value | integer-element-value | long-element-value | short-element-value | boolean-element-value | string-element-value | enum-element-value | class-element-value | annotation-element-value | array-element-value) >
 
 <!ELEMENT bootstrap-methods-attribute (bootstrap-method*) >
 

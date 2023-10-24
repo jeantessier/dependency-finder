@@ -33,7 +33,6 @@
 package com.jeantessier.classreader;
 
 import com.jeantessier.text.Hex;
-import org.apache.log4j.Logger;
 
 import java.io.PrintWriter;
 import java.util.Collection;
@@ -392,8 +391,7 @@ public class XMLPrinter extends Printer {
             top = false;
             indent();
             append("<dynamic-info index=\"").append(currentIndex()).append("\">");
-            append("<bootstrap-method-attr index=\"").append(entry.getBootstrapMethodAttrIndex()).append("\">");
-            append("</bootstrap-method-attr>");
+            append("<bootstrap-method-attr index=\"").append(entry.getBootstrapMethodAttrIndex()).append("\"/>");
             append("<name>");
             nat.getRawName().accept(this);
             append("</name>");
@@ -417,8 +415,7 @@ public class XMLPrinter extends Printer {
             top = false;
             indent();
             append("<invoke-dynamic-info index=\"").append(currentIndex()).append("\">");
-            append("<bootstrap-method-attr index=\"").append(entry.getBootstrapMethodAttrIndex()).append("\">");
-            append("</bootstrap-method-attr>");
+            append("<bootstrap-method-attr index=\"").append(entry.getBootstrapMethodAttrIndex()).append("\"/>");
             append("<name>");
             nat.getRawName().accept(this);
             append("</name>");
@@ -651,6 +648,10 @@ public class XMLPrinter extends Printer {
         indent().append("<signature-attribute>");
         attribute.getRawSignature().accept(this);
         append("</signature-attribute>").eol();
+    }
+
+    public void visitSourceDebugExtension_attribute(SourceDebugExtension_attribute attribute) {
+        indent().append("<source-debug-extension>").append(attribute.getDebugExtension()).append("</source-debug-extension>").eol();
     }
 
     public void visitSourceFile_attribute(SourceFile_attribute attribute) {
