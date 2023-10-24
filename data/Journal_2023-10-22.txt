@@ -1,11 +1,8 @@
-Started support for Java 8.  Implemented
-=RuntimeVisibleTypeAnnotations_attribute= and
-=RuntimeInvisibleTypeAnnotations_attribute=, along with their helper classes.
-It turned out to be trickier than I expected.  The =TypeAnnotation= is
-especially gnarly, with lists of unions of bespoke micro-structures.  I have
-looked at many JAR files on my laptop in various Java-based tools and
-libraries, but I still haven't found a class with either one of these
-attributes.
+Implemented the =StackMapFrame= parts, including a =StackMapFrameFactory=.  I
+did all the wiring for =Visitable= and =Visitor= support.  I implemented
+rendering as XML using =XMLPrinter=.
 
-I'm updating the DTD for =classfile=.  It was missing many attributes
-definitions.
+I adjusted the Release Plan to have separate items for each Java version that
+introduced changes to the =.class= file format.  I filled in dates for the work
+I've just been doing.  The remainder work for Java 8 through 21 should be
+straightforward.  (The last change was for Java 17.)

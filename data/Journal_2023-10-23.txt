@@ -1,0 +1,11 @@
+Started support for Java 8.  Implemented
+=RuntimeVisibleTypeAnnotations_attribute= and
+=RuntimeInvisibleTypeAnnotations_attribute=, along with their helper classes.
+It turned out to be trickier than I expected.  The =TypeAnnotation= is
+especially gnarly, with lists of unions of bespoke micro-structures.  I have
+looked at many JAR files on my laptop in various Java-based tools and
+libraries, but I still haven't found a class with either one of these
+attributes.
+
+I'm updating the DTD for =classfile=.  It was missing many attributes
+definitions.
