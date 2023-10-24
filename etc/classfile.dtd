@@ -291,9 +291,9 @@
           offset-delta CDATA #REQUIRED
 >
 
-<!ELEMENT stack (top-variable-info | integer-variable-info | float-variable-info | long-variable-info | double-variable-info | null-variable-info | uninitialized-this-variable-info | object-variable-info | uninitialized-variable-info)*) >
+<!ELEMENT stack (top-variable-info | integer-variable-info | float-variable-info | long-variable-info | double-variable-info | null-variable-info | uninitialized-this-variable-info | object-variable-info | uninitialized-variable-info)* >
 
-<!ELEMENT locals (top-variable-info | integer-variable-info | float-variable-info | long-variable-info | double-variable-info | null-variable-info | uninitialized-this-variable-info | object-variable-info | uninitialized-variable-info)*) >
+<!ELEMENT locals (top-variable-info | integer-variable-info | float-variable-info | long-variable-info | double-variable-info | null-variable-info | uninitialized-this-variable-info | object-variable-info | uninitialized-variable-info)* >
 
 <!ELEMENT top-variable-info EMPTY >
 <!ATTLIST top-variable-info
@@ -414,7 +414,7 @@
 
 <!ELEMENT element-value-pairs (element-value-pair*) >
 
-<!ELEMENT element-value-pair (element-name, byte-element-value | char-element-value | double-element-value | float-element-value | integer-element-value | long-element-value | short-element-value | boolean-element-value | string-element-value | enum-element-value | class-element-value | annotation-element-value | array-element-value) >
+<!ELEMENT element-value-pair (element-name, (byte-element-value | char-element-value | double-element-value | float-element-value | integer-element-value | long-element-value | short-element-value | boolean-element-value | string-element-value | enum-element-value | class-element-value | annotation-element-value | array-element-value)) >
 
 <!ELEMENT element-name (#PCDATA) >
 <!ATTLIST element-name
