@@ -30,10 +30,43 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
+import com.jeantessier.classreader.Visitor;
+import org.apache.log4j.Logger;
+
+import java.io.*;
 import java.util.*;
+import java.util.stream.*;
 
-public interface StackMapTable_attribute extends Attribute_info {
-    public Collection<? extends StackMapFrame> getEntries();
+public class LocalvarTarget extends Target_info implements com.jeantessier.classreader.LocalvarTarget {
+    private final TargetType targetType;
+    private final Collection<LocalvarTableEntry> table = new LinkedList<>();
+
+    public LocalvarTarget(TargetType targetType, DataInput in) throws IOException {
+        this.targetType = targetType;
+
+        var tableLength = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Reading " + tableLength + " localvar table entry(ies) ...");
+        IntStream.range(0, tableLength).forEach(i -> {
+            try {
+                Logger.getLogger(getClass()).debug("entry " + i + ":");
+                table.add(new LocalvarTableEntry(in));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    public com.jeantessier.classreader.TargetType getTargetType() {
+        return targetType.getTargetType();
+    }
+
+    public Collection<? extends com.jeantessier.classreader.LocalvarTableEntry> getTable() {
+        return table;
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitLocalvarTarget(this);
+    }
 }

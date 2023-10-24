@@ -30,10 +30,26 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
-import java.util.*;
+import com.jeantessier.classreader.Visitor;
+import org.apache.log4j.Logger;
 
-public interface StackMapTable_attribute extends Attribute_info {
-    public Collection<? extends StackMapFrame> getEntries();
+import java.io.DataInput;
+import java.io.IOException;
+
+public class EmptyTarget extends Target_info implements com.jeantessier.classreader.EmptyTarget {
+    private final TargetType targetType;
+
+    public EmptyTarget(TargetType targetType, DataInput in) throws IOException {
+        this.targetType = targetType;
+    }
+
+    public com.jeantessier.classreader.TargetType getTargetType() {
+        return targetType.getTargetType();
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitEmptyTarget(this);
+    }
 }

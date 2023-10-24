@@ -30,10 +30,39 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
-import java.util.*;
+import com.jeantessier.classreader.Visitable;
+import org.apache.log4j.Logger;
 
-public interface StackMapTable_attribute extends Attribute_info {
-    public Collection<? extends StackMapFrame> getEntries();
+import java.io.DataInput;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
+
+public abstract class RuntimeTypeAnnotations_attribute extends Annotations_attribute implements com.jeantessier.classreader.RuntimeTypeAnnotations_attribute {
+    private final List<TypeAnnotation> typeAnnotations = new ArrayList<>();
+
+    public RuntimeTypeAnnotations_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+        super(constantPool, owner);
+
+        int byteCount = in.readInt();
+        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+
+        int numParameters = in.readUnsignedByte();
+        Logger.getLogger(getClass()).debug("Reading " + numParameters + " parameter(s) ...");
+        IntStream.range(0, numParameters).forEach(i -> {
+            try {
+                Logger.getLogger(getClass()).debug("parameter " + i + ":");
+                typeAnnotations.add(new TypeAnnotation(constantPool, in));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    public List<? extends TypeAnnotation> getTypeAnnotations() {
+        return typeAnnotations;
+    }
 }

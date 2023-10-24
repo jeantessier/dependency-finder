@@ -30,10 +30,34 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
-import java.util.*;
+import com.jeantessier.classreader.Visitor;
+import org.apache.log4j.Logger;
 
-public interface StackMapTable_attribute extends Attribute_info {
-    public Collection<? extends StackMapFrame> getEntries();
+import java.io.DataInput;
+import java.io.IOException;
+
+public class FormalParameterTarget extends Target_info implements com.jeantessier.classreader.FormalParameterTarget {
+    private final TargetType targetType;
+    private final int formalParameterIndex;
+
+    public FormalParameterTarget(TargetType targetType, DataInput in) throws IOException {
+        this.targetType = targetType;
+
+        formalParameterIndex = in.readUnsignedByte();
+        Logger.getLogger(getClass()).debug("Formal parameter index: " + formalParameterIndex);
+    }
+
+    public com.jeantessier.classreader.TargetType getTargetType() {
+        return targetType.getTargetType();
+    }
+
+    public int getFormalParameterIndex() {
+        return formalParameterIndex;
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitFormalParameterTarget(this);
+    }
 }

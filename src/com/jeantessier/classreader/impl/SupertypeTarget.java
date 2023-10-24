@@ -30,10 +30,34 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
-import java.util.*;
+import com.jeantessier.classreader.Visitor;
+import org.apache.log4j.Logger;
 
-public interface StackMapTable_attribute extends Attribute_info {
-    public Collection<? extends StackMapFrame> getEntries();
+import java.io.DataInput;
+import java.io.IOException;
+
+public class SupertypeTarget extends Target_info implements com.jeantessier.classreader.SupertypeTarget {
+    private final TargetType targetType;
+    private final int supertypeIndex;
+
+    public SupertypeTarget(TargetType targetType, DataInput in) throws IOException {
+        this.targetType = targetType;
+
+        supertypeIndex = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Supertype index: " + supertypeIndex);
+    }
+
+    public com.jeantessier.classreader.TargetType getTargetType() {
+        return targetType.getTargetType();
+    }
+
+    public int getSupertypeIndex() {
+        return supertypeIndex;
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitSupertypeTarget(this);
+    }
 }

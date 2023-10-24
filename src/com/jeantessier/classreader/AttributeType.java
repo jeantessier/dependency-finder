@@ -53,6 +53,8 @@ public enum AttributeType {
     RUNTIME_INVISIBLE_ANNOTATIONS("RuntimeInvisibleAnnotations"),
     RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS("RuntimeVisibleParameterAnnotations"),
     RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS("RuntimeInvisibleParameterAnnotations"),
+    RUNTIME_VISIBLE_TYPE_ANNOTATIONS("RuntimeVisibleTypeAnnotations"),
+    RUNTIME_INVISIBLE_TYPE_ANNOTATIONS("RuntimeInvisibleTypeAnnotations"),
     ANNOTATION_DEFAULT("AnnotationDefault"),
     BOOTSTRAP_METHODS("BootstrapMethods");
 

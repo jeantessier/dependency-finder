@@ -32,8 +32,34 @@
 
 package com.jeantessier.classreader;
 
-import java.util.*;
+import java.util.Arrays;
 
-public interface StackMapTable_attribute extends Attribute_info {
-    public Collection<? extends StackMapFrame> getEntries();
+public enum TypePathKind {
+    DEEPER_IN_ARRAY_TYPE(0, "Annotation is deeper in an array type"),
+    DEEPER_IN_NESTED_TYPE(1, "Annotation is deeper in a nested type"),
+    BOUND_OF_A_WILDCARD_TYPE_ARGUMENT(2, "Annotation is on the bound of a wildcard type argument of a parameterized type"),
+    TYPE_ARGUMENT(3, "Annotation is on a type argument of a parameterized type");
+
+    private final int typePathKind;
+    private final String description;
+
+    TypePathKind(int typePathKind, String description) {
+        this.typePathKind = typePathKind;
+        this.description = description;
+    }
+
+    public int getTypePathKind() {
+        return typePathKind;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public static TypePathKind forTypePathKind(int typePathKind) {
+        return Arrays.stream(values())
+                .filter(value -> value.getTypePathKind() == typePathKind)
+                .findFirst()
+                .orElse(null);
+    }
 }

@@ -30,10 +30,24 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
-import java.util.*;
+import com.jeantessier.classreader.Visitable;
+import com.jeantessier.classreader.Visitor;
 
-public interface StackMapTable_attribute extends Attribute_info {
-    public Collection<? extends StackMapFrame> getEntries();
+import java.io.DataInput;
+import java.io.IOException;
+
+public class RuntimeVisibleTypeAnnotations_attribute extends RuntimeTypeAnnotations_attribute implements com.jeantessier.classreader.RuntimeVisibleTypeAnnotations_attribute {
+    public RuntimeVisibleTypeAnnotations_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+        super(constantPool, owner, in);
+    }
+
+    public String getAttributeName() {
+        return AttributeType.RUNTIME_VISIBLE_TYPE_ANNOTATIONS.getAttributeName();
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitRuntimeVisibleTypeAnnotations_attribute(this);
+    }
 }

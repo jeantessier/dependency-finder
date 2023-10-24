@@ -30,10 +30,36 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
-import java.util.*;
+import com.jeantessier.classreader.TypePathKind;
+import com.jeantessier.classreader.Visitor;
+import org.apache.log4j.Logger;
 
-public interface StackMapTable_attribute extends Attribute_info {
-    public Collection<? extends StackMapFrame> getEntries();
+import java.io.*;
+
+public class TypePathEntry implements com.jeantessier.classreader.TypePathEntry {
+    private final TypePathKind typePathKind;
+    private final int typeArgumentIndex;
+
+    public TypePathEntry(DataInput in) throws IOException {
+        var rawTypePathKind = in.readUnsignedByte();
+        typePathKind = TypePathKind.forTypePathKind(rawTypePathKind);
+        Logger.getLogger(getClass()).debug("Type path kind: " + rawTypePathKind + " (" + typePathKind.getDescription() + ")");
+
+        typeArgumentIndex = in.readUnsignedByte();
+        Logger.getLogger(getClass()).debug("Type argument index: " + typeArgumentIndex);
+    }
+
+    public TypePathKind getTypePathKind() {
+        return typePathKind;
+    }
+
+    public int getTypeArgumentIndex() {
+        return typeArgumentIndex;
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitTypePathEntry(this);
+    }
 }

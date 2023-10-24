@@ -32,8 +32,8 @@
 
 package com.jeantessier.classreader;
 
-import java.util.*;
+import java.util.Collection;
 
-public interface StackMapTable_attribute extends Attribute_info {
-    public Collection<? extends StackMapFrame> getEntries();
+public interface RuntimeTypeAnnotations_attribute extends Annotations_attribute {
+    public Collection<? extends TypeAnnotation> getTypeAnnotations();
 }

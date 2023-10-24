@@ -33,6 +33,7 @@
 package com.jeantessier.diff;
 
 import com.jeantessier.classreader.*;
+import org.apache.log4j.Logger;
 import org.apache.oro.text.perl.Perl5Util;
 
 import java.util.Collection;
@@ -326,6 +327,14 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
         // Do nothing
     }
 
+    public void visitRuntimeVisibleTypeAnnotations_attribute(RuntimeVisibleTypeAnnotations_attribute attribute) {
+        // Do nothing
+    }
+
+    public void visitRuntimeInvisibleTypeAnnotations_attribute(RuntimeInvisibleTypeAnnotations_attribute attribute) {
+        // Do nothing
+    }
+
     public void visitAnnotationDefault_attribute(AnnotationDefault_attribute attribute) {
         // Do nothing
     }
@@ -366,11 +375,15 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
         // Do nothing
     }
 
+    public void visitAnnotation(Annotation helper) {
+        // Do nothing
+    }
+
     public void visitParameterAnnotation(ParameterAnnotation helper) {
         // Do nothing
     }
 
-    public void visitAnnotation(Annotation helper) {
+    public void visitTypeAnnotation(TypeAnnotation helper) {
         // Do nothing
     }
 
@@ -427,6 +440,58 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
     }
 
     public void visitArrayElementValue(ArrayElementValue helper) {
+        // Do nothing
+    }
+
+    public void visitTypeParameterTarget(TypeParameterTarget helper) {
+        // Do nothing
+    }
+
+    public void visitSupertypeTarget(SupertypeTarget helper) {
+        // Do nothing
+    }
+
+    public void visitTypeParameterBoundTarget(TypeParameterBoundTarget helper) {
+        // Do nothing
+    }
+
+    public void visitEmptyTarget(EmptyTarget helper) {
+        // Do nothing
+    }
+
+    public void visitFormalParameterTarget(FormalParameterTarget helper) {
+        // Do nothing
+    }
+
+    public void visitThrowsTarget(ThrowsTarget helper) {
+        // Do nothing
+    }
+
+    public void visitLocalvarTarget(LocalvarTarget helper) {
+        // Do nothing
+    }
+
+    public void visitCatchTarget(CatchTarget helper) {
+        // Do nothing
+    }
+
+    public void visitOffsetTarget(OffsetTarget helper) {
+        // Do nothing
+    }
+
+    public void visitTypeArgumentTarget(TypeArgumentTarget helper) {
+        // Do nothing
+    }
+
+    public void visitLocalvarTableEntry(LocalvarTableEntry helper) {
+        // Do nothing
+    }
+
+    public void visitTypePath(TypePath helper) {
+        // Do nothing
+    }
+
+    public void visitTypePathEntry(TypePathEntry helper) {
         // Do nothing
     }
 

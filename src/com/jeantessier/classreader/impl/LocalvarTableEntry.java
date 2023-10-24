@@ -30,10 +30,42 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
-import java.util.*;
+import com.jeantessier.classreader.Visitor;
+import org.apache.log4j.Logger;
 
-public interface StackMapTable_attribute extends Attribute_info {
-    public Collection<? extends StackMapFrame> getEntries();
+import java.io.*;
+
+public class LocalvarTableEntry implements com.jeantessier.classreader.LocalvarTableEntry {
+    private final int startPc;
+    private final int length;
+    private final int index;
+
+    public LocalvarTableEntry(DataInput in) throws IOException {
+        startPc = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Start pc: " + startPc);
+
+        length = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Length: " + length);
+
+        index = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Index: " + index);
+    }
+
+    public int getStartPc() {
+        return startPc;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitLocalvarTableEntry(this);
+    }
 }

@@ -146,6 +146,18 @@ public enum AttributeType {
         }
     },
 
+    RUNTIME_VISIBLE_TYPE_ANNOTATIONS(com.jeantessier.classreader.AttributeType.RUNTIME_VISIBLE_TYPE_ANNOTATIONS) {
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+            return new RuntimeVisibleTypeAnnotations_attribute(constantPool, owner, in);
+        }
+    },
+
+    RUNTIME_INVISIBLE_TYPE_ANNOTATIONS(com.jeantessier.classreader.AttributeType.RUNTIME_INVISIBLE_TYPE_ANNOTATIONS) {
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+            return new RuntimeInvisibleTypeAnnotations_attribute(constantPool, owner, in);
+        }
+    },
+
     ANNOTATION_DEFAULT(com.jeantessier.classreader.AttributeType.ANNOTATION_DEFAULT) {
         public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
             return new AnnotationDefault_attribute(constantPool, owner, in);

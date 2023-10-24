@@ -30,10 +30,42 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
-import java.util.*;
+import com.jeantessier.classreader.Visitor;
+import org.apache.log4j.Logger;
 
-public interface StackMapTable_attribute extends Attribute_info {
-    public Collection<? extends StackMapFrame> getEntries();
+import java.io.DataInput;
+import java.io.IOException;
+
+public class TypeArgumentTarget extends Target_info implements com.jeantessier.classreader.TypeArgumentTarget {
+    private final TargetType targetType;
+    private final int offset;
+    private final int typeArgumentIndex;
+
+    public TypeArgumentTarget(TargetType targetType, DataInput in) throws IOException {
+        this.targetType = targetType;
+
+        offset = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Offset: " + offset);
+
+        typeArgumentIndex = in.readUnsignedByte();
+        Logger.getLogger(getClass()).debug("Type argument index: " + typeArgumentIndex);
+    }
+
+    public com.jeantessier.classreader.TargetType getTargetType() {
+        return targetType.getTargetType();
+    }
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public int getTypeArgumentIndex() {
+        return typeArgumentIndex;
+    }
+
+    public void accept(Visitor visitor) {
+        visitor.visitTypeArgumentTarget(this);
+    }
 }

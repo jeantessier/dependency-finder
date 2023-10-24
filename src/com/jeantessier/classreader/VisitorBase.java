@@ -258,6 +258,19 @@ public abstract class VisitorBase implements Visitor {
         attribute.getAnnotations().forEach(annotation -> annotation.accept(this));
     }
 
+    public void visitRuntimeVisibleTypeAnnotations_attribute(RuntimeVisibleTypeAnnotations_attribute attribute) {
+        visitRuntimeTypeAnnotations_attribute(attribute);
+    }
+
+    public void visitRuntimeInvisibleTypeAnnotations_attribute(RuntimeInvisibleTypeAnnotations_attribute attribute) {
+        visitRuntimeTypeAnnotations_attribute(attribute);
+    }
+
+    protected void visitRuntimeTypeAnnotations_attribute(RuntimeTypeAnnotations_attribute attribute) {
+        Logger.getLogger(getClass()).debug("Visiting " + attribute.getTypeAnnotations().size() + " type annotation(s) ...");
+        attribute.getTypeAnnotations().forEach(parameterAnnotation -> parameterAnnotation.accept(this));
+    }
+
     public void visitRuntimeVisibleParameterAnnotations_attribute(RuntimeVisibleParameterAnnotations_attribute attribute) {
         visitRuntimeParameterAnnotations_attribute(attribute);
     }
@@ -323,12 +336,19 @@ public abstract class VisitorBase implements Visitor {
         // Do nothing
     }
 
+    public void visitAnnotation(Annotation helper) {
+        Logger.getLogger(getClass()).debug("Visiting " + helper.getElementValuePairs().size() + " element value pair(s) ...");
+        helper.getElementValuePairs().forEach(elementValuePair -> elementValuePair.accept(this));
+    }
+
     public void visitParameterAnnotation(ParameterAnnotation helper) {
         Logger.getLogger(getClass()).debug("Visiting " + helper.getAnnotations().size() + " annotation(s) ...");
         helper.getAnnotations().forEach(annotation -> annotation.accept(this));
     }
 
-    public void visitAnnotation(Annotation helper) {
+    public void visitTypeAnnotation(TypeAnnotation helper) {
+        helper.getTarget().accept(this);
+        helper.getTargetPath().accept(this);
         Logger.getLogger(getClass()).debug("Visiting " + helper.getElementValuePairs().size() + " element value pair(s) ...");
         helper.getElementValuePairs().forEach(elementValuePair -> elementValuePair.accept(this));
     }
@@ -388,6 +408,60 @@ public abstract class VisitorBase implements Visitor {
     public void visitArrayElementValue(ArrayElementValue helper) {
         Logger.getLogger(getClass()).debug("Visiting " + helper.getValues().size() + " value(s) ...");
         helper.getValues().forEach(elementValue -> elementValue.accept(this));
+    }
+
+    public void visitTypeParameterTarget(TypeParameterTarget helper) {
+        // Do nothing
+    }
+
+    public void visitSupertypeTarget(SupertypeTarget helper) {
+        // Do nothing
+    }
+
+    public void visitTypeParameterBoundTarget(TypeParameterBoundTarget helper) {
+        // Do nothing
+    }
+
+    public void visitEmptyTarget(EmptyTarget helper) {
+        // Do nothing
+    }
+
+    public void visitFormalParameterTarget(FormalParameterTarget helper) {
+        // Do nothing
+    }
+
+    public void visitThrowsTarget(ThrowsTarget helper) {
+        // Do nothing
+    }
+
+    public void visitLocalvarTarget(LocalvarTarget helper) {
+        Logger.getLogger(getClass()).debug("Visiting " + helper.getTable().size() + " table entry(ies) ...");
+        helper.getTable().forEach(entry -> entry.accept(this));
+    }
+
+    public void visitCatchTarget(CatchTarget helper) {
+        // Do nothing
+    }
+
+    public void visitOffsetTarget(OffsetTarget helper) {
+        // Do nothing
+    }
+
+    public void visitTypeArgumentTarget(TypeArgumentTarget helper) {
+        // Do nothing
+    }
+
+    public void visitLocalvarTableEntry(LocalvarTableEntry helper) {
+        // Do nothing
+    }
+
+    public void visitTypePath(TypePath helper) {
+        Logger.getLogger(getClass()).debug("Visiting " + helper.getPath().size() + " path entry(ies) ...");
+        helper.getPath().forEach(entry -> entry.accept(this));
+    }
+
+    public void visitTypePathEntry(TypePathEntry helper) {
+        // Do nothing
     }
 
     public void visitSameFrame(SameFrame helper) {

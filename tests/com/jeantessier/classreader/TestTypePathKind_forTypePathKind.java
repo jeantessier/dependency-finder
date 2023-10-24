@@ -32,8 +32,50 @@
 
 package com.jeantessier.classreader;
 
-import java.util.*;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
-public interface StackMapTable_attribute extends Attribute_info {
-    public Collection<? extends StackMapFrame> getEntries();
+import static org.junit.Assert.assertEquals;
+import static org.junit.runners.Parameterized.Parameter;
+import static org.junit.runners.Parameterized.Parameters;
+
+@RunWith(Parameterized.class)
+public class TestTypePathKind_forTypePathKind {
+    @Parameters(name="TypePathKind from value {0}")
+    public static Object[][] data() {
+        return new Object[][] {
+            {"0", 0, TypePathKind.DEEPER_IN_ARRAY_TYPE},
+            {"1", 1, TypePathKind.DEEPER_IN_NESTED_TYPE},
+            {"2", 2, TypePathKind.BOUND_OF_A_WILDCARD_TYPE_ARGUMENT},
+            {"3", 3, TypePathKind.TYPE_ARGUMENT},
+        };
+    }
+
+    @Parameter(0)
+    public String label;
+
+    @Parameter(1)
+    public int typePathKind;
+
+    @Parameter(2)
+    public TypePathKind expectedResult;
+
+    private TypePathKind sut;
+
+    @Before
+    public void setUp() {
+        sut = TypePathKind.forTypePathKind(typePathKind);
+    }
+
+    @Test
+    public void testEnumValue() {
+        assertEquals(label, expectedResult, sut);
+    }
+
+    @Test
+    public void testRawValue() {
+        assertEquals(label, typePathKind, sut.getTypePathKind());
+    }
 }

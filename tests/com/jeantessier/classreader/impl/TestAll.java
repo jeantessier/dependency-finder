@@ -99,6 +99,7 @@ import static org.junit.runners.Suite.SuiteClasses;
         TestStackMapTable_attributeWithStackMapFrames.class,
         TestStringConstantElementValue.class,
         TestSynthetic_attribute.class,
+        TestTargetType_forTargetType.class,
         TestUninitializedVariableInfo.class,
         TestVerificationTypeInfoFactory_Invalid.class,
         TestVerificationTypeInfoFactory_create.class,

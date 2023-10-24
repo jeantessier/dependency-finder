@@ -32,7 +32,7 @@
 
 package com.jeantessier.classreader;
 
-import java.util.Collection;
+import java.util.*;
 
 public interface Visitor {
     // Classfile
@@ -82,6 +82,8 @@ public interface Visitor {
     public void visitRuntimeInvisibleAnnotations_attribute(RuntimeInvisibleAnnotations_attribute attribute);
     public void visitRuntimeVisibleParameterAnnotations_attribute(RuntimeVisibleParameterAnnotations_attribute attribute);
     public void visitRuntimeInvisibleParameterAnnotations_attribute(RuntimeInvisibleParameterAnnotations_attribute attribute);
+    public void visitRuntimeVisibleTypeAnnotations_attribute(RuntimeVisibleTypeAnnotations_attribute attribute);
+    public void visitRuntimeInvisibleTypeAnnotations_attribute(RuntimeInvisibleTypeAnnotations_attribute attribute);
     public void visitAnnotationDefault_attribute(AnnotationDefault_attribute attribute);
     public void visitStackMapTable_attribute(StackMapTable_attribute attribute);
     public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute);
@@ -96,8 +98,9 @@ public interface Visitor {
     public void visitLocalVariableType(LocalVariableType helper);
 
     // Annotations
-    public void visitParameterAnnotation(ParameterAnnotation helper);
     public void visitAnnotation(Annotation helper);
+    public void visitParameterAnnotation(ParameterAnnotation helper);
+    public void visitTypeAnnotation(TypeAnnotation helper);
     public void visitElementValuePair(ElementValuePair helper);
     public void visitByteConstantElementValue(ByteConstantElementValue helper);
     public void visitCharConstantElementValue(CharConstantElementValue helper);
@@ -112,6 +115,19 @@ public interface Visitor {
     public void visitClassElementValue(ClassElementValue helper);
     public void visitAnnotationElementValue(AnnotationElementValue helper);
     public void visitArrayElementValue(ArrayElementValue helper);
+    public void visitTypeParameterTarget(TypeParameterTarget helper);
+    public void visitSupertypeTarget(SupertypeTarget helper);
+    public void visitTypeParameterBoundTarget(TypeParameterBoundTarget helper);
+    public void visitEmptyTarget(EmptyTarget helper);
+    public void visitFormalParameterTarget(FormalParameterTarget helper);
+    public void visitThrowsTarget(ThrowsTarget helper);
+    public void visitLocalvarTarget(LocalvarTarget helper);
+    public void visitCatchTarget(CatchTarget helper);
+    public void visitOffsetTarget(OffsetTarget helper);
+    public void visitTypeArgumentTarget(TypeArgumentTarget helper);
+    public void visitLocalvarTableEntry(LocalvarTableEntry helper);
+    public void visitTypePath(TypePath helper);
+    public void visitTypePathEntry(TypePathEntry helper);
     public void visitSameFrame(SameFrame helper);
     public void visitSameLocals1StackItemFrame(SameLocals1StackItemFrame helper);
     public void visitSameLocals1StackItemFrameExtended(SameLocals1StackItemFrameExtended helper);

@@ -7,11 +7,11 @@ import org.junit.*;
 import org.junit.runner.*;
 import org.junit.runners.Parameterized;
 
-import java.io.DataInput;
-import java.io.IOException;
+import java.io.*;
 
 import static junit.framework.Assert.*;
 import static org.junit.runners.Parameterized.*;
+import static org.junit.runners.Parameterized.Parameter;
 
 @RunWith(Parameterized.class)
 public class TestBootstrapMethodWithOneArgument {
@@ -30,16 +30,16 @@ public class TestBootstrapMethodWithOneArgument {
         };
     }
 
-    @Parameterized.Parameter(0)
+    @Parameter(0)
     public String label;
 
-    @Parameterized.Parameter(1)
+    @Parameter(1)
     public int bootstrapMethodRef;
 
-    @Parameterized.Parameter(2)
+    @Parameter(2)
     public int argumentIndex;
 
-    @Parameterized.Parameter(3)
+    @Parameter(3)
     public Class<? extends ConstantPoolEntry> argumentClass;
 
     @Rule
