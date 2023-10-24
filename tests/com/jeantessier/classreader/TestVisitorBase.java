@@ -255,13 +255,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         final Attribute_info mockAttribute = mock(Attribute_info.class);
 
         checking(new Expectations() {{
-            one (mockCode).forEach(with(any(Consumer.class)));
-                will(new CustomAction("Iterate over the mock instruction") {
-                    public Object invoke(Invocation invocation) {
-                        ((Consumer<Instruction>) invocation.getParameter(0)).accept(mockInstruction);
-                        return null;
-                    }
-                });
+            oneOf (mockCode).forEach(with(any(Consumer.class)));
+                will(visitInstruction(mockInstruction));
             oneOf (mockInstruction).accept(sut);
             oneOf (mockCode).getExceptionHandlers();
                 will(returnValue(Collections.singleton(mockExceptionHandler)));
@@ -754,5 +749,14 @@ public class TestVisitorBase extends MockObjectTestCase {
         }});
 
         sut.visitBootstrapMethod(mockBootstrapMethod);
+    }
+
+    private Action visitInstruction(Instruction instruction) {
+        return new CustomAction("Iterate over instruction") {
+            public Object invoke(Invocation invocation) {
+                ((Consumer<Instruction>) invocation.getParameter(0)).accept(instruction);
+                return null;
+            }
+        };
     }
 }

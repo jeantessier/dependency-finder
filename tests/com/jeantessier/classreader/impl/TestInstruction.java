@@ -35,10 +35,10 @@ package com.jeantessier.classreader.impl;
 import com.jeantessier.classreader.LocalVariableFinder;
 import com.jeantessier.classreader.Visitor;
 import org.jmock.Expectations;
-import org.jmock.api.Invocation;
+import org.jmock.api.*;
 import org.jmock.imposters.ByteBuddyClassImposteriser;
 import org.jmock.integration.junit3.MockObjectTestCase;
-import org.jmock.lib.action.CustomAction;
+import org.jmock.lib.action.*;
 
 public class TestInstruction extends MockObjectTestCase {
     private static final byte ICONST_0_INSTRUCTION = (byte) 0x03;
@@ -205,9 +205,9 @@ public class TestInstruction extends MockObjectTestCase {
         final ConstantPoolEntry mockEntry = mock(ConstantPoolEntry.class);
 
         checking (new Expectations() {{
-            one (mockCode_attribute).getConstantPool();
+            oneOf (mockCode_attribute).getConstantPool();
                 will(returnValue(mockConstantPool));
-            one (mockConstantPool).get(INDEX);
+            oneOf (mockConstantPool).get(INDEX);
                 will(returnValue(mockEntry));
         }});
 
@@ -222,10 +222,10 @@ public class TestInstruction extends MockObjectTestCase {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
-            one (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
-            will(visitLocalVariable(mockLocalVariable));
-            one (mockLocalVariable).getIndex();
-            will(returnValue(INDEX + 1));
+            oneOf (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
+                will(visitLocalVariable(mockLocalVariable));
+            oneOf (mockLocalVariable).getIndex();
+                will(returnValue(INDEX + 1));
         }});
 
         byte[] bytecode = {ILOAD_INSTRUCTION, INDEX};
@@ -242,9 +242,9 @@ public class TestInstruction extends MockObjectTestCase {
         final byte[] bytecode = {ILOAD_INSTRUCTION, INDEX};
 
         checking(new Expectations() {{
-            one (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
+            oneOf (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
                 will(visitLocalVariable(mockLocalVariable));
-            one (mockLocalVariable).getIndex();
+            oneOf (mockLocalVariable).getIndex();
                 will(returnValue((int) INDEX));
             atLeast(1).of (mockLocalVariable).getStartPC();
                 will(returnValue(START_PC));
@@ -264,11 +264,11 @@ public class TestInstruction extends MockObjectTestCase {
         final byte[] bytecode = {ILOAD_INSTRUCTION, INDEX};
 
         checking(new Expectations() {{
-            one (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
+            oneOf (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
                 will(visitLocalVariable(mockLocalVariable));
-            one (mockLocalVariable).getIndex();
+            oneOf (mockLocalVariable).getIndex();
                 will(returnValue((int) INDEX));
-            one (mockLocalVariable).getStartPC();
+            oneOf (mockLocalVariable).getStartPC();
                 will(returnValue(START_PC + bytecode.length));
         }});
 
@@ -284,9 +284,9 @@ public class TestInstruction extends MockObjectTestCase {
         final byte[] bytecode = {ISTORE_INSTRUCTION, INDEX};
 
         checking(new Expectations() {{
-            one (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
+            oneOf (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
                 will(visitLocalVariable(mockLocalVariable));
-            one (mockLocalVariable).getIndex();
+            oneOf (mockLocalVariable).getIndex();
                 will(returnValue((int) INDEX));
             atLeast(1).of (mockLocalVariable).getStartPC();
                 will(returnValue(START_PC));
@@ -306,7 +306,7 @@ public class TestInstruction extends MockObjectTestCase {
         final byte[] bytecode = {ISTORE_INSTRUCTION, INDEX};
 
         checking(new Expectations() {{
-            one (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
+            oneOf (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
                 will(visitLocalVariable(mockLocalVariable));
             atLeast(1).of (mockLocalVariable).getIndex();
                 will(returnValue((int) INDEX));
@@ -328,9 +328,9 @@ public class TestInstruction extends MockObjectTestCase {
         final byte[] bytecode = {WIDE_INSTRUCTION, ILOAD_INSTRUCTION, 0x00, INDEX};
 
         checking(new Expectations() {{
-            one (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
+            oneOf (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
                 will(visitLocalVariable(mockLocalVariable));
-            one (mockLocalVariable).getIndex();
+            oneOf (mockLocalVariable).getIndex();
                 will(returnValue((int) INDEX));
             atLeast(1).of (mockLocalVariable).getStartPC();
                 will(returnValue(START_PC));
@@ -350,11 +350,11 @@ public class TestInstruction extends MockObjectTestCase {
         final byte[] bytecode = {WIDE_INSTRUCTION, ILOAD_INSTRUCTION, 0x00, INDEX};
 
         checking(new Expectations() {{
-            one (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
+            oneOf (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
                 will(visitLocalVariable(mockLocalVariable));
-            one (mockLocalVariable).getIndex();
+            oneOf (mockLocalVariable).getIndex();
                 will(returnValue((int) INDEX));
-            one (mockLocalVariable).getStartPC();
+            oneOf (mockLocalVariable).getStartPC();
                 will(returnValue(START_PC + bytecode.length));
         }});
 
@@ -370,9 +370,9 @@ public class TestInstruction extends MockObjectTestCase {
         final byte[] bytecode = {WIDE_INSTRUCTION, ISTORE_INSTRUCTION, 0x00, INDEX};
 
         checking(new Expectations() {{
-            one (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
+            oneOf (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
                 will(visitLocalVariable(mockLocalVariable));
-            one (mockLocalVariable).getIndex();
+            oneOf (mockLocalVariable).getIndex();
                 will(returnValue((int) INDEX));
             atLeast(1).of (mockLocalVariable).getStartPC();
                 will(returnValue(START_PC));
@@ -392,7 +392,7 @@ public class TestInstruction extends MockObjectTestCase {
         final byte[] bytecode = {WIDE_INSTRUCTION, ISTORE_INSTRUCTION, 0x00, INDEX};
 
         checking(new Expectations() {{
-            one (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
+            oneOf (mockCode_attribute).accept(with(any(LocalVariableFinder.class)));
                 will(visitLocalVariable(mockLocalVariable));
             atLeast(1).of (mockLocalVariable).getIndex();
                 will(returnValue((int) INDEX));
@@ -417,10 +417,10 @@ public class TestInstruction extends MockObjectTestCase {
         assertNull(actualLocalVariable);
     }
 
-    private CustomAction visitLocalVariable(final LocalVariable mockLocalVariable) {
+    private Action visitLocalVariable(final LocalVariable localVariable) {
         return new CustomAction("Visit local variable") {
             public Object invoke(Invocation invocation) throws Throwable {
-                ((Visitor) invocation.getParameter(0)).visitLocalVariable(mockLocalVariable);
+                ((Visitor) invocation.getParameter(0)).visitLocalVariable(localVariable);
                 return null;
             }
         };
