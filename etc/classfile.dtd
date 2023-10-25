@@ -217,7 +217,7 @@
 
 <!ELEMENT signature (#PCDATA) >
 
-<!ELEMENT attributes (constant-value-attribute | code-attribute | stack-map-table-attribute | exceptions-attribute | inner-classes-attribute | enclosing-method-attribute | synthetic-attribute | signature-attribute | source-file-attribute | source-debug-extension | line-number-table-attribute | local-variable-table-attribute | local-variable-type-table-attribute | deprecated-attribute | runtime-visible-annotations-attribute | runtime-invisible-parameter-annotations-attribute | runtime-visible-parameter-annotations-attribute | runtime-invisible-annotations-attribute | annotation-default-attribute | bootstrap-methods-attribute | custom-attribute)* >
+<!ELEMENT attributes (constant-value-attribute | code-attribute | stack-map-table-attribute | exceptions-attribute | inner-classes-attribute | enclosing-method-attribute | synthetic-attribute | signature-attribute | source-file-attribute | source-debug-extension | line-number-table-attribute | local-variable-table-attribute | local-variable-type-table-attribute | deprecated-attribute | runtime-visible-annotations-attribute | runtime-invisible-annotations-attribute | runtime-visible-parameter-annotations-attribute | runtime-invisible-parameter-annotations-attribute | runtime-visible-type-annotations-attribute | runtime-invisible-type-annotations-attribute | annotation-default-attribute | bootstrap-methods-attribute | custom-attribute)* >
 
 <!ELEMENT constant-value-attribute (#PCDATA) >
 
@@ -485,6 +485,93 @@
 <!ATTLIST array-element-value
           tag CDATA #REQUIRED
 >
+
+<!ELEMENT runtime-visible-type-annotations-attribute (type-annotations) >
+
+<!ELEMENT runtime-invisible-type-annotations-attribute (type-annotations) >
+
+<!ELEMENT type-annotations (type-annotation*) >
+
+<!ELEMENT type-annotation ((type-parameter-target | supertype-target | type-parameter-bound-target | empty-target | formal-parameter-target | throws-target | localvar-target | catch-target | offset-target | type-argument-target), target-path, element-value-pairs) >
+
+<!ELEMENT type-parameter-target (type-parameter-index) >
+<!ATTLIST type-parameter-target
+          target-type CDATA #REQUIRED
+>
+
+<!ELEMENT type-parameter-index (#PCDATA) >
+
+<!ELEMENT supertype-target (supertype-index) >
+<!ATTLIST supertype-target
+          target-type CDATA #REQUIRED
+>
+
+<!ELEMENT supertype-index (#PCDATA) >
+
+<!ELEMENT type-parameter-bound-target (type-parameter-index, bound-index) >
+<!ATTLIST type-parameter-bound-target
+          target-type CDATA #REQUIRED
+>
+
+<!ELEMENT bound-index (#PCDATA) >
+
+<!ELEMENT empty-target EMPTY >
+<!ATTLIST empty-target
+          target-type CDATA #REQUIRED
+>
+
+<!ELEMENT formal-parameter-target (formal-parameter-index) >
+<!ATTLIST formal-parameter-target
+          target-type CDATA #REQUIRED
+>
+
+<!ELEMENT formal-parameter-index (#PCDATA) >
+
+<!ELEMENT throws-target (throws-type-index) >
+<!ATTLIST throws-target
+          target-type CDATA #REQUIRED
+>
+
+<!ELEMENT throws-type-index (#PCDATA) >
+
+<!ELEMENT localvar-target (localvar*) >
+<!ATTLIST localvar-target
+          target-type CDATA #REQUIRED
+>
+
+<!ELEMENT localvar (#PCDATA) >
+<!ATTLIST localvar-target
+          start-pc CDATA #REQUIRED
+          length CDATA #REQUIRED
+          index CDATA #REQUIRED
+>
+
+<!ELEMENT catch-target (exception-table-index) >
+<!ATTLIST catch-target
+          target-type CDATA #REQUIRED
+>
+
+<!ELEMENT exception-table-index (#PCDATA) >
+
+<!ELEMENT offset-target (offset) >
+<!ATTLIST offset-target
+          target-type CDATA #REQUIRED
+>
+
+<!ELEMENT offset (#PCDATA) >
+
+<!ELEMENT type-argument-target (offset, type-argument-index) >
+<!ATTLIST type-argument-target
+          target-type CDATA #REQUIRED
+>
+
+<!ELEMENT type-argument-index (#PCDATA) >
+
+<!ELEMENT target-path (type-path*) >
+
+<!ELEMENT type-path (type-path-kind, type-argument-index) >
+
+<!ELEMENT type-path-kind (#PCDATA) >
 
 <!ELEMENT annotation-default-attribute (byte-element-value | char-element-value | double-element-value | float-element-value | integer-element-value | long-element-value | short-element-value | boolean-element-value | string-element-value | enum-element-value | class-element-value | annotation-element-value | array-element-value) >
 
