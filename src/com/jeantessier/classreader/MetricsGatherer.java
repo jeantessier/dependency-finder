@@ -33,7 +33,9 @@
 package com.jeantessier.classreader;
 
 import java.util.*;
+import java.util.stream.*;
 
+import com.jeantessier.classreader.impl.ConstantPoolEntry;
 import org.apache.log4j.*;
 
 public class MetricsGatherer extends VisitorBase {
@@ -75,14 +77,16 @@ public class MetricsGatherer extends VisitorBase {
     private final Collection<Method_info> nativeMethods = new LinkedList<>();
     private final Collection<Field_info> volatileFields = new LinkedList<>();
     private final Collection<Field_info> transientFields = new LinkedList<>();
+    private final Map<Integer, Long> constantPoolEntryCounts = new HashMap<>();
     private final Map<String, Long> attributeCounts = new HashMap<>();
     private final Collection<Custom_attribute> customAttributes = new LinkedList<>();
     private final long[] instructionCounts = new long[256];
 
+    private boolean visitingConstantPool = false;
+
     public MetricsGatherer() {
-        for (AttributeType attributeType : AttributeType.values()) {
-            attributeCounts.put(attributeType.getAttributeName(), 0L);
-        }
+        IntStream.rangeClosed(1, 20).filter(tag -> tag != 2 && tag != 13 && tag != 14).forEach(tag -> constantPoolEntryCounts.put(tag, 0L));
+        Arrays.stream(AttributeType.values()).forEach(attributeType -> attributeCounts.put(attributeType.getAttributeName(), 0L));
         attributeCounts.put("Custom", 0L);
     }
 
@@ -238,6 +242,9 @@ public class MetricsGatherer extends VisitorBase {
         return transientFields;
     }
 
+    public Map<Integer, Long> getConstantPoolEntryCounts() {
+        return constantPoolEntryCounts;
+    }
     public Map<String, Long> getAttributeCounts() {
         return attributeCounts;
     }
@@ -252,6 +259,8 @@ public class MetricsGatherer extends VisitorBase {
     
     // Classfile
     public void visitClassfile(Classfile classfile) {
+        classfile.getConstantPool().accept(this);
+
         if (classfile.isPublic()) {
             publicClasses.add(classfile);
         } else {
@@ -273,6 +282,101 @@ public class MetricsGatherer extends VisitorBase {
         }
 
         super.visitClassfile(classfile);
+    }
+
+    // ConstantPool
+
+
+    @Override
+    public void visitConstantPool(ConstantPool constantPool) {
+        visitingConstantPool = true;
+        super.visitConstantPool(constantPool);
+        visitingConstantPool = false;
+    }
+
+    public void visitClass_info(Class_info entry) {
+        super.visitClass_info(entry);
+        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_Class);
+    }
+
+    public void visitFieldRef_info(FieldRef_info entry) {
+        super.visitFieldRef_info(entry);
+        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_Fieldref);
+    }
+
+    public void visitMethodRef_info(MethodRef_info entry) {
+        super.visitMethodRef_info(entry);
+        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_Methodref);
+    }
+
+    public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
+        super.visitInterfaceMethodRef_info(entry);
+        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_InterfaceMethodref);
+    }
+
+    public void visitString_info(String_info entry) {
+        super.visitString_info(entry);
+        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_String);
+    }
+
+    public void visitInteger_info(Integer_info entry) {
+        super.visitInteger_info(entry);
+        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_Integer);
+    }
+
+    public void visitFloat_info(Float_info entry) {
+        super.visitFloat_info(entry);
+        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_Float);
+    }
+
+    public void visitLong_info(Long_info entry) {
+        super.visitLong_info(entry);
+        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_Long);
+    }
+
+    public void visitDouble_info(Double_info entry) {
+        super.visitDouble_info(entry);
+        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_Double);
+    }
+
+    public void visitNameAndType_info(NameAndType_info entry) {
+        super.visitNameAndType_info(entry);
+        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_NameAndType);
+    }
+
+    public void visitUTF8_info(UTF8_info entry) {
+        super.visitUTF8_info(entry);
+        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_Utf8);
+    }
+
+    public void visitMethodHandle_info(MethodHandle_info entry) {
+        super.visitMethodHandle_info(entry);
+        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_MethodHandle);
+    }
+
+    public void visitMethodType_info(MethodType_info entry) {
+        super.visitMethodType_info(entry);
+        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_MethodType);
+    }
+
+    public void visitDynamic_info(Dynamic_info entry) {
+        super.visitDynamic_info(entry);
+        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_Dynamic);
+    }
+
+    public void visitInvokeDynamic_info(InvokeDynamic_info entry) {
+        super.visitInvokeDynamic_info(entry);
+        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_InvokeDynamic);
+    }
+
+    public void visitModule_info(Module_info entry) {
+        super.visitModule_info(entry);
+        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_Module);
+    }
+
+    public void visitPackage_info(Package_info entry) {
+        super.visitPackage_info(entry);
+        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_Package);
     }
 
     // Features
@@ -473,6 +577,12 @@ public class MetricsGatherer extends VisitorBase {
         super.visitCustom_attribute(attribute);
         visitAttribute(attribute.getAttributeName());
         customAttributes.add(attribute);
+    }
+
+    private void visitConstantPoolEntry(int tag) {
+        if (visitingConstantPool) {
+            constantPoolEntryCounts.put(tag, constantPoolEntryCounts.get(tag) + 1);
+        }
     }
 
     private void visitAttribute(String attributeName) {

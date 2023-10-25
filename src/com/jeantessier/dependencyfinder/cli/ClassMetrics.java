@@ -34,6 +34,7 @@ package com.jeantessier.dependencyfinder.cli;
 
 import java.util.*;
 import java.io.*;
+import java.util.function.Function;
 import java.util.stream.*;
 
 import com.jeantessier.classreader.*;
@@ -120,23 +121,31 @@ public class ClassMetrics extends DirectoryExplorerCommand {
             }
         }
 
-        for (AttributeType attributeType : AttributeType.values()) {
-            getOut().println(metrics.getAttributeCounts().get(attributeType.getAttributeName()) + " " + attributeType.getAttributeName() + " attribute(s)");
+        getOut().println(metrics.getConstantPoolEntryCounts().values().stream().reduce(0L, Long::sum) + " constant pool entry(ies)");
+        if (list) {
+            for (var entry : metrics.getConstantPoolEntryCounts().entrySet()) {
+                getOut().format("%12d %s%n", entry.getValue(), com.jeantessier.classreader.impl.ConstantPoolEntry.stringValueOf(entry.getKey().byteValue()));
+            }
         }
 
-        getOut().println(metrics.getCustomAttributes().size() + " custom attribute(s)");
+        getOut().println(metrics.getAttributeCounts().values().stream().reduce(0L, Long::sum) + " attribute(s)");
+        for (AttributeType attributeType : AttributeType.values()) {
+            getOut().format("%12d %s attribute(s)%n", metrics.getAttributeCounts().get(attributeType.getAttributeName()), attributeType.getAttributeName());
+        }
+
+        getOut().format("%12d custom attribute(s)%n", metrics.getCustomAttributes().size());
         if (list) {
             getOut().println(
                     metrics.getCustomAttributes().stream()
                             .collect(groupingBy(Custom_attribute::getName))
                             .entrySet().stream()
                             .flatMap(entry -> Stream.concat(
-                                    Stream.of("        " + entry.getValue().size() + " " + entry.getKey()),
+                                    Stream.of(String.format("%16d %s", entry.getValue().size(), entry.getKey())),
                                     entry.getValue().stream()
                                             .collect(groupingBy(attribute -> attribute.getInfo().length))
                                             .entrySet().stream()
                                             .sorted(Map.Entry.comparingByKey())
-                                            .map(histoEntry -> "                " + histoEntry.getValue().size() + "x " + histoEntry.getKey() + " bytes")))
+                                            .map(histoEntry -> String.format("%20dx %s", histoEntry.getValue().size(), histoEntry.getKey() + " bytes"))))
                             .collect(joining(System.getProperty("line.separator")))
             );
         }

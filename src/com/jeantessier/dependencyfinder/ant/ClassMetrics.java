@@ -170,23 +170,31 @@ public class ClassMetrics extends Task {
                 }
             }
 
-            for (AttributeType attributeType : AttributeType.values()) {
-                out.println(metrics.getAttributeCounts().get(attributeType.getAttributeName()) + " " + attributeType.getAttributeName() + " attribute(s)");
+            out.println(metrics.getConstantPoolEntryCounts().values().stream().reduce(0L, Long::sum) + " constant pool entry(ies)");
+            if (getList()) {
+                for (var entry : metrics.getConstantPoolEntryCounts().entrySet()) {
+                    out.format("%12d %s%n", entry.getValue(), com.jeantessier.classreader.impl.ConstantPoolEntry.stringValueOf(entry.getKey().byteValue()));
+                }
             }
 
-            out.println(metrics.getCustomAttributes().size() + " custom attribute(s)");
+            out.println(metrics.getAttributeCounts().values().stream().reduce(0L, Long::sum) + " attribute(s)");
+            for (AttributeType attributeType : AttributeType.values()) {
+                out.format("%12d %s attribute(s)%n", metrics.getAttributeCounts().get(attributeType.getAttributeName()), attributeType.getAttributeName());
+            }
+
+            out.format("%12d custom attribute(s)%n", metrics.getCustomAttributes().size());
             if (getList()) {
                 out.println(
                         metrics.getCustomAttributes().stream()
                                 .collect(groupingBy(Custom_attribute::getName))
                                 .entrySet().stream()
                                 .flatMap(entry -> Stream.concat(
-                                        Stream.of("        " + entry.getValue().size() + " " + entry.getKey()),
+                                        Stream.of(String.format("%16d %s", entry.getValue().size(), entry.getKey())),
                                         entry.getValue().stream()
                                                 .collect(groupingBy(attribute -> attribute.getInfo().length))
                                                 .entrySet().stream()
                                                 .sorted(Map.Entry.comparingByKey())
-                                                .map(histoEntry -> "                " + histoEntry.getValue().size() + "x " + histoEntry.getKey() + " bytes")))
+                                                .map(histoEntry -> String.format("%20dx %s", histoEntry.getValue().size(), histoEntry.getKey() + " bytes"))))
                                 .collect(joining(System.getProperty("line.separator")))
                 );
             }
