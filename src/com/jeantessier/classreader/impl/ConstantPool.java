@@ -91,14 +91,14 @@ public class ConstantPool extends ArrayList<com.jeantessier.classreader.Constant
                 case ConstantPoolEntry.CONSTANT_Long:
                     add(new Long_info(this, in));
                     i++;
-                    Logger.getLogger(getClass()).info("Entry " + i + " will be unusable.");
-                    add(new UnusableEntry(this, in));
+                    Logger.getLogger(getClass()).info("Entry " + i + " is unusable.");
+                    add(new UnusableEntry(this, in, "previous entry is tagged CONSTANT_Long_info"));
                     break;
                 case ConstantPoolEntry.CONSTANT_Double:
                     add(new Double_info(this, in));
                     i++;
-                    Logger.getLogger(getClass()).info("Entry " + i + " will be unusable.");
-                    add(new UnusableEntry(this, in));
+                    Logger.getLogger(getClass()).info("Entry " + i + " is unusable.");
+                    add(new UnusableEntry(this, in, "previous entry is tagged CONSTANT_Double_info"));
                     break;
                 case ConstantPoolEntry.CONSTANT_NameAndType:
                     add(new NameAndType_info(this, in));

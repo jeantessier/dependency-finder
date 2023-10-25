@@ -465,7 +465,7 @@ public class XMLPrinter extends Printer {
     public void visitUnusableEntry(UnusableEntry entry) {
         if (top) {
             top = false;
-            indent().append("<unusable index=\"").append(currentIndex()).append("\"/>").eol();
+            indent().append("<unusable index=\"").append(currentIndex()).append("\">").append(entry.getReason()).append("</unusable>").eol();
             top = true;
         } else {
             append(entry);

@@ -37,12 +37,20 @@ import com.jeantessier.classreader.Visitor;
 import java.io.*;
 
 public class UnusableEntry extends ConstantPoolEntry implements com.jeantessier.classreader.UnusableEntry {
-    public UnusableEntry(ConstantPool constantPool, DataInput in) throws IOException {
+    private final String reason;
+
+    public UnusableEntry(ConstantPool constantPool, DataInput in, String reason) throws IOException {
         super(constantPool);
+
+        this.reason = reason;
+    }
+
+    public String getReason() {
+        return reason;
     }
 
     public String toString() {
-        return "Unusable";
+        return "Unusable (" + getReason() + ")";
     }
 
     public void accept(Visitor visitor) {

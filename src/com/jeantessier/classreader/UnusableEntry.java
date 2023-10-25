@@ -33,4 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface UnusableEntry extends ConstantPoolEntry {
+    public String getReason();
 }
