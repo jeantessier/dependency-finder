@@ -1551,6 +1551,68 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "runtime-invisible-parameter-annotations-attribute/parameter-annotations", 1);
     }
 
+    public void testVisitRuntimeVisibleTypeAnnotations_attribute_WithoutAnnotations() throws Exception {
+        final RuntimeVisibleTypeAnnotations_attribute attribute = mock(RuntimeVisibleTypeAnnotations_attribute.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (attribute).getTypeAnnotations();
+        }});
+
+        printer.visitRuntimeVisibleTypeAnnotations_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "runtime-visible-type-annotations-attribute", 1);
+        assertXPathCount(xmlDocument, "runtime-visible-type-annotations-attribute/type-annotations", 1);
+    }
+
+    public void testVisitRuntimeVisibleTypeAnnotations_attribute_WithAnAnnotation() throws Exception {
+        final RuntimeVisibleTypeAnnotations_attribute attribute = mock(RuntimeVisibleTypeAnnotations_attribute.class);
+        final TypeAnnotation typeAnnotation = mock(TypeAnnotation.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (attribute).getTypeAnnotations();
+                will(returnValue(Collections.singletonList(typeAnnotation)));
+            oneOf (typeAnnotation).accept(printer);
+        }});
+
+        printer.visitRuntimeVisibleTypeAnnotations_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "runtime-visible-type-annotations-attribute", 1);
+        assertXPathCount(xmlDocument, "runtime-visible-type-annotations-attribute/type-annotations", 1);
+    }
+
+    public void testVisitRuntimeInvisibleTypeAnnotations_attribute_WithoutParameterAnnotations() throws Exception {
+        final RuntimeInvisibleTypeAnnotations_attribute attribute = mock(RuntimeInvisibleTypeAnnotations_attribute.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (attribute).getTypeAnnotations();
+        }});
+
+        printer.visitRuntimeInvisibleTypeAnnotations_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "runtime-invisible-type-annotations-attribute", 1);
+        assertXPathCount(xmlDocument, "runtime-invisible-type-annotations-attribute/type-annotations", 1);
+    }
+
+    public void testVisitRuntimeInvisibleTypeAnnotations_attribute_WithAParameterAnnotation() throws Exception {
+        final RuntimeInvisibleTypeAnnotations_attribute attribute = mock(RuntimeInvisibleTypeAnnotations_attribute.class);
+        final TypeAnnotation typeAnnotation = mock(TypeAnnotation.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (attribute).getTypeAnnotations();
+                will(returnValue(Collections.singletonList(typeAnnotation)));
+            oneOf (typeAnnotation).accept(printer);
+        }});
+
+        printer.visitRuntimeInvisibleTypeAnnotations_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "runtime-invisible-type-annotations-attribute", 1);
+        assertXPathCount(xmlDocument, "runtime-invisible-type-annotations-attribute/type-annotations", 1);
+    }
+
     public void testVisitAnnotationDefault_attribute() throws Exception {
         final AnnotationDefault_attribute annotationDefault = mock(AnnotationDefault_attribute.class);
         final ElementValue elementValue = mock(ElementValue.class);
@@ -1627,37 +1689,6 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "bootstrap-methods-attribute", 1);
     }
 
-    public void testVisitParameterAnnotation_WithoutAnnotations() throws Exception {
-        final ParameterAnnotation parameterAnnotation = mock(ParameterAnnotation.class);
-
-        checking(new Expectations() {{
-            atLeast(1).of (parameterAnnotation).getAnnotations();
-        }});
-
-        printer.visitParameterAnnotation(parameterAnnotation);
-
-        String xmlDocument = buffer.toString();
-        assertXPathCount(xmlDocument, "parameter-annotation", 1);
-        assertXPathCount(xmlDocument, "parameter-annotation/annotations", 1);
-    }
-
-    public void testVisitParameterAnnotation_WithAnAnnotation() throws Exception {
-        final ParameterAnnotation parameterAnnotation = mock(ParameterAnnotation.class);
-        final Annotation annotation = mock(Annotation.class);
-
-        checking(new Expectations() {{
-            atLeast(1).of (parameterAnnotation).getAnnotations();
-                will(returnValue(Collections.singleton(annotation)));
-            oneOf (annotation).accept(printer);
-        }});
-
-        printer.visitParameterAnnotation(parameterAnnotation);
-
-        String xmlDocument = buffer.toString();
-        assertXPathCount(xmlDocument, "parameter-annotation", 1);
-        assertXPathCount(xmlDocument, "parameter-annotation/annotations", 1);
-    }
-
     public void testVisitAnnotation_WithoutElementValuePairs() throws Exception {
         final Annotation annotation = mock(Annotation.class);
 
@@ -1693,6 +1724,352 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "annotation", 1);
         assertXPathText(xmlDocument, "annotation/type", ANNOTATION_TYPE);
         assertXPathCount(xmlDocument, "annotation/element-value-pairs", 1);
+    }
+
+    public void testVisitParameterAnnotation_WithoutAnnotations() throws Exception {
+        final ParameterAnnotation parameterAnnotation = mock(ParameterAnnotation.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (parameterAnnotation).getAnnotations();
+        }});
+
+        printer.visitParameterAnnotation(parameterAnnotation);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "parameter-annotation", 1);
+        assertXPathCount(xmlDocument, "parameter-annotation/annotations", 1);
+    }
+
+    public void testVisitParameterAnnotation_WithAnAnnotation() throws Exception {
+        final ParameterAnnotation parameterAnnotation = mock(ParameterAnnotation.class);
+        final Annotation annotation = mock(Annotation.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (parameterAnnotation).getAnnotations();
+                will(returnValue(Collections.singleton(annotation)));
+            oneOf (annotation).accept(printer);
+        }});
+
+        printer.visitParameterAnnotation(parameterAnnotation);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "parameter-annotation", 1);
+        assertXPathCount(xmlDocument, "parameter-annotation/annotations", 1);
+    }
+
+    public void testVisitTypeAnnotation_WithoutAnnotations() throws Exception {
+        final TypeAnnotation typeAnnotation = mock(TypeAnnotation.class);
+        final Target_info mockTarget = mock(Target_info.class);
+        final TypePath mockTypePath = mock(TypePath.class);
+
+        checking(new Expectations() {{
+            oneOf (typeAnnotation).getTarget();
+                will(returnValue(mockTarget));
+            oneOf (mockTarget).accept(printer);
+            oneOf (typeAnnotation).getTargetPath();
+                will(returnValue(mockTypePath));
+            oneOf (mockTypePath).accept(printer);
+            atLeast(1).of (typeAnnotation).getElementValuePairs();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        printer.visitTypeAnnotation(typeAnnotation);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "type-annotation", 1);
+        assertXPathCount(xmlDocument, "type-annotation/target-path", 1);
+        assertXPathCount(xmlDocument, "type-annotation/element-value-pairs", 1);
+    }
+
+    public void testVisitTypeAnnotation_WithAnElementValuePair() throws Exception {
+        final TypeAnnotation typeAnnotation = mock(TypeAnnotation.class);
+        final Target_info mockTarget = mock(Target_info.class);
+        final TypePath mockTypePath = mock(TypePath.class);
+        final ElementValuePair mockElementValuePair = mock(ElementValuePair.class);
+
+        checking(new Expectations() {{
+            oneOf (typeAnnotation).getTarget();
+                will(returnValue(mockTarget));
+            oneOf (mockTarget).accept(printer);
+            oneOf (typeAnnotation).getTargetPath();
+                will(returnValue(mockTypePath));
+            oneOf (mockTypePath).accept(printer);
+            atLeast(1).of (typeAnnotation).getElementValuePairs();
+                will(returnValue(Collections.singleton(mockElementValuePair)));
+            oneOf (mockElementValuePair).accept(printer);
+        }});
+
+        printer.visitTypeAnnotation(typeAnnotation);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "type-annotation", 1);
+        assertXPathCount(xmlDocument, "type-annotation/target-path", 1);
+        assertXPathCount(xmlDocument, "type-annotation/element-value-pairs", 1);
+    }
+
+    public void testVisitTypeParameterTarget() throws Exception {
+        final TypeParameterTarget target = mock(TypeParameterTarget.class);
+        final String hexTargetType = "0xABCD";
+        final int typeParameterIndex = 123;
+
+        checking(new Expectations() {{
+            oneOf (target).getHexTargetType();
+                will(returnValue(hexTargetType));
+            oneOf (target).getTypeParameterIndex();
+                will(returnValue(typeParameterIndex));
+        }});
+
+        printer.visitTypeParameterTarget(target);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "type-parameter-target", 1);
+        assertXPathCount(xmlDocument, "type-parameter-target/@target-type", 1);
+        assertXPathText(xmlDocument, "type-parameter-target/@target-type", hexTargetType);
+        assertXPathCount(xmlDocument, "type-parameter-target/type-parameter-index", 1);
+        assertXPathText(xmlDocument, "type-parameter-target/type-parameter-index", String.valueOf(typeParameterIndex));
+    }
+
+    public void testVisitSupertypeTarget() throws Exception {
+        final SupertypeTarget target = mock(SupertypeTarget.class);
+        final String hexTargetType = "0xABCD";
+        final int supertypeIndex = 123;
+
+        checking(new Expectations() {{
+            oneOf (target).getHexTargetType();
+                will(returnValue(hexTargetType));
+            oneOf (target).getSupertypeIndex();
+                will(returnValue(supertypeIndex));
+        }});
+
+        printer.visitSupertypeTarget(target);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "supertype-target", 1);
+        assertXPathCount(xmlDocument, "supertype-target/@target-type", 1);
+        assertXPathText(xmlDocument, "supertype-target/@target-type", hexTargetType);
+        assertXPathCount(xmlDocument, "supertype-target/supertype-index", 1);
+        assertXPathText(xmlDocument, "supertype-target/supertype-index", String.valueOf(supertypeIndex));
+    }
+
+    public void testVisitTypeParameterBoundTarget() throws Exception {
+        final TypeParameterBoundTarget target = mock(TypeParameterBoundTarget.class);
+        final String hexTargetType = "0xABCD";
+        final int typeParameterIndex = 123;
+        final int boundIndex = 456;
+
+        checking(new Expectations() {{
+            oneOf (target).getHexTargetType();
+                will(returnValue(hexTargetType));
+            oneOf (target).getTypeParameterIndex();
+                will(returnValue(typeParameterIndex));
+            oneOf (target).getBoundIndex();
+                will(returnValue(boundIndex));
+        }});
+
+        printer.visitTypeParameterBoundTarget(target);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "type-parameter-bound-target", 1);
+        assertXPathCount(xmlDocument, "type-parameter-bound-target/@target-type", 1);
+        assertXPathText(xmlDocument, "type-parameter-bound-target/@target-type", hexTargetType);
+        assertXPathCount(xmlDocument, "type-parameter-bound-target/type-parameter-index", 1);
+        assertXPathText(xmlDocument, "type-parameter-bound-target/type-parameter-index", String.valueOf(typeParameterIndex));
+        assertXPathCount(xmlDocument, "type-parameter-bound-target/bound-index", 1);
+        assertXPathText(xmlDocument, "type-parameter-bound-target/bound-index", String.valueOf(boundIndex));
+    }
+
+    public void testVisitEmptyTarget() throws Exception {
+        final EmptyTarget target = mock(EmptyTarget.class);
+        final String hexTargetType = "0xABCD";
+
+        checking(new Expectations() {{
+            oneOf (target).getHexTargetType();
+                will(returnValue(hexTargetType));
+        }});
+
+        printer.visitEmptyTarget(target);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "empty-target", 1);
+        assertXPathCount(xmlDocument, "empty-target/@target-type", 1);
+        assertXPathText(xmlDocument, "empty-target/@target-type", hexTargetType);
+    }
+
+    public void testVisitFormalParameterTarget() throws Exception {
+        final FormalParameterTarget target = mock(FormalParameterTarget.class);
+        final String hexTargetType = "0xABCD";
+        final int formalParameterIndex = 123;
+
+        checking(new Expectations() {{
+            oneOf (target).getHexTargetType();
+                will(returnValue(hexTargetType));
+            oneOf (target).getFormalParameterIndex();
+                will(returnValue(formalParameterIndex));
+        }});
+
+        printer.visitFormalParameterTarget(target);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "formal-parameter-target", 1);
+        assertXPathCount(xmlDocument, "formal-parameter-target/@target-type", 1);
+        assertXPathText(xmlDocument, "formal-parameter-target/@target-type", hexTargetType);
+        assertXPathCount(xmlDocument, "formal-parameter-target/formal-parameter-index", 1);
+        assertXPathText(xmlDocument, "formal-parameter-target/formal-parameter-index", String.valueOf(formalParameterIndex));
+    }
+
+    public void testVisitThrowsTarget() throws Exception {
+        final ThrowsTarget target = mock(ThrowsTarget.class);
+        final String hexTargetType = "0xABCD";
+        final int throwsTypeIndex = 123;
+
+        checking(new Expectations() {{
+            oneOf (target).getHexTargetType();
+                will(returnValue(hexTargetType));
+            oneOf (target).getThrowsTypeIndex();
+                will(returnValue(throwsTypeIndex));
+        }});
+
+        printer.visitThrowsTarget(target);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "throws-target", 1);
+        assertXPathCount(xmlDocument, "throws-target/@target-type", 1);
+        assertXPathText(xmlDocument, "throws-target/@target-type", hexTargetType);
+        assertXPathCount(xmlDocument, "throws-target/throws-type-index", 1);
+        assertXPathText(xmlDocument, "throws-target/throws-type-index", String.valueOf(throwsTypeIndex));
+    }
+
+    public void testVisitLocalvarTarget_noEntries() throws Exception {
+        final LocalvarTarget target = mock(LocalvarTarget.class);
+        final String hexTargetType = "0xABCD";
+
+        checking(new Expectations() {{
+            oneOf (target).getHexTargetType();
+                will(returnValue(hexTargetType));
+            atLeast(1).of (target).getTable();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        printer.visitLocalvarTarget(target);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "localvar-target", 1);
+        assertXPathCount(xmlDocument, "localvar-target/@target-type", 1);
+        assertXPathText(xmlDocument, "localvar-target/@target-type", hexTargetType);
+    }
+
+    public void testVisitLocalvarTarget_oneEntry() throws Exception {
+        final LocalvarTarget target = mock(LocalvarTarget.class);
+        final String hexTargetType = "0xABCD";
+        final LocalvarTableEntry mockLocalvarTableEntry = mock(LocalvarTableEntry.class);
+
+        checking(new Expectations() {{
+            oneOf (target).getHexTargetType();
+                will(returnValue(hexTargetType));
+            atLeast(1).of (target).getTable();
+                will(returnValue(Collections.singleton(mockLocalvarTableEntry)));
+            oneOf (mockLocalvarTableEntry).accept(printer);
+        }});
+
+        printer.visitLocalvarTarget(target);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "localvar-target", 1);
+        assertXPathCount(xmlDocument, "localvar-target/@target-type", 1);
+        assertXPathText(xmlDocument, "localvar-target/@target-type", hexTargetType);
+    }
+
+    public void testVisitCatchTarget() throws Exception {
+        final CatchTarget target = mock(CatchTarget.class);
+        final String hexTargetType = "0xABCD";
+        final int exceptionTableIndex = 123;
+
+        checking(new Expectations() {{
+            oneOf (target).getHexTargetType();
+                will(returnValue(hexTargetType));
+            oneOf (target).getExceptionTableIndex();
+                will(returnValue(exceptionTableIndex));
+        }});
+
+        printer.visitCatchTarget(target);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "catch-target", 1);
+        assertXPathCount(xmlDocument, "catch-target/@target-type", 1);
+        assertXPathText(xmlDocument, "catch-target/@target-type", hexTargetType);
+        assertXPathCount(xmlDocument, "catch-target/exception-table-index", 1);
+        assertXPathText(xmlDocument, "catch-target/exception-table-index", String.valueOf(exceptionTableIndex));
+    }
+
+    public void testVisitOffsetTarget() throws Exception {
+        final OffsetTarget target = mock(OffsetTarget.class);
+        final String hexTargetType = "0xABCD";
+        final int offset = 123;
+
+        checking(new Expectations() {{
+            oneOf (target).getHexTargetType();
+                will(returnValue(hexTargetType));
+            oneOf (target).getOffset();
+                will(returnValue(offset));
+        }});
+
+        printer.visitOffsetTarget(target);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "offset-target", 1);
+        assertXPathCount(xmlDocument, "offset-target/@target-type", 1);
+        assertXPathText(xmlDocument, "offset-target/@target-type", hexTargetType);
+        assertXPathCount(xmlDocument, "offset-target/offset", 1);
+        assertXPathText(xmlDocument, "offset-target/offset", String.valueOf(offset));
+    }
+
+    public void testVisitTypeArgumentTarget() throws Exception {
+        final TypeArgumentTarget target = mock(TypeArgumentTarget.class);
+        final String hexTargetType = "0xABCD";
+        final int offset = 123;
+        final int typeArgumentIndex = 456;
+
+        checking(new Expectations() {{
+            oneOf (target).getHexTargetType();
+                will(returnValue(hexTargetType));
+            oneOf (target).getOffset();
+                will(returnValue(offset));
+            oneOf (target).getTypeArgumentIndex();
+                will(returnValue(typeArgumentIndex));
+        }});
+
+        printer.visitTypeArgumentTarget(target);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "type-argument-target", 1);
+        assertXPathCount(xmlDocument, "type-argument-target/@target-type", 1);
+        assertXPathText(xmlDocument, "type-argument-target/@target-type", hexTargetType);
+        assertXPathCount(xmlDocument, "type-argument-target/offset", 1);
+        assertXPathText(xmlDocument, "type-argument-target/offset", String.valueOf(offset));
+        assertXPathCount(xmlDocument, "type-argument-target/type-argument-index", 1);
+        assertXPathText(xmlDocument, "type-argument-target/type-argument-index", String.valueOf(typeArgumentIndex));
+    }
+
+    public void testVisitTypePathEntry() throws Exception {
+        final TypePathEntry entry = mock(TypePathEntry.class);
+        final TypePathKind typePathKind = TypePathKind.DEEPER_IN_NESTED_TYPE;
+        final int typeArgumentIndex = 456;
+
+        checking(new Expectations() {{
+            oneOf (entry).getTypePathKind();
+                will(returnValue(typePathKind));
+            oneOf (entry).getTypeArgumentIndex();
+                will(returnValue(typeArgumentIndex));
+        }});
+
+        printer.visitTypePathEntry(entry);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "type-path", 1);
+        assertXPathCount(xmlDocument, "type-path/type-path-kind", 1);
+        assertXPathText(xmlDocument, "type-path/type-path-kind", String.valueOf(typePathKind.getTypePathKind()));
+        assertXPathCount(xmlDocument, "type-path/type-argument-index", 1);
+        assertXPathText(xmlDocument, "type-path/type-argument-index", String.valueOf(typeArgumentIndex));
     }
 
     public void testVisitElementValuePair() throws Exception {
@@ -1958,6 +2335,33 @@ public class TestXMLPrinter extends MockObjectTestCase {
         String xmlDocument = buffer.toString();
         assertXPathCount(xmlDocument, "array-element-value", 1);
         assertXPathText(xmlDocument, "array-element-value/@tag", String.valueOf(ElementValueType.ARRAY.getTag()));
+    }
+
+    public void testVisitLocalvarTableEntry() throws Exception {
+        final LocalvarTableEntry entry = mock(LocalvarTableEntry.class);
+        final int startPc = 123;
+        final int length = 456;
+        final int index = 789;
+
+        checking(new Expectations() {{
+            oneOf (entry).getStartPc();
+            will(returnValue(startPc));
+            oneOf (entry).getLength();
+            will(returnValue(length));
+            oneOf (entry).getIndex();
+            will(returnValue(index));
+        }});
+
+        printer.visitLocalvarTableEntry(entry);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "localvar", 1);
+        assertXPathCount(xmlDocument, "localvar/@start-pc", 1);
+        assertXPathText(xmlDocument, "localvar/@start-pc", String.valueOf(startPc));
+        assertXPathCount(xmlDocument, "localvar/@length", 1);
+        assertXPathText(xmlDocument, "localvar/@length", String.valueOf(length));
+        assertXPathCount(xmlDocument, "localvar/@index", 1);
+        assertXPathText(xmlDocument, "localvar/@index", String.valueOf(index));
     }
 
     public void testVisitSameFrame() throws Exception {

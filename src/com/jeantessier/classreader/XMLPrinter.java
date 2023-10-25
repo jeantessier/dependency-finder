@@ -590,6 +590,16 @@ public class XMLPrinter extends Printer {
         indent().append("</code-attribute>").eol();
     }
 
+    public void visitStackMapTable_attribute(StackMapTable_attribute attribute) {
+        indent().append("<stack-map-table-attribute>").eol();
+        raiseIndent();
+
+        super.visitStackMapTable_attribute(attribute);
+
+        lowerIndent();
+        indent().append("</stack-map-table-attribute>").eol();
+    }
+
     public void visitExceptions_attribute(Exceptions_attribute attribute) {
         indent().append("<exceptions-attribute>").eol();
         raiseIndent();
@@ -650,12 +660,12 @@ public class XMLPrinter extends Printer {
         append("</signature-attribute>").eol();
     }
 
-    public void visitSourceDebugExtension_attribute(SourceDebugExtension_attribute attribute) {
-        indent().append("<source-debug-extension>").append(attribute.getDebugExtension()).append("</source-debug-extension>").eol();
-    }
-
     public void visitSourceFile_attribute(SourceFile_attribute attribute) {
         indent().append("<source-file-attribute>").append(attribute.getSourceFile()).append("</source-file-attribute>").eol();
+    }
+
+    public void visitSourceDebugExtension_attribute(SourceDebugExtension_attribute attribute) {
+        indent().append("<source-debug-extension>").append(attribute.getDebugExtension()).append("</source-debug-extension>").eol();
     }
 
     public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
@@ -752,6 +762,36 @@ public class XMLPrinter extends Printer {
         indent().append("</parameter-annotations>").eol();
     }
 
+    public void visitRuntimeVisibleTypeAnnotations_attribute(RuntimeVisibleTypeAnnotations_attribute attribute) {
+        indent().append("<runtime-visible-type-annotations-attribute>").eol();
+        raiseIndent();
+
+        super.visitRuntimeVisibleTypeAnnotations_attribute(attribute);
+
+        lowerIndent();
+        indent().append("</runtime-visible-type-annotations-attribute>").eol();
+    }
+
+    public void visitRuntimeInvisibleTypeAnnotations_attribute(RuntimeInvisibleTypeAnnotations_attribute attribute) {
+        indent().append("<runtime-invisible-type-annotations-attribute>").eol();
+        raiseIndent();
+
+        super.visitRuntimeInvisibleTypeAnnotations_attribute(attribute);
+
+        lowerIndent();
+        indent().append("</runtime-invisible-type-annotations-attribute>").eol();
+    }
+
+    protected void visitRuntimeTypeAnnotations_attribute(RuntimeTypeAnnotations_attribute attribute) {
+        indent().append("<type-annotations>").eol();
+        raiseIndent();
+
+        super.visitRuntimeTypeAnnotations_attribute(attribute);
+
+        lowerIndent();
+        indent().append("</type-annotations>").eol();
+    }
+
     public void visitAnnotationDefault_attribute(AnnotationDefault_attribute attribute) {
         indent().append("<annotation-default-attribute>").eol();
         raiseIndent();
@@ -760,16 +800,6 @@ public class XMLPrinter extends Printer {
 
         lowerIndent();
         indent().append("</annotation-default-attribute>").eol();
-    }
-
-    public void visitStackMapTable_attribute(StackMapTable_attribute attribute) {
-        indent().append("<stack-map-table-attribute>").eol();
-        raiseIndent();
-
-        super.visitStackMapTable_attribute(attribute);
-
-        lowerIndent();
-        indent().append("</stack-map-table-attribute>").eol();
     }
 
     public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute) {
@@ -1022,22 +1052,6 @@ public class XMLPrinter extends Printer {
         append("</local-variable-type>").eol();
     }
 
-    public void visitParameterAnnotation(ParameterAnnotation helper) {
-        indent().append("<parameter-annotation>").eol();
-        raiseIndent();
-
-        indent().append("<annotations>").eol();
-        raiseIndent();
-
-        super.visitParameterAnnotation(helper);
-
-        lowerIndent();
-        indent().append("</annotations>").eol();
-
-        lowerIndent();
-        indent().append("</parameter-annotation>").eol();
-    }
-
     public void visitAnnotation(Annotation helper) {
         indent().append("<annotation>").eol();
         raiseIndent();
@@ -1054,6 +1068,155 @@ public class XMLPrinter extends Printer {
 
         lowerIndent();
         indent().append("</annotation>").eol();
+    }
+
+    public void visitParameterAnnotation(ParameterAnnotation helper) {
+        indent().append("<parameter-annotation>").eol();
+        raiseIndent();
+
+        indent().append("<annotations>").eol();
+        raiseIndent();
+
+        super.visitParameterAnnotation(helper);
+
+        lowerIndent();
+        indent().append("</annotations>").eol();
+
+        lowerIndent();
+        indent().append("</parameter-annotation>").eol();
+    }
+
+    public void visitTypeAnnotation(TypeAnnotation helper) {
+        indent().append("<type-annotation>").eol();
+        raiseIndent();
+
+        helper.getTarget().accept(this);
+
+        indent().append("<target-path>").eol();
+        raiseIndent();
+
+        helper.getTargetPath().accept(this);
+
+        lowerIndent();
+        indent().append("</target-path>").eol();
+
+        indent().append("<element-value-pairs>").eol();
+        raiseIndent();
+
+        helper.getElementValuePairs().forEach(elementValuePair -> elementValuePair.accept(this));
+
+        lowerIndent();
+        indent().append("</element-value-pairs>").eol();
+
+        lowerIndent();
+        indent().append("</type-annotation>").eol();
+    }
+
+    public void visitTypeParameterTarget(TypeParameterTarget helper) {
+        indent().append("<type-parameter-target target-type=\"").append(helper.getHexTargetType()).append("\">").eol();
+        raiseIndent();
+
+        indent().append("<type-parameter-index>").append(helper.getTypeParameterIndex()).append("</type-parameter-index>").eol();
+
+        lowerIndent();
+        indent().append("</type-parameter-target>").eol();
+    }
+
+    public void visitSupertypeTarget(SupertypeTarget helper) {
+        indent().append("<supertype-target target-type=\"").append(helper.getHexTargetType()).append("\">").eol();
+        raiseIndent();
+
+        indent().append("<supertype-index>").append(helper.getSupertypeIndex()).append("</supertype-index>").eol();
+
+        lowerIndent();
+        indent().append("</supertype-target>").eol();
+    }
+
+    public void visitTypeParameterBoundTarget(TypeParameterBoundTarget helper) {
+        indent().append("<type-parameter-bound-target target-type=\"").append(helper.getHexTargetType()).append("\">").eol();
+        raiseIndent();
+
+        indent().append("<type-parameter-index>").append(helper.getTypeParameterIndex()).append("</type-parameter-index>").eol();
+        indent().append("<bound-index>").append(helper.getBoundIndex()).append("</bound-index>").eol();
+
+        lowerIndent();
+        indent().append("</type-parameter-bound-target>").eol();
+    }
+
+    public void visitEmptyTarget(EmptyTarget helper) {
+        indent().append("<empty-target target-type=\"").append(helper.getHexTargetType()).append("\"/>").eol();
+    }
+
+    public void visitFormalParameterTarget(FormalParameterTarget helper) {
+        indent().append("<formal-parameter-target target-type=\"").append(helper.getHexTargetType()).append("\">").eol();
+        raiseIndent();
+
+        indent().append("<formal-parameter-index>").append(helper.getFormalParameterIndex()).append("</formal-parameter-index>").eol();
+
+        lowerIndent();
+        indent().append("</formal-parameter-target>").eol();
+    }
+
+    public void visitThrowsTarget(ThrowsTarget helper) {
+        indent().append("<throws-target target-type=\"").append(helper.getHexTargetType()).append("\">").eol();
+        raiseIndent();
+
+        indent().append("<throws-type-index>").append(helper.getThrowsTypeIndex()).append("</throws-type-index>").eol();
+
+        lowerIndent();
+        indent().append("</throws-target>").eol();
+    }
+
+    public void visitLocalvarTarget(LocalvarTarget helper) {
+        indent().append("<localvar-target target-type=\"").append(helper.getHexTargetType()).append("\">").eol();
+        raiseIndent();
+
+        super.visitLocalvarTarget(helper);
+
+        lowerIndent();
+        indent().append("</localvar-target>").eol();
+    }
+
+    public void visitCatchTarget(CatchTarget helper) {
+        indent().append("<catch-target target-type=\"").append(helper.getHexTargetType()).append("\">").eol();
+        raiseIndent();
+
+        indent().append("<exception-table-index>").append(helper.getExceptionTableIndex()).append("</exception-table-index>").eol();
+
+        lowerIndent();
+        indent().append("</catch-target>").eol();
+    }
+
+    public void visitOffsetTarget(OffsetTarget helper) {
+        indent().append("<offset-target target-type=\"").append(helper.getHexTargetType()).append("\">").eol();
+        raiseIndent();
+
+        indent().append("<offset>").append(helper.getOffset()).append("</offset>").eol();
+
+        lowerIndent();
+        indent().append("</offset-target>").eol();
+    }
+
+    public void visitTypeArgumentTarget(TypeArgumentTarget helper) {
+        indent().append("<type-argument-target target-type=\"").append(helper.getHexTargetType()).append("\">").eol();
+        raiseIndent();
+
+        indent().append("<offset>").append(helper.getOffset()).append("</offset>").eol();
+        indent().append("<type-argument-index>").append(helper.getTypeArgumentIndex()).append("</type-argument-index>").eol();
+
+        lowerIndent();
+        indent().append("</type-argument-target>").eol();
+    }
+
+    public void visitTypePathEntry(TypePathEntry helper) {
+        indent().append("<type-path>").eol();
+        raiseIndent();
+
+        indent().append("<type-path-kind>").append(helper.getTypePathKind().getTypePathKind()).append("</type-path-kind>").eol();
+        indent().append("<type-argument-index>").append(helper.getTypeArgumentIndex()).append("</type-argument-index>").eol();
+
+        lowerIndent();
+        indent().append("</type-path>").eol();
     }
 
     public void visitElementValuePair(ElementValuePair helper) {
@@ -1143,6 +1306,10 @@ public class XMLPrinter extends Printer {
 
         lowerIndent();
         indent().append("</array-element-value>").eol();
+    }
+
+    public void visitLocalvarTableEntry(LocalvarTableEntry helper) {
+        indent().append("<localvar start-pc=\"").append(helper.getStartPc()).append("\" length=\"").append(helper.getLength()).append("\" index=\"").append(helper.getIndex()).append("\"/>").eol();
     }
 
     public void visitSameFrame(SameFrame helper) {

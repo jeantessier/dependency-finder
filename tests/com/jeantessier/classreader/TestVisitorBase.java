@@ -269,6 +269,19 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitCode_attribute(mockCode);
     }
 
+    public void testVisitStackMapTable_attribute() {
+        final StackMapTable_attribute mockStackMapTable = mock(StackMapTable_attribute.class);
+        final StackMapFrame mockStackMapFrame = mock(StackMapFrame.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockStackMapTable).getEntries();
+                will(returnValue(Collections.singletonList(mockStackMapFrame)));
+            oneOf (mockStackMapFrame).accept(sut);
+        }});
+
+        sut.visitStackMapTable_attribute(mockStackMapTable);
+    }
+
     public void testVisitExceptions_attribute() {
         final Exceptions_attribute mockExceptions = mock(Exceptions_attribute.class);
         final Class_info mockClass = mock(Class_info.class);
@@ -416,17 +429,50 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitRuntimeInvisibleParameterAnnotations_attribute(mockRuntimeInvisibleParameterAnnotations);
     }
 
-    public void testVisitStackMapTable_attribute() {
-        final StackMapTable_attribute mockStackMapTable = mock(StackMapTable_attribute.class);
-        final StackMapFrame mockStackMapFrame = mock(StackMapFrame.class);
+    public void testVisitRuntimeVisibleTypeAnnotations_attribute_WithoutAnnotations() {
+        final RuntimeVisibleTypeAnnotations_attribute attribute = mock(RuntimeVisibleTypeAnnotations_attribute.class);
 
         checking(new Expectations() {{
-            atLeast(1).of (mockStackMapTable).getEntries();
-                will(returnValue(Collections.singletonList(mockStackMapFrame)));
-            oneOf (mockStackMapFrame).accept(sut);
+            atLeast(1).of (attribute).getTypeAnnotations();
         }});
 
-        sut.visitStackMapTable_attribute(mockStackMapTable);
+        sut.visitRuntimeVisibleTypeAnnotations_attribute(attribute);
+    }
+
+    public void testVisitRuntimeVisibleTypeAnnotations_attribute_WithAnAnnotation() {
+        final RuntimeVisibleTypeAnnotations_attribute attribute = mock(RuntimeVisibleTypeAnnotations_attribute.class);
+        final TypeAnnotation typeAnnotation = mock(TypeAnnotation.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (attribute).getTypeAnnotations();
+                will(returnValue(Collections.singletonList(typeAnnotation)));
+            oneOf (typeAnnotation).accept(sut);
+        }});
+
+        sut.visitRuntimeVisibleTypeAnnotations_attribute(attribute);
+    }
+
+    public void testVisitRuntimeInvisibleTypeAnnotations_attribute_WithoutParameterAnnotations() {
+        final RuntimeInvisibleTypeAnnotations_attribute attribute = mock(RuntimeInvisibleTypeAnnotations_attribute.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (attribute).getTypeAnnotations();
+        }});
+
+        sut.visitRuntimeInvisibleTypeAnnotations_attribute(attribute);
+    }
+
+    public void testVisitRuntimeInvisibleTypeAnnotations_attribute_WithAParameterAnnotation() {
+        final RuntimeInvisibleTypeAnnotations_attribute attribute = mock(RuntimeInvisibleTypeAnnotations_attribute.class);
+        final TypeAnnotation typeAnnotation = mock(TypeAnnotation.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (attribute).getTypeAnnotations();
+                will(returnValue(Collections.singletonList(typeAnnotation)));
+            oneOf (typeAnnotation).accept(sut);
+        }});
+
+        sut.visitRuntimeInvisibleTypeAnnotations_attribute(attribute);
     }
 
     public void testVisitAnnotationDefault_attribute() {
@@ -490,6 +536,19 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitLocalVariableType(mockLocalVariableType);
     }
 
+    public void testVisitAnnotation() {
+        final Annotation mockAnnotation = mock(Annotation.class);
+        final ElementValuePair mockElementValuePair = mock(ElementValuePair.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockAnnotation).getElementValuePairs();
+                will(returnValue(Collections.singleton(mockElementValuePair)));
+            oneOf (mockElementValuePair).accept(sut);
+        }});
+
+        sut.visitAnnotation(mockAnnotation);
+    }
+
     public void testVisitParameterAnnotation() {
         final ParameterAnnotation mockParameterAnnotation = mock(ParameterAnnotation.class);
         final Annotation mockAnnotation = mock(Annotation.class);
@@ -503,17 +562,28 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitParameterAnnotation(mockParameterAnnotation);
     }
 
-    public void testVisitAnnotation() {
-        final Annotation mockAnnotation = mock(Annotation.class);
-        final ElementValuePair mockElementValuePair = mock(ElementValuePair.class);
+    public void testVisitTypePath_noEntries() {
+        final TypePath typePath = mock(TypePath.class);
 
         checking(new Expectations() {{
-            atLeast(1).of (mockAnnotation).getElementValuePairs();
-                will(returnValue(Collections.singleton(mockElementValuePair)));
-            oneOf (mockElementValuePair).accept(sut);
+            atLeast(1).of (typePath).getPath();
+                will(returnValue(Collections.emptyList()));
         }});
 
-        sut.visitAnnotation(mockAnnotation);
+        sut.visitTypePath(typePath);
+    }
+
+    public void testVisitTypePath_oneEntry() {
+        final TypePath typePath = mock(TypePath.class);
+        final TypePathEntry mockTypePathEntry = mock(TypePathEntry.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (typePath).getPath();
+                will(returnValue(Collections.singleton(mockTypePathEntry)));
+            oneOf (mockTypePathEntry).accept(sut);
+        }});
+
+        sut.visitTypePath(typePath);
     }
 
     public void testVisitElementValuePair() {

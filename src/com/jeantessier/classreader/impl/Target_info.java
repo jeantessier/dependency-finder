@@ -33,4 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 public abstract class Target_info implements com.jeantessier.classreader.Target_info {
+    public String getHexTargetType() {
+        return getTargetType().getHexTargetType();
+    }
 }

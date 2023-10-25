@@ -349,6 +349,7 @@ public abstract class VisitorBase implements Visitor {
     public void visitTypeAnnotation(TypeAnnotation helper) {
         helper.getTarget().accept(this);
         helper.getTargetPath().accept(this);
+
         Logger.getLogger(getClass()).debug("Visiting " + helper.getElementValuePairs().size() + " element value pair(s) ...");
         helper.getElementValuePairs().forEach(elementValuePair -> elementValuePair.accept(this));
     }
