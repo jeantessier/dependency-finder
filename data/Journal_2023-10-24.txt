@@ -1,0 +1,3 @@
+Updated the =classfile= DTD to include elements for
+=RuntimeVisibleTypeAnnotations_attribute= and
+=RuntimeInvisibleTypeAnnotations_attribute=, along with their substructures.
