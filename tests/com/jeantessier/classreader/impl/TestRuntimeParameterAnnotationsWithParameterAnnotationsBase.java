@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-public abstract class TestRuntimeParameterAnnotationsWithAnnotationsBase extends TestAnnotationsBase {
+public abstract class TestRuntimeParameterAnnotationsWithParameterAnnotationsBase extends TestAnnotationsBase {
     public void testConstructorWithNoParameters() throws Exception {
         doTestConstructorWithParametersWithAnnotations(0);
     }
@@ -45,14 +45,6 @@ public abstract class TestRuntimeParameterAnnotationsWithAnnotationsBase extends
 
     public void testConstructorWithMultipleParameterEachWithNoAnnotations() throws Exception {
         doTestConstructorWithParametersWithAnnotations(0, 0, 0);
-    }
-
-    public void testGetAttributeName() throws Exception {
-        expectReadAttributeLength(2);
-        expectReadNumParameters(0);
-
-        RuntimeParameterAnnotations_attribute sut = createSut();
-        assertEquals(getAttributeType().getAttributeName(), sut.getAttributeName());
     }
 
     private void doTestConstructorWithParametersWithAnnotations(int ... numAnnotationsPerParameter) throws IOException {
@@ -84,5 +76,4 @@ public abstract class TestRuntimeParameterAnnotationsWithAnnotationsBase extends
     }
 
     protected abstract RuntimeParameterAnnotations_attribute createSut() throws IOException;
-    protected abstract AttributeType getAttributeType();
 }

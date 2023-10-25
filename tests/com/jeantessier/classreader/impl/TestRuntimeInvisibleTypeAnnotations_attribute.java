@@ -32,31 +32,30 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.jmock.*;
+import com.jeantessier.classreader.Visitor;
+import org.jmock.Expectations;
 
-import com.jeantessier.classreader.*;
-
-public class TestRuntimeVisibleAnnotations_attribute extends TestAnnotationsBase {
-    private RuntimeVisibleAnnotations_attribute sut;
+public class TestRuntimeInvisibleTypeAnnotations_attribute extends TestAnnotationsBase {
+    private RuntimeInvisibleTypeAnnotations_attribute sut;
 
     protected void setUp() throws Exception {
         super.setUp();
 
         expectReadAttributeLength(2);
-        expectReadNumAnnotations(0);
+        expectReadNumParameters(0);
 
-        sut = new RuntimeVisibleAnnotations_attribute(mockConstantPool, mockOwner, mockIn);
+        sut = new RuntimeInvisibleTypeAnnotations_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
     public void testGetAttributeName() {
-        assertEquals(AttributeType.RUNTIME_VISIBLE_ANNOTATIONS.getAttributeName(), sut.getAttributeName());
+        assertEquals(AttributeType.RUNTIME_INVISIBLE_TYPE_ANNOTATIONS.getAttributeName(), sut.getAttributeName());
     }
 
     public void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            oneOf (mockVisitor).visitRuntimeVisibleAnnotations_attribute(sut);
+            oneOf (mockVisitor).visitRuntimeInvisibleTypeAnnotations_attribute(sut);
         }});
 
         sut.accept(mockVisitor);

@@ -56,7 +56,7 @@ public class TestRuntimeInvisibleParameterAnnotations_attribute extends TestAnno
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            one (mockVisitor).visitRuntimeInvisibleParameterAnnotations_attribute(sut);
+            oneOf (mockVisitor).visitRuntimeInvisibleParameterAnnotations_attribute(sut);
         }});
 
         sut.accept(mockVisitor);

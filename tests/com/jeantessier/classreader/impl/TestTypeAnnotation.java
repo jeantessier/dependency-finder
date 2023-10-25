@@ -32,31 +32,32 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.jmock.*;
+import com.jeantessier.classreader.Visitor;
+import org.jmock.Expectations;
 
-import com.jeantessier.classreader.*;
+public class TestTypeAnnotation extends TestAttributeBase {
+    private static final int TYPE_INDEX = 2;
+    private static final String RAW_TYPE = "Labc;";
+    private static final String TYPE = "abc";
 
-public class TestRuntimeVisibleAnnotations_attribute extends TestAnnotationsBase {
-    private RuntimeVisibleAnnotations_attribute sut;
+    private TypeAnnotation sut;
 
     protected void setUp() throws Exception {
         super.setUp();
 
-        expectReadAttributeLength(2);
-        expectReadNumAnnotations(0);
+        expectReadU2(TargetType.FIELD.getTargetType().getTargetType()); // Empty target
+        expectReadU2(0); // target path length
+        expectReadAnnotation(TYPE_INDEX, 0);
+        expectLookupUtf8(TYPE_INDEX, RAW_TYPE, "lookup during construction");
 
-        sut = new RuntimeVisibleAnnotations_attribute(mockConstantPool, mockOwner, mockIn);
+        sut = new TypeAnnotation(mockConstantPool, mockIn);
     }
 
-    public void testGetAttributeName() {
-        assertEquals(AttributeType.RUNTIME_VISIBLE_ANNOTATIONS.getAttributeName(), sut.getAttributeName());
-    }
-
-    public void testAccept() {
+    public void testAccept() throws Exception {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            oneOf (mockVisitor).visitRuntimeVisibleAnnotations_attribute(sut);
+            oneOf (mockVisitor).visitTypeAnnotation(sut);
         }});
 
         sut.accept(mockVisitor);

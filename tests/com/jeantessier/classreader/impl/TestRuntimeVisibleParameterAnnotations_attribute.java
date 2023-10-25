@@ -56,7 +56,7 @@ public class TestRuntimeVisibleParameterAnnotations_attribute extends TestAnnota
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            one (mockVisitor).visitRuntimeVisibleParameterAnnotations_attribute(sut);
+            oneOf (mockVisitor).visitRuntimeVisibleParameterAnnotations_attribute(sut);
         }});
 
         sut.accept(mockVisitor);
