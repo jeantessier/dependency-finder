@@ -5,7 +5,7 @@ public interface MethodParameter extends Visitable {
     public UTF8_info getRawName();
     public String getName();
 
-    public int getAccessFlag();
+    public int getAccessFlags();
     public boolean isFinal();
     public boolean isSynthetic();
     public boolean isMandated();

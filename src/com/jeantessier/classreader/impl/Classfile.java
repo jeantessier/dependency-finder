@@ -61,7 +61,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     private final int minorVersion;
     private final int majorVersion;
     private final ConstantPool constantPool;
-    private final int accessFlag;
+    private final int accessFlags;
     private final int classIndex;
     private final int superclassIndex;
     private final Collection<Class_info> interfaces = new LinkedList<>();
@@ -98,9 +98,9 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         constantPool = new ConstantPool(this, in);
         Logger.getLogger(getClass()).debug(constantPool);
 
-        // Skipping the access flag
-        accessFlag = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("accessFlag = " + accessFlag);
+        // Skipping the access flags
+        accessFlags = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("accessFlags = " + accessFlags);
 
         // Retrieving this class's name
         classIndex = in.readUnsignedShort();
@@ -163,7 +163,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     /**
      * For testing only
      */
-    Classfile(ClassfileLoader loader, ConstantPool constantPool, int accessFlag, int classIndex, int superclassIndex, Collection<Class_info> interfaces, Collection<Field_info> fields, Collection<Method_info> methods, Collection<Attribute_info> attributes) {
+    Classfile(ClassfileLoader loader, ConstantPool constantPool, int accessFlags, int classIndex, int superclassIndex, Collection<Class_info> interfaces, Collection<Field_info> fields, Collection<Method_info> methods, Collection<Attribute_info> attributes) {
         this.loader = loader;
         this.constantPool = constantPool;
 
@@ -171,7 +171,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         this.minorVersion = Integer.MIN_VALUE;
         this.majorVersion = Integer.MAX_VALUE;
 
-        this.accessFlag = accessFlag;
+        this.accessFlags = accessFlags;
         this.classIndex = classIndex;
         this.superclassIndex = superclassIndex;
 
@@ -201,8 +201,8 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         return constantPool;
     }
 
-    public int getAccessFlag() {
-        return accessFlag;
+    public int getAccessFlags() {
+        return accessFlags;
     }
 
     public int getClassIndex() {
@@ -333,47 +333,47 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     public boolean isPublic() {
-        return (getAccessFlag() & ACC_PUBLIC) != 0;
+        return (getAccessFlags() & ACC_PUBLIC) != 0;
     }
 
     public boolean isPackage() {
-        return (getAccessFlag() & ACC_PUBLIC) == 0;
+        return (getAccessFlags() & ACC_PUBLIC) == 0;
     }
 
     public boolean isFinal() {
-        return (getAccessFlag() & ACC_FINAL) != 0;
+        return (getAccessFlags() & ACC_FINAL) != 0;
     }
 
     public boolean isSuper() {
-        return (getAccessFlag() & ACC_SUPER) != 0;
+        return (getAccessFlags() & ACC_SUPER) != 0;
     }
 
     public boolean isInterface() {
-        return (getAccessFlag() & ACC_INTERFACE) != 0;
+        return (getAccessFlags() & ACC_INTERFACE) != 0;
     }
 
     public boolean isAbstract() {
-        return (getAccessFlag() & ACC_ABSTRACT) != 0;
+        return (getAccessFlags() & ACC_ABSTRACT) != 0;
     }
 
     public boolean isSynthetic() {
-        return isSyntheticFromAccessFlag() || isSyntheticFromAttribute();
+        return isSyntheticFromAccessFlags() || isSyntheticFromAttribute();
     }
 
     public boolean isAnnotation() {
-        return (getAccessFlag() & ACC_ANNOTATION) != 0;
+        return (getAccessFlags() & ACC_ANNOTATION) != 0;
     }
 
     public boolean isEnum() {
-        return (getAccessFlag() & ACC_ENUM) != 0;
+        return (getAccessFlags() & ACC_ENUM) != 0;
     }
 
     public boolean isModule() {
-        return (getAccessFlag() & ACC_MODULE) != 0;
+        return (getAccessFlags() & ACC_MODULE) != 0;
     }
 
-    private boolean isSyntheticFromAccessFlag() {
-        return (getAccessFlag() & ACC_SYNTHETIC) != 0;
+    private boolean isSyntheticFromAccessFlags() {
+        return (getAccessFlags() & ACC_SYNTHETIC) != 0;
     }
 
     private boolean isSyntheticFromAttribute() {

@@ -581,7 +581,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
-            allowing (mockField).getAccessFlag();
+            allowing (mockField).getAccessFlags();
             allowing (mockField).isPublic();
             will(returnValue(true));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PUBLIC_ATTRIBUTES, FIELD_NAME);
@@ -615,7 +615,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
-            allowing (mockField).getAccessFlag();
+            allowing (mockField).getAccessFlags();
             ignoring (mockField).isPublic();
             allowing (mockField).isPrivate();
             will(returnValue(true));
@@ -649,7 +649,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
-            allowing (mockField).getAccessFlag();
+            allowing (mockField).getAccessFlags();
             ignoring (mockField).isPublic();
             ignoring (mockField).isPrivate();
             allowing (mockField).isProtected();
@@ -683,7 +683,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
-            allowing (mockField).getAccessFlag();
+            allowing (mockField).getAccessFlags();
             ignoring (mockField).isPublic();
             ignoring (mockField).isPrivate();
             ignoring (mockField).isProtected();
@@ -717,7 +717,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
-            allowing (mockField).getAccessFlag();
+            allowing (mockField).getAccessFlags();
             ignoring (mockField).isPublic();
             ignoring (mockField).isPrivate();
             ignoring (mockField).isProtected();
@@ -752,7 +752,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
-            allowing (mockField).getAccessFlag();
+            allowing (mockField).getAccessFlags();
             ignoring (mockField).isPublic();
             ignoring (mockField).isPrivate();
             ignoring (mockField).isProtected();
@@ -787,7 +787,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
-            allowing (mockField).getAccessFlag();
+            allowing (mockField).getAccessFlags();
             ignoring (mockField).isPublic();
             ignoring (mockField).isPrivate();
             ignoring (mockField).isProtected();
@@ -822,7 +822,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
-            allowing (mockField).getAccessFlag();
+            allowing (mockField).getAccessFlags();
             ignoring (mockField).isPublic();
             ignoring (mockField).isPrivate();
             ignoring (mockField).isProtected();
@@ -865,7 +865,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
-            allowing (mockField).getAccessFlag();
+            allowing (mockField).getAccessFlags();
             ignoring (mockField).isPublic();
             ignoring (mockField).isPrivate();
             ignoring (mockField).isProtected();
@@ -903,7 +903,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(mockMetrics));
             oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
-            allowing (mockMethod).getAccessFlag();
+            allowing (mockMethod).getAccessFlags();
             allowing (mockMethod).isPublic();
             will(returnValue(true));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PUBLIC_METHODS, METHOD_SIGNATURE);
@@ -942,7 +942,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(mockMetrics));
             oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
-            allowing (mockMethod).getAccessFlag();
+            allowing (mockMethod).getAccessFlags();
             ignoring (mockMethod).isPublic();
             allowing (mockMethod).isPrivate();
             will(returnValue(true));
@@ -981,7 +981,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(mockMetrics));
             oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
-            allowing (mockMethod).getAccessFlag();
+            allowing (mockMethod).getAccessFlags();
             ignoring (mockMethod).isPublic();
             ignoring (mockMethod).isPrivate();
             allowing (mockMethod).isProtected();
@@ -1020,7 +1020,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(mockMetrics));
             oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
-            allowing (mockMethod).getAccessFlag();
+            allowing (mockMethod).getAccessFlags();
             ignoring (mockMethod).isPublic();
             ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isProtected();
@@ -1059,7 +1059,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(mockMetrics));
             oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
-            allowing (mockMethod).getAccessFlag();
+            allowing (mockMethod).getAccessFlags();
             ignoring (mockMethod).isPublic();
             ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isProtected();
@@ -1099,7 +1099,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(mockMetrics));
             oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
-            allowing (mockMethod).getAccessFlag();
+            allowing (mockMethod).getAccessFlags();
             ignoring (mockMethod).isPublic();
             ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isProtected();
@@ -1139,7 +1139,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(mockMetrics));
             oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
-            allowing (mockMethod).getAccessFlag();
+            allowing (mockMethod).getAccessFlags();
             ignoring (mockMethod).isPublic();
             ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isProtected();
@@ -1179,7 +1179,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(mockMetrics));
             oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
-            allowing (mockMethod).getAccessFlag();
+            allowing (mockMethod).getAccessFlags();
             ignoring (mockMethod).isPublic();
             ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isProtected();
@@ -1219,7 +1219,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(mockMetrics));
             oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
-            allowing (mockMethod).getAccessFlag();
+            allowing (mockMethod).getAccessFlags();
             ignoring (mockMethod).isPublic();
             ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isProtected();
@@ -1259,7 +1259,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(mockMetrics));
             oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
-            allowing (mockMethod).getAccessFlag();
+            allowing (mockMethod).getAccessFlags();
             ignoring (mockMethod).isPublic();
             ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isProtected();
@@ -1299,7 +1299,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue(mockMetrics));
             oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
-            allowing (mockMethod).getAccessFlag();
+            allowing (mockMethod).getAccessFlags();
             ignoring (mockMethod).isPublic();
             ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isProtected();

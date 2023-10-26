@@ -52,15 +52,15 @@ public class Field_info extends Feature_info implements com.jeantessier.classrea
     }
 
     public boolean isVolatile() {
-        return (getAccessFlag() & ACC_VOLATILE) != 0;
+        return (getAccessFlags() & ACC_VOLATILE) != 0;
     }
 
     public boolean isTransient() {
-        return (getAccessFlag() & ACC_TRANSIENT) != 0;
+        return (getAccessFlags() & ACC_TRANSIENT) != 0;
     }
 
     public boolean isEnum() {
-        return (getAccessFlag() & ACC_ENUM) != 0;
+        return (getAccessFlags() & ACC_ENUM) != 0;
     }
 
     public String getType() {
@@ -103,15 +103,10 @@ public class Field_info extends Feature_info implements com.jeantessier.classrea
     }
 
     public ConstantValue_attribute getConstantValue() {
-        ConstantValue_attribute result = null;
-
-        for (Attribute_info attribute : getAttributes()) {
-            if (attribute instanceof ConstantValue_attribute) {
-                result = (ConstantValue_attribute) attribute;
-            }
-        }
-
-        return result;
+        return (ConstantValue_attribute) getAttributes().stream()
+                .filter(attribute -> attribute instanceof ConstantValue_attribute)
+                .findAny()
+                .orElse(null);
     }
 
     public void accept(Visitor visitor) {

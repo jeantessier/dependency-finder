@@ -54,27 +54,27 @@ public class Method_info extends Feature_info implements com.jeantessier.classre
     }
 
     public boolean isSynchronized() {
-        return (getAccessFlag() & ACC_SYNCHRONIZED) != 0;
+        return (getAccessFlags() & ACC_SYNCHRONIZED) != 0;
     }
 
     public boolean isBridge() {
-        return (getAccessFlag() & ACC_BRIDGE) != 0;
+        return (getAccessFlags() & ACC_BRIDGE) != 0;
     }
 
     public boolean isVarargs() {
-        return (getAccessFlag() & ACC_VARARGS) != 0;
+        return (getAccessFlags() & ACC_VARARGS) != 0;
     }
 
     public boolean isNative() {
-        return (getAccessFlag() & ACC_NATIVE) != 0;
+        return (getAccessFlags() & ACC_NATIVE) != 0;
     }
 
     public boolean isAbstract() {
-        return (getAccessFlag() & ACC_ABSTRACT) != 0;
+        return (getAccessFlags() & ACC_ABSTRACT) != 0;
     }
 
     public boolean isStrict() {
-        return (getAccessFlag() & ACC_STRICT) != 0;
+        return (getAccessFlags() & ACC_STRICT) != 0;
     }
 
     public boolean isConstructor() {

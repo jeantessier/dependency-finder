@@ -74,7 +74,7 @@ public class XMLPrinter extends Printer {
     
     public void visitClassfile(Classfile classfile) {
         indent().append("<!-- ").append(classfile.getClassName()).append(" -->").eol();
-        indent().append("<classfile magic-number=\"0x").append(Integer.toHexString(classfile.getMagicNumber()).toUpperCase()).append("\" minor-version=\"").append(classfile.getMinorVersion()).append("\" major-version=\"").append(classfile.getMajorVersion()).append("\" access-flag=\"").append(format.format(classfile.getAccessFlag())).append("\">").eol();
+        indent().append("<classfile magic-number=\"0x").append(Integer.toHexString(classfile.getMagicNumber()).toUpperCase()).append("\" minor-version=\"").append(classfile.getMinorVersion()).append("\" major-version=\"").append(classfile.getMajorVersion()).append("\" access-flags=\"").append(format.format(classfile.getAccessFlags())).append("\">").eol();
         raiseIndent();
 
         top = true;
@@ -473,7 +473,7 @@ public class XMLPrinter extends Printer {
     }
 
     public void visitField_info(Field_info entry) {
-        indent().append("<field-info access-flag=\"").append(format.format(entry.getAccessFlag())).append("\">").eol();
+        indent().append("<field-info access-flags=\"").append(format.format(entry.getAccessFlags())).append("\">").eol();
         raiseIndent();
 
         if (entry.isPublic())    indent().append("<public/>").eol();
@@ -506,7 +506,7 @@ public class XMLPrinter extends Printer {
     }
 
     public void visitMethod_info(Method_info entry) {
-        indent().append("<method-info access-flag=\"").append(format.format(entry.getAccessFlag())).append("\">").eol();
+        indent().append("<method-info access-flags=\"").append(format.format(entry.getAccessFlags())).append("\">").eol();
         raiseIndent();
 
         if (entry.isPublic())       indent().append("<public/>").eol();
@@ -981,7 +981,7 @@ public class XMLPrinter extends Printer {
     }
 
     public void visitInnerClass(InnerClass helper) {
-        indent().append("<inner-class access-flag=\"").append(format.format(helper.getAccessFlag())).append("\">").eol();
+        indent().append("<inner-class access-flags=\"").append(format.format(helper.getAccessFlags())).append("\">").eol();
         raiseIndent();
 
         if (helper.isPublic())     indent().append("<public/>").eol();
@@ -1050,6 +1050,50 @@ public class XMLPrinter extends Printer {
         helper.getRawSignature().accept(this);
         append("</signature>");
         append("</local-variable-type>").eol();
+    }
+
+    public void visitBootstrapMethod(BootstrapMethod helper) {
+        indent().append("<bootstrap-method>").eol();
+        raiseIndent();
+
+        indent();
+        append("<bootstrap-method-ref index=\"").append(helper.getBootstrapMethodRef()).append("\">");
+        helper.getBootstrapMethod().accept(this);
+        append("</bootstrap-method-ref>").eol();
+
+        indent().append("<arguments>").eol();
+        raiseIndent();
+
+        helper.getArgumentIndices()
+                .forEach(index -> {
+                    indent();
+                    append("<argument index=\"").append(index).append("\">");
+                    helper.getArgument(index).accept(this);
+                    append("</argument>").eol();
+                });
+
+        lowerIndent();
+        indent().append("</arguments>").eol();
+
+        lowerIndent();
+        indent().append("</bootstrap-method>").eol();
+    }
+
+    public void visitMethodParameter(MethodParameter helper) {
+        indent().append("<method-parameter access-flags=\"").append(format.format(helper.getAccessFlags())).append("\">").eol();
+        raiseIndent();
+
+        indent();
+        append("<name>");
+        helper.getRawName().accept(this);
+        append("</name>").eol();
+
+        if (helper.isFinal())     indent().append("<final/>");
+        if (helper.isSynthetic()) indent().append("<synthetic/>");
+        if (helper.isMandated())  indent().append("<mandated/>");
+
+        lowerIndent();
+        indent().append("</method-parameter>").eol();
     }
 
     public void visitAnnotation(Annotation helper) {
@@ -1428,33 +1472,6 @@ public class XMLPrinter extends Printer {
 
     public void visitUninitializedVariableInfo(UninitializedVariableInfo helper) {
         indent().append("<uninitialized-variable-info tag=\"").append(helper.getTag()).append("\" offset=\"").append(helper.getOffset()).append("\"/>").eol();
-    }
-
-    public void visitBootstrapMethod(BootstrapMethod helper) {
-        indent().append("<bootstrap-method>").eol();
-        raiseIndent();
-
-        indent();
-        append("<bootstrap-method-ref index=\"").append(helper.getBootstrapMethodRef()).append("\">");
-        helper.getBootstrapMethod().accept(this);
-        append("</bootstrap-method-ref>").eol();
-
-        indent().append("<arguments>").eol();
-        raiseIndent();
-
-        helper.getArgumentIndices()
-                .forEach(index -> {
-                    indent();
-                    append("<argument index=\"").append(index).append("\">");
-                    helper.getArgument(index).accept(this);
-                    append("</argument>").eol();
-                });
-
-        lowerIndent();
-        indent().append("</arguments>").eol();
-
-        lowerIndent();
-        indent().append("</bootstrap-method>").eol();
     }
 
     private void appendLocalVariable(LocalVariable localVariable) {

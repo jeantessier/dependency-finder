@@ -47,7 +47,7 @@ public interface InnerClass extends Visitable {
     public UTF8_info getRawInnerName();
     public String getInnerName();
 
-    public int getAccessFlag();
+    public int getAccessFlags();
 
     public boolean isPublic();
     public boolean isProtected();

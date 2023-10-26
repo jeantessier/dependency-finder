@@ -54,7 +54,7 @@ public class InnerClass implements com.jeantessier.classreader.InnerClass {
     private final int innerClassInfoIndex;
     private final int outerClassInfoIndex;
     private final int innerNameIndex;
-    private final int accessFlag;
+    private final int accessFlags;
 
     public InnerClass(InnerClasses_attribute innerClasses, DataInput in) throws IOException {
         this.innerClasses = innerClasses;
@@ -68,8 +68,8 @@ public class InnerClass implements com.jeantessier.classreader.InnerClass {
         innerNameIndex = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug("Inner name index: " + innerNameIndex + " (" + getInnerName() + ")");
 
-        accessFlag = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Inner class access flag: " + accessFlag);
+        accessFlags = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Inner class access flags: " + accessFlags);
     }
 
     public InnerClasses_attribute getInnerClasses() {
@@ -130,52 +130,52 @@ public class InnerClass implements com.jeantessier.classreader.InnerClass {
         return result;
     }
 
-    public int getAccessFlag() {
-        return accessFlag;
+    public int getAccessFlags() {
+        return accessFlags;
     }
 
     public boolean isPublic() {
-        return (getAccessFlag() & ACC_PUBLIC) != 0;
+        return (getAccessFlags() & ACC_PUBLIC) != 0;
     }
 
     public boolean isProtected() {
-        return (getAccessFlag() & ACC_PROTECTED) != 0;
+        return (getAccessFlags() & ACC_PROTECTED) != 0;
     }
 
     public boolean isPrivate() {
-        return (getAccessFlag() & ACC_PRIVATE) != 0;
+        return (getAccessFlags() & ACC_PRIVATE) != 0;
     }
 
     public boolean isPackage() {
-        return (getAccessFlag() & (ACC_PUBLIC | ACC_PROTECTED | ACC_PRIVATE)) == 0;
+        return (getAccessFlags() & (ACC_PUBLIC | ACC_PROTECTED | ACC_PRIVATE)) == 0;
     }
 
     public boolean isStatic() {
-        return (getAccessFlag() & ACC_STATIC) != 0;
+        return (getAccessFlags() & ACC_STATIC) != 0;
     }
 
     public boolean isFinal() {
-        return (getAccessFlag() & ACC_FINAL) != 0;
+        return (getAccessFlags() & ACC_FINAL) != 0;
     }
 
     public boolean isInterface() {
-        return (getAccessFlag() & ACC_INTERFACE) != 0;
+        return (getAccessFlags() & ACC_INTERFACE) != 0;
     }
 
     public boolean isAbstract() {
-        return (getAccessFlag() & ACC_ABSTRACT) != 0;
+        return (getAccessFlags() & ACC_ABSTRACT) != 0;
     }
 
     public boolean isSynthetic() {
-        return (getAccessFlag() & ACC_SYNTHETIC) != 0;
+        return (getAccessFlags() & ACC_SYNTHETIC) != 0;
     }
 
     public boolean isAnnotation() {
-        return (getAccessFlag() & ACC_ANNOTATION) != 0;
+        return (getAccessFlags() & ACC_ANNOTATION) != 0;
     }
 
     public boolean isEnum() {
-        return (getAccessFlag() & ACC_ENUM) != 0;
+        return (getAccessFlags() & ACC_ENUM) != 0;
     }
 
     public boolean isMemberClass() {

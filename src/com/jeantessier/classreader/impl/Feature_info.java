@@ -47,11 +47,11 @@ public abstract class Feature_info implements com.jeantessier.classreader.Featur
     private static final int ACC_FINAL = 0x0010;
     private static final int ACC_SYNTHETIC = 0x1000;
 
-    private Classfile classfile;
-    private int accessFlag;
-    private int nameIndex;
-    private int descriptorIndex;
-    private Collection<Attribute_info> attributes = new LinkedList<Attribute_info>();
+    private final Classfile classfile;
+    private final int accessFlags;
+    private final int nameIndex;
+    private final int descriptorIndex;
+    private final Collection<Attribute_info> attributes = new LinkedList<>();
 
     public Feature_info(Classfile classfile, DataInput in) throws IOException {
         this(classfile, in, new AttributeFactory());
@@ -60,8 +60,8 @@ public abstract class Feature_info implements com.jeantessier.classreader.Featur
     public Feature_info(Classfile classfile, DataInput in, AttributeFactory attributeFactory) throws IOException {
         this.classfile = classfile;
 
-        accessFlag = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug(getFeatureType() + " access flag: " + accessFlag);
+        accessFlags = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug(getFeatureType() + " access flags: " + accessFlags);
 
         nameIndex = in.readUnsignedShort();
         Logger.getLogger(getClass()).debug(getFeatureType() + " name: " + nameIndex + " (" + getName() + ")");
@@ -81,32 +81,32 @@ public abstract class Feature_info implements com.jeantessier.classreader.Featur
         return classfile;
     }
 
-    public int getAccessFlag() {
-        return accessFlag;
+    public int getAccessFlags() {
+        return accessFlags;
     }
 
     public boolean isPublic() {
-        return (getAccessFlag() & ACC_PUBLIC) != 0;
+        return (getAccessFlags() & ACC_PUBLIC) != 0;
     }
 
     public boolean isProtected() {
-        return (getAccessFlag() & ACC_PROTECTED) != 0;
+        return (getAccessFlags() & ACC_PROTECTED) != 0;
     }
 
     public boolean isPrivate() {
-        return (getAccessFlag() & ACC_PRIVATE) != 0;
+        return (getAccessFlags() & ACC_PRIVATE) != 0;
     }
 
     public boolean isPackage() {
-        return (getAccessFlag() & (ACC_PUBLIC | ACC_PROTECTED | ACC_PRIVATE)) == 0;
+        return (getAccessFlags() & (ACC_PUBLIC | ACC_PROTECTED | ACC_PRIVATE)) == 0;
     }
 
     public boolean isStatic() {
-        return (getAccessFlag() & ACC_STATIC) != 0;
+        return (getAccessFlags() & ACC_STATIC) != 0;
     }
 
     public boolean isFinal() {
-        return (getAccessFlag() & ACC_FINAL) != 0;
+        return (getAccessFlags() & ACC_FINAL) != 0;
     }
 
     public int getNameIndex() {
@@ -146,29 +146,15 @@ public abstract class Feature_info implements com.jeantessier.classreader.Featur
     }
 
     private boolean isSyntheticFromAccessFlag() {
-        return (getAccessFlag() & ACC_SYNTHETIC) != 0;
+        return (getAccessFlags() & ACC_SYNTHETIC) != 0;
     }
 
     private boolean isSyntheticFromAttribute() {
-        boolean result = false;
-
-        Iterator i = getAttributes().iterator();
-        while (!result && i.hasNext()) {
-            result = i.next() instanceof Synthetic_attribute;
-        }
-
-        return result;
+        return getAttributes().parallelStream().anyMatch(attribute -> attribute instanceof Synthetic_attribute);
     }
 
     public boolean isDeprecated() {
-        boolean result = false;
-
-        Iterator i = getAttributes().iterator();
-        while (!result && i.hasNext()) {
-            result = i.next() instanceof Deprecated_attribute;
-        }
-
-        return result;
+        return getAttributes().parallelStream().anyMatch(attribute -> attribute instanceof Deprecated_attribute);
     }
 
     public boolean isGeneric() {

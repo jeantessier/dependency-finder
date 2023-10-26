@@ -457,6 +457,11 @@ public class MetricsGatherer extends VisitorBase {
         visitAttribute(attribute.getAttributeName());
     }
 
+    public void visitStackMapTable_attribute(StackMapTable_attribute attribute) {
+        super.visitStackMapTable_attribute(attribute);
+        visitAttribute(attribute.getAttributeName());
+    }
+
     public void visitExceptions_attribute(Exceptions_attribute attribute) {
         super.visitExceptions_attribute(attribute);
         visitAttribute(attribute.getAttributeName());
@@ -561,13 +566,13 @@ public class MetricsGatherer extends VisitorBase {
         visitAttribute(attribute.getAttributeName());
     }
 
-    public void visitStackMapTable_attribute(StackMapTable_attribute attribute) {
-        super.visitStackMapTable_attribute(attribute);
+    public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute) {
+        super.visitBootstrapMethods_attribute(attribute);
         visitAttribute(attribute.getAttributeName());
     }
 
-    public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute) {
-        super.visitBootstrapMethods_attribute(attribute);
+    public void visitMethodParameters_attribute(MethodParameters_attribute attribute) {
+        super.visitMethodParameters_attribute(attribute);
         visitAttribute(attribute.getAttributeName());
     }
 

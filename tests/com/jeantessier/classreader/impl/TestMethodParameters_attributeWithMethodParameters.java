@@ -57,7 +57,7 @@ public class TestMethodParameters_attributeWithMethodParameters extends TestAnno
 
         // And
         assertEquals("method parameter name", nameIndex, sut.getMethodParameters().stream().findFirst().orElseThrow().getNameIndex());
-        assertEquals("method parameter access flags", accessFlags, sut.getMethodParameters().stream().findFirst().orElseThrow().getAccessFlag());
+        assertEquals("method parameter access flags", accessFlags, sut.getMethodParameters().stream().findFirst().orElseThrow().getAccessFlags());
     }
 
     public void testWithMultipleMethodParameters() throws Exception {
@@ -89,10 +89,10 @@ public class TestMethodParameters_attributeWithMethodParameters extends TestAnno
 
         // And
         assertEquals("method parameter name", nameIndex1, sut.getMethodParameters().stream().findFirst().orElseThrow().getNameIndex());
-        assertEquals("method parameter access flags", accessFlags1, sut.getMethodParameters().stream().findFirst().orElseThrow().getAccessFlag());
+        assertEquals("method parameter access flags", accessFlags1, sut.getMethodParameters().stream().findFirst().orElseThrow().getAccessFlags());
 
         // And
         assertEquals("method parameter name", nameIndex2, sut.getMethodParameters().stream().skip(1).findFirst().orElseThrow().getNameIndex());
-        assertEquals("method parameter access flags", accessFlags2, sut.getMethodParameters().stream().skip(1).findFirst().orElseThrow().getAccessFlag());
+        assertEquals("method parameter access flags", accessFlags2, sut.getMethodParameters().stream().skip(1).findFirst().orElseThrow().getAccessFlags());
     }
 }

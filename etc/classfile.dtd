@@ -39,7 +39,7 @@
           magic-number  CDATA #REQUIRED
           minor-version CDATA #REQUIRED
           major-version CDATA #REQUIRED
-          access-flag CDATA #REQUIRED
+          access-flags  CDATA #REQUIRED
 >
 
 <!ELEMENT constant-pool (class | field-ref-info | method-ref-info | interface-method-ref-info | string-info | integer-info | float-info | long-info | double-info | name-and-type-info | utf8-info | method-handle-info | method-type-info | dynamic-info | invoke-dynamic-info | module-info | package-info | unusable)* >
@@ -183,7 +183,7 @@
 
 <!ELEMENT field-info (public?, protected?, private?, static?, final?, volatile?, transient?, synthetic?, enum?, name, type, attributes?)>
 <!ATTLIST field-info
-          access-flag CDATA #REQUIRED
+          access-flags CDATA #REQUIRED
 >
 
 <!ELEMENT protected EMPTY >
@@ -200,7 +200,7 @@
 
 <!ELEMENT method-info (public?, protected?, private?, static?, final?, synchronized?, bridge?, varargs?, native?, abstract?, strict?, synthetic?, name, return-type?, signature, attributes?)>
 <!ATTLIST method-info
-          access-flag CDATA #REQUIRED
+          access-flags CDATA #REQUIRED
 >
 
 <!ELEMENT synchronized EMPTY >
@@ -217,7 +217,7 @@
 
 <!ELEMENT signature (#PCDATA) >
 
-<!ELEMENT attributes (constant-value-attribute | code-attribute | stack-map-table-attribute | exceptions-attribute | inner-classes-attribute | enclosing-method-attribute | synthetic-attribute | signature-attribute | source-file-attribute | source-debug-extension | line-number-table-attribute | local-variable-table-attribute | local-variable-type-table-attribute | deprecated-attribute | runtime-visible-annotations-attribute | runtime-invisible-annotations-attribute | runtime-visible-parameter-annotations-attribute | runtime-invisible-parameter-annotations-attribute | runtime-visible-type-annotations-attribute | runtime-invisible-type-annotations-attribute | annotation-default-attribute | bootstrap-methods-attribute | custom-attribute)* >
+<!ELEMENT attributes (constant-value-attribute | code-attribute | stack-map-table-attribute | exceptions-attribute | inner-classes-attribute | enclosing-method-attribute | synthetic-attribute | signature-attribute | source-file-attribute | source-debug-extension | line-number-table-attribute | local-variable-table-attribute | local-variable-type-table-attribute | deprecated-attribute | runtime-visible-annotations-attribute | runtime-invisible-annotations-attribute | runtime-visible-parameter-annotations-attribute | runtime-invisible-parameter-annotations-attribute | runtime-visible-type-annotations-attribute | runtime-invisible-type-annotations-attribute | annotation-default-attribute | bootstrap-methods-attribute | method-parameters-attribute | custom-attribute)* >
 
 <!ELEMENT constant-value-attribute (#PCDATA) >
 
@@ -349,7 +349,7 @@
 
 <!ELEMENT inner-class (public?, protected?, private?, static?, final?, is-interface?, abstract?, synthetic?, is-annotation?, enum?, inner-class-info, outer-class-info, inner-name)>
 <!ATTLIST inner-class
-          access-flag CDATA #REQUIRED
+          access-flags CDATA #REQUIRED
 >
 
 <!ELEMENT inner-class-info (#PCDATA) >
@@ -590,6 +590,15 @@
 <!ATTLIST argument
           index CDATA #REQUIRED
 >
+
+<!ELEMENT method-parameters-attribute (method-parameter*) >
+
+<!ELEMENT method-parameter (name, final?, synthetic?, mandated?) >
+<!ATTLIST method-parameter
+          access-flags CDATA #REQUIRED
+>
+
+<!ELEMENT mandated EMPTY >
 
 <!ELEMENT custom-attribute (#PCDATA) >
 <!ATTLIST custom-attribute

@@ -285,7 +285,7 @@ public class MetricsGatherer extends VisitorBase {
 
         Logger.getLogger(getClass()).debug("VisitField_info(" + entry.getFullSignature() + ")");
         Logger.getLogger(getClass()).debug("Current class: " + getCurrentClass().getName());
-        Logger.getLogger(getClass()).debug("Access flag: " + entry.getAccessFlag());
+        Logger.getLogger(getClass()).debug("Access flag: " + entry.getAccessFlags());
         Logger.getLogger(getClass()).debug("Public: " + entry.isPublic());
         Logger.getLogger(getClass()).debug("Private: " + entry.isPrivate());
         Logger.getLogger(getClass()).debug("Protected: " + entry.isProtected());
@@ -338,7 +338,7 @@ public class MetricsGatherer extends VisitorBase {
         
         Logger.getLogger(getClass()).debug("VisitMethod_info(" + fullSignature + ")");
         Logger.getLogger(getClass()).debug("Current class: " + getCurrentClass().getName());
-        Logger.getLogger(getClass()).debug("Access flag: " + entry.getAccessFlag());
+        Logger.getLogger(getClass()).debug("Access flag: " + entry.getAccessFlags());
         Logger.getLogger(getClass()).debug("Public: " + entry.isPublic());
         Logger.getLogger(getClass()).debug("Private: " + entry.isPrivate());
         Logger.getLogger(getClass()).debug("Protected: " + entry.isProtected());

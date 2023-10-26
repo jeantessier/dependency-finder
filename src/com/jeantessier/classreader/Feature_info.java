@@ -37,7 +37,7 @@ import java.util.*;
 public interface Feature_info extends Deprecatable, Visitable {
     public Classfile getClassfile();
 
-    public int getAccessFlag();
+    public int getAccessFlags();
 
     public boolean isPublic();
     public boolean isProtected();

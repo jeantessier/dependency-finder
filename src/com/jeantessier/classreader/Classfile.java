@@ -43,7 +43,7 @@ public interface Classfile extends Deprecatable, Visitable {
 
     public ConstantPool getConstantPool();
 
-    public int getAccessFlag();
+    public int getAccessFlags();
 
     public int getClassIndex();
     public Class_info getRawClass();

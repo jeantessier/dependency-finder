@@ -75,20 +75,20 @@ public class MethodParameter implements com.jeantessier.classreader.MethodParame
         return getNameIndex() != 0 ? ClassNameHelper.convertClassName(getRawName().getValue()) : null;
     }
 
-    public int getAccessFlag() {
+    public int getAccessFlags() {
         return accessFlags;
     }
 
     public boolean isFinal() {
-        return (getAccessFlag() & ACC_FINAL) != 0;
+        return (getAccessFlags() & ACC_FINAL) != 0;
     }
 
     public boolean isSynthetic() {
-        return (getAccessFlag() & ACC_SYNTHETIC) != 0;
+        return (getAccessFlags() & ACC_SYNTHETIC) != 0;
     }
 
     public boolean isMandated() {
-        return (getAccessFlag() & ACC_MANDATED) != 0;
+        return (getAccessFlags() & ACC_MANDATED) != 0;
     }
 
     public void accept(Visitor visitor) {
