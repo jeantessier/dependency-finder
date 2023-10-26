@@ -286,8 +286,6 @@ public class MetricsGatherer extends VisitorBase {
 
     // ConstantPool
 
-
-    @Override
     public void visitConstantPool(ConstantPool constantPool) {
         visitingConstantPool = true;
         super.visitConstantPool(constantPool);
