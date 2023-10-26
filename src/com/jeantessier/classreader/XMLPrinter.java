@@ -812,6 +812,16 @@ public class XMLPrinter extends Printer {
         indent().append("</bootstrap-methods-attribute>").eol();
     }
 
+    public void visitMethodParameters_attribute(MethodParameters_attribute attribute) {
+        indent().append("<method-parameters-attribute>").eol();
+        raiseIndent();
+
+        super.visitMethodParameters_attribute(attribute);
+
+        lowerIndent();
+        indent().append("</method-parameters-attribute>").eol();
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         indent().append("<custom-attribute name=\"").append(escapeXMLCharacters(attribute.getName())).append("\">").append(Hex.toString(attribute.getInfo())).append("</custom-attribute>").eol();
     }

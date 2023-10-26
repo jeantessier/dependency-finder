@@ -1822,6 +1822,36 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "bootstrap-methods-attribute", 1);
     }
 
+    public void testVisitMethodParameters_attribute_noMethodParameters() throws Exception {
+        final MethodParameters_attribute attribute = mock(MethodParameters_attribute.class);
+
+        checking(new Expectations() {{
+            atLeast (1).of (attribute).getMethodParameters();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        printer.visitMethodParameters_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-parameters-attribute", 1);
+    }
+
+    public void testVisitMethodParameters_attribute_oneMethodParameter() throws Exception {
+        final MethodParameters_attribute attribute = mock(MethodParameters_attribute.class);
+        final MethodParameter methodParameter = mock(MethodParameter.class);
+
+        checking(new Expectations() {{
+            atLeast (1).of (attribute).getMethodParameters();
+                will(returnValue(Collections.singleton(methodParameter)));
+            oneOf (methodParameter).accept(printer);
+        }});
+
+        printer.visitMethodParameters_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-parameters-attribute", 1);
+    }
+
     public void testVisitAnnotation_WithoutElementValuePairs() throws Exception {
         final Annotation annotation = mock(Annotation.class);
 
