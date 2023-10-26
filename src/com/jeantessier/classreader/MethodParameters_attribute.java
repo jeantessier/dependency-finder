@@ -32,47 +32,8 @@
 
 package com.jeantessier.classreader;
 
-import java.util.Arrays;
+import java.util.*;
 
-public enum AttributeType {
-    CONSTANT_VALUE("ConstantValue"),
-    CODE("Code"),
-    STACK_MAP_TABLE("StackMapTable"),
-    EXCEPTIONS("Exceptions"),
-    INNER_CLASSES("InnerClasses"),
-    ENCLOSING_METHOD("EnclosingMethod"),
-    SYNTHETIC("Synthetic"),
-    SIGNATURE("Signature"),
-    SOURCE_FILE("SourceFile"),
-    SOURCE_DEBUG_EXTENSION("SourceDebugExtension"),
-    LINE_NUMBER_TABLE("LineNumberTable"),
-    LOCAL_VARIABLE_TABLE("LocalVariableTable"),
-    LOCAL_VARIABLE_TYPE_TABLE("LocalVariableTypeTable"),
-    DEPRECATED("Deprecated"),
-    RUNTIME_VISIBLE_ANNOTATIONS("RuntimeVisibleAnnotations"),
-    RUNTIME_INVISIBLE_ANNOTATIONS("RuntimeInvisibleAnnotations"),
-    RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS("RuntimeVisibleParameterAnnotations"),
-    RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS("RuntimeInvisibleParameterAnnotations"),
-    RUNTIME_VISIBLE_TYPE_ANNOTATIONS("RuntimeVisibleTypeAnnotations"),
-    RUNTIME_INVISIBLE_TYPE_ANNOTATIONS("RuntimeInvisibleTypeAnnotations"),
-    ANNOTATION_DEFAULT("AnnotationDefault"),
-    BOOTSTRAP_METHODS("BootstrapMethods"),
-    METHOD_PARAMETERS("MethodParameters");
-
-    private final String attributeName;
-
-    AttributeType(String attributeName) {
-        this.attributeName = attributeName;
-    }
-
-    public String getAttributeName() {
-        return attributeName;
-    }
-
-    public static AttributeType forName(String attributeName) {
-        return Arrays.stream(values())
-                .filter(attributeType -> attributeType.getAttributeName().equals(attributeName))
-                .findFirst()
-                .orElse(null);
-    }
+public interface MethodParameters_attribute extends Attribute_info {
+    public Collection<? extends MethodParameter> getMethodParameters();
 }

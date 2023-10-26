@@ -267,6 +267,10 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
         // Do nothing
     }
 
+    public void visitStackMapTable_attribute(StackMapTable_attribute attribute) {
+        // Do nothing
+    }
+
     public void visitExceptions_attribute(Exceptions_attribute attribute) {
         // Do nothing
     }
@@ -339,11 +343,11 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
         // Do nothing
     }
 
-    public void visitStackMapTable_attribute(StackMapTable_attribute attribute) {
+    public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute) {
         // Do nothing
     }
 
-    public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute) {
+    public void visitMethodParameters_attribute(MethodParameters_attribute attribute) {
         // Do nothing
     }
 
@@ -372,6 +376,14 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
     }
 
     public void visitLocalVariableType(LocalVariableType helper) {
+        // Do nothing
+    }
+
+    public void visitBootstrapMethod(BootstrapMethod helper) {
+        // Do nothing
+    }
+
+    public void visitMethodParameter(MethodParameter helper) {
         // Do nothing
     }
 
@@ -556,10 +568,6 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
     }
 
     public void visitUninitializedVariableInfo(UninitializedVariableInfo helper) {
-        // Do nothing
-    }
-
-    public void visitBootstrapMethod(BootstrapMethod helper) {
         // Do nothing
     }
 

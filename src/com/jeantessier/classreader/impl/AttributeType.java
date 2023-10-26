@@ -168,6 +168,12 @@ public enum AttributeType {
         public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
             return new BootstrapMethods_attribute(constantPool, owner, in);
         }
+    },
+
+    METHOD_PARAMETERS(com.jeantessier.classreader.AttributeType.METHOD_PARAMETERS) {
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+            return new MethodParameters_attribute(constantPool, owner, in);
+        }
     };
 
     private final com.jeantessier.classreader.AttributeType attributeType;

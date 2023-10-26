@@ -35,17 +35,12 @@ package com.jeantessier.classreader.impl;
 import org.jmock.Expectations;
 import org.jmock.imposters.ByteBuddyClassImposteriser;
 import org.jmock.integration.junit4.JUnitRuleMockery;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.*;
+import org.junit.runner.*;
 import org.junit.runners.Parameterized;
 
-import java.io.DataInput;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.runners.Parameterized.Parameters;
@@ -157,7 +152,6 @@ public class TestStackMapFrameFactory_create {
             }});
         }
 
-        // And
         sut = new StackMapFrameFactory(mockVerificationTypeInfoFactory);
     }
 

@@ -87,6 +87,7 @@ public interface Visitor {
     public void visitAnnotationDefault_attribute(AnnotationDefault_attribute attribute);
     public void visitStackMapTable_attribute(StackMapTable_attribute attribute);
     public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute);
+    public void visitMethodParameters_attribute(MethodParameters_attribute attribute);
     public void visitCustom_attribute(Custom_attribute attribute);
 
     // Attribute helpers
@@ -96,6 +97,8 @@ public interface Visitor {
     public void visitLineNumber(LineNumber helper);
     public void visitLocalVariable(LocalVariable helper);
     public void visitLocalVariableType(LocalVariableType helper);
+    public void visitBootstrapMethod(BootstrapMethod helper);
+    public void visitMethodParameter(MethodParameter helper);
 
     // Annotations
     public void visitAnnotation(Annotation helper);
@@ -135,7 +138,6 @@ public interface Visitor {
     public void visitSameFrameExtended(SameFrameExtended helper);
     public void visitAppendFrame(AppendFrame helper);
     public void visitFullFrame(FullFrame helper);
-    public void visitBootstrapMethod(BootstrapMethod helper);
     public void visitTopVariableInfo(TopVariableInfo helper);
     public void visitIntegerVariableInfo(IntegerVariableInfo helper);
     public void visitFloatVariableInfo(FloatVariableInfo helper);

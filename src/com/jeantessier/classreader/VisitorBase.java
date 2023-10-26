@@ -35,7 +35,7 @@ package com.jeantessier.classreader;
 import org.apache.log4j.Logger;
 
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 public abstract class VisitorBase implements Visitor {
     protected static final int STARTING_INDEX = 1;
@@ -298,6 +298,11 @@ public abstract class VisitorBase implements Visitor {
         attribute.getBootstrapMethods().forEach(bootstrapMethod -> bootstrapMethod.accept(this));
     }
 
+    public void visitMethodParameters_attribute(MethodParameters_attribute attribute) {
+        Logger.getLogger(getClass()).debug("Visiting " + attribute.getMethodParameters().size() + " method parameter(s) ...");
+        attribute.getMethodParameters().forEach(methodParameter -> methodParameter.accept(this));
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         // Do nothing
     }
@@ -333,6 +338,18 @@ public abstract class VisitorBase implements Visitor {
     }
 
     public void visitLocalVariableType(LocalVariableType helper) {
+        // Do nothing
+    }
+
+    public void visitBootstrapMethod(BootstrapMethod helper) {
+        Logger.getLogger(getClass()).debug("Visiting bootstrap method handle ...");
+        helper.getBootstrapMethod().accept(this);
+
+        Logger.getLogger(getClass()).debug("Visiting " + helper.getArguments().size() + " argument(s) ...");
+        helper.getArguments().forEach(argument -> argument.accept(this));
+    }
+
+    public void visitMethodParameter(MethodParameter helper) {
         // Do nothing
     }
 
@@ -531,13 +548,5 @@ public abstract class VisitorBase implements Visitor {
 
     public void visitUninitializedVariableInfo(UninitializedVariableInfo helper) {
         // Do nothing
-    }
-
-    public void visitBootstrapMethod(BootstrapMethod helper) {
-        Logger.getLogger(getClass()).debug("Visiting bootstrap method handle ...");
-        helper.getBootstrapMethod().accept(this);
-
-        Logger.getLogger(getClass()).debug("Visiting " + helper.getArguments().size() + " argument(s) ...");
-        helper.getArguments().forEach(argument -> argument.accept(this));
     }
 }

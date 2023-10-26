@@ -501,6 +501,30 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitBootstrapMethods_attribute(mockBootstrapMethods);
     }
 
+    public void testVisitMethodParameters_attribute_noMethodParameters() {
+        final MethodParameters_attribute mockAttribute = mock(MethodParameters_attribute.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockAttribute).getMethodParameters();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        sut.visitMethodParameters_attribute(mockAttribute);
+    }
+
+    public void testVisitMethodParameters_attribute_oneMethodParameter() {
+        final MethodParameters_attribute mockAttribute = mock(MethodParameters_attribute.class);
+        final MethodParameter mockMethodParameter = mock(MethodParameter.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockAttribute).getMethodParameters();
+                will(returnValue(Collections.singleton(mockMethodParameter)));
+            oneOf (mockMethodParameter).accept(sut);
+        }});
+
+        sut.visitMethodParameters_attribute(mockAttribute);
+    }
+
     public void testVisitCustom_attribute() {
         Custom_attribute mockCustom = mock(Custom_attribute.class);
         sut.visitCustom_attribute(mockCustom);
@@ -534,6 +558,28 @@ public class TestVisitorBase extends MockObjectTestCase {
     public void testVisitLocalVariableType() {
         LocalVariableType mockLocalVariableType = mock(LocalVariableType.class);
         sut.visitLocalVariableType(mockLocalVariableType);
+    }
+
+    public void testVisitBootstrapMethod() {
+        final BootstrapMethod mockBootstrapMethod = mock(BootstrapMethod.class);
+        final MethodHandle_info mockMethodHandle = mock(MethodHandle_info.class);
+        final ConstantPoolEntry mockArgument = mock(Integer_info.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockBootstrapMethod).getBootstrapMethod();
+            will(returnValue(mockMethodHandle));
+            atLeast(1).of (mockBootstrapMethod).getArguments();
+            will(returnValue(Collections.singleton(mockArgument)));
+            oneOf (mockMethodHandle).accept(sut);
+            oneOf (mockArgument).accept(sut);
+        }});
+
+        sut.visitBootstrapMethod(mockBootstrapMethod);
+    }
+
+    public void testVisitMethodParameter() {
+        final MethodParameter mockMethodParameter = mock(MethodParameter.class);
+        sut.visitMethodParameter(mockMethodParameter);
     }
 
     public void testVisitAnnotation() {
@@ -802,23 +848,6 @@ public class TestVisitorBase extends MockObjectTestCase {
     public void testVisitUninitializedVariableInfo() {
         final UninitializedVariableInfo mockUninitializedVariableInfo = mock(UninitializedVariableInfo.class);
         sut.visitUninitializedVariableInfo(mockUninitializedVariableInfo);
-    }
-
-    public void testVisitBootstrapMethod() {
-        final BootstrapMethod mockBootstrapMethod = mock(BootstrapMethod.class);
-        final MethodHandle_info mockMethodHandle = mock(MethodHandle_info.class);
-        final ConstantPoolEntry mockArgument = mock(Integer_info.class);
-
-        checking(new Expectations() {{
-            atLeast(1).of (mockBootstrapMethod).getBootstrapMethod();
-                will(returnValue(mockMethodHandle));
-            atLeast(1).of (mockBootstrapMethod).getArguments();
-                will(returnValue(Collections.singleton(mockArgument)));
-            oneOf (mockMethodHandle).accept(sut);
-            oneOf (mockArgument).accept(sut);
-        }});
-
-        sut.visitBootstrapMethod(mockBootstrapMethod);
     }
 
     private Action visitInstruction(Instruction instruction) {

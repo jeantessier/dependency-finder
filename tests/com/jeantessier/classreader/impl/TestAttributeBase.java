@@ -93,7 +93,7 @@ public class TestAttributeBase extends MockObjectTestCase {
 
     protected void expectReadU1(final int i) throws IOException {
         checking(new Expectations() {{
-            one (mockIn).readUnsignedByte();
+            oneOf (mockIn).readUnsignedByte();
                 inSequence(dataReads);
                 will(returnValue(i));
         }});
@@ -101,7 +101,7 @@ public class TestAttributeBase extends MockObjectTestCase {
 
     protected void expectReadU2(final int i) throws IOException {
         checking(new Expectations() {{
-            one (mockIn).readUnsignedShort();
+            oneOf (mockIn).readUnsignedShort();
                 inSequence(dataReads);
                 will(returnValue(i));
         }});
@@ -109,7 +109,7 @@ public class TestAttributeBase extends MockObjectTestCase {
 
     protected void expectReadU4(final int i) throws IOException {
         checking(new Expectations() {{
-            one (mockIn).readInt();
+            oneOf (mockIn).readInt();
                 inSequence(dataReads);
                 will(returnValue(i));
         }});
@@ -117,14 +117,14 @@ public class TestAttributeBase extends MockObjectTestCase {
 
     protected void expectReadFully() throws IOException {
         checking(new Expectations() {{
-            one (mockIn).readFully((byte[]) with(any(Object.class)));
+            oneOf (mockIn).readFully((byte[]) with(any(Object.class)));
                 inSequence(dataReads);
         }});
     }
 
     protected void expectReadUtf(final String s) throws IOException {
         checking(new Expectations() {{
-            one (mockIn).readUTF();
+            oneOf (mockIn).readUTF();
                 inSequence(dataReads);
                 will(returnValue(s));
         }});
@@ -140,9 +140,9 @@ public class TestAttributeBase extends MockObjectTestCase {
 
     private void expectLookupClass(final int index, final String value, final Class_info mockClass_info) {
         checking(new Expectations() {{
-            one (mockConstantPool).get(index);
+            oneOf (mockConstantPool).get(index);
                 will(returnValue(mockClass_info));
-            one (mockClass_info).getName();
+            oneOf (mockClass_info).getName();
                 will(returnValue(value));
         }});
     }
@@ -157,11 +157,11 @@ public class TestAttributeBase extends MockObjectTestCase {
 
     private void expectLookupNameAndType(final int index, final String name, final String type, final NameAndType_info mockNameAndType_info) {
         checking(new Expectations() {{
-            one (mockConstantPool).get(index);
+            oneOf (mockConstantPool).get(index);
                 will(returnValue(mockNameAndType_info));
-            one (mockNameAndType_info).getName();
+            oneOf (mockNameAndType_info).getName();
                 will(returnValue(name));
-            one (mockNameAndType_info).getType();
+            oneOf (mockNameAndType_info).getType();
                 will(returnValue(type));
         }});
     }
@@ -176,9 +176,9 @@ public class TestAttributeBase extends MockObjectTestCase {
 
     private void expectLookupInteger(final int index, final int value, final Integer_info mockInteger_info) {
         checking(new Expectations() {{
-            one (mockConstantPool).get(index);
+            oneOf (mockConstantPool).get(index);
                 will(returnValue(mockInteger_info));
-            one (mockInteger_info).getValue();
+            oneOf (mockInteger_info).getValue();
                 will(returnValue(value));
         }});
     }
@@ -193,9 +193,9 @@ public class TestAttributeBase extends MockObjectTestCase {
 
     private void expectLookupLong(final int index, final long value, final Long_info mockLong_info) {
         checking(new Expectations() {{
-            one (mockConstantPool).get(index);
+            oneOf (mockConstantPool).get(index);
                 will(returnValue(mockLong_info));
-            one (mockLong_info).getValue();
+            oneOf (mockLong_info).getValue();
                 will(returnValue(value));
         }});
     }
@@ -210,9 +210,9 @@ public class TestAttributeBase extends MockObjectTestCase {
 
     private void expectLookupFloat(final int index, final float value, final Float_info mockFloat_info) {
         checking(new Expectations() {{
-            one (mockConstantPool).get(index);
+            oneOf (mockConstantPool).get(index);
                 will(returnValue(mockFloat_info));
-            one (mockFloat_info).getValue();
+            oneOf (mockFloat_info).getValue();
                 will(returnValue(value));
         }});
     }
@@ -227,9 +227,9 @@ public class TestAttributeBase extends MockObjectTestCase {
 
     private void expectLookupDouble(final int index, final double value, final Double_info mockDouble_info) {
         checking(new Expectations() {{
-            one (mockConstantPool).get(index);
+            oneOf (mockConstantPool).get(index);
                 will(returnValue(mockDouble_info));
-            one (mockDouble_info).getValue();
+            oneOf (mockDouble_info).getValue();
                 will(returnValue(value));
         }});
     }
@@ -244,9 +244,9 @@ public class TestAttributeBase extends MockObjectTestCase {
 
     private void expectLookupString(final int index, final String value, final String_info mockString_info) {
         checking(new Expectations() {{
-            one (mockConstantPool).get(index);
+            oneOf (mockConstantPool).get(index);
                 will(returnValue(mockString_info));
-            one (mockString_info).getValue();
+            oneOf (mockString_info).getValue();
                 will(returnValue(value));
         }});
     }
@@ -261,9 +261,9 @@ public class TestAttributeBase extends MockObjectTestCase {
 
     private void expectLookupUtf8(final int index, final String value, final UTF8_info mockUtf8_info) {
         checking(new Expectations() {{
-            one (mockConstantPool).get(index);
+            oneOf (mockConstantPool).get(index);
                 will(returnValue(mockUtf8_info));
-            one (mockUtf8_info).getValue();
+            oneOf (mockUtf8_info).getValue();
                 will(returnValue(value));
         }});
     }

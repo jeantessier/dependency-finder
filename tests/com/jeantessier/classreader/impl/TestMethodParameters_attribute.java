@@ -30,49 +30,34 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
-import java.util.Arrays;
+import com.jeantessier.classreader.Visitor;
+import org.jmock.Expectations;
 
-public enum AttributeType {
-    CONSTANT_VALUE("ConstantValue"),
-    CODE("Code"),
-    STACK_MAP_TABLE("StackMapTable"),
-    EXCEPTIONS("Exceptions"),
-    INNER_CLASSES("InnerClasses"),
-    ENCLOSING_METHOD("EnclosingMethod"),
-    SYNTHETIC("Synthetic"),
-    SIGNATURE("Signature"),
-    SOURCE_FILE("SourceFile"),
-    SOURCE_DEBUG_EXTENSION("SourceDebugExtension"),
-    LINE_NUMBER_TABLE("LineNumberTable"),
-    LOCAL_VARIABLE_TABLE("LocalVariableTable"),
-    LOCAL_VARIABLE_TYPE_TABLE("LocalVariableTypeTable"),
-    DEPRECATED("Deprecated"),
-    RUNTIME_VISIBLE_ANNOTATIONS("RuntimeVisibleAnnotations"),
-    RUNTIME_INVISIBLE_ANNOTATIONS("RuntimeInvisibleAnnotations"),
-    RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS("RuntimeVisibleParameterAnnotations"),
-    RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS("RuntimeInvisibleParameterAnnotations"),
-    RUNTIME_VISIBLE_TYPE_ANNOTATIONS("RuntimeVisibleTypeAnnotations"),
-    RUNTIME_INVISIBLE_TYPE_ANNOTATIONS("RuntimeInvisibleTypeAnnotations"),
-    ANNOTATION_DEFAULT("AnnotationDefault"),
-    BOOTSTRAP_METHODS("BootstrapMethods"),
-    METHOD_PARAMETERS("MethodParameters");
+public class TestMethodParameters_attribute extends TestAnnotationsBase {
+    private MethodParameters_attribute sut;
 
-    private final String attributeName;
+    protected void setUp() throws Exception {
+        super.setUp();
 
-    AttributeType(String attributeName) {
-        this.attributeName = attributeName;
+        expectReadAttributeLength(2);
+        expectReadNumParameters(0);
+
+        sut = new MethodParameters_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
-    public String getAttributeName() {
-        return attributeName;
+    public void testGetAttributeName() {
+        assertEquals(AttributeType.METHOD_PARAMETERS.getAttributeName(), sut.getAttributeName());
     }
 
-    public static AttributeType forName(String attributeName) {
-        return Arrays.stream(values())
-                .filter(attributeType -> attributeType.getAttributeName().equals(attributeName))
-                .findFirst()
-                .orElse(null);
+    public void testAccept() {
+        final Visitor mockVisitor = mock(Visitor.class);
+
+        checking(new Expectations() {{
+            oneOf (mockVisitor).visitMethodParameters_attribute(sut);
+        }});
+
+        sut.accept(mockVisitor);
     }
 }
