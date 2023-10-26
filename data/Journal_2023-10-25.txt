@@ -1,0 +1,16 @@
+Completes support for Java 8 by implementing =MethodParameters_attribute= and
+its helper classes.  I first drafted the changes that were required to support
+Java 8 back in 2016.  Now, I can say that part is done.
+
+Java 9 defined modules.  The =Module= attribute is a big attribute, but it is
+very straightforward.  Nests from Java 11 are trivial.  Records were a big
+addition in Java 16, but the =Record= attribute is a name with a descriptor and
+an attribute lists.  Easy stuff.  The lastest change to the =.class= file
+format was in Java 17 with the addition of =PermittedSubclasses= attribute.  It
+aggregates together classes from the constant pool and will also be easy to
+implement.
+
+I noticed that the JVM specification uses the plural "access flags" but my code
+is using the singular "access flag".  I changed it everywhere to use the plural.
+Strictly speaking, it breaks backwards compatibility, but I feel it's minor
+enough to slip it by.
