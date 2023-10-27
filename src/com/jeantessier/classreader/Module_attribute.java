@@ -45,6 +45,7 @@ public interface Module_attribute extends Attribute_info {
     public boolean isSynthetic();
     public boolean isMandated();
 
+    public boolean hasModuleVersion();
     public int getModuleVersionIndex();
     public UTF8_info getRawModuleVersion();
     public String getModuleVersion();

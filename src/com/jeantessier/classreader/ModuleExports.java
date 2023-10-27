@@ -40,8 +40,6 @@ public interface ModuleExports extends Visitable {
     public String getExports();
 
     public int getExportsFlags();
-    public boolean isTransitive();
-    public boolean isStaticPhase();
     public boolean isSynthetic();
     public boolean isMandated();
 

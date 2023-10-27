@@ -50,11 +50,9 @@ public class TestModuleExports_exportsFlags {
     @Parameters(name="Module exports with exports flags {0}")
     public static Object[][] data() {
         return new Object[][] {
-                {"TRANSTIVE", 0x0020, true, false, false, false},
-                {"STATIC_PHASE", 0x0040, false, true, false, false},
-                {"SYNTHETIC", 0x1000, false, false, true, false},
-                {"MANDATED", 0x8000, false, false, false, true},
-                {"all of them", 0x9060, true, true, true, true},
+                {"SYNTHETIC", 0x1000, true, false},
+                {"MANDATED", 0x8000, false, true},
+                {"all of them", 0x9060, true, true},
         };
     }
 
@@ -65,15 +63,9 @@ public class TestModuleExports_exportsFlags {
     public int exportsFlags;
 
     @Parameter(2)
-    public boolean isTransitive;
-
-    @Parameter(3)
-    public boolean isStaticPhase;
-
-    @Parameter(4)
     public boolean isSynthetic;
 
-    @Parameter(5)
+    @Parameter(3)
     public boolean isMandated;
 
     @Rule
@@ -108,16 +100,6 @@ public class TestModuleExports_exportsFlags {
         }});
 
         sut = new ModuleExports(mockConstantPool, mockIn);
-    }
-
-    @Test
-    public void testIsTransitive() {
-        assertEquals(label, isTransitive, sut.isTransitive());
-    }
-
-    @Test
-    public void testIsStaticPhase() {
-        assertEquals(label, isStaticPhase, sut.isStaticPhase());
     }
 
     @Test

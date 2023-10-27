@@ -43,6 +43,7 @@ public interface ModuleRequires extends Visitable {
     public boolean isSynthetic();
     public boolean isMandated();
 
+    public boolean hasRequiresVersion();
     public int getRequiresVersionIndex();
     public UTF8_info getRawRequiresVersion();
     public String getRequiresVersion();

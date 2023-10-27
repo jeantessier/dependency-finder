@@ -50,8 +50,8 @@ public class TestModuleRequires_requiresVersion {
     @Parameters(name="Module requires {0}")
     public static Object[][] data() {
         return new Object[][] {
-                {"without version", 0, null},
-                {"with version", 789, "version information"},
+                {"without version", 0, false, null},
+                {"with version", 789, true, "version information"},
         };
     }
 
@@ -62,6 +62,9 @@ public class TestModuleRequires_requiresVersion {
     public int requiresVersionIndex;
 
     @Parameter(2)
+    public boolean hasRequiresVersion;
+
+    @Parameter(3)
     public String requiresVersion;
 
     @Rule
@@ -112,6 +115,11 @@ public class TestModuleRequires_requiresVersion {
     @Test
     public void testGetRequiresVersionIndex() {
         assertEquals(label, requiresVersionIndex, sut.getRequiresVersionIndex());
+    }
+
+    @Test
+    public void testHasRequiresVersion() {
+        assertEquals(label, hasRequiresVersion, sut.hasRequiresVersion());
     }
 
     @Test

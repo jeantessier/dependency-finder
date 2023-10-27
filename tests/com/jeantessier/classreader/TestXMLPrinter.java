@@ -1536,38 +1536,6 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "bootstrap-method/arguments/argument/@index", 2);
     }
 
-    public void testVisitMethodParameter() throws Exception {
-        final MethodParameter methodParameter = mock(MethodParameter.class);
-        final int accessFlags = 123;
-        final String expectedAccessFlags = "00000000 01111011"; // 123 in binary
-        final UTF8_info mockUtf8_info = mock(UTF8_info.class);
-
-        checking(new Expectations() {{
-            oneOf (methodParameter).getRawName();
-                will(returnValue(mockUtf8_info));
-            oneOf (mockUtf8_info).accept(printer);
-            oneOf (methodParameter).getAccessFlags();
-                will(returnValue(accessFlags));
-            oneOf (methodParameter).isFinal();
-                will(returnValue(true));
-            oneOf (methodParameter).isSynthetic();
-                will(returnValue(true));
-            oneOf (methodParameter).isMandated();
-                will(returnValue(true));
-        }});
-
-        printer.visitMethodParameter(methodParameter);
-
-        String xmlDocument = buffer.toString();
-        assertXPathCount(xmlDocument, "method-parameter", 1);
-        assertXPathCount(xmlDocument, "method-parameter/@access-flags", 1);
-        assertXPathText(xmlDocument, "method-parameter/@access-flags", expectedAccessFlags);
-        assertXPathCount(xmlDocument, "method-parameter/name", 1);
-        assertXPathCount(xmlDocument, "method-parameter/final", 1);
-        assertXPathCount(xmlDocument, "method-parameter/synthetic", 1);
-        assertXPathCount(xmlDocument, "method-parameter/mandated", 1);
-    }
-
     public void testVisitRuntimeVisibleAnnotations_attribute_WithoutAnnotations() throws Exception {
         final RuntimeVisibleAnnotations_attribute runtimeVisibleAnnotations = mock(RuntimeVisibleAnnotations_attribute.class);
 
@@ -1850,6 +1818,730 @@ public class TestXMLPrinter extends MockObjectTestCase {
 
         String xmlDocument = buffer.toString();
         assertXPathCount(xmlDocument, "method-parameters-attribute", 1);
+    }
+
+    public void testVisitMethodParameter() throws Exception {
+        final MethodParameter methodParameter = mock(MethodParameter.class);
+        final int accessFlags = 123;
+        final String expectedAccessFlags = "00000000 01111011"; // 123 in binary
+        final UTF8_info mockUtf8_info = mock(UTF8_info.class);
+
+        checking(new Expectations() {{
+            oneOf (methodParameter).getRawName();
+                will(returnValue(mockUtf8_info));
+            oneOf (mockUtf8_info).accept(printer);
+            oneOf (methodParameter).getAccessFlags();
+                will(returnValue(accessFlags));
+            oneOf (methodParameter).isFinal();
+                will(returnValue(true));
+            oneOf (methodParameter).isSynthetic();
+                will(returnValue(true));
+            oneOf (methodParameter).isMandated();
+                will(returnValue(true));
+        }});
+
+        printer.visitMethodParameter(methodParameter);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-parameter", 1);
+        assertXPathCount(xmlDocument, "method-parameter/@access-flags", 1);
+        assertXPathText(xmlDocument, "method-parameter/@access-flags", expectedAccessFlags);
+        assertXPathCount(xmlDocument, "method-parameter/name", 1);
+        assertXPathCount(xmlDocument, "method-parameter/final", 1);
+        assertXPathCount(xmlDocument, "method-parameter/synthetic", 1);
+        assertXPathCount(xmlDocument, "method-parameter/mandated", 1);
+    }
+
+    public void testVisitModule_attributeWithVersion() throws Exception {
+        final Module_attribute attribute = mock(Module_attribute.class);
+        final int moduleNameIndex = 123;
+        final Module_info mockModule = mock(Module_info.class);
+        final int moduleFlags = 456;
+        final String expectedModuleFlags = "00000001 11001000"; // 456 in binary
+        final int moduleVersionIndex = 789;
+        final UTF8_info moduleVersion = mock(UTF8_info.class);
+
+        checking(new Expectations() {{
+            oneOf (attribute).getModuleNameIndex();
+                will(returnValue(moduleNameIndex));
+            oneOf (attribute).getRawModuleName();
+                will(returnValue(mockModule));
+            oneOf (mockModule).accept(printer);
+            oneOf (attribute).getModuleFlags();
+                will(returnValue(moduleFlags));
+            oneOf (attribute).isOpen();
+                will(returnValue(true));
+            oneOf (attribute).isSynthetic();
+                will(returnValue(true));
+            oneOf (attribute).isMandated();
+                will(returnValue(true));
+            oneOf (attribute).hasModuleVersion();
+                will(returnValue(true));
+            oneOf (attribute).getModuleVersionIndex();
+                will(returnValue(moduleVersionIndex));
+            oneOf (attribute).getRawModuleVersion();
+                will(returnValue(moduleVersion));
+            oneOf (moduleVersion).accept(printer);
+            atLeast (1).of (attribute).getRequires();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getExports();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getOpens();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getUses();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getProvides();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        printer.visitModule_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "module-attribute", 1);
+        assertXPathCount(xmlDocument, "module-attribute/@module-flags", 1);
+        assertXPathText(xmlDocument, "module-attribute/@module-flags", expectedModuleFlags);
+        assertXPathCount(xmlDocument, "module-attribute/name", 1);
+        assertXPathCount(xmlDocument, "module-attribute/name/@index", 1);
+        assertXPathText(xmlDocument, "module-attribute/name/@index", String.valueOf(moduleNameIndex));
+        assertXPathCount(xmlDocument, "module-attribute/open", 1);
+        assertXPathCount(xmlDocument, "module-attribute/synthetic", 1);
+        assertXPathCount(xmlDocument, "module-attribute/mandated", 1);
+        assertXPathCount(xmlDocument, "module-attribute/version", 1);
+        assertXPathCount(xmlDocument, "module-attribute/version/@index", 1);
+        assertXPathText(xmlDocument, "module-attribute/version/@index", String.valueOf(moduleVersionIndex));
+        assertXPathCount(xmlDocument, "module-attribute/module-requires", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-exports", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-opens", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-uses", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-provides", 0);
+    }
+
+    public void testVisitModule_attributeWithoutVersion() throws Exception {
+        final Module_attribute attribute = mock(Module_attribute.class);
+        final int moduleNameIndex = 123;
+        final Module_info mockModule = mock(Module_info.class);
+        final int moduleFlags = 456;
+
+        checking(new Expectations() {{
+            oneOf (attribute).getModuleNameIndex();
+                will(returnValue(moduleNameIndex));
+            oneOf (attribute).getRawModuleName();
+                will(returnValue(mockModule));
+            oneOf (mockModule).accept(printer);
+            oneOf (attribute).getModuleFlags();
+                will(returnValue(moduleFlags));
+            oneOf (attribute).isOpen();
+                will(returnValue(true));
+            oneOf (attribute).isSynthetic();
+                will(returnValue(true));
+            oneOf (attribute).isMandated();
+                will(returnValue(true));
+            oneOf (attribute).hasModuleVersion();
+                will(returnValue(false));
+            atLeast (1).of (attribute).getRequires();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getExports();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getOpens();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getUses();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getProvides();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        printer.visitModule_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "module-attribute", 1);
+        assertXPathCount(xmlDocument, "module-attribute/version", 0);
+    }
+
+    public void testVisitModule_attributeWithRequires() throws Exception {
+        final Module_attribute attribute = mock(Module_attribute.class);
+        final int moduleNameIndex = 123;
+        final Module_info mockModule = mock(Module_info.class);
+        final int moduleFlags = 456;
+        final ModuleRequires mockRequires = mock(ModuleRequires.class);
+
+        checking(new Expectations() {{
+            oneOf (attribute).getModuleNameIndex();
+                will(returnValue(moduleNameIndex));
+            oneOf (attribute).getRawModuleName();
+                will(returnValue(mockModule));
+            oneOf (mockModule).accept(printer);
+            oneOf (attribute).getModuleFlags();
+                will(returnValue(moduleFlags));
+            oneOf (attribute).isOpen();
+                will(returnValue(false));
+            oneOf (attribute).isSynthetic();
+                will(returnValue(false));
+            oneOf (attribute).isMandated();
+                will(returnValue(false));
+            oneOf (attribute).hasModuleVersion();
+                will(returnValue(false));
+            atLeast (1).of (attribute).getRequires();
+                will(returnValue(Collections.singleton(mockRequires)));
+            atLeast (1).of (attribute).getExports();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getOpens();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getUses();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getProvides();
+                will(returnValue(Collections.emptyList()));
+            oneOf (mockRequires).accept(printer);
+        }});
+
+        printer.visitModule_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "module-attribute", 1);
+        assertXPathCount(xmlDocument, "module-attribute/module-requires", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-exports", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-opens", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-uses", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-provides", 0);
+    }
+
+    public void testVisitModuleRequiresWithVersion() throws Exception {
+        final ModuleRequires moduleRequires = mock(ModuleRequires.class);
+        final int requiresIndex = 123;
+        final Module_info requires = mock(Module_info.class);
+        final int requiresFlags = 456;
+        final String expectedRequiresFlags = "00000001 11001000"; // 456 in binary
+        final int requiresVersionIndex = 789;
+        final UTF8_info requiresVersion = mock(UTF8_info.class);
+
+        checking(new Expectations() {{
+            oneOf (moduleRequires).getRequiresIndex();
+                will(returnValue(requiresIndex));
+            oneOf (moduleRequires).getRawRequires();
+                will(returnValue(requires));
+            oneOf (requires).accept(printer);
+            oneOf (moduleRequires).getRequiresFlags();
+                will(returnValue(requiresFlags));
+            oneOf (moduleRequires).getRequiresVersionIndex();
+                will(returnValue(requiresVersionIndex));
+            oneOf (moduleRequires).hasRequiresVersion();
+                will(returnValue(true));
+            oneOf (moduleRequires).getRawRequiresVersion();
+                will(returnValue(requiresVersion));
+            oneOf (requiresVersion).accept(printer);
+            oneOf (moduleRequires).isTransitive();
+                will(returnValue(true));
+            oneOf (moduleRequires).isStaticPhase();
+                will(returnValue(true));
+            oneOf (moduleRequires).isSynthetic();
+                will(returnValue(true));
+            oneOf (moduleRequires).isMandated();
+                will(returnValue(true));
+        }});
+
+        printer.visitModuleRequires(moduleRequires);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "module-requires", 1);
+        assertXPathCount(xmlDocument, "module-requires/@requires-flags", 1);
+        assertXPathText(xmlDocument, "module-requires/@requires-flags", expectedRequiresFlags);
+        assertXPathCount(xmlDocument, "module-requires/module", 1);
+        assertXPathCount(xmlDocument, "module-requires/module/@index", 1);
+        assertXPathText(xmlDocument, "module-requires/module/@index", String.valueOf(requiresIndex));
+        assertXPathCount(xmlDocument, "module-requires/version", 1);
+        assertXPathCount(xmlDocument, "module-requires/version/@index", 1);
+        assertXPathText(xmlDocument, "module-requires/version/@index", String.valueOf(requiresVersionIndex));
+        assertXPathCount(xmlDocument, "module-requires/transitive", 1);
+        assertXPathCount(xmlDocument, "module-requires/static-phase", 1);
+        assertXPathCount(xmlDocument, "module-requires/synthetic", 1);
+        assertXPathCount(xmlDocument, "module-requires/mandated", 1);
+    }
+
+    public void testVisitModuleRequiresWithoutVersion() throws Exception {
+        final ModuleRequires moduleRequires = mock(ModuleRequires.class);
+        final int requiresIndex = 123;
+        final Module_info requires = mock(Module_info.class);
+        final int requiresFlags = 456;
+
+        checking(new Expectations() {{
+            oneOf (moduleRequires).getRequiresIndex();
+                will(returnValue(requiresIndex));
+            oneOf (moduleRequires).getRawRequires();
+                will(returnValue(requires));
+            oneOf (requires).accept(printer);
+            oneOf (moduleRequires).getRequiresFlags();
+                will(returnValue(requiresFlags));
+            oneOf (moduleRequires).hasRequiresVersion();
+                will(returnValue(false));
+            oneOf (moduleRequires).isTransitive();
+                will(returnValue(true));
+            oneOf (moduleRequires).isStaticPhase();
+                will(returnValue(true));
+            oneOf (moduleRequires).isSynthetic();
+                will(returnValue(true));
+            oneOf (moduleRequires).isMandated();
+                will(returnValue(true));
+        }});
+
+        printer.visitModuleRequires(moduleRequires);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "module-requires", 1);
+        assertXPathCount(xmlDocument, "module-requires/version", 0);
+    }
+
+    public void testVisitModule_attributeWithExports() throws Exception {
+        final Module_attribute attribute = mock(Module_attribute.class);
+        final int moduleNameIndex = 123;
+        final Module_info mockModule = mock(Module_info.class);
+        final int moduleFlags = 456;
+        final ModuleExports mockExports = mock(ModuleExports.class);
+
+        checking(new Expectations() {{
+            oneOf (attribute).getModuleNameIndex();
+                will(returnValue(moduleNameIndex));
+            oneOf (attribute).getRawModuleName();
+                will(returnValue(mockModule));
+            oneOf (mockModule).accept(printer);
+            oneOf (attribute).getModuleFlags();
+                will(returnValue(moduleFlags));
+            oneOf (attribute).isOpen();
+                will(returnValue(false));
+            oneOf (attribute).isSynthetic();
+                will(returnValue(false));
+            oneOf (attribute).isMandated();
+                will(returnValue(false));
+            oneOf (attribute).hasModuleVersion();
+                will(returnValue(false));
+            atLeast (1).of (attribute).getRequires();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getExports();
+                will(returnValue(Collections.singleton(mockExports)));
+            atLeast (1).of (attribute).getOpens();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getUses();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getProvides();
+                will(returnValue(Collections.emptyList()));
+            oneOf (mockExports).accept(printer);
+        }});
+
+        printer.visitModule_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "module-attribute", 1);
+        assertXPathCount(xmlDocument, "module-attribute/module-requires", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-exports", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-opens", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-uses", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-provides", 0);
+    }
+
+    public void testVisitModuleExportsWithoutExportsTos() throws Exception {
+        final ModuleExports moduleExports = mock(ModuleExports.class);
+        final int exportsIndex = 123;
+        final Package_info exports = mock(Package_info.class);
+        final int exportsFlags = 456;
+        final String expectedRequiresFlags = "00000001 11001000"; // 456 in binary
+
+        checking(new Expectations() {{
+            oneOf (moduleExports).getExportsIndex();
+                will(returnValue(exportsIndex));
+            oneOf (moduleExports).getRawExports();
+                will(returnValue(exports));
+            oneOf (exports).accept(printer);
+            oneOf (moduleExports).getExportsFlags();
+                will(returnValue(exportsFlags));
+            oneOf (moduleExports).isSynthetic();
+                will(returnValue(true));
+            oneOf (moduleExports).isMandated();
+                will(returnValue(true));
+            atLeast (1).of (moduleExports).getExportsTos();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        printer.visitModuleExports(moduleExports);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "module-exports", 1);
+        assertXPathCount(xmlDocument, "module-exports/@exports-flags", 1);
+        assertXPathText(xmlDocument, "module-exports/@exports-flags", expectedRequiresFlags);
+        assertXPathCount(xmlDocument, "module-exports/package", 1);
+        assertXPathCount(xmlDocument, "module-exports/package/@index", 1);
+        assertXPathText(xmlDocument, "module-exports/package/@index", String.valueOf(exportsIndex));
+        assertXPathCount(xmlDocument, "module-exports/synthetic", 1);
+        assertXPathCount(xmlDocument, "module-exports/mandated", 1);
+    }
+
+    public void testVisitModuleExportsWithExportsTos() throws Exception {
+        final ModuleExports moduleExports = mock(ModuleExports.class);
+        final int exportsIndex = 123;
+        final Package_info exports = mock(Package_info.class);
+        final int exportsFlags = 456;
+        final ModuleExportsTo mockExportsTo = mock(ModuleExportsTo.class);
+
+        checking(new Expectations() {{
+            oneOf (moduleExports).getExportsIndex();
+                will(returnValue(exportsIndex));
+            oneOf (moduleExports).getRawExports();
+                will(returnValue(exports));
+            oneOf (exports).accept(printer);
+            oneOf (moduleExports).getExportsFlags();
+                will(returnValue(exportsFlags));
+            oneOf (moduleExports).isSynthetic();
+                will(returnValue(false));
+            oneOf (moduleExports).isMandated();
+                will(returnValue(false));
+            atLeast (1).of (moduleExports).getExportsTos();
+                will(returnValue(Collections.singleton(mockExportsTo)));
+            oneOf (mockExportsTo).accept(printer);
+        }});
+
+        printer.visitModuleExports(moduleExports);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "module-exports", 1);
+    }
+
+    public void testVisitModuleExportsTo() throws Exception {
+        final ModuleExportsTo moduleExportsTo = mock(ModuleExportsTo.class);
+        final int exportsToIndex = 123;
+        final Module_info exportsTo = mock(Module_info.class);
+
+        checking(new Expectations() {{
+            oneOf (moduleExportsTo).getExportsToIndex();
+                will(returnValue(exportsToIndex));
+            oneOf (moduleExportsTo).getRawExportsTo();
+                will(returnValue(exportsTo));
+            oneOf (exportsTo).accept(printer);
+        }});
+
+        printer.visitModuleExportsTo(moduleExportsTo);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "module-exports-to", 1);
+        assertXPathCount(xmlDocument, "module-exports-to/module", 1);
+        assertXPathCount(xmlDocument, "module-exports-to/module/@index", 1);
+        assertXPathText(xmlDocument, "module-exports-to/module/@index", String.valueOf(exportsToIndex));
+    }
+
+    public void testVisitModule_attributeWithOpens() throws Exception {
+        final Module_attribute attribute = mock(Module_attribute.class);
+        final int moduleNameIndex = 123;
+        final Module_info mockModule = mock(Module_info.class);
+        final int moduleFlags = 456;
+        final ModuleOpens mockOpens = mock(ModuleOpens.class);
+
+        checking(new Expectations() {{
+            oneOf (attribute).getModuleNameIndex();
+                will(returnValue(moduleNameIndex));
+            oneOf (attribute).getRawModuleName();
+                will(returnValue(mockModule));
+            oneOf (mockModule).accept(printer);
+            oneOf (attribute).getModuleFlags();
+                will(returnValue(moduleFlags));
+            oneOf (attribute).isOpen();
+                will(returnValue(false));
+            oneOf (attribute).isSynthetic();
+                will(returnValue(false));
+            oneOf (attribute).isMandated();
+                will(returnValue(false));
+            oneOf (attribute).hasModuleVersion();
+                will(returnValue(false));
+            atLeast (1).of (attribute).getRequires();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getExports();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getOpens();
+                will(returnValue(Collections.singleton(mockOpens)));
+            atLeast (1).of (attribute).getUses();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getProvides();
+                will(returnValue(Collections.emptyList()));
+            oneOf (mockOpens).accept(printer);
+        }});
+
+        printer.visitModule_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "module-attribute", 1);
+        assertXPathCount(xmlDocument, "module-attribute/module-requires", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-exports", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-opens", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-uses", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-provides", 0);
+    }
+
+    public void testVisitModuleOpensWithoutOpensTos() throws Exception {
+        final ModuleOpens moduleOpens = mock(ModuleOpens.class);
+        final int opensIndex = 123;
+        final Package_info opens = mock(Package_info.class);
+        final int opensFlags = 456;
+        final String expectedRequiresFlags = "00000001 11001000"; // 456 in binary
+
+        checking(new Expectations() {{
+            oneOf (moduleOpens).getOpensIndex();
+                will(returnValue(opensIndex));
+            oneOf (moduleOpens).getRawOpens();
+                will(returnValue(opens));
+            oneOf (opens).accept(printer);
+            oneOf (moduleOpens).getOpensFlags();
+                will(returnValue(opensFlags));
+            oneOf (moduleOpens).isSynthetic();
+                will(returnValue(true));
+            oneOf (moduleOpens).isMandated();
+                will(returnValue(true));
+            atLeast (1).of (moduleOpens).getOpensTos();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        printer.visitModuleOpens(moduleOpens);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "module-opens", 1);
+        assertXPathCount(xmlDocument, "module-opens/@opens-flags", 1);
+        assertXPathText(xmlDocument, "module-opens/@opens-flags", expectedRequiresFlags);
+        assertXPathCount(xmlDocument, "module-opens/package", 1);
+        assertXPathCount(xmlDocument, "module-opens/package/@index", 1);
+        assertXPathText(xmlDocument, "module-opens/package/@index", String.valueOf(opensIndex));
+        assertXPathCount(xmlDocument, "module-opens/synthetic", 1);
+        assertXPathCount(xmlDocument, "module-opens/mandated", 1);
+    }
+
+    public void testVisitModuleOpensWithOpensTos() throws Exception {
+        final ModuleOpens moduleOpens = mock(ModuleOpens.class);
+        final int opensIndex = 123;
+        final Package_info opens = mock(Package_info.class);
+        final int opensFlags = 456;
+        final ModuleOpensTo mockOpensTo = mock(ModuleOpensTo.class);
+
+        checking(new Expectations() {{
+            oneOf (moduleOpens).getOpensIndex();
+                will(returnValue(opensIndex));
+            oneOf (moduleOpens).getRawOpens();
+                will(returnValue(opens));
+            oneOf (opens).accept(printer);
+            oneOf (moduleOpens).getOpensFlags();
+                will(returnValue(opensFlags));
+            oneOf (moduleOpens).isSynthetic();
+                will(returnValue(false));
+            oneOf (moduleOpens).isMandated();
+                will(returnValue(false));
+            atLeast (1).of (moduleOpens).getOpensTos();
+                will(returnValue(Collections.singleton(mockOpensTo)));
+            oneOf (mockOpensTo).accept(printer);
+        }});
+
+        printer.visitModuleOpens(moduleOpens);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "module-opens", 1);
+    }
+
+    public void testVisitModuleOpensTo() throws Exception {
+        final ModuleOpensTo moduleOpensTo = mock(ModuleOpensTo.class);
+        final int opensToIndex = 123;
+        final Module_info opensTo = mock(Module_info.class);
+
+        checking(new Expectations() {{
+            oneOf (moduleOpensTo).getOpensToIndex();
+                will(returnValue(opensToIndex));
+            oneOf (moduleOpensTo).getRawOpensTo();
+                will(returnValue(opensTo));
+            oneOf (opensTo).accept(printer);
+        }});
+
+        printer.visitModuleOpensTo(moduleOpensTo);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "module-opens-to", 1);
+        assertXPathCount(xmlDocument, "module-opens-to/module", 1);
+        assertXPathCount(xmlDocument, "module-opens-to/module/@index", 1);
+        assertXPathText(xmlDocument, "module-opens-to/module/@index", String.valueOf(opensToIndex));
+    }
+
+    public void testVisitModule_attributeWithUses() throws Exception {
+        final Module_attribute attribute = mock(Module_attribute.class);
+        final int moduleNameIndex = 123;
+        final Module_info mockModule = mock(Module_info.class);
+        final int moduleFlags = 456;
+        final ModuleUses mockUses = mock(ModuleUses.class);
+
+        checking(new Expectations() {{
+            oneOf (attribute).getModuleNameIndex();
+                will(returnValue(moduleNameIndex));
+            oneOf (attribute).getRawModuleName();
+                will(returnValue(mockModule));
+            oneOf (mockModule).accept(printer);
+            oneOf (attribute).getModuleFlags();
+                will(returnValue(moduleFlags));
+            oneOf (attribute).isOpen();
+                will(returnValue(false));
+            oneOf (attribute).isSynthetic();
+                will(returnValue(false));
+            oneOf (attribute).isMandated();
+                will(returnValue(false));
+            oneOf (attribute).hasModuleVersion();
+                will(returnValue(false));
+            atLeast (1).of (attribute).getRequires();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getExports();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getOpens();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getUses();
+                will(returnValue(Collections.singleton(mockUses)));
+            atLeast (1).of (attribute).getProvides();
+                will(returnValue(Collections.emptyList()));
+            oneOf (mockUses).accept(printer);
+        }});
+
+        printer.visitModule_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "module-attribute", 1);
+        assertXPathCount(xmlDocument, "module-attribute/module-requires", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-exports", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-opens", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-uses", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-provides", 0);
+    }
+
+    public void testVisitModuleUses() throws Exception {
+        final ModuleUses moduleUses = mock(ModuleUses.class);
+        final int usesIndex = 123;
+        final Class_info uses = mock(Class_info.class);
+
+        checking(new Expectations() {{
+            oneOf (moduleUses).getUsesIndex();
+                will(returnValue(usesIndex));
+            oneOf (moduleUses).getRawUses();
+                will(returnValue(uses));
+            oneOf (uses).accept(printer);
+        }});
+
+        printer.visitModuleUses(moduleUses);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "module-uses", 1);
+        assertXPathCount(xmlDocument, "module-uses/class", 1);
+        assertXPathCount(xmlDocument, "module-uses/class/@index", 1);
+        assertXPathText(xmlDocument, "module-uses/class/@index", String.valueOf(usesIndex));
+    }
+
+    public void testVisitModule_attributeWithProvides() throws Exception {
+        final Module_attribute attribute = mock(Module_attribute.class);
+        final int moduleNameIndex = 123;
+        final Module_info mockModule = mock(Module_info.class);
+        final int moduleFlags = 456;
+        final ModuleProvides mockProvides = mock(ModuleProvides.class);
+
+        checking(new Expectations() {{
+            oneOf (attribute).getModuleNameIndex();
+                will(returnValue(moduleNameIndex));
+            oneOf (attribute).getRawModuleName();
+                will(returnValue(mockModule));
+            oneOf (mockModule).accept(printer);
+            oneOf (attribute).getModuleFlags();
+                will(returnValue(moduleFlags));
+            oneOf (attribute).isOpen();
+                will(returnValue(false));
+            oneOf (attribute).isSynthetic();
+                will(returnValue(false));
+            oneOf (attribute).isMandated();
+                will(returnValue(false));
+            oneOf (attribute).hasModuleVersion();
+                will(returnValue(false));
+            atLeast (1).of (attribute).getRequires();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getExports();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getOpens();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getUses();
+                will(returnValue(Collections.emptyList()));
+            atLeast (1).of (attribute).getProvides();
+                will(returnValue(Collections.singleton(mockProvides)));
+            oneOf (mockProvides).accept(printer);
+        }});
+
+        printer.visitModule_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "module-attribute", 1);
+        assertXPathCount(xmlDocument, "module-attribute/module-requires", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-exports", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-opens", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-uses", 0);
+        assertXPathCount(xmlDocument, "module-attribute/module-provides", 0);
+    }
+
+    public void testVisitModuleProvidesWithoutProvidesWiths() throws Exception {
+        final ModuleProvides moduleProvides = mock(ModuleProvides.class);
+        final int providesIndex = 123;
+        final Class_info provides = mock(Class_info.class);
+
+        checking(new Expectations() {{
+            oneOf (moduleProvides).getProvidesIndex();
+                will(returnValue(providesIndex));
+            oneOf (moduleProvides).getRawProvides();
+                will(returnValue(provides));
+            oneOf (provides).accept(printer);
+            atLeast (1).of (moduleProvides).getProvidesWiths();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        printer.visitModuleProvides(moduleProvides);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "module-provides", 1);
+        assertXPathCount(xmlDocument, "module-provides/class", 1);
+        assertXPathCount(xmlDocument, "module-provides/class/@index", 1);
+        assertXPathText(xmlDocument, "module-provides/class/@index", String.valueOf(providesIndex));
+    }
+
+    public void testVisitModuleProvidesWithProvidesWiths() throws Exception {
+        final ModuleProvides moduleProvides = mock(ModuleProvides.class);
+        final int providesIndex = 123;
+        final Class_info provides = mock(Class_info.class);
+        final ModuleProvidesWith mockProvidesWith = mock(ModuleProvidesWith.class);
+
+        checking(new Expectations() {{
+            oneOf (moduleProvides).getProvidesIndex();
+                will(returnValue(providesIndex));
+            oneOf (moduleProvides).getRawProvides();
+                will(returnValue(provides));
+            oneOf (provides).accept(printer);
+            atLeast (1).of (moduleProvides).getProvidesWiths();
+                will(returnValue(Collections.singleton(mockProvidesWith)));
+            oneOf (mockProvidesWith).accept(printer);
+        }});
+
+        printer.visitModuleProvides(moduleProvides);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "module-provides", 1);
+    }
+
+    public void testVisitModuleProvidesWith() throws Exception {
+        final ModuleProvidesWith moduleProvidesWith = mock(ModuleProvidesWith.class);
+        final int providesWithIndex = 123;
+        final Class_info providesWith = mock(Class_info.class);
+
+        checking(new Expectations() {{
+            oneOf (moduleProvidesWith).getProvidesWithIndex();
+                will(returnValue(providesWithIndex));
+            oneOf (moduleProvidesWith).getRawProvidesWith();
+                will(returnValue(providesWith));
+            oneOf (providesWith).accept(printer);
+        }});
+
+        printer.visitModuleProvidesWith(moduleProvidesWith);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "module-provides-with", 1);
+        assertXPathCount(xmlDocument, "module-provides-with/class", 1);
+        assertXPathCount(xmlDocument, "module-provides-with/class/@index", 1);
+        assertXPathText(xmlDocument, "module-provides-with/class/@index", String.valueOf(providesWithIndex));
     }
 
     public void testVisitAnnotation_WithoutElementValuePairs() throws Exception {

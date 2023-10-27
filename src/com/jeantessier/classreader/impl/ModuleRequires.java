@@ -102,12 +102,16 @@ public class ModuleRequires implements com.jeantessier.classreader.ModuleRequire
         return requiresVersionIndex;
     }
 
+    public boolean hasRequiresVersion() {
+        return getRequiresVersionIndex() != 0;
+    }
+
     public UTF8_info getRawRequiresVersion() {
-        return getRequiresVersionIndex() != 0 ? (UTF8_info) getConstantPool().get(getRequiresVersionIndex()) : null;
+        return hasRequiresVersion() ? (UTF8_info) getConstantPool().get(getRequiresVersionIndex()) : null;
     }
 
     public String getRequiresVersion() {
-        return getRequiresVersionIndex() != 0 ? getRawRequiresVersion().getValue() : null;
+        return hasRequiresVersion() ? getRawRequiresVersion().getValue() : null;
     }
 
     public void accept(Visitor visitor) {

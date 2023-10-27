@@ -153,16 +153,20 @@ public class Module_attribute extends Attribute_info implements com.jeantessier.
         return (getModuleFlags() & ACC_MANDATED) != 0;
     }
 
+    public boolean hasModuleVersion() {
+        return moduleVersionIndex != 0;
+    }
+
     public int getModuleVersionIndex() {
         return moduleVersionIndex;
     }
 
     public UTF8_info getRawModuleVersion() {
-        return getModuleVersionIndex() != 0 ? (UTF8_info) getConstantPool().get(getModuleVersionIndex()) : null;
+        return hasModuleVersion() ? (UTF8_info) getConstantPool().get(getModuleVersionIndex()) : null;
     }
 
     public String getModuleVersion() {
-        return getModuleVersionIndex() != 0 ? getRawModuleVersion().getValue() : null;
+        return hasModuleVersion() ? getRawModuleVersion().getValue() : null;
     }
 
     public Collection<? extends ModuleRequires> getRequires() {

@@ -822,6 +822,32 @@ public class XMLPrinter extends Printer {
         indent().append("</method-parameters-attribute>").eol();
     }
 
+    public void visitModule_attribute(Module_attribute attribute) {
+        indent().append("<module-attribute module-flags=\"").append(format.format(attribute.getModuleFlags())).append("\">").eol();
+        raiseIndent();
+
+        indent();
+        append("<name index=\"").append(attribute.getModuleNameIndex()).append("\">");
+        attribute.getRawModuleName().accept(this);
+        append("</name>").eol();
+
+        if (attribute.isOpen())      indent().append("<open/>").eol();
+        if (attribute.isSynthetic()) indent().append("<synthetic/>").eol();
+        if (attribute.isMandated())  indent().append("<mandated/>").eol();
+
+        if (attribute.hasModuleVersion()) {
+            indent();
+            append("<version index=\"").append(attribute.getModuleVersionIndex()).append("\">");
+            attribute.getRawModuleVersion().accept(this);
+            append("</version>").eol();
+        }
+
+        super.visitModule_attribute(attribute);
+
+        lowerIndent();
+        indent().append("</module-attribute>").eol();
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         indent().append("<custom-attribute name=\"").append(escapeXMLCharacters(attribute.getName())).append("\">").append(Hex.toString(attribute.getInfo())).append("</custom-attribute>").eol();
     }
@@ -1098,12 +1124,140 @@ public class XMLPrinter extends Printer {
         helper.getRawName().accept(this);
         append("</name>").eol();
 
-        if (helper.isFinal())     indent().append("<final/>");
-        if (helper.isSynthetic()) indent().append("<synthetic/>");
-        if (helper.isMandated())  indent().append("<mandated/>");
+        if (helper.isFinal())     indent().append("<final/>").eol();
+        if (helper.isSynthetic()) indent().append("<synthetic/>").eol();
+        if (helper.isMandated())  indent().append("<mandated/>").eol();
 
         lowerIndent();
         indent().append("</method-parameter>").eol();
+    }
+
+    public void visitModuleRequires(ModuleRequires helper) {
+        indent().append("<module-requires requires-flags=\"").append(format.format(helper.getRequiresFlags())).append("\">").eol();
+        raiseIndent();
+
+        indent();
+        append("<module index=\"").append(helper.getRequiresIndex()).append("\">");
+        helper.getRawRequires().accept(this);
+        append("</module>").eol();
+
+        if (helper.isTransitive())  indent().append("<transitive/>").eol();
+        if (helper.isStaticPhase()) indent().append("<static-phase/>").eol();
+        if (helper.isSynthetic())   indent().append("<synthetic/>").eol();
+        if (helper.isMandated())    indent().append("<mandated/>").eol();
+
+        if (helper.hasRequiresVersion()) {
+            indent();
+            append("<version index=\"").append(helper.getRequiresVersionIndex()).append("\">");
+            helper.getRawRequiresVersion().accept(this);
+            append("</version>").eol();
+        }
+
+        lowerIndent();
+        indent().append("</module-requires>").eol();
+    }
+
+    public void visitModuleExports(ModuleExports helper) {
+        indent().append("<module-exports exports-flags=\"").append(format.format(helper.getExportsFlags())).append("\">").eol();
+        raiseIndent();
+
+        indent();
+        append("<package index=\"").append(helper.getExportsIndex()).append("\">");
+        helper.getRawExports().accept(this);
+        append("</package>").eol();
+
+        if (helper.isSynthetic())   indent().append("<synthetic/>").eol();
+        if (helper.isMandated())    indent().append("<mandated/>").eol();
+
+        helper.getExportsTos().forEach(moduleExportsTo -> moduleExportsTo.accept(this));
+
+        lowerIndent();
+        indent().append("</module-exports>").eol();
+    }
+
+    public void visitModuleExportsTo(ModuleExportsTo helper) {
+        indent().append("<module-exports-to>").eol();
+        raiseIndent();
+
+        indent();
+        append("<module index=\"").append(helper.getExportsToIndex()).append("\">");
+        helper.getRawExportsTo().accept(this);
+        append("</module>").eol();
+
+        lowerIndent();
+        indent().append("</module-exports-to>").eol();
+    }
+
+    public void visitModuleOpens(ModuleOpens helper) {
+        indent().append("<module-opens opens-flags=\"").append(format.format(helper.getOpensFlags())).append("\">").eol();
+        raiseIndent();
+
+        indent();
+        append("<package index=\"").append(helper.getOpensIndex()).append("\">");
+        helper.getRawOpens().accept(this);
+        append("</package>").eol();
+
+        if (helper.isSynthetic())   indent().append("<synthetic/>").eol();
+        if (helper.isMandated())    indent().append("<mandated/>").eol();
+
+        helper.getOpensTos().forEach(moduleOpensTo -> moduleOpensTo.accept(this));
+
+        lowerIndent();
+        indent().append("</module-opens>").eol();
+    }
+
+    public void visitModuleOpensTo(ModuleOpensTo helper) {
+        indent().append("<module-opens-to>").eol();
+        raiseIndent();
+
+        indent();
+        append("<module index=\"").append(helper.getOpensToIndex()).append("\">");
+        helper.getRawOpensTo().accept(this);
+        append("</module>").eol();
+
+        lowerIndent();
+        indent().append("</module-opens-to>").eol();
+    }
+
+    public void visitModuleUses(ModuleUses helper) {
+        indent().append("<module-uses>").eol();
+        raiseIndent();
+
+        indent();
+        append("<class index=\"").append(helper.getUsesIndex()).append("\">");
+        helper.getRawUses().accept(this);
+        append("</class>").eol();
+
+        lowerIndent();
+        indent().append("</module-uses>").eol();
+    }
+
+    public void visitModuleProvides(ModuleProvides helper) {
+        indent().append("<module-provides>").eol();
+        raiseIndent();
+
+        indent();
+        append("<class index=\"").append(helper.getProvidesIndex()).append("\">");
+        helper.getRawProvides().accept(this);
+        append("</class>").eol();
+
+        helper.getProvidesWiths().forEach(moduleProvidesWith -> moduleProvidesWith.accept(this));
+
+        lowerIndent();
+        indent().append("</module-provides>").eol();
+    }
+
+    public void visitModuleProvidesWith(ModuleProvidesWith helper) {
+        indent().append("<module-provides-with>").eol();
+        raiseIndent();
+
+        indent();
+        append("<class index=\"").append(helper.getProvidesWithIndex()).append("\">");
+        helper.getRawProvidesWith().accept(this);
+        append("</class>").eol();
+
+        lowerIndent();
+        indent().append("</module-provides-with>").eol();
     }
 
     public void visitAnnotation(Annotation helper) {

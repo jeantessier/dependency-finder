@@ -51,8 +51,8 @@ public class TestModule_attribute_moduleVersion {
     @Parameters(name="Module {0}")
     public static Object[][] data() {
         return new Object[][] {
-                {"without version", 0, null},
-                {"with version", 789, "version information"},
+                {"without version", 0, false, null},
+                {"with version", 789, true, "version information"},
         };
     }
 
@@ -63,6 +63,9 @@ public class TestModule_attribute_moduleVersion {
     public int moduleVersionIndex;
 
     @Parameter(2)
+    public boolean hasModuleVersion;
+
+    @Parameter(3)
     public String moduleVersion;
 
     @Rule
@@ -103,7 +106,7 @@ public class TestModule_attribute_moduleVersion {
 
             oneOf (mockIn).readUnsignedShort();
                 will(returnValue(moduleVersionIndex));
-            if (moduleVersionIndex != 0) {
+            if (mockUtf8_info != null) {
                 allowing (mockConstantPool).get(moduleVersionIndex);
                     will(returnValue(mockUtf8_info));
                 allowing (mockUtf8_info).getValue();
@@ -120,6 +123,11 @@ public class TestModule_attribute_moduleVersion {
     @Test
     public void testGetModuleVersionIndex() {
         assertEquals(label, moduleVersionIndex, sut.getModuleVersionIndex());
+    }
+
+    @Test
+    public void testHasModuleVersion() {
+        assertEquals(label, hasModuleVersion, sut.hasModuleVersion());
     }
 
     @Test

@@ -42,8 +42,6 @@ import java.util.LinkedList;
 import java.util.stream.IntStream;
 
 public class ModuleExports implements com.jeantessier.classreader.ModuleExports {
-    private static final int ACC_TRANSITIVE = 0x0020;
-    private static final int ACC_STATIC_PHASE = 0x0040;
     private static final int ACC_SYNTHETIC = 0x1000;
     private static final int ACC_MANDATED = 0x8000;
 
@@ -92,14 +90,6 @@ public class ModuleExports implements com.jeantessier.classreader.ModuleExports 
 
     public int getExportsFlags() {
         return exportsFlags;
-    }
-
-    public boolean isTransitive() {
-        return (getExportsFlags() & ACC_TRANSITIVE) != 0;
-    }
-
-    public boolean isStaticPhase() {
-        return (getExportsFlags() & ACC_STATIC_PHASE) != 0;
     }
 
     public boolean isSynthetic() {
