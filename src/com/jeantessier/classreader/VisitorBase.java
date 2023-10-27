@@ -32,7 +32,6 @@
 
 package com.jeantessier.classreader;
 
-import com.jeantessier.classreader.impl.Module_attribute;
 import org.apache.log4j.Logger;
 
 import java.util.*;

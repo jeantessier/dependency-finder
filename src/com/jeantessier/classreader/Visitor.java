@@ -32,8 +32,6 @@
 
 package com.jeantessier.classreader;
 
-import com.jeantessier.classreader.impl.Module_attribute;
-
 import java.util.*;
 
 public interface Visitor {

@@ -35,8 +35,6 @@ package com.jeantessier.classreader;
 import java.util.*;
 import java.util.stream.*;
 
-import com.jeantessier.classreader.impl.ConstantPoolEntry;
-import com.jeantessier.classreader.impl.Module_attribute;
 import org.apache.log4j.*;
 
 public class MetricsGatherer extends VisitorBase {
@@ -295,87 +293,87 @@ public class MetricsGatherer extends VisitorBase {
 
     public void visitClass_info(Class_info entry) {
         super.visitClass_info(entry);
-        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_Class);
+        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_Class);
     }
 
     public void visitFieldRef_info(FieldRef_info entry) {
         super.visitFieldRef_info(entry);
-        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_Fieldref);
+        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_Fieldref);
     }
 
     public void visitMethodRef_info(MethodRef_info entry) {
         super.visitMethodRef_info(entry);
-        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_Methodref);
+        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_Methodref);
     }
 
     public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
         super.visitInterfaceMethodRef_info(entry);
-        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_InterfaceMethodref);
+        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_InterfaceMethodref);
     }
 
     public void visitString_info(String_info entry) {
         super.visitString_info(entry);
-        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_String);
+        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_String);
     }
 
     public void visitInteger_info(Integer_info entry) {
         super.visitInteger_info(entry);
-        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_Integer);
+        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_Integer);
     }
 
     public void visitFloat_info(Float_info entry) {
         super.visitFloat_info(entry);
-        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_Float);
+        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_Float);
     }
 
     public void visitLong_info(Long_info entry) {
         super.visitLong_info(entry);
-        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_Long);
+        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_Long);
     }
 
     public void visitDouble_info(Double_info entry) {
         super.visitDouble_info(entry);
-        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_Double);
+        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_Double);
     }
 
     public void visitNameAndType_info(NameAndType_info entry) {
         super.visitNameAndType_info(entry);
-        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_NameAndType);
+        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_NameAndType);
     }
 
     public void visitUTF8_info(UTF8_info entry) {
         super.visitUTF8_info(entry);
-        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_Utf8);
+        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_Utf8);
     }
 
     public void visitMethodHandle_info(MethodHandle_info entry) {
         super.visitMethodHandle_info(entry);
-        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_MethodHandle);
+        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_MethodHandle);
     }
 
     public void visitMethodType_info(MethodType_info entry) {
         super.visitMethodType_info(entry);
-        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_MethodType);
+        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_MethodType);
     }
 
     public void visitDynamic_info(Dynamic_info entry) {
         super.visitDynamic_info(entry);
-        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_Dynamic);
+        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_Dynamic);
     }
 
     public void visitInvokeDynamic_info(InvokeDynamic_info entry) {
         super.visitInvokeDynamic_info(entry);
-        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_InvokeDynamic);
+        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_InvokeDynamic);
     }
 
     public void visitModule_info(Module_info entry) {
         super.visitModule_info(entry);
-        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_Module);
+        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_Module);
     }
 
     public void visitPackage_info(Package_info entry) {
         super.visitPackage_info(entry);
-        visitConstantPoolEntry(ConstantPoolEntry.CONSTANT_Package);
+        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_Package);
     }
 
     // Features

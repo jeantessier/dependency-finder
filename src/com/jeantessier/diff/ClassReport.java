@@ -33,12 +33,9 @@
 package com.jeantessier.diff;
 
 import com.jeantessier.classreader.*;
-import org.apache.log4j.Logger;
 import org.apache.oro.text.perl.Perl5Util;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.TreeSet;
+import java.util.*;
 
 public class ClassReport extends Printer implements Comparable<ClassReport>, com.jeantessier.classreader.Visitor {
     private static final Perl5Util perl = new Perl5Util();
@@ -351,7 +348,7 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
         // Do nothing
     }
 
-    public void visitModule_attribute(com.jeantessier.classreader.impl.Module_attribute attribute) {
+    public void visitModule_attribute(Module_attribute attribute) {
         // Do nothing
     }
 
