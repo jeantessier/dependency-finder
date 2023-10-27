@@ -32,6 +32,7 @@
 
 package com.jeantessier.classreader;
 
+import com.jeantessier.classreader.impl.Module_attribute;
 import org.apache.log4j.Logger;
 
 import java.util.*;
@@ -303,6 +304,10 @@ public abstract class VisitorBase implements Visitor {
         attribute.getMethodParameters().forEach(methodParameter -> methodParameter.accept(this));
     }
 
+    public void visitModule_attribute(Module_attribute attribute) {
+        throw new UnsupportedOperationException("Not implemented yet.");
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         // Do nothing
     }
@@ -351,6 +356,38 @@ public abstract class VisitorBase implements Visitor {
 
     public void visitMethodParameter(MethodParameter helper) {
         // Do nothing
+    }
+
+    public void visitModuleRequires(ModuleRequires helper) {
+        throw new UnsupportedOperationException("Not implemented yet.");
+    }
+
+    public void visitModuleExports(ModuleExports helper) {
+        throw new UnsupportedOperationException("Not implemented yet.");
+    }
+
+    public void visitModuleExportsTo(ModuleExportsTo helper) {
+        throw new UnsupportedOperationException("Not implemented yet.");
+    }
+
+    public void visitModuleOpens(ModuleOpens helper) {
+        throw new UnsupportedOperationException("Not implemented yet.");
+    }
+
+    public void visitModuleOpensTo(ModuleOpensTo helper) {
+        throw new UnsupportedOperationException("Not implemented yet.");
+    }
+
+    public void visitModuleUses(ModuleUses helper) {
+        throw new UnsupportedOperationException("Not implemented yet.");
+    }
+
+    public void visitModuleProvides(ModuleProvides helper) {
+        throw new UnsupportedOperationException("Not implemented yet.");
+    }
+
+    public void visitModuleProvidesWith(ModuleProvidesWith helper) {
+        throw new UnsupportedOperationException("Not implemented yet.");
     }
 
     public void visitAnnotation(Annotation helper) {

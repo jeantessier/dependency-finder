@@ -57,7 +57,8 @@ public enum AttributeType {
     RUNTIME_INVISIBLE_TYPE_ANNOTATIONS("RuntimeInvisibleTypeAnnotations"),
     ANNOTATION_DEFAULT("AnnotationDefault"),
     BOOTSTRAP_METHODS("BootstrapMethods"),
-    METHOD_PARAMETERS("MethodParameters");
+    METHOD_PARAMETERS("MethodParameters"),
+    MODULE("Module");
 
     private final String attributeName;
 

@@ -106,4 +106,31 @@ public class TestAttributeFactory extends TestAttributeBase {
         assertNotNull("Element value is null", elementValue);
         assertTrue("Element value not the expected " + ByteConstantElementValue.class.getSimpleName(), ByteConstantElementValue.class.isInstance(elementValue));
     }
+
+    public void testCreateModule_attribute() throws Exception {
+        final int moduleNameIndex = 123;
+        final String moduleName = "abc";
+        final int moduleFlags = 456;
+        final int moduleVersionIndex = 789;
+        final String moduleVersion = "blah";
+
+        expectReadU2(ATTRIBUTE_NAME_INDEX);
+        expectLookupUtf8(ATTRIBUTE_NAME_INDEX, AttributeType.MODULE.getAttributeName(), "attribute name");
+        expectReadAttributeLength(18);
+        expectReadU2(moduleNameIndex);
+        allowingLookupModule(moduleNameIndex, moduleName, "module name");
+        expectReadU2(moduleFlags);
+        expectReadU2(moduleVersionIndex);
+        allowingLookupUtf8(moduleVersionIndex, moduleVersion, "module version");
+        expectReadU2(0);
+        expectReadU2(0);
+        expectReadU2(0);
+        expectReadU2(0);
+        expectReadU2(0);
+
+        Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
+        assertNotNull("AtributeFactory returned null", attribute);
+        assertTrue("Not a " + Module_attribute.class.getSimpleName(), Module_attribute.class.isInstance(attribute));
+        assertEquals("Module name index", moduleNameIndex, ((Module_attribute) attribute).getModuleNameIndex());
+    }
 }

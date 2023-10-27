@@ -35,7 +35,7 @@ package com.jeantessier.classreader.impl;
 import com.jeantessier.classreader.Visitor;
 import org.jmock.Expectations;
 
-public class TestMethodParameters_attribute extends TestAnnotationsBase {
+public class TestMethodParameters_attribute extends TestAttributeBase {
     private MethodParameters_attribute sut;
 
     protected void setUp() throws Exception {

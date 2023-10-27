@@ -35,7 +35,7 @@ package com.jeantessier.classreader.impl;
 import com.jeantessier.classreader.Visitor;
 import org.jmock.Expectations;
 
-public class TestMethodParameters_attributeWithMethodParameters extends TestAnnotationsBase {
+public class TestMethodParameters_attributeWithMethodParameters extends TestAttributeBase {
     public void testWithOneMethodParameter() throws Exception {
         // Given
         final int nameIndex = 123;
@@ -88,11 +88,37 @@ public class TestMethodParameters_attributeWithMethodParameters extends TestAnno
         assertEquals("num method parameters", 2, sut.getMethodParameters().size());
 
         // And
-        assertEquals("method parameter name", nameIndex1, sut.getMethodParameters().stream().findFirst().orElseThrow().getNameIndex());
-        assertEquals("method parameter access flags", accessFlags1, sut.getMethodParameters().stream().findFirst().orElseThrow().getAccessFlags());
+        assertEquals(
+                "method parameter name",
+                nameIndex1,
+                sut.getMethodParameters().stream()
+                        .mapToInt(MethodParameter::getNameIndex)
+                        .findFirst()
+                        .orElseThrow());
+        assertEquals(
+                "method parameter access flags",
+                accessFlags1,
+                sut.getMethodParameters().stream()
+                        .mapToInt(MethodParameter::getAccessFlags)
+                        .findFirst()
+                        .orElseThrow());
 
         // And
-        assertEquals("method parameter name", nameIndex2, sut.getMethodParameters().stream().skip(1).findFirst().orElseThrow().getNameIndex());
-        assertEquals("method parameter access flags", accessFlags2, sut.getMethodParameters().stream().skip(1).findFirst().orElseThrow().getAccessFlags());
+        assertEquals(
+                "method parameter name",
+                nameIndex2,
+                sut.getMethodParameters().stream()
+                        .skip(1)
+                        .mapToInt(MethodParameter::getNameIndex)
+                        .findFirst()
+                        .orElseThrow());
+        assertEquals(
+                "method parameter access flags",
+                accessFlags2,
+                sut.getMethodParameters().stream()
+                        .skip(1)
+                        .mapToInt(MethodParameter::getAccessFlags)
+                        .findFirst()
+                        .orElseThrow());
     }
 }

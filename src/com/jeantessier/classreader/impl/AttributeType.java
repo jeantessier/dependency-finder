@@ -174,6 +174,12 @@ public enum AttributeType {
         public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
             return new MethodParameters_attribute(constantPool, owner, in);
         }
+    },
+
+    MODULE(com.jeantessier.classreader.AttributeType.MODULE) {
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+            return new Module_attribute(constantPool, owner, in);
+        }
     };
 
     private final com.jeantessier.classreader.AttributeType attributeType;

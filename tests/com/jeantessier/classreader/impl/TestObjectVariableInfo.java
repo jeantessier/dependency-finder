@@ -35,7 +35,7 @@ package com.jeantessier.classreader.impl;
 import com.jeantessier.classreader.VerificationType;
 import org.jmock.*;
 
-public class TestObjectVariableInfo extends TestAnnotationsBase {
+public class TestObjectVariableInfo extends TestAttributeBase {
     private static final int CLASS_INFO_INDEX = 2;
 
     private ObjectVariableInfo sut;

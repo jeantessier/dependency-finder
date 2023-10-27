@@ -32,7 +32,7 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.jmock.*;
+import org.jmock.Expectations;
 import org.jmock.imposters.ByteBuddyClassImposteriser;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.*;
@@ -42,18 +42,19 @@ import org.junit.runners.Parameterized;
 import java.io.*;
 
 import static junit.framework.Assert.assertEquals;
-import static org.junit.runners.Parameterized.Parameters;
 import static org.junit.runners.Parameterized.Parameter;
+import static org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
-public class TestMethodParameter_accessFlags {
-    @Parameters(name="Method parameter with access flags {0}")
+public class TestModuleRequires_requiresFlags {
+    @Parameters(name="Module requires with requires flags {0}")
     public static Object[][] data() {
         return new Object[][] {
-                {"FINAL", 0x0010, true, false, false},
-                {"SYNTHETIC", 0x1000, false, true, false},
-                {"MANDATED", 0x8000, false, false, true},
-                {"all of them", 0x9010, true, true, true},
+                {"TRANSTIVE", 0x0020, true, false, false, false},
+                {"STATIC_PHASE", 0x0040, false, true, false, false},
+                {"SYNTHETIC", 0x1000, false, false, true, false},
+                {"MANDATED", 0x8000, false, false, false, true},
+                {"all of them", 0x9060, true, true, true, true},
         };
     }
 
@@ -61,45 +62,69 @@ public class TestMethodParameter_accessFlags {
     public String label;
 
     @Parameter(1)
-    public int accessFlags;
+    public int requiresFlags;
 
     @Parameter(2)
-    public boolean isFinal;
+    public boolean isTransitive;
 
     @Parameter(3)
-    public boolean isSynthetic;
+    public boolean isStaticPhase;
 
     @Parameter(4)
+    public boolean isSynthetic;
+
+    @Parameter(5)
     public boolean isMandated;
 
     @Rule
     public JUnitRuleMockery context = new JUnitRuleMockery();
 
-    private ConstantPool mockConstantPool;
-    private DataInput mockIn;
-
-    private MethodParameter sut;
+    private ModuleRequires sut;
 
     @Before
     public void setUp() throws IOException {
         context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
 
-        mockConstantPool = context.mock(ConstantPool.class);
-        mockIn = context.mock(DataInput.class);
+        final int requiresIndex = 123;
+        final String requires = "abc";
+        final int requiresVersionIndex = 465;
+        final String requiresVersion = "blah";
+
+        final ConstantPool mockConstantPool = context.mock(ConstantPool.class);
+        final DataInput mockIn = context.mock(DataInput.class);
+        final Module_info mockModule_info = context.mock(Module_info.class);
+        final UTF8_info mockUtf8_info = context.mock(UTF8_info.class);
 
         context.checking(new Expectations() {{
             oneOf (mockIn).readUnsignedShort();
-                will(returnValue(0));
+                will(returnValue(requiresIndex));
+            allowing (mockConstantPool).get(requiresIndex);
+                will(returnValue(mockModule_info));
+            allowing (mockModule_info).getName();
+                will(returnValue(requires));
+
             oneOf (mockIn).readUnsignedShort();
-                will(returnValue(accessFlags));
+                will(returnValue(requiresFlags));
+
+            oneOf (mockIn).readUnsignedShort();
+                will(returnValue(requiresVersionIndex));
+            allowing (mockConstantPool).get(requiresVersionIndex);
+                will(returnValue(mockUtf8_info));
+            allowing (mockUtf8_info).getValue();
+                will(returnValue(requiresVersion));
         }});
 
-        sut = new MethodParameter(mockConstantPool, mockIn);
+        sut = new ModuleRequires(mockConstantPool, mockIn);
     }
 
     @Test
-    public void testIsFinal() {
-        assertEquals(label, isFinal, sut.isFinal());
+    public void testIsTransitive() {
+        assertEquals(label, isTransitive, sut.isTransitive());
+    }
+
+    @Test
+    public void testIsStaticPhase() {
+        assertEquals(label, isStaticPhase, sut.isStaticPhase());
     }
 
     @Test

@@ -32,7 +32,8 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.jmock.*;
+import com.jeantessier.classreader.Visitable;
+import org.jmock.Expectations;
 import org.jmock.imposters.ByteBuddyClassImposteriser;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.*;
@@ -41,24 +42,19 @@ import org.junit.runners.Parameterized;
 
 import java.io.*;
 
-import static junit.framework.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import static junit.framework.Assert.assertEquals;
 import static org.junit.runners.Parameterized.Parameter;
+import static org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
-public class TestBootstrapMethodWithOneArgument {
-    @Parameters(name="BootstrapMethod with {0} argument")
+public class TestModule_attribute_moduleFlags {
+    @Parameters(name="Module with module flags {0}")
     public static Object[][] data() {
         return new Object[][] {
-                {"an integer", 123, 1, com.jeantessier.classreader.Integer_info.class},
-                {"a float", 234, 2, com.jeantessier.classreader.Float_info.class},
-                {"a long", 345, 3, com.jeantessier.classreader.Long_info.class},
-                {"a double", 456, 4, com.jeantessier.classreader.Double_info.class},
-                {"a Class", 567, 5, com.jeantessier.classreader.Class_info.class},
-                {"a String", 678, 6, com.jeantessier.classreader.String_info.class},
-                {"a MethodHandle", 789, 7, com.jeantessier.classreader.MethodHandle_info.class},
-                {"a MethodType", 890, 8, com.jeantessier.classreader.MethodType_info.class},
-                {"a Dynamic", 909, 9, com.jeantessier.classreader.Dynamic_info.class},
+                {"OPEN", 0x0020, true, false, false},
+                {"SYNTHETIC", 0x1000, false, true, false},
+                {"MANDATED", 0x8000, false, false, true},
+                {"all of them", 0x9020, true, true, true},
         };
     }
 
@@ -66,60 +62,77 @@ public class TestBootstrapMethodWithOneArgument {
     public String label;
 
     @Parameter(1)
-    public int bootstrapMethodRef;
+    public int moduleFlags;
 
     @Parameter(2)
-    public int argumentIndex;
+    public boolean isOpen;
 
     @Parameter(3)
-    public Class<? extends ConstantPoolEntry> argumentClass;
+    public boolean isSynthetic;
+
+    @Parameter(4)
+    public boolean isMandated;
 
     @Rule
     public JUnitRuleMockery context = new JUnitRuleMockery();
 
-    private ConstantPool mockConstantPool;
-    private DataInput mockIn;
-    private com.jeantessier.classreader.ConstantPoolEntry mockArgument;
-
-    private BootstrapMethods_attribute mockBootstrapMethods;
-
-    private BootstrapMethod sut;
+    private Module_attribute sut;
 
     @Before
     public void setUp() throws IOException {
         context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
 
-        mockConstantPool = context.mock(ConstantPool.class);
-        mockIn = context.mock(DataInput.class);
-        mockArgument = context.mock(argumentClass);
+        final int moduleNameIndex = 123;
+        final String moduleName = "abc";
+        final int moduleVersionIndex = 465;
+        final String moduleVersion = "blah";
 
-        var mockBootstrapMethods = context.mock(BootstrapMethods_attribute.class);
-        var mockBootstrapMethod = context.mock(MethodHandle_info.class, "bootstrap method");
+        final ConstantPool mockConstantPool = context.mock(ConstantPool.class);
+        final Visitable mockOwner = context.mock(Visitable.class);
+        final DataInput mockIn = context.mock(DataInput.class);
+        final Module_info mockModule_info = context.mock(Module_info.class);
+        final UTF8_info mockUtf8_info = context.mock(UTF8_info.class);
 
         context.checking(new Expectations() {{
-            allowing (mockBootstrapMethods).getConstantPool();
-                will(returnValue(mockConstantPool));
+            oneOf (mockIn).readInt();
+                will(returnValue(16));
 
             oneOf (mockIn).readUnsignedShort();
-                will(returnValue(bootstrapMethodRef));
-            // num arguments
+                will(returnValue(moduleNameIndex));
+            allowing (mockConstantPool).get(moduleNameIndex);
+                will(returnValue(mockModule_info));
+            allowing (mockModule_info).getName();
+                will(returnValue(moduleName));
+
             oneOf (mockIn).readUnsignedShort();
-                will(returnValue(1));
+                will(returnValue(moduleFlags));
+
             oneOf (mockIn).readUnsignedShort();
-                will(returnValue(argumentIndex));
-            // Lookup during construction
-            oneOf (mockConstantPool).get(bootstrapMethodRef);
-                will(returnValue(mockBootstrapMethod));
-            atLeast(1).of (mockConstantPool).get(argumentIndex);
-                will(returnValue(mockArgument));
+                will(returnValue(moduleVersionIndex));
+            allowing (mockConstantPool).get(moduleVersionIndex);
+                will(returnValue(mockUtf8_info));
+            allowing (mockUtf8_info).getValue();
+                will(returnValue(moduleVersion));
+
+            exactly(5).of (mockIn).readUnsignedShort();
+                will(returnValue(0));
         }});
 
-        sut = new BootstrapMethod(mockBootstrapMethods, mockIn);
+        sut = new Module_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
     @Test
-    public void testGetArguments() {
-        assertEquals("num arguments", 1, sut.getArguments().size());
-        assertSame("argument", mockArgument, sut.getArguments().stream().findFirst().orElseThrow());
+    public void testIsOpen() {
+        assertEquals(label, isOpen, sut.isOpen());
+    }
+
+    @Test
+    public void testIsSynthetic() {
+        assertEquals(label, isSynthetic, sut.isSynthetic());
+    }
+
+    @Test
+    public void testIsMandated() {
+        assertEquals(label, isMandated, sut.isMandated());
     }
 }

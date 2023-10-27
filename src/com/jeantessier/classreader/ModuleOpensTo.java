@@ -30,22 +30,10 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader.impl;
+package com.jeantessier.classreader;
 
-public class TestUninitializedVariableInfo extends TestAttributeBase {
-    private static final int OFFSET = 123;
-
-    private UninitializedVariableInfo sut;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        expectReadU2(OFFSET);
-
-        sut = new UninitializedVariableInfo(mockConstantPool, mockIn);
-    }
-
-    public void testGetOffset() {
-        assertSame(OFFSET, sut.getOffset());
-    }
+public interface ModuleOpensTo extends Visitable {
+    public int getOpensToIndex();
+    public Module_info getRawOpensTo();
+    public String getOpensTo();
 }

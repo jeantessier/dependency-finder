@@ -32,7 +32,7 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.jmock.*;
+import org.jmock.Expectations;
 import org.jmock.imposters.ByteBuddyClassImposteriser;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.*;
@@ -42,18 +42,16 @@ import org.junit.runners.Parameterized;
 import java.io.*;
 
 import static junit.framework.Assert.assertEquals;
-import static org.junit.runners.Parameterized.Parameters;
 import static org.junit.runners.Parameterized.Parameter;
+import static org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
-public class TestMethodParameter_accessFlags {
-    @Parameters(name="Method parameter with access flags {0}")
+public class TestModuleRequires_requiresVersion {
+    @Parameters(name="Module requires {0}")
     public static Object[][] data() {
         return new Object[][] {
-                {"FINAL", 0x0010, true, false, false},
-                {"SYNTHETIC", 0x1000, false, true, false},
-                {"MANDATED", 0x8000, false, false, true},
-                {"all of them", 0x9010, true, true, true},
+                {"without version", 0, null},
+                {"with version", 789, "version information"},
         };
     }
 
@@ -61,54 +59,68 @@ public class TestMethodParameter_accessFlags {
     public String label;
 
     @Parameter(1)
-    public int accessFlags;
+    public int requiresVersionIndex;
 
     @Parameter(2)
-    public boolean isFinal;
-
-    @Parameter(3)
-    public boolean isSynthetic;
-
-    @Parameter(4)
-    public boolean isMandated;
+    public String requiresVersion;
 
     @Rule
     public JUnitRuleMockery context = new JUnitRuleMockery();
 
-    private ConstantPool mockConstantPool;
-    private DataInput mockIn;
+    private UTF8_info mockUtf8_info;
 
-    private MethodParameter sut;
+    private ModuleRequires sut;
 
     @Before
     public void setUp() throws IOException {
         context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
 
-        mockConstantPool = context.mock(ConstantPool.class);
-        mockIn = context.mock(DataInput.class);
+        final int requiresIndex = 123;
+        final String requires = "abc";
+        final int requiresFlags = 456;
+
+        final ConstantPool mockConstantPool = context.mock(ConstantPool.class);
+        final DataInput mockIn = context.mock(DataInput.class);
+        final Module_info mockModule_info = context.mock(Module_info.class);
+
+        mockUtf8_info = requiresVersionIndex != 0 ? context.mock(UTF8_info.class) : null;
 
         context.checking(new Expectations() {{
             oneOf (mockIn).readUnsignedShort();
-                will(returnValue(0));
+                will(returnValue(requiresIndex));
+            allowing (mockConstantPool).get(requiresIndex);
+                will(returnValue(mockModule_info));
+            allowing (mockModule_info).getName();
+                will(returnValue(requires));
+
             oneOf (mockIn).readUnsignedShort();
-                will(returnValue(accessFlags));
+                will(returnValue(requiresFlags));
+
+            oneOf (mockIn).readUnsignedShort();
+                will(returnValue(requiresVersionIndex));
+            if (requiresVersionIndex != 0) {
+                allowing (mockConstantPool).get(requiresVersionIndex);
+                    will(returnValue(mockUtf8_info));
+                allowing (mockUtf8_info).getValue();
+                    will(returnValue(requiresVersion));
+            }
         }});
 
-        sut = new MethodParameter(mockConstantPool, mockIn);
+        sut = new ModuleRequires(mockConstantPool, mockIn);
     }
 
     @Test
-    public void testIsFinal() {
-        assertEquals(label, isFinal, sut.isFinal());
+    public void testGetRequiresVersionIndex() {
+        assertEquals(label, requiresVersionIndex, sut.getRequiresVersionIndex());
     }
 
     @Test
-    public void testIsSynthetic() {
-        assertEquals(label, isSynthetic, sut.isSynthetic());
+    public void testGetRawRequiresVersion() {
+        assertEquals(label, mockUtf8_info, sut.getRawRequiresVersion());
     }
 
     @Test
-    public void testIsMandated() {
-        assertEquals(label, isMandated, sut.isMandated());
+    public void testGetRequiresVersion() {
+        assertEquals(label, requiresVersion, sut.getRequiresVersion());
     }
 }

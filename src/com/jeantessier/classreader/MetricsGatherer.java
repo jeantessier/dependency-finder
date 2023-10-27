@@ -36,6 +36,7 @@ import java.util.*;
 import java.util.stream.*;
 
 import com.jeantessier.classreader.impl.ConstantPoolEntry;
+import com.jeantessier.classreader.impl.Module_attribute;
 import org.apache.log4j.*;
 
 public class MetricsGatherer extends VisitorBase {
@@ -573,6 +574,11 @@ public class MetricsGatherer extends VisitorBase {
 
     public void visitMethodParameters_attribute(MethodParameters_attribute attribute) {
         super.visitMethodParameters_attribute(attribute);
+        visitAttribute(attribute.getAttributeName());
+    }
+
+    public void visitModule_attribute(Module_attribute attribute) {
+        super.visitModule_attribute(attribute);
         visitAttribute(attribute.getAttributeName());
     }
 

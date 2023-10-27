@@ -351,6 +351,10 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
         // Do nothing
     }
 
+    public void visitModule_attribute(com.jeantessier.classreader.impl.Module_attribute attribute) {
+        // Do nothing
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         // Do nothing
     }
@@ -384,6 +388,38 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
     }
 
     public void visitMethodParameter(MethodParameter helper) {
+        // Do nothing
+    }
+
+    public void visitModuleRequires(ModuleRequires helper) {
+        // Do nothing
+    }
+
+    public void visitModuleExports(ModuleExports helper) {
+        // Do nothing
+    }
+
+    public void visitModuleExportsTo(ModuleExportsTo helper) {
+        // Do nothing
+    }
+
+    public void visitModuleOpens(ModuleOpens helper) {
+        // Do nothing
+    }
+
+    public void visitModuleOpensTo(ModuleOpensTo helper) {
+        // Do nothing
+    }
+
+    public void visitModuleUses(ModuleUses helper) {
+        // Do nothing
+    }
+
+    public void visitModuleProvides(ModuleProvides helper) {
+        // Do nothing
+    }
+
+    public void visitModuleProvidesWith(ModuleProvidesWith helper) {
         // Do nothing
     }
 

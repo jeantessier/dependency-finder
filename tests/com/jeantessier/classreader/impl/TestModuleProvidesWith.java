@@ -35,52 +35,42 @@ package com.jeantessier.classreader.impl;
 import com.jeantessier.classreader.Visitor;
 import org.jmock.Expectations;
 
-import java.io.IOException;
+public class TestModuleProvidesWith extends TestAttributeBase {
+    private static final int PROVIDES_WITH_INDEX = 123;
+    private static final String CLASS_NAME = "Abc";
 
-public class TestMethodParameter extends TestAttributeBase {
-    private static final int ACCESS_FLAGS = 456;
+    private ModuleProvidesWith sut;
 
-    public void testCreateNamelessMethodParameter() throws IOException {
-        var sut = createMethodParameter();
+    protected void setUp() throws Exception {
+        super.setUp();
 
-        assertEquals("name", null, sut.getName());
+        expectReadU2(PROVIDES_WITH_INDEX);
+        allowingLookupClass(PROVIDES_WITH_INDEX, CLASS_NAME, "lookup during construction");
+
+        sut = new ModuleProvidesWith(mockConstantPool, mockIn);
     }
 
-    public void testCreateNamedMethodParameter() throws IOException {
-        final int nameIndex = 123;
-        final String encodedName = "LAbc;";
-        final String expectedName = "Abc";
-
-        var sut = createMethodParameter(nameIndex, encodedName);
-        expectLookupUtf8(nameIndex, encodedName);
-
-        assertEquals("name", expectedName, sut.getName());
+    public void testGetProvidesWithIndex() {
+        assertEquals("provides with index", PROVIDES_WITH_INDEX, sut.getProvidesWithIndex());
     }
 
-    public void testAccept() throws IOException {
-        var sut = createMethodParameter();
+    public void testGetRawProvidesWith() {
+        allowingLookupClass(PROVIDES_WITH_INDEX, CLASS_NAME);
+        assertNotNull("raw provides with", sut.getRawProvidesWith());
+    }
 
+    public void testGetProvidesWith() {
+        expectLookupClass(PROVIDES_WITH_INDEX, CLASS_NAME);
+        assertEquals("provides with", CLASS_NAME, sut.getProvidesWith());
+    }
+
+    public void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            oneOf (mockVisitor).visitMethodParameter(sut);
+            oneOf (mockVisitor).visitModuleProvidesWith(sut);
         }});
 
         sut.accept(mockVisitor);
-    }
-
-    private MethodParameter createMethodParameter() throws IOException {
-        expectReadU2(0);
-        expectReadU2(ACCESS_FLAGS);
-
-        return new MethodParameter(mockConstantPool, mockIn);
-    }
-
-    private MethodParameter createMethodParameter(final int nameIndex, final String encodedName) throws IOException {
-        expectReadU2(nameIndex);
-        expectLookupUtf8(nameIndex, encodedName, "lookup during construction");
-        expectReadU2(ACCESS_FLAGS);
-
-        return new MethodParameter(mockConstantPool, mockIn);
     }
 }

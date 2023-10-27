@@ -62,6 +62,74 @@ public class TestAttributeBase extends MockObjectTestCase {
         dataReads = sequence("dataReads");
     }
 
+    protected void allowingLookupModule(final int index, final String value) {
+        allowingLookupModule(index, value, mock(Module_info.class));
+    }
+
+    protected void allowingLookupModule(final int index, final String value, String mockName) {
+        allowingLookupModule(index, value, mock(Module_info.class, mockName));
+    }
+
+    private void allowingLookupModule(final int index, final String value, final Module_info mockModule_info) {
+        checking(new Expectations() {{
+            oneOf (mockConstantPool).get(index);
+                will(returnValue(mockModule_info));
+            allowing (mockModule_info).getName();
+                will(returnValue(value));
+        }});
+    }
+
+    protected void allowingLookupPackage(final int index, final String value) {
+        allowingLookupPackage(index, value, mock(Package_info.class));
+    }
+
+    protected void allowingLookupPackage(final int index, final String value, String mockName) {
+        allowingLookupPackage(index, value, mock(Package_info.class, mockName));
+    }
+
+    private void allowingLookupPackage(final int index, final String value, final Package_info mockPackage_info) {
+        checking(new Expectations() {{
+            oneOf (mockConstantPool).get(index);
+                will(returnValue(mockPackage_info));
+            allowing (mockPackage_info).getName();
+                will(returnValue(value));
+        }});
+    }
+
+    protected void allowingLookupUtf8(final int index, final String value) {
+        allowingLookupUtf8(index, value, mock(UTF8_info.class));
+    }
+
+    protected void allowingLookupUtf8(final int index, final String value, String mockName) {
+        allowingLookupUtf8(index, value, mock(UTF8_info.class, mockName));
+    }
+
+    private void allowingLookupUtf8(final int index, final String value, final UTF8_info mockUtf8_info) {
+        checking(new Expectations() {{
+            oneOf (mockConstantPool).get(index);
+                will(returnValue(mockUtf8_info));
+            allowing (mockUtf8_info).getValue();
+                will(returnValue(value));
+        }});
+    }
+
+    protected void allowingLookupClass(final int index, final String value) {
+        allowingLookupClass(index, value, mock(Class_info.class));
+    }
+
+    protected void allowingLookupClass(final int index, final String value, String mockName) {
+        allowingLookupClass(index, value, mock(Class_info.class, mockName));
+    }
+
+    private void allowingLookupClass(final int index, final String value, final Class_info mockClass_info) {
+        checking(new Expectations() {{
+            oneOf (mockConstantPool).get(index);
+                will(returnValue(mockClass_info));
+            allowing (mockClass_info).getName();
+                will(returnValue(value));
+        }});
+    }
+
     protected void expectReadAttributeLength(final int length) throws IOException {
         expectReadU4(length);
     }
@@ -127,6 +195,40 @@ public class TestAttributeBase extends MockObjectTestCase {
             oneOf (mockIn).readUTF();
                 inSequence(dataReads);
                 will(returnValue(s));
+        }});
+    }
+
+    protected void expectLookupModule(final int index, final String value) {
+        expectLookupModule(index, value, mock(Module_info.class));
+    }
+
+    protected void expectLookupModule(final int index, final String value, String mockName) {
+        expectLookupModule(index, value, mock(Module_info.class, mockName));
+    }
+
+    private void expectLookupModule(final int index, final String value, final Module_info mockModule_info) {
+        checking(new Expectations() {{
+            oneOf (mockConstantPool).get(index);
+                will(returnValue(mockModule_info));
+            oneOf (mockModule_info).getName();
+                will(returnValue(value));
+        }});
+    }
+
+    protected void expectLookupPackage(final int index, final String value) {
+        expectLookupPackage(index, value, mock(Package_info.class));
+    }
+
+    protected void expectLookupPackage(final int index, final String value, String mockName) {
+        expectLookupPackage(index, value, mock(Package_info.class, mockName));
+    }
+
+    private void expectLookupPackage(final int index, final String value, final Package_info mockPackage_info) {
+        checking(new Expectations() {{
+            oneOf (mockConstantPool).get(index);
+                will(returnValue(mockPackage_info));
+            oneOf (mockPackage_info).getName();
+                will(returnValue(value));
         }});
     }
 

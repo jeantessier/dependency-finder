@@ -32,6 +32,8 @@
 
 package com.jeantessier.classreader;
 
+import com.jeantessier.classreader.impl.Module_attribute;
+
 import java.util.*;
 
 public interface Visitor {
@@ -88,6 +90,7 @@ public interface Visitor {
     public void visitStackMapTable_attribute(StackMapTable_attribute attribute);
     public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute);
     public void visitMethodParameters_attribute(MethodParameters_attribute attribute);
+    public void visitModule_attribute(Module_attribute attribute);
     public void visitCustom_attribute(Custom_attribute attribute);
 
     // Attribute helpers
@@ -99,6 +102,14 @@ public interface Visitor {
     public void visitLocalVariableType(LocalVariableType helper);
     public void visitBootstrapMethod(BootstrapMethod helper);
     public void visitMethodParameter(MethodParameter helper);
+    public void visitModuleRequires(ModuleRequires helper);
+    public void visitModuleExports(ModuleExports helper);
+    public void visitModuleExportsTo(ModuleExportsTo helper);
+    public void visitModuleOpens(ModuleOpens helper);
+    public void visitModuleOpensTo(ModuleOpensTo helper);
+    public void visitModuleUses(ModuleUses helper);
+    public void visitModuleProvides(ModuleProvides helper);
+    public void visitModuleProvidesWith(ModuleProvidesWith helper);
 
     // Annotations
     public void visitAnnotation(Annotation helper);

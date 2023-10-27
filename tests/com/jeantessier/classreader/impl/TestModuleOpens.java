@@ -35,52 +35,45 @@ package com.jeantessier.classreader.impl;
 import com.jeantessier.classreader.Visitor;
 import org.jmock.Expectations;
 
-import java.io.IOException;
+public class TestModuleOpens extends TestAttributeBase {
+    private static final int OPENS_INDEX = 123;
+    private static final String PACKAGE_NAME = "abc";
+    private static final int OPENS_FLAGS = 456;
 
-public class TestMethodParameter extends TestAttributeBase {
-    private static final int ACCESS_FLAGS = 456;
+    private ModuleOpens sut;
 
-    public void testCreateNamelessMethodParameter() throws IOException {
-        var sut = createMethodParameter();
+    protected void setUp() throws Exception {
+        super.setUp();
 
-        assertEquals("name", null, sut.getName());
+        expectReadU2(OPENS_INDEX);
+        allowingLookupPackage(OPENS_INDEX, PACKAGE_NAME, "opens lookup during construction");
+        expectReadU2(OPENS_FLAGS);
+        expectReadU2(0);
+
+        sut = new ModuleOpens(mockConstantPool, mockIn);
     }
 
-    public void testCreateNamedMethodParameter() throws IOException {
-        final int nameIndex = 123;
-        final String encodedName = "LAbc;";
-        final String expectedName = "Abc";
-
-        var sut = createMethodParameter(nameIndex, encodedName);
-        expectLookupUtf8(nameIndex, encodedName);
-
-        assertEquals("name", expectedName, sut.getName());
+    public void testGetOpensIndex() {
+        assertEquals("opens index", OPENS_INDEX, sut.getOpensIndex());
     }
 
-    public void testAccept() throws IOException {
-        var sut = createMethodParameter();
+    public void testGetRawOpens() {
+        allowingLookupPackage(OPENS_INDEX, PACKAGE_NAME);
+        assertNotNull("raw opens", sut.getRawOpens());
+    }
 
+    public void testGetOpens() {
+        expectLookupPackage(OPENS_INDEX, PACKAGE_NAME);
+        assertEquals("opens", PACKAGE_NAME, sut.getOpens());
+    }
+
+    public void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            oneOf (mockVisitor).visitMethodParameter(sut);
+            oneOf (mockVisitor).visitModuleOpens(sut);
         }});
 
         sut.accept(mockVisitor);
-    }
-
-    private MethodParameter createMethodParameter() throws IOException {
-        expectReadU2(0);
-        expectReadU2(ACCESS_FLAGS);
-
-        return new MethodParameter(mockConstantPool, mockIn);
-    }
-
-    private MethodParameter createMethodParameter(final int nameIndex, final String encodedName) throws IOException {
-        expectReadU2(nameIndex);
-        expectLookupUtf8(nameIndex, encodedName, "lookup during construction");
-        expectReadU2(ACCESS_FLAGS);
-
-        return new MethodParameter(mockConstantPool, mockIn);
     }
 }

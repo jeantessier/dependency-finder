@@ -33,54 +33,40 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
+import org.apache.log4j.Logger;
 
+import java.io.DataInput;
 import java.io.IOException;
 
-public class TestMethodParameter extends TestAttributeBase {
-    private static final int ACCESS_FLAGS = 456;
+public class ModuleProvidesWith implements com.jeantessier.classreader.ModuleProvidesWith {
+    private final ConstantPool constantPool;
 
-    public void testCreateNamelessMethodParameter() throws IOException {
-        var sut = createMethodParameter();
+    private final int providesWithIndex;
 
-        assertEquals("name", null, sut.getName());
+    public ModuleProvidesWith(ConstantPool constantPool, DataInput in) throws IOException {
+        this.constantPool = constantPool;
+
+        providesWithIndex = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Opens to: " + providesWithIndex + " (" + getProvidesWith() + ")");
     }
 
-    public void testCreateNamedMethodParameter() throws IOException {
-        final int nameIndex = 123;
-        final String encodedName = "LAbc;";
-        final String expectedName = "Abc";
-
-        var sut = createMethodParameter(nameIndex, encodedName);
-        expectLookupUtf8(nameIndex, encodedName);
-
-        assertEquals("name", expectedName, sut.getName());
+    public ConstantPool getConstantPool() {
+        return constantPool;
     }
 
-    public void testAccept() throws IOException {
-        var sut = createMethodParameter();
-
-        final Visitor mockVisitor = mock(Visitor.class);
-
-        checking(new Expectations() {{
-            oneOf (mockVisitor).visitMethodParameter(sut);
-        }});
-
-        sut.accept(mockVisitor);
+    public int getProvidesWithIndex() {
+        return providesWithIndex;
     }
 
-    private MethodParameter createMethodParameter() throws IOException {
-        expectReadU2(0);
-        expectReadU2(ACCESS_FLAGS);
-
-        return new MethodParameter(mockConstantPool, mockIn);
+    public Class_info getRawProvidesWith() {
+        return (Class_info) getConstantPool().get(getProvidesWithIndex());
     }
 
-    private MethodParameter createMethodParameter(final int nameIndex, final String encodedName) throws IOException {
-        expectReadU2(nameIndex);
-        expectLookupUtf8(nameIndex, encodedName, "lookup during construction");
-        expectReadU2(ACCESS_FLAGS);
+    public String getProvidesWith() {
+        return getRawProvidesWith().getName();
+    }
 
-        return new MethodParameter(mockConstantPool, mockIn);
+    public void accept(Visitor visitor) {
+        visitor.visitModuleProvidesWith(this);
     }
 }

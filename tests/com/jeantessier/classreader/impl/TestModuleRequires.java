@@ -35,52 +35,48 @@ package com.jeantessier.classreader.impl;
 import com.jeantessier.classreader.Visitor;
 import org.jmock.Expectations;
 
-import java.io.IOException;
+public class TestModuleRequires extends TestAttributeBase {
+    private static final int REQUIRES_INDEX = 123;
+    private static final String MODULE_NAME = "abc";
+    private static final int REQUIRES_FLAGS = 456;
+    private static final int REQUIRES_VERSION_INDEX = 789;
+    private static final String REQUIRES_VERSION = "blah";
 
-public class TestMethodParameter extends TestAttributeBase {
-    private static final int ACCESS_FLAGS = 456;
+    private ModuleRequires sut;
 
-    public void testCreateNamelessMethodParameter() throws IOException {
-        var sut = createMethodParameter();
+    protected void setUp() throws Exception {
+        super.setUp();
 
-        assertEquals("name", null, sut.getName());
+        expectReadU2(REQUIRES_INDEX);
+        allowingLookupModule(REQUIRES_INDEX, MODULE_NAME, "requires lookup during construction");
+        expectReadU2(REQUIRES_FLAGS);
+        expectReadU2(REQUIRES_VERSION_INDEX);
+        allowingLookupUtf8(REQUIRES_VERSION_INDEX, REQUIRES_VERSION, "requires version lookup during construction");
+
+        sut = new ModuleRequires(mockConstantPool, mockIn);
     }
 
-    public void testCreateNamedMethodParameter() throws IOException {
-        final int nameIndex = 123;
-        final String encodedName = "LAbc;";
-        final String expectedName = "Abc";
-
-        var sut = createMethodParameter(nameIndex, encodedName);
-        expectLookupUtf8(nameIndex, encodedName);
-
-        assertEquals("name", expectedName, sut.getName());
+    public void testGetRequiresIndex() {
+        assertEquals("requires index", REQUIRES_INDEX, sut.getRequiresIndex());
     }
 
-    public void testAccept() throws IOException {
-        var sut = createMethodParameter();
+    public void testGetRawRequires() {
+        allowingLookupModule(REQUIRES_INDEX, MODULE_NAME);
+        assertNotNull("raw requires", sut.getRawRequires());
+    }
 
+    public void testGetRequires() {
+        expectLookupModule(REQUIRES_INDEX, MODULE_NAME);
+        assertEquals("requires", MODULE_NAME, sut.getRequires());
+    }
+
+    public void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            oneOf (mockVisitor).visitMethodParameter(sut);
+            oneOf (mockVisitor).visitModuleRequires(sut);
         }});
 
         sut.accept(mockVisitor);
-    }
-
-    private MethodParameter createMethodParameter() throws IOException {
-        expectReadU2(0);
-        expectReadU2(ACCESS_FLAGS);
-
-        return new MethodParameter(mockConstantPool, mockIn);
-    }
-
-    private MethodParameter createMethodParameter(final int nameIndex, final String encodedName) throws IOException {
-        expectReadU2(nameIndex);
-        expectLookupUtf8(nameIndex, encodedName, "lookup during construction");
-        expectReadU2(ACCESS_FLAGS);
-
-        return new MethodParameter(mockConstantPool, mockIn);
     }
 }

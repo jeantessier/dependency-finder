@@ -37,6 +37,12 @@ import org.junit.runners.Suite;
 
 import static org.junit.runners.Suite.SuiteClasses;
 
+
+
+
+
+
+
 @RunWith(Suite.class)
 @SuiteClasses({
         TestAnnotation.class,
@@ -82,6 +88,29 @@ import static org.junit.runners.Suite.SuiteClasses;
         TestMethodParameter_accessFlags.class,
         TestMethodParameters_attribute.class,
         TestMethodParameters_attributeWithMethodParameters.class,
+        TestModuleExports.class,
+        TestModuleExportsWithExportsTos.class,
+        TestModuleExportsTo.class,
+        TestModuleExports_exportsFlags.class,
+        TestModuleOpens.class,
+        TestModuleOpensWithOpensTos.class,
+        TestModuleOpensTo.class,
+        TestModuleOpens_opensFlags.class,
+        TestModuleProvides.class,
+        TestModuleProvidesWithProvidesWiths.class,
+        TestModuleProvidesWith.class,
+        TestModuleRequires.class,
+        TestModuleRequires_requiresFlags.class,
+        TestModuleRequires_requiresVersion.class,
+        TestModuleUses.class,
+        TestModule_attribute.class,
+        TestModule_attributeWithModuleExports.class,
+        TestModule_attributeWithModuleOpens.class,
+        TestModule_attributeWithModuleProvides.class,
+        TestModule_attributeWithModuleRequires.class,
+        TestModule_attributeWithModuleUses.class,
+        TestModule_attribute_moduleFlags.class,
+        TestModule_attribute_moduleVersion.class,
         TestObjectVariableInfo.class,
         TestParameterAnnotation.class,
         TestParameterAnnotationWithAnnotations.class,
