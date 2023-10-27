@@ -54,10 +54,10 @@ public class ModuleProvides implements com.jeantessier.classreader.ModuleProvide
         Logger.getLogger(getClass()).debug("Provides: " + providesIndex + " (" + getProvides() + ")");
 
         var numProvidesWith = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + numProvidesWith + " provides to ...");
+        Logger.getLogger(getClass()).debug("Reading " + numProvidesWith + " provides with ...");
         IntStream.range(0, numProvidesWith).forEach(i -> {
             try {
-                Logger.getLogger(getClass()).debug("provides to " + i + ":");
+                Logger.getLogger(getClass()).debug("provides with " + i + ":");
                 providesWiths.add(new ModuleProvidesWith(constantPool, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

@@ -47,7 +47,7 @@ public class ModuleUses implements com.jeantessier.classreader.ModuleUses {
         this.constantPool = constantPool;
 
         usesIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Opens to: " + usesIndex + " (" + getUses() + ")");
+        Logger.getLogger(getClass()).debug("Uses: " + usesIndex + " (" + getUses() + ")");
     }
 
     public ConstantPool getConstantPool() {
