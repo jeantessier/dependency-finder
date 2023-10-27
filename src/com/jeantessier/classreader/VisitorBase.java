@@ -304,7 +304,20 @@ public abstract class VisitorBase implements Visitor {
     }
 
     public void visitModule_attribute(Module_attribute attribute) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        Logger.getLogger(getClass()).debug("Visiting " + attribute.getRequires().size() + " module requires ...");
+        attribute.getRequires().forEach(moduleRequires -> moduleRequires.accept(this));
+
+        Logger.getLogger(getClass()).debug("Visiting " + attribute.getExports().size() + " module exports ...");
+        attribute.getExports().forEach(moduleExports -> moduleExports.accept(this));
+
+        Logger.getLogger(getClass()).debug("Visiting " + attribute.getOpens().size() + " module opens ...");
+        attribute.getOpens().forEach(moduleOpens -> moduleOpens.accept(this));
+
+        Logger.getLogger(getClass()).debug("Visiting " + attribute.getUses().size() + " module uses ...");
+        attribute.getUses().forEach(moduleUses -> moduleUses.accept(this));
+
+        Logger.getLogger(getClass()).debug("Visiting " + attribute.getProvides().size() + " module provides ...");
+        attribute.getProvides().forEach(moduleProvides -> moduleProvides.accept(this));
     }
 
     public void visitCustom_attribute(Custom_attribute attribute) {
@@ -358,35 +371,38 @@ public abstract class VisitorBase implements Visitor {
     }
 
     public void visitModuleRequires(ModuleRequires helper) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        // Do nothing
     }
 
     public void visitModuleExports(ModuleExports helper) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        Logger.getLogger(getClass()).debug("Visiting " + helper.getExportsTos().size() + " exports to(s) ...");
+        helper.getExportsTos().forEach(moduleExportsTo -> moduleExportsTo.accept(this));
     }
 
     public void visitModuleExportsTo(ModuleExportsTo helper) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        // Do nothing
     }
 
     public void visitModuleOpens(ModuleOpens helper) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        Logger.getLogger(getClass()).debug("Visiting " + helper.getOpensTos().size() + " opens to(s) ...");
+        helper.getOpensTos().forEach(moduleOpensTo -> moduleOpensTo.accept(this));
     }
 
     public void visitModuleOpensTo(ModuleOpensTo helper) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        // Do nothing
     }
 
     public void visitModuleUses(ModuleUses helper) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        // Do nothing
     }
 
     public void visitModuleProvides(ModuleProvides helper) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        Logger.getLogger(getClass()).debug("Visiting " + helper.getProvidesWiths().size() + " provides with(s) ...");
+        helper.getProvidesWiths().forEach(moduleProvidesWith -> moduleProvidesWith.accept(this));
     }
 
     public void visitModuleProvidesWith(ModuleProvidesWith helper) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        // Do nothing
     }
 
     public void visitAnnotation(Annotation helper) {

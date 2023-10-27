@@ -525,6 +525,130 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitMethodParameters_attribute(mockAttribute);
     }
 
+    public void testVisitModule_attribute() {
+        final Module_attribute mockAttribute = mock(Module_attribute.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockAttribute).getRequires();
+                will(returnValue(Collections.emptyList()));
+            atLeast(1).of (mockAttribute).getExports();
+                will(returnValue(Collections.emptyList()));
+            atLeast(1).of (mockAttribute).getOpens();
+                will(returnValue(Collections.emptyList()));
+            atLeast(1).of (mockAttribute).getUses();
+                will(returnValue(Collections.emptyList()));
+            atLeast(1).of (mockAttribute).getProvides();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        sut.visitModule_attribute(mockAttribute);
+    }
+
+    public void testVisitModule_attributeWithRequires() {
+        final Module_attribute mockAttribute = mock(Module_attribute.class);
+        final ModuleRequires mockRequires = mock(ModuleRequires.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockAttribute).getRequires();
+                will(returnValue(Collections.singleton(mockRequires)));
+            atLeast(1).of (mockAttribute).getExports();
+                will(returnValue(Collections.emptyList()));
+            atLeast(1).of (mockAttribute).getOpens();
+                will(returnValue(Collections.emptyList()));
+            atLeast(1).of (mockAttribute).getUses();
+                will(returnValue(Collections.emptyList()));
+            atLeast(1).of (mockAttribute).getProvides();
+                will(returnValue(Collections.emptyList()));
+            oneOf (mockRequires).accept(sut);
+        }});
+
+        sut.visitModule_attribute(mockAttribute);
+    }
+
+    public void testVisitModule_attributeWithExports() {
+        final Module_attribute mockAttribute = mock(Module_attribute.class);
+        final ModuleExports mockExports = mock(ModuleExports.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockAttribute).getRequires();
+                will(returnValue(Collections.emptyList()));
+            atLeast(1).of (mockAttribute).getExports();
+                will(returnValue(Collections.singleton(mockExports)));
+            atLeast(1).of (mockAttribute).getOpens();
+                will(returnValue(Collections.emptyList()));
+            atLeast(1).of (mockAttribute).getUses();
+                will(returnValue(Collections.emptyList()));
+            atLeast(1).of (mockAttribute).getProvides();
+                will(returnValue(Collections.emptyList()));
+            oneOf (mockExports).accept(sut);
+        }});
+
+        sut.visitModule_attribute(mockAttribute);
+    }
+
+    public void testVisitModule_attributeWithOpens() {
+        final Module_attribute mockAttribute = mock(Module_attribute.class);
+        final ModuleOpens mockOpens = mock(ModuleOpens.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockAttribute).getRequires();
+                will(returnValue(Collections.emptyList()));
+            atLeast(1).of (mockAttribute).getExports();
+                will(returnValue(Collections.emptyList()));
+            atLeast(1).of (mockAttribute).getOpens();
+                will(returnValue(Collections.singleton(mockOpens)));
+            atLeast(1).of (mockAttribute).getUses();
+                will(returnValue(Collections.emptyList()));
+            atLeast(1).of (mockAttribute).getProvides();
+                will(returnValue(Collections.emptyList()));
+            oneOf (mockOpens).accept(sut);
+        }});
+
+        sut.visitModule_attribute(mockAttribute);
+    }
+
+    public void testVisitModule_attributeWithUses() {
+        final Module_attribute mockAttribute = mock(Module_attribute.class);
+        final ModuleUses mockUses = mock(ModuleUses.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockAttribute).getRequires();
+                will(returnValue(Collections.emptyList()));
+            atLeast(1).of (mockAttribute).getExports();
+                will(returnValue(Collections.emptyList()));
+            atLeast(1).of (mockAttribute).getOpens();
+                will(returnValue(Collections.emptyList()));
+            atLeast(1).of (mockAttribute).getUses();
+                will(returnValue(Collections.singleton(mockUses)));
+            atLeast(1).of (mockAttribute).getProvides();
+                will(returnValue(Collections.emptyList()));
+            oneOf (mockUses).accept(sut);
+        }});
+
+        sut.visitModule_attribute(mockAttribute);
+    }
+
+    public void testVisitModule_attributeWithProvides() {
+        final Module_attribute mockAttribute = mock(Module_attribute.class);
+        final ModuleProvides mockProvides = mock(ModuleProvides.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockAttribute).getRequires();
+                will(returnValue(Collections.emptyList()));
+            atLeast(1).of (mockAttribute).getExports();
+                will(returnValue(Collections.emptyList()));
+            atLeast(1).of (mockAttribute).getOpens();
+                will(returnValue(Collections.emptyList()));
+            atLeast(1).of (mockAttribute).getUses();
+                will(returnValue(Collections.emptyList()));
+            atLeast(1).of (mockAttribute).getProvides();
+                will(returnValue(Collections.singleton(mockProvides)));
+            oneOf (mockProvides).accept(sut);
+        }});
+
+        sut.visitModule_attribute(mockAttribute);
+    }
+
     public void testVisitCustom_attribute() {
         Custom_attribute mockCustom = mock(Custom_attribute.class);
         sut.visitCustom_attribute(mockCustom);
@@ -580,6 +704,103 @@ public class TestVisitorBase extends MockObjectTestCase {
     public void testVisitMethodParameter() {
         final MethodParameter mockMethodParameter = mock(MethodParameter.class);
         sut.visitMethodParameter(mockMethodParameter);
+    }
+
+    public void testVisitModuleRequires() {
+        final ModuleRequires mockRequires = mock(ModuleRequires.class);
+        sut.visitModuleRequires(mockRequires);
+    }
+
+    public void testVisitModuleExports_noExportsTos() {
+        final ModuleExports mockExports = mock(ModuleExports.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockExports).getExportsTos();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        sut.visitModuleExports(mockExports);
+    }
+
+    public void testVisitModuleExports_oneExportsTo() {
+        final ModuleExports mockExports = mock(ModuleExports.class);
+        final ModuleExportsTo mockExportsTo = mock(ModuleExportsTo.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockExports).getExportsTos();
+                will(returnValue(Collections.singleton(mockExportsTo)));
+            oneOf (mockExportsTo).accept(sut);
+        }});
+
+        sut.visitModuleExports(mockExports);
+    }
+
+    public void testVisitModuleExportsTo() {
+        final ModuleExportsTo mockExportsTo = mock(ModuleExportsTo.class);
+        sut.visitModuleExportsTo(mockExportsTo);
+    }
+
+    public void testVisitModuleOpens_noOpensTos() {
+        final ModuleOpens mockOpens = mock(ModuleOpens.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockOpens).getOpensTos();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        sut.visitModuleOpens(mockOpens);
+    }
+
+    public void testVisitModuleOpens_oneOpensTo() {
+        final ModuleOpens mockOpens = mock(ModuleOpens.class);
+        final ModuleOpensTo mockOpensTo = mock(ModuleOpensTo.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockOpens).getOpensTos();
+                will(returnValue(Collections.singleton(mockOpensTo)));
+            oneOf (mockOpensTo).accept(sut);
+        }});
+
+        sut.visitModuleOpens(mockOpens);
+    }
+
+    public void testVisitModuleOpensTo() {
+        final ModuleOpensTo mockOpensTo = mock(ModuleOpensTo.class);
+        sut.visitModuleOpensTo(mockOpensTo);
+    }
+
+    public void testVisitModuleUses() {
+        final ModuleUses mockUses = mock(ModuleUses.class);
+        sut.visitModuleUses(mockUses);
+    }
+
+    public void testVisitModuleProvides_noProvidesWiths() {
+        final ModuleProvides mockProvides = mock(ModuleProvides.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockProvides).getProvidesWiths();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        sut.visitModuleProvides(mockProvides);
+    }
+
+    public void testVisitModuleProvides_oneProvidesWith() {
+        final ModuleProvides mockProvides = mock(ModuleProvides.class);
+        final ModuleProvidesWith mockProvidesWith = mock(ModuleProvidesWith.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockProvides).getProvidesWiths();
+                will(returnValue(Collections.singleton(mockProvidesWith)));
+            oneOf (mockProvidesWith).accept(sut);
+        }});
+
+        sut.visitModuleProvides(mockProvides);
+    }
+
+    public void testVisitModuleProvidesWith() {
+        final ModuleProvidesWith mockProvidesWith = mock(ModuleProvidesWith.class);
+        sut.visitModuleProvidesWith(mockProvidesWith);
     }
 
     public void testVisitAnnotation() {
