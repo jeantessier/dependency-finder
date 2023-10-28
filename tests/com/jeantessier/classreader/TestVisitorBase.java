@@ -649,6 +649,30 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitModule_attribute(mockAttribute);
     }
 
+    public void testVisitModulePackages_attribute() {
+        final ModulePackages_attribute mockAttribute = mock(ModulePackages_attribute.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockAttribute).getPackages();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        sut.visitModulePackages_attribute(mockAttribute);
+    }
+
+    public void testVisitModulePackages_attributeWithModulePackage() {
+        final ModulePackages_attribute mockAttribute = mock(ModulePackages_attribute.class);
+        final ModulePackage mockPackage = mock(ModulePackage.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockAttribute).getPackages();
+                will(returnValue(Collections.singleton(mockPackage)));
+            oneOf (mockPackage).accept(sut);
+        }});
+
+        sut.visitModulePackages_attribute(mockAttribute);
+    }
+
     public void testVisitCustom_attribute() {
         Custom_attribute mockCustom = mock(Custom_attribute.class);
         sut.visitCustom_attribute(mockCustom);
@@ -801,6 +825,11 @@ public class TestVisitorBase extends MockObjectTestCase {
     public void testVisitModuleProvidesWith() {
         final ModuleProvidesWith mockProvidesWith = mock(ModuleProvidesWith.class);
         sut.visitModuleProvidesWith(mockProvidesWith);
+    }
+
+    public void testVisitModulePackage() {
+        final ModulePackage mockPackage = mock(ModulePackage.class);
+        sut.visitModulePackage(mockPackage);
     }
 
     public void testVisitAnnotation() {

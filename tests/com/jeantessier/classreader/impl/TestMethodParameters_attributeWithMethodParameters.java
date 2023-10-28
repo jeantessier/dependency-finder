@@ -56,8 +56,20 @@ public class TestMethodParameters_attributeWithMethodParameters extends TestAttr
         assertEquals("num method parameters", 1, sut.getMethodParameters().size());
 
         // And
-        assertEquals("method parameter name", nameIndex, sut.getMethodParameters().stream().findFirst().orElseThrow().getNameIndex());
-        assertEquals("method parameter access flags", accessFlags, sut.getMethodParameters().stream().findFirst().orElseThrow().getAccessFlags());
+        assertEquals(
+                "method parameter name",
+                nameIndex,
+                sut.getMethodParameters().stream()
+                        .mapToInt(MethodParameter::getNameIndex)
+                        .findFirst()
+                        .orElseThrow());
+        assertEquals(
+                "method parameter access flags",
+                accessFlags,
+                sut.getMethodParameters().stream()
+                        .mapToInt(MethodParameter::getAccessFlags)
+                        .findFirst()
+                        .orElseThrow());
     }
 
     public void testWithMultipleMethodParameters() throws Exception {

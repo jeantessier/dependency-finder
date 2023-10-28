@@ -320,6 +320,11 @@ public abstract class VisitorBase implements Visitor {
         attribute.getProvides().forEach(moduleProvides -> moduleProvides.accept(this));
     }
 
+    public void visitModulePackages_attribute(ModulePackages_attribute attribute) {
+        Logger.getLogger(getClass()).debug("Visiting " + attribute.getPackages().size() + " module packages ...");
+        attribute.getPackages().forEach(modulePackage -> modulePackage.accept(this));
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         // Do nothing
     }
@@ -402,6 +407,10 @@ public abstract class VisitorBase implements Visitor {
     }
 
     public void visitModuleProvidesWith(ModuleProvidesWith helper) {
+        // Do nothing
+    }
+
+    public void visitModulePackage(ModulePackage helper) {
         // Do nothing
     }
 

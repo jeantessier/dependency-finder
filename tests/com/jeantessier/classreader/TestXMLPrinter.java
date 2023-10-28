@@ -2544,6 +2544,57 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "module-provides-with/class/@index", String.valueOf(providesWithIndex));
     }
 
+    public void testVisitModulePackages_attribute() throws Exception {
+        final ModulePackages_attribute attribute = mock(ModulePackages_attribute.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (attribute).getPackages();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        printer.visitModulePackages_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "module-packages-attribute", 1);
+    }
+
+    public void testVisitModulePackages_attributeWithModulePackage() throws Exception {
+        final ModulePackages_attribute attribute = mock(ModulePackages_attribute.class);
+        final ModulePackage mockPackage = mock(ModulePackage.class);
+
+        checking(new Expectations() {{
+            atLeast (1).of (attribute).getPackages();
+                will(returnValue(Collections.singleton(mockPackage)));
+            oneOf (mockPackage).accept(printer);
+        }});
+
+        printer.visitModulePackages_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "module-packages-attribute", 1);
+    }
+
+    public void testVisitModulePackage() throws Exception {
+        final ModulePackage modulePackage = mock(ModulePackage.class);
+        final int packageIndex = 123;
+        final Package_info mockPackage = mock(Package_info.class);
+
+        checking(new Expectations() {{
+            oneOf (modulePackage).getPackageIndex();
+                will(returnValue(packageIndex));
+            oneOf (modulePackage).getRawPackage();
+                will(returnValue(mockPackage));
+            oneOf (mockPackage).accept(printer);
+        }});
+
+        printer.visitModulePackage(modulePackage);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "package", 1);
+        assertXPathCount(xmlDocument, "package/@index", 1);
+        assertXPathText(xmlDocument, "package/@index", String.valueOf(packageIndex));
+    }
+
     public void testVisitAnnotation_WithoutElementValuePairs() throws Exception {
         final Annotation annotation = mock(Annotation.class);
 

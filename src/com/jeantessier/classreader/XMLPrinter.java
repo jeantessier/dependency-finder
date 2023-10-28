@@ -848,6 +848,16 @@ public class XMLPrinter extends Printer {
         indent().append("</module-attribute>").eol();
     }
 
+    public void visitModulePackages_attribute(ModulePackages_attribute attribute) {
+        indent().append("<module-packages-attribute>").eol();
+        raiseIndent();
+
+        super.visitModulePackages_attribute(attribute);
+
+        lowerIndent();
+        indent().append("</module-packages-attribute>").eol();
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         indent().append("<custom-attribute name=\"").append(escapeXMLCharacters(attribute.getName())).append("\">").append(Hex.toString(attribute.getInfo())).append("</custom-attribute>").eol();
     }
@@ -1258,6 +1268,13 @@ public class XMLPrinter extends Printer {
 
         lowerIndent();
         indent().append("</module-provides-with>").eol();
+    }
+
+    public void visitModulePackage(ModulePackage helper) {
+        indent();
+        append("<package index=\"").append(helper.getPackageIndex()).append("\">");
+        helper.getRawPackage().accept(this);
+        append("</package>").eol();
     }
 
     public void visitAnnotation(Annotation helper) {

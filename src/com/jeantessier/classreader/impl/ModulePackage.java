@@ -1,22 +1,22 @@
 /*
  *  Copyright (c) 2001-2023, Jean Tessier
  *  All rights reserved.
- *  
+ *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
  *  are met:
- *  
+ *
  *      * Redistributions of source code must retain the above copyright
  *        notice, this list of conditions and the following disclaimer.
- *  
+ *
  *      * Redistributions in binary form must reproduce the above copyright
  *        notice, this list of conditions and the following disclaimer in the
  *        documentation and/or other materials provided with the distribution.
- *  
+ *
  *      * Neither the name of Jean Tessier nor the names of his contributors
  *        may be used to endorse or promote products derived from this software
  *        without specific prior written permission.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -33,55 +33,42 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.ClassNameHelper;
+import com.jeantessier.classreader.UTF8_info;
 import com.jeantessier.classreader.Visitor;
+import org.apache.log4j.Logger;
 
 import java.io.DataInput;
 import java.io.IOException;
 
-public class Module_info extends ConstantPoolEntry implements com.jeantessier.classreader.Module_info {
-    private final int nameIndex;
+public class ModulePackage implements com.jeantessier.classreader.ModulePackage {
+    private final ConstantPool constantPool;
 
-    public Module_info(ConstantPool constantPool, DataInput in) throws IOException {
-        super(constantPool);
+    private final int packageIndex;
 
-        nameIndex = in.readUnsignedShort();
+    public ModulePackage(ConstantPool constantPool, DataInput in) throws IOException {
+        this.constantPool = constantPool;
+
+        packageIndex = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Package index: " + packageIndex + " (" + getPackage() + ")");
     }
 
-    public int getNameIndex() {
-        return nameIndex;
+    public ConstantPool getConstantPool() {
+        return constantPool;
     }
 
-    public UTF8_info getRawName() {
-        return (UTF8_info) getConstantPool().get(getNameIndex());
+    public int getPackageIndex() {
+        return packageIndex;
     }
 
-    public String getName() {
-//        return ClassNameHelper.convertClassName(getRawName().getValue());
-        return getRawName().getValue();
+    public Package_info getRawPackage() {
+        return (Package_info) getConstantPool().get(getPackageIndex());
     }
 
-    public String toString() {
-        return getName();
-    }
-
-    public int hashCode() {
-        return getRawName().hashCode();
-    }
-
-    public boolean equals(Object object) {
-        boolean result = false;
-
-        if (this == object) {
-            result = true;
-        } else if (object != null && this.getClass().equals(object.getClass())) {
-            Module_info other = (Module_info) object;
-            result = this.getRawName().equals(other.getRawName());
-        }
-
-        return result;
+    public String getPackage() {
+        return getRawPackage().getName();
     }
 
     public void accept(Visitor visitor) {
-        visitor.visitModule_info(this);
+        visitor.visitModulePackage(this);
     }
 }

@@ -352,6 +352,10 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
         // Do nothing
     }
 
+    public void visitModulePackages_attribute(ModulePackages_attribute attribute) {
+        // Do nothing
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         // Do nothing
     }
@@ -417,6 +421,10 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
     }
 
     public void visitModuleProvidesWith(ModuleProvidesWith helper) {
+        // Do nothing
+    }
+
+    public void visitModulePackage(ModulePackage helper) {
         // Do nothing
     }
 

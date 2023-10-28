@@ -43,6 +43,10 @@ import static org.junit.runners.Suite.SuiteClasses;
 
 
 
+
+
+
+
 @RunWith(Suite.class)
 @SuiteClasses({
         TestAnnotation.class,
@@ -96,6 +100,9 @@ import static org.junit.runners.Suite.SuiteClasses;
         TestModuleOpensWithOpensTos.class,
         TestModuleOpensTo.class,
         TestModuleOpens_opensFlags.class,
+        TestModulePackage.class,
+        TestModulePackages_attribute.class,
+        TestModulePackages_attributeWithModulePackages.class,
         TestModuleProvides.class,
         TestModuleProvidesWithProvidesWiths.class,
         TestModuleProvidesWith.class,

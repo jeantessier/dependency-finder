@@ -180,6 +180,12 @@ public enum AttributeType {
         public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
             return new Module_attribute(constantPool, owner, in);
         }
+    },
+
+    MODULE_PACKAGES(com.jeantessier.classreader.AttributeType.MODULE_PACKAGES) {
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+            return new ModulePackages_attribute(constantPool, owner, in);
+        }
     };
 
     private final com.jeantessier.classreader.AttributeType attributeType;

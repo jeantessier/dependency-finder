@@ -30,51 +30,45 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
-import java.util.Arrays;
+import com.jeantessier.classreader.*;
+import org.apache.log4j.Logger;
 
-public enum AttributeType {
-    CONSTANT_VALUE("ConstantValue"),
-    CODE("Code"),
-    STACK_MAP_TABLE("StackMapTable"),
-    EXCEPTIONS("Exceptions"),
-    INNER_CLASSES("InnerClasses"),
-    ENCLOSING_METHOD("EnclosingMethod"),
-    SYNTHETIC("Synthetic"),
-    SIGNATURE("Signature"),
-    SOURCE_FILE("SourceFile"),
-    SOURCE_DEBUG_EXTENSION("SourceDebugExtension"),
-    LINE_NUMBER_TABLE("LineNumberTable"),
-    LOCAL_VARIABLE_TABLE("LocalVariableTable"),
-    LOCAL_VARIABLE_TYPE_TABLE("LocalVariableTypeTable"),
-    DEPRECATED("Deprecated"),
-    RUNTIME_VISIBLE_ANNOTATIONS("RuntimeVisibleAnnotations"),
-    RUNTIME_INVISIBLE_ANNOTATIONS("RuntimeInvisibleAnnotations"),
-    RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS("RuntimeVisibleParameterAnnotations"),
-    RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS("RuntimeInvisibleParameterAnnotations"),
-    RUNTIME_VISIBLE_TYPE_ANNOTATIONS("RuntimeVisibleTypeAnnotations"),
-    RUNTIME_INVISIBLE_TYPE_ANNOTATIONS("RuntimeInvisibleTypeAnnotations"),
-    ANNOTATION_DEFAULT("AnnotationDefault"),
-    BOOTSTRAP_METHODS("BootstrapMethods"),
-    METHOD_PARAMETERS("MethodParameters"),
-    MODULE("Module"),
-    MODULE_PACKAGES("ModulePackages");
+import java.io.*;
+import java.util.*;
+import java.util.stream.*;
 
-    private final String attributeName;
+public class ModulePackages_attribute extends Attribute_info implements com.jeantessier.classreader.ModulePackages_attribute {
+    private final Collection<ModulePackage> packages = new LinkedList<>();
 
-    AttributeType(String attributeName) {
-        this.attributeName = attributeName;
+    public ModulePackages_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+        super(constantPool, owner);
+
+        int byteCount = in.readInt();
+        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+
+        int numPackages = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Reading " + numPackages + " package(s) ...");
+        IntStream.range(0, numPackages).forEach(i -> {
+            try {
+                Logger.getLogger(getClass()).debug("parameter " + i + ":");
+                packages.add(new ModulePackage(constantPool, in));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    public Collection<? extends ModulePackage> getPackages() {
+        return packages;
     }
 
     public String getAttributeName() {
-        return attributeName;
+        return AttributeType.MODULE_PACKAGES.getAttributeName();
     }
 
-    public static AttributeType forName(String attributeName) {
-        return Arrays.stream(values())
-                .filter(attributeType -> attributeType.getAttributeName().equals(attributeName))
-                .findFirst()
-                .orElse(null);
+    public void accept(Visitor visitor) {
+        visitor.visitModulePackages_attribute(this);
     }
 }

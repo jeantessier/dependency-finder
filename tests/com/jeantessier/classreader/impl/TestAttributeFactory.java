@@ -133,4 +133,18 @@ public class TestAttributeFactory extends TestAttributeBase {
         assertTrue("Not a " + Module_attribute.class.getSimpleName(), Module_attribute.class.isInstance(attribute));
         assertEquals("Module name index", moduleNameIndex, ((Module_attribute) attribute).getModuleNameIndex());
     }
+
+    public void testCreateModulePackages_attribute() throws Exception {
+        final int numPackages = 0;
+
+        expectReadU2(ATTRIBUTE_NAME_INDEX);
+        expectLookupUtf8(ATTRIBUTE_NAME_INDEX, AttributeType.MODULE_PACKAGES.getAttributeName(), "attribute name");
+        expectReadAttributeLength(2);
+        expectReadU2(numPackages);
+
+        Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
+        assertNotNull("AtributeFactory returned null", attribute);
+        assertTrue("Not a " + ModulePackages_attribute.class.getSimpleName(), ModulePackages_attribute.class.isInstance(attribute));
+        assertEquals("number of packages", numPackages, ((ModulePackages_attribute) attribute).getPackages().size());
+    }
 }

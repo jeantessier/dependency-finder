@@ -89,6 +89,7 @@ public interface Visitor {
     public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute);
     public void visitMethodParameters_attribute(MethodParameters_attribute attribute);
     public void visitModule_attribute(Module_attribute attribute);
+    public void visitModulePackages_attribute(ModulePackages_attribute attribute);
     public void visitCustom_attribute(Custom_attribute attribute);
 
     // Attribute helpers
@@ -108,6 +109,7 @@ public interface Visitor {
     public void visitModuleUses(ModuleUses helper);
     public void visitModuleProvides(ModuleProvides helper);
     public void visitModuleProvidesWith(ModuleProvidesWith helper);
+    public void visitModulePackage(ModulePackage helper);
 
     // Annotations
     public void visitAnnotation(Annotation helper);

@@ -1,22 +1,22 @@
 /*
  *  Copyright (c) 2001-2023, Jean Tessier
  *  All rights reserved.
- *  
+ *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
  *  are met:
- *  
+ *
  *      * Redistributions of source code must retain the above copyright
  *        notice, this list of conditions and the following disclaimer.
- *  
+ *
  *      * Redistributions in binary form must reproduce the above copyright
  *        notice, this list of conditions and the following disclaimer in the
  *        documentation and/or other materials provided with the distribution.
- *  
+ *
  *      * Neither the name of Jean Tessier nor the names of his contributors
  *        may be used to endorse or promote products derived from this software
  *        without specific prior written permission.
- *  
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -32,56 +32,45 @@
 
 package com.jeantessier.classreader.impl;
 
-import com.jeantessier.classreader.ClassNameHelper;
 import com.jeantessier.classreader.Visitor;
+import org.jmock.Expectations;
 
-import java.io.DataInput;
-import java.io.IOException;
+public class TestModulePackage extends TestAttributeBase {
+    private static final int PACKAGE_INDEX = 123;
+    private static final String PACKAGE_NAME = "abc";
 
-public class Module_info extends ConstantPoolEntry implements com.jeantessier.classreader.Module_info {
-    private final int nameIndex;
+    private ModulePackage sut;
 
-    public Module_info(ConstantPool constantPool, DataInput in) throws IOException {
-        super(constantPool);
+    protected void setUp() throws Exception {
+        super.setUp();
 
-        nameIndex = in.readUnsignedShort();
+        expectReadU2(PACKAGE_INDEX);
+        allowingLookupPackage(PACKAGE_INDEX, PACKAGE_NAME, "lookup during construction");
+
+        sut = new ModulePackage(mockConstantPool, mockIn);
     }
 
-    public int getNameIndex() {
-        return nameIndex;
+    public void testGetPackageIndex() {
+        assertEquals("package index", PACKAGE_INDEX, sut.getPackageIndex());
     }
 
-    public UTF8_info getRawName() {
-        return (UTF8_info) getConstantPool().get(getNameIndex());
+    public void testGetRawPackage() {
+        allowingLookupPackage(PACKAGE_INDEX, PACKAGE_NAME);
+        assertNotNull("raw package", sut.getRawPackage());
     }
 
-    public String getName() {
-//        return ClassNameHelper.convertClassName(getRawName().getValue());
-        return getRawName().getValue();
+    public void testGetPackage() {
+        expectLookupPackage(PACKAGE_INDEX, PACKAGE_NAME);
+        assertEquals("package", PACKAGE_NAME, sut.getPackage());
     }
 
-    public String toString() {
-        return getName();
-    }
+    public void testAccept() {
+        final Visitor mockVisitor = mock(Visitor.class);
 
-    public int hashCode() {
-        return getRawName().hashCode();
-    }
+        checking(new Expectations() {{
+            oneOf (mockVisitor).visitModulePackage(sut);
+        }});
 
-    public boolean equals(Object object) {
-        boolean result = false;
-
-        if (this == object) {
-            result = true;
-        } else if (object != null && this.getClass().equals(object.getClass())) {
-            Module_info other = (Module_info) object;
-            result = this.getRawName().equals(other.getRawName());
-        }
-
-        return result;
-    }
-
-    public void accept(Visitor visitor) {
-        visitor.visitModule_info(this);
+        sut.accept(mockVisitor);
     }
 }
