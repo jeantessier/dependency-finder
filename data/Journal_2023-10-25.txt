@@ -1,4 +1,4 @@
-Completes support for Java 8 by implementing =MethodParameters_attribute= and
+Completed support for Java 8 by implementing =MethodParameters_attribute= and
 its helper classes.  I first drafted the changes that were required to support
 Java 8 back in 2016.  Now, I can say that part is done.
 
