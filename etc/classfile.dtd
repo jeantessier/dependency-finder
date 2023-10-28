@@ -34,7 +34,7 @@
 
 <!ELEMENT classfiles (classfile*)>
 
-<!ELEMENT classfile (constant-pool, public?, final?, super?, is-interface?, abstract?, synthetic?, is-annotation?, enum?, this-class, superclass, interfaces?, fields?, methods?, attributes?)>
+<!ELEMENT classfile (constant-pool, public?, final?, super?, is-interface?, abstract?, synthetic?, is-annotation?, enum?, is-module?, this-class, superclass, interfaces?, fields?, methods?, attributes?)>
 <!ATTLIST classfile
           magic-number  CDATA #REQUIRED
           minor-version CDATA #REQUIRED
@@ -42,7 +42,7 @@
           access-flags  CDATA #REQUIRED
 >
 
-<!ELEMENT constant-pool (class | field-ref-info | method-ref-info | interface-method-ref-info | string-info | integer-info | float-info | long-info | double-info | name-and-type-info | utf8-info | method-handle-info | method-type-info | dynamic-info | invoke-dynamic-info | module-info | package-info | unusable)* >
+<!ELEMENT constant-pool (class | field-ref-info | method-ref-info | interface-method-ref-info | string-info | integer-info | float-info | long-info | double-info | name-and-type-info | utf8-info | method-handle-info | method-type-info | dynamic-info | invoke-dynamic-info | module | package | unusable)* >
 
 <!ELEMENT class (#PCDATA) >
 <!ATTLIST class
@@ -134,19 +134,19 @@
           index CDATA #REQUIRED
 >
 
-<!ELEMENT module-info (#PCDATA) >
-<!ATTLIST module-info
-          index CDATA #IMPLIED
+<!ELEMENT module (#PCDATA) >
+<!ATTLIST module
+          index CDATA #REQUIRED
 >
 
-<!ELEMENT package-info (#PCDATA) >
-<!ATTLIST package-info
-          index CDATA #IMPLIED
+<!ELEMENT package (#PCDATA) >
+<!ATTLIST package
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT unusable EMPTY >
 <!ATTLIST unusable
-          index CDATA #IMPLIED
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT type (#PCDATA) >
@@ -169,7 +169,7 @@
 
 <!ELEMENT enum EMPTY >
 
-<!ELEMENT module EMPTY >
+<!ELEMENT is-module EMPTY >
 
 <!ELEMENT this-class (#PCDATA) >
 
@@ -217,7 +217,7 @@
 
 <!ELEMENT signature (#PCDATA) >
 
-<!ELEMENT attributes (constant-value-attribute | code-attribute | stack-map-table-attribute | exceptions-attribute | inner-classes-attribute | enclosing-method-attribute | synthetic-attribute | signature-attribute | source-file-attribute | source-debug-extension | line-number-table-attribute | local-variable-table-attribute | local-variable-type-table-attribute | deprecated-attribute | runtime-visible-annotations-attribute | runtime-invisible-annotations-attribute | runtime-visible-parameter-annotations-attribute | runtime-invisible-parameter-annotations-attribute | runtime-visible-type-annotations-attribute | runtime-invisible-type-annotations-attribute | annotation-default-attribute | bootstrap-methods-attribute | method-parameters-attribute | custom-attribute)* >
+<!ELEMENT attributes (constant-value-attribute | code-attribute | stack-map-table-attribute | exceptions-attribute | inner-classes-attribute | enclosing-method-attribute | synthetic-attribute | signature-attribute | source-file-attribute | source-debug-extension | line-number-table-attribute | local-variable-table-attribute | local-variable-type-table-attribute | deprecated-attribute | runtime-visible-annotations-attribute | runtime-invisible-annotations-attribute | runtime-visible-parameter-annotations-attribute | runtime-invisible-parameter-annotations-attribute | runtime-visible-type-annotations-attribute | runtime-invisible-type-annotations-attribute | annotation-default-attribute | bootstrap-methods-attribute | method-parameters-attribute | module-attribute | custom-attribute)* >
 
 <!ELEMENT constant-value-attribute (#PCDATA) >
 
@@ -263,31 +263,31 @@
 
 <!ELEMENT same-locals-1-stack-item-frame-extended (stack) >
 <!ATTLIST same-locals-1-stack-item-frame-extended
-          frame-type CDATA #REQUIRED
+          frame-type   CDATA #REQUIRED
           offset-delta CDATA #REQUIRED
 >
 
 <!ELEMENT chop-frame EMPTY >
 <!ATTLIST chop-frame
-          frame-type CDATA #REQUIRED
+          frame-type   CDATA #REQUIRED
           offset-delta CDATA #REQUIRED
 >
 
 <!ELEMENT same-frame-extended EMPTY >
 <!ATTLIST same-frame-extended
-          frame-type CDATA #REQUIRED
+          frame-type   CDATA #REQUIRED
           offset-delta CDATA #REQUIRED
 >
 
 <!ELEMENT append-frame (locals) >
 <!ATTLIST append-frame
-          frame-type CDATA #REQUIRED
+          frame-type   CDATA #REQUIRED
           offset-delta CDATA #REQUIRED
 >
 
 <!ELEMENT full-frame (locals, stack) >
 <!ATTLIST full-frame
-          frame-type CDATA #REQUIRED
+          frame-type   CDATA #REQUIRED
           offset-delta CDATA #REQUIRED
 >
 
@@ -542,8 +542,8 @@
 <!ELEMENT localvar (#PCDATA) >
 <!ATTLIST localvar-target
           start-pc CDATA #REQUIRED
-          length CDATA #REQUIRED
-          index CDATA #REQUIRED
+          length   CDATA #REQUIRED
+          index    CDATA #REQUIRED
 >
 
 <!ELEMENT catch-target (exception-table-index) >
@@ -599,6 +599,47 @@
 >
 
 <!ELEMENT mandated EMPTY >
+
+<!ELEMENT module-attribute (name, open?, synthetic?, mandated?, version?, module-requires*, module-exports*, module-opens*, module-uses*, module-provides*) >
+<!ATTLIST module-attribute
+          module-flags CDATA #REQUIRED
+>
+
+<!ELEMENT open EMPTY >
+
+<!ELEMENT version (#PCDATA) >
+<!ATTLIST version
+          index CDATA #REQUIRED
+>
+
+<!ELEMENT module-requires (module, transitive?, static-phase?, synthetic?, mandated?, version) >
+<!ATTLIST module-requires
+          requires-flags CDATA #REQUIRED
+>
+
+<!ELEMENT transitive EMPTY >
+
+<!ELEMENT static-phase EMPTY >
+
+<!ELEMENT module-exports (module, synthetic?, mandated?, version, module-exports-to*) >
+<!ATTLIST module-exports
+          exports-flags CDATA #REQUIRED
+>
+
+<!ELEMENT module-exports-to (module) >
+
+<!ELEMENT module-opens (package, synthetic?, mandated?, version, module-opens-to*) >
+<!ATTLIST module-opens
+          opens-flags CDATA #REQUIRED
+>
+
+<!ELEMENT module-opens-to (module) >
+
+<!ELEMENT module-uses (class) >
+
+<!ELEMENT module-provides (class, module-provides-with*) >
+
+<!ELEMENT module-provides-with (class) >
 
 <!ELEMENT custom-attribute (#PCDATA) >
 <!ATTLIST custom-attribute

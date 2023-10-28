@@ -89,7 +89,7 @@ public class XMLPrinter extends Printer {
         if (classfile.isSynthetic())  indent().append("<synthetic/>").eol();
         if (classfile.isAnnotation()) indent().append("<is-annotation/>").eol();
         if (classfile.isEnum())       indent().append("<enum/>").eol();
-        if (classfile.isModule())     indent().append("<module/>").eol();
+        if (classfile.isModule())     indent().append("<is-module/>").eol();
 
         indent();
         append("<this-class>");
