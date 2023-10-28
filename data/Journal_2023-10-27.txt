@@ -1,0 +1,6 @@
+Added =Module_attribute= and its helper classes processing in =VisitorBase= and
+=XMLPrinter=.
+
+I made one change that is not backwards compatible: in =classfile elements, the
+=module= element is now called =is-module=.  This lets me repurpose =module= to
+represent module references that are part of =Module_attribute=.
