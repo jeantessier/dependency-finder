@@ -454,7 +454,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         printer.visitClassfile(mockClassfile);
 
         String xmlDocument = buffer.toString();
-        assertXPathCount(xmlDocument, "classfile/module", 1);
+        assertXPathCount(xmlDocument, "classfile/is-module", 1);
     }
 
     public void testNonPublicField() throws Exception {
