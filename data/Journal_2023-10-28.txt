@@ -1,0 +1,2 @@
+Added =ModulePackages_attribute= and =ModuleMainClass_attribute=. and their
+helper classes processing in =VisitorBase= and =XMLPrinter=.
