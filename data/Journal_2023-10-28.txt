@@ -1,2 +1,2 @@
-Added =ModulePackages_attribute= and =ModuleMainClass_attribute=. and their
+Added =ModulePackages%5Fattribute= and =ModuleMainClass%5Fattribute=. and their
 helper classes processing in =VisitorBase= and =XMLPrinter=.
