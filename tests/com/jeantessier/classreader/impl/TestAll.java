@@ -96,6 +96,7 @@ import static org.junit.runners.Suite.SuiteClasses;
         TestModuleExportsWithExportsTos.class,
         TestModuleExportsTo.class,
         TestModuleExports_exportsFlags.class,
+        TestModuleMainClass_attribute.class,
         TestModuleOpens.class,
         TestModuleOpensWithOpensTos.class,
         TestModuleOpensTo.class,

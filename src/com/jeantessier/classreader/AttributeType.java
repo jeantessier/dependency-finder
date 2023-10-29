@@ -59,7 +59,8 @@ public enum AttributeType {
     BOOTSTRAP_METHODS("BootstrapMethods"),
     METHOD_PARAMETERS("MethodParameters"),
     MODULE("Module"),
-    MODULE_PACKAGES("ModulePackages");
+    MODULE_PACKAGES("ModulePackages"),
+    MODULE_MAIN_CLASS("ModuleMainClass");
 
     private final String attributeName;
 

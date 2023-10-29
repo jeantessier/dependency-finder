@@ -325,6 +325,10 @@ public abstract class VisitorBase implements Visitor {
         attribute.getPackages().forEach(modulePackage -> modulePackage.accept(this));
     }
 
+    public void visitModuleMainClass_attribute(ModuleMainClass_attribute attribute) {
+        // Do nothing
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         // Do nothing
     }

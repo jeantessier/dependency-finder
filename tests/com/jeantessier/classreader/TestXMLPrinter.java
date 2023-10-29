@@ -2595,6 +2595,27 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "package/@index", String.valueOf(packageIndex));
     }
 
+    public void testVisitModuleMainClass_attribute() throws Exception {
+        final ModuleMainClass_attribute attribute = mock(ModuleMainClass_attribute.class);
+        final int mainClassIndex = 123;
+        final Class_info mockClass = mock(Class_info.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (attribute).getMainClassIndex();
+                will(returnValue(mainClassIndex));
+            atLeast(1).of (attribute).getRawMainClass();
+                will(returnValue(mockClass));
+            oneOf (mockClass).accept(printer);
+        }});
+
+        printer.visitModuleMainClass_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "module-main-class-attribute", 1);
+        assertXPathCount(xmlDocument, "module-main-class-attribute/@index", 1);
+        assertXPathText(xmlDocument, "module-main-class-attribute/@index", String.valueOf(mainClassIndex));
+    }
+
     public void testVisitAnnotation_WithoutElementValuePairs() throws Exception {
         final Annotation annotation = mock(Annotation.class);
 

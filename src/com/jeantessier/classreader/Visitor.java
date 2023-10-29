@@ -90,6 +90,7 @@ public interface Visitor {
     public void visitMethodParameters_attribute(MethodParameters_attribute attribute);
     public void visitModule_attribute(Module_attribute attribute);
     public void visitModulePackages_attribute(ModulePackages_attribute attribute);
+    public void visitModuleMainClass_attribute(ModuleMainClass_attribute attribute);
     public void visitCustom_attribute(Custom_attribute attribute);
 
     // Attribute helpers

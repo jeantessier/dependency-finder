@@ -858,6 +858,13 @@ public class XMLPrinter extends Printer {
         indent().append("</module-packages-attribute>").eol();
     }
 
+    public void visitModuleMainClass_attribute(ModuleMainClass_attribute attribute) {
+        indent();
+        append("<module-main-class-attribute index=\"").append(attribute.getMainClassIndex()).append("\">");
+        attribute.getRawMainClass().accept(this);
+        append("</module-main-class-attribute>").eol();
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         indent().append("<custom-attribute name=\"").append(escapeXMLCharacters(attribute.getName())).append("\">").append(Hex.toString(attribute.getInfo())).append("</custom-attribute>").eol();
     }
