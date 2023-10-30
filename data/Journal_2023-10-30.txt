@@ -1,1 +1,2 @@
-Started support for Java 11.  Implemented =NestHost_attribute=.
+Completed support for Java 11.  Implemented =NestHost%5Fattribute= and
+=NestMembers%5Fattribute=.
