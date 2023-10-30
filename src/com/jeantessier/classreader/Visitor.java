@@ -92,6 +92,7 @@ public interface Visitor {
     public void visitModulePackages_attribute(ModulePackages_attribute attribute);
     public void visitModuleMainClass_attribute(ModuleMainClass_attribute attribute);
     public void visitNestHost_attribute(NestHost_attribute attribute);
+    public void visitNestMembers_attribute(NestMembers_attribute attribute);
     public void visitCustom_attribute(Custom_attribute attribute);
 
     // Attribute helpers
@@ -112,6 +113,7 @@ public interface Visitor {
     public void visitModuleProvides(ModuleProvides helper);
     public void visitModuleProvidesWith(ModuleProvidesWith helper);
     public void visitModulePackage(ModulePackage helper);
+    public void visitNestMember(NestMember helper);
 
     // Annotations
     public void visitAnnotation(Annotation helper);

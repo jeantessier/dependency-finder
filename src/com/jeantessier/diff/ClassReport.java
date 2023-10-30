@@ -364,6 +364,10 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
         // Do nothing
     }
 
+    public void visitNestMembers_attribute(NestMembers_attribute attribute) {
+        // Do nothing
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         // Do nothing
     }
@@ -433,6 +437,10 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
     }
 
     public void visitModulePackage(ModulePackage helper) {
+        // Do nothing
+    }
+
+    public void visitNestMember(NestMember helper) {
         // Do nothing
     }
 

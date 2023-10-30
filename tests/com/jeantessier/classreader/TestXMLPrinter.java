@@ -2637,6 +2637,57 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "nest-host-attribute/@index", String.valueOf(hostClassIndex));
     }
 
+    public void testVisitNestMembers_attribute() throws Exception {
+        final NestMembers_attribute attribute = mock(NestMembers_attribute.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (attribute).getMembers();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        printer.visitNestMembers_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "nest-members-attribute", 1);
+    }
+
+    public void testVisitNestMembers_attributeWithNestMember() throws Exception {
+        final NestMembers_attribute attribute = mock(NestMembers_attribute.class);
+        final NestMember mockMember = mock(NestMember.class);
+
+        checking(new Expectations() {{
+            atLeast (1).of (attribute).getMembers();
+                will(returnValue(Collections.singleton(mockMember)));
+            oneOf (mockMember).accept(printer);
+        }});
+
+        printer.visitNestMembers_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "nest-members-attribute", 1);
+    }
+
+    public void testVisitNestMember() throws Exception {
+        final NestMember nestMember = mock(NestMember.class);
+        final int memberClassIndex = 123;
+        final Class_info mockMemberClass = mock(Class_info.class);
+
+        checking(new Expectations() {{
+            oneOf (nestMember).getMemberClassIndex();
+                will(returnValue(memberClassIndex));
+            oneOf (nestMember).getRawMemberClass();
+                will(returnValue(mockMemberClass));
+            oneOf (mockMemberClass).accept(printer);
+        }});
+
+        printer.visitNestMember(nestMember);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "class", 1);
+        assertXPathCount(xmlDocument, "class/@index", 1);
+        assertXPathText(xmlDocument, "class/@index", String.valueOf(memberClassIndex));
+    }
+
     public void testVisitAnnotation_WithoutElementValuePairs() throws Exception {
         final Annotation annotation = mock(Annotation.class);
 

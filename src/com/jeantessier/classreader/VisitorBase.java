@@ -333,6 +333,11 @@ public abstract class VisitorBase implements Visitor {
         // Do nothing
     }
 
+    public void visitNestMembers_attribute(NestMembers_attribute attribute) {
+        Logger.getLogger(getClass()).debug("Visiting " + attribute.getMembers().size() + " nest members ...");
+        attribute.getMembers().forEach(nestMember -> nestMember.accept(this));
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         // Do nothing
     }
@@ -419,6 +424,10 @@ public abstract class VisitorBase implements Visitor {
     }
 
     public void visitModulePackage(ModulePackage helper) {
+        // Do nothing
+    }
+
+    public void visitNestMember(NestMember helper) {
         // Do nothing
     }
 

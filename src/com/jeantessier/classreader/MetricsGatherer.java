@@ -595,6 +595,11 @@ public class MetricsGatherer extends VisitorBase {
         visitAttribute(attribute.getAttributeName());
     }
 
+    public void visitNestMembers_attribute(NestMembers_attribute attribute) {
+        super.visitNestMembers_attribute(attribute);
+        visitAttribute(attribute.getAttributeName());
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         super.visitCustom_attribute(attribute);
         visitAttribute(attribute.getAttributeName());

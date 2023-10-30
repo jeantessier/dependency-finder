@@ -872,6 +872,16 @@ public class XMLPrinter extends Printer {
         append("</nest-host-attribute>").eol();
     }
 
+    public void visitNestMembers_attribute(NestMembers_attribute attribute) {
+        indent().append("<nest-members-attribute>").eol();
+        raiseIndent();
+
+        super.visitNestMembers_attribute(attribute);
+
+        lowerIndent();
+        indent().append("</nest-members-attribute>").eol();
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         indent().append("<custom-attribute name=\"").append(escapeXMLCharacters(attribute.getName())).append("\">").append(Hex.toString(attribute.getInfo())).append("</custom-attribute>").eol();
     }
@@ -1289,6 +1299,13 @@ public class XMLPrinter extends Printer {
         append("<package index=\"").append(helper.getPackageIndex()).append("\">");
         helper.getRawPackage().accept(this);
         append("</package>").eol();
+    }
+
+    public void visitNestMember(NestMember helper) {
+        indent();
+        append("<class index=\"").append(helper.getMemberClassIndex()).append("\">");
+        helper.getRawMemberClass().accept(this);
+        append("</class>").eol();
     }
 
     public void visitAnnotation(Annotation helper) {

@@ -198,6 +198,12 @@ public enum AttributeType {
         public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
             return new NestHost_attribute(constantPool, owner, in);
         }
+    },
+
+    NEST_MEMBERS(com.jeantessier.classreader.AttributeType.NEST_MEMBERS) {
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+            return new NestMembers_attribute(constantPool, owner, in);
+        }
     };
 
     private final com.jeantessier.classreader.AttributeType attributeType;

@@ -683,6 +683,30 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitNestHost_attribute(mockAttribute);
     }
 
+    public void testVisitNestMembers_attribute() {
+        final NestMembers_attribute mockAttribute = mock(NestMembers_attribute.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockAttribute).getMembers();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        sut.visitNestMembers_attribute(mockAttribute);
+    }
+
+    public void testVisitNestMembers_attributeWithNestMember() {
+        final NestMembers_attribute mockAttribute = mock(NestMembers_attribute.class);
+        final NestMember mockMember = mock(NestMember.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockAttribute).getMembers();
+                will(returnValue(Collections.singleton(mockMember)));
+            oneOf (mockMember).accept(sut);
+        }});
+
+        sut.visitNestMembers_attribute(mockAttribute);
+    }
+
     public void testVisitCustom_attribute() {
         Custom_attribute mockCustom = mock(Custom_attribute.class);
         sut.visitCustom_attribute(mockCustom);
@@ -840,6 +864,11 @@ public class TestVisitorBase extends MockObjectTestCase {
     public void testVisitModulePackage() {
         final ModulePackage mockPackage = mock(ModulePackage.class);
         sut.visitModulePackage(mockPackage);
+    }
+
+    public void testVisitNestMember() {
+        final NestMember mockMember = mock(NestMember.class);
+        sut.visitNestMember(mockMember);
     }
 
     public void testVisitAnnotation() {

@@ -61,7 +61,8 @@ public enum AttributeType {
     MODULE("Module"),
     MODULE_PACKAGES("ModulePackages"),
     MODULE_MAIN_CLASS("ModuleMainClass"),
-    NEST_HOST("NestHost");
+    NEST_HOST("NestHost"),
+    NEST_MEMBERS("NestMembers");
 
     private final String attributeName;
 
