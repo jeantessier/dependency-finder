@@ -360,6 +360,10 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
         // Do nothing
     }
 
+    public void visitNestHost_attribute(NestHost_attribute attribute) {
+        // Do nothing
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         // Do nothing
     }

@@ -60,7 +60,8 @@ public enum AttributeType {
     METHOD_PARAMETERS("MethodParameters"),
     MODULE("Module"),
     MODULE_PACKAGES("ModulePackages"),
-    MODULE_MAIN_CLASS("ModuleMainClass");
+    MODULE_MAIN_CLASS("ModuleMainClass"),
+    NEST_HOST("NestHost");
 
     private final String attributeName;
 

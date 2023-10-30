@@ -217,7 +217,7 @@
 
 <!ELEMENT signature (#PCDATA) >
 
-<!ELEMENT attributes (constant-value-attribute | code-attribute | stack-map-table-attribute | exceptions-attribute | inner-classes-attribute | enclosing-method-attribute | synthetic-attribute | signature-attribute | source-file-attribute | source-debug-extension | line-number-table-attribute | local-variable-table-attribute | local-variable-type-table-attribute | deprecated-attribute | runtime-visible-annotations-attribute | runtime-invisible-annotations-attribute | runtime-visible-parameter-annotations-attribute | runtime-invisible-parameter-annotations-attribute | runtime-visible-type-annotations-attribute | runtime-invisible-type-annotations-attribute | annotation-default-attribute | bootstrap-methods-attribute | method-parameters-attribute | module-attribute | module-packages-attribute | module-main-class-attribute | custom-attribute)* >
+<!ELEMENT attributes (constant-value-attribute | code-attribute | stack-map-table-attribute | exceptions-attribute | inner-classes-attribute | enclosing-method-attribute | synthetic-attribute | signature-attribute | source-file-attribute | source-debug-extension | line-number-table-attribute | local-variable-table-attribute | local-variable-type-table-attribute | deprecated-attribute | runtime-visible-annotations-attribute | runtime-invisible-annotations-attribute | runtime-visible-parameter-annotations-attribute | runtime-invisible-parameter-annotations-attribute | runtime-visible-type-annotations-attribute | runtime-invisible-type-annotations-attribute | annotation-default-attribute | bootstrap-methods-attribute | method-parameters-attribute | module-attribute | module-packages-attribute | module-main-class-attribute | nest-host-attribute | custom-attribute)* >
 
 <!ELEMENT constant-value-attribute (#PCDATA) >
 
@@ -645,6 +645,11 @@
 
 <!ELEMENT module-main-class-attribute (#PCDATA) >
 <!ATTLIST module-main-class-attribute
+          index CDATA #REQUIRED
+>
+
+<!ELEMENT nest-host-attribute (#PCDATA) >
+<!ATTLIST nest-host-attribute
           index CDATA #REQUIRED
 >
 

@@ -32,12 +32,10 @@
 
 package com.jeantessier.classreader.impl;
 
-import com.jeantessier.classreader.Visitable;
-import com.jeantessier.classreader.Visitor;
-import org.apache.log4j.Logger;
+import com.jeantessier.classreader.*;
+import org.apache.log4j.*;
 
-import java.io.DataInput;
-import java.io.IOException;
+import java.io.*;
 
 public class ModuleMainClass_attribute extends Attribute_info implements com.jeantessier.classreader.ModuleMainClass_attribute {
     private final int mainClassIndex;

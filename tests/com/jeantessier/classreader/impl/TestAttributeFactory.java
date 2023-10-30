@@ -163,4 +163,20 @@ public class TestAttributeFactory extends TestAttributeBase {
         assertTrue("Not a " + ModuleMainClass_attribute.class.getSimpleName(), ModuleMainClass_attribute.class.isInstance(attribute));
         assertEquals("main class index", mainClassIndex, ((ModuleMainClass_attribute) attribute).getMainClassIndex());
     }
+
+    public void testCreateNestHost_attribute() throws Exception {
+        final int hostClassIndex = 123;
+        final String hostClassName = "Abc";
+
+        expectReadU2(ATTRIBUTE_NAME_INDEX);
+        expectLookupUtf8(ATTRIBUTE_NAME_INDEX, AttributeType.NEST_HOST.getAttributeName(), "attribute name");
+        expectReadAttributeLength(2);
+        expectReadU2(hostClassIndex);
+        expectLookupClass(hostClassIndex, hostClassName, "lookup during construction");
+
+        Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
+        assertNotNull("AttributeFactory returned null", attribute);
+        assertTrue("Not a " + NestHost_attribute.class.getSimpleName(), NestHost_attribute.class.isInstance(attribute));
+        assertEquals("host class index", hostClassIndex, ((NestHost_attribute) attribute).getHostClassIndex());
+    }
 }

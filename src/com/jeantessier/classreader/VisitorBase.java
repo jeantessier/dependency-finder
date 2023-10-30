@@ -329,6 +329,10 @@ public abstract class VisitorBase implements Visitor {
         // Do nothing
     }
 
+    public void visitNestHost_attribute(NestHost_attribute attribute) {
+        // Do nothing
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         // Do nothing
     }

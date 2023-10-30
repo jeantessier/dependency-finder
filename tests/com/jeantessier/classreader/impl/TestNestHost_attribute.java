@@ -35,40 +35,40 @@ package com.jeantessier.classreader.impl;
 import com.jeantessier.classreader.Visitor;
 import org.jmock.Expectations;
 
-public class TestModuleMainClass_attribute extends TestAttributeBase {
-    private static final int MAIN_CLASS_INDEX = 123;
-    private static final String MAIN_CLASS_NAME = "Abc";
+public class TestNestHost_attribute extends TestAttributeBase {
+    private static final int HOST_CLASS_INDEX = 123;
+    private static final String HOST_CLASS_NAME = "Abc";
 
-    private ModuleMainClass_attribute sut;
+    private NestHost_attribute sut;
 
     protected void setUp() throws Exception {
         super.setUp();
 
         expectReadAttributeLength(2);
-        expectReadU2(MAIN_CLASS_INDEX);
-        allowingLookupClass(MAIN_CLASS_INDEX, MAIN_CLASS_NAME, "lookup during construction");
+        expectReadU2(HOST_CLASS_INDEX);
+        allowingLookupClass(HOST_CLASS_INDEX, HOST_CLASS_NAME, "lookup during construction");
 
-        sut = new ModuleMainClass_attribute(mockConstantPool, mockOwner, mockIn);
+        sut = new NestHost_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
-    public void testGetMainClassIndex() {
-        assertEquals("main class index", MAIN_CLASS_INDEX, sut.getMainClassIndex());
+    public void testGetHostClassIndex() {
+        assertEquals("host class index", HOST_CLASS_INDEX, sut.getHostClassIndex());
     }
 
     public void testGetMainClass() {
-        expectLookupClass(MAIN_CLASS_INDEX, MAIN_CLASS_NAME);
-        assertEquals("main class", MAIN_CLASS_NAME, sut.getMainClass());
+        expectLookupClass(HOST_CLASS_INDEX, HOST_CLASS_NAME);
+        assertEquals("host class", HOST_CLASS_NAME, sut.getHostClass());
     }
 
     public void testGetAttributeName() {
-        assertEquals(AttributeType.MODULE_MAIN_CLASS.getAttributeName(), sut.getAttributeName());
+        assertEquals(AttributeType.NEST_HOST.getAttributeName(), sut.getAttributeName());
     }
 
     public void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            oneOf (mockVisitor).visitModuleMainClass_attribute(sut);
+            oneOf (mockVisitor).visitNestHost_attribute(sut);
         }});
 
         sut.accept(mockVisitor);

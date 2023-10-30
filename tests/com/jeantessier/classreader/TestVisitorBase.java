@@ -678,6 +678,11 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitModuleMainClass_attribute(mockAttribute);
     }
 
+    public void testVisitNestHost_attribute() {
+        final NestHost_attribute mockAttribute = mock(NestHost_attribute.class);
+        sut.visitNestHost_attribute(mockAttribute);
+    }
+
     public void testVisitCustom_attribute() {
         Custom_attribute mockCustom = mock(Custom_attribute.class);
         sut.visitCustom_attribute(mockCustom);

@@ -32,45 +32,47 @@
 
 package com.jeantessier.classreader.impl;
 
+import com.jeantessier.classreader.Visitable;
 import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
+import org.apache.log4j.Logger;
 
-public class TestModuleMainClass_attribute extends TestAttributeBase {
-    private static final int MAIN_CLASS_INDEX = 123;
-    private static final String MAIN_CLASS_NAME = "Abc";
+import java.io.DataInput;
+import java.io.IOException;
 
-    private ModuleMainClass_attribute sut;
+public class NestHost_attribute extends Attribute_info implements com.jeantessier.classreader.NestHost_attribute {
+    private final int hostClassIndex;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    public NestHost_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+        super(constantPool, owner);
 
-        expectReadAttributeLength(2);
-        expectReadU2(MAIN_CLASS_INDEX);
-        allowingLookupClass(MAIN_CLASS_INDEX, MAIN_CLASS_NAME, "lookup during construction");
+        int byteCount = in.readInt();
+        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
-        sut = new ModuleMainClass_attribute(mockConstantPool, mockOwner, mockIn);
+        hostClassIndex = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Host class: " + hostClassIndex + " (" + getHostClass() + ")");
     }
 
-    public void testGetMainClassIndex() {
-        assertEquals("main class index", MAIN_CLASS_INDEX, sut.getMainClassIndex());
+    public int getHostClassIndex() {
+        return hostClassIndex;
     }
 
-    public void testGetMainClass() {
-        expectLookupClass(MAIN_CLASS_INDEX, MAIN_CLASS_NAME);
-        assertEquals("main class", MAIN_CLASS_NAME, sut.getMainClass());
+    public Class_info getRawHostClass() {
+        return (Class_info) getConstantPool().get(getHostClassIndex());
     }
 
-    public void testGetAttributeName() {
-        assertEquals(AttributeType.MODULE_MAIN_CLASS.getAttributeName(), sut.getAttributeName());
+    public String getHostClass() {
+        return getRawHostClass().getName();
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    public String toString() {
+        return "Nest Host \"" + getHostClass() + "\"";
+    }
 
-        checking(new Expectations() {{
-            oneOf (mockVisitor).visitModuleMainClass_attribute(sut);
-        }});
+    public String getAttributeName() {
+        return AttributeType.NEST_HOST.getAttributeName();
+    }
 
-        sut.accept(mockVisitor);
+    public void accept(Visitor visitor) {
+        visitor.visitNestHost_attribute(this);
     }
 }

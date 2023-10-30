@@ -30,47 +30,10 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader.impl;
+package com.jeantessier.classreader;
 
-import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
-
-public class TestModuleMainClass_attribute extends TestAttributeBase {
-    private static final int MAIN_CLASS_INDEX = 123;
-    private static final String MAIN_CLASS_NAME = "Abc";
-
-    private ModuleMainClass_attribute sut;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        expectReadAttributeLength(2);
-        expectReadU2(MAIN_CLASS_INDEX);
-        allowingLookupClass(MAIN_CLASS_INDEX, MAIN_CLASS_NAME, "lookup during construction");
-
-        sut = new ModuleMainClass_attribute(mockConstantPool, mockOwner, mockIn);
-    }
-
-    public void testGetMainClassIndex() {
-        assertEquals("main class index", MAIN_CLASS_INDEX, sut.getMainClassIndex());
-    }
-
-    public void testGetMainClass() {
-        expectLookupClass(MAIN_CLASS_INDEX, MAIN_CLASS_NAME);
-        assertEquals("main class", MAIN_CLASS_NAME, sut.getMainClass());
-    }
-
-    public void testGetAttributeName() {
-        assertEquals(AttributeType.MODULE_MAIN_CLASS.getAttributeName(), sut.getAttributeName());
-    }
-
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
-
-        checking(new Expectations() {{
-            oneOf (mockVisitor).visitModuleMainClass_attribute(sut);
-        }});
-
-        sut.accept(mockVisitor);
-    }
+public interface NestHost_attribute extends Attribute_info {
+    public int getHostClassIndex();
+    public Class_info getRawHostClass();
+    public String getHostClass();
 }

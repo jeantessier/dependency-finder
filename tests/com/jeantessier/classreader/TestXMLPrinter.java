@@ -2616,6 +2616,27 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "module-main-class-attribute/@index", String.valueOf(mainClassIndex));
     }
 
+    public void testVisitNestHost_attribute() throws Exception {
+        final NestHost_attribute attribute = mock(NestHost_attribute.class);
+        final int hostClassIndex = 123;
+        final Class_info mockClass = mock(Class_info.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (attribute).getHostClassIndex();
+                will(returnValue(hostClassIndex));
+            atLeast(1).of (attribute).getRawHostClass();
+                will(returnValue(mockClass));
+            oneOf (mockClass).accept(printer);
+        }});
+
+        printer.visitNestHost_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "nest-host-attribute", 1);
+        assertXPathCount(xmlDocument, "nest-host-attribute/@index", 1);
+        assertXPathText(xmlDocument, "nest-host-attribute/@index", String.valueOf(hostClassIndex));
+    }
+
     public void testVisitAnnotation_WithoutElementValuePairs() throws Exception {
         final Annotation annotation = mock(Annotation.class);
 

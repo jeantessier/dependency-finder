@@ -119,6 +119,7 @@ import static org.junit.runners.Suite.SuiteClasses;
         TestModule_attributeWithModuleUses.class,
         TestModule_attribute_moduleFlags.class,
         TestModule_attribute_moduleVersion.class,
+        TestNestHost_attribute.class,
         TestObjectVariableInfo.class,
         TestParameterAnnotation.class,
         TestParameterAnnotationWithAnnotations.class,
