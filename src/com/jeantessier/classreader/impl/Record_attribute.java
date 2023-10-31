@@ -32,64 +32,43 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.jmock.*;
-
-import com.jeantessier.classreader.AttributeType;
 import com.jeantessier.classreader.*;
+import org.apache.log4j.Logger;
 
-public class TestCode_attribute extends TestAttributeBase {
-    private static final int MAX_STACK = 2;
-    private static final int MAX_LOCALS = 3;
+import java.io.*;
+import java.util.*;
+import java.util.stream.*;
 
-    private Code_attribute sut;
+public class Record_attribute extends Attribute_info implements com.jeantessier.classreader.Record_attribute {
+    private final Collection<RecordComponent_info> recordComponents = new LinkedList<>();
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    public Record_attribute(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+        super(constantPool, owner);
 
-        expectReadAttributeLength(12);
-        expectReadU2(MAX_STACK);
-        expectReadU2(MAX_LOCALS);
-        expectReadU4(0);
-        expectReadFully();
-        expectReadU2(0);
-        expectReadU2(0);
+        int byteCount = in.readInt();
+        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
-        final AttributeFactory mockAttributeFactory = mock(AttributeFactory.class);
-
-        sut = new Code_attribute(mockConstantPool, mockOwner, mockIn, mockAttributeFactory);
+        int numRecordComponents = in.readUnsignedShort();
+        Logger.getLogger(getClass()).debug("Reading " + numRecordComponents + " record component(s) ...");
+        IntStream.range(0, numRecordComponents).forEach(i -> {
+            try {
+                Logger.getLogger(getClass()).debug("parameter " + i + ":");
+                recordComponents.add(new RecordComponent_info(constantPool, in, attributeFactory));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
-    public void testGetMaxStack() {
-        assertEquals("Max stack", MAX_STACK, sut.getMaxStack());
+    public Collection<? extends RecordComponent_info> getRecordComponents() {
+        return recordComponents;
     }
 
-    public void testGetMaxLocals() {
-        assertEquals("Max locals", MAX_LOCALS, sut.getMaxLocals());
+    public String getAttributeName() {
+        return AttributeType.RECORD.getAttributeName();
     }
 
-    public void testGetCode() {
-        assertEquals("Code length", 0, sut.getCode().length);
-    }
-
-    public void testGetExceptionHandlers() {
-        assertEquals("Exception handlers", 0, sut.getExceptionHandlers().size());
-    }
-
-    public void testGetAttributes() {
-        assertEquals("Attributes", 0, sut.getAttributes().size());
-    }
-
-    public void testGetAttributeName() {
-        assertEquals(AttributeType.CODE.getAttributeName(), sut.getAttributeName());
-    }
-
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
-
-        checking(new Expectations() {{
-            oneOf (mockVisitor).visitCode_attribute(sut);
-        }});
-
-        sut.accept(mockVisitor);
+    public void accept(Visitor visitor) {
+        visitor.visitRecord_attribute(this);
     }
 }

@@ -2688,6 +2688,106 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "class/@index", String.valueOf(memberClassIndex));
     }
 
+    public void testVisitRecord_attribute() throws Exception {
+        final Record_attribute attribute = mock(Record_attribute.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (attribute).getRecordComponents();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        printer.visitRecord_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "record-attribute", 1);
+    }
+
+    public void testVisitRecord_attribute_attributeWithRecordComponent() throws Exception {
+        final Record_attribute attribute = mock(Record_attribute.class);
+        final RecordComponent_info mockRecordComponent = mock(RecordComponent_info.class);
+
+        checking(new Expectations() {{
+            atLeast (1).of (attribute).getRecordComponents();
+                will(returnValue(Collections.singleton(mockRecordComponent)));
+            oneOf (mockRecordComponent).accept(printer);
+        }});
+
+        printer.visitRecord_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "record-attribute", 1);
+    }
+
+    public void testVisitRecordComponent_info() throws Exception {
+        final RecordComponent_info recordComponent = mock(RecordComponent_info.class);
+        final int nameIndex = 123;
+        final UTF8_info name = mock(UTF8_info.class, "name");
+        final int descriptorIndex = 456;
+        final String type = "abc";
+
+        checking(new Expectations() {{
+            oneOf (recordComponent).getNameIndex();
+                will(returnValue(nameIndex));
+            oneOf (recordComponent).getRawName();
+                will(returnValue(name));
+            oneOf (name).accept(printer);
+            oneOf (recordComponent).getDescriptorIndex();
+                will(returnValue(descriptorIndex));
+            oneOf (recordComponent).getType();
+                will(returnValue(type));
+            atLeast(1).of (recordComponent).getAttributes();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        printer.visitRecordComponent_info(recordComponent);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "record-component", 1);
+        assertXPathCount(xmlDocument, "record-component/name", 1);
+        assertXPathCount(xmlDocument, "record-component/name/@index", 1);
+        assertXPathText(xmlDocument, "record-component/name/@index", String.valueOf(nameIndex));
+        assertXPathCount(xmlDocument, "record-component/type", 1);
+        assertXPathCount(xmlDocument, "record-component/type/@index", 1);
+        assertXPathText(xmlDocument, "record-component/type/@index", String.valueOf(descriptorIndex));
+        assertXPathCount(xmlDocument, "record-component/attributes", 1);
+    }
+
+    public void testVisitRecordComponent_infoWithAttributes() throws Exception {
+        final RecordComponent_info recordComponent = mock(RecordComponent_info.class);
+        final int nameIndex = 123;
+        final UTF8_info name = mock(UTF8_info.class, "name");
+        final int descriptorIndex = 456;
+        final String type = "abc";
+        final Attribute_info mockAttribute = mock(Attribute_info.class);
+
+        checking(new Expectations() {{
+            oneOf (recordComponent).getNameIndex();
+                will(returnValue(nameIndex));
+            oneOf (recordComponent).getRawName();
+                will(returnValue(name));
+            oneOf (name).accept(printer);
+            oneOf (recordComponent).getDescriptorIndex();
+                will(returnValue(descriptorIndex));
+            oneOf (recordComponent).getType();
+                will(returnValue(type));
+            atLeast(1).of (recordComponent).getAttributes();
+                will(returnValue(Collections.singleton(mockAttribute)));
+            oneOf (mockAttribute).accept(printer);
+        }});
+
+        printer.visitRecordComponent_info(recordComponent);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "record-component", 1);
+        assertXPathCount(xmlDocument, "record-component/name", 1);
+        assertXPathCount(xmlDocument, "record-component/name/@index", 1);
+        assertXPathText(xmlDocument, "record-component/name/@index", String.valueOf(nameIndex));
+        assertXPathCount(xmlDocument, "record-component/type", 1);
+        assertXPathCount(xmlDocument, "record-component/type/@index", 1);
+        assertXPathText(xmlDocument, "record-component/type/@index", String.valueOf(descriptorIndex));
+        assertXPathCount(xmlDocument, "record-component/attributes", 1);
+    }
+
     public void testVisitAnnotation_WithoutElementValuePairs() throws Exception {
         final Annotation annotation = mock(Annotation.class);
 

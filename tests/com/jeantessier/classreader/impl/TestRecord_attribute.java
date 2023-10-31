@@ -32,62 +32,32 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.jmock.*;
+import com.jeantessier.classreader.Visitor;
+import org.jmock.Expectations;
 
-import com.jeantessier.classreader.AttributeType;
-import com.jeantessier.classreader.*;
-
-public class TestCode_attribute extends TestAttributeBase {
-    private static final int MAX_STACK = 2;
-    private static final int MAX_LOCALS = 3;
-
-    private Code_attribute sut;
+public class TestRecord_attribute extends TestAttributeBase {
+    private Record_attribute sut;
 
     protected void setUp() throws Exception {
         super.setUp();
 
-        expectReadAttributeLength(12);
-        expectReadU2(MAX_STACK);
-        expectReadU2(MAX_LOCALS);
-        expectReadU4(0);
-        expectReadFully();
-        expectReadU2(0);
+        expectReadAttributeLength(2);
         expectReadU2(0);
 
         final AttributeFactory mockAttributeFactory = mock(AttributeFactory.class);
 
-        sut = new Code_attribute(mockConstantPool, mockOwner, mockIn, mockAttributeFactory);
-    }
-
-    public void testGetMaxStack() {
-        assertEquals("Max stack", MAX_STACK, sut.getMaxStack());
-    }
-
-    public void testGetMaxLocals() {
-        assertEquals("Max locals", MAX_LOCALS, sut.getMaxLocals());
-    }
-
-    public void testGetCode() {
-        assertEquals("Code length", 0, sut.getCode().length);
-    }
-
-    public void testGetExceptionHandlers() {
-        assertEquals("Exception handlers", 0, sut.getExceptionHandlers().size());
-    }
-
-    public void testGetAttributes() {
-        assertEquals("Attributes", 0, sut.getAttributes().size());
+        sut = new Record_attribute(mockConstantPool, mockOwner, mockIn, mockAttributeFactory);
     }
 
     public void testGetAttributeName() {
-        assertEquals(AttributeType.CODE.getAttributeName(), sut.getAttributeName());
+        assertEquals(AttributeType.RECORD.getAttributeName(), sut.getAttributeName());
     }
 
     public void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            oneOf (mockVisitor).visitCode_attribute(sut);
+            oneOf (mockVisitor).visitRecord_attribute(sut);
         }});
 
         sut.accept(mockVisitor);

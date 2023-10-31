@@ -32,62 +32,60 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.jmock.*;
+import com.jeantessier.classreader.Visitor;
+import org.jmock.Expectations;
 
-import com.jeantessier.classreader.AttributeType;
-import com.jeantessier.classreader.*;
+public class TestRecordComponent_info extends TestAttributeBase {
+    private static final int NAME_INDEX = 123;
+    private static final String NAME = "Abc";
+    private static final int DESCRIPTOR_INDEX = 456;
+    private static final String DESCRIPTOR = "I";
+    private static final String DECODED_DESCRIPTOR = "int";
 
-public class TestCode_attribute extends TestAttributeBase {
-    private static final int MAX_STACK = 2;
-    private static final int MAX_LOCALS = 3;
-
-    private Code_attribute sut;
+    private RecordComponent_info sut;
 
     protected void setUp() throws Exception {
         super.setUp();
 
-        expectReadAttributeLength(12);
-        expectReadU2(MAX_STACK);
-        expectReadU2(MAX_LOCALS);
-        expectReadU4(0);
-        expectReadFully();
-        expectReadU2(0);
+        expectReadU2(NAME_INDEX);
+        allowingLookupUtf8(NAME_INDEX, NAME, "name lookup during construction");
+        expectReadU2(DESCRIPTOR_INDEX);
+        allowingLookupUtf8(DESCRIPTOR_INDEX, DESCRIPTOR, "descriptor lookup during construction");
         expectReadU2(0);
 
         final AttributeFactory mockAttributeFactory = mock(AttributeFactory.class);
 
-        sut = new Code_attribute(mockConstantPool, mockOwner, mockIn, mockAttributeFactory);
+        sut = new RecordComponent_info(mockConstantPool, mockIn, mockAttributeFactory);
     }
 
-    public void testGetMaxStack() {
-        assertEquals("Max stack", MAX_STACK, sut.getMaxStack());
+    public void testGetNameIndex() {
+        assertEquals("name index", NAME_INDEX, sut.getNameIndex());
     }
 
-    public void testGetMaxLocals() {
-        assertEquals("Max locals", MAX_LOCALS, sut.getMaxLocals());
+    public void testGetName() {
+        expectLookupUtf8(NAME_INDEX, NAME);
+        assertEquals("name", NAME, sut.getName());
     }
 
-    public void testGetCode() {
-        assertEquals("Code length", 0, sut.getCode().length);
+    public void testGetDescriptorIndex() {
+        assertEquals("descriptor index", DESCRIPTOR_INDEX, sut.getDescriptorIndex());
     }
 
-    public void testGetExceptionHandlers() {
-        assertEquals("Exception handlers", 0, sut.getExceptionHandlers().size());
+    public void testGetDescriptor() {
+        expectLookupUtf8(DESCRIPTOR_INDEX, DESCRIPTOR);
+        assertEquals("descriptor", DESCRIPTOR, sut.getDescriptor());
     }
 
-    public void testGetAttributes() {
-        assertEquals("Attributes", 0, sut.getAttributes().size());
-    }
-
-    public void testGetAttributeName() {
-        assertEquals(AttributeType.CODE.getAttributeName(), sut.getAttributeName());
+    public void testGetType() {
+        expectLookupUtf8(DESCRIPTOR_INDEX, DESCRIPTOR);
+        assertEquals("type", DECODED_DESCRIPTOR, sut.getType());
     }
 
     public void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            oneOf (mockVisitor).visitCode_attribute(sut);
+            oneOf (mockVisitor).visitRecordComponent_info(sut);
         }});
 
         sut.accept(mockVisitor);

@@ -179,4 +179,32 @@ public class TestAttributeFactory extends TestAttributeBase {
         assertTrue("Not a " + NestHost_attribute.class.getSimpleName(), NestHost_attribute.class.isInstance(attribute));
         assertEquals("host class index", hostClassIndex, ((NestHost_attribute) attribute).getHostClassIndex());
     }
+
+    public void testCreateNestMembers_attribute() throws Exception {
+        final int numNestMembers = 0;
+
+        expectReadU2(ATTRIBUTE_NAME_INDEX);
+        expectLookupUtf8(ATTRIBUTE_NAME_INDEX, AttributeType.NEST_MEMBERS.getAttributeName(), "attribute name");
+        expectReadAttributeLength(2);
+        expectReadU2(numNestMembers);
+
+        Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
+        assertNotNull("AttributeFactory returned null", attribute);
+        assertTrue("Not a " + NestMembers_attribute.class.getSimpleName(), NestMembers_attribute.class.isInstance(attribute));
+        assertEquals("number of nest members", numNestMembers, ((NestMembers_attribute) attribute).getMembers().size());
+    }
+
+    public void testCreateRecord_attribute() throws Exception {
+        final int numRecordComponents = 0;
+
+        expectReadU2(ATTRIBUTE_NAME_INDEX);
+        expectLookupUtf8(ATTRIBUTE_NAME_INDEX, AttributeType.RECORD.getAttributeName(), "attribute name");
+        expectReadAttributeLength(2);
+        expectReadU2(numRecordComponents);
+
+        Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
+        assertNotNull("AttributeFactory returned null", attribute);
+        assertTrue("Not a " + Record_attribute.class.getSimpleName(), Record_attribute.class.isInstance(attribute));
+        assertEquals("number of record components", numRecordComponents, ((Record_attribute) attribute).getRecordComponents().size());
+    }
 }

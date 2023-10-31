@@ -204,6 +204,12 @@ public enum AttributeType {
         public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
             return new NestMembers_attribute(constantPool, owner, in);
         }
+    },
+
+    RECORD(com.jeantessier.classreader.AttributeType.RECORD) {
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+            return new Record_attribute(constantPool, owner, in, attributeFactory);
+        }
     };
 
     private final com.jeantessier.classreader.AttributeType attributeType;

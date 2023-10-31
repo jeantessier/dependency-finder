@@ -338,6 +338,11 @@ public abstract class VisitorBase implements Visitor {
         attribute.getMembers().forEach(nestMember -> nestMember.accept(this));
     }
 
+    public void visitRecord_attribute(Record_attribute attribute) {
+        Logger.getLogger(getClass()).debug("Visiting " + attribute.getRecordComponents().size() + " record components ...");
+        attribute.getRecordComponents().forEach(recordComponent -> recordComponent.accept(this));
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         // Do nothing
     }
@@ -429,6 +434,11 @@ public abstract class VisitorBase implements Visitor {
 
     public void visitNestMember(NestMember helper) {
         // Do nothing
+    }
+
+    public void visitRecordComponent_info(RecordComponent_info helper) {
+        Logger.getLogger(getClass()).debug("Visiting " + helper.getAttributes().size() + " record component attribute(s) ...");
+        helper.getAttributes().forEach(attribute -> attribute.accept(this));
     }
 
     public void visitAnnotation(Annotation helper) {

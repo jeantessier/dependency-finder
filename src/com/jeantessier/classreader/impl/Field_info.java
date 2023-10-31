@@ -72,7 +72,7 @@ public class Field_info extends Feature_info implements com.jeantessier.classrea
     }
 
     public String getDeclaration() {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         if (isPublic()) result.append("public ");
         if (isProtected()) result.append("protected ");

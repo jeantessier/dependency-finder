@@ -707,6 +707,30 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitNestMembers_attribute(mockAttribute);
     }
 
+    public void testVisitRecord_attribute() {
+        final Record_attribute mockAttribute = mock(Record_attribute.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockAttribute).getRecordComponents();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        sut.visitRecord_attribute(mockAttribute);
+    }
+
+    public void testVisitRecord_attributeWithRecordComponent() {
+        final Record_attribute mockAttribute = mock(Record_attribute.class);
+        final RecordComponent_info mockRecordComponent = mock(RecordComponent_info.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockAttribute).getRecordComponents();
+                will(returnValue(Collections.singleton(mockRecordComponent)));
+            oneOf (mockRecordComponent).accept(sut);
+        }});
+
+        sut.visitRecord_attribute(mockAttribute);
+    }
+
     public void testVisitCustom_attribute() {
         Custom_attribute mockCustom = mock(Custom_attribute.class);
         sut.visitCustom_attribute(mockCustom);
@@ -869,6 +893,30 @@ public class TestVisitorBase extends MockObjectTestCase {
     public void testVisitNestMember() {
         final NestMember mockMember = mock(NestMember.class);
         sut.visitNestMember(mockMember);
+    }
+
+    public void testVisitRecordComponent_info() {
+        final RecordComponent_info mockRecordComponent = mock(RecordComponent_info.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockRecordComponent).getAttributes();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        sut.visitRecordComponent_info(mockRecordComponent);
+    }
+
+    public void testVisitRecordComponent_infoWithRecordComponent() {
+        final RecordComponent_info mockAttribute = mock(RecordComponent_info.class);
+        final Attribute_info mockRecordComponentAttribute = mock(Attribute_info.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockAttribute).getAttributes();
+                will(returnValue(Collections.singleton(mockRecordComponentAttribute)));
+            oneOf (mockRecordComponentAttribute).accept(sut);
+        }});
+
+        sut.visitRecordComponent_info(mockAttribute);
     }
 
     public void testVisitAnnotation() {

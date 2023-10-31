@@ -882,6 +882,16 @@ public class XMLPrinter extends Printer {
         indent().append("</nest-members-attribute>").eol();
     }
 
+    public void visitRecord_attribute(Record_attribute attribute) {
+        indent().append("<record-attribute>").eol();
+        raiseIndent();
+
+        super.visitRecord_attribute(attribute);
+
+        lowerIndent();
+        indent().append("</record-attribute>").eol();
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         indent().append("<custom-attribute name=\"").append(escapeXMLCharacters(attribute.getName())).append("\">").append(Hex.toString(attribute.getInfo())).append("</custom-attribute>").eol();
     }
@@ -1306,6 +1316,29 @@ public class XMLPrinter extends Printer {
         append("<class index=\"").append(helper.getMemberClassIndex()).append("\">");
         helper.getRawMemberClass().accept(this);
         append("</class>").eol();
+    }
+
+    public void visitRecordComponent_info(RecordComponent_info helper) {
+        indent().append("<record-component>").eol();
+        raiseIndent();
+
+        indent();
+        append("<name index=\"").append(helper.getNameIndex()).append("\">");
+        helper.getRawName().accept(this);
+        append("</name>").eol();
+
+        indent().append("<type index=\"").append(helper.getDescriptorIndex()).append("\">").append(helper.getType()).append("</type>").eol();
+
+        indent().append("<attributes>").eol();
+        raiseIndent();
+
+        super.visitRecordComponent_info(helper);
+
+        lowerIndent();
+        indent().append("</attributes>").eol();
+
+        lowerIndent();
+        indent().append("</record-component>").eol();
     }
 
     public void visitAnnotation(Annotation helper) {
