@@ -1,26 +1,36 @@
-.done {
+.feature {
+    padding-left: 0.5rem;
+    padding-right: 1.5rem;
+}
+
+.status {
+    padding: 0 0.25rem;
+}
+
+.status.done {
     background:  rgb(0, 238, 0);
     color:       white;
     font-weight: bold;
     text-align:  center;
 }
 
-.inprogress {
+.status.in-progress {
     background:  gold;
     color:       white;
     font-weight: bold;
     text-align:  center;
 }
 
-.notstarted {
+.status.not-started {
     background:  red;
     color:       white;
     font-weight: bold;
     text-align:  center;
 }
 
-.canceled {
+.status.canceled {
     text-align: center;
+    font-size: smaller;
 }
 
 .lowlight {
@@ -39,6 +49,10 @@
 th {
     background: gray;
     color:      white;
+}
+
+th:first-child {
+    text-align: left;
 }
 
 dl dt {

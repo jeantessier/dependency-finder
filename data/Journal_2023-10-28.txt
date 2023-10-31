@@ -1,2 +1,3 @@
-Added =ModulePackages%5Fattribute= and =ModuleMainClass%5Fattribute=. and their
-helper classes processing in =VisitorBase= and =XMLPrinter=.
+Completed support for Java 9 by adding =ModulePackages%5Fattribute=,
+=ModuleMainClass%5Fattribute=, and their helper classes processing in
+=VisitorBase= and =XMLPrinter=.

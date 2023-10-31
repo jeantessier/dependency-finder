@@ -1,2 +1,6 @@
-Completed support for Java 11.  Implemented =NestHost%5Fattribute= and
-=NestMembers%5Fattribute=.
+Completed support for Java 11 by adding =NestHost%5Fattribute=,
+=NestMembers%5Fattribute=, and their helper classes processing in
+=VisitorBase= and =XMLPrinter=.
+
+Also restyled the Release Plan page to improve readability.  And also to make
+it easier for me to edit.
