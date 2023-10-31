@@ -1,0 +1,2 @@
+Completed support for Java 16 by adding =Record%5Fattribute=, and its helper
+classes processing in =VisitorBase= and =XMLPrinter=.
