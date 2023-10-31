@@ -44,10 +44,10 @@ public class Custom_attribute extends Attribute_info implements com.jeantessier.
     private final byte[] info;
 
     public Custom_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
-        this("", constantPool, owner, in);
+        this(constantPool, owner, in, "");
     }
 
-    public Custom_attribute(String name, ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+    public Custom_attribute(ConstantPool constantPool, Visitable owner, DataInput in, String name) throws IOException {
         super(constantPool, owner);
 
         this.name = name;

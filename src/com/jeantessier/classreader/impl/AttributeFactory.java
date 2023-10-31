@@ -46,8 +46,8 @@ public class AttributeFactory {
         if (nameIndex > 0) {
             Object entry = constantPool.get(nameIndex);
 
-            if (entry instanceof UTF8_info) {
-                String name = ((UTF8_info) entry).getValue();
+            if (entry instanceof UTF8_info utf8_info) {
+                String name = utf8_info.getValue();
                 Logger.getLogger(AttributeFactory.class).debug("Attribute name index: " + nameIndex + " (" + name + ")");
 
                 AttributeType attributeType = AttributeType.forName(name);
@@ -55,7 +55,7 @@ public class AttributeFactory {
                     result = attributeType.create(constantPool, owner, in, this);
                 } else {
                     Logger.getLogger(AttributeFactory.class).warn("Unknown attribute name \"" + name + "\"");
-                    result = new Custom_attribute(name, constantPool, owner, in);
+                    result = new Custom_attribute(constantPool, owner, in, name);
                 }
             } else {
                 Logger.getLogger(AttributeFactory.class).debug("Attribute name: " + entry);

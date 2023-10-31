@@ -47,7 +47,7 @@ public class TestCustom_attribute extends TestAttributeBase {
         expectReadAttributeLength(0);
         expectReadFully();
 
-        sut = new Custom_attribute(NAME, mockConstantPool, mockOwner, mockIn);
+        sut = new Custom_attribute(mockConstantPool, mockOwner, mockIn, NAME);
     }
 
     public void testGetName() {
@@ -66,7 +66,7 @@ public class TestCustom_attribute extends TestAttributeBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            one (mockVisitor).visitCustom_attribute(sut);
+            oneOf (mockVisitor).visitCustom_attribute(sut);
         }});
 
         sut.accept(mockVisitor);
