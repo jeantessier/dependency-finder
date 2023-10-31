@@ -55,7 +55,7 @@ public class TestStackMapTable_attributeWithStackMapFrames extends TestAttribute
         }});
 
         // When
-        var sut = new StackMapTable_attribute(mockStackMapFrameFactory, mockConstantPool, mockOwner, mockIn);
+        var sut = new StackMapTable_attribute(mockConstantPool, mockOwner, mockIn, mockStackMapFrameFactory);
 
         // Then
         assertEquals("entries", 1, sut.getEntries().size());
@@ -75,7 +75,7 @@ public class TestStackMapTable_attributeWithStackMapFrames extends TestAttribute
         }});
 
         // When
-        var sut = new StackMapTable_attribute(mockStackMapFrameFactory, mockConstantPool, mockOwner, mockIn);
+        var sut = new StackMapTable_attribute(mockConstantPool, mockOwner, mockIn, mockStackMapFrameFactory);
 
         // Then
         assertEquals("entries", 2, sut.getEntries().size());

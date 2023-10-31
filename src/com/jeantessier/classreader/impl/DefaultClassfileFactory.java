@@ -37,7 +37,17 @@ import java.io.*;
 import com.jeantessier.classreader.*;
 
 public class DefaultClassfileFactory implements ClassfileFactory {
+    private final AttributeFactory attributeFactory;
+
+    public DefaultClassfileFactory() {
+        this(new AttributeFactory());
+    }
+
+    public DefaultClassfileFactory(AttributeFactory attributeFactory) {
+        this.attributeFactory = attributeFactory;
+    }
+
     public Classfile create(ClassfileLoader loader, DataInput in) throws IOException {
-        return new Classfile(loader, in);
+        return new Classfile(loader, in, attributeFactory);
     }
 }

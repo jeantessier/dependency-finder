@@ -44,10 +44,10 @@ public class StackMapTable_attribute extends Attribute_info implements com.jeant
     private final Collection<StackMapFrame> entries = new LinkedList<>();
 
     public StackMapTable_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
-        this(new StackMapFrameFactory(new VerificationTypeInfoFactory()), constantPool, owner, in);
+        this(constantPool, owner, in, new StackMapFrameFactory(new VerificationTypeInfoFactory()));
     }
 
-    public StackMapTable_attribute(StackMapFrameFactory stackMapFrameFactory, ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
+    public StackMapTable_attribute(ConstantPool constantPool, Visitable owner, DataInput in, StackMapFrameFactory stackMapFrameFactory) throws IOException {
         super(constantPool, owner);
 
         int byteCount = in.readInt();

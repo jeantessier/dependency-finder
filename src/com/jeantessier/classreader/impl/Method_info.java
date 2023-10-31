@@ -49,6 +49,10 @@ public class Method_info extends Feature_info implements com.jeantessier.classre
         super(classfile, in);
     }
 
+    public Method_info(Classfile classfile, DataInput in, AttributeFactory attributeFactory) throws IOException {
+        super(classfile, in, attributeFactory);
+    }
+
     public String getFeatureType() {
         return "method";
     }

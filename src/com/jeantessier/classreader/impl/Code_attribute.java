@@ -50,10 +50,6 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
     private final Collection<ExceptionHandler> exceptionHandlers = new LinkedList<>();
     private final Collection<Attribute_info> attributes = new LinkedList<>();
 
-    public Code_attribute(ConstantPool constantPool, Visitable owner, DataInput in) throws IOException {
-        this(constantPool, owner, in, new AttributeFactory());
-    }
-
     public Code_attribute(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
         super(constantPool, owner);
 

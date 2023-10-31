@@ -47,6 +47,10 @@ public class Field_info extends Feature_info implements com.jeantessier.classrea
         super(classfile, in);
     }
 
+    public Field_info(Classfile classfile, DataInput in, AttributeFactory attributeFactory) throws IOException {
+        super(classfile, in, attributeFactory);
+    }
+
     public String getFeatureType() {
         return "field";
     }

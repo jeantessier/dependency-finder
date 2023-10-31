@@ -46,7 +46,7 @@ public class TestStackMapTable_attribute extends TestAttributeBase {
         expectReadAttributeLength(2);
         expectReadU2(0);
 
-        sut = new StackMapTable_attribute(mockStackMapFrameFactory, mockConstantPool, mockOwner, mockIn);
+        sut = new StackMapTable_attribute(mockConstantPool, mockOwner, mockIn, mockStackMapFrameFactory);
     }
 
     public void testGetEntries() throws Exception {

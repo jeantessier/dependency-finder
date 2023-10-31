@@ -54,7 +54,9 @@ public class TestCode_attribute extends TestAttributeBase {
         expectReadU2(0);
         expectReadU2(0);
 
-        sut = new Code_attribute(mockConstantPool, mockOwner, mockIn);
+        final AttributeFactory mockAttributeFactory = mock(AttributeFactory.class);
+
+        sut = new Code_attribute(mockConstantPool, mockOwner, mockIn, mockAttributeFactory);
     }
 
     public void testGetMaxStack() {

@@ -73,10 +73,6 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
      *  Parses the input stream and extracts the class description.
      *  You should only call this constructor from a ClassfileLoader.
      */
-    public Classfile(ClassfileLoader loader, DataInput in) throws IOException {
-        this(loader, in, new AttributeFactory());
-    }
-
     public Classfile(ClassfileLoader loader, DataInput in, AttributeFactory attributeFactory) throws IOException {
         this.loader = loader;
 
@@ -129,7 +125,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         IntStream.range(0, fieldCount).forEach(i -> {
             try {
                 Logger.getLogger(getClass()).debug("Field " + i + ":");
-                fields.add(new Field_info(this, in));
+                fields.add(new Field_info(this, in, attributeFactory));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -141,7 +137,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         IntStream.range(0, methodCount).forEach(i -> {
             try {
                 Logger.getLogger(getClass()).debug("Method " + i + ":");
-                methods.add(new Method_info(this, in));
+                methods.add(new Method_info(this, in, attributeFactory));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

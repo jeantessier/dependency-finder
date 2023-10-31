@@ -52,7 +52,7 @@ public class AttributeFactory {
 
                 AttributeType attributeType = AttributeType.forName(name);
                 if (attributeType != null) {
-                    result = attributeType.create(constantPool, owner, in);
+                    result = attributeType.create(constantPool, owner, in, this);
                 } else {
                     Logger.getLogger(AttributeFactory.class).warn("Unknown attribute name \"" + name + "\"");
                     result = new Custom_attribute(name, constantPool, owner, in);
