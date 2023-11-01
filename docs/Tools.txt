@@ -245,7 +245,7 @@ Uses _text_ for each indentation level in XML output.
 
 <blockquote>
 
-Tells =JarJarDiff= which strategy to use to determine differences.
+Tells =ClassClassDiff= which strategy to use to determine differences.
 
 There are two special values for the predefined values for the strategies that
 come with Dependency Finder:
@@ -262,7 +262,7 @@ come with Dependency Finder:
 </blockquote>
 
 If _value_ is not one of the special values above, it is treated as the name of
-a class.  =JarJarDiff= will try to instantiate this class using a default
+a class.  =ClassClassDiff= will try to instantiate this class using a default
 constructor and cast it to =DifferenceStrategy=.  If this fails anywhere along
 the way, it will fall back on the default value listed below.
 
@@ -8092,7 +8092,7 @@ Running this tool on that graph yields this output:
 
 <blockquote>
 
-Lists changed symbols from =JarJarDiff= reports.
+Lists changed symbols from =JarJarDiff= and =ClassClassDiff= reports.
 
 </blockquote>
 
@@ -8106,8 +8106,9 @@ Lists changed symbols from =JarJarDiff= reports.
 
 <blockquote>
 
-Looks at the report from [[#JarJarDiff][JarJarDiff]] and lists package, class,
-interface, field, constructor, and method names that have changed.
+Looks at the report from either [[#JarJarDiff][JarJarDiff]] or
+[[#ClassClassDiff][ClassClassDiff]] and lists the names of packages, classes,
+interfaces, fields, constructors, and methods that have changed.
 
 </blockquote>
 
@@ -8121,7 +8122,8 @@ interface, field, constructor, and method names that have changed.
 
 The XML file to be translated.  The document has to follow the
 =[[https://depfind.sourceforge.io/dtd/differences.dtd][differences]]= DTD,
-such as the output of [[#JarJarDiff][JarJarDiff]].
+such as the output of [[#JarJarDiff][JarJarDiff]] or
+[[#ClassClassDiff][ClassClassDiff]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -8200,7 +8202,8 @@ See =-o= above.
 
 <blockquote>
 
-Converts the output of [[#JarJarDiff][JarJarDiff]] to HTML.
+Converts the output of [[#JarJarDiff][JarJarDiff]] and
+[[#ClassClassDiff][ClassClassDiff]] to HTML.
 
 </blockquote>
 
@@ -8214,7 +8217,8 @@ Converts the output of [[#JarJarDiff][JarJarDiff]] to HTML.
 
 <blockquote>
 
-Converts the output of [[#JarJarDiff][JarJarDiff]] to HTML.
+Converts the output of [[#JarJarDiff][JarJarDiff]] and
+[[#ClassClassDiff][ClassClassDiff]] to HTML.
 
 </blockquote>
 
@@ -8228,7 +8232,8 @@ Converts the output of [[#JarJarDiff][JarJarDiff]] to HTML.
 
 The XML file to be translated.  The document has to follow the
 =[[https://depfind.sourceforge.io/dtd/differences.dtd][differences]]= DTD,
-such as the output of [[#JarJarDiff][JarJarDiff]].
+such as the output of [[#JarJarDiff][JarJarDiff]] or
+[[#ClassClassDiff][ClassClassDiff]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -9950,7 +9955,7 @@ See =-o= above.
 
 <blockquote>
 
-Lists inheritance changes in =JarJarDiff= reports.
+Lists inheritance changes in =JarJarDiff= and =ClassClassDiff= reports.
 
 </blockquote>
 
@@ -9964,7 +9969,8 @@ Lists inheritance changes in =JarJarDiff= reports.
 
 <blockquote>
 
-Looks at the report from [[#JarJarDiff][JarJarDiff]] and lists classes and
+Looks at the report from either [[#JarJarDiff][JarJarDiff]] or
+[[#ClassClassDiff][ClassClassDiff]] and lists the names of classes and
 interfaces that have changed either their =extends= or their =implements=
 clauses.
 
@@ -9980,7 +9986,8 @@ clauses.
 
 The XML file to be translated.  The document has to follow the
 =[[https://depfind.sourceforge.io/dtd/differences.dtd][differences]]= DTD,
-such as the output of [[#JarJarDiff][JarJarDiff]].
+such as the output of [[#JarJarDiff][JarJarDiff]] or
+[[#ClassClassDiff][ClassClassDiff]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
