@@ -163,11 +163,7 @@ public class XMLPrinter extends Printer {
     public void visitClass_info(Class_info entry) {
         if (top) {
             top = false;
-            indent();
-            append("<class index=\"").append(currentIndex()).append("\">");
-            // entry.getRawName().accept(this);
-            append(entry.getName());
-            append("</class>").eol();
+            appendClassInfo(currentIndex(), entry);
             top = true;
         } else {
             // entry.getRawName().accept(this);
@@ -629,9 +625,7 @@ public class XMLPrinter extends Printer {
         indent().append("<enclosing-method-attribute>").eol();
         raiseIndent();
 
-        indent().append("<class>");
-        attribute.getRawClassInfo().accept(this);
-        append("</class>").eol();
+        appendClassInfo(attribute.getClassIndex(), attribute.getRawClassInfo());
 
         indent().append("<method>");
         if (attribute.getMethodIndex() != 0) {
@@ -1277,10 +1271,7 @@ public class XMLPrinter extends Printer {
         indent().append("<module-uses>").eol();
         raiseIndent();
 
-        indent();
-        append("<class index=\"").append(helper.getUsesIndex()).append("\">");
-        helper.getRawUses().accept(this);
-        append("</class>").eol();
+        appendClassInfo(helper.getUsesIndex(), helper.getRawUses());
 
         lowerIndent();
         indent().append("</module-uses>").eol();
@@ -1290,10 +1281,7 @@ public class XMLPrinter extends Printer {
         indent().append("<module-provides>").eol();
         raiseIndent();
 
-        indent();
-        append("<class index=\"").append(helper.getProvidesIndex()).append("\">");
-        helper.getRawProvides().accept(this);
-        append("</class>").eol();
+        appendClassInfo(helper.getProvidesIndex(), helper.getRawProvides());
 
         helper.getProvidesWiths().forEach(moduleProvidesWith -> moduleProvidesWith.accept(this));
 
@@ -1305,10 +1293,7 @@ public class XMLPrinter extends Printer {
         indent().append("<module-provides-with>").eol();
         raiseIndent();
 
-        indent();
-        append("<class index=\"").append(helper.getProvidesWithIndex()).append("\">");
-        helper.getRawProvidesWith().accept(this);
-        append("</class>").eol();
+        appendClassInfo(helper.getProvidesWithIndex(), helper.getRawProvidesWith());
 
         lowerIndent();
         indent().append("</module-provides-with>").eol();
@@ -1322,10 +1307,7 @@ public class XMLPrinter extends Printer {
     }
 
     public void visitNestMember(NestMember helper) {
-        indent();
-        append("<class index=\"").append(helper.getMemberClassIndex()).append("\">");
-        helper.getRawMemberClass().accept(this);
-        append("</class>").eol();
+        appendClassInfo(helper.getMemberClassIndex(), helper.getRawMemberClass());
     }
 
     public void visitRecordComponent_info(RecordComponent_info helper) {
@@ -1353,10 +1335,7 @@ public class XMLPrinter extends Printer {
 
 
     public void visitPermittedSubclass(PermittedSubclass helper) {
-        indent();
-        append("<class index=\"").append(helper.getSubclassIndex()).append("\">");
-        helper.getRawSubclass().accept(this);
-        append("</class>").eol();
+        appendClassInfo(helper.getSubclassIndex(), helper.getRawSubclass());
     }
 
     public void visitAnnotation(Annotation helper) {
@@ -1742,6 +1721,13 @@ public class XMLPrinter extends Printer {
             append(" ");
             append(DescriptorHelper.getType(localVariable.getDescriptor())).append(" ").append(localVariable.getName());
         }
+    }
+
+    private void appendClassInfo(int index, Class_info class_info) {
+        indent();
+        append("<class index=\"").append(index).append("\">");
+        class_info.accept(this);
+        append("</class>").eol();
     }
 
     // Visible for testing

@@ -1327,10 +1327,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
 
     public void testVisitEnclosingMethod_noMethod() throws Exception {
         final EnclosingMethod_attribute mockEnclosingMethod = mock(EnclosingMethod_attribute.class);
+        final int classIndex = 123;
         final Class_info mockClassInfo = mock(Class_info.class);
         final int methodIndex = 0;
 
         checking(new Expectations() {{
+            oneOf (mockEnclosingMethod).getClassIndex();
+                will(returnValue(classIndex));
             oneOf (mockEnclosingMethod).getRawClassInfo();
                 will(returnValue(mockClassInfo));
             oneOf (mockClassInfo).accept(printer);
@@ -1347,11 +1350,14 @@ public class TestXMLPrinter extends MockObjectTestCase {
 
     public void testVisitEnclosingMethod_regularMethod() throws Exception {
         final EnclosingMethod_attribute mockEnclosingMethod = mock(EnclosingMethod_attribute.class);
+        final int classIndex = 123;
         final Class_info mockClassInfo = mock(Class_info.class);
-        final int methodIndex = 123;
+        final int methodIndex = 456;
         final NameAndType_info mockNameAndType = mock(NameAndType_info.class);
 
         checking(new Expectations() {{
+            oneOf (mockEnclosingMethod).getClassIndex();
+                will(returnValue(classIndex));
             oneOf (mockEnclosingMethod).getRawClassInfo();
                 will(returnValue(mockClassInfo));
             oneOf (mockClassInfo).accept(printer);
@@ -1375,18 +1381,27 @@ public class TestXMLPrinter extends MockObjectTestCase {
 
     public void testVisitEnclosingMethod_constructor() throws Exception {
         final EnclosingMethod_attribute mockEnclosingMethod = mock(EnclosingMethod_attribute.class);
+        final int classIndex = 123;
         final Class_info mockClassInfo = mock(Class_info.class);
-        final int methodIndex = 123;
+        final int methodIndex = 456;
         final NameAndType_info mockNameAndType = mock(NameAndType_info.class);
 
         checking(new Expectations() {{
-            oneOf (mockEnclosingMethod).getRawClassInfo(); will(returnValue(mockClassInfo));
+            oneOf (mockEnclosingMethod).getClassIndex();
+                will(returnValue(classIndex));
+            oneOf (mockEnclosingMethod).getRawClassInfo();
+                will(returnValue(mockClassInfo));
             oneOf (mockClassInfo).accept(printer);
-            oneOf (mockEnclosingMethod).getClassInfo(); will(returnValue("com.jeantessier.test.TestClass"));
-            oneOf (mockEnclosingMethod).getMethodIndex(); will(returnValue(methodIndex));
-            oneOf (mockEnclosingMethod).getRawMethod(); will(returnValue(mockNameAndType));
-            oneOf (mockNameAndType).getName(); will(returnValue("<init>"));
-            oneOf (mockNameAndType).getType(); will(returnValue("()V"));
+            oneOf (mockEnclosingMethod).getClassInfo();
+                will(returnValue("com.jeantessier.test.TestClass"));
+            oneOf (mockEnclosingMethod).getMethodIndex();
+                will(returnValue(methodIndex));
+            oneOf (mockEnclosingMethod).getRawMethod();
+                will(returnValue(mockNameAndType));
+            oneOf (mockNameAndType).getName();
+                will(returnValue("<init>"));
+            oneOf (mockNameAndType).getType();
+                will(returnValue("()V"));
         }});
 
         printer.visitEnclosingMethod_attribute(mockEnclosingMethod);
