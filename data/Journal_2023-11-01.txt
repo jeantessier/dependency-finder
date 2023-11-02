@@ -1,0 +1,2 @@
+Completed support for Java 17 by adding =PermittedSubclasses%5Fattribute=, and
+its helper classes processing in =VisitorBase= and =XMLPrinter=.
