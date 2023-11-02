@@ -1,2 +1,11 @@
 Completed support for Java 17 by adding =PermittedSubclasses%5Fattribute=, and
 its helper classes processing in =VisitorBase= and =XMLPrinter=.
+
+I also tackled rendering =tableswitch= and =lookupswitch= instructions.  I
+wanted to explore the "new" =switch= expressions in Java and I needed a way to
+visualize the bytecode.  I wanted to see if the various forms of =switch=
+statements resulted in different bytecode.  It appears that they do not, so
+they are essentially syntactic sugar.
+
+I added some helper methods to =Instruction= to help with combining bytes to
+build values that are then used in the execution of the instruction.
