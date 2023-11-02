@@ -34,6 +34,7 @@ package com.jeantessier.classreader;
 
 import java.io.PrintWriter;
 import java.util.Collection;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class TextPrinter extends Printer {
@@ -280,27 +281,27 @@ public class TextPrinter extends Printer {
         }
     }
 
-    public void visitInstruction(Instruction helper) {
-        append("        ").append(helper.getStart()).append(":\t").append(helper.getMnemonic());
-        appendIndexedConstantPoolEntry(helper);
-        appendIndexedLocalVariable(helper);
-        appendOffset(helper);
-        appendValue(helper);
+    public void visitInstruction(Instruction instruction) {
+        append("        ").append(instruction.getStart()).append(":\t").append(instruction.getMnemonic());
+        appendIndexedConstantPoolEntry(instruction);
+        appendIndexedLocalVariable(instruction);
+        appendOffset(instruction);
+        appendValue(instruction);
         eol();
 
-        super.visitInstruction(helper);
+        super.visitInstruction(instruction);
     }
 
-    public void visitExceptionHandler(ExceptionHandler helper) {
-        append("        ").append(helper.getStartPC()).append("-").append(helper.getEndPC()).append(": ").append(helper.getHandlerPC());
-        if (helper.getCatchTypeIndex() != 0) {
-            append(" (").append(helper.getCatchType()).append(")");
+    public void visitExceptionHandler(ExceptionHandler handler) {
+        append("        ").append(handler.getStartPC()).append("-").append(handler.getEndPC()).append(": ").append(handler.getHandlerPC());
+        if (handler.getCatchTypeIndex() != 0) {
+            append(" (").append(handler.getCatchType()).append(")");
         }
         eol();
     }
 
-    private void appendIndexedConstantPoolEntry(Instruction helper) {
-        switch (helper.getOpcode()) {
+    private Printer appendIndexedConstantPoolEntry(Instruction instruction) {
+        switch (instruction.getOpcode()) {
             case 0x12: // ldc
             case 0x13: // ldc_w
             case 0x14: // ldc2_w
@@ -319,16 +320,17 @@ public class TextPrinter extends Printer {
             case 0xc1: // instanceof
             case 0xc5: // multianewarray
                 append(" ");
-                helper.getIndexedConstantPoolEntry().accept(this);
+                instruction.getIndexedConstantPoolEntry().accept(this);
                 break;
             default:
                 // Do nothing
                 break;
         }
+        return this;
     }
 
-    private void appendIndexedLocalVariable(Instruction helper) {
-        switch (helper.getOpcode()) {
+    private Printer appendIndexedLocalVariable(Instruction instruction) {
+        switch (instruction.getOpcode()) {
             case 0x1a: // iload_0
             case 0x1e: // lload_0
             case 0x22: // fload_0
@@ -369,7 +371,7 @@ public class TextPrinter extends Printer {
             case 0x46: // fstore_3
             case 0x4a: // dstore_3
             case 0x4e: // astore_3
-                appendLocalVariable(helper.getIndexedLocalVariable());
+                appendLocalVariable(instruction.getIndexedLocalVariable());
                 break;
             case 0x15: // iload
             case 0x16: // llload
@@ -384,23 +386,25 @@ public class TextPrinter extends Printer {
             case 0xa9: // ret
             case 0x84: // iinc
             case 0xc4: // wide
-                appendLocalVariable(helper.getIndexedLocalVariable());
-                append(" (#").append(helper.getIndex()).append(")");
+                appendLocalVariable(instruction.getIndexedLocalVariable());
+                append(" (#").append(instruction.getIndex()).append(")");
                 break;
             default:
                 // Do nothing
                 break;
         }
+        return this;
     }
 
-    private void appendLocalVariable(LocalVariable localVariable) {
+    private Printer appendLocalVariable(LocalVariable localVariable) {
         if (localVariable != null) {
             append(" ").append(DescriptorHelper.getType(localVariable.getDescriptor())).append(" ").append(localVariable.getName());
         }
+        return this;
     }
 
-    private void appendOffset(Instruction helper) {
-        switch (helper.getOpcode()) {
+    private Printer appendOffset(Instruction instruction) {
+        switch (instruction.getOpcode()) {
             case 0x99: // ifeq
             case 0x9a: // ifne
             case 0x9b: // iflt
@@ -421,54 +425,46 @@ public class TextPrinter extends Printer {
             case 0xc7: // ifnonnull
             case 0xc8: // goto_w
             case 0xc9: // jsr_w
-                append(" ").append(helper.getStart() + helper.getOffset()).append(" (");
-                if (helper.getOffset() >= 0) {
+                append(" ").append(instruction.getStart() + instruction.getOffset()).append(" (");
+                if (instruction.getOffset() >= 0) {
                     append("+");
                 }
-                append(helper.getOffset());
+                append(instruction.getOffset());
                 append(")");
                 break;
             default:
                 // Do nothing
                 break;
         }
+        return this;
     }
 
-    private void appendValue(Instruction helper) {
-        switch (helper.getOpcode()) {
+    private Printer appendValue(Instruction instruction) {
+        switch (instruction.getOpcode()) {
             case 0x10: // bipush
             case 0x11: // sipush
             case 0x84: // iinc
-                append(" ").append(helper.getValue());
+                append(" ").append(instruction.getValue());
                 break;
             case 0xaa: // tableswitch
-                var low = helper.getLow();
-                var high = helper.getHigh();
-                append(" default:").append(String.format("%+d", helper.getDefault())).append("[").append(helper.getStart() + helper.getDefault()).append("]");
-                IntStream.rangeClosed(low, high).forEach(key -> {
-                    var offset = helper.getPadding() + 12 + ((key - low) * 4);
-                    var jump = helper.getInt(offset + 1);
-                    append(" " + key + ":" + String.format("%+d", jump) + "[" + (helper.getStart() + jump) + "]");
-                });
+                append(" default:").appendSwitchDefault(instruction);
+                append(" | ");
+                appendTableSwitch(instruction, " | ");
                 break;
             case 0xab: // lookupswitch
-                var npairs = helper.getNPairs();
-                append(" default:").append(String.format("%+d", helper.getDefault())).append("[").append(helper.getStart() + helper.getDefault()).append("]");
-                IntStream.range(0, npairs).forEach(i -> {
-                    var offset = helper.getPadding() + 8 + (i * 8);
-                    var key = helper.getInt(offset + 1);
-                    var jump = helper.getInt(offset + 5);
-                    append(" " + key + ":" + String.format("%+d", jump) + "[" + (helper.getStart() + jump) + "]");
-                });
+                append(" default:").appendSwitchDefault(instruction);
+                append(" | ");
+                appendLookupSwitch(instruction, " | ");
                 break;
             case 0xc4: // wide
-                if (helper.getByte(1) == 0x84 /* iinc */) {
-                    append(" ").append(helper.getValue());
+                if (instruction.getByte(1) == 0x84 /* iinc */) {
+                    append(" ").append(instruction.getValue());
                 }
                 break;
             default:
                 // Do nothing
                 break;
         }
+        return this;
     }
 }

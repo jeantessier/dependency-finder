@@ -56,11 +56,13 @@ public class XMLPrinter extends Printer {
         appendHeader(encoding, dtdPrefix);
     }
 
-    private void appendHeader(String encoding, String dtdPrefix) {
+    private Printer appendHeader(String encoding, String dtdPrefix) {
         append("<?xml version=\"1.0\" encoding=\"").append(encoding).append("\" ?>").eol();
         eol();
         append("<!DOCTYPE classfiles SYSTEM \"").append(dtdPrefix).append("/classfile.dtd\">").eol();
         eol();
+
+        return this;
     }
 
     public void visitClassfiles(Collection<Classfile> classfiles) {
@@ -1033,26 +1035,12 @@ public class XMLPrinter extends Printer {
                 appendLocalVariable(instruction.getIndexedLocalVariable());
                 break;
             case 0xaa: // tableswitch
-                var low = instruction.getLow();
-                var high = instruction.getHigh();
-                append(" padding=\"").append(instruction.getPadding()).append("\" default=\"").append(String.format("%+d", instruction.getDefault())).append("[").append(instruction.getStart() + instruction.getDefault()).append("]\" low=\"").append(low).append("\" high=\"").append(high).append("\">");
-                append(instruction);
-                IntStream.rangeClosed(low, high).forEach(key -> {
-                    var offset = instruction.getPadding() + 12 + ((key - low) * 4);
-                    var jump = instruction.getInt(offset + 1);
-                    append(" " + key + ":" + String.format("%+d", jump) + "[" + (instruction.getStart() + jump) + "]");
-                });
+                append(" padding=\"").append(instruction.getPadding()).append("\" default=\"").appendSwitchDefault(instruction).append("\" low=\"").append(instruction.getLow()).append("\" high=\"").append(instruction.getHigh()).append("\">");
+                append(instruction).append(" ").appendTableSwitch(instruction, " | ");
                 break;
             case 0xab: // lookupswitch
-                var npairs = instruction.getNPairs();
-                append(" padding=\"").append(instruction.getPadding()).append("\" default=\"").append(String.format("%+d", instruction.getDefault())).append("[").append(instruction.getStart() + instruction.getDefault()).append("]\" npairs=\"").append(npairs).append("\">");
-                append(instruction);
-                IntStream.range(0, npairs).forEach(i -> {
-                    var offset = instruction.getPadding() + 8 + (i * 8);
-                    var key = instruction.getInt(offset + 1);
-                    var jump = instruction.getInt(offset + 5);
-                    append(" " + key + ":" + String.format("%+d", jump) + "[" + (instruction.getStart() + jump) + "]");
-                });
+                append(" padding=\"").append(instruction.getPadding()).append("\" default=\"").appendSwitchDefault(instruction).append("\" npairs=\"").append(instruction.getNPairs()).append("\">");
+                append(instruction).append(" ").appendLookupSwitch(instruction, " | ");
                 break;
             case 0xc4: // wide
                 if (instruction.getByte(1) == 0x84 /* iinc */) {
@@ -1739,18 +1727,20 @@ public class XMLPrinter extends Printer {
         indent().append("<uninitialized-variable-info tag=\"").append(helper.getTag()).append("\" offset=\"").append(helper.getOffset()).append("\"/>").eol();
     }
 
-    private void appendLocalVariable(LocalVariable localVariable) {
+    private Printer appendLocalVariable(LocalVariable localVariable) {
         if (localVariable != null) {
             append(" ");
             append(DescriptorHelper.getType(localVariable.getDescriptor())).append(" ").append(localVariable.getName());
         }
+        return this;
     }
 
-    private void appendClassInfo(int index, Class_info class_info) {
+    private Printer appendClassInfo(int index, Class_info class_info) {
         indent();
         append("<class index=\"").append(index).append("\">");
         class_info.accept(this);
         append("</class>").eol();
+        return this;
     }
 
     // Visible for testing

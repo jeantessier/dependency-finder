@@ -33,6 +33,8 @@
 package com.jeantessier.classreader;
 
 import java.io.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public abstract class Printer extends VisitorBase {
     public static final String DEFAULT_INDENT_TEXT = "    ";
@@ -106,6 +108,36 @@ public abstract class Printer extends VisitorBase {
     protected Printer eol() {
         out.println();
         return this;
+    }
+
+    private record SwitchEntry(int key, int offset, int jump) {};
+
+    protected Printer appendSwitchDefault(Instruction instruction) {
+        return append(String.format("%+d[%d]", instruction.getDefault(), instruction.getStart() + instruction.getDefault()));
+    }
+
+    protected Printer appendLookupSwitch(Instruction instruction) {
+        return appendLookupSwitch(instruction, " ");
+    }
+
+    protected Printer appendLookupSwitch(Instruction instruction, String delimiter) {
+        return append(IntStream.range(0, instruction.getNPairs())
+                .map(i -> instruction.getPadding() + 8 + (i * 8)) // Calculate the entry's offset in the instruction
+                .mapToObj(offset -> new SwitchEntry(instruction.getInt(offset + 1), offset, instruction.getInt(offset + 5))) // Lookup key and jump values
+                .map(entry -> String.format("%d:%+d[%d]", entry.key, entry.jump, instruction.getStart() + entry.jump)) // Convert the entry to text
+                .collect(Collectors.joining(delimiter)));
+    }
+
+    protected Printer appendTableSwitch(Instruction instruction) {
+        return appendTableSwitch(instruction, " ");
+    }
+
+    protected Printer appendTableSwitch(Instruction instruction, String delimiter) {
+        return append(IntStream.rangeClosed(instruction.getLow(), instruction.getHigh())
+                .mapToObj(key -> new SwitchEntry(key, instruction.getPadding() + 12 + ((key - instruction.getLow()) * 4), -1)) // Calculate the entry's offset in the instruction
+                .map(partialEntry -> new SwitchEntry(partialEntry.key, partialEntry.offset, instruction.getInt(partialEntry.offset + 1))) // Lookup the jump value
+                .map(entry -> String.format("%d:%+d[%d]", entry.key, entry.jump, instruction.getStart() + entry.jump)) // Convert the entry to text
+                .collect(Collectors.joining(delimiter)));
     }
 
     protected void raiseIndent() {
