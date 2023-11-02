@@ -34,8 +34,9 @@ package com.jeantessier.classreader;
 
 import com.jeantessier.text.Hex;
 
-import java.io.PrintWriter;
-import java.util.Collection;
+import java.io.*;
+import java.util.*;
+import java.util.stream.*;
 
 public class XMLPrinter extends Printer {
     public static final String DEFAULT_ENCODING   = "utf-8";
@@ -1030,6 +1031,28 @@ public class XMLPrinter extends Printer {
                 append(" index=\"").append(instruction.getIndex()).append("\" value=\"").append(instruction.getValue()).append("\">");
                 append(instruction);
                 appendLocalVariable(instruction.getIndexedLocalVariable());
+                break;
+            case 0xaa: // tableswitch
+                var low = instruction.getLow();
+                var high = instruction.getHigh();
+                append(" padding=\"").append(instruction.getPadding()).append("\" default=\"").append(String.format("%+d", instruction.getDefault())).append("[").append(instruction.getStart() + instruction.getDefault()).append("]\" low=\"").append(low).append("\" high=\"").append(high).append("\">");
+                append(instruction);
+                IntStream.rangeClosed(low, high).forEach(key -> {
+                    var offset = instruction.getPadding() + 12 + ((key - low) * 4);
+                    var jump = instruction.getInt(offset + 1);
+                    append(" " + key + ":" + String.format("%+d", jump) + "[" + (instruction.getStart() + jump) + "]");
+                });
+                break;
+            case 0xab: // lookupswitch
+                var npairs = instruction.getNPairs();
+                append(" padding=\"").append(instruction.getPadding()).append("\" default=\"").append(String.format("%+d", instruction.getDefault())).append("[").append(instruction.getStart() + instruction.getDefault()).append("]\" npairs=\"").append(npairs).append("\">");
+                append(instruction);
+                IntStream.range(0, npairs).forEach(i -> {
+                    var offset = instruction.getPadding() + 8 + (i * 8);
+                    var key = instruction.getInt(offset + 1);
+                    var jump = instruction.getInt(offset + 5);
+                    append(" " + key + ":" + String.format("%+d", jump) + "[" + (instruction.getStart() + jump) + "]");
+                });
                 break;
             case 0xc4: // wide
                 if (instruction.getByte(1) == 0x84 /* iinc */) {

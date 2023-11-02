@@ -41,7 +41,13 @@ public interface Instruction extends Visitable {
     public int getIndex();
     public int getOffset();
     public int getValue();
+    public int getPadding();
+    public int getDefault();
+    public int getLow();
+    public int getHigh();
+    public int getNPairs();
     public int getByte(int offset);
+    public int getInt(int offset);
     public ConstantPoolEntry getIndexedConstantPoolEntry();
     public LocalVariable getIndexedLocalVariable();
 }

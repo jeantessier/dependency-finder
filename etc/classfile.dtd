@@ -241,6 +241,11 @@
           index   CDATA #IMPLIED
           value   CDATA #IMPLIED
           offset  CDATA #IMPLIED
+          padding CDATA #IMPLIED
+          default CDATA #IMPLIED
+          low     CDATA #IMPLIED
+          high    CDATA #IMPLIED
+          npairs  CDATA #IMPLIED
 >
 
 <!ELEMENT exception-handlers (exception-handler*) >

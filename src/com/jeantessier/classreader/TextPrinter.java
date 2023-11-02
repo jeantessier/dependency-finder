@@ -34,6 +34,7 @@ package com.jeantessier.classreader;
 
 import java.io.PrintWriter;
 import java.util.Collection;
+import java.util.stream.IntStream;
 
 public class TextPrinter extends Printer {
     private boolean top = true;
@@ -439,6 +440,26 @@ public class TextPrinter extends Printer {
             case 0x11: // sipush
             case 0x84: // iinc
                 append(" ").append(helper.getValue());
+                break;
+            case 0xaa: // tableswitch
+                var low = helper.getLow();
+                var high = helper.getHigh();
+                append(" default:").append(String.format("%+d", helper.getDefault())).append("[").append(helper.getStart() + helper.getDefault()).append("]");
+                IntStream.rangeClosed(low, high).forEach(key -> {
+                    var offset = helper.getPadding() + 12 + ((key - low) * 4);
+                    var jump = helper.getInt(offset + 1);
+                    append(" " + key + ":" + String.format("%+d", jump) + "[" + (helper.getStart() + jump) + "]");
+                });
+                break;
+            case 0xab: // lookupswitch
+                var npairs = helper.getNPairs();
+                append(" default:").append(String.format("%+d", helper.getDefault())).append("[").append(helper.getStart() + helper.getDefault()).append("]");
+                IntStream.range(0, npairs).forEach(i -> {
+                    var offset = helper.getPadding() + 8 + (i * 8);
+                    var key = helper.getInt(offset + 1);
+                    var jump = helper.getInt(offset + 5);
+                    append(" " + key + ":" + String.format("%+d", jump) + "[" + (helper.getStart() + jump) + "]");
+                });
                 break;
             case 0xc4: // wide
                 if (helper.getByte(1) == 0x84 /* iinc */) {

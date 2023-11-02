@@ -610,46 +610,24 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
     public int getLength() {
         int result = length[getOpcode()];
 
-        int padding, low, high, npairs;
-    
         switch (getOpcode()) {
-            case 0xaa:
-                // tableswitch
-                padding = 3 - (start % 4);
-                low =
-                    (getByte(padding+5) << 24) |
-                    (getByte(padding+6) << 16) |
-                    (getByte(padding+7) << 8) |
-                    (getByte(padding+8));
-                high =
-                    (getByte(padding+9) << 24) |
-                    (getByte(padding+10) << 16) |
-                    (getByte(padding+11) << 8) |
-                    (getByte(padding+12));
+            case 0xaa: // tableswitch
                 result =
-                    1 +                   // opcode
-                    padding +             // padding
-                    12 +                  // default + low + high
-                    (high - low + 1) * 4; // (high - low + 1) * offset
+                    1 +                             // opcode
+                    getPadding() +                  // padding
+                    12 +                            // (default, low, high) signed 32-bits values
+                    (getHigh() - getLow() + 1) * 4; // (high - low + 1) signed 32-bits values
                 break;
 
-            case 0xab:
-                // lookupswitch
-                padding = 3 - (start % 4);
-                npairs =
-                    (getByte(padding+5) << 24) |
-                    (getByte(padding+6) << 16) |
-                    (getByte(padding+7) << 8) |
-                    (getByte(padding+8));
+            case 0xab: // lookupswitch
                 result =
-                    1 +            // opcode
-                    padding +      // padding
-                    8 +            // default + npairs
-                    (npairs * 8);  // npairs * (match + offset)
+                    1 +                 // opcode
+                    getPadding() +      // padding
+                    8 +                 // (default, npairs) signed 32-bits values
+                    (getNPairs() * 8);  // npairs * (match, offset) signed 32-bits value
                 break;
 
-            case 0xc4:
-                // wide
+            case 0xc4: // wide
                 if (getByte(1) == 0x84 /* iinc */) {
                     result = 6;
                 } else {
@@ -685,7 +663,7 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
             case 0xc0: // checkcast
             case 0xc1: // instanceof
             case 0xc5: // multianewarray
-                result = (getByte(1) << 8) | getByte(2);
+                result = getShort(1);
                 break;
             case 0x1a: // iload_0
             case 0x1e: // lload_0
@@ -751,7 +729,7 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
                 result = getByte(1);
                 break;
             case 0xc4: // wide
-                result = (getByte(2) << 8) | getByte(3);
+                result = getShort(2);
                 break;
             default:
                 result = -1;
@@ -783,11 +761,11 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
             case 0xa8: // jsr
             case 0xc6: // ifnull
             case 0xc7: // ifnonnull
-                result = (getSignedByte(1) << 8) | getByte(2);
+                result = getSignedShort(1);
                 break;
             case 0xc8: // goto_w
             case 0xc9: // jsr_w
-                result = (getSignedByte(1) << 24) | (getByte(2) << 16) | (getByte(3) << 8) | getByte(4);
+                result = getInt(1);
                 break;
             default:
                 result = 0;
@@ -833,14 +811,14 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
                 result = getSignedByte(1);
                 break;
             case 0x11: // sipush
-                result = (getSignedByte(1) << 8) | getByte(2);
+                result = getSignedShort(1);
                 break;
             case 0x84: // iinc
                 result = getSignedByte(2);
                 break;
             case 0xc4: // wide
                 if (getByte(1) == 0x84 /* iinc */) {
-                    result = (getSignedByte(4) << 8) | getByte(5);
+                    result = getSignedShort(4);
                 } else {
                     result = 0;
                 }
@@ -853,12 +831,44 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
         return result;
     }
 
-    public int getByte(int offset) {
-        return getSignedByte(offset) & 0xff;
+    public int getPadding() {
+        return 3 - (start % 4);
+    }
+
+    public int getDefault() {
+        return getInt(getPadding() + 1);
+    }
+
+    public int getLow() {
+        return getInt(getPadding() + 5);
+    }
+
+    public int getHigh() {
+        return getInt(getPadding() + 9);
+    }
+
+    public int getNPairs() {
+        return getInt(getPadding() + 5);
     }
 
     private byte getSignedByte(int offset) {
         return getBytecode()[getStart() + offset];
+    }
+
+    public int getByte(int offset) {
+        return getSignedByte(offset) & 0xff;
+    }
+
+    private int getSignedShort(int offset) {
+        return (getSignedByte(offset+0) << 8) | (getByte(offset+1));
+    }
+
+    private int getShort(int offset) {
+        return (getByte(offset+0) << 8) | (getByte(offset+1));
+    }
+
+    public int getInt(int offset) {
+        return (getByte(offset+0) << 24) | (getByte(offset+1) << 16) | (getByte(offset+2) << 8) | (getByte(offset+3));
     }
 
     public com.jeantessier.classreader.ConstantPoolEntry getIndexedConstantPoolEntry() {
