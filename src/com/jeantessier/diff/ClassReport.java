@@ -372,6 +372,10 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
         // Do nothing
     }
 
+    public void visitPermittedSubclasses_attribute(PermittedSubclasses_attribute attribute) {
+        // Do nothing
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         // Do nothing
     }
@@ -449,6 +453,10 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
     }
 
     public void visitRecordComponent_info(RecordComponent_info helper) {
+        // Do nothing
+    }
+
+    public void visitPermittedSubclass(PermittedSubclass helper) {
         // Do nothing
     }
 

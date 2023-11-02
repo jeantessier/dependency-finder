@@ -2788,6 +2788,57 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "record-component/attributes", 1);
     }
 
+    public void testVisitPermittedSubclasses_attribute() throws Exception {
+        final PermittedSubclasses_attribute attribute = mock(PermittedSubclasses_attribute.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (attribute).getSubclasses();
+            will(returnValue(Collections.emptyList()));
+        }});
+
+        printer.visitPermittedSubclasses_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "permitted-subclasses-attribute", 1);
+    }
+
+    public void testVisitPermittedSubclasses_attributeWithNestMember() throws Exception {
+        final PermittedSubclasses_attribute attribute = mock(PermittedSubclasses_attribute.class);
+        final PermittedSubclass mockSubclass = mock(PermittedSubclass.class);
+
+        checking(new Expectations() {{
+            atLeast (1).of (attribute).getSubclasses();
+            will(returnValue(Collections.singleton(mockSubclass)));
+            oneOf (mockSubclass).accept(printer);
+        }});
+
+        printer.visitPermittedSubclasses_attribute(attribute);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "permitted-subclasses-attribute", 1);
+    }
+
+    public void testVisitPermittedSubclass() throws Exception {
+        final PermittedSubclass permittedSubclass = mock(PermittedSubclass.class);
+        final int subclassIndex = 123;
+        final Class_info mockSubclass = mock(Class_info.class);
+
+        checking(new Expectations() {{
+            oneOf (permittedSubclass).getSubclassIndex();
+            will(returnValue(subclassIndex));
+            oneOf (permittedSubclass).getRawSubclass();
+            will(returnValue(mockSubclass));
+            oneOf (mockSubclass).accept(printer);
+        }});
+
+        printer.visitPermittedSubclass(permittedSubclass);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "class", 1);
+        assertXPathCount(xmlDocument, "class/@index", 1);
+        assertXPathText(xmlDocument, "class/@index", String.valueOf(subclassIndex));
+    }
+
     public void testVisitAnnotation_WithoutElementValuePairs() throws Exception {
         final Annotation annotation = mock(Annotation.class);
 

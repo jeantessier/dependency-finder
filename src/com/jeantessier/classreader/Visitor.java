@@ -94,6 +94,7 @@ public interface Visitor {
     public void visitNestHost_attribute(NestHost_attribute attribute);
     public void visitNestMembers_attribute(NestMembers_attribute attribute);
     public void visitRecord_attribute(Record_attribute attribute);
+    public void visitPermittedSubclasses_attribute(PermittedSubclasses_attribute attribute);
     public void visitCustom_attribute(Custom_attribute attribute);
 
     // Attribute helpers
@@ -116,6 +117,7 @@ public interface Visitor {
     public void visitModulePackage(ModulePackage helper);
     public void visitNestMember(NestMember helper);
     public void visitRecordComponent_info(RecordComponent_info helper);
+    public void visitPermittedSubclass(PermittedSubclass helper);
 
     // Annotations
     public void visitAnnotation(Annotation helper);

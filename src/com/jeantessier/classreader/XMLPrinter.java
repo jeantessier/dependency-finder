@@ -892,6 +892,16 @@ public class XMLPrinter extends Printer {
         indent().append("</record-attribute>").eol();
     }
 
+    public void visitPermittedSubclasses_attribute(PermittedSubclasses_attribute attribute) {
+        indent().append("<permitted-subclasses-attribute>").eol();
+        raiseIndent();
+
+        super.visitPermittedSubclasses_attribute(attribute);
+
+        lowerIndent();
+        indent().append("</permitted-subclasses-attribute>").eol();
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         indent().append("<custom-attribute name=\"").append(escapeXMLCharacters(attribute.getName())).append("\">").append(Hex.toString(attribute.getInfo())).append("</custom-attribute>").eol();
     }
@@ -1339,6 +1349,14 @@ public class XMLPrinter extends Printer {
 
         lowerIndent();
         indent().append("</record-component>").eol();
+    }
+
+
+    public void visitPermittedSubclass(PermittedSubclass helper) {
+        indent();
+        append("<class index=\"").append(helper.getSubclassIndex()).append("\">");
+        helper.getRawSubclass().accept(this);
+        append("</class>").eol();
     }
 
     public void visitAnnotation(Annotation helper) {

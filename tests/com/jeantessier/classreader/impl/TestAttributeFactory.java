@@ -207,4 +207,18 @@ public class TestAttributeFactory extends TestAttributeBase {
         assertTrue("Not a " + Record_attribute.class.getSimpleName(), Record_attribute.class.isInstance(attribute));
         assertEquals("number of record components", numRecordComponents, ((Record_attribute) attribute).getRecordComponents().size());
     }
+
+    public void testCreatePermittedSubclasses_attribute() throws Exception {
+        final int numSubclasses = 0;
+
+        expectReadU2(ATTRIBUTE_NAME_INDEX);
+        expectLookupUtf8(ATTRIBUTE_NAME_INDEX, AttributeType.PERMITTED_SUBCLASSES.getAttributeName(), "attribute name");
+        expectReadAttributeLength(2);
+        expectReadU2(numSubclasses);
+
+        Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
+        assertNotNull("AttributeFactory returned null", attribute);
+        assertTrue("Not a " + PermittedSubclasses_attribute.class.getSimpleName(), PermittedSubclasses_attribute.class.isInstance(attribute));
+        assertEquals("number of subclasses", numSubclasses, ((PermittedSubclasses_attribute) attribute).getSubclasses().size());
+    }
 }

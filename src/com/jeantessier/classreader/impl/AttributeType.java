@@ -210,6 +210,12 @@ public enum AttributeType {
         public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
             return new Record_attribute(constantPool, owner, in, attributeFactory);
         }
+    },
+
+    PERMITTED_SUBCLASSES(com.jeantessier.classreader.AttributeType.PERMITTED_SUBCLASSES) {
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+            return new PermittedSubclasses_attribute(constantPool, owner, in);
+        }
     };
 
     private final com.jeantessier.classreader.AttributeType attributeType;

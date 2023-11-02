@@ -343,6 +343,11 @@ public abstract class VisitorBase implements Visitor {
         attribute.getRecordComponents().forEach(recordComponent -> recordComponent.accept(this));
     }
 
+    public void visitPermittedSubclasses_attribute(PermittedSubclasses_attribute attribute) {
+        Logger.getLogger(getClass()).debug("Visiting " + attribute.getSubclasses().size() + " permitted subclasses ...");
+        attribute.getSubclasses().forEach(permittedSubclass -> permittedSubclass.accept(this));
+    }
+
     public void visitCustom_attribute(Custom_attribute attribute) {
         // Do nothing
     }
@@ -439,6 +444,10 @@ public abstract class VisitorBase implements Visitor {
     public void visitRecordComponent_info(RecordComponent_info helper) {
         Logger.getLogger(getClass()).debug("Visiting " + helper.getAttributes().size() + " record component attribute(s) ...");
         helper.getAttributes().forEach(attribute -> attribute.accept(this));
+    }
+
+    public void visitPermittedSubclass(PermittedSubclass helper) {
+        // Do nothing
     }
 
     public void visitAnnotation(Annotation helper) {

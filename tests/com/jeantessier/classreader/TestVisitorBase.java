@@ -731,6 +731,30 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitRecord_attribute(mockAttribute);
     }
 
+    public void testVisitPermittedSubclasses_attribute() {
+        final PermittedSubclasses_attribute mockAttribute = mock(PermittedSubclasses_attribute.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockAttribute).getSubclasses();
+                will(returnValue(Collections.emptyList()));
+        }});
+
+        sut.visitPermittedSubclasses_attribute(mockAttribute);
+    }
+
+    public void testVisitPermittedSubclasses_attributeWithPermittedSubclass() {
+        final PermittedSubclasses_attribute mockAttribute = mock(PermittedSubclasses_attribute.class);
+        final PermittedSubclass mockPermittedSubclass = mock(PermittedSubclass.class);
+
+        checking(new Expectations() {{
+            atLeast(1).of (mockAttribute).getSubclasses();
+                will(returnValue(Collections.singleton(mockPermittedSubclass)));
+            oneOf (mockPermittedSubclass).accept(sut);
+        }});
+
+        sut.visitPermittedSubclasses_attribute(mockAttribute);
+    }
+
     public void testVisitCustom_attribute() {
         Custom_attribute mockCustom = mock(Custom_attribute.class);
         sut.visitCustom_attribute(mockCustom);
@@ -917,6 +941,11 @@ public class TestVisitorBase extends MockObjectTestCase {
         }});
 
         sut.visitRecordComponent_info(mockAttribute);
+    }
+
+    public void testVisitPermittedSubclass() {
+        final PermittedSubclass mockSubclass = mock(PermittedSubclass.class);
+        sut.visitPermittedSubclass(mockSubclass);
     }
 
     public void testVisitAnnotation() {
