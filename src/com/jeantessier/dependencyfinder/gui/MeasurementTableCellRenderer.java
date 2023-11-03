@@ -57,8 +57,7 @@ public class MeasurementTableCellRenderer extends DefaultTableCellRenderer {
             result.setHorizontalAlignment(JLabel.CENTER);
         }
 
-        if (value instanceof Measurement) {
-            Measurement measurement = (Measurement) value;
+        if (value instanceof Measurement measurement) {
             if (measurement.isInRange()) {
                 formatAsNormalCell(isSelected, row, result);
             } else {
@@ -68,41 +67,22 @@ public class MeasurementTableCellRenderer extends DefaultTableCellRenderer {
             String text;
             int dispose = ((OOMetricsTableModel) table.getModel()).getRawColumnDispose(column);
 
-            if (measurement instanceof StatisticalMeasurement) {
-                StatisticalMeasurement stat    = (StatisticalMeasurement) measurement;
-                switch (dispose) {
-                    case StatisticalMeasurement.DISPOSE_MINIMUM:
-                        text = String.valueOf(stat.getMinimum());
-                        break;
-                    case StatisticalMeasurement.DISPOSE_MEDIAN:
-                        text = String.valueOf(stat.getMedian());
-                        break;
-                    case StatisticalMeasurement.DISPOSE_AVERAGE:
-                        text = String.valueOf(stat.getAverage());
-                        break;
-                    case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
-                        text = String.valueOf(stat.getStandardDeviation());
-                        break;
-                    case StatisticalMeasurement.DISPOSE_MAXIMUM:
-                        text = String.valueOf(stat.getMaximum());
-                        break;
-                    case StatisticalMeasurement.DISPOSE_SUM:
-                        text = String.valueOf(stat.getSum());
-                        break;
-                    case StatisticalMeasurement.DISPOSE_IGNORE:
-                    case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
-                    default:
-                        text = "n/a";
-                        break;
-                }
+            if (measurement instanceof StatisticalMeasurement stats) {
+                text = switch (dispose) {
+                    case StatisticalMeasurement.DISPOSE_MINIMUM -> String.valueOf(stats.getMinimum());
+                    case StatisticalMeasurement.DISPOSE_MEDIAN -> String.valueOf(stats.getMedian());
+                    case StatisticalMeasurement.DISPOSE_AVERAGE -> String.valueOf(stats.getAverage());
+                    case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION -> String.valueOf(stats.getStandardDeviation());
+                    case StatisticalMeasurement.DISPOSE_MAXIMUM -> String.valueOf(stats.getMaximum());
+                    case StatisticalMeasurement.DISPOSE_SUM -> String.valueOf(stats.getSum());
+                    default -> "n/a";
+                };
             } else {
                 text = measurement.getValue().toString();
             }
 
             setCellContent(result, measurement, dispose, text);
-        } else if (value instanceof Metrics) {
-            Metrics metrics = (Metrics) value;
-
+        } else if (value instanceof Metrics metrics) {
             if (metrics.isInRange()) {
                 formatAsNormalCell(isSelected, row, result);
             } else {
@@ -143,7 +123,7 @@ public class MeasurementTableCellRenderer extends DefaultTableCellRenderer {
     }
 
     private void setCellContent(JLabel result, Measurement measurement, int dispose, String text) {
-        StringBuffer tooltip = new StringBuffer();
+        StringBuilder tooltip = new StringBuilder();
         tooltip.append("<html><body><p>");
         tooltip.append("<b>").append(measurement.getContext().getName()).append("</b><br>");
         tooltip.append(measurement.getLongName()).append(" (").append(measurement.getShortName()).append(")");

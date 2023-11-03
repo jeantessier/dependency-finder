@@ -43,7 +43,7 @@ public class NodeHandler extends DefaultHandler {
     private static final int CLASS   = 2;
     private static final int FEATURE = 3;
 
-    private final NodeFactory  factory;
+    private final NodeFactory factory;
 
     private int          currentNodeType;
     private int          currentDependencyType;
@@ -130,18 +130,12 @@ public class NodeHandler extends DefaultHandler {
             Logger.getLogger(getClass()).debug("        current_name: " + currentName);
             Logger.getLogger(getClass()).debug("        current_dependency_type: " + currentDependencyType);
 
-            Node other = null;
-            switch (currentDependencyType) {
-                case PACKAGE:
-                    other = getFactory().createPackage(currentName.toString(), isConfirmed(currentDependencyAttributes));
-                    break;
-                case CLASS:
-                    other = getFactory().createClass(currentName.toString(), isConfirmed(currentDependencyAttributes));
-                    break;
-                case FEATURE:
-                    other = getFactory().createFeature(currentName.toString(), isConfirmed(currentDependencyAttributes));
-                    break;
-            }
+            Node other = switch (currentDependencyType) {
+                case PACKAGE -> getFactory().createPackage(currentName.toString(), isConfirmed(currentDependencyAttributes));
+                case CLASS -> getFactory().createClass(currentName.toString(), isConfirmed(currentDependencyAttributes));
+                case FEATURE -> getFactory().createFeature(currentName.toString(), isConfirmed(currentDependencyAttributes));
+                default -> null;
+            };
             currentNode.addDependency(other);
             fireDependency(currentNode, other);
         } else if ("inbound".equals(qName)) {
@@ -149,18 +143,12 @@ public class NodeHandler extends DefaultHandler {
             Logger.getLogger(getClass()).debug("        current_name: " + currentName);
             Logger.getLogger(getClass()).debug("        current_dependency_type: " + currentDependencyType);
 
-            Node other = null;
-            switch (currentDependencyType) {
-                case PACKAGE:
-                    other = getFactory().createPackage(currentName.toString(), isConfirmed(currentDependencyAttributes));
-                    break;
-                case CLASS:
-                    other = getFactory().createClass(currentName.toString(), isConfirmed(currentDependencyAttributes));
-                    break;
-                case FEATURE:
-                    other = getFactory().createFeature(currentName.toString(), isConfirmed(currentDependencyAttributes));
-                    break;
-            }
+            Node other = switch (currentDependencyType) {
+                case PACKAGE -> getFactory().createPackage(currentName.toString(), isConfirmed(currentDependencyAttributes));
+                case CLASS -> getFactory().createClass(currentName.toString(), isConfirmed(currentDependencyAttributes));
+                case FEATURE -> getFactory().createFeature(currentName.toString(), isConfirmed(currentDependencyAttributes));
+                default -> null;
+            };
             other.addDependency(currentNode);
             fireDependency(other, currentNode);
         }

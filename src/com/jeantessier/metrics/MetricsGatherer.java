@@ -214,24 +214,14 @@ public class MetricsGatherer extends VisitorBase {
             }
         }
 
-        for (Class_info class_info : classfile.getAllInterfaces()) {
-            class_info.accept(this);
-        }
-
-        for (Field_info field : classfile.getAllFields()) {
-            field.accept(this);
-        }
-
-        for (Method_info method : classfile.getAllMethods()) {
-            method.accept(this);
-        }
+        classfile.getAllInterfaces().forEach(class_info -> class_info.accept(this));
+        classfile.getAllFields().forEach(field -> field.accept(this));
+        classfile.getAllMethods().forEach(method -> method.accept(this));
 
         sloc = 1;
 
-        for (Attribute_info attribute : classfile.getAttributes()) {
-            attribute.accept(this);
-        }
-        
+        classfile.getAttributes().forEach(attribute -> attribute.accept(this));
+
         if (!classfile.isSynthetic()) {
             getCurrentClass().addToMeasurement(BasicMeasurements.CLASS_SLOC, sloc);
         }

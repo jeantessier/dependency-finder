@@ -52,7 +52,7 @@ import org.apache.log4j.*;
  *  </pre>
  */
 public class SumMeasurement extends MeasurementBase {
-    private List<String> terms = new LinkedList<String>();
+    private final List<String> terms = new LinkedList<>();
 
     private double value = 0.0;
 
@@ -146,7 +146,7 @@ public class SumMeasurement extends MeasurementBase {
     private double evaluateMeasurement(String name) {
         double result = 0;
 
-        if (name.length() != 0) {
+        if (!name.isEmpty()) {
             int dispose;
             
             synchronized (perl()) {
@@ -181,36 +181,17 @@ public class SumMeasurement extends MeasurementBase {
             
             Measurement measurement = getContext().getMeasurement(name);
             
-            if (measurement instanceof StatisticalMeasurement) {
-                StatisticalMeasurement stats = (StatisticalMeasurement) measurement;
-                
-                switch (dispose) {
-                    case StatisticalMeasurement.DISPOSE_MINIMUM:
-                        result = stats.getMinimum();
-                        break;
-                    case StatisticalMeasurement.DISPOSE_MEDIAN:
-                        result = stats.getMedian();
-                        break;
-                    case StatisticalMeasurement.DISPOSE_AVERAGE:
-                        result = stats.getAverage();
-                        break;
-                    case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
-                        result = stats.getStandardDeviation();
-                        break;
-                    case StatisticalMeasurement.DISPOSE_MAXIMUM:
-                        result = stats.getMaximum();
-                        break;
-                    case StatisticalMeasurement.DISPOSE_SUM:
-                        result = stats.getSum();
-                        break;
-                    case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
-                        result = stats.getNbDataPoints();
-                        break;
-                    case StatisticalMeasurement.DISPOSE_IGNORE:
-                    default:
-                        result = stats.getValue().doubleValue();
-                        break;
-                }
+            if (measurement instanceof StatisticalMeasurement stats) {
+                result = switch (dispose) {
+                    case StatisticalMeasurement.DISPOSE_MINIMUM -> stats.getMinimum();
+                    case StatisticalMeasurement.DISPOSE_MEDIAN -> stats.getMedian();
+                    case StatisticalMeasurement.DISPOSE_AVERAGE -> stats.getAverage();
+                    case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION -> stats.getStandardDeviation();
+                    case StatisticalMeasurement.DISPOSE_MAXIMUM -> stats.getMaximum();
+                    case StatisticalMeasurement.DISPOSE_SUM -> stats.getSum();
+                    case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS -> stats.getNbDataPoints();
+                    default -> stats.getValue().doubleValue();
+                };
             } else {
                 result = measurement.getValue().doubleValue();
             }

@@ -173,70 +173,32 @@ public class RatioMeasurement extends MeasurementBase {
                 double baseValue    = Double.NaN;
                 double dividerValue = Double.NaN;
                 
-                if (base instanceof StatisticalMeasurement) {
-                    StatisticalMeasurement stats = (StatisticalMeasurement) base;
-                    
-                    switch (getBaseDispose()) {
-                        case StatisticalMeasurement.DISPOSE_MINIMUM:
-                            baseValue = stats.getMinimum();
-                            break;
-                        case StatisticalMeasurement.DISPOSE_MEDIAN:
-                            baseValue = stats.getMedian();
-                            break;
-                        case StatisticalMeasurement.DISPOSE_AVERAGE:
-                            baseValue = stats.getAverage();
-                            break;
-                        case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
-                            baseValue = stats.getStandardDeviation();
-                            break;
-                        case StatisticalMeasurement.DISPOSE_MAXIMUM:
-                            baseValue = stats.getMaximum();
-                            break;
-                        case StatisticalMeasurement.DISPOSE_SUM:
-                            baseValue = stats.getSum();
-                            break;
-                        case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
-                            baseValue = stats.getNbDataPoints();
-                            break;
-                        case StatisticalMeasurement.DISPOSE_IGNORE:
-                        default:
-                            baseValue = stats.getValue().doubleValue();
-                            break;
-                    }
+                if (base instanceof StatisticalMeasurement stats) {
+                    baseValue = switch (getBaseDispose()) {
+                        case StatisticalMeasurement.DISPOSE_MINIMUM -> stats.getMinimum();
+                        case StatisticalMeasurement.DISPOSE_MEDIAN -> stats.getMedian();
+                        case StatisticalMeasurement.DISPOSE_AVERAGE -> stats.getAverage();
+                        case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION -> stats.getStandardDeviation();
+                        case StatisticalMeasurement.DISPOSE_MAXIMUM -> stats.getMaximum();
+                        case StatisticalMeasurement.DISPOSE_SUM -> stats.getSum();
+                        case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS -> stats.getNbDataPoints();
+                        default -> stats.getValue().doubleValue();
+                    };
                 } else if (base != null) {
                     baseValue = base.getValue().doubleValue();
                 }
                 
-                if (divider instanceof StatisticalMeasurement) {
-                    StatisticalMeasurement stats = (StatisticalMeasurement) divider;
-                    
-                    switch (getDividerDispose()) {
-                        case StatisticalMeasurement.DISPOSE_MINIMUM:
-                            dividerValue = stats.getMinimum();
-                            break;
-                        case StatisticalMeasurement.DISPOSE_MEDIAN:
-                            dividerValue = stats.getMedian();
-                            break;
-                        case StatisticalMeasurement.DISPOSE_AVERAGE:
-                            dividerValue = stats.getAverage();
-                            break;
-                        case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
-                            dividerValue = stats.getStandardDeviation();
-                            break;
-                        case StatisticalMeasurement.DISPOSE_MAXIMUM:
-                            dividerValue = stats.getMaximum();
-                            break;
-                        case StatisticalMeasurement.DISPOSE_SUM:
-                            dividerValue = stats.getSum();
-                            break;
-                        case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
-                            dividerValue = stats.getNbDataPoints();
-                            break;
-                        case StatisticalMeasurement.DISPOSE_IGNORE:
-                        default:
-                            dividerValue = stats.getValue().doubleValue();
-                            break;
-                    }
+                if (divider instanceof StatisticalMeasurement stats) {
+                    dividerValue = switch (getDividerDispose()) {
+                        case StatisticalMeasurement.DISPOSE_MINIMUM -> stats.getMinimum();
+                        case StatisticalMeasurement.DISPOSE_MEDIAN -> stats.getMedian();
+                        case StatisticalMeasurement.DISPOSE_AVERAGE -> stats.getAverage();
+                        case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION -> stats.getStandardDeviation();
+                        case StatisticalMeasurement.DISPOSE_MAXIMUM -> stats.getMaximum();
+                        case StatisticalMeasurement.DISPOSE_SUM -> stats.getSum();
+                        case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS -> stats.getNbDataPoints();
+                        default -> stats.getValue().doubleValue();
+                    };
                 } else if (divider != null) {
                     dividerValue = divider.getValue().doubleValue();
                 }

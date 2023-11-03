@@ -80,7 +80,6 @@ public class VerboseListener extends VerboseListenerBase implements DependencyLi
             case -1:
                 break;
 
-            case 0:
             case 1:
                 getWriter().print(" (");
                 getWriter().print(getCurrentGroup().getSize());

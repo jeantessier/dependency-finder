@@ -130,48 +130,20 @@ public class MetricsComparator implements Comparator<Metrics> {
         return result;
     }
 
-    private double extractValue(Measurement m) {
-        double result = Double.NaN;
-
-        if (m instanceof StatisticalMeasurement) {
-            StatisticalMeasurement sm = (StatisticalMeasurement) m;
-            switch (getDispose()) {
-                case StatisticalMeasurement.DISPOSE_MINIMUM:
-                    result = sm.getMinimum();
-                    break;
-                    
-                case StatisticalMeasurement.DISPOSE_MEDIAN:
-                    result = sm.getMedian();
-                    break;
-                    
-                case StatisticalMeasurement.DISPOSE_AVERAGE:
-                    result = sm.getAverage();
-                    break;
-                    
-                case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
-                    result = sm.getStandardDeviation();
-                    break;
-                    
-                case StatisticalMeasurement.DISPOSE_MAXIMUM:
-                    result = sm.getMaximum();
-                    break;
-                    
-                case StatisticalMeasurement.DISPOSE_SUM:
-                    result = sm.getSum();
-                    break;
-                    
-                case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
-                    result = sm.getNbDataPoints();
-                    break;
-
-                default:
-                case StatisticalMeasurement.DISPOSE_IGNORE:
-                    break;
-            }
+    private double extractValue(Measurement measurement) {
+        if (measurement instanceof StatisticalMeasurement stats) {
+            return switch (getDispose()) {
+                case StatisticalMeasurement.DISPOSE_MINIMUM -> stats.getMinimum();
+                case StatisticalMeasurement.DISPOSE_MEDIAN -> stats.getMedian();
+                case StatisticalMeasurement.DISPOSE_AVERAGE -> stats.getAverage();
+                case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION -> stats.getStandardDeviation();
+                case StatisticalMeasurement.DISPOSE_MAXIMUM -> stats.getMaximum();
+                case StatisticalMeasurement.DISPOSE_SUM -> stats.getSum();
+                case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS -> stats.getNbDataPoints();
+                default -> Double.NaN;
+            };
         } else {
-            result = m.getValue().doubleValue();
+            return measurement.getValue().doubleValue();
         }
-        
-        return result;
     }
 }

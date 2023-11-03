@@ -40,17 +40,17 @@ import java.util.*;
 public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     public static final ClassfileLoaderDispatcher DEFAULT_DISPATCHER = new PermissiveDispatcher();
     
-    private ClassfileFactory factory;
-    private ClassfileLoaderDispatcher dispatcher;
+    private final ClassfileFactory factory;
+    private final ClassfileLoaderDispatcher dispatcher;
     
-    private ClassfileLoader dirLoader = new DirectoryClassfileLoader(this);
-    private ClassfileLoader jarLoader = new JarClassfileLoader(this);
-    private ClassfileLoader zipLoader = new ZipClassfileLoader(this);
+    private final ClassfileLoader dirLoader = new DirectoryClassfileLoader(this);
+    private final ClassfileLoader jarLoader = new JarClassfileLoader(this);
+    private final ClassfileLoader zipLoader = new ZipClassfileLoader(this);
 
-    private HashSet<LoadListener> loadListeners = new HashSet<LoadListener>();
+    private final HashSet<LoadListener> loadListeners = new HashSet<>();
 
-    private LinkedList<String> groupNames = new LinkedList<String>();
-    private LinkedList<Integer> groupSizes = new LinkedList<Integer>();
+    private final LinkedList<String> groupNames = new LinkedList<>();
+    private final LinkedList<Integer> groupSizes = new LinkedList<>();
 
     private ClassfileLoaderAction previousDispatch;
     
@@ -73,29 +73,20 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
         previousDispatch = dispatch;
         
         switch (dispatch) {
-            case IGNORE:
-                Logger.getLogger(getClass()).debug("IGNORE \"" + filename + "\"");
-                break;
-
-            case CLASS:
-            case DIRECTORY:
+            case IGNORE -> Logger.getLogger(getClass()).debug("IGNORE \"" + filename + "\"");
+            case CLASS, DIRECTORY -> {
                 Logger.getLogger(getClass()).debug("DIRECTORY or CLASS \"" + filename + "\"");
                 dirLoader.load(filename);
-                break;
-
-            case ZIP:
+            }
+            case ZIP -> {
                 Logger.getLogger(getClass()).debug("ZIP \"" + filename + "\"");
                 zipLoader.load(filename);
-                break;
-
-            case JAR:
+            }
+            case JAR -> {
                 Logger.getLogger(getClass()).debug("JAR \"" + filename + "\"");
                 jarLoader.load(filename);
-                break;
-
-            default:
-                Logger.getLogger(getClass()).debug("default (IGNORE) \"" + filename + "\"");
-                break;
+            }
+            default -> Logger.getLogger(getClass()).debug("default (IGNORE) \"" + filename + "\"");
         }
     }
 
@@ -107,26 +98,20 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
         }
         
         switch (dispatch) {
-            case IGNORE:
-                Logger.getLogger(getClass()).debug("IGNORE \"" + filename + "\"");
-                break;
-
-            case DIRECTORY:
+            case IGNORE -> Logger.getLogger(getClass()).debug("IGNORE \"" + filename + "\"");
+            case DIRECTORY -> {
                 Logger.getLogger(getClass()).debug("DIRECTORY \"" + filename + "\"");
                 dirLoader.load(filename, in);
-                break;
-
-            case ZIP:
+            }
+            case ZIP -> {
                 Logger.getLogger(getClass()).debug("ZIP \"" + filename + "\"");
                 zipLoader.load(filename, in);
-                break;
-
-            case JAR:
+            }
+            case JAR -> {
                 Logger.getLogger(getClass()).debug("JAR \"" + filename + "\"");
                 jarLoader.load(filename, in);
-                break;
-
-            case CLASS:
+            }
+            case CLASS -> {
                 Logger.getLogger(getClass()).debug("CLASS \"" + filename + "\"");
                 try {
                     fireBeginClassfile(filename);
@@ -135,11 +120,8 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
                 } catch (Exception ex) {
                     Logger.getLogger(getClass()).warn("Cannot load class from file \"" + filename + "\"", ex);
                 }
-                break;
-                
-            default:
-                Logger.getLogger(getClass()).debug("default (IGNORE) \"" + filename + "\"");
-                break;
+            }
+            default -> Logger.getLogger(getClass()).debug("default (IGNORE) \"" + filename + "\"");
         }
     }
 

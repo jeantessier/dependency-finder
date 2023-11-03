@@ -93,10 +93,7 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
 
         if (Logger.getLogger(getClass()).isDebugEnabled()) {
             Logger.getLogger(getClass()).debug("Read instructions(s):");
-
-            for (Instruction instr : this) {
-                logInstruction(instr);
-            }
+            forEach(this::logInstruction);
         }
     }
 
@@ -147,8 +144,8 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
         Logger.getLogger(getClass()).debug(message);
     }
 
-    private void appendIndexedConstantPoolEntry(StringBuilder message, Instruction instruction) {
-        switch (instruction.getOpcode()) {
+    private StringBuilder appendIndexedConstantPoolEntry(StringBuilder message, Instruction instruction) {
+        return switch (instruction.getOpcode()) {
             case 0x12: // ldc
             case 0x13: // ldc_w
             case 0x14: // ldc2_w
@@ -165,16 +162,14 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
             case 0xc0: // checkcast
             case 0xc1: // instanceof
             case 0xc5: // multianewarray
-                message.append(" ").append(instruction.getIndex()).append(" (").append(instruction.getIndexedConstantPoolEntry()).append(")");
-                break;
+                yield message.append(" ").append(instruction.getIndex()).append(" (").append(instruction.getIndexedConstantPoolEntry()).append(")");
             default:
-                // Do nothing
-                break;
-        }
+                yield message;
+        };
     }
 
-    private void appendIndexedLocalVariable(StringBuilder message, Instruction instruction) {
-        switch (instruction.getOpcode()) {
+    private StringBuilder appendIndexedLocalVariable(StringBuilder message, Instruction instruction) {
+        return switch (instruction.getOpcode()) {
             case 0x1a: // iload_0
             case 0x1e: // lload_0
             case 0x22: // fload_0
@@ -215,8 +210,7 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
             case 0x46: // fstore_3
             case 0x4a: // dstore_3
             case 0x4e: // astore_3
-                appendLocalVariable(message, instruction.getIndexedLocalVariable());
-                break;
+                yield appendLocalVariable(message, instruction.getIndexedLocalVariable());
             case 0x15: // iload
             case 0x16: // llload
             case 0x17: // fload
@@ -231,26 +225,24 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
             case 0x84: // iinc
             case 0xc4: // wide
                 message.append(" ").append(instruction.getIndex());
-                appendLocalVariable(message, instruction.getIndexedLocalVariable());
-                break;
+                yield appendLocalVariable(message, instruction.getIndexedLocalVariable());
             default:
-                // Do nothing
-                break;
-        }
+                yield message;
+        };
     }
 
-    private void appendLocalVariable(StringBuilder message, LocalVariable localVariable) {
+    private StringBuilder appendLocalVariable(StringBuilder message, LocalVariable localVariable) {
         String name = "n/a";
 
         if (localVariable != null) {
             name = localVariable.toString();
         }
 
-        message.append(" (").append(name).append(")");
+        return message.append(" (").append(name).append(")");
     }
 
-    private void appendOffset(StringBuilder message, Instruction instruction) {
-        switch (instruction.getOpcode()) {
+    private StringBuilder appendOffset(StringBuilder message, Instruction instruction) {
+        return switch (instruction.getOpcode()) {
             case 0x99: // ifeq
             case 0x9a: // ifne
             case 0x9b: // iflt
@@ -271,35 +263,23 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
             case 0xc7: // ifnonnull
             case 0xc8: // goto_w
             case 0xc9: // jsr_w
-                message.append(" ");
-                if (instruction.getOffset() >= 0) {
-                    message.append("+");
-                }
-                message.append(instruction.getOffset()).append(" (to ").append(instruction.getStart() + instruction.getOffset()).append(")");
-                break;
+                yield message.append(String.format(" %+d (to %d)", instruction.getOffset(), instruction.getStart() + instruction.getOffset()));
             default:
-                // Do nothing
-                break;
-        }
+                yield message;
+        };
     }
 
-    private void appendValue(StringBuilder message, Instruction helper) {
-        switch (helper.getOpcode()) {
+    private StringBuilder appendValue(StringBuilder message, Instruction instruction) {
+        return switch (instruction.getOpcode()) {
             case 0x10: // bipush
             case 0x11: // sipush
-                message.append(" ").append(helper.getValue());
-                break;
+                yield message.append(" ").append(instruction.getValue());
             case 0x84: // iinc
-                message.append(" by ").append(helper.getValue());
-                break;
+                yield message.append(" by ").append(instruction.getValue());
             case 0xc4: // wide
-                if (helper.getByte(1) == 0x84 /* iinc */) {
-                    message.append(" by ").append(helper.getValue());
-                }
-                break;
+                yield instruction.getByte(1) == 0x84 /* iinc */ ? message.append(" by ").append(instruction.getValue()) : message;
             default:
-                // Do nothing
-                break;
-        }
+                yield message;
+        };
     }
 }

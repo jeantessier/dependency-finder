@@ -43,6 +43,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class OOMetricsTableModel extends AbstractTableModel {
     private static final Integer LOCAL_DISPOSE_IGNORE = StatisticalMeasurement.DISPOSE_IGNORE;
@@ -120,41 +122,39 @@ public class OOMetricsTableModel extends AbstractTableModel {
         List<Integer> dispose = new LinkedList<>();
         dispose.add(LOCAL_DISPOSE_IGNORE);
 
-        descriptors.forEach(descriptor -> {
-            if (descriptor.isVisible()) {
-                if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
-                    names.add(descriptor.getShortName());
-                    columnDescriptors.add(descriptor);
-                    dispose.add(LOCAL_DISPOSE_MINIMUM);
-                    names.add(descriptor.getShortName());
-                    columnDescriptors.add(descriptor);
-                    dispose.add(LOCAL_DISPOSE_MEDIAN);
-                    names.add(descriptor.getShortName());
-                    columnDescriptors.add(descriptor);
-                    dispose.add(LOCAL_DISPOSE_AVERAGE);
-                    names.add(descriptor.getShortName());
-                    columnDescriptors.add(descriptor);
-                    dispose.add(LOCAL_DISPOSE_STANDARD_DEVIATION);
-                    names.add(descriptor.getShortName());
-                    columnDescriptors.add(descriptor);
-                    dispose.add(LOCAL_DISPOSE_MAXIMUM);
-                    names.add(descriptor.getShortName());
-                    columnDescriptors.add(descriptor);
-                    dispose.add(LOCAL_DISPOSE_SUM);
-                } else {
-                    names.add(descriptor.getShortName());
-                    columnDescriptors.add(descriptor);
-                    dispose.add(LOCAL_DISPOSE_IGNORE);
-                }
-            }
-        });
+        descriptors.stream()
+                .filter(MeasurementDescriptor::isVisible)
+                .forEach(descriptor -> {
+                    if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
+                        names.add(descriptor.getShortName());
+                        columnDescriptors.add(descriptor);
+                        dispose.add(LOCAL_DISPOSE_MINIMUM);
+                        names.add(descriptor.getShortName());
+                        columnDescriptors.add(descriptor);
+                        dispose.add(LOCAL_DISPOSE_MEDIAN);
+                        names.add(descriptor.getShortName());
+                        columnDescriptors.add(descriptor);
+                        dispose.add(LOCAL_DISPOSE_AVERAGE);
+                        names.add(descriptor.getShortName());
+                        columnDescriptors.add(descriptor);
+                        dispose.add(LOCAL_DISPOSE_STANDARD_DEVIATION);
+                        names.add(descriptor.getShortName());
+                        columnDescriptors.add(descriptor);
+                        dispose.add(LOCAL_DISPOSE_MAXIMUM);
+                        names.add(descriptor.getShortName());
+                        columnDescriptors.add(descriptor);
+                        dispose.add(LOCAL_DISPOSE_SUM);
+                    } else {
+                        names.add(descriptor.getShortName());
+                        columnDescriptors.add(descriptor);
+                        dispose.add(LOCAL_DISPOSE_IGNORE);
+                    }
+                });
 
         measurementNames = names.toArray(new String[0]);
         measurementDescriptors = columnDescriptors.toArray(new MeasurementDescriptor[0]);
         measurementDispose = new int[dispose.size()];
-        for (int j=0; j<dispose.size(); j++) {
-            measurementDispose[j] = dispose.get(j);
-        }
+        IntStream.range(0, dispose.size()).forEach(i -> measurementDispose[i] = dispose.get(i));
     }
 
     private void buildMetricValues() {
@@ -166,23 +166,11 @@ public class OOMetricsTableModel extends AbstractTableModel {
 
         int i = 0;
         for (Metrics currentMetrics : metricsList) {
-            List<Measurement> measurements = new ArrayList<>(measurementNames.length);
-            for (MeasurementDescriptor descriptor : descriptors) {
-                if (descriptor.isVisible()) {
-                    Measurement measurement = currentMetrics.getMeasurement(descriptor.getShortName());
-
-                    if (measurement instanceof StatisticalMeasurement) {
-                        measurements.add(measurement);
-                        measurements.add(measurement);
-                        measurements.add(measurement);
-                        measurements.add(measurement);
-                        measurements.add(measurement);
-                        measurements.add(measurement);
-                    } else {
-                        measurements.add(measurement);
-                    }
-                }
-            }
+            var measurements = descriptors.stream()
+                    .filter(MeasurementDescriptor::isVisible)
+                    .map(descriptor -> currentMetrics.getMeasurement(descriptor.getShortName()))
+                    .flatMap(measurement -> measurement instanceof StatisticalMeasurement ? Stream.of(measurement, measurement, measurement, measurement, measurement, measurement) : Stream.of(measurement))
+                    .toList();
 
             measurementValues[i] = new Object[measurements.size() + 1];
 
@@ -217,24 +205,18 @@ public class OOMetricsTableModel extends AbstractTableModel {
     }
 
     public String getColumnName(int column) {
-        String result  = getRawColumnName(column);
-
-        switch (getRawColumnDispose(column)) {
+        return switch (getRawColumnDispose(column)) {
             case StatisticalMeasurement.DISPOSE_MINIMUM:
             case StatisticalMeasurement.DISPOSE_MEDIAN:
             case StatisticalMeasurement.DISPOSE_AVERAGE:
             case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
             case StatisticalMeasurement.DISPOSE_MAXIMUM:
             case StatisticalMeasurement.DISPOSE_SUM:
-                result += " (" + StatisticalMeasurement.getDisposeAbbreviation(getRawColumnDispose(column)) + ")";
-                break;
+                yield getRawColumnName(column) + " (" + StatisticalMeasurement.getDisposeAbbreviation(getRawColumnDispose(column)) + ")";
             case StatisticalMeasurement.DISPOSE_IGNORE:
             case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
             default:
-                // Ignore
-                break;
-        }
-
-        return result;
+                yield getRawColumnName(column);
+        };
     }
 }

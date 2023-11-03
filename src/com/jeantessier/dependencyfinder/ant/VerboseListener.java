@@ -55,20 +55,13 @@ public class VerboseListener extends VerboseListenerBase implements DependencyLi
     public void beginGroup(LoadEvent event) {
         super.beginGroup(event);
 
-        switch (getCurrentGroup().getSize()) {
-            case -1:
-                task.log("Searching " + getCurrentGroup().getName() + " ...", Project.MSG_VERBOSE);
-                break;
-
-            case 0:
-            case 1:
-                task.log("Searching " + getCurrentGroup().getName() + " (" + getCurrentGroup().getSize() + " file) ...", Project.MSG_VERBOSE);
-                break;
-
-            default:
-                task.log("Searching " + getCurrentGroup().getName() + " (" + getCurrentGroup().getSize() + " files) ...", Project.MSG_VERBOSE);
-                break;
-        }
+        task.log(
+                switch (getCurrentGroup().getSize()) {
+                    case -1 -> "Searching " + getCurrentGroup().getName() + " ...";
+                    case 1 -> "Searching " + getCurrentGroup().getName() + " (" + getCurrentGroup().getSize() + " file) ...";
+                    default -> "Searching " + getCurrentGroup().getName() + " (" + getCurrentGroup().getSize() + " files) ...";
+                },
+                Project.MSG_VERBOSE);
     }
 
     public void endClassfile(LoadEvent event) {
@@ -86,10 +79,14 @@ public class VerboseListener extends VerboseListenerBase implements DependencyLi
     }
     
     public void beginClass(DependencyEvent event) {
+        DependencyListener.super.beginClass(event);
+
         task.log("Getting dependencies from " + event.getClassName() + " ...", Project.MSG_VERBOSE);
     }
     
     public void beginClass(MetricsEvent event) {
+        MetricsListener.super.beginClass(event);
+
         task.log("Computing metrics for " + event.getClassfile() + " ...", Project.MSG_VERBOSE);
     }
 }
