@@ -1,0 +1,8 @@
+Refactored some code to make better use of =switch= expressions.  A long time
+ago, I was a big fan of having a single exit point in methods.  I would often
+set up a =result= variable at the top of a method and have a single =return=
+statement at the bottom.  It helped with debugging because I could put a
+=print= statement just before returning and see what was what.  Since then, as
+I've been working with other languages, I've become more prone to short methods
+that simply return an expression.  So, I'm making a few changes here and there
+to make the code "look better".
