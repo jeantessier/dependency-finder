@@ -113,26 +113,12 @@ public abstract class DiffCommand extends Command {
             result = new IncompatibleDifferenceStrategy(baseStrategy);
         } else {
             try {
-                Constructor constructor;
                 try {
-                    constructor = Class.forName(level).getConstructor(DifferenceStrategy.class);
-                    result = (DifferenceStrategy) constructor.newInstance(baseStrategy);
+                    result = (DifferenceStrategy) Class.forName(level).getConstructor(DifferenceStrategy.class).newInstance(baseStrategy);
                 } catch (NoSuchMethodException ex) {
                     result = (DifferenceStrategy) Class.forName(level).newInstance();
                 }
-            } catch (InvocationTargetException ex) {
-                Logger.getLogger(getClass()).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
-                result = getDefaultStrategy(baseStrategy);
-            } catch (InstantiationException ex) {
-                Logger.getLogger(getClass()).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
-                result = getDefaultStrategy(baseStrategy);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(getClass()).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
-                result = getDefaultStrategy(baseStrategy);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(getClass()).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
-                result = getDefaultStrategy(baseStrategy);
-            } catch (ClassCastException ex) {
+            } catch (ReflectiveOperationException | ClassCastException ex) {
                 Logger.getLogger(getClass()).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
                 result = getDefaultStrategy(baseStrategy);
             }

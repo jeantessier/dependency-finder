@@ -264,26 +264,12 @@ public class JarJarDiff extends Task {
             strategy = new IncompatibleDifferenceStrategy(baseStrategy);
         } else {
             try {
-                Constructor constructor;
                 try {
-                    constructor = Class.forName(level).getConstructor(DifferenceStrategy.class);
-                    strategy = (DifferenceStrategy) constructor.newInstance(baseStrategy);
+                    strategy = (DifferenceStrategy) Class.forName(level).getConstructor(DifferenceStrategy.class).newInstance(baseStrategy);
                 } catch (NoSuchMethodException ex) {
                     strategy = (DifferenceStrategy) Class.forName(level).newInstance();
                 }
-            } catch (InvocationTargetException ex) {
-                log("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\": " + ex.getMessage());
-                strategy = getDefaultStrategy(baseStrategy);
-            } catch (InstantiationException ex) {
-                log("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\": " + ex.getMessage());
-                strategy = getDefaultStrategy(baseStrategy);
-            } catch (IllegalAccessException ex) {
-                log("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\": " + ex.getMessage());
-                strategy = getDefaultStrategy(baseStrategy);
-            } catch (ClassNotFoundException ex) {
-                log("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\": " + ex.getMessage());
-                strategy = getDefaultStrategy(baseStrategy);
-            } catch (ClassCastException ex) {
+            } catch (ReflectiveOperationException | ClassCastException ex) {
                 log("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\": " + ex.getMessage());
                 strategy = getDefaultStrategy(baseStrategy);
             }

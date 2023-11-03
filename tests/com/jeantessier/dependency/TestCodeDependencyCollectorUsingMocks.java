@@ -77,26 +77,26 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         final ClassNode mockExceptionNode = mock(ClassNode.class);
 
         checking(new Expectations() {{
-            one (mockException).getName();
+            oneOf (mockException).getName();
                 will(returnValue(TEST_EXCEPTION_NAME));
-            one (mockFactory).createClass(TEST_EXCEPTION_NAME);
+            oneOf (mockFactory).createClass(TEST_EXCEPTION_NAME);
                 will(returnValue(mockExceptionNode));
-            one (mockClassNode).addDependency(mockExceptionNode);
+            oneOf (mockClassNode).addDependency(mockExceptionNode);
         }});
 
         sut.setCurrent(mockClassNode);
         sut.visitClass_info(mockException);
     }
 
-    public void testVisitClassfile_withoutsuperclass() {
+    public void testVisitClassfile_withoutSuperclass() {
         expectClassNodeForClassname();
 
         checking(new Expectations() {{
             atLeast(1).of (mockClassfile).getClassName();
                 will(returnValue(TEST_CLASS_NAME));
-            one (mockFactory).createClass(TEST_CLASS_NAME, true);
+            oneOf (mockFactory).createClass(TEST_CLASS_NAME, true);
                 will(returnValue(mockClassNode));
-            one (mockClassfile).getSuperclassIndex();
+            oneOf (mockClassfile).getSuperclassIndex();
                 will(returnValue(0));
             never (mockClassNode).addParent(with(any(ClassNode.class)));
             ignoring (mockClassfile).getAllInterfaces();
@@ -108,7 +108,7 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_withsuperclass() {
+    public void testVisitClassfile_withSuperclass() {
         final Class_info mockRawSuperclass = mock(Class_info.class);
         final ClassNode mockSuperclassNode = mock(ClassNode.class, "superclass");
 
@@ -117,18 +117,18 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         checking(new Expectations() {{
             atLeast(1).of (mockClassfile).getClassName();
                 will(returnValue(TEST_CLASS_NAME));
-            one (mockFactory).createClass(TEST_CLASS_NAME, true);
+            oneOf (mockFactory).createClass(TEST_CLASS_NAME, true);
                 will(returnValue(mockClassNode));
-            one (mockClassfile).getSuperclassIndex();
+            oneOf (mockClassfile).getSuperclassIndex();
                 will(returnValue(1));
-            one (mockClassfile).getRawSuperclass();
+            oneOf (mockClassfile).getRawSuperclass();
                 will(returnValue(mockRawSuperclass));
-            one (mockRawSuperclass).accept(sut);
+            oneOf (mockRawSuperclass).accept(sut);
             atLeast(1).of (mockRawSuperclass).getName();
                 will(returnValue(TEST_SUPERCLASS_NAME));
             atLeast(1).of (mockFactory).createClass(TEST_SUPERCLASS_NAME);
                 will(returnValue(mockSuperclassNode));
-            one (mockClassNode).addParent(mockSuperclassNode);
+            oneOf (mockClassNode).addParent(mockSuperclassNode);
             ignoring (mockClassfile).getAllInterfaces();
             ignoring (mockClassfile).getAllFields();
             ignoring (mockClassfile).getAllMethods();
@@ -138,7 +138,7 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_withinterface() {
+    public void testVisitClassfile_withInterface() {
         final Class_info mockInterface = mock(Class_info.class);
         final ClassNode mockInterfaceNode = mock(ClassNode.class, "interface");
 
@@ -150,18 +150,18 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         checking(new Expectations() {{
             atLeast(1).of (mockClassfile).getClassName();
                 will(returnValue(TEST_CLASS_NAME));
-            one (mockFactory).createClass(TEST_CLASS_NAME, true);
+            oneOf (mockFactory).createClass(TEST_CLASS_NAME, true);
                 will(returnValue(mockClassNode));
-            one (mockClassfile).getSuperclassIndex();
+            oneOf (mockClassfile).getSuperclassIndex();
                 will(returnValue(0));
-            one (mockClassfile).getAllInterfaces();
+            oneOf (mockClassfile).getAllInterfaces();
                 will(returnValue(allInterfaces));
-            one (mockInterface).accept(sut);
+            oneOf (mockInterface).accept(sut);
             atLeast(1).of (mockInterface).getName();
                 will(returnValue(TEST_INTERFACE_NAME));
             atLeast(1).of (mockFactory).createClass(TEST_INTERFACE_NAME);
                 will(returnValue(mockInterfaceNode));
-            one (mockClassNode).addParent(mockInterfaceNode);
+            oneOf (mockClassNode).addParent(mockInterfaceNode);
             ignoring (mockClassfile).getAllFields();
             ignoring (mockClassfile).getAllMethods();
             ignoring (mockClassfile).getAttributes();
@@ -170,7 +170,7 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_fireevents() {
+    public void testVisitClassfile_fireEvents() {
         final DependencyListener mockListener = mock(DependencyListener.class);
 
         expectClassNodeForClassname();
@@ -179,10 +179,10 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
             atLeast(1).of (mockClassfile).getClassName();
                 will(returnValue(TEST_CLASS_NAME));
 
-            one (mockListener).beginClass(with(any(DependencyEvent.class)));
+            oneOf (mockListener).beginClass(with(any(DependencyEvent.class)));
                 will(createEventCheckingAction(TEST_CLASS_NAME));
 
-            one (mockFactory).createClass(TEST_CLASS_NAME, true);
+            oneOf (mockFactory).createClass(TEST_CLASS_NAME, true);
 
             ignoring (mockClassfile).getSuperclassIndex();
             ignoring (mockClassfile).getAllInterfaces();
@@ -190,9 +190,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
             ignoring (mockClassfile).getAllMethods();
             ignoring (mockClassfile).getAttributes();
 
-            one (mockListener).endClass(with(any(DependencyEvent.class)));
+            oneOf (mockListener).endClass(with(any(DependencyEvent.class)));
                 will(createEventCheckingAction(TEST_CLASS_NAME));
-
         }});
 
         sut.addDependencyListener(mockListener);
@@ -203,7 +202,7 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
 
         checking(new Expectations() {{
-            one (mockExceptionHandler).getCatchTypeIndex();
+            oneOf (mockExceptionHandler).getCatchTypeIndex();
                 will(returnValue(0));
         }});
 
@@ -215,11 +214,11 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         final Class_info mockCatchType = mock(Class_info.class);
 
         checking(new Expectations() {{
-            one (mockExceptionHandler).getCatchTypeIndex();
+            oneOf (mockExceptionHandler).getCatchTypeIndex();
                 will(returnValue(1));
-            one (mockExceptionHandler).getRawCatchType();
+            oneOf (mockExceptionHandler).getRawCatchType();
                 will(returnValue(mockCatchType));
-            one (mockCatchType).accept(sut);
+            oneOf (mockCatchType).accept(sut);
         }});
 
         sut.visitExceptionHandler(mockExceptionHandler);
@@ -230,11 +229,11 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         final ClassNode mockDependableClassNode = mock(ClassNode.class, "dependable");
 
         checking(new Expectations() {{
-            one (mockAnnotation).getType();
+            oneOf (mockAnnotation).getType();
                 will(returnValue("dependable.Dependable"));
-            one (mockFactory).createClass("dependable.Dependable");
+            oneOf (mockFactory).createClass("dependable.Dependable");
                 will(returnValue(mockDependableClassNode));
-            one (mockClassNode).addDependency(mockDependableClassNode);
+            oneOf (mockClassNode).addDependency(mockDependableClassNode);
 
             ignoring (mockAnnotation).getElementValuePairs();
         }});
@@ -248,13 +247,13 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         final FeatureNode mockDependableFeatureNode = mock(FeatureNode.class, "dependable.CONSTANT");
 
         checking(new Expectations() {{
-            one (mockEnumElementValue).getTypeName();
+            oneOf (mockEnumElementValue).getTypeName();
                 will(returnValue("dependable.Dependable"));
-            one (mockEnumElementValue).getConstName();
+            oneOf (mockEnumElementValue).getConstName();
                 will(returnValue("CONSTANT"));
-            one (mockFactory).createFeature("dependable.Dependable.CONSTANT");
+            oneOf (mockFactory).createFeature("dependable.Dependable.CONSTANT");
                 will(returnValue(mockDependableFeatureNode));
-            one (mockClassNode).addDependency(mockDependableFeatureNode);
+            oneOf (mockClassNode).addDependency(mockDependableFeatureNode);
         }});
 
         sut.setCurrent(mockClassNode);
@@ -266,11 +265,11 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         final ClassNode mockDependableClassNode = mock(ClassNode.class, "dependable");
 
         checking(new Expectations() {{
-            one (mockClassElementValue).getClassInfo();
+            oneOf (mockClassElementValue).getClassInfo();
                 will(returnValue("dependable.Dependable"));
-            one (mockFactory).createClass("dependable.Dependable");
+            oneOf (mockFactory).createClass("dependable.Dependable");
                 will(returnValue(mockDependableClassNode));
-            one (mockClassNode).addDependency(mockDependableClassNode);
+            oneOf (mockClassNode).addDependency(mockDependableClassNode);
         }});
 
         sut.setCurrent(mockClassNode);
@@ -289,9 +288,9 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
 
     private void expectClassNodeForClassname() {
         checking(new Expectations() {{
-            one (mockClassfile).getClassName();
+            oneOf (mockClassfile).getClassName();
                 will(returnValue(TEST_CLASS_NAME));
-            one (mockFactory).createClass(TEST_CLASS_NAME);
+            oneOf (mockFactory).createClass(TEST_CLASS_NAME);
                 will(returnValue(mockClassNode));
         }});
     }
