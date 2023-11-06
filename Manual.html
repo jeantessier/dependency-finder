@@ -6,15 +6,18 @@
 <link rel="stylesheet" type="text/css" href="style.css" />
 <link rel="shortcut icon" href="images/logoicon.gif" type="image/gif" />
 <title>The Dependency Finder User Manual</title>
+
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SHFGYZT6JY"></script>
 <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    gtag('config', 'G-SHFGYZT6JY');
+  gtag('config', 'G-SHFGYZT6JY');
 </script>
+
 </head>
 
 <body>
@@ -22,7 +25,7 @@
 <h1>The Dependency Finder User Manual</h1>
 
 <p>
-For Dependency Finder version 1.2.1-beta6.
+For Dependency Finder version 1.3.0.
 </p>
 
 <p>
@@ -174,10 +177,6 @@ by Jean Tessier
 </ul>
 </ul>
 <li><a href="#ListingthePublishedAPI">Listing the Published API</a></li>
-<ul>
-<li><a href="#Extraction">Extraction</a></li>
-<li><a href="#ListingPublishedDocumentationChanges">Listing Published Documentation Changes</a></li>
-</ul>
 <li><a href="#BringingItAllTogether">Bringing It All Together</a></li>
 <ul>
 <li><a href="#TrackingDependenciesOnDeprecatedSymbols">Tracking Dependencies On Deprecated Symbols</a></li>
@@ -279,7 +278,7 @@ application to keep the data in memory and play with it a while.
 
 <p>
 Dependency Finder comes as a ZIP file that includes everything you need to run
-it.  The file is named <code>DependencyFinder-1.2.1-beta6.bin.zip</code>.
+it.  The file is named <code>DependencyFinder-1.3.0.bin.zip</code>.
 </p>
 
 <a name="Step1:JavaVirtualMachine"></a>
@@ -310,13 +309,13 @@ create and edit variables.
 
 <p>
 Extract the ZIP file to some directory you like.  The extraction will create a
-subdirectory named "DependencyFinder-1.2.1-beta6" that is the root of the
+subdirectory named "DependencyFinder-1.3.0" that is the root of the
 package.
 </p>
 
 <p>
 For example, if you extract it to <code>C:\</code>, you will endup with a directory called
-<code>C:\DependencyFinder-1.2.1-beta6\</code>.
+<code>C:\DependencyFinder-1.3.0\</code>.
 </p>
 
 <a name="Step3:EnvironmentVariables"></a>
@@ -335,7 +334,7 @@ For example, if you extracted the ZIP file in <code>C:\</code>
 </p>
 
 <pre>
-    SET DEPENDENCYFINDER_HOME=C:\DependencyFinder-1.2.1-beta6
+    SET DEPENDENCYFINDER_HOME=C:\DependencyFinder-1.3.0
 </pre>
 
 <p>
@@ -356,7 +355,7 @@ For example, if you extracted the ZIP file in <code>C:\</code>
 </p>
 
 <pre>
-    SET PATH=C:\DependencyFinder-1.2.1-beta6\bin;%PATH%
+    SET PATH=C:\DependencyFinder-1.3.0\bin;%PATH%
 </pre>
 
 <a name="Step5:Reboot"></a>
@@ -415,8 +414,8 @@ everything you need to run it.  The files are:
 </p>
 
 <ul>
-<li><code>DependencyFinder-1.2.1-beta6.bin.tar.gz</code></li>
-<li><code>DependencyFinder-1.2.1-beta6.bin.tar.bz2</code></li>
+<li><code>DependencyFinder-1.3.0.bin.tar.gz</code></li>
+<li><code>DependencyFinder-1.3.0.bin.tar.bz2</code></li>
 </ul>
 
 <p>
@@ -484,7 +483,7 @@ subdirectory named "DependencyFinder" that is the root of the package.
 </p>
 
 <pre>
-    $ tar xvzf DependencyFinder-1.2.1-beta6.bin.tar.gz
+    $ tar xvzf DependencyFinder-1.3.0.bin.tar.gz
 </pre>
 
 <p>
@@ -492,12 +491,12 @@ or
 </p>
 
 <pre>
-    $ bunzip2 DependencyFinder-1.2.1-beta6.bin.tar.bz2 | tar xvf -
+    $ bunzip2 DependencyFinder-1.3.0.bin.tar.bz2 | tar xvf -
 </pre>
 
 <p>
 For example, if you extract it to <code>$HOME</code>, you will endup with a directory
-called <code>$HOME/DependencyFinder-1.2.1-beta6</code>.
+called <code>$HOME/DependencyFinder-1.3.0</code>.
 </p>
 
 <a name="Step3:EnvironmentVariablesX"></a>
@@ -525,7 +524,7 @@ For sh:
 </p>
 
 <pre>
-    DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-1.2.1-beta6
+    DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-1.3.0
     export DEPENDENCYFINDER_HOME
     DEPENDENCYFINDER_OPTS=-Xmx128m
     export DEPENDENCYFINDER_OPTS
@@ -536,7 +535,7 @@ For bash:
 </p>
 
 <pre>
-    export DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-1.2.1-beta6
+    export DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-1.3.0
     export DEPENDENCYFINDER_OPTS=-Xmx128m
 </pre>
 
@@ -549,7 +548,7 @@ For csh or tcsh:
 </p>
 
 <pre>
-    setenv DEPENDENCYFINDER_HOME $HOME/DependencyFinder-1.2.1-beta6
+    setenv DEPENDENCYFINDER_HOME $HOME/DependencyFinder-1.3.0
     setenv DEPENDENCYFINDER_OPTS -Xmx128m
 </pre>
 
@@ -631,7 +630,7 @@ For instance, using Tomcat on Windows, you can do the following:
 </pre>
 
 <pre>
-    $ cp DependencyFinder-1.2.1-beta6.war ${CATALINA_HOME}/webapps
+    $ cp DependencyFinder-1.3.0.war ${CATALINA_HOME}/webapps
 </pre>
 
 <pre>
@@ -752,7 +751,7 @@ may allow you to simply restart the web application itself.
 </pre>
 
 <pre>
-    $ vi ${CATALINA_HOME}/webapps/DependencyFinder-1.2.1-beta6/WEB-INF/web.xml
+    $ vi ${CATALINA_HOME}/webapps/DependencyFinder-1.3.0/WEB-INF/web.xml
 </pre>
 
 <pre>
@@ -1164,27 +1163,6 @@ tools and end with the Ant tasks.
         </td>
         <td>
             <code>&lt;xslt style="${dependencyfinder.home}/etc/ListDiffToText.xsl"&gt;</code>
-        </td>
-        <td>
-            <i>n/a</i>
-        </td>
-        <td>
-            <i>n/a</i>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <code>ListDocumentedElements</code>
-        </td>
-        <td>
-            <pre>&lt;javadoc&gt;
-    &lt;doclet name="com.jeantessier.diff.ListDocumentedElements"
-            path="${classesDir}"&gt;
-        &lt;param name="-tag" value="level"/&gt;
-        &lt;param name="-valid" value="published"/&gt;
-        &lt;param name="-out" value="documented_elements.txt"/&gt;
-    &lt;/doclet&gt;
-&lt;/javadoc&gt;</pre>
         </td>
         <td>
             <i>n/a</i>
@@ -4650,6 +4628,9 @@ The following are simple numerical measurements taken against the class.
     <dd>Number of characters in the class's name.</dd>
     <dt>Name Word Count (CNWC)</dt>
     <dd>Number of words that make up the class's name.</dd>
+    <dt>Major Version Number (MaV)</dt>
+    <dd>The major version number of the <code>.class</code> file, set by the compiler, and
+    tells which version of the virtual machine can execute it.</dd>
     <dt>Single Line of Code (SLOC)</dt>
     <dd>Number of code lines in the class.  Comments and empty lines are not
     counted.  Large classes are usually a sign of poor design.</dd>
@@ -5647,7 +5628,7 @@ files.
 <p>
 The tools in Dependency Finder work from the compiled code, either in JAR files
 or in individual <code>.class</code> files; they do not work from either the source code
-or the generated javadoc (except <code>ListDocumentedElements</code>, as we'll see later).
+or the generated javadoc.
 </p>
 
 <p>
@@ -5949,168 +5930,10 @@ fully-qualified targets, one per line, in a simple text file and pass it to
 <h2>Listing the Published API</h2>
 
 <p>
-<code>ListDocumentedElements</code> is a Java doclet that can list all packages, classes,
-interfaces, fields, constructors, and methods in a given set of Java source
-files.  You can run this tool on the "old version" source files to get the list
-of everything in it (old list), and on the "new version" to get the list of
-everything in the "new version" (new list).  All you have left to do is compare
-the two lists, either yourself or with the <code>ListDiff</code> tool, to have the names
-of all the additions and removals between the two versions.
+Dependency Finder used to include a Java Doclet that could use Javadoc
+annotations to tease out the published interface of a codebase.  Doclets
+were removed in Java 9, so this functionality is not available anymore.
 </p>
-
-<p>
-You can use these lists with the <code>-filter</code> switch to <code>JarJarDiff</code> to limit the
-reporting to specific programming elements that have been earmarked using
-special javadoc tags.
-</p>
-
-<a name="Extraction"></a>
-<h3>Extraction</h3>
-
-<p>
-This command will only list elements that you marked as <code>@level published</code>.
-</p>
-
-<div class="highlight">
-
-<pre>
-    $ ListDocumentedElements -tag level
-                             -valid published
-                             -out old-list.txt
-                             old.java
-</pre>
-
-<pre>
-    $ ListDocumentedElements -tag level
-                             -valid published
-                             -out new-list.txt
-                             new.java
-</pre>
-
-</div>
-
-<div align="center">
-    <img src="images/ListDocumentedElements.gif" /><br />
-<b>Extracting Documented Elements</b>
-</div>
-
-<p>
-If you add Dependency Finder's JAR file to your <code>CLASSPATH</code>, you can call
-<code>javadoc</code> directly instead:
-</p>
-
-<div class="highlight">
-
-<pre>
-    $ javadoc -doclet com.jeantessier.diff.ListDocumentedElements
-              -tag level
-              -valid published
-              -out old-list.txt
-              old.java
-</pre>
-
-<pre>
-    $ javadoc -doclet com.jeantessier.diff.ListDocumentedElements
-              -tag level
-              -valid published
-              -out new-list.txt
-              new.java
-</pre>
-
-</div>
-
-<p>
-Or, as an Ant task:
-</p>
-
-<div class="highlight">
-
-<pre>
-    &lt;target name="listdocumentedelements" depends="init"&gt;
-        &lt;javadoc packagenames="${packageNames}"&gt;
-            &lt;sourcepath path="src"/&gt;
-            &lt;classpath refid="libs"/&gt;
-            &lt;doclet name="com.jeantessier.diff.ListDocumentedElements"
-                    path="${classesDir}"&gt;
-                &lt;param name="-tag" value="level"/&gt;
-                &lt;param name="-invalid" value="developer"/&gt;
-                &lt;param name="-out" value="df.txt"/&gt;
-            &lt;/doclet&gt;
-        &lt;/javadoc&gt;
-    &lt;/target&gt;
-</pre>
-
-</div>
-
-<p>
-This command will only list elements that you did <b>not</b> mark as
-<code>@level developer</code>.
-</p>
-
-<div class="highlight">
-
-<pre>
-    $ ListDocumentedElements -tag level
-                             -invalid developer
-                             -out old-list.txt
-                             old.java
-</pre>
-
-<pre>
-    $ ListDocumentedElements -tag level
-                             -invalid developer
-                             -out new-list.txt
-                             new.java
-</pre>
-
-</div>
-
-<a name="ListingPublishedDocumentationChanges"></a>
-<h3>Listing Published Documentation Changes</h3>
-
-<p>
-You use <code>ListDiff</code> to list changes in what is considered part of the published
-API.  It only needs the lists generated by the doclet.  No source or bytecode
-required.
-</p>
-
-<div class="highlight">
-
-<pre>
-    $ ListDiff -out listdiff.xml
-               -name "My Project"
-               -old-label Old
-               -old old-list.txt
-               -new-label New
-               -new new-list.txt
-               -compress
-</pre>
-
-</div>
-
-<div align="center">
-    <img src="images/ListDiff.gif" /><br />
-<b>Listing Differences in Documented Elements</b>
-</div>
-
-<p>
-<code>ListDiff</code> writes in XML and you can convert this XML into HTML with
-<code>ListDiffToHTML</code>, or to text with <code>ListDiffToText</code>.
-</p>
-
-<div class="highlight">
-
-<pre>
-    $ ListDiffToHTML -s:listdiff.xml
-                     -o:docreport.html
-</pre>
-
-</div>
-
-<div align="center">
-    <img src="images/ListDiff2HTML.gif" /><br />
-<b>Report on Differences in Documented Elements</b>
-</div>
 
 <hr />
 

@@ -35,11 +35,13 @@ attribute:</p>
 <li>&lt;destprefix&gt;_methods.csv</li>
 </ul>
 
-<p>With the <code>xml</code> attribute, it converts the entire structure
-into an XML document that follows the
+<p>With the <code>json</code>, <code>xml</code>, <code>yaml</code>, and
+<code>yml</code> attributes, it converts the entire structure into a single
+document.  The XML document that follows the
 <a href="https://depfind.sourceforge.io/dtd/metrics.dtd"><code>metrics</code></a>
 DTD.  The file you pointed to with the <code>&lt;destprefix&gt;</code>
-attribute will have a <code>.xml</code> extension.</p>
+attribute will have a <code>.json</code>, <code>.xml</code>, <code>.yaml</code>,
+or <code>.yml</code> extension.</p>
 
 <h3>Parameters</h3>
 
@@ -81,20 +83,37 @@ attribute will have a <code>.xml</code> extension.</p>
     <td valign="top" align="center">Yes</td>
   </tr>
   <tr>
+    <td valign="top">csv</td>
+    <td valign="top">writes each section in its own CSV file, perfect for
+      loading in Microsoft Excel and charting.</td>
+  </tr>
+  <tr>
+    <td valign="top">json</td>
+    <td valign="top">writes the metrics report as a JSON document.</td>
+  </tr>
+  <tr>
+    <td valign="top">text</td>
+    <td valign="top">writes a single text report with all requested sections.</td>
+    <td valign="top" align="center" rowspan="3">Yes, at least one of these</td>
+  </tr>
+  <tr>
     <td valign="top">txt</td>
     <td valign="top">writes a single text report with all requested sections.</td>
     <td valign="top" align="center" rowspan="3">Yes, at least one of these</td>
   </tr>
   <tr>
-    <td valign="top">csv</td>
-    <td valign="top">writes each section in its own CSV file, perfect for
-    loading in Microsoft Excel and charting.</td>
-  </tr>
-  <tr>
     <td valign="top">xml</td>
-    <td valign="top">writes the dependency graph as an XML document with the
+    <td valign="top">writes the metrics report as an XML document with the
     <code><a href="https://depfind.sourceforge.io/dtd/dependencies.dtd">dependencies</a></code>
     DTD.</td>
+  </tr>
+  <tr>
+    <td valign="top">yaml</td>
+    <td valign="top">writes the metrics report as a YAML document.</td>
+  </tr>
+  <tr>
+    <td valign="top">yml</td>
+    <td valign="top">writes the metrics report as a YAML document.</td>
   </tr>
   <tr>
     <td valign="top">encoding</td>
@@ -207,8 +226,6 @@ attribute will have a <code>.xml</code> extension.</p>
     them immediately.</td>
     <td valign="top" align="center">No; defaults to false.</td>
   </tr>
-
-
 </table>
 
 <h3>Nested elements</h3>
@@ -264,7 +281,7 @@ report to <code>df.txt</code>:</p>
 
 <hr>
 
-<p align="center">Copyright &copy; 2001-2009 Jean Tessier.  All rights reserved.</p>
+<p align="center">Copyright &copy; 2001-2023 Jean Tessier.  All rights reserved.</p>
 
 </body>
 
