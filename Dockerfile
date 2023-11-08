@@ -20,4 +20,8 @@ FROM tomcat
 
 ARG version
 
+# Sets "compilerSourceVM" and "compilerTargetVM" initialization parameters of
+# the "jsp" servlet so JSPs can use Java features beyond the default Java 11.
+RUN sed -i -e '/org.apache.jasper.servlet.JspServlet/a <init-param><param-name>compilerSourceVM</param-name><param-value>21</param-value></init-param><init-param><param-name>compilerTargetVM</param-name><param-value>21</param-value></init-param>' conf/web.xml
+
 COPY dist/DependencyFinder-${version}.war /usr/local/tomcat/webapps/ROOT.war
