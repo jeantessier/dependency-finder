@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!--
-    Copyright (c) 2001-2009, Jean Tessier
+    Copyright (c) 2001-2023, Jean Tessier
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without
@@ -10,7 +10,7 @@
     
         * Redistributions of source code must retain the above copyright
           notice, this list of conditions and the following disclaimer.
-    
+  
         * Redistributions in binary form must reproduce the above copyright
           notice, this list of conditions and the following disclaimer in the
           documentation and/or other materials provided with the distribution.
@@ -34,15 +34,15 @@
 
 <!ELEMENT classfiles (classfile*)>
 
-<!ELEMENT classfile (constant-pool, public?, final?, super?, is-interface?, abstract?, synthetic?, is-annotation?, enum?, this-class, superclass, interfaces?, fields?, methods?, attributes?)>
+<!ELEMENT classfile (constant-pool, public?, final?, super?, is-interface?, abstract?, synthetic?, is-annotation?, enum?, is-module?, this-class, superclass, interfaces?, fields?, methods?, attributes?)>
 <!ATTLIST classfile
           magic-number  CDATA #REQUIRED
           minor-version CDATA #REQUIRED
           major-version CDATA #REQUIRED
-          access-flag CDATA #REQUIRED
+          access-flags  CDATA #REQUIRED
 >
 
-<!ELEMENT constant-pool (class | field-ref-info | method-ref-info | interface-method-ref-info | string-info | integer-info | float-info | long-info | double-info | name-and-type-info | utf8-info | module-info | package-info)* >
+<!ELEMENT constant-pool (class | field-ref-info | method-ref-info | interface-method-ref-info | string-info | integer-info | float-info | long-info | double-info | name-and-type-info | utf8-info | method-handle-info | method-type-info | dynamic-info | invoke-dynamic-info | module | package | unusable)* >
 
 <!ELEMENT class (#PCDATA) >
 <!ATTLIST class
@@ -99,19 +99,65 @@
           index CDATA #REQUIRED
 >
 
-<!ELEMENT module-info (#PCDATA) >
-<!ATTLIST module-info
-          index CDATA #IMPLIED
+<!ELEMENT method-handle-info (reference-kind, reference) >
+<!ATTLIST method-handle-info
+          index CDATA #REQUIRED
 >
 
-<!ELEMENT package-info (#PCDATA) >
-<!ATTLIST package-info
-          index CDATA #IMPLIED
+<!ELEMENT reference-kind (#PCDATA) >
+<!ATTLIST reference-kind
+          kind CDATA #REQUIRED
+>
+
+<!ELEMENT reference (#PCDATA) >
+<!ATTLIST reference
+          index CDATA #REQUIRED
+>
+
+<!ELEMENT method-type-info (#PCDATA) >
+<!ATTLIST method-type-info
+          index CDATA #REQUIRED
+>
+
+<!ELEMENT dynamic-info (bootstrap-method-attr, name, type) >
+<!ATTLIST dynamic-info
+          index CDATA #REQUIRED
+>
+
+<!ELEMENT invoke-dynamic-info (bootstrap-method-attr, name, type) >
+<!ATTLIST invoke-dynamic-info
+          index CDATA #REQUIRED
+>
+
+<!ELEMENT bootstrap-method-attr EMPTY >
+<!ATTLIST bootstrap-method-attr
+          index CDATA #REQUIRED
+>
+
+<!ELEMENT module (#PCDATA) >
+<!ATTLIST module
+          index CDATA #REQUIRED
+>
+
+<!ELEMENT package (#PCDATA) >
+<!ATTLIST package
+          index CDATA #REQUIRED
+>
+
+<!ELEMENT unusable EMPTY >
+<!ATTLIST unusable
+          index CDATA #REQUIRED
 >
 
 <!ELEMENT type (#PCDATA) >
+<!ATTLIST type
+          index CDATA #IMPLIED
+>
 
 <!ELEMENT name (#PCDATA) >
+<!ATTLIST type
+          index CDATA #IMPLIED
+>
 
 <!ELEMENT public EMPTY >
 
@@ -129,7 +175,7 @@
 
 <!ELEMENT enum EMPTY >
 
-<!ELEMENT module EMPTY >
+<!ELEMENT is-module EMPTY >
 
 <!ELEMENT this-class (#PCDATA) >
 
@@ -143,7 +189,7 @@
 
 <!ELEMENT field-info (public?, protected?, private?, static?, final?, volatile?, transient?, synthetic?, enum?, name, type, attributes?)>
 <!ATTLIST field-info
-          access-flag CDATA #REQUIRED
+          access-flags CDATA #REQUIRED
 >
 
 <!ELEMENT protected EMPTY >
@@ -160,7 +206,7 @@
 
 <!ELEMENT method-info (public?, protected?, private?, static?, final?, synchronized?, bridge?, varargs?, native?, abstract?, strict?, synthetic?, name, return-type?, signature, attributes?)>
 <!ATTLIST method-info
-          access-flag CDATA #REQUIRED
+          access-flags CDATA #REQUIRED
 >
 
 <!ELEMENT synchronized EMPTY >
@@ -177,7 +223,7 @@
 
 <!ELEMENT signature (#PCDATA) >
 
-<!ELEMENT attributes (constant-value-attribute | code-attribute | exceptions-attribute | inner-classes-attribute | enclosing-method-attribute | synthetic-attribute | signature-attribute | source-file-attribute | line-number-table-attribute | local-variable-table-attribute | local-variable-type-table-attribute | deprecated-attribute | custom-attribute)* >
+<!ELEMENT attributes (constant-value-attribute | code-attribute | stack-map-table-attribute | exceptions-attribute | inner-classes-attribute | enclosing-method-attribute | synthetic-attribute | signature-attribute | source-file-attribute | source-debug-extension | line-number-table-attribute | local-variable-table-attribute | local-variable-type-table-attribute | deprecated-attribute | runtime-visible-annotations-attribute | runtime-invisible-annotations-attribute | runtime-visible-parameter-annotations-attribute | runtime-invisible-parameter-annotations-attribute | runtime-visible-type-annotations-attribute | runtime-invisible-type-annotations-attribute | annotation-default-attribute | bootstrap-methods-attribute | method-parameters-attribute | module-attribute | module-packages-attribute | module-main-class-attribute | nest-host-attribute | nest-members-attribute | record-attribute | permitted-subclasses-attribute | custom-attribute)* >
 
 <!ELEMENT constant-value-attribute (#PCDATA) >
 
@@ -189,11 +235,17 @@
 
 <!ELEMENT instruction (#PCDATA) >
 <!ATTLIST instruction
-          pc     CDATA #REQUIRED
-          length CDATA #REQUIRED
-          index  CDATA #IMPLIED
-          value  CDATA #IMPLIED
-          offset CDATA #IMPLIED
+          pc      CDATA #REQUIRED
+          length  CDATA #REQUIRED
+          op-code CDATA #REQUIRED
+          index   CDATA #IMPLIED
+          value   CDATA #IMPLIED
+          offset  CDATA #IMPLIED
+          padding CDATA #IMPLIED
+          default CDATA #IMPLIED
+          low     CDATA #IMPLIED
+          high    CDATA #IMPLIED
+          npairs  CDATA #IMPLIED
 >
 
 <!ELEMENT exception-handlers (exception-handler*) >
@@ -208,6 +260,98 @@
 
 <!ELEMENT catch-type (#PCDATA) >
 
+<!ELEMENT stack-map-table-attribute (same-frame | same-locals-1-stack-item-frame | same-locals-1-stack-item-frame-extended | chop-frame | same-frame-extended | append-frame | full-frame)* >
+
+<!ELEMENT same-frame EMPTY >
+<!ATTLIST same-frame
+          frame-type CDATA #REQUIRED
+>
+
+<!ELEMENT same-locals-1-stack-item-frame (stack) >
+<!ATTLIST same-locals-1-stack-item-frame
+          frame-type CDATA #REQUIRED
+>
+
+<!ELEMENT same-locals-1-stack-item-frame-extended (stack) >
+<!ATTLIST same-locals-1-stack-item-frame-extended
+          frame-type   CDATA #REQUIRED
+          offset-delta CDATA #REQUIRED
+>
+
+<!ELEMENT chop-frame EMPTY >
+<!ATTLIST chop-frame
+          frame-type   CDATA #REQUIRED
+          offset-delta CDATA #REQUIRED
+>
+
+<!ELEMENT same-frame-extended EMPTY >
+<!ATTLIST same-frame-extended
+          frame-type   CDATA #REQUIRED
+          offset-delta CDATA #REQUIRED
+>
+
+<!ELEMENT append-frame (locals) >
+<!ATTLIST append-frame
+          frame-type   CDATA #REQUIRED
+          offset-delta CDATA #REQUIRED
+>
+
+<!ELEMENT full-frame (locals, stack) >
+<!ATTLIST full-frame
+          frame-type   CDATA #REQUIRED
+          offset-delta CDATA #REQUIRED
+>
+
+<!ELEMENT stack (top-variable-info | integer-variable-info | float-variable-info | long-variable-info | double-variable-info | null-variable-info | uninitialized-this-variable-info | object-variable-info | uninitialized-variable-info)* >
+
+<!ELEMENT locals (top-variable-info | integer-variable-info | float-variable-info | long-variable-info | double-variable-info | null-variable-info | uninitialized-this-variable-info | object-variable-info | uninitialized-variable-info)* >
+
+<!ELEMENT top-variable-info EMPTY >
+<!ATTLIST top-variable-info
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT integer-variable-info EMPTY >
+<!ATTLIST integer-variable-info
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT float-variable-info EMPTY >
+<!ATTLIST float-variable-info
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT long-variable-info EMPTY >
+<!ATTLIST long-variable-info
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT double-variable-info EMPTY >
+<!ATTLIST double-variable-info
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT null-variable-info EMPTY >
+<!ATTLIST null-variable-info
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT uninitialized-this-variable-info EMPTY >
+<!ATTLIST uninitialized-this-variable-info
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT object-variable-info (class) >
+<!ATTLIST object-variable-info
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT uninitialized-variable-info EMPTY >
+<!ATTLIST uninitialized-variable-info
+          tag CDATA #REQUIRED
+          offset CDATA #REQUIRED
+>
+
 <!ELEMENT exceptions-attribute (exception*) >
 
 <!ELEMENT exception (#PCDATA) >
@@ -216,7 +360,7 @@
 
 <!ELEMENT inner-class (public?, protected?, private?, static?, final?, is-interface?, abstract?, synthetic?, is-annotation?, enum?, inner-class-info, outer-class-info, inner-name)>
 <!ATTLIST inner-class
-          access-flag CDATA #REQUIRED
+          access-flags CDATA #REQUIRED
 >
 
 <!ELEMENT inner-class-info (#PCDATA) >
@@ -234,6 +378,8 @@
 <!ELEMENT signature-attribute (#PCDATA) >
 
 <!ELEMENT source-file-attribute (#PCDATA) >
+
+<!ELEMENT source-debug-extension (#PCDATA) >
 
 <!ELEMENT line-number-table-attribute (line-number*) >
 
@@ -259,9 +405,272 @@
           index  CDATA #REQUIRED
 >
 
-<!ELEMENT descriptor (#PCDATA) >
-
 <!ELEMENT deprecated-attribute EMPTY >
+
+<!ELEMENT runtime-visible-annotations-attribute (annotations) >
+
+<!ELEMENT runtime-invisible-annotations-attribute (annotations) >
+
+<!ELEMENT runtime-visible-parameter-annotations-attribute (parameter-annotations) >
+
+<!ELEMENT runtime-invisible-parameter-annotations-attribute (parameter-annotations) >
+
+<!ELEMENT parameter-annotations (parameter-annotation*) >
+
+<!ELEMENT parameter-annotation (annotations) >
+
+<!ELEMENT annotations (annotation*) >
+
+<!ELEMENT annotation (type, element-value-pairs) >
+
+<!ELEMENT element-value-pairs (element-value-pair*) >
+
+<!ELEMENT element-value-pair (element-name, (byte-element-value | char-element-value | double-element-value | float-element-value | integer-element-value | long-element-value | short-element-value | boolean-element-value | string-element-value | enum-element-value | class-element-value | annotation-element-value | array-element-value)) >
+
+<!ELEMENT element-name (#PCDATA) >
+<!ATTLIST element-name
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT byte-element-value (#PCDATA) >
+<!ATTLIST byte-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT char-element-value (#PCDATA) >
+<!ATTLIST char-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT double-element-value (#PCDATA) >
+<!ATTLIST double-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT float-element-value (#PCDATA) >
+<!ATTLIST float-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT integer-element-value (#PCDATA) >
+<!ATTLIST integer-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT long-element-value (#PCDATA) >
+<!ATTLIST long-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT short-element-value (#PCDATA) >
+<!ATTLIST short-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT boolean-element-value (#PCDATA) >
+<!ATTLIST boolean-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT string-element-value (#PCDATA) >
+<!ATTLIST string-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT enum-element-value (#PCDATA) >
+<!ATTLIST enum-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT class-element-value (#PCDATA) >
+<!ATTLIST class-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT annotation-element-value (annotation) >
+<!ATTLIST annotation-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT array-element-value (byte-element-value | char-element-value | double-element-value | float-element-value | integer-element-value | long-element-value | short-element-value | boolean-element-value | string-element-value | enum-element-value | class-element-value | annotation-element-value | array-element-value)* >
+<!ATTLIST array-element-value
+          tag CDATA #REQUIRED
+>
+
+<!ELEMENT runtime-visible-type-annotations-attribute (type-annotations) >
+
+<!ELEMENT runtime-invisible-type-annotations-attribute (type-annotations) >
+
+<!ELEMENT type-annotations (type-annotation*) >
+
+<!ELEMENT type-annotation ((type-parameter-target | supertype-target | type-parameter-bound-target | empty-target | formal-parameter-target | throws-target | localvar-target | catch-target | offset-target | type-argument-target), target-path, element-value-pairs) >
+
+<!ELEMENT type-parameter-target (type-parameter-index) >
+<!ATTLIST type-parameter-target
+          target-type CDATA #REQUIRED
+>
+
+<!ELEMENT type-parameter-index (#PCDATA) >
+
+<!ELEMENT supertype-target (supertype-index) >
+<!ATTLIST supertype-target
+          target-type CDATA #REQUIRED
+>
+
+<!ELEMENT supertype-index (#PCDATA) >
+
+<!ELEMENT type-parameter-bound-target (type-parameter-index, bound-index) >
+<!ATTLIST type-parameter-bound-target
+          target-type CDATA #REQUIRED
+>
+
+<!ELEMENT bound-index (#PCDATA) >
+
+<!ELEMENT empty-target EMPTY >
+<!ATTLIST empty-target
+          target-type CDATA #REQUIRED
+>
+
+<!ELEMENT formal-parameter-target (formal-parameter-index) >
+<!ATTLIST formal-parameter-target
+          target-type CDATA #REQUIRED
+>
+
+<!ELEMENT formal-parameter-index (#PCDATA) >
+
+<!ELEMENT throws-target (throws-type-index) >
+<!ATTLIST throws-target
+          target-type CDATA #REQUIRED
+>
+
+<!ELEMENT throws-type-index (#PCDATA) >
+
+<!ELEMENT localvar-target (localvar*) >
+<!ATTLIST localvar-target
+          target-type CDATA #REQUIRED
+>
+
+<!ELEMENT localvar (#PCDATA) >
+<!ATTLIST localvar-target
+          start-pc CDATA #REQUIRED
+          length   CDATA #REQUIRED
+          index    CDATA #REQUIRED
+>
+
+<!ELEMENT catch-target (exception-table-index) >
+<!ATTLIST catch-target
+          target-type CDATA #REQUIRED
+>
+
+<!ELEMENT exception-table-index (#PCDATA) >
+
+<!ELEMENT offset-target (offset) >
+<!ATTLIST offset-target
+          target-type CDATA #REQUIRED
+>
+
+<!ELEMENT offset (#PCDATA) >
+
+<!ELEMENT type-argument-target (offset, type-argument-index) >
+<!ATTLIST type-argument-target
+          target-type CDATA #REQUIRED
+>
+
+<!ELEMENT type-argument-index (#PCDATA) >
+
+<!ELEMENT target-path (type-path*) >
+
+<!ELEMENT type-path (type-path-kind, type-argument-index) >
+
+<!ELEMENT type-path-kind (#PCDATA) >
+
+<!ELEMENT annotation-default-attribute (byte-element-value | char-element-value | double-element-value | float-element-value | integer-element-value | long-element-value | short-element-value | boolean-element-value | string-element-value | enum-element-value | class-element-value | annotation-element-value | array-element-value) >
+
+<!ELEMENT bootstrap-methods-attribute (bootstrap-method*) >
+
+<!ELEMENT bootstrap-method (bootstrap-method-ref, arguments) >
+
+<!ELEMENT bootstrap-method-ref (#PCDATA) >
+<!ATTLIST bootstrap-method-ref
+          index CDATA #REQUIRED
+>
+
+<!ELEMENT arguments (argument*) >
+
+<!ELEMENT argument (#PCDATA) >
+<!ATTLIST argument
+          index CDATA #REQUIRED
+>
+
+<!ELEMENT method-parameters-attribute (method-parameter*) >
+
+<!ELEMENT method-parameter (name, final?, synthetic?, mandated?) >
+<!ATTLIST method-parameter
+          access-flags CDATA #REQUIRED
+>
+
+<!ELEMENT mandated EMPTY >
+
+<!ELEMENT module-attribute (name, open?, synthetic?, mandated?, version?, module-requires*, module-exports*, module-opens*, module-uses*, module-provides*) >
+<!ATTLIST module-attribute
+          module-flags CDATA #REQUIRED
+>
+
+<!ELEMENT open EMPTY >
+
+<!ELEMENT version (#PCDATA) >
+<!ATTLIST version
+          index CDATA #REQUIRED
+>
+
+<!ELEMENT module-requires (module, transitive?, static-phase?, synthetic?, mandated?, version) >
+<!ATTLIST module-requires
+          requires-flags CDATA #REQUIRED
+>
+
+<!ELEMENT transitive EMPTY >
+
+<!ELEMENT static-phase EMPTY >
+
+<!ELEMENT module-exports (module, synthetic?, mandated?, version, module-exports-to*) >
+<!ATTLIST module-exports
+          exports-flags CDATA #REQUIRED
+>
+
+<!ELEMENT module-exports-to (module) >
+
+<!ELEMENT module-opens (package, synthetic?, mandated?, version, module-opens-to*) >
+<!ATTLIST module-opens
+          opens-flags CDATA #REQUIRED
+>
+
+<!ELEMENT module-opens-to (module) >
+
+<!ELEMENT module-uses (class) >
+
+<!ELEMENT module-provides (class, module-provides-with*) >
+
+<!ELEMENT module-provides-with (class) >
+
+<!ELEMENT module-packages-attribute (package*) >
+
+<!ELEMENT module-main-class-attribute (#PCDATA) >
+<!ATTLIST module-main-class-attribute
+          index CDATA #REQUIRED
+>
+
+<!ELEMENT nest-host-attribute (#PCDATA) >
+<!ATTLIST nest-host-attribute
+          index CDATA #REQUIRED
+>
+
+<!ELEMENT nest-members-attribute (class*) >
+
+<!ELEMENT record-attribute (record-component*) >
+
+<!ELEMENT record-component (name, type, attributes) >
+
+<!ELEMENT permitted-subclasses-attribute (class*) >
 
 <!ELEMENT custom-attribute (#PCDATA) >
 <!ATTLIST custom-attribute
