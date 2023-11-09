@@ -34,9 +34,7 @@ package com.jeantessier.dependency;
 
 import junit.framework.TestCase;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 
 public class TestLCOM4Gatherer extends TestCase {
     private NodeFactory factory;
@@ -54,7 +52,7 @@ public class TestLCOM4Gatherer extends TestCase {
     public void testNothing() {
         sut.traverseNodes(factory.getPackages().values());
 
-        Map<ClassNode, Collection<Collection<FeatureNode>>> actualResults = sut.getResults();
+        var actualResults = sut.getResults();
         assertTrue(actualResults.isEmpty());
     }
 
@@ -63,7 +61,7 @@ public class TestLCOM4Gatherer extends TestCase {
 
         sut.traverseNodes(factory.getPackages().values());
 
-        Map<ClassNode, Collection<Collection<FeatureNode>>> actualResults = sut.getResults();
+        var actualResults = sut.getResults();
         assertTrue(actualResults.isEmpty());
     }
 
@@ -72,7 +70,7 @@ public class TestLCOM4Gatherer extends TestCase {
 
         sut.traverseNodes(factory.getPackages().values());
 
-        Map<ClassNode, Collection<Collection<FeatureNode>>> actualResults = sut.getResults();
+        var actualResults = sut.getResults();
         assertEquals("nb results", 1, actualResults.keySet().size());
         assertTrue(classNode.getName() + " is missing from " + actualResults, actualResults.containsKey(classNode));
 
@@ -89,7 +87,7 @@ public class TestLCOM4Gatherer extends TestCase {
 
         sut.traverseNodes(factory.getPackages().values());
 
-        Map<ClassNode, Collection<Collection<FeatureNode>>> actualResults = sut.getResults();
+        var actualResults = sut.getResults();
         assertEquals("nb results", 1, actualResults.keySet().size());
         assertTrue(featureNode.getClassNode().getName() + " is missing from " + actualResults, actualResults.containsKey(featureNode.getClassNode()));
 
@@ -111,7 +109,7 @@ public class TestLCOM4Gatherer extends TestCase {
 
         sut.traverseNodes(factory.getPackages().values());
 
-        Map<ClassNode, Collection<Collection<FeatureNode>>> actualResults = sut.getResults();
+        var actualResults = sut.getResults();
         assertEquals("nb results", 1, actualResults.keySet().size());
         assertTrue(featureNode1.getClassNode().getName() + " is missing from " + actualResults, actualResults.containsKey(featureNode1.getClassNode()));
 
@@ -134,7 +132,7 @@ public class TestLCOM4Gatherer extends TestCase {
 
         sut.traverseNodes(factory.getPackages().values());
 
-        Map<ClassNode, Collection<Collection<FeatureNode>>> actualResults = sut.getResults();
+        var actualResults = sut.getResults();
         assertEquals("nb results", 1, actualResults.keySet().size());
         assertTrue(featureNode1.getClassNode().getName() + " is missing from " + actualResults, actualResults.containsKey(featureNode1.getClassNode()));
 
@@ -158,7 +156,7 @@ public class TestLCOM4Gatherer extends TestCase {
 
         sut.traverseNodes(factory.getPackages().values());
 
-        Map<ClassNode, Collection<Collection<FeatureNode>>> actualResults = sut.getResults();
+        var actualResults = sut.getResults();
         assertEquals("nb results", 1, actualResults.keySet().size());
         assertTrue(featureNode1.getClassNode().getName() + " is missing from " + actualResults, actualResults.containsKey(featureNode1.getClassNode()));
 
@@ -181,7 +179,7 @@ public class TestLCOM4Gatherer extends TestCase {
 
         sut.traverseNodes(factory.getPackages().values());
 
-        Map<ClassNode, Collection<Collection<FeatureNode>>> actualResults = sut.getResults();
+        var actualResults = sut.getResults();
         assertEquals("nb results", 2, actualResults.keySet().size());
         assertTrue(featureNode1.getClassNode().getName() + " is missing from " + actualResults, actualResults.containsKey(featureNode1.getClassNode()));
 
@@ -207,7 +205,7 @@ public class TestLCOM4Gatherer extends TestCase {
 
         sut.traverseNodes(factory.getPackages().values());
 
-        Map<ClassNode, Collection<Collection<FeatureNode>>> actualResults = sut.getResults();
+        var actualResults = sut.getResults();
         assertEquals("nb results", 2, actualResults.keySet().size());
         assertTrue(featureNode1.getClassNode().getName() + " is missing from " + actualResults, actualResults.containsKey(featureNode1.getClassNode()));
 
@@ -224,7 +222,7 @@ public class TestLCOM4Gatherer extends TestCase {
 
         sut.traverseNodes(factory.getPackages().values());
 
-        Map<ClassNode, Collection<Collection<FeatureNode>>> actualResults = sut.getResults();
+        var actualResults = sut.getResults();
         assertEquals("nb results", 1, actualResults.keySet().size());
         assertTrue(classNode.getName() + " is missing from " + actualResults, actualResults.containsKey(classNode));
 
@@ -243,7 +241,7 @@ public class TestLCOM4Gatherer extends TestCase {
 
         sut.traverseNodes(factory.getPackages().values());
 
-        Map<ClassNode, Collection<Collection<FeatureNode>>> actualResults = sut.getResults();
+        var actualResults = sut.getResults();
         assertEquals("nb results", 1, actualResults.keySet().size());
         assertTrue(classNode.getName() + " is missing from " + actualResults, actualResults.containsKey(classNode));
 
@@ -255,22 +253,14 @@ public class TestLCOM4Gatherer extends TestCase {
     }
 
     private void assertAtLeastOneComponentEquals(Collection<Collection<FeatureNode>> components, FeatureNode ... expectedNodes) {
-        boolean found = false;
+        var found = components.stream().anyMatch(component -> checkComponentEquals(component, expectedNodes));
 
-        for (Collection<FeatureNode> component : components) {
-            found = found || checkComponentEquals(component, expectedNodes);
-        }
-
-        assertTrue(Arrays.asList(expectedNodes) + " not in " + components, found);
+        assertTrue(Arrays.asList(expectedNodes) + " not in " + components,found);
     }
 
     private boolean checkComponentEquals(Collection<FeatureNode> component, FeatureNode ... expectedNodes) {
-        boolean result = expectedNodes.length == component.size();
-
-        for (FeatureNode expectedNode : expectedNodes) {
-            result = result && component.contains(expectedNode);
-        }
-
-        return result;
+        return expectedNodes.length == component.size() &&
+                Arrays.stream(expectedNodes)
+                        .allMatch(component::contains);
     }
 }

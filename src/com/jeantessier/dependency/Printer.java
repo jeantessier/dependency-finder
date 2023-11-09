@@ -133,10 +133,7 @@ public abstract class Printer extends VisitorBase {
     }
 
     protected Printer indent() {
-        for (int i=0; i<indentLevel; i++) {
-            append(getIndentText());
-        }
-
+        append(getIndentText().repeat(indentLevel));
         return this;
     }
 
@@ -186,12 +183,6 @@ public abstract class Printer extends VisitorBase {
     }
     
     protected boolean shouldShowNode(Node node) {
-        boolean result = isShowEmptyNodes();
-
-        if (!result) {
-            result = (isShowOutbounds() && !node.getOutboundDependencies().isEmpty()) || (isShowInbounds() && !node.getInboundDependencies().isEmpty());
-        }
-
-        return result;
+        return isShowEmptyNodes() || (isShowOutbounds() && !node.getOutboundDependencies().isEmpty()) || (isShowInbounds() && !node.getInboundDependencies().isEmpty());
     }
 }

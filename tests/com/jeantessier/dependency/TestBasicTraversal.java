@@ -73,7 +73,7 @@ public class TestBasicTraversal {
         final Collection<PackageNode> nodes = Collections.singleton(packageNode);
 
         context.checking(new Expectations() {{
-            one (packageNode).accept(delegate);
+            oneOf (packageNode).accept(delegate);
         }});
 
         sut.traverseNodes(nodes);
@@ -84,7 +84,7 @@ public class TestBasicTraversal {
         final Collection<PackageNode> nodes = Collections.singleton(packageNode);
 
         context.checking(new Expectations() {{
-            one (packageNode).acceptInbound(delegate);
+            oneOf (packageNode).acceptInbound(delegate);
         }});
 
         sut.traverseInbound(nodes);
@@ -95,7 +95,7 @@ public class TestBasicTraversal {
         final Collection<PackageNode> nodes = Collections.singleton(packageNode);
 
         context.checking(new Expectations() {{
-            one (packageNode).acceptOutbound(delegate);
+            oneOf (packageNode).acceptOutbound(delegate);
         }});
 
         sut.traverseOutbound(nodes);
@@ -107,19 +107,19 @@ public class TestBasicTraversal {
 
         context.checking(new Expectations() {{
             // Process inbounds
-            one (packageNode).getInboundDependencies();
+            oneOf (packageNode).getInboundDependencies();
                 will(returnValue(nodes));
-            one (delegate).traverseInbound(nodes);
+            oneOf (delegate).traverseInbound(nodes);
 
             // Process outbounds
-            one (packageNode).getOutboundDependencies();
+            oneOf (packageNode).getOutboundDependencies();
                 will(returnValue(nodes));
-            one (delegate).traverseOutbound(nodes);
+            oneOf (delegate).traverseOutbound(nodes);
 
             // Process classes
-            one (packageNode).getClasses();
+            oneOf (packageNode).getClasses();
                 will(returnValue(nodes));
-            one (delegate).traverseNodes(nodes);
+            oneOf (delegate).traverseNodes(nodes);
         }});
 
         sut.visitPackageNode(packageNode);
@@ -141,19 +141,19 @@ public class TestBasicTraversal {
 
         context.checking(new Expectations() {{
             // Process inbounds
-            one (classNode).getInboundDependencies();
+            oneOf (classNode).getInboundDependencies();
                 will(returnValue(nodes));
-            one (delegate).traverseInbound(nodes);
+            oneOf (delegate).traverseInbound(nodes);
 
             // Process outbounds
-            one (classNode).getOutboundDependencies();
+            oneOf (classNode).getOutboundDependencies();
                 will(returnValue(nodes));
-            one (delegate).traverseOutbound(nodes);
+            oneOf (delegate).traverseOutbound(nodes);
 
             // Process features
-            one (classNode).getFeatures();
+            oneOf (classNode).getFeatures();
                 will(returnValue(nodes));
-            one (delegate).traverseNodes(nodes);
+            oneOf (delegate).traverseNodes(nodes);
         }});
 
         sut.visitClassNode(classNode);
@@ -175,14 +175,14 @@ public class TestBasicTraversal {
 
         context.checking(new Expectations() {{
             // Process inbounds
-            one (featureNode).getInboundDependencies();
+            oneOf (featureNode).getInboundDependencies();
                 will(returnValue(nodes));
-            one (delegate).traverseInbound(nodes);
+            oneOf (delegate).traverseInbound(nodes);
 
             // Process outbounds
-            one (featureNode).getOutboundDependencies();
+            oneOf (featureNode).getOutboundDependencies();
                 will(returnValue(nodes));
-            one (delegate).traverseOutbound(nodes);
+            oneOf (delegate).traverseOutbound(nodes);
         }});
 
         sut.visitFeatureNode(featureNode);

@@ -44,6 +44,8 @@ import com.jeantessier.classreader.*;
 import static java.util.stream.Collectors.*;
 
 public class ClassMetrics extends Task {
+    private static final String EOL = System.getProperty("line.separator", "\n");
+
     private boolean list = false;
     private boolean instructionCounts = false;
     private File destfile;
@@ -195,7 +197,7 @@ public class ClassMetrics extends Task {
                                                 .entrySet().stream()
                                                 .sorted(Map.Entry.comparingByKey())
                                                 .map(histoEntry -> String.format("%20dx %s", histoEntry.getValue().size(), histoEntry.getKey() + " bytes"))))
-                                .collect(joining(System.getProperty("line.separator")))
+                                .collect(joining(EOL))
                 );
             }
 

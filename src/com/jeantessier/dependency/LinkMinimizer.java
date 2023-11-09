@@ -58,7 +58,7 @@ public class LinkMinimizer extends VisitorBase {
     }
     
     protected void postprocessClassNode(ClassNode node) {
-        for (Node target : getStrategy().order(node.getOutboundDependencies())) {
+        getStrategy().order(node.getOutboundDependencies()).forEach(target -> {
             node.getPackageNode().removeDependency(target);
 
             target.acceptOutbound(this);
@@ -66,7 +66,7 @@ public class LinkMinimizer extends VisitorBase {
             pushNode(node.getPackageNode());
             target.acceptOutbound(this);
             popNode();
-        }
+        });
 
         super.postprocessClassNode(node);
     }
@@ -76,7 +76,7 @@ public class LinkMinimizer extends VisitorBase {
     }
     
     protected void postprocessFeatureNode(FeatureNode node) {
-        for (Node target : getStrategy().order(node.getOutboundDependencies())) {
+        getStrategy().order(node.getOutboundDependencies()).forEach(target -> {
             node.getClassNode().removeDependency(target);
             node.getClassNode().getPackageNode().removeDependency(target);
 
@@ -89,7 +89,7 @@ public class LinkMinimizer extends VisitorBase {
             pushNode(node.getClassNode().getPackageNode());
             target.acceptOutbound(this);
             popNode();
-        }
+        });
 
         super.postprocessFeatureNode(node);
     }

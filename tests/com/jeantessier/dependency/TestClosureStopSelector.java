@@ -52,7 +52,7 @@ public class TestClosureStopSelector extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         
-        NodeFactory factory = new NodeFactory();
+        var factory = new NodeFactory();
 
         a = factory.createPackage("a");
         a_A = factory.createClass("a.A");
@@ -75,7 +75,7 @@ public class TestClosureStopSelector extends TestCase {
         localCriteria.setGlobalIncludes("/b.B.b/");
 
         ClosureStopSelector selector = new ClosureStopSelector(localCriteria);
-        selector.traverseNodes(Collections.<Node>emptySet());
+        selector.traverseNodes(Collections.emptySet());
 
         assertTrue("Failed to recognize empty collection", selector.isDone());
     }
@@ -104,12 +104,8 @@ public class TestClosureStopSelector extends TestCase {
         RegularExpressionSelectionCriteria localCriteria = new RegularExpressionSelectionCriteria();
         localCriteria.setGlobalIncludes("/b.B.b/");
 
-        Collection<Node> targets = new ArrayList<Node>();
-        targets.add(a_A_a);
-        targets.add(b_B_b);
-        
         ClosureStopSelector selector = new ClosureStopSelector(localCriteria);
-        selector.traverseNodes(targets);
+        selector.traverseNodes(List.of(a_A_a, b_B_b));
 
         assertTrue("Failed to recognize target", selector.isDone());
     }

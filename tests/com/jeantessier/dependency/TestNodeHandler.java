@@ -102,7 +102,7 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages",  1, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 0, handler.getFactory().getClasses().size());
 
@@ -126,7 +126,7 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages",  1, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertFalse("package is confirmed", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertFalse("package is confirmed", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 0, handler.getFactory().getClasses().size());
 
@@ -150,7 +150,7 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages",  1, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 0, handler.getFactory().getClasses().size());
 
@@ -177,11 +177,11 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 1, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 1, handler.getFactory().getClasses().size());
         assertNotNull("missing class", handler.getFactory().getClasses().get(MY_CLASS_NAME));
-        assertTrue("class is inferred", ((Node) handler.getFactory().getClasses().get(MY_CLASS_NAME)).isConfirmed());
+        assertTrue("class is inferred", handler.getFactory().getClasses().get(MY_CLASS_NAME).isConfirmed());
 
         assertEquals("nb features", 0, handler.getFactory().getFeatures().size());
     }
@@ -208,11 +208,11 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 1, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertFalse("package is confirmed", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertFalse("package is confirmed", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 1, handler.getFactory().getClasses().size());
         assertNotNull("missing class", handler.getFactory().getClasses().get(MY_CLASS_NAME));
-        assertFalse("class is confirmed", ((Node) handler.getFactory().getClasses().get(MY_CLASS_NAME)).isConfirmed());
+        assertFalse("class is confirmed", handler.getFactory().getClasses().get(MY_CLASS_NAME).isConfirmed());
 
         assertEquals("nb features", 0, handler.getFactory().getFeatures().size());
     }
@@ -238,11 +238,11 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 1, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 1, handler.getFactory().getClasses().size());
         assertNotNull("missing class", handler.getFactory().getClasses().get(MY_CLASS_NAME));
-        assertTrue("class is inferred", ((Node) handler.getFactory().getClasses().get(MY_CLASS_NAME)).isConfirmed());
+        assertTrue("class is inferred", handler.getFactory().getClasses().get(MY_CLASS_NAME).isConfirmed());
 
         assertEquals("nb features", 0, handler.getFactory().getFeatures().size());
     }
@@ -272,15 +272,15 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 1, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 1, handler.getFactory().getClasses().size());
         assertNotNull("missing class", handler.getFactory().getClasses().get(MY_CLASS_NAME));
-        assertTrue("class is inferred", ((Node) handler.getFactory().getClasses().get(MY_CLASS_NAME)).isConfirmed());
+        assertTrue("class is inferred", handler.getFactory().getClasses().get(MY_CLASS_NAME).isConfirmed());
 
         assertEquals("nb features", 1, handler.getFactory().getFeatures().size());
         assertNotNull("missing feature", handler.getFactory().getFeatures().get(MY_FEATURE_NAME));
-        assertTrue("feature is inferred", ((Node) handler.getFactory().getFeatures().get(MY_FEATURE_NAME)).isConfirmed());
+        assertTrue("feature is inferred", handler.getFactory().getFeatures().get(MY_FEATURE_NAME).isConfirmed());
     }
 
     public void testInferredFeatureNode() throws SAXException {
@@ -310,15 +310,15 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 1, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertFalse("package is confirmed", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertFalse("package is confirmed", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 1, handler.getFactory().getClasses().size());
         assertNotNull("missing class", handler.getFactory().getClasses().get(MY_CLASS_NAME));
-        assertFalse("class is confirmed", ((Node) handler.getFactory().getClasses().get(MY_CLASS_NAME)).isConfirmed());
+        assertFalse("class is confirmed", handler.getFactory().getClasses().get(MY_CLASS_NAME).isConfirmed());
 
         assertEquals("nb features", 1, handler.getFactory().getFeatures().size());
         assertNotNull("missing feature", handler.getFactory().getFeatures().get(MY_FEATURE_NAME));
-        assertFalse("feature is confirmed", ((Node) handler.getFactory().getFeatures().get(MY_FEATURE_NAME)).isConfirmed());
+        assertFalse("feature is confirmed", handler.getFactory().getFeatures().get(MY_FEATURE_NAME).isConfirmed());
     }
 
     public void testConfirmedFeatureNode() throws SAXException {
@@ -347,15 +347,15 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 1, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 1, handler.getFactory().getClasses().size());
         assertNotNull("missing class", handler.getFactory().getClasses().get(MY_CLASS_NAME));
-        assertTrue("class is inferred", ((Node) handler.getFactory().getClasses().get(MY_CLASS_NAME)).isConfirmed());
+        assertTrue("class is inferred", handler.getFactory().getClasses().get(MY_CLASS_NAME).isConfirmed());
 
         assertEquals("nb features", 1, handler.getFactory().getFeatures().size());
         assertNotNull("missing feature", handler.getFactory().getFeatures().get(MY_FEATURE_NAME));
-        assertTrue("feature is inferred", ((Node) handler.getFactory().getFeatures().get(MY_FEATURE_NAME)).isConfirmed());
+        assertTrue("feature is inferred", handler.getFactory().getFeatures().get(MY_FEATURE_NAME).isConfirmed());
     }
 
     public void testUnspecifiedInboundPackageDependencyIsConfirmed() throws SAXException {
@@ -378,9 +378,9 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 2, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
         assertNotNull("missing package", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 0, handler.getFactory().getClasses().size());
 
@@ -410,9 +410,9 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 2, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertFalse("package is confirmed", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertFalse("package is confirmed", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
         assertNotNull("missing package", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME));
-        assertFalse("package is confirmed", ((Node) handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME)).isConfirmed());
+        assertFalse("package is confirmed", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 0, handler.getFactory().getClasses().size());
 
@@ -442,9 +442,9 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 2, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
         assertNotNull("missing package", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 0, handler.getFactory().getClasses().size());
 
@@ -471,9 +471,9 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 2, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
         assertNotNull("missing package", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 0, handler.getFactory().getClasses().size());
 
@@ -503,9 +503,9 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 2, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertFalse("package is confirmed", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertFalse("package is confirmed", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
         assertNotNull("missing package", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME));
-        assertFalse("package is confirmed", ((Node) handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME)).isConfirmed());
+        assertFalse("package is confirmed", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 0, handler.getFactory().getClasses().size());
 
@@ -535,9 +535,9 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 2, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
         assertNotNull("missing package", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 0, handler.getFactory().getClasses().size());
 
@@ -564,13 +564,13 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 2, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
         assertNotNull("missing package", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 1, handler.getFactory().getClasses().size());
         assertNotNull("missing class", handler.getFactory().getClasses().get(OTHER_CLASS_NAME));
-        assertTrue("class is inferred", ((Node) handler.getFactory().getClasses().get(OTHER_CLASS_NAME)).isConfirmed());
+        assertTrue("class is inferred", handler.getFactory().getClasses().get(OTHER_CLASS_NAME).isConfirmed());
 
         assertEquals("nb features", 0, handler.getFactory().getFeatures().size());
     }
@@ -598,13 +598,13 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 2, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertFalse("package is confirmed", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertFalse("package is confirmed", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
         assertNotNull("missing package", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME));
-        assertFalse("package is confirmed", ((Node) handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME)).isConfirmed());
+        assertFalse("package is confirmed", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 1, handler.getFactory().getClasses().size());
         assertNotNull("missing class", handler.getFactory().getClasses().get(OTHER_CLASS_NAME));
-        assertFalse("class is confirmed", ((Node) handler.getFactory().getClasses().get(OTHER_CLASS_NAME)).isConfirmed());
+        assertFalse("class is confirmed", handler.getFactory().getClasses().get(OTHER_CLASS_NAME).isConfirmed());
 
         assertEquals("nb features", 0, handler.getFactory().getFeatures().size());
     }
@@ -632,13 +632,13 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 2, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
         assertNotNull("missing package", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 1, handler.getFactory().getClasses().size());
         assertNotNull("missing class", handler.getFactory().getClasses().get(OTHER_CLASS_NAME));
-        assertTrue("class is inferred", ((Node) handler.getFactory().getClasses().get(OTHER_CLASS_NAME)).isConfirmed());
+        assertTrue("class is inferred", handler.getFactory().getClasses().get(OTHER_CLASS_NAME).isConfirmed());
 
         assertEquals("nb features", 0, handler.getFactory().getFeatures().size());
     }
@@ -663,13 +663,13 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 2, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
         assertNotNull("missing package", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 1, handler.getFactory().getClasses().size());
         assertNotNull("missing class", handler.getFactory().getClasses().get(OTHER_CLASS_NAME));
-        assertTrue("class is inferred", ((Node) handler.getFactory().getClasses().get(OTHER_CLASS_NAME)).isConfirmed());
+        assertTrue("class is inferred", handler.getFactory().getClasses().get(OTHER_CLASS_NAME).isConfirmed());
 
         assertEquals("nb features", 0, handler.getFactory().getFeatures().size());
     }
@@ -697,13 +697,13 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 2, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertFalse("package is confirmed", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertFalse("package is confirmed", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
         assertNotNull("missing package", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME));
-        assertFalse("package is confirmed", ((Node) handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME)).isConfirmed());
+        assertFalse("package is confirmed", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 1, handler.getFactory().getClasses().size());
         assertNotNull("missing class", handler.getFactory().getClasses().get(OTHER_CLASS_NAME));
-        assertFalse("class is confirmed", ((Node) handler.getFactory().getClasses().get(OTHER_CLASS_NAME)).isConfirmed());
+        assertFalse("class is confirmed", handler.getFactory().getClasses().get(OTHER_CLASS_NAME).isConfirmed());
 
         assertEquals("nb features", 0, handler.getFactory().getFeatures().size());
     }
@@ -731,13 +731,13 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 2, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
         assertNotNull("missing package", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 1, handler.getFactory().getClasses().size());
         assertNotNull("missing class", handler.getFactory().getClasses().get(OTHER_CLASS_NAME));
-        assertTrue("class is inferred", ((Node) handler.getFactory().getClasses().get(OTHER_CLASS_NAME)).isConfirmed());
+        assertTrue("class is inferred", handler.getFactory().getClasses().get(OTHER_CLASS_NAME).isConfirmed());
 
         assertEquals("nb features", 0, handler.getFactory().getFeatures().size());
     }
@@ -765,17 +765,17 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 2, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
         assertNotNull("missing package", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 1, handler.getFactory().getClasses().size());
         assertNotNull("missing class", handler.getFactory().getClasses().get(OTHER_CLASS_NAME));
-        assertTrue("class is inferred", ((Node) handler.getFactory().getClasses().get(OTHER_CLASS_NAME)).isConfirmed());
+        assertTrue("class is inferred", handler.getFactory().getClasses().get(OTHER_CLASS_NAME).isConfirmed());
 
         assertEquals("nb features", 1, handler.getFactory().getFeatures().size());
         assertNotNull("missing feature", handler.getFactory().getFeatures().get(OTHER_FEATURE_NAME));
-        assertTrue("feature is inferred", ((Node) handler.getFactory().getFeatures().get(OTHER_FEATURE_NAME)).isConfirmed());
+        assertTrue("feature is inferred", handler.getFactory().getFeatures().get(OTHER_FEATURE_NAME).isConfirmed());
     }
 
     public void testInferredInboundFeatureDependency() throws SAXException {
@@ -801,17 +801,17 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 2, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertFalse("package is confirmed", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertFalse("package is confirmed", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
         assertNotNull("missing package", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME));
-        assertFalse("package is confirmed", ((Node) handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME)).isConfirmed());
+        assertFalse("package is confirmed", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 1, handler.getFactory().getClasses().size());
         assertNotNull("missing class", handler.getFactory().getClasses().get(OTHER_CLASS_NAME));
-        assertFalse("class is confirmed", ((Node) handler.getFactory().getClasses().get(OTHER_CLASS_NAME)).isConfirmed());
+        assertFalse("class is confirmed", handler.getFactory().getClasses().get(OTHER_CLASS_NAME).isConfirmed());
 
         assertEquals("nb features", 1, handler.getFactory().getFeatures().size());
         assertNotNull("missing feature", handler.getFactory().getFeatures().get(OTHER_FEATURE_NAME));
-        assertFalse("feature is confirmed", ((Node) handler.getFactory().getFeatures().get(OTHER_FEATURE_NAME)).isConfirmed());
+        assertFalse("feature is confirmed", handler.getFactory().getFeatures().get(OTHER_FEATURE_NAME).isConfirmed());
     }
 
     public void testConfirmedInboundFeatureDependency() throws SAXException {
@@ -837,17 +837,17 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 2, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
         assertNotNull("missing package", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 1, handler.getFactory().getClasses().size());
         assertNotNull("missing class", handler.getFactory().getClasses().get(OTHER_CLASS_NAME));
-        assertTrue("class is inferred", ((Node) handler.getFactory().getClasses().get(OTHER_CLASS_NAME)).isConfirmed());
+        assertTrue("class is inferred", handler.getFactory().getClasses().get(OTHER_CLASS_NAME).isConfirmed());
 
         assertEquals("nb features", 1, handler.getFactory().getFeatures().size());
         assertNotNull("missing feature", handler.getFactory().getFeatures().get(OTHER_FEATURE_NAME));
-        assertTrue("feature is inferred", ((Node) handler.getFactory().getFeatures().get(OTHER_FEATURE_NAME)).isConfirmed());
+        assertTrue("feature is inferred", handler.getFactory().getFeatures().get(OTHER_FEATURE_NAME).isConfirmed());
     }
 
     public void testUnspecifiedOutboundFeatureDependencyIsConfirmed() throws SAXException {
@@ -870,17 +870,17 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 2, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
         assertNotNull("missing package", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 1, handler.getFactory().getClasses().size());
         assertNotNull("missing class", handler.getFactory().getClasses().get(OTHER_CLASS_NAME));
-        assertTrue("class is inferred", ((Node) handler.getFactory().getClasses().get(OTHER_CLASS_NAME)).isConfirmed());
+        assertTrue("class is inferred", handler.getFactory().getClasses().get(OTHER_CLASS_NAME).isConfirmed());
 
         assertEquals("nb features", 1, handler.getFactory().getFeatures().size());
         assertNotNull("missing feature", handler.getFactory().getFeatures().get(OTHER_FEATURE_NAME));
-        assertTrue("feature is inferred", ((Node) handler.getFactory().getFeatures().get(OTHER_FEATURE_NAME)).isConfirmed());
+        assertTrue("feature is inferred", handler.getFactory().getFeatures().get(OTHER_FEATURE_NAME).isConfirmed());
     }
 
     public void testInferredOutboundFeatureDependency() throws SAXException {
@@ -906,17 +906,17 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 2, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertFalse("package is confirmed", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertFalse("package is confirmed", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
         assertNotNull("missing package", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME));
-        assertFalse("package is confirmed", ((Node) handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME)).isConfirmed());
+        assertFalse("package is confirmed", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 1, handler.getFactory().getClasses().size());
         assertNotNull("missing class", handler.getFactory().getClasses().get(OTHER_CLASS_NAME));
-        assertFalse("class is confirmed", ((Node) handler.getFactory().getClasses().get(OTHER_CLASS_NAME)).isConfirmed());
+        assertFalse("class is confirmed", handler.getFactory().getClasses().get(OTHER_CLASS_NAME).isConfirmed());
 
         assertEquals("nb features", 1, handler.getFactory().getFeatures().size());
         assertNotNull("missing feature", handler.getFactory().getFeatures().get(OTHER_FEATURE_NAME));
-        assertFalse("feature is confirmed", ((Node) handler.getFactory().getFeatures().get(OTHER_FEATURE_NAME)).isConfirmed());
+        assertFalse("feature is confirmed", handler.getFactory().getFeatures().get(OTHER_FEATURE_NAME).isConfirmed());
     }
 
     public void testConfirmedOutboundFeatureDependency() throws SAXException {
@@ -942,16 +942,16 @@ public class TestNodeHandler extends TestCase {
 
         assertEquals("nb packages", 2, handler.getFactory().getPackages().size());
         assertNotNull("missing package", handler.getFactory().getPackages().get(MY_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(MY_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(MY_PACKAGE_NAME).isConfirmed());
         assertNotNull("missing package", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME));
-        assertTrue("package is inferred", ((Node) handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME)).isConfirmed());
+        assertTrue("package is inferred", handler.getFactory().getPackages().get(OTHER_PACKAGE_NAME).isConfirmed());
 
         assertEquals("nb classes", 1, handler.getFactory().getClasses().size());
         assertNotNull("missing class", handler.getFactory().getClasses().get(OTHER_CLASS_NAME));
-        assertTrue("class is inferred", ((Node) handler.getFactory().getClasses().get(OTHER_CLASS_NAME)).isConfirmed());
+        assertTrue("class is inferred", handler.getFactory().getClasses().get(OTHER_CLASS_NAME).isConfirmed());
 
         assertEquals("nb features", 1, handler.getFactory().getFeatures().size());
         assertNotNull("missing feature", handler.getFactory().getFeatures().get(OTHER_FEATURE_NAME));
-        assertTrue("feature is inferred", ((Node) handler.getFactory().getFeatures().get(OTHER_FEATURE_NAME)).isConfirmed());
+        assertTrue("feature is inferred", handler.getFactory().getFeatures().get(OTHER_FEATURE_NAME).isConfirmed());
     }
 }

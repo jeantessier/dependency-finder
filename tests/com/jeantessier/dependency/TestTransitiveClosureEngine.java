@@ -32,8 +32,6 @@
 
 package com.jeantessier.dependency;
 
-import java.util.*;
-
 import junit.framework.*;
 
 public class TestTransitiveClosureEngine extends TestCase {
@@ -106,7 +104,7 @@ public class TestTransitiveClosureEngine extends TestCase {
         assertEquals("a.A.a in layer 0", a_A_a, engine.getLayer(0).iterator().next());
         assertNotSame("a.A.a in layer 0", a_A_a, engine.getLayer(0).iterator().next());
 
-        assertEquals("Nb outbounds from a.A.a", 0, ((Node) engine.getLayer(0).iterator().next()).getOutboundDependencies().size());
+        assertEquals("Nb outbounds from a.A.a", 0, engine.getLayer(0).iterator().next().getOutboundDependencies().size());
         
         assertEquals("packages in scope: ", 1, engine.getFactory().getPackages().values().size());
         assertEquals("classes in scope" ,   1, engine.getFactory().getClasses().values().size());
@@ -129,8 +127,8 @@ public class TestTransitiveClosureEngine extends TestCase {
         assertEquals("b.B.b in layer 1", b_B_b, engine.getLayer(1).iterator().next());
         assertNotSame("b.B.b in layer 1", b_B_b, engine.getLayer(1).iterator().next());
 
-        assertEquals("Nb outbounds from a.A.a", a_A_a.getOutboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getOutboundDependencies().size());
-        assertEquals("Nb outbounds from b.B.b", 0,                       ((Node) engine.getLayer(1).iterator().next()).getOutboundDependencies().size());
+        assertEquals("Nb outbounds from a.A.a", a_A_a.getOutboundDependencies().size(), engine.getLayer(0).iterator().next().getOutboundDependencies().size());
+        assertEquals("Nb outbounds from b.B.b", 0,                       engine.getLayer(1).iterator().next().getOutboundDependencies().size());
         
         assertEquals("packages in scope: ", 2, engine.getFactory().getPackages().values().size());
         assertEquals("classes in scope" ,   2, engine.getFactory().getClasses().values().size());
@@ -157,9 +155,9 @@ public class TestTransitiveClosureEngine extends TestCase {
         assertEquals("c.C.c in layer 2", c_C_c, engine.getLayer(2).iterator().next());
         assertNotSame("c.C.c in layer 2", c_C_c, engine.getLayer(2).iterator().next());
 
-        assertEquals("Nb outbounds from a.A.a", a_A_a.getOutboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getOutboundDependencies().size());
-        assertEquals("Nb outbounds from b.B.b", b_B_b.getOutboundDependencies().size(), ((Node) engine.getLayer(1).iterator().next()).getOutboundDependencies().size());
-        assertEquals("Nb outbounds from c.C.c", 0,                       ((Node) engine.getLayer(2).iterator().next()).getOutboundDependencies().size());
+        assertEquals("Nb outbounds from a.A.a", a_A_a.getOutboundDependencies().size(), engine.getLayer(0).iterator().next().getOutboundDependencies().size());
+        assertEquals("Nb outbounds from b.B.b", b_B_b.getOutboundDependencies().size(), engine.getLayer(1).iterator().next().getOutboundDependencies().size());
+        assertEquals("Nb outbounds from c.C.c", 0,                       engine.getLayer(2).iterator().next().getOutboundDependencies().size());
         
         assertEquals("packages in scope: ", 3, engine.getFactory().getPackages().values().size());
         assertEquals("classes in scope" ,   3, engine.getFactory().getClasses().values().size());
@@ -186,9 +184,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 
         assertEquals("Nb layers", 3, engine.getNbLayers());
 
-        assertEquals("Nb outbounds from a.A.a", a_A_a.getOutboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getOutboundDependencies().size());
-        assertEquals("Nb outbounds from b.B.b", b_B_b.getOutboundDependencies().size(), ((Node) engine.getLayer(1).iterator().next()).getOutboundDependencies().size());
-        assertEquals("Nb outbounds from c.C.c", c_C_c.getOutboundDependencies().size(), ((Node) engine.getLayer(2).iterator().next()).getOutboundDependencies().size());
+        assertEquals("Nb outbounds from a.A.a", a_A_a.getOutboundDependencies().size(), engine.getLayer(0).iterator().next().getOutboundDependencies().size());
+        assertEquals("Nb outbounds from b.B.b", b_B_b.getOutboundDependencies().size(), engine.getLayer(1).iterator().next().getOutboundDependencies().size());
+        assertEquals("Nb outbounds from c.C.c", c_C_c.getOutboundDependencies().size(), engine.getLayer(2).iterator().next().getOutboundDependencies().size());
         
         assertEquals("packages in scope: ", 3, engine.getFactory().getPackages().values().size());
         assertEquals("classes in scope" ,   3, engine.getFactory().getClasses().values().size());
@@ -216,9 +214,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 
         assertEquals("Nb layers", 3, engine.getNbLayers());
 
-        assertEquals("Nb outbounds from a.A.a", a_A_a.getOutboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getOutboundDependencies().size());
-        assertEquals("Nb outbounds from b.B.b", b_B_b.getOutboundDependencies().size(), ((Node) engine.getLayer(1).iterator().next()).getOutboundDependencies().size());
-        assertEquals("Nb outbounds from c.C.c", c_C_c.getOutboundDependencies().size(), ((Node) engine.getLayer(2).iterator().next()).getOutboundDependencies().size());
+        assertEquals("Nb outbounds from a.A.a", a_A_a.getOutboundDependencies().size(), engine.getLayer(0).iterator().next().getOutboundDependencies().size());
+        assertEquals("Nb outbounds from b.B.b", b_B_b.getOutboundDependencies().size(), engine.getLayer(1).iterator().next().getOutboundDependencies().size());
+        assertEquals("Nb outbounds from c.C.c", c_C_c.getOutboundDependencies().size(), engine.getLayer(2).iterator().next().getOutboundDependencies().size());
         
         assertEquals("packages in scope: ", 3, engine.getFactory().getPackages().values().size());
         assertEquals("classes in scope" ,   3, engine.getFactory().getClasses().values().size());
@@ -246,7 +244,7 @@ public class TestTransitiveClosureEngine extends TestCase {
         assertEquals("c.C.c in layer 0", c_C_c, engine.getLayer(0).iterator().next());
         assertNotSame("c.C.c in layer 0", c_C_c, engine.getLayer(0).iterator().next());
 
-        assertEquals("Nb inbounds from c.C.c", 0, ((Node) engine.getLayer(0).iterator().next()).getInboundDependencies().size());
+        assertEquals("Nb inbounds from c.C.c", 0, engine.getLayer(0).iterator().next().getInboundDependencies().size());
         
         assertEquals("packages in scope: ", 1, engine.getFactory().getPackages().values().size());
         assertEquals("classes in scope" ,   1, engine.getFactory().getClasses().values().size());
@@ -269,8 +267,8 @@ public class TestTransitiveClosureEngine extends TestCase {
         assertEquals("b.B.b in layer 1", b_B_b, engine.getLayer(1).iterator().next());
         assertNotSame("b.B.b in layer 1", b_B_b, engine.getLayer(1).iterator().next());
 
-        assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getInboundDependencies().size());
-        assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.getLayer(1).iterator().next()).getInboundDependencies().size());
+        assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), engine.getLayer(0).iterator().next().getInboundDependencies().size());
+        assertEquals("Nb inbounds from b.B.b", 0,                      engine.getLayer(1).iterator().next().getInboundDependencies().size());
         
         assertEquals("packages in scope: ", 2, engine.getFactory().getPackages().values().size());
         assertEquals("classes in scope" ,   2, engine.getFactory().getClasses().values().size());
@@ -297,9 +295,9 @@ public class TestTransitiveClosureEngine extends TestCase {
         assertEquals("a.A.a in layer 2", a_A_a, engine.getLayer(2).iterator().next());
         assertNotSame("a.A.a in layer 2", a_A_a, engine.getLayer(2).iterator().next());
 
-        assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getInboundDependencies().size());
-        assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), ((Node) engine.getLayer(1).iterator().next()).getInboundDependencies().size());
-        assertEquals("Nb inbounds from a.A.a", 0,                      ((Node) engine.getLayer(2).iterator().next()).getInboundDependencies().size());
+        assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), engine.getLayer(0).iterator().next().getInboundDependencies().size());
+        assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), engine.getLayer(1).iterator().next().getInboundDependencies().size());
+        assertEquals("Nb inbounds from a.A.a", 0,                      engine.getLayer(2).iterator().next().getInboundDependencies().size());
         
         assertEquals("packages in scope: ", 3, engine.getFactory().getPackages().values().size());
         assertEquals("classes in scope" ,   3, engine.getFactory().getClasses().values().size());
@@ -326,9 +324,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 
         assertEquals("Nb layers", 3, engine.getNbLayers());
 
-        assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getInboundDependencies().size());
-        assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), ((Node) engine.getLayer(1).iterator().next()).getInboundDependencies().size());
-        assertEquals("Nb inbounds from a.A.a", a_A_a.getInboundDependencies().size(), ((Node) engine.getLayer(2).iterator().next()).getInboundDependencies().size());
+        assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), engine.getLayer(0).iterator().next().getInboundDependencies().size());
+        assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), engine.getLayer(1).iterator().next().getInboundDependencies().size());
+        assertEquals("Nb inbounds from a.A.a", a_A_a.getInboundDependencies().size(), engine.getLayer(2).iterator().next().getInboundDependencies().size());
         
         assertEquals("packages in scope: ", 3, engine.getFactory().getPackages().values().size());
         assertEquals("classes in scope" ,   3, engine.getFactory().getClasses().values().size());
@@ -356,9 +354,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 
         assertEquals("Nb layers", 3, engine.getNbLayers());
 
-        assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getInboundDependencies().size());
-        assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), ((Node) engine.getLayer(1).iterator().next()).getInboundDependencies().size());
-        assertEquals("Nb inbounds from a.A.a", a_A_a.getInboundDependencies().size(), ((Node) engine.getLayer(2).iterator().next()).getInboundDependencies().size());
+        assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), engine.getLayer(0).iterator().next().getInboundDependencies().size());
+        assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), engine.getLayer(1).iterator().next().getInboundDependencies().size());
+        assertEquals("Nb inbounds from a.A.a", a_A_a.getInboundDependencies().size(), engine.getLayer(2).iterator().next().getInboundDependencies().size());
         
         assertEquals("packages in scope: ", 3, engine.getFactory().getPackages().values().size());
         assertEquals("classes in scope" ,   3, engine.getFactory().getClasses().values().size());
@@ -387,8 +385,8 @@ public class TestTransitiveClosureEngine extends TestCase {
 
         assertEquals("Nb layers", 2, engine.getNbLayers());
 
-        assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getInboundDependencies().size());
-        assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.getLayer(1).iterator().next()).getInboundDependencies().size());
+        assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), engine.getLayer(0).iterator().next().getInboundDependencies().size());
+        assertEquals("Nb inbounds from b.B.b", 0,                      engine.getLayer(1).iterator().next().getInboundDependencies().size());
         
         assertEquals("packages in scope: ", 2, engine.getFactory().getPackages().values().size());
         assertEquals("classes in scope" ,   2, engine.getFactory().getClasses().values().size());
@@ -410,9 +408,9 @@ public class TestTransitiveClosureEngine extends TestCase {
 
         assertEquals("Nb layers", 3, engine.getNbLayers());
 
-        assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getInboundDependencies().size());
-        assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), ((Node) engine.getLayer(1).iterator().next()).getInboundDependencies().size());
-        assertEquals("Nb inbounds from a.A.a", a_A_a.getInboundDependencies().size(), ((Node) engine.getLayer(2).iterator().next()).getInboundDependencies().size());
+        assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), engine.getLayer(0).iterator().next().getInboundDependencies().size());
+        assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), engine.getLayer(1).iterator().next().getInboundDependencies().size());
+        assertEquals("Nb inbounds from a.A.a", a_A_a.getInboundDependencies().size(), engine.getLayer(2).iterator().next().getInboundDependencies().size());
         
         assertEquals("packages in scope: ", 3, engine.getFactory().getPackages().values().size());
         assertEquals("classes in scope" ,   3, engine.getFactory().getClasses().values().size());
@@ -438,8 +436,8 @@ public class TestTransitiveClosureEngine extends TestCase {
 
         assertEquals("Nb layers", 2, engine.getNbLayers());
 
-        assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getInboundDependencies().size());
-        assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.getLayer(1).iterator().next()).getInboundDependencies().size());
+        assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), engine.getLayer(0).iterator().next().getInboundDependencies().size());
+        assertEquals("Nb inbounds from b.B.b", 0,                      engine.getLayer(1).iterator().next().getInboundDependencies().size());
         
         assertEquals("packages in scope: ", 2, engine.getFactory().getPackages().values().size());
         assertEquals("classes in scope" ,   2, engine.getFactory().getClasses().values().size());
@@ -462,7 +460,7 @@ public class TestTransitiveClosureEngine extends TestCase {
 
         assertEquals("Nb layers", 1, engine.getNbLayers());
 
-        assertEquals("Nb inbounds from c.C.c", 0, ((Node) engine.getLayer(0).iterator().next()).getInboundDependencies().size());
+        assertEquals("Nb inbounds from c.C.c", 0, engine.getLayer(0).iterator().next().getInboundDependencies().size());
         
         assertEquals("packages in scope: ", 1, engine.getFactory().getPackages().values().size());
         assertEquals("classes in scope" ,   1, engine.getFactory().getClasses().values().size());
@@ -482,8 +480,8 @@ public class TestTransitiveClosureEngine extends TestCase {
 
         assertEquals("Nb layers", 2, engine.getNbLayers());
 
-        assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getInboundDependencies().size());
-        assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.getLayer(1).iterator().next()).getInboundDependencies().size());
+        assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), engine.getLayer(0).iterator().next().getInboundDependencies().size());
+        assertEquals("Nb inbounds from b.B.b", 0,                      engine.getLayer(1).iterator().next().getInboundDependencies().size());
         
         assertEquals("packages in scope: ", 2, engine.getFactory().getPackages().values().size());
         assertEquals("classes in scope" ,   2, engine.getFactory().getClasses().values().size());
@@ -506,8 +504,8 @@ public class TestTransitiveClosureEngine extends TestCase {
 
         assertEquals("Nb layers", 2, engine.getNbLayers());
 
-        assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), ((Node) engine.getLayer(0).iterator().next()).getInboundDependencies().size());
-        assertEquals("Nb inbounds from b.B.b", 0,                      ((Node) engine.getLayer(1).iterator().next()).getInboundDependencies().size());
+        assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), engine.getLayer(0).iterator().next().getInboundDependencies().size());
+        assertEquals("Nb inbounds from b.B.b", 0,                      engine.getLayer(1).iterator().next().getInboundDependencies().size());
         
         assertEquals("packages in scope: ", 2, engine.getFactory().getPackages().values().size());
         assertEquals("classes in scope" ,   2, engine.getFactory().getClasses().values().size());
@@ -539,11 +537,11 @@ public class TestTransitiveClosureEngine extends TestCase {
         assertEquals("Layer 0 content", a_A_a.getName(), node.getName());
         assertEquals("Nb outbounds from a.A.a", a_A_a.getOutboundDependencies().size(), node.getOutboundDependencies().size());
         assertEquals("Layer 1 size", 1, engine.getLayer(1).size());
-        assertEquals("Layer 1 content", b_B_b.getName(), ((Node) engine.getLayer(1).iterator().next()).getName());
-        assertEquals("Nb outbounds from b.B.b", b_B_b.getOutboundDependencies().size(), ((Node) engine.getLayer(1).iterator().next()).getOutboundDependencies().size());
+        assertEquals("Layer 1 content", b_B_b.getName(), engine.getLayer(1).iterator().next().getName());
+        assertEquals("Nb outbounds from b.B.b", b_B_b.getOutboundDependencies().size(), engine.getLayer(1).iterator().next().getOutboundDependencies().size());
         assertEquals("Layer 2 size", 1, engine.getLayer(2).size());
-        assertEquals("Layer 2 content", c_C_c.getName(), ((Node) engine.getLayer(2).iterator().next()).getName());
-        assertEquals("Nb outbounds from c.C.c", c_C_c.getOutboundDependencies().size(), ((Node) engine.getLayer(2).iterator().next()).getOutboundDependencies().size());
+        assertEquals("Layer 2 content", c_C_c.getName(), engine.getLayer(2).iterator().next().getName());
+        assertEquals("Nb outbounds from c.C.c", c_C_c.getOutboundDependencies().size(), engine.getLayer(2).iterator().next().getOutboundDependencies().size());
         
         assertEquals("packages in scope: ", 3, engine.getFactory().getPackages().values().size());
         assertEquals("classes in scope" ,   3, engine.getFactory().getClasses().values().size());
@@ -578,11 +576,11 @@ public class TestTransitiveClosureEngine extends TestCase {
         assertEquals("Layer 0 content", c_C_c.getName(), node.getName());
         assertEquals("Nb inbounds from c.C.c", c_C_c.getInboundDependencies().size(), node.getInboundDependencies().size());
         assertEquals("Layer 1 size", 1, engine.getLayer(1).size());
-        assertEquals("Layer 1 content", b_B_b.getName(), ((Node) engine.getLayer(1).iterator().next()).getName());
-        assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), ((Node) engine.getLayer(1).iterator().next()).getInboundDependencies().size());
+        assertEquals("Layer 1 content", b_B_b.getName(), engine.getLayer(1).iterator().next().getName());
+        assertEquals("Nb inbounds from b.B.b", b_B_b.getInboundDependencies().size(), engine.getLayer(1).iterator().next().getInboundDependencies().size());
         assertEquals("Layer 2 size", 1, engine.getLayer(1).size());
-        assertEquals("Layer 2 content", a_A_a.getName(), ((Node) engine.getLayer(2).iterator().next()).getName());
-        assertEquals("Nb inbounds from a.A.a", a_A_a.getInboundDependencies().size(), ((Node) engine.getLayer(2).iterator().next()).getInboundDependencies().size());
+        assertEquals("Layer 2 content", a_A_a.getName(), engine.getLayer(2).iterator().next().getName());
+        assertEquals("Nb inbounds from a.A.a", a_A_a.getInboundDependencies().size(), engine.getLayer(2).iterator().next().getInboundDependencies().size());
         
         assertEquals("packages in scope: ", 3, engine.getFactory().getPackages().values().size());
         assertEquals("classes in scope" ,   3, engine.getFactory().getClasses().values().size());

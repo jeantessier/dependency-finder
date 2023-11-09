@@ -40,7 +40,7 @@ import junit.framework.*;
 import com.jeantessier.classreader.*;
 
 public class TestCodeDependencyCollector extends TestCase {
-    public static final String TEST_CLASS    = "test";
+    public static final String TEST_CLASS = "test";
     public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
     
     private NodeFactory factory;
@@ -48,7 +48,7 @@ public class TestCodeDependencyCollector extends TestCase {
     protected void setUp() throws Exception {
         factory = new NodeFactory();
 
-        ClassfileLoader loader = new AggregatingClassfileLoader();
+        var loader = new AggregatingClassfileLoader();
         loader.addLoadListener(new LoadListenerVisitorAdapter(new CodeDependencyCollector(factory)));
         loader.load(Collections.singleton(TEST_FILENAME));
     }

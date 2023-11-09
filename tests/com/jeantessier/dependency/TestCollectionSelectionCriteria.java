@@ -37,8 +37,8 @@ import java.util.*;
 import junit.framework.*;
 
 public class TestCollectionSelectionCriteria extends TestCase {
-    private Collection                  include;
-    private Collection                  exclude;
+    private Collection<String> include;
+    private Collection<String> exclude;
     private CollectionSelectionCriteria criteria;
 
     private PackageNode a;
@@ -50,11 +50,11 @@ public class TestCollectionSelectionCriteria extends TestCase {
     private FeatureNode b_B_b;
 
     protected void setUp() throws Exception {
-        include  = new HashSet();
-        exclude  = new HashSet();
+        include = new HashSet<>();
+        exclude = new HashSet<>();
         criteria = new CollectionSelectionCriteria(include, exclude);
 
-        NodeFactory factory = new NodeFactory();
+        var factory = new NodeFactory();
 
         a     = factory.createPackage("a");
         a_A   = factory.createClass("a.A");

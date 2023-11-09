@@ -36,9 +36,7 @@ import org.jmock.Expectations;
 import org.jmock.imposters.ByteBuddyClassImposteriser;
 import org.jmock.integration.junit3.MockObjectTestCase;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
+import java.util.*;
 
 public class TestFeatureResolver extends MockObjectTestCase {
     private FeatureResolver sut;
@@ -55,13 +53,13 @@ public class TestFeatureResolver extends MockObjectTestCase {
         final Node mockNode1 = mock(Node.class, "node1");
         final Node mockNode2 = mock(Node.class, "node2");
 
-        final Collection<Node> nodes = new LinkedList<Node>();
+        final Collection<Node> nodes = new LinkedList<>();
         nodes.add(mockNode1);
         nodes.add(mockNode2);
 
         checking(new Expectations() {{
-            one (mockNode1).accept(sut);
-            one (mockNode2).accept(sut);
+            oneOf (mockNode1).accept(sut);
+            oneOf (mockNode2).accept(sut);
         }});
 
         sut.traverseNodes(nodes);
@@ -72,15 +70,15 @@ public class TestFeatureResolver extends MockObjectTestCase {
         final ClassNode mockClassNode1 = mock(ClassNode.class, "class1");
         final ClassNode mockClassNode2 = mock(ClassNode.class, "class2");
 
-        final Collection<ClassNode> classes = new LinkedList<ClassNode>();
+        final Collection<ClassNode> classes = new LinkedList<>();
         classes.add(mockClassNode1);
         classes.add(mockClassNode2);
 
         checking(new Expectations() {{
-            one (mockPackageNode).getClasses();
+            oneOf (mockPackageNode).getClasses();
                 will(returnValue(classes));
-            one (mockClassNode1).accept(sut);
-            one (mockClassNode2).accept(sut);
+            oneOf (mockClassNode1).accept(sut);
+            oneOf (mockClassNode2).accept(sut);
         }});
 
         sut.visitPackageNode(mockPackageNode);
@@ -101,15 +99,15 @@ public class TestFeatureResolver extends MockObjectTestCase {
         final FeatureNode mockFeatureNode1 = mock(FeatureNode.class, "feature1");
         final FeatureNode mockFeatureNode2 = mock(FeatureNode.class, "feature2");
 
-        final Collection<FeatureNode> features = new LinkedList<FeatureNode>();
+        final Collection<FeatureNode> features = new LinkedList<>();
         features.add(mockFeatureNode1);
         features.add(mockFeatureNode2);
 
         checking(new Expectations() {{
-            one (mockClassNode).getFeatures();
+            oneOf (mockClassNode).getFeatures();
                 will(returnValue(features));
-            one (mockFeatureNode1).accept(sut);
-            one (mockFeatureNode2).accept(sut);
+            oneOf (mockFeatureNode1).accept(sut);
+            oneOf (mockFeatureNode2).accept(sut);
         }});
 
         sut.visitClassNode(mockClassNode);
@@ -142,11 +140,11 @@ public class TestFeatureResolver extends MockObjectTestCase {
                 will(returnValue(TARGET_SIMPLE_NAME));
             atLeast(1).of (mockChildTarget).getClassNode();
                 will(returnValue(mockChild));
-            one (mockChild).getInheritedFeatures(TARGET_SIMPLE_NAME);
+            oneOf (mockChild).getInheritedFeatures(TARGET_SIMPLE_NAME);
                 will(returnValue(Collections.singleton(mockParentTarget)));
-            one (mockChildTarget).getInboundDependencies();
+            oneOf (mockChildTarget).getInboundDependencies();
                 will(returnValue(Collections.singleton(mockCallerSource)));
-            one (mockCallerSource).addDependency(mockParentTarget);
+            oneOf (mockCallerSource).addDependency(mockParentTarget);
         }});
 
         sut.visitFeatureNode(mockChildTarget);

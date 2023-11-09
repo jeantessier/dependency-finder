@@ -40,7 +40,7 @@ import junit.framework.*;
 public abstract class TestHTMLPrinterBase extends TestCase {
     protected static final String PREFIX = "prefix (";
     protected static final String SUFFIX = ") suffix";
-    protected static final MessageFormat FORMAT = new MessageFormat(PREFIX + "{0}" + SUFFIX);
+    protected static final String FORMAT = PREFIX + "%s" + SUFFIX;
 
     protected NodeFactory  factory;
     protected StringWriter out;

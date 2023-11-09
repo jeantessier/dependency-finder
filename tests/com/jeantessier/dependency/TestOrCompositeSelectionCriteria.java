@@ -41,7 +41,7 @@ public class TestOrCompositeSelectionCriteria extends TestCase {
     private ClassNode   a_A;
     private FeatureNode a_A_a;
 
-    private Collection                   subcriteria;
+    private Collection<SelectionCriteria> subcriteria;
     private OrCompositeSelectionCriteria criteria;
     
     protected void setUp() throws Exception {
@@ -51,7 +51,7 @@ public class TestOrCompositeSelectionCriteria extends TestCase {
         a_A   = factory.createClass("a.A");
         a_A_a = factory.createFeature("a.A.a");
 
-        subcriteria = new ArrayList();
+        subcriteria = new ArrayList<>();
         criteria    = new OrCompositeSelectionCriteria(subcriteria);
     }
     

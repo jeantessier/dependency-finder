@@ -42,12 +42,11 @@ import org.xml.sax.*;
 import org.apache.oro.text.perl.*;
 
 public class TestXMLCyclePrinter extends TestCase implements ErrorHandler {
-    private static final String SPECIFIC_ENCODING   = "iso-latin-1";
+    private static final String SPECIFIC_ENCODING = "iso-latin-1";
     private static final String SPECIFIC_DTD_PREFIX = "./etc";
 
-    private XMLReader    reader;
-    private Perl5Util    perl;
-    private NodeFactory  factory;
+    private XMLReader reader;
+    private Perl5Util perl;
     private StringWriter out;
 
     private Node a_package;
@@ -55,7 +54,7 @@ public class TestXMLCyclePrinter extends TestCase implements ErrorHandler {
     private Node c_package;
 
     protected void setUp() throws Exception {
-	boolean validate = Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE");
+	    var validate = Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE");
 
         reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
         reader.setFeature("http://xml.org/sax/features/validation", validate);
@@ -64,8 +63,8 @@ public class TestXMLCyclePrinter extends TestCase implements ErrorHandler {
 
         perl = new Perl5Util();
 
-        factory = new NodeFactory();
-        out     = new StringWriter();
+        var factory = new NodeFactory();
+        out = new StringWriter();
 
         a_package = factory.createPackage("a");
         b_package = factory.createPackage("b");
@@ -73,7 +72,7 @@ public class TestXMLCyclePrinter extends TestCase implements ErrorHandler {
     }
 
     public void testDefaultDTDPrefix() {
-        XMLCyclePrinter printer = new XMLCyclePrinter(new PrintWriter(out));
+        new XMLCyclePrinter(new PrintWriter(out));
 
         String xmlDocument = out.toString();
         assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
@@ -90,7 +89,7 @@ public class TestXMLCyclePrinter extends TestCase implements ErrorHandler {
     }
 
     public void testSpecificDTDPrefix() {
-        XMLCyclePrinter printer = new XMLCyclePrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        new XMLCyclePrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
         String xmlDocument = out.toString();
         assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
@@ -107,7 +106,7 @@ public class TestXMLCyclePrinter extends TestCase implements ErrorHandler {
     }
 
     public void testDefaultEncoding() {
-        XMLCyclePrinter printer = new XMLCyclePrinter(new PrintWriter(out));
+        new XMLCyclePrinter(new PrintWriter(out));
 
         String xmlDocument = out.toString();
         assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
@@ -124,7 +123,7 @@ public class TestXMLCyclePrinter extends TestCase implements ErrorHandler {
     }
 
     public void testSpecificEncoding() {
-        XMLCyclePrinter printer = new XMLCyclePrinter(new PrintWriter(out), SPECIFIC_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
+        new XMLCyclePrinter(new PrintWriter(out), SPECIFIC_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
 
         String xmlDocument = out.toString();
         assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
@@ -141,15 +140,16 @@ public class TestXMLCyclePrinter extends TestCase implements ErrorHandler {
     }
 
     public void testVisitCyclesWith2NodeCycle() throws IOException {
-        List<Node> nodes = new ArrayList<Node>();
+        List<Node> nodes = new ArrayList<>();
         nodes.add(a_package);
         nodes.add(b_package);
         Cycle cycle = new Cycle(nodes);
 
-        XMLCyclePrinter printer = new XMLCyclePrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        var printer = new XMLCyclePrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.visitCycles(Collections.singletonList(cycle));
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());
@@ -166,16 +166,17 @@ public class TestXMLCyclePrinter extends TestCase implements ErrorHandler {
     }
 
     public void testVisitCyclesWith2NodeCycleWithIndentText() throws IOException {
-        List<Node> nodes = new ArrayList<Node>();
+        List<Node> nodes = new ArrayList<>();
         nodes.add(a_package);
         nodes.add(b_package);
         Cycle cycle = new Cycle(nodes);
 
-        CyclePrinter printer = new XMLCyclePrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        var printer = new XMLCyclePrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.setIndentText("*");
         printer.visitCycles(Collections.singletonList(cycle));
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());
@@ -192,16 +193,17 @@ public class TestXMLCyclePrinter extends TestCase implements ErrorHandler {
     }
 
     public void testVisitCycleWith3NodeCycle() throws IOException {
-        List<Node> nodes = new ArrayList<Node>();
+        List<Node> nodes = new ArrayList<>();
         nodes.add(a_package);
         nodes.add(b_package);
         nodes.add(c_package);
         Cycle cycle = new Cycle(nodes);
 
-        XMLCyclePrinter printer = new XMLCyclePrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        var printer = new XMLCyclePrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.visitCycles(Collections.singletonList(cycle));
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());
@@ -219,23 +221,24 @@ public class TestXMLCyclePrinter extends TestCase implements ErrorHandler {
     }
 
     public void testVisitCycleWith2Cycles() throws IOException {
-        List<Cycle> cycles = new ArrayList<Cycle>();
+        List<Cycle> cycles = new ArrayList<>();
 
-        List<Node> nodes1 = new ArrayList<Node>();
+        List<Node> nodes1 = new ArrayList<>();
         nodes1.add(a_package);
         nodes1.add(b_package);
         cycles.add(new Cycle(nodes1));
 
-        List<Node> nodes2 = new ArrayList<Node>();
+        List<Node> nodes2 = new ArrayList<>();
         nodes2.add(a_package);
         nodes2.add(b_package);
         nodes2.add(c_package);
         cycles.add(new Cycle(nodes2));
 
-        XMLCyclePrinter printer = new XMLCyclePrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        var printer = new XMLCyclePrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.visitCycles(cycles);
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
         assertEquals("line " + ++lineNumber, "", in.readLine());

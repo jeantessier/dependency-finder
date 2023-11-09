@@ -32,21 +32,19 @@
 
 package com.jeantessier.dependency;
 
-import java.util.*;
-
 import junit.framework.*;
 
 public class TestGraphCopier extends TestCase {
     private RegularExpressionSelectionCriteria scopeCriteria;
     private RegularExpressionSelectionCriteria filterCriteria;
-    private NodeFactory                        factory;
+    private NodeFactory factory;
 
     private GraphCopier copier;
 
     protected void setUp() throws Exception {
         scopeCriteria  = new RegularExpressionSelectionCriteria("//");
         filterCriteria = new RegularExpressionSelectionCriteria("//");
-        factory        = new NodeFactory();
+        factory = new NodeFactory();
 
         Node test_class = factory.createClass("test");
         Node test_main_method = factory.createFeature("test.main(String[])");
@@ -81,40 +79,32 @@ public class TestGraphCopier extends TestCase {
                      factory.getFeatures().size(),
                      copier.getScopeFactory().getFeatures().size());
 
-        Iterator i;
-
-        i = factory.getPackages().keySet().iterator();
-        while(i.hasNext()) {
-            Object key = i.next();
+        factory.getPackages().keySet().forEach(key -> {
             assertEquals(factory.getPackages().get(key), copier.getScopeFactory().getPackages().get(key));
-            assertTrue(factory.getPackages().get(key) != copier.getScopeFactory().getPackages().get(key));
+            assertNotSame(factory.getPackages().get(key), copier.getScopeFactory().getPackages().get(key));
             assertEquals(factory.getPackages().get(key).getInboundDependencies().size(),
                          copier.getScopeFactory().getPackages().get(key).getInboundDependencies().size());
             assertEquals(factory.getPackages().get(key).getOutboundDependencies().size(),
                          copier.getScopeFactory().getPackages().get(key).getOutboundDependencies().size());
-        }
-        
-        i = factory.getClasses().keySet().iterator();
-        while(i.hasNext()) {
-            Object key = i.next();
+        });
+
+        factory.getClasses().keySet().forEach(key -> {
             assertEquals(factory.getClasses().get(key), copier.getScopeFactory().getClasses().get(key));
-            assertTrue(factory.getClasses().get(key) != copier.getScopeFactory().getClasses().get(key));
+            assertNotSame(factory.getClasses().get(key), copier.getScopeFactory().getClasses().get(key));
             assertEquals(factory.getClasses().get(key).getInboundDependencies().size(),
                          copier.getScopeFactory().getClasses().get(key).getInboundDependencies().size());
             assertEquals(factory.getClasses().get(key).getOutboundDependencies().size(),
                          copier.getScopeFactory().getClasses().get(key).getOutboundDependencies().size());
-        }
-        
-        i = factory.getFeatures().keySet().iterator();
-        while(i.hasNext()) {
-            Object key = i.next();
+        });
+
+        factory.getFeatures().keySet().forEach(key -> {
             assertEquals(factory.getFeatures().get(key), copier.getScopeFactory().getFeatures().get(key));
-            assertTrue(factory.getFeatures().get(key) != copier.getScopeFactory().getFeatures().get(key));
+            assertNotSame(factory.getFeatures().get(key), copier.getScopeFactory().getFeatures().get(key));
             assertEquals(factory.getFeatures().get(key).getInboundDependencies().size(),
                          copier.getScopeFactory().getFeatures().get(key).getInboundDependencies().size());
             assertEquals(factory.getFeatures().get(key).getOutboundDependencies().size(),
                          copier.getScopeFactory().getFeatures().get(key).getOutboundDependencies().size());
-        }
+        });
     }
 
     public void testCopyAllNodesOnly() {
@@ -134,34 +124,26 @@ public class TestGraphCopier extends TestCase {
                      factory.getFeatures().size(),
                      copier.getScopeFactory().getFeatures().size());
 
-        Iterator i;
-
-        i = factory.getPackages().keySet().iterator();
-        while(i.hasNext()) {
-            Object key = i.next();
+        factory.getPackages().keySet().forEach(key -> {
             assertEquals(factory.getPackages().get(key), copier.getScopeFactory().getPackages().get(key));
-            assertTrue(factory.getPackages().get(key) != copier.getScopeFactory().getPackages().get(key));
+            assertNotSame(factory.getPackages().get(key), copier.getScopeFactory().getPackages().get(key));
             assertTrue(copier.getScopeFactory().getPackages().get(key).getInboundDependencies().isEmpty());
             assertTrue(copier.getScopeFactory().getPackages().get(key).getOutboundDependencies().isEmpty());
-        }
-        
-        i = factory.getClasses().keySet().iterator();
-        while(i.hasNext()) {
-            Object key = i.next();
+        });
+
+        factory.getClasses().keySet().forEach(key -> {
             assertEquals(factory.getClasses().get(key), copier.getScopeFactory().getClasses().get(key));
-            assertTrue(factory.getClasses().get(key) != copier.getScopeFactory().getClasses().get(key));
+            assertNotSame(factory.getClasses().get(key), copier.getScopeFactory().getClasses().get(key));
             assertTrue(copier.getScopeFactory().getClasses().get(key).getInboundDependencies().isEmpty());
             assertTrue(copier.getScopeFactory().getClasses().get(key).getOutboundDependencies().isEmpty());
-        }
-        
-        i = factory.getFeatures().keySet().iterator();
-        while(i.hasNext()) {
-            Object key = i.next();
+        });
+
+        factory.getFeatures().keySet().forEach(key -> {
             assertEquals(factory.getFeatures().get(key), copier.getScopeFactory().getFeatures().get(key));
-            assertTrue(factory.getFeatures().get(key) != copier.getScopeFactory().getFeatures().get(key));
+            assertNotSame(factory.getFeatures().get(key), copier.getScopeFactory().getFeatures().get(key));
             assertTrue(copier.getScopeFactory().getFeatures().get(key).getInboundDependencies().isEmpty());
             assertTrue(copier.getScopeFactory().getFeatures().get(key).getOutboundDependencies().isEmpty());
-        }
+        });
     }
 
     public void testCopyPackageNodesOnly() {
@@ -179,16 +161,12 @@ public class TestGraphCopier extends TestCase {
         assertTrue(copier.getScopeFactory().getClasses().isEmpty());
         assertTrue(copier.getScopeFactory().getFeatures().isEmpty());
 
-        Iterator i;
-
-        i = factory.getPackages().keySet().iterator();
-        while(i.hasNext()) {
-            Object key = i.next();
+        factory.getPackages().keySet().forEach(key -> {
             assertEquals(factory.getPackages().get(key), copier.getScopeFactory().getPackages().get(key));
-            assertTrue(factory.getPackages().get(key) != copier.getScopeFactory().getPackages().get(key));
+            assertNotSame(factory.getPackages().get(key), copier.getScopeFactory().getPackages().get(key));
             assertTrue(copier.getScopeFactory().getPackages().get(key).getInboundDependencies().isEmpty());
             assertTrue(copier.getScopeFactory().getPackages().get(key).getOutboundDependencies().isEmpty());
-        }
+        });
     }
 
     public void testCopyClassNodesOnly() {
@@ -208,25 +186,19 @@ public class TestGraphCopier extends TestCase {
                      copier.getScopeFactory().getClasses().size());
         assertTrue(copier.getScopeFactory().getFeatures().isEmpty());
 
-        Iterator i;
-
-        i = factory.getPackages().keySet().iterator();
-        while(i.hasNext()) {
-            Object key = i.next();
+        factory.getPackages().keySet().forEach(key -> {
             assertEquals(factory.getPackages().get(key), copier.getScopeFactory().getPackages().get(key));
-            assertTrue(factory.getPackages().get(key) != copier.getScopeFactory().getPackages().get(key));
+            assertNotSame(factory.getPackages().get(key), copier.getScopeFactory().getPackages().get(key));
             assertTrue(copier.getScopeFactory().getPackages().get(key).getInboundDependencies().isEmpty());
             assertTrue(copier.getScopeFactory().getPackages().get(key).getOutboundDependencies().isEmpty());
-        }
+        });
         
-        i = factory.getClasses().keySet().iterator();
-        while(i.hasNext()) {
-            Object key = i.next();
+        factory.getClasses().keySet().forEach(key -> {
             assertEquals(factory.getClasses().get(key), copier.getScopeFactory().getClasses().get(key));
-            assertTrue(factory.getClasses().get(key) != copier.getScopeFactory().getClasses().get(key));
+            assertNotSame(factory.getClasses().get(key), copier.getScopeFactory().getClasses().get(key));
             assertTrue(copier.getScopeFactory().getClasses().get(key).getInboundDependencies().isEmpty());
             assertTrue(copier.getScopeFactory().getClasses().get(key).getOutboundDependencies().isEmpty());
-        }
+        });
     }
 
     public void testCopyFeatureNodesOnly() {
@@ -248,34 +220,26 @@ public class TestGraphCopier extends TestCase {
                      factory.getFeatures().size(),
                      copier.getScopeFactory().getFeatures().size());
 
-        Iterator i;
-
-        i = copier.getScopeFactory().getPackages().keySet().iterator();
-        while(i.hasNext()) {
-            Object key = i.next();
+        copier.getScopeFactory().getPackages().keySet().forEach(key -> {
             assertEquals(factory.getPackages().get(key), copier.getScopeFactory().getPackages().get(key));
-            assertTrue(factory.getPackages().get(key) != copier.getScopeFactory().getPackages().get(key));
+            assertNotSame(factory.getPackages().get(key), copier.getScopeFactory().getPackages().get(key));
             assertTrue(copier.getScopeFactory().getPackages().get(key).getInboundDependencies().isEmpty());
             assertTrue(copier.getScopeFactory().getPackages().get(key).getOutboundDependencies().isEmpty());
-        }
-        
-        i = copier.getScopeFactory().getClasses().keySet().iterator();
-        while(i.hasNext()) {
-            Object key = i.next();
+        });
+
+        copier.getScopeFactory().getClasses().keySet().forEach(key -> {
             assertEquals(factory.getClasses().get(key), copier.getScopeFactory().getClasses().get(key));
-            assertTrue(factory.getClasses().get(key) != copier.getScopeFactory().getClasses().get(key));
+            assertNotSame(factory.getClasses().get(key), copier.getScopeFactory().getClasses().get(key));
             assertTrue(copier.getScopeFactory().getClasses().get(key).getInboundDependencies().isEmpty());
             assertTrue(copier.getScopeFactory().getClasses().get(key).getOutboundDependencies().isEmpty());
-        }
-        
-        i = copier.getScopeFactory().getFeatures().keySet().iterator();
-        while(i.hasNext()) {
-            Object key = i.next();
+        });
+
+        copier.getScopeFactory().getFeatures().keySet().forEach(key -> {
             assertEquals(factory.getFeatures().get(key), copier.getScopeFactory().getFeatures().get(key));
-            assertTrue(factory.getFeatures().get(key) != copier.getScopeFactory().getFeatures().get(key));
+            assertNotSame(factory.getFeatures().get(key), copier.getScopeFactory().getFeatures().get(key));
             assertTrue(copier.getScopeFactory().getFeatures().get(key).getInboundDependencies().isEmpty());
             assertTrue(copier.getScopeFactory().getFeatures().get(key).getOutboundDependencies().isEmpty());
-        }
+        });
     }
 
     public void testCopyNothing() {
@@ -312,7 +276,7 @@ public class TestGraphCopier extends TestCase {
 
         copier.traverseNodes(factory.getPackages().values());
 
-        assertTrue(copier.getScopeFactory().getPackages().keySet().toString(), copier.getScopeFactory().getPackages().keySet().contains("a"));
+        assertTrue(copier.getScopeFactory().getPackages().keySet().toString(), copier.getScopeFactory().getPackages().containsKey("a"));
         assertTrue(copier.getScopeFactory().getClasses().isEmpty());
         assertTrue(copier.getScopeFactory().getFeatures().isEmpty());
 

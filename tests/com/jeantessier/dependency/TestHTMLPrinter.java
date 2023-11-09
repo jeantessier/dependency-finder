@@ -52,8 +52,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
@@ -72,8 +72,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
@@ -92,8 +92,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
@@ -111,8 +111,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
@@ -130,8 +130,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a> *</span>", in.readLine());
@@ -153,8 +153,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a>", in.readLine());
@@ -176,8 +176,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a> *</span>", in.readLine());
@@ -198,8 +198,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a>", in.readLine());
@@ -220,8 +220,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty\\$Empty" + SUFFIX + "\" id=\"empty.Empty$Empty\">Empty$Empty</a>", in.readLine());
@@ -243,8 +243,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a> *</span>", in.readLine());
@@ -269,8 +269,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a>", in.readLine());
@@ -295,8 +295,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a> *</span>", in.readLine());
@@ -320,8 +320,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a>", in.readLine());
@@ -345,8 +345,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty\\$Empty" + SUFFIX + "\" id=\"empty.Empty$Empty\">Empty$Empty</a>", in.readLine());
@@ -371,8 +371,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
@@ -391,8 +391,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
@@ -411,8 +411,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
@@ -430,8 +430,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
@@ -449,8 +449,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a> *</span>", in.readLine());
@@ -472,8 +472,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a>", in.readLine());
@@ -495,8 +495,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a> *</span>", in.readLine());
@@ -517,8 +517,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a>", in.readLine());
@@ -539,8 +539,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty\\$Empty" + SUFFIX + "\" id=\"empty.Empty$Empty\">Empty$Empty</a>", in.readLine());
@@ -562,8 +562,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a> *</span>", in.readLine());
@@ -588,8 +588,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a>", in.readLine());
@@ -614,8 +614,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a> *</span>", in.readLine());
@@ -639,8 +639,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a>", in.readLine());
@@ -664,8 +664,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty\\$Empty" + SUFFIX + "\" id=\"empty.Empty$Empty\">Empty$Empty</a>", in.readLine());
@@ -691,8 +691,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
@@ -721,8 +721,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
@@ -751,8 +751,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
@@ -781,8 +781,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound</a> *</span>", in.readLine());
@@ -810,8 +810,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound</a>", in.readLine());
@@ -838,8 +838,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a> *</span>", in.readLine());
@@ -866,8 +866,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a>", in.readLine());
@@ -894,8 +894,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a> *</span>", in.readLine());
@@ -920,8 +920,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a>", in.readLine());
@@ -945,8 +945,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a> *</span>", in.readLine());
@@ -971,8 +971,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a>", in.readLine());
@@ -997,8 +997,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a> *</span>", in.readLine());
@@ -1020,8 +1020,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a>", in.readLine());
@@ -1043,8 +1043,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty\\$Empty" + SUFFIX + "\" id=\"empty.Empty$Empty\">Empty$Empty</a>", in.readLine());
@@ -1075,8 +1075,8 @@ public class TestHTMLPrinter extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    &lt;-&gt; <a href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_bidirectional_outbound\">outbound</a>", in.readLine());

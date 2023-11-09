@@ -36,15 +36,17 @@ import java.util.*;
 
 import org.apache.oro.text.perl.*;
 
+import static java.util.stream.Collectors.*;
+
 public class LCOM4Gatherer implements Visitor {
     private static final Perl5Util perl = new Perl5Util();
 
     private final Map<ClassNode, Collection<Collection<FeatureNode>>> results = new HashMap<>();
     private Collection<FeatureNode> currentComponent;
     private ClassNode currentClass;
-    private LinkedList<FeatureNode> unvisitedNodes;
+    private List<FeatureNode> unvisitedNodes;
 
-    private HashSet<Collection<FeatureNode>> currentComponents;
+    private Set<Collection<FeatureNode>> currentComponents;
 
     public Map<ClassNode, Collection<Collection<FeatureNode>>> getResults() {
         return results;
@@ -122,16 +124,11 @@ public class LCOM4Gatherer implements Visitor {
         }
     }
 
-    private LinkedList<FeatureNode> filterOutConstructors(Collection<FeatureNode> featureNodes) {
-        var result = new LinkedList<FeatureNode>();
-
-        for (var featureNode : featureNodes) {
-            if (featureNode.isConfirmed() && !isConstructor(featureNode)) {
-                result.add(featureNode);
-            }
-        }
-
-        return result;
+    private List<FeatureNode> filterOutConstructors(Collection<FeatureNode> featureNodes) {
+        return featureNodes.stream()
+                .filter(Node::isConfirmed)
+                .filter(featureNode-> !isConstructor(featureNode))
+                .collect(toList());
     }
 
     private boolean isConstructor(FeatureNode node) {

@@ -71,10 +71,10 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
         c_C   = factory.createClass("c.C");
         c_C_c = factory.createFeature("c.C.c");
         
-        include = new LinkedList<String>();
+        include = new LinkedList<>();
         include.add("/^b/");
         
-        exclude = new LinkedList<String>();
+        exclude = new LinkedList<>();
         exclude.add("/^c/");
     }
 

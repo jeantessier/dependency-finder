@@ -53,23 +53,23 @@ public class TestHTMLCyclePrinter extends TestHTMLPrinterBase {
     }
 
     public void testEmptyCycles() throws IOException {
-        visitor.visitCycles(Collections.<Cycle>emptyList());
+        visitor.visitCycles(Collections.emptyList());
 
-        BufferedReader in = new BufferedReader(new StringReader(out.toString()));
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("End of file", null, in.readLine());
     }
 
     public void test2NodesCycle() throws IOException {
-        List<Node> nodes = new ArrayList<Node>();
+        List<Node> nodes = new ArrayList<>();
         nodes.add(a_package);
         nodes.add(b_package);
         Cycle cycle = new Cycle(nodes);
 
         visitor.visitCycles(Collections.singletonList(cycle));
 
-        int lineNumber = 0;
-        BufferedReader in = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "a" + SUFFIX + "\" id=\"a\">a</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "b" + SUFFIX + "\" id=\"a_to_b\">b</a>", in.readLine());
@@ -79,7 +79,7 @@ public class TestHTMLCyclePrinter extends TestHTMLPrinterBase {
     }
 
     public void test3NodesCycle() throws IOException {
-        List<Node> nodes = new ArrayList<Node>();
+        List<Node> nodes = new ArrayList<>();
         nodes.add(a_package);
         nodes.add(b_package);
         nodes.add(c_package);
@@ -87,8 +87,8 @@ public class TestHTMLCyclePrinter extends TestHTMLPrinterBase {
 
         visitor.visitCycles(Collections.singletonList(cycle));
 
-        int lineNumber = 0;
-        BufferedReader in = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "a" + SUFFIX + "\" id=\"a\">a</a>", in.readLine());
         assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "b" + SUFFIX + "\" id=\"a_to_b\">b</a>", in.readLine());

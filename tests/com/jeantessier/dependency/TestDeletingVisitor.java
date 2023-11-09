@@ -37,7 +37,7 @@ import junit.framework.*;
 import org.apache.log4j.*;
 
 public class TestDeletingVisitor extends TestCase {
-    private NodeFactory     factory;
+    private NodeFactory factory;
     private DeletingVisitor visitor;
 
     protected void setUp() throws Exception {

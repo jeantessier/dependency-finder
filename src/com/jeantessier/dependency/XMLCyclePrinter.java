@@ -125,6 +125,6 @@ public class XMLCyclePrinter implements CyclePrinter, Visitor {
     }
 
     private void visitNode(Node node, String type) {
-        out.append(indentText).append(indentText).append("<node type=\"").append(type).append("\">").append(node.getName()).append("</node>").println();
+        out.append(indentText.repeat(2)).append("<node type=\"").append(type).append("\">").append(node.getName()).append("</node>").println();
     }
 }

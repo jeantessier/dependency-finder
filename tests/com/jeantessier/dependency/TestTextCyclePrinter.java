@@ -45,7 +45,7 @@ public class TestTextCyclePrinter extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        NodeFactory factory = new NodeFactory();
+        var factory = new NodeFactory();
 
         a_package = factory.createPackage("a");
         b_package = factory.createPackage("b");
@@ -53,150 +53,150 @@ public class TestTextCyclePrinter extends TestCase {
     }
 
     public void testVisitCycleWith2NodeCycle() {
-        List<Node> nodes = new ArrayList<Node>();
+        List<Node> nodes = new ArrayList<>();
         nodes.add(a_package);
         nodes.add(b_package);
         Cycle cycle = new Cycle(nodes);
 
-        StringWriter expected = new StringWriter();
-        PrintWriter pw = new PrintWriter(expected);
-        pw.println(a_package);
-        pw.println("    --> " + b_package);
-        pw.println("        --> " + a_package);
-        pw.close();
+        var expected = new StringWriter();
+        try (var pw = new PrintWriter(expected)) {
+            pw.println(a_package);
+            pw.println("    --> " + b_package);
+            pw.println("        --> " + a_package);
+        }
 
-        StringWriter buffer = new StringWriter();
-        PrintWriter out = new PrintWriter(buffer);
-        CyclePrinter printer = new TextCyclePrinter(out);
-        printer.visitCycle(cycle);
-        out.close();
+        var buffer = new StringWriter();
+        try (var out = new PrintWriter(buffer)) {
+            var printer = new TextCyclePrinter(out);
+            printer.visitCycle(cycle);
+        }
 
         assertEquals(expected.toString(), buffer.toString());
     }
 
     public void testVisitCycleWith2NodeCycleWithIndentText() {
-        List<Node> nodes = new ArrayList<Node>();
+        List<Node> nodes = new ArrayList<>();
         nodes.add(a_package);
         nodes.add(b_package);
         Cycle cycle = new Cycle(nodes);
 
-        StringWriter expected = new StringWriter();
-        PrintWriter pw = new PrintWriter(expected);
-        pw.println(a_package);
-        pw.println("*--> " + b_package);
-        pw.println("**--> " + a_package);
-        pw.close();
+        var expected = new StringWriter();
+        try (var pw = new PrintWriter(expected)) {
+            pw.println(a_package);
+            pw.println("*--> " + b_package);
+            pw.println("**--> " + a_package);
+        }
 
-        StringWriter buffer = new StringWriter();
-        PrintWriter out = new PrintWriter(buffer);
-        CyclePrinter printer = new TextCyclePrinter(out);
-        printer.setIndentText("*");
-        printer.visitCycle(cycle);
-        out.close();
+        var buffer = new StringWriter();
+        try (var out = new PrintWriter(buffer)) {
+            var printer = new TextCyclePrinter(out);
+            printer.setIndentText("*");
+            printer.visitCycle(cycle);
+        }
 
         assertEquals(expected.toString(), buffer.toString());
     }
 
     public void testVisitCycleWith3NodeCycle() {
-        List<Node> nodes = new ArrayList<Node>();
+        List<Node> nodes = new ArrayList<>();
         nodes.add(a_package);
         nodes.add(b_package);
         nodes.add(c_package);
         Cycle cycle = new Cycle(nodes);
 
-        StringWriter expected = new StringWriter();
-        PrintWriter pw = new PrintWriter(expected);
-        pw.println(a_package);
-        pw.println("    --> " + b_package);
-        pw.println("        --> " + c_package);
-        pw.println("            --> " + a_package);
-        pw.close();
+        var expected = new StringWriter();
+        try (var pw = new PrintWriter(expected)) {
+            pw.println(a_package);
+            pw.println("    --> " + b_package);
+            pw.println("        --> " + c_package);
+            pw.println("            --> " + a_package);
+        }
 
-        StringWriter buffer = new StringWriter();
-        PrintWriter out = new PrintWriter(buffer);
-        CyclePrinter printer = new TextCyclePrinter(out);
-        printer.visitCycle(cycle);
-        out.close();
+        var buffer = new StringWriter();
+        try (var out = new PrintWriter(buffer)) {
+            var printer = new TextCyclePrinter(out);
+            printer.visitCycle(cycle);
+        }
 
         assertEquals(expected.toString(), buffer.toString());
     }
 
     public void testVisitCyclesWith2NodeCycle() {
-        List<Node> nodes = new ArrayList<Node>();
+        List<Node> nodes = new ArrayList<>();
         nodes.add(a_package);
         nodes.add(b_package);
         Cycle cycle = new Cycle(nodes);
 
-        StringWriter expected = new StringWriter();
-        PrintWriter pw = new PrintWriter(expected);
-        pw.println(a_package);
-        pw.println("    --> " + b_package);
-        pw.println("        --> " + a_package);
-        pw.close();
+        var expected = new StringWriter();
+        try (var pw = new PrintWriter(expected)) {
+            pw.println(a_package);
+            pw.println("    --> " + b_package);
+            pw.println("        --> " + a_package);
+        }
 
-        StringWriter buffer = new StringWriter();
-        PrintWriter out = new PrintWriter(buffer);
-        CyclePrinter printer = new TextCyclePrinter(out);
-        printer.visitCycles(Collections.singletonList(cycle));
-        out.close();
+        var buffer = new StringWriter();
+        try (var out = new PrintWriter(buffer)) {
+            var printer = new TextCyclePrinter(out);
+            printer.visitCycles(Collections.singletonList(cycle));
+        }
 
         assertEquals(expected.toString(), buffer.toString());
     }
 
     public void testVisitCyclesWith3NodeCycle() {
-        List<Node> nodes = new ArrayList<Node>();
+        List<Node> nodes = new ArrayList<>();
         nodes.add(a_package);
         nodes.add(b_package);
         nodes.add(c_package);
         Cycle cycle = new Cycle(nodes);
 
-        StringWriter expected = new StringWriter();
-        PrintWriter pw = new PrintWriter(expected);
-        pw.println(a_package);
-        pw.println("    --> " + b_package);
-        pw.println("        --> " + c_package);
-        pw.println("            --> " + a_package);
-        pw.close();
+        var expected = new StringWriter();
+        try (var pw = new PrintWriter(expected)) {
+            pw.println(a_package);
+            pw.println("    --> " + b_package);
+            pw.println("        --> " + c_package);
+            pw.println("            --> " + a_package);
+        }
 
-        StringWriter buffer = new StringWriter();
-        PrintWriter out = new PrintWriter(buffer);
-        CyclePrinter printer = new TextCyclePrinter(out);
-        printer.visitCycles(Collections.singletonList(cycle));
-        out.close();
+        var buffer = new StringWriter();
+        try (var out = new PrintWriter(buffer)) {
+            var printer = new TextCyclePrinter(out);
+            printer.visitCycles(Collections.singletonList(cycle));
+        }
 
         assertEquals(expected.toString(), buffer.toString());
     }
 
-    public void testVisitCyclesWith2Cycles() throws IOException {
-        List<Cycle> cycles = new ArrayList<Cycle>();
+    public void testVisitCyclesWith2Cycles() {
+        List<Cycle> cycles = new ArrayList<>();
 
-        List<Node> nodes1 = new ArrayList<Node>();
+        List<Node> nodes1 = new ArrayList<>();
         nodes1.add(a_package);
         nodes1.add(b_package);
         cycles.add(new Cycle(nodes1));
 
-        List<Node> nodes2 = new ArrayList<Node>();
+        List<Node> nodes2 = new ArrayList<>();
         nodes2.add(a_package);
         nodes2.add(b_package);
         nodes2.add(c_package);
         cycles.add(new Cycle(nodes2));
 
-        StringWriter expected = new StringWriter();
-        PrintWriter pw = new PrintWriter(expected);
-        pw.println(a_package);
-        pw.println("    --> " + b_package);
-        pw.println("        --> " + a_package);
-        pw.println(a_package);
-        pw.println("    --> " + b_package);
-        pw.println("        --> " + c_package);
-        pw.println("            --> " + a_package);
-        pw.close();
+        var expected = new StringWriter();
+        try (var pw = new PrintWriter(expected)) {
+            pw.println(a_package);
+            pw.println("    --> " + b_package);
+            pw.println("        --> " + a_package);
+            pw.println(a_package);
+            pw.println("    --> " + b_package);
+            pw.println("        --> " + c_package);
+            pw.println("            --> " + a_package);
+        }
 
-        StringWriter buffer = new StringWriter();
-        PrintWriter out = new PrintWriter(buffer);
-        CyclePrinter printer = new TextCyclePrinter(out);
-        printer.visitCycles(cycles);
-        out.close();
+        var buffer = new StringWriter();
+        try (var out = new PrintWriter(buffer)) {
+            var printer = new TextCyclePrinter(out);
+            printer.visitCycles(cycles);
+        }
 
         assertEquals(expected.toString(), buffer.toString());
     }

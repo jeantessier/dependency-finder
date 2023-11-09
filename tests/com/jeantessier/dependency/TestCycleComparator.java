@@ -40,11 +40,11 @@ public class TestCycleComparator extends TestCase {
     public void testCompareBasedOnLength() {
         Node node = new PackageNode("node", true);
 
-        List<Node> shortPath = new ArrayList<Node>(2);
+        List<Node> shortPath = new ArrayList<>();
         shortPath.add(node);
         shortPath.add(node);
 
-        List<Node> longPath = new ArrayList<Node>(3);
+        List<Node> longPath = new ArrayList<>();
         longPath.add(node);
         longPath.add(node);
         longPath.add(node);
@@ -52,7 +52,7 @@ public class TestCycleComparator extends TestCase {
         Cycle shortCycle = new Cycle(shortPath);
         Cycle longCycle = new Cycle(longPath);
 
-        Comparator<Cycle> comparator = new CycleComparator();
+        var comparator = new CycleComparator();
 
         assertTrue("2 < 3", comparator.compare(shortCycle, longCycle) < 0);
         assertTrue("2 == 2", comparator.compare(shortCycle, shortCycle) == 0);
@@ -64,18 +64,18 @@ public class TestCycleComparator extends TestCase {
         Node node2 = new PackageNode("node2", true);
         Node node3 = new PackageNode("node3", true);
 
-        List<Node> path1 = new ArrayList<Node>(2);
+        List<Node> path1 = new ArrayList<>();
         path1.add(node1);
         path1.add(node2);
 
-        List<Node> path2 = new ArrayList<Node>(3);
+        List<Node> path2 = new ArrayList<>();
         path2.add(node2);
         path2.add(node3);
 
         Cycle cycle1 = new Cycle(path1);
         Cycle cycle2 = new Cycle(path2);
 
-        Comparator<Cycle> comparator = new CycleComparator();
+        var comparator = new CycleComparator();
 
         assertTrue("1 < 2", comparator.compare(cycle1, cycle2) < 0);
         assertTrue("1 == 1", comparator.compare(cycle1, cycle1) == 0);

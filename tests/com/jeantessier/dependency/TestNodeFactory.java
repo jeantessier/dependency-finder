@@ -95,7 +95,7 @@ public class TestNodeFactory extends TestCase {
 
         assertEquals("name", "a.A.a", node.getName());
         assertEquals("class name", "a.A", node.getClassNode().getName());
-        assertEquals("pacakge name", "a", node.getClassNode().getPackageNode().getName());
+        assertEquals("package name", "a", node.getClassNode().getPackageNode().getName());
         assertEquals("inbounds", 0, node.getInboundDependencies().size());
         assertEquals("outbounds", 0, node.getOutboundDependencies().size());
     }

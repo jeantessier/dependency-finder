@@ -51,7 +51,7 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
 
     private CollectionSelectionCriteria scopeSelector;
     private CollectionSelectionCriteria filterSelector;
-    private GraphSummarizer             summarizer;
+    private GraphSummarizer summarizer;
 
     protected void setUp() throws Exception {
         factory = new NodeFactory();
@@ -70,7 +70,7 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
 
         scopeSelector  = new CollectionSelectionCriteria(null, null);
         filterSelector = new CollectionSelectionCriteria(null, null);
-        summarizer     = new GraphSummarizer(scopeSelector, filterSelector);
+        summarizer = new GraphSummarizer(scopeSelector, filterSelector);
     }        
 
     public void testConfirmedPackage2ConfirmedPackage() {

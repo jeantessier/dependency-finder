@@ -36,7 +36,7 @@ import junit.framework.*;
 
 public class TestComprehensiveSelectionCriteria extends TestCase {
     private ComprehensiveSelectionCriteria criteria;
-    private NodeFactory                    factory;
+    private NodeFactory factory;
 
     private PackageNode a;
     private ClassNode a_A;

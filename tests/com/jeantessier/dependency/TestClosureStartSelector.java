@@ -32,16 +32,13 @@
 
 package com.jeantessier.dependency;
 
-import java.io.*;
 import java.util.*;
 
 import junit.framework.*;
 
-import org.apache.oro.text.perl.*;
-
 public class TestClosureStartSelector extends TestCase {
-    private NodeFactory                        factory;
-    private NodeFactory                        localFactory;
+    private NodeFactory factory;
+    private NodeFactory localFactory;
     private RegularExpressionSelectionCriteria localCriteria;
 
     private PackageNode a;
@@ -57,8 +54,8 @@ public class TestClosureStartSelector extends TestCase {
     private FeatureNode c_C_c;
 
     protected void setUp() throws Exception {
-        factory       = new NodeFactory();
-        localFactory  = new NodeFactory();
+        factory = new NodeFactory();
+        localFactory = new NodeFactory();
         localCriteria = new RegularExpressionSelectionCriteria();
 
         a     = factory.createPackage("a");
@@ -160,7 +157,7 @@ public class TestClosureStartSelector extends TestCase {
         ClosureStartSelector selector = new ClosureStartSelector(localFactory, new ComprehensiveSelectionCriteria());
         selector.traverseNodes(Collections.singleton(b));
 
-        assertEquals("package.isConfirmed()", b.isConfirmed(), ((Node) localFactory.getPackages().get(b.getName())).isConfirmed());
+        assertEquals("package.isConfirmed()", b.isConfirmed(), localFactory.getPackages().get(b.getName()).isConfirmed());
     }
 
     public void testVisitConfirmedPackage() {
@@ -169,14 +166,14 @@ public class TestClosureStartSelector extends TestCase {
         ClosureStartSelector selector = new ClosureStartSelector(localFactory, new ComprehensiveSelectionCriteria());
         selector.traverseNodes(Collections.singleton(b));
 
-        assertEquals("package.isConfirmed()", b.isConfirmed(), ((Node) localFactory.getPackages().get(b.getName())).isConfirmed());
+        assertEquals("package.isConfirmed()", b.isConfirmed(), localFactory.getPackages().get(b.getName()).isConfirmed());
     }
 
     public void testVisitInferredClass() {
         ClosureStartSelector selector = new ClosureStartSelector(localFactory, new ComprehensiveSelectionCriteria());
         selector.traverseNodes(Collections.singleton(b_B));
 
-        assertEquals("class.isConfirmed()", b_B.isConfirmed(), ((Node) localFactory.getClasses().get(b_B.getName())).isConfirmed());
+        assertEquals("class.isConfirmed()", b_B.isConfirmed(), localFactory.getClasses().get(b_B.getName()).isConfirmed());
     }
 
     public void testVisitConfirmedClass() {
@@ -185,14 +182,14 @@ public class TestClosureStartSelector extends TestCase {
         ClosureStartSelector selector = new ClosureStartSelector(localFactory, new ComprehensiveSelectionCriteria());
         selector.traverseNodes(Collections.singleton(b_B));
 
-        assertEquals("class.isConfirmed()", b_B.isConfirmed(), ((Node) localFactory.getClasses().get(b_B.getName())).isConfirmed());
+        assertEquals("class.isConfirmed()", b_B.isConfirmed(), localFactory.getClasses().get(b_B.getName()).isConfirmed());
     }
 
     public void testVisitInferredFeature() {
         ClosureStartSelector selector = new ClosureStartSelector(localFactory, new ComprehensiveSelectionCriteria());
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("feature.isConfirmed()", b_B_b.isConfirmed(), ((Node) localFactory.getFeatures().get(b_B_b.getName())).isConfirmed());
+        assertEquals("feature.isConfirmed()", b_B_b.isConfirmed(), localFactory.getFeatures().get(b_B_b.getName()).isConfirmed());
     }
 
     public void testVisitConfirmedFeature() {
@@ -201,6 +198,6 @@ public class TestClosureStartSelector extends TestCase {
         ClosureStartSelector selector = new ClosureStartSelector(localFactory, new ComprehensiveSelectionCriteria());
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("feature.isConfirmed()", b_B_b.isConfirmed(), ((Node) localFactory.getFeatures().get(b_B_b.getName())).isConfirmed());
+        assertEquals("feature.isConfirmed()", b_B_b.isConfirmed(), localFactory.getFeatures().get(b_B_b.getName()).isConfirmed());
     }
 }

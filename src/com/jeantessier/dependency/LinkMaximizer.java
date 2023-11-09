@@ -42,9 +42,7 @@ public class LinkMaximizer extends VisitorBase {
     }
 
     protected void postprocessClassNode(ClassNode node) {
-        for (Node target : getStrategy().order(node.getOutboundDependencies())) {
-            node.getPackageNode().addDependency(target);
-        }
+        getStrategy().order(node.getOutboundDependencies()).forEach(target -> node.getPackageNode().addDependency(target));
 
         super.postprocessClassNode(node);
     }
@@ -58,10 +56,10 @@ public class LinkMaximizer extends VisitorBase {
     }
 
     protected void postprocessFeatureNode(FeatureNode node) {
-        for (Node target : getStrategy().order(node.getOutboundDependencies())) {
+        getStrategy().order(node.getOutboundDependencies()).forEach(target -> {
             node.getClassNode().addDependency(target);
             node.getClassNode().getPackageNode().addDependency(target);
-        }
+        });
 
         super.postprocessFeatureNode(node);
     }

@@ -39,7 +39,7 @@ import junit.framework.*;
 public class TestGraphSummarizerWithFiltering extends TestCase {
     private RegularExpressionSelectionCriteria scopeCriteria;
     private RegularExpressionSelectionCriteria filterCriteria;
-    private NodeFactory                        factory;
+    private NodeFactory factory;
     
     private Node a_A_a;
     private Node b;
@@ -55,20 +55,20 @@ public class TestGraphSummarizerWithFiltering extends TestCase {
     protected void setUp() throws Exception {
         scopeCriteria  = new RegularExpressionSelectionCriteria("//");
         filterCriteria = new RegularExpressionSelectionCriteria("//");
-        factory        = new NodeFactory();
+        factory = new NodeFactory();
 
         a_A_a = factory.createFeature("a.A.a");
         b     = factory.createPackage("b");
         b_B_b = factory.createFeature("b.B.b");
         c_C_c = factory.createFeature("c.C.c");
         
-        includeScope = new LinkedList<String>();
+        includeScope = new LinkedList<>();
         includeScope.add("/^a/");
         
-        includeFilter = new LinkedList<String>();
+        includeFilter = new LinkedList<>();
         includeFilter.add("/^b/");
         
-        excludeFilter = new LinkedList<String>();
+        excludeFilter = new LinkedList<>();
         excludeFilter.add("/^c/");
 
         copier = new GraphSummarizer(scopeCriteria, filterCriteria);

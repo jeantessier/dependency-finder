@@ -42,7 +42,7 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class TestDependencyExtractor extends TestCase {
-    public static final String TEST_CLASS    = "test";
+    public static final String TEST_CLASS = "test";
     public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
     
     private NodeFactory factory;
@@ -141,57 +141,57 @@ public class TestDependencyExtractor extends TestCase {
     }
     
     public void testPackages() {
-        for (String key : factory.getPackages().keySet()) {
+        factory.getPackages().keySet().forEach(key -> {
             assertEquals(factory.getPackages().get(key), testFactory.getPackages().get(key));
-            assertTrue(key + " is same", factory.getPackages().get(key) != testFactory.getPackages().get(key));
+            assertNotSame(key + " is same", factory.getPackages().get(key), testFactory.getPackages().get(key));
             assertEquals(key + " inbounds",
                          factory.getPackages().get(key).getInboundDependencies().size(),
                          testFactory.getPackages().get(key).getInboundDependencies().size());
             assertEquals(key + " outbounds",
                          factory.getPackages().get(key).getOutboundDependencies().size(),
                          testFactory.getPackages().get(key).getOutboundDependencies().size());
-        }
+        });
     }
     
     public void testClasses() {
-        for (String key : factory.getClasses().keySet()) {
+        factory.getClasses().keySet().forEach(key -> {
             assertEquals(factory.getClasses().get(key), testFactory.getClasses().get(key));
-            assertTrue(key + " is same", factory.getClasses().get(key) != testFactory.getClasses().get(key));
+            assertNotSame(key + " is same", factory.getClasses().get(key), testFactory.getClasses().get(key));
             assertEquals(key + " inbounds",
                          factory.getClasses().get(key).getInboundDependencies().size(),
                          testFactory.getClasses().get(key).getInboundDependencies().size());
             assertEquals(key + " outbounds",
                          factory.getClasses().get(key).getOutboundDependencies().size(),
                          testFactory.getClasses().get(key).getOutboundDependencies().size());
-        }
+        });
     }
     
     public void testFeatures() {
-        for (String key : factory.getFeatures().keySet()) {
+        factory.getFeatures().keySet().forEach(key -> {
             assertEquals(factory.getFeatures().get(key), testFactory.getFeatures().get(key));
-            assertTrue(key + " is same", factory.getFeatures().get(key) != testFactory.getFeatures().get(key));
+            assertNotSame(key + " is same", factory.getFeatures().get(key), testFactory.getFeatures().get(key));
             assertEquals(key + " inbounds",
                          factory.getFeatures().get(key).getInboundDependencies().size(),
                          testFactory.getFeatures().get(key).getInboundDependencies().size());
             assertEquals(key + " outbounds",
                          factory.getFeatures().get(key).getOutboundDependencies().size(),
                          testFactory.getFeatures().get(key).getOutboundDependencies().size());
-        }
+        });
     }
 
     public void testStaticInitializer() {
-        ClassfileLoader loader  = new AggregatingClassfileLoader();
-        NodeFactory     factory = new NodeFactory();
+        var loader = new AggregatingClassfileLoader();
+        var factory = new NodeFactory();
         
         loader.load(Collections.singleton("classes" + File.separator + "StaticInitializerTest.class"));
 
-        Classfile classfile = loader.getClassfile("StaticInitializerTest");
+        var classfile = loader.getClassfile("StaticInitializerTest");
         classfile.accept(new CodeDependencyCollector(factory));
 
-        Collection featureNames = factory.getFeatures().keySet();
+        var featureNames = factory.getFeatures().keySet();
 
-        for (Method_info method : classfile.getAllMethods()) {
+        classfile.getAllMethods().forEach(method -> {
             assertTrue("Missing method " + method.getFullSignature(), featureNames.contains(method.getFullSignature()));
-        }
+        });
     }
 }

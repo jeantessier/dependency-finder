@@ -43,7 +43,7 @@ public class TestTextPrinter extends TestCase {
 
     protected void setUp() throws Exception {
         factory = new NodeFactory();
-        out     = new StringWriter();
+        out = new StringWriter();
         visitor = new TextPrinter(new PrintWriter(out));
     }
 
@@ -56,8 +56,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty *", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
@@ -76,8 +76,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
@@ -96,8 +96,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty *", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
@@ -115,8 +115,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
@@ -134,8 +134,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Empty *", in.readLine());
@@ -157,8 +157,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty", in.readLine());
         assertEquals("line " + ++lineNumber, "    Empty", in.readLine());
@@ -180,8 +180,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Empty *", in.readLine());
@@ -202,8 +202,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty", in.readLine());
         assertEquals("line " + ++lineNumber, "    Empty", in.readLine());
@@ -224,8 +224,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Empty *", in.readLine());
@@ -250,8 +250,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty", in.readLine());
         assertEquals("line " + ++lineNumber, "    Empty", in.readLine());
@@ -276,8 +276,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Empty *", in.readLine());
@@ -301,8 +301,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty", in.readLine());
         assertEquals("line " + ++lineNumber, "    Empty", in.readLine());
@@ -326,8 +326,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty *", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
@@ -346,8 +346,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
@@ -366,8 +366,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty *", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
@@ -385,8 +385,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
@@ -404,8 +404,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Empty *", in.readLine());
@@ -427,8 +427,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty", in.readLine());
         assertEquals("line " + ++lineNumber, "    Empty", in.readLine());
@@ -450,8 +450,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Empty *", in.readLine());
@@ -472,8 +472,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty", in.readLine());
         assertEquals("line " + ++lineNumber, "    Empty", in.readLine());
@@ -494,8 +494,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Empty *", in.readLine());
@@ -520,8 +520,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty", in.readLine());
         assertEquals("line " + ++lineNumber, "    Empty", in.readLine());
@@ -546,8 +546,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Empty *", in.readLine());
@@ -571,8 +571,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty", in.readLine());
         assertEquals("line " + ++lineNumber, "    Empty", in.readLine());
@@ -597,8 +597,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty *", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
@@ -627,8 +627,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
@@ -657,8 +657,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty", in.readLine());
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
@@ -687,8 +687,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "    <-- outbound *", in.readLine());
@@ -716,8 +716,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    <-- outbound", in.readLine());
@@ -744,8 +744,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Empty *", in.readLine());
@@ -772,8 +772,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty", in.readLine());
         assertEquals("line " + ++lineNumber, "    Empty", in.readLine());
@@ -800,8 +800,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
@@ -826,8 +826,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());
@@ -851,8 +851,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Empty *", in.readLine());
@@ -877,8 +877,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "empty", in.readLine());
         assertEquals("line " + ++lineNumber, "    Empty", in.readLine());
@@ -903,8 +903,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "inbound *", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound *", in.readLine());
@@ -926,8 +926,8 @@ public class TestTextPrinter extends TestCase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
+        var lineNumber = 0;
+        var in = new BufferedReader(new StringReader(out.toString()));
 
         assertEquals("line " + ++lineNumber, "inbound", in.readLine());
         assertEquals("line " + ++lineNumber, "    Inbound", in.readLine());

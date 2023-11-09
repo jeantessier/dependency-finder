@@ -45,6 +45,8 @@ import java.util.Map;
 import static java.util.stream.Collectors.toCollection;
 
 public class MetricsFactory {
+    private static final String EOL = System.getProperty("line.separator", "\n");
+
     private static final Perl5Util perl = new Perl5Util();
 
     private final String projectName;
@@ -340,24 +342,22 @@ public class MetricsFactory {
     }
 
     public String toString() {
-        StringBuilder result = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
 
-        String newline = System.getProperty("line.separator", "\n");
+        builder.append("Factory for project \"").append(getProjectName()).append("\"").append(EOL);
 
-        result.append("Factory for project \"").append(getProjectName()).append("\"").append(newline);
+        builder.append("projects:").append(EOL);
+        projects.forEach((name, metrics) -> builder.append("    ").append(name).append(" -> ").append(metrics.getName()).append(EOL));
 
-        result.append("projects:").append(newline);
-        projects.forEach((name, metrics) -> result.append("    ").append(name).append(" -> ").append(metrics.getName()).append(newline));
+        builder.append("groups:").append(EOL);
+        groups.forEach((name, metrics) -> builder.append("    ").append(name).append(" -> ").append(metrics.getName()).append(EOL));
 
-        result.append("groups:").append(newline);
-        groups.forEach((name, metrics) -> result.append("    ").append(name).append(" -> ").append(metrics.getName()).append(newline));
+        builder.append("classes:").append(EOL);
+        classes.forEach((name, metrics) -> builder.append("    ").append(name).append(" -> ").append(metrics.getName()).append(EOL));
 
-        result.append("classes:").append(newline);
-        classes.forEach((name, metrics) -> result.append("    ").append(name).append(" -> ").append(metrics.getName()).append(newline));
+        builder.append("methods:").append(EOL);
+        methods.forEach((name, metrics) -> builder.append("    ").append(name).append(" -> ").append(metrics.getName()).append(EOL));
 
-        result.append("methods:").append(newline);
-        methods.forEach((name, metrics) -> result.append("    ").append(name).append(" -> ").append(metrics.getName()).append(newline));
-
-        return result.toString();
+        return builder.toString();
     }
 }

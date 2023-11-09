@@ -32,8 +32,6 @@
 
 package com.jeantessier.dependency;
 
-import java.util.*;
-
 import junit.framework.*;
 
 public class TestCycleDetector extends TestCase {
@@ -84,11 +82,11 @@ public class TestCycleDetector extends TestCase {
         detector.traverseNodes(factory.getPackages().values());
         assertEquals("Nb cycles", 1, detector.getCycles().size());
 
-        Iterator cycles = detector.getCycles().iterator();
+        var cycles = detector.getCycles().iterator();
 
-        Cycle cycle = (Cycle) cycles.next();
+        var cycle = cycles.next();
         assertEquals("cycle length", 2, cycle.getLength());
-        Iterator i = cycle.getPath().iterator();
+        var i = cycle.getPath().iterator();
         assertEquals("a", a_package, i.next());
         assertEquals("b", b_package, i.next());
     }
@@ -100,11 +98,11 @@ public class TestCycleDetector extends TestCase {
         detector.traverseNodes(factory.getPackages().values());
         assertEquals("Nb cycles", 1, detector.getCycles().size());
 
-        Iterator cycles = detector.getCycles().iterator();
+        var cycles = detector.getCycles().iterator();
 
-        Cycle cycle = (Cycle) cycles.next();
+        var cycle = cycles.next();
         assertEquals("cycle length", 3, cycle.getLength());
-        Iterator i = cycle.getPath().iterator();
+        var i = cycle.getPath().iterator();
         assertEquals("a", a_package, i.next());
         assertEquals("b", b_package, i.next());
         assertEquals("c", c_package, i.next());
@@ -120,19 +118,16 @@ public class TestCycleDetector extends TestCase {
         detector.traverseNodes(factory.getPackages().values());
         assertEquals("Nb cycles", 2, detector.getCycles().size());
 
-        Iterator cycles = detector.getCycles().iterator();
+        var cycles = detector.getCycles().iterator();
 
-        Cycle cycle;
-        Iterator i;
-
-        cycle = (Cycle) cycles.next();
+        var cycle = cycles.next();
         assertEquals("cycle length", 3, cycle.getLength());
-        i = cycle.getPath().iterator();
+        var i = cycle.getPath().iterator();
         assertEquals("a", a_package, i.next());
         assertEquals("b", b_package, i.next());
         assertEquals("c", c_package, i.next());
 
-        cycle = (Cycle) cycles.next();
+        cycle = cycles.next();
         assertEquals("cycle length", 3, cycle.getLength());
         i = cycle.getPath().iterator();
         assertEquals("c", c_package, i.next());
@@ -149,18 +144,15 @@ public class TestCycleDetector extends TestCase {
         detector.traverseNodes(factory.getPackages().values());
         assertEquals("Nb cycles", 2, detector.getCycles().size());
 
-        Iterator cycles = detector.getCycles().iterator();
+        var cycles = detector.getCycles().iterator();
 
-        Cycle cycle;
-        Iterator i;
-
-        cycle = (Cycle) cycles.next();
+        var cycle = cycles.next();
         assertEquals("cycle length", 2, cycle.getLength());
-        i = cycle.getPath().iterator();
+        var i = cycle.getPath().iterator();
         assertEquals("a", a_package, i.next());
         assertEquals("b", b_package, i.next());
 
-        cycle = (Cycle) cycles.next();
+        cycle = cycles.next();
         assertEquals("cycle length", 3, cycle.getLength());
         i = cycle.getPath().iterator();
         assertEquals("c", c_package, i.next());
@@ -178,11 +170,11 @@ public class TestCycleDetector extends TestCase {
         detector.traverseNodes(factory.getPackages().values());
         assertEquals("Nb cycles", 1, detector.getCycles().size());
 
-        Iterator cycles = detector.getCycles().iterator();
+        var cycles = detector.getCycles().iterator();
 
-        Cycle cycle = (Cycle) cycles.next();
+        var cycle = cycles.next();
         assertEquals("cycle length", 2, cycle.getLength());
-        Iterator i = cycle.getPath().iterator();
+        var i = cycle.getPath().iterator();
         assertEquals("a", a_package, i.next());
         assertEquals("b", b_package, i.next());
     }
@@ -193,11 +185,11 @@ public class TestCycleDetector extends TestCase {
         detector.traverseNodes(factory.getPackages().values());
         assertEquals("Nb cycles", 1, detector.getCycles().size());
 
-        Iterator cycles = detector.getCycles().iterator();
+        var cycles = detector.getCycles().iterator();
 
-        Cycle cycle = (Cycle) cycles.next();
+        var cycle = cycles.next();
         assertEquals("cycle length", 2, cycle.getLength());
-        Iterator i = cycle.getPath().iterator();
+        var i = cycle.getPath().iterator();
         assertEquals("a.A.a", a_A_a_feature, i.next());
         assertEquals("b.B.b", b_B_b_feature, i.next());
     }

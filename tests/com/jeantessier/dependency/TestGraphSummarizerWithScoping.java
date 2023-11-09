@@ -44,18 +44,18 @@ public class TestGraphSummarizerWithScoping extends TestCase {
     private GraphSummarizer summarizer;
 
     protected void setUp() throws Exception {
-        factory        = new NodeFactory();
+        factory = new NodeFactory();
 
         Node a_A_a = factory.createFeature("a.A.a");
         Node a_A_b = factory.createFeature("a.A.b");
 
-        b     = factory.createPackage("b");
+        b = factory.createPackage("b");
         Node b_B_b = factory.createFeature("b.B.b");
 
         a_A_a.addDependency(a_A_b);
         a_A_a.addDependency(b_B_b);
 
-        List<String> includeScope = new LinkedList<String>();
+        List<String> includeScope = new LinkedList<>();
         includeScope.add("/^a/");
 
         RegularExpressionSelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria("//");

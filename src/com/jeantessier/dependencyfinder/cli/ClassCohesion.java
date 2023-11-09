@@ -47,6 +47,8 @@ import java.util.stream.*;
 import static java.util.stream.Collectors.*;
 
 public class ClassCohesion extends DependencyGraphCommand {
+    private static final String EOL = System.getProperty("line.separator", "\n");
+
     private static final String DEFAULT_ENCODING = "utf-8";
     private static final String DEFAULT_DTD_PREFIX = "https://depfind.sourceforge.io/dtd";
     private static final String DEFAULT_INDENT_TEXT = "    ";
@@ -126,7 +128,7 @@ public class ClassCohesion extends DependencyGraphCommand {
         getOut().println("class, LCOM4");
         getOut().println(results.entrySet().stream()
                 .map(entry -> entry.getKey().getName() + ", " + entry.getValue().size())
-                .collect(joining(System.getProperty("line.separator"))));
+                .collect(joining(EOL)));
     }
 
     private void printJSONFile(Map<ClassNode, Collection<Collection<FeatureNode>>> results) throws IOException {
@@ -170,7 +172,7 @@ public class ClassCohesion extends DependencyGraphCommand {
     private void printTextFile(Map<ClassNode, Collection<Collection<FeatureNode>>> results) throws IOException {
         getOut().println(results.entrySet().stream()
                 .flatMap(entry -> entryToText(entry.getKey(), entry.getValue()))
-                .collect(joining(System.getProperty("line.separator"))));
+                .collect(joining(EOL)));
     }
 
     private Stream<String> entryToText(ClassNode classNode, Collection<Collection<FeatureNode>> components) {
@@ -213,7 +215,7 @@ public class ClassCohesion extends DependencyGraphCommand {
         getOut().println("<classes>");
         getOut().println(results.entrySet().stream()
                 .flatMap(entry -> entryToXML(entry.getKey(), entry.getValue()))
-                .collect(joining(System.getProperty("line.separator"))));
+                .collect(joining(EOL)));
         getOut().println("</classes>");
     }
 
@@ -249,7 +251,7 @@ public class ClassCohesion extends DependencyGraphCommand {
     private void printYAMLFile(Map<ClassNode, Collection<Collection<FeatureNode>>> results) throws IOException {
         getOut().println(results.entrySet().stream()
                 .flatMap(entry -> entryToYAML(entry.getKey(), entry.getValue()))
-                .collect(joining(System.getProperty("line.separator"))));
+                .collect(joining(EOL)));
     }
 
     private Stream<String> entryToYAML(ClassNode classNode, Collection<Collection<FeatureNode>> components) {

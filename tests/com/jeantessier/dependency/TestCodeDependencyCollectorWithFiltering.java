@@ -33,7 +33,6 @@
 package com.jeantessier.dependency;
 
 import com.jeantessier.classreader.AggregatingClassfileLoader;
-import com.jeantessier.classreader.ClassfileLoader;
 import com.jeantessier.classreader.LoadListenerVisitorAdapter;
 import junit.framework.TestCase;
 
@@ -41,7 +40,7 @@ import java.io.File;
 import java.util.Collections;
 
 public class TestCodeDependencyCollectorWithFiltering extends TestCase {
-    public static final String TEST_CLASS    = "test";
+    public static final String TEST_CLASS = "test";
     public static final String TEST_FILENAME = "classes" + File.separator + "test.class";
 
     private NodeFactory factory;
@@ -49,10 +48,10 @@ public class TestCodeDependencyCollectorWithFiltering extends TestCase {
     protected void setUp() throws Exception {
         factory = new NodeFactory();
 
-        RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria("//");
+        var filterCriteria = new RegularExpressionSelectionCriteria("//");
         filterCriteria.setGlobalExcludes("/java.util/");
 
-        ClassfileLoader loader = new AggregatingClassfileLoader();
+        var loader = new AggregatingClassfileLoader();
         loader.addLoadListener(new LoadListenerVisitorAdapter(new CodeDependencyCollector(factory, filterCriteria)));
         loader.load(Collections.singleton(TEST_FILENAME));
     }

@@ -72,14 +72,14 @@ public class TestSelectiveVisitor {
 
     @Test
     public void testTraverseNodes_SortsTheNodesUsingTheStrategy() {
-        final Collection<? extends Node> nodes = new ArrayList<Node>();
-        final Collection<Node> sortedNodes = new ArrayList<Node>();
+        final Collection<? extends Node> nodes = new ArrayList<>();
+        final Collection<Node> sortedNodes = new ArrayList<>();
         sortedNodes.add(packageNode);
 
         context.checking(new Expectations() {{
-            one (strategy).order(nodes);
+           oneOf (strategy).order(nodes);
                 will(returnValue(sortedNodes));
-            one (delegate).traverseNodes(sortedNodes);
+           oneOf (delegate).traverseNodes(sortedNodes);
         }});
 
         sut.traverseNodes(nodes);
@@ -87,14 +87,14 @@ public class TestSelectiveVisitor {
 
     @Test
     public void testTraverseInbound_SortsTheNodesUsingTheStrategy() {
-        final Collection<? extends Node> nodes = new ArrayList<Node>();
-        final Collection<Node> sortedNodes = new ArrayList<Node>();
+        final Collection<? extends Node> nodes = new ArrayList<>();
+        final Collection<Node> sortedNodes = new ArrayList<>();
         sortedNodes.add(packageNode);
 
         context.checking(new Expectations() {{
-            one (strategy).order(nodes);
+           oneOf (strategy).order(nodes);
                 will(returnValue(sortedNodes));
-            one (delegate).traverseInbound(sortedNodes);
+           oneOf (delegate).traverseInbound(sortedNodes);
         }});
 
         sut.traverseInbound(nodes);
@@ -102,14 +102,14 @@ public class TestSelectiveVisitor {
 
     @Test
     public void testTraverseOutbound_SortsTheNodesUsingTheStrategy() {
-        final Collection<? extends Node> nodes = new ArrayList<Node>();
-        final Collection<Node> sortedNodes = new ArrayList<Node>();
+        final Collection<? extends Node> nodes = new ArrayList<>();
+        final Collection<Node> sortedNodes = new ArrayList<>();
         sortedNodes.add(packageNode);
 
         context.checking(new Expectations() {{
-            one (strategy).order(nodes);
+           oneOf (strategy).order(nodes);
                 will(returnValue(sortedNodes));
-            one (delegate).traverseOutbound(sortedNodes);
+           oneOf (delegate).traverseOutbound(sortedNodes);
         }});
 
         sut.traverseOutbound(nodes);
@@ -118,7 +118,7 @@ public class TestSelectiveVisitor {
     @Test
     public void testVisitPackageNode_NotInScope() {
         context.checking(new Expectations() {{
-            one (strategy).isInScope(packageNode);
+           oneOf (strategy).isInScope(packageNode);
                 will(returnValue(false));
         }});
 
@@ -128,9 +128,9 @@ public class TestSelectiveVisitor {
     @Test
     public void testVisitPackageNode_InScope() {
         context.checking(new Expectations() {{
-            one (strategy).isInScope(packageNode);
+           oneOf (strategy).isInScope(packageNode);
                 will(returnValue(true));
-            one (packageNode).accept(delegate);
+           oneOf (packageNode).accept(delegate);
         }});
 
         sut.visitPackageNode(packageNode);
@@ -139,7 +139,7 @@ public class TestSelectiveVisitor {
     @Test
     public void testVisitInboundPackageNode_NotInFilter() {
         context.checking(new Expectations() {{
-            one (strategy).isInFilter(packageNode);
+           oneOf (strategy).isInFilter(packageNode);
                 will(returnValue(false));
         }});
 
@@ -149,9 +149,9 @@ public class TestSelectiveVisitor {
     @Test
     public void testVisitInboundPackageNode_InFilter() {
         context.checking(new Expectations() {{
-            one (strategy).isInFilter(packageNode);
+           oneOf (strategy).isInFilter(packageNode);
                 will(returnValue(true));
-            one (packageNode).acceptInbound(delegate);
+           oneOf (packageNode).acceptInbound(delegate);
         }});
 
         sut.visitInboundPackageNode(packageNode);
@@ -160,7 +160,7 @@ public class TestSelectiveVisitor {
     @Test
     public void testVisitOutboundPackageNode_NotInFilter() {
         context.checking(new Expectations() {{
-            one (strategy).isInFilter(packageNode);
+           oneOf (strategy).isInFilter(packageNode);
                 will(returnValue(false));
         }});
 
@@ -170,9 +170,9 @@ public class TestSelectiveVisitor {
     @Test
     public void testVisitOutboundPackageNode_InFilter() {
         context.checking(new Expectations() {{
-            one (strategy).isInFilter(packageNode);
+           oneOf (strategy).isInFilter(packageNode);
                 will(returnValue(true));
-            one (packageNode).acceptOutbound(delegate);
+           oneOf (packageNode).acceptOutbound(delegate);
         }});
 
         sut.visitOutboundPackageNode(packageNode);
@@ -181,7 +181,7 @@ public class TestSelectiveVisitor {
     @Test
     public void testVisitClassNode_NotInScope() {
         context.checking(new Expectations() {{
-            one (strategy).isInScope(classNode);
+           oneOf (strategy).isInScope(classNode);
                 will(returnValue(false));
         }});
 
@@ -191,9 +191,9 @@ public class TestSelectiveVisitor {
     @Test
     public void testVisitClassNode_InScope() {
         context.checking(new Expectations() {{
-            one (strategy).isInScope(classNode);
+           oneOf (strategy).isInScope(classNode);
                 will(returnValue(true));
-            one (classNode).accept(delegate);
+           oneOf (classNode).accept(delegate);
         }});
 
         sut.visitClassNode(classNode);
@@ -202,7 +202,7 @@ public class TestSelectiveVisitor {
     @Test
     public void testVisitInboundClassNode_NotInFilter() {
         context.checking(new Expectations() {{
-            one (strategy).isInFilter(classNode);
+           oneOf (strategy).isInFilter(classNode);
                 will(returnValue(false));
         }});
 
@@ -212,9 +212,9 @@ public class TestSelectiveVisitor {
     @Test
     public void testVisitInboundClassNode_InFilter() {
         context.checking(new Expectations() {{
-            one (strategy).isInFilter(classNode);
+           oneOf (strategy).isInFilter(classNode);
                 will(returnValue(true));
-            one (classNode).acceptInbound(delegate);
+           oneOf (classNode).acceptInbound(delegate);
         }});
 
         sut.visitInboundClassNode(classNode);
@@ -223,7 +223,7 @@ public class TestSelectiveVisitor {
     @Test
     public void testVisitOutboundClassNode_NotInFilter() {
         context.checking(new Expectations() {{
-            one (strategy).isInFilter(classNode);
+           oneOf (strategy).isInFilter(classNode);
                 will(returnValue(false));
         }});
 
@@ -233,9 +233,9 @@ public class TestSelectiveVisitor {
     @Test
     public void testVisitOutboundClassNode_InFilter() {
         context.checking(new Expectations() {{
-            one (strategy).isInFilter(classNode);
+           oneOf (strategy).isInFilter(classNode);
                 will(returnValue(true));
-            one (classNode).acceptOutbound(delegate);
+           oneOf (classNode).acceptOutbound(delegate);
         }});
 
         sut.visitOutboundClassNode(classNode);
@@ -244,7 +244,7 @@ public class TestSelectiveVisitor {
     @Test
     public void testVisitFeatureNode_NotInScope() {
         context.checking(new Expectations() {{
-            one (strategy).isInScope(featureNode);
+           oneOf (strategy).isInScope(featureNode);
                 will(returnValue(false));
         }});
 
@@ -254,9 +254,9 @@ public class TestSelectiveVisitor {
     @Test
     public void testVisitFeatureNode_InScope() {
         context.checking(new Expectations() {{
-            one (strategy).isInScope(featureNode);
+           oneOf (strategy).isInScope(featureNode);
                 will(returnValue(true));
-            one (featureNode).accept(delegate);
+           oneOf (featureNode).accept(delegate);
         }});
 
         sut.visitFeatureNode(featureNode);
@@ -265,7 +265,7 @@ public class TestSelectiveVisitor {
     @Test
     public void testVisitInboundFeatureNode_NotInFilter() {
         context.checking(new Expectations() {{
-            one (strategy).isInFilter(featureNode);
+           oneOf (strategy).isInFilter(featureNode);
                 will(returnValue(false));
         }});
 
@@ -275,9 +275,9 @@ public class TestSelectiveVisitor {
     @Test
     public void testVisitInboundFeatureNode_InFilter() {
         context.checking(new Expectations() {{
-            one (strategy).isInFilter(featureNode);
+           oneOf (strategy).isInFilter(featureNode);
                 will(returnValue(true));
-            one (featureNode).acceptInbound(delegate);
+           oneOf (featureNode).acceptInbound(delegate);
         }});
 
         sut.visitInboundFeatureNode(featureNode);
@@ -286,7 +286,7 @@ public class TestSelectiveVisitor {
     @Test
     public void testVisitOutboundFeatureNode_NotInFilter() {
         context.checking(new Expectations() {{
-            one (strategy).isInFilter(featureNode);
+           oneOf (strategy).isInFilter(featureNode);
                 will(returnValue(false));
         }});
 
@@ -296,9 +296,9 @@ public class TestSelectiveVisitor {
     @Test
     public void testVisitOutboundFeatureNode_InFilter() {
         context.checking(new Expectations() {{
-            one (strategy).isInFilter(featureNode);
+           oneOf (strategy).isInFilter(featureNode);
                 will(returnValue(true));
-            one (featureNode).acceptOutbound(delegate);
+           oneOf (featureNode).acceptOutbound(delegate);
         }});
 
         sut.visitOutboundFeatureNode(featureNode);

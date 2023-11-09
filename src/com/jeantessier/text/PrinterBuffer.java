@@ -37,7 +37,7 @@ public class PrinterBuffer {
 
     private final static String EOL = System.getProperty("line.separator", "\n");
 
-    private StringBuffer buffer = new StringBuffer();
+    private final StringBuffer buffer = new StringBuffer();
     private String indentText = DEFAULT_INDENT_TEXT;
     private int indentLevel = 0;
 
@@ -100,10 +100,7 @@ public class PrinterBuffer {
     }
 
     public PrinterBuffer indent() {
-        for (int i=0; i< indentLevel; i++) {
-            buffer.append(getIndentText());
-        }
-
+        buffer.append(getIndentText().repeat(indentLevel));
         return this;
     }
 

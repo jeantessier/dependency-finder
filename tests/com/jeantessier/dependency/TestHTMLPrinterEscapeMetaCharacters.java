@@ -240,9 +240,7 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
     }
 
     private void assertScopeLine(String indent, String escapedName, String fullName, String tagContents) throws IOException {
-        BufferedReader in = null;
-        try {
-            in = new BufferedReader(new StringReader(out.toString()));
+        try (var in = new BufferedReader(new StringReader(out.toString()))) {
             String line;
             boolean found = false;
             while ((line = in.readLine()) != null) {
@@ -254,10 +252,6 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
                 }
             }
             assertTrue("Missing " + fullName, found);
-        } finally {
-            if (in != null) {
-                in.close();
-            }
         }
     }
 
@@ -270,9 +264,7 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
     }
 
     private void assertDependencyLine(String indent, String escapedName, String fullName, String tagContents, String marker) throws IOException {
-        BufferedReader in = null;
-        try {
-            in = new BufferedReader(new StringReader(out.toString()));
+        try (var in = new BufferedReader(new StringReader(out.toString()))) {
             String line;
             boolean found = false;
             while ((line = in.readLine()) != null) {
@@ -284,10 +276,6 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
                 }
             }
             assertTrue("Missing " + fullName, found);
-        } finally {
-            if (in != null) {
-                in.close();
-            }
         }
     }
 }

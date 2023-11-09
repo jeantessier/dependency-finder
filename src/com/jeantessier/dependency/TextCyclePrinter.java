@@ -34,6 +34,14 @@ package com.jeantessier.dependency;
 
 import java.io.*;
 import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collector;
+
+import static java.util.stream.Collector.Characteristics.CONCURRENT;
+import static java.util.stream.Collector.Characteristics.IDENTITY_FINISH;
 
 public class TextCyclePrinter implements CyclePrinter {
     protected PrintWriter out;
@@ -50,28 +58,23 @@ public class TextCyclePrinter implements CyclePrinter {
     }
 
     public void visitCycles(Collection<Cycle> cycles) {
-        for (Cycle cycle : cycles) {
-            visitCycle(cycle);
-        }
+        cycles.forEach(this::visitCycle);
     }
 
     public void visitCycle(Cycle cycle) {
-        Node currentNode;
-        Node previousNode;
+        var i = cycle.getPath().iterator();
 
-        Iterator<Node> i = cycle.getPath().iterator();
-        currentNode = i.next();
-        visitFirstNode(currentNode);
+        var firstNode = i.next();
+        visitFirstNode(firstNode);
 
+        var previousNode = firstNode;
         while (i.hasNext()) {
-            previousNode = currentNode;
-            currentNode = i.next();
+            var currentNode = i.next();
             visitNode(previousNode, currentNode);
+            previousNode = currentNode;
         }
 
-        previousNode = currentNode;
-        currentNode = cycle.getPath().iterator().next();
-        visitNode(previousNode, currentNode);
+        visitNode(previousNode, firstNode);
     }
 
     private void visitFirstNode(Node node) {
@@ -86,9 +89,7 @@ public class TextCyclePrinter implements CyclePrinter {
     }
 
     private void indent() {
-        for (int i = 0; i < indentLevel; i++) {
-            out.print(indentText);
-        }
+        out.print(indentText.repeat(indentLevel));
     }
 
     protected void printFirstNode(Node node) {

@@ -48,7 +48,7 @@ public class TestNodeLoader extends TestCase {
     private static final String OTHER_FEATURE_NAME = "otherpackage.OtherClass.otherFeature";
     
     public void testReadDocument() throws IOException, ParserConfigurationException, SAXException {
-        StringBuffer xml = new StringBuffer();
+        StringBuilder xml = new StringBuilder();
 
         xml.append("<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n");
         xml.append("\n");

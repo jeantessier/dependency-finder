@@ -33,7 +33,6 @@
 package com.jeantessier.dependency;
 
 import java.io.*;
-import java.text.*;
 
 import org.apache.oro.text.perl.*;
 
@@ -44,9 +43,9 @@ public class HTMLCyclePrinter extends TextCyclePrinter {
         return perl;
     }
 
-    private MessageFormat urlFormat;
+    private final String urlFormat;
 
-    public HTMLCyclePrinter(PrintWriter out, MessageFormat urlFormat) {
+    public HTMLCyclePrinter(PrintWriter out, String urlFormat) {
         super(out);
         this.urlFormat = urlFormat;
     }
@@ -89,7 +88,6 @@ public class HTMLCyclePrinter extends TextCyclePrinter {
         escapedName = perl().substitute("s/\\)/\\\\)/g", escapedName);
         escapedName = perl().substitute("s/\\$/\\\\\\$/g", escapedName);
 
-        Object[] urlArgument = new Object[] {escapedName};
-        return urlFormat.format(urlArgument);
+        return String.format(urlFormat, escapedName);
     }
 }

@@ -34,35 +34,33 @@ package com.jeantessier.dependency;
 
 import java.io.*;
 import java.util.*;
-import java.text.*;
 
 public class HTMLPrinter extends TextPrinter {
     private static final String FROM = "&lt;--";
     private static final String TO = "--&gt;";
     private static final String BIDIRECTIONAL = "&lt;-&gt;";
 
-    private final MessageFormat urlFormat;
+    private final String urlFormat;
 
-    public HTMLPrinter(PrintWriter out, MessageFormat format) {
+    public HTMLPrinter(PrintWriter out, String format) {
         super(out);
 
         this.urlFormat = format;
     }
 
-    public HTMLPrinter(TraversalStrategy strategy, PrintWriter out, MessageFormat format) {
+    public HTMLPrinter(TraversalStrategy strategy, PrintWriter out, String format) {
         super(strategy, out);
 
         this.urlFormat = format;
     }
 
     protected Printer printScopeNodeName(Node node, String name) {
-        String fullName = node.getName();
+        var fullName = node.getName();
 
-        Object[] urlArgument = new Object[1];
-        urlArgument[0] = perlEscapeName(fullName);
-        String url = urlFormat.format(urlArgument);
+        var urlArgument = perlEscapeName(fullName);
+        var url = String.format(urlFormat, urlArgument);
 
-        StringBuffer link = new StringBuffer("<a");
+        var link = new StringBuilder("<a");
         link.append(" class=\"scope");
         if (isShowInferred() && !node.isConfirmed()) {
             link.append(" inferred");
@@ -82,23 +80,19 @@ public class HTMLPrinter extends TextPrinter {
     }
 
     protected void printDependencies(Node node, Map<Node, Integer> dependencies) {
-        Object[] urlArgument = new Object[1];
-
         String scopeNodeName = node.getName();
 
-        for (Map.Entry<Node, Integer> entry : dependencies.entrySet()) {
-            Node dependency = entry.getKey();
-
-            String rawName = dependency.getName();
-            urlArgument[0] = perlEscapeName(rawName);
-            String url = urlFormat.format(urlArgument);
+        dependencies.forEach((dependency, value) -> {
+            var rawName = dependency.getName();
+            var urlArgument = perlEscapeName(rawName);
+            var url = String.format(urlFormat, urlArgument);
 
             String symbol;
             String idConjunction;
-            if (entry.getValue() < 0) {
+            if (value < 0) {
                 symbol = FROM;
                 idConjunction = "_from_";
-            } else if (entry.getValue() > 0) {
+            } else if (value > 0) {
                 symbol = TO;
                 idConjunction = "_to_";
             } else {
@@ -106,7 +100,7 @@ public class HTMLPrinter extends TextPrinter {
                 idConjunction = "_bidirectional_";
             }
 
-            StringBuffer link = new StringBuffer("<a");
+            var link = new StringBuilder("<a");
             if (isShowInferred() && !dependency.isConfirmed()) {
                 link.append(" class=\"inferred\"");
             }
@@ -121,7 +115,7 @@ public class HTMLPrinter extends TextPrinter {
             append(symbol).append(" ").printDependencyNodeName(dependency, link.toString());
             closePotentialInferredSpan(dependency);
             eol();
-        }
+        });
     }
 
     private void openPotentialInferredSpan(Node node) {

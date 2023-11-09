@@ -39,20 +39,6 @@ import junit.framework.*;
 public class TestTransitiveClosureWithTestClass extends TestCase {
     private NodeFactory factory;
 
-    private Node _package;
-    private Node test_class;
-    private Node test_main_method;
-    private Node test_Test_method;
-
-    private Node java_lang_package;
-    private Node java_lang_Object_class;
-    private Node java_lang_Object_Object_method;
-    private Node java_lang_String_class;
-
-    private Node java_util_package;
-    private Node java_util_Collections_class;
-    private Node java_util_Collections_singleton_method;
-
     private List<String> scopeIncludes;
     
     private RegularExpressionSelectionCriteria startCriteria;
@@ -65,19 +51,19 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
         
         factory = new NodeFactory();
 
-        _package = factory.createPackage("");
-        test_class = factory.createClass("test");
-        test_main_method = factory.createFeature("test.main(String[])");
-        test_Test_method = factory.createFeature("test.test()");
+        Node _package = factory.createPackage("");
+        Node test_class = factory.createClass("test");
+        Node test_main_method = factory.createFeature("test.main(String[])");
+        Node test_Test_method = factory.createFeature("test.test()");
 
-        java_lang_package = factory.createPackage("java.lang");
-        java_lang_Object_class = factory.createClass("java.lang.Object");
-        java_lang_Object_Object_method = factory.createFeature("java.lang.Object.Object()");
-        java_lang_String_class = factory.createClass("java.lang.String");
+        Node java_lang_package = factory.createPackage("java.lang");
+        Node java_lang_Object_class = factory.createClass("java.lang.Object");
+        Node java_lang_Object_Object_method = factory.createFeature("java.lang.Object.Object()");
+        Node java_lang_String_class = factory.createClass("java.lang.String");
 
-        java_util_package = factory.createPackage("java.util");
-        java_util_Collections_class = factory.createClass("java.util.Collections");
-        java_util_Collections_singleton_method = factory.createFeature("java.util.Collections.singleton(java.lang.Object)");
+        Node java_util_package = factory.createPackage("java.util");
+        Node java_util_Collections_class = factory.createClass("java.util.Collections");
+        Node java_util_Collections_singleton_method = factory.createFeature("java.util.Collections.singleton(java.lang.Object)");
         
         test_class.addDependency(java_lang_Object_class);
         test_main_method.addDependency(java_lang_Object_class);
@@ -86,7 +72,7 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
         test_main_method.addDependency(java_util_Collections_singleton_method);
         test_Test_method.addDependency(java_lang_Object_Object_method);
 
-        scopeIncludes = new ArrayList<String>(1);
+        scopeIncludes = new ArrayList<>(1);
         scopeIncludes.add("/test/");
         
         startCriteria = new RegularExpressionSelectionCriteria();
@@ -95,7 +81,7 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
 
     public void testCompleteClosure() {
         startCriteria.setGlobalIncludes(scopeIncludes);
-        stopCriteria.setGlobalIncludes(Collections.<String>emptyList());
+        stopCriteria.setGlobalIncludes(Collections.emptyList());
         
         compute(factory.getPackages().values());
 
@@ -109,38 +95,38 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
                      factory.getFeatures().size(),
                      resultFactory.getFeatures().size());
 
-        for (String key : resultFactory.getPackages().keySet()) {
+        resultFactory.getPackages().keySet().forEach(key -> {
             assertEquals(factory.getPackages().get(key), resultFactory.getPackages().get(key));
-            assertTrue(factory.getPackages().get(key) != resultFactory.getPackages().get(key));
+            assertNotSame(factory.getPackages().get(key), resultFactory.getPackages().get(key));
             assertEquals("Package " + key + " has different inbound count",
                          factory.getPackages().get(key).getInboundDependencies().size(),
                          resultFactory.getPackages().get(key).getInboundDependencies().size());
             assertEquals("Package " + key + " has different outbound count",
                          factory.getPackages().get(key).getOutboundDependencies().size(),
                          resultFactory.getPackages().get(key).getOutboundDependencies().size());
-        }
+        });
         
-        for (String key : resultFactory.getClasses().keySet()) {
+        resultFactory.getClasses().keySet().forEach(key -> {
             assertEquals(factory.getClasses().get(key), resultFactory.getClasses().get(key));
-            assertTrue(factory.getClasses().get(key) != resultFactory.getClasses().get(key));
+            assertNotSame(factory.getClasses().get(key), resultFactory.getClasses().get(key));
             assertEquals("Class " + key + " has different inbound count",
                          factory.getClasses().get(key).getInboundDependencies().size(),
                          resultFactory.getClasses().get(key).getInboundDependencies().size());
             assertEquals("Class " + key + " has different outbound count",
                          factory.getClasses().get(key).getOutboundDependencies().size(),
                          resultFactory.getClasses().get(key).getOutboundDependencies().size());
-        }
+        });
         
-        for (String key : resultFactory.getFeatures().keySet()) {
+        resultFactory.getFeatures().keySet().forEach(key -> {
             assertEquals(factory.getFeatures().get(key), resultFactory.getFeatures().get(key));
-            assertTrue(factory.getFeatures().get(key) != resultFactory.getFeatures().get(key));
+            assertNotSame(factory.getFeatures().get(key), resultFactory.getFeatures().get(key));
             assertEquals("Feature " + key + " has different inbound count",
                          factory.getFeatures().get(key).getInboundDependencies().size(),
                          resultFactory.getFeatures().get(key).getInboundDependencies().size());
             assertEquals("Feature " + key + " has different outbound count",
                          factory.getFeatures().get(key).getOutboundDependencies().size(),
                          resultFactory.getFeatures().get(key).getOutboundDependencies().size());
-        }
+        });
     }
 
     public void testCopyAllNodesOnly() {
@@ -162,26 +148,26 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
                      2,
                      resultFactory.getFeatures().size());
 
-        for (String key : resultFactory.getPackages().keySet()) {
+        resultFactory.getPackages().keySet().forEach(key -> {
             assertEquals(factory.getPackages().get(key), resultFactory.getPackages().get(key));
-            assertTrue(factory.getPackages().get(key) != resultFactory.getPackages().get(key));
+            assertNotSame(factory.getPackages().get(key), resultFactory.getPackages().get(key));
             assertTrue(resultFactory.getPackages().get(key).getInboundDependencies().isEmpty());
             assertTrue(resultFactory.getPackages().get(key).getOutboundDependencies().isEmpty());
-        }
+        });
         
-        for (String key : resultFactory.getClasses().keySet()) {
+        resultFactory.getClasses().keySet().forEach(key -> {
             assertEquals(factory.getClasses().get(key), resultFactory.getClasses().get(key));
-            assertTrue(factory.getClasses().get(key) != resultFactory.getClasses().get(key));
+            assertNotSame(factory.getClasses().get(key), resultFactory.getClasses().get(key));
             assertTrue(resultFactory.getClasses().get(key).getInboundDependencies().isEmpty());
             assertTrue(resultFactory.getClasses().get(key).getOutboundDependencies().isEmpty());
-        }
+        });
         
-        for (String key : resultFactory.getFeatures().keySet()) {
+        resultFactory.getFeatures().keySet().forEach(key -> {
             assertEquals(factory.getFeatures().get(key), resultFactory.getFeatures().get(key));
-            assertTrue(factory.getFeatures().get(key) != resultFactory.getFeatures().get(key));
+            assertNotSame(factory.getFeatures().get(key), resultFactory.getFeatures().get(key));
             assertTrue(resultFactory.getFeatures().get(key).getInboundDependencies().isEmpty());
             assertTrue(resultFactory.getFeatures().get(key).getOutboundDependencies().isEmpty());
-        }
+        });
     }
 
     public void testCopyPackageNodesOnly() {
@@ -221,19 +207,19 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
                      resultFactory.getClasses().size());
         assertTrue(resultFactory.getFeatures().isEmpty());
 
-        for (String key : resultFactory.getPackages().keySet()) {
+        resultFactory.getPackages().keySet().forEach(key -> {
             assertEquals(factory.getPackages().get(key), resultFactory.getPackages().get(key));
-            assertTrue(factory.getPackages().get(key) != resultFactory.getPackages().get(key));
+            assertNotSame(factory.getPackages().get(key), resultFactory.getPackages().get(key));
             assertTrue(resultFactory.getPackages().get(key).getInboundDependencies().isEmpty());
             assertTrue(resultFactory.getPackages().get(key).getOutboundDependencies().isEmpty());
-        }
+        });
         
-        for (String key : resultFactory.getClasses().keySet()) {
+        resultFactory.getClasses().keySet().forEach(key -> {
             assertEquals(factory.getClasses().get(key), resultFactory.getClasses().get(key));
-            assertTrue(factory.getClasses().get(key) != resultFactory.getClasses().get(key));
+            assertNotSame(factory.getClasses().get(key), resultFactory.getClasses().get(key));
             assertTrue(resultFactory.getClasses().get(key).getInboundDependencies().isEmpty());
             assertTrue(resultFactory.getClasses().get(key).getOutboundDependencies().isEmpty());
-        }
+        });
     }
 
     public void testCopyFeatureNodesOnly() {
@@ -257,26 +243,26 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
                      2,
                      resultFactory.getFeatures().size());
 
-        for (String key : resultFactory.getPackages().keySet()) {
+        resultFactory.getPackages().keySet().forEach(key -> {
             assertEquals(factory.getPackages().get(key), resultFactory.getPackages().get(key));
-            assertTrue(factory.getPackages().get(key) != resultFactory.getPackages().get(key));
+            assertNotSame(factory.getPackages().get(key), resultFactory.getPackages().get(key));
             assertTrue(resultFactory.getPackages().get(key).getInboundDependencies().isEmpty());
             assertTrue(resultFactory.getPackages().get(key).getOutboundDependencies().isEmpty());
-        }
+        });
         
-        for (String key : resultFactory.getClasses().keySet()) {
+        resultFactory.getClasses().keySet().forEach(key -> {
             assertEquals(factory.getClasses().get(key), resultFactory.getClasses().get(key));
-            assertTrue(factory.getClasses().get(key) != resultFactory.getClasses().get(key));
+            assertNotSame(factory.getClasses().get(key), resultFactory.getClasses().get(key));
             assertTrue(resultFactory.getClasses().get(key).getInboundDependencies().isEmpty());
             assertTrue(resultFactory.getClasses().get(key).getOutboundDependencies().isEmpty());
-        }
+        });
         
-        for (String key : resultFactory.getFeatures().keySet()) {
+        resultFactory.getFeatures().keySet().forEach(key -> {
             assertEquals(factory.getFeatures().get(key), resultFactory.getFeatures().get(key));
-            assertTrue(factory.getFeatures().get(key) != resultFactory.getFeatures().get(key));
+            assertNotSame(factory.getFeatures().get(key), resultFactory.getFeatures().get(key));
             assertTrue(resultFactory.getFeatures().get(key).getInboundDependencies().isEmpty());
             assertTrue(resultFactory.getFeatures().get(key).getOutboundDependencies().isEmpty());
-        }
+        });
     }
 
     public void testCopyNothing() {

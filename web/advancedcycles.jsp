@@ -1,4 +1,4 @@
-<%@ page import="java.io.*, java.text.*, java.util.*, com.jeantessier.dependency.*" %>
+<%@ page import="java.io.*, java.util.*, java.util.stream.*, com.jeantessier.dependency.*" %>
 <%@ page errorPage="errorpage.jsp" %>
 
 <!--
@@ -270,31 +270,19 @@
 
             detector.traverseNodes(((NodeFactory) application.getAttribute("factory")).getPackages().values());
 
-            StringBuffer urlPattern = new StringBuffer();
-            urlPattern.append(request.getRequestURI());
-            urlPattern.append("?");
-            Iterator entries = request.getParameterMap().entrySet().iterator();
-            while (entries.hasNext()) {
-                Map.Entry entry = (Map.Entry) entries.next();
-                if ("scope-includes".equals(entry.getKey())) {
-                    urlPattern.append(entry.getKey()).append("=/^{0}/");
-                } else {
-                    String[] values = (String[]) entry.getValue();
-                    for (int i=0; i<values.length; i++) {
-                        urlPattern.append(entry.getKey()).append("=").append(values[i]);
-                        if (i < values.length - 1) {
-                            urlPattern.append("&");
-                        }
-                    }
-                }
-                if (entries.hasNext()) {
-                    urlPattern.append("&");
-                }
-            }
+            StringBuilder urlFormat = new StringBuilder();
+            urlFormat.append(request.getRequestURI());
+            urlFormat.append("?");
+            urlFormat.append(
+                    request.getParameterMap().entrySet().stream()
+                            .flatMap(entry -> switch (entry.getKey()) {
+                                case "scope-includes" -> Stream.of(entry.getKey() + "=%%2F%%5E%s%%2F");
+                                default -> Arrays.stream(entry.getValue()).map(value -> entry.getKey() + "=" + value);
+                            })
+                            .collect(Collectors.joining("&"))
+            );
 
-            MessageFormat urlFormat = new MessageFormat(urlPattern.toString());
-
-            CyclePrinter printer = new HTMLCyclePrinter(new PrintWriter(out), urlFormat);
+            CyclePrinter printer = new HTMLCyclePrinter(new PrintWriter(out), urlFormat.toString());
             printer.visitCycles(detector.getCycles());
 
             Date stop = new Date();

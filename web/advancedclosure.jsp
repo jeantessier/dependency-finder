@@ -1,4 +1,4 @@
-<%@ page import="java.io.*, java.text.*, java.util.*, java.util.stream.*, com.jeantessier.dependency.*" %>
+<%@ page import="java.io.*, java.util.*, java.util.stream.*, com.jeantessier.dependency.*" %>
 <%@ page errorPage="errorpage.jsp" %>
 
 <!--
@@ -428,21 +428,19 @@ follow
             GraphSummarizer summarizer = new GraphSummarizer(scopeCriteria, filterCriteria);
             summarizer.traverseNodes(closure.getFactory().getPackages().values());
 
-            StringBuilder urlPattern = new StringBuilder();
-            urlPattern.append(request.getRequestURI());
-            urlPattern.append("?");
-            urlPattern.append(
+            StringBuilder urlFormat = new StringBuilder();
+            urlFormat.append(request.getRequestURI());
+            urlFormat.append("?");
+            urlFormat.append(
                     request.getParameterMap().entrySet().stream()
                             .flatMap(entry -> switch (entry.getKey()) {
-                                case "start-includes" -> Stream.of(entry.getKey() + "=%2F%5E{0}%2F");
+                                case "start-includes" -> Stream.of(entry.getKey() + "=%%2F%%5E%s%%2F");
                                 default -> Arrays.stream(entry.getValue()).map(value -> entry.getKey() + "=" + value);
                             })
                             .collect(Collectors.joining("&"))
             );
 
-            MessageFormat urlFormat = new MessageFormat(urlPattern.toString());
-
-            Printer printer = new HTMLPrinter(new PrintWriter(out), urlFormat);
+            Printer printer = new HTMLPrinter(new PrintWriter(out), urlFormat.toString());
 
             printer.traverseNodes(summarizer.getScopeFactory().getPackages().values());
 

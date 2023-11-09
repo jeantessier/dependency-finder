@@ -73,6 +73,6 @@ public abstract class TraversalStrategyBase implements TraversalStrategy {
     }
 
     public <T extends Node> Collection<T> order(Collection<T> collection) {
-        return new ArrayList<T>(collection);
+        return new ArrayList<>(collection);
     }
 }

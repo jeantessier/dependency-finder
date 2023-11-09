@@ -35,8 +35,8 @@ package com.jeantessier.diff;
 public abstract class VisitorBase implements Visitor {
     private int deprecatableLevel = 0;
 
-    private boolean deprecated[]   = new boolean[4];
-    private boolean undeprecated[] = new boolean[4];
+    private final boolean[] deprecated = new boolean[4];
+    private final boolean[] undeprecated = new boolean[4];
 
     private void raiseDeprecatableLevel() {
         deprecatableLevel++;

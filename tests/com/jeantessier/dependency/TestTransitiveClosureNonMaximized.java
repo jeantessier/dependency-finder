@@ -68,7 +68,7 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         base.addDependency(out1);
         out1.addDependency(out2);
         
-        List<String> scopeIncludes = new ArrayList<String>(1);
+        List<String> scopeIncludes = new ArrayList<>();
         scopeIncludes.add("/^base/");
         List<String> filterIncludes = Collections.emptyList();
         
@@ -94,11 +94,11 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         Logger.getLogger(getClass()).info("Stop f2f test from feature ...");
 
         assertEquals(5, resultFactory.getFeatures().size());
-        assertTrue(resultFactory.getFeatures().values().contains(in2));
-        assertTrue(resultFactory.getFeatures().values().contains(in1));
-        assertTrue(resultFactory.getFeatures().values().contains(base));
-        assertTrue(resultFactory.getFeatures().values().contains(out1));
-        assertTrue(resultFactory.getFeatures().values().contains(out2));
+        assertTrue(resultFactory.getFeatures().containsValue(in2));
+        assertTrue(resultFactory.getFeatures().containsValue(in1));
+        assertTrue(resultFactory.getFeatures().containsValue(base));
+        assertTrue(resultFactory.getFeatures().containsValue(out1));
+        assertTrue(resultFactory.getFeatures().containsValue(out2));
 
         assertEquals(0, resultFactory.createFeature("in2.In2.In2()").getInboundDependencies().size());
         assertEquals(1, resultFactory.createFeature("in2.In2.In2()").getOutboundDependencies().size());
@@ -143,11 +143,11 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         Logger.getLogger(getClass()).info("Stop f2f test from package list ...");
 
         assertEquals(5, resultFactory.getFeatures().size());
-        assertTrue(resultFactory.getFeatures().values().contains(in2));
-        assertTrue(resultFactory.getFeatures().values().contains(in1));
-        assertTrue(resultFactory.getFeatures().values().contains(base));
-        assertTrue(resultFactory.getFeatures().values().contains(out1));
-        assertTrue(resultFactory.getFeatures().values().contains(out2));
+        assertTrue(resultFactory.getFeatures().containsValue(in2));
+        assertTrue(resultFactory.getFeatures().containsValue(in1));
+        assertTrue(resultFactory.getFeatures().containsValue(base));
+        assertTrue(resultFactory.getFeatures().containsValue(out1));
+        assertTrue(resultFactory.getFeatures().containsValue(out2));
 
         assertEquals(0, resultFactory.createFeature("in2.In2.In2()").getInboundDependencies().size());
         assertEquals(1, resultFactory.createFeature("in2.In2.In2()").getOutboundDependencies().size());
@@ -194,11 +194,11 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         assertEquals(0, resultFactory.getFeatures().size());
 
         assertEquals(5, resultFactory.getClasses().size());
-        assertTrue(resultFactory.getClasses().values().contains(in2.getClassNode()));
-        assertTrue(resultFactory.getClasses().values().contains(in1.getClassNode()));
-        assertTrue(resultFactory.getClasses().values().contains(base.getClassNode()));
-        assertTrue(resultFactory.getClasses().values().contains(out1.getClassNode()));
-        assertTrue(resultFactory.getClasses().values().contains(out2.getClassNode()));
+        assertTrue(resultFactory.getClasses().containsValue(in2.getClassNode()));
+        assertTrue(resultFactory.getClasses().containsValue(in1.getClassNode()));
+        assertTrue(resultFactory.getClasses().containsValue(base.getClassNode()));
+        assertTrue(resultFactory.getClasses().containsValue(out1.getClassNode()));
+        assertTrue(resultFactory.getClasses().containsValue(out2.getClassNode()));
 
         assertEquals(0, resultFactory.createClass("in2.In2").getInboundDependencies().size());
         assertEquals(1, resultFactory.createClass("in2.In2").getOutboundDependencies().size());
@@ -234,11 +234,11 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         assertEquals(0, resultFactory.getFeatures().size());
 
         assertEquals(5, resultFactory.getClasses().size());
-        assertTrue(resultFactory.getClasses().values().contains(in2.getClassNode()));
-        assertTrue(resultFactory.getClasses().values().contains(in1.getClassNode()));
-        assertTrue(resultFactory.getClasses().values().contains(base.getClassNode()));
-        assertTrue(resultFactory.getClasses().values().contains(out1.getClassNode()));
-        assertTrue(resultFactory.getClasses().values().contains(out2.getClassNode()));
+        assertTrue(resultFactory.getClasses().containsValue(in2.getClassNode()));
+        assertTrue(resultFactory.getClasses().containsValue(in1.getClassNode()));
+        assertTrue(resultFactory.getClasses().containsValue(base.getClassNode()));
+        assertTrue(resultFactory.getClasses().containsValue(out1.getClassNode()));
+        assertTrue(resultFactory.getClasses().containsValue(out2.getClassNode()));
 
         assertEquals(0, resultFactory.createClass("in2.In2").getInboundDependencies().size());
         assertEquals(1, resultFactory.createClass("in2.In2").getOutboundDependencies().size());
@@ -276,11 +276,11 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         assertEquals(0, resultFactory.getClasses().size());
 
         assertEquals(5, resultFactory.getPackages().size());
-        assertTrue(resultFactory.getPackages().values().contains(in2.getClassNode().getPackageNode()));
-        assertTrue(resultFactory.getPackages().values().contains(in1.getClassNode().getPackageNode()));
-        assertTrue(resultFactory.getPackages().values().contains(base.getClassNode().getPackageNode()));
-        assertTrue(resultFactory.getPackages().values().contains(out1.getClassNode().getPackageNode()));
-        assertTrue(resultFactory.getPackages().values().contains(out2.getClassNode().getPackageNode()));
+        assertTrue(resultFactory.getPackages().containsValue(in2.getClassNode().getPackageNode()));
+        assertTrue(resultFactory.getPackages().containsValue(in1.getClassNode().getPackageNode()));
+        assertTrue(resultFactory.getPackages().containsValue(base.getClassNode().getPackageNode()));
+        assertTrue(resultFactory.getPackages().containsValue(out1.getClassNode().getPackageNode()));
+        assertTrue(resultFactory.getPackages().containsValue(out2.getClassNode().getPackageNode()));
 
         assertEquals(0, resultFactory.createPackage("in2").getInboundDependencies().size());
         assertEquals(1, resultFactory.createPackage("in2").getOutboundDependencies().size());
@@ -307,11 +307,11 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         assertEquals(0, resultFactory.getClasses().size());
 
         assertEquals(5, resultFactory.getPackages().size());
-        assertTrue(resultFactory.getPackages().values().contains(in2.getClassNode().getPackageNode()));
-        assertTrue(resultFactory.getPackages().values().contains(in1.getClassNode().getPackageNode()));
-        assertTrue(resultFactory.getPackages().values().contains(base.getClassNode().getPackageNode()));
-        assertTrue(resultFactory.getPackages().values().contains(out1.getClassNode().getPackageNode()));
-        assertTrue(resultFactory.getPackages().values().contains(out2.getClassNode().getPackageNode()));
+        assertTrue(resultFactory.getPackages().containsValue(in2.getClassNode().getPackageNode()));
+        assertTrue(resultFactory.getPackages().containsValue(in1.getClassNode().getPackageNode()));
+        assertTrue(resultFactory.getPackages().containsValue(base.getClassNode().getPackageNode()));
+        assertTrue(resultFactory.getPackages().containsValue(out1.getClassNode().getPackageNode()));
+        assertTrue(resultFactory.getPackages().containsValue(out2.getClassNode().getPackageNode()));
 
         assertEquals(0, resultFactory.createPackage("in2").getInboundDependencies().size());
         assertEquals(1, resultFactory.createPackage("in2").getOutboundDependencies().size());
