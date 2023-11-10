@@ -77,7 +77,7 @@ public class TestMaximumCapacityPatternCache extends TestCase {
         assertNotNull("add returns null", pattern);
     }
 
-    public void testAddMalformedPattern() throws MalformedPatternException {
+    public void testAddMalformedPattern() {
         try {
             cache.addPattern("foo(");
             fail("Added a malformed pattern");
@@ -86,7 +86,7 @@ public class TestMaximumCapacityPatternCache extends TestCase {
         }
     }
 
-    public void testAddMalformedPatternWithOption() throws MalformedPatternException {
+    public void testAddMalformedPatternWithOption() {
         try {
             cache.addPattern("foo(", Perl5Compiler.CASE_INSENSITIVE_MASK);
             fail("Added a malformed pattern");

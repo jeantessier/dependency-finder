@@ -38,54 +38,48 @@ import junit.framework.*;
 
 public class TestRegularExpressionParser extends TestCase {
     public void testParseRE() {
-        List<String> expected = new ArrayList<String>();
-        expected.add("/test/");
+        var expected = List.of("/test/");
 
-        List test = RegularExpressionParser.parseRE("/test/");
+        var actual = RegularExpressionParser.parseRE("/test/");
 
-        assertEquals("size", expected.size(), test.size());
-        assertEquals("/test/", expected.get(0), test.get(0));
+        assertEquals("size", expected.size(), actual.size());
+        assertEquals("/test/", expected.get(0), actual.get(0));
     }
 
     public void testParseBrokenRE() {
-        List<String> expected = new ArrayList<String>();
-        expected.add("/test");
+        var expected = List.of("/test");
 
-        List test = RegularExpressionParser.parseRE("/test");
+        var actual = RegularExpressionParser.parseRE("/test");
 
-        assertEquals("size", expected.size(), test.size());
-        assertEquals("/test", expected.get(0), test.get(0));
+        assertEquals("size", expected.size(), actual.size());
+        assertEquals("/test", expected.get(0), actual.get(0));
     }
 
     public void testParseMultipleREs() {
-        List<String> expected = new ArrayList<String>();
-        expected.add("/test1/");
-        expected.add("/test2/");
+        var expected = List.of("/test1/", "/test2/");
 
-        List test = RegularExpressionParser.parseRE("/test1/,/test2/");
+        var actual = RegularExpressionParser.parseRE("/test1/,/test2/");
 
-        assertEquals("size", expected.size(), test.size());
-        assertEquals("/test1/", expected.get(0), test.get(0));
-        assertEquals("/test2/", expected.get(1), test.get(1));
+        assertEquals("size", expected.size(), actual.size());
+        assertEquals("/test1/", expected.get(0), actual.get(0));
+        assertEquals("/test2/", expected.get(1), actual.get(1));
     }
 
     public void testParseComplexREs() {
-        List<String> expected = new ArrayList<String>();
-        expected.add("/test1\\/test2/");
+        var expected = List.of("/test1\\/test2/");
 
-        List test = RegularExpressionParser.parseRE("/test1\\/test2/");
+        var actual = RegularExpressionParser.parseRE("/test1\\/test2/");
 
-        assertEquals("size", expected.size(), test.size());
-        assertEquals("/test1\\/test2/", expected.get(0), test.get(0));
+        assertEquals("size", expected.size(), actual.size());
+        assertEquals("/test1\\/test2/", expected.get(0), actual.get(0));
     }
 
     public void testParseReallyComplexREs() {
-        List<String> expected = new ArrayList<String>();
-        expected.add("m=test1\\=test2=i");
+        var expected = List.of("m=test1\\=test2=i");
 
-        List test = RegularExpressionParser.parseRE("m=test1\\=test2=i");
+        var actual = RegularExpressionParser.parseRE("m=test1\\=test2=i");
 
-        assertEquals("size", expected.size(), test.size());
-        assertEquals("m=test1\\=test2=i", expected.get(0), test.get(0));
+        assertEquals("size", expected.size(), actual.size());
+        assertEquals("m=test1\\=test2=i", expected.get(0), actual.get(0));
     }
 }

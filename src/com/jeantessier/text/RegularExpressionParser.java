@@ -38,7 +38,7 @@ import org.apache.log4j.*;
 
 public class RegularExpressionParser {
     public static List<String> parseRE(String re) {
-        List<String> result = new LinkedList<String>();
+        List<String> result = new LinkedList<>();
 
         Logger logger = Logger.getLogger(RegularExpressionParser.class);
         logger.debug("ParseRE \"" + re + "\"");
