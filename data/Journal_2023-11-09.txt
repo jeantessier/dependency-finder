@@ -1,0 +1,1 @@
+Refactored =TestRegularExpressionParser= to be data-driven tests.

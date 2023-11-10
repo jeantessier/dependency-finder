@@ -1,0 +1,2 @@
+Refactored some code, mostly in =com.jeantessier.dependency=, to use more
+modern Java.  A lot of Streams API and using =var= where possible.
