@@ -140,16 +140,14 @@ public class ConstantPool extends ArrayList<com.jeantessier.classreader.Constant
     }
 
     public String toString() {
-        StringWriter out = new StringWriter();
-        PrintWriter writer = new PrintWriter(out);
+        var out = new StringWriter();
 
-        writer.println("Constant Pool:");
+        try (var writer = new PrintWriter(out)) {
+            writer.println("Constant Pool:");
+            var printer = new TextPrinter(writer);
+            accept(printer);
+        }
 
-        Printer printer = new TextPrinter(writer);
-        accept(printer);
-
-        writer.close();
-        
         return out.toString();
     }
 }

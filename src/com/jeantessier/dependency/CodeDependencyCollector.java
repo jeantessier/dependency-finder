@@ -229,6 +229,13 @@ public class CodeDependencyCollector extends CollectorBase {
         super.visitMethod_info(entry);
     }
 
+    public void visitInvokeDynamic_info(InvokeDynamic_info entry) {
+        com.jeantessier.classreader.BootstrapMethodFinder finder = new com.jeantessier.classreader.BootstrapMethodFinder(entry.getBootstrapMethodAttrIndex());
+        entry.getConstantPool().getClassfile().accept(finder);
+
+        finder.getBootstrapMethod().accept(this);
+    }
+
     public void visitInstruction(Instruction helper) {
         Logger.getLogger(getClass()).debug("VisitInstruction() ...");
 
@@ -248,6 +255,7 @@ public class CodeDependencyCollector extends CollectorBase {
             case 0xb7: // invokespecial
             case 0xb8: // invokestatic
             case 0xb9: // invokeinterface
+            case 0xba: // invokedynamic
             // case 0xbb: // new
             case 0xbd: // anewarray
             case 0xc0: // checkcast
@@ -299,6 +307,10 @@ public class CodeDependencyCollector extends CollectorBase {
         processClassName(helper.getClassInfo());
 
         super.visitClassElementValue(helper);
+    }
+
+    public void visitMethodHandle_info(MethodHandle_info entry) {
+        entry.getReference().accept(this);
     }
 
     private void processDescriptor(String str) {

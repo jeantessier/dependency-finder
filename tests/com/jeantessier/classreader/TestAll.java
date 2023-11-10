@@ -43,6 +43,7 @@ import static org.junit.runners.Suite.SuiteClasses;
         TestAggregatingClassfileLoaderWithModifiedOnlyDispatcher.class,
         TestAnnotation.class,
         TestBitFormat.class,
+        TestBootstrapMethodFinder.class,
         TestClassNameHelper.class,
         TestClassfile.class,
         TestClassfileFilteringLoadListener.class,
