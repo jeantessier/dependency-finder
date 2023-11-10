@@ -33,53 +33,44 @@
 package com.jeantessier.text;
 
 import java.util.*;
+import java.util.stream.*;
 
-import junit.framework.*;
+import org.junit.*;
+import org.junit.runner.*;
+import org.junit.runners.Parameterized;
 
-public class TestRegularExpressionParser extends TestCase {
-    public void testParseRE() {
-        var expected = List.of("/test/");
+import static org.junit.Assert.*;
+import static org.junit.runners.Parameterized.*;
 
-        var actual = RegularExpressionParser.parseRE("/test/");
-
-        assertEquals("size", expected.size(), actual.size());
-        assertEquals("/test/", expected.get(0), actual.get(0));
+@RunWith(Parameterized.class)
+public class TestRegularExpressionParser {
+    @Parameters(name="Parse {0}")
+    public static Object[][] data() {
+        return new Object[][] {
+                {"normal RE", "/test/", List.of("/test/")},
+                {"broken RE", "/test", List.of("/test")},
+                {"multiple REs", "/test1/,/test2/", List.of("/test1/", "/test2/")},
+                {"multiple REs with space", "/test1/, /test2/", List.of("/test1/", "/test2/")},
+                {"embedded separator", "/test1\\/test2/", List.of("/test1\\/test2/")},
+                {"custom separator", "m=test1\\=test2=i", List.of("m=test1\\=test2=i")},
+        };
     }
 
-    public void testParseBrokenRE() {
-        var expected = List.of("/test");
+    @Parameter(0)
+    public String label;
 
-        var actual = RegularExpressionParser.parseRE("/test");
+    @Parameter(1)
+    public String inputs;
 
-        assertEquals("size", expected.size(), actual.size());
-        assertEquals("/test", expected.get(0), actual.get(0));
-    }
+    @Parameter(2)
+    public List<String> expected;
 
-    public void testParseMultipleREs() {
-        var expected = List.of("/test1/", "/test2/");
-
-        var actual = RegularExpressionParser.parseRE("/test1/,/test2/");
-
-        assertEquals("size", expected.size(), actual.size());
-        assertEquals("/test1/", expected.get(0), actual.get(0));
-        assertEquals("/test2/", expected.get(1), actual.get(1));
-    }
-
-    public void testParseComplexREs() {
-        var expected = List.of("/test1\\/test2/");
-
-        var actual = RegularExpressionParser.parseRE("/test1\\/test2/");
+    @Test
+    public void test() {
+        var actual = RegularExpressionParser.parseRE(inputs);
 
         assertEquals("size", expected.size(), actual.size());
-        assertEquals("/test1\\/test2/", expected.get(0), actual.get(0));
-    }
-
-    public void testParseReallyComplexREs() {
-        var expected = List.of("m=test1\\=test2=i");
-
-        var actual = RegularExpressionParser.parseRE("m=test1\\=test2=i");
-
-        assertEquals("size", expected.size(), actual.size());
-        assertEquals("m=test1\\=test2=i", expected.get(0), actual.get(0));
+        IntStream.range(0, expected.size()).forEach(i ->
+            assertEquals("entry " + i, expected.get(i), actual.get(i)));
     }
 }
