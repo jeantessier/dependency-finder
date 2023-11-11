@@ -32,6 +32,8 @@
 
 package com.jeantessier.classreader;
 
+import java.util.*;
+
 public interface Instruction extends Visitable {
     public byte[] getBytecode();
     public int getStart();
@@ -49,5 +51,6 @@ public interface Instruction extends Visitable {
     public int getByte(int offset);
     public int getInt(int offset);
     public ConstantPoolEntry getIndexedConstantPoolEntry();
+    public Collection<? extends ConstantPoolEntry> getDynamicConstantPoolEntries();
     public LocalVariable getIndexedLocalVariable();
 }

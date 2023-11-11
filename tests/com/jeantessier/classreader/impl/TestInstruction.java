@@ -32,6 +32,7 @@
 
 package com.jeantessier.classreader.impl;
 
+import com.jeantessier.classreader.BootstrapMethodFinder;
 import com.jeantessier.classreader.LocalVariableFinder;
 import com.jeantessier.classreader.Visitor;
 import org.jmock.Expectations;
@@ -40,11 +41,14 @@ import org.jmock.imposters.ByteBuddyClassImposteriser;
 import org.jmock.integration.junit3.MockObjectTestCase;
 import org.jmock.lib.action.*;
 
+import java.util.Collections;
+
 public class TestInstruction extends MockObjectTestCase {
     private static final byte ICONST_0_INSTRUCTION = (byte) 0x03;
     private static final byte LDC_INSTRUCTION = (byte) 0x12;
     private static final byte ILOAD_INSTRUCTION = (byte) 0x15;
     private static final byte ISTORE_INSTRUCTION = (byte) 0x36;
+    private static final byte INVOKEDYNAMIC_INSTRUCTION = (byte) 0xba;
     private static final byte WIDE_INSTRUCTION = (byte) 0xc4;
     private static final byte INDEX = (byte) 0x02;
     private static final int START_PC = 0;
@@ -415,6 +419,114 @@ public class TestInstruction extends MockObjectTestCase {
 
         LocalVariable actualLocalVariable = (LocalVariable) sut.getIndexedLocalVariable();
         assertNull(actualLocalVariable);
+    }
+
+    public void testGetDynamicConstantPoolEntries_withNonDynamicInstruction() {
+        byte[] bytecode = new byte[] {ICONST_0_INSTRUCTION};
+
+        Instruction sut = new Instruction(mockCode_attribute, bytecode, 0);
+
+        var entries = sut.getDynamicConstantPoolEntries();
+        assertTrue("empty", entries.isEmpty());
+    }
+
+    public void testGetDynamicConstantPoolEntries_withNonDynamicConstantPoolEntry() {
+        final ConstantPool mockConstantPool = mock(ConstantPool.class);
+        final ConstantPoolEntry mockEntry = mock(ConstantPoolEntry.class);
+
+        checking (new Expectations() {{
+            atLeast(1).of (mockCode_attribute).getConstantPool();
+            will(returnValue(mockConstantPool));
+            atLeast(1).of (mockConstantPool).get(INDEX);
+            will(returnValue(mockEntry));
+        }});
+
+        byte[] bytecode = new byte[] {INVOKEDYNAMIC_INSTRUCTION, 0, INDEX, 0, 0};
+
+        Instruction sut = new Instruction(mockCode_attribute, bytecode, 0);
+
+        var entries = sut.getDynamicConstantPoolEntries();
+        assertTrue("empty", entries.isEmpty());
+    }
+
+    public void testGetDynamicConstantPoolEntries_withDynamic_info() {
+        final Classfile mockClassfile = mock(Classfile.class);
+        final ConstantPool mockConstantPool = mock(ConstantPool.class);
+        final Dynamic_info mockEntry = mock(Dynamic_info.class);
+        final int bootstrapMethodAttrIndex = 123;
+        final BootstrapMethod mockBootstrapMethod = mock(BootstrapMethod.class);
+        final MethodHandle_info mockMethodHandle = mock(MethodHandle_info.class);
+        final FeatureRef_info mockReference = mock(FeatureRef_info.class);
+
+        checking (new Expectations() {{
+            atLeast(1).of (mockCode_attribute).getConstantPool();
+                will(returnValue(mockConstantPool));
+            atLeast(1).of (mockConstantPool).get(INDEX);
+                will(returnValue(mockEntry));
+            oneOf (mockEntry).getBootstrapMethodAttrIndex();
+                will(returnValue(bootstrapMethodAttrIndex));
+            oneOf (mockConstantPool).getClassfile();
+                will(returnValue(mockClassfile));
+            oneOf (mockClassfile).accept(with(any(BootstrapMethodFinder.class)));
+                will(new CustomAction("direct the visitor to the correct BootstrapMethod structure") {
+                    public Object invoke(Invocation invocation) {
+                        ((com.jeantessier.classreader.Visitor) invocation.getParameter(0)).visitBootstrapMethod(mockBootstrapMethod);
+                        return null;
+                    }
+                });
+            oneOf (mockBootstrapMethod).getArguments();
+                will(returnValue(Collections.singleton(mockMethodHandle)));
+            oneOf (mockMethodHandle).getReference();
+                will(returnValue(mockReference));
+        }});
+
+        byte[] bytecode = new byte[] {INVOKEDYNAMIC_INSTRUCTION, 0, INDEX, 0, 0};
+
+        Instruction sut = new Instruction(mockCode_attribute, bytecode, 0);
+
+        var entries = sut.getDynamicConstantPoolEntries();
+        assertEquals("size", 1, entries.size());
+        assertSame("reference entry", mockReference, entries.stream().findFirst().orElseThrow());
+    }
+
+    public void testGetDynamicConstantPoolEntries_withInvokeDynamic_info() {
+        final Classfile mockClassfile = mock(Classfile.class);
+        final ConstantPool mockConstantPool = mock(ConstantPool.class);
+        final InvokeDynamic_info mockEntry = mock(InvokeDynamic_info.class);
+        final int bootstrapMethodAttrIndex = 123;
+        final BootstrapMethod mockBootstrapMethod = mock(BootstrapMethod.class);
+        final MethodHandle_info mockMethodHandle = mock(MethodHandle_info.class);
+        final FeatureRef_info mockReference = mock(FeatureRef_info.class);
+
+        checking (new Expectations() {{
+            atLeast(1).of (mockCode_attribute).getConstantPool();
+                will(returnValue(mockConstantPool));
+            atLeast(1).of (mockConstantPool).get(INDEX);
+                will(returnValue(mockEntry));
+            oneOf (mockEntry).getBootstrapMethodAttrIndex();
+                will(returnValue(bootstrapMethodAttrIndex));
+            oneOf (mockConstantPool).getClassfile();
+                will(returnValue(mockClassfile));
+            oneOf (mockClassfile).accept(with(any(BootstrapMethodFinder.class)));
+                will(new CustomAction("direct the visitor to the correct BootstrapMethod structure") {
+                    public Object invoke(Invocation invocation) {
+                        ((com.jeantessier.classreader.Visitor) invocation.getParameter(0)).visitBootstrapMethod(mockBootstrapMethod);
+                        return null;
+                    }
+                });
+            oneOf (mockBootstrapMethod).getArguments();
+                will(returnValue(Collections.singleton(mockMethodHandle)));
+            oneOf (mockMethodHandle).getReference();
+                will(returnValue(mockReference));
+        }});
+
+        byte[] bytecode = new byte[] {INVOKEDYNAMIC_INSTRUCTION, 0, INDEX, 0, 0};
+
+        Instruction sut = new Instruction(mockCode_attribute, bytecode, 0);
+
+        var entries = sut.getDynamicConstantPoolEntries();
+        assertEquals("size", 1, entries.size());
+        assertSame("reference entry", mockReference, entries.stream().findFirst().orElseThrow());
     }
 
     private Action visitLocalVariable(final LocalVariable localVariable) {

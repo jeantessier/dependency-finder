@@ -35,10 +35,8 @@ package com.jeantessier.dependency;
 import com.jeantessier.classreader.*;
 import org.jmock.Expectations;
 import org.jmock.api.Action;
-import org.jmock.api.Invocation;
 import org.jmock.imposters.ByteBuddyClassImposteriser;
 import org.jmock.integration.junit3.MockObjectTestCase;
-import org.jmock.lib.action.CustomAction;
 
 import java.util.*;
 
@@ -289,50 +287,12 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         checking(new Expectations() {{
             oneOf (mockInstruction).getOpcode();
                 will(returnValue(0xba /* invokedynamic */));
-            oneOf (mockInstruction).getIndexedConstantPoolEntry();
-                will(returnValue(mockConstantPoolEntry));
+            oneOf (mockInstruction).getDynamicConstantPoolEntries();
+                will(returnValue(Collections.singleton(mockConstantPoolEntry)));
             oneOf (mockConstantPoolEntry).accept(sut);
         }});
 
         sut.visitInstruction(mockInstruction);
-    }
-
-    public void testVisitInvokeDynamic_info() {
-        final ConstantPool mockConstantPool = mock(ConstantPool.class);
-        final InvokeDynamic_info mockInvokeDynamic_info = mock(InvokeDynamic_info.class);
-        final BootstrapMethod mockBootstrapMethod = mock(BootstrapMethod.class);
-
-        checking(new Expectations() {{
-            oneOf (mockInvokeDynamic_info).getBootstrapMethodAttrIndex();
-                will(returnValue(0));
-            oneOf (mockInvokeDynamic_info).getConstantPool();
-                will(returnValue(mockConstantPool));
-            oneOf (mockConstantPool).getClassfile();
-                will(returnValue(mockClassfile));
-            oneOf (mockClassfile).accept(with(any(BootstrapMethodFinder.class)));
-                will(new CustomAction("direct the visitor to the correct BootstrapMethod structure") {
-                    public Object invoke(Invocation invocation) {
-                        ((com.jeantessier.classreader.Visitor) invocation.getParameter(0)).visitBootstrapMethod(mockBootstrapMethod);
-                        return null;
-                    }
-                });
-            oneOf (mockBootstrapMethod).accept(sut);
-        }});
-
-        sut.visitInvokeDynamic_info(mockInvokeDynamic_info);
-    }
-
-    public void testMethodHandle_info() {
-        final MethodHandle_info mockMethodHandle = mock(MethodHandle_info.class);
-        final FeatureRef_info mockReference = mock(FeatureRef_info.class);
-
-        checking(new Expectations() {{
-            oneOf (mockMethodHandle).getReference();
-                will(returnValue(mockReference));
-            oneOf (mockReference).accept(sut);
-        }});
-
-        sut.visitMethodHandle_info(mockMethodHandle);
     }
 
     private void expectClassNodeForClassname() {

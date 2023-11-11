@@ -36,7 +36,6 @@ import com.jeantessier.text.Hex;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.*;
 
 public class XMLPrinter extends Printer {
     public static final String DEFAULT_ENCODING   = "utf-8";
@@ -940,7 +939,6 @@ public class XMLPrinter extends Printer {
             case 0xb7: // invokespecial
             case 0xb8: // invokestatic
             case 0xb9: // invokeinterface
-            case 0xba: // invokedynamic
             case 0xbb: // new
             case 0xbd: // anewarray
             case 0xc0: // checkcast
@@ -1041,6 +1039,12 @@ public class XMLPrinter extends Printer {
             case 0xab: // lookupswitch
                 append(" padding=\"").append(instruction.getPadding()).append("\" default=\"").appendSwitchDefault(instruction).append("\" npairs=\"").append(instruction.getNPairs()).append("\">");
                 append(instruction).append(" ").appendLookupSwitch(instruction, " | ");
+                break;
+            case 0xba: // invokedynamic
+                append(" index=\"").append(instruction.getIndex()).append("\">");
+                append(instruction);
+                append(" ");
+                instruction.getDynamicConstantPoolEntries().forEach(entry -> entry.accept(this));
                 break;
             case 0xc4: // wide
                 if (instruction.getByte(1) == 0x84 /* iinc */) {

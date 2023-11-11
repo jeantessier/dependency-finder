@@ -34,8 +34,6 @@ package com.jeantessier.classreader;
 
 import java.io.PrintWriter;
 import java.util.Collection;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class TextPrinter extends Printer {
     private boolean top = true;
@@ -285,6 +283,7 @@ public class TextPrinter extends Printer {
         append("        ").append(instruction.getStart()).append(":\t").append(instruction.getMnemonic());
         appendIndexedConstantPoolEntry(instruction);
         appendIndexedLocalVariable(instruction);
+        appendDynamicConstantPoolEntry(instruction);
         appendOffset(instruction);
         appendValue(instruction);
         eol();
@@ -313,7 +312,6 @@ public class TextPrinter extends Printer {
             case 0xb7: // invokespecial
             case 0xb8: // invokestatic
             case 0xb9: // invokeinterface
-            case 0xba: // invokedynamic
             case 0xbb: // new
             case 0xbd: // anewarray
             case 0xc0: // checkcast
@@ -388,6 +386,19 @@ public class TextPrinter extends Printer {
             case 0xc4: // wide
                 appendLocalVariable(instruction.getIndexedLocalVariable());
                 append(" (#").append(instruction.getIndex()).append(")");
+                break;
+            default:
+                // Do nothing
+                break;
+        }
+        return this;
+    }
+
+    private Printer appendDynamicConstantPoolEntry(Instruction instruction) {
+        switch (instruction.getOpcode()) {
+            case 0xba: // invokedynamic
+                append(" ");
+                instruction.getDynamicConstantPoolEntries().forEach(entry -> entry.accept(this));
                 break;
             default:
                 // Do nothing

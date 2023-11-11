@@ -32,8 +32,12 @@
 
 package com.jeantessier.classreader.impl;
 
+import com.jeantessier.classreader.BootstrapMethodFinder;
 import com.jeantessier.classreader.LocalVariableFinder;
 import com.jeantessier.classreader.Visitor;
+import org.apache.log4j.*;
+
+import java.util.*;
 
 public class Instruction implements com.jeantessier.classreader.Instruction {
     private static final int NB_OPCODES = 0x100;
@@ -845,6 +849,32 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
         };
     }
 
+    public Collection<? extends ConstantPoolEntry> getDynamicConstantPoolEntries() {
+        return switch (getOpcode()) {
+            case 0xba: // invokedynamic
+                Logger.getLogger(getClass()).debug("getDynamicConstantPoolEntries()");
+                if (code.getConstantPool().get(getIndex()) instanceof InvokeDynamic_info entry) {
+                    BootstrapMethodFinder finder = new BootstrapMethodFinder(entry.getBootstrapMethodAttrIndex());
+                    code.getConstantPool().getClassfile().accept(finder);
+                    yield finder.getBootstrapMethod().getArguments().stream()
+                            .filter(argument -> argument instanceof MethodHandle_info)
+                            .map(methodHandle -> ((MethodHandle_info) methodHandle).getReference())
+                            .toList();
+                } else if (code.getConstantPool().get(getIndex()) instanceof Dynamic_info entry) {
+                    BootstrapMethodFinder finder = new BootstrapMethodFinder(entry.getBootstrapMethodAttrIndex());
+                    code.getConstantPool().getClassfile().accept(finder);
+                    yield finder.getBootstrapMethod().getArguments().stream()
+                            .filter(argument -> argument instanceof MethodHandle_info)
+                            .map(methodHandle -> ((MethodHandle_info) methodHandle).getReference())
+                            .toList();
+                } else {
+                    yield Collections.emptyList();
+                }
+            default:
+                yield Collections.emptyList();
+        };
+    }
+
     public com.jeantessier.classreader.LocalVariable getIndexedLocalVariable() {
         return switch (getOpcode()) {
             case 0x1a: // iload_0
@@ -913,13 +943,9 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
     }
 
     private com.jeantessier.classreader.LocalVariable locateLocalVariable(int pc) {
-        com.jeantessier.classreader.LocalVariable result;
-
         LocalVariableFinder finder = new LocalVariableFinder(getIndex(), pc);
         code.accept(finder);
-        result = finder.getLocalVariable();
-
-        return result;
+        return finder.getLocalVariable();
     }
 
     public int hashCode() {
