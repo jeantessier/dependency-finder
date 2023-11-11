@@ -114,7 +114,7 @@ public abstract class Feature_info implements com.jeantessier.classreader.Featur
     }
 
     public UTF8_info getRawName() {
-        return (UTF8_info) getClassfile().getConstantPool().get(nameIndex);
+        return (UTF8_info) getClassfile().getConstantPool().get(getNameIndex());
     }
 
     public String getName() {
@@ -130,7 +130,7 @@ public abstract class Feature_info implements com.jeantessier.classreader.Featur
     }
 
     public UTF8_info getRawDescriptor() {
-        return (UTF8_info) getClassfile().getConstantPool().get(descriptorIndex);
+        return (UTF8_info) getClassfile().getConstantPool().get(getDescriptorIndex());
     }
 
     public String getDescriptor() {
