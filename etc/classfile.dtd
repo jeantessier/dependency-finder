@@ -155,7 +155,7 @@
 >
 
 <!ELEMENT name (#PCDATA) >
-<!ATTLIST type
+<!ATTLIST name
           index CDATA #IMPLIED
 >
 
