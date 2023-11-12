@@ -34,7 +34,7 @@ package com.jeantessier.classreader;
 
 import java.util.*;
 
-public interface Classfile extends Deprecatable, Visitable {
+public interface Classfile extends Deprecatable, Visitable, Comparable<Classfile> {
     public ClassfileLoader getLoader();
 
     public int getMagicNumber();

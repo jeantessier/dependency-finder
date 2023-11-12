@@ -32,7 +32,7 @@
 
 package com.jeantessier.classreader;
 
-public interface InnerClass extends Visitable {
+public interface InnerClass extends Visitable, Comparable<InnerClass> {
     public InnerClasses_attribute getInnerClasses();
 
     public int getInnerClassInfoIndex();

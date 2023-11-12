@@ -1055,20 +1055,6 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
         return result.toString();
     }
 
-    public int compareTo(ClassReport other) {
-        int result;
-
-        if (this == other) {
-            result = 0;
-        } else if (other == null) {
-            throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got null");
-        } else {
-            result = differences.compareTo(other.differences);
-        }
-
-        return result;
-    }
-
     private String escapeXMLCharactersInTagContent(String text) {
         String result = text;
 
@@ -1086,5 +1072,33 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
         result = perl.substitute("s/'/&apos;/g", result);
 
         return result;
+    }
+
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        return compareTo((ClassReport) object) == 0;
+    }
+
+    public int hashCode() {
+        return differences.hashCode();
+    }
+
+    public int compareTo(ClassReport other) {
+        if (this == other) {
+            return 0;
+        }
+
+        if (other == null) {
+            throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got null");
+        }
+
+        return differences.compareTo(other.differences);
     }
 }

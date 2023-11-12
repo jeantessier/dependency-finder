@@ -66,16 +66,15 @@ public class String_info extends ConstantPoolEntry implements com.jeantessier.cl
     }
 
     public boolean equals(Object object) {
-        boolean result = false;
-
         if (this == object) {
-            result = true;
-        } else if (object != null && this.getClass().equals(object.getClass())) {
-            String_info other = (String_info) object;
-            result = this.getRawValue().equals(other.getRawValue());
+            return true;
         }
 
-        return result;
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        return getRawValue().equals(((String_info) object).getRawValue());
     }
 
     public void accept(Visitor visitor) {

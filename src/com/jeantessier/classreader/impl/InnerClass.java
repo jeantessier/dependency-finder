@@ -193,4 +193,37 @@ public class InnerClass implements com.jeantessier.classreader.InnerClass {
     public void accept(Visitor visitor) {
         visitor.visitInnerClass(this);
     }
+
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        return compareTo((InnerClass) object) == 0;
+    }
+
+    public int hashCode() {
+        return getInnerClassInfo().hashCode();
+    }
+
+    public int compareTo(com.jeantessier.classreader.InnerClass other) {
+        if (this == other) {
+            return 0;
+        }
+
+        if (other == null) {
+            throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got null");
+        }
+
+        int outerClassCompare = getOuterClassInfo().compareTo(other.getOuterClassInfo());
+        if (outerClassCompare != 0) {
+            return outerClassCompare;
+        }
+
+        return getInnerClassInfo().compareTo(other.getInnerClassInfo());
+    }
 }

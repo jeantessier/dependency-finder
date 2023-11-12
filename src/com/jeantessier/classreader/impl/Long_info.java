@@ -58,16 +58,15 @@ public class Long_info extends ConstantPoolEntry implements com.jeantessier.clas
     }
 
     public boolean equals(Object object) {
-        boolean result = false;
-
         if (this == object) {
-            result = true;
-        } else if (object != null && this.getClass().equals(object.getClass())) {
-            Long_info other = (Long_info) object;
-            result = this.getValue() == other.getValue();
+            return true;
         }
 
-        return result;
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        return getValue() == ((Long_info) object).getValue();
     }
 
     public void accept(Visitor visitor) {

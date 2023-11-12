@@ -116,4 +116,37 @@ public class Field_info extends Feature_info implements com.jeantessier.classrea
     public void accept(Visitor visitor) {
         visitor.visitField_info(this);
     }
+
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        return compareTo((Field_info) object) == 0;
+    }
+
+    public int hashCode() {
+        return getSignature().hashCode();
+    }
+
+    public int compareTo(com.jeantessier.classreader.Field_info other) {
+        if (this == other) {
+            return 0;
+        }
+
+        if (other == null) {
+            throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got null");
+        }
+
+        int classCompare = getClassfile().compareTo(other.getClassfile());
+        if (classCompare != 0) {
+            return classCompare;
+        }
+
+        return getName().compareTo(other.getName());
+    }
 }

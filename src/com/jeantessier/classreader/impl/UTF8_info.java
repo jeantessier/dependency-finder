@@ -58,16 +58,15 @@ public class UTF8_info extends ConstantPoolEntry implements com.jeantessier.clas
     }
 
     public boolean equals(Object object) {
-        boolean result = false;
-
         if (this == object) {
-            result = true;
-        } else if (object != null && this.getClass().equals(object.getClass())) {
-            UTF8_info other = (UTF8_info) object;
-            result = this.getValue().equals(other.getValue());
+            return true;
         }
 
-        return result;
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        return getValue().equals(((UTF8_info) object).getValue());
     }
 
     public void accept(Visitor visitor) {

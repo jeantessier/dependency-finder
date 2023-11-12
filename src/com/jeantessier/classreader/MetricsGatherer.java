@@ -38,44 +38,44 @@ import java.util.stream.*;
 import org.apache.log4j.*;
 
 public class MetricsGatherer extends VisitorBase {
-    private final Collection<Object> classes = new LinkedList<>();
-    private final Collection<Object> interfaces = new LinkedList<>();
-    private final Collection<Method_info> methods = new LinkedList<>();
-    private final Collection<Field_info> fields = new LinkedList<>();
-    private final Collection<Classfile> syntheticClasses = new LinkedList<>();
-    private final Collection<Field_info> syntheticFields = new LinkedList<>();
-    private final Collection<Method_info> syntheticMethods = new LinkedList<>();
-    private final Collection<Classfile> deprecatedClasses = new LinkedList<>();
-    private final Collection<Field_info> deprecatedFields = new LinkedList<>();
-    private final Collection<Method_info> deprecatedMethods = new LinkedList<>();
-    private final Collection<Classfile> publicClasses = new LinkedList<>();
-    private final Collection<Field_info> publicFields = new LinkedList<>();
-    private final Collection<Method_info> publicMethods = new LinkedList<>();
-    private final Collection<InnerClass> publicInnerClasses = new LinkedList<>();
-    private final Collection<Field_info> protectedFields = new LinkedList<>();
-    private final Collection<Method_info> protectedMethods = new LinkedList<>();
-    private final Collection<InnerClass> protectedInnerClasses = new LinkedList<>();
-    private final Collection<Field_info> privateFields = new LinkedList<>();
-    private final Collection<Method_info> privateMethods = new LinkedList<>();
-    private final Collection<InnerClass> privateInnerClasses = new LinkedList<>();
-    private final Collection<Classfile> packageClasses = new LinkedList<>();
-    private final Collection<Field_info> packageFields = new LinkedList<>();
-    private final Collection<Method_info> packageMethods = new LinkedList<>();
-    private final Collection<InnerClass> packageInnerClasses = new LinkedList<>();
-    private final Collection<Classfile> abstractClasses = new LinkedList<>();
-    private final Collection<Method_info> abstractMethods = new LinkedList<>();
-    private final Collection<InnerClass> abstractInnerClasses = new LinkedList<>();
-    private final Collection<Field_info> staticFields = new LinkedList<>();
-    private final Collection<Method_info> staticMethods = new LinkedList<>();
-    private final Collection<InnerClass> staticInnerClasses = new LinkedList<>();
-    private final Collection<Classfile> finalClasses = new LinkedList<>();
-    private final Collection<Field_info> finalFields = new LinkedList<>();
-    private final Collection<Method_info> finalMethods = new LinkedList<>();
-    private final Collection<InnerClass> finalInnerClasses = new LinkedList<>();
-    private final Collection<Method_info> synchronizedMethods = new LinkedList<>();
-    private final Collection<Method_info> nativeMethods = new LinkedList<>();
-    private final Collection<Field_info> volatileFields = new LinkedList<>();
-    private final Collection<Field_info> transientFields = new LinkedList<>();
+    private final Collection<String> classes = new TreeSet<>();
+    private final Collection<String> interfaces = new TreeSet<>();
+    private final Collection<Method_info> methods = new TreeSet<>();
+    private final Collection<Field_info> fields = new TreeSet<>();
+    private final Collection<Classfile> syntheticClasses = new TreeSet<>();
+    private final Collection<Field_info> syntheticFields = new TreeSet<>();
+    private final Collection<Method_info> syntheticMethods = new TreeSet<>();
+    private final Collection<Classfile> deprecatedClasses = new TreeSet<>();
+    private final Collection<Field_info> deprecatedFields = new TreeSet<>();
+    private final Collection<Method_info> deprecatedMethods = new TreeSet<>();
+    private final Collection<Classfile> publicClasses = new TreeSet<>();
+    private final Collection<Field_info> publicFields = new TreeSet<>();
+    private final Collection<Method_info> publicMethods = new TreeSet<>();
+    private final Collection<InnerClass> publicInnerClasses = new TreeSet<>();
+    private final Collection<Field_info> protectedFields = new TreeSet<>();
+    private final Collection<Method_info> protectedMethods = new TreeSet<>();
+    private final Collection<InnerClass> protectedInnerClasses = new TreeSet<>();
+    private final Collection<Field_info> privateFields = new TreeSet<>();
+    private final Collection<Method_info> privateMethods = new TreeSet<>();
+    private final Collection<InnerClass> privateInnerClasses = new TreeSet<>();
+    private final Collection<Classfile> packageClasses = new TreeSet<>();
+    private final Collection<Field_info> packageFields = new TreeSet<>();
+    private final Collection<Method_info> packageMethods = new TreeSet<>();
+    private final Collection<InnerClass> packageInnerClasses = new TreeSet<>();
+    private final Collection<Classfile> abstractClasses = new TreeSet<>();
+    private final Collection<Method_info> abstractMethods = new TreeSet<>();
+    private final Collection<InnerClass> abstractInnerClasses = new TreeSet<>();
+    private final Collection<Field_info> staticFields = new TreeSet<>();
+    private final Collection<Method_info> staticMethods = new TreeSet<>();
+    private final Collection<InnerClass> staticInnerClasses = new TreeSet<>();
+    private final Collection<Classfile> finalClasses = new TreeSet<>();
+    private final Collection<Field_info> finalFields = new TreeSet<>();
+    private final Collection<Method_info> finalMethods = new TreeSet<>();
+    private final Collection<InnerClass> finalInnerClasses = new TreeSet<>();
+    private final Collection<Method_info> synchronizedMethods = new TreeSet<>();
+    private final Collection<Method_info> nativeMethods = new TreeSet<>();
+    private final Collection<Field_info> volatileFields = new TreeSet<>();
+    private final Collection<Field_info> transientFields = new TreeSet<>();
     private final Map<Integer, Long> constantPoolEntryCounts = new HashMap<>();
     private final Map<String, Long> attributeCounts = new HashMap<>();
     private final Collection<Custom_attribute> customAttributes = new LinkedList<>();
@@ -89,11 +89,11 @@ public class MetricsGatherer extends VisitorBase {
         attributeCounts.put("Custom", 0L);
     }
 
-    public Collection<Object> getClasses() {
+    public Collection<String> getClasses() {
         return classes;
     }
 
-    public Collection<Object> getInterfaces() {
+    public Collection<String> getInterfaces() {
         return interfaces;
     }
 
@@ -271,9 +271,9 @@ public class MetricsGatherer extends VisitorBase {
         }
 
         if (classfile.isInterface()) {
-            interfaces.add(classfile);
+            interfaces.add(classfile.getClassName());
         } else {
-            classes.add(classfile);
+            classes.add(classfile.getClassName());
         }
 
         if (classfile.isAbstract()) {
@@ -653,9 +653,9 @@ public class MetricsGatherer extends VisitorBase {
         }
 
         if (helper.isInterface()) {
-            interfaces.add(helper);
+            interfaces.add(helper.getInnerClassInfo());
         } else {
-            classes.add(helper);
+            classes.add(helper.getInnerClassInfo());
         }
 
         if (helper.isAbstract()) {

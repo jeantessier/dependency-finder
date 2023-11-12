@@ -58,16 +58,15 @@ public class Float_info extends ConstantPoolEntry implements com.jeantessier.cla
     }
 
     public boolean equals(Object object) {
-        boolean result = false;
-
         if (this == object) {
-            result = true;
-        } else if (object != null && this.getClass().equals(object.getClass())) {
-            Float_info other = (Float_info) object;
-            result = Float.compare(this.getValue(), other.getValue()) == 0;
+            return true;
         }
 
-        return result;
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        return Float.compare(getValue(), ((Float_info) object).getValue()) == 0;
     }
 
     public void accept(Visitor visitor) {

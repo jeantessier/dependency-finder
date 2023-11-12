@@ -60,18 +60,15 @@ public class Cycle implements Comparable<Cycle> {
     }
 
     public boolean equals(Object object) {
-        boolean result;
-
         if (this == object) {
-            result = true;
-        } else if (object == null || getClass() != object.getClass()) {
-            result = false;
-        } else {
-            Cycle other = (Cycle) object;
-            result = compareTo(other) == 0;
+            return true;
         }
 
-        return result;
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        return compareTo((Cycle) object) == 0;
     }
 
     public int hashCode() {
@@ -79,19 +76,19 @@ public class Cycle implements Comparable<Cycle> {
     }
 
     public int compareTo(Cycle other) {
-        int result;
-
         if (this == other) {
-            result = 0;
-        } else if (other == null) {
+            return 0;
+        }
+
+        if (other == null) {
             throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got null");
-        } else {
-            result = getLength() - other.getLength();
-            Iterator<Node> theseNodes = getPath().iterator();
-            Iterator<Node> otherNodes = other.getPath().iterator();
-            while (result == 0 && theseNodes.hasNext() && otherNodes.hasNext()) {
-                result = theseNodes.next().compareTo(otherNodes.next());
-            }
+        }
+
+        int result = getLength() - other.getLength();
+        Iterator<Node> theseNodes = getPath().iterator();
+        Iterator<Node> otherNodes = other.getPath().iterator();
+        while (result == 0 && theseNodes.hasNext() && otherNodes.hasNext()) {
+            result = theseNodes.next().compareTo(otherNodes.next());
         }
 
         return result;

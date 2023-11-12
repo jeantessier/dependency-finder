@@ -32,8 +32,7 @@
 
 package com.jeantessier.classreader.impl;
 
-import com.jeantessier.classreader.ClassfileLoader;
-import com.jeantessier.classreader.Visitor;
+import com.jeantessier.classreader.*;
 import org.apache.log4j.Logger;
 
 import java.io.DataInput;
@@ -476,5 +475,33 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         }
 
         return null;
+    }
+
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        return compareTo((Classfile) object) == 0;
+    }
+
+    public int hashCode() {
+        return getClassName().hashCode();
+    }
+
+    public int compareTo(com.jeantessier.classreader.Classfile other) {
+        if (this == other) {
+            return 0;
+        }
+
+        if (other == null) {
+            throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got null");
+        }
+
+        return getClassName().compareTo(other.getClassName());
     }
 }

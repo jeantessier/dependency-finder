@@ -32,7 +32,7 @@
 
 package com.jeantessier.classreader;
 
-public interface Field_info extends Feature_info {
+public interface Field_info extends Feature_info, Comparable<Field_info> {
     public boolean isVolatile();
     public boolean isTransient();
     public boolean isEnum();

@@ -34,6 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.jeantessier.classreader.*;
 
@@ -90,19 +91,15 @@ public class Method_info extends Feature_info implements com.jeantessier.classre
     }
 
     public Collection<Class_info> getExceptions() {
-        Collection<Class_info> result = Collections.emptyList();
-
-        for (Attribute_info attribute : getAttributes()) {
-            if (attribute instanceof Exceptions_attribute) {
-                result = ((Exceptions_attribute) attribute).getExceptions();
-            }
-        }
-
-        return result;
+        return getAttributes().stream()
+                .filter(attribute -> attribute instanceof Exceptions_attribute)
+                .map(attribute -> ((Exceptions_attribute) attribute).getExceptions())
+                .findAny()
+                .orElse(Collections.emptyList());
     }
 
     public String getSignature() {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         if (isConstructor()) {
             result.append(getClassfile().getSimpleName());
@@ -122,7 +119,7 @@ public class Method_info extends Feature_info implements com.jeantessier.classre
     }
 
     public String getDeclaration() {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         if (isPublic()) result.append("public ");
         if (isProtected()) result.append("protected ");
@@ -139,15 +136,13 @@ public class Method_info extends Feature_info implements com.jeantessier.classre
 
         result.append(getSignature());
 
-        if (getExceptions().size() != 0) {
+        if (!getExceptions().isEmpty()) {
             result.append(" throws ");
-            Iterator i = getExceptions().iterator();
-            while (i.hasNext()) {
-                result.append(i.next());
-                if (i.hasNext()) {
-                    result.append(", ");
-                }
-            }
+            result.append(
+                    getExceptions().stream()
+                            .map(Class_info::getName)
+                            .collect(Collectors.joining(", "))
+            );
         }
 
         return result.toString();
@@ -161,5 +156,43 @@ public class Method_info extends Feature_info implements com.jeantessier.classre
 
     public void accept(Visitor visitor) {
         visitor.visitMethod_info(this);
+    }
+
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        return compareTo((Method_info) object) == 0;
+    }
+
+    public int hashCode() {
+        return getSignature().hashCode();
+    }
+
+    public int compareTo(com.jeantessier.classreader.Method_info other) {
+        if (this == other) {
+            return 0;
+        }
+
+        if (other == null) {
+            throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got null");
+        }
+
+        int classCompare = getClassfile().compareTo(other.getClassfile());
+        if (classCompare != 0) {
+            return classCompare;
+        }
+
+        int nameCompare = getName().compareTo(other.getName());
+        if (nameCompare != 0) {
+            return nameCompare;
+        }
+
+        return getDescriptor().compareTo(other.getDescriptor());
     }
 }

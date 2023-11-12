@@ -100,32 +100,27 @@ public abstract class Node implements Comparable<Node> {
     }
 
     public boolean equals(Object object) {
-        boolean result;
-
         if (this == object) {
-            result = true;
-        } else if (object == null || getClass() != object.getClass()) {
-            result = false;
-        } else {
-            Node other = (Node) object;
-            result = compareTo(other) == 0;
+            return true;
         }
 
-        return result;
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        return compareTo((Node) object) == 0;
     }
 
     public int compareTo(Node other) {
-        int result;
-
         if (this == other) {
-            result = 0;
-        } else if (other == null) {
-            throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got null");
-        } else {
-            result = getName().compareTo(other.getName());
+            return 0;
         }
 
-        return result;
+        if (other == null) {
+            throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got null");
+        }
+
+        return getName().compareTo(other.getName());
     }
 
     public String toString() {

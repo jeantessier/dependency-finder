@@ -34,7 +34,7 @@ package com.jeantessier.classreader;
 
 import java.util.*;
 
-public interface Method_info extends Feature_info {
+public interface Method_info extends Feature_info, Comparable<Method_info> {
     public boolean isSynchronized();
     public boolean isBridge();
     public boolean isVarargs();

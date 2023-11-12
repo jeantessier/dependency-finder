@@ -58,16 +58,15 @@ public class Double_info extends ConstantPoolEntry implements com.jeantessier.cl
     }
 
     public boolean equals(Object object) {
-        boolean result = false;
-
         if (this == object) {
-            result = true;
-        } else if (object != null && this.getClass().equals(object.getClass())) {
-            Double_info other = (Double_info) object;
-            result = Double.compare(this.getValue(), other.getValue()) == 0;
+            return true;
         }
 
-        return result;
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        return Double.compare(getValue(), ((Double_info) object).getValue()) == 0;
     }
 
     public void accept(Visitor visitor) {

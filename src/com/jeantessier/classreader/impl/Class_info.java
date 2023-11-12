@@ -92,16 +92,15 @@ public class Class_info extends ConstantPoolEntry implements com.jeantessier.cla
     }
 
     public boolean equals(Object object) {
-        boolean result = false;
-
         if (this == object) {
-            result = true;
-        } else if (object != null && this.getClass().equals(object.getClass())) {
-            Class_info other = (Class_info) object;
-            result = this.getRawName().equals(other.getRawName());
+            return true;
         }
 
-        return result;
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        return getRawName().equals(((Class_info) object).getRawName());
     }
 
     public void accept(Visitor visitor) {

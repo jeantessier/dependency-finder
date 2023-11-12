@@ -81,18 +81,31 @@ public abstract class RemovableDifferences implements Differences, Comparable<Re
     public String toString() {
         return getName();
     }
-
-    public int compareTo(RemovableDifferences other) {
-        int result;
-
-        if (this == other) {
-            result = 0;
-        } else if (other == null) {
-            throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got null");
-        } else {
-            result = getName().compareTo(other.getName());
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
         }
 
-        return result;
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        return compareTo((RemovableDifferences) object) == 0;
+    }
+
+    public int hashCode() {
+        return getName().hashCode();
+    }
+
+    public int compareTo(RemovableDifferences other) {
+        if (this == other) {
+            return 0;
+        }
+
+        if (other == null) {
+            throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got null");
+        }
+
+        return getName().compareTo(other.getName());
     }
 }
