@@ -34,9 +34,10 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import com.jeantessier.classreader.*;
+
+import static java.util.stream.Collectors.*;
 
 public class Method_info extends Feature_info implements com.jeantessier.classreader.Method_info {
     private static final int ACC_SYNCHRONIZED = 0x0020;
@@ -141,7 +142,7 @@ public class Method_info extends Feature_info implements com.jeantessier.classre
             result.append(
                     getExceptions().stream()
                             .map(Class_info::getName)
-                            .collect(Collectors.joining(", "))
+                            .collect(joining(", "))
             );
         }
 
