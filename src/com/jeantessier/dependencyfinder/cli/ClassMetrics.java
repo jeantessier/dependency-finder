@@ -34,7 +34,6 @@ package com.jeantessier.dependencyfinder.cli;
 
 import java.util.*;
 import java.io.*;
-import java.util.function.Function;
 import java.util.stream.*;
 
 import com.jeantessier.classreader.*;
@@ -67,16 +66,20 @@ public class ClassMetrics extends DirectoryExplorerCommand {
 
         getOut().println(metrics.getClasses().size() + " class(es)");
         if (list) {
-            for (Object o : metrics.getClasses()) {
-                getOut().println("        " + o);
-            }
+            getOut().println(
+                    metrics.getClasses().stream()
+                            .map(o -> "        " + o)
+                            .collect(joining(EOL))
+            );
         }
 
         getOut().println(metrics.getInterfaces().size() + " interface(s)");
         if (list) {
-            for (Object o : metrics.getInterfaces()) {
-                getOut().println("        " + o);
-            }
+            getOut().println(
+                    metrics.getInterfaces().stream()
+                            .map(o -> "        " + o)
+                            .collect(joining(EOL))
+            );
         }
 
         getOut().println();
@@ -97,43 +100,57 @@ public class ClassMetrics extends DirectoryExplorerCommand {
 
         getOut().println(metrics.getSynchronizedMethods().size() + " synchronized method(s)");
         if (list) {
-            for (Method_info method : metrics.getSynchronizedMethods()) {
-                getOut().println("        " + method);
-            }
+            getOut().println(
+                    metrics.getSynchronizedMethods().stream()
+                            .map(method -> "        " + method)
+                            .collect(joining(EOL))
+            );
         }
 
         getOut().println(metrics.getNativeMethods().size() + " native method(s)");
         if (list) {
-            for (Method_info method : metrics.getNativeMethods()) {
-                getOut().println("        " + method);
-            }
+            getOut().println(
+                    metrics.getNativeMethods().stream()
+                            .map(method -> "        " + method)
+                            .collect(joining(EOL))
+            );
         }
 
         getOut().println(metrics.getVolatileFields().size() + " volatile field(s)");
         if (list) {
-            for (Field_info field : metrics.getVolatileFields()) {
-                getOut().println("        " + field);
-            }
+            getOut().println(
+                    metrics.getVolatileFields().stream()
+                            .map(field -> "        " + field)
+                            .collect(joining(EOL))
+            );
         }
 
         getOut().println(metrics.getTransientFields().size() + " transient field(s)");
         if (list) {
-            for (Field_info field : metrics.getTransientFields()) {
-                getOut().println("        " + field);
-            }
+            getOut().println(
+                    metrics.getTransientFields().stream()
+                            .map(field -> "        " + field)
+                            .collect(joining(EOL))
+            );
         }
 
         getOut().println(metrics.getConstantPoolEntryCounts().values().stream().reduce(0L, Long::sum) + " constant pool entry(ies)");
         if (list) {
-            for (var entry : metrics.getConstantPoolEntryCounts().entrySet()) {
-                getOut().format("%12d %s%n", entry.getValue(), com.jeantessier.classreader.impl.ConstantPoolEntry.stringValueOf(entry.getKey().byteValue()));
-            }
+            getOut().println(
+                    metrics.getConstantPoolEntryCounts().entrySet().stream()
+                            .map(entry -> String.format("%12d %s", entry.getValue(), com.jeantessier.classreader.impl.ConstantPoolEntry.stringValueOf(entry.getKey().byteValue())))
+                            .collect(joining(EOL))
+            );
         }
 
         getOut().println(metrics.getAttributeCounts().values().stream().reduce(0L, Long::sum) + " attribute(s)");
-        for (AttributeType attributeType : AttributeType.values()) {
-            getOut().format("%12d %s attribute(s)%n", metrics.getAttributeCounts().get(attributeType.getAttributeName()), attributeType.getAttributeName());
-        }
+        getOut().println(
+                Arrays.stream(AttributeType.values())
+                        .map(AttributeType::getAttributeName)
+                        .map(name -> String.format("%12d %s attribute(s)", metrics.getAttributeCounts().get(name), name))
+                        .collect(joining(EOL))
+        );
+
 
         getOut().format("%12d custom attribute(s)%n", metrics.getCustomAttributes().size());
         if (list) {
@@ -155,9 +172,11 @@ public class ClassMetrics extends DirectoryExplorerCommand {
         if (getCommandLine().getToggleSwitch("instruction-counts")) {
             getOut().println();
             getOut().println("Instruction counts:");
-
-            var formatter = new Formatter(getOut());
-            IntStream.range(0, 256).forEach(opcode -> formatter.format("        0x%02X %s: %d%n", opcode, com.jeantessier.classreader.impl.Instruction.getMnemonic(opcode), metrics.getInstructionCounts()[opcode]));
+            getOut().println(
+                    IntStream.range(0, 256)
+                            .mapToObj(opcode -> String.format("        0x%02X %s: %d", opcode, com.jeantessier.classreader.impl.Instruction.getMnemonic(opcode), metrics.getInstructionCounts()[opcode]))
+                            .collect(joining(EOL))
+            );
         }
     }
 
@@ -167,19 +186,25 @@ public class ClassMetrics extends DirectoryExplorerCommand {
                      innerClasses.size()) + label);
         if (list) {
             getOut().println("    " + classes.size() + " class(es)");
-            for (Classfile aClass : classes) {
-                getOut().println("        " + aClass);
-            }
+            getOut().println(
+                    classes.stream()
+                            .map(aClass -> "        " + aClass)
+                            .collect(joining(EOL))
+            );
 
             getOut().println("    " + methods.size() + " method(s)");
-            for (Method_info method : methods) {
-                getOut().println("        " + method);
-            }
+            getOut().println(
+                    methods.stream()
+                            .map(method -> "        " + method)
+                            .collect(joining(EOL))
+            );
 
             getOut().println("    " + innerClasses.size() + " inner class(es)");
-            for (InnerClass innerClass : innerClasses) {
-                getOut().println("        " + innerClass);
-            }
+            getOut().println(
+                    innerClasses.stream()
+                            .map(innerClass -> "        " + innerClass)
+                            .collect(joining(EOL))
+            );
         } else {
             getOut().println("    " + classes.size() + " class(es)");
             getOut().println("    " + methods.size() + " method(s)");
@@ -194,24 +219,32 @@ public class ClassMetrics extends DirectoryExplorerCommand {
                      innerClasses.size()) + label);
         if (list) {
             getOut().println("    " + classes.size() + " class(es)");
-            for (Classfile aClass : classes) {
-                getOut().println("        " + aClass);
-            }
+            getOut().println(
+                    classes.stream()
+                            .map(aClass -> "        " + aClass)
+                            .collect(joining(EOL))
+            );
 
             getOut().println("    " + fields.size() + " field(s)");
-            for (Field_info field : fields) {
-                getOut().println("        " + field);
-            }
+            getOut().println(
+                    fields.stream()
+                            .map(field -> "        " + field)
+                            .collect(joining(EOL))
+            );
 
             getOut().println("    " + methods.size() + " method(s)");
-            for (Method_info method : methods) {
-                getOut().println("        " + method);
-            }
+            getOut().println(
+                    methods.stream()
+                            .map(method -> "        " + method)
+                            .collect(joining(EOL))
+            );
 
             getOut().println("    " + innerClasses.size() + " inner class(es)");
-            for (InnerClass innerClass : innerClasses) {
-                getOut().println("        " + innerClass);
-            }
+            getOut().println(
+                    innerClasses.stream()
+                            .map(innerClass -> "        " + innerClass)
+                            .collect(joining(EOL))
+            );
         } else {
             getOut().println("    " + classes.size() + " class(es)");
             getOut().println("    " + fields.size() + " fields(s)");
@@ -226,19 +259,25 @@ public class ClassMetrics extends DirectoryExplorerCommand {
                      methods.size()) + label);
         if (list) {
             getOut().println("    " + classes.size() + " class(es)");
-            for (Classfile aClass : classes) {
-                getOut().println("        " + aClass);
-            }
+            getOut().println(
+                    classes.stream()
+                            .map(aClass -> "        " + aClass)
+                            .collect(joining(EOL))
+            );
 
             getOut().println("    " + fields.size() + " field(s)");
-            for (Field_info field : fields) {
-                getOut().println("        " + field);
-            }
+            getOut().println(
+                    fields.stream()
+                            .map(field -> "        " + field)
+                            .collect(joining(EOL))
+            );
 
             getOut().println("    " + methods.size() + " method(s)");
-            for (Method_info method : methods) {
-                getOut().println("        " + method);
-            }
+            getOut().println(
+                    methods.stream()
+                            .map(method -> "        " + method)
+                            .collect(joining(EOL))
+            );
         } else {
             getOut().println("    " + classes.size() + " class(es)");
             getOut().println("    " + fields.size() + " fields(s)");
@@ -252,19 +291,25 @@ public class ClassMetrics extends DirectoryExplorerCommand {
                      innerClasses.size()) + label);
         if (list) {
             getOut().println("    " + fields.size() + " field(s)");
-            for (Field_info field : fields) {
-                getOut().println("        " + field);
-            }
+            getOut().println(
+                    fields.stream()
+                            .map(field -> "        " + field)
+                            .collect(joining(EOL))
+            );
 
             getOut().println("    " + methods.size() + " method(s)");
-            for (Method_info method : methods) {
-                getOut().println("        " + method);
-            }
+            getOut().println(
+                    methods.stream()
+                            .map(method -> "        " + method)
+                            .collect(joining(EOL))
+            );
 
             getOut().println("    " + innerClasses.size() + " inner class(es)");
-            for (InnerClass innerClass : innerClasses) {
-                getOut().println("        " + innerClass);
-            }
+            getOut().println(
+                    innerClasses.stream()
+                            .map(innerClass -> "        " + innerClass)
+                            .collect(joining(EOL))
+            );
         } else {
             getOut().println("    " + fields.size() + " fields(s)");
             getOut().println("    " + methods.size() + " method(s)");
