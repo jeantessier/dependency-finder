@@ -1,0 +1,7 @@
+I realized =ClassMetrics= uses lists to accumulate elements, so it needs some
+major deduping.  I switched to =TreeSet= to get rid of duplicates and sort the
+elements alphabetically to boot.  I had to make =Classfile= and =Field%5Finfo=
+and =Method%5Finfo= implement =Comparable= so I could store them in =TreeSet=.
+
+I took to opportunity to refactor the =compareTo()= and =equals()= methods to
+replace =if= cascades with guard clauses.  They are more fashionable.
