@@ -1,0 +1,155 @@
+' This is a [PlantUML](https://plantuml.com/) diagram.
+' Render the image with:
+'     java -jar plantuml.jar Test.puml
+
+@startuml
+
+skin rose
+skinparam style strictuml
+
+' title Method Calling a Lambda
+
+' caption Attributes are shown in green.  Constant pool entries are shown in pink.
+
+' legend top left
+' public class Test {
+'     public void someMethod() {
+'         Consumer<String> function = **(s -> System.out.println(s))**;
+'     }
+' }
+' end legend
+
+object "Test : Classfile" as Test
+
+object "someMethod : Method_info" as someMethod
+Test -> someMethod
+
+object ": Code_attribute" as code #lightgreen
+someMethod -> code
+
+object "invokedynamic 0xba : Instruction" as invokedynamic #lightgreen {
+  index = 7
+}
+code *-> invokedynamic
+
+note top of invokedynamic : This is the inciting instruction.
+
+object "7 : InvokeDynamic_info" as InvokeDynamic_info #pink {
+  bootstrap_method_attr_index = 0
+  name_and_type_index = 8
+}
+invokedynamic .> InvokeDynamic_info #green
+
+object "8 : NameAndType_info" as nameAndType #pink {
+  name_index = 9
+  descriptor_index = 10
+}
+InvokeDynamic_info .> nameAndType
+
+object "9 : UTF8_info" as invokedynamic_name #pink {
+  "accept"
+}
+nameAndType .> invokedynamic_name : name
+
+object "10 : UTF8_info" as invokedynamic_type #pink
+nameAndType .> invokedynamic_type : type
+invokedynamic_name -[hidden]-> invokedynamic_type
+
+object ": BootstrapMethods_attribute" as BootstrapMethods_attribute #lightgreen
+Test -> BootstrapMethods_attribute
+someMethod -[hidden]-> BootstrapMethods_attribute
+invokedynamic_type -[hidden]-> BootstrapMethods_attribute
+
+object "0 : BootstrapMethod" as BootstrapMethod #lightgreen {
+  bootstrap_method_ref = 38
+  bootstrap_arguments = [32, 34, 37]
+}
+BootstrapMethods_attribute *-> BootstrapMethod
+InvokeDynamic_info ..> BootstrapMethod #green
+
+object "38 : MethodHandle_info" as callsite #pink {
+  reference_kind = REF_invokeStatic (6)
+  reference_index = 39
+}
+BootstrapMethod .> callsite
+
+object "39 : MethodRef_info" as metafactory #pink {
+  class_index = 40
+  name_and_type_index = 41
+}
+callsite .> metafactory
+
+object "40 : Class_info" as metafactory_class #pink {
+}
+metafactory .> metafactory_class : class
+
+object "42 : UTF8_info" as metafactory_class_name #pink {
+  "LambdaMetafactory"
+}
+metafactory_class .> metafactory_class_name : name
+
+object "41 : NameAndType_info" as metafactory_nameAndType #pink {
+}
+metafactory .> metafactory_nameAndType
+metafactory_class -[hidden]-> metafactory_nameAndType
+
+object "43 : UTF8_info" as metafactory_name #pink {
+  "metafactory"
+}
+metafactory_nameAndType .> metafactory_name : name
+
+object "44 : UTF8_info" as metafactory_type #pink
+metafactory_nameAndType .> metafactory_type : type
+metafactory_name -[hidden]-> metafactory_type
+
+object "32 : MethodType_info" as arg1 #pink
+BootstrapMethod .> arg1 : argument
+metafactory -[hidden]-> arg1
+
+object "33 : UTF8_info" as arg1_value #pink
+arg1 .> arg1_value
+
+object "34 : MethodHandle_info" as arg2 << lambda >> #pink {
+  reference_kind = REF_invokeStatic (6)
+  reference_index = 35
+}
+BootstrapMethod .> arg2 #green : argument
+arg1 -[hidden]-> arg2
+
+object "37 : MethodType_info" as arg3 #pink
+BootstrapMethod .> arg3 : argument
+arg2 -[hidden]-> arg3
+
+object "22 : UTF8_info" as arg3_value #pink
+arg3 .> arg3_value
+
+object "35 : MethodRef_info" as lambda #pink {
+  class_index = 23
+  name_and_type_index = 36
+}
+arg2 .> lambda #green
+
+note top of lambda : This is the reference to the lambda.
+
+object "23 : Class_info" as lambda_class #pink
+lambda .> lambda_class : class
+
+object "24 : UTF8_info" as lambda_class_name #pink {
+  "test.Test"
+}
+lambda_class .> lambda_class_name : name
+
+object "36 : NameAndType_info" as lambda_nameAndType #pink {
+  name_index = 28
+  descriptor_index = 22
+}
+lambda .> lambda_nameAndType
+lambda_class -[hidden]-> lambda_nameAndType
+
+object "28 : UTF8_info" as lambda_name #pink {
+  "lambda$someMethod$0"
+}
+lambda_nameAndType .> lambda_name : name
+lambda_nameAndType ..> arg3_value : type
+
+@enduml

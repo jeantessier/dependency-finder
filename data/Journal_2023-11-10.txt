@@ -1,0 +1,42 @@
+All these dependencies to =java.lang.invoke= were bugging me, so I refactored
+the default traversal in =VisitorBase= to do something special in the case of
+=invokedynamic= instructions.  I added
+=Instruction.getDynamicConstantPoolEntries()= to look for =MethodHandle%5Finfo=
+in arguments to bootstrap methods and collect what these handles are
+referencing.  This way, I can skip =java.lang.invoke= artifacts in dynamic
+calls and focus on what the code is trying to express.
+
+Going back to the sample code from issue
+[[https://github.com/jeantessier/dependency-finder/issues/6][#6]]:
+
+    import java.util.function.*;
+    &nbsp;
+    public class Test {
+        public void someMethod(){
+            Consumer&lt;String&gt; function = (x -&gt; System.out.println(x));
+        }
+    }
+
+The dependency graph now looks like this:
+
+        Test
+            --&gt; java.lang.Object *
+            Test()
+                --&gt; java.lang.Object.Object() *
+            lambda$someMethod$0(java.lang.String)
+                --&gt; java.io.PrintStream *
+                --&gt; java.io.PrintStream.println(java.lang.String) *
+                --&gt; java.lang.String *
+                --&gt; java.lang.System.out *
+                &lt;-- Test.someMethod()
+            someMethod()
+                --&gt; java.lang.String *
+                --&gt; Test.lambda$someMethod$0(java.lang.String)
+
+And even =ClassReader= now shows the intended reference:
+
+        public void someMethod();
+            CODE
+            0:	invokedynamic void test.Test.lambda$someMethod$0(java.lang.String)
+            5:	astore_1
+            6:	return

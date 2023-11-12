@@ -1,1 +1,90 @@
-Refactored =TestRegularExpressionParser= to be data-driven tests.
+Now that I have code to parse =BootstrapMethods%5Fattribute=, I can do a better
+job at processing =invokedynamic= instructions for dependencies.  Someone
+opened issue [[https://github.com/jeantessier/dependency-finder/issues/6][#6]]
+about tracking dependencies on lambdas.  Lambdas are called using the
+=invokedynamic= instruction, but go through a _callsite_ to figure out what
+actual method to call.  The callsite resolves the target using data from the
+=BootstrapMethods%5Fattribute=.
+
+Issue [[https://github.com/jeantessier/dependency-finder/issues/6][#6]]
+includes this sample code:
+
+    import java.util.function.*;
+    &nbsp;
+    public class Test {
+        public void someMethod(){
+            Consumer&lt;String&gt; function = (x -&gt; System.out.println(x));
+        }
+    }
+
+Running it through =javap -c= shows the following:
+
+    public class Test {
+      public Test();
+        Code:
+           0: aload_0
+           1: invokespecial #1                  // Method java/lang/Object."&lt;init&gt;":()V
+           4: return
+
+      public void someMethod();
+        Code:
+           0: invokedynamic #7,  0              // InvokeDynamic #0:accept:()Ljava/util/function/Consumer;
+           5: astore_1
+           6: return
+    }
+
+Here is a diagram of the information structure for where the method calls the
+lambda (click for larger version).
+
+[[../images/MethodCallsLambda.png][../images/s_MethodCallsLambda.png]]
+
+Attributes are shown in green and constant pool entries are shown in pink, with
+their index in the constant pool.
+
+We see that =javap= stopped at the =InvokeDynamic_info= that the instruction
+points to, at index 7 in the constant pool.  It only showed the information
+from the =NameAndType%5Finfo= at index 8 in the constant pool.  With Dependency
+Finder, I can follow the references all the way to the =MethodRef%5Finfo= for
+the lambda (index 35 in the constant pool), down in the
+=BootstrapMethods%5Fattribute=.
+
+The default =Classfile= traversal in =VisitorBase= will navigate from the
+=Instruction= through the =BootstrapMethod= and visit both =MethodRef%5Finfo=
+with IDs 39 and 35.  #39 is the internal JVM machinery to create the callsite
+and execute through it.  #35 is the lambda.  Because =VisitorBase= goes through
+both, we end up with an extra dependency on
+=java.lang.invoke.LambdaMetafactory.metafactory()= and a few other items in the
+=java.lang.invoke= package.
+
+        Test
+            --&gt; java.lang.Object *
+            --&gt; java.lang.String *
+            --&gt; java.lang.invoke.CallSite *
+            --&gt; java.lang.invoke.LambdaMetafactory.metafactory(java.lang.invoke.MethodHandles$Lookup, java.lang.String, java.lang.invoke.MethodType, java.lang.invoke.MethodType, java.lang.invoke.MethodHandle, java.lang.invoke.MethodType) *
+            --&gt; java.lang.invoke.MethodHandle *
+            --&gt; java.lang.invoke.MethodHandles$Lookup *
+            --&gt; java.lang.invoke.MethodType *
+            Test()
+                --&gt; java.lang.Object.Object() *
+            lambda$someMethod$0(java.lang.String)
+                --&gt; java.io.PrintStream *
+                --&gt; java.io.PrintStream.println(java.lang.String) *
+                --&gt; java.lang.String *
+                --&gt; java.lang.System.out *
+                &lt;-- Test.someMethod()
+            someMethod()
+                --&gt; java.lang.String *
+                --&gt; java.lang.invoke.CallSite *
+                --&gt; java.lang.invoke.LambdaMetafactory.metafactory(java.lang.invoke.MethodHandles$Lookup, java.lang.String, java.lang.invoke.MethodType, java.lang.invoke.MethodType, java.lang.invoke.MethodHandle, java.lang.invoke.MethodType) *
+                --&gt; java.lang.invoke.MethodHandle *
+                --&gt; java.lang.invoke.MethodHandles$Lookup *
+                --&gt; java.lang.invoke.MethodType *
+                --&gt; Test.lambda$someMethod$0(java.lang.String)
+
+I find it annoying that it _pollutes_ the dependency graph with these
+artifacts, but we can skip them with a judicious
+=-filter-excludes /^java.lang.invoke/=, if you need to.  Though, this will also
+exclude some legitimate dependencies to that package if your code happens to
+call into it.
+
+I also refactored =TestRegularExpressionParser= to be data-driven tests.
