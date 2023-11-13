@@ -283,7 +283,7 @@ public class TextPrinter extends Printer {
         append("        ").append(instruction.getStart()).append(":\t").append(instruction.getMnemonic());
         appendIndexedConstantPoolEntry(instruction);
         appendIndexedLocalVariable(instruction);
-        appendDynamicConstantPoolEntry(instruction);
+        appendDynamicConstantPoolEntries(instruction);
         appendOffset(instruction);
         appendValue(instruction);
         eol();
@@ -394,11 +394,13 @@ public class TextPrinter extends Printer {
         return this;
     }
 
-    private Printer appendDynamicConstantPoolEntry(Instruction instruction) {
+    private Printer appendDynamicConstantPoolEntries(Instruction instruction) {
         switch (instruction.getOpcode()) {
             case 0xba: // invokedynamic
-                append(" ");
-                instruction.getDynamicConstantPoolEntries().forEach(entry -> entry.accept(this));
+                instruction.getDynamicConstantPoolEntries().forEach(entry -> {
+                    append(" ");
+                    entry.accept(this);
+                });
                 break;
             default:
                 // Do nothing

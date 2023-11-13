@@ -853,14 +853,14 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
         return switch (getOpcode()) {
             case 0xba: // invokedynamic
                 Logger.getLogger(getClass()).debug("getDynamicConstantPoolEntries()");
-                if (code.getConstantPool().get(getIndex()) instanceof InvokeDynamic_info entry) {
+                if (code.getConstantPool().get(getIndex()) instanceof Dynamic_info entry) {
                     BootstrapMethodFinder finder = new BootstrapMethodFinder(entry.getBootstrapMethodAttrIndex());
                     code.getConstantPool().getClassfile().accept(finder);
                     yield finder.getBootstrapMethod().getArguments().stream()
                             .filter(argument -> argument instanceof MethodHandle_info)
                             .map(methodHandle -> ((MethodHandle_info) methodHandle).getReference())
                             .toList();
-                } else if (code.getConstantPool().get(getIndex()) instanceof Dynamic_info entry) {
+                } else if (code.getConstantPool().get(getIndex()) instanceof InvokeDynamic_info entry) {
                     BootstrapMethodFinder finder = new BootstrapMethodFinder(entry.getBootstrapMethodAttrIndex());
                     code.getConstantPool().getClassfile().accept(finder);
                     yield finder.getBootstrapMethod().getArguments().stream()

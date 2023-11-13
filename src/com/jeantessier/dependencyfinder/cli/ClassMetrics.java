@@ -151,7 +151,6 @@ public class ClassMetrics extends DirectoryExplorerCommand {
                         .collect(joining(EOL))
         );
 
-
         getOut().format("%12d custom attribute(s)%n", metrics.getCustomAttributes().size());
         if (list) {
             getOut().println(

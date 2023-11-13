@@ -44,7 +44,7 @@ public class LCOM4Gatherer implements Visitor {
     private final Map<ClassNode, Collection<Collection<FeatureNode>>> results = new HashMap<>();
     private Collection<FeatureNode> currentComponent;
     private ClassNode currentClass;
-    private List<FeatureNode> unvisitedNodes;
+    private LinkedList<FeatureNode> unvisitedNodes;
 
     private Set<Collection<FeatureNode>> currentComponents;
 
@@ -124,11 +124,11 @@ public class LCOM4Gatherer implements Visitor {
         }
     }
 
-    private List<FeatureNode> filterOutConstructors(Collection<FeatureNode> featureNodes) {
+    private LinkedList<FeatureNode> filterOutConstructors(Collection<FeatureNode> featureNodes) {
         return featureNodes.stream()
                 .filter(Node::isConfirmed)
                 .filter(featureNode-> !isConstructor(featureNode))
-                .collect(toList());
+                .collect(toCollection(LinkedList::new));
     }
 
     private boolean isConstructor(FeatureNode node) {
