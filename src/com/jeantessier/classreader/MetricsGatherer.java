@@ -529,12 +529,12 @@ public class MetricsGatherer extends VisitorBase {
 
         Object owner = attribute.getOwner();
 
-        if (owner instanceof Classfile) {
-            deprecatedClasses.add((Classfile) owner);
-        } else if (owner instanceof Field_info) {
-            deprecatedFields.add((Field_info) owner);
-        } else if (owner instanceof Method_info) {
-            deprecatedMethods.add((Method_info) owner);
+        if (owner instanceof Classfile classfile) {
+            deprecatedClasses.add(classfile);
+        } else if (owner instanceof Field_info field) {
+            deprecatedFields.add(field);
+        } else if (owner instanceof Method_info method) {
+            deprecatedMethods.add(method);
         } else {
             Logger.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: " + owner.getClass().getName());
         }
