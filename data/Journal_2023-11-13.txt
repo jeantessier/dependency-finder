@@ -6,3 +6,8 @@ I found some documentation on callsites in the javadocs for the
 class and the
 =[[https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/invoke/package-summary.html][java.lang.invoke]]=
 package.  It is very technical, and I'm not sure how exhaustive it really is.
+
+I'm tempted to move up to Java 21 so I can use type pattern matching in
+=switch= expressions.  They make the code much more compact and streamlined.
+But if I do this, I will need to compile the library to Java 21 and users will
+need to be on Java 21 to use Dependency Finder.
