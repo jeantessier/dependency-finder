@@ -27,8 +27,8 @@ Into this:
 
     switch (attribute.getOwner()) {
         case Classfile classfile -&gt; syntheticClasses.add(classfile);
-        case Field_info fieldInfo -&gt; syntheticFields.add(fieldInfo);
-        case Method_info methodInfo -&gt; syntheticMethods.add(methodInfo);
+        case Field_info field -&gt; syntheticFields.add(field);
+        case Method_info method -&gt; syntheticMethods.add(method);
         default -&gt; Logger.getLogger(getClass()).warn("Synthetic attribute on unknown Visitable: " + attribute.getOwner().getClass().getName());
     }
 
