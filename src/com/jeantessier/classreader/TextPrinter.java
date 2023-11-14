@@ -322,10 +322,10 @@ public class TextPrinter extends Printer {
                 break;
             case 0xba: // invokedynamic
                 var indexedEntry = instruction.getIndexedConstantPoolEntry();
-                if (indexedEntry instanceof Dynamic_info) {
-                    append(" ").append(((Dynamic_info) indexedEntry).getName());
-                } else if (indexedEntry instanceof InvokeDynamic_info) {
-                    append(" ").append(((InvokeDynamic_info) indexedEntry).getName());
+                if (indexedEntry instanceof Dynamic_info dynamic_info) {
+                    append(" ").append(dynamic_info.getName());
+                } else if (indexedEntry instanceof InvokeDynamic_info invokeDynamic_info) {
+                    append(" ").append(invokeDynamic_info.getName());
                 }
                 // TODO: Replace with type pattern matching in switch expression in Java 21
                 // switch (instruction.getIndexedConstantPoolEntry()) {

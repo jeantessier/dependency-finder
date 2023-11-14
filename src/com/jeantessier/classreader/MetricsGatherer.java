@@ -482,12 +482,12 @@ public class MetricsGatherer extends VisitorBase {
 
         Object owner = attribute.getOwner();
 
-        if (owner instanceof Classfile) {
-            syntheticClasses.add((Classfile) owner);
-        } else if (owner instanceof Field_info) {
-            syntheticFields.add((Field_info) owner);
-        } else if (owner instanceof Method_info) {
-            syntheticMethods.add((Method_info) owner);
+        if (owner instanceof Classfile classfile) {
+            syntheticClasses.add(classfile);
+        } else if (owner instanceof Field_info field) {
+            syntheticFields.add(field);
+        } else if (owner instanceof Method_info method) {
+            syntheticMethods.add(method);
         } else {
             Logger.getLogger(getClass()).warn("Synthetic attribute on unknown Visitable: " + owner.getClass().getName());
         }
