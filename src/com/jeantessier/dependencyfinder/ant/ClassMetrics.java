@@ -49,6 +49,7 @@ public class ClassMetrics extends Task {
     private boolean list = false;
     private boolean instructionCounts = false;
     private File destfile;
+    private PrintWriter out;
     private Path path;
 
     public boolean getList() {
@@ -112,81 +113,96 @@ public class ClassMetrics extends Task {
         log("Saving class metrics to " + getDestfile().getAbsolutePath());
         
         try {
-            PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
-
-            out.println(metrics.getClasses().size() + " class(es)");
+            getOut().println(metrics.getClasses().size() + " class(es)");
             if (getList()) {
-                for (Object o : metrics.getClasses()) {
-                    out.println("        " + o);
-                }
+                getOut().println(
+                        metrics.getClasses().stream()
+                                .map(o -> "        " + o)
+                                .collect(joining(EOL))
+                );
             }
             
-            out.println(metrics.getInterfaces().size() + " interface(s)");
+            getOut().println(metrics.getInterfaces().size() + " interface(s)");
             if (getList()) {
-                for (Object o : metrics.getInterfaces()) {
-                    out.println("        " + o);
-                }
+                getOut().println(
+                        metrics.getInterfaces().stream()
+                                .map(o -> "        " + o)
+                                .collect(joining(EOL))
+                );
             }
             
-            out.println();
-            out.println(metrics.getMethods().size() + " method(s) (average " + (metrics.getMethods().size() / (metrics.getClasses().size() + (double) metrics.getInterfaces().size())) + " per class/interface)");
-            out.println(metrics.getFields().size() + " field(s) (average " + (metrics.getFields().size() / (metrics.getClasses().size() + (double) metrics.getInterfaces().size())) + " per class/interface)");
-            out.println();
+            getOut().println();
+            getOut().println(metrics.getMethods().size() + " method(s) (average " + (metrics.getMethods().size() / (metrics.getClasses().size() + (double) metrics.getInterfaces().size())) + " per class/interface)");
+            getOut().println(metrics.getFields().size() + " field(s) (average " + (metrics.getFields().size() / (metrics.getClasses().size() + (double) metrics.getInterfaces().size())) + " per class/interface)");
+            getOut().println();
             
-            printCFM(out, " synthetic element(s)", metrics.getSyntheticClasses(), metrics.getSyntheticFields(), metrics.getSyntheticMethods());
-            printCFM(out, " deprecated element(s)", metrics.getDeprecatedClasses(), metrics.getDeprecatedFields(), metrics.getDeprecatedMethods());
-            printCFMIC(out, " public element(s)", metrics.getPublicClasses(), metrics.getPublicFields(), metrics.getPublicMethods(), metrics.getPublicInnerClasses());
-            printFMIC(out, " protected element(s)", metrics.getProtectedFields(), metrics.getProtectedMethods(), metrics.getProtectedInnerClasses());
-            printFMIC(out, " private element(s)", metrics.getPrivateFields(), metrics.getPrivateMethods(), metrics.getPrivateInnerClasses());
-            printCFMIC(out, " package element(s)", metrics.getPackageClasses(), metrics.getPackageFields(), metrics.getPackageMethods(), metrics.getPackageInnerClasses());
-            printCMIC(out, " abstract element(s)", metrics.getAbstractClasses(), metrics.getAbstractMethods(), metrics.getAbstractInnerClasses());
+            printCFM(" synthetic element(s)", metrics.getSyntheticClasses(), metrics.getSyntheticFields(), metrics.getSyntheticMethods());
+            printCFM(" deprecated element(s)", metrics.getDeprecatedClasses(), metrics.getDeprecatedFields(), metrics.getDeprecatedMethods());
+            printCFMIC(" public element(s)", metrics.getPublicClasses(), metrics.getPublicFields(), metrics.getPublicMethods(), metrics.getPublicInnerClasses());
+            printFMIC(" protected element(s)", metrics.getProtectedFields(), metrics.getProtectedMethods(), metrics.getProtectedInnerClasses());
+            printFMIC(" private element(s)", metrics.getPrivateFields(), metrics.getPrivateMethods(), metrics.getPrivateInnerClasses());
+            printCFMIC(" package element(s)", metrics.getPackageClasses(), metrics.getPackageFields(), metrics.getPackageMethods(), metrics.getPackageInnerClasses());
+            printCMIC(" abstract element(s)", metrics.getAbstractClasses(), metrics.getAbstractMethods(), metrics.getAbstractInnerClasses());
             
-            printFMIC(out, " static element(s)", metrics.getStaticFields(), metrics.getStaticMethods(), metrics.getStaticInnerClasses());
-            printCFMIC(out, " final element(s)", metrics.getFinalClasses(), metrics.getFinalFields(), metrics.getFinalMethods(), metrics.getFinalInnerClasses());
+            printFMIC(" static element(s)", metrics.getStaticFields(), metrics.getStaticMethods(), metrics.getStaticInnerClasses());
+            printCFMIC(" final element(s)", metrics.getFinalClasses(), metrics.getFinalFields(), metrics.getFinalMethods(), metrics.getFinalInnerClasses());
             
-            out.println(metrics.getSynchronizedMethods().size() + " synchronized method(s)");
+            getOut().println(metrics.getSynchronizedMethods().size() + " synchronized method(s)");
             if (getList()) {
-                for (Method_info method : metrics.getSynchronizedMethods()) {
-                    out.println("        " + method);
-                }
+                getOut().println(
+                        metrics.getSynchronizedMethods().stream()
+                                .map(method -> "        " + method)
+                                .collect(joining(EOL))
+                );
             }
             
-            out.println(metrics.getNativeMethods().size() + " native method(s)");
+            getOut().println(metrics.getNativeMethods().size() + " native method(s)");
             if (getList()) {
-                for (Method_info method : metrics.getNativeMethods()) {
-                    out.println("        " + method);
-                }
+                getOut().println(
+                        metrics.getNativeMethods().stream()
+                                .map(method -> "        " + method)
+                                .collect(joining(EOL))
+                );
             }
             
-            out.println(metrics.getVolatileFields().size() + " volatile field(s)");
+            getOut().println(metrics.getVolatileFields().size() + " volatile field(s)");
             if (getList()) {
-                for (Field_info field : metrics.getVolatileFields()) {
-                    out.println("        " + field);
-                }
+                getOut().println(
+                        metrics.getVolatileFields().stream()
+                                .map(field -> "        " + field)
+                                .collect(joining(EOL))
+                );
             }
             
-            out.println(metrics.getTransientFields().size() + " transient field(s)");
+            getOut().println(metrics.getTransientFields().size() + " transient field(s)");
             if (getList()) {
-                for (Field_info field : metrics.getTransientFields()) {
-                    out.println("        " + field);
-                }
-            }
-
-            out.println(metrics.getConstantPoolEntryCounts().values().stream().reduce(0L, Long::sum) + " constant pool entry(ies)");
-            if (getList()) {
-                for (var entry : metrics.getConstantPoolEntryCounts().entrySet()) {
-                    out.format("%12d %s%n", entry.getValue(), com.jeantessier.classreader.impl.ConstantPoolEntry.stringValueOf(entry.getKey().byteValue()));
-                }
-            }
-
-            out.println(metrics.getAttributeCounts().values().stream().reduce(0L, Long::sum) + " attribute(s)");
-            for (AttributeType attributeType : AttributeType.values()) {
-                out.format("%12d %s attribute(s)%n", metrics.getAttributeCounts().get(attributeType.getAttributeName()), attributeType.getAttributeName());
+                getOut().println(
+                        metrics.getTransientFields().stream()
+                                .map(field -> "        " + field)
+                                .collect(joining(EOL))
+                );
             }
 
-            out.format("%12d custom attribute(s)%n", metrics.getCustomAttributes().size());
+            getOut().println(metrics.getConstantPoolEntryCounts().values().stream().reduce(0L, Long::sum) + " constant pool entry(ies)");
             if (getList()) {
-                out.println(
+                getOut().println(
+                        metrics.getConstantPoolEntryCounts().entrySet().stream()
+                                .map(entry -> String.format("%12d %s", entry.getValue(), com.jeantessier.classreader.impl.ConstantPoolEntry.stringValueOf(entry.getKey().byteValue())))
+                                .collect(joining(EOL))
+                );
+            }
+
+            getOut().println(metrics.getAttributeCounts().values().stream().reduce(0L, Long::sum) + " attribute(s)");
+            getOut().println(
+                    Arrays.stream(AttributeType.values())
+                            .map(AttributeType::getAttributeName)
+                            .map(name -> String.format("%12d %s attribute(s)", metrics.getAttributeCounts().get(name), name))
+                            .collect(joining(EOL))
+            );
+
+            getOut().format("%12d custom attribute(s)%n", metrics.getCustomAttributes().size());
+            if (getList()) {
+                getOut().println(
                         metrics.getCustomAttributes().stream()
                                 .collect(groupingBy(Custom_attribute::getName))
                                 .entrySet().stream()
@@ -202,128 +218,168 @@ public class ClassMetrics extends Task {
             }
 
             if (getInstructioncounts()) {
-                out.println();
-                out.println("Instruction counts:");
-
-                var formatter = new Formatter(out);
-                IntStream.range(0, 256).forEach(opcode -> formatter.format("        0x%02X %s: %d%n", opcode, com.jeantessier.classreader.impl.Instruction.getMnemonic(opcode), metrics.getInstructionCounts()[opcode]));
+                getOut().println();
+                getOut().println("Instruction counts:");
+                getOut().println(
+                        IntStream.range(0, 256)
+                                .mapToObj(opcode -> String.format("        0x%02X %s: %d", opcode, com.jeantessier.classreader.impl.Instruction.getMnemonic(opcode), metrics.getInstructionCounts()[opcode]))
+                                .collect(joining(EOL))
+                );
             }
 
-            out.close();
+            getOut().close();
         } catch (IOException ex) {
             throw new BuildException(ex);
         }
     }
 
-    private void printCMIC(PrintWriter out, String label, Collection<Classfile> classes, Collection<Method_info> methods, Collection<InnerClass> innerClasses) {
-        out.println((classes.size() +
+    private void printCMIC(String label, Collection<Classfile> classes, Collection<Method_info> methods, Collection<InnerClass> innerClasses) throws IOException {
+        getOut().println((classes.size() +
                      methods.size() +
                      innerClasses.size()) + label);
         if (getList()) {
 
-            out.println("    " + classes.size() + " class(es)");
-            for (Object aClass : classes) {
-                out.println("        " + aClass);
-            }
+            getOut().println("    " + classes.size() + " class(es)");
+            getOut().println(
+                    classes.stream()
+                            .map(aClass -> "        " + aClass)
+                            .collect(joining(EOL))
+            );
 
-            out.println("    " + methods.size() + " method(s)");
-            for (Method_info method : methods) {
-                out.println("        " + method);
-            }
+            getOut().println("    " + methods.size() + " method(s)");
+            getOut().println(
+                    methods.stream()
+                            .map(method -> "        " + method)
+                            .collect(joining(EOL))
+            );
 
-            out.println("    " + innerClasses.size() + " inner class(es)");
-            for (InnerClass innerClass : innerClasses) {
-                out.println("        " + innerClass);
-            }
+            getOut().println("    " + innerClasses.size() + " inner class(es)");
+            getOut().println(
+                    innerClasses.stream()
+                            .map(innerClass -> "        " + innerClass)
+                            .collect(joining(EOL))
+            );
         } else {
-            out.println("    " + classes.size() + " class(es)");
-            out.println("    " + methods.size() + " method(s)");
-            out.println("    " + innerClasses.size() + " inner class(es)");
+            getOut().println("    " + classes.size() + " class(es)");
+            getOut().println("    " + methods.size() + " method(s)");
+            getOut().println("    " + innerClasses.size() + " inner class(es)");
         }
     }
 
-    private void printCFMIC(PrintWriter out, String label, Collection<Classfile> classes, Collection<Field_info> fields, Collection<Method_info> methods, Collection<InnerClass> innerClasses) {
-        out.println((classes.size() +
+    private void printCFMIC(String label, Collection<Classfile> classes, Collection<Field_info> fields, Collection<Method_info> methods, Collection<InnerClass> innerClasses) throws IOException {
+        getOut().println((classes.size() +
                      fields.size() +
                      methods.size() +
                      innerClasses.size()) + label);
         if (getList()) {
-            out.println("    " + classes.size() + " class(es)");
-            for (Classfile aClass : classes) {
-                out.println("        " + aClass);
-            }
+            getOut().println("    " + classes.size() + " class(es)");
+            getOut().println(
+                    classes.stream()
+                            .map(aClass -> "        " + aClass)
+                            .collect(joining(EOL))
+            );
 
-            out.println("    " + fields.size() + " field(s)");
-            for (Field_info field : fields) {
-                out.println("        " + field);
-            }
+            getOut().println("    " + fields.size() + " field(s)");
+            getOut().println(
+                    fields.stream()
+                            .map(field -> "        " + field)
+                            .collect(joining(EOL))
+            );
 
-            out.println("    " + methods.size() + " method(s)");
-            for (Method_info method : methods) {
-                out.println("        " + method);
-            }
+            getOut().println("    " + methods.size() + " method(s)");
+            getOut().println(
+                    methods.stream()
+                            .map(method -> "        " + method)
+                            .collect(joining(EOL))
+            );
 
-            out.println("    " + innerClasses.size() + " inner class(es)");
-            for (InnerClass innerClass : innerClasses) {
-                out.println("        " + innerClass);
-            }
+            getOut().println("    " + innerClasses.size() + " inner class(es)");
+            getOut().println(
+                    innerClasses.stream()
+                            .map(innerClass -> "        " + innerClass)
+                            .collect(joining(EOL))
+            );
         } else {
-            out.println("    " + classes.size() + " class(es)");
-            out.println("    " + fields.size() + " fields(s)");
-            out.println("    " + methods.size() + " method(s)");
-            out.println("    " + innerClasses.size() + " inner class(es)");
+            getOut().println("    " + classes.size() + " class(es)");
+            getOut().println("    " + fields.size() + " fields(s)");
+            getOut().println("    " + methods.size() + " method(s)");
+            getOut().println("    " + innerClasses.size() + " inner class(es)");
         }
     }
 
-    private void printCFM(PrintWriter out, String label, Collection<Classfile> classes, Collection<Field_info> fields, Collection<Method_info> methods) {
-        out.println((classes.size() +
+    private void printCFM(String label, Collection<Classfile> classes, Collection<Field_info> fields, Collection<Method_info> methods) throws IOException {
+        getOut().println((classes.size() +
                      fields.size() +
                      methods.size()) + label);
         if (getList()) {
-            out.println("    " + classes.size() + " class(es)");
-            for (Classfile aClass : classes) {
-                out.println("        " + aClass);
-            }
+            getOut().println("    " + classes.size() + " class(es)");
+            getOut().println(
+                    classes.stream()
+                            .map(aClass -> "        " + aClass)
+                            .collect(joining(EOL))
+            );
 
-            out.println("    " + fields.size() + " field(s)");
-            for (Field_info field : fields) {
-                out.println("        " + field);
-            }
+            getOut().println("    " + fields.size() + " field(s)");
+            getOut().println(
+                    fields.stream()
+                            .map(field -> "        " + field)
+                            .collect(joining(EOL))
+            );
 
-            out.println("    " + methods.size() + " method(s)");
-            for (Method_info method : methods) {
-                out.println("        " + method);
-            }
+            getOut().println("    " + methods.size() + " method(s)");
+            getOut().println(
+                    methods.stream()
+                            .map(method -> "        " + method)
+                            .collect(joining(EOL))
+            );
         } else {
-            out.println("    " + classes.size() + " class(es)");
-            out.println("    " + fields.size() + " fields(s)");
-            out.println("    " + methods.size() + " method(s)");
+            getOut().println("    " + classes.size() + " class(es)");
+            getOut().println("    " + fields.size() + " fields(s)");
+            getOut().println("    " + methods.size() + " method(s)");
         }
     }
 
-    private void printFMIC(PrintWriter out, String label, Collection<Field_info> fields, Collection<Method_info> methods, Collection<InnerClass> innerClasses) {
-        out.println((fields.size() +
+    private void printFMIC(String label, Collection<Field_info> fields, Collection<Method_info> methods, Collection<InnerClass> innerClasses) throws IOException {
+        getOut().println((fields.size() +
                      methods.size() +
                      innerClasses.size()) + label);
         if (getList()) {
-            out.println("    " + fields.size() + " field(s)");
-            for (Field_info field : fields) {
-                out.println("        " + field);
-            }
+            getOut().println("    " + fields.size() + " field(s)");
+            getOut().println(
+                    fields.stream()
+                            .map(field -> "        " + field)
+                            .collect(joining(EOL))
+            );
 
-            out.println("    " + methods.size() + " method(s)");
-            for (Method_info method : methods) {
-                out.println("        " + method);
-            }
+            getOut().println("    " + methods.size() + " method(s)");
+            getOut().println(
+                    methods.stream()
+                            .map(method -> "        " + method)
+                            .collect(joining(EOL))
+            );
 
-            out.println("    " + innerClasses.size() + " inner class(es)");
-            for (InnerClass innerClass : innerClasses) {
-                out.println("        " + innerClass);
-            }
+            getOut().println("    " + innerClasses.size() + " inner class(es)");
+            getOut().println(
+                    innerClasses.stream()
+                            .map(innerClass -> "        " + innerClass)
+                            .collect(joining(EOL))
+            );
         } else {
-            out.println("    " + fields.size() + " fields(s)");
-            out.println("    " + methods.size() + " method(s)");
-            out.println("    " + innerClasses.size() + " inner class(es)");
+            getOut().println("    " + fields.size() + " fields(s)");
+            getOut().println("    " + methods.size() + " method(s)");
+            getOut().println("    " + innerClasses.size() + " inner class(es)");
         }
+    }
+
+    private PrintWriter getOut() throws IOException {
+        if (out == null) {
+            startOutput();
+        }
+
+        return out;
+    }
+
+    private void startOutput() throws IOException {
+        out = new PrintWriter(new FileWriter(getDestfile()));
     }
 }
