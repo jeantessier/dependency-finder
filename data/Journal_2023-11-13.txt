@@ -1,0 +1,8 @@
+Renamed =InvokeDynamicFinder= to =ListDynamicInstructions=.  Wrote
+documentation for this new tool.
+
+I found some documentation on callsites in the javadocs for the
+=[[https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/runtime/SwitchBootstraps.html][java.lang.runtime.SwitchBootstraps]]=
+class and the
+=[[https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/invoke/package-summary.html][java.lang.invoke]]=
+package.  It is very technical, and I'm not sure how exhaustive it really is.
