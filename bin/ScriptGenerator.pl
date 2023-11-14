@@ -79,6 +79,7 @@ getopts(":cguvw");
               "ListDiff" => ".cli.template.txt",
               "ListDiffToHTML" => ".xsl.template.txt",
               "ListDiffToText" => ".xsl.template.txt",
+              "ListDynamicInstructions" => ".cli.template.txt",
               "ListInheritanceDiffToText" => ".xsl.template.txt",
               "ListSymbols" => ".cli.template.txt",
               "ListUnused" => ".xsl.template.txt",

@@ -72,6 +72,8 @@ bin/ListDiffToHTML
 bin/ListDiffToHTML.bat
 bin/ListDiffToText
 bin/ListDiffToText.bat
+bin/ListDynamicInstructions
+bin/ListDynamicInstructions.bat
 bin/ListInheritanceDiffToText
 bin/ListInheritanceDiffToText.bat
 bin/ListSymbols

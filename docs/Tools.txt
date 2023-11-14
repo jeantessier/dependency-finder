@@ -81,8 +81,10 @@ For Dependency Finder version <VERSION />.
 <li><a href="#ClassDump">ClassDump</a></li>
 <p></p>
 <li><a href="#ClassList">ClassList</a></li>
-<li><a href="#ListSymbols">ListSymbols</a></li>
 <li><a href="#ClassFinder">ClassFinder</a></li>
+<p></p>
+<li><a href="#ListSymbols">ListSymbols</a></li>
+<li><a href="#ListDynamicInstructions">ListDynamicInstructions</a></li>
 </ul>
 </td>
 </tr></table>
@@ -9951,6 +9953,233 @@ See =-o= above.
 
 ----
 
+---++ ListDynamicInstructions
+
+<blockquote>
+
+Lists all =invokedynamic= instructions and their attendant references in the
+constant pool and the =BootstrapMethods_attribute=.
+
+</blockquote>
+
+---+++ Synopsis
+
+    ListDynamicInstructions
+        [-echo]
+        [-help]
+        [-out filename]
+        [-time]
+        [-verbose [filename]]
+        [-version]
+        [filename ...]
+
+---+++ Description
+
+<blockquote>
+
+Lists all the =invokedynamic= (=0xBA=) instructions in classes in a JAR file,
+Zip file, or directory.
+
+For each such instruction, it shows the =Dynamic%5Finfo= or
+=InvokeDynamic%5Finfo= structure it references, and from there the bootstrap
+method and all the constant pool entries it transitively references.  It can be
+useful when tracking dependencies through lambdas and method references.
+
+</blockquote>
+
+---+++ Switches
+
+<blockquote>
+
+---++++ =-echo=
+
+<blockquote>
+
+Prints the command-line, as seen by the tool.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-help=
+
+<blockquote>
+
+Prints synopsis.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-out filename=
+
+<blockquote>
+
+Writes the output to _filename_.  If _filename_ does not exists,
+it is created.  If it already exists, its content is overwritten.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-time=
+
+<blockquote>
+
+Prints how long it took to run the command.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-verbose [filename]=
+
+<blockquote>
+
+Writes summary processing information to _filename_.  If you do not specify
+a file, the tool will write the information to the standard output stream.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=System.out=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-version=
+
+<blockquote>
+
+Prints version information.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+</blockquote>
+
+---+++ Parameters
+
+<blockquote>
+
+File names for JAR files, Zip files, and =.class= files for the tool to read.
+You can also give directory names, the tool will search them for JAR files, Zip
+files, and =.class= files.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>yes</td></tr>
+<tr><td>Default value:</td><td>"=.=", the current directory</td></tr>
+</table>
+
+</blockquote>
+
+---+++ Output
+
+<blockquote>
+
+For each =invokedynamic=, the tool shows the method in which it was found and
+at which offset =pc= in the =Code_attribute= it is located.  It also lists all
+the objects that can be reached, incrementally indented as it follows
+references to highlight the structure of the object tree.
+
+If a method uses multiple =invokedynamic= instructions, there will be as many
+entries for that method as there are =invokedynamic= instructions in its
+bytecode.
+
+</blockquote>
+
+---+++ Examples
+
+<blockquote>
+
+Here is an example of a method that calls a lambda:
+
+    import java.util.function.*;
+    &nbsp;
+    public class *Test* {
+        public void *someMethod()* {
+            Consumer&lt;String&gt; function = *s -&gt; System.out.println(s)*;
+        }
+    }
+
+You can compile it and then run =ListDynamicInstructions= against it.
+
+<div class="highlight">
+
+    ListDynamicInstructions classes\Test.class
+
+</div>
+
+<div class="lowlight">
+
+    *Test.someMethod()*
+        pc=0 : invokedynamic accept
+            7 : InvokeDynamic_info java.util.function.Consumer accept()
+                8 : NameAndType_info
+                    9 : UTF8_info "accept"
+                    10 : UTF8_info "()Ljava/util/function/Consumer;"
+                0 : BootstrapMethod
+                    38 : MethodHandle%5Finfo REF%5FinvokeStatic(6) java.lang.invoke.LambdaMetafactory.metafactory(java.lang.invoke.MethodHandles$Lookup, java.lang.String, java.lang.invoke.MethodType, java.lang.invoke.MethodType, java.lang.invoke.MethodHandle, java.lang.invoke.MethodType)
+                        39 : MethodRef_info java.lang.invoke.LambdaMetafactory.metafactory(java.lang.invoke.MethodHandles$Lookup, java.lang.String, java.lang.invoke.MethodType, java.lang.invoke.MethodType, java.lang.invoke.MethodHandle, java.lang.invoke.MethodType)
+                            40 : Class_info java.lang.invoke.LambdaMetafactory
+                                42 : UTF8_info "java/lang/invoke/LambdaMetafactory"
+                            41 : NameAndType_info
+                                43 : UTF8_info "metafactory"
+                                44 : UTF8_info "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;"
+                    argument 0
+                        32 : MethodType_info (java.lang.Object) -&gt; void
+                            33 : UTF8_info "(Ljava/lang/Object;)V"
+                    argument 1
+                        34 : MethodHandle%5Finfo REF%5FinvokeStatic(6) Test.lambda$someMethod$0(java.lang.String)
+                            35 : MethodRef_info *Test.lambda$someMethod$0(java.lang.String)*
+                                23 : Class_info Test
+                                    24 : UTF8_info "Test"
+                                36 : NameAndType_info
+                                    28 : UTF8_info "lambda$someMethod$0"
+                                    22 : UTF8_info "(Ljava/lang/String;)V"
+                    argument 2
+                        37 : MethodType_info (java.lang.String) -&gt; void
+                            22 : UTF8_info "(Ljava/lang/String;)V"
+
+</div>
+
+The highlighting is just to help guide the reader in this example.  It is not
+part of the output from =ListDynamicInstructions=.
+
+</blockquote>
+
+---+++ Class
+
+<blockquote>
+
+=com.jeantessier.dependencyfinder.cli.ListDynamicInstructions=
+
+</blockquote>
+
+----
+
 ---++ ListInheritanceDiffToText
 
 <blockquote>
@@ -10456,7 +10685,7 @@ files, and =.class= files.
 List of fully qualified class name and method and field signatures, one per
 line, for all the classes the tool could find.  For parameter names and local
 variable names, the fully qualified name of the owning method is given first,
-followed by a colon, then a space, then the parameter or varialble's name, in
+followed by a colon, then a space, then the parameter or variable's name, in
 alphabetical order.
 
 </blockquote>
