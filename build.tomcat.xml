@@ -20,7 +20,7 @@
     <target name="init">
         <property name="main.project.name" value="DependencyFinder"/>
 
-        <property name="release" value="1.3.1"/>
+        <property name="release" value="1.3.2"/>
 
         <property name="distDir" value="dist"/>
 
