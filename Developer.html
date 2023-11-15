@@ -25,7 +25,7 @@
 <h1>The Dependency Finder Developer Guide</h1>
 
 <p>
-For Dependency Finder version 1.3.0.
+For Dependency Finder version 1.3.1.
 </p>
 
 <p>
@@ -1534,22 +1534,25 @@ branch of the repository that has been tagged appropriately.
 </p>
 
 <ol>
-<li><code>git tag -m "Tagging the 1.3.0 release of Dependency Finder" 1.3.0</code></li>
+<li><code>git tag -m "Tagging the 1.3.1 release of Dependency Finder" 1.3.1</code></li>
 <li><code>git push --tags</code></li>
 <li><code>cd /tmp</code></li>
 <li><code>git clone --local /original/path/to/git/project</code></li>
-<li><code>cd /tmp/depfind/DependencyFinder</code></li>
+<li><code>cd /tmp/DependencyFinder</code></li>
+<li>Select Java 17.</li>
 <li><code>ant dist</code></li>
-<li>Go to <a href="http://sourceforge.net/projects/depfind/">SourceForge project page</a>, click "Develop" &gt;&gt; "Project Admin" &gt;&gt; "File Manager".</li>
+<li>Go to <a href="https://sourceforge.net/projects/depfind/">SourceForge project page</a>, click "Files" &gt;&gt; "DependencyFinder".</li>
 <li>Create a new folder, upload all files from <code>dist/</code> to the new folder.</li>
-<li>Make <code>DependencyFinder-1.3.0.bin.zip</code> the default download for Windows.</li>
-<li>Make <code>DependencyFinder-1.3.0.bin.tar.gz</code> the default download for all others.</li>
-<li>Notify monitoring people</li>
-<li>Close bugs</li>
-<li>Close feature requests</li>
-<li>New news item</li>
-<li>Post to depfind-announce</li>
-<li>Post to news groups (<code>comp.lang.java.announce</code>, <code>comp.lang.java.softwaretools</code>, <code>comp.software.measurement</code>, <code>comp.software-eng</code>)</li>
+<li>Make <code>DependencyFinder-1.3.1.bin.zip</code> the default download for Windows.</li>
+<li>Make <code>DependencyFinder-1.3.1.bin.tar.gz</code> the default download for all others.</li>
+<li>Go to <a href="https://github.com/jeantessier/dependency-finder">GitHub project page</a>, click "Releases" &gt;&gt; "Draft a new release".</li>
+<li>Choose tag 1.3.1, put "1.3.1" as the release title, write a short description.</li>
+<li>Attach all the files from <code>dist/</code>.</li>
+<li>Click "Publish release".</li>
+<li><code>docker build . --build-arg version</code>1.3.1 --tag jeantessier/dependency-finder-tomcat:1.3.1 --tag jeantessier/dependency-finder-tomcat:latest=</li>
+<li><code>docker push jeantessier/dependency-finder-tomcat:1.3.1</code></li>
+<li><code>docker push jeantessier/dependency-finder-tomcat:latest</code></li>
+<li>Close issues</li>
 <li>Generate sample files</li>
 </ol>
 
