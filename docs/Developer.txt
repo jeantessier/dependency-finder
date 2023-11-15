@@ -1116,18 +1116,21 @@ branch of the repository that has been tagged appropriately.
     1 =git push --tags=
     1 =cd /tmp=
     1 =git clone --local /original/path/to/git/project=
-    1 =cd /tmp/depfind/DependencyFinder=
+    1 =cd /tmp/DependencyFinder=
+    1 Select Java 17.
     1 =ant dist=
-    1 Go to [[http://sourceforge.net/projects/depfind/][SourceForge project page]], click "Develop" &gt;&gt; "Project Admin" &gt;&gt; "File Manager".
+    1 Go to [[https://sourceforge.net/projects/depfind/][SourceForge project page]], click "Files" &gt;&gt; "DependencyFinder".
     1 Create a new folder, upload all files from =dist/= to the new folder.
     1 Make =DependencyFinder-<VERSION />.bin.zip= the default download for Windows.
     1 Make =DependencyFinder-<VERSION />.bin.tar.gz= the default download for all others.
-    1 Notify monitoring people
-    1 Close bugs
-    1 Close feature requests
-    1 New news item
-    1 Post to depfind-announce
-    1 Post to news groups (=comp.lang.java.announce=, =comp.lang.java.softwaretools=, =comp.software.measurement=, =comp.software-eng=)
+    1 Go to [[https://github.com/jeantessier/dependency-finder][GitHub project page]], click "Releases" &gt;&gt; "Draft a new release".
+    1 Choose tag <VERSION />, put "<VERSION />" as the release title, write a short description.
+    1 Attach all the files from =dist/=.
+    1 Click "Publish release".
+    1 =docker build . --build-arg version=<VERSION /> --tag jeantessier/dependency-finder-tomcat:<VERSION /> --tag jeantessier/dependency-finder-tomcat:latest=
+    1 =docker push jeantessier/dependency-finder-tomcat:<VERSION />=
+    1 =docker push jeantessier/dependency-finder-tomcat:latest=
+    1 Close issues
     1 Generate sample files
 
 ---+++ Computing Code Coverage
