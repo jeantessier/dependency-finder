@@ -35,8 +35,8 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public interface CyclePrinter {
-    public void visitCycles(Collection<Cycle> cycles);
-    public void visitCycle(Cycle cycle);
+    void visitCycles(Collection<Cycle> cycles);
+    void visitCycle(Cycle cycle);
 
-    public void setIndentText(String indentText);
+    void setIndentText(String indentText);
 }

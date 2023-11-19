@@ -33,18 +33,18 @@
 package com.jeantessier.metrics;
 
 public interface Measurement {
-    public MeasurementDescriptor getDescriptor();
-    public Metrics getContext();
+    MeasurementDescriptor getDescriptor();
+    Metrics getContext();
     
-    public String getShortName();
-    public String getLongName();
+    String getShortName();
+    String getLongName();
 
-    public Number getValue();
+    Number getValue();
 
-    public boolean isEmpty();
-    public boolean isInRange();
+    boolean isEmpty();
+    boolean isInRange();
 
-    public void add(Object object);
+    void add(Object object);
 
-    public void accept(MeasurementVisitor visitor);
+    void accept(MeasurementVisitor visitor);
 }

@@ -38,6 +38,6 @@ package com.jeantessier.diff;
  *  @see Visitor
  */
 public interface Differences {
-    public String getName();
-    public void   accept(Visitor visitor);
+    String getName();
+    void accept(Visitor visitor);
 }

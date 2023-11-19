@@ -62,8 +62,6 @@ public class SubMetricsAccumulatorMeasurement extends AccumulatorMeasurement {
     }
 
     protected void populateValues() {
-        for (Metrics metrics : getContext().getSubMetrics()) {
-            filterMetrics(metrics);
-        }
+        getContext().getSubMetrics().forEach(this::filterMetrics);
     }
 }

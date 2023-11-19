@@ -35,5 +35,5 @@ package com.jeantessier.metrics;
 import java.util.*;
 
 public interface CollectionMeasurement extends Measurement{
-    public Collection<String> getValues();
+    Collection<String> getValues();
 }

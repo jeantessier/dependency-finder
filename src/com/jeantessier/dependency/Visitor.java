@@ -35,19 +35,19 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public interface Visitor {
-    public void traverseNodes(Collection<? extends Node> nodes);
-    public void traverseInbound(Collection<? extends Node> nodes);
-    public void traverseOutbound(Collection<? extends Node> nodes);
+    void traverseNodes(Collection<? extends Node> nodes);
+    void traverseInbound(Collection<? extends Node> nodes);
+    void traverseOutbound(Collection<? extends Node> nodes);
 
-    public void visitPackageNode(PackageNode node);
-    public void visitInboundPackageNode(PackageNode node);
-    public void visitOutboundPackageNode(PackageNode node);
+    void visitPackageNode(PackageNode node);
+    void visitInboundPackageNode(PackageNode node);
+    void visitOutboundPackageNode(PackageNode node);
 
-    public void visitClassNode(ClassNode node);
-    public void visitInboundClassNode(ClassNode node);
-    public void visitOutboundClassNode(ClassNode node);
+    void visitClassNode(ClassNode node);
+    void visitInboundClassNode(ClassNode node);
+    void visitOutboundClassNode(ClassNode node);
 
-    public void visitFeatureNode(FeatureNode node);
-    public void visitInboundFeatureNode(FeatureNode node);
-    public void visitOutboundFeatureNode(FeatureNode node);
+    void visitFeatureNode(FeatureNode node);
+    void visitInboundFeatureNode(FeatureNode node);
+    void visitOutboundFeatureNode(FeatureNode node);
 }

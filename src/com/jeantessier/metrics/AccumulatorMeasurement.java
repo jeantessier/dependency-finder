@@ -72,30 +72,21 @@ public abstract class AccumulatorMeasurement extends MeasurementBase implements 
         super(descriptor, context, initText);
 
         if (initText != null) {
-            try {
-                BufferedReader in   = new BufferedReader(new StringReader(initText));
-                String         line;
-                
+            try (var in = new BufferedReader(new StringReader(initText))) {
+                String line;
                 while ((line = in.readLine()) != null) {
                     synchronized (perl()) {
                         if (perl().match("/^\\s*(\\S+)\\s*(.*)/", line)) {
                             String name = perl().group(1);
                             String re   = perl().group(2);
 
-                            Collection<String> res = terms.get(name);
-                            if (res == null) {
-                                res = new ArrayList<>();
-                                terms.put(name, res);
-                            }
-
-                            if (re != null && re.length() > 0) {
+                            var res = terms.computeIfAbsent(name, k -> new ArrayList<>());
+                            if (re != null && !re.isEmpty()) {
                                 res.add(re);
                             }
                         }
                     }
                 }
-                
-                in.close();
             } catch (Exception ex) {
                 Logger.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\"", ex);
                 terms.clear();
@@ -109,13 +100,10 @@ public abstract class AccumulatorMeasurement extends MeasurementBase implements 
         Logger.getLogger(getClass()).debug("Initialize with\n" + initText);
         Logger.getLogger(getClass()).debug("Terms:");
 
-        for (Map.Entry<String, Collection<String>> entry : terms.entrySet()) {
-            Logger.getLogger(getClass()).debug("\t" + entry.getKey());
-
-            for (String s : entry.getValue()) {
-                Logger.getLogger(getClass()).debug("\t\t" + s);
-            }
-        }
+        terms.forEach((key, values) -> {
+            Logger.getLogger(getClass()).debug("\t" + key);
+            values.forEach(s -> Logger.getLogger(getClass()).debug("\t\t" + s));
+        });
     }
 
     public Number getValue() {
@@ -145,24 +133,19 @@ public abstract class AccumulatorMeasurement extends MeasurementBase implements 
     protected abstract void populateValues();
 
     protected void filterMetrics(Metrics metrics) {
-        for (Map.Entry<String, Collection<String>> entry : terms.entrySet()) {
-            String name = entry.getKey();
-            Collection<String> res = entry.getValue();
-
-            Measurement measurement = metrics.getMeasurement(name);
-            if (measurement instanceof CollectionMeasurement) {
-                filterMeasurement((CollectionMeasurement) measurement, res);
+        terms.forEach((name, res) -> {
+            var measurement = metrics.getMeasurement(name);
+            if (measurement instanceof CollectionMeasurement collectionMeasurement) {
+                filterMeasurement(collectionMeasurement, res);
             }
-        }
+        });
     }
     
     private void filterMeasurement(CollectionMeasurement measurement, Collection<String> res) {
         if (res.isEmpty()) {
             values.addAll(measurement.getValues());
         } else {
-            for (String member : measurement.getValues()) {
-                filterElement(member, res);
-            }
+            measurement.getValues().forEach(member -> filterElement(member, res));
         }
     }
     

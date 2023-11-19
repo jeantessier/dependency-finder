@@ -33,15 +33,15 @@
 package com.jeantessier.dependency;
 
 public interface SelectionCriteria {
-    public boolean isMatchingPackages();
-    public boolean isMatchingClasses();
-    public boolean isMatchingFeatures();
+    boolean isMatchingPackages();
+    boolean isMatchingClasses();
+    boolean isMatchingFeatures();
 
-    public boolean matches(PackageNode node);
-    public boolean matches(ClassNode node);
-    public boolean matches(FeatureNode node);
+    boolean matches(PackageNode node);
+    boolean matches(ClassNode node);
+    boolean matches(FeatureNode node);
 
-    public boolean matchesPackageName(String name);
-    public boolean matchesClassName(String name);
-    public boolean matchesFeatureName(String name);
+    boolean matchesPackageName(String name);
+    boolean matchesClassName(String name);
+    boolean matchesFeatureName(String name);
 }

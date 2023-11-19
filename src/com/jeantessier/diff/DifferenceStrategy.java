@@ -40,11 +40,11 @@ import com.jeantessier.classreader.*;
  * TODO class comment
  */
 public interface DifferenceStrategy {
-    public boolean isPackageDifferent(Map<String, Classfile> oldPackage, Map<String, Classfile> newPackage);
-    public boolean isClassDifferent(Classfile oldClass, Classfile newClass);
-    public boolean isDeclarationModified(Classfile oldClass, Classfile newClass);
-    public boolean isFieldDifferent(Field_info oldField, Field_info newField);
-    public boolean isConstantValueDifferent(ConstantValue_attribute oldValue, ConstantValue_attribute newValue);
-    public boolean isMethodDifferent(Method_info oldMethod, Method_info newMethod);
-    public boolean isCodeDifferent(Code_attribute oldCode, Code_attribute newCode);
+    boolean isPackageDifferent(Map<String, Classfile> oldPackage, Map<String, Classfile> newPackage);
+    boolean isClassDifferent(Classfile oldClass, Classfile newClass);
+    boolean isDeclarationModified(Classfile oldClass, Classfile newClass);
+    boolean isFieldDifferent(Field_info oldField, Field_info newField);
+    boolean isConstantValueDifferent(ConstantValue_attribute oldValue, ConstantValue_attribute newValue);
+    boolean isMethodDifferent(Method_info oldMethod, Method_info newMethod);
+    boolean isCodeDifferent(Code_attribute oldCode, Code_attribute newCode);
 }

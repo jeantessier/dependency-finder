@@ -35,22 +35,22 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public interface TraversalStrategy {
-    public boolean doPreOutboundTraversal();
-    public void setPreOutboundTraversal(boolean preOutboundTraversal);
-    public boolean doPreInboundTraversal();
-    public void setPreInboundTraversal(boolean preInboundTraversal);
-    public boolean doPostOutboundTraversal();
-    public void setPostOutboundTraversal(boolean postOutboundTraversal);
-    public boolean doPostInboundTraversal();
-    public void setPostInboundTraversal(boolean postInboundTraversal);
+    boolean doPreOutboundTraversal();
+    void setPreOutboundTraversal(boolean preOutboundTraversal);
+    boolean doPreInboundTraversal();
+    void setPreInboundTraversal(boolean preInboundTraversal);
+    boolean doPostOutboundTraversal();
+    void setPostOutboundTraversal(boolean postOutboundTraversal);
+    boolean doPostInboundTraversal();
+    void setPostInboundTraversal(boolean postInboundTraversal);
 
-    public boolean isInScope(PackageNode node);
-    public boolean isInScope(ClassNode node);
-    public boolean isInScope(FeatureNode node);
+    boolean isInScope(PackageNode node);
+    boolean isInScope(ClassNode node);
+    boolean isInScope(FeatureNode node);
     
-    public boolean isInFilter(PackageNode node);
-    public boolean isInFilter(ClassNode node);
-    public boolean isInFilter(FeatureNode node);
+    boolean isInFilter(PackageNode node);
+    boolean isInFilter(ClassNode node);
+    boolean isInFilter(FeatureNode node);
 
-    public <T extends Node> Collection<T> order(Collection<T> collection);
+    <T extends Node> Collection<T> order(Collection<T> collection);
 }
