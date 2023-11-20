@@ -217,14 +217,14 @@ public class TextPrinter extends Printer {
     }
     
     protected void printDependencies(Node node, Map<Node, Integer> dependencies) {
-        for (Map.Entry<Node, Integer> entry : dependencies.entrySet()) {
-            if (entry.getValue() < 0) {
-                indent().append("<-- ").printDependencyNodeName(entry.getKey()).eol();
-            } else if (entry.getValue() > 0) {
-                indent().append("--> ").printDependencyNodeName(entry.getKey()).eol();
+        dependencies.forEach((dependency, value) -> {
+            if (value < 0) {
+                indent().append("<-- ").printDependencyNodeName(dependency).eol();
+            } else if (value > 0) {
+                indent().append("--> ").printDependencyNodeName(dependency).eol();
             } else {
-                indent().append("<-> ").printDependencyNodeName(entry.getKey()).eol();
+                indent().append("<-> ").printDependencyNodeName(dependency).eol();
             }
-        }
+        });
     }
 }
