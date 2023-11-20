@@ -33,17 +33,16 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
-import org.jmock.imposters.ByteBuddyClassImposteriser;
-import org.jmock.integration.junit4.JUnitRuleMockery;
+import org.jmock.imposters.*;
+import org.jmock.integration.junit4.*;
 import org.junit.*;
 import org.junit.runner.*;
-import org.junit.runners.Parameterized;
+import org.junit.runners.*;
 
 import java.io.*;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.*;
 import static org.junit.runners.Parameterized.*;
-import static org.junit.runners.Parameterized.Parameter;
 
 @RunWith(Parameterized.class)
 public class TestBootstrapMethodWithOneArgument {

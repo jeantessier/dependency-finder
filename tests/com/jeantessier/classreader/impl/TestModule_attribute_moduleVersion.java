@@ -33,18 +33,17 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.Visitable;
-import org.jmock.Expectations;
-import org.jmock.imposters.ByteBuddyClassImposteriser;
-import org.jmock.integration.junit4.JUnitRuleMockery;
+import org.jmock.*;
+import org.jmock.imposters.*;
+import org.jmock.integration.junit4.*;
 import org.junit.*;
 import org.junit.runner.*;
-import org.junit.runners.Parameterized;
+import org.junit.runners.*;
 
 import java.io.*;
 
-import static junit.framework.Assert.assertEquals;
-import static org.junit.runners.Parameterized.Parameter;
-import static org.junit.runners.Parameterized.Parameters;
+import static org.junit.Assert.*;
+import static org.junit.runners.Parameterized.*;
 
 @RunWith(Parameterized.class)
 public class TestModule_attribute_moduleVersion {
