@@ -50,17 +50,9 @@ public class ClosureStopSelector implements Visitor {
     public void traverseNodes(Collection<? extends Node> nodes) {
         if (nodes.isEmpty()) {
             done = true;
-        } else {
-            nodes.forEach(node -> node.accept(this));
         }
-    }
 
-    public void traverseInbound(Collection<? extends Node> nodes) {
-        throw new UnsupportedOperationException("not implemented yet.");
-    }
-
-    public void traverseOutbound(Collection<? extends Node> nodes) {
-        throw new UnsupportedOperationException("not implemented yet.");
+        Visitor.super.traverseNodes(nodes);
     }
 
     public void visitPackageNode(PackageNode node) {
@@ -68,40 +60,16 @@ public class ClosureStopSelector implements Visitor {
             done = true;
         }
     }
-    
-    public void visitInboundPackageNode(PackageNode node) {
-        // Do nothing
-    }
-    
-    public void visitOutboundPackageNode(PackageNode node) {
-        // Do nothing
-    }
 
     public void visitClassNode(ClassNode node) {
         if (criteria.matches(node)) {
             done = true;
         }
     }
-    
-    public void visitInboundClassNode(ClassNode node) {
-        // Do nothing
-    }
-    
-    public void visitOutboundClassNode(ClassNode node) {
-        // Do nothing
-    }
 
     public void visitFeatureNode(FeatureNode node) {
         if (criteria.matches(node)) {
             done = true;
         }
-    }
-    
-    public void visitInboundFeatureNode(FeatureNode node) {
-        // Do nothing
-    }
-    
-    public void visitOutboundFeatureNode(FeatureNode node) {
-        // Do nothing
     }
 }

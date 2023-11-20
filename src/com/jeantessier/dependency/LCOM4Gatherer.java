@@ -62,14 +62,6 @@ public class LCOM4Gatherer implements Visitor {
         traverseNodes(node.getClasses());
     }
 
-    public void visitInboundPackageNode(PackageNode node) {
-        // Do nothing
-    }
-
-    public void visitOutboundPackageNode(PackageNode node) {
-        // Do nothing
-    }
-
     public void visitClassNode(ClassNode node) {
         currentClass = node;
 
@@ -82,14 +74,6 @@ public class LCOM4Gatherer implements Visitor {
         }
     }
 
-    public void visitInboundClassNode(ClassNode node) {
-        // Do nothing
-    }
-
-    public void visitOutboundClassNode(ClassNode node) {
-        // Do nothing
-    }
-
     public void visitFeatureNode(FeatureNode node) {
         currentComponent = new HashSet<>();
         currentComponents.add(currentComponent);
@@ -97,14 +81,6 @@ public class LCOM4Gatherer implements Visitor {
 
         traverseInbound(node.getInboundDependencies());
         traverseOutbound(node.getOutboundDependencies());
-    }
-
-    public void traverseInbound(Collection<? extends Node> inboundDependencies) {
-        inboundDependencies.forEach(inboundDependency -> inboundDependency.acceptInbound(this));
-    }
-
-    public void traverseOutbound(Collection<? extends Node> outboundDependencies) {
-        outboundDependencies.forEach(outboundDependency -> outboundDependency.acceptOutbound(this));
     }
 
     public void visitInboundFeatureNode(FeatureNode node) {

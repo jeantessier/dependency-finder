@@ -49,27 +49,14 @@ public class DeletingVisitor implements Visitor, RemoveVisitor {
         return factory;
     }
     
-    public void traverseNodes(Collection<? extends Node> nodes) {
-        throw new UnsupportedOperationException("not implemented yet.");
-    }
-
-    public void traverseInbound(Collection<? extends Node> nodes) {
-        throw new UnsupportedOperationException("not implemented yet.");
-    }
-
-    public void traverseOutbound(Collection<? extends Node> nodes) {
-        throw new UnsupportedOperationException("not implemented yet.");
-    }
-/*
+    /*
      *  Regular visits are used to completely delete sections
      */
     
     public void visitPackageNode(PackageNode node) {
         Logger.getLogger(getClass()).debug("visitPackageNode(" + node + ")");
 
-        for (ClassNode classNode : new ArrayList<>(node.getClasses())) {
-            classNode.accept(this);
-        }
+        new ArrayList<>(node.getClasses()).forEach(classNode -> classNode.accept(this));
 
         visitNode(node);
     }
@@ -77,9 +64,7 @@ public class DeletingVisitor implements Visitor, RemoveVisitor {
     public void visitClassNode(ClassNode node) {
         Logger.getLogger(getClass()).debug("visitClassNode(" + node + ")");
 
-        for (FeatureNode featureNode : new ArrayList<>(node.getFeatures())) {
-            featureNode.accept(this);
-        }
+        new ArrayList<>(node.getFeatures()).forEach(featureNode -> featureNode.accept(this));
 
         visitNode(node);
     }
@@ -93,11 +78,11 @@ public class DeletingVisitor implements Visitor, RemoveVisitor {
     private void visitNode(Node node) {
         node.setConfirmed(false);
 
-        for (Node outbound : new ArrayList<>(node.getOutboundDependencies())) {
+        new ArrayList<>(node.getOutboundDependencies()).forEach(outbound -> {
             node.removeDependency(outbound);
             outbound.acceptOutbound(this);
-        }
-        
+        });
+
         node.acceptOutbound(this);
     }
 
@@ -147,22 +132,6 @@ public class DeletingVisitor implements Visitor, RemoveVisitor {
 
     private boolean canDeleteFeature(FeatureNode node) {
         return canDelete(node);
-    }
-
-    /*
-     *  Inbound visits are not used
-     */
-    
-    public void visitInboundPackageNode(PackageNode node) {
-        // Do nothing
-    }
-    
-    public void visitInboundClassNode(ClassNode node) {
-        // Do nothing
-    }
-    
-    public void visitInboundFeatureNode(FeatureNode node) {
-        // Do nothing
     }
 
     /*

@@ -32,14 +32,11 @@
 
 package com.jeantessier.dependency;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class MetricsGatherer extends VisitorBase {
     private final Collection<PackageNode> packages = new LinkedList<>();
-    private final Collection<ClassNode> classes  = new LinkedList<>();
+    private final Collection<ClassNode> classes = new LinkedList<>();
     private final Collection<FeatureNode> features = new LinkedList<>();
 
     private long nbOutbound = 0;

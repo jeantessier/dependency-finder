@@ -35,19 +35,45 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public interface Visitor {
-    void traverseNodes(Collection<? extends Node> nodes);
-    void traverseInbound(Collection<? extends Node> nodes);
-    void traverseOutbound(Collection<? extends Node> nodes);
+    default void traverseNodes(Collection<? extends Node> nodes) {
+        nodes.forEach(node -> node.accept(this));
+    }
+
+    default void traverseInbound(Collection<? extends Node> nodes) {
+        nodes.forEach(node -> node.acceptInbound(this));
+    }
+
+    default void traverseOutbound(Collection<? extends Node> nodes) {
+        nodes.forEach(node -> node.acceptOutbound(this));
+    }
 
     void visitPackageNode(PackageNode node);
-    void visitInboundPackageNode(PackageNode node);
-    void visitOutboundPackageNode(PackageNode node);
+
+    default void visitInboundPackageNode(PackageNode node) {
+        // Do nothing
+    }
+
+    default void visitOutboundPackageNode(PackageNode node) {
+        // Do nothing
+    }
 
     void visitClassNode(ClassNode node);
-    void visitInboundClassNode(ClassNode node);
-    void visitOutboundClassNode(ClassNode node);
+
+    default void visitInboundClassNode(ClassNode node) {
+        // Do nothing
+    }
+
+    default void visitOutboundClassNode(ClassNode node) {
+        // Do nothing
+    }
 
     void visitFeatureNode(FeatureNode node);
-    void visitInboundFeatureNode(FeatureNode node);
-    void visitOutboundFeatureNode(FeatureNode node);
+
+    default void visitInboundFeatureNode(FeatureNode node) {
+        // Do nothing
+    }
+
+    default void visitOutboundFeatureNode(FeatureNode node) {
+        // Do nothing
+    }
 }

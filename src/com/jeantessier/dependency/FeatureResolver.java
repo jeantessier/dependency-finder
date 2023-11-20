@@ -32,59 +32,18 @@
 
 package com.jeantessier.dependency;
 
-import java.util.*;
-
 public class FeatureResolver implements Visitor {
-    public void traverseNodes(Collection<? extends Node> nodes) {
-        nodes.forEach(node -> node.accept(this));
-    }
-
-    public void traverseInbound(Collection<? extends Node> nodes) {
-        throw new UnsupportedOperationException("not implemented yet.");
-    }
-
-    public void traverseOutbound(Collection<? extends Node> nodes) {
-        throw new UnsupportedOperationException("not implemented yet.");
-    }
-
     public void visitPackageNode(PackageNode node) {
         traverseNodes(node.getClasses());
-    }
-
-    public void visitInboundPackageNode(PackageNode node) {
-        // Do nothing
-    }
-
-    public void visitOutboundPackageNode(PackageNode node) {
-        // Do nothing
     }
 
     public void visitClassNode(ClassNode node) {
         traverseNodes(node.getFeatures());
     }
 
-    public void visitInboundClassNode(ClassNode node) {
-        // Do nothing
-    }
-
-    public void visitOutboundClassNode(ClassNode node) {
-        // Do nothing
-    }
-
     public void visitFeatureNode(FeatureNode node) {
-        String featureName = node.getSimpleName();
-        for (FeatureNode inheritedFeature : node.getClassNode().getInheritedFeatures(featureName)) {
-            for (Node dependent : node.getInboundDependencies()) {
-                dependent.addDependency(inheritedFeature);
-            }
-        }
-    }
-
-    public void visitInboundFeatureNode(FeatureNode node) {
-        // Do nothing
-    }
-
-    public void visitOutboundFeatureNode(FeatureNode node) {
-        // Do nothing
+        node.getClassNode().getInheritedFeatures(node.getSimpleName()).forEach(inheritedFeature ->
+                node.getInboundDependencies().forEach(dependent ->
+                        dependent.addDependency(inheritedFeature)));
     }
 }

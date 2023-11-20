@@ -45,6 +45,7 @@ public class CycleDetector extends VisitorBase {
     private int maximumCycleLength = Integer.MAX_VALUE;
 
     public CycleDetector() {
+        super();
     }
 
     public CycleDetector(SelectionCriteria criteria) {

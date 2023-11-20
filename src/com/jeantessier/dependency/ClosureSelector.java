@@ -69,16 +69,4 @@ public abstract class ClosureSelector implements Visitor {
     public Collection<Node> getCopiedNodes() {
         return copiedNodes;
     }
-    
-    public void traverseNodes(Collection<? extends Node> nodes) {
-        nodes.forEach(node -> node.accept(this));
-    }
-
-    public void traverseInbound(Collection<? extends Node> nodes) {
-        nodes.forEach(node -> node.acceptInbound(this));
-    }
-
-    public void traverseOutbound(Collection<? extends Node> nodes) {
-        nodes.forEach(node -> node.acceptOutbound(this));
-    }
 }

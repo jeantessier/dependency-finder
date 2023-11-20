@@ -39,7 +39,6 @@ import static org.junit.runners.Suite.*;
 @RunWith(Suite.class)
 @SuiteClasses({
         TestAndCompositeSelectionCriteria.class,
-        TestBasicTraversal.class,
         TestClassNode.class,
         TestClosureInboundSelector.class,
         TestClosureOutboundSelector.class,
@@ -77,13 +76,11 @@ import static org.junit.runners.Suite.*;
         TestNodeFactory.class,
         TestNodeHandler.class,
         TestNodeLoader.class,
-        TestNodeNamePrinter.class,
         TestNullSelectionCriteria.class,
         TestOrCompositeSelectionCriteria.class,
         TestPackageNode.class,
         TestRegularExpressionSelectionCriteria.class,
         TestSelectiveTraversalStrategy.class,
-        TestSelectiveVisitor.class,
         TestTextCyclePrinter.class,
         TestTextPrinter.class,
         TestTransitiveClosure.class,
@@ -91,7 +88,6 @@ import static org.junit.runners.Suite.*;
         TestTransitiveClosureNonMaximized.class,
         TestTransitiveClosureSlice.class,
         TestTransitiveClosureWithTestClass.class,
-        TestVisitorDecorator.class,
         TestXMLCyclePrinter.class,
         TestXMLPrinter.class,
 })

@@ -95,13 +95,7 @@ public class TextPrinter extends Printer {
     public void visitInboundPackageNode(PackageNode node) {
         if (isShowInbounds()) {
             Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
-        
-            Integer i = dependencies.get(node);
-            if (i != null) {
-                dependencies.put(node, i - 1);
-            } else {
-                dependencies.put(node, -1);
-            }
+            dependencies.merge(node, -1, Integer::sum);
         } else {
             Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
         }
@@ -110,13 +104,7 @@ public class TextPrinter extends Printer {
     public void visitOutboundPackageNode(PackageNode node) {
         if (isShowOutbounds()) {
             Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
-        
-            Integer i = dependencies.get(node);
-            if (i != null) {
-                dependencies.put(node, i + 1);
-            } else {
-                dependencies.put(node, 1);
-            }
+            dependencies.merge(node, 1, Integer::sum);
         } else {
             Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" --> \"" + node + "\"");
         }
@@ -153,13 +141,7 @@ public class TextPrinter extends Printer {
     public void visitInboundClassNode(ClassNode node) {
         if (isShowInbounds()) {
             Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
-        
-            Integer i = dependencies.get(node);
-            if (i != null) {
-                dependencies.put(node, i - 1);
-            } else {
-                dependencies.put(node, -1);
-            }
+            dependencies.merge(node, -1, Integer::sum);
         } else {
             Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
         }
@@ -168,13 +150,7 @@ public class TextPrinter extends Printer {
     public void visitOutboundClassNode(ClassNode node) {
         if (isShowOutbounds()) {
             Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
-        
-            Integer i = dependencies.get(node);
-            if (i != null) {
-                dependencies.put(node, i + 1);
-            } else {
-                dependencies.put(node, 1);
-            }
+            dependencies.merge(node, 1, Integer::sum);
         } else {
             Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" --> \"" + node + "\"");
         }
@@ -215,13 +191,7 @@ public class TextPrinter extends Printer {
     public void visitInboundFeatureNode(FeatureNode node) {
         if (isShowInbounds()) {
             Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
-        
-            Integer i = dependencies.get(node);
-            if (i != null) {
-                dependencies.put(node, i - 1);
-            } else {
-                dependencies.put(node, -1);
-            }
+            dependencies.merge(node, -1, Integer::sum);
         } else {
             Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
         }
@@ -230,13 +200,7 @@ public class TextPrinter extends Printer {
     public void visitOutboundFeatureNode(FeatureNode node) {
         if (isShowOutbounds()) {
             Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
-        
-            Integer i = dependencies.get(node);
-            if (i != null) {
-                dependencies.put(node, i + 1);
-            } else {
-                dependencies.put(node, 1);
-            }
+            dependencies.merge(node, 1, Integer::sum);
         } else {
             Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" --> \"" + node + "\"");
         }

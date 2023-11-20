@@ -32,8 +32,8 @@
 
 package com.jeantessier.dependency;
 
-import java.io.PrintWriter;
-import java.util.Collection;
+import java.io.*;
+import java.util.*;
 
 public class XMLCyclePrinter implements CyclePrinter, Visitor {
     public static final String DEFAULT_ENCODING   = "utf-8";
@@ -76,52 +76,16 @@ public class XMLCyclePrinter implements CyclePrinter, Visitor {
         out.append(indentText).append("</cycle>").println();
     }
 
-    public void traverseNodes(Collection<? extends Node> nodes) {
-        nodes.forEach(node -> node.accept(this));
-    }
-
-    public void traverseInbound(Collection<? extends Node> nodes) {
-        throw new UnsupportedOperationException("not implemented yet.");
-    }
-
-    public void traverseOutbound(Collection<? extends Node> nodes) {
-        throw new UnsupportedOperationException("not implemented yet.");
-    }
-
     public void visitPackageNode(PackageNode node) {
         visitNode(node, "package");
-    }
-
-    public void visitInboundPackageNode(PackageNode node) {
-        // Do nothing
-    }
-
-    public void visitOutboundPackageNode(PackageNode node) {
-        // Do nothing
     }
 
     public void visitClassNode(ClassNode node) {
         visitNode(node, "class");
     }
 
-    public void visitInboundClassNode(ClassNode node) {
-        // Do nothing
-    }
-
-    public void visitOutboundClassNode(ClassNode node) {
-        // Do nothing
-    }
-
     public void visitFeatureNode(FeatureNode node) {
         visitNode(node, "feature");
-    }
-
-    public void visitInboundFeatureNode(FeatureNode node) {
-        // Do nothing
-    }
-
-    public void visitOutboundFeatureNode(FeatureNode node) {
-        // Do nothing
     }
 
     private void visitNode(Node node, String type) {

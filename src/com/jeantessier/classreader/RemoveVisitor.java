@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface RemoveVisitor {
-    public void removeClass(String classname);
+    void removeClass(String classname);
 }

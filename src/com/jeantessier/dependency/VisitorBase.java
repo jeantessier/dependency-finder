@@ -64,19 +64,15 @@ public abstract class VisitorBase implements Visitor {
     }
 
     public void traverseNodes(Collection<? extends Node> nodes) {
-        if (Logger.getLogger(getClass()).isDebugEnabled()) {
-            Logger.getLogger(getClass()).debug("nodes = " + nodes);
-        }
-
-        getStrategy().order(nodes).forEach(node -> node.accept(this));
+        Visitor.super.traverseNodes(getStrategy().order(nodes));
     }
 
     public void traverseInbound(Collection<? extends Node> nodes) {
-        getStrategy().order(nodes).forEach(node -> node.acceptInbound(this));
+        Visitor.super.traverseInbound(getStrategy().order(nodes));
     }
 
     public void traverseOutbound(Collection<? extends Node> nodes) {
-        getStrategy().order(nodes).forEach(node -> node.acceptOutbound(this));
+        Visitor.super.traverseOutbound(getStrategy().order(nodes));
     }
 
     protected Node getCurrentNode() {
@@ -166,14 +162,6 @@ public abstract class VisitorBase implements Visitor {
             popNode();
         }
     }
-    
-    public void visitInboundPackageNode(PackageNode node) {
-        // Do nothing
-    }
-
-    public void visitOutboundPackageNode(PackageNode node) {
-        // Do nothing
-    }
 
     public void visitClassNode(ClassNode node) {
         boolean inScope = isInScope(node);
@@ -231,14 +219,6 @@ public abstract class VisitorBase implements Visitor {
         }
     }
 
-    public void visitInboundClassNode(ClassNode node) {
-        // Do nothing
-    }
-
-    public void visitOutboundClassNode(ClassNode node) {
-        // Do nothing
-    }
-
     public void visitFeatureNode(FeatureNode node) {
         if (isInScope(node)) {
             preprocessFeatureNode(node);
@@ -275,13 +255,5 @@ public abstract class VisitorBase implements Visitor {
         if (node.equals(getCurrentNode())) {
             popNode();
         }
-    }
-
-    public void visitInboundFeatureNode(FeatureNode node) {
-        // Do nothing
-    }
-
-    public void visitOutboundFeatureNode(FeatureNode node) {
-        // Do nothing
     }
 }
