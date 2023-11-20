@@ -1,0 +1,15 @@
+I'm finally getting rid of explicit =public= qualifiers in interfaces.  The
+Java 21 language specification says it is discouraged.
+
+I moved some default implementations to =default= methods in interfaces instead
+of abstract base classes in the =dependency=, =diff=, and =metrics= packages.
+I also converted more =for()= loops to the Streams API, and even wrote a custom
+=Spliterator= for use in =DescriptorHelper=.
+
+I realized that after I started processig =StackMapTable_attribute= for
+dependencies, I inadvertently introduced dependencies on arrays of primitive
+types.  A stack frame might reference a local =byte[]= with the descriptor
+"=[B=" and reference it via a =Class_info= in the constant pool.  The
+=CodeDependencyCollector= would mistakenly parse it as a type =B[]= and treat
+that as the name of a class.  I fixed it so it ignores them from now on, just
+like it ignores dependencies on primitives in general.
