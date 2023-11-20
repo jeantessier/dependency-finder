@@ -121,8 +121,8 @@ public class CodeDependencyCollector extends CollectorBase {
             Logger.getLogger(getClass()).debug("    name = \"" + classname + "\"");
         }
 
-        if (classname.startsWith("[")) {
-            processDescriptor(classname);
+        if (entry.getRawName().getValue().startsWith("[")) {
+            processDescriptor(entry.getRawName().getValue());
         } else {
             processClassName(classname);
         }

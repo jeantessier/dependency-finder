@@ -46,6 +46,7 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
     private static final String TEST_CLASS_NAME = "a.A";
     private static final String TEST_SUPERCLASS_NAME = "a.Parent";
     private static final String TEST_INTERFACE_NAME = "a.I";
+    private static final String TEST_RAW_EXCEPTION_NAME = "Ljava/lang/Exception;";
     private static final String TEST_EXCEPTION_NAME = "java.lang.Exception";
 
     private NodeFactory mockFactory;
@@ -68,11 +69,16 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
 
     public void testVisitClass_info_exceptions() {
         final Class_info mockException = mock(Class_info.class);
+        final UTF8_info mockRawName = mock(UTF8_info.class);
         final ClassNode mockExceptionNode = mock(ClassNode.class);
 
         checking(new Expectations() {{
             oneOf (mockException).getName();
                 will(returnValue(TEST_EXCEPTION_NAME));
+            oneOf (mockException).getRawName();
+                will(returnValue(mockRawName));
+            oneOf (mockRawName).getValue();
+                will(returnValue(TEST_RAW_EXCEPTION_NAME));
             oneOf (mockFactory).createClass(TEST_EXCEPTION_NAME);
                 will(returnValue(mockExceptionNode));
             oneOf (mockClassNode).addDependency(mockExceptionNode);
@@ -80,6 +86,25 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
 
         sut.setCurrent(mockClassNode);
         sut.visitClass_info(mockException);
+    }
+
+    public void testVisitClass_info_arrayOfPrimitives() {
+        final Class_info mockClass_info = mock(Class_info.class);
+        final UTF8_info mockUTF8_info = mock(UTF8_info.class);
+        final String rawName = "[B";
+        final String name = "B[]";
+
+        checking(new Expectations() {{
+            oneOf (mockClass_info).getName();
+                will(returnValue(name));
+            atLeast(1).of (mockClass_info).getRawName();
+                will(returnValue(mockUTF8_info));
+            atLeast(1).of (mockUTF8_info).getValue();
+                will(returnValue(rawName));
+        }});
+
+        sut.setCurrent(mockClassNode);
+        sut.visitClass_info(mockClass_info);
     }
 
     public void testVisitClassfile_withoutSuperclass() {
