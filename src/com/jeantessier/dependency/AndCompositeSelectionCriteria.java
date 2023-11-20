@@ -33,108 +33,14 @@
 package com.jeantessier.dependency;
 
 import java.util.*;
+import java.util.function.*;
 
 public class AndCompositeSelectionCriteria extends CompositeSelectionCriteria {
     public AndCompositeSelectionCriteria(Collection<? extends SelectionCriteria> subcriteria) {
         super(subcriteria);
     }
-    
-    public boolean isMatchingPackages() {
-        boolean result = true;
 
-        Iterator<? extends SelectionCriteria> i = getSubcriteria().iterator();
-        while (result && i.hasNext()) {
-            result = i.next().isMatchingPackages();
-        }
-        
-        return result;
-    }
-    
-    public boolean isMatchingClasses() {
-        boolean result = true;
-
-        Iterator<? extends SelectionCriteria> i = getSubcriteria().iterator();
-        while (result && i.hasNext()) {
-            result = i.next().isMatchingClasses();
-        }
-        
-        return result;
-    }
-    
-    public boolean isMatchingFeatures() {
-        boolean result = true;
-
-        Iterator<? extends SelectionCriteria> i = getSubcriteria().iterator();
-        while (result && i.hasNext()) {
-            result = i.next().isMatchingFeatures();
-        }
-        
-        return result;
-    }
-
-    public boolean matches(PackageNode node) {
-        boolean result = true;
-
-        Iterator<? extends SelectionCriteria> i = getSubcriteria().iterator();
-        while (result && i.hasNext()) {
-            result = i.next().matches(node);
-        }
-        
-        return result;
-    }
-    
-    public boolean matches(ClassNode node) {
-        boolean result = true;
-
-        Iterator<? extends SelectionCriteria> i = getSubcriteria().iterator();
-        while (result && i.hasNext()) {
-            result = i.next().matches(node);
-        }
-        
-        return result;
-    }
-    
-    public boolean matches(FeatureNode node) {
-        boolean result = true;
-
-        Iterator<? extends SelectionCriteria> i = getSubcriteria().iterator();
-        while (result && i.hasNext()) {
-            result = i.next().matches(node);
-        }
-        
-        return result;
-    }
-
-    public boolean matchesPackageName(String name) {
-        boolean result = true;
-
-        Iterator<? extends SelectionCriteria> i = getSubcriteria().iterator();
-        while (result && i.hasNext()) {
-            result = i.next().matchesPackageName(name);
-        }
-        
-        return result;
-    }
-    
-    public boolean matchesClassName(String name) {
-        boolean result = true;
-
-        Iterator<? extends SelectionCriteria> i = getSubcriteria().iterator();
-        while (result && i.hasNext()) {
-            result = i.next().matchesClassName(name);
-        }
-        
-        return result;
-    }
-    
-    public boolean matchesFeatureName(String name) {
-        boolean result = true;
-
-        Iterator<? extends SelectionCriteria> i = getSubcriteria().iterator();
-        while (result && i.hasNext()) {
-            result = i.next().matchesFeatureName(name);
-        }
-        
-        return result;
+    protected boolean eval(Predicate<SelectionCriteria> predicate) {
+        return getSubcriteria().stream().allMatch(predicate);
     }
 }

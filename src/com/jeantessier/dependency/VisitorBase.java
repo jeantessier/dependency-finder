@@ -43,12 +43,16 @@ import org.apache.log4j.*;
  *  @author Jean Tessier
  */
 public abstract class VisitorBase implements Visitor {
+    protected static TraversalStrategy getDefaultStrategy() {
+        return new ComprehensiveTraversalStrategy();
+    }
+
     private final TraversalStrategy strategy;
 
     private final LinkedList<Node> currentNodes = new LinkedList<>();
 
     public VisitorBase() {
-        this(new ComprehensiveTraversalStrategy());
+        this(getDefaultStrategy());
     }
 
     public VisitorBase(TraversalStrategy strategy) {

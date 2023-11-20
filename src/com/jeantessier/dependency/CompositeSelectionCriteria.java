@@ -33,15 +33,54 @@
 package com.jeantessier.dependency;
 
 import java.util.*;
+import java.util.function.*;
 
 public abstract class CompositeSelectionCriteria implements SelectionCriteria {
     private final Collection<? extends SelectionCriteria> subcriteria;
     
     public CompositeSelectionCriteria(Collection<? extends SelectionCriteria> subcriteria) {
-        this.subcriteria = subcriteria;
+        this.subcriteria = Collections.unmodifiableCollection(subcriteria);
     }
 
     protected Collection<? extends SelectionCriteria> getSubcriteria() {
         return subcriteria;
     }
+
+    public boolean isMatchingPackages() {
+        return eval(SelectionCriteria::isMatchingPackages);
+    }
+
+    public boolean isMatchingClasses() {
+        return eval(SelectionCriteria::isMatchingClasses);
+    }
+
+    public boolean isMatchingFeatures() {
+        return eval(SelectionCriteria::isMatchingFeatures);
+    }
+
+    public boolean matches(PackageNode node) {
+        return eval(subcriteria -> subcriteria.matches(node));
+    }
+
+    public boolean matches(ClassNode node) {
+        return eval(subcriteria -> subcriteria.matches(node));
+    }
+
+    public boolean matches(FeatureNode node) {
+        return eval(subcriteria -> subcriteria.matches(node));
+    }
+
+    public boolean matchesPackageName(String name) {
+        return eval(subcriteria -> subcriteria.matchesPackageName(name));
+    }
+
+    public boolean matchesClassName(String name) {
+        return eval(subcriteria -> subcriteria.matchesClassName(name));
+    }
+
+    public boolean matchesFeatureName(String name) {
+        return eval(subcriteria -> subcriteria.matchesFeatureName(name));
+    }
+
+    protected abstract boolean eval(Predicate<SelectionCriteria> predicate);
 }

@@ -32,50 +32,24 @@
 
 package com.jeantessier.dependency;
 
-public class MockSelectionCriteria implements SelectionCriteria {
-    private boolean value = false;
-
-    public boolean getValue() {
-        return value;
-    }
-    
-    public void setValue(boolean value) {
-        this.value = value;
-    }
-    
-    public boolean isMatchingPackages() {
-        return value;
-    }
-    
-    public boolean isMatchingClasses() {
-        return value;
-    }
-    
-    public boolean isMatchingFeatures() {
-        return value;
+public class DependencySkippingTraversalStrategy extends DecoratorTraversalStrategy {
+    public DependencySkippingTraversalStrategy(TraversalStrategy strategy) {
+        super(strategy);
     }
 
-    public boolean matches(PackageNode node) {
-        return value;
-    }
-    
-    public boolean matches(ClassNode node) {
-        return value;
-    }
-    
-    public boolean matches(FeatureNode node) {
-        return value;
+    public boolean doPreInboundTraversal() {
+        return false;
     }
 
-    public boolean matchesPackageName(String name) {
-        return value;
+    public boolean doPostInboundTraversal() {
+        return false;
     }
-    
-    public boolean matchesClassName(String name) {
-        return value;
+
+    public boolean doPreOutboundTraversal() {
+        return false;
     }
-    
-    public boolean matchesFeatureName(String name) {
-        return value;
+
+    public boolean doPostOutboundTraversal() {
+        return false;
     }
 }

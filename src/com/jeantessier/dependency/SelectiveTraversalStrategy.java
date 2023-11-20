@@ -32,7 +32,7 @@
 
 package com.jeantessier.dependency;
 
-public class SelectiveTraversalStrategy extends TraversalStrategyBase {
+public class SelectiveTraversalStrategy implements TraversalStrategy {
     private final SelectionCriteria scopeCriteria;
     private final SelectionCriteria filterCriteria;
 

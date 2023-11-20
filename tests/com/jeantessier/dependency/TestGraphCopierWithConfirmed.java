@@ -66,7 +66,7 @@ public class TestGraphCopierWithConfirmed extends TestCase {
         c_C   = factory.createClass("c.C");
         c_C_c = factory.createFeature("c.C.c");
         
-        copier = new GraphCopier(new ComprehensiveTraversalStrategy());
+        copier = new GraphCopier();
     }
 
     public void testConfirmedPackage2ConfirmedPackage() {

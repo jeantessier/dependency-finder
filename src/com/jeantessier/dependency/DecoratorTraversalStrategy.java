@@ -41,38 +41,22 @@ public abstract class DecoratorTraversalStrategy implements TraversalStrategy {
         this.delegate = delegate;
     }
     
-    public boolean doPreOutboundTraversal() {
-        return delegate.doPreOutboundTraversal();
-    }
-    
-    public void setPreOutboundTraversal(boolean preOutboundTraversal) {
-        delegate.setPreOutboundTraversal(preOutboundTraversal);
-    }
-    
     public boolean doPreInboundTraversal() {
         return delegate.doPreInboundTraversal();
     }
-    
-    public void setPreInboundTraversal(boolean preInboundTraversal) {
-        delegate.setPreInboundTraversal(preInboundTraversal);
-    }
-    
-    public boolean doPostOutboundTraversal() {
-        return delegate.doPostOutboundTraversal();
-    }
-    
-    public void setPostOutboundTraversal(boolean postOutboundTraversal) {
-        delegate.setPostOutboundTraversal(postOutboundTraversal);
-    }
-    
+
     public boolean doPostInboundTraversal() {
         return delegate.doPostInboundTraversal();
     }
 
-    public void setPostInboundTraversal(boolean postInboundTraversal) {
-        delegate.setPostInboundTraversal(postInboundTraversal);
+    public boolean doPreOutboundTraversal() {
+        return delegate.doPreOutboundTraversal();
     }
-    
+
+    public boolean doPostOutboundTraversal() {
+        return delegate.doPostOutboundTraversal();
+    }
+
     public boolean isInScope(PackageNode node) {
         return delegate.isInScope(node);
     }
@@ -97,7 +81,7 @@ public abstract class DecoratorTraversalStrategy implements TraversalStrategy {
         return delegate.isInFilter(node);
     }
 
-    public <T extends Node> Collection<T> order(Collection<T> collection) {
-        return delegate.order(collection);
+    public <T extends Node> Collection<T> order(Collection<T> nodes) {
+        return delegate.order(nodes);
     }
 }

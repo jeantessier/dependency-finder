@@ -35,14 +35,21 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 public interface TraversalStrategy {
-    boolean doPreOutboundTraversal();
-    void setPreOutboundTraversal(boolean preOutboundTraversal);
-    boolean doPreInboundTraversal();
-    void setPreInboundTraversal(boolean preInboundTraversal);
-    boolean doPostOutboundTraversal();
-    void setPostOutboundTraversal(boolean postOutboundTraversal);
-    boolean doPostInboundTraversal();
-    void setPostInboundTraversal(boolean postInboundTraversal);
+    default boolean doPreInboundTraversal() {
+        return true;
+    }
+
+    default boolean doPostInboundTraversal() {
+        return false;
+    }
+
+    default boolean doPreOutboundTraversal() {
+        return true;
+    }
+
+    default boolean doPostOutboundTraversal() {
+        return false;
+    }
 
     boolean isInScope(PackageNode node);
     boolean isInScope(ClassNode node);
@@ -52,5 +59,8 @@ public interface TraversalStrategy {
     boolean isInFilter(ClassNode node);
     boolean isInFilter(FeatureNode node);
 
-    <T extends Node> Collection<T> order(Collection<T> collection);
+    default <T extends Node> Collection<T> order(Collection<T> nodes) {
+        return new ArrayList<>(nodes);
+//        return Collections.unmodifiableCollection(nodes);
+    }
 }

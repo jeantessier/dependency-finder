@@ -34,21 +34,11 @@ package com.jeantessier.dependency;
 
 public class LinkMinimizer extends VisitorBase {
     public LinkMinimizer() {
-        super();
-
-        getStrategy().setPreOutboundTraversal(false);
-        getStrategy().setPreInboundTraversal(false);
-        getStrategy().setPostOutboundTraversal(false);
-        getStrategy().setPostInboundTraversal(false);
+        super(new DependencySkippingTraversalStrategy(getDefaultStrategy()));
     }
 
     public LinkMinimizer(TraversalStrategy strategy) {
-        super(strategy);
-
-        getStrategy().setPreOutboundTraversal(false);
-        getStrategy().setPreInboundTraversal(false);
-        getStrategy().setPostOutboundTraversal(false);
-        getStrategy().setPostInboundTraversal(false);
+        super(new DependencySkippingTraversalStrategy(strategy));
     }
 
     protected void postprocessPackageNode(PackageNode node) {

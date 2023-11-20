@@ -39,7 +39,7 @@ public class SortedTraversalStrategy extends DecoratorTraversalStrategy {
         super(strategy);
     }
 
-    public <T extends Node> Collection<T> order(Collection<T> collection) {
-        return collection.stream().sorted().toList();
+    public <T extends Node> Collection<T> order(Collection<T> nodes) {
+        return nodes.stream().sorted().toList();
     }
 }

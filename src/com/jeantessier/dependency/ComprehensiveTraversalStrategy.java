@@ -32,7 +32,7 @@
 
 package com.jeantessier.dependency;
 
-public class ComprehensiveTraversalStrategy extends TraversalStrategyBase {
+public class ComprehensiveTraversalStrategy implements TraversalStrategy {
     public boolean isInScope(PackageNode node) {
         return true;
     }
