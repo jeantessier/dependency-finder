@@ -33,6 +33,7 @@
 package com.jeantessier.diff;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import com.jeantessier.classreader.*;
 
@@ -66,33 +67,21 @@ public class APIDifferenceStrategy extends DifferenceStrategyDecorator {
     }
 
     private boolean checkForDifferentFields(Classfile oldClass, Classfile newClass) {
-        boolean result = false;
-
-        Iterator<String> fieldNames = collectFeatures(oldClass.getAllFields(), newClass.getAllFields(), new NameMapper());
-        while (!result && fieldNames.hasNext()) {
-            String fieldName = fieldNames.next();
-            Field_info oldField = oldClass.getField(fieldName);
-            Field_info newField = newClass.getField(fieldName);
-
-            result = isFieldDifferent(oldField, newField);
-        }
-
-        return result;
+        return Stream.concat(
+                oldClass.getAllFields().stream(),
+                newClass.getAllFields().stream())
+                .map(Feature_info::getName)
+                .distinct()
+                .anyMatch(name -> isFieldDifferent(oldClass.getField(name), newClass.getField(name)));
     }
 
     private boolean checkForDifferentMethods(Classfile oldClass, Classfile newClass) {
-        boolean result = false;
-
-        Iterator<String> methodSignatures = collectFeatures(oldClass.getAllMethods(), newClass.getAllMethods(), new SignatureMapper());
-        while (!result && methodSignatures.hasNext()) {
-            String methodSignature = methodSignatures.next();
-            Method_info oldMethod = oldClass.getMethod(methodSignature);
-            Method_info newMethod = newClass.getMethod(methodSignature);
-
-            result = isMethodDifferent(oldMethod, newMethod);
-        }
-
-        return result;
+        return Stream.concat(
+                oldClass.getAllMethods().stream(),
+                newClass.getAllMethods().stream())
+                .map(Feature_info::getSignature)
+                .distinct()
+                .anyMatch(signature -> isMethodDifferent(oldClass.getMethod(signature), newClass.getMethod(signature)));
     }
 
     public boolean isFieldDifferent(Field_info oldField, Field_info newField) {
@@ -147,34 +136,10 @@ public class APIDifferenceStrategy extends DifferenceStrategyDecorator {
     }
 
     private boolean checkForDifferentClasses(Map<String, Classfile> oldPackage, Map<String, Classfile> newPackage) {
-        boolean result = false;
-
-        Set<String> classNames = new HashSet<>();
-        classNames.addAll(oldPackage.keySet());
-        classNames.addAll(newPackage.keySet());
-
-        Iterator<String> i = classNames.iterator();
-        while (!result && i.hasNext()) {
-            String    className = i.next();
-            Classfile oldClass  = oldPackage.get(className);
-            Classfile newClass  = newPackage.get(className);
-
-            result = isClassDifferent(oldClass, newClass);
-        }
-
-        return result;
-    }
-
-    private Iterator<String> collectFeatures(Collection<? extends Feature_info> oldFeatures, Collection<? extends Feature_info> newFeatures, FeatureMapper<String> mapper) {
-        Set<String> features = new HashSet<>();
-
-        for (Feature_info feature : oldFeatures) {
-            features.add(mapper.map(feature));
-        }
-        for (Feature_info feature : newFeatures) {
-            features.add(mapper.map(feature));
-        }
-
-        return features.iterator();
+        return Stream.concat(
+                oldPackage.keySet().stream(),
+                newPackage.keySet().stream())
+                .distinct()
+                .anyMatch(name -> isClassDifferent(oldPackage.get(name), newPackage.get(name)));
     }
 }
