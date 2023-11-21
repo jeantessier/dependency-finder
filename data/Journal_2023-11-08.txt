@@ -1,4 +1,4 @@
 Updated the official DTDs on the website to =1.3.0=.
 
 Refactored some code, mostly in =com.jeantessier.dependency=, to use more
-modern Java.  A lot of Streams API and using =var= where possible.
+modern Java.  A lot of Stream API and using =var= where possible.

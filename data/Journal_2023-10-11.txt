@@ -1,4 +1,4 @@
-Refactored =com.jeantessier.text.Hex= to use the Streams API and
+Refactored =com.jeantessier.text.Hex= to use the Stream API and
 =java.util.Formatter= to render bytes in text and XML outputs.  All the
 =print()= methods were used for single bytes, so I replaced them with calls to
 =Formatter= instead.  That left the =toString()= static method, which I

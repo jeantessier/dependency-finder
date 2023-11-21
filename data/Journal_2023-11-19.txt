@@ -3,7 +3,7 @@ Java 21 language specification says it is discouraged.
 
 I moved some default implementations to =default= methods in interfaces instead
 of abstract base classes in the =dependency=, =diff=, and =metrics= packages.
-I also converted more =for()= loops to the Streams API, and even wrote a custom
+I also converted more =for()= loops to the Stream API, and even wrote a custom
 =Spliterator= for use in =DescriptorHelper=.
 
 I realized that after I started processig =StackMapTable_attribute= for
