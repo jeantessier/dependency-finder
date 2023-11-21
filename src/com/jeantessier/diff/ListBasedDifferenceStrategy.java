@@ -45,7 +45,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 public class ListBasedDifferenceStrategy extends DifferenceStrategyDecorator {
-    private Collection<String> allowedElements = new HashSet<String>();
+    private final Collection<String> allowedElements = new HashSet<>();
 
     public ListBasedDifferenceStrategy(DifferenceStrategy delegate, String filename) throws IOException {
         super(delegate);
@@ -80,7 +80,7 @@ public class ListBasedDifferenceStrategy extends DifferenceStrategyDecorator {
     public void load(BufferedReader in) throws IOException {
         String line;
         while ((line = in.readLine()) != null) {
-            if (line.length() > 0) {
+            if (!line.isEmpty()) {
                 line = line.trim();
                 int pos = line.lastIndexOf(" [");
                 if (pos != -1) {

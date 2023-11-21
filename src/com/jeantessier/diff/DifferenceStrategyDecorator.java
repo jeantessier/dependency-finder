@@ -37,7 +37,7 @@ import java.util.*;
 import com.jeantessier.classreader.*;
 
 public class DifferenceStrategyDecorator implements DifferenceStrategy {
-    private DifferenceStrategy delegate;
+    private final DifferenceStrategy delegate;
 
     protected DifferenceStrategyDecorator(DifferenceStrategy delegate) {
         this.delegate = delegate;

@@ -68,10 +68,7 @@ public class ClassClassDiff extends DiffCommand {
         Logger.getLogger(getClass()).info("Printing results ...");
         getVerboseListener().print("Printing results ...");
 
-        Report report = new Report(getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
-        if (getCommandLine().isPresent("indent-text")) {
-            report.setIndentText(getCommandLine().getSingleSwitch("indent-text"));
-        }
+        Report report = new Report(getCommandLine().getSingleSwitch("indent-text"), getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
         report.setName(name);
         report.setOldVersion(oldLabel);
         report.setNewVersion(newLabel);

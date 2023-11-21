@@ -38,15 +38,19 @@ public class PrinterBuffer {
     private final static String EOL = System.getProperty("line.separator", "\n");
 
     private final StringBuffer buffer = new StringBuffer();
-    private String indentText = DEFAULT_INDENT_TEXT;
+    private final String indentText;
     private int indentLevel = 0;
+
+    public PrinterBuffer() {
+        this(DEFAULT_INDENT_TEXT);
+    }
+
+    public PrinterBuffer(String indentText) {
+        this.indentText = indentText;
+    }
 
     public String getIndentText() {
         return indentText;
-    }
-
-    public void setIndentText(String indentText) {
-        this.indentText = indentText;
     }
 
     public PrinterBuffer append(boolean b) {

@@ -48,7 +48,7 @@ public class ListDiff extends Task {
     private boolean compress = false;
     private String encoding = ListDiffPrinter.DEFAULT_ENCODING;
     private String dtdPrefix = ListDiffPrinter.DEFAULT_DTD_PREFIX;
-    private String indentText;
+    private String indentText = ListDiffPrinter.DEFAULT_INDENT_TEXT;
     private File destfile;
 
     public String getName() {
@@ -119,7 +119,7 @@ public class ListDiff extends Task {
         return indentText;
     }
     
-    public void setIntenttext(String indentText) {
+    public void setIndenttext(String indentText) {
         this.indentText = indentText;
     }
 
@@ -177,7 +177,7 @@ public class ListDiff extends Task {
             String line;
             
             log("Loading old list from " + getOld().getAbsolutePath());
-            Collection<String> oldAPI = new TreeSet<String>();
+            Collection<String> oldAPI = new TreeSet<>();
             BufferedReader oldIn = new BufferedReader(new FileReader(getOld()));
             while((line = oldIn.readLine()) != null) {
                 oldAPI.add(line);
@@ -185,7 +185,7 @@ public class ListDiff extends Task {
             oldIn.close();
             
             log("Loading new list from " + getNew().getAbsolutePath());
-            Collection<String> newAPI = new TreeSet<String>();
+            Collection<String> newAPI = new TreeSet<>();
             BufferedReader newIn = new BufferedReader(new FileReader(getNew()));
             while((line = newIn.readLine()) != null) {
                 newAPI.add(line);
@@ -194,25 +194,18 @@ public class ListDiff extends Task {
             
             log("Comparing old and new lists ...");
 
-            ListDiffPrinter printer = new ListDiffPrinter(getCompress(), getEncoding(), getDtdprefix());
+            ListDiffPrinter printer = new ListDiffPrinter(getCompress(), getIndenttext(), getEncoding(), getDtdprefix());
             printer.setName(getName());
             printer.setOldVersion(getOldlabel());
             printer.setNewVersion(getNewlabel());
-            if (getIndenttext() != null) {
-                printer.setIndentText(getIndenttext());
-            }
 
-            for (String name : oldAPI) {
-                if (!newAPI.contains(name)) {
-                    printer.remove(name);
-                }
-            }
+            oldAPI.stream()
+                    .filter(name -> !newAPI.contains(name))
+                    .forEach(printer::remove);
 
-            for (String name : newAPI) {
-                if (!oldAPI.contains(name)) {
-                    printer.add(name);
-                }
-            }
+            newAPI.stream()
+                    .filter(name -> !oldAPI.contains(name))
+                    .forEach(printer::add);
 
             log("Saving difference report to " + getDestfile().getAbsolutePath());
 

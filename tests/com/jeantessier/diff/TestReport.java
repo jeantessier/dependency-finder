@@ -86,7 +86,7 @@ public class TestReport extends TestCase implements ErrorHandler {
     }
     
     public void testSpecificDTDPrefix() {
-        Report report = new Report(Report.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        Report report = new Report(Report.DEFAULT_INDENT_TEXT, Report.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
         String xmlDocument = report.render();
         assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
@@ -118,7 +118,7 @@ public class TestReport extends TestCase implements ErrorHandler {
     }
 
     public void testSpecificEncoding() {
-        Report report = new Report(SPECIFIC_ENCODING, Report.DEFAULT_DTD_PREFIX);
+        Report report = new Report(Report.DEFAULT_INDENT_TEXT, SPECIFIC_ENCODING, Report.DEFAULT_DTD_PREFIX);
 
         String xmlDocument = report.render();
         assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
@@ -147,7 +147,7 @@ public class TestReport extends TestCase implements ErrorHandler {
         DifferencesFactory factory = new DifferencesFactory();
         ProjectDifferences projectDifferences = (ProjectDifferences) factory.createProjectDifferences("test", "old", oldPackages, "new", newPackages);
 
-        Report report = new Report(Report.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        Report report = new Report(Report.DEFAULT_INDENT_TEXT, Report.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         projectDifferences.accept(report);
 
         String xmlDocument = report.render();
@@ -183,7 +183,7 @@ public class TestReport extends TestCase implements ErrorHandler {
         DifferencesFactory factory = new DifferencesFactory(new IncompatibleDifferenceStrategy(new NoDifferenceStrategy()));
         ProjectDifferences projectDifferences = (ProjectDifferences) factory.createProjectDifferences("test", "old", oldPackages, "new", newPackages);
 
-        Report report = new Report(Report.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        Report report = new Report(Report.DEFAULT_INDENT_TEXT, Report.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         projectDifferences.accept(report);
 
         String xmlDocument = report.render();

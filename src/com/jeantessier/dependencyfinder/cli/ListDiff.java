@@ -75,7 +75,7 @@ public class ListDiff extends Command {
         String line;
         
         getVerboseListener().print("Loading old list ...");
-        Collection<String> oldAPI = new TreeSet<String>();
+        Collection<String> oldAPI = new TreeSet<>();
         BufferedReader oldIn = new BufferedReader(new FileReader(getCommandLine().getSingleSwitch("old")));
         while((line = oldIn.readLine()) != null) {
             oldAPI.add(line);
@@ -83,20 +83,17 @@ public class ListDiff extends Command {
         oldIn.close();
 
         getVerboseListener().print("Loading new list ...");
-        Collection<String> newAPI = new TreeSet<String>();
+        Collection<String> newAPI = new TreeSet<>();
         BufferedReader newIn = new BufferedReader(new FileReader(getCommandLine().getSingleSwitch("new")));
         while((line = newIn.readLine()) != null) {
             newAPI.add(line);
         }
         newIn.close();
 
-        ListDiffPrinter printer = new ListDiffPrinter(getCommandLine().getToggleSwitch("compress"), getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
+        ListDiffPrinter printer = new ListDiffPrinter(getCommandLine().getToggleSwitch("compress"), getCommandLine().getSingleSwitch("indent-text"), getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
         printer.setName(getCommandLine().getSingleSwitch("name"));
         printer.setOldVersion(getCommandLine().getSingleSwitch("old-label"));
         printer.setNewVersion(getCommandLine().getSingleSwitch("new-label"));
-        if (getCommandLine().isPresent("indent-text")) {
-            printer.setIndentText(getCommandLine().getSingleSwitch("indent-text"));
-        }
 
         getVerboseListener().print("Computing removed elements ...");
         for (String name : oldAPI) {

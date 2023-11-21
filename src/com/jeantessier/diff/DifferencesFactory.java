@@ -33,16 +33,16 @@
 package com.jeantessier.diff;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
 
 public class DifferencesFactory {
-    private Classfile oldClass;
     private Classfile newClass;
 
-    private DifferenceStrategy strategy;
+    private final DifferenceStrategy strategy;
 
     /**
      * For tests only.
@@ -62,7 +62,7 @@ public class DifferencesFactory {
 
         Logger.getLogger(getClass()).debug("      Collecting packages ...");
 
-        Collection<String> packageNames = new TreeSet<String>();
+        Collection<String> packageNames = new TreeSet<>();
         packageNames.addAll(oldPackages.getPackageNames());
         packageNames.addAll(newPackages.getPackageNames());
 
@@ -97,18 +97,18 @@ public class DifferencesFactory {
         if (oldPackage != null && !oldPackage.isEmpty() && newPackage != null && !newPackage.isEmpty()) {
             Logger.getLogger(getClass()).debug("      Diff'ing classes ...");
 
-            Collection<String> classNames = new TreeSet<String>();
-            classNames.addAll(oldPackage.keySet());
-            classNames.addAll(newPackage.keySet());
+            Stream.concat(
+                    oldPackage.keySet().stream(),
+                    newPackage.keySet().stream())
+                    .distinct()
+                    .forEach(className -> {
+                        Classfile oldClass = oldPackage.get(className);
+                        Classfile newClass = newPackage.get(className);
 
-            for (String className : classNames) {
-                Classfile oldClass = oldPackage.get(className);
-                Classfile newClass = newPackage.get(className);
-
-                if (strategy.isClassDifferent(oldClass, newClass)) {
-                    packageDifferences.getClassDifferences().add(createClassDifferences(className, oldClass, newClass));
-                }
-            }
+                        if (strategy.isClassDifferent(oldClass, newClass)) {
+                            packageDifferences.getClassDifferences().add(createClassDifferences(className, oldClass, newClass));
+                        }
+                    });
 
             Logger.getLogger(getClass()).debug("      " + name + " has " + packageDifferences.getClassDifferences().size() + " class(es) that changed.");
         }
@@ -134,55 +134,42 @@ public class DifferencesFactory {
 
         Differences result = classDifferences;
 
-        this.oldClass = oldClass;
         this.newClass = newClass;
 
         if (oldClass != null && newClass != null) {
             Logger.getLogger(getClass()).debug("      Collecting fields ...");
 
-            Map<String, String> fieldLevel = new TreeMap<String, String>();
-
-            for (Field_info field : oldClass.getAllFields()) {
-                fieldLevel.put(field.getName(), field.getFullSignature());
-            }
-
-            for (Field_info field : newClass.getAllFields()) {
-                fieldLevel.put(field.getName(), field.getFullSignature());
-            }
+            Map<String, String> fieldLevel = new TreeMap<>();
+            oldClass.getAllFields().forEach(field -> fieldLevel.put(field.getName(), field.getFullSignature()));
+            newClass.getAllFields().forEach(field -> fieldLevel.put(field.getName(), field.getFullSignature()));
 
             Logger.getLogger(getClass()).debug("      Diff'ing fields ...");
 
-            for (Map.Entry<String, String> fieldEntry : fieldLevel.entrySet()) {
-                Field_info oldField = oldClass.getField(fieldEntry.getKey());
-                Field_info newField = newClass.getField(fieldEntry.getKey());
+            fieldLevel.forEach((fieldName, fullSignature) -> {
+                Field_info oldField = oldClass.getField(fieldName);
+                Field_info newField = newClass.getField(fieldName);
 
                 if (strategy.isFieldDifferent(oldField, newField)) {
-                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(fieldEntry.getValue(), oldField, newField));
+                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(fullSignature, oldField, newField));
                 }
-            }
+            });
 
             Logger.getLogger(getClass()).debug("      Collecting methods ...");
 
-            Map<String, String> methodLevel = new TreeMap<String, String>();
-
-            for (Method_info method : oldClass.getAllMethods()) {
-                methodLevel.put(method.getSignature(), method.getFullSignature());
-            }
-
-            for (Method_info method : newClass.getAllMethods()) {
-                methodLevel.put(method.getSignature(), method.getFullSignature());
-            }
+            Map<String, String> methodLevel = new TreeMap<>();
+            oldClass.getAllMethods().forEach(method -> methodLevel.put(method.getSignature(), method.getFullSignature()));
+            newClass.getAllMethods().forEach(method -> methodLevel.put(method.getSignature(), method.getFullSignature()));
 
             Logger.getLogger(getClass()).debug("      Diff'ing methods ...");
 
-            for (Map.Entry<String, String> methodEntry : methodLevel.entrySet()) {
-                Method_info oldMethod = oldClass.getMethod(methodEntry.getKey());
-                Method_info newMethod = newClass.getMethod(methodEntry.getKey());
+            methodLevel.forEach((signature, fullSignature) -> {
+                Method_info oldMethod = oldClass.getMethod(signature);
+                Method_info newMethod = newClass.getMethod(signature);
 
                 if (strategy.isMethodDifferent(oldMethod, newMethod)) {
-                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(methodEntry.getValue(), oldMethod, newMethod));
+                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(fullSignature, oldMethod, newMethod));
                 }
-            }
+            });
 
             Logger.getLogger(getClass()).debug(name + " has " + classDifferences.getFeatureDifferences().size() + " feature(s) that changed.");
 

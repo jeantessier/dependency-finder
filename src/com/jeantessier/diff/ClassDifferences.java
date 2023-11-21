@@ -50,7 +50,7 @@ public class ClassDifferences extends RemovableDifferences {
     private Classfile newClass;
 
     private boolean declarationModified;
-    private Collection<Differences> featureDifferences = new LinkedList<Differences>();
+    private final Collection<Differences> featureDifferences = new LinkedList<>();
 
     /**
      *  Only the DifferencesFactory can create instances of this class.
@@ -120,7 +120,7 @@ public class ClassDifferences extends RemovableDifferences {
     }
 
     public boolean isModified() {
-        return isDeclarationModified() || (getFeatureDifferences().size() != 0);
+        return isDeclarationModified() || !getFeatureDifferences().isEmpty();
     }
 
     public void accept(Visitor visitor) {

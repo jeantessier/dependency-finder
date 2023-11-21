@@ -62,6 +62,14 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
     private final Collection<FeatureDifferences> newConstructors = new TreeSet<>();
     private final Collection<FeatureDifferences> newMethods = new TreeSet<>();
 
+    public ClassReport() {
+        super();
+    }
+
+    public ClassReport(String indentText) {
+        super(indentText);
+    }
+
     public void visitClassDifferences(ClassDifferences differences) {
         this.differences = differences;
 

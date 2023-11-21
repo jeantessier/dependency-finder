@@ -62,26 +62,6 @@ public abstract class VisitorBase implements Visitor {
         this.undeprecated[deprecatableLevel] = undeprecated;
     }
 
-    public void visitProjectDifferences(ProjectDifferences differences) {
-        // Do nothing
-    }
-        
-    public void visitPackageDifferences(PackageDifferences differences) {
-        // Do nothing
-    }
-
-    public void visitFieldDifferences(FieldDifferences differences) {
-        // Do nothing
-    }
-    
-    public void visitConstructorDifferences(ConstructorDifferences differences) {
-        // Do nothing
-    }
-
-    public void visitMethodDifferences(MethodDifferences differences) {
-        // Do nothing
-    }
-
     public void visitDeprecatableDifferences(DeprecatableDifferences differences) {
         raiseDeprecatableLevel();
         

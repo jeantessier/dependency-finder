@@ -34,31 +34,27 @@ package com.jeantessier.diff;
 
 import java.util.*;
 
+import com.jeantessier.classreader.Classfile;
 import org.apache.log4j.*;
 
 /**
  *  Documents the difference, if any, for a given package.
  */
 public class PackageDifferences extends RemovableDifferences {
-    private Collection<Differences> classDifferences = new LinkedList<Differences>();
+    private final Collection<Differences> classDifferences = new LinkedList<>();
 
-    private String oldDeclaration = null;
-    private String newDeclaration = null;
+    private final String oldDeclaration;
+    private final String newDeclaration;
 
     /**
      *  Only the DifferencesFactory can create instances of this class.
      */
-    PackageDifferences(String name, Map oldPackage, Map newPackage) {
+    PackageDifferences(String name, Map<String, Classfile> oldPackage, Map<String, Classfile> newPackage) {
         super(name);
 
-        if (oldPackage != null && !oldPackage.isEmpty()) {
-            oldDeclaration = name;
-        }
+        oldDeclaration = (oldPackage != null && !oldPackage.isEmpty()) ? name : null;
+        newDeclaration = (newPackage != null && !newPackage.isEmpty()) ? name : null;
 
-        if (newPackage != null && !newPackage.isEmpty()) {
-            newDeclaration = name;
-        }
-    
         if (isModified()) {
             Logger.getLogger(getClass()).debug(getName() + " declaration has been modified.");
         } else {
@@ -79,7 +75,7 @@ public class PackageDifferences extends RemovableDifferences {
     }
 
     public boolean isModified() {
-        return super.isModified() || (getClassDifferences().size() != 0);
+        return super.isModified() || !getClassDifferences().isEmpty();
     }
 
     public void accept(Visitor visitor) {

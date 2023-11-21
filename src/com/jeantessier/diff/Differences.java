@@ -37,7 +37,19 @@ package com.jeantessier.diff;
  *
  *  @see Visitor
  */
-public interface Differences {
+public interface Differences extends Comparable<Differences> {
     String getName();
     void accept(Visitor visitor);
+
+    default int compareTo(Differences other) {
+        if (this == other) {
+            return 0;
+        }
+
+        if (other == null) {
+            throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got null");
+        }
+
+        return getName().compareTo(other.getName());
+    }
 }

@@ -239,7 +239,7 @@ public class DependencyClosure extends GraphTask {
         return indentText;
     }
     
-    public void setIntenttext(String indentText) {
+    public void setIndenttext(String indentText) {
         this.indentText = indentText;
     }
     

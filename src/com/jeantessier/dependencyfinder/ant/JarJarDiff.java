@@ -57,7 +57,7 @@ public class JarJarDiff extends Task {
     private boolean code;
     private String encoding = Report.DEFAULT_ENCODING;
     private String dtdPrefix = Report.DEFAULT_DTD_PREFIX;
-    private String indentText;
+    private String indentText = Report.DEFAULT_INDENT_TEXT;
     private File destfile;
 
     public String getName() {
@@ -152,7 +152,7 @@ public class JarJarDiff extends Task {
         return indentText;
     }
     
-    public void setIntenttext(String indentText) {
+    public void setIndenttext(String indentText) {
         this.indentText = indentText;
     }
 
@@ -220,10 +220,7 @@ public class JarJarDiff extends Task {
 
             log("Saving difference report to " + getDestfile().getAbsolutePath());
 
-            Report report = new Report(getEncoding(), getDtdprefix());
-            if (getIndenttext() != null) {
-                report.setIndentText(getIndenttext());
-            }
+            Report report = new Report(getIndenttext(), getEncoding(), getDtdprefix());
 
             differences.accept(report);
 

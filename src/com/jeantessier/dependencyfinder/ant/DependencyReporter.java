@@ -439,7 +439,7 @@ public class DependencyReporter extends GraphTask {
         return indentText;
     }
 
-    public void setIntenttext(String indentText) {
+    public void setIndenttext(String indentText) {
         this.indentText = indentText;
     }
 

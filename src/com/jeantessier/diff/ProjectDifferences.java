@@ -38,11 +38,11 @@ import java.util.*;
  *  Documents the difference, if any, between two codebases.
  */
 public class ProjectDifferences implements Differences {
-    private String name;
-    private String oldVersion;
-    private String newVersion;
+    private final String name;
+    private final String oldVersion;
+    private final String newVersion;
 
-    private Collection<Differences> packageDifferences = new LinkedList<Differences>();
+    private final Collection<Differences> packageDifferences = new LinkedList<>();
 
     /**
      *  Only the DifferencesFactory can create instances of this class.
@@ -75,5 +75,21 @@ public class ProjectDifferences implements Differences {
 
     public String toString() {
         return getName();
+    }
+
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        return compareTo((ProjectDifferences) object) == 0;
+    }
+
+    public int hashCode() {
+        return getName().hashCode();
     }
 }

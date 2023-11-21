@@ -42,8 +42,8 @@ import com.jeantessier.classreader.*;
  *  tags.
  */
 public class DeprecatableDifferences extends DecoratorDifferences {
-    private boolean newDeprecation;
-    private boolean removedDeprecation;
+    private final boolean newDeprecation;
+    private final boolean removedDeprecation;
 
     /**
      *  Only the DifferencesFactory can create instances of this class.
@@ -57,29 +57,22 @@ public class DeprecatableDifferences extends DecoratorDifferences {
             Logger.getLogger(getClass()).debug("      old deprecatable: " + oldDeprecatable.isDeprecated());
             Logger.getLogger(getClass()).debug("      new deprecatable: " + newDeprecatable.isDeprecated());
 
-            setRemovedDeprecation(oldDeprecatable.isDeprecated() && !newDeprecatable.isDeprecated());
-            setNewDeprecation(!oldDeprecatable.isDeprecated() && newDeprecatable.isDeprecated());
+            removedDeprecation = oldDeprecatable.isDeprecated() && !newDeprecatable.isDeprecated();
+            newDeprecation = !oldDeprecatable.isDeprecated() && newDeprecatable.isDeprecated();
+        } else {
+            removedDeprecation = false;
+            newDeprecation = false;
         }
 
         Logger.getLogger(getClass()).debug("End   " + getName());
     }
 
     public boolean isNewDeprecation() {
-        Logger.getLogger(getClass()).debug(getName() + " NewDeprecation(): " + newDeprecation);
         return newDeprecation;
     }
 
-    public void setNewDeprecation(boolean newDeprecation) {
-        this.newDeprecation = newDeprecation;
-    }
-
     public boolean isRemovedDeprecation() {
-        Logger.getLogger(getClass()).debug(getName() + " RemovedDeprecation(): " + removedDeprecation);
         return removedDeprecation;
-    }
-
-    public void setRemovedDeprecation(boolean removedDeprecation) {
-        this.removedDeprecation = removedDeprecation;
     }
 
     public void accept(Visitor visitor) {

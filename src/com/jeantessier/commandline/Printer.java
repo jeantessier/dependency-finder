@@ -35,11 +35,7 @@ package com.jeantessier.commandline;
 import com.jeantessier.text.*;
 
 public abstract class Printer extends VisitorBase {
-    private PrinterBuffer buffer = new PrinterBuffer();
-
-    public void setIndentText(String indentText) {
-        buffer.setIndentText(indentText);
-    }
+    private final PrinterBuffer buffer = new PrinterBuffer();
 
     protected Printer append(boolean b) {
         buffer.append(b);

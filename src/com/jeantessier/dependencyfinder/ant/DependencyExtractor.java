@@ -239,7 +239,7 @@ public class DependencyExtractor extends Task {
         return indentText;
     }
     
-    public void setIntenttext(String indentText) {
+    public void setIndenttext(String indentText) {
         this.indentText = indentText;
     }
 

@@ -35,15 +35,9 @@ package com.jeantessier.text;
 import junit.framework.*;
 
 public class TestPrinterBuffer extends TestCase {
-    private PrinterBuffer buffer;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        buffer = new PrinterBuffer();
-    }
-
     public void testAppendReturnsSelf() {
+        var buffer = new PrinterBuffer();
+
         assertSame("boolean", buffer, buffer.append(true));
         assertSame("int", buffer, buffer.append(1));
         assertSame("long", buffer, buffer.append(1L));
@@ -55,17 +49,19 @@ public class TestPrinterBuffer extends TestCase {
         assertSame("String", buffer, buffer.append("string"));
     }
 
-    public void testSetIndentText() {
+    public void testCustomIndentText() {
         String expectedText = "****";
-        buffer.setIndentText(expectedText);
+        var buffer = new PrinterBuffer(expectedText);
+
         buffer.raiseIndent();
         buffer.indent();
         assertEquals("Indent text", expectedText, buffer.toString());
     }
     
-    public void testIndent() {
+    public void testRaiseIndent() {
         String expectedText = "*";
-        buffer.setIndentText(expectedText);
+        var buffer = new PrinterBuffer(expectedText);
+
         buffer.raiseIndent();
         buffer.raiseIndent();
         buffer.indent();

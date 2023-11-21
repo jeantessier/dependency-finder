@@ -47,36 +47,20 @@ public class ListDiffPrinter {
 
     private static final Perl5Util perl = new Perl5Util();
     
-    private PrinterBuffer buffer = new PrinterBuffer();
-
-    private boolean compress;
+    private final boolean compress;
+    private final PrinterBuffer buffer;
 
     private String name = "";
     private String oldVersion = "";
     private String newVersion = "";
-    private Collection<String> removed = new TreeSet<String>();
-    private Collection<String> added = new TreeSet<String>();
-    
-    public ListDiffPrinter() {
-        this(DEFAULT_COMPRESS, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);
-    }
-    
-    public ListDiffPrinter(boolean compress) {
-        this(compress, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);
-    }
-    
-    public ListDiffPrinter(String encoding, String dtdPrefix) {
-        this(DEFAULT_COMPRESS, encoding, dtdPrefix);
-    }
-    
-    public ListDiffPrinter(boolean compress, String encoding, String dtdPrefix) {
+    private final Collection<String> removed = new TreeSet<>();
+    private final Collection<String> added = new TreeSet<>();
+
+    public ListDiffPrinter(boolean compress, String indentText, String encoding, String dtdPrefix) {
+        this.buffer = new PrinterBuffer(indentText);
         this.compress = compress;
 
         appendHeader(encoding, dtdPrefix);
-    }
-
-    public void setIndentText(String indentText) {
-        buffer.setIndentText(indentText);
     }
 
     private void appendHeader(String encoding, String dtdPrefix) {
@@ -221,20 +205,20 @@ public class ListDiffPrinter {
     }
 
     private void printLines(Collection<String> lines) {
-        for (String line : lines) {
+        lines.forEach(line -> {
             int pos = line.lastIndexOf(" [");
             if (pos != -1) {
                 indent().append("<line>").append(line.substring(0, pos)).append("</line>").eol();
             } else {
                 indent().append("<line>").append(line).append("</line>").eol();
             }
-        }
+        });
     }
 
     private Collection<String> compress(Collection<String> lines) {
-        Collection<String> result = new TreeSet<String>();
+        Collection<String> result = new TreeSet<>();
 
-        for (String line : lines) {
+        lines.forEach(line -> {
             boolean add = true;
             if (line.endsWith(" [C]")) {
                 String packageName = extractPackageName(line);
@@ -250,7 +234,7 @@ public class ListDiffPrinter {
             if (add) {
                 result.add(line);
             }
-        }
+        });
 
         return result;
     }

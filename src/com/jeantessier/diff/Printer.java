@@ -34,17 +34,25 @@ package com.jeantessier.diff;
 
 import com.jeantessier.text.*;
 
-public abstract class Printer extends VisitorBase {
+public class Printer extends VisitorBase {
     public static final String DEFAULT_INDENT_TEXT = PrinterBuffer.DEFAULT_INDENT_TEXT;
 
-    private final PrinterBuffer buffer = new PrinterBuffer();
+    private final PrinterBuffer buffer;
+
+    public Printer() {
+        this(new PrinterBuffer());
+    }
+
+    public Printer(String indentText) {
+        this(new PrinterBuffer(indentText));
+    }
+
+    private Printer(PrinterBuffer buffer) {
+        this.buffer = buffer;
+    }
 
     public String getIndentText() {
         return buffer.getIndentText();
-    }
-
-    public void setIndentText(String indentText) {
-        buffer.setIndentText(indentText);
     }
 
     protected Printer append(boolean b) {

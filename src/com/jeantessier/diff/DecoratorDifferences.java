@@ -37,7 +37,7 @@ package com.jeantessier.diff;
  *  Differences hierarchy.
  */
 public abstract class DecoratorDifferences implements Differences {
-    private Differences component;
+    private final Differences component;
 
     /**
      *  Only the DifferencesFactory can create instances of this class.
@@ -51,15 +51,11 @@ public abstract class DecoratorDifferences implements Differences {
     }
 
     public Differences getLeafComponent() {
-        Differences result = null;
-        
-        if (getComponent() instanceof DecoratorDifferences) {
-            result = ((DecoratorDifferences) getComponent()).getLeafComponent();
+        if (getComponent() instanceof DecoratorDifferences decorator) {
+            return decorator.getLeafComponent();
         } else {
-            result = getComponent();
+            return getComponent();
         }
-        
-        return result;
     }
 
     public String getName() {
@@ -68,5 +64,21 @@ public abstract class DecoratorDifferences implements Differences {
     
     public String toString() {
         return getComponent().toString();
+    }
+
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        return compareTo((DecoratorDifferences) object) == 0;
+    }
+
+    public int hashCode() {
+        return getComponent().hashCode();
     }
 }

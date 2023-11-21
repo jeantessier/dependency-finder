@@ -44,8 +44,8 @@ import com.jeantessier.classreader.*;
  * @see Visitor
  */
 public abstract class FeatureDifferences extends RemovableDifferences {
-    private Feature_info oldFeature;
-    private Feature_info newFeature;
+    private final Feature_info oldFeature;
+    private final Feature_info newFeature;
 
     private boolean inherited = false;
 
@@ -55,8 +55,8 @@ public abstract class FeatureDifferences extends RemovableDifferences {
     protected FeatureDifferences(String name, Feature_info oldFeature, Feature_info newFeature) {
         super(name);
 
-        setOldFeature(oldFeature);
-        setNewFeature(newFeature);
+        this.oldFeature = oldFeature;
+        this.newFeature = newFeature;
 
         if (isModified()) {
             Logger.getLogger(getClass()).debug(getName() + " declaration has been modified.");
@@ -69,16 +69,8 @@ public abstract class FeatureDifferences extends RemovableDifferences {
         return oldFeature;
     }
 
-    protected void setOldFeature(Feature_info oldFeature) {
-        this.oldFeature = oldFeature;
-    }
-
     public Feature_info getNewFeature() {
         return newFeature;
-    }
-
-    protected void setNewFeature(Feature_info newFeature) {
-        this.newFeature = newFeature;
     }
 
     public String getOldDeclaration() {
@@ -105,7 +97,10 @@ public abstract class FeatureDifferences extends RemovableDifferences {
         return inherited;
     }
 
-    public void setInherited(boolean inherited) {
+    /**
+     * Only the DifferencesFactory can set this flag
+     */
+    void setInherited(boolean inherited) {
         this.inherited = inherited;
     }
 }

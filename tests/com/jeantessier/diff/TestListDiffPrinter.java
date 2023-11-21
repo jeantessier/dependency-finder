@@ -58,7 +58,7 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
     }
 
     public void testDefaultDTDPrefix() {
-        ListDiffPrinter printer = new ListDiffPrinter();
+        ListDiffPrinter printer = new ListDiffPrinter(false, ListDiffPrinter.DEFAULT_INDENT_TEXT, ListDiffPrinter.DEFAULT_ENCODING, ListDiffPrinter.DEFAULT_DTD_PREFIX);
 
         String xmlDocument = printer.toString();
         assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
@@ -74,7 +74,7 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
     }
     
     public void testSpecificDTDPrefix() {
-        ListDiffPrinter printer = new ListDiffPrinter(ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        ListDiffPrinter printer = new ListDiffPrinter(false, ListDiffPrinter.DEFAULT_INDENT_TEXT, ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
         String xmlDocument = printer.toString();
         assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
@@ -90,7 +90,7 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
     }
 
     public void testDefaultEncoding() {
-        ListDiffPrinter printer = new ListDiffPrinter();
+        ListDiffPrinter printer = new ListDiffPrinter(false, ListDiffPrinter.DEFAULT_INDENT_TEXT, ListDiffPrinter.DEFAULT_ENCODING, ListDiffPrinter.DEFAULT_DTD_PREFIX);
 
         String xmlDocument = printer.toString();
         assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
@@ -106,7 +106,7 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
     }
 
     public void testSpecificEncoding() {
-        ListDiffPrinter printer = new ListDiffPrinter(SPECIFIC_ENCODING, ListDiffPrinter.DEFAULT_DTD_PREFIX);
+        ListDiffPrinter printer = new ListDiffPrinter(false, ListDiffPrinter.DEFAULT_INDENT_TEXT, SPECIFIC_ENCODING, ListDiffPrinter.DEFAULT_DTD_PREFIX);
 
         String xmlDocument = printer.toString();
         assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
@@ -122,7 +122,7 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
     }
 
     public void testDefault() {
-        ListDiffPrinter printer = new ListDiffPrinter(ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        ListDiffPrinter printer = new ListDiffPrinter(ListDiffPrinter.DEFAULT_COMPRESS, ListDiffPrinter.DEFAULT_INDENT_TEXT, ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
         printer.remove("java.lang.Object");
         printer.remove("java.lang.Object.Object()");
@@ -148,23 +148,23 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
             fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
         }
 
-        assertTrue("java.lang.Object not in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.Object</line>") != -1);
-        assertTrue("java.lang.Object.Object() not in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.Object.Object()</line>") != -1);
-        assertTrue("java.lang.String not in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.String</line>") != -1);
-        assertTrue("java.util not in " + xmlDocument, xmlDocument.indexOf("<line>java.util</line>") != -1);
-        assertTrue("java.util.Collection.add(java.lang.Object) not in " + xmlDocument, xmlDocument.indexOf("<line>java.util.Collection.add(java.lang.Object)</line>") != -1);
-        assertTrue("java.util.Collection.addAll(java.util.Collection) not in " + xmlDocument, xmlDocument.indexOf("<line>java.util.Collection.add(java.lang.Object)</line>") != -1);
+        assertTrue("java.lang.Object not in " + xmlDocument, xmlDocument.contains("<line>java.lang.Object</line>"));
+        assertTrue("java.lang.Object.Object() not in " + xmlDocument, xmlDocument.contains("<line>java.lang.Object.Object()</line>"));
+        assertTrue("java.lang.String not in " + xmlDocument, xmlDocument.contains("<line>java.lang.String</line>"));
+        assertTrue("java.util not in " + xmlDocument, xmlDocument.contains("<line>java.util</line>"));
+        assertTrue("java.util.Collection.add(java.lang.Object) not in " + xmlDocument, xmlDocument.contains("<line>java.util.Collection.add(java.lang.Object)</line>"));
+        assertTrue("java.util.Collection.addAll(java.util.Collection) not in " + xmlDocument, xmlDocument.contains("<line>java.util.Collection.add(java.lang.Object)</line>"));
 
-        assertTrue("java.lang.Thread not in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.Thread</line>") != -1);
-        assertTrue("java.lang.Thread.Thread() not in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.Thread.Thread()</line>") != -1);
-        assertTrue("java.lang.System not in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.System</line>") != -1);
-        assertTrue("java.io not in " + xmlDocument, xmlDocument.indexOf("<line>java.io</line>") != -1);
-        assertTrue("java.io.PrintStream.println(java.lang.Object) not in " + xmlDocument, xmlDocument.indexOf("<line>java.io.PrintStream.println(java.lang.Object)</line>") != -1);
-        assertTrue("java.io.PrintWriter.println(java.lang.Object) not in " + xmlDocument, xmlDocument.indexOf("<line>java.io.PrintStream.println(java.lang.Object)</line>") != -1);
+        assertTrue("java.lang.Thread not in " + xmlDocument, xmlDocument.contains("<line>java.lang.Thread</line>"));
+        assertTrue("java.lang.Thread.Thread() not in " + xmlDocument, xmlDocument.contains("<line>java.lang.Thread.Thread()</line>"));
+        assertTrue("java.lang.System not in " + xmlDocument, xmlDocument.contains("<line>java.lang.System</line>"));
+        assertTrue("java.io not in " + xmlDocument, xmlDocument.contains("<line>java.io</line>"));
+        assertTrue("java.io.PrintStream.println(java.lang.Object) not in " + xmlDocument, xmlDocument.contains("<line>java.io.PrintStream.println(java.lang.Object)</line>"));
+        assertTrue("java.io.PrintWriter.println(java.lang.Object) not in " + xmlDocument, xmlDocument.contains("<line>java.io.PrintStream.println(java.lang.Object)</line>"));
     }
 
     public void testFullList() {
-        ListDiffPrinter printer = new ListDiffPrinter(false, ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        ListDiffPrinter printer = new ListDiffPrinter(ListDiffPrinter.DEFAULT_COMPRESS, ListDiffPrinter.DEFAULT_INDENT_TEXT, ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
         printer.remove("java.lang.Object");
         printer.remove("java.lang.Object.Object()");
@@ -190,23 +190,23 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
             fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
         }
 
-        assertTrue("java.lang.Object not in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.Object</line>") != -1);
-        assertTrue("java.lang.Object.Object() not in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.Object.Object()</line>") != -1);
-        assertTrue("java.lang.String not in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.String</line>") != -1);
-        assertTrue("java.util not in " + xmlDocument, xmlDocument.indexOf("<line>java.util</line>") != -1);
-        assertTrue("java.util.Collection.add(java.lang.Object) not in " + xmlDocument, xmlDocument.indexOf("<line>java.util.Collection.add(java.lang.Object)</line>") != -1);
-        assertTrue("java.util.Collection.addAll(java.util.Collection) not in " + xmlDocument, xmlDocument.indexOf("<line>java.util.Collection.add(java.lang.Object)</line>") != -1);
+        assertTrue("java.lang.Object not in " + xmlDocument, xmlDocument.contains("<line>java.lang.Object</line>"));
+        assertTrue("java.lang.Object.Object() not in " + xmlDocument, xmlDocument.contains("<line>java.lang.Object.Object()</line>"));
+        assertTrue("java.lang.String not in " + xmlDocument, xmlDocument.contains("<line>java.lang.String</line>"));
+        assertTrue("java.util not in " + xmlDocument, xmlDocument.contains("<line>java.util</line>"));
+        assertTrue("java.util.Collection.add(java.lang.Object) not in " + xmlDocument, xmlDocument.contains("<line>java.util.Collection.add(java.lang.Object)</line>"));
+        assertTrue("java.util.Collection.addAll(java.util.Collection) not in " + xmlDocument, xmlDocument.contains("<line>java.util.Collection.add(java.lang.Object)</line>"));
 
-        assertTrue("java.lang.Thread not in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.Thread</line>") != -1);
-        assertTrue("java.lang.Thread.Thread() not in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.Thread.Thread()</line>") != -1);
-        assertTrue("java.lang.System not in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.System</line>") != -1);
-        assertTrue("java.io not in " + xmlDocument, xmlDocument.indexOf("<line>java.io</line>") != -1);
-        assertTrue("java.io.PrintStream.println(java.lang.Object) not in " + xmlDocument, xmlDocument.indexOf("<line>java.io.PrintStream.println(java.lang.Object)</line>") != -1);
-        assertTrue("java.io.PrintWriter.println(java.lang.Object) not in " + xmlDocument, xmlDocument.indexOf("<line>java.io.PrintStream.println(java.lang.Object)</line>") != -1);
+        assertTrue("java.lang.Thread not in " + xmlDocument, xmlDocument.contains("<line>java.lang.Thread</line>"));
+        assertTrue("java.lang.Thread.Thread() not in " + xmlDocument, xmlDocument.contains("<line>java.lang.Thread.Thread()</line>"));
+        assertTrue("java.lang.System not in " + xmlDocument, xmlDocument.contains("<line>java.lang.System</line>"));
+        assertTrue("java.io not in " + xmlDocument, xmlDocument.contains("<line>java.io</line>"));
+        assertTrue("java.io.PrintStream.println(java.lang.Object) not in " + xmlDocument, xmlDocument.contains("<line>java.io.PrintStream.println(java.lang.Object)</line>"));
+        assertTrue("java.io.PrintWriter.println(java.lang.Object) not in " + xmlDocument, xmlDocument.contains("<line>java.io.PrintStream.println(java.lang.Object)</line>"));
     }
 
     public void testCompressedList() {
-        ListDiffPrinter printer = new ListDiffPrinter(true, ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        ListDiffPrinter printer = new ListDiffPrinter(true, ListDiffPrinter.DEFAULT_INDENT_TEXT, ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
         printer.remove("java.lang.Object [C]");
         printer.remove("java.lang.Object.Object() [F]");
@@ -232,23 +232,23 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
             fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
         }
 
-        assertTrue("java.lang.Object not in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.Object</line>") != -1);
-        assertTrue("java.lang.Object.Object() in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.Object.Object()</line>") == -1);
-        assertTrue("java.lang.String not in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.String</line>") != -1);
-        assertTrue("java.util not in " + xmlDocument, xmlDocument.indexOf("<line>java.util</line>") != -1);
-        assertTrue("java.util.Collection.add(java.lang.Object) in " + xmlDocument, xmlDocument.indexOf("<line>java.util.Collection.add(java.lang.Object)</line>") == -1);
-        assertTrue("java.util.Collection.addAll(java.util.Collection) in " + xmlDocument, xmlDocument.indexOf("<line>java.util.Collection.add(java.lang.Object)</line>") == -1);
+        assertTrue("java.lang.Object not in " + xmlDocument, xmlDocument.contains("<line>java.lang.Object</line>"));
+        assertFalse("java.lang.Object.Object() in " + xmlDocument, xmlDocument.contains("<line>java.lang.Object.Object()</line>"));
+        assertTrue("java.lang.String not in " + xmlDocument, xmlDocument.contains("<line>java.lang.String</line>"));
+        assertTrue("java.util not in " + xmlDocument, xmlDocument.contains("<line>java.util</line>"));
+        assertFalse("java.util.Collection.add(java.lang.Object) in " + xmlDocument, xmlDocument.contains("<line>java.util.Collection.add(java.lang.Object)</line>"));
+        assertFalse("java.util.Collection.addAll(java.util.Collection) in " + xmlDocument, xmlDocument.contains("<line>java.util.Collection.add(java.lang.Object)</line>"));
 
-        assertTrue("java.lang.Thread not in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.Thread</line>") != -1);
-        assertTrue("java.lang.Thread.Thread() in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.Thread.Thread()</line>") == -1);
-        assertTrue("java.lang.System not in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.System</line>") != -1);
-        assertTrue("java.io not in " + xmlDocument, xmlDocument.indexOf("<line>java.io</line>") != -1);
-        assertTrue("java.io.PrintStream.println(java.lang.Object) not in " + xmlDocument, xmlDocument.indexOf("<line>java.io.PrintStream.println(java.lang.Object)</line>") == -1);
-        assertTrue("java.io.PrintWriter.println(java.lang.Object) in " + xmlDocument, xmlDocument.indexOf("<line>java.io.PrintStream.println(java.lang.Object)</line>") == -1);
+        assertTrue("java.lang.Thread not in " + xmlDocument, xmlDocument.contains("<line>java.lang.Thread</line>"));
+        assertFalse("java.lang.Thread.Thread() in " + xmlDocument, xmlDocument.contains("<line>java.lang.Thread.Thread()</line>"));
+        assertTrue("java.lang.System not in " + xmlDocument, xmlDocument.contains("<line>java.lang.System</line>"));
+        assertTrue("java.io not in " + xmlDocument, xmlDocument.contains("<line>java.io</line>"));
+        assertFalse("java.io.PrintStream.println(java.lang.Object) not in " + xmlDocument, xmlDocument.contains("<line>java.io.PrintStream.println(java.lang.Object)</line>"));
+        assertFalse("java.io.PrintWriter.println(java.lang.Object) in " + xmlDocument, xmlDocument.contains("<line>java.io.PrintStream.println(java.lang.Object)</line>"));
     }
 
     public void testCompressedListWithoutSuffixes() {
-        ListDiffPrinter printer = new ListDiffPrinter(true, ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        ListDiffPrinter printer = new ListDiffPrinter(true, ListDiffPrinter.DEFAULT_INDENT_TEXT, ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
         printer.remove("java.lang.Object");
         printer.remove("java.lang.Object.Object()");
@@ -274,23 +274,23 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
             fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
         }
 
-        assertTrue("java.lang.Object not in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.Object</line>") != -1);
-        assertTrue("java.lang.Object.Object() not in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.Object.Object()</line>") != -1);
-        assertTrue("java.lang.String not in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.String</line>") != -1);
-        assertTrue("java.util not in " + xmlDocument, xmlDocument.indexOf("<line>java.util</line>") != -1);
-        assertTrue("java.util.Collection.add(java.lang.Object) not in " + xmlDocument, xmlDocument.indexOf("<line>java.util.Collection.add(java.lang.Object)</line>") != -1);
-        assertTrue("java.util.Collection.addAll(java.util.Collection) not in " + xmlDocument, xmlDocument.indexOf("<line>java.util.Collection.add(java.lang.Object)</line>") != -1);
+        assertTrue("java.lang.Object not in " + xmlDocument, xmlDocument.contains("<line>java.lang.Object</line>"));
+        assertTrue("java.lang.Object.Object() not in " + xmlDocument, xmlDocument.contains("<line>java.lang.Object.Object()</line>"));
+        assertTrue("java.lang.String not in " + xmlDocument, xmlDocument.contains("<line>java.lang.String</line>"));
+        assertTrue("java.util not in " + xmlDocument, xmlDocument.contains("<line>java.util</line>"));
+        assertTrue("java.util.Collection.add(java.lang.Object) not in " + xmlDocument, xmlDocument.contains("<line>java.util.Collection.add(java.lang.Object)</line>"));
+        assertTrue("java.util.Collection.addAll(java.util.Collection) not in " + xmlDocument, xmlDocument.contains("<line>java.util.Collection.add(java.lang.Object)</line>"));
 
-        assertTrue("java.lang.Thread not in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.Thread</line>") != -1);
-        assertTrue("java.lang.Thread.Thread() not in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.Thread.Thread()</line>") != -1);
-        assertTrue("java.lang.System not in " + xmlDocument, xmlDocument.indexOf("<line>java.lang.System</line>") != -1);
-        assertTrue("java.io not in " + xmlDocument, xmlDocument.indexOf("<line>java.io</line>") != -1);
-        assertTrue("java.io.PrintStream.println(java.lang.Object) not in " + xmlDocument, xmlDocument.indexOf("<line>java.io.PrintStream.println(java.lang.Object)</line>") != -1);
-        assertTrue("java.io.PrintWriter.println(java.lang.Object) not in " + xmlDocument, xmlDocument.indexOf("<line>java.io.PrintStream.println(java.lang.Object)</line>") != -1);
+        assertTrue("java.lang.Thread not in " + xmlDocument, xmlDocument.contains("<line>java.lang.Thread</line>"));
+        assertTrue("java.lang.Thread.Thread() not in " + xmlDocument, xmlDocument.contains("<line>java.lang.Thread.Thread()</line>"));
+        assertTrue("java.lang.System not in " + xmlDocument, xmlDocument.contains("<line>java.lang.System</line>"));
+        assertTrue("java.io not in " + xmlDocument, xmlDocument.contains("<line>java.io</line>"));
+        assertTrue("java.io.PrintStream.println(java.lang.Object) not in " + xmlDocument, xmlDocument.contains("<line>java.io.PrintStream.println(java.lang.Object)</line>"));
+        assertTrue("java.io.PrintWriter.println(java.lang.Object) not in " + xmlDocument, xmlDocument.contains("<line>java.io.PrintStream.println(java.lang.Object)</line>"));
     }
 
     public void testLegitimateSuffixes() {
-        ListDiffPrinter printer = new ListDiffPrinter(true, ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        ListDiffPrinter printer = new ListDiffPrinter(true, ListDiffPrinter.DEFAULT_INDENT_TEXT, ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
         printer.remove("removed [P]");                                    // not compressed
         printer.remove("removed.Removed [C]");                            //     compressed
@@ -326,33 +326,33 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
             fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
         }
 
-        assertTrue("removed not in " + xmlDocument, xmlDocument.indexOf("<line>removed</line>") != -1);
-        assertTrue("removed.Removed in " + xmlDocument, xmlDocument.indexOf("<line>removed.Removed</line>") == -1);
-        assertTrue("removed.Removed.Removed() in " + xmlDocument, xmlDocument.indexOf("<line>removed.Removed.Removed()</line>") == -1);
-        assertTrue("removed.Removed.removed in " + xmlDocument, xmlDocument.indexOf("<line>removed.Removed.removed</line>") == -1);
-        assertTrue("removed.OtherRemoved.OtherRemoved() in " + xmlDocument, xmlDocument.indexOf("<line>removed.OtherRemoved.OtherRemoved()</line>") == -1);
-        assertTrue("removed.OtherRemoved.other_removed in " + xmlDocument, xmlDocument.indexOf("<line>removed.OtherRemoved.other_removed</line>") == -1);
-        assertTrue("removedpackage not in " + xmlDocument, xmlDocument.indexOf("<line>removedpackage</line>") != -1);
-        assertTrue("removed.package.internal not in " + xmlDocument, xmlDocument.indexOf("<line>removed.package.internal</line>") != -1);
-        assertTrue("other.removed.Removed not in " + xmlDocument, xmlDocument.indexOf("<line>other.removed.Removed</line>") != -1);
-        assertTrue("other.removed.Removed.Removed() in " + xmlDocument, xmlDocument.indexOf("<line>other.removed.Removed.Removed()</line>") == -1);
-        assertTrue("other.removed.OtherRemoved.OtherRemoved() not in " + xmlDocument, xmlDocument.indexOf("<line>other.removed.OtherRemoved.OtherRemoved()</line>") != -1);
+        assertTrue("removed not in " + xmlDocument, xmlDocument.contains("<line>removed</line>"));
+        assertFalse("removed.Removed in " + xmlDocument, xmlDocument.contains("<line>removed.Removed</line>"));
+        assertFalse("removed.Removed.Removed() in " + xmlDocument, xmlDocument.contains("<line>removed.Removed.Removed()</line>"));
+        assertFalse("removed.Removed.removed in " + xmlDocument, xmlDocument.contains("<line>removed.Removed.removed</line>"));
+        assertFalse("removed.OtherRemoved.OtherRemoved() in " + xmlDocument, xmlDocument.contains("<line>removed.OtherRemoved.OtherRemoved()</line>"));
+        assertFalse("removed.OtherRemoved.other_removed in " + xmlDocument, xmlDocument.contains("<line>removed.OtherRemoved.other_removed</line>"));
+        assertTrue("removedpackage not in " + xmlDocument, xmlDocument.contains("<line>removedpackage</line>"));
+        assertTrue("removed.package.internal not in " + xmlDocument, xmlDocument.contains("<line>removed.package.internal</line>"));
+        assertTrue("other.removed.Removed not in " + xmlDocument, xmlDocument.contains("<line>other.removed.Removed</line>"));
+        assertFalse("other.removed.Removed.Removed() in " + xmlDocument, xmlDocument.contains("<line>other.removed.Removed.Removed()</line>"));
+        assertTrue("other.removed.OtherRemoved.OtherRemoved() not in " + xmlDocument, xmlDocument.contains("<line>other.removed.OtherRemoved.OtherRemoved()</line>"));
 
-        assertTrue("add not in " + xmlDocument, xmlDocument.indexOf("<line>add</line>") != -1);
-        assertTrue("add.Add in " + xmlDocument, xmlDocument.indexOf("<line>add.Add</line>") == -1);
-        assertTrue("add.Add.Add() in " + xmlDocument, xmlDocument.indexOf("<line>add.Add.Add()</line>") == -1);
-        assertTrue("add.Add.add in " + xmlDocument, xmlDocument.indexOf("<line>add.Add.add</line>") == -1);
-        assertTrue("add.OtherAdd.OtherAdd() in " + xmlDocument, xmlDocument.indexOf("<line>add.OtherAdd.OtherAdd()</line>") == -1);
-        assertTrue("add.OtherAdd.other_add in " + xmlDocument, xmlDocument.indexOf("<line>add.OtherAdd.other_add</line>") == -1);
-        assertTrue("addpackage not in " + xmlDocument, xmlDocument.indexOf("<line>addpackage</line>") != -1);
-        assertTrue("add.package.internal not in " + xmlDocument, xmlDocument.indexOf("<line>add.package.internal</line>") != -1);
-        assertTrue("other.add.Add not in " + xmlDocument, xmlDocument.indexOf("<line>other.add.Add</line>") != -1);
-        assertTrue("other.add.Add.Add() in " + xmlDocument, xmlDocument.indexOf("<line>other.add.Add.Add()</line>") == -1);
-        assertTrue("other.add.OtherAdd.OtherAdd() not in " + xmlDocument, xmlDocument.indexOf("<line>other.add.OtherAdd.OtherAdd()</line>") != -1);
+        assertTrue("add not in " + xmlDocument, xmlDocument.contains("<line>add</line>"));
+        assertFalse("add.Add in " + xmlDocument, xmlDocument.contains("<line>add.Add</line>"));
+        assertFalse("add.Add.Add() in " + xmlDocument, xmlDocument.contains("<line>add.Add.Add()</line>"));
+        assertFalse("add.Add.add in " + xmlDocument, xmlDocument.contains("<line>add.Add.add</line>"));
+        assertFalse("add.OtherAdd.OtherAdd() in " + xmlDocument, xmlDocument.contains("<line>add.OtherAdd.OtherAdd()</line>"));
+        assertFalse("add.OtherAdd.other_add in " + xmlDocument, xmlDocument.contains("<line>add.OtherAdd.other_add</line>"));
+        assertTrue("addpackage not in " + xmlDocument, xmlDocument.contains("<line>addpackage</line>"));
+        assertTrue("add.package.internal not in " + xmlDocument, xmlDocument.contains("<line>add.package.internal</line>"));
+        assertTrue("other.add.Add not in " + xmlDocument, xmlDocument.contains("<line>other.add.Add</line>"));
+        assertFalse("other.add.Add.Add() in " + xmlDocument, xmlDocument.contains("<line>other.add.Add.Add()</line>"));
+        assertTrue("other.add.OtherAdd.OtherAdd() not in " + xmlDocument, xmlDocument.contains("<line>other.add.OtherAdd.OtherAdd()</line>"));
     }
 
     public void testNoSuffixes() {
-        ListDiffPrinter printer = new ListDiffPrinter(true, ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        ListDiffPrinter printer = new ListDiffPrinter(true, ListDiffPrinter.DEFAULT_INDENT_TEXT, ListDiffPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
         printer.remove("removed");                                    // not compressed
         printer.remove("removed.Removed");                            // not compressed
@@ -388,29 +388,29 @@ public class TestListDiffPrinter extends TestCase implements ErrorHandler {
             fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
         }
 
-        assertTrue("removed not in " + xmlDocument, xmlDocument.indexOf("<line>removed</line>") != -1);
-        assertTrue("removed.Removed in " + xmlDocument, xmlDocument.indexOf("<line>removed.Removed</line>") != -1);
-        assertTrue("removed.Removed.Removed() in " + xmlDocument, xmlDocument.indexOf("<line>removed.Removed.Removed()</line>") != -1);
-        assertTrue("removed.Removed.removed in " + xmlDocument, xmlDocument.indexOf("<line>removed.Removed.removed</line>") != -1);
-        assertTrue("removed.OtherRemoved.OtherRemoved() in " + xmlDocument, xmlDocument.indexOf("<line>removed.OtherRemoved.OtherRemoved()</line>") != -1);
-        assertTrue("removed.OtherRemoved.other_removed in " + xmlDocument, xmlDocument.indexOf("<line>removed.OtherRemoved.other_removed</line>") != -1);
-        assertTrue("removedpackage not in " + xmlDocument, xmlDocument.indexOf("<line>removedpackage</line>") != -1);
-        assertTrue("removed.package.internal not in " + xmlDocument, xmlDocument.indexOf("<line>removed.package.internal</line>") != -1);
-        assertTrue("other.removed.Removed not in " + xmlDocument, xmlDocument.indexOf("<line>other.removed.Removed</line>") != -1);
-        assertTrue("other.removed.Removed.Removed() in " + xmlDocument, xmlDocument.indexOf("<line>other.removed.Removed.Removed()</line>") != -1);
-        assertTrue("other.removed.OtherRemoved.OtherRemoved() not in " + xmlDocument, xmlDocument.indexOf("<line>other.removed.OtherRemoved.OtherRemoved()</line>") != -1);
+        assertTrue("removed not in " + xmlDocument, xmlDocument.contains("<line>removed</line>"));
+        assertTrue("removed.Removed in " + xmlDocument, xmlDocument.contains("<line>removed.Removed</line>"));
+        assertTrue("removed.Removed.Removed() in " + xmlDocument, xmlDocument.contains("<line>removed.Removed.Removed()</line>"));
+        assertTrue("removed.Removed.removed in " + xmlDocument, xmlDocument.contains("<line>removed.Removed.removed</line>"));
+        assertTrue("removed.OtherRemoved.OtherRemoved() in " + xmlDocument, xmlDocument.contains("<line>removed.OtherRemoved.OtherRemoved()</line>"));
+        assertTrue("removed.OtherRemoved.other_removed in " + xmlDocument, xmlDocument.contains("<line>removed.OtherRemoved.other_removed</line>"));
+        assertTrue("removedpackage not in " + xmlDocument, xmlDocument.contains("<line>removedpackage</line>"));
+        assertTrue("removed.package.internal not in " + xmlDocument, xmlDocument.contains("<line>removed.package.internal</line>"));
+        assertTrue("other.removed.Removed not in " + xmlDocument, xmlDocument.contains("<line>other.removed.Removed</line>"));
+        assertTrue("other.removed.Removed.Removed() in " + xmlDocument, xmlDocument.contains("<line>other.removed.Removed.Removed()</line>"));
+        assertTrue("other.removed.OtherRemoved.OtherRemoved() not in " + xmlDocument, xmlDocument.contains("<line>other.removed.OtherRemoved.OtherRemoved()</line>"));
 
-        assertTrue("add not in " + xmlDocument, xmlDocument.indexOf("<line>add</line>") != -1);
-        assertTrue("add.Add in " + xmlDocument, xmlDocument.indexOf("<line>add.Add</line>") != -1);
-        assertTrue("add.Add.Add() in " + xmlDocument, xmlDocument.indexOf("<line>add.Add.Add()</line>") != -1);
-        assertTrue("add.Add.add in " + xmlDocument, xmlDocument.indexOf("<line>add.Add.add</line>") != -1);
-        assertTrue("add.OtherAdd.OtherAdd() in " + xmlDocument, xmlDocument.indexOf("<line>add.OtherAdd.OtherAdd()</line>") != -1);
-        assertTrue("add.OtherAdd.other_add in " + xmlDocument, xmlDocument.indexOf("<line>add.OtherAdd.other_add</line>") != -1);
-        assertTrue("addpackage not in " + xmlDocument, xmlDocument.indexOf("<line>addpackage</line>") != -1);
-        assertTrue("add.package.internal not in " + xmlDocument, xmlDocument.indexOf("<line>add.package.internal</line>") != -1);
-        assertTrue("other.add.Add not in " + xmlDocument, xmlDocument.indexOf("<line>other.add.Add</line>") != -1);
-        assertTrue("other.add.Add.Add() in " + xmlDocument, xmlDocument.indexOf("<line>other.add.Add.Add()</line>") != -1);
-        assertTrue("other.add.OtherAdd.OtherAdd() not in " + xmlDocument, xmlDocument.indexOf("<line>other.add.OtherAdd.OtherAdd()</line>") != -1);
+        assertTrue("add not in " + xmlDocument, xmlDocument.contains("<line>add</line>"));
+        assertTrue("add.Add in " + xmlDocument, xmlDocument.contains("<line>add.Add</line>"));
+        assertTrue("add.Add.Add() in " + xmlDocument, xmlDocument.contains("<line>add.Add.Add()</line>"));
+        assertTrue("add.Add.add in " + xmlDocument, xmlDocument.contains("<line>add.Add.add</line>"));
+        assertTrue("add.OtherAdd.OtherAdd() in " + xmlDocument, xmlDocument.contains("<line>add.OtherAdd.OtherAdd()</line>"));
+        assertTrue("add.OtherAdd.other_add in " + xmlDocument, xmlDocument.contains("<line>add.OtherAdd.other_add</line>"));
+        assertTrue("addpackage not in " + xmlDocument, xmlDocument.contains("<line>addpackage</line>"));
+        assertTrue("add.package.internal not in " + xmlDocument, xmlDocument.contains("<line>add.package.internal</line>"));
+        assertTrue("other.add.Add not in " + xmlDocument, xmlDocument.contains("<line>other.add.Add</line>"));
+        assertTrue("other.add.Add.Add() in " + xmlDocument, xmlDocument.contains("<line>other.add.Add.Add()</line>"));
+        assertTrue("other.add.OtherAdd.OtherAdd() not in " + xmlDocument, xmlDocument.contains("<line>other.add.OtherAdd.OtherAdd()</line>"));
     }
 
     public void error(SAXParseException ex) {

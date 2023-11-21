@@ -32,11 +32,12 @@
 
 package com.jeantessier.diff;
 
+import com.jeantessier.classreader.Class_info;
 import com.jeantessier.classreader.Classfile;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class Report extends Printer {
     public static final String DEFAULT_ENCODING   = "utf-8";
@@ -46,30 +47,31 @@ public class Report extends Printer {
     private String oldVersion;
     private String newVersion;
 
-    private Collection<Differences> removedPackages = new TreeSet<Differences>();
+    private final Collection<Differences> removedPackages = new TreeSet<>();
 
-    private Collection<ClassDifferences> removedInterfaces = new TreeSet<ClassDifferences>();
-    private Collection<ClassDifferences> removedClasses = new TreeSet<ClassDifferences>();
+    private final Collection<ClassDifferences> removedInterfaces = new TreeSet<>();
+    private final Collection<ClassDifferences> removedClasses = new TreeSet<>();
 
-    private Collection<ClassDifferences> deprecatedInterfaces = new TreeSet<ClassDifferences>();
-    private Collection<ClassDifferences> deprecatedClasses = new TreeSet<ClassDifferences>();
+    private final Collection<ClassDifferences> deprecatedInterfaces = new TreeSet<>();
+    private final Collection<ClassDifferences> deprecatedClasses = new TreeSet<>();
     
-    private Collection<ClassReport> modifiedInterfaces = new TreeSet<ClassReport>();
-    private Collection<ClassReport> modifiedClasses = new TreeSet<ClassReport>();
+    private final Collection<ClassReport> modifiedInterfaces = new TreeSet<>();
+    private final Collection<ClassReport> modifiedClasses = new TreeSet<>();
 
-    private Collection<ClassDifferences> undeprecatedInterfaces = new TreeSet<ClassDifferences>();
-    private Collection<ClassDifferences> undeprecatedClasses = new TreeSet<ClassDifferences>();
+    private final Collection<ClassDifferences> undeprecatedInterfaces = new TreeSet<>();
+    private final Collection<ClassDifferences> undeprecatedClasses = new TreeSet<>();
     
-    private Collection<Differences> newPackages = new TreeSet<Differences>();
+    private final Collection<Differences> newPackages = new TreeSet<>();
 
-    private Collection<ClassDifferences> newInterfaces = new TreeSet<ClassDifferences>();
-    private Collection<ClassDifferences> newClasses = new TreeSet<ClassDifferences>();
+    private final Collection<ClassDifferences> newInterfaces = new TreeSet<>();
+    private final Collection<ClassDifferences> newClasses = new TreeSet<>();
 
     public Report() {
-        this(DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);
+        this(DEFAULT_INDENT_TEXT, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);
     }
     
-    public Report(String encoding, String dtdPrefix) {
+    public Report(String indentText, String encoding, String dtdPrefix) {
+        super(indentText);
         appendHeader(encoding, dtdPrefix);
     }
 
@@ -97,19 +99,15 @@ public class Report extends Printer {
         setOldVersion(differences.getOldVersion());
         setNewVersion(differences.getNewVersion());
 
-        for (Differences packageDifference : differences.getPackageDifferences()) {
-            packageDifference.accept(this);
-        }
+        differences.getPackageDifferences().forEach(packageDifference -> packageDifference.accept(this));
     }
 
     public void visitPackageDifferences(PackageDifferences differences) {
         if (differences.isRemoved()) {
             removedPackages.add(differences);
         }
-    
-        for (Differences classDiffenrence : differences.getClassDifferences()) {
-            classDiffenrence.accept(this);
-        }
+
+        differences.getClassDifferences().forEach(classDifference -> classDifference.accept(this));
 
         if (differences.isNew()) {
             newPackages.add(differences);
@@ -122,8 +120,7 @@ public class Report extends Printer {
         }
     
         if (differences.isModified()) {
-            ClassReport visitor = new ClassReport();
-            visitor.setIndentText(getIndentText());
+            ClassReport visitor = new ClassReport(getIndentText());
             differences.accept(visitor);
             modifiedClasses.add(visitor);
         }
@@ -147,8 +144,7 @@ public class Report extends Printer {
         }
     
         if (differences.isModified()) {
-            ClassReport classReport = new ClassReport();
-            classReport.setIndentText(getIndentText());
+            ClassReport classReport = new ClassReport(getIndentText());
             differences.accept(classReport);
             modifiedInterfaces.add(classReport);
         }
@@ -174,145 +170,145 @@ public class Report extends Printer {
         indent().append("<old>").append(oldVersion).append("</old>").eol();
         indent().append("<new>").append(newVersion).append("</new>").eol();
     
-        if (removedPackages.size() !=0) {
+        if (!removedPackages.isEmpty()) {
             indent().append("<removed-packages>").eol();
             raiseIndent();
 
-            for (Differences removedPackage : removedPackages) {
+            removedPackages.forEach(removedPackage -> {
                 indent().append("<name>").append(removedPackage).append("</name>").eol();
-            }
+            });
 
             lowerIndent();
             indent().append("</removed-packages>").eol();
         }
 
-        if (removedInterfaces.size() !=0) {
+        if (!removedInterfaces.isEmpty()) {
             indent().append("<removed-interfaces>").eol();
             raiseIndent();
 
-            for (ClassDifferences cd : removedInterfaces) {
+            removedInterfaces.forEach(cd -> {
                 indent().append("<name").append(breakdownDeclaration(cd.getOldClass())).append(">").append(cd).append("</name>").eol();
-            }
+            });
 
             lowerIndent();
             indent().append("</removed-interfaces>").eol();
         }
 
-        if (removedClasses.size() !=0) {
+        if (!removedClasses.isEmpty()) {
             indent().append("<removed-classes>").eol();
             raiseIndent();
 
-            for (ClassDifferences cd : removedClasses) {
+            removedClasses.forEach(cd -> {
                 indent().append("<name").append(breakdownDeclaration(cd.getOldClass())).append(">").append(cd).append("</name>").eol();
-            }
+            });
 
             lowerIndent();
             indent().append("</removed-classes>").eol();
         }
 
-        if (deprecatedInterfaces.size() !=0) {
+        if (!deprecatedInterfaces.isEmpty()) {
             indent().append("<deprecated-interfaces>").eol();
             raiseIndent();
 
-            for (ClassDifferences cd : deprecatedInterfaces) {
+            deprecatedInterfaces.forEach(cd -> {
                 indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
-            }
+            });
 
             lowerIndent();
             indent().append("</deprecated-interfaces>").eol();
         }
 
-        if (deprecatedClasses.size() !=0) {
+        if (!deprecatedClasses.isEmpty()) {
             indent().append("<deprecated-classes>").eol();
             raiseIndent();
 
-            for (ClassDifferences cd : deprecatedClasses) {
+            deprecatedClasses.forEach(cd -> {
                 indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
-            }
+            });
 
             lowerIndent();
             indent().append("</deprecated-classes>").eol();
         }
 
-        if (modifiedInterfaces.size() !=0) {
+        if (!modifiedInterfaces.isEmpty()) {
             indent().append("<modified-interfaces>").eol();
             raiseIndent();
 
-            for (ClassReport modifiedInterface : modifiedInterfaces) {
+            modifiedInterfaces.forEach(modifiedInterface -> {
                 append(modifiedInterface.render());
-            }
+            });
 
             lowerIndent();
             indent().append("</modified-interfaces>").eol();
         }
 
-        if (modifiedClasses.size() !=0) {
+        if (!modifiedClasses.isEmpty()) {
             indent().append("<modified-classes>").eol();
             raiseIndent();
 
-            for (ClassReport modifiedClass : modifiedClasses) {
+            modifiedClasses.forEach(modifiedClass -> {
                 append(modifiedClass.render());
-            }
+            });
 
             lowerIndent();
             indent().append("</modified-classes>").eol();
         }
 
-        if (undeprecatedInterfaces.size() !=0) {
+        if (!undeprecatedInterfaces.isEmpty()) {
             indent().append("<undeprecated-interfaces>").eol();
             raiseIndent();
 
-            for (ClassDifferences cd : undeprecatedInterfaces) {
+            undeprecatedClasses.forEach(cd -> {
                 indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
-            }
+            });
 
             lowerIndent();
             indent().append("</undeprecated-interfaces>").eol();
         }
 
-        if (undeprecatedClasses.size() !=0) {
+        if (!undeprecatedClasses.isEmpty()) {
             indent().append("<undeprecated-classes>").eol();
             raiseIndent();
 
-            for (ClassDifferences cd : undeprecatedClasses) {
+            undeprecatedClasses.forEach(cd -> {
                 indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
-            }
+            });
 
             lowerIndent();
             indent().append("</undeprecated-classes>").eol();
         }
 
-        if (newPackages.size() !=0) {
+        if (!newPackages.isEmpty()) {
             indent().append("<new-packages>").eol();
             raiseIndent();
 
-            for (Differences newPackage : newPackages) {
+            newPackages.forEach(newPackage -> {
                 indent().append("<name>").append(newPackage).append("</name>").eol();
-            }
+            });
 
             lowerIndent();
             indent().append("</new-packages>").eol();
         }
 
-        if (newInterfaces.size() !=0) {
+        if (!newInterfaces.isEmpty()) {
             indent().append("<new-interfaces>").eol();
             raiseIndent();
 
-            for (ClassDifferences cd : newInterfaces) {
+            newInterfaces.forEach(cd -> {
                 indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
-            }
+            });
 
             lowerIndent();
             indent().append("</new-interfaces>").eol();
         }
 
-        if (newClasses.size() !=0) {
+        if (!newClasses.isEmpty()) {
             indent().append("<new-classes>").eol();
             raiseIndent();
 
-            for (ClassDifferences cd : newClasses) {
+            newClasses.forEach(cd -> {
                 indent().append("<name").append(breakdownDeclaration(cd.getNewClass())).append(">").append(cd).append("</name>").eol();
-            }
+            });
 
             lowerIndent();
             indent().append("</new-classes>").eol();
@@ -325,7 +321,7 @@ public class Report extends Printer {
     }
 
     private String breakdownDeclaration(Classfile element) {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         if (element != null) {
             if (element.isPublic())     result.append(" visibility=\"public\"");
@@ -340,32 +336,22 @@ public class Report extends Printer {
             if (element.isInterface()) {
                 result.append(" interface=\"yes\"");
         
-                result.append(" extends=\"");
-                Iterator i = element.getAllInterfaces().iterator();
-                while (i.hasNext()) {
-                    result.append(i.next());
-                    if (i.hasNext()) {
-                        result.append(", ");
-                    }
-                }
-                result.append("\"");
+                result.append(" extends=\"").append(interfacesFor(element)).append("\"");
             } else {
                 if (element.isAbstract()) result.append(" abstract=\"yes\"");
         
                 result.append(" extends=\"").append(element.getSuperclassName()).append("\"");
         
-                result.append(" implements=\"");
-                Iterator i = element.getAllInterfaces().iterator();
-                while (i.hasNext()) {
-                    result.append(i.next());
-                    if (i.hasNext()) {
-                        result.append(", ");
-                    }
-                }
-                result.append("\"");
+                result.append(" implements=\"").append(interfacesFor(element)).append("\"");
             }
         }
 
         return result.toString();
+    }
+
+    private String interfacesFor(Classfile classfile) {
+        return classfile.getAllInterfaces().stream()
+                .map(Class_info::getName)
+                .collect(Collectors.joining(", "));
     }
 }
