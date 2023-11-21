@@ -36,9 +36,6 @@ import java.util.*;
 
 import org.apache.log4j.*;
 
-/**
- * TODO Class comments
- */
 public class Monitor extends LoadListenerVisitorAdapter {
     private final RemoveVisitor removeVisitor;
     

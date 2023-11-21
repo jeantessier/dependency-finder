@@ -37,9 +37,6 @@ import java.util.stream.Stream;
 
 import com.jeantessier.classreader.*;
 
-/**
- * TODO class comments
- */
 public class APIDifferenceStrategy extends DifferenceStrategyDecorator {
     public APIDifferenceStrategy(DifferenceStrategy delegate) {
         super(delegate);

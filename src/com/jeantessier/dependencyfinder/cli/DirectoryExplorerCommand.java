@@ -36,9 +36,6 @@ import java.io.*;
 
 import com.jeantessier.commandline.*;
 
-/**
- * TODO: javadocs
- */
 public abstract class DirectoryExplorerCommand extends Command {
     protected void showSpecificUsage(PrintStream out) {
         out.println();

@@ -36,9 +36,6 @@ import java.util.*;
 
 import com.jeantessier.classreader.*;
 
-/**
- * TODO class comment
- */
 public interface DifferenceStrategy {
     boolean isPackageDifferent(Map<String, Classfile> oldPackage, Map<String, Classfile> newPackage);
     boolean isClassDifferent(Classfile oldClass, Classfile newClass);

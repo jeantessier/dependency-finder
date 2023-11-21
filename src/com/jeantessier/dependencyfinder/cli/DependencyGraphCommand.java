@@ -39,9 +39,6 @@ import org.xml.sax.*;
 
 import com.jeantessier.dependency.*;
 
-/**
- * TODO Class comments
- */
 public abstract class DependencyGraphCommand extends Command {
     protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();

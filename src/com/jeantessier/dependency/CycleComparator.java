@@ -34,9 +34,6 @@ package com.jeantessier.dependency;
 
 import java.util.*;
 
-/**
- * TODO Class comment
- */
 public class CycleComparator implements Comparator<Cycle> {
     public int compare(Cycle cycle1, Cycle cycle2) {
         int result = cycle1.getLength() - cycle2.getLength();

@@ -39,9 +39,6 @@ import org.apache.log4j.*;
 import com.jeantessier.classreader.*;
 import com.jeantessier.text.*;
 
-/**
- * TODO class comment
- */
 public class CodeDifferenceStrategy implements DifferenceStrategy {
     public boolean isPackageDifferent(Map<String, Classfile> oldPackage, Map<String, Classfile> newPackage) {
         return false;

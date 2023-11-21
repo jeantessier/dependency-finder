@@ -36,9 +36,6 @@ import java.util.*;
 
 import com.jeantessier.classreader.*;
 
-/**
- * TODO class comments
- */
 public class IncompatibleDifferenceStrategy extends APIDifferenceStrategy {
     public IncompatibleDifferenceStrategy(DifferenceStrategy strategy) {
         super(strategy);

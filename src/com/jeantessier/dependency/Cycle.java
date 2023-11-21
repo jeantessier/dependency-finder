@@ -34,9 +34,6 @@ package com.jeantessier.dependency;
 
 import java.util.*;
 
-/**
- * TODO Class comment
- */
 public class Cycle implements Comparable<Cycle> {
     private final List<Node> path;
 
