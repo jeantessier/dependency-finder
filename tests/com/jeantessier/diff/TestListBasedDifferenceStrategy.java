@@ -36,14 +36,15 @@ import java.io.*;
 import java.util.*;
 
 import com.jeantessier.classreader.*;
+import org.jmock.*;
 
 public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase {
-    private MockDifferenceStrategy mockStrategy;
+    private DifferenceStrategy mockStrategy;
 
     protected void setUp() throws Exception {
         super.setUp();
 
-        mockStrategy = new MockDifferenceStrategy(new CodeDifferenceStrategy());
+        mockStrategy = mock(DifferenceStrategy.class);
     }
 
     public void testNullFile() throws IOException {
@@ -77,338 +78,268 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
     }
 
     public void testIsPackageDifferentNotInList() throws IOException {
-        Map oldPackage = new HashMap();
-        oldPackage.put("ModifiedPackage.ModifiedClass", getOldJar().getClassfile("ModifiedPackage.ModifiedClass"));
-        Map newPackage = new HashMap();
-        newPackage.put("ModifiedPackage.ModifiedClass", getNewJar().getClassfile("ModifiedPackage.ModifiedClass"));
+        var oldPackage = Map.of(
+                "ModifiedPackage.ModifiedClass", findClass("ModifiedPackage.ModifiedClass", getOldPackages())
+        );
+        var newPackage = Map.of(
+                "ModifiedPackage.ModifiedClass", findClass("ModifiedPackage.ModifiedClass", getNewPackages())
+        );
 
         DifferenceStrategy strategy = new ListBasedDifferenceStrategy(mockStrategy, new BufferedReader(new StringReader("")));
         strategy.isPackageDifferent(oldPackage, newPackage);
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testIsClassDifferentNotInList() throws IOException {
-        Classfile oldClass = getOldJar().getClassfile("ModifiedPackage.ModifiedClass");
-        Classfile newClass = getNewJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Classfile oldClass = findClass("ModifiedPackage.ModifiedClass", getOldPackages());
+        Classfile newClass = findClass("ModifiedPackage.ModifiedClass", getNewPackages());
 
         DifferenceStrategy strategy = new ListBasedDifferenceStrategy(mockStrategy, new BufferedReader(new StringReader("")));
         strategy.isClassDifferent(oldClass, newClass);
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testIsFieldDifferentNotInList() throws IOException {
-        Field_info oldField = getOldJar().getClassfile("ModifiedPackage.ModifiedClass").getField("modifiedField");
-        Field_info newField = getNewJar().getClassfile("ModifiedPackage.ModifiedClass").getField("modifiedField");
+        Field_info oldField = findField("ModifiedPackage.ModifiedClass.modifiedField", getOldPackages());
+        Field_info newField = findField("ModifiedPackage.ModifiedClass.modifiedField", getNewPackages());
 
         DifferenceStrategy strategy = new ListBasedDifferenceStrategy(mockStrategy, new BufferedReader(new StringReader("")));
         strategy.isFieldDifferent(oldField, newField);
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testIsMethodDifferentNotInList() throws IOException {
-        Method_info oldMethod = getOldJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("modifiedMethod()");
-        Method_info newMethod = getNewJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("modifiedMethod()");
+        Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedMethod()", getOldPackages());
+        Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedMethod()", getNewPackages());
 
         DifferenceStrategy strategy = new ListBasedDifferenceStrategy(mockStrategy, new BufferedReader(new StringReader("")));
         strategy.isMethodDifferent(oldMethod, newMethod);
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testIsCodeMethodDifferentNotInList() throws IOException {
-        Method_info oldMethod = getOldJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("modifiedCodeMethod()");
-        Method_info newMethod = getNewJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("modifiedCodeMethod()");
+        Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getOldPackages());
+        Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getNewPackages());
 
         DifferenceStrategy strategy = new ListBasedDifferenceStrategy(mockStrategy, new BufferedReader(new StringReader("")));
         strategy.isMethodDifferent(oldMethod, newMethod);
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testIsCodeDifferentNotInList() throws IOException {
-        Code_attribute oldCode = getOldJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("modifiedCodeMethod()").getCode();
-        Code_attribute newCode = getNewJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("modifiedCodeMethod()").getCode();
+        Code_attribute oldCode = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getOldPackages()).getCode();
+        Code_attribute newCode = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getNewPackages()).getCode();
+
+        checking(new Expectations() {{
+            oneOf (mockStrategy).isCodeDifferent(oldCode, newCode);
+        }});
 
         DifferenceStrategy strategy = new ListBasedDifferenceStrategy(mockStrategy, new BufferedReader(new StringReader("")));
         strategy.isCodeDifferent(oldCode, newCode);
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     1, mockStrategy.getCodeDifferentCount());
     }
 
     public void testIsPackageDifferentInList() throws IOException {
-        Map oldPackage = new HashMap();
-        oldPackage.put("ModifiedPackage.ModifiedClass", getOldJar().getClassfile("ModifiedPackage.ModifiedClass"));
-        Map newPackage = new HashMap();
-        newPackage.put("ModifiedPackage.ModifiedClass", getNewJar().getClassfile("ModifiedPackage.ModifiedClass"));
+        var oldPackage = Map.of(
+                "ModifiedPackage.ModifiedClass", findClass("ModifiedPackage.ModifiedClass", getOldPackages())
+        );
+        var newPackage = Map.of(
+                "ModifiedPackage.ModifiedClass", findClass("ModifiedPackage.ModifiedClass", getNewPackages())
+        );
+
+        checking(new Expectations() {{
+            oneOf (mockStrategy).isPackageDifferent(oldPackage, newPackage);
+        }});
 
         DifferenceStrategy strategy = new ListBasedDifferenceStrategy(mockStrategy, new BufferedReader(new StringReader("ModifiedPackage")));
         strategy.isPackageDifferent(oldPackage, newPackage);
-
-        assertEquals("package",  1, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testIsClassDifferentInList() throws IOException {
-        Classfile oldClass = getOldJar().getClassfile("ModifiedPackage.ModifiedClass");
-        Classfile newClass = getNewJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Classfile oldClass = findClass("ModifiedPackage.ModifiedClass", getOldPackages());
+        Classfile newClass = findClass("ModifiedPackage.ModifiedClass", getNewPackages());
+
+        checking(new Expectations() {{
+            oneOf (mockStrategy).isClassDifferent(oldClass, newClass);
+        }});
 
         DifferenceStrategy strategy = new ListBasedDifferenceStrategy(mockStrategy, new BufferedReader(new StringReader("ModifiedPackage.ModifiedClass")));
         strategy.isClassDifferent(oldClass, newClass);
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    1, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testIsFieldDifferentInList() throws IOException {
-        Field_info oldField = getOldJar().getClassfile("ModifiedPackage.ModifiedClass").getField("modifiedField");
-        Field_info newField = getNewJar().getClassfile("ModifiedPackage.ModifiedClass").getField("modifiedField");
+        Field_info oldField = findField("ModifiedPackage.ModifiedClass.modifiedField", getOldPackages());
+        Field_info newField = findField("ModifiedPackage.ModifiedClass.modifiedField", getNewPackages());
+
+        checking(new Expectations() {{
+            oneOf (mockStrategy).isFieldDifferent(oldField, newField);
+        }});
 
         DifferenceStrategy strategy = new ListBasedDifferenceStrategy(mockStrategy, new BufferedReader(new StringReader("ModifiedPackage.ModifiedClass.modifiedField")));
         strategy.isFieldDifferent(oldField, newField);
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    1, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testIsMethodDifferentInList() throws IOException {
-        Method_info oldMethod = getOldJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("modifiedMethod()");
-        Method_info newMethod = getNewJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("modifiedMethod()");
+        Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedMethod()", getOldPackages());
+        Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedMethod()", getNewPackages());
+
+        checking(new Expectations() {{
+            oneOf (mockStrategy).isMethodDifferent(oldMethod, newMethod);
+        }});
 
         DifferenceStrategy strategy = new ListBasedDifferenceStrategy(mockStrategy, new BufferedReader(new StringReader("ModifiedPackage.ModifiedClass.modifiedMethod()")));
         strategy.isMethodDifferent(oldMethod, newMethod);
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   1, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testIsCodeMethodDifferentInList() throws IOException {
-        Method_info oldMethod = getOldJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("modifiedCodeMethod()");
-        Method_info newMethod = getNewJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("modifiedCodeMethod()");
+        Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getOldPackages());
+        Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getNewPackages());
+
+        checking(new Expectations() {{
+            oneOf (mockStrategy).isMethodDifferent(oldMethod, newMethod);
+        }});
 
         DifferenceStrategy strategy = new ListBasedDifferenceStrategy(mockStrategy, new BufferedReader(new StringReader("ModifiedPackage.ModifiedClass.modifiedCodeMethod()")));
         strategy.isMethodDifferent(oldMethod, newMethod);
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   1, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testIsCodeDifferentInList() throws IOException {
-        Code_attribute oldCode = getOldJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("modifiedCodeMethod()").getCode();
-        Code_attribute newCode = getNewJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("modifiedCodeMethod()").getCode();
+        Code_attribute oldCode = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getOldPackages()).getCode();
+        Code_attribute newCode = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getNewPackages()).getCode();
+
+        checking(new Expectations() {{
+            oneOf (mockStrategy).isCodeDifferent(oldCode, newCode);
+        }});
 
         DifferenceStrategy strategy = new ListBasedDifferenceStrategy(mockStrategy, new BufferedReader(new StringReader("ModifiedPackage.ModifiedClass.modifiedCodeMethod()")));
         strategy.isCodeDifferent(oldCode, newCode);
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     1, mockStrategy.getCodeDifferentCount());
     }
 
     public void testIsPackageDifferentInListWithSuffix() throws IOException {
-        Map oldPackage = new HashMap();
-        oldPackage.put("ModifiedPackage.ModifiedClass", getOldJar().getClassfile("ModifiedPackage.ModifiedClass"));
-        Map newPackage = new HashMap();
-        newPackage.put("ModifiedPackage.ModifiedClass", getNewJar().getClassfile("ModifiedPackage.ModifiedClass"));
+        var oldPackage = Map.of(
+                "ModifiedPackage.ModifiedClass", findClass("ModifiedPackage.ModifiedClass", getOldPackages())
+        );
+        var newPackage = Map.of(
+                "ModifiedPackage.ModifiedClass", findClass("ModifiedPackage.ModifiedClass", getNewPackages())
+        );
+
+        checking(new Expectations() {{
+            oneOf (mockStrategy).isPackageDifferent(oldPackage, newPackage);
+        }});
 
         DifferenceStrategy strategy = new ListBasedDifferenceStrategy(mockStrategy, new BufferedReader(new StringReader("ModifiedPackage [P]")));
         strategy.isPackageDifferent(oldPackage, newPackage);
-
-        assertEquals("package",  1, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testIsClassDifferentInListWithSuffix() throws IOException {
-        Classfile oldClass = getOldJar().getClassfile("ModifiedPackage.ModifiedClass");
-        Classfile newClass = getNewJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Classfile oldClass = findClass("ModifiedPackage.ModifiedClass", getOldPackages());
+        Classfile newClass = findClass("ModifiedPackage.ModifiedClass", getNewPackages());
+
+        checking(new Expectations() {{
+            oneOf (mockStrategy).isClassDifferent(oldClass, newClass);
+        }});
 
         DifferenceStrategy strategy = new ListBasedDifferenceStrategy(mockStrategy, new BufferedReader(new StringReader("ModifiedPackage.ModifiedClass [C]")));
         strategy.isClassDifferent(oldClass, newClass);
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    1, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testIsFieldDifferentInListWithSuffix() throws IOException {
-        Field_info oldField = getOldJar().getClassfile("ModifiedPackage.ModifiedClass").getField("modifiedField");
-        Field_info newField = getNewJar().getClassfile("ModifiedPackage.ModifiedClass").getField("modifiedField");
+        Field_info oldField = findField("ModifiedPackage.ModifiedClass.modifiedField", getOldPackages());
+        Field_info newField = findField("ModifiedPackage.ModifiedClass.modifiedField", getNewPackages());
+
+        checking(new Expectations() {{
+            oneOf (mockStrategy).isFieldDifferent(oldField, newField);
+        }});
 
         DifferenceStrategy strategy = new ListBasedDifferenceStrategy(mockStrategy, new BufferedReader(new StringReader("ModifiedPackage.ModifiedClass.modifiedField [F]")));
         strategy.isFieldDifferent(oldField, newField);
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    1, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testIsMethodDifferentInListWithSuffix() throws IOException {
-        Method_info oldMethod = getOldJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("modifiedMethod()");
-        Method_info newMethod = getNewJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("modifiedMethod()");
+        Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedMethod()", getOldPackages());
+        Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedMethod()", getNewPackages());
+
+        checking(new Expectations() {{
+            oneOf (mockStrategy).isMethodDifferent(oldMethod, newMethod);
+        }});
 
         DifferenceStrategy strategy = new ListBasedDifferenceStrategy(mockStrategy, new BufferedReader(new StringReader("ModifiedPackage.ModifiedClass.modifiedMethod() [F]")));
         strategy.isMethodDifferent(oldMethod, newMethod);
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   1, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testIsCodeMethodDifferentInListWithSuffix() throws IOException {
-        Method_info oldMethod = getOldJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("modifiedCodeMethod()");
-        Method_info newMethod = getNewJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("modifiedCodeMethod()");
+        Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getOldPackages());
+        Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getNewPackages());
+
+        checking(new Expectations() {{
+            oneOf (mockStrategy).isMethodDifferent(oldMethod, newMethod);
+        }});
 
         DifferenceStrategy strategy = new ListBasedDifferenceStrategy(mockStrategy, new BufferedReader(new StringReader("ModifiedPackage.ModifiedClass.modifiedCodeMethod() [F]")));
         strategy.isMethodDifferent(oldMethod, newMethod);
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   1, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testIsCodeDifferentInListWithSuffix() throws IOException {
-        Code_attribute oldCode = getOldJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("modifiedCodeMethod()").getCode();
-        Code_attribute newCode = getNewJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("modifiedCodeMethod()").getCode();
+        Code_attribute oldCode = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getOldPackages()).getCode();
+        Code_attribute newCode = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getNewPackages()).getCode();
+
+        checking(new Expectations() {{
+            oneOf (mockStrategy).isCodeDifferent(oldCode, newCode);
+        }});
 
         DifferenceStrategy strategy = new ListBasedDifferenceStrategy(mockStrategy, new BufferedReader(new StringReader("ModifiedPackage.ModifiedClass.modifiedCodeMethod() [F]")));
         strategy.isCodeDifferent(oldCode, newCode);
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     1, mockStrategy.getCodeDifferentCount());
     }
 
     public void testIsConstantValueDifferent() throws IOException {
-        ConstantValue_attribute oldConstantValue = getOldJar().getClassfile("ModifiedPackage.ModifiedInterface").getField("modifiedValueField").getConstantValue();
-        ConstantValue_attribute newConstantValue = getNewJar().getClassfile("ModifiedPackage.ModifiedInterface").getField("modifiedValueField").getConstantValue();
+        ConstantValue_attribute oldConstantValue = findField("ModifiedPackage.ModifiedInterface.modifiedValueField", getOldPackages()).getConstantValue();
+        ConstantValue_attribute newConstantValue = findField("ModifiedPackage.ModifiedInterface.modifiedValueField", getNewPackages()).getConstantValue();
+
+        checking(new Expectations() {{
+            oneOf (mockStrategy).isConstantValueDifferent(oldConstantValue, newConstantValue);
+        }});
 
         DifferenceStrategy strategy = new ListBasedDifferenceStrategy(mockStrategy, new BufferedReader(new StringReader("")));
         strategy.isConstantValueDifferent(oldConstantValue, newConstantValue);
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 1, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testMerge() throws IOException {
-        Map oldPackage1 = new HashMap();
-        oldPackage1.put("ModifiedPackage.ModifiedClass", getOldJar().getClassfile("ModifiedPackage.ModifiedClass"));
-        Map newPackage1 = new HashMap();
-        newPackage1.put("ModifiedPackage.ModifiedClass", getNewJar().getClassfile("ModifiedPackage.ModifiedClass"));
+        var oldPackage1 = Map.of(
+                "ModifiedPackage.ModifiedClass", findClass("ModifiedPackage.ModifiedClass", getOldPackages())
+        );
+        var newPackage1 = Map.of(
+                "ModifiedPackage.ModifiedClass", findClass("ModifiedPackage.ModifiedClass", getNewPackages())
+        );
 
-        Map oldPackage2 = new HashMap();
-        oldPackage2.put("UnmodifiedPackage.UnmodifiedClass", getOldJar().getClassfile("UnmodifiedPackage.UnmodifiedClass"));
-        Map newPackage2 = new HashMap();
-        newPackage2.put("UnmodifiedPackage.UnmodifiedClass", getNewJar().getClassfile("UnmodifiedPackage.UnmodifiedClass"));
+        var oldPackage2 = Map.of(
+                "UnmodifiedPackage.UnmodifiedClass", findClass("UnmodifiedPackage.UnmodifiedClass", getOldPackages())
+        );
+        var newPackage2 = Map.of(
+                "UnmodifiedPackage.UnmodifiedClass", findClass("UnmodifiedPackage.UnmodifiedClass", getNewPackages())
+        );
+
+        // Step 1
 
         ListBasedDifferenceStrategy strategy = new ListBasedDifferenceStrategy(mockStrategy, new BufferedReader(new StringReader("")));
 
         strategy.isPackageDifferent(oldPackage1, newPackage1);
         strategy.isPackageDifferent(oldPackage2, newPackage2);
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
+
+        // Step 2
 
         strategy.load(new BufferedReader(new StringReader("ModifiedPackage")));
 
+        checking(new Expectations() {{
+            oneOf (mockStrategy).isPackageDifferent(oldPackage1, newPackage1);
+        }});
+
         strategy.isPackageDifferent(oldPackage1, newPackage1);
         strategy.isPackageDifferent(oldPackage2, newPackage2);
-        assertEquals("package",  1, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
+
+        // Step 3
 
         strategy.load(new BufferedReader(new StringReader("UnmodifiedPackage")));
 
+        checking(new Expectations() {{
+            oneOf (mockStrategy).isPackageDifferent(oldPackage1, newPackage1);
+            oneOf (mockStrategy).isPackageDifferent(oldPackage2, newPackage2);
+        }});
+
         strategy.isPackageDifferent(oldPackage1, newPackage1);
         strategy.isPackageDifferent(oldPackage2, newPackage2);
-        assertEquals("package",  3, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 }

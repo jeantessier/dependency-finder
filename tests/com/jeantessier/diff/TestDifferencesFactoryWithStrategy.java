@@ -32,40 +32,66 @@
 
 package com.jeantessier.diff;
 
-import java.io.*;
+import java.util.*;
 
 import com.jeantessier.classreader.*;
+import org.jmock.*;
 
 public class TestDifferencesFactoryWithStrategy extends TestDifferencesFactoryBase {
-    private MockDifferenceStrategy strategy;
-    private DifferencesFactory     factory;
+    private DifferenceStrategy mockStrategy;
+    private DifferencesFactory factory;
 
     protected void setUp() throws Exception {
         super.setUp();
 
-        strategy = new MockDifferenceStrategy(new APIDifferenceStrategy(new CodeDifferenceStrategy()));
-        factory  = new DifferencesFactory(strategy);
+        mockStrategy = mock(DifferenceStrategy.class);
+        factory  = new DifferencesFactory(mockStrategy);
     }
 
-    public void testEmptyProject() throws IOException {
+    public void testEmptyProject()  {
         factory.createProjectDifferences("test", "old", new PackageMapper(), "new", new PackageMapper());
-
-        assertEquals("package count",  0, strategy.getPackageDifferentCount());
-        assertEquals("class count",    0, strategy.getClassDifferentCount());
-        assertEquals("field count",    0, strategy.getFieldDifferentCount());
-        assertEquals("constant count", 0, strategy.getConstantValueDifferentCount());
-        assertEquals("method count",   0, strategy.getMethodDifferentCount());
-        assertEquals("code count",     0, strategy.getCodeDifferentCount());
     }
 
-    public void testStrategy() throws IOException {
-        factory.createProjectDifferences("test", "old", getOldPackages(), "new", getNewPackages());
+    public void testStrategy() {
+        checking(new Expectations() {{
+            exactly(4).of (mockStrategy).isPackageDifferent(with(any(Map.class)), with(any(Map.class)));
+                will(returnValue(true));
 
-        assertEquals("package count",   4, strategy.getPackageDifferentCount());
-        assertEquals("class count",    13, strategy.getClassDifferentCount());
-        assertEquals("field count",    33, strategy.getFieldDifferentCount());
-        assertEquals("constant count", 13, strategy.getConstantValueDifferentCount());
-        assertEquals("method count",   31, strategy.getMethodDifferentCount());
-        assertEquals("code count",     11, strategy.getCodeDifferentCount());
+            exactly(11).of (mockStrategy).isClassDifferent(with(any(Classfile.class)), with(any(Classfile.class)));
+                will(returnValue(true));
+            exactly(2).of (mockStrategy).isClassDifferent(with(any(Classfile.class)), with(aNull(Classfile.class)));
+                will(returnValue(true));
+            exactly(2).of (mockStrategy).isClassDifferent(with(aNull(Classfile.class)), with(any(Classfile.class)));
+                will(returnValue(true));
+
+            exactly(11).of (mockStrategy).isDeclarationModified(with(any(Classfile.class)), with(any(Classfile.class)));
+                will(returnValue(true));
+
+            exactly(19).of (mockStrategy).isFieldDifferent(with(any(Field_info.class)), with(any(Field_info.class)));
+                will(returnValue(true));
+            exactly(8).of (mockStrategy).isFieldDifferent(with(aNull(Field_info.class)), with(any(Field_info.class)));
+                will(returnValue(true));
+            exactly(8).of (mockStrategy).isFieldDifferent(with(any(Field_info.class)), with(aNull(Field_info.class)));
+                will(returnValue(true));
+
+            exactly(13).of (mockStrategy).isConstantValueDifferent(with(any(ConstantValue_attribute.class)), with(any(ConstantValue_attribute.class)));
+                will(returnValue(true));
+            exactly(6).of (mockStrategy).isConstantValueDifferent(with(aNull(ConstantValue_attribute.class)), with(aNull(ConstantValue_attribute.class)));
+                will(returnValue(true));
+
+            exactly(26).of (mockStrategy).isMethodDifferent(with(any(Method_info.class)), with(any(Method_info.class)));
+                will(returnValue(true));
+            exactly(5).of (mockStrategy).isMethodDifferent(with(aNull(Method_info.class)), with(any(Method_info.class)));
+                will(returnValue(true));
+            exactly(3).of (mockStrategy).isMethodDifferent(with(any(Method_info.class)), with(aNull(Method_info.class)));
+                will(returnValue(true));
+
+            exactly(20).of (mockStrategy).isCodeDifferent(with(any(Code_attribute.class)), with(any(Code_attribute.class)));
+                will(returnValue(true));
+            exactly(6).of (mockStrategy).isCodeDifferent(with(aNull(Code_attribute.class)), with(aNull(Code_attribute.class)));
+                will(returnValue(true));
+        }});
+
+        factory.createProjectDifferences("test", "old", getOldPackages(), "new", getNewPackages());
     }
 }

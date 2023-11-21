@@ -62,13 +62,16 @@ public class DifferencesFactory {
 
         Logger.getLogger(getClass()).debug("      Collecting packages ...");
 
-        Collection<String> packageNames = new TreeSet<>();
-        packageNames.addAll(oldPackages.getPackageNames());
-        packageNames.addAll(newPackages.getPackageNames());
+        var packageNames = Stream.concat(
+                oldPackages.getPackageNames().stream(),
+                newPackages.getPackageNames().stream())
+                .distinct()
+                .sorted()
+                .toList();
 
         Logger.getLogger(getClass()).debug("      Diff'ing packages ...");
 
-        for (String packageName : packageNames) {
+        packageNames.forEach(packageName -> {
             Map<String, Classfile> oldPackage = oldPackages.getPackage(packageName);
             if (oldPackage == null) {
                 oldPackage = Collections.emptyMap();
@@ -82,7 +85,7 @@ public class DifferencesFactory {
             if (strategy.isPackageDifferent(oldPackage, newPackage)) {
                 projectDifferences.getPackageDifferences().add(createPackageDifferences(packageName, oldPackage, newPackage));
             }
-        }
+        });
 
         Logger.getLogger(getClass()).debug("End   " + name + " (" + oldVersion + " -> " + newVersion + ")");
 

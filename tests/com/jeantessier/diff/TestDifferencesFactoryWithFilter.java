@@ -32,34 +32,29 @@
 
 package com.jeantessier.diff;
 
+import org.jmock.*;
+
 import java.io.*;
 
 public class TestDifferencesFactoryWithFilter extends TestDifferencesFactoryBase {
-    private StringBuffer                buffer;
-    private MockDifferenceStrategy      mockStrategy;
+    private StringBuffer buffer;
+    private DifferenceStrategy mockStrategy;
     private ListBasedDifferenceStrategy strategy;
-    private DifferencesFactory          factory;
+    private DifferencesFactory factory;
 
     protected void setUp() throws Exception {
         super.setUp();
 
-        buffer   = new StringBuffer();
-        mockStrategy = new MockDifferenceStrategy(new APIDifferenceStrategy(new NoDifferenceStrategy()));
+        buffer = new StringBuffer();
+        mockStrategy = mock(DifferenceStrategy.class);
         strategy = new ListBasedDifferenceStrategy(mockStrategy, new BufferedReader(new StringReader("")));
-        factory  = new DifferencesFactory(strategy);
+        factory = new DifferencesFactory(strategy);
     }
 
     public void testEmptyFilter() throws IOException {
         ProjectDifferences differences = getDifferences();
 
         assertTrue("IsEmpty()", differences.getPackageDifferences().isEmpty());
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testFilter() throws IOException {
@@ -68,21 +63,28 @@ public class TestDifferencesFactoryWithFilter extends TestDifferencesFactoryBase
         buffer.append("ModifiedPackage.ModifiedClass.modifiedField\n");
         buffer.append("ModifiedPackage.ModifiedClass.modifiedMethod()\n");
 
+        checking(new Expectations() {{
+            oneOf (mockStrategy).isPackageDifferent(findPackage("ModifiedPackage", getOldPackages()), findPackage("ModifiedPackage", getNewPackages()));
+                will(returnValue(true));
+            oneOf (mockStrategy).isClassDifferent(findClass("ModifiedPackage.ModifiedClass", getOldPackages()), findClass("ModifiedPackage.ModifiedClass", getNewPackages()));
+                will(returnValue(true));
+            oneOf (mockStrategy).isDeclarationModified(findClass("ModifiedPackage.ModifiedClass", getOldPackages()), findClass("ModifiedPackage.ModifiedClass", getNewPackages()));
+            oneOf (mockStrategy).isFieldDifferent(findField("ModifiedPackage.ModifiedClass.modifiedField", getOldPackages()), findField("ModifiedPackage.ModifiedClass.modifiedField", getNewPackages()));
+                will(returnValue(true));
+            oneOf (mockStrategy).isConstantValueDifferent(findField("ModifiedPackage.ModifiedClass.modifiedField", getOldPackages()).getConstantValue(), findField("ModifiedPackage.ModifiedClass.modifiedField", getNewPackages()).getConstantValue());
+            oneOf (mockStrategy).isMethodDifferent(findMethod("ModifiedPackage.ModifiedClass.modifiedMethod()", getOldPackages()), findMethod("ModifiedPackage.ModifiedClass.modifiedMethod()", getNewPackages()));
+                will(returnValue(true));
+            oneOf (mockStrategy).isCodeDifferent(findMethod("ModifiedPackage.ModifiedClass.modifiedMethod()", getOldPackages()).getCode(), findMethod("ModifiedPackage.ModifiedClass.modifiedMethod()", getNewPackages()).getCode());
+        }});
+
         ProjectDifferences differences = getDifferences();
         assertEquals("Nb packages", 1, differences.getPackageDifferences().size());
 
         PackageDifferences modifiedPackage = (PackageDifferences) find("ModifiedPackage", differences.getPackageDifferences());
         assertEquals("Nb classes",  1, modifiedPackage.getClassDifferences().size());
 
-        ClassDifferences modifedClass = (ClassDifferences) find("ModifiedPackage.ModifiedClass", modifiedPackage.getClassDifferences());
-        assertEquals("Nb features",  2, modifedClass.getFeatureDifferences().size());
-
-        assertEquals("package",  1, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    1, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    1, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 1, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   1, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     1, mockStrategy.getCodeDifferentCount());
+        ClassDifferences modifiedClass = (ClassDifferences) find("ModifiedPackage.ModifiedClass", modifiedPackage.getClassDifferences());
+        assertEquals("Nb features",  2, modifiedClass.getFeatureDifferences().size());
     }
 
     private ProjectDifferences getDifferences() throws IOException {

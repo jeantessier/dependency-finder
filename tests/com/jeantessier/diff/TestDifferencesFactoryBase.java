@@ -35,11 +35,11 @@ package com.jeantessier.diff;
 import java.io.*;
 import java.util.*;
 
-import junit.framework.*;
-
 import com.jeantessier.classreader.*;
+import org.jmock.imposters.*;
+import org.jmock.integration.junit3.*;
 
-public abstract class TestDifferencesFactoryBase extends TestCase {
+public abstract class TestDifferencesFactoryBase extends MockObjectTestCase {
     public static final String OLD_CLASSPATH = "tests" + File.separator + "JarJarDiff" + File.separator + "old";
     public static final String NEW_CLASSPATH = "tests" + File.separator + "JarJarDiff" + File.separator + "new";
 
@@ -88,22 +88,38 @@ public abstract class TestDifferencesFactoryBase extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
+        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
+
         // Make sure classes are loaded
         getOldJar();
         getNewJar();
     }
 
-    protected Differences find(String name, Collection differences) {
-        Differences result = null;
+    protected Map<String, Classfile> findPackage(String name, PackageMapper packages) {
+        return packages.getPackage(name);
+    }
 
-        Iterator i = differences.iterator();
-        while (result == null && i.hasNext()) {
-            Differences candidate = (Differences) i.next();
-            if (name.equals(candidate.getName())) {
-                result = candidate;
-            }
-        }
+    protected Classfile findClass(String name, PackageMapper packages) {
+        String packageName = name.substring(0, name.lastIndexOf("."));
+        return findPackage(packageName, packages).get(name);
+    }
 
-        return result;
+    protected Field_info findField(String name, PackageMapper packages) {
+        int pos = name.lastIndexOf(".");
+        String className = name.substring(0, pos);
+        return findClass(className, packages).getField(name.substring(pos + 1));
+    }
+
+    protected Method_info findMethod(String name, PackageMapper packages) {
+        int pos = name.lastIndexOf(".");
+        String className = name.substring(0, pos);
+        return findClass(className, packages).getMethod(name.substring(pos + 1));
+    }
+
+    protected Differences find(String name, Collection<Differences> differences) {
+        return differences.stream()
+                .filter(candidate -> name.equals(candidate.getName()))
+                .findAny()
+                .orElse(null);
     }
 }

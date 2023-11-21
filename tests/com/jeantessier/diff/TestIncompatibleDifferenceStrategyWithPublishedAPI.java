@@ -35,11 +35,10 @@ package com.jeantessier.diff;
 import java.io.*;
 import java.util.*;
 
-import junit.framework.*;
-
 import com.jeantessier.classreader.*;
+import org.jmock.integration.junit3.*;
 
-public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase {
+public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends MockObjectTestCase {
     public static final String OLD_PUBLISHED_CLASSPATH = "tests" + File.separator + "JarJarDiff" + File.separator + "oldpublished";
     public static final String NEW_PUBLISHED_CLASSPATH = "tests" + File.separator + "JarJarDiff" + File.separator + "newpublished";
 
@@ -85,14 +84,13 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         return newPublishedJar;
     }
 
-    private MockDifferenceStrategy         mockStrategy;
     private IncompatibleDifferenceStrategy strategy;
 
     protected void setUp() throws Exception {
         super.setUp();
 
-        mockStrategy = new MockDifferenceStrategy(new NoDifferenceStrategy());
-        strategy     = new IncompatibleDifferenceStrategy(mockStrategy);
+        var mockStrategy = mock(DifferenceStrategy.class);
+        strategy = new IncompatibleDifferenceStrategy(mockStrategy);
     }
 
     /*
@@ -104,13 +102,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Classfile newClass = getNewPublishedJar().getClassfile("ModifiedPackage.PublicToPublicClass");
 
         assertFalse(strategy.isClassDifferent(oldClass, newClass));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPublicToPackageClass() {
@@ -118,13 +109,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Classfile newClass = getNewPublishedJar().getClassfile("ModifiedPackage.PublicToPackageClass");
 
         assertTrue(strategy.isClassDifferent(oldClass, newClass));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPackageToPublicClass() {
@@ -132,13 +116,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Classfile newClass = getNewPublishedJar().getClassfile("ModifiedPackage.PackageToPublicClass");
 
         assertFalse(strategy.isClassDifferent(oldClass, newClass));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPackageToPackageClass() {
@@ -146,13 +123,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Classfile newClass = getNewPublishedJar().getClassfile("ModifiedPackage.PackageToPackageClass");
 
         assertFalse(strategy.isClassDifferent(oldClass, newClass));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testClassToClassClass() {
@@ -160,13 +130,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Classfile newClass = getNewPublishedJar().getClassfile("ModifiedPackage.ClassToClassClass");
 
         assertFalse(strategy.isClassDifferent(oldClass, newClass));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testClassToInterfaceClass() {
@@ -174,13 +137,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Classfile newClass = getNewPublishedJar().getClassfile("ModifiedPackage.ClassToInterfaceClass");
 
         assertTrue(strategy.isClassDifferent(oldClass, newClass));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testInterfaceToClassClass() {
@@ -188,13 +144,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Classfile newClass = getNewPublishedJar().getClassfile("ModifiedPackage.InterfaceToClassClass");
 
         assertTrue(strategy.isClassDifferent(oldClass, newClass));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testInterfaceToInterfaceClass() {
@@ -202,13 +151,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Classfile newClass = getNewPublishedJar().getClassfile("ModifiedPackage.InterfaceToInterfaceClass");
 
         assertFalse(strategy.isClassDifferent(oldClass, newClass));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testConcreteToConcreteClass() {
@@ -216,13 +158,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Classfile newClass = getNewPublishedJar().getClassfile("ModifiedPackage.ConcreteToConcreteClass");
 
         assertFalse(strategy.isClassDifferent(oldClass, newClass));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testConcreteToAbstractClass() {
@@ -230,13 +165,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Classfile newClass = getNewPublishedJar().getClassfile("ModifiedPackage.ConcreteToAbstractClass");
 
         assertTrue(strategy.isClassDifferent(oldClass, newClass));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testAbstractToConcreteClass() {
@@ -244,13 +172,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Classfile newClass = getNewPublishedJar().getClassfile("ModifiedPackage.AbstractToConcreteClass");
 
         assertFalse(strategy.isClassDifferent(oldClass, newClass));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testAbstractToAbstractClass() {
@@ -258,13 +179,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Classfile newClass = getNewPublishedJar().getClassfile("ModifiedPackage.AbstractToAbstractClass");
 
         assertFalse(strategy.isClassDifferent(oldClass, newClass));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testNonFinalToNonFinalClass() {
@@ -272,13 +186,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Classfile newClass = getNewPublishedJar().getClassfile("ModifiedPackage.NonFinalToNonFinalClass");
 
         assertFalse(strategy.isClassDifferent(oldClass, newClass));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testNonFinalToFinalClass() {
@@ -286,13 +193,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Classfile newClass = getNewPublishedJar().getClassfile("ModifiedPackage.NonFinalToFinalClass");
 
         assertTrue(strategy.isClassDifferent(oldClass, newClass));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testFinalToNonFinalClass() {
@@ -300,13 +200,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Classfile newClass = getNewPublishedJar().getClassfile("ModifiedPackage.FinalToNonFinalClass");
 
         assertFalse(strategy.isClassDifferent(oldClass, newClass));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testFinalToFinalClass() {
@@ -314,13 +207,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Classfile newClass = getNewPublishedJar().getClassfile("ModifiedPackage.FinalToFinalClass");
 
         assertFalse(strategy.isClassDifferent(oldClass, newClass));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     /*
@@ -332,13 +218,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("privateToPrivateField");
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPrivateToProtectedField() {
@@ -346,13 +225,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("privateToProtectedField");
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPrivateToPackageField() {
@@ -360,13 +232,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("privateToPackageField");
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPrivateToPublicField() {
@@ -374,13 +239,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("privateToPublicField");
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testProtectedToPrivateField() {
@@ -388,13 +246,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("protectedToPrivateField");
 
         assertTrue(strategy.isFieldDifferent(oldField, newField));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testProtectedToProtectedField() {
@@ -402,13 +253,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("protectedToProtectedField");
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testProtectedToPackageField() {
@@ -416,13 +260,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("protectedToPackageField");
 
         assertTrue(strategy.isFieldDifferent(oldField, newField));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testProtectedToPublicField() {
@@ -430,13 +267,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("protectedToPublicField");
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPackageToPrivateField() {
@@ -444,13 +274,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("packageToPrivateField");
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPackageToProtectedField() {
@@ -458,13 +281,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("packageToProtectedField");
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPackageToPackageField() {
@@ -472,13 +288,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("packageToPackageField");
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPackageToPublicField() {
@@ -486,13 +295,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("packageToPublicField");
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPublicToPrivateField() {
@@ -500,13 +302,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("publicToPrivateField");
 
         assertTrue(strategy.isFieldDifferent(oldField, newField));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPublicToProtectedField() {
@@ -514,13 +309,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("publicToProtectedField");
 
         assertTrue(strategy.isFieldDifferent(oldField, newField));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPublicToPackageField() {
@@ -528,13 +316,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("publicToPackageField");
 
         assertTrue(strategy.isFieldDifferent(oldField, newField));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPublicToPublicField() {
@@ -542,13 +323,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("publicToPublicField");
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testNonFinalToNonFinalField() {
@@ -556,13 +330,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("nonFinalToNonFinalField");
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testNonFinalToFinalField() {
@@ -570,13 +337,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("nonFinalToFinalField");
 
         assertTrue(strategy.isFieldDifferent(oldField, newField));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testFinalToNonFinalField() {
@@ -584,13 +344,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("finalToNonFinalField");
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testFinalToFinalField() {
@@ -598,13 +351,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("finalToFinalField");
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testTypeToSameTypeField() {
@@ -612,13 +358,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("typeToSameTypeField");
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testTypeToDifferentTypeField() {
@@ -626,13 +365,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("typeToDifferentTypeField");
 
         assertTrue(strategy.isFieldDifferent(oldField, newField));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     /*
@@ -644,13 +376,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(int)");
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getMethodDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPrivateToProtectedConstructor() {
@@ -658,13 +383,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(long)");
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getMethodDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPrivateToPackageConstructor() {
@@ -672,13 +390,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(float)");
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getMethodDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPrivateToPublicConstructor() {
@@ -686,13 +397,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(double)");
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getMethodDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testProtectedToPrivateConstructor() {
@@ -700,13 +404,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(int, int)");
 
         assertTrue(strategy.isMethodDifferent(oldConstructor, newConstructor));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getMethodDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testProtectedToProtectedConstructor() {
@@ -714,13 +411,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(long, long)");
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getMethodDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testProtectedToPackageConstructor() {
@@ -728,13 +418,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(float, float)");
 
         assertTrue(strategy.isMethodDifferent(oldConstructor, newConstructor));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getMethodDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testProtectedToPublicConstructor() {
@@ -742,13 +425,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(double, double)");
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getMethodDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPackageToPrivateConstructor() {
@@ -756,13 +432,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(int, int, int)");
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getMethodDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPackageToProtectedConstructor() {
@@ -770,13 +439,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(long, long, long)");
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getMethodDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPackageToPackageConstructor() {
@@ -784,13 +446,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(float, float, float)");
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getMethodDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPackageToPublicConstructor() {
@@ -798,13 +453,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(double, double, double)");
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getMethodDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPublicToPrivateConstructor() {
@@ -812,13 +460,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(int, int, int, int)");
 
         assertTrue(strategy.isMethodDifferent(oldConstructor, newConstructor));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getMethodDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPublicToProtectedConstructor() {
@@ -826,13 +467,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(long, long, long, long)");
 
         assertTrue(strategy.isMethodDifferent(oldConstructor, newConstructor));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getMethodDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPublicToPackageConstructor() {
@@ -840,13 +474,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(float, float, float, float)");
 
         assertTrue(strategy.isMethodDifferent(oldConstructor, newConstructor));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getMethodDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPublicToPublicConstructor() {
@@ -854,13 +481,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(double, double, double, double)");
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getMethodDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testThrowsToSameThrowsConstructor() {
@@ -868,13 +488,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(java.lang.Object)");
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getMethodDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testThrowsToDifferentThrowsConstructor() {
@@ -882,13 +495,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(java.lang.Object, java.lang.Object)");
 
         assertTrue(strategy.isMethodDifferent(oldConstructor, newConstructor));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getMethodDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     /*
@@ -900,13 +506,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("privateToPrivateMethod()");
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPrivateToProtectedMethod() {
@@ -914,13 +513,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("privateToProtectedMethod()");
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPrivateToPackageMethod() {
@@ -928,13 +520,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("privateToPackageMethod()");
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPrivateToPublicMethod() {
@@ -942,13 +527,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("privateToPublicMethod()");
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testProtectedToPrivateMethod() {
@@ -956,13 +534,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("protectedToPrivateMethod()");
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testProtectedToProtectedMethod() {
@@ -970,13 +541,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("protectedToProtectedMethod()");
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testProtectedToPackageMethod() {
@@ -984,13 +548,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("protectedToPackageMethod()");
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testProtectedToPublicMethod() {
@@ -998,13 +555,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("protectedToPublicMethod()");
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPackageToPrivateMethod() {
@@ -1012,13 +562,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("packageToPrivateMethod()");
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPackageToProtectedMethod() {
@@ -1026,13 +569,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("packageToProtectedMethod()");
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPackageToPackageMethod() {
@@ -1040,13 +576,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("packageToPackageMethod()");
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPackageToPublicMethod() {
@@ -1054,13 +583,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("packageToPublicMethod()");
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPublicToPrivateMethod() {
@@ -1068,13 +590,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("publicToPrivateMethod()");
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPublicToProtectedMethod() {
@@ -1082,13 +597,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("publicToProtectedMethod()");
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPublicToPackageMethod() {
@@ -1096,13 +604,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("publicToPackageMethod()");
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testPublicToPublicMethod() {
@@ -1110,13 +611,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("publicToPublicMethod()");
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testConcreteToConcreteMethod() {
@@ -1124,13 +618,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("concreteToConcreteMethod()");
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testConcreteToAbstractMethod() {
@@ -1138,13 +625,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("concreteToAbstractMethod()");
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testAbstractToConcreteMethod() {
@@ -1152,13 +632,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("abstractToConcreteMethod()");
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testAbstractToAbstractMethod() {
@@ -1166,13 +639,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("abstractToAbstractMethod()");
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testNonStaticToNonStaticMethod() {
@@ -1180,13 +646,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("nonStaticToNonStaticMethod()");
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testNonStaticToStaticMethod() {
@@ -1194,13 +653,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("nonStaticToStaticMethod()");
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testStaticToNonStaticMethod() {
@@ -1208,13 +660,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("staticToNonStaticMethod()");
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testStaticToStaticMethod() {
@@ -1222,13 +667,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("staticToStaticMethod()");
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testNonFinalToNonFinalMethod() {
@@ -1236,13 +674,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("nonFinalToNonFinalMethod()");
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testNonFinalToFinalMethod() {
@@ -1250,13 +681,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("nonFinalToFinalMethod()");
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testFinalToNonFinalMethod() {
@@ -1264,13 +688,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("finalToNonFinalMethod()");
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testFinalToFinalMethod() {
@@ -1278,13 +695,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("finalToFinalMethod()");
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testReturnTypeToSameReturnTypeMethod() {
@@ -1292,13 +702,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("returnTypeToSameReturnTypeMethod()");
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testReturnTypeToDifferentReturnTypeMethod() {
@@ -1306,13 +709,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("returnTypeToDifferentReturnTypeMethod()");
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getFieldDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testThrowsToSameThrowsMethod() {
@@ -1320,13 +716,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("throwsToSameThrowsMethod()");
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getMethodDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testThrowsToDifferentThrowsMethod() {
@@ -1334,13 +723,6 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
         Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("throwsToDifferentThrowsMethod()");
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getMethodDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 
     public void testCompatibleClassWithIncompatibleMethod() {
@@ -1352,12 +734,5 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends TestCase
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
         assertTrue(strategy.isClassDifferent(oldClass, newClass));
-
-        assertEquals("package",  0, mockStrategy.getPackageDifferentCount());
-        assertEquals("class",    0, mockStrategy.getClassDifferentCount());
-        assertEquals("field",    0, mockStrategy.getMethodDifferentCount());
-        assertEquals("constant", 0, mockStrategy.getConstantValueDifferentCount());
-        assertEquals("method",   0, mockStrategy.getMethodDifferentCount());
-        assertEquals("code",     0, mockStrategy.getCodeDifferentCount());
     }
 }
