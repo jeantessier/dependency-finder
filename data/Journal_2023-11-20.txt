@@ -1,0 +1,6 @@
+Finished removing the explicit =public= qualifiers from interfaces in
+=com.jeantessier.classreader=.  I also moved some behavior from abstract base
+classes to default methods in their related interfaces.
+
+More =for()= loops converted to Stream API.  More dead code removed, more
+hand-written mocks replaced with jMock.
