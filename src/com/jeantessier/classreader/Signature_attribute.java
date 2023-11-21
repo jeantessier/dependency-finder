@@ -33,7 +33,7 @@
 package com.jeantessier.classreader;
 
 public interface Signature_attribute extends Attribute_info {
-    public int getSignatureIndex();
-    public UTF8_info getRawSignature();
-    public String getSignature();
+    int getSignatureIndex();
+    UTF8_info getRawSignature();
+    String getSignature();
 }

@@ -33,7 +33,7 @@
 package com.jeantessier.classreader;
 
 public interface NestHost_attribute extends Attribute_info {
-    public int getHostClassIndex();
-    public Class_info getRawHostClass();
-    public String getHostClass();
+    int getHostClassIndex();
+    Class_info getRawHostClass();
+    String getHostClass();
 }

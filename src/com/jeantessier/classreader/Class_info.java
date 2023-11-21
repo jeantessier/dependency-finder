@@ -33,9 +33,9 @@
 package com.jeantessier.classreader;
 
 public interface Class_info extends ConstantPoolEntry {
-    public int getNameIndex();
-    public UTF8_info getRawName();
-    public String getName();
-    public String getPackageName();
-    public String getSimpleName();
+    int getNameIndex();
+    UTF8_info getRawName();
+    String getName();
+    String getPackageName();
+    String getSimpleName();
 }

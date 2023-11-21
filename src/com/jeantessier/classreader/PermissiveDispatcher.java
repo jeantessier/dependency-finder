@@ -33,10 +33,33 @@
 package com.jeantessier.classreader;
 
 import java.io.*;
+import java.util.*;
 
 import org.apache.log4j.*;
 
 public class PermissiveDispatcher implements ClassfileLoaderDispatcher {
+    private static final Collection<String> IGNORED_SUFFIXES = List.of(
+            "/",
+            ".bat",
+            ".css",
+            ".dtd",
+            ".gif",
+            ".htm",
+            ".html",
+            ".java",
+            ".jpeg",
+            ".jpg",
+            ".js",
+            ".jsp",
+            "MANIFEST.MF",
+            ".png",
+            ".properties",
+            ".ps",
+            ".txt",
+            ".xml",
+            ".xsl"
+    );
+
     public ClassfileLoaderAction dispatch(String filename) {
         ClassfileLoaderAction result;
 
@@ -52,24 +75,7 @@ public class PermissiveDispatcher implements ClassfileLoaderDispatcher {
         } else if (filename.endsWith(".class")) {
             result = ClassfileLoaderAction.CLASS;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_CLASS");
-        } else if (filename.endsWith("/")           ||
-                   filename.endsWith(".bat")        ||
-                   filename.endsWith(".css")        ||
-                   filename.endsWith(".dtd")        ||
-                   filename.endsWith(".gif")        ||
-                   filename.endsWith(".htm")        ||
-                   filename.endsWith(".html")       ||
-                   filename.endsWith(".java")       ||
-                   filename.endsWith(".jpeg")       ||
-                   filename.endsWith(".jpg")        ||
-                   filename.endsWith(".js")         ||
-                   filename.endsWith(".jsp")        ||
-                   filename.endsWith("MANIFEST.MF") ||
-                   filename.endsWith(".properties") ||
-                   filename.endsWith(".ps")         ||
-                   filename.endsWith(".txt")        ||
-                   filename.endsWith(".xml")        ||
-                   filename.endsWith(".xsl")) {
+        } else if (IGNORED_SUFFIXES.parallelStream().anyMatch(filename::endsWith)) {
             result = ClassfileLoaderAction.IGNORE;
             Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_IGNORE");
         } else {

@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface UTF8_info extends ConstantPoolEntry {
-    public String getValue();
+    String getValue();
 }

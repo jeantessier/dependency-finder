@@ -33,7 +33,7 @@
 package com.jeantessier.classreader;
 
 public interface ModuleMainClass_attribute extends Attribute_info {
-    public int getMainClassIndex();
-    public Class_info getRawMainClass();
-    public String getMainClass();
+    int getMainClassIndex();
+    Class_info getRawMainClass();
+    String getMainClass();
 }

@@ -33,11 +33,11 @@
 package com.jeantessier.classreader;
 
 public interface ExceptionHandler extends Visitable {
-    public Code_attribute getCode();
-    public int getStartPC();
-    public int getEndPC();
-    public int getHandlerPC();
-    public int getCatchTypeIndex();
-    public Class_info getRawCatchType();
-    public String getCatchType();
+    Code_attribute getCode();
+    int getStartPC();
+    int getEndPC();
+    int getHandlerPC();
+    int getCatchTypeIndex();
+    Class_info getRawCatchType();
+    String getCatchType();
 }

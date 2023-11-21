@@ -33,9 +33,10 @@
 package com.jeantessier.classreader;
 
 public class GroupData {
-    private String name;
-    private int    size;
-    private int    count;
+    private final String name;
+    private final int size;
+
+    private int count;
 
     public GroupData(String name, int size) {
         this.name = name;
@@ -61,10 +62,6 @@ public class GroupData {
     }
 
     public String toString() {
-        StringBuffer result = new StringBuffer();
-
-        result.append("Group \"" + getName() + "\" (" + getCount() + "/" + getSize() + ")");
-
-        return result.toString();
+        return "Group \"" + getName() + "\" (" + getCount() + "/" + getSize() + ")";
     }
 }

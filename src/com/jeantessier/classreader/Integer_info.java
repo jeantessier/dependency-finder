@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface Integer_info extends ConstantPoolEntry {
-    public int getValue();
+    int getValue();
 }

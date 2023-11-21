@@ -32,8 +32,8 @@
 
 package com.jeantessier.classreader;
 
-import java.io.PrintWriter;
-import java.util.Collection;
+import java.io.*;
+import java.util.*;
 
 public class TextPrinter extends Printer {
     private boolean top = true;

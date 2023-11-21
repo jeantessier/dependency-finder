@@ -49,12 +49,6 @@ public class PackageMapper implements LoadListener {
         Classfile classfile = event.getClassfile();
         String packageName = classfile.getPackageName();
 
-        Map<String, Classfile> map = packages.get(packageName);
-        if (map == null) {
-            map = new HashMap<>();
-            packages.put(packageName, map);
-        }
-
-        map.put(classfile.getClassName(), classfile);
+        packages.computeIfAbsent(packageName, k -> new HashMap<>()).put(classfile.getClassName(), classfile);
     }
 }

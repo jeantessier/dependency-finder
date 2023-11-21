@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface Deprecatable {
-    public boolean isDeprecated();
+    boolean isDeprecated();
 }

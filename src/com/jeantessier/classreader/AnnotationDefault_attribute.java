@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface AnnotationDefault_attribute extends Attribute_info {
-    public ElementValue getElemementValue();
+    ElementValue getElemementValue();
 }

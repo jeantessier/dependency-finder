@@ -35,5 +35,5 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface TypePath extends Visitable {
-    public Collection<? extends TypePathEntry> getPath();
+    Collection<? extends TypePathEntry> getPath();
 }

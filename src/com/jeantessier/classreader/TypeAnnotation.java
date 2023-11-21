@@ -35,13 +35,13 @@ package com.jeantessier.classreader;
 import java.util.Collection;
 
 public interface TypeAnnotation extends Visitable {
-    public TargetType getTargetType();
-    public Target_info getTarget();
-    public TypePath getTargetPath();
+    TargetType getTargetType();
+    Target_info getTarget();
+    TypePath getTargetPath();
 
-    public int getTypeIndex();
-    public UTF8_info getRawType();
-    public String getType();
+    int getTypeIndex();
+    UTF8_info getRawType();
+    String getType();
 
-    public Collection<? extends ElementValuePair> getElementValuePairs();
+    Collection<? extends ElementValuePair> getElementValuePairs();
 }

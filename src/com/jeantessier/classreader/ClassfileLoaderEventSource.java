@@ -140,31 +140,15 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     protected void fireBeginSession() {
         Logger.getLogger(getClass()).debug("Begin session");
         
-        LoadEvent event = new LoadEvent(this, null, null, null);
-
-        HashSet<LoadListener> listeners;
-        synchronized(loadListeners) {
-            listeners = (HashSet<LoadListener>) loadListeners.clone();
-        }
-
-        for (LoadListener listener : listeners) {
-            listener.beginSession(event);
-        }
+        var event = new LoadEvent(this, null, null, null);
+        loadListeners.forEach(listener -> listener.beginSession(event));
     }
 
     protected void fireBeginGroup(String groupName, int size) {
         Logger.getLogger(getClass()).debug("Begin group \"" + groupName + "\" of size " + size);
 
         LoadEvent event = new LoadEvent(this, groupName, size);
-
-        HashSet<LoadListener> listeners;
-        synchronized(loadListeners) {
-            listeners = (HashSet<LoadListener>) loadListeners.clone();
-        }
-
-        for (LoadListener listener : listeners) {
-            listener.beginGroup(event);
-        }
+        loadListeners.forEach(listener -> listener.beginGroup(event));
 
         pushGroupName(groupName);
         pushGroupSize(size);
@@ -174,75 +158,35 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
         Logger.getLogger(getClass()).debug("Begin file \"" + filename + "\"");
         
         LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);
-
-        HashSet<LoadListener> listeners;
-        synchronized(loadListeners) {
-            listeners = (HashSet<LoadListener>) loadListeners.clone();
-        }
-
-        for (LoadListener listener : listeners) {
-            listener.beginFile(event);
-        }
+        loadListeners.forEach(listener -> listener.beginFile(event));
     }
     
     protected void fireBeginClassfile(String filename) {
         Logger.getLogger(getClass()).debug("Begin classfile \"" + filename + "\"");
         
         LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);
-
-        HashSet<LoadListener> listeners;
-        synchronized(loadListeners) {
-            listeners = (HashSet<LoadListener>) loadListeners.clone();
-        }
-
-        for (LoadListener listener : listeners) {
-            listener.beginClassfile(event);
-        }
+        loadListeners.forEach(listener -> listener.beginClassfile(event));
     }
 
     protected void fireEndClassfile(String filename, Classfile classfile) {
         Logger.getLogger(getClass()).debug("End classfile \"" + filename + "\": " + ((classfile != null) ? classfile.getClassName() : "nothing"));
         
         LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, classfile);
-
-        HashSet<LoadListener> listeners;
-        synchronized(loadListeners) {
-            listeners = (HashSet<LoadListener>) loadListeners.clone();
-        }
-
-        for (LoadListener listener : listeners) {
-            listener.endClassfile(event);
-        }
+        loadListeners.forEach(listener -> listener.endClassfile(event));
     }
 
     protected void fireEndFile(String filename) {
         Logger.getLogger(getClass()).debug("End file \"" + filename + "\"");
         
         LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);
-
-        HashSet<LoadListener> listeners;
-        synchronized(loadListeners) {
-            listeners = (HashSet<LoadListener>) loadListeners.clone();
-        }
-
-        for (LoadListener listener : listeners) {
-            listener.endFile(event);
-        }
+        loadListeners.forEach(listener -> listener.endFile(event));
     }
 
     protected void fireEndGroup(String groupName) {
         Logger.getLogger(getClass()).debug("End group \"" + groupName + "\"");
         
         LoadEvent event = new LoadEvent(this, groupName, null, null);
-
-        HashSet<LoadListener> listeners;
-        synchronized(loadListeners) {
-            listeners = (HashSet<LoadListener>) loadListeners.clone();
-        }
-
-        for (LoadListener listener : listeners) {
-            listener.endGroup(event);
-        }
+        loadListeners.forEach(listener -> listener.endGroup(event));
 
         popGroupName();
         popGroupSize();
@@ -252,15 +196,7 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
         Logger.getLogger(getClass()).debug("End session");
         
         LoadEvent event = new LoadEvent(this, null, null, null);
-
-        HashSet<LoadListener> listeners;
-        synchronized(loadListeners) {
-            listeners = (HashSet<LoadListener>) loadListeners.clone();
-        }
-
-        for (LoadListener listener : listeners) {
-            listener.endSession(event);
-        }
+        loadListeners.forEach(listener -> listener.endSession(event));
     }
 
     private String getTopGroupName() {
@@ -277,8 +213,8 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
         groupNames.addLast(groupName);
     }
 
-    private String popGroupName() {
-        return groupNames.removeLast();
+    private void popGroupName() {
+        groupNames.removeLast();
     }
 
     private int getTopGroupSize() {
@@ -295,7 +231,7 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
         groupSizes.addLast(size);
     }
 
-    private int popGroupSize() {
-        return groupSizes.removeLast();
+    private void popGroupSize() {
+        groupSizes.removeLast();
     }
 }

@@ -33,6 +33,6 @@
 package com.jeantessier.classreader;
 
 public interface Target_info extends Visitable {
-    public TargetType getTargetType();
-    public String getHexTargetType();
+    TargetType getTargetType();
+    String getHexTargetType();
 }

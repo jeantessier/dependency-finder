@@ -35,5 +35,5 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface LocalvarTarget extends Target_info {
-    public Collection<? extends LocalvarTableEntry> getTable();
+    Collection<? extends LocalvarTableEntry> getTable();
 }

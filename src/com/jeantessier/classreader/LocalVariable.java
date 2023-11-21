@@ -33,18 +33,18 @@
 package com.jeantessier.classreader;
 
 public interface LocalVariable extends Visitable {
-    public LocalVariableTable_attribute getLocalVariableTable();
+    LocalVariableTable_attribute getLocalVariableTable();
 
-    public int getStartPC();
-    public int getLength();
+    int getStartPC();
+    int getLength();
 
-    public int getNameIndex();
-    public UTF8_info getRawName();
-    public String getName();
+    int getNameIndex();
+    UTF8_info getRawName();
+    String getName();
 
-    public int getDescriptorIndex();
-    public UTF8_info getRawDescriptor();
-    public String getDescriptor();
+    int getDescriptorIndex();
+    UTF8_info getRawDescriptor();
+    String getDescriptor();
 
-    public int getIndex();
+    int getIndex();
 }

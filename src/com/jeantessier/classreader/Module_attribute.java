@@ -35,24 +35,24 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface Module_attribute extends Attribute_info {
-    public int getModuleNameIndex();
-    public Module_info getRawModuleName();
-    public String getModuleName();
+    int getModuleNameIndex();
+    Module_info getRawModuleName();
+    String getModuleName();
 
-    public int getModuleFlags();
+    int getModuleFlags();
 
-    public boolean isOpen();
-    public boolean isSynthetic();
-    public boolean isMandated();
+    boolean isOpen();
+    boolean isSynthetic();
+    boolean isMandated();
 
-    public boolean hasModuleVersion();
-    public int getModuleVersionIndex();
-    public UTF8_info getRawModuleVersion();
-    public String getModuleVersion();
+    boolean hasModuleVersion();
+    int getModuleVersionIndex();
+    UTF8_info getRawModuleVersion();
+    String getModuleVersion();
 
-    public Collection<? extends ModuleRequires> getRequires();
-    public Collection<? extends ModuleExports> getExports();
-    public Collection<? extends ModuleOpens> getOpens();
-    public Collection<? extends ModuleUses> getUses();
-    public Collection<? extends ModuleProvides> getProvides();
+    Collection<? extends ModuleRequires> getRequires();
+    Collection<? extends ModuleExports> getExports();
+    Collection<? extends ModuleOpens> getOpens();
+    Collection<? extends ModuleUses> getUses();
+    Collection<? extends ModuleProvides> getProvides();
 }

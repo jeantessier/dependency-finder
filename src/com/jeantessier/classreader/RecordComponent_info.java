@@ -35,14 +35,14 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface RecordComponent_info extends Visitable {
-    public int getNameIndex();
-    public UTF8_info getRawName();
-    public String getName();
+    int getNameIndex();
+    UTF8_info getRawName();
+    String getName();
 
-    public int getDescriptorIndex();
-    public UTF8_info getRawDescriptor();
-    public String getDescriptor();
-    public String getType();
+    int getDescriptorIndex();
+    UTF8_info getRawDescriptor();
+    String getDescriptor();
+    String getType();
 
-    public Collection<? extends Attribute_info> getAttributes();
+    Collection<? extends Attribute_info> getAttributes();
 }

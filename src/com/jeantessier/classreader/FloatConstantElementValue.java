@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface FloatConstantElementValue extends ConstantElementValue {
-    public float getConstValue();
+    float getConstValue();
 }

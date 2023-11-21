@@ -33,6 +33,6 @@
 package com.jeantessier.classreader;
 
 public interface TypeArgumentTarget extends Target_info {
-    public int getOffset();
-    public int getTypeArgumentIndex();
+    int getOffset();
+    int getTypeArgumentIndex();
 }

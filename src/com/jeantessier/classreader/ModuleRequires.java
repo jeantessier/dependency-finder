@@ -33,18 +33,18 @@
 package com.jeantessier.classreader;
 
 public interface ModuleRequires extends Visitable {
-    public int getRequiresIndex();
-    public Module_info getRawRequires();
-    public String getRequires();
+    int getRequiresIndex();
+    Module_info getRawRequires();
+    String getRequires();
 
-    public int getRequiresFlags();
-    public boolean isTransitive();
-    public boolean isStaticPhase();
-    public boolean isSynthetic();
-    public boolean isMandated();
+    int getRequiresFlags();
+    boolean isTransitive();
+    boolean isStaticPhase();
+    boolean isSynthetic();
+    boolean isMandated();
 
-    public boolean hasRequiresVersion();
-    public int getRequiresVersionIndex();
-    public UTF8_info getRawRequiresVersion();
-    public String getRequiresVersion();
+    boolean hasRequiresVersion();
+    int getRequiresVersionIndex();
+    UTF8_info getRawRequiresVersion();
+    String getRequiresVersion();
 }

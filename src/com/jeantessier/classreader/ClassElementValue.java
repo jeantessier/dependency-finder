@@ -33,7 +33,7 @@
 package com.jeantessier.classreader;
 
 public interface ClassElementValue extends ElementValue {
-    public int getClassInfoIndex();
-    public UTF8_info getRawClassInfo();
-    public String getClassInfo();
+    int getClassInfoIndex();
+    UTF8_info getRawClassInfo();
+    String getClassInfo();
 }

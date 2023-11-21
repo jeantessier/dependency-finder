@@ -40,7 +40,7 @@ import org.apache.oro.text.*;
 import com.jeantessier.text.*;
 
 public class RegularExpressionSelectionCriteria implements SelectionCriteria {
-    private final Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
+    private static final Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
 
     private List<String> globalIncludes = new LinkedList<>();
     private List<String> globalExcludes = new LinkedList<>();

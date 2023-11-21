@@ -33,9 +33,9 @@
 package com.jeantessier.classreader;
 
 public interface MethodHandle_info extends ConstantPoolEntry {
-    public int getRawReferenceKind();
-    public ReferenceKind getReferenceKind();
+    int getRawReferenceKind();
+    ReferenceKind getReferenceKind();
 
-    public int getReferenceIndex();
-    public FeatureRef_info getReference();
+    int getReferenceIndex();
+    FeatureRef_info getReference();
 }

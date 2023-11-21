@@ -39,12 +39,12 @@ import java.util.Iterator;
 import java.util.List;
 
 public class FilteringSymbolGathererStrategy extends SymbolGathererStrategyDecorator {
-    private Perl5Util perl = new Perl5Util();
+    private static final Perl5Util perl = new Perl5Util();
 
-    private List<String> includes;
-    private Collection<String> includesList;
-    private List<String> excludes;
-    private Collection<String> excludesList;
+    private final List<String> includes;
+    private final Collection<String> includesList;
+    private final List<String> excludes;
+    private final Collection<String> excludesList;
 
     public FilteringSymbolGathererStrategy(SymbolGathererStrategy delegate, List<String> includes, Collection<String> includesList, List<String> excludes, Collection<String> excludesList) {
         super(delegate);

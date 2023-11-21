@@ -33,11 +33,11 @@
 package com.jeantessier.classreader;
 
 public interface EnclosingMethod_attribute extends Attribute_info {
-    public int getClassIndex();
-    public Class_info getRawClassInfo();
-    public String getClassInfo();
+    int getClassIndex();
+    Class_info getRawClassInfo();
+    String getClassInfo();
 
-    public int getMethodIndex();
-    public NameAndType_info getRawMethod();
-    public String getMethod();
+    int getMethodIndex();
+    NameAndType_info getRawMethod();
+    String getMethod();
 }

@@ -32,7 +32,6 @@
 
 package com.jeantessier.metrics;
 
-import com.jeantessier.classreader.Attribute_info;
 import com.jeantessier.classreader.ClassNameHelper;
 import com.jeantessier.classreader.Class_info;
 import com.jeantessier.classreader.Classfile;

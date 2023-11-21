@@ -35,5 +35,5 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface MethodParameters_attribute extends Attribute_info {
-    public Collection<? extends MethodParameter> getMethodParameters();
+    Collection<? extends MethodParameter> getMethodParameters();
 }

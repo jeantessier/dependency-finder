@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface TypeParameterTarget extends Target_info {
-    public int getTypeParameterIndex();
+    int getTypeParameterIndex();
 }

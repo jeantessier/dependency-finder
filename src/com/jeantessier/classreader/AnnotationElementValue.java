@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface AnnotationElementValue extends ElementValue {
-    public Annotation getAnnotation();
+    Annotation getAnnotation();
 }

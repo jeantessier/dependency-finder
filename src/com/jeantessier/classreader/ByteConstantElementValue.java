@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface ByteConstantElementValue extends ConstantElementValue {
-    public byte getConstValue();
+    byte getConstValue();
 }

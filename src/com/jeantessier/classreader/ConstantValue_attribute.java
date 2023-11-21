@@ -33,6 +33,6 @@
 package com.jeantessier.classreader;
 
 public interface ConstantValue_attribute extends Attribute_info {
-    public int getValueIndex();
-    public ConstantPoolEntry getRawValue();
+    int getValueIndex();
+    ConstantPoolEntry getRawValue();
 }

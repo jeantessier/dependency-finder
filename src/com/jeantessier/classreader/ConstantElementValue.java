@@ -33,6 +33,6 @@
 package com.jeantessier.classreader;
 
 public interface ConstantElementValue extends ElementValue {
-    public int getConstValueIndex();
-    public ConstantPoolEntry getRawConstValue();
+    int getConstValueIndex();
+    ConstantPoolEntry getRawConstValue();
 }

@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface ThrowsTarget extends Target_info {
-    public int getThrowsTypeIndex();
+    int getThrowsTypeIndex();
 }

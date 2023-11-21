@@ -38,9 +38,9 @@ import java.util.*;
 import org.apache.log4j.*;
 
 public class ModifiedOnlyDispatcher implements ClassfileLoaderDispatcher {
-    private ClassfileLoaderDispatcher delegate;
+    private final ClassfileLoaderDispatcher delegate;
 
-    private Map<String, Long> timestamps = new HashMap<String, Long>();
+    private final Map<String, Long> timestamps = new HashMap<>();
 
     public ModifiedOnlyDispatcher(ClassfileLoaderDispatcher delegate) {
         this.delegate = delegate;
@@ -50,17 +50,17 @@ public class ModifiedOnlyDispatcher implements ClassfileLoaderDispatcher {
         ClassfileLoaderAction result = delegate.dispatch(filename);
 
         if (result == ClassfileLoaderAction.CLASS) {
-            Long timestamp = timestamps.get(filename);
+            Long timestamp = timestamps.getOrDefault(filename, Long.MIN_VALUE);
             Logger.getLogger(getClass()).debug(filename + " has timestamp " + timestamp);
 
             File file = new File(filename);
-            if (timestamp != null && timestamp >= file.lastModified()) {
+            long lastModified = file.lastModified();
+            if (timestamp >= lastModified) {
                 Logger.getLogger(getClass()).debug("Already dispatched \"" + filename + "\": IGNORE");
                 result = ClassfileLoaderAction.IGNORE;
             } else {
                 Logger.getLogger(getClass()).debug("Delegating ...");
-                timestamp = file.lastModified();
-                timestamps.put(filename, timestamp);
+                timestamps.put(filename, lastModified);
             }
         } else {
             Logger.getLogger(getClass()).debug("Delegating ...");

@@ -33,6 +33,6 @@
 package com.jeantessier.classreader;
 
 public interface TypeParameterBoundTarget extends Target_info {
-    public int getTypeParameterIndex();
-    public int getBoundIndex();
+    int getTypeParameterIndex();
+    int getBoundIndex();
 }

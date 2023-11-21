@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface CatchTarget extends Target_info {
-    public int getExceptionTableIndex();
+    int getExceptionTableIndex();
 }

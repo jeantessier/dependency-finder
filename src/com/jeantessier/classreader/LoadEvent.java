@@ -35,10 +35,10 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public class LoadEvent extends EventObject {
-    private String groupName;
-    private String filename;
-    private Classfile classfile;
-    private int size;
+    private final String groupName;
+    private final String filename;
+    private final Classfile classfile;
+    private final int size;
 
     public LoadEvent(Object source, String groupName, int size) {
         this(source, groupName, null, null, size);

@@ -149,7 +149,7 @@ public class APIDifferenceStrategy extends DifferenceStrategyDecorator {
     private boolean checkForDifferentClasses(Map<String, Classfile> oldPackage, Map<String, Classfile> newPackage) {
         boolean result = false;
 
-        Set<String> classNames = new HashSet<String>();
+        Set<String> classNames = new HashSet<>();
         classNames.addAll(oldPackage.keySet());
         classNames.addAll(newPackage.keySet());
 
@@ -166,7 +166,7 @@ public class APIDifferenceStrategy extends DifferenceStrategyDecorator {
     }
 
     private Iterator<String> collectFeatures(Collection<? extends Feature_info> oldFeatures, Collection<? extends Feature_info> newFeatures, FeatureMapper<String> mapper) {
-        Set<String> features = new HashSet<String>();
+        Set<String> features = new HashSet<>();
 
         for (Feature_info feature : oldFeatures) {
             features.add(mapper.map(feature));

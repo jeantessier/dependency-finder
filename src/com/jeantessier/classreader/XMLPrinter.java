@@ -602,12 +602,12 @@ public class XMLPrinter extends Printer {
         indent().append("<exceptions-attribute>").eol();
         raiseIndent();
 
-        for (Class_info exception : attribute.getExceptions()) {
+        attribute.getExceptions().forEach(exception -> {
             indent();
             append("<exception>");
             exception.accept(this);
             append("</exception>").eol();
-        }
+        });
 
         lowerIndent();
         indent().append("</exceptions-attribute>").eol();

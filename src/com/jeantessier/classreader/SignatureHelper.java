@@ -33,23 +33,24 @@
 package com.jeantessier.classreader;
 
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.apache.log4j.*;
 
 public final class SignatureHelper {
-    private static Map<String, String> conversion = new HashMap<String, String>();
-
-    static {
-        conversion.put("B", "byte");
-        conversion.put("C", "char");
-        conversion.put("D", "double");
-        conversion.put("F", "float");
-        conversion.put("I", "int");
-        conversion.put("J", "long");
-        conversion.put("S", "short");
-        conversion.put("V", "void");
-        conversion.put("Z", "boolean");
-    }
+    private static final Map<String, String> conversion = Map.of(
+            "B", "byte",
+            "C", "char",
+            "D", "double",
+            "F", "float",
+            "I", "int",
+            "J", "long",
+            "S", "short",
+            "V", "void",
+            "Z", "boolean"
+    );
 
     private SignatureHelper() {
         // Prevent instantiation
@@ -62,9 +63,9 @@ public final class SignatureHelper {
 
         if (type.length() == 1) {
             result = conversion.get(type);
-        } else if (type.charAt(0) == 'L') {
+        } else if (type.charAt(0) == 'L' && type.indexOf(';') != -1) {
             result = ClassNameHelper.path2ClassName(type.substring(1, type.indexOf(';')));
-        } else if (type.charAt(0) == 'T') {
+        } else if (type.charAt(0) == 'T' && type.indexOf(';') != -1) {
             result = ClassNameHelper.path2ClassName(type.substring(1, type.indexOf(';')));
         } else if (type.charAt(0) == '[') {
             result = convert(type.substring(1)) + "[]";
@@ -76,7 +77,7 @@ public final class SignatureHelper {
     }
 
     public static String getSignature(String descriptor) {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         Logger.getLogger(SignatureHelper.class).debug("Begin Signature(\"" + descriptor + "\")");
 
@@ -85,13 +86,10 @@ public final class SignatureHelper {
         int start = descriptor.indexOf("(") + 1;
         int end   = descriptor.indexOf(")");
 
-        Iterator i = new SignatureIterator(descriptor.substring(start, end));
-        while (i.hasNext()) {
-            result.append(i.next());
-            if (i.hasNext()) {
-                result.append(", ");
-            }
-        }
+        result.append(
+                StreamSupport.stream(new SignatureSpliterator(descriptor.substring(start, end)), false)
+                        .collect(Collectors.joining(", "))
+        );
 
         result.append(")");
 
@@ -101,18 +99,12 @@ public final class SignatureHelper {
     }
 
     public static int getParameterCount(String descriptor) {
-        int result = 0;
-
         Logger.getLogger(SignatureHelper.class).debug("Begin ParameterCount(\"" + descriptor + "\")");
 
         int start = descriptor.indexOf("(") + 1;
         int end   = descriptor.indexOf(")");
 
-        Iterator i = new SignatureIterator(descriptor.substring(start, end));
-        while (i.hasNext()) {
-            i.next();
-            result++;
-        }
+        var result = (int) StreamSupport.stream(new SignatureSpliterator(descriptor.substring(start, end)), false).count();
 
         Logger.getLogger(SignatureHelper.class).debug("End   ParameterCount(\"" + descriptor + "\"): \"" + result + "\"");
 
@@ -126,24 +118,21 @@ public final class SignatureHelper {
     public static String getType(String descriptor) {
         return convert(descriptor);
     }
-}
 
-class SignatureIterator implements Iterator {
-    private String descriptor;
-    private int currentPos = 0;
+    private static class SignatureSpliterator implements Spliterator<String> {
+        private final String descriptor;
 
-    public SignatureIterator(String descriptor) {
-        this.descriptor = descriptor;
-    }
+        private int currentPos = 0;
 
-    public boolean hasNext() {
-        return currentPos < descriptor.length();
-    }
+        public SignatureSpliterator(String descriptor) {
+            this.descriptor = descriptor;
+        }
 
-    public Object next() {
-        String result;
+        public boolean tryAdvance(Consumer<? super String> action) {
+            if (!hasMore()) {
+                return false;
+            }
 
-        if (hasNext()) {
             int nextPos = currentPos;
 
             while (descriptor.charAt(nextPos) == '[') {
@@ -158,17 +147,27 @@ class SignatureIterator implements Iterator {
                 nextPos = descriptor.indexOf(";", nextPos);
             }
 
-            result = SignatureHelper.convert(descriptor.substring(currentPos, nextPos + 1));
+            action.accept(SignatureHelper.convert(descriptor.substring(currentPos, nextPos + 1)));
 
             currentPos = nextPos + 1;
-        } else {
-            throw new NoSuchElementException();
+
+            return true;
         }
 
-        return result;
-    }
+        private boolean hasMore() {
+            return currentPos < descriptor.length();
+        }
 
-    public void remove() {
-        throw new UnsupportedOperationException();
+        public Spliterator<String> trySplit() {
+            return null;
+        }
+
+        public long estimateSize() {
+            return descriptor.length() - currentPos;
+        }
+
+        public int characteristics() {
+            return NONNULL + IMMUTABLE;
+        }
     }
 }

@@ -35,7 +35,7 @@ package com.jeantessier.classreader;
 import java.util.Collection;
 
 public interface FullFrame extends StackMapFrame {
-    public int getOffsetDelta();
-    public Collection<? extends VerificationTypeInfo> getLocals();
-    public Collection<? extends VerificationTypeInfo> getStack();
+    int getOffsetDelta();
+    Collection<? extends VerificationTypeInfo> getLocals();
+    Collection<? extends VerificationTypeInfo> getStack();
 }

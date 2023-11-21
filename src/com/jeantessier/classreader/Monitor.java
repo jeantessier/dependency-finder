@@ -104,11 +104,11 @@ public class Monitor extends LoadListenerVisitorAdapter {
     }
 
     private void removeUnreadFiles() {
-        for (String previousFile : previousFiles) {
+        previousFiles.forEach(previousFile -> {
             String classname = fileToClass.get(previousFile);
             Logger.getLogger(getClass()).debug("Removing " + classname + " ...");
             removeVisitor.removeClass(classname);
-        }
+        });
     }
 
     private void closeSession() {

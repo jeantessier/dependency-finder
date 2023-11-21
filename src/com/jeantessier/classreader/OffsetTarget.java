@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface OffsetTarget extends Target_info {
-    public int getOffset();
+    int getOffset();
 }

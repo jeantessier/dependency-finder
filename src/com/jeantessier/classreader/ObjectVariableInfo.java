@@ -33,6 +33,6 @@
 package com.jeantessier.classreader;
 
 public interface ObjectVariableInfo extends VerificationTypeInfo {
-    public int getClassInfoIndex();
-    public Class_info getClassInfo();
+    int getClassInfoIndex();
+    Class_info getClassInfo();
 }

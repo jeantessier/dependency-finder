@@ -33,15 +33,15 @@
 package com.jeantessier.classreader;
 
 public interface InvokeDynamic_info extends ConstantPoolEntry {
-    public int getBootstrapMethodAttrIndex();
+    int getBootstrapMethodAttrIndex();
 
-    public int getNameAndTypeIndex();
-    public NameAndType_info getRawNameAndType();
-    public String getNameAndType();
+    int getNameAndTypeIndex();
+    NameAndType_info getRawNameAndType();
+    String getNameAndType();
 
-    public boolean isConstructor();
-    public boolean isStaticInitializer();
-    public String getReturnType();
-    public String getName();
-    public String getSignature();
+    boolean isConstructor();
+    boolean isStaticInitializer();
+    String getReturnType();
+    String getName();
+    String getSignature();
 }

@@ -34,10 +34,7 @@ package com.jeantessier.classreader;
 
  import org.apache.log4j.Logger;
 
- import java.io.File;
- import java.io.FileInputStream;
- import java.io.IOException;
- import java.io.InputStream;
+ import java.io.*;
 
 public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
     public DirectoryClassfileLoader(ClassfileLoader loader) {
@@ -47,32 +44,28 @@ public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
     protected void load(String filename) {
         Logger.getLogger(getClass()).debug("Starting group from path \"" + filename + "\"");
         
-        try {
-            DirectoryExplorer explorer = new DirectoryExplorer(filename);
+        DirectoryExplorer explorer = new DirectoryExplorer(filename);
 
-            fireBeginGroup(filename, explorer.getFiles().size());
+        fireBeginGroup(filename, explorer.getFiles().size());
 
-            for (File file : explorer.getFiles()) {
-                fireBeginFile(file.getPath());
+        explorer.getFiles().forEach(file -> {
+            fireBeginFile(file.getPath());
 
-                Logger.getLogger(getClass()).debug("Starting file \"" + file.getPath() + "\" (" + file.length() + " bytes)");
+            Logger.getLogger(getClass()).debug("Starting file \"" + file.getPath() + "\" (" + file.length() + " bytes)");
 
-                if (!file.isDirectory()) {
-                    // Errors with contents format will be handled and logged by Load().
-                    try (InputStream in = new FileInputStream(file)) {
-                        getLoader().load(file.getPath(), in);
-                    } catch (IOException ex) {
-                        Logger.getLogger(getClass()).error("Cannot load file \"" + file.getPath() + "\"", ex);
-                    }
+            if (!file.isDirectory()) {
+                // Errors with contents format will be handled and logged by Load().
+                try (var in = new FileInputStream(file)) {
+                    getLoader().load(file.getPath(), in);
+                } catch (IOException ex) {
+                    Logger.getLogger(getClass()).error("Cannot load file \"" + file.getPath() + "\"", ex);
                 }
-
-                fireEndFile(file.getPath());
             }
-        } catch (IOException ex) {
-            Logger.getLogger(getClass()).error("Cannot load group \"" + filename + "\"", ex);
-        } finally {
-            fireEndGroup(filename);
-        }
+
+            fireEndFile(file.getPath());
+        });
+
+        fireEndGroup(filename);
     }
     
     protected void load(String filename, InputStream in) {

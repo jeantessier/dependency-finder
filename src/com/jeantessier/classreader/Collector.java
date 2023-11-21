@@ -35,5 +35,5 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface Collector extends Visitor {
-    public Collection<String> getCollection();
+    Collection<String> getCollection();
 }

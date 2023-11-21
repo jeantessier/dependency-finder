@@ -35,135 +35,514 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface Visitor {
-    // Classfile
-    public void visitClassfiles(Collection<Classfile> classfiles);
-    public void visitClassfile(Classfile classfile);
+    /*
+     * Classfile
+     */
 
-    // ConstantPool entries
-    public void visitConstantPool(ConstantPool constantPool);
-    public void visitClass_info(Class_info entry);
-    public void visitFieldRef_info(FieldRef_info entry);
-    public void visitMethodRef_info(MethodRef_info entry);
-    public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry);
-    public void visitString_info(String_info entry);
-    public void visitInteger_info(Integer_info entry);
-    public void visitFloat_info(Float_info entry);
-    public void visitLong_info(Long_info entry);
-    public void visitDouble_info(Double_info entry);
-    public void visitNameAndType_info(NameAndType_info entry);
-    public void visitUTF8_info(UTF8_info entry);
-    public void visitMethodHandle_info(MethodHandle_info entry);
-    public void visitMethodType_info(MethodType_info entry);
-    public void visitDynamic_info(Dynamic_info entry);
-    public void visitInvokeDynamic_info(InvokeDynamic_info entry);
-    public void visitModule_info(Module_info entry);
-    public void visitPackage_info(Package_info entry);
-    public void visitUnusableEntry(UnusableEntry entry);
+    default void visitClassfiles(Collection<Classfile> classfiles) {
+        classfiles.forEach(classfile -> classfile.accept(this));
+    }
 
-    // Features
-    public void visitField_info(Field_info entry);
-    public void visitMethod_info(Method_info entry);
+    default void visitClassfile(Classfile classfile) {
+        // Do nothing
+    }
 
-    // Attributes
-    public void visitConstantValue_attribute(ConstantValue_attribute attribute);
-    public void visitCode_attribute(Code_attribute attribute);
-    public void visitExceptions_attribute(Exceptions_attribute attribute);
-    public void visitInnerClasses_attribute(InnerClasses_attribute attribute);
-    public void visitEnclosingMethod_attribute(EnclosingMethod_attribute attribute);
-    public void visitSynthetic_attribute(Synthetic_attribute attribute);
-    public void visitSignature_attribute(Signature_attribute attribute);
-    public void visitSourceFile_attribute(SourceFile_attribute attribute);
-    public void visitSourceDebugExtension_attribute(SourceDebugExtension_attribute attribute);
-    public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute);
-    public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute);
-    public void visitLocalVariableTypeTable_attribute(LocalVariableTypeTable_attribute attribute);
-    public void visitDeprecated_attribute(Deprecated_attribute attribute);
-    public void visitRuntimeVisibleAnnotations_attribute(RuntimeVisibleAnnotations_attribute attribute);
-    public void visitRuntimeInvisibleAnnotations_attribute(RuntimeInvisibleAnnotations_attribute attribute);
-    public void visitRuntimeVisibleParameterAnnotations_attribute(RuntimeVisibleParameterAnnotations_attribute attribute);
-    public void visitRuntimeInvisibleParameterAnnotations_attribute(RuntimeInvisibleParameterAnnotations_attribute attribute);
-    public void visitRuntimeVisibleTypeAnnotations_attribute(RuntimeVisibleTypeAnnotations_attribute attribute);
-    public void visitRuntimeInvisibleTypeAnnotations_attribute(RuntimeInvisibleTypeAnnotations_attribute attribute);
-    public void visitAnnotationDefault_attribute(AnnotationDefault_attribute attribute);
-    public void visitStackMapTable_attribute(StackMapTable_attribute attribute);
-    public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute);
-    public void visitMethodParameters_attribute(MethodParameters_attribute attribute);
-    public void visitModule_attribute(Module_attribute attribute);
-    public void visitModulePackages_attribute(ModulePackages_attribute attribute);
-    public void visitModuleMainClass_attribute(ModuleMainClass_attribute attribute);
-    public void visitNestHost_attribute(NestHost_attribute attribute);
-    public void visitNestMembers_attribute(NestMembers_attribute attribute);
-    public void visitRecord_attribute(Record_attribute attribute);
-    public void visitPermittedSubclasses_attribute(PermittedSubclasses_attribute attribute);
-    public void visitCustom_attribute(Custom_attribute attribute);
+    /*
+     * ConstantPool entries
+     */
 
-    // Attribute helpers
-    public void visitInstruction(Instruction instruction);
-    public void visitExceptionHandler(ExceptionHandler helper);
-    public void visitInnerClass(InnerClass helper);
-    public void visitLineNumber(LineNumber helper);
-    public void visitLocalVariable(LocalVariable helper);
-    public void visitLocalVariableType(LocalVariableType helper);
-    public void visitBootstrapMethod(BootstrapMethod helper);
-    public void visitMethodParameter(MethodParameter helper);
-    public void visitModuleRequires(ModuleRequires helper);
-    public void visitModuleExports(ModuleExports helper);
-    public void visitModuleExportsTo(ModuleExportsTo helper);
-    public void visitModuleOpens(ModuleOpens helper);
-    public void visitModuleOpensTo(ModuleOpensTo helper);
-    public void visitModuleUses(ModuleUses helper);
-    public void visitModuleProvides(ModuleProvides helper);
-    public void visitModuleProvidesWith(ModuleProvidesWith helper);
-    public void visitModulePackage(ModulePackage helper);
-    public void visitNestMember(NestMember helper);
-    public void visitRecordComponent_info(RecordComponent_info helper);
-    public void visitPermittedSubclass(PermittedSubclass helper);
+    default void visitConstantPool(ConstantPool constantPool) {
+        // Do nothing
+    }
 
-    // Annotations
-    public void visitAnnotation(Annotation helper);
-    public void visitParameterAnnotation(ParameterAnnotation helper);
-    public void visitTypeAnnotation(TypeAnnotation helper);
-    public void visitElementValuePair(ElementValuePair helper);
-    public void visitByteConstantElementValue(ByteConstantElementValue helper);
-    public void visitCharConstantElementValue(CharConstantElementValue helper);
-    public void visitDoubleConstantElementValue(DoubleConstantElementValue helper);
-    public void visitFloatConstantElementValue(FloatConstantElementValue helper);
-    public void visitIntegerConstantElementValue(IntegerConstantElementValue helper);
-    public void visitLongConstantElementValue(LongConstantElementValue helper);
-    public void visitShortConstantElementValue(ShortConstantElementValue helper);
-    public void visitBooleanConstantElementValue(BooleanConstantElementValue helper);
-    public void visitStringConstantElementValue(StringConstantElementValue helper);
-    public void visitEnumElementValue(EnumElementValue helper);
-    public void visitClassElementValue(ClassElementValue helper);
-    public void visitAnnotationElementValue(AnnotationElementValue helper);
-    public void visitArrayElementValue(ArrayElementValue helper);
-    public void visitTypeParameterTarget(TypeParameterTarget helper);
-    public void visitSupertypeTarget(SupertypeTarget helper);
-    public void visitTypeParameterBoundTarget(TypeParameterBoundTarget helper);
-    public void visitEmptyTarget(EmptyTarget helper);
-    public void visitFormalParameterTarget(FormalParameterTarget helper);
-    public void visitThrowsTarget(ThrowsTarget helper);
-    public void visitLocalvarTarget(LocalvarTarget helper);
-    public void visitCatchTarget(CatchTarget helper);
-    public void visitOffsetTarget(OffsetTarget helper);
-    public void visitTypeArgumentTarget(TypeArgumentTarget helper);
-    public void visitLocalvarTableEntry(LocalvarTableEntry helper);
-    public void visitTypePath(TypePath helper);
-    public void visitTypePathEntry(TypePathEntry helper);
-    public void visitSameFrame(SameFrame helper);
-    public void visitSameLocals1StackItemFrame(SameLocals1StackItemFrame helper);
-    public void visitSameLocals1StackItemFrameExtended(SameLocals1StackItemFrameExtended helper);
-    public void visitChopFrame(ChopFrame helper);
-    public void visitSameFrameExtended(SameFrameExtended helper);
-    public void visitAppendFrame(AppendFrame helper);
-    public void visitFullFrame(FullFrame helper);
-    public void visitTopVariableInfo(TopVariableInfo helper);
-    public void visitIntegerVariableInfo(IntegerVariableInfo helper);
-    public void visitFloatVariableInfo(FloatVariableInfo helper);
-    public void visitLongVariableInfo(LongVariableInfo helper);
-    public void visitDoubleVariableInfo(DoubleVariableInfo helper);
-    public void visitNullVariableInfo(NullVariableInfo helper);
-    public void visitUninitializedThisVariableInfo(UninitializedThisVariableInfo helper);
-    public void visitObjectVariableInfo(ObjectVariableInfo helper);
-    public void visitUninitializedVariableInfo(UninitializedVariableInfo helper);
+    default void visitClass_info(Class_info entry) {
+        // Do nothing
+    }
+
+    default void visitFieldRef_info(FieldRef_info entry) {
+        // Do nothing
+    }
+
+    default void visitMethodRef_info(MethodRef_info entry) {
+        // Do nothing
+    }
+
+    default void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
+        // Do nothing
+    }
+
+    default void visitString_info(String_info entry) {
+        // Do nothing
+    }
+
+    default void visitInteger_info(Integer_info entry) {
+        // Do nothing
+    }
+
+    default void visitFloat_info(Float_info entry) {
+        // Do nothing
+    }
+
+    default void visitLong_info(Long_info entry) {
+        // Do nothing
+    }
+
+    default void visitDouble_info(Double_info entry) {
+        // Do nothing
+    }
+
+    default void visitNameAndType_info(NameAndType_info entry) {
+        // Do nothing
+    }
+
+    default void visitUTF8_info(UTF8_info entry) {
+        // Do nothing
+    }
+
+    default void visitMethodHandle_info(MethodHandle_info entry) {
+        // Do nothing
+    }
+
+    default void visitMethodType_info(MethodType_info entry) {
+        // Do nothing
+    }
+
+    default void visitDynamic_info(Dynamic_info entry) {
+        // Do nothing
+    }
+
+    default void visitInvokeDynamic_info(InvokeDynamic_info entry) {
+        // Do nothing
+    }
+
+    default void visitModule_info(Module_info entry) {
+        // Do nothing
+    }
+
+    default void visitPackage_info(Package_info entry) {
+        // Do nothing
+    }
+
+    default void visitUnusableEntry(UnusableEntry entry) {
+        // Do nothing
+    }
+
+    /*
+     * Features
+     */
+
+    default void visitField_info(Field_info entry) {
+        // Do nothing
+    }
+
+    default void visitMethod_info(Method_info entry) {
+        // Do nothing
+    }
+
+    /*
+     * Attributes
+     */
+
+    default void visitConstantValue_attribute(ConstantValue_attribute attribute) {
+        // Do nothing
+    }
+
+    default void visitCode_attribute(Code_attribute attribute) {
+        // Do nothing
+    }
+
+    default void visitExceptions_attribute(Exceptions_attribute attribute) {
+        attribute.getExceptions().forEach(exception -> exception.accept(this));
+    }
+
+    default void visitInnerClasses_attribute(InnerClasses_attribute attribute) {
+        attribute.getInnerClasses().forEach(innerClass -> innerClass.accept(this));
+    }
+
+    default void visitEnclosingMethod_attribute(EnclosingMethod_attribute attribute) {
+        // Do nothing
+    }
+
+    default void visitSynthetic_attribute(Synthetic_attribute attribute) {
+        // Do nothing
+    }
+
+    default void visitSignature_attribute(Signature_attribute attribute) {
+        // Do nothing
+    }
+
+    default void visitSourceFile_attribute(SourceFile_attribute attribute) {
+        // Do nothing
+    }
+
+    default void visitSourceDebugExtension_attribute(SourceDebugExtension_attribute attribute) {
+        // Do nothing
+    }
+
+    default void visitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
+        attribute.getLineNumbers().forEach(lineNumber -> lineNumber.accept(this));
+    }
+
+    default void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
+        attribute.getLocalVariables().forEach(localVariable -> localVariable.accept(this));
+    }
+
+    default void visitLocalVariableTypeTable_attribute(LocalVariableTypeTable_attribute attribute) {
+        // Do nothing
+    }
+
+    default void visitDeprecated_attribute(Deprecated_attribute attribute) {
+        // Do nothing
+    }
+
+    default void visitRuntimeVisibleAnnotations_attribute(RuntimeVisibleAnnotations_attribute attribute) {
+        // Do nothing
+    }
+
+    default void visitRuntimeInvisibleAnnotations_attribute(RuntimeInvisibleAnnotations_attribute attribute) {
+        // Do nothing
+    }
+
+    default void visitRuntimeVisibleParameterAnnotations_attribute(RuntimeVisibleParameterAnnotations_attribute attribute) {
+        // Do nothing
+    }
+
+    default void visitRuntimeInvisibleParameterAnnotations_attribute(RuntimeInvisibleParameterAnnotations_attribute attribute) {
+        // Do nothing
+    }
+
+    default void visitRuntimeVisibleTypeAnnotations_attribute(RuntimeVisibleTypeAnnotations_attribute attribute) {
+        // Do nothing
+    }
+
+    default void visitRuntimeInvisibleTypeAnnotations_attribute(RuntimeInvisibleTypeAnnotations_attribute attribute) {
+        // Do nothing
+    }
+
+    default void visitAnnotationDefault_attribute(AnnotationDefault_attribute attribute) {
+        attribute.getElemementValue().accept(this);
+    }
+
+    default void visitStackMapTable_attribute(StackMapTable_attribute attribute) {
+        attribute.getEntries().forEach(stackMapFrame -> stackMapFrame.accept(this));
+    }
+
+    default void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute) {
+        attribute.getBootstrapMethods().forEach(bootstrapMethod -> bootstrapMethod.accept(this));
+    }
+
+    default void visitMethodParameters_attribute(MethodParameters_attribute attribute) {
+        attribute.getMethodParameters().forEach(methodParameter -> methodParameter.accept(this));
+    }
+
+    default void visitModule_attribute(Module_attribute attribute) {
+        attribute.getRequires().forEach(moduleRequires -> moduleRequires.accept(this));
+        attribute.getExports().forEach(moduleExports -> moduleExports.accept(this));
+        attribute.getOpens().forEach(moduleOpens -> moduleOpens.accept(this));
+        attribute.getUses().forEach(moduleUses -> moduleUses.accept(this));
+        attribute.getProvides().forEach(moduleProvides -> moduleProvides.accept(this));
+    }
+
+    default void visitModulePackages_attribute(ModulePackages_attribute attribute) {
+        attribute.getPackages().forEach(modulePackage -> modulePackage.accept(this));
+    }
+
+    default void visitModuleMainClass_attribute(ModuleMainClass_attribute attribute) {
+        // Do nothing
+    }
+
+    default void visitNestHost_attribute(NestHost_attribute attribute) {
+        // Do nothing
+    }
+
+    default void visitNestMembers_attribute(NestMembers_attribute attribute) {
+        attribute.getMembers().forEach(nestMember -> nestMember.accept(this));
+    }
+
+    default void visitRecord_attribute(Record_attribute attribute) {
+        attribute.getRecordComponents().forEach(recordComponent -> recordComponent.accept(this));
+    }
+
+    default void visitPermittedSubclasses_attribute(PermittedSubclasses_attribute attribute) {
+        attribute.getSubclasses().forEach(permittedSubclass -> permittedSubclass.accept(this));
+    }
+
+    default void visitCustom_attribute(Custom_attribute attribute) {
+        // Do nothing
+    }
+
+    /*
+     * Attribute helpers
+     */
+
+    default void visitInstruction(Instruction instruction) {
+        // Do nothing
+    }
+
+    default void visitExceptionHandler(ExceptionHandler helper) {
+        // Do nothing
+    }
+
+    default void visitInnerClass(InnerClass helper) {
+        // Do nothing
+    }
+
+    default void visitLineNumber(LineNumber helper) {
+        // Do nothing
+    }
+
+    default void visitLocalVariable(LocalVariable helper) {
+        // Do nothing
+    }
+
+    default void visitLocalVariableType(LocalVariableType helper) {
+        // Do nothing
+    }
+
+    default void visitBootstrapMethod(BootstrapMethod helper) {
+        helper.getBootstrapMethod().accept(this);
+        helper.getArguments().forEach(argument -> argument.accept(this));
+    }
+
+    default void visitMethodParameter(MethodParameter helper) {
+        // Do nothing
+    }
+
+    default void visitModuleRequires(ModuleRequires helper) {
+        // Do nothing
+    }
+
+    default void visitModuleExports(ModuleExports helper) {
+        helper.getExportsTos().forEach(moduleExportsTo -> moduleExportsTo.accept(this));
+    }
+
+    default void visitModuleExportsTo(ModuleExportsTo helper) {
+        // Do nothing
+    }
+
+    default void visitModuleOpens(ModuleOpens helper) {
+        helper.getOpensTos().forEach(moduleOpensTo -> moduleOpensTo.accept(this));
+    }
+
+    default void visitModuleOpensTo(ModuleOpensTo helper) {
+        // Do nothing
+    }
+
+    default void visitModuleUses(ModuleUses helper) {
+        // Do nothing
+    }
+
+    default void visitModuleProvides(ModuleProvides helper) {
+        helper.getProvidesWiths().forEach(moduleProvidesWith -> moduleProvidesWith.accept(this));
+    }
+
+    default void visitModuleProvidesWith(ModuleProvidesWith helper) {
+        // Do nothing
+    }
+
+    default void visitModulePackage(ModulePackage helper) {
+        // Do nothing
+    }
+
+    default void visitNestMember(NestMember helper) {
+        // Do nothing
+    }
+
+    default void visitRecordComponent_info(RecordComponent_info helper) {
+        helper.getAttributes().forEach(attribute -> attribute.accept(this));
+    }
+
+    default void visitPermittedSubclass(PermittedSubclass helper) {
+        // Do nothing
+    }
+
+    /*
+     * Annotations
+     */
+
+    default void visitAnnotation(Annotation helper) {
+        helper.getElementValuePairs().forEach(elementValuePair -> elementValuePair.accept(this));
+    }
+
+    default void visitParameterAnnotation(ParameterAnnotation helper) {
+        helper.getAnnotations().forEach(annotation -> annotation.accept(this));
+    }
+
+    default void visitTypeAnnotation(TypeAnnotation helper) {
+        helper.getTarget().accept(this);
+        helper.getTargetPath().accept(this);
+        helper.getElementValuePairs().forEach(elementValuePair -> elementValuePair.accept(this));
+    }
+
+    default void visitElementValuePair(ElementValuePair helper) {
+        helper.getElementValue().accept(this);
+    }
+
+    default void visitByteConstantElementValue(ByteConstantElementValue helper) {
+        // Do nothing
+    }
+
+    default void visitCharConstantElementValue(CharConstantElementValue helper) {
+        // Do nothing
+    }
+
+    default void visitDoubleConstantElementValue(DoubleConstantElementValue helper) {
+        // Do nothing
+    }
+
+    default void visitFloatConstantElementValue(FloatConstantElementValue helper) {
+        // Do nothing
+    }
+
+    default void visitIntegerConstantElementValue(IntegerConstantElementValue helper) {
+        // Do nothing
+    }
+
+    default void visitLongConstantElementValue(LongConstantElementValue helper) {
+        // Do nothing
+    }
+
+    default void visitShortConstantElementValue(ShortConstantElementValue helper) {
+        // Do nothing
+    }
+
+    default void visitBooleanConstantElementValue(BooleanConstantElementValue helper) {
+        // Do nothing
+    }
+
+    default void visitStringConstantElementValue(StringConstantElementValue helper) {
+        // Do nothing
+    }
+
+    default void visitEnumElementValue(EnumElementValue helper) {
+        // Do nothing
+    }
+
+    default void visitClassElementValue(ClassElementValue helper) {
+        // Do nothing
+    }
+
+    default void visitAnnotationElementValue(AnnotationElementValue helper) {
+        helper.getAnnotation().accept(this);
+    }
+
+    default void visitArrayElementValue(ArrayElementValue helper) {
+        helper.getValues().forEach(elementValue -> elementValue.accept(this));
+    }
+
+    default void visitTypeParameterTarget(TypeParameterTarget helper) {
+        // Do nothing
+    }
+
+    default void visitSupertypeTarget(SupertypeTarget helper) {
+        // Do nothing
+    }
+
+    default void visitTypeParameterBoundTarget(TypeParameterBoundTarget helper) {
+        // Do nothing
+    }
+
+    default void visitEmptyTarget(EmptyTarget helper) {
+        // Do nothing
+    }
+
+    default void visitFormalParameterTarget(FormalParameterTarget helper) {
+        // Do nothing
+    }
+
+    default void visitThrowsTarget(ThrowsTarget helper) {
+        // Do nothing
+    }
+
+    default void visitLocalvarTarget(LocalvarTarget helper) {
+        helper.getTable().forEach(entry -> entry.accept(this));
+    }
+
+    default void visitCatchTarget(CatchTarget helper) {
+        // Do nothing
+    }
+
+    default void visitOffsetTarget(OffsetTarget helper) {
+        // Do nothing
+    }
+
+    default void visitTypeArgumentTarget(TypeArgumentTarget helper) {
+        // Do nothing
+    }
+
+    default void visitLocalvarTableEntry(LocalvarTableEntry helper) {
+        // Do nothing
+    }
+
+    default void visitTypePath(TypePath helper) {
+        helper.getPath().forEach(entry -> entry.accept(this));
+    }
+
+    default void visitTypePathEntry(TypePathEntry helper) {
+        // Do nothing
+    }
+
+    default void visitSameFrame(SameFrame helper) {
+        // Do nothing
+    }
+
+    default void visitSameLocals1StackItemFrame(SameLocals1StackItemFrame helper) {
+        // Do nothing
+    }
+
+    default void visitSameLocals1StackItemFrameExtended(SameLocals1StackItemFrameExtended helper) {
+        // Do nothing
+    }
+
+    default void visitChopFrame(ChopFrame helper) {
+        // Do nothing
+    }
+
+    default void visitSameFrameExtended(SameFrameExtended helper) {
+        // Do nothing
+    }
+
+    default void visitAppendFrame(AppendFrame helper) {
+        // Do nothing
+    }
+
+    default void visitFullFrame(FullFrame helper) {
+        // Do nothing
+    }
+
+    default void visitTopVariableInfo(TopVariableInfo helper) {
+        // Do nothing
+    }
+
+    default void visitIntegerVariableInfo(IntegerVariableInfo helper) {
+        // Do nothing
+    }
+
+    default void visitFloatVariableInfo(FloatVariableInfo helper) {
+        // Do nothing
+    }
+
+    default void visitLongVariableInfo(LongVariableInfo helper) {
+        // Do nothing
+    }
+
+    default void visitDoubleVariableInfo(DoubleVariableInfo helper) {
+        // Do nothing
+    }
+
+    default void visitNullVariableInfo(NullVariableInfo helper) {
+        // Do nothing
+    }
+
+    default void visitUninitializedThisVariableInfo(UninitializedThisVariableInfo helper) {
+        // Do nothing
+    }
+
+    default void visitObjectVariableInfo(ObjectVariableInfo helper) {
+        helper.getClassInfo().accept(this);
+    }
+
+    default void visitUninitializedVariableInfo(UninitializedVariableInfo helper) {
+        // Do nothing
+    }
 }

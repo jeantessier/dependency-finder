@@ -33,6 +33,6 @@
 package com.jeantessier.classreader;
 
 public interface SameLocals1StackItemFrameExtended extends StackMapFrame {
-    public int getOffsetDelta();
-    public VerificationTypeInfo getStack();
+    int getOffsetDelta();
+    VerificationTypeInfo getStack();
 }

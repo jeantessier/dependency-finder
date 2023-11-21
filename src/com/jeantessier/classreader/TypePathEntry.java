@@ -33,6 +33,6 @@
 package com.jeantessier.classreader;
 
 public interface TypePathEntry extends Visitable {
-    public TypePathKind getTypePathKind();
-    public int getTypeArgumentIndex();
+    TypePathKind getTypePathKind();
+    int getTypeArgumentIndex();
 }

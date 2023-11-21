@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface ConstantPoolEntry extends Visitable {
-    public ConstantPool getConstantPool();
+    ConstantPool getConstantPool();
 }

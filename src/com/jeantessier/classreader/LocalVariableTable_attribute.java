@@ -35,5 +35,5 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface LocalVariableTable_attribute extends Attribute_info {
-    public Collection<? extends LocalVariable> getLocalVariables();
+    Collection<? extends LocalVariable> getLocalVariables();
 }

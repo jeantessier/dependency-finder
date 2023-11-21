@@ -35,9 +35,9 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface ModuleProvides extends Visitable {
-    public int getProvidesIndex();
-    public Class_info getRawProvides();
-    public String getProvides();
+    int getProvidesIndex();
+    Class_info getRawProvides();
+    String getProvides();
 
-    public Collection<? extends ModuleProvidesWith> getProvidesWiths();
+    Collection<? extends ModuleProvidesWith> getProvidesWiths();
 }

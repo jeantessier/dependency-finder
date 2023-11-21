@@ -33,35 +33,35 @@
 package com.jeantessier.classreader;
 
 public interface InnerClass extends Visitable, Comparable<InnerClass> {
-    public InnerClasses_attribute getInnerClasses();
+    InnerClasses_attribute getInnerClasses();
 
-    public int getInnerClassInfoIndex();
-    public Class_info getRawInnerClassInfo();
-    public String getInnerClassInfo();
+    int getInnerClassInfoIndex();
+    Class_info getRawInnerClassInfo();
+    String getInnerClassInfo();
 
-    public int getOuterClassInfoIndex();
-    public Class_info getRawOuterClassInfo();
-    public String getOuterClassInfo();
+    int getOuterClassInfoIndex();
+    Class_info getRawOuterClassInfo();
+    String getOuterClassInfo();
 
-    public int getInnerNameIndex();
-    public UTF8_info getRawInnerName();
-    public String getInnerName();
+    int getInnerNameIndex();
+    UTF8_info getRawInnerName();
+    String getInnerName();
 
-    public int getAccessFlags();
+    int getAccessFlags();
 
-    public boolean isPublic();
-    public boolean isProtected();
-    public boolean isPrivate();
-    public boolean isPackage();
+    boolean isPublic();
+    boolean isProtected();
+    boolean isPrivate();
+    boolean isPackage();
 
-    public boolean isStatic();
-    public boolean isFinal();
-    public boolean isInterface();
-    public boolean isAbstract();
-    public boolean isSynthetic();
-    public boolean isAnnotation();
-    public boolean isEnum();
+    boolean isStatic();
+    boolean isFinal();
+    boolean isInterface();
+    boolean isAbstract();
+    boolean isSynthetic();
+    boolean isAnnotation();
+    boolean isEnum();
     
-    public boolean isMemberClass();
-    public boolean isAnonymousClass();
+    boolean isMemberClass();
+    boolean isAnonymousClass();
 }

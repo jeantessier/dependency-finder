@@ -33,7 +33,7 @@
 package com.jeantessier.classreader;
 
 public interface LocalvarTableEntry extends Visitable {
-    public int getStartPc();
-    public int getLength();
-    public int getIndex();
+    int getStartPc();
+    int getLength();
+    int getIndex();
 }

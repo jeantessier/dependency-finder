@@ -33,7 +33,7 @@
 package com.jeantessier.classreader;
 
 public interface String_info extends ConstantPoolEntry {
-    public int getValueIndex();
-    public UTF8_info getRawValue();
-    public String getValue();
+    int getValueIndex();
+    UTF8_info getRawValue();
+    String getValue();
 }

@@ -35,7 +35,7 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public class GroupFilteringLoadListener extends FilteringLoadListener {
-    public GroupFilteringLoadListener(LoadListener delegate, List<String> includes, List<String> excludes) {
+    public GroupFilteringLoadListener(LoadListener delegate, Collection<String> includes, Collection<String> excludes) {
         super(delegate, includes, excludes);
     }
 

@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface SupertypeTarget extends Target_info {
-    public int getSupertypeIndex();
+    int getSupertypeIndex();
 }

@@ -35,15 +35,15 @@ package com.jeantessier.classreader;
 import com.jeantessier.text.MaximumCapacityPatternCache;
 import org.apache.oro.text.perl.Perl5Util;
 
-import java.util.List;
+import java.util.*;
 
 public class FilteringLoadListener extends LoadListenerDecorator {
-    private Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
+    private static final Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
 
-    protected List<String> includes;
-    protected List<String> excludes;
+    protected Collection<String> includes;
+    protected Collection<String> excludes;
 
-    public FilteringLoadListener(LoadListener delegate, List<String> includes, List<String> excludes) {
+    public FilteringLoadListener(LoadListener delegate, Collection<String> includes, Collection<String> excludes) {
         super(delegate);
 
         this.includes = includes;
@@ -54,7 +54,7 @@ public class FilteringLoadListener extends LoadListenerDecorator {
         return matches(includes, name) && !matches(excludes, name);
     }
 
-    private boolean matches(List<String> regularExpressions, String name) {
+    private boolean matches(Collection<String> regularExpressions, String name) {
         return regularExpressions.stream().anyMatch(condition -> perl.match(condition, name));
     }
 }

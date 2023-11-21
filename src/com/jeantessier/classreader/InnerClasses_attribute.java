@@ -35,5 +35,5 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface InnerClasses_attribute extends Attribute_info {
-    public Collection<? extends InnerClass> getInnerClasses();
+    Collection<? extends InnerClass> getInnerClasses();
 }

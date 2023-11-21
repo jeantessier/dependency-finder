@@ -35,5 +35,5 @@ package com.jeantessier.classreader;
 import java.util.Collection;
 
 public interface PermittedSubclasses_attribute extends Attribute_info {
-    public Collection<? extends PermittedSubclass> getSubclasses();
+    Collection<? extends PermittedSubclass> getSubclasses();
 }

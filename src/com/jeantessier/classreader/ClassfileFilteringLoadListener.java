@@ -35,7 +35,7 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public class ClassfileFilteringLoadListener extends FilteringLoadListener {
-    public ClassfileFilteringLoadListener(LoadListener delegate, List<String> includes, List<String> excludes) {
+    public ClassfileFilteringLoadListener(LoadListener delegate, Collection<String> includes, Collection<String> excludes) {
         super(delegate, includes, excludes);
     }
 

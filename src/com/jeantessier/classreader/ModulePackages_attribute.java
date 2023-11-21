@@ -35,5 +35,5 @@ package com.jeantessier.classreader;
 import java.util.Collection;
 
 public interface ModulePackages_attribute extends Attribute_info {
-    public Collection<? extends ModulePackage> getPackages();
+    Collection<? extends ModulePackage> getPackages();
 }

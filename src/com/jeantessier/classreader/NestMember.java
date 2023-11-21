@@ -33,7 +33,7 @@
 package com.jeantessier.classreader;
 
 public interface NestMember extends Visitable {
-    public int getMemberClassIndex();
-    public Class_info getRawMemberClass();
-    public String getMemberClass();
+    int getMemberClassIndex();
+    Class_info getRawMemberClass();
+    String getMemberClass();
 }

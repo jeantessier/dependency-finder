@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface ChopFrame extends StackMapFrame {
-    public int getOffsetDelta();
+    int getOffsetDelta();
 }

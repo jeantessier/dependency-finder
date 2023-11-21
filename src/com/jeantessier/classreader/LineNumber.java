@@ -33,7 +33,7 @@
 package com.jeantessier.classreader;
 
 public interface LineNumber extends Visitable {
-    public LineNumberTable_attribute getLineNumberTable();
-    public int getStartPC();
-    public int getLineNumber();
+    LineNumberTable_attribute getLineNumberTable();
+    int getStartPC();
+    int getLineNumber();
 }

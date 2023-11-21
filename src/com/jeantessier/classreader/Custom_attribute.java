@@ -33,6 +33,6 @@
 package com.jeantessier.classreader;
 
 public interface Custom_attribute extends Attribute_info {
-    public String getName();
-    public byte[] getInfo();
+    String getName();
+    byte[] getInfo();
 }

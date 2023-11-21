@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface SameLocals1StackItemFrame extends StackMapFrame {
-    public VerificationTypeInfo getStack();
+    VerificationTypeInfo getStack();
 }

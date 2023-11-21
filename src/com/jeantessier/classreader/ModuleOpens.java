@@ -35,13 +35,13 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface ModuleOpens extends Visitable {
-    public int getOpensIndex();
-    public Package_info getRawOpens();
-    public String getOpens();
+    int getOpensIndex();
+    Package_info getRawOpens();
+    String getOpens();
 
-    public int getOpensFlags();
-    public boolean isSynthetic();
-    public boolean isMandated();
+    int getOpensFlags();
+    boolean isSynthetic();
+    boolean isMandated();
 
-    public Collection<? extends ModuleOpensTo> getOpensTos();
+    Collection<? extends ModuleOpensTo> getOpensTos();
 }

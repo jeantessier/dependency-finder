@@ -33,7 +33,7 @@
 package com.jeantessier.classreader;
 
 public interface ModuleExportsTo extends Visitable {
-    public int getExportsToIndex();
-    public Module_info getRawExportsTo();
-    public String getExportsTo();
+    int getExportsToIndex();
+    Module_info getRawExportsTo();
+    String getExportsTo();
 }

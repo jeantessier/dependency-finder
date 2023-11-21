@@ -33,9 +33,9 @@
 package com.jeantessier.classreader;
 
 public interface MethodRef_info extends FeatureRef_info {
-    public boolean isConstructor();
-    public boolean isStaticInitializer();
-    public String getReturnType();
-    public String getName();
-    public String getSignature();
+    boolean isConstructor();
+    boolean isStaticInitializer();
+    String getReturnType();
+    String getName();
+    String getSignature();
 }

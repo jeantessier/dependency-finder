@@ -34,18 +34,18 @@
 package com.jeantessier.classreader;
 
 public interface FeatureRef_info extends ConstantPoolEntry {
-    public int getClassIndex();
-    public Class_info getRawClass();
-    public String getClassName();
-    public String getClassSimpleName();
+    int getClassIndex();
+    Class_info getRawClass();
+    String getClassName();
+    String getClassSimpleName();
 
-    public int getNameAndTypeIndex();
-    public NameAndType_info getRawNameAndType();
-    public String getNameAndType();
+    int getNameAndTypeIndex();
+    NameAndType_info getRawNameAndType();
+    String getNameAndType();
 
-    public String getName();
-    public String getFullName();
+    String getName();
+    String getFullName();
 
-    public String getSignature();
-    public String getFullSignature();
+    String getSignature();
+    String getFullSignature();
 }

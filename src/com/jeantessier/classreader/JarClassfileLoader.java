@@ -47,7 +47,7 @@ public class JarClassfileLoader extends ZipClassfileLoader {
     protected void load(String filename) {
         Logger.getLogger(getClass()).debug("Reading " + filename);
 
-        try (JarFile jarfile = new JarFile(filename)) {
+        try (var jarfile = new JarFile(filename)) {
             fireBeginGroup(filename, jarfile.size());
             load(jarfile);
             fireEndGroup(filename);
@@ -59,7 +59,7 @@ public class JarClassfileLoader extends ZipClassfileLoader {
     protected void load(String filename, InputStream in) {
         Logger.getLogger(getClass()).debug("Reading " + filename);
         
-        try (JarInputStream jarfile = new JarInputStream(in)) {
+        try (var jarfile = new JarInputStream(in)) {
             fireBeginGroup(filename, -1);
             load(jarfile);
             fireEndGroup(filename);

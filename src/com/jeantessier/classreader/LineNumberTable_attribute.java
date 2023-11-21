@@ -35,5 +35,5 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface LineNumberTable_attribute extends Attribute_info {
-    public Collection<? extends LineNumber> getLineNumbers();
+    Collection<? extends LineNumber> getLineNumbers();
 }

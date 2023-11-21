@@ -35,5 +35,5 @@ package com.jeantessier.classreader;
 import java.util.Collection;
 
 public interface NestMembers_attribute extends Attribute_info {
-    public Collection<? extends NestMember> getMembers();
+    Collection<? extends NestMember> getMembers();
 }

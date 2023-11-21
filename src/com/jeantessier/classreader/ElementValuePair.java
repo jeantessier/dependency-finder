@@ -33,9 +33,9 @@
 package com.jeantessier.classreader;
 
 public interface ElementValuePair extends Visitable {
-    public int getElementNameIndex();
-    public UTF8_info getRawElementName();
-    public String getElementName();
+    int getElementNameIndex();
+    UTF8_info getRawElementName();
+    String getElementName();
 
-    public ElementValue getElementValue();
+    ElementValue getElementValue();
 }

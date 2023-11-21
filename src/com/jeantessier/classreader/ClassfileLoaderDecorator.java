@@ -36,7 +36,7 @@ import java.io.*;
 import java.util.*;
 
 public abstract class ClassfileLoaderDecorator extends ClassfileLoader {
-    private ClassfileLoader loader;
+    private final ClassfileLoader loader;
     
     public ClassfileLoaderDecorator(ClassfileLoader loader) {
         this.loader = loader;

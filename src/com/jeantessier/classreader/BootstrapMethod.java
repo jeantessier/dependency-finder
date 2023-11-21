@@ -35,9 +35,9 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface BootstrapMethod extends Visitable {
-    public int getBootstrapMethodRef();
-    public MethodHandle_info getBootstrapMethod();
-    public Collection<Integer> getArgumentIndices();
-    public ConstantPoolEntry getArgument(int index);
-    public Collection<ConstantPoolEntry> getArguments();
+    int getBootstrapMethodRef();
+    MethodHandle_info getBootstrapMethod();
+    Collection<Integer> getArgumentIndices();
+    ConstantPoolEntry getArgument(int index);
+    Collection<ConstantPoolEntry> getArguments();
 }

@@ -57,7 +57,8 @@ public abstract class TestRuntimeParameterAnnotationsWithParameterAnnotationsBas
         RuntimeParameterAnnotations_attribute sut = createSut();
         assertEquals("Num parameters", numAnnotationsPerParameter.length, sut.getParameterAnnotations().size());
         for (int parameter = 0; parameter < numAnnotationsPerParameter.length; parameter++) {
-            assertEquals("New annotations on parameter " + parameter, numAnnotationsPerParameter[parameter], sut.getParameterAnnotations().get(parameter).getAnnotations().size());
+            var parameterAnnotation = sut.getParameterAnnotations().stream().skip(parameter).findFirst().orElseThrow();
+            assertEquals("New annotations on parameter " + parameter, numAnnotationsPerParameter[parameter], parameterAnnotation.getAnnotations().size());
         }
     }
 

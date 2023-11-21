@@ -33,6 +33,6 @@
 package com.jeantessier.classreader;
 
 public interface StackMapFrame extends Visitable {
-    public int getFrameType();
-    public FrameType getType();
+    int getFrameType();
+    FrameType getType();
 }

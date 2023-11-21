@@ -33,7 +33,7 @@
 package com.jeantessier.classreader;
 
 public class LoadListenerDecorator implements LoadListener {
-    private LoadListener delegate;
+    private final LoadListener delegate;
 
     public LoadListenerDecorator(LoadListener delegate) {
         this.delegate = delegate;

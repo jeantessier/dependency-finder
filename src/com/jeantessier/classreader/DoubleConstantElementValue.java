@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface DoubleConstantElementValue extends ConstantElementValue {
-    public double getConstValue();
+    double getConstValue();
 }

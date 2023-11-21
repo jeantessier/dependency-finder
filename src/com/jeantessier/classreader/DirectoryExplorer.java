@@ -34,44 +34,38 @@ package com.jeantessier.classreader;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class DirectoryExplorer {
-    private Collection<File> files = new LinkedList<File>();
+    private final Collection<File> files = new LinkedList<>();
 
-    public DirectoryExplorer(String[] filenames) throws IOException {
-        for (String filename : filenames) {
-            explore(new File(filename));
-        }
+    public DirectoryExplorer(String[] filenames) {
+        this(Arrays.stream(filenames));
     }
 
-    public DirectoryExplorer(Collection<String> filenames) throws IOException {
-        for (String filename : filenames) {
-            explore(new File(filename));
-        }
+    public DirectoryExplorer(Collection<String> filenames) {
+        this(filenames.stream());
     }
 
-    public DirectoryExplorer(String filename) throws IOException {
+    public DirectoryExplorer(Stream<String> filenames) {
+        filenames.forEach(filename -> explore(new File(filename)));
+    }
+
+    public DirectoryExplorer(String filename) {
         this(new File(filename));
     }
 
-    public DirectoryExplorer(File file) throws IOException {
+    public DirectoryExplorer(File file) {
         explore(file);
     }
 
-    private void explore(File file) throws IOException {
+    private void explore(File file) {
         if (file.exists()) {
             files.add(file);
             
             if (file.isDirectory()) {
-                exploreDirectory(file);
+                Arrays.stream(file.listFiles()).forEach(this::explore);
             }
-        }
-    }
-
-    private void exploreDirectory(File dir) throws IOException {
-        String[] entries = dir.list();
-        for (int i=0; i<entries.length; i++) {
-            explore(new File(dir, entries[i]));
         }
     }
 

@@ -33,8 +33,7 @@
 package com.jeantessier.classreader;
 
 public interface SourceFile_attribute extends Attribute_info {
-    public int getSourceFileIndex();
-    public UTF8_info getRawSourceFile();
-    public String getSourceFile();
+    int getSourceFileIndex();
+    UTF8_info getRawSourceFile();
+    String getSourceFile();
 }
-

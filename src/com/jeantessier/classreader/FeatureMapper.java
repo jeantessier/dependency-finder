@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface FeatureMapper<T> {
-    public T map(Feature_info feature);
+    T map(Feature_info feature);
 }

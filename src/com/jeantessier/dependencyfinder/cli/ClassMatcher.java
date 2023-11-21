@@ -40,14 +40,14 @@ import com.jeantessier.classreader.*;
 import com.jeantessier.text.*;
 
 public class ClassMatcher extends LoadListenerBase {
-    private Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
+    private static final Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
 
-    private List<String> includes;
-    private List<String> excludes;
+    private final Collection<String> includes;
+    private final Collection<String> excludes;
 
-    private Map<String, List<String>> results = new TreeMap<String, List<String>>();
+    private final Map<String, List<String>> results = new TreeMap<>();
 
-    public ClassMatcher(List<String> includes, List<String> excludes) {
+    public ClassMatcher(Collection<String> includes, Collection<String> excludes) {
         this.includes = includes;
         this.excludes = excludes;
     }
@@ -63,12 +63,7 @@ public class ClassMatcher extends LoadListenerBase {
         String groupName = event.getGroupName();
 
         if (matches(className)) {
-            List<String> groups = results.get(className);
-            if (groups == null) {
-                groups = new LinkedList<String>();
-                results.put(className, groups);
-            }
-            groups.add(groupName);
+            results.computeIfAbsent(className, k -> new LinkedList<>()).add(groupName);
         }
     }
 
@@ -76,15 +71,7 @@ public class ClassMatcher extends LoadListenerBase {
         return matches(includes, name) && !matches(excludes, name);
     }
 
-    private boolean matches(List<String> regularExpressions, String name) {
-        boolean found = false;
-
-        Iterator<String> i = regularExpressions.iterator();
-        while (!found && i.hasNext()) {
-            String condition = i.next();
-            found = perl.match(condition, name);
-        }
-
-        return found;
+    private boolean matches(Collection<String> regularExpressions, String name) {
+        return regularExpressions.stream().anyMatch(condition -> perl.match(condition, name));
     }
 }

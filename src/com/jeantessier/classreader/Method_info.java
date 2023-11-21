@@ -35,17 +35,17 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface Method_info extends Feature_info, Comparable<Method_info> {
-    public boolean isSynchronized();
-    public boolean isBridge();
-    public boolean isVarargs();
-    public boolean isNative();
-    public boolean isAbstract();
-    public boolean isStrict();
-    public boolean isConstructor();
-    public boolean isStaticInitializer();
+    boolean isSynchronized();
+    boolean isBridge();
+    boolean isVarargs();
+    boolean isNative();
+    boolean isAbstract();
+    boolean isStrict();
+    boolean isConstructor();
+    boolean isStaticInitializer();
 
-    public Collection<? extends Class_info> getExceptions();
+    Collection<? extends Class_info> getExceptions();
 
-    public String getReturnType();
-    public Code_attribute getCode();
+    String getReturnType();
+    Code_attribute getCode();
 }

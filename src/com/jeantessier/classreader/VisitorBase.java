@@ -66,10 +66,9 @@ public abstract class VisitorBase implements Visitor {
                 });
     }
 
-    // Classfile
-    public void visitClassfiles(Collection<Classfile> classfiles) {
-        classfiles.forEach(classfile -> classfile.accept(this));
-    }
+    /*
+     * Classfile
+     */
 
     public void visitClassfile(Classfile classfile) {
         visitClassfileFields(classfile);
@@ -89,81 +88,13 @@ public abstract class VisitorBase implements Visitor {
         visitAttributes(classfile.getAttributes());
     }
 
-    // ConstantPool entries
+    /*
+     * ConstantPool entries
+     */
 
-    public void visitClass_info(Class_info entry) {
-        // Do nothing
-    }
-
-    public void visitFieldRef_info(FieldRef_info entry) {
-        // Do nothing
-    }
-
-    public void visitMethodRef_info(MethodRef_info entry) {
-        // Do nothing
-    }
-
-    public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
-        // Do nothing
-    }
-
-    public void visitString_info(String_info entry) {
-        // Do nothing
-    }
-
-    public void visitInteger_info(Integer_info entry) {
-        // Do nothing
-    }
-
-    public void visitFloat_info(Float_info entry) {
-        // Do nothing
-    }
-
-    public void visitLong_info(Long_info entry) {
-        // Do nothing
-    }
-
-    public void visitDouble_info(Double_info entry) {
-        // Do nothing
-    }
-
-    public void visitNameAndType_info(NameAndType_info entry) {
-        // Do nothing
-    }
-
-    public void visitUTF8_info(UTF8_info entry) {
-        // Do nothing
-    }
-
-    public void visitMethodHandle_info(MethodHandle_info entry) {
-        // Do nothing
-    }
-
-    public void visitMethodType_info(MethodType_info entry) {
-        // Do nothing
-    }
-
-    public void visitDynamic_info(Dynamic_info entry) {
-        // Do nothing
-    }
-
-    public void visitInvokeDynamic_info(InvokeDynamic_info entry) {
-        // Do nothing
-    }
-
-    public void visitModule_info(Module_info entry) {
-        // Do nothing
-    }
-
-    public void visitPackage_info(Package_info entry) {
-        // Do nothing
-    }
-
-    public void visitUnusableEntry(UnusableEntry entry) {
-        // Do nothing
-    }
-
-    // Features
+    /*
+     * Features
+     */
 
     public void visitField_info(Field_info entry) {
         visitAttributes(entry.getAttributes());
@@ -173,14 +104,12 @@ public abstract class VisitorBase implements Visitor {
         visitAttributes(entry.getAttributes());
     }
 
-    // Attributes
+    /*
+     * Attributes
+     */
 
     protected void visitAttributes(Collection<? extends Attribute_info> attributes) {
         attributes.forEach(attributeInfo -> attributeInfo.accept(this));
-    }
-
-    public void visitConstantValue_attribute(ConstantValue_attribute attribute) {
-        // Do nothing
     }
 
     public void visitCode_attribute(Code_attribute attribute) {
@@ -196,53 +125,9 @@ public abstract class VisitorBase implements Visitor {
         visitAttributes(attributes);
     }
 
-    public void visitExceptions_attribute(Exceptions_attribute attribute) {
-        Logger.getLogger(getClass()).debug("Visiting " + attribute.getExceptions().size() + " exception class(es) ...");
-        attribute.getExceptions().forEach(exception -> exception.accept(this));
-    }
-
-    public void visitInnerClasses_attribute(InnerClasses_attribute attribute) {
-        Logger.getLogger(getClass()).debug("Visiting " + attribute.getInnerClasses().size() + " inner class(es) ...");
-        attribute.getInnerClasses().forEach(innerClass -> innerClass.accept(this));
-    }
-
-    public void visitEnclosingMethod_attribute(EnclosingMethod_attribute attribute) {
-        // Do nothing
-    }
-
-    public void visitSynthetic_attribute(Synthetic_attribute attribute) {
-        // Do nothing
-    }
-
-    public void visitSignature_attribute(Signature_attribute attribute) {
-        // Do nothing
-    }
-
-    public void visitSourceFile_attribute(SourceFile_attribute attribute) {
-        // Do nothing
-    }
-
-    public void visitSourceDebugExtension_attribute(SourceDebugExtension_attribute attribute) {
-        // Do nothing
-    }
-
-    public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
-        Logger.getLogger(getClass()).debug("Visiting " + attribute.getLineNumbers().size() + " line number(s) ...");
-        attribute.getLineNumbers().forEach(lineNumber -> lineNumber.accept(this));
-    }
-
-    public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
-        Logger.getLogger(getClass()).debug("Visiting " + attribute.getLocalVariables().size() + " local variable(s) ...");
-        attribute.getLocalVariables().forEach(localVariable -> localVariable.accept(this));
-    }
-
     public void visitLocalVariableTypeTable_attribute(LocalVariableTypeTable_attribute attribute) {
         Logger.getLogger(getClass()).debug("Visiting " + attribute.getLocalVariableTypes().size() + " local variable type(s) ...");
         attribute.getLocalVariableTypes().forEach(localVariableType -> localVariableType.accept(this));
-    }
-
-    public void visitDeprecated_attribute(Deprecated_attribute attribute) {
-        // Do nothing
     }
 
     public void visitRuntimeVisibleAnnotations_attribute(RuntimeVisibleAnnotations_attribute attribute) {
@@ -284,303 +169,16 @@ public abstract class VisitorBase implements Visitor {
         attribute.getParameterAnnotations().forEach(parameterAnnotation -> parameterAnnotation.accept(this));
     }
 
-    public void visitAnnotationDefault_attribute(AnnotationDefault_attribute attribute) {
-        attribute.getElemementValue().accept(this);
-    }
-
-    public void visitStackMapTable_attribute(StackMapTable_attribute attribute) {
-        Logger.getLogger(getClass()).debug("Visiting " + attribute.getEntries().size() + " stack map frame(s) ...");
-        attribute.getEntries().forEach(stackMapFrame -> stackMapFrame.accept(this));
-    }
-
-    public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute) {
-        Logger.getLogger(getClass()).debug("Visiting " + attribute.getBootstrapMethods().size() + " bootstrap method(s) ...");
-        attribute.getBootstrapMethods().forEach(bootstrapMethod -> bootstrapMethod.accept(this));
-    }
-
-    public void visitMethodParameters_attribute(MethodParameters_attribute attribute) {
-        Logger.getLogger(getClass()).debug("Visiting " + attribute.getMethodParameters().size() + " method parameter(s) ...");
-        attribute.getMethodParameters().forEach(methodParameter -> methodParameter.accept(this));
-    }
-
-    public void visitModule_attribute(Module_attribute attribute) {
-        Logger.getLogger(getClass()).debug("Visiting " + attribute.getRequires().size() + " module requires ...");
-        attribute.getRequires().forEach(moduleRequires -> moduleRequires.accept(this));
-
-        Logger.getLogger(getClass()).debug("Visiting " + attribute.getExports().size() + " module exports ...");
-        attribute.getExports().forEach(moduleExports -> moduleExports.accept(this));
-
-        Logger.getLogger(getClass()).debug("Visiting " + attribute.getOpens().size() + " module opens ...");
-        attribute.getOpens().forEach(moduleOpens -> moduleOpens.accept(this));
-
-        Logger.getLogger(getClass()).debug("Visiting " + attribute.getUses().size() + " module uses ...");
-        attribute.getUses().forEach(moduleUses -> moduleUses.accept(this));
-
-        Logger.getLogger(getClass()).debug("Visiting " + attribute.getProvides().size() + " module provides ...");
-        attribute.getProvides().forEach(moduleProvides -> moduleProvides.accept(this));
-    }
-
-    public void visitModulePackages_attribute(ModulePackages_attribute attribute) {
-        Logger.getLogger(getClass()).debug("Visiting " + attribute.getPackages().size() + " module packages ...");
-        attribute.getPackages().forEach(modulePackage -> modulePackage.accept(this));
-    }
-
-    public void visitModuleMainClass_attribute(ModuleMainClass_attribute attribute) {
-        // Do nothing
-    }
-
-    public void visitNestHost_attribute(NestHost_attribute attribute) {
-        // Do nothing
-    }
-
-    public void visitNestMembers_attribute(NestMembers_attribute attribute) {
-        Logger.getLogger(getClass()).debug("Visiting " + attribute.getMembers().size() + " nest members ...");
-        attribute.getMembers().forEach(nestMember -> nestMember.accept(this));
-    }
-
-    public void visitRecord_attribute(Record_attribute attribute) {
-        Logger.getLogger(getClass()).debug("Visiting " + attribute.getRecordComponents().size() + " record components ...");
-        attribute.getRecordComponents().forEach(recordComponent -> recordComponent.accept(this));
-    }
-
-    public void visitPermittedSubclasses_attribute(PermittedSubclasses_attribute attribute) {
-        Logger.getLogger(getClass()).debug("Visiting " + attribute.getSubclasses().size() + " permitted subclasses ...");
-        attribute.getSubclasses().forEach(permittedSubclass -> permittedSubclass.accept(this));
-    }
-
-    public void visitCustom_attribute(Custom_attribute attribute) {
-        // Do nothing
-    }
-
-    // Attribute helpers
+    /*
+     * Attribute helpers
+     */
 
     protected void visitInstructions(Code_attribute attribute) {
         attribute.forEach(instruction -> instruction.accept(this));
     }
 
-    public void visitInstruction(Instruction helper) {
-        // Do nothing
-    }
-
     protected void visitExceptionHandlers(Collection<? extends ExceptionHandler> exceptionHandlers) {
         exceptionHandlers.forEach(exceptionHandler -> exceptionHandler.accept(this));
-    }
-
-    public void visitExceptionHandler(ExceptionHandler helper) {
-        // Do nothing
-    }
-
-    public void visitInnerClass(InnerClass helper) {
-        // Do nothing
-    }
-
-    public void visitLineNumber(LineNumber helper) {
-        // Do nothing
-    }
-
-    public void visitLocalVariable(LocalVariable helper) {
-        // Do nothing
-    }
-
-    public void visitLocalVariableType(LocalVariableType helper) {
-        // Do nothing
-    }
-
-    public void visitBootstrapMethod(BootstrapMethod helper) {
-        Logger.getLogger(getClass()).debug("Visiting bootstrap method handle ...");
-        helper.getBootstrapMethod().accept(this);
-
-        Logger.getLogger(getClass()).debug("Visiting " + helper.getArguments().size() + " argument(s) ...");
-        helper.getArguments().forEach(argument -> argument.accept(this));
-    }
-
-    public void visitMethodParameter(MethodParameter helper) {
-        // Do nothing
-    }
-
-    public void visitModuleRequires(ModuleRequires helper) {
-        // Do nothing
-    }
-
-    public void visitModuleExports(ModuleExports helper) {
-        Logger.getLogger(getClass()).debug("Visiting " + helper.getExportsTos().size() + " exports to(s) ...");
-        helper.getExportsTos().forEach(moduleExportsTo -> moduleExportsTo.accept(this));
-    }
-
-    public void visitModuleExportsTo(ModuleExportsTo helper) {
-        // Do nothing
-    }
-
-    public void visitModuleOpens(ModuleOpens helper) {
-        Logger.getLogger(getClass()).debug("Visiting " + helper.getOpensTos().size() + " opens to(s) ...");
-        helper.getOpensTos().forEach(moduleOpensTo -> moduleOpensTo.accept(this));
-    }
-
-    public void visitModuleOpensTo(ModuleOpensTo helper) {
-        // Do nothing
-    }
-
-    public void visitModuleUses(ModuleUses helper) {
-        // Do nothing
-    }
-
-    public void visitModuleProvides(ModuleProvides helper) {
-        Logger.getLogger(getClass()).debug("Visiting " + helper.getProvidesWiths().size() + " provides with(s) ...");
-        helper.getProvidesWiths().forEach(moduleProvidesWith -> moduleProvidesWith.accept(this));
-    }
-
-    public void visitModuleProvidesWith(ModuleProvidesWith helper) {
-        // Do nothing
-    }
-
-    public void visitModulePackage(ModulePackage helper) {
-        // Do nothing
-    }
-
-    public void visitNestMember(NestMember helper) {
-        // Do nothing
-    }
-
-    public void visitRecordComponent_info(RecordComponent_info helper) {
-        Logger.getLogger(getClass()).debug("Visiting " + helper.getAttributes().size() + " record component attribute(s) ...");
-        helper.getAttributes().forEach(attribute -> attribute.accept(this));
-    }
-
-    public void visitPermittedSubclass(PermittedSubclass helper) {
-        // Do nothing
-    }
-
-    public void visitAnnotation(Annotation helper) {
-        Logger.getLogger(getClass()).debug("Visiting " + helper.getElementValuePairs().size() + " element value pair(s) ...");
-        helper.getElementValuePairs().forEach(elementValuePair -> elementValuePair.accept(this));
-    }
-
-    public void visitParameterAnnotation(ParameterAnnotation helper) {
-        Logger.getLogger(getClass()).debug("Visiting " + helper.getAnnotations().size() + " annotation(s) ...");
-        helper.getAnnotations().forEach(annotation -> annotation.accept(this));
-    }
-
-    public void visitTypeAnnotation(TypeAnnotation helper) {
-        helper.getTarget().accept(this);
-        helper.getTargetPath().accept(this);
-
-        Logger.getLogger(getClass()).debug("Visiting " + helper.getElementValuePairs().size() + " element value pair(s) ...");
-        helper.getElementValuePairs().forEach(elementValuePair -> elementValuePair.accept(this));
-    }
-
-    public void visitElementValuePair(ElementValuePair helper) {
-        helper.getElementValue().accept(this);
-    }
-
-    public void visitByteConstantElementValue(ByteConstantElementValue helper) {
-        // Do nothing
-    }
-
-    public void visitCharConstantElementValue(CharConstantElementValue helper) {
-        // Do nothing
-    }
-
-    public void visitDoubleConstantElementValue(DoubleConstantElementValue helper) {
-        // Do nothing
-    }
-
-    public void visitFloatConstantElementValue(FloatConstantElementValue helper) {
-        // Do nothing
-    }
-
-    public void visitIntegerConstantElementValue(IntegerConstantElementValue helper) {
-        // Do nothing
-    }
-
-    public void visitLongConstantElementValue(LongConstantElementValue helper) {
-        // Do nothing
-    }
-
-    public void visitShortConstantElementValue(ShortConstantElementValue helper) {
-        // Do nothing
-    }
-
-    public void visitBooleanConstantElementValue(BooleanConstantElementValue helper) {
-        // Do nothing
-    }
-
-    public void visitStringConstantElementValue(StringConstantElementValue helper) {
-        // Do nothing
-    }
-
-    public void visitEnumElementValue(EnumElementValue helper) {
-        // Do nothing
-    }
-
-    public void visitClassElementValue(ClassElementValue helper) {
-        // Do nothing
-    }
-
-    public void visitAnnotationElementValue(AnnotationElementValue helper) {
-        helper.getAnnotation().accept(this);
-    }
-
-    public void visitArrayElementValue(ArrayElementValue helper) {
-        Logger.getLogger(getClass()).debug("Visiting " + helper.getValues().size() + " value(s) ...");
-        helper.getValues().forEach(elementValue -> elementValue.accept(this));
-    }
-
-    public void visitTypeParameterTarget(TypeParameterTarget helper) {
-        // Do nothing
-    }
-
-    public void visitSupertypeTarget(SupertypeTarget helper) {
-        // Do nothing
-    }
-
-    public void visitTypeParameterBoundTarget(TypeParameterBoundTarget helper) {
-        // Do nothing
-    }
-
-    public void visitEmptyTarget(EmptyTarget helper) {
-        // Do nothing
-    }
-
-    public void visitFormalParameterTarget(FormalParameterTarget helper) {
-        // Do nothing
-    }
-
-    public void visitThrowsTarget(ThrowsTarget helper) {
-        // Do nothing
-    }
-
-    public void visitLocalvarTarget(LocalvarTarget helper) {
-        Logger.getLogger(getClass()).debug("Visiting " + helper.getTable().size() + " table entry(ies) ...");
-        helper.getTable().forEach(entry -> entry.accept(this));
-    }
-
-    public void visitCatchTarget(CatchTarget helper) {
-        // Do nothing
-    }
-
-    public void visitOffsetTarget(OffsetTarget helper) {
-        // Do nothing
-    }
-
-    public void visitTypeArgumentTarget(TypeArgumentTarget helper) {
-        // Do nothing
-    }
-
-    public void visitLocalvarTableEntry(LocalvarTableEntry helper) {
-        // Do nothing
-    }
-
-    public void visitTypePath(TypePath helper) {
-        Logger.getLogger(getClass()).debug("Visiting " + helper.getPath().size() + " path entry(ies) ...");
-        helper.getPath().forEach(entry -> entry.accept(this));
-    }
-
-    public void visitTypePathEntry(TypePathEntry helper) {
-        // Do nothing
-    }
-
-    public void visitSameFrame(SameFrame helper) {
-        // Do nothing
     }
 
     public void visitSameLocals1StackItemFrame(SameLocals1StackItemFrame helper) {
@@ -589,14 +187,6 @@ public abstract class VisitorBase implements Visitor {
 
     public void visitSameLocals1StackItemFrameExtended(SameLocals1StackItemFrameExtended helper) {
         visitVerificationTypeInfos(Stream.of(helper.getStack()));
-    }
-
-    public void visitChopFrame(ChopFrame helper) {
-        // Do nothing
-    }
-
-    public void visitSameFrameExtended(SameFrameExtended helper) {
-        // Do nothing
     }
 
     public void visitAppendFrame(AppendFrame helper) {
@@ -609,41 +199,5 @@ public abstract class VisitorBase implements Visitor {
 
     protected void visitVerificationTypeInfos(Stream<? extends VerificationTypeInfo> stacks) {
         stacks.forEach(stack -> stack.accept(this));
-    }
-
-    public void visitTopVariableInfo(TopVariableInfo helper) {
-        // Do nothing
-    }
-
-    public void visitIntegerVariableInfo(IntegerVariableInfo helper) {
-        // Do nothing
-    }
-
-    public void visitFloatVariableInfo(FloatVariableInfo helper) {
-        // Do nothing
-    }
-
-    public void visitLongVariableInfo(LongVariableInfo helper) {
-        // Do nothing
-    }
-
-    public void visitDoubleVariableInfo(DoubleVariableInfo helper) {
-        // Do nothing
-    }
-
-    public void visitNullVariableInfo(NullVariableInfo helper) {
-        // Do nothing
-    }
-
-    public void visitUninitializedThisVariableInfo(UninitializedThisVariableInfo helper) {
-        // Do nothing
-    }
-
-    public void visitObjectVariableInfo(ObjectVariableInfo helper) {
-        helper.getClassInfo().accept(this);
-    }
-
-    public void visitUninitializedVariableInfo(UninitializedVariableInfo helper) {
-        // Do nothing
     }
 }

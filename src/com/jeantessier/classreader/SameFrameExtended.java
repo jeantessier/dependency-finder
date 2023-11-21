@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface SameFrameExtended extends StackMapFrame {
-    public int getOffsetDelta();
+    int getOffsetDelta();
 }

@@ -35,56 +35,56 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface Classfile extends Deprecatable, Visitable, Comparable<Classfile> {
-    public ClassfileLoader getLoader();
+    ClassfileLoader getLoader();
 
-    public int getMagicNumber();
-    public int getMinorVersion();
-    public int getMajorVersion();
+    int getMagicNumber();
+    int getMinorVersion();
+    int getMajorVersion();
 
-    public ConstantPool getConstantPool();
+    ConstantPool getConstantPool();
 
-    public int getAccessFlags();
+    int getAccessFlags();
 
-    public int getClassIndex();
-    public Class_info getRawClass();
-    public String getClassName();
-    public String getPackageName();
-    public String getSimpleName();
+    int getClassIndex();
+    Class_info getRawClass();
+    String getClassName();
+    String getPackageName();
+    String getSimpleName();
 
-    public int getSuperclassIndex();
-    public Class_info getRawSuperclass();
-    public String getSuperclassName();
+    int getSuperclassIndex();
+    Class_info getRawSuperclass();
+    String getSuperclassName();
 
-    public Collection<? extends Class_info> getAllInterfaces();
-    public Class_info getInterface(String name);
+    Collection<? extends Class_info> getAllInterfaces();
+    Class_info getInterface(String name);
 
-    public Collection<? extends Field_info> getAllFields();
-    public Field_info getField(String name);
-    public Field_info locateField(String name);
+    Collection<? extends Field_info> getAllFields();
+    Field_info getField(String name);
+    Field_info locateField(String name);
 
-    public Collection<? extends Method_info> getAllMethods();
-    public Method_info getMethod(String signature);
-    public Method_info locateMethod(String signature);
+    Collection<? extends Method_info> getAllMethods();
+    Method_info getMethod(String signature);
+    Method_info locateMethod(String signature);
 
-    public Collection<? extends Attribute_info> getAttributes();
+    Collection<? extends Attribute_info> getAttributes();
 
-    public boolean isPublic();
-    public boolean isPackage();
-    public boolean isFinal();
-    public boolean isSuper();
-    public boolean isInterface();
-    public boolean isAbstract();
-    public boolean isSynthetic();
-    public boolean isAnnotation();
-    public boolean isEnum();
-    public boolean isModule();
-    public boolean isDeprecated();
-    public boolean isGeneric();
+    boolean isPublic();
+    boolean isPackage();
+    boolean isFinal();
+    boolean isSuper();
+    boolean isInterface();
+    boolean isAbstract();
+    boolean isSynthetic();
+    boolean isAnnotation();
+    boolean isEnum();
+    boolean isModule();
+    boolean isDeprecated();
+    boolean isGeneric();
 
-    public String getDeclaration();
+    String getDeclaration();
 
-    public boolean isInnerClass();
-    public boolean isMemberClass();
-    public boolean isLocalClass();
-    public boolean isAnonymousClass();
+    boolean isInnerClass();
+    boolean isMemberClass();
+    boolean isLocalClass();
+    boolean isAnonymousClass();
 }

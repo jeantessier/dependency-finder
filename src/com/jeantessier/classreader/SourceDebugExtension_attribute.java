@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface SourceDebugExtension_attribute extends Attribute_info {
-    public String getDebugExtension();
+    String getDebugExtension();
 }

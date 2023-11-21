@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface FormalParameterTarget extends Target_info {
-    public int getFormalParameterIndex();
+    int getFormalParameterIndex();
 }

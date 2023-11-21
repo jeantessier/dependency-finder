@@ -62,7 +62,9 @@ public final class DescriptorHelper {
 
         if (type.length() == 1) {
             result = conversion.get(type);
-        } else if (type.charAt(0) == 'L') {
+        } else if (type.charAt(0) == 'L' && type.indexOf(';') != -1) {
+            result = ClassNameHelper.path2ClassName(type.substring(1, type.indexOf(';')));
+        } else if (type.charAt(0) == 'T' && type.indexOf(';') != -1) {
             result = ClassNameHelper.path2ClassName(type.substring(1, type.indexOf(';')));
         } else if (type.charAt(0) == '[') {
             result = convert(type.substring(1)) + "[]";
@@ -115,52 +117,52 @@ public final class DescriptorHelper {
     public static String getType(String descriptor) {
         return convert(descriptor);
     }
-}
 
-class DescriptorSpliterator implements Spliterator<String> {
-    private final String descriptor;
+    private static class DescriptorSpliterator implements Spliterator<String> {
+        private final String descriptor;
 
-    private int currentPos = 0;
+        private int currentPos = 0;
 
-    public DescriptorSpliterator(String descriptor) {
-        this.descriptor = descriptor;
-    }
-
-    public boolean tryAdvance(Consumer<? super String> action) {
-        if (!hasMore()) {
-            return false;
+        public DescriptorSpliterator(String descriptor) {
+            this.descriptor = descriptor;
         }
 
-        int nextPos = currentPos;
+        public boolean tryAdvance(Consumer<? super String> action) {
+            if (!hasMore()) {
+                return false;
+            }
 
-        while (descriptor.charAt(nextPos) == '[') {
-            nextPos++;
+            int nextPos = currentPos;
+
+            while (descriptor.charAt(nextPos) == '[') {
+                nextPos++;
+            }
+
+            if (descriptor.charAt(nextPos) == 'L') {
+                nextPos = descriptor.indexOf(";", nextPos);
+            }
+
+            action.accept(DescriptorHelper.convert(descriptor.substring(currentPos, nextPos + 1)));
+
+            currentPos = nextPos + 1;
+
+            return true;
         }
 
-        if (descriptor.charAt(nextPos) == 'L') {
-            nextPos = descriptor.indexOf(";", nextPos);
+        private boolean hasMore() {
+            return currentPos < descriptor.length();
         }
 
-        action.accept(DescriptorHelper.convert(descriptor.substring(currentPos, nextPos + 1)));
+        public Spliterator<String> trySplit() {
+            return null;
+        }
 
-        currentPos = nextPos + 1;
+        public long estimateSize() {
+            return descriptor.length() - currentPos;
+        }
 
-        return true;
-    }
-
-    private boolean hasMore() {
-        return currentPos < descriptor.length();
-    }
-
-    public Spliterator<String> trySplit() {
-        return null;
-    }
-
-    public long estimateSize() {
-        return descriptor.length() - currentPos;
-    }
-
-    public int characteristics() {
-        return NONNULL + IMMUTABLE;
+        public int characteristics() {
+            return NONNULL + IMMUTABLE;
+        }
     }
 }

@@ -35,35 +35,35 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface Feature_info extends Deprecatable, Visitable {
-    public Classfile getClassfile();
+    Classfile getClassfile();
 
-    public int getAccessFlags();
+    int getAccessFlags();
 
-    public boolean isPublic();
-    public boolean isProtected();
-    public boolean isPrivate();
-    public boolean isPackage();
+    boolean isPublic();
+    boolean isProtected();
+    boolean isPrivate();
+    boolean isPackage();
 
-    public boolean isStatic();
-    public boolean isFinal();
+    boolean isStatic();
+    boolean isFinal();
 
-    public int getNameIndex();
-    public UTF8_info getRawName();
-    public String getName();
-    public String getFullName();
+    int getNameIndex();
+    UTF8_info getRawName();
+    String getName();
+    String getFullName();
 
-    public int getDescriptorIndex();
-    public UTF8_info getRawDescriptor();
-    public String getDescriptor();
+    int getDescriptorIndex();
+    UTF8_info getRawDescriptor();
+    String getDescriptor();
 
-    public Collection<? extends Attribute_info> getAttributes();
+    Collection<? extends Attribute_info> getAttributes();
 
-    public boolean isSynthetic();
-    public boolean isDeprecated();
-    public boolean isGeneric();
+    boolean isSynthetic();
+    boolean isDeprecated();
+    boolean isGeneric();
 
-    public String getDeclaration();
-    public String getSignature();
+    String getDeclaration();
+    String getSignature();
 
-    public String getFullSignature();
+    String getFullSignature();
 }

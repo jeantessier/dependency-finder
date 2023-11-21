@@ -33,7 +33,7 @@
 package com.jeantessier.classreader;
 
 public interface PermittedSubclass extends Visitable {
-    public int getSubclassIndex();
-    public Class_info getRawSubclass();
-    public String getSubclass();
+    int getSubclassIndex();
+    Class_info getRawSubclass();
+    String getSubclass();
 }

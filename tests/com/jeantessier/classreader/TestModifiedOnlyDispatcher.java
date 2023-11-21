@@ -34,107 +34,172 @@ package com.jeantessier.classreader;
 
 import java.io.*;
 
-import junit.framework.*;
+import org.jmock.*;
+import org.jmock.integration.junit3.*;
 
-public class TestModifiedOnlyDispatcher extends TestCase {
-    private MockDispatcher            mockDispatcher;
-    private ClassfileLoaderDispatcher dispatcher;
+public class TestModifiedOnlyDispatcher extends MockObjectTestCase {
+    private ClassfileLoaderDispatcher delegateDispatcher;
+    private ClassfileLoaderDispatcher sut;
 
-    private String testDirname;
     private String testFilename;
 
     protected void setUp() throws Exception {
         super.setUp();
         
-        mockDispatcher = new MockDispatcher();
-        dispatcher = new ModifiedOnlyDispatcher(mockDispatcher);
+        delegateDispatcher = mock(ClassfileLoaderDispatcher.class);
+        sut = new ModifiedOnlyDispatcher(delegateDispatcher);
 
-        testDirname  = "classes";
-        testFilename = testDirname + File.separator + getClass().getName() + "." + getName() + ".txt";
+        testFilename = "no_such_file.txt";
     }
 
-    protected void tearDown() throws Exception {
-        File file = new File(testFilename);
-        file.delete();
-
-        super.tearDown();
-    }
-    
     public void testDispatchNonExistingFile() {
-        assertEquals("dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
-        assertEquals("delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
+        // Given
+        checking(new Expectations() {{
+            oneOf (delegateDispatcher).dispatch(testFilename);
+                will(returnValue(ClassfileLoaderAction.CLASS));
+        }});
+
+        // When
+        var actualAction = sut.dispatch(testFilename);
+
+        // Then
+        assertEquals("dispatch action", ClassfileLoaderAction.CLASS, actualAction);
     }
 
     public void testDispatchNewClassFile() throws IOException {
+        // Given
         createFile();
-        mockDispatcher.setReturnedAction(ClassfileLoaderAction.CLASS);
 
-        assertEquals("dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
-        assertEquals("delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
+        // And
+        checking(new Expectations() {{
+            oneOf (delegateDispatcher).dispatch(testFilename);
+                will(returnValue(ClassfileLoaderAction.CLASS));
+        }});
+
+        // When
+        var actualAction = sut.dispatch(testFilename);
+
+        // Then
+        assertEquals("dispatch action", ClassfileLoaderAction.CLASS, actualAction);
     }
     
     public void testDispatchIdenticalClassFile() throws IOException {
+        // Given
         createFile();
-        mockDispatcher.setReturnedAction(ClassfileLoaderAction.CLASS);
 
-        assertEquals("first dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
-        assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
+        // And
+        checking(new Expectations() {{
+            oneOf (delegateDispatcher).dispatch(testFilename);
+                will(returnValue(ClassfileLoaderAction.CLASS));
+            oneOf (delegateDispatcher).dispatch(testFilename);
+                will(returnValue(ClassfileLoaderAction.IGNORE));
+        }});
 
-        assertEquals("repeat dispatch action", ClassfileLoaderAction.IGNORE, dispatcher.dispatch(testFilename));
-        assertEquals("repeat delegated calls", 2, mockDispatcher.getDispatchCount(testFilename));
+        // And prime the cache
+        var primingAction = sut.dispatch(testFilename);
+
+        // When
+        var actualAction = sut.dispatch(testFilename);
+
+        // Then
+        assertEquals("dispatch action", ClassfileLoaderAction.CLASS, primingAction);
+        assertEquals("repeat dispatch action", ClassfileLoaderAction.IGNORE, actualAction);
     }
 
     public void testDispatchModifiedClassFile() throws IOException {
+        // Given
         createFile();
-        mockDispatcher.setReturnedAction(ClassfileLoaderAction.CLASS);
 
-        assertEquals("first dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
-        assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
+        // And
+        checking(new Expectations() {{
+            exactly(2).of (delegateDispatcher).dispatch(testFilename);
+                will(returnValue(ClassfileLoaderAction.CLASS));
+        }});
 
+        // And prime the cache
+        sut.dispatch(testFilename);
+
+        // And modify the file since last dispatched
         try {
-            Thread.sleep(1000);
+            Thread.sleep(100);
         } catch (InterruptedException ex) {
             // Ignore
         }
-        createFile();
-        
-        assertEquals("repeat dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
-        assertEquals("repeat delegated calls", 2, mockDispatcher.getDispatchCount(testFilename));
+        touchFile();
+
+        // When
+        var actualAction = sut.dispatch(testFilename);
+
+        assertEquals("repeat dispatch action", ClassfileLoaderAction.CLASS, actualAction);
     }
 
     public void testDispatchDirectory() {
-        mockDispatcher.setReturnedAction(ClassfileLoaderAction.DIRECTORY);
+        // Given
+        checking(new Expectations() {{
+            exactly(2).of (delegateDispatcher).dispatch(testFilename);
+                will(returnValue(ClassfileLoaderAction.DIRECTORY));
+        }});
 
-        assertEquals("first dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testDirname));
-        assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testDirname));
+        // And prime the cache
+        var primingAction = sut.dispatch(testFilename);
 
-        assertEquals("repeat dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testDirname));
-        assertEquals("repeat delegated calls", 2, mockDispatcher.getDispatchCount(testDirname));
+        // When
+        var actualAction = sut.dispatch(testFilename);
+
+        // Then
+        assertEquals("dispatch action", ClassfileLoaderAction.DIRECTORY, primingAction);
+        assertEquals("repeat dispatch action", ClassfileLoaderAction.DIRECTORY, actualAction);
     }
 
     public void testDispatchIdenticalZipFile() throws IOException {
+        // Given
         createFile();
-        mockDispatcher.setReturnedAction(ClassfileLoaderAction.ZIP);
 
-        assertEquals("first dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
-        assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
+        // And
+        checking(new Expectations() {{
+            exactly(2).of (delegateDispatcher).dispatch(testFilename);
+                will(returnValue(ClassfileLoaderAction.ZIP));
+        }});
 
-        assertEquals("repeat dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
-        assertEquals("repeat delegated calls", 2, mockDispatcher.getDispatchCount(testFilename));
+        // And prime the cache
+        var primingAction = sut.dispatch(testFilename);
+
+        // When
+        var actualAction = sut.dispatch(testFilename);
+
+        // Then
+        assertEquals("dispatch action", ClassfileLoaderAction.ZIP, primingAction);
+        assertEquals("repeat dispatch action", ClassfileLoaderAction.ZIP, actualAction);
     }
 
     public void testDispatchIdenticalJarFile() throws IOException {
+        // Given
         createFile();
-        mockDispatcher.setReturnedAction(ClassfileLoaderAction.JAR);
 
-        assertEquals("first dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
-        assertEquals("first delegated calls", 1, mockDispatcher.getDispatchCount(testFilename));
+        // And
+        checking(new Expectations() {{
+            exactly(2).of (delegateDispatcher).dispatch(testFilename);
+            will(returnValue(ClassfileLoaderAction.JAR));
+        }});
 
-        assertEquals("repeat dispatch action", mockDispatcher.getReturnedAction(), dispatcher.dispatch(testFilename));
-        assertEquals("repeat delegated calls", 2, mockDispatcher.getDispatchCount(testFilename));
+        // And prime the cache
+        var primingAction = sut.dispatch(testFilename);
+
+        // When
+        var actualAction = sut.dispatch(testFilename);
+
+        // Then
+        assertEquals("dispatch action", ClassfileLoaderAction.JAR, primingAction);
+        assertEquals("repeat dispatch action", ClassfileLoaderAction.JAR, actualAction);
     }
 
     private void createFile() throws IOException {
+        var tempFile = File.createTempFile(getClass() + "." + getName(), ".txt");
+        tempFile.deleteOnExit();
+        testFilename = tempFile.getAbsolutePath();
+    }
+
+    private void touchFile() throws IOException {
         PrintWriter out = new PrintWriter(new FileWriter(testFilename));
         out.println("foobar");
         out.close();

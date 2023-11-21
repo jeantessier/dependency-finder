@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface Float_info extends ConstantPoolEntry {
-    public float getValue();
+    float getValue();
 }

@@ -35,5 +35,5 @@ package com.jeantessier.classreader;
 import java.util.Collection;
 
 public interface Record_attribute extends Attribute_info {
-    public Collection<? extends RecordComponent_info> getRecordComponents();
+    Collection<? extends RecordComponent_info> getRecordComponents();
 }

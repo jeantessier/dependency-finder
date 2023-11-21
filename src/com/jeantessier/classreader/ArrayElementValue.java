@@ -35,5 +35,5 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface ArrayElementValue extends ElementValue {
-    public Collection<? extends ElementValue> getValues();
+    Collection<? extends ElementValue> getValues();
 }

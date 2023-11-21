@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface UninitializedVariableInfo extends VerificationTypeInfo {
-    public int getOffset();
+    int getOffset();
 }

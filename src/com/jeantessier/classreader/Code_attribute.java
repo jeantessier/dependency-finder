@@ -35,10 +35,10 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 public interface Code_attribute extends Attribute_info, Iterable<Instruction> {
-    public int getMaxStack();
-    public int getMaxLocals();
-    public byte[] getCode();
-    public Iterator<Instruction> iterator();
-    public Collection<? extends ExceptionHandler> getExceptionHandlers();
-    public Collection<? extends Attribute_info> getAttributes();
+    int getMaxStack();
+    int getMaxLocals();
+    byte[] getCode();
+    Iterator<Instruction> iterator();
+    Collection<? extends ExceptionHandler> getExceptionHandlers();
+    Collection<? extends Attribute_info> getAttributes();
 }

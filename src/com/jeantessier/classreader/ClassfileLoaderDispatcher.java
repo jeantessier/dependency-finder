@@ -33,5 +33,5 @@
 package com.jeantessier.classreader;
 
 public interface ClassfileLoaderDispatcher {
-    public ClassfileLoaderAction dispatch(String filename);
+    ClassfileLoaderAction dispatch(String filename);
 }

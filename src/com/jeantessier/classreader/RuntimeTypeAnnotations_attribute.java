@@ -35,5 +35,5 @@ package com.jeantessier.classreader;
 import java.util.Collection;
 
 public interface RuntimeTypeAnnotations_attribute extends Annotations_attribute {
-    public Collection<? extends TypeAnnotation> getTypeAnnotations();
+    Collection<? extends TypeAnnotation> getTypeAnnotations();
 }
