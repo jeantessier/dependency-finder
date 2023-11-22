@@ -41,7 +41,7 @@ import java.util.*;
  */
 public class MultipleValuesSwitch extends CommandLineSwitchBase {
     public MultipleValuesSwitch(String name) {
-        this(name, new LinkedList<String>(), false);
+        this(name, new LinkedList<>(), false);
     }
 
     public MultipleValuesSwitch(String name, String defaultValue) {
@@ -57,7 +57,7 @@ public class MultipleValuesSwitch extends CommandLineSwitchBase {
     }
 
     public MultipleValuesSwitch(String name, boolean mandatory) {
-        this(name, new LinkedList<String>(), mandatory);
+        this(name, new LinkedList<>(), mandatory);
     }
 
     public MultipleValuesSwitch(String name, String defaultValue, boolean mandatory) {
@@ -69,9 +69,9 @@ public class MultipleValuesSwitch extends CommandLineSwitchBase {
     }
 
     public MultipleValuesSwitch(String name, List<String> defaultValue, boolean mandatory) {
-        super(name, new LinkedList<String>(defaultValue), mandatory);
+        super(name, new LinkedList<>(defaultValue), mandatory);
 
-        this.value = new LinkedList();
+        this.value = new LinkedList<String>();
     }
 
     public Object getValue() {

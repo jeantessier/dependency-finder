@@ -36,10 +36,7 @@ import java.util.*;
 
 public abstract class VisitorBase implements Visitor {
     public void visitCommandLine(CommandLine commandLine) {
-        for (String name : getSwitchNames(commandLine)) {
-            commandLine.getSwitch(name).accept(this);
-        }
-
+        getSwitchNames(commandLine).forEach(name -> commandLine.getSwitch(name).accept(this));
         commandLine.getParameterStrategy().accept(this);
     }
 

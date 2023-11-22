@@ -39,7 +39,7 @@ import java.util.*;
  *  on the command-line.
  */
 public interface ParameterStrategy extends Visitable {
-    public int accept(String param) throws CommandLineException;
-    public List<String> getParameters();
-    public void validate() throws CommandLineException;
+    int accept(String param) throws CommandLineException;
+    List<String> getParameters();
+    void validate() throws CommandLineException;
 }

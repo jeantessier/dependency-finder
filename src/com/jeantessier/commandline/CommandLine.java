@@ -33,6 +33,8 @@
 package com.jeantessier.commandline;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  *  Command-line parser.
@@ -40,10 +42,10 @@ import java.util.*;
 public class CommandLine implements Visitable {
     private static final boolean DEFAULT_STRICT = true;
 
-    private boolean strict;
-    private ParameterStrategy parameterStrategy;
+    private final boolean strict;
+    private final ParameterStrategy parameterStrategy;
 
-    private Map<String, CommandLineSwitch> map = new TreeMap<String, CommandLineSwitch>();
+    private final Map<String, CommandLineSwitch> map = new TreeMap<>();
 
     public CommandLine() {
         this(DEFAULT_STRICT, new CollectingParameterStrategy());
@@ -58,24 +60,16 @@ public class CommandLine implements Visitable {
     }
 
     public CommandLine(boolean strict, ParameterStrategy parameterStrategy) {
-        setStrict(strict);
-        setParameterStrategy(parameterStrategy);
+        this.strict = strict;
+        this.parameterStrategy = parameterStrategy;
     }
 
     public boolean isStrict() {
         return strict;
     }
 
-    public void setStrict(boolean strict) {
-        this.strict = strict;
-    }
-
     public ParameterStrategy getParameterStrategy() {
         return parameterStrategy;
-    }
-
-    public void setParameterStrategy(ParameterStrategy parameterStrategy) {
-        this.parameterStrategy = parameterStrategy;
     }
 
     public ToggleSwitch addToggleSwitch(String name) {
@@ -146,9 +140,9 @@ public class CommandLine implements Visitable {
      */
     public AliasSwitch addAliasSwitch(String name, String ... switchNames) {
         CommandLineSwitch[] switches = new CommandLineSwitch[switchNames.length];
-        for (int i = 0; i < switchNames.length; i++) {
-            switches[i] = getSwitch(switchNames[i], true);
-        }
+
+        IntStream.range(0, switchNames.length)
+                .forEach(i -> switches[i] = getSwitch(switchNames[i], true));
 
         return addSwitch(new AliasSwitch(name, switches));
     }
@@ -259,24 +253,19 @@ public class CommandLine implements Visitable {
     }
 
     public Set<String> getPresentSwitches() {
-        Set<String> result = new TreeSet<String>();
-
-        for (String name : getKnownSwitches()) {
-            CommandLineSwitch cls = map.get(name);
-
-            if (cls.isPresent()) {
-                result.add(name);
-            }
-        }
-
-        return result;
+        return getKnownSwitches().stream()
+                .map(map::get)
+                .filter(Objects::nonNull)
+                .filter(CommandLineSwitch::isPresent)
+                .map(CommandLineSwitch::getName)
+                .collect(Collectors.toCollection(TreeSet::new));
     }
 
     public List<String> getParameters() {
         return parameterStrategy.getParameters();
     }
 
-    public Collection<CommandLineException> parse(String args[]) {
+    public Collection<CommandLineException> parse(String[] args) {
         Collection<CommandLineException> exceptions = new ArrayList<CommandLineException>();
 
         int i=0;
@@ -301,13 +290,13 @@ public class CommandLine implements Visitable {
         }
 
         // Checking that all manadatory switches are present
-        for (CommandLineSwitch cls : map.values()) {
+        map.values().forEach(cls -> {
             try {
                 cls.validate();
             } catch (CommandLineException e) {
                 exceptions.add(e);
             }
-        }
+        });
 
         // Checking that all mandatory parameters are present
         try {

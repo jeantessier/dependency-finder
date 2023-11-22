@@ -36,11 +36,12 @@ package com.jeantessier.commandline;
  *  Base class for implenting the <code>CommandLineSwitch</code> interface.
  */
 public abstract class CommandLineSwitchBase implements CommandLineSwitch {
-    private String name;
-    private Object  defaultValue;
-    protected Object  value;
-    private boolean present;
-    private boolean mandatory;
+    private final String name;
+    private final Object defaultValue;
+    private final boolean mandatory;
+
+    protected Object value = null;
+    private boolean present = false;
 
     public CommandLineSwitchBase(String name) {
         this(name, null, false);
@@ -58,10 +59,6 @@ public abstract class CommandLineSwitchBase implements CommandLineSwitch {
         this.name = name;
         this.defaultValue = defaultValue;
         this.mandatory = mandatory;
-
-        this.value = null;
-
-        isPresent(false);
     }
 
     public String getName() {
@@ -85,15 +82,11 @@ public abstract class CommandLineSwitchBase implements CommandLineSwitch {
     public void setValue(Object value) {
         this.value = value;
 
-        isPresent(true);
+        this.present = true;
     }
 
     public boolean isPresent() {
         return present;
-    }
-
-    protected void isPresent(boolean present) {
-        this.present = present;
     }
 
     public boolean isMandatory() {

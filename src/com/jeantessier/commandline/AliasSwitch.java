@@ -39,15 +39,14 @@ import java.util.*;
  * to group many switches together and set them all at once with just one name.
  */
 public class AliasSwitch implements CommandLineSwitch {
-    private Collection<CommandLineSwitch> switches = new LinkedList<CommandLineSwitch>();
+    private final Collection<CommandLineSwitch> switches = new LinkedList<>();
 
-    private String name;
+    private final String name;
 
     public AliasSwitch(String name, CommandLineSwitch ... switches) {
         this.name = name;
-        for (CommandLineSwitch commandLineSwitch : switches) {
-            this.switches.add(commandLineSwitch);
-        }
+
+        Collections.addAll(this.switches, switches);
     }
 
     public String getName() {
@@ -67,19 +66,11 @@ public class AliasSwitch implements CommandLineSwitch {
     }
 
     public void setValue(Object value) {
-        for (CommandLineSwitch commandLineSwitch : getSwitches()) {
-            commandLineSwitch.setValue(value);
-        }
+        getSwitches().forEach(commandLineSwitch -> commandLineSwitch.setValue(value));
     }
 
     public boolean isPresent() {
-        boolean result = !getSwitches().isEmpty();
-
-        for (CommandLineSwitch commandLineSwitch : getSwitches()) {
-            result = result && commandLineSwitch.isPresent();
-        }
-
-        return result;
+        return !getSwitches().isEmpty() && getSwitches().parallelStream().anyMatch(CommandLineSwitch::isPresent);
     }
 
     public boolean isMandatory() {
@@ -91,13 +82,10 @@ public class AliasSwitch implements CommandLineSwitch {
     }
 
     public int parse(String value) throws CommandLineException {
-        int result = 1;
-
-        for (CommandLineSwitch commandLineSwitch : getSwitches()) {
-            result = Math.max(result, commandLineSwitch.parse(value));
-        }
-
-        return result;
+        return getSwitches().parallelStream()
+                .mapToInt(commandLineSwitch -> commandLineSwitch.parse(value))
+                .max()
+                .orElse(1);
     }
 
     public void accept(Visitor visitor) {

@@ -33,5 +33,5 @@
 package com.jeantessier.commandline;
 
 public interface Visitable {
-    public void accept(Visitor visitor);
+    void accept(Visitor visitor);
 }

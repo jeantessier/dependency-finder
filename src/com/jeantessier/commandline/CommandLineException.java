@@ -32,7 +32,7 @@
 
 package com.jeantessier.commandline;
 
-public class CommandLineException extends Exception {
+public class CommandLineException extends RuntimeException {
     public CommandLineException() {
         super();
     }

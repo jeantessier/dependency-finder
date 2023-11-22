@@ -39,7 +39,7 @@ import java.util.*;
  *  on the command-line.
  */
 public abstract class LimitedCollectingParameterStrategy extends CollectingParameterStrategy {
-    private int limit;
+    private final int limit;
 
     public LimitedCollectingParameterStrategy(int limit) {
         this.limit = limit;

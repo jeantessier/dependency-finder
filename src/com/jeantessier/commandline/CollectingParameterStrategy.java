@@ -35,7 +35,7 @@ package com.jeantessier.commandline;
 import java.util.*;
 
 public class CollectingParameterStrategy implements ParameterStrategy {
-    private List<String> parameters = new LinkedList<String>();
+    private final List<String> parameters = new LinkedList<String>();
 
     public int accept(String param) throws CommandLineException {
         parameters.add(param);
