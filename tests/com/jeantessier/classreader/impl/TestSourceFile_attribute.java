@@ -65,7 +65,7 @@ public class TestSourceFile_attribute extends TestAttributeBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            one (mockVisitor).visitSourceFile_attribute(sut);
+            oneOf (mockVisitor).visitSourceFile_attribute(sut);
         }});
 
         sut.accept(mockVisitor);

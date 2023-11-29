@@ -52,7 +52,7 @@ public class TestLoadListenerDecorator extends MockObjectTestCase {
 
     public void testBeginSession() {
         checking(new Expectations() {{
-            one (mockDelegate).beginSession(testEvent);
+            oneOf (mockDelegate).beginSession(testEvent);
         }});
 
         sut.beginSession(testEvent);
@@ -60,7 +60,7 @@ public class TestLoadListenerDecorator extends MockObjectTestCase {
 
     public void testBeginGroup() {
         checking(new Expectations() {{
-            one (mockDelegate).beginGroup(testEvent);
+            oneOf (mockDelegate).beginGroup(testEvent);
         }});
 
         sut.beginGroup(testEvent);
@@ -68,7 +68,7 @@ public class TestLoadListenerDecorator extends MockObjectTestCase {
 
     public void testBeginFile() {
         checking(new Expectations() {{
-            one (mockDelegate).beginFile(testEvent);
+            oneOf (mockDelegate).beginFile(testEvent);
         }});
 
         sut.beginFile(testEvent);
@@ -76,7 +76,7 @@ public class TestLoadListenerDecorator extends MockObjectTestCase {
 
     public void testBeginClassfile() {
         checking(new Expectations() {{
-            one (mockDelegate).beginClassfile(testEvent);
+            oneOf (mockDelegate).beginClassfile(testEvent);
         }});
 
         sut.beginClassfile(testEvent);
@@ -84,7 +84,7 @@ public class TestLoadListenerDecorator extends MockObjectTestCase {
 
     public void testEndClassfile() {
         checking(new Expectations() {{
-            one (mockDelegate).endClassfile(testEvent);
+            oneOf (mockDelegate).endClassfile(testEvent);
         }});
 
         sut.endClassfile(testEvent);
@@ -92,7 +92,7 @@ public class TestLoadListenerDecorator extends MockObjectTestCase {
 
     public void testEndFile() {
         checking(new Expectations() {{
-            one (mockDelegate).endFile(testEvent);
+            oneOf (mockDelegate).endFile(testEvent);
         }});
 
         sut.endFile(testEvent);
@@ -100,7 +100,7 @@ public class TestLoadListenerDecorator extends MockObjectTestCase {
 
     public void testEndGroup() {
         checking(new Expectations() {{
-            one (mockDelegate).endGroup(testEvent);
+            oneOf (mockDelegate).endGroup(testEvent);
         }});
 
         sut.endGroup(testEvent);
@@ -108,7 +108,7 @@ public class TestLoadListenerDecorator extends MockObjectTestCase {
 
     public void testEndSession() {
         checking(new Expectations() {{
-            one (mockDelegate).endSession(testEvent);
+            oneOf (mockDelegate).endSession(testEvent);
         }});
 
         sut.endSession(testEvent);

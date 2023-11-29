@@ -68,14 +68,14 @@ public class TestModuleExports_exportsFlags {
     public boolean isMandated;
 
     @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery();
+    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
+    }};
 
     private ModuleExports sut;
 
     @Before
     public void setUp() throws IOException {
-        context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
-
         final int exportsIndex = 123;
         final String exports = "abc";
 

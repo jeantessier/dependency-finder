@@ -61,7 +61,7 @@ public class TestAnnotation extends TestAnnotationsBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            one (mockVisitor).visitAnnotation(sut);
+            oneOf (mockVisitor).visitAnnotation(sut);
         }});
 
         sut.accept(mockVisitor);

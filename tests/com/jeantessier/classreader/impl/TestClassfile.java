@@ -33,18 +33,14 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.ClassfileLoader;
-import org.jmock.Expectations;
-import org.jmock.imposters.ByteBuddyClassImposteriser;
-import org.jmock.integration.junit4.JUnitRuleMockery;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.jmock.*;
+import org.jmock.imposters.*;
+import org.jmock.integration.junit4.*;
+import org.junit.*;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 public class TestClassfile {
@@ -54,15 +50,15 @@ public class TestClassfile {
     private static final String TEST_METHOD_SIGNATURE = TEST_CLASS_NAME + ".foo()";
 
     @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery();
+    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
+    }};
 
     private ClassfileLoader loader;
     private ConstantPool constantPool;
 
     @Before
     public void setUp() throws Exception {
-        context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
-
         loader = context.mock(ClassfileLoader.class);
         constantPool = context.mock(ConstantPool.class);
     }
@@ -72,9 +68,9 @@ public class TestClassfile {
         final Class_info classInfo = context.mock(Class_info.class);
 
         context.checking(new Expectations() {{
-            one (constantPool).get(1);
+            oneOf (constantPool).get(1);
                 will(returnValue(classInfo));
-            one (classInfo).getPackageName();
+            oneOf (classInfo).getPackageName();
                 will(returnValue(TEST_PACKAGE_NAME));
         }});
 
@@ -91,7 +87,7 @@ public class TestClassfile {
         Collection<Field_info> fields = Collections.singletonList(expectedField);
 
         context.checking(new Expectations() {{
-            one (expectedField).getName();
+            oneOf (expectedField).getName();
                 will(returnValue(TEST_FIELD_NAME));
         }});
 
@@ -110,11 +106,11 @@ public class TestClassfile {
         expectClassNameLookup(2, superclassName);
 
         context.checking(new Expectations() {{
-            one (loader).getClassfile(superclassName);
+            oneOf (loader).getClassfile(superclassName);
                 will(returnValue(superclass));
-            one (superclass).locateField(TEST_FIELD_NAME);
+            oneOf (superclass).locateField(TEST_FIELD_NAME);
                 will(returnValue(expectedField));
-            one (expectedField).isPublic();
+            oneOf (expectedField).isPublic();
                 will(returnValue(true));
         }});
 
@@ -133,13 +129,13 @@ public class TestClassfile {
         expectClassNameLookup(2, superclassName);
 
         context.checking(new Expectations() {{
-            one (loader).getClassfile(superclassName);
+            oneOf (loader).getClassfile(superclassName);
                 will(returnValue(superclass));
-            one (superclass).locateField(TEST_FIELD_NAME);
+            oneOf (superclass).locateField(TEST_FIELD_NAME);
                 will(returnValue(expectedField));
-            one (expectedField).isPublic();
+            oneOf (expectedField).isPublic();
                 will(returnValue(false));
-            one (expectedField).isProtected();
+            oneOf (expectedField).isProtected();
                 will(returnValue(true));
         }});
 
@@ -161,23 +157,23 @@ public class TestClassfile {
         expectClassNameLookup(2, superclassName);
 
         context.checking(new Expectations() {{
-            one (constantPool).get(1);
+            oneOf (constantPool).get(1);
                 will(returnValue(classInfo));
-            one (classInfo).getPackageName();
+            oneOf (classInfo).getPackageName();
                 will(returnValue(TEST_PACKAGE_NAME));
-            one (loader).getClassfile(superclassName);
+            oneOf (loader).getClassfile(superclassName);
                 will(returnValue(superclass));
-            one (superclass).getPackageName();
+            oneOf (superclass).getPackageName();
                 will(returnValue(TEST_PACKAGE_NAME));
-            one (superclass).locateField(TEST_FIELD_NAME);
+            oneOf (superclass).locateField(TEST_FIELD_NAME);
                 will(returnValue(expectedField));
-            one (expectedField).isPublic();
+            oneOf (expectedField).isPublic();
                 will(returnValue(false));
-            one (expectedField).isProtected();
+            oneOf (expectedField).isProtected();
                 will(returnValue(false));
-            one (expectedField).isPackage();
+            oneOf (expectedField).isPackage();
                 will(returnValue(true));
-            one (expectedField).getClassfile();
+            oneOf (expectedField).getClassfile();
                 will(returnValue(sut));
         }});
 
@@ -197,23 +193,23 @@ public class TestClassfile {
         expectClassNameLookup(2, superclassName);
 
         context.checking(new Expectations() {{
-            one (constantPool).get(1);
+            oneOf (constantPool).get(1);
                 will(returnValue(classInfo));
-            one (classInfo).getPackageName();
+            oneOf (classInfo).getPackageName();
                 will(returnValue(TEST_PACKAGE_NAME));
-            one (loader).getClassfile(superclassName);
+            oneOf (loader).getClassfile(superclassName);
                 will(returnValue(superclass));
-            one (superclass).getPackageName();
+            oneOf (superclass).getPackageName();
                 will(returnValue(""));
-            one (superclass).locateField(TEST_FIELD_NAME);
+            oneOf (superclass).locateField(TEST_FIELD_NAME);
                 will(returnValue(expectedField));
-            one (expectedField).isPublic();
+            oneOf (expectedField).isPublic();
                 will(returnValue(false));
-            one (expectedField).isProtected();
+            oneOf (expectedField).isProtected();
                 will(returnValue(false));
-            one (expectedField).isPackage();
+            oneOf (expectedField).isPackage();
                 will(returnValue(true));
-            one (expectedField).getClassfile();
+            oneOf (expectedField).getClassfile();
                 will(returnValue(sut));
         }});
 
@@ -230,15 +226,15 @@ public class TestClassfile {
         expectClassNameLookup(2, superclassName);
 
         context.checking(new Expectations() {{
-            one (loader).getClassfile(superclassName);
+            oneOf (loader).getClassfile(superclassName);
                 will(returnValue(superclass));
-            one (superclass).locateField(TEST_FIELD_NAME);
+            oneOf (superclass).locateField(TEST_FIELD_NAME);
                 will(returnValue(expectedField));
-            one (expectedField).isPublic();
+            oneOf (expectedField).isPublic();
                 will(returnValue(false));
-            one (expectedField).isProtected();
+            oneOf (expectedField).isProtected();
                 will(returnValue(false));
-            one (expectedField).isPackage();
+            oneOf (expectedField).isPackage();
                 will(returnValue(false));
         }});
 
@@ -255,7 +251,7 @@ public class TestClassfile {
         Collection<Method_info> methods = Collections.singletonList(expectedMethod);
 
         context.checking(new Expectations() {{
-            one (expectedMethod).getSignature();
+            oneOf (expectedMethod).getSignature();
                 will(returnValue(TEST_METHOD_SIGNATURE));
         }});
 
@@ -274,11 +270,11 @@ public class TestClassfile {
         expectClassNameLookup(2, superclassName);
 
         context.checking(new Expectations() {{
-            one (loader).getClassfile(superclassName);
+            oneOf (loader).getClassfile(superclassName);
                 will(returnValue(superclass));
-            one (superclass).locateMethod(TEST_METHOD_SIGNATURE);
+            oneOf (superclass).locateMethod(TEST_METHOD_SIGNATURE);
                 will(returnValue(expectedMethod));
-            one (expectedMethod).isPublic();
+            oneOf (expectedMethod).isPublic();
                 will(returnValue(true));
         }});
 
@@ -297,13 +293,13 @@ public class TestClassfile {
         expectClassNameLookup(2, superclassName);
 
         context.checking(new Expectations() {{
-            one (loader).getClassfile(superclassName);
+            oneOf (loader).getClassfile(superclassName);
                 will(returnValue(superclass));
-            one (superclass).locateMethod(TEST_METHOD_SIGNATURE);
+            oneOf (superclass).locateMethod(TEST_METHOD_SIGNATURE);
                 will(returnValue(expectedMethod));
-            one (expectedMethod).isPublic();
+            oneOf (expectedMethod).isPublic();
                 will(returnValue(false));
-            one (expectedMethod).isProtected();
+            oneOf (expectedMethod).isProtected();
                 will(returnValue(true));
         }});
 
@@ -325,23 +321,23 @@ public class TestClassfile {
         expectClassNameLookup(2, superclassName);
 
         context.checking(new Expectations() {{
-            one (constantPool).get(1);
+            oneOf (constantPool).get(1);
                 will(returnValue(classInfo));
-            one (classInfo).getPackageName();
+            oneOf (classInfo).getPackageName();
                 will(returnValue(TEST_PACKAGE_NAME));
-            one (loader).getClassfile(superclassName);
+            oneOf (loader).getClassfile(superclassName);
                 will(returnValue(superclass));
-            one (superclass).getPackageName();
+            oneOf (superclass).getPackageName();
                 will(returnValue(TEST_PACKAGE_NAME));
-            one (superclass).locateMethod(TEST_METHOD_SIGNATURE);
+            oneOf (superclass).locateMethod(TEST_METHOD_SIGNATURE);
                 will(returnValue(expectedMethod));
-            one (expectedMethod).isPublic();
+            oneOf (expectedMethod).isPublic();
                 will(returnValue(false));
-            one (expectedMethod).isProtected();
+            oneOf (expectedMethod).isProtected();
                 will(returnValue(false));
-            one (expectedMethod).isPackage();
+            oneOf (expectedMethod).isPackage();
                 will(returnValue(true));
-            one (expectedMethod).getClassfile();
+            oneOf (expectedMethod).getClassfile();
                 will(returnValue(sut));
         }});
 
@@ -361,23 +357,23 @@ public class TestClassfile {
         expectClassNameLookup(2, superclassName);
 
         context.checking(new Expectations() {{
-            one (constantPool).get(1);
+            oneOf (constantPool).get(1);
                 will(returnValue(classInfo));
-            one (classInfo).getPackageName();
+            oneOf (classInfo).getPackageName();
                 will(returnValue(TEST_PACKAGE_NAME));
-            one (loader).getClassfile(superclassName);
+            oneOf (loader).getClassfile(superclassName);
                 will(returnValue(superclass));
-            one (superclass).getPackageName();
+            oneOf (superclass).getPackageName();
                 will(returnValue(""));
-            one (superclass).locateMethod(TEST_METHOD_SIGNATURE);
+            oneOf (superclass).locateMethod(TEST_METHOD_SIGNATURE);
                 will(returnValue(expectedMethod));
-            one (expectedMethod).isPublic();
+            oneOf (expectedMethod).isPublic();
                 will(returnValue(false));
-            one (expectedMethod).isProtected();
+            oneOf (expectedMethod).isProtected();
                 will(returnValue(false));
-            one (expectedMethod).isPackage();
+            oneOf (expectedMethod).isPackage();
                 will(returnValue(true));
-            one (expectedMethod).getClassfile();
+            oneOf (expectedMethod).getClassfile();
                 will(returnValue(sut));
         }});
 
@@ -394,15 +390,15 @@ public class TestClassfile {
         expectClassNameLookup(2, superclassName);
 
         context.checking(new Expectations() {{
-            one (loader).getClassfile(superclassName);
+            oneOf (loader).getClassfile(superclassName);
                 will(returnValue(superclass));
-            one (superclass).locateMethod(TEST_METHOD_SIGNATURE);
+            oneOf (superclass).locateMethod(TEST_METHOD_SIGNATURE);
                 will(returnValue(expectedMethod));
-            one (expectedMethod).isPublic();
+            oneOf (expectedMethod).isPublic();
                 will(returnValue(false));
-            one (expectedMethod).isProtected();
+            oneOf (expectedMethod).isProtected();
                 will(returnValue(false));
-            one (expectedMethod).isPackage();
+            oneOf (expectedMethod).isPackage();
                 will(returnValue(false));
         }});
 
@@ -420,9 +416,9 @@ public class TestClassfile {
         expectClassNameLookup(1, TEST_CLASS_NAME);
 
         context.checking(new Expectations() {{
-            one (innerClasses_attribute).getInnerClasses();
+            oneOf (innerClasses_attribute).getInnerClasses();
                 will(returnValue(Collections.<InnerClass>singleton(innerClass)));
-            one (innerClass).getInnerClassInfo();
+            oneOf (innerClass).getInnerClassInfo();
                 will(returnValue(TEST_CLASS_NAME));
         }});
 
@@ -439,9 +435,9 @@ public class TestClassfile {
         expectClassNameLookup(1, TEST_CLASS_NAME);
 
         context.checking(new Expectations() {{
-            one (innerClasses_attribute).getInnerClasses();
+            oneOf (innerClasses_attribute).getInnerClasses();
                 will(returnValue(Collections.<InnerClass>singleton(innerClass)));
-            one (innerClass).getInnerClassInfo();
+            oneOf (innerClass).getInnerClassInfo();
                 will(returnValue(""));
         }});
 
@@ -461,9 +457,9 @@ public class TestClassfile {
         final Class_info class_info = context.mock(Class_info.class);
 
         context.checking(new Expectations() {{
-            one (constantPool).get(index);
+            oneOf (constantPool).get(index);
                 will(returnValue(class_info));
-            one (class_info).getName();
+            oneOf (class_info).getName();
                 will(returnValue(value));
         }});
     }

@@ -49,7 +49,7 @@ public class TestAnnotationDefault_attribute extends TestAnnotationsBase {
         mockElementValue = mock(ElementValue.class);
 
         checking(new Expectations() {{
-            one (mockElementValueFactory).create(mockConstantPool, mockIn);
+            oneOf (mockElementValueFactory).create(mockConstantPool, mockIn);
                 will(returnValue(mockElementValue));
         }});
 
@@ -68,7 +68,7 @@ public class TestAnnotationDefault_attribute extends TestAnnotationsBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            one (mockVisitor).visitAnnotationDefault_attribute(sut);
+            oneOf (mockVisitor).visitAnnotationDefault_attribute(sut);
         }});
 
         sut.accept(mockVisitor);

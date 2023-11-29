@@ -32,16 +32,12 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.jmock.Expectations;
-import org.jmock.Sequence;
-import org.jmock.imposters.ByteBuddyClassImposteriser;
-import org.jmock.integration.junit4.JUnitRuleMockery;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.jmock.*;
+import org.jmock.imposters.*;
+import org.jmock.integration.junit4.*;
+import org.junit.*;
 
-import java.io.DataInput;
-import java.io.IOException;
+import java.io.*;
 
 import static org.hamcrest.Matchers.is;
 import static org.jmock.Expectations.aNull;
@@ -53,7 +49,9 @@ public class TestField_info {
     private static final int TEST_SIGNATURE_INDEX = 456;
 
     @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery();
+    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
+    }};
 
     private DataInput mockIn;
     private ConstantPool mockConstantPool;
@@ -62,8 +60,6 @@ public class TestField_info {
 
     @Before
     public void setUp() {
-        context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
-
         mockIn = context.mock(DataInput.class);
         mockConstantPool = context.mock(ConstantPool.class);
 
@@ -76,7 +72,7 @@ public class TestField_info {
 
         context.checking(new Expectations() {{
             allowing(mockClassfile).getConstantPool();
-            will(returnValue(mockConstantPool));
+                will(returnValue(mockConstantPool));
         }});
 
         expectReadU2(TEST_ACCESS_FLAG);
@@ -99,7 +95,7 @@ public class TestField_info {
 
         context.checking(new Expectations() {{
             allowing(mockClassfile).getConstantPool();
-            will(returnValue(mockConstantPool));
+                will(returnValue(mockConstantPool));
         }});
 
         expectReadU2(TEST_ACCESS_FLAG);
@@ -120,7 +116,7 @@ public class TestField_info {
 
     protected void expectReadU2(final int i) throws IOException {
         context.checking(new Expectations() {{
-            one (mockIn).readUnsignedShort();
+            oneOf (mockIn).readUnsignedShort();
                 inSequence(dataReads);
                 will(returnValue(i));
         }});
@@ -128,9 +124,9 @@ public class TestField_info {
 
     protected void expectReadU4(final int i) throws IOException {
         context.checking(new Expectations() {{
-            one(mockIn).readInt();
-            inSequence(dataReads);
-            will(returnValue(i));
+            oneOf (mockIn).readInt();
+                inSequence(dataReads);
+                will(returnValue(i));
         }});
     }
 
@@ -141,9 +137,9 @@ public class TestField_info {
     private void expectLookupUtf8(final int index, final String value, final UTF8_info mockUtf8_info) {
         context.checking(new Expectations() {{
             atLeast(1).of(mockConstantPool).get(index);
-            will(returnValue(mockUtf8_info));
+                will(returnValue(mockUtf8_info));
             atLeast(1).of(mockUtf8_info).getValue();
-            will(returnValue(value));
+                will(returnValue(value));
         }});
     }
 }

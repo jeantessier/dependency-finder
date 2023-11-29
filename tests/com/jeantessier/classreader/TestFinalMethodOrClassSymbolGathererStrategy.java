@@ -48,7 +48,7 @@ public class TestFinalMethodOrClassSymbolGathererStrategy extends MockObjectTest
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).isFinal();
+            oneOf (mockClassfile).isFinal();
             will(returnValue(false));
         }});
 
@@ -59,11 +59,11 @@ public class TestFinalMethodOrClassSymbolGathererStrategy extends MockObjectTest
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).isFinal();
+            oneOf (mockClassfile).isFinal();
             will(returnValue(true));
-            one (mockClassfile).isEnum();
+            oneOf (mockClassfile).isEnum();
             will(returnValue(false));
-            one (mockClassfile).isAnonymousClass();
+            oneOf (mockClassfile).isAnonymousClass();
             will(returnValue(false));
         }});
 
@@ -74,9 +74,9 @@ public class TestFinalMethodOrClassSymbolGathererStrategy extends MockObjectTest
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).isFinal();
+            oneOf (mockClassfile).isFinal();
             will(returnValue(true));
-            one (mockClassfile).isEnum();
+            oneOf (mockClassfile).isEnum();
             will(returnValue(true));
         }});
 
@@ -87,11 +87,11 @@ public class TestFinalMethodOrClassSymbolGathererStrategy extends MockObjectTest
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).isFinal();
+            oneOf (mockClassfile).isFinal();
             will(returnValue(true));
-            one (mockClassfile).isEnum();
+            oneOf (mockClassfile).isEnum();
             will(returnValue(false));
-            one (mockClassfile).isAnonymousClass();
+            oneOf (mockClassfile).isAnonymousClass();
             will(returnValue(true));
         }});
 
@@ -107,7 +107,7 @@ public class TestFinalMethodOrClassSymbolGathererStrategy extends MockObjectTest
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isFinal();
+            oneOf (mockMethod).isFinal();
             will(returnValue(false));
         }});
 
@@ -118,7 +118,7 @@ public class TestFinalMethodOrClassSymbolGathererStrategy extends MockObjectTest
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).isFinal();
+            oneOf (mockMethod).isFinal();
             will(returnValue(true));
         }});
 

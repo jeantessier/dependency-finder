@@ -55,7 +55,7 @@ public class TestSynthetic_attribute extends TestAttributeBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            one (mockVisitor).visitSynthetic_attribute(sut);
+            oneOf (mockVisitor).visitSynthetic_attribute(sut);
         }});
 
         sut.accept(mockVisitor);

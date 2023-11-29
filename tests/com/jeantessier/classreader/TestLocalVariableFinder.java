@@ -51,7 +51,7 @@ public class TestLocalVariableFinder extends MockObjectTestCase {
         checking(new Expectations() {{
             atLeast(1).of (mockCode_attribute).getAttributes();
                 will(returnValue(Collections.singleton(mockAttribute)));
-            one (mockAttribute).accept(sut);
+            oneOf (mockAttribute).accept(sut);
         }});
 
         sut.visitCode_attribute(mockCode_attribute);
@@ -61,7 +61,7 @@ public class TestLocalVariableFinder extends MockObjectTestCase {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
-            one (mockLocalVariable).getIndex();
+            oneOf (mockLocalVariable).getIndex();
                 will(returnValue(LOCAL_VARIABLE_INDEX));
             atLeast(1).of (mockLocalVariable).getStartPC();
                 will(returnValue(START_PC));
@@ -78,7 +78,7 @@ public class TestLocalVariableFinder extends MockObjectTestCase {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
-            one (mockLocalVariable).getIndex();
+            oneOf (mockLocalVariable).getIndex();
                 will(returnValue(LOCAL_VARIABLE_INDEX + 1));
         }});
 
@@ -91,9 +91,9 @@ public class TestLocalVariableFinder extends MockObjectTestCase {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
-            one (mockLocalVariable).getIndex();
+            oneOf (mockLocalVariable).getIndex();
                 will(returnValue(LOCAL_VARIABLE_INDEX));
-            one (mockLocalVariable).getStartPC();
+            oneOf (mockLocalVariable).getStartPC();
                 will(returnValue(START_PC));
         }});
 
@@ -106,7 +106,7 @@ public class TestLocalVariableFinder extends MockObjectTestCase {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
-            one (mockLocalVariable).getIndex();
+            oneOf (mockLocalVariable).getIndex();
                 will(returnValue(LOCAL_VARIABLE_INDEX));
             atLeast(1).of (mockLocalVariable).getStartPC();
                 will(returnValue(START_PC));
@@ -123,7 +123,7 @@ public class TestLocalVariableFinder extends MockObjectTestCase {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
-            one (mockLocalVariable).getIndex();
+            oneOf (mockLocalVariable).getIndex();
                 will(returnValue(LOCAL_VARIABLE_INDEX));
             atLeast(1).of (mockLocalVariable).getStartPC();
                 will(returnValue(START_PC));
@@ -140,7 +140,7 @@ public class TestLocalVariableFinder extends MockObjectTestCase {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
-            one (mockLocalVariable).getIndex();
+            oneOf (mockLocalVariable).getIndex();
                 will(returnValue(LOCAL_VARIABLE_INDEX));
             atLeast(1).of (mockLocalVariable).getStartPC();
                 will(returnValue(START_PC));
@@ -157,7 +157,7 @@ public class TestLocalVariableFinder extends MockObjectTestCase {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
-            one (mockLocalVariable).getIndex();
+            oneOf (mockLocalVariable).getIndex();
                 will(returnValue(LOCAL_VARIABLE_INDEX));
             atLeast(1).of (mockLocalVariable).getStartPC();
                 will(returnValue(START_PC));

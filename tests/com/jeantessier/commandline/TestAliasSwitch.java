@@ -125,7 +125,7 @@ public class TestAliasSwitch extends MockObjectTestCase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            one (mockVisitor).visitAliasSwitch(aliasSwitch);
+            oneOf (mockVisitor).visitAliasSwitch(aliasSwitch);
         }});
 
         aliasSwitch.accept(mockVisitor);

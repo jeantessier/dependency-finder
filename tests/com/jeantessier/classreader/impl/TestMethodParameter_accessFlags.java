@@ -72,18 +72,17 @@ public class TestMethodParameter_accessFlags {
     public boolean isMandated;
 
     @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery();
+    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
+    }};
 
-    private ConstantPool mockConstantPool;
     private DataInput mockIn;
 
     private MethodParameter sut;
 
     @Before
     public void setUp() throws IOException {
-        context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
-
-        mockConstantPool = context.mock(ConstantPool.class);
+        var mockConstantPool = context.mock(ConstantPool.class);
         mockIn = context.mock(DataInput.class);
 
         context.checking(new Expectations() {{

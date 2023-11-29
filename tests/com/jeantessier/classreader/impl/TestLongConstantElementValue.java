@@ -64,7 +64,7 @@ public class TestLongConstantElementValue extends TestAnnotationsBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            one (mockVisitor).visitLongConstantElementValue(sut);
+            oneOf (mockVisitor).visitLongConstantElementValue(sut);
         }});
 
         sut.accept(mockVisitor);

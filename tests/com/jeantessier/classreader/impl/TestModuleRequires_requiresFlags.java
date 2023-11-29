@@ -76,14 +76,14 @@ public class TestModuleRequires_requiresFlags {
     public boolean isMandated;
 
     @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery();
+    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
+    }};
 
     private ModuleRequires sut;
 
     @Before
     public void setUp() throws IOException {
-        context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
-
         final int requiresIndex = 123;
         final String requires = "abc";
         final int requiresVersionIndex = 465;

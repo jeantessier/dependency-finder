@@ -68,14 +68,14 @@ public class TestModuleOpens_opensFlags {
     public boolean isMandated;
 
     @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery();
+    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
+    }};
 
     private ModuleOpens sut;
 
     @Before
     public void setUp() throws IOException {
-        context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
-
         final int opensIndex = 123;
         final String opens = "abc";
 

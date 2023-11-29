@@ -74,7 +74,9 @@ public class TestBootstrapMethodWithOneArgument {
     public Class<? extends ConstantPoolEntry> argumentClass;
 
     @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery();
+    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
+    }};
 
     private ConstantPool mockConstantPool;
     private DataInput mockIn;
@@ -86,8 +88,6 @@ public class TestBootstrapMethodWithOneArgument {
 
     @Before
     public void setUp() throws IOException {
-        context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
-
         mockConstantPool = context.mock(ConstantPool.class);
         mockIn = context.mock(DataInput.class);
         mockArgument = context.mock(argumentClass);

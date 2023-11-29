@@ -61,7 +61,7 @@ public class TestGroupFilteringLoadListener extends MockObjectTestCase {
         final LoadEvent testEvent = new LoadEvent(this, "foo", 0);
 
         checking(new Expectations() {{
-            one (mockDelegate).beginGroup(testEvent);
+            oneOf (mockDelegate).beginGroup(testEvent);
         }});
 
         sut.beginGroup(testEvent);
@@ -73,7 +73,7 @@ public class TestGroupFilteringLoadListener extends MockObjectTestCase {
         final LoadEvent testEvent = new LoadEvent(this, "bar", 0);
 
         checking(new Expectations() {{
-            one (mockDelegate).beginGroup(testEvent);
+            oneOf (mockDelegate).beginGroup(testEvent);
         }});
 
         sut.beginGroup(testEvent);
@@ -107,7 +107,7 @@ public class TestGroupFilteringLoadListener extends MockObjectTestCase {
         final LoadEvent testEvent = new LoadEvent(this, "foo", 0);
 
         checking(new Expectations() {{
-            one (mockDelegate).endGroup(testEvent);
+            oneOf (mockDelegate).endGroup(testEvent);
         }});
 
         sut.endGroup(testEvent);
@@ -119,7 +119,7 @@ public class TestGroupFilteringLoadListener extends MockObjectTestCase {
         final LoadEvent testEvent = new LoadEvent(this, "bar", 0);
 
         checking(new Expectations() {{
-            one (mockDelegate).endGroup(testEvent);
+            oneOf (mockDelegate).endGroup(testEvent);
         }});
 
         sut.endGroup(testEvent);

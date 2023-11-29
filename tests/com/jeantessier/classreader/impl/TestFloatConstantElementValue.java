@@ -64,7 +64,7 @@ public class TestFloatConstantElementValue extends TestAnnotationsBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            one (mockVisitor).visitFloatConstantElementValue(sut);
+            oneOf (mockVisitor).visitFloatConstantElementValue(sut);
         }});
 
         sut.accept(mockVisitor);

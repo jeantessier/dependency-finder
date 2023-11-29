@@ -59,7 +59,7 @@ public class TestSignatureFinder {
         final Signature_attribute mockSignature_attribute = context.mock(Signature_attribute.class);
 
         context.checking(new Expectations() {{
-            one (mockSignature_attribute).getSignature();
+            oneOf (mockSignature_attribute).getSignature();
                 will(returnValue("()V"));
         }});
 

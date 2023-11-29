@@ -63,9 +63,9 @@ public class TestClassfileFilteringLoadListener extends MockObjectTestCase {
         final LoadEvent testEvent = new LoadEvent(this, "", "Foo.class", mockClassfile);
 
         checking(new Expectations() {{
-            one (mockClassfile).getClassName();
+            oneOf (mockClassfile).getClassName();
                 will(returnValue("Foo"));
-            one (mockDelegate).endClassfile(testEvent);
+            oneOf (mockDelegate).endClassfile(testEvent);
         }});
 
         sut.endClassfile(testEvent);
@@ -77,9 +77,9 @@ public class TestClassfileFilteringLoadListener extends MockObjectTestCase {
         final LoadEvent testEvent = new LoadEvent(this, "", "Bar.class", mockClassfile);
 
         checking(new Expectations() {{
-            one (mockClassfile).getClassName();
+            oneOf (mockClassfile).getClassName();
                 will(returnValue("Bar"));
-            one (mockDelegate).endClassfile(testEvent);
+            oneOf (mockDelegate).endClassfile(testEvent);
         }});
 
         sut.endClassfile(testEvent);
@@ -90,7 +90,7 @@ public class TestClassfileFilteringLoadListener extends MockObjectTestCase {
         final LoadEvent testEvent = new LoadEvent(this, "", "Bar.class", mockClassfile);
 
         checking(new Expectations() {{
-            one (mockClassfile).getClassName();
+            oneOf (mockClassfile).getClassName();
                 will(returnValue("Bar"));
             never (mockDelegate).endClassfile(testEvent);
         }});
@@ -104,7 +104,7 @@ public class TestClassfileFilteringLoadListener extends MockObjectTestCase {
         final LoadEvent testEvent = new LoadEvent(this, "", "FooBar.class", mockClassfile);
 
         checking(new Expectations() {{
-            one (mockClassfile).getClassName();
+            oneOf (mockClassfile).getClassName();
                 will(returnValue("FooBar"));
             never (mockDelegate).endClassfile(testEvent);
         }});

@@ -65,7 +65,7 @@ public class TestSignature_attribute extends TestAttributeBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            one (mockVisitor).visitSignature_attribute(sut);
+            oneOf (mockVisitor).visitSignature_attribute(sut);
         }});
 
         sut.accept(mockVisitor);

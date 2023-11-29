@@ -96,8 +96,8 @@ public class TestTextPrinter extends MockObjectTestCase {
         classfiles.add(mockClassfile2);
 
         checking(new Expectations() {{
-            one (mockClassfile1).accept(sut);
-            one (mockClassfile2).accept(sut);
+            oneOf (mockClassfile1).accept(sut);
+            oneOf (mockClassfile2).accept(sut);
         }});
 
         sut.visitClassfiles(classfiles);
@@ -111,11 +111,11 @@ public class TestTextPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).getDeclaration();
+            oneOf (mockMethod).getDeclaration();
                 will(returnValue(methodDeclaration));
-            one (mockMethod).isStaticInitializer();
+            oneOf (mockMethod).isStaticInitializer();
                 will(returnValue(false));
-            one (mockMethod).isAbstract();
+            oneOf (mockMethod).isAbstract();
                 will(returnValue(true));
         }});
 
@@ -133,13 +133,13 @@ public class TestTextPrinter extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).getDeclaration();
+            oneOf (mockMethod).getDeclaration();
                 will(returnValue(methodDeclaration));
-            one (mockMethod).isStaticInitializer();
+            oneOf (mockMethod).isStaticInitializer();
                 will(returnValue(false));
-            one (mockMethod).isAbstract();
+            oneOf (mockMethod).isAbstract();
                 will(returnValue(false));
-            one (mockMethod).isNative();
+            oneOf (mockMethod).isNative();
                 will(returnValue(true));
         }});
 
@@ -158,17 +158,17 @@ public class TestTextPrinter extends MockObjectTestCase {
         final Code_attribute mockCode = mock(Code_attribute.class);
 
         checking(new Expectations() {{
-            one (mockMethod).getDeclaration();
+            oneOf (mockMethod).getDeclaration();
                 will(returnValue(methodDeclaration));
-            one (mockMethod).isStaticInitializer();
+            oneOf (mockMethod).isStaticInitializer();
                 will(returnValue(false));
-            one (mockMethod).isAbstract();
+            oneOf (mockMethod).isAbstract();
                 will(returnValue(false));
-            one (mockMethod).isNative();
+            oneOf (mockMethod).isNative();
                 will(returnValue(false));
-            one (mockMethod).getCode();
+            oneOf (mockMethod).getCode();
                 will(returnValue(mockCode));
-            one (mockCode).accept(sut);
+            oneOf (mockCode).accept(sut);
         }});
 
         sut.visitMethod_info(mockMethod);
@@ -186,17 +186,17 @@ public class TestTextPrinter extends MockObjectTestCase {
         final Code_attribute mockCode = mock(Code_attribute.class);
 
         checking(new Expectations() {{
-            one (mockMethod).getDeclaration();
+            oneOf (mockMethod).getDeclaration();
                 will(returnValue(methodDeclaration));
-            one (mockMethod).isStaticInitializer();
+            oneOf (mockMethod).isStaticInitializer();
                 will(returnValue(true));
-            one (mockMethod).isAbstract();
+            oneOf (mockMethod).isAbstract();
                 will(returnValue(false));
-            one (mockMethod).isNative();
+            oneOf (mockMethod).isNative();
                 will(returnValue(false));
-            one (mockMethod).getCode();
+            oneOf (mockMethod).getCode();
                 will(returnValue(mockCode));
-            one (mockCode).accept(sut);
+            oneOf (mockCode).accept(sut);
         }});
 
         sut.visitMethod_info(mockMethod);
@@ -211,8 +211,8 @@ public class TestTextPrinter extends MockObjectTestCase {
         final Code_attribute mockCode = mock(Code_attribute.class);
 
         checking(new Expectations() {{
-            one (mockCode).forEach(with(any(Consumer.class)));
-            one (mockCode).getExceptionHandlers();
+            oneOf (mockCode).forEach(with(any(Consumer.class)));
+            oneOf (mockCode).getExceptionHandlers();
                 will(returnValue(Collections.EMPTY_LIST));
         }});
 
@@ -228,10 +228,10 @@ public class TestTextPrinter extends MockObjectTestCase {
         final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
 
         checking(new Expectations() {{
-            one (mockCode).forEach(with(any(Consumer.class)));
-            one (mockCode).getExceptionHandlers();
+            oneOf (mockCode).forEach(with(any(Consumer.class)));
+            oneOf (mockCode).getExceptionHandlers();
                 will(returnValue(Collections.singleton(mockExceptionHandler)));
-            one (mockExceptionHandler).accept(sut);
+            oneOf (mockExceptionHandler).accept(sut);
         }});
 
         sut.visitCode_attribute(mockCode);
@@ -247,22 +247,22 @@ public class TestTextPrinter extends MockObjectTestCase {
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(IINC_INSTRUCTION));
 
-            one (mockInstruction).getStart();
+            oneOf (mockInstruction).getStart();
                 will(returnValue(START));
 
-            one (mockInstruction).getMnemonic();
+            oneOf (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
 
-            one (mockInstruction).getIndex();
+            oneOf (mockInstruction).getIndex();
                 will(returnValue(INDEX));
 
-            one (mockInstruction).getIndexedLocalVariable();
+            oneOf (mockInstruction).getIndexedLocalVariable();
                 will(returnValue(mockLocalVariable));
-            one (mockLocalVariable).getDescriptor();
+            oneOf (mockLocalVariable).getDescriptor();
                 will(returnValue(DESCRIPTOR));
-            one (mockLocalVariable).getName();
+            oneOf (mockLocalVariable).getName();
 
-            one (mockInstruction).getValue();
+            oneOf (mockInstruction).getValue();
                 will(returnValue(VALUE));
         }});
 
@@ -278,10 +278,10 @@ public class TestTextPrinter extends MockObjectTestCase {
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(ICONST_1_INSTRUCTION));
 
-            one (mockInstruction).getStart();
+            oneOf (mockInstruction).getStart();
                 will(returnValue(START));
 
-            one (mockInstruction).getMnemonic();
+            oneOf (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
         }});
 
@@ -300,7 +300,7 @@ public class TestTextPrinter extends MockObjectTestCase {
             atLeast(1).of (mockInstruction).getStart();
                 will(returnValue(START));
 
-            one (mockInstruction).getMnemonic();
+            oneOf (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
 
             atLeast(1).of (mockInstruction).getOffset();
@@ -322,7 +322,7 @@ public class TestTextPrinter extends MockObjectTestCase {
             atLeast(1).of (mockInstruction).getStart();
                 will(returnValue(START));
 
-            one (mockInstruction).getMnemonic();
+            oneOf (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
 
             atLeast(1).of (mockInstruction).getOffset();
@@ -344,7 +344,7 @@ public class TestTextPrinter extends MockObjectTestCase {
             atLeast(1).of (mockInstruction).getStart();
                 will(returnValue(START));
 
-            one (mockInstruction).getMnemonic();
+            oneOf (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
 
             atLeast(1).of (mockInstruction).getOffset();
@@ -363,20 +363,20 @@ public class TestTextPrinter extends MockObjectTestCase {
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(ILOAD_INSTRUCTION));
 
-            one (mockInstruction).getStart();
+            oneOf (mockInstruction).getStart();
                 will(returnValue(START));
 
-            one (mockInstruction).getMnemonic();
+            oneOf (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
 
-            one (mockInstruction).getIndex();
+            oneOf (mockInstruction).getIndex();
                 will(returnValue(INDEX));
 
-            one (mockInstruction).getIndexedLocalVariable();
+            oneOf (mockInstruction).getIndexedLocalVariable();
                 will(returnValue(mockLocalVariable));
-            one (mockLocalVariable).getDescriptor();
+            oneOf (mockLocalVariable).getDescriptor();
                 will(returnValue(DESCRIPTOR));
-            one (mockLocalVariable).getName();
+            oneOf (mockLocalVariable).getName();
         }});
 
         sut.visitInstruction(mockInstruction);
@@ -391,17 +391,17 @@ public class TestTextPrinter extends MockObjectTestCase {
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(ILOAD_1_INSTRUCTION));
 
-            one (mockInstruction).getStart();
+            oneOf (mockInstruction).getStart();
                 will(returnValue(START));
 
-            one (mockInstruction).getMnemonic();
+            oneOf (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
 
-            one (mockInstruction).getIndexedLocalVariable();
+            oneOf (mockInstruction).getIndexedLocalVariable();
                 will(returnValue(mockLocalVariable));
-            one (mockLocalVariable).getDescriptor();
+            oneOf (mockLocalVariable).getDescriptor();
                 will(returnValue(DESCRIPTOR));
-            one (mockLocalVariable).getName();
+            oneOf (mockLocalVariable).getName();
         }});
 
         sut.visitInstruction(mockInstruction);
@@ -416,13 +416,13 @@ public class TestTextPrinter extends MockObjectTestCase {
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(ILOAD_1_INSTRUCTION));
 
-            one (mockInstruction).getStart();
+            oneOf (mockInstruction).getStart();
                 will(returnValue(START));
 
-            one (mockInstruction).getMnemonic();
+            oneOf (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
 
-            one (mockInstruction).getIndexedLocalVariable();
+            oneOf (mockInstruction).getIndexedLocalVariable();
                 will(returnValue(null));
         }});
 
@@ -438,15 +438,15 @@ public class TestTextPrinter extends MockObjectTestCase {
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(GETFIELD_INSTRUCTION));
 
-            one (mockInstruction).getStart();
+            oneOf (mockInstruction).getStart();
                 will(returnValue(START));
 
-            one (mockInstruction).getMnemonic();
+            oneOf (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
 
-            one (mockInstruction).getIndexedConstantPoolEntry();
+            oneOf (mockInstruction).getIndexedConstantPoolEntry();
                 will(returnValue(mockConstantPoolEntry));
-            one (mockConstantPoolEntry).accept(sut);
+            oneOf (mockConstantPoolEntry).accept(sut);
         }});
 
         sut.visitInstruction(mockInstruction);
@@ -461,25 +461,25 @@ public class TestTextPrinter extends MockObjectTestCase {
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(WIDE_INSTRUCTION));
 
-            one (mockInstruction).getStart();
+            oneOf (mockInstruction).getStart();
                 will(returnValue(START));
 
-            one (mockInstruction).getMnemonic();
+            oneOf (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
 
-            one (mockInstruction).getByte(1);
+            oneOf (mockInstruction).getByte(1);
                 will(returnValue(IINC_INSTRUCTION));
 
-            one (mockInstruction).getIndex();
+            oneOf (mockInstruction).getIndex();
                 will(returnValue(INDEX));
 
-            one (mockInstruction).getIndexedLocalVariable();
+            oneOf (mockInstruction).getIndexedLocalVariable();
                 will(returnValue(mockLocalVariable));
-            one (mockLocalVariable).getDescriptor();
+            oneOf (mockLocalVariable).getDescriptor();
                 will(returnValue(DESCRIPTOR));
-            one (mockLocalVariable).getName();
+            oneOf (mockLocalVariable).getName();
 
-            one (mockInstruction).getValue();
+            oneOf (mockInstruction).getValue();
                 will(returnValue(VALUE));
         }});
 
@@ -495,23 +495,23 @@ public class TestTextPrinter extends MockObjectTestCase {
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(WIDE_INSTRUCTION));
 
-            one (mockInstruction).getStart();
+            oneOf (mockInstruction).getStart();
                 will(returnValue(START));
 
-            one (mockInstruction).getMnemonic();
+            oneOf (mockInstruction).getMnemonic();
                 will(returnValue(MNEMONIC));
 
-            one (mockInstruction).getByte(1);
+            oneOf (mockInstruction).getByte(1);
                 will(returnValue(ILOAD_INSTRUCTION));
 
-            one (mockInstruction).getIndex();
+            oneOf (mockInstruction).getIndex();
                 will(returnValue(INDEX));
 
-            one (mockInstruction).getIndexedLocalVariable();
+            oneOf (mockInstruction).getIndexedLocalVariable();
                 will(returnValue(mockLocalVariable));
-            one (mockLocalVariable).getDescriptor();
+            oneOf (mockLocalVariable).getDescriptor();
                 will(returnValue(DESCRIPTOR));
-            one (mockLocalVariable).getName();
+            oneOf (mockLocalVariable).getName();
         }});
 
         sut.visitInstruction(mockInstruction);
@@ -531,18 +531,18 @@ public class TestTextPrinter extends MockObjectTestCase {
         final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
 
         checking(new Expectations() {{
-            one (mockExceptionHandler).getStartPC();
+            oneOf (mockExceptionHandler).getStartPC();
                 will(returnValue(startPc));
 
-            one (mockExceptionHandler).getEndPC();
+            oneOf (mockExceptionHandler).getEndPC();
                 will(returnValue(endPc));
 
-            one (mockExceptionHandler).getHandlerPC();
+            oneOf (mockExceptionHandler).getHandlerPC();
                 will(returnValue(handlerPc));
 
-            one (mockExceptionHandler).getCatchTypeIndex();
+            oneOf (mockExceptionHandler).getCatchTypeIndex();
                 will(returnValue(catchTypeIndex));
-            one (mockExceptionHandler).getCatchType();
+            oneOf (mockExceptionHandler).getCatchType();
                 will(returnValue(catchType));
         }});
 
@@ -562,16 +562,16 @@ public class TestTextPrinter extends MockObjectTestCase {
         final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
 
         checking(new Expectations() {{
-            one (mockExceptionHandler).getStartPC();
+            oneOf (mockExceptionHandler).getStartPC();
                 will(returnValue(startPc));
 
-            one (mockExceptionHandler).getEndPC();
+            oneOf (mockExceptionHandler).getEndPC();
                 will(returnValue(endPc));
 
-            one (mockExceptionHandler).getHandlerPC();
+            oneOf (mockExceptionHandler).getHandlerPC();
                 will(returnValue(handlerPc));
 
-            one (mockExceptionHandler).getCatchTypeIndex();
+            oneOf (mockExceptionHandler).getCatchTypeIndex();
                 will(returnValue(catchTypeIndex));
         }});
 

@@ -69,7 +69,7 @@ public class TestLoadListenerVisitorAdapter extends MockObjectTestCase {
         final Classfile classfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (classfile).accept(visitor);
+            oneOf (classfile).accept(visitor);
             ignoring (visitor);
         }});
 

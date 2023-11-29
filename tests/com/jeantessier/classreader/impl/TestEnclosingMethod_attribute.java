@@ -78,7 +78,7 @@ public class TestEnclosingMethod_attribute extends TestAttributeBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            one (mockVisitor).visitEnclosingMethod_attribute(sut);
+            oneOf (mockVisitor).visitEnclosingMethod_attribute(sut);
         }});
 
         sut.accept(mockVisitor);

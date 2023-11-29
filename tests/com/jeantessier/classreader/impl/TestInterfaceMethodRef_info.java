@@ -72,7 +72,7 @@ public class TestInterfaceMethodRef_info extends TestAttributeBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            one (mockVisitor).visitInterfaceMethodRef_info(sut);
+            oneOf (mockVisitor).visitInterfaceMethodRef_info(sut);
         }});
 
         sut.accept(mockVisitor);

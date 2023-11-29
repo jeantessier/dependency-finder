@@ -60,7 +60,7 @@ public class TestExceptions_attribute extends TestAttributeBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            one (mockVisitor).visitExceptions_attribute(sut);
+            oneOf (mockVisitor).visitExceptions_attribute(sut);
         }});
 
         sut.accept(mockVisitor);

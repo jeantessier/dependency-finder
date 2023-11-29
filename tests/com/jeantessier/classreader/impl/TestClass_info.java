@@ -32,12 +32,10 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.jmock.Expectations;
-import org.jmock.imposters.ByteBuddyClassImposteriser;
-import org.jmock.integration.junit4.JUnitRuleMockery;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.jmock.*;
+import org.jmock.imposters.*;
+import org.jmock.integration.junit4.*;
+import org.junit.*;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -51,7 +49,9 @@ public class TestClass_info {
     private static final String FULL_CLASS_NAME = PACKAGE_NAME + "." + SIMPLE_CLASS_NAME;
 
     @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery();
+    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
+    }};
 
     private ConstantPool constantPool;
 
@@ -59,8 +59,6 @@ public class TestClass_info {
 
     @Before
     public void setUp() throws Exception {
-        context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
-
         constantPool = context.mock(ConstantPool.class);
 
         sut = new Class_info(constantPool, CLASS_NAME_INDEX);
@@ -118,9 +116,9 @@ public class TestClass_info {
         final UTF8_info utf8_info = context.mock(UTF8_info.class);
 
         context.checking(new Expectations() {{
-            one (constantPool).get(index);
+            oneOf (constantPool).get(index);
                 will(returnValue(utf8_info));
-            one (utf8_info).getValue();
+            oneOf (utf8_info).getValue();
                 will(returnValue(value));
         }});
     }

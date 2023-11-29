@@ -68,7 +68,9 @@ public class TestModule_attribute_moduleVersion {
     public String moduleVersion;
 
     @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery();
+    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
+    }};
 
     private UTF8_info mockUtf8_info;
 
@@ -76,8 +78,6 @@ public class TestModule_attribute_moduleVersion {
 
     @Before
     public void setUp() throws IOException {
-        context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
-
         final int moduleNameIndex = 123;
         final String moduleName = "abc";
         final int moduleFlags = 456;

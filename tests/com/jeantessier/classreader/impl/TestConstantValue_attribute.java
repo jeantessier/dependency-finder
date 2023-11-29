@@ -71,7 +71,7 @@ public class TestConstantValue_attribute extends TestAttributeBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            one (mockVisitor).visitConstantValue_attribute(sut);
+            oneOf (mockVisitor).visitConstantValue_attribute(sut);
         }});
 
         sut.accept(mockVisitor);
@@ -79,7 +79,7 @@ public class TestConstantValue_attribute extends TestAttributeBase {
 
     private void expectLookupRawValue(final int index, final Integer_info mockInteger_info) {
         checking(new Expectations() {{
-            one (mockConstantPool).get(index);
+            oneOf (mockConstantPool).get(index);
                 will(returnValue(mockInteger_info));
         }});
     }

@@ -56,7 +56,7 @@ public class TestDeprecated_attribute extends TestAttributeBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            one (mockVisitor).visitDeprecated_attribute(sut);
+            oneOf (mockVisitor).visitDeprecated_attribute(sut);
         }});
 
         sut.accept(mockVisitor);

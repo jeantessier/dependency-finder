@@ -60,7 +60,7 @@ public class TestLineNumberTable_attribute extends TestAttributeBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            one (mockVisitor).visitLineNumberTable_attribute(sut);
+            oneOf (mockVisitor).visitLineNumberTable_attribute(sut);
         }});
 
         sut.accept(mockVisitor);

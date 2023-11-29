@@ -32,16 +32,12 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.jmock.Expectations;
-import org.jmock.Sequence;
-import org.jmock.imposters.ByteBuddyClassImposteriser;
-import org.jmock.integration.junit4.JUnitRuleMockery;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.jmock.*;
+import org.jmock.imposters.*;
+import org.jmock.integration.junit4.*;
+import org.junit.*;
 
-import java.io.DataInput;
-import java.io.IOException;
+import java.io.*;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -53,7 +49,9 @@ public class TestMethod_info {
     private static final int TEST_NB_ATTRIBUTES = 0;
 
     @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery();
+    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
+    }};
 
     private DataInput mockIn;
     private ConstantPool mockConstantPool;
@@ -62,8 +60,6 @@ public class TestMethod_info {
 
     @Before
     public void setUp() {
-        context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
-
         mockIn = context.mock(DataInput.class);
         mockConstantPool = context.mock(ConstantPool.class);
 
@@ -92,7 +88,7 @@ public class TestMethod_info {
 
     protected void expectReadU2(final int i) throws IOException {
         context.checking(new Expectations() {{
-            one (mockIn).readUnsignedShort();
+            oneOf (mockIn).readUnsignedShort();
                 inSequence(dataReads);
                 will(returnValue(i));
         }});

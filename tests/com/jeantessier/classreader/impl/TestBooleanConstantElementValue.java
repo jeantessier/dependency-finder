@@ -73,7 +73,7 @@ public class TestBooleanConstantElementValue extends TestAnnotationsBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            one (mockVisitor).visitBooleanConstantElementValue(sut);
+            oneOf (mockVisitor).visitBooleanConstantElementValue(sut);
         }});
 
         sut.accept(mockVisitor);

@@ -56,7 +56,7 @@ public class TestClassMatcher extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).getClassName();
+            oneOf (mockClassfile).getClassName();
         }});
 
         matcher.beginSession(new LoadEvent(this, null, null, null));

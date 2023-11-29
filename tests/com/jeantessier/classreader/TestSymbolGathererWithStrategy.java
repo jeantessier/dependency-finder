@@ -52,11 +52,11 @@ public class TestSymbolGathererWithStrategy extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockStrategy).isMatching(mockClassfile); will(returnValue(false));
+            oneOf (mockStrategy).isMatching(mockClassfile); will(returnValue(false));
             
-            one (mockClassfile).getAttributes();
-            one (mockClassfile).getAllFields();
-            one (mockClassfile).getAllMethods();
+            oneOf (mockClassfile).getAttributes();
+            oneOf (mockClassfile).getAllFields();
+            oneOf (mockClassfile).getAllMethods();
         }});
 
         sut.visitClassfile(mockClassfile);
@@ -70,12 +70,12 @@ public class TestSymbolGathererWithStrategy extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockStrategy).isMatching(mockClassfile); will(returnValue(true));
-            one (mockClassfile).getClassName(); will(returnValue(expectedName));
+            oneOf (mockStrategy).isMatching(mockClassfile); will(returnValue(true));
+            oneOf (mockClassfile).getClassName(); will(returnValue(expectedName));
 
-            one (mockClassfile).getAttributes();
-            one (mockClassfile).getAllFields();
-            one (mockClassfile).getAllMethods();
+            oneOf (mockClassfile).getAttributes();
+            oneOf (mockClassfile).getAllFields();
+            oneOf (mockClassfile).getAllMethods();
         }});
 
         sut.visitClassfile(mockClassfile);
@@ -88,9 +88,9 @@ public class TestSymbolGathererWithStrategy extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockStrategy).isMatching(mockField); will(returnValue(false));
+            oneOf (mockStrategy).isMatching(mockField); will(returnValue(false));
 
-            one (mockField).getAttributes();
+            oneOf (mockField).getAttributes();
         }});
 
         sut.visitField_info(mockField);
@@ -104,10 +104,10 @@ public class TestSymbolGathererWithStrategy extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockStrategy).isMatching(mockField); will(returnValue(true));
-            one (mockField).getFullSignature(); will(returnValue(expectedName));
+            oneOf (mockStrategy).isMatching(mockField); will(returnValue(true));
+            oneOf (mockField).getFullSignature(); will(returnValue(expectedName));
 
-            one (mockField).getAttributes();
+            oneOf (mockField).getAttributes();
         }});
 
         sut.visitField_info(mockField);
@@ -120,9 +120,9 @@ public class TestSymbolGathererWithStrategy extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockStrategy).isMatching(mockMethod); will(returnValue(false));
+            oneOf (mockStrategy).isMatching(mockMethod); will(returnValue(false));
 
-            one (mockMethod).getAttributes();
+            oneOf (mockMethod).getAttributes();
         }});
 
         sut.visitMethod_info(mockMethod);
@@ -136,10 +136,10 @@ public class TestSymbolGathererWithStrategy extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockStrategy).isMatching(mockMethod); will(returnValue(true));
-            one (mockMethod).getFullSignature(); will(returnValue(expectedName));
+            oneOf (mockStrategy).isMatching(mockMethod); will(returnValue(true));
+            oneOf (mockMethod).getFullSignature(); will(returnValue(expectedName));
 
-            one (mockMethod).getAttributes();
+            oneOf (mockMethod).getAttributes();
         }});
 
         sut.visitMethod_info(mockMethod);
@@ -153,7 +153,7 @@ public class TestSymbolGathererWithStrategy extends MockObjectTestCase {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
-            one (mockStrategy).isMatching(mockLocalVariable); will(returnValue(false));
+            oneOf (mockStrategy).isMatching(mockLocalVariable); will(returnValue(false));
         }});
 
         sut.visitLocalVariable(mockLocalVariable);
@@ -168,9 +168,9 @@ public class TestSymbolGathererWithStrategy extends MockObjectTestCase {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
-            one (mockStrategy).isMatching(mockLocalVariable); will(returnValue(true));
-            one (mockMethod).getFullSignature(); will(returnValue(expectedName));
-            one (mockLocalVariable).getName(); will(returnValue(expectedName));
+            oneOf (mockStrategy).isMatching(mockLocalVariable); will(returnValue(true));
+            oneOf (mockMethod).getFullSignature(); will(returnValue(expectedName));
+            oneOf (mockLocalVariable).getName(); will(returnValue(expectedName));
         }});
 
         sut.setCurrentMethodForTesting(mockMethod);

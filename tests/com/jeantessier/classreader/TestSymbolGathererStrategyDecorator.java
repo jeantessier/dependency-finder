@@ -52,7 +52,7 @@ public class TestSymbolGathererStrategyDecorator extends MockObjectTestCase {
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
-            one (mockStrategy).isMatching(mockClassfile);
+            oneOf (mockStrategy).isMatching(mockClassfile);
         }});
 
         sut.isMatching(mockClassfile);
@@ -62,7 +62,7 @@ public class TestSymbolGathererStrategyDecorator extends MockObjectTestCase {
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockStrategy).isMatching(mockField);
+            oneOf (mockStrategy).isMatching(mockField);
         }});
 
         sut.isMatching(mockField);
@@ -72,7 +72,7 @@ public class TestSymbolGathererStrategyDecorator extends MockObjectTestCase {
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
-            one (mockStrategy).isMatching(mockMethod);
+            oneOf (mockStrategy).isMatching(mockMethod);
         }});
 
         sut.isMatching(mockMethod);
@@ -82,7 +82,7 @@ public class TestSymbolGathererStrategyDecorator extends MockObjectTestCase {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
-            one (mockStrategy).isMatching(mockLocalVariable);
+            oneOf (mockStrategy).isMatching(mockLocalVariable);
         }});
 
         sut.isMatching(mockLocalVariable);
@@ -92,7 +92,7 @@ public class TestSymbolGathererStrategyDecorator extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
-            one (mockStrategy).isMatching(mockInnerClass);
+            oneOf (mockStrategy).isMatching(mockInnerClass);
         }});
 
         sut.isMatching(mockInnerClass);

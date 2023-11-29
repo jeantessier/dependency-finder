@@ -60,7 +60,7 @@ public class TestInnerClasses_attribute extends TestAttributeBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            one (mockVisitor).visitInnerClasses_attribute(sut);
+            oneOf (mockVisitor).visitInnerClasses_attribute(sut);
         }});
 
         sut.accept(mockVisitor);

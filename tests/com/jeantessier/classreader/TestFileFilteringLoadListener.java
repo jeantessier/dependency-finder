@@ -61,7 +61,7 @@ public class TestFileFilteringLoadListener extends MockObjectTestCase {
         final LoadEvent testEvent = new LoadEvent(this, "", "Foo.class", null);
 
         checking(new Expectations() {{
-            one (mockDelegate).beginFile(testEvent);
+            oneOf (mockDelegate).beginFile(testEvent);
         }});
 
         sut.beginFile(testEvent);
@@ -73,7 +73,7 @@ public class TestFileFilteringLoadListener extends MockObjectTestCase {
         final LoadEvent testEvent = new LoadEvent(this, "", "Bar.class", null);
 
         checking(new Expectations() {{
-            one (mockDelegate).beginFile(testEvent);
+            oneOf (mockDelegate).beginFile(testEvent);
         }});
 
         sut.beginFile(testEvent);
@@ -107,7 +107,7 @@ public class TestFileFilteringLoadListener extends MockObjectTestCase {
         final LoadEvent testEvent = new LoadEvent(this, "", "Foo.class", null);
 
         checking(new Expectations() {{
-            one (mockDelegate).endFile(testEvent);
+            oneOf (mockDelegate).endFile(testEvent);
         }});
 
         sut.endFile(testEvent);
@@ -119,7 +119,7 @@ public class TestFileFilteringLoadListener extends MockObjectTestCase {
         final LoadEvent testEvent = new LoadEvent(this, "", "Bar.class", null);
 
         checking(new Expectations() {{
-            one (mockDelegate).endFile(testEvent);
+            oneOf (mockDelegate).endFile(testEvent);
         }});
 
         sut.endFile(testEvent);

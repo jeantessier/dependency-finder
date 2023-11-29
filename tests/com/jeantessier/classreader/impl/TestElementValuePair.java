@@ -53,7 +53,7 @@ public class TestElementValuePair extends TestAnnotationsBase {
         expectLookupUtf8(ELEMENT_NAME_INDEX, ELEMENT_NAME, "lookup during construction");
 
         checking(new Expectations() {{
-            one (mockElementValueFactory).create(mockConstantPool, mockIn);
+            oneOf (mockElementValueFactory).create(mockConstantPool, mockIn);
                 will(returnValue(mockElementValue));
         }});
 
@@ -73,7 +73,7 @@ public class TestElementValuePair extends TestAnnotationsBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            one (mockVisitor).visitElementValuePair(sut);
+            oneOf (mockVisitor).visitElementValuePair(sut);
         }});
 
         sut.accept(mockVisitor);

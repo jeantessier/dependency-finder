@@ -62,7 +62,7 @@ public class TestSourceDebugExtension_attribute extends TestAttributeBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            one (mockVisitor).visitSourceDebugExtension_attribute(sut);
+            oneOf (mockVisitor).visitSourceDebugExtension_attribute(sut);
         }});
 
         sut.accept(mockVisitor);

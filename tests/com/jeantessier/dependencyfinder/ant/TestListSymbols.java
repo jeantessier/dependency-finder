@@ -181,29 +181,29 @@ public class TestListSymbols extends MockObjectTestCase {
         sut.setPublicaccessibility(true);
 
         checking(new Expectations() {{
-            one (mockClassfile).isPublic();
+            oneOf (mockClassfile).isPublic();
                 will(returnValue(true));
-            one (mockClassfile).getClassName();
+            oneOf (mockClassfile).getClassName();
                 will(returnValue("Foo"));
-            one (mockClassfile).isPublic();
+            oneOf (mockClassfile).isPublic();
                 will(returnValue(false));
-            one (mockField).isPublic();
+            oneOf (mockField).isPublic();
                 will(returnValue(true));
-            one (mockField).getFullSignature();
+            oneOf (mockField).getFullSignature();
                 will(returnValue("int foo"));
-            one (mockField).isPublic();
+            oneOf (mockField).isPublic();
                 will(returnValue(false));
-            one (mockMethod).isPublic();
+            oneOf (mockMethod).isPublic();
                 will(returnValue(true));
-            one (mockMethod).getFullSignature();
+            oneOf (mockMethod).getFullSignature();
                 will(returnValue("void foo()"));
-            one (mockMethod).isPublic();
+            oneOf (mockMethod).isPublic();
                 will(returnValue(false));
-            one (mockInnerClass).isPublic();
+            oneOf (mockInnerClass).isPublic();
                 will(returnValue(true));
-            one (mockInnerClass).getInnerClassInfo();
+            oneOf (mockInnerClass).getInnerClassInfo();
                 will(returnValue("Foo.InnerFoo"));
-            one (mockInnerClass).isPublic();
+            oneOf (mockInnerClass).isPublic();
                 will(returnValue(false));
         }});
 
@@ -224,23 +224,23 @@ public class TestListSymbols extends MockObjectTestCase {
         sut.setProtectedaccessibility(true);
 
         checking(new Expectations() {{
-            one (mockField).isProtected();
+            oneOf (mockField).isProtected();
                 will(returnValue(true));
-            one (mockField).getFullSignature();
+            oneOf (mockField).getFullSignature();
                 will(returnValue("int foo"));
-            one (mockField).isProtected();
+            oneOf (mockField).isProtected();
                 will(returnValue(false));
-            one (mockMethod).isProtected();
+            oneOf (mockMethod).isProtected();
                 will(returnValue(true));
-            one (mockMethod).getFullSignature();
+            oneOf (mockMethod).getFullSignature();
                 will(returnValue("void foo()"));
-            one (mockMethod).isProtected();
+            oneOf (mockMethod).isProtected();
                 will(returnValue(false));
-            one (mockInnerClass).isProtected();
+            oneOf (mockInnerClass).isProtected();
                 will(returnValue(true));
-            one (mockInnerClass).getInnerClassInfo();
+            oneOf (mockInnerClass).getInnerClassInfo();
                 will(returnValue("Foo.InnerFoo"));
-            one (mockInnerClass).isProtected();
+            oneOf (mockInnerClass).isProtected();
                 will(returnValue(false));
         }});
 
@@ -260,23 +260,23 @@ public class TestListSymbols extends MockObjectTestCase {
         sut.setPrivateaccessibility(true);
 
         checking(new Expectations() {{
-            one (mockField).isPrivate();
+            oneOf (mockField).isPrivate();
                 will(returnValue(true));
-            one (mockField).getFullSignature();
+            oneOf (mockField).getFullSignature();
                 will(returnValue("int foo"));
-            one (mockField).isPrivate();
+            oneOf (mockField).isPrivate();
                 will(returnValue(false));
-            one (mockMethod).isPrivate();
+            oneOf (mockMethod).isPrivate();
                 will(returnValue(true));
-            one (mockMethod).getFullSignature();
+            oneOf (mockMethod).getFullSignature();
                 will(returnValue("void foo()"));
-            one (mockMethod).isPrivate();
+            oneOf (mockMethod).isPrivate();
                 will(returnValue(false));
-            one (mockInnerClass).isPrivate();
+            oneOf (mockInnerClass).isPrivate();
                 will(returnValue(true));
-            one (mockInnerClass).getInnerClassInfo();
+            oneOf (mockInnerClass).getInnerClassInfo();
                 will(returnValue("Foo.InnerFoo"));
-            one (mockInnerClass).isPrivate();
+            oneOf (mockInnerClass).isPrivate();
                 will(returnValue(false));
         }});
 
@@ -296,29 +296,29 @@ public class TestListSymbols extends MockObjectTestCase {
         sut.setPackageaccessibility(true);
 
         checking(new Expectations() {{
-            one (mockClassfile).isPackage();
+            oneOf (mockClassfile).isPackage();
                 will(returnValue(true));
-            one (mockClassfile).getClassName();
+            oneOf (mockClassfile).getClassName();
                 will(returnValue("Foo"));
-            one (mockClassfile).isPackage();
+            oneOf (mockClassfile).isPackage();
                 will(returnValue(false));
-            one (mockField).isPackage();
+            oneOf (mockField).isPackage();
                 will(returnValue(true));
-            one (mockField).getFullSignature();
+            oneOf (mockField).getFullSignature();
                 will(returnValue("int foo"));
-            one (mockField).isPackage();
+            oneOf (mockField).isPackage();
                 will(returnValue(false));
-            one (mockMethod).isPackage();
+            oneOf (mockMethod).isPackage();
                 will(returnValue(true));
-            one (mockMethod).getFullSignature();
+            oneOf (mockMethod).getFullSignature();
                 will(returnValue("void foo()"));
-            one (mockMethod).isPackage();
+            oneOf (mockMethod).isPackage();
                 will(returnValue(false));
-            one (mockInnerClass).isPackage();
+            oneOf (mockInnerClass).isPackage();
                 will(returnValue(true));
-            one (mockInnerClass).getInnerClassInfo();
+            oneOf (mockInnerClass).getInnerClassInfo();
                 will(returnValue("Foo.InnerFoo"));
-            one (mockInnerClass).isPackage();
+            oneOf (mockInnerClass).isPackage();
                 will(returnValue(false));
         }});
 

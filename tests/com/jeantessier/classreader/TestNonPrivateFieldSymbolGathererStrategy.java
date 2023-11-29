@@ -53,7 +53,7 @@ public class TestNonPrivateFieldSymbolGathererStrategy extends MockObjectTestCas
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockField).isPrivate(); will(returnValue(true));
+            oneOf (mockField).isPrivate(); will(returnValue(true));
         }});
 
         assertFalse("Should not match normal, private fields", sut.isMatching(mockField));
@@ -63,8 +63,8 @@ public class TestNonPrivateFieldSymbolGathererStrategy extends MockObjectTestCas
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockField).isPrivate(); will(returnValue(false));
-            one (mockField).isStatic(); will(returnValue(true));
+            oneOf (mockField).isPrivate(); will(returnValue(false));
+            oneOf (mockField).isStatic(); will(returnValue(true));
         }});
 
         assertFalse("Should not match public static fields", sut.isMatching(mockField));
@@ -74,9 +74,9 @@ public class TestNonPrivateFieldSymbolGathererStrategy extends MockObjectTestCas
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockField).isPrivate(); will(returnValue(false));
-            one (mockField).isStatic(); will(returnValue(false));
-            one (mockField).isSynthetic(); will(returnValue(true));
+            oneOf (mockField).isPrivate(); will(returnValue(false));
+            oneOf (mockField).isStatic(); will(returnValue(false));
+            oneOf (mockField).isSynthetic(); will(returnValue(true));
         }});
 
         assertFalse("Should not match synthetic fields", sut.isMatching(mockField));
@@ -86,9 +86,9 @@ public class TestNonPrivateFieldSymbolGathererStrategy extends MockObjectTestCas
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
-            one (mockField).isPrivate(); will(returnValue(false));
-            one (mockField).isStatic(); will(returnValue(false));
-            one (mockField).isSynthetic(); will(returnValue(false));
+            oneOf (mockField).isPrivate(); will(returnValue(false));
+            oneOf (mockField).isStatic(); will(returnValue(false));
+            oneOf (mockField).isSynthetic(); will(returnValue(false));
         }});
 
         assertTrue("Should have matched public normal fields", sut.isMatching(mockField));

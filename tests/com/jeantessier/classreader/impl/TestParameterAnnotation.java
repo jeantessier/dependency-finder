@@ -51,7 +51,7 @@ public class TestParameterAnnotation extends TestAttributeBase {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
-            one (mockVisitor).visitParameterAnnotation(sut);
+            oneOf (mockVisitor).visitParameterAnnotation(sut);
         }});
 
         sut.accept(mockVisitor);

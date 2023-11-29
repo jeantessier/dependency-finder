@@ -32,21 +32,18 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.jmock.Expectations;
-import org.jmock.imposters.ByteBuddyClassImposteriser;
-import org.jmock.integration.junit4.JUnitRuleMockery;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.jmock.*;
+import org.jmock.imposters.*;
+import org.jmock.integration.junit4.*;
+import org.junit.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
 
 import java.io.*;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.runners.Parameterized.Parameters;
-import static org.junit.runners.Parameterized.Parameter;
+import static org.junit.runners.Parameterized.*;
 
 @RunWith(Parameterized.class)
 public class TestFrameType_create {
@@ -96,7 +93,9 @@ public class TestFrameType_create {
     public Class<? extends StackMapFrame> expectedClass;
 
     @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery();
+    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
+    }};
 
     private VerificationTypeInfoFactory mockVerificationTypeInfoFactory;
     private ConstantPool mockConstantPool;
@@ -106,8 +105,6 @@ public class TestFrameType_create {
 
     @Before
     public void setUp() throws IOException {
-        context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
-
         mockVerificationTypeInfoFactory = context.mock(VerificationTypeInfoFactory.class);
         mockConstantPool = context.mock(ConstantPool.class);
         mockIn = context.mock(DataInput.class);

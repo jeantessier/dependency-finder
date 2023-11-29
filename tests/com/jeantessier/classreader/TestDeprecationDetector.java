@@ -49,9 +49,9 @@ public class TestDeprecationDetector extends MockObjectTestCase {
         final Attribute_info mockAttribute = mock(Attribute_info.class);
 
         checking(new Expectations() {{
-            one (mockClassfile).getAttributes();
+            oneOf (mockClassfile).getAttributes();
                 will(returnValue(Collections.singleton(mockAttribute)));
-            one (mockAttribute).accept(sut);
+            oneOf (mockAttribute).accept(sut);
         }});
 
         sut.visitClassfile(mockClassfile);
@@ -63,9 +63,9 @@ public class TestDeprecationDetector extends MockObjectTestCase {
         final Attribute_info mockAttribute = mock(Attribute_info.class);
 
         checking(new Expectations() {{
-            one (mockField).getAttributes();
+            oneOf (mockField).getAttributes();
                 will(returnValue(Collections.singleton(mockAttribute)));
-            one (mockAttribute).accept(sut);
+            oneOf (mockAttribute).accept(sut);
         }});
 
         sut.visitField_info(mockField);
@@ -77,9 +77,9 @@ public class TestDeprecationDetector extends MockObjectTestCase {
         final Attribute_info mockAttribute = mock(Attribute_info.class);
 
         checking(new Expectations() {{
-            one (mockMethod).getAttributes();
+            oneOf (mockMethod).getAttributes();
                 will(returnValue(Collections.singleton(mockAttribute)));
-            one (mockAttribute).accept(sut);
+            oneOf (mockAttribute).accept(sut);
         }});
 
         sut.visitMethod_info(mockMethod);
@@ -96,7 +96,7 @@ public class TestDeprecationDetector extends MockObjectTestCase {
         final Annotation mockAnnotation = mock(Annotation.class);
 
         checking(new Expectations() {{
-            one (mockAnnotation).getType();
+            oneOf (mockAnnotation).getType();
                 will(returnValue(Deprecated.class.getName()));
         }});
 
@@ -109,9 +109,9 @@ public class TestDeprecationDetector extends MockObjectTestCase {
         final Annotation mockOtherAnnotation = mock(Annotation.class);
 
         checking(new Expectations() {{
-            one (mockDeprecatedAnnotation).getType();
+            oneOf (mockDeprecatedAnnotation).getType();
                 will(returnValue(Deprecated.class.getName()));
-            one (mockOtherAnnotation).getType();
+            oneOf (mockOtherAnnotation).getType();
         }});
 
         sut.visitAnnotation(mockDeprecatedAnnotation);
@@ -123,7 +123,7 @@ public class TestDeprecationDetector extends MockObjectTestCase {
         final Annotation mockAnnotation = mock(Annotation.class);
 
         checking(new Expectations() {{
-            one (mockAnnotation).getType();
+            oneOf (mockAnnotation).getType();
                 will(returnValue("abc"));
         }});
 

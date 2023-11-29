@@ -32,20 +32,17 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.jmock.Expectations;
-import org.jmock.imposters.ByteBuddyClassImposteriser;
-import org.jmock.integration.junit4.JUnitRuleMockery;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.jmock.*;
+import org.jmock.imposters.*;
+import org.jmock.integration.junit4.*;
+import org.junit.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
 
 import java.io.*;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.runners.Parameterized.Parameters;
-import static org.junit.runners.Parameterized.Parameter;
+import static org.junit.runners.Parameterized.*;
 
 @RunWith(Parameterized.class)
 public class TestVerificationType_create {
@@ -80,7 +77,9 @@ public class TestVerificationType_create {
     public Class<? extends VerificationTypeInfo> expectedClass;
 
     @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery();
+    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
+    }};
 
     private ConstantPool mockConstantPool;
     private DataInput mockIn;
@@ -89,8 +88,6 @@ public class TestVerificationType_create {
 
     @Before
     public void setUp() throws IOException {
-        context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
-
         mockConstantPool = context.mock(ConstantPool.class);
         mockIn = context.mock(DataInput.class);
 
@@ -98,7 +95,7 @@ public class TestVerificationType_create {
         if (indexOrOffset != null) {
             context.checking(new Expectations() {{
                 allowing (mockIn).readUnsignedShort();
-                will(returnValue(indexOrOffset));
+                    will(returnValue(indexOrOffset));
             }});
         }
 
@@ -107,7 +104,7 @@ public class TestVerificationType_create {
             final ConstantPoolEntry mockConstantPoolEntry = context.mock(constantPoolEntryClass);
             context.checking(new Expectations() {{
                 allowing (mockConstantPool).get(indexOrOffset);
-                will(returnValue(mockConstantPoolEntry));
+                    will(returnValue(mockConstantPoolEntry));
             }});
         }
 

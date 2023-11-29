@@ -61,12 +61,12 @@ public class TestAnnotationWithElementValues extends TestAnnotationsBase {
 
         checking(new Expectations() {{
             for (int i = 0; i < numElementValuePairs; i++) {
-                one (mockIn).readUnsignedShort();
+                oneOf (mockIn).readUnsignedShort();
                     inSequence(dataReads);
                     will(returnValue(i + 1));
-                one (mockConstantPool).get(i + 1);
+                oneOf (mockConstantPool).get(i + 1);
                     will(returnValue(mockUtf8_info));
-                one (mockElementValueFactory).create(mockConstantPool, mockIn);
+                oneOf (mockElementValueFactory).create(mockConstantPool, mockIn);
                     inSequence(dataReads);
             }
             exactly(numElementValuePairs).of (mockUtf8_info).getValue();

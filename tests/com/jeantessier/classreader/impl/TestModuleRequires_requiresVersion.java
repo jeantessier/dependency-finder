@@ -67,7 +67,9 @@ public class TestModuleRequires_requiresVersion {
     public String requiresVersion;
 
     @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery();
+    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
+    }};
 
     private UTF8_info mockUtf8_info;
 
@@ -75,8 +77,6 @@ public class TestModuleRequires_requiresVersion {
 
     @Before
     public void setUp() throws IOException {
-        context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
-
         final int requiresIndex = 123;
         final String requires = "abc";
         final int requiresFlags = 456;
