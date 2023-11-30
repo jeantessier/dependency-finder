@@ -51,9 +51,7 @@ public abstract class ClassfileLoader {
     public void load(Collection<String> filenames) {
         fireBeginSession();
 
-        for (String filename : filenames) {
-            load(filename);
-        }
+        filenames.forEach(this::load);
 
         fireEndSession();
     }

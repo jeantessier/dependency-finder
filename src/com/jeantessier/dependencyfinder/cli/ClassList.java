@@ -32,23 +32,42 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
+import java.io.IOException;
 import java.util.*;
 
 import com.jeantessier.classreader.*;
 
+import static java.util.stream.Collectors.*;
+
 public class ClassList extends DirectoryExplorerCommand {
+    private final static String EOL = System.getProperty("line.separator", "\n");
+
+    protected void populateCommandLineSwitches() {
+        super.populateCommandLineSwitches();
+
+        getCommandLine().addSingleValueSwitch("indent-text", "    ");
+    }
+
     public void doProcessing() throws Exception {
-        for (String filename : getCommandLine().getParameters()) {
+        getCommandLine().getParameters().forEach(filename -> {
             ClassfileLoader loader = new AggregatingClassfileLoader();
             loader.addLoadListener(getVerboseListener());
             loader.load(Collections.singleton(filename));
 
-            getOut().println(filename + ":");
-            for (Classfile classfile : loader.getAllClassfiles()) {
-                getOut().println(classfile);
+            try {
+                getOut().print(filename);
+                getOut().println(":");
+                getOut().println(
+                        loader.getAllClassfiles().stream()
+                                .map(Classfile::getClassName)
+                                .map(className -> getCommandLine().getSingleSwitch("indent-text") + className)
+                                .collect(joining(EOL))
+                );
+                getOut().println();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-            getOut().println();
-        }
+        });
     }
 
     public static void main(String[] args) throws Exception {

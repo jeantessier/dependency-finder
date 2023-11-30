@@ -55,39 +55,35 @@ public class ClassFinder extends DirectoryExplorerCommand {
         loader.addLoadListener(getVerboseListener());
         loader.load(getCommandLine().getParameters());
 
-        for (Map.Entry<String, List<String>> entry : matcher.getResults().entrySet()) {
-            String className = entry.getKey();
-            List<String> groups = entry.getValue();
-
-            if (getCommandLine().getToggleSwitch("compact")) {
-                printCompact(className, groups);
-            } else {
-                printMultiline(className, groups);
+        matcher.getResults().forEach((className, groups) -> {
+            try {
+                if (getCommandLine().getToggleSwitch("compact")) {
+                    printCompact(className, groups);
+                } else {
+                    printMultiline(className, groups);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-        }
+        });
     }
 
-    private void printCompact(String className, List<String> groups) throws IOException {
+    private void printCompact(String className, Collection<String> groups) throws IOException {
         getOut().print(className);
         getOut().print(": ");
-
-        Iterator i = groups.iterator();
-        while (i.hasNext()) {
-            getOut().print(i.next());
-            if (i.hasNext()) {
-                getOut().print(", ");
-            }
-        }
-
-        getOut().println();
+        getOut().println(String.join(", ", groups));
     }
 
-    private void printMultiline(String className, List<String> groups) throws IOException {
+    private void printMultiline(String className, Collection<String> groups) throws IOException {
         getOut().println(className);
 
-        for (String group : groups) {
-            getOut().println(getCommandLine().getSingleSwitch("indent-text") + group);
-        }
+        groups.forEach(group -> {
+            try {
+                getOut().println(getCommandLine().getSingleSwitch("indent-text") + group);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         getOut().println();
     }

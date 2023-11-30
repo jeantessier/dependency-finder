@@ -200,13 +200,7 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     }
 
     private String getTopGroupName() {
-        String result = null;
-
-        if (!groupNames.isEmpty()) {
-            result = groupNames.getLast();
-        }
-
-        return result;
+        return groupNames.isEmpty() ? null : groupNames.getLast();
     }
 
     private void pushGroupName(String groupName) {
@@ -218,13 +212,7 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     }
 
     private int getTopGroupSize() {
-        int result = 0;
-
-        if (!groupSizes.isEmpty()) {
-            result = groupSizes.getLast();
-        }
-
-        return result;
+        return groupSizes.isEmpty() ? 0 : groupSizes.getLast();
     }
 
     private void pushGroupSize(int size) {
