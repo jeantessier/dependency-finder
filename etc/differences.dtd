@@ -32,41 +32,41 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<!ELEMENT differences (name,old,new,removed-packages?,removed-interfaces?,removed-classes?,deprecated-interfaces?,deprecated-classes?,modified-interfaces?,modified-classes?,undeprecated-interfaces?,undeprecated-classes?,new-packages?,new-interfaces?,new-classes?) >
+<!ELEMENT differences (name, old, new, removed-packages?, removed-interfaces?, removed-classes?, deprecated-interfaces?, deprecated-classes?, modified-interfaces?, modified-classes?, undeprecated-interfaces?, undeprecated-classes?, new-packages?, new-interfaces?, new-classes?) >
 
 <!ELEMENT old (#PCDATA) >
 
 <!ELEMENT new (#PCDATA) >
 
-<!ELEMENT removed-packages (name)* >
+<!ELEMENT removed-packages (name*) >
 
-<!ELEMENT removed-interfaces (name)* >
+<!ELEMENT removed-interfaces (name*) >
 
-<!ELEMENT removed-classes (name)* >
+<!ELEMENT removed-classes (name*) >
 
-<!ELEMENT deprecated-interfaces (name)* >
+<!ELEMENT deprecated-interfaces (name*) >
 
-<!ELEMENT deprecated-classes (name)* >
+<!ELEMENT deprecated-classes (name*) >
 
-<!ELEMENT modified-interfaces (class)* >
+<!ELEMENT modified-interfaces (class*) >
 
-<!ELEMENT modified-classes (class)* >
+<!ELEMENT modified-classes (class*) >
 
-<!ELEMENT undeprecated-interfaces (name)* >
+<!ELEMENT undeprecated-interfaces (name*) >
 
-<!ELEMENT undeprecated-classes (name)* >
+<!ELEMENT undeprecated-classes (name*) >
 
-<!ELEMENT new-packages (name)* >
+<!ELEMENT new-packages (name*) >
 
-<!ELEMENT new-interfaces (name)* >
+<!ELEMENT new-interfaces (name*) >
 
-<!ELEMENT new-classes (name)* >
+<!ELEMENT new-classes (name*) >
 
-<!ELEMENT class (name,modified-declaration?,removed-fields?,removed-constructors?,removed-methods?,deprecated-fields?,deprecated-constructors?,deprecated-methods?,modified-fields?,modified-constructors?,modified-methods?,undeprecated-fields?,undeprecated-constructors?,undeprecated-methods?,new-fields?,new-constructors?,new-methods?) >
+<!ELEMENT class (name, modified-declaration?, removed-fields?, removed-constructors?, removed-methods?, deprecated-fields?, deprecated-constructors?, deprecated-methods?, modified-fields?, modified-constructors?, modified-methods?, undeprecated-fields?, undeprecated-constructors?, undeprecated-methods?, new-fields?, new-constructors?, new-methods?) >
 
 <!ELEMENT name (#PCDATA) >
 <!ATTLIST name
-          visibility   (public|protected|package|private) #IMPLIED
+          visibility   (public | protected | package | private) #IMPLIED
           static       CDATA #IMPLIED
           final        CDATA #IMPLIED
           super        CDATA #IMPLIED
@@ -84,67 +84,41 @@
           name         CDATA #IMPLIED
 >
 
-<!ELEMENT modified-declaration (old-declaration,new-declaration) >
+<!ELEMENT modified-declaration (old-declaration, new-declaration) >
 
-<!ELEMENT removed-fields (declaration)* >
+<!ELEMENT removed-fields (declaration*) >
 
-<!ELEMENT removed-constructors (declaration)* >
+<!ELEMENT removed-constructors (declaration*) >
 
-<!ELEMENT removed-methods (declaration)* >
+<!ELEMENT removed-methods (declaration*) >
 
-<!ELEMENT deprecated-fields (declaration)* >
+<!ELEMENT deprecated-fields (declaration*) >
 
-<!ELEMENT deprecated-constructors (declaration)* >
+<!ELEMENT deprecated-constructors (declaration*) >
 
-<!ELEMENT deprecated-methods (declaration)* >
+<!ELEMENT deprecated-methods (declaration*) >
 
-<!ELEMENT modified-fields (feature)* >
+<!ELEMENT modified-fields (feature*) >
 
-<!ELEMENT modified-constructors (feature)* >
+<!ELEMENT modified-constructors (feature*) >
 
-<!ELEMENT modified-methods (feature)* >
+<!ELEMENT modified-methods (feature*) >
 
-<!ELEMENT undeprecated-fields (declaration)* >
+<!ELEMENT undeprecated-fields (declaration*) >
 
-<!ELEMENT undeprecated-constructors (declaration)* >
+<!ELEMENT undeprecated-constructors (declaration*) >
 
-<!ELEMENT undeprecated-methods (declaration)* >
+<!ELEMENT undeprecated-methods (declaration*) >
 
-<!ELEMENT new-fields (declaration)* >
+<!ELEMENT new-fields (declaration*) >
 
-<!ELEMENT new-constructors (declaration)* >
+<!ELEMENT new-constructors (declaration*) >
 
-<!ELEMENT new-methods (declaration)* >
+<!ELEMENT new-methods (declaration*) >
 
 <!ELEMENT old-declaration (#PCDATA) >
 <!ATTLIST old-declaration
-          visibility     (public|protected|package|private) #IMPLIED
-          static         CDATA #IMPLIED
-          final          CDATA #IMPLIED
-          super          CDATA #IMPLIED
-          synchronized   CDATA #IMPLIED
-          volatile       CDATA #IMPLIED
-          transient      CDATA #IMPLIED
-          native         CDATA #IMPLIED
-          interface      CDATA #IMPLIED
-          abstract       CDATA #IMPLIED
-          strict         CDATA #IMPLIED
-          deprecated     CDATA #IMPLIED
-          synthetic      CDATA #IMPLIED
-          inherited      CDATA #IMPLIED
-          extends        CDATA #IMPLIED
-          implements     CDATA #IMPLIED
-          type           CDATA #IMPLIED
-          return-type    CDATA #IMPLIED
-          name           CDATA #IMPLIED
-          signature      CDATA #IMPLIED
-          full-signature CDATA #IMPLIED
-          throws         CDATA #IMPLIED
->
-
-<!ELEMENT new-declaration (#PCDATA) >
-<!ATTLIST new-declaration
-          visibility     (public|protected|package|private) #IMPLIED
+          visibility     (public | protected | package | private) #IMPLIED
           static         CDATA #IMPLIED
           final          CDATA #IMPLIED
           super          CDATA #IMPLIED
@@ -169,11 +143,38 @@
           value          CDATA #IMPLIED
 >
 
-<!ELEMENT feature (name,modified-declaration?,modified-code?) >
+<!ELEMENT new-declaration (#PCDATA) >
+<!ATTLIST new-declaration
+          visibility     (public | protected | package | private) #IMPLIED
+          static         CDATA #IMPLIED
+          final          CDATA #IMPLIED
+          super          CDATA #IMPLIED
+          synchronized   CDATA #IMPLIED
+          volatile       CDATA #IMPLIED
+          transient      CDATA #IMPLIED
+          native         CDATA #IMPLIED
+          interface      CDATA #IMPLIED
+          abstract       CDATA #IMPLIED
+          strict         CDATA #IMPLIED
+          deprecated     CDATA #IMPLIED
+          synthetic      CDATA #IMPLIED
+          inherited      CDATA #IMPLIED
+          extends        CDATA #IMPLIED
+          implements     CDATA #IMPLIED
+          type           CDATA #IMPLIED
+          return-type    CDATA #IMPLIED
+          name           CDATA #IMPLIED
+          signature      CDATA #IMPLIED
+          full-signature CDATA #IMPLIED
+          throws         CDATA #IMPLIED
+          value          CDATA #IMPLIED
+>
+
+<!ELEMENT feature (name, modified-declaration?, modified-code?) >
 
 <!ELEMENT modified-code (#PCDATA) >
 <!ATTLIST modified-code
-          visibility     (public|protected|package|private) #IMPLIED
+          visibility     (public | protected | package | private) #IMPLIED
           static         CDATA #IMPLIED
           final          CDATA #IMPLIED
           super          CDATA #IMPLIED
@@ -199,7 +200,7 @@
 
 <!ELEMENT declaration (#PCDATA) >
 <!ATTLIST declaration
-          visibility     (public|protected|package|private) #IMPLIED
+          visibility     (public | protected | package | private) #IMPLIED
           static         CDATA #IMPLIED
           final          CDATA #IMPLIED
           super          CDATA #IMPLIED
@@ -221,4 +222,5 @@
           signature      CDATA #IMPLIED
           full-signature CDATA #IMPLIED
           throws         CDATA #IMPLIED
+          value          CDATA #IMPLIED
 >
