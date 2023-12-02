@@ -1,0 +1,10 @@
+Experimented with replacing Ant with Gradle.  New versions of Gradle use
+sub-projects to organize the build.  My Ant-based build has a lot of custom
+pieces, like compiling sample code for the tests to parse and operate against.
+I can compile them in sub-projects, but it's not clear how to share build
+products between sub-projects.  The documentation shows how to share JAR files
+on =CLASSPATH=, but what I want is read them from some of the tests.  I could
+have all the unit tests in one sub-project and have "integration" tests that
+also depend on sample code in another sub-project.  I could also build the WAR
+file in a sub-project separate from the library JAR file.  Lots of
+possibilities, but wiring it all together will be a challenge.
