@@ -1,34 +1,16 @@
 <project name="JarJarDiff" default="all" basedir=".">
 
-    <patternset id="all.sources">
-        <include name="**/*.java"/>
-    </patternset>
+    <target name="all" depends="archives"/>
 
-    <target name="all" depends="archives, published.old, published.new"/>
-
-    <target name="old">
-        <javac includeantruntime="false">
-            <src path="old"/>
-            <patternset refid="all.sources"/>
-        </javac>
-    </target>
-
-    <target name="new">
-        <javac includeantruntime="false">
-            <src path="new"/>
-            <patternset refid="all.sources"/>
-        </javac>
-    </target>
-
-    <target name="archives" depends="old, new">
+    <target name="archives">
         <zip zipfile="onelevel.zip">
-            <zipfileset dir="old"/>
+            <zipfileset dir="../../integration-tests/jarjardiff/old/build/classes/java/main"/>
         </zip>
         <jar jarfile="onelevel.jar">
-            <zipfileset dir="old"/>
+            <zipfileset dir="../../integration-tests/jarjardiff/old/build/classes/java/main"/>
         </jar>
         <zip zipfile="onelevel.mis">
-            <zipfileset dir="old"/>
+            <zipfileset dir="../../integration-tests/jarjardiff/old/build/classes/java/main"/>
         </zip>
         <zip zipfile="twolevel.zip">
             <zipfileset dir=".">
@@ -51,20 +33,6 @@
                 </patternset>
             </zipfileset>
         </zip>
-    </target>
-
-    <target name="published.old">
-        <javac includeantruntime="false">
-            <src path="oldpublished"/>
-            <patternset refid="all.sources"/>
-        </javac>
-    </target>
-
-    <target name="published.new">
-        <javac includeantruntime="false">
-            <src path="newpublished"/>
-            <patternset refid="all.sources"/>
-        </javac>
     </target>
 
     <target name="clean">

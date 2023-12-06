@@ -89,8 +89,15 @@
         <delete dir="${testReportsDir}"
                 includeEmptyDirs="true"
                 verbose="true"/>
+        <exec executable="./gradlew">
+            <arg value="integration-tests:jarjardiff:new-published:clean"/>
+            <arg value="integration-tests:jarjardiff:new:clean"/>
+            <arg value="integration-tests:jarjardiff:old-published:clean"/>
+            <arg value="integration-tests:jarjardiff:old:clean"/>
+            <arg value="integration-tests:jarjardiff:clean"/>
+            <arg value="integration-tests:metrics:clean"/>
+        </exec>
         <ant dir="tests/JarJarDiff" target="clean" inheritAll="false"/>
-        <ant dir="tests/Metrics" target="clean" inheritAll="false"/>
     </target>
 
     <target name="compile" depends="init, main.compile, main.log4j.config"
@@ -104,8 +111,6 @@
                 <path refid="classpath.httpunit"/>
             </classpath>
             <patternset refid="all.sources"/>
-	        <exclude name="JarJarDiff/**"/>
-	        <exclude name="Metrics/**"/>
         </javac>
         <javac includeantruntime="true" destdir="${classesDir}" debug="on">
             <src path="${fitDir}"/>
@@ -116,8 +121,11 @@
             </classpath>
             <patternset refid="all.sources"/>
         </javac>
+        <exec executable="./gradlew">
+            <arg value="integration-tests:jarjardiff:assemble"/>
+            <arg value="integration-tests:metrics:assemble"/>
+        </exec>
         <ant dir="tests/JarJarDiff" inheritAll="false"/>
-        <ant dir="tests/Metrics" inheritAll="false"/>
     </target>
 
     <target name="deprecation" depends="init">
@@ -130,8 +138,6 @@
                 <path refid="classpath.httpunit"/>
             </classpath>
             <patternset refid="all.sources"/>
-            <exclude name="JarJarDiff/**"/>
-            <exclude name="Metrics/**"/>
         </javac>
         <javac includeantruntime="true" destdir="${classesDir}" deprecation="yes">
             <src path="${fitDir}"/>
