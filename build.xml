@@ -324,18 +324,10 @@
     </target>
 
     <target name="war" depends="jar">
-        <war destfile="${warFile}"
-             webxml="${webDir}/WEB-INF/web.xml">
-            <zipfileset dir="${webDir}">
-                <exclude name="**/CSV"/>
-                <exclude name="**/WEB-INF/*"/>
-            </zipfileset>
-            <classes dir="${srcDir}"
-                     includes="**/*.properties"/>
-            <lib dir="${libDir}"
-                 includes="**/*.jar"
-                 excludes="**/saxon-he.jar"/>
-        </war>
+        <exec executable="./gradlew">
+            <arg value="webapp:assemble"/>
+        </exec>
+        <copy file="webapp/build/libs/webapp.war" tofile="${warFile}"/>
     </target>
 
     <!--
