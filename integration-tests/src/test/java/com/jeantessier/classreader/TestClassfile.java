@@ -30,14 +30,33 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+package com.jeantessier.classreader;
 
-import static org.junit.runners.Suite.SuiteClasses;
+import java.nio.file.*;
+import java.util.*;
 
-@RunWith(Suite.class)
-@SuiteClasses({
-//        com.jeantessier.dependencyfinder.web.TestAll.class,
-})
-public class TestAll {
+import junit.framework.*;
+
+public class TestClassfile extends TestCase {
+    private ClassfileLoader loader;
+
+    protected void setUp() throws Exception {
+        loader = new AggregatingClassfileLoader();
+        loader.load(Collections.singleton(Paths.get("jarjardiff/new/build/classes/java/main").toString()));
+    }
+
+    public void testDeprecated() {
+        assertTrue("ModifiedPackage.DeprecatedClass", loader.getClassfile("ModifiedPackage.DeprecatedClass").isDeprecated());
+        assertFalse("ModifiedPackage.UndeprecatedClass", loader.getClassfile("ModifiedPackage.UndeprecatedClass").isDeprecated());
+    }
+
+    public void testGetCode() {
+        assertNotNull("UnmodifiedPackage.UnmodifiedClass.unmodifiedMethod()", loader.getClassfile("UnmodifiedPackage.UnmodifiedClass").getMethod("unmodifiedMethod()").getCode());
+        assertNull("UnmodifiedPackage.UnmodifiedInterface.unmodifiedMethod()", loader.getClassfile("UnmodifiedPackage.UnmodifiedInterface").getMethod("unmodifiedMethod()").getCode());
+    }
+
+    public void testGetConstantValue() {
+        assertNull("UnmodifiedPackage.UnmodifiedClass.unmodifiedField", loader.getClassfile("UnmodifiedPackage.UnmodifiedClass").getField("unmodifiedField").getConstantValue());
+        assertNotNull("UnmodifiedPackage.UnmodifiedInterface.unmodifiedField", loader.getClassfile("UnmodifiedPackage.UnmodifiedInterface").getField("unmodifiedField").getConstantValue());
+    }
 }

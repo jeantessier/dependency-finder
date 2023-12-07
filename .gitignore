@@ -112,24 +112,7 @@ fit/tests/files/css
 fit/tests/files/images/collapsableClosed.gif
 fit/tests/files/images/collapsableOpen.gif
 reports/
-tests/JarJarDiff/new/ModifiedPackage/*.class
-tests/JarJarDiff/new/NewPackage/*.class
-tests/JarJarDiff/new/UnmodifiedPackage/*.class
-tests/JarJarDiff/newpublished/ModifiedPackage/*.class
-tests/JarJarDiff/newpublished/UnmodifiedPackage/*.class
-tests/JarJarDiff/old/ModifiedPackage/*.class
-tests/JarJarDiff/old/RemovedPackage/*.class
-tests/JarJarDiff/old/UnmodifiedPackage/*.class
-tests/JarJarDiff/oldpublished/ModifiedPackage/*.class
-tests/JarJarDiff/oldpublished/UnmodifiedPackage/*.class
 tests/JarJarDiff/*level.*
-tests/Metrics/*.class
-tests/Metrics/client/*.class
-tests/Metrics/onewordpackagename/*.class
-tests/Metrics/provider/*.class
-tests/Metrics/three/words/packagename/*.class
-tests/Metrics/tla/*.class
-tests/Metrics/twowords/packagename/*.class
 
 # Code coverage byproducts
 cobertura

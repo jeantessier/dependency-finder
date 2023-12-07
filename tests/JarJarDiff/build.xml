@@ -5,12 +5,15 @@
     <target name="archives">
         <zip zipfile="onelevel.zip">
             <zipfileset dir="../../integration-tests/jarjardiff/old/build/classes/java/main"/>
+            <zipfileset dir="../../integration-tests/jarjardiff/old/src/main/java"/>
         </zip>
         <jar jarfile="onelevel.jar">
             <zipfileset dir="../../integration-tests/jarjardiff/old/build/classes/java/main"/>
+            <zipfileset dir="../../integration-tests/jarjardiff/old/src/main/java"/>
         </jar>
         <zip zipfile="onelevel.mis">
             <zipfileset dir="../../integration-tests/jarjardiff/old/build/classes/java/main"/>
+            <zipfileset dir="../../integration-tests/jarjardiff/old/src/main/java"/>
         </zip>
         <zip zipfile="twolevel.zip">
             <zipfileset dir=".">

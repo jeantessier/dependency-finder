@@ -30,14 +30,43 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+package com.jeantessier.classreader;
 
-import static org.junit.runners.Suite.SuiteClasses;
+import java.nio.file.*;
+import java.util.*;
 
-@RunWith(Suite.class)
-@SuiteClasses({
-//        com.jeantessier.dependencyfinder.web.TestAll.class,
-})
-public class TestAll {
+import junit.framework.*;
+
+import org.apache.log4j.*;
+
+public class TestAggregatingClassfileLoaderWithModifiedOnlyDispatcher extends TestCase {
+    private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
+    public static final String TEST_CLASS = "test";
+    public static final String TEST_DIR = CLASSES_DIR.resolve("testpackage").toString();
+    public static final String TEST_FILENAME = CLASSES_DIR.resolve(TEST_CLASS + ".class").toString();
+    
+    private AggregatingClassfileLoader loader;
+
+    protected void setUp() throws Exception {
+        Logger.getLogger(getClass()).info("Starting test: " + getName());
+
+        loader = new AggregatingClassfileLoader(new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER));
+    }
+
+    protected void tearDown() throws Exception {
+        Logger.getLogger(getClass()).info("End of " + getName());
+    }
+    
+    public void testDirectory() {
+        loader.load(Collections.singleton(TEST_DIR));
+
+        assertEquals("Nb Classfiles", 6, loader.getAllClassNames().size());
+    }
+    
+    public void testClassfile() {
+        loader.load(Collections.singleton(TEST_FILENAME));
+
+        assertEquals("Nb Classfiles", 1, loader.getAllClassNames().size());
+        assertNotNull("No Classfile from " + TEST_FILENAME, loader.getClassfile(TEST_CLASS));
+    }
 }
