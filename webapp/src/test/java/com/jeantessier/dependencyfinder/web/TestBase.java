@@ -114,7 +114,7 @@ public abstract class TestBase extends TestCase {
         left.addDependency(right);
         right.addDependency(left);
 
-        ServletRunner runner = new ServletRunner(new File("src/main/webapp/WEB-INF/web.xml"), "/web");
+        ServletRunner runner = new ServletRunner(new File("build/resources/main/WEB-INF/web.xml"), "/web");
         client = runner.newClient();
         request = new GetMethodWebRequest(getStartUrl());
         context = client.newInvocation(request);
