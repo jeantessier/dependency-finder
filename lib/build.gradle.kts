@@ -13,7 +13,6 @@ dependencies {
 
     testImplementation(libs.junit)
     testImplementation(libs.bundles.jmock)
-    testImplementation(libs.httpunit)
 }
 
 java {
