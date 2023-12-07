@@ -9,7 +9,6 @@ repositories {
 dependencies {
     implementation(project(":lib"))
 
-    implementation(libs.ant)
     implementation(libs.log4j)
     implementation(libs.oro)
 
