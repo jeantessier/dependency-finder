@@ -47,8 +47,8 @@ import java.io.Reader;
 public class MetricsConfigurationLoader {
     private static final boolean DEFAULT_VALIDATE = false;
 
-    private MetricsConfigurationHandler handler;
-    private boolean                     validate;
+    private final MetricsConfigurationHandler handler;
+    private final boolean validate;
 
     public MetricsConfigurationLoader() {
         this(new MetricsConfiguration(), DEFAULT_VALIDATE);

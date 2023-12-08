@@ -77,7 +77,7 @@ public class MetricsGathererFixture extends DoFixture {
     }
 
     private Collection<SingleMeasurement> getMetrics(String name, Collection<Metrics> metricsCollection) {
-        Collection<SingleMeasurement> results = new LinkedList<SingleMeasurement>();
+        Collection<SingleMeasurement> results = new LinkedList<>();
 
         for (Metrics metrics : metricsCollection) {
             if (metrics.getName().equals(name)) {
@@ -89,7 +89,7 @@ public class MetricsGathererFixture extends DoFixture {
     }
 
     private Collection<SingleMeasurement> convertMetricsToMeasurements(Metrics metrics) {
-        Collection<SingleMeasurement> results = new LinkedList<SingleMeasurement>();
+        Collection<SingleMeasurement> results = new LinkedList<>();
 
         for (String name : metrics.getMeasurementNames()) {
             Measurement measurement = metrics.getMeasurement(name);

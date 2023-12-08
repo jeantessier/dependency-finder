@@ -32,21 +32,21 @@
 
 package com.jeantessier.fitlibrary;
 
-import java.io.*;
+import java.nio.file.*;
 
 import fitlibrary.runner.*;
 import junit.framework.*;
 
 public class TestAll extends TestCase {
-    public static final String FIT_TESTS = "fit" + File.separator + "tests";
-    public static final String FIT_REPORTS = "reports" + File.separator + "fitlibrary";
+    public static final Path FIT_TESTS = Paths.get("src/test/fit");
+    public static final Path FIT_REPORTS = Paths.get("build/reports/tests/fitlibrary");
     private static final String RIGHT_MARKER = "right, ";
 
     public void testFolderRunner() throws Exception {
         FolderRunner runner = new FolderRunner();
-        Report report = runner.run(FIT_TESTS, FIT_REPORTS);
+        Report report = runner.run(FIT_TESTS.toString(), FIT_REPORTS.toString());
         String counts = report.getCounts();
         int pos = counts.indexOf(RIGHT_MARKER) + RIGHT_MARKER.length();
-        assertEquals("errors, see " + FIT_REPORTS + File.separator + FolderRunner.INDEX_HTML, "0 wrong, 0 ignored, 0 exceptions", counts.substring(pos));
+        assertEquals("errors, see " + FIT_REPORTS.resolve(FolderRunner.INDEX_HTML), "0 wrong, 0 ignored, 0 exceptions", counts.substring(pos));
     }
 }

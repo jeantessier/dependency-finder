@@ -8,13 +8,12 @@ repositories {
 
 dependencies {
     implementation(project(":lib"))
-    implementation(libs.log4j)
-    implementation(libs.oro)
+    implementation(libs.fitlibrary)
 
     testImplementation(libs.junit)
-    testImplementation(libs.bundles.jmock)
+    testImplementation(libs.oro)
 
-    testImplementation(project("jarjardiff"))
+    testImplementation(project("metrics"))
 }
 
 java {

@@ -14,6 +14,7 @@ dependencies {
 
     testImplementation(libs.junit)
     testImplementation(libs.bundles.jmock)
+    testImplementation(libs.ant)
 }
 
 java {

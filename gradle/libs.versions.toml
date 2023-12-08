@@ -1,6 +1,8 @@
 [versions]
 ant = "1.10.14"
 byte-buddy = "1.14.10"
+fitlibrary = "20060719"
+#fitlibrary = "20080812"
 httpunit = "1.7.3"
 jmock = "2.12.0"
 junit = "4.13.2"
@@ -10,6 +12,7 @@ oro = "2.0.8"
 [libraries]
 ant = { module = "org.apache.ant:ant", version.ref = "ant" }
 byte-buddy = { module = "net.bytebuddy:byte-buddy", version.ref = "byte-buddy" }
+fitlibrary = { module = "org.fitnesse:fitlibrary", version.ref = "fitlibrary" }
 httpunit = { module = "org.httpunit:httpunit", version.ref = "httpunit" }
 jmock-imposters = { module = "org.jmock:jmock-imposters", version.ref = "jmock" }
 jmock-junit3 = { module = "org.jmock:jmock-junit3", version.ref = "jmock" }
