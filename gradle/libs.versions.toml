@@ -1,7 +1,8 @@
 [versions]
 ant = "1.10.14"
 byte-buddy = "1.14.10"
-fitlibrary = "20060719"
+fitlibrary = "20070619"
+#fitlibrary = "20080702"
 #fitlibrary = "20080812"
 httpunit = "1.7.3"
 jmock = "2.12.0"
