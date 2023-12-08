@@ -1,0 +1,4 @@
+Created a branch to try and move at least of the build to Gradle.  I can still
+have Ant at the top level and use it to call some Gradle builds to generate
+some of the artifacts.  Until I can find a way to migrate all Ant tasks over
+time.

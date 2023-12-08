@@ -1,0 +1,10 @@
+I successfully separated the pure unit tests from "integration tests" that need
+test data: compiled Java code.  The main =:lib= subproject can run all the unit
+tests that don't require external data.  The =:integration-tests= subproject
+has the sample code that the other tests are running against.  I don't know how
+to effectively share test data between projects, yet.  So the tests dig
+directly into the subprojects to find what they need.
+
+I moved the webapp code to its own subproject.  It seems to compile fine, but
+the HttpUnit tests are broken.  They were broken to begin with, so they will
+need more work later.  But the status quo is preserved.
