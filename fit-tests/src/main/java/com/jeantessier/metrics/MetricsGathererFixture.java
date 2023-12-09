@@ -77,25 +77,17 @@ public class MetricsGathererFixture extends DoFixture {
     }
 
     private Collection<SingleMeasurement> getMetrics(String name, Collection<Metrics> metricsCollection) {
-        Collection<SingleMeasurement> results = new LinkedList<>();
-
-        for (Metrics metrics : metricsCollection) {
-            if (metrics.getName().equals(name)) {
-                results = convertMetricsToMeasurements(metrics);
-            }
-        }
-
-        return results;
+        return metricsCollection.stream()
+                .filter(metrics -> metrics.getName().equals(name))
+                .map(this::convertMetricsToMeasurements)
+                .findAny()
+                .orElseThrow();
     }
 
     private Collection<SingleMeasurement> convertMetricsToMeasurements(Metrics metrics) {
-        Collection<SingleMeasurement> results = new LinkedList<>();
-
-        for (String name : metrics.getMeasurementNames()) {
-            Measurement measurement = metrics.getMeasurement(name);
-            results.add(new SingleMeasurement(measurement.getShortName(), measurement.getLongName(), measurement.getValue().doubleValue(), measurement.isInRange()));
-        }
-
-        return results;
+        return metrics.getMeasurementNames().stream()
+                .map(metrics::getMeasurement)
+                .map(measurement -> new SingleMeasurement(measurement.getShortName(), measurement.getLongName(), measurement.getValue().doubleValue(), measurement.isInRange()))
+                .toList();
     }
 }

@@ -40,19 +40,15 @@ import fitlibrary.*;
 import com.jeantessier.commandline.*;
 
 public class CommandFixture extends DoFixture {
-    public Collection switches() {
-        Collection<CommandLineSwitch> results = new LinkedList<CommandLineSwitch>();
-
-        // We replace values that are spaces only so Fit can detect them
-        for (CommandLineSwitch cls : getCommandLine().getSwitches()) {
-          if (cls instanceof SingleValueSwitch && cls.getDefaultValue().equals("    ")) {
-            results.add(new SingleValueSwitch(cls.getName(), "****four spaces****", cls.isMandatory()));
-          } else {
-            results.add(cls);
-          }
-        }
-
-        return results;
+    public Collection<CommandLineSwitch> switches() {
+        return getCommandLine().getSwitches().stream()
+                .map(cls -> {
+                    if (cls instanceof SingleValueSwitch && cls.getDefaultValue().equals("    ")) {
+                        return new SingleValueSwitch(cls.getName(), "****four spaces****", cls.isMandatory());
+                    } else {
+                        return cls;
+                    }
+                }).toList();
     }
 
     public CommandLine parse(String argString) throws CommandLineException {
@@ -61,11 +57,8 @@ public class CommandFixture extends DoFixture {
     }
 
     public boolean parseAndValidate(String args) throws CommandLineException {
-        PrintStream printStream = getNullPrintStream();
-        try {
+        try (PrintStream printStream = getNullPrintStream()) {
             return getCommand().validateCommandLine(safeSplit(args), printStream);
-        } finally {
-            printStream.close();
         }
     }
 
@@ -79,7 +72,7 @@ public class CommandFixture extends DoFixture {
 
     private String[] safeSplit(String argString) {
         String[] args = argString.split("\\s+");
-        if ("".equals(argString)) {
+        if (argString.isEmpty()) {
             args = new String[0];
         }
         return args;

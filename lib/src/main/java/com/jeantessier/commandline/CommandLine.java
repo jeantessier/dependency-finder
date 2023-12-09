@@ -266,7 +266,7 @@ public class CommandLine implements Visitable {
     }
 
     public Collection<CommandLineException> parse(String[] args) {
-        Collection<CommandLineException> exceptions = new ArrayList<CommandLineException>();
+        Collection<CommandLineException> exceptions = new ArrayList<>();
 
         int i=0;
         while (i < args.length) {

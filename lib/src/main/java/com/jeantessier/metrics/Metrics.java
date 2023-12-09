@@ -33,17 +33,18 @@
 package com.jeantessier.metrics;
 
 import java.util.*;
+import java.util.stream.*;
 
 import org.apache.log4j.*;
 
 public class Metrics {
     private static final Measurement NULL_MEASUREMENT = new NullMeasurement();
     
-    private Metrics parent;
-    private String  name;
+    private final Metrics parent;
+    private final String  name;
 
-    private Map<String, Measurement> measurements = new TreeMap<String, Measurement>();
-    private Map<String, Metrics> submetrics = new TreeMap<String, Metrics>();
+    private final Map<String, Measurement> measurements = new TreeMap<>();
+    private final Map<String, Metrics> submetrics = new TreeMap<>();
 
     public Metrics(String name) {
         this(null, name);
@@ -140,14 +141,7 @@ public class Metrics {
     }
 
     public Measurement getMeasurement(String name) {
-        Measurement result = measurements.get(name);
-        
-        if (result == null) {
-            result = NULL_MEASUREMENT;
-            Logger.getLogger(getClass()).info("Null measurement \"" + name + "\" on \"" + getName() + "\"");
-        }
-
-        return result;
+        return measurements.getOrDefault(name, NULL_MEASUREMENT);
     }
 
     public boolean hasMeasurement(String name) {
@@ -167,50 +161,29 @@ public class Metrics {
     }
 
     public boolean isEmpty() {
-        boolean result = true;
-
-        Iterator<Measurement> i = measurements.values().iterator();
-        while (result && i.hasNext()) {
-            Measurement measurement = i.next();
-            if (measurement.getDescriptor().isVisible()) {
-                result = measurement.isEmpty();
-            }
-        }
-
-        Iterator<Metrics> j = submetrics.values().iterator();
-        while (result && j.hasNext()) {
-            result = j.next().isEmpty();
-        }
-        
-        return result;
+        return
+                measurements.values().stream()
+                        .filter(measurement -> measurement.getDescriptor().isVisible())
+                        .allMatch(Measurement::isEmpty) &&
+                submetrics.values().stream()
+                        .allMatch(Metrics::isEmpty);
     }
 
     public boolean isInRange() {
-        boolean result = true;
-
-        Iterator<Measurement> i = measurements.values().iterator();
-        while (result && i.hasNext()) {
-            result = i.next().isInRange();
-        }
-        
-        return result;
+        return measurements.values().stream()
+                .filter(measurement -> measurement.getDescriptor().isVisible())
+                .allMatch(Measurement::isInRange);
     }
     
     public String toString() {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         result.append(getClass().getName()).append(" ").append(getName()).append(" with [");
 
-        Iterator<String> i = getMeasurementNames().iterator();
-        while (i.hasNext()) {
-            String name = i.next();
-            Measurement measure = getMeasurement(name);
-
-            result.append("\"").append(name).append("\"(").append(measure.getClass().getName()).append(")");
-            if (i.hasNext()) {
-                result.append(", ");
-            }
-        }
+        result.append(measurements.entrySet().stream()
+                .map(entry -> "\"" + entry.getKey() + "\"(" + entry.getValue().getClass().getName() + ")")
+                .collect(Collectors.joining(", "))
+        );
 
         result.append("]");
 

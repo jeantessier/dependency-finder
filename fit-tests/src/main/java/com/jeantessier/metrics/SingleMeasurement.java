@@ -32,7 +32,7 @@
 
 package com.jeantessier.metrics;
 
-public class SingleMeasurement extends Object {
+public class SingleMeasurement {
     public final String shortName;
     public final String longName;
     public final double value;

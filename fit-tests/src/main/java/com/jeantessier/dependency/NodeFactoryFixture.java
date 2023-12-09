@@ -33,6 +33,7 @@
 package com.jeantessier.dependency;
 
 import java.util.*;
+import java.util.stream.*;
 
 import fitlibrary.*;
 
@@ -58,15 +59,14 @@ public class NodeFactoryFixture extends DoFixture {
     }
 
     public SetFixture dependenciesFor(Node node) {
-        Collection<Dependency> dependencies = new LinkedList<Dependency>();
-
-        for (Node source : node.getInboundDependencies()) {
-            dependencies.add(new Dependency(node.getName(), Dependency.INBOUND, source.getName()));
-        }
-
-        for (Node target : node.getOutboundDependencies()) {
-            dependencies.add(new Dependency(node.getName(), Dependency.OUTBOUND, target.getName()));
-        }
+        Collection<Dependency> dependencies = Stream.concat(
+                node.getInboundDependencies().stream()
+                        .map(Node::getName)
+                        .map(name -> new Dependency(node.getName(), Dependency.INBOUND, name)),
+                node.getOutboundDependencies().stream()
+                        .map(Node::getName)
+                        .map(name -> new Dependency(node.getName(), Dependency.OUTBOUND, name))
+        ).toList();
 
         return new SetFixture(dependencies);
     }

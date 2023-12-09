@@ -48,11 +48,7 @@ public class CycleDetectorFixture extends NodeFactoryFixture {
     }
 
     public void detectCyclesScopeIncludesList(String scopeIncludesList) {
-        Collection<String> includes = new ArrayList<String>();
-        includes.add(scopeIncludesList);
-        Collection<String> excludes = new ArrayList<String>();
-
-        doDetectCycles(new CycleDetector(new CollectionSelectionCriteria(includes, excludes)));
+        doDetectCycles(new CycleDetector(new CollectionSelectionCriteria(Collections.singleton(scopeIncludesList), Collections.emptyList())));
     }
 
     public void detectClassToClassCyclesScopeIncludes(String scopeIncludes) {
@@ -83,33 +79,31 @@ public class CycleDetectorFixture extends NodeFactoryFixture {
         return new ArrayFixture(getCycle(pos).getPath());
     }
 
-    public Fixture textForCycle(int pos) throws IOException {
+    public Fixture textForCycle(int pos) {
         StringWriter buffer = new StringWriter();
-        PrintWriter out = new PrintWriter(buffer);
-        CyclePrinter printer = new TextCyclePrinter(out);
-        printer.visitCycle(getCycle(pos));
-        out.close();
-
-        List<Line> lines = new ArrayList<Line>();
-
-        BufferedReader in = new BufferedReader(new StringReader(buffer.toString()));
-        String line;
-        while ((line = in.readLine()) != null) {
-            lines.add(new Line(line.trim()));
+        try (var out = new PrintWriter(buffer)) {
+            CyclePrinter printer = new TextCyclePrinter(out);
+            printer.visitCycle(getCycle(pos));
         }
-        in.close();
 
-        return new ArrayFixture(lines);
+        return new ArrayFixture(
+                buffer.toString().lines()
+                        .map(String::trim)
+                        .map(Line::new)
+                        .toList()
+        );
     }
 
     private Cycle getCycle(int pos) {
         CycleDetector detector = (CycleDetector) getSystemUnderTest();
-        ArrayList<Cycle> cycles = new ArrayList<Cycle>(detector.getCycles());
-        return cycles.get(pos);
+        return detector.getCycles().stream()
+                .skip(pos)
+                .findFirst()
+                .orElseThrow();
     }
 
     public static class Line {
-        public String line;
+        public final String line;
         public Line(String line) {
             this.line = line;
         }

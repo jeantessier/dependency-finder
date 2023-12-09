@@ -47,17 +47,10 @@ import com.jeantessier.dependency.SelectionCriteria;
 import com.jeantessier.dependencyfinder.Version;
 import org.apache.log4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+import java.util.stream.*;
 
 public abstract class Command {
     public static final String DEFAULT_LOGFILE = "System.out";
@@ -153,17 +146,15 @@ public abstract class Command {
         }
 
         if (result) {
-            for (CommandLineException exception : exceptions) {
-                result = false;
-                Logger.getLogger(getClass()).error(exception);
-            }
+            exceptions.forEach(exception -> Logger.getLogger(getClass()).error(exception));
+            result = exceptions.isEmpty();
         }
 
         return result;
     }
 
     protected Collection<CommandLineException> validateCommandLineForScoping() {
-        Collection<CommandLineException> exceptions = new ArrayList<CommandLineException>();
+        Collection<CommandLineException> exceptions = new ArrayList<>();
 
         if (hasScopeRegularExpressionSwitches() && hasScopeListSwitches()) {
             exceptions.add(new CommandLineException("You can use switches for regular expressions or lists for scope, but not at the same time"));
@@ -173,7 +164,7 @@ public abstract class Command {
     }
 
     protected Collection<CommandLineException> validateCommandLineForFiltering() {
-        Collection<CommandLineException> exceptions = new ArrayList<CommandLineException>();
+        Collection<CommandLineException> exceptions = new ArrayList<>();
 
         if (hasFilterRegularExpressionSwitches() && hasFilterListSwitches()) {
             exceptions.add(new CommandLineException("You can use switches for regular expressions or lists for filter, but not at the same time"));
@@ -196,7 +187,7 @@ public abstract class Command {
 
     protected abstract void doProcessing() throws Exception;
 
-    private void stopProcessing() throws IOException {
+    private void stopProcessing() {
         stopTimer();
         stopOutput();
         stopVerboseListener();
@@ -236,7 +227,7 @@ public abstract class Command {
         }
     }
 
-    private void stopOutput() throws IOException {
+    private void stopOutput() {
         if (out != null) {
             out.close();
         }
@@ -436,24 +427,17 @@ public abstract class Command {
     }
 
     protected Collection<String> loadCollection(Collection<String> filenames) {
-        Collection<String> result = null;
-
-        if (!filenames.isEmpty()) {
-            result = new HashSet<String>();
-
-            for (String filename : filenames) {
-                try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        result.add(line);
+        return filenames.stream()
+                .map(Paths::get)
+                .flatMap(path -> {
+                    try {
+                        return Files.lines(path);
+                    } catch (IOException ex) {
+                        Logger.getLogger(getClass()).error("Couldn't read file " + path, ex);
+                        return Stream.empty();
                     }
-                } catch (IOException ex) {
-                    Logger.getLogger(getClass()).error("Couldn't read file " + filename, ex);
-                }
-            }
-        }
-
-        return result;
+                }).distinct()
+                .toList();
     }
 
     protected PrintWriter getOut() throws IOException {

@@ -83,7 +83,7 @@ public class ClosureFixture extends DoFixture {
     }
 
     public SetFixture dependenciesFor(Node node) {
-        Collection<Dependency> dependencies = new LinkedList<Dependency>();
+        Collection<Dependency> dependencies = new LinkedList<>();
 
         for (Node source : node.getInboundDependencies()) {
             dependencies.add(new Dependency(node.getName(), Dependency.INBOUND, source.getName()));
