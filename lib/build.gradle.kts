@@ -24,15 +24,17 @@ java {
 
 tasks.jar {
     manifest {
+        val version = System.getenv("DEPENDENCY_FINDER_VERSION") ?: "unknown"
+        val releaseDate = System.getenv("DEPENDENCY_FINDER_RELEASE_DATE") ?: "unknown"
         attributes(
                 "Specification-Vendor" to "Jean Tessier",
                 "Specification-Title" to "Dependency Finder",
-                "Specification-Version" to archiveVersion,
-//                "Specification-Date" to NOW,
+                "Specification-Version" to version,
+                "Specification-Date" to releaseDate,
                 "Implementation-Vendor" to "Jean Tessier",
                 "Implementation-Title" to "Dependency Finder",
-                "Implementation-Version" to archiveVersion,
-//                "Implementation-Date" to NOW,
+                "Implementation-Version" to version,
+                "Implementation-Date" to releaseDate,
                 "Implementation-URL" to "https://depfind.sourceforge.io/",
                 "Copyright-Holder" to "Jean Tessier",
                 "Copyright-Date" to "2001-2023",
