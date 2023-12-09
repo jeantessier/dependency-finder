@@ -48,15 +48,10 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.Path;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+import java.util.stream.*;
 
 public class DependencyExtractor extends Task {
     private String filterIncludes = "//";
@@ -384,18 +379,17 @@ public class DependencyExtractor extends Task {
         Collection<String> result = null;
 
         if (path != null) {
-            result = new HashSet<String>();
-
-            for (String filename : path.list()) {
-                try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        result.add(line);
-                    }
-                } catch (IOException ex) {
-                    Logger.getLogger(getClass()).error("Couldn't read file " + filename, ex);
-                }
-            }
+            result = Arrays.stream(path.list())
+                    .map(Paths::get)
+                    .flatMap(filepath -> {
+                        try {
+                            return Files.lines(filepath);
+                        } catch (IOException ex) {
+                            Logger.getLogger(getClass()).error("Couldn't read file " + filepath, ex);
+                            return Stream.empty();
+                        }
+                    }).distinct()
+                    .toList();
         }
 
         return result;

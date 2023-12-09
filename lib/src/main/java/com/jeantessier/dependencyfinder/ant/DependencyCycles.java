@@ -49,13 +49,10 @@ import org.apache.tools.ant.types.Path;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Collection;
-import java.util.HashSet;
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+import java.util.stream.*;
 
 public class DependencyCycles extends GraphTask {
     private String startIncludes = "//";
@@ -258,11 +255,7 @@ public class DependencyCycles extends GraphTask {
             printer.visitCycles(detector.getCycles());
 
             out.close();
-        } catch (SAXException ex) {
-            throw new BuildException(ex);
-        } catch (ParserConfigurationException ex) {
-            throw new BuildException(ex);
-        } catch (IOException ex) {
+        } catch (SAXException | ParserConfigurationException | IOException ex) {
             throw new BuildException(ex);
         }
     }
@@ -320,18 +313,17 @@ public class DependencyCycles extends GraphTask {
         Collection<String> result = null;
 
         if (path != null) {
-            result = new HashSet<String>();
-
-            for (String filename : path.list()) {
-                try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        result.add(line);
-                    }
-                } catch (IOException ex) {
-                    Logger.getLogger(getClass()).error("Couldn't read file " + filename, ex);
-                }
-            }
+            result = Arrays.stream(path.list())
+                    .map(Paths::get)
+                    .flatMap(filepath -> {
+                        try {
+                            return Files.lines(filepath);
+                        } catch (IOException ex) {
+                            Logger.getLogger(getClass()).error("Couldn't read file " + filepath, ex);
+                            return Stream.empty();
+                        }
+                    }).distinct()
+                    .toList();
         }
 
         return result;

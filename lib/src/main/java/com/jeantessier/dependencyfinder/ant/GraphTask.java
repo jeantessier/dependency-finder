@@ -87,7 +87,7 @@ public abstract class GraphTask extends Task {
             throw new BuildException("src or srcfile must be set!");
         }
         
-        if (getSrc().size() == 0) {
+        if (getSrc().isEmpty()) {
             throw new BuildException("src and srcfile are both empty!");
         }
 

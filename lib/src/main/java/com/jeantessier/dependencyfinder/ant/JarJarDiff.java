@@ -33,7 +33,6 @@
 package com.jeantessier.dependencyfinder.ant;
 
 import java.io.*;
-import java.lang.reflect.*;
 import java.util.*;
 
 import com.jeantessier.classreader.*;
@@ -264,7 +263,7 @@ public class JarJarDiff extends Task {
                 try {
                     strategy = (DifferenceStrategy) Class.forName(level).getConstructor(DifferenceStrategy.class).newInstance(baseStrategy);
                 } catch (NoSuchMethodException ex) {
-                    strategy = (DifferenceStrategy) Class.forName(level).newInstance();
+                    strategy = (DifferenceStrategy) Class.forName(level).getDeclaredConstructor().newInstance();
                 }
             } catch (ReflectiveOperationException | ClassCastException ex) {
                 log("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\": " + ex.getMessage());

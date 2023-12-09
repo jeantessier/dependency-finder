@@ -60,9 +60,8 @@ public class TextPrinter extends Printer {
     }
 
     public void visitMultipleValuesSwitch(MultipleValuesSwitch cls) {
-        ((List<String>) cls.getValue()).forEach(value -> {
-            indent().append("-").append(cls.getName()).append(" ").append(value).eol();
-        });
+        ((List<String>) cls.getValue()).forEach(value ->
+                indent().append("-").append(cls.getName()).append(" ").append(value).eol());
     }
 
     public void visitAliasSwitch(AliasSwitch cls) {
@@ -90,8 +89,7 @@ public class TextPrinter extends Printer {
     }
 
     private void visitParameterStrategy(ParameterStrategy strategy) {
-        strategy.getParameters().forEach(value -> {
-            indent().append(value).eol();
-        });
+        strategy.getParameters().forEach(value ->
+                indent().append(value).eol());
     }
 }

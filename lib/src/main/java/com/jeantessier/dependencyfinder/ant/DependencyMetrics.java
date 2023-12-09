@@ -434,11 +434,7 @@ public class DependencyMetrics extends GraphTask {
             reporter.process(metrics);
 
             out.close();
-        } catch (SAXException ex) {
-            throw new BuildException(ex);
-        } catch (ParserConfigurationException ex) {
-            throw new BuildException(ex);
-        } catch (IOException ex) {
+        } catch (SAXException | ParserConfigurationException | IOException ex) {
             throw new BuildException(ex);
         }
     }

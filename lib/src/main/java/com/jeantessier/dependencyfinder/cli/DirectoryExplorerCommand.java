@@ -41,7 +41,7 @@ public abstract class DirectoryExplorerCommand extends Command {
         out.println();
         out.println("If no files are specified, it processes the current directory.");
         out.println();
-        out.println("If file is a directory, it is recusively scanned for files");
+        out.println("If file is a directory, it is recursively scanned for files");
         out.println("ending in \".class\".");
         out.println();
         out.println("Defaults is text output to the console.");

@@ -33,7 +33,6 @@
 package com.jeantessier.dependencyfinder.cli;
 
 import java.io.*;
-import java.lang.reflect.*;
 import java.util.*;
 
 import org.apache.log4j.*;
@@ -116,7 +115,7 @@ public abstract class DiffCommand extends Command {
                 try {
                     result = (DifferenceStrategy) Class.forName(level).getConstructor(DifferenceStrategy.class).newInstance(baseStrategy);
                 } catch (NoSuchMethodException ex) {
-                    result = (DifferenceStrategy) Class.forName(level).newInstance();
+                    result = (DifferenceStrategy) Class.forName(level).getDeclaredConstructor().newInstance();
                 }
             } catch (ReflectiveOperationException | ClassCastException ex) {
                 Logger.getLogger(getClass()).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
