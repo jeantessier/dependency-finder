@@ -1,0 +1,6 @@
+Migrated the Fit tests to a Gradle subproject called =:fit-tests=.  I was able
+to "upgrade" =fitlibrary= from =20060116= that I had been using until now to
+=20070619=.  The next version up introduces some changes that break my tests.
+I think something changed in =DoFixture=, but I cannot find release notes that
+would explain how to update my tests.  It's been 16 years, so I'll have to do
+some digging.
