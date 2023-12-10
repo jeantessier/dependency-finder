@@ -45,7 +45,7 @@ public class TestClassMatcher extends MockObjectTestCase {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
     public static final String TEST_CLASS    = "test";
     public static final String TEST_FILENAME = CLASSES_DIR.resolve(TEST_CLASS + ".class").toString();
-    private static final Path TEST_DIR = Paths.get("../tests/JarJarDiff");
+    private static final Path TEST_DIR = Paths.get("jarjardiff");
     public static final String ONELEVEL_JAR = TEST_DIR.resolve("onelevel.jar").toString();
     public static final String ONELEVEL_ZIP = TEST_DIR.resolve("onelevel.zip").toString();
     public static final String TWOLEVEL_JAR = TEST_DIR.resolve("twolevel.jar").toString();

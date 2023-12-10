@@ -58,6 +58,23 @@
     </target>
 
     <!--
+        Tests
+    -->
+
+    <target name="jarjardiff.build" depends="init">
+        <ant dir="integration-tests/jarjardiff" target="build" inheritAll="false"/>
+    </target>
+
+    <target name="check" depends="jarjardiff.build"
+            description="Runs all tests and generates a test run report">
+        <exec executable="./gradlew">
+            <arg value="lib:check"/>
+            <arg value="integration-tests:check"/>
+            <arg value="fit-tests:check"/>
+        </exec>
+    </target>
+
+    <!--
         Executable environment
     -->
 
@@ -96,7 +113,7 @@
         Packaging files
     -->
 
-    <target name="src" depends="src.zip, src.tar.gz, src.tar.bz2"/>
+    <target name="src" depends="src.zip, src.tar.gz"/>
 
     <target name="src.zip" depends="init">
         <zip zipfile="${srcArchive}.zip">
@@ -136,26 +153,7 @@
         </tar>
     </target>
 
-    <target name="src.tar.bz2" depends="init">
-        <tar destfile="${srcArchive}.tar.bz2" compression="bzip2">
-            <tarfileset dir="." prefix="${ant.project.name}-${release}">
-                <patternset>
-                    <include name="build.xml"/>
-                    <include name="license.txt"/>
-                    <include name="readme.txt"/>
-                    <include name="*.properties"/>
-                    <include name="${srcFiles}"/>
-                    <include name="${testsFiles}"/>
-                    <include name="${binFiles}"/>
-                    <include name="${etcFiles}"/>
-                    <include name="${webFiles}"/>
-                    <include name="${docsFiles}"/>
-                </patternset>
-            </tarfileset>
-        </tar>
-    </target>
-
-    <target name="bin" depends="generatebin, bin.zip, bin.tar.gz, bin.tar.bz2"/>
+    <target name="bin" depends="generatebin, bin.zip, bin.tar.gz"/>
 
     <target name="bin.zip" depends="jar">
         <zip zipfile="${binArchive}.zip">
@@ -180,32 +178,6 @@
 
     <target name="bin.tar.gz" depends="jar">
         <tar destfile="${binArchive}.tar.gz" compression="gzip">
-            <tarfileset dir="." prefix="${ant.project.name}-${release}">
-                <patternset>
-                    <include name="license.txt"/>
-                    <include name="readme.txt"/>
-                    <include name="${libFiles}"/>
-                    <include name="${etcFiles}"/>
-                    <include name="${docsFiles}"/>
-                    <exclude name="${docsDir}/**/*.txt"/>
-                </patternset>
-            </tarfileset>
-            <tarfileset dir="." prefix="${ant.project.name}-${release}" mode="755">
-                <patternset>
-                    <include name="${binFiles}"/>
-                    <exclude name="${binDir}/**/*.*"/>
-                </patternset>
-            </tarfileset>
-            <tarfileset dir="${srcDir}" prefix="${ant.project.name}-${release}/${classesDir}">
-                <patternset>
-                    <include name="**/*.properties"/>
-                </patternset>
-            </tarfileset>
-        </tar>
-    </target>
-
-    <target name="bin.tar.bz2" depends="jar">
-        <tar destfile="${binArchive}.tar.bz2" compression="bzip2">
             <tarfileset dir="." prefix="${ant.project.name}-${release}">
                 <patternset>
                     <include name="license.txt"/>
@@ -283,18 +255,22 @@
         <delete dir="${logsDir}" verbose="true"/>
     </target>
 
-    <target name="clean" depends="init">
-        <exec executable="./gradlew">
-            <arg value="clean"/>
-        </exec>
-    </target>
-
     <target name="cleanbin" depends="init">
         <exec executable="perl"
               dir="${binDir}">
             <arg value="ScriptGenerator.pl"/>
             <arg value="-c"/>
             <arg value="-v"/>
+        </exec>
+    </target>
+
+    <target name="jarjardiff.clean" depends="init">
+        <ant dir="integration-tests/jarjardiff" target="clean" inheritAll="false"/>
+    </target>
+
+    <target name="clean" depends="jarjardiff.clean">
+        <exec executable="./gradlew">
+            <arg value="clean"/>
         </exec>
     </target>
 

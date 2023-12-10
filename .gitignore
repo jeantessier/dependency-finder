@@ -108,11 +108,7 @@ build
 build.example.xml
 df.xml
 docs/api
-fit/tests/files/css
-fit/tests/files/images/collapsableClosed.gif
-fit/tests/files/images/collapsableOpen.gif
 reports/
-tests/JarJarDiff/*level.*
 
 # Code coverage byproducts
 cobertura

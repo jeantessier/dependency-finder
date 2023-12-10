@@ -39,7 +39,7 @@ import java.util.*;
 import junit.framework.*;
 
 public class TestClassfileScanner extends TestCase {
-    private static final Path TEST_DIR = Paths.get("../tests/JarJarDiff");
+    private static final Path TEST_DIR = Paths.get("jarjardiff");
     public static final String TEST_FILENAME = Paths.get("build/classes/java/main/test.class").toString();
 
     private ClassfileScanner scanner;

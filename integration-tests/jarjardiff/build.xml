@@ -1,19 +1,25 @@
 <project name="JarJarDiff" default="all" basedir=".">
 
-    <target name="all" depends="archives"/>
+    <target name="all" depends="build"/>
 
-    <target name="archives">
+    <target name="init">
+        <exec executable="../../gradlew">
+            <arg value="old:assemble"/>
+        </exec>
+    </target>
+
+    <target name="build" depends="init">
         <zip zipfile="onelevel.zip">
-            <zipfileset dir="../../integration-tests/jarjardiff/old/build/classes/java/main"/>
-            <zipfileset dir="../../integration-tests/jarjardiff/old/src/main/java"/>
+            <zipfileset dir="old/build/classes/java/main"/>
+            <zipfileset dir="old/src/main/java"/>
         </zip>
         <jar jarfile="onelevel.jar">
-            <zipfileset dir="../../integration-tests/jarjardiff/old/build/classes/java/main"/>
-            <zipfileset dir="../../integration-tests/jarjardiff/old/src/main/java"/>
+            <zipfileset dir="old/build/classes/java/main"/>
+            <zipfileset dir="old/src/main/java"/>
         </jar>
         <zip zipfile="onelevel.mis">
-            <zipfileset dir="../../integration-tests/jarjardiff/old/build/classes/java/main"/>
-            <zipfileset dir="../../integration-tests/jarjardiff/old/src/main/java"/>
+            <zipfileset dir="old/build/classes/java/main"/>
+            <zipfileset dir="old/src/main/java"/>
         </zip>
         <zip zipfile="twolevel.zip">
             <zipfileset dir=".">
@@ -44,10 +50,6 @@
                 <patternset>
                     <include name="**/onelevel.*"/>
                     <include name="**/twolevel.*"/>
-                    <include name="**/*.txt"/>
-                    <include name="**/*~"/>
-                    <include name="**/*.bak"/>
-                    <include name="**/*.class"/>
                 </patternset>
             </fileset>
         </delete>
