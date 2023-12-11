@@ -58,7 +58,7 @@ public class TestSymbolGatherer extends TestCase {
     }
 
     public void testEmpty() {
-        loader.load(Collections.<String>emptyList());
+        loader.load(Collections.emptyList());
 
         assertEquals("Different number of symbols", 0, gatherer.getCollection().size());
     }

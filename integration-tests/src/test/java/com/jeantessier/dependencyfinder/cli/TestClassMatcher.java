@@ -52,7 +52,7 @@ public class TestClassMatcher extends MockObjectTestCase {
     private static final String TEST_ARCHIVE = Paths.get("jarjardiff/new/build/libs/new.jar").toString();
 
     public void testReadsGroupNameFromEndClassfileEvent() {
-        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.<String>emptyList());
+        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.emptyList());
 
         String groupName1 = "groupName1";
         String filename1 = "filename1";
@@ -82,7 +82,7 @@ public class TestClassMatcher extends MockObjectTestCase {
     }
 
     public void testMatchNone() {
-        ClassMatcher matcher = new ClassMatcher(Collections.<String>emptyList(), Collections.<String>emptyList());
+        ClassMatcher matcher = new ClassMatcher(Collections.emptyList(), Collections.emptyList());
         
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(matcher);
@@ -92,7 +92,7 @@ public class TestClassMatcher extends MockObjectTestCase {
     }
     
     public void testMatchClassfile() {
-        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.<String>emptyList());
+        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.emptyList());
         
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(matcher);
@@ -110,7 +110,7 @@ public class TestClassMatcher extends MockObjectTestCase {
         File file = new File(ONELEVEL_JAR);
         assertTrue(file + " missing", file.exists());
         
-        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.<String>emptyList());
+        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.emptyList());
 
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(matcher);
@@ -127,7 +127,7 @@ public class TestClassMatcher extends MockObjectTestCase {
         File file = new File(TWOLEVEL_JAR);
         assertTrue(file + " missing", file.exists());
         
-        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.<String>emptyList());
+        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.emptyList());
 
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(matcher);
@@ -144,7 +144,7 @@ public class TestClassMatcher extends MockObjectTestCase {
         File dir = new File(TEST_ARCHIVE);
         assertTrue(dir + " missing", dir.exists());
 
-        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.<String>emptyList());
+        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.emptyList());
         
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(matcher);
@@ -161,7 +161,7 @@ public class TestClassMatcher extends MockObjectTestCase {
         File dir = new File(TEST_ARCHIVE);
         assertTrue(dir + " missing", dir.exists());
 
-        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("/modified/i"), Collections.<String>emptyList());
+        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("/modified/i"), Collections.emptyList());
         
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(matcher);
@@ -197,11 +197,11 @@ public class TestClassMatcher extends MockObjectTestCase {
         assertTrue(file1 + " missing", file1.exists());
         assertTrue(file2 + " missing", file2.exists());
 
-        Collection<String> filenames = new ArrayList<String>();
+        Collection<String> filenames = new ArrayList<>();
         filenames.add(file1.getPath());
         filenames.add(file2.getPath());
         
-        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.<String>emptyList());
+        ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.emptyList());
 
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(matcher);
