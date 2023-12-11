@@ -1097,15 +1097,11 @@ and above (where the JAR file was named =junit.jar=), and even some older ones.
 
 To run all tests and generate test reports in the =reports= directory:
 
-    1 =set CLASSPATH%3D%JUNIT_HOME%\junit-4.4.jar=
-    1 =ant -f build.test.xml=
+    1 =ant=
 
 or, to run tests manually:
 
-    1 =set CLASSPATH%3D%JUNIT_HOME%\junit-4.4.jar=
-    1 =ant -f build.test.xml compile=
-    1 =textjunit TestAll=
-    1 =textjunit com.jeantessier.fitlibrary.TestAll=
+    1 =./gradlew lib:check integration-tests:check fit-tests:check=
 
 ---+++ Making a Release
 
@@ -1121,8 +1117,8 @@ branch of the repository that has been tagged appropriately.
     1 =ant dist=
     1 Go to [[https://sourceforge.net/projects/depfind/][SourceForge project page]], click "Files" &gt;&gt; "DependencyFinder".
     1 Create a new folder, upload all files from =dist/= to the new folder.
-    1 Make =DependencyFinder-<VERSION />.bin.zip= the default download for Windows.
-    1 Make =DependencyFinder-<VERSION />.bin.tar.gz= the default download for all others.
+    1 Make =DependencyFinder-<VERSION />.zip= the default download for Windows.
+    1 Make =DependencyFinder-<VERSION />.tar.gz= the default download for all others.
     1 Go to [[https://github.com/jeantessier/dependency-finder][GitHub project page]], click "Releases" &gt;&gt; "Draft a new release".
     1 Choose tag <VERSION />, put "<VERSION />" as the release title, write a short description.
     1 Attach all the files from =dist/=.
