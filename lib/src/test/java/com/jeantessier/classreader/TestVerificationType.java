@@ -34,11 +34,10 @@ package com.jeantessier.classreader;
 
 import org.junit.*;
 import org.junit.runner.*;
-import org.junit.runners.Parameterized;
+import org.junit.runners.*;
 
 import static org.junit.Assert.*;
 import static org.junit.runners.Parameterized.*;
-import static org.junit.runners.Parameterized.Parameter;
 
 @RunWith(Parameterized.class)
 public class TestVerificationType {

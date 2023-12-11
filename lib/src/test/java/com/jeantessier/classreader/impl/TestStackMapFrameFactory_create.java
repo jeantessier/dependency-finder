@@ -37,12 +37,12 @@ import org.jmock.imposters.*;
 import org.jmock.integration.junit4.*;
 import org.junit.*;
 import org.junit.runner.*;
-import org.junit.runners.Parameterized;
+import org.junit.runners.*;
 
 import java.io.*;
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.junit.runners.Parameterized.*;
 
 @RunWith(Parameterized.class)

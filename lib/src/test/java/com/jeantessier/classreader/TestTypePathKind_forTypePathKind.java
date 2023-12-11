@@ -32,14 +32,12 @@
 
 package com.jeantessier.classreader;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.runners.Parameterized.Parameter;
-import static org.junit.runners.Parameterized.Parameters;
+import static org.junit.Assert.*;
+import static org.junit.runners.Parameterized.*;
 
 @RunWith(Parameterized.class)
 public class TestTypePathKind_forTypePathKind {

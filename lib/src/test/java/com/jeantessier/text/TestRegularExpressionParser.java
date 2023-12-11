@@ -37,7 +37,7 @@ import java.util.stream.*;
 
 import org.junit.*;
 import org.junit.runner.*;
-import org.junit.runners.Parameterized;
+import org.junit.runners.*;
 
 import static org.junit.Assert.*;
 import static org.junit.runners.Parameterized.*;
