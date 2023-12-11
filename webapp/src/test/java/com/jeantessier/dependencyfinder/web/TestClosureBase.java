@@ -34,7 +34,12 @@ package com.jeantessier.dependencyfinder.web;
 
 import com.meterware.httpunit.*;
 
+import org.junit.*;
+
+import static org.junit.Assert.*;
+
 public abstract class TestClosureBase extends TestBase {
+    @Test
     public void testDirectQuery() throws Exception {
         request.setParameter("start-includes", "/" + barPackageName + "/");
         request.setParameter("scope", "package");
@@ -75,6 +80,7 @@ public abstract class TestClosureBase extends TestBase {
         assertNull("Unwanted link right <-> left", response.getLinkWithID(rightPackageName + "_bidirectional_" + leftPackageName));
     }
 
+    @Test
     public void testFollowDownstreamLink() throws Exception {
         request.setParameter("start-includes", "/" + fooPackageName + "/");
         request.setParameter("scope", "package");

@@ -65,9 +65,7 @@
     <target name="check" depends="jarjardiff.build"
             description="Runs all tests and generates a test run report">
         <exec executable="./gradlew">
-            <arg value="lib:check"/>
-            <arg value="integration-tests:check"/>
-            <arg value="fit-tests:check"/>
+            <arg value="check"/>
         </exec>
     </target>
 

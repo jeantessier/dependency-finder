@@ -34,7 +34,12 @@ package com.jeantessier.dependencyfinder.web;
 
 import com.meterware.httpunit.*;
 
+import org.junit.*;
+
+import static org.junit.Assert.*;
+
 public abstract class TestQueryBase extends TestBase {
+    @Test
     public void testFormSubmit() throws Exception {
         context.service();
         WebResponse response = client.getResponse(request);
@@ -63,6 +68,7 @@ public abstract class TestQueryBase extends TestBase {
         assertNull("Unwanted link to " + rightFeatureName, response.getLinkWith(rightFeatureName));
     }
 
+    @Test
     public void testDirectQuery() throws Exception {
         request.setParameter("scope-includes", "//");
         request.setParameter("package-scope", "on");
@@ -105,6 +111,7 @@ public abstract class TestQueryBase extends TestBase {
         assertNotNull("Missing link right <-> left", response.getLinkWithID(rightPackageName + "_bidirectional_" + leftPackageName));
     }
 
+    @Test
     public void testFollowDependencyLink() throws Exception {
         context.service();
         WebResponse response = client.getResponse(request);
@@ -129,6 +136,7 @@ public abstract class TestQueryBase extends TestBase {
         assertNull("Unwanted link right", response.getLinkWithID(rightPackageName));
     }
 
+    @Test
     public void testNarrowScope() throws Exception {
         factory.createFeature(foo2FeatureName);
 
@@ -155,6 +163,7 @@ public abstract class TestQueryBase extends TestBase {
         assertNull("Unwanted link right", response.getLinkWithID(rightPackageName));
     }
 
+    @Test
     public void testNarrowThanWidenScope() throws Exception {
         factory.createFeature(foo2FeatureName);
 
@@ -183,6 +192,7 @@ public abstract class TestQueryBase extends TestBase {
         assertNull("Unwanted link right", response.getLinkWithID(rightPackageName));
     }
 
+    @Test
     public void testEscapeSquareBrackets() throws Exception {
         String mainFeatureName = fooClassName + ".main(java.lang.String[])";
         factory.createFeature(mainFeatureName);

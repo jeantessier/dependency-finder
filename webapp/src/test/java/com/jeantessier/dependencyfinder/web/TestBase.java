@@ -37,19 +37,21 @@ import java.util.*;
 
 import javax.servlet.*;
 
-import junit.framework.*;
-
-import org.apache.log4j.*;
-
 import com.meterware.httpunit.*;
 import com.meterware.servletunit.*;
 
+import org.apache.log4j.*;
+
+import org.junit.*;
+
 import com.jeantessier.dependency.*;
+
+import static org.junit.Assert.*;
 
 /**
  * Sets up a dependency graph like the one in <a href="graph.xml">graph.xml</a>.
  */
-public abstract class TestBase extends TestCase {
+public abstract class TestBase {
     private static final String NO_GRAPH_MESSAGE = "There is no dependency graph at this time.";
 
     protected String fooPackageName;
@@ -77,9 +79,8 @@ public abstract class TestBase extends TestCase {
 
     protected String label;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @Before
+    public void setUp() throws Exception {
         Logger.getLogger(getClass()).setLevel(Level.ALL);
 
         Random random = new Random();
@@ -125,6 +126,7 @@ public abstract class TestBase extends TestCase {
         getApplication().setAttribute("factory", factory);
     }
 
+    @Test
     public void testNoLabel() throws Exception {
         getApplication().removeAttribute("label");
 
@@ -134,6 +136,7 @@ public abstract class TestBase extends TestCase {
         assertNull("label", response.getElementWithID("label"));
     }
 
+    @Test
     public void testLabel() throws Exception {
         context.service();
         WebResponse response = client.getResponse(request);
@@ -141,6 +144,7 @@ public abstract class TestBase extends TestCase {
         assertEquals("label", label, response.getElementWithID("label").getText());
     }
 
+    @Test
     public void testNoDependencyGraph() throws Exception {
         getApplication().removeAttribute("factory");
 
@@ -149,6 +153,7 @@ public abstract class TestBase extends TestCase {
         assertTrue("Missing text \"" + NO_GRAPH_MESSAGE + "\"", response.getText().contains(NO_GRAPH_MESSAGE));
     }
 
+    @Test
     public void testEmptyDependencyGraph() throws Exception {
         getApplication().setAttribute("factory", new NodeFactory());
 
@@ -157,6 +162,7 @@ public abstract class TestBase extends TestCase {
         assertFalse("Unexpected text \"" + NO_GRAPH_MESSAGE + "\"", response.getText().contains(NO_GRAPH_MESSAGE));
     }
 
+    @Test
     public void testTestDependencyGraph() throws Exception {
         context.service();
         WebResponse response = client.getResponse(request);

@@ -36,7 +36,12 @@ import java.util.*;
 
 import com.meterware.httpunit.*;
 
+import org.junit.*;
+
+import static org.junit.Assert.*;
+
 public abstract class TestNewGraphBase extends TestBase {
+    @Test
     public void testTemporaryLabelOverride() throws Exception {
         String temporaryLabel = "temporary label " + new Random().nextLong();
         request.setParameter("label", temporaryLabel);

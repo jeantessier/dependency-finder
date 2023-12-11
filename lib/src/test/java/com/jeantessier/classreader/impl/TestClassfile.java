@@ -40,8 +40,7 @@ import org.junit.*;
 
 import java.util.*;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class TestClassfile {
     private static final String TEST_PACKAGE_NAME = "foo";
@@ -77,7 +76,7 @@ public class TestClassfile {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.<Class_info>emptyList(), Collections.<Field_info>emptyList(), Collections.<Method_info>emptyList(), Collections.<Attribute_info>emptyList());
 
         String actualValue = sut.getPackageName();
-        assertThat("package name", actualValue, is(TEST_PACKAGE_NAME));
+        assertEquals("package name", actualValue, TEST_PACKAGE_NAME);
     }
 
     @Test
@@ -94,7 +93,7 @@ public class TestClassfile {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.<Class_info>emptyList(), fields, Collections.<Method_info>emptyList(), Collections.<Attribute_info>emptyList());
 
         Field_info actualField = (Field_info) sut.locateField(TEST_FIELD_NAME);
-        assertThat("local field", actualField, is(expectedField));
+        assertEquals("local field", actualField, expectedField);
     }
 
     @Test
@@ -117,7 +116,7 @@ public class TestClassfile {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.<Class_info>emptyList(), Collections.<Field_info>emptyList(), Collections.<Method_info>emptyList(), Collections.<Attribute_info>emptyList());
 
         Field_info actualField = (Field_info) sut.locateField(TEST_FIELD_NAME);
-        assertThat("public field", actualField, is(expectedField));
+        assertEquals("public field", actualField, expectedField);
     }
 
     @Test
@@ -142,7 +141,7 @@ public class TestClassfile {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.<Class_info>emptyList(), Collections.<Field_info>emptyList(), Collections.<Method_info>emptyList(), Collections.<Attribute_info>emptyList());
 
         Field_info actualField = (Field_info) sut.locateField(TEST_FIELD_NAME);
-        assertThat("protected field", actualField, is(expectedField));
+        assertEquals("protected field", actualField, expectedField);
     }
 
     @Test
@@ -178,7 +177,7 @@ public class TestClassfile {
         }});
 
         Field_info actualField = (Field_info) sut.locateField(TEST_FIELD_NAME);
-        assertThat("package field", actualField, is(expectedField));
+        assertEquals("package field", actualField, expectedField);
     }
 
     @Test
@@ -214,7 +213,7 @@ public class TestClassfile {
         }});
 
         Field_info actualField = (Field_info) sut.locateField(TEST_FIELD_NAME);
-        assertThat("package field", actualField, is(nullValue()));
+        assertNull("package field", actualField);
     }
 
     @Test
@@ -241,7 +240,7 @@ public class TestClassfile {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.<Class_info>emptyList(), Collections.<Field_info>emptyList(), Collections.<Method_info>emptyList(), Collections.<Attribute_info>emptyList());
 
         Field_info actualField = (Field_info) sut.locateField(TEST_FIELD_NAME);
-        assertThat("local field", actualField, is(nullValue()));
+        assertNull("local field", actualField);
     }
 
     @Test
@@ -258,7 +257,7 @@ public class TestClassfile {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.<Class_info>emptyList(), Collections.<Field_info>emptyList(), methods, Collections.<Attribute_info>emptyList());
 
         Method_info actualMethod = (Method_info) sut.locateMethod(TEST_METHOD_SIGNATURE);
-        assertThat("local method", actualMethod, is(expectedMethod));
+        assertEquals("local method", actualMethod, expectedMethod);
     }
 
     @Test
@@ -281,7 +280,7 @@ public class TestClassfile {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.<Class_info>emptyList(), Collections.<Field_info>emptyList(), Collections.<Method_info>emptyList(), Collections.<Attribute_info>emptyList());
 
         Method_info actualMethod = (Method_info) sut.locateMethod(TEST_METHOD_SIGNATURE);
-        assertThat("public method", actualMethod, is(expectedMethod));
+        assertEquals("public method", actualMethod, expectedMethod);
     }
 
     @Test
@@ -306,7 +305,7 @@ public class TestClassfile {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.<Class_info>emptyList(), Collections.<Field_info>emptyList(), Collections.<Method_info>emptyList(), Collections.<Attribute_info>emptyList());
 
         Method_info actualMethod = (Method_info) sut.locateMethod(TEST_METHOD_SIGNATURE);
-        assertThat("protected method", actualMethod, is(expectedMethod));
+        assertEquals("protected method", actualMethod, expectedMethod);
     }
 
     @Test
@@ -342,7 +341,7 @@ public class TestClassfile {
         }});
 
         Method_info actualMethod = (Method_info) sut.locateMethod(TEST_METHOD_SIGNATURE);
-        assertThat("package method", actualMethod, is(expectedMethod));
+        assertEquals("package method", actualMethod, expectedMethod);
     }
 
     @Test
@@ -378,7 +377,7 @@ public class TestClassfile {
         }});
 
         Method_info actualMethod = (Method_info) sut.locateMethod(TEST_METHOD_SIGNATURE);
-        assertThat("package method", actualMethod, is(nullValue()));
+        assertNull("package method", actualMethod);
     }
 
     @Test
@@ -405,7 +404,7 @@ public class TestClassfile {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.<Class_info>emptyList(), Collections.<Field_info>emptyList(), Collections.<Method_info>emptyList(), Collections.<Attribute_info>emptyList());
 
         Method_info actualMethod = (Method_info) sut.locateMethod(TEST_METHOD_SIGNATURE);
-        assertThat("private method", actualMethod, is(nullValue()));
+        assertNull("private method", actualMethod);
     }
 
     @Test
@@ -424,7 +423,7 @@ public class TestClassfile {
 
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.<Class_info>emptyList(), Collections.<Field_info>emptyList(), Collections.<Method_info>emptyList(), Collections.<Attribute_info>singleton(innerClasses_attribute));
 
-        assertThat("inner class", sut.isInnerClass(), is(true));
+        assertTrue("inner class", sut.isInnerClass());
     }
 
     @Test
@@ -443,14 +442,14 @@ public class TestClassfile {
 
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.<Class_info>emptyList(), Collections.<Field_info>emptyList(), Collections.<Method_info>emptyList(), Collections.<Attribute_info>singleton(innerClasses_attribute));
 
-        assertThat("inner class", sut.isInnerClass(), is(false));
+        assertFalse("inner class", sut.isInnerClass());
     }
 
     @Test
     public void testIsInnerClass_noInnerClassInfo_returnsFalse() throws Exception {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.<Class_info>emptyList(), Collections.<Field_info>emptyList(), Collections.<Method_info>emptyList(), Collections.<Attribute_info>emptyList());
 
-        assertThat("inner class", sut.isInnerClass(), is(false));
+        assertFalse("inner class", sut.isInnerClass());
     }
 
     private void expectClassNameLookup(final int index, final String value) {

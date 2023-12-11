@@ -34,7 +34,12 @@ package com.jeantessier.dependencyfinder.web;
 
 import com.meterware.httpunit.*;
 
+import org.junit.*;
+
+import static org.junit.Assert.*;
+
 public abstract class TestMetricsBase extends TestBase {
+    @Test
     public void testDirectQuery() throws Exception {
         request.setParameter("scope-includes", "//");
         request.setParameter("package-scope", "on");

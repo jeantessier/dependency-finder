@@ -32,6 +32,9 @@
 
 package com.jeantessier.dependencyfinder.web;
 
+import org.junit.*;
+
+@Ignore("HttpUnit cannot connect to the webapp")
 public class TestAdvancedMetrics extends TestMetricsBase {
     protected String getStartUrl() {
         return "http://localhost/web/advancedmetrics.jsp";
