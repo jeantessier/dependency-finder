@@ -11,31 +11,28 @@
             <format property="NOW" pattern="yyyy-MM-dd HH:mm:ss"/>
         </tstamp>
 
-        <property name="release"        value="1.3.2"/>
+        <property name="release" value="1.3.2"/>
 
-        <property name="srcDir"         value="src"/>
-        <property name="testsDir"       value="tests"/>
-        <property name="binDir"         value="bin"/>
-        <property name="classesDir"     value="classes"/>
-        <property name="libDir"         value="lib"/>
-        <property name="etcDir"         value="etc"/>
-        <property name="webDir"         value="web"/>
-        <property name="docsDir"        value="docs"/>
-        <property name="logsDir"        value="logs"/>
-        <property name="distDir"        value="dist"/>
+        <property name="srcDir" value="lib/src/main"/>
+        <property name="binDir" value="bin"/>
+        <property name="classesDir" value="classes"/>
+        <property name="libDir" value="lib"/>
+        <property name="etcDir" value="etc"/>
+        <property name="webDir" value="web"/>
+        <property name="docsDir" value="docs"/>
+        <property name="logsDir" value="logs"/>
+        <property name="distDir" value="dist"/>
 
-        <property name="srcFiles"       value="${srcDir}/**"/>
-        <property name="testsFiles"     value="${testsDir}/**"/>
-        <property name="binFiles"       value="${binDir}/**"/>
-        <property name="libFiles"       value="${libDir}/**"/>
-        <property name="etcFiles"       value="${etcDir}/**"/>
-        <property name="webFiles"       value="${webDir}/**"/>
-        <property name="docsFiles"      value="${docsDir}/**"/>
+        <property name="binFiles" value="${binDir}/**"/>
+        <property name="etcFiles" value="${etcDir}/**"/>
+        <property name="webFiles" value="${webDir}/**"/>
+        <property name="docsFiles" value="${docsDir}/**"/>
 
-        <property name="jarFile"        value="${libDir}/${ant.project.name}.jar"/>
-        <property name="warFile"        value="${distDir}/${ant.project.name}-${release}.war"/>
-        <property name="srcArchive"     value="${distDir}/${ant.project.name}-${release}.src"/>
-        <property name="binArchive"     value="${distDir}/${ant.project.name}-${release}.bin"/>
+        <property name="jarFile" value="${libDir}/${ant.project.name}.jar"/>
+        <property name="javadocFile" value="${libDir}/${ant.project.name}-javadoc.jar"/>
+        <property name="sourcesFile" value="${libDir}/${ant.project.name}-sources.jar"/>
+        <property name="warFile" value="${distDir}/${ant.project.name}-${release}.war"/>
+        <property name="binArchive" value="${distDir}/${ant.project.name}-${release}"/>
 
         <mkdir dir="${classesDir}"/>
         <mkdir dir="${logsDir}"/>
@@ -102,7 +99,7 @@
         Distribution
     -->
 
-    <target name="dist" depends="dist.init, src, docs, bin, war"
+    <target name="dist" depends="dist.init, docs, bin, war"
             description="Compiles and builds the binary distributions"/>
 
     <target name="dist.init" depends="init">
@@ -113,46 +110,6 @@
         Packaging files
     -->
 
-    <target name="src" depends="src.zip, src.tar.gz"/>
-
-    <target name="src.zip" depends="init">
-        <zip zipfile="${srcArchive}.zip">
-            <zipfileset dir="." prefix="${ant.project.name}-${release}">
-                <patternset>
-                    <include name="build.xml"/>
-                    <include name="license.txt"/>
-                    <include name="readme.txt"/>
-                    <include name="*.properties"/>
-                    <include name="${srcFiles}"/>
-                    <include name="${testsFiles}"/>
-                    <include name="${binFiles}"/>
-                    <include name="${etcFiles}"/>
-                    <include name="${webFiles}"/>
-                    <include name="${docsFiles}"/>
-                </patternset>
-            </zipfileset>
-        </zip>
-    </target>
-
-    <target name="src.tar.gz" depends="init">
-        <tar destfile="${srcArchive}.tar.gz" compression="gzip">
-            <tarfileset dir="." prefix="${ant.project.name}-${release}">
-                <patternset>
-                    <include name="build.xml"/>
-                    <include name="license.txt"/>
-                    <include name="readme.txt"/>
-                    <include name="*.properties"/>
-                    <include name="${srcFiles}"/>
-                    <include name="${testsFiles}"/>
-                    <include name="${binFiles}"/>
-                    <include name="${etcFiles}"/>
-                    <include name="${webFiles}"/>
-                    <include name="${docsFiles}"/>
-                </patternset>
-            </tarfileset>
-        </tar>
-    </target>
-
     <target name="bin" depends="generatebin, bin.zip, bin.tar.gz"/>
 
     <target name="bin.zip" depends="jar">
@@ -162,13 +119,15 @@
                     <include name="license.txt"/>
                     <include name="readme.txt"/>
                     <include name="${binFiles}/**/*.bat"/>
-                    <include name="${libFiles}"/>
+                    <include name="${libDir}/*.jar"/>
+                    <include name="${libDir}/*.lic"/>
                     <include name="${etcFiles}"/>
                     <include name="${docsFiles}"/>
                     <exclude name="${docsDir}/**/*.txt"/>
+                    <exclude name="${libDir}/build"/>
                 </patternset>
             </zipfileset>
-            <zipfileset dir="${srcDir}" prefix="${ant.project.name}-${release}/${classesDir}">
+            <zipfileset dir="${srcDir}/resources" prefix="${ant.project.name}-${release}/${classesDir}">
                 <patternset>
                     <include name="**/*.properties"/>
                 </patternset>
@@ -182,10 +141,12 @@
                 <patternset>
                     <include name="license.txt"/>
                     <include name="readme.txt"/>
-                    <include name="${libFiles}"/>
+                    <include name="${libDir}/**/*.jar"/>
+                    <include name="${libDir}/**/*.lic"/>
                     <include name="${etcFiles}"/>
                     <include name="${docsFiles}"/>
                     <exclude name="${docsDir}/**/*.txt"/>
+                    <exclude name="${libDir}/build"/>
                 </patternset>
             </tarfileset>
             <tarfileset dir="." prefix="${ant.project.name}-${release}" mode="755">
@@ -194,7 +155,7 @@
                     <exclude name="${binDir}/**/*.*"/>
                 </patternset>
             </tarfileset>
-            <tarfileset dir="${srcDir}" prefix="${ant.project.name}-${release}/${classesDir}">
+            <tarfileset dir="${srcDir}/resources" prefix="${ant.project.name}-${release}/${classesDir}">
                 <patternset>
                     <include name="**/*.properties"/>
                 </patternset>
@@ -205,6 +166,8 @@
     <target name="jar" depends="compile"
             description="Builds the main application JAR file">
         <copy file="lib/build/libs/lib.jar" tofile="${jarFile}"/>
+        <copy file="lib/build/libs/lib-javadoc.jar" tofile="${javadocFile}"/>
+        <copy file="lib/build/libs/lib-sources.jar" tofile="${sourcesFile}"/>
     </target>
 
     <target name="war" depends="jar">
@@ -255,6 +218,20 @@
         <delete dir="${logsDir}" verbose="true"/>
     </target>
 
+    <target name="cleandocs" depends="init">
+        <delete verbose="true">
+            <fileset dir="${docsDir}">
+                <patternset>
+                    <include name="**/*.html"/>
+                    <exclude name="index.html"/>
+                    <exclude name="Menu.html"/>
+                    <exclude name="Title.html"/>
+                    <exclude name="tasks/**"/>
+                </patternset>
+            </fileset>
+        </delete>
+    </target>
+
     <target name="cleanbin" depends="init">
         <exec executable="perl"
               dir="${binDir}">
@@ -274,9 +251,11 @@
         </exec>
     </target>
 
-    <target name="realclean" depends="clearlogs, cleanbin, clean"
+    <target name="realclean" depends="clearlogs, cleandocs, cleanbin, clean"
             description="Removes all produced files">
         <delete file="${jarFile}"/>
+        <delete file="${javadocFile}"/>
+        <delete file="${sourcesFile}"/>
     </target>
 
     <target name="distclean" depends="realclean"
