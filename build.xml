@@ -122,7 +122,6 @@
                     <include name="${etcFiles}"/>
                     <include name="${docsFiles}"/>
                     <exclude name="${docsDir}/**/*.txt"/>
-                    <exclude name="${libDir}/build"/>
                 </patternset>
             </zipfileset>
             <zipfileset dir="${srcDir}/resources" prefix="${ant.project.name}-${release}/${classesDir}">
@@ -139,12 +138,11 @@
                 <patternset>
                     <include name="license.txt"/>
                     <include name="readme.txt"/>
-                    <include name="${libDir}/**/*.jar"/>
-                    <include name="${libDir}/**/*.lic"/>
+                    <include name="${libDir}/*.jar"/>
+                    <include name="${libDir}/*.lic"/>
                     <include name="${etcFiles}"/>
                     <include name="${docsFiles}"/>
                     <exclude name="${docsDir}/**/*.txt"/>
-                    <exclude name="${libDir}/build"/>
                 </patternset>
             </tarfileset>
             <tarfileset dir="." prefix="${ant.project.name}-${release}" mode="755">
