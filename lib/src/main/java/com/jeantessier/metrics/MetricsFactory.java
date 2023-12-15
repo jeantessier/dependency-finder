@@ -168,8 +168,8 @@ public class MetricsFactory {
         return Collections.unmodifiableCollection(includedGroups.values());
     }
 
-    public Collection<Metrics> getGroupMetrics(String classsName) {
-        return getConfiguration().getGroups(classsName).stream()
+    public Collection<Metrics> getGroupMetrics(String className) {
+        return getConfiguration().getGroups(className).stream()
                 .map(this::createGroupMetrics)
                 .collect(toCollection(HashSet::new));
     }
