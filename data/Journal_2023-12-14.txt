@@ -1,0 +1,12 @@
+I merged the migration to Gradle back into the =master= branch.  I verified
+that everything works: exec environment, distribution files, WAR file, and the
+Docker image.  I still need Ant at the top level to coordinate some last
+cross-project dependencies, until I can figure out how to do it from within
+Gradle.
+
+Adjusted the Docker instructions to use Gradle instead.
+
+Refreshed the Tutorial on the website.  The old HTML was geared towards
+Internet Explorer and no longer works in modern browsers.  I don't have access
+to PowerPoint anymore, so I loaded it in Apple's Keynote and saved as HTML
+again.  I also added a PDF version.

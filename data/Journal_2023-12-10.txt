@@ -1,0 +1,11 @@
+Moved the remaining =build.test.xml= logic to =build.xml=.  Moved the last bits
+of =tests/JarJarDiff= to the =:integration-tests:jarjardiff= subproject.
+Cleaned up tests and their imports.
+
+Removed source and =*.bz2= distribution archives.  The sources are
+automatically available via GitHub; it even puts them as release files without
+having to ask for it.
+
+Skipped all =:webapp= tests.  I had to convert them to JUnit 4 so I could use
+=@Ignore= to skip them.  Now, I can just type =./gradle check= and it runs all
+tests across all subprojects (and skips the HttpUnit tests).
