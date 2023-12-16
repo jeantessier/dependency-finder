@@ -1,0 +1,9 @@
+I moved the Ant logic that was in =integration-tests/jarjardiff/build.xml= to
+the `:integration-tests:jarjardiff:old` Gradle subproject.  I managed to create
+the archives in the `old` subproject, but I'm not quite sure on the best way to
+move them back up to either the `jarjardiff` subproject or the
+`integration-tests` subproject.  For now, the tests that use these archives use
+explicit paths into the `old` subproject's `build/` folder.
+
+Now, I can run `./gradlew check` from a clean folder, and it takes care of
+everything.
