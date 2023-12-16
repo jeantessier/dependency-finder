@@ -49,7 +49,7 @@
             description="Compiles all classes">
         <exec executable="./gradlew">
             <arg value="assemble"/>
-            <env key="DEPENDENCY_FINDER_VERSION" value="${release}"/>
+            <env key="DEPENDENCY_FINDER_VERSION" value="${relea`se}"/>
             <env key="DEPENDENCY_FINDER_RELEASE_DATE" value="${NOW}"/>
         </exec>
     </target>
@@ -58,11 +58,7 @@
         Tests
     -->
 
-    <target name="jarjardiff.build" depends="init">
-        <ant dir="integration-tests/jarjardiff" target="build" inheritAll="false"/>
-    </target>
-
-    <target name="check" depends="jarjardiff.build"
+    <target name="check" depends="init"
             description="Runs all tests and generates a test run report">
         <exec executable="./gradlew">
             <arg value="check"/>
@@ -237,11 +233,7 @@
         </exec>
     </target>
 
-    <target name="jarjardiff.clean" depends="init">
-        <ant dir="integration-tests/jarjardiff" target="clean" inheritAll="false"/>
-    </target>
-
-    <target name="clean" depends="jarjardiff.clean">
+    <target name="clean" depends="init">
         <exec executable="./gradlew">
             <arg value="clean"/>
         </exec>

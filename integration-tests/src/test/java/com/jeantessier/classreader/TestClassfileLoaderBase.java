@@ -40,7 +40,7 @@ import junit.framework.*;
 import org.apache.log4j.*;
 
 public abstract class TestClassfileLoaderBase extends TestCase implements LoadListener {
-    private static final Path TEST_DIR = Paths.get("jarjardiff");
+    private static final Path TEST_DIR = Paths.get("jarjardiff/old/build/archives");
     public static final String ONELEVEL_JAR = TEST_DIR.resolve("onelevel.jar").toString();
     public static final String ONELEVEL_MISC = TEST_DIR.resolve("onelevel.mis").toString();
     public static final String ONELEVEL_ZIP = TEST_DIR.resolve("onelevel.zip").toString();

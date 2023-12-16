@@ -73,58 +73,6 @@ public class TestClassfileLoaderPermissiveDispatcher extends TestClassfileLoader
         loader.load(Collections.singleton(filename));
 
         assertEquals("Begin Session",    1, getBeginSessionEvents().size());
-        assertEquals("Begin Group",      1, getBeginGroupEvents().size());
-        assertEquals("Begin File",      31, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 14, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   14, getEndClassfileEvents().size());
-        assertEquals("End File",        31, getEndFileEvents().size());
-        assertEquals("End Group",        1, getEndGroupEvents().size());
-        assertEquals("End Session",      1, getEndSessionEvents().size());
-
-        assertEquals("Group size", 31, getBeginGroupEvents().getFirst().getSize());
-    }
-
-    public void testOneLevelJar() {
-        String filename = ONELEVEL_JAR;
-        assertTrue(filename + " missing", new File(filename).exists());
-        
-        loader.load(Collections.singleton(filename));
-
-        assertEquals("Begin Session",    1, getBeginSessionEvents().size());
-        assertEquals("Begin Group",      1, getBeginGroupEvents().size());
-        assertEquals("Begin File",      33, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 14, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   14, getEndClassfileEvents().size());
-        assertEquals("End File",        33, getEndFileEvents().size());
-        assertEquals("End Group",        1, getEndGroupEvents().size());
-        assertEquals("End Session",      1, getEndSessionEvents().size());
-
-        assertEquals("Group size", 33, getBeginGroupEvents().getFirst().getSize());
-    }
-    
-    public void testOneLevelMiscellaneous() {
-        String filename = ONELEVEL_MISC;
-        assertTrue(filename + " missing", new File(filename).exists());
-        
-        loader.load(Collections.singleton(filename));
-
-        assertEquals("Begin Session",    1, getBeginSessionEvents().size());
-        assertEquals("Begin Group",      1, getBeginGroupEvents().size());
-        assertEquals("Begin File",      31, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 14, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   14, getEndClassfileEvents().size());
-        assertEquals("End File",        31, getEndFileEvents().size());
-        assertEquals("End Group",        1, getEndGroupEvents().size());
-        assertEquals("End Session",      1, getEndSessionEvents().size());
-    }
-
-    public void testTwoLevelZip() {
-        String filename = TWOLEVEL_ZIP;
-        assertTrue(filename + " missing", new File(filename).exists());
-        
-        loader.load(Collections.singleton(filename));
-
-        assertEquals("Begin Session",    1, getBeginSessionEvents().size());
         assertEquals("Begin Group",      2, getBeginGroupEvents().size());
         assertEquals("Begin File",      32, getBeginFileEvents().size());
         assertEquals("Begin Classfile", 14, getBeginClassfileEvents().size());
@@ -132,10 +80,12 @@ public class TestClassfileLoaderPermissiveDispatcher extends TestClassfileLoader
         assertEquals("End File",        32, getEndFileEvents().size());
         assertEquals("End Group",        2, getEndGroupEvents().size());
         assertEquals("End Session",      1, getEndSessionEvents().size());
+
+        assertEquals("Group size", 32, getBeginGroupEvents().getFirst().getSize());
     }
 
-    public void testTwoLevelJar() {
-        String filename = TWOLEVEL_JAR;
+    public void testOneLevelJar() {
+        String filename = ONELEVEL_JAR;
         assertTrue(filename + " missing", new File(filename).exists());
         
         loader.load(Collections.singleton(filename));
@@ -148,10 +98,12 @@ public class TestClassfileLoaderPermissiveDispatcher extends TestClassfileLoader
         assertEquals("End File",        34, getEndFileEvents().size());
         assertEquals("End Group",        2, getEndGroupEvents().size());
         assertEquals("End Session",      1, getEndSessionEvents().size());
+
+        assertEquals("Group size", 34, getBeginGroupEvents().getFirst().getSize());
     }
     
-    public void testTwoLevelMiscellaneous() {
-        String filename = TWOLEVEL_MISC;
+    public void testOneLevelMiscellaneous() {
+        String filename = ONELEVEL_MISC;
         assertTrue(filename + " missing", new File(filename).exists());
         
         loader.load(Collections.singleton(filename));
@@ -163,6 +115,54 @@ public class TestClassfileLoaderPermissiveDispatcher extends TestClassfileLoader
         assertEquals("End Classfile",   14, getEndClassfileEvents().size());
         assertEquals("End File",        32, getEndFileEvents().size());
         assertEquals("End Group",        2, getEndGroupEvents().size());
+        assertEquals("End Session",      1, getEndSessionEvents().size());
+    }
+
+    public void testTwoLevelZip() {
+        String filename = TWOLEVEL_ZIP;
+        assertTrue(filename + " missing", new File(filename).exists());
+        
+        loader.load(Collections.singleton(filename));
+
+        assertEquals("Begin Session",    1, getBeginSessionEvents().size());
+        assertEquals("Begin Group",      3, getBeginGroupEvents().size());
+        assertEquals("Begin File",      33, getBeginFileEvents().size());
+        assertEquals("Begin Classfile", 14, getBeginClassfileEvents().size());
+        assertEquals("End Classfile",   14, getEndClassfileEvents().size());
+        assertEquals("End File",        33, getEndFileEvents().size());
+        assertEquals("End Group",        3, getEndGroupEvents().size());
+        assertEquals("End Session",      1, getEndSessionEvents().size());
+    }
+
+    public void testTwoLevelJar() {
+        String filename = TWOLEVEL_JAR;
+        assertTrue(filename + " missing", new File(filename).exists());
+        
+        loader.load(Collections.singleton(filename));
+
+        assertEquals("Begin Session",    1, getBeginSessionEvents().size());
+        assertEquals("Begin Group",      3, getBeginGroupEvents().size());
+        assertEquals("Begin File",      35, getBeginFileEvents().size());
+        assertEquals("Begin Classfile", 14, getBeginClassfileEvents().size());
+        assertEquals("End Classfile",   14, getEndClassfileEvents().size());
+        assertEquals("End File",        35, getEndFileEvents().size());
+        assertEquals("End Group",        3, getEndGroupEvents().size());
+        assertEquals("End Session",      1, getEndSessionEvents().size());
+    }
+    
+    public void testTwoLevelMiscellaneous() {
+        String filename = TWOLEVEL_MISC;
+        assertTrue(filename + " missing", new File(filename).exists());
+        
+        loader.load(Collections.singleton(filename));
+
+        assertEquals("Begin Session",    1, getBeginSessionEvents().size());
+        assertEquals("Begin Group",      3, getBeginGroupEvents().size());
+        assertEquals("Begin File",      33, getBeginFileEvents().size());
+        assertEquals("Begin Classfile", 14, getBeginClassfileEvents().size());
+        assertEquals("End Classfile",   14, getEndClassfileEvents().size());
+        assertEquals("End File",        33, getEndFileEvents().size());
+        assertEquals("End Group",        3, getEndGroupEvents().size());
         assertEquals("End Session",      1, getEndSessionEvents().size());
     }
 }
