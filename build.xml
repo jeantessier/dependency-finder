@@ -49,7 +49,7 @@
             description="Compiles all classes">
         <exec executable="./gradlew">
             <arg value="assemble"/>
-            <env key="DEPENDENCY_FINDER_VERSION" value="${relea`se}"/>
+            <env key="DEPENDENCY_FINDER_VERSION" value="${release}"/>
             <env key="DEPENDENCY_FINDER_RELEASE_DATE" value="${NOW}"/>
         </exec>
     </target>
