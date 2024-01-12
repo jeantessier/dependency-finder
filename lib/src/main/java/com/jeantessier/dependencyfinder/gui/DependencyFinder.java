@@ -49,19 +49,14 @@ import com.jeantessier.dependency.PackageNode;
 import com.jeantessier.dependency.RegularExpressionSelectionCriteria;
 import com.jeantessier.dependency.SelectiveTraversalStrategy;
 import com.jeantessier.dependency.TransitiveClosure;
-import com.jeantessier.dependency.TraversalStrategy;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
+import javax.swing.border.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedList;
+import java.awt.event.*;
+import java.io.*;
+import java.util.*;
 
 public class DependencyFinder extends JFrame {
     private static final String DEFAULT_FONT_NAME = "Monospaced";
@@ -285,14 +280,14 @@ public class DependencyFinder extends JFrame {
 
         action = new DependencyExtractAction(this);
         menuItem = fileMenu.add(action);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, Event.CTRL_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK));
         menuItem.setMnemonic('e');
         button = toolbar.add(action);
         button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 
         action = new RefreshDependencyGraphAction(this);
         menuItem = fileMenu.add(action);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, Event.CTRL_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK));
         menuItem.setMnemonic('r');
         button = toolbar.add(action);
         button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
@@ -302,14 +297,14 @@ public class DependencyFinder extends JFrame {
         
         action = new OpenFileAction(this);
         menuItem = fileMenu.add(action);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Event.CTRL_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
         menuItem.setMnemonic('o');
         button = toolbar.add(action);
         button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
         
         action = new SaveFileAction(this, commandLine.getSingleSwitch("encoding"), commandLine.getSingleSwitch("dtd-prefix"));
         menuItem = fileMenu.add(action);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
         menuItem.setMnemonic('s');
         button = toolbar.add(action);
         button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
@@ -323,7 +318,7 @@ public class DependencyFinder extends JFrame {
         
         action = new NewDependencyGraphAction(this);
         menuItem = fileMenu.add(action);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Event.CTRL_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
         menuItem.setMnemonic('n');
         button = toolbar.add(action);
         button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
@@ -333,28 +328,28 @@ public class DependencyFinder extends JFrame {
         
         action = new DependencyQueryAction(this);
         menuItem = fileMenu.add(action);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, Event.CTRL_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK));
         menuItem.setMnemonic('d');
         button = toolbar.add(action);
         button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 
         action = new ClosureQueryAction(this);
         menuItem = fileMenu.add(action);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, Event.CTRL_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK));
         menuItem.setMnemonic('c');
         button = toolbar.add(action);
         button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 
         action = new MetricsQueryAction(this);
         menuItem = fileMenu.add(action);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, Event.CTRL_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_DOWN_MASK));
         menuItem.setMnemonic('m');
         button = toolbar.add(action);
         button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
 
         action = new AllQueriesAction(this);
         menuItem = fileMenu.add(action);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Event.CTRL_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK));
         menuItem.setMnemonic('a');
         button = toolbar.add(action);
         button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
@@ -364,7 +359,7 @@ public class DependencyFinder extends JFrame {
 
         action = new ExitAction(this);
         menuItem = fileMenu.add(action);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.CTRL_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK));
         menuItem.setMnemonic('x');
     }
     
@@ -1098,7 +1093,7 @@ public class DependencyFinder extends JFrame {
     }
     
     void doDependencyQuery() {
-        RegularExpressionSelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria();
+        var scopeCriteria = new RegularExpressionSelectionCriteria();
         
         scopeCriteria.setMatchingPackages(packageScope.isSelected());
         scopeCriteria.setMatchingClasses(classScope.isSelected());
@@ -1115,7 +1110,7 @@ public class DependencyFinder extends JFrame {
             scopeCriteria.setFeatureExcludes(featureScopeExcludes.getText());
         }
     
-        RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
+        var filterCriteria = new RegularExpressionSelectionCriteria();
         
         filterCriteria.setMatchingPackages(packageFilter.isSelected());
         filterCriteria.setMatchingClasses(classFilter.isSelected());
@@ -1133,7 +1128,7 @@ public class DependencyFinder extends JFrame {
         }
 
         if ((isAdvancedMode() && copyOnly.isSelected()) || getMaximize()) {
-            TraversalStrategy strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
+            var strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
             dependenciesQuery = new GraphCopier(strategy);
         } else {
             dependenciesQuery = new GraphSummarizer(scopeCriteria, filterCriteria);
@@ -1146,15 +1141,15 @@ public class DependencyFinder extends JFrame {
 
     void refreshDependenciesDisplay() {
         if (dependenciesQuery != null) {
-            StringWriter out = new StringWriter();
-            com.jeantessier.dependency.TextPrinter printer = new com.jeantessier.dependency.TextPrinter(new PrintWriter(out));
+            var out = new StringWriter();
+            var printer = new com.jeantessier.dependency.TextPrinter(new PrintWriter(out));
 
             printer.setShowInbounds(showInbounds.isSelected());
             printer.setShowOutbounds(showOutbounds.isSelected());
             printer.setShowEmptyNodes(showEmptyNodes.isSelected());
-            
+
             printer.traverseNodes(dependenciesQuery.getScopeFactory().getPackages().values());
-            
+
             dependenciesResultArea.setText(out.toString());
         }
     }
@@ -1164,7 +1159,7 @@ public class DependencyFinder extends JFrame {
     }
     
     void doClosureQuery() {
-        RegularExpressionSelectionCriteria startCriteria = new RegularExpressionSelectionCriteria();
+        var startCriteria = new RegularExpressionSelectionCriteria();
         
         startCriteria.setGlobalIncludes(scopeIncludes.getText());
         startCriteria.setGlobalExcludes(scopeExcludes.getText());
@@ -1178,7 +1173,7 @@ public class DependencyFinder extends JFrame {
             startCriteria.setFeatureExcludes(featureScopeExcludes.getText());
         }
     
-        RegularExpressionSelectionCriteria stopCriteria = new RegularExpressionSelectionCriteria();
+        var stopCriteria = new RegularExpressionSelectionCriteria();
         
         stopCriteria.setGlobalIncludes(filterIncludes.getText());
         stopCriteria.setGlobalExcludes(filterExcludes.getText());
@@ -1192,7 +1187,7 @@ public class DependencyFinder extends JFrame {
             stopCriteria.setFeatureExcludes(featureFilterExcludes.getText());
         }
 
-        TransitiveClosure selector = new TransitiveClosure(startCriteria, stopCriteria);
+        var selector = new TransitiveClosure(startCriteria, stopCriteria);
 
         try {
             selector.setMaximumInboundDepth(Long.parseLong(maximumInboundDepth.getText()));
@@ -1208,25 +1203,25 @@ public class DependencyFinder extends JFrame {
         
         selector.traverseNodes(getPackages());
 
-        RegularExpressionSelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria();
+        var scopeCriteria = new RegularExpressionSelectionCriteria();
         
         scopeCriteria.setMatchingPackages(packageScope.isSelected());
         scopeCriteria.setMatchingClasses(classScope.isSelected());
         scopeCriteria.setMatchingFeatures(featureScope.isSelected());
         scopeCriteria.setGlobalIncludes("//");
 
-        RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
+        var filterCriteria = new RegularExpressionSelectionCriteria();
         
         filterCriteria.setMatchingPackages(packageFilter.isSelected());
         filterCriteria.setMatchingClasses(classFilter.isSelected());
         filterCriteria.setMatchingFeatures(featureFilter.isSelected());
         filterCriteria.setGlobalIncludes("//");
 
-        GraphSummarizer summarizer = new GraphSummarizer(scopeCriteria, filterCriteria);
+        var summarizer = new GraphSummarizer(scopeCriteria, filterCriteria);
         summarizer.traverseNodes(selector.getFactory().getPackages().values());
         
-        StringWriter out = new StringWriter();
-        com.jeantessier.dependency.Printer printer = new com.jeantessier.dependency.TextPrinter(new PrintWriter(out));
+        var out = new StringWriter();
+        var printer = new com.jeantessier.dependency.TextPrinter(new PrintWriter(out));
         printer.traverseNodes(summarizer.getScopeFactory().getPackages().values());
         closureResultArea.setText(out.toString());
     }
@@ -1236,7 +1231,7 @@ public class DependencyFinder extends JFrame {
     }
     
     void doMetricsQuery() {
-        RegularExpressionSelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria();
+        var scopeCriteria = new RegularExpressionSelectionCriteria();
         
         scopeCriteria.setMatchingPackages(packageScope.isSelected());
         scopeCriteria.setMatchingClasses(classScope.isSelected());
@@ -1253,7 +1248,7 @@ public class DependencyFinder extends JFrame {
             scopeCriteria.setFeatureExcludes(featureScopeExcludes.getText());
         }
     
-        RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
+        var filterCriteria = new RegularExpressionSelectionCriteria();
         
         filterCriteria.setMatchingPackages(packageFilter.isSelected());
         filterCriteria.setMatchingClasses(classFilter.isSelected());
@@ -1270,13 +1265,13 @@ public class DependencyFinder extends JFrame {
             filterCriteria.setFeatureExcludes(featureFilterExcludes.getText());
         }
 
-        TraversalStrategy                          strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
-        com.jeantessier.dependency.MetricsGatherer metrics  = new com.jeantessier.dependency.MetricsGatherer(strategy);
+        var strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
+        var metrics  = new com.jeantessier.dependency.MetricsGatherer(strategy);
         
         metrics.traverseNodes(getPackages());
 
-        StringWriter out = new StringWriter();
-        MetricsReport report = new MetricsReport(new PrintWriter(out));
+        var out = new StringWriter();
+        var report = new MetricsReport(new PrintWriter(out));
         report.process(metrics);
         
         metricsResultArea.setText(out.toString());
@@ -1287,11 +1282,11 @@ public class DependencyFinder extends JFrame {
         setInputFiles(new LinkedList<>());
         setClassfileLoaderDispatcher(new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER));
 
-        NodeFactory factory = new NodeFactory();
+        var factory = new NodeFactory();
         setNodeFactory(factory);
 
-        CodeDependencyCollector collector       = new CodeDependencyCollector(factory);
-        DeletingVisitor         deletingVisitor = new DeletingVisitor(factory);
+        var collector = new CodeDependencyCollector(factory);
+        var deletingVisitor = new DeletingVisitor(factory);
         setMonitor(new Monitor(collector, deletingVisitor));
 
         resetQuery();
