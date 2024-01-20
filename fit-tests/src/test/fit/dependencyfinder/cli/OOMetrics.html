@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
 
 <head>
 <title>OO Metrics</title>
@@ -8,7 +8,7 @@
 
 <h1>OO Metrics</h1>
 
-<table border="1">
+<table>
     <tr>
         <td colspan="2">com.jeantessier.dependencyfinder.cli.CommandFixture</td>
     </tr>
@@ -20,7 +20,7 @@
 
 <h2>Checking known switches</h2>
 
-<table border="1">
+<table>
     <tr><td colspan="3">switches</td></tr>
     <tr><td>name</td><td>default value</td><td>mandatory</td></tr>
     <tr><td>classes</td><td>false</td><td>false</td></tr>
@@ -62,7 +62,7 @@
 
 <h2>Checking aliases</h2>
 
-<table border="1">
+<table>
     <tr><td>parse</td><td colspan="4">-default-configuration foobar -txt</td></tr>
     <tr><td>check</td><td>is</td><td>project</td><td>present</td><td>true</td></tr>
     <tr><td>check</td><td>is</td><td>groups</td><td>present</td><td>true</td></tr>
@@ -70,7 +70,7 @@
     <tr><td>check</td><td>is</td><td>methods</td><td>present</td><td>true</td></tr>
 </table>
 
-<table border="1">
+<table>
     <tr><td>parse</td><td colspan="4">-default-configuration foobar -txt -project</td></tr>
     <tr><td>check</td><td>is</td><td>project</td><td>present</td><td>true</td></tr>
     <tr><td>check</td><td>is</td><td>groups</td><td>present</td><td>false</td></tr>
@@ -78,7 +78,7 @@
     <tr><td>check</td><td>is</td><td>methods</td><td>present</td><td>false</td></tr>
 </table>
 
-<table border="1">
+<table>
     <tr><td>parse</td><td colspan="4">-default-configuration foobar -txt -project -classes</td></tr>
     <tr><td>check</td><td>is</td><td>project</td><td>present</td><td>true</td></tr>
     <tr><td>check</td><td>is</td><td>groups</td><td>present</td><td>false</td></tr>
@@ -96,41 +96,41 @@ special in that they are valid command-lines but do not result in the normal
 running of the application.  This is why I test them using a "check ... false"
 construct.</p>
 
-<table border="1">
+<table>
     <tr><td>reject</td><td>parse</td><td></td><td>and validate</td></tr>
 </table>
 
-<table border="1">
+<table>
     <tr><td>reject</td><td>parse</td><td>-default-configuration foobar</td><td>and validate</td></tr>
 </table>
 
-<table border="1">
+<table>
     <tr><td>ensure</td><td>parse</td><td>-default-configuration foobar -txt</td><td>and validate</td></tr>
 </table>
 
-<table border="1">
+<table>
     <tr><td>reject</td><td>parse</td><td>-default-configuration foobar -txt -csv</td><td>and validate</td></tr>
 </table>
 
-<table border="1">
+<table>
     <tr><td>check</td><td>parse</td><td>-echo</td><td>and validate</td><td>false</td></tr>
 </table>
 
-<table border="1">
+<table>
     <tr><td>check</td><td>parse</td><td>-default-configuration foobar -echo</td><td>and validate</td><td>false</td></tr>
 </table>
 
-<table border="1">
+<table>
     <tr><td>check</td><td>parse</td><td>-help</td><td>and validate</td><td>false</td></tr>
 </table>
 
-<table border="1">
+<table>
     <tr><td>check</td><td>parse</td><td>-version</td><td>and validate</td><td>false</td></tr>
 </table>
 
 <hr/>
 
-<table border="1">
+<table>
     <tr>
         <td colspan="3">fit.Summary</td>
     </tr>

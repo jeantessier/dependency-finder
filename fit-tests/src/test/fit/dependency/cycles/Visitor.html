@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
 
 <head>
 <title>Visitor Cycle</title>
@@ -8,7 +8,7 @@
 
 <h1>Visitor Cycle</h1>
 
-<table border="1">
+<table>
     <tr>
         <td>com.jeantessier.dependency.CycleDetectorFixture</td>
     </tr>
@@ -20,7 +20,7 @@
 
 <p>Create the nodes</p>
 
-<table border="1">
+<table>
     <tr>
         <td>create</td>
         <td>BaseClass</td>
@@ -28,7 +28,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>create</td>
         <td>BaseClass.accept(Visitor)</td>
@@ -36,7 +36,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>create</td>
         <td>ClassA</td>
@@ -44,7 +44,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>create</td>
         <td>ClassA.accept(Visitor)</td>
@@ -52,7 +52,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>create</td>
         <td>ClassB</td>
@@ -60,7 +60,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>create</td>
         <td>ClassB.accept(Visitor)</td>
@@ -68,7 +68,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>create</td>
         <td>Visitor</td>
@@ -76,7 +76,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>create</td>
         <td>Visitor.visitClassA(ClassA)</td>
@@ -84,7 +84,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>create</td>
         <td>Visitor.visitClassB(ClassB)</td>
@@ -94,7 +94,7 @@
 
 <p>Create the dependencies.</p>
 
-<table border="1">
+<table>
     <tr>
         <td>source</td>
         <td>BaseClass.accept(Visitor)</td>
@@ -103,7 +103,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>source</td>
         <td>ClassA</td>
@@ -112,7 +112,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>source</td>
         <td>ClassA.accept(Visitor)</td>
@@ -121,7 +121,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>source</td>
         <td>ClassA.accept(Visitor)</td>
@@ -130,7 +130,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>source</td>
         <td>ClassB</td>
@@ -139,7 +139,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>source</td>
         <td>ClassB.accept(Visitor)</td>
@@ -148,7 +148,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>source</td>
         <td>ClassB.accept(Visitor)</td>
@@ -157,7 +157,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>source</td>
         <td>Visitor.visitClassA(ClassA)</td>
@@ -166,7 +166,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>source</td>
         <td>Visitor.visitClassB(ClassB)</td>
@@ -177,7 +177,7 @@
 
 <h2>Exercise</h2>
 
-<table border="1">
+<table>
     <tr>
         <td>detect cycles</td>
     </tr>
@@ -187,7 +187,7 @@
 
 <p>Check number of cycles and their length</p>
 
-<table border="1">
+<table>
     <tr>
         <td>cycles</td>
     </tr>
@@ -216,7 +216,7 @@
 
 <p>Check individual cycles</p>
 
-<table border="1">
+<table>
     <tr>
         <td>path for cycle</td>
         <td>0</td>
@@ -235,7 +235,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>path for cycle</td>
         <td>1</td>
@@ -254,7 +254,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>path for cycle</td>
         <td>2</td>
@@ -276,7 +276,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>path for cycle</td>
         <td>3</td>
@@ -298,7 +298,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>path for cycle</td>
         <td>4</td>
@@ -323,7 +323,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>path for cycle</td>
         <td>5</td>
@@ -350,7 +350,7 @@
 
 <hr/>
 
-<table border="1">
+<table>
     <tr>
         <td colspan="3">fit.Summary</td>
     </tr>

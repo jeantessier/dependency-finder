@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
 
 <head>
 <title>Feature Resolver - Simple Case</title>
@@ -10,7 +10,7 @@
 
 <h2>Setup</h2>
 
-<table border="1">
+<table>
     <tr>
         <td>com.jeantessier.dependency.FeatureResolverFixture</td>
     </tr>
@@ -18,7 +18,7 @@
 
 <p>Create some nodes</p>
 
-<table border="1">
+<table>
     <tr>
         <td>create</td>
         <td>Caller.source()</td>
@@ -26,7 +26,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>create</td>
         <td>Parent.target()</td>
@@ -34,7 +34,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>create</td>
         <td>Child.target()</td>
@@ -44,7 +44,7 @@
 
 <p>Add inheritance information</p>
 
-<table border="1">
+<table>
     <tr>
         <td>child</td>
         <td>Child</td>
@@ -55,7 +55,7 @@
 
 <p>Create a feature-to-feature dependency.</p>
 
-<table border="1">
+<table>
     <tr>
         <td>source</td>
         <td>Caller.source()</td>
@@ -66,7 +66,7 @@
 
 <h2>Exercise</h2>
 
-<table border="1">
+<table>
     <tr>
         <td>resolve features</td>
     </tr>
@@ -74,7 +74,7 @@
 
 <h2>Verify</h2>
 
-<table border="1">
+<table>
     <tr>
         <td>outbound dependencies from</td>
         <td>Caller.source()</td>
@@ -90,7 +90,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>inbound dependencies to</td>
         <td>Parent.target()</td>
@@ -103,7 +103,7 @@
     </tr>
 </table>
 
-<table border="1">
+<table>
     <tr>
         <td>inbound dependencies to</td>
         <td>Child.target()</td>
@@ -118,7 +118,7 @@
 
 <hr/>
 
-<table border="1">
+<table>
     <tr>
         <td colspan="3">fit.Summary</td>
     </tr>
