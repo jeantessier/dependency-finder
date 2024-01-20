@@ -1,0 +1,16 @@
+I'm looking into what it would take to include Java modules as an additional
+layer of the dependency graph, above packages.  The =Module= attribute has
+=requires= structures to get the modules that are dependencies of the current
+module, and =uses= structures for services, possibly in other modules, that it
+references.  I could use the =ModulePackages= attribute lists the packages in a
+module, but I would need some mechanism to unclaimed packages to the default
+_unnamed_ module.
+
+The =Node= hierarchy is not an articulation point in the design of Dependency
+Finder.  Adding a new kind of dependency would have a sizeable impact (i.e., a
+large blast radius).
+
+As I was looking at Fit tests, my IDE kept complaining that
+=&lt;table border="1"%gt;= is no longer valid HTML.  I tried replacing it with
+CSS, only to realize that the FitNesse CSS was overwriting it anyway.  I took
+the opportunity to remove all these obsolete =border= attributes in Fit tests.
