@@ -11,6 +11,7 @@ Finder.  Adding a new kind of dependency would have a sizeable impact (i.e., a
 large blast radius).
 
 As I was looking at Fit tests, my IDE kept complaining that
-=&lt;table border="1"&gt;= is no longer valid HTML.  I tried replacing it with
-CSS, only to realize that the FitNesse CSS was overwriting it anyway.  I took
-the opportunity to remove all these obsolete =border= attributes in Fit tests.
+=&lt;table border%3D"1"&gt;= is no longer valid HTML.  I tried replacing it
+with CSS, only to realize that the FitNesse CSS was overwriting it anyway.  I
+took the opportunity to remove all these obsolete =border= attributes in Fit
+tests.
