@@ -80,7 +80,7 @@
     </xsl:template>
 
     <xsl:template match="measurement[minimum]">
-        <span class="measurementname"><xsl:value-of select="long-name"/></span>: <span class="measurementvalue"><xsl:value-of select="value"/> [<xsl:value-of select="minimum"/>, <xsl:value-of select="median"/>, <xsl:value-of select="average"/>, <xsl:value-of select="standard-deviation"/>, <xsl:value-of select="maximum"/>, <xsl:value-of select="sum"/>, <xsl:value-of select="nb-data-points"/>]</span><br />
+        <span class="measurementname"><xsl:value-of select="long-name"/></span>: <span class="measurementvalue"><xsl:value-of select="value"/> [min: <xsl:value-of select="minimum"/>, median: <xsl:value-of select="median"/>, avg: <xsl:value-of select="average"/>, &#x3C3;: <xsl:value-of select="standard-deviation"/>, max: <xsl:value-of select="maximum"/>, &#x3A3;: <xsl:value-of select="sum"/>, n: <xsl:value-of select="nb-data-points"/>]</span><br />
     </xsl:template>
 
     <xsl:template match="members">
