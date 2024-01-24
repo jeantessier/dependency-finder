@@ -38,8 +38,6 @@ import java.util.*;
 
 import junit.framework.*;
 
-import org.apache.log4j.*;
-
 public class TestAggregatingClassfileLoader extends TestCase {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
     public static final String TEST_CLASS    = "test";
@@ -48,15 +46,11 @@ public class TestAggregatingClassfileLoader extends TestCase {
     private AggregatingClassfileLoader loader;
 
     protected void setUp() throws Exception {
-        Logger.getLogger(getClass()).info("Starting test: " + getName());
+        super.setUp();
 
         loader = new AggregatingClassfileLoader();
     }
 
-    protected void tearDown() throws Exception {
-        Logger.getLogger(getClass()).info("End of " + getName());
-    }
-    
     public void testCreate() {
         assertEquals("Different number of class names",
                      0,

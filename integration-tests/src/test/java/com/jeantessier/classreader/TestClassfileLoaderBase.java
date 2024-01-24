@@ -37,8 +37,6 @@ import java.util.*;
 
 import junit.framework.*;
 
-import org.apache.log4j.*;
-
 public abstract class TestClassfileLoaderBase extends TestCase implements LoadListener {
     private static final Path TEST_DIR = Paths.get("jarjardiff/old/build/archives");
     public static final String ONELEVEL_JAR = TEST_DIR.resolve("onelevel.jar").toString();
@@ -60,8 +58,6 @@ public abstract class TestClassfileLoaderBase extends TestCase implements LoadLi
     protected void setUp() throws Exception {
         super.setUp();
         
-        Logger.getLogger(getClass()).info("Starting test: " + getName());
-
         beginSessionEvents = new LinkedList<>();
         beginGroupEvents = new LinkedList<>();
         beginFileEvents = new LinkedList<>();
@@ -70,12 +66,6 @@ public abstract class TestClassfileLoaderBase extends TestCase implements LoadLi
         endFileEvents = new LinkedList<>();
         endGroupEvents = new LinkedList<>();
         endSessionEvents = new LinkedList<>();
-    }
-
-    protected void tearDown() throws Exception {
-        Logger.getLogger(getClass()).info("End of " + getName());
-
-        super.tearDown();
     }
 
     protected LinkedList<LoadEvent> getBeginSessionEvents() {

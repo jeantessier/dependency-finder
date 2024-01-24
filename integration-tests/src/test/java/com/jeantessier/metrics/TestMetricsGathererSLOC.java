@@ -37,8 +37,6 @@ import junit.framework.*;
 import java.nio.file.*;
 import java.util.*;
 
-import org.apache.log4j.*;
-
 import com.jeantessier.classreader.*;
 
 public class TestMetricsGathererSLOC extends TestCase {
@@ -49,8 +47,6 @@ public class TestMetricsGathererSLOC extends TestCase {
     
     protected void setUp() throws Exception {
         super.setUp();
-
-        Logger.getLogger(getClass()).debug("Starting " + getName() + " ...");
 
         factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).load(Paths.get("../etc/MetricsConfig.xml").toString()));
 
@@ -64,14 +60,6 @@ public class TestMetricsGathererSLOC extends TestCase {
         }
     }
 
-    protected void tearDown() throws Exception {
-        try {
-            Logger.getLogger(getClass()).debug("Done with " + getName() + " ...");
-        } finally {
-            super.tearDown();
-        }
-    }
-    
     public void test_sloc_TestInterface() {
         assertEquals(BasicMeasurements.SLOC, 3, factory.createClassMetrics("sloc.TestInterface").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
         assertEquals("M", 2, factory.createClassMetrics("sloc.TestInterface").getMeasurement("M").getValue().intValue());

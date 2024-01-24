@@ -35,7 +35,6 @@ package com.jeantessier.metrics;
 import com.jeantessier.classreader.AggregatingClassfileLoader;
 import com.jeantessier.classreader.ClassfileLoader;
 import junit.framework.TestCase;
-import org.apache.log4j.Logger;
 
 import java.nio.file.*;
 import java.util.*;
@@ -52,8 +51,6 @@ public class TestMetricsGathererDependenciesFilter extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        Logger.getLogger(getClass()).debug("Starting " + getName() + " ...");
-        
         factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).load(Paths.get("../etc/MetricsConfig.xml").toString()));
 
         Collection<String> dirs = new ArrayList<>();
@@ -65,14 +62,6 @@ public class TestMetricsGathererDependenciesFilter extends TestCase {
         gatherer = new MetricsGatherer(factory);
     }
 
-    protected void tearDown() throws Exception {
-        try {
-            Logger.getLogger(getClass()).debug("Done with " + getName() + " ...");
-        } finally {
-            super.tearDown();
-        }
-    }
-    
     public void testpackage_TestClass_testMethod_withFilterForMethod() {
         Collection<String> filterIncludes = new HashSet<>();
         filterIncludes.add("testpackage.TestClass.targetMethod()");

@@ -37,8 +37,6 @@ import java.nio.file.*;
 
 import junit.framework.*;
 
-import org.apache.log4j.*;
-
 public class TestTransientClassfileLoader extends TestCase {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
     public static final String TEST_CLASS    = "test";
@@ -47,15 +45,11 @@ public class TestTransientClassfileLoader extends TestCase {
     private TransientClassfileLoader loader;
 
     protected void setUp() throws Exception {
-        Logger.getLogger(getClass()).info("Starting test: " + getName());
+        super.setUp();
 
         loader = new TransientClassfileLoader();
     }
 
-    protected void tearDown() throws Exception {
-        Logger.getLogger(getClass()).info("End of " + getName());
-    }
-    
     public void testCreate() {
         assertEquals("Different number of class names",
                      0,

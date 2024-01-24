@@ -32,13 +32,10 @@
 
 package com.jeantessier.dependency;
 
-import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
 import junit.framework.*;
-
-import org.apache.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -75,7 +72,7 @@ public class TestDependencyExtractor extends TestCase {
     private NodeFactory     testFactory;
 
     protected void setUp() throws Exception {
-        Logger.getLogger(getClass()).info("Starting test: " + getName());
+        super.setUp();
 
         factory = new NodeFactory();
 
@@ -120,10 +117,6 @@ public class TestDependencyExtractor extends TestCase {
         loader.getClassfile(TEST_CLASS).accept(new CodeDependencyCollector(testFactory));
     }
 
-    protected void tearDown() throws Exception {
-        Logger.getLogger(getClass()).info("End of " + getName());
-    }
-    
     public void testPackageList() {
         assertEquals("Different list of packages",
                      factory.getPackages().keySet(),
