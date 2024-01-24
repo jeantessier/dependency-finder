@@ -40,8 +40,6 @@ import javax.servlet.*;
 import com.meterware.httpunit.*;
 import com.meterware.servletunit.*;
 
-import org.apache.log4j.*;
-
 import org.junit.*;
 
 import com.jeantessier.dependency.*;
@@ -81,8 +79,6 @@ public abstract class TestBase {
 
     @Before
     public void setUp() throws Exception {
-        Logger.getLogger(getClass()).setLevel(Level.ALL);
-
         Random random = new Random();
 
         fooPackageName = "foo" + random.nextLong();
