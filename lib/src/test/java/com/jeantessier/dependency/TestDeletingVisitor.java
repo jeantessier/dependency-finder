@@ -34,8 +34,6 @@ package com.jeantessier.dependency;
 
 import junit.framework.*;
 
-import org.apache.log4j.*;
-
 public class TestDeletingVisitor extends TestCase {
     private NodeFactory factory;
     private DeletingVisitor visitor;
@@ -43,16 +41,8 @@ public class TestDeletingVisitor extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        Logger.getLogger(getClass()).debug("Begin " + getName());
-        
         factory = new NodeFactory();
         visitor = new DeletingVisitor(factory);
-    }
-
-    protected void tearDown() throws Exception {
-        Logger.getLogger(getClass()).debug("End " + getName());
-
-        super.tearDown();
     }
 
     public void testCreation() {

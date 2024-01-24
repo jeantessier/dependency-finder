@@ -34,23 +34,17 @@ package com.jeantessier.metrics;
 
 import junit.framework.*;
 
-import org.apache.log4j.*;
-
 public class TestStatisticalMeasurementEmpty extends TestCase {
     private StatisticalMeasurement measurement;
     private Metrics                metrics;
 
     protected void setUp() throws Exception {
-        Logger.getLogger(getClass()).info("Starting test: " + getName());
+        super.setUp();
 
         metrics = new Metrics("foo");
         measurement = new StatisticalMeasurement(null, metrics, "bar");
     }
     
-    protected void tearDown() throws Exception {
-        Logger.getLogger(getClass()).info("End of " + getName());
-    }
-
     public void testDirect() {
         Metrics m = new Metrics("m");
         m.track("bar", new CounterMeasurement(null, null, null));

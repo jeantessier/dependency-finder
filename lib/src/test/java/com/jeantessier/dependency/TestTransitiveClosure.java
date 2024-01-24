@@ -35,7 +35,6 @@ package com.jeantessier.dependency;
 import java.util.*;
 
 import junit.framework.*;
-import org.apache.log4j.*;
 
 public class TestTransitiveClosure extends TestCase {
     private NodeFactory factory;
@@ -48,8 +47,6 @@ public class TestTransitiveClosure extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        Logger.getLogger(getClass()).debug("Begin " + getName());
-        
         factory = new NodeFactory();
 
         var a_A_a = factory.createFeature("a.A.a");
@@ -63,16 +60,8 @@ public class TestTransitiveClosure extends TestCase {
         stopCriteria  = new RegularExpressionSelectionCriteria();
         
         selector = new TransitiveClosure(startCriteria, stopCriteria);
-
-        Logger.getLogger(getClass()).debug("Setup " + getName());
     }
     
-    protected void tearDown() throws Exception {
-        Logger.getLogger(getClass()).debug("Tear down " + getName());
-
-        super.tearDown();
-    }
-
     public void testZeroOutbound() {
         startCriteria.setGlobalIncludes("/a.A.a/");
         stopCriteria.setGlobalIncludes("/c.C.c/");

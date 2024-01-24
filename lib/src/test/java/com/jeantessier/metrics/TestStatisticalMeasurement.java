@@ -32,8 +32,7 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.TestCase;
-import org.apache.log4j.Logger;
+import junit.framework.*;
 
 public class TestStatisticalMeasurement extends TestCase implements MeasurementVisitor {
     private StatisticalMeasurement measurement;
@@ -41,14 +40,10 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
     private Measurement visited;
 
     protected void setUp() throws Exception {
-        Logger.getLogger(getClass()).info("Starting test: " + getName());
+        super.setUp();
 
         metrics = new Metrics("foo");
         measurement = new StatisticalMeasurement(null, metrics, "bar");
-    }
-
-    protected void tearDown() throws Exception {
-        Logger.getLogger(getClass()).info("End of " + getName());
     }
 
     public void testAdd() {

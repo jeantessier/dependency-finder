@@ -34,8 +34,6 @@ package com.jeantessier.metrics;
 
 import junit.framework.*;
 
-import org.apache.log4j.*;
-
 public class TestStatisticalMeasurementWithDispose extends TestCase {
     private Metrics m1;
     private Metrics m2;
@@ -52,7 +50,7 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
     private MeasurementDescriptor descriptor;
 
     protected void setUp() throws Exception {
-        Logger.getLogger(getClass()).info("Starting test: " + getName());
+        super.setUp();
 
         descriptor = new MeasurementDescriptor();
         descriptor.setShortName("bar");
@@ -95,10 +93,6 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
 
         g.addSubMetrics(c1);
         g.addSubMetrics(c2);
-    }
-
-    protected void tearDown() throws Exception {
-        Logger.getLogger(getClass()).info("End of " + getName());
     }
 
     public void testDefault() {

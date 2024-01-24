@@ -33,7 +33,6 @@
 package com.jeantessier.dependency;
 
 import junit.framework.*;
-import org.apache.log4j.*;
 
 public class TestGraphSummarizer extends TestCase {
     private RegularExpressionSelectionCriteria scopeCriteria;
@@ -52,7 +51,7 @@ public class TestGraphSummarizer extends TestCase {
     private GraphSummarizer summarizer;
 
     protected void setUp() throws Exception {
-        Logger.getLogger(getClass()).info("Starting test: " + getName());
+        super.setUp();
 
         scopeCriteria  = new RegularExpressionSelectionCriteria("//");
         filterCriteria = new RegularExpressionSelectionCriteria("//");
@@ -68,10 +67,6 @@ public class TestGraphSummarizer extends TestCase {
         b_B_b_method = factory.createFeature("b.B.b");
         
         summarizer = new GraphSummarizer(scopeCriteria, filterCriteria);
-    }
-
-    protected void tearDown() throws Exception {
-        Logger.getLogger(getClass()).info("End of " + getName());
     }
 
     public void testP2PasP2P() {

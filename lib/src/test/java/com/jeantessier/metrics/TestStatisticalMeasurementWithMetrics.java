@@ -34,8 +34,6 @@ package com.jeantessier.metrics;
 
 import junit.framework.*;
 
-import org.apache.log4j.*;
-
 public class TestStatisticalMeasurementWithMetrics extends TestCase {
     private Metrics m1;
     private Metrics m2;
@@ -57,7 +55,7 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
     private Metrics p;
 
     protected void setUp() throws Exception {
-        Logger.getLogger(getClass()).info("Starting test: " + getName());
+        super.setUp();
 
         m1 = new Metrics("a.A.a");
         m2 = new Metrics("a.A.b");
@@ -212,10 +210,6 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
         
         p.addSubMetrics(g1);
         p.addSubMetrics(g2);
-    }
-
-    protected void tearDown() throws Exception {
-        Logger.getLogger(getClass()).info("End of " + getName());
     }
 
     public void testProject() {
