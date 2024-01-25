@@ -1,0 +1,17 @@
+Replaced Log4J with Log4J2.  This meant changing =log4j.properties= to
+=log4j2.properties= and adapting it to the new format.  I could have used the
+XML format, which all Log4J2 docs use, or the YAML format, but the properties
+file seemed most straightforward way to go for now.
+
+I also figured out how to copy JAR files from Gradle dependencies, instead of
+fetching them by hand and hard-checking them in Git.  As a result, I had to
+rework the launching script to dynamically build a =CLASSPATH= from the list of
+JAR files in =lib/=.
+
+I don't know how to do that under Windows, so all the Windows lanching scripts
+are broken at the moment.
+
+I removed the scripts to run JUnit since I run JUnit through Gradle, now.
+
+I removed the scripts to run Chainsaw since it no longer ships with Log4J, but
+as a [[https://logging.apache.org/chainsaw/2.x/][separate download]].

@@ -1,0 +1,2 @@
+Removed some unnecessary dependencies from Gradle subprojects.  Also removed
+some unnecessary uses of Log4J in tests.
