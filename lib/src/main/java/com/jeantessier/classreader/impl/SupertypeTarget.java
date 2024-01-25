@@ -33,7 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.Visitor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class SupertypeTarget extends Target_info implements com.jeantessier.clas
         this.targetType = targetType;
 
         supertypeIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Supertype index: " + supertypeIndex);
+        LogManager.getLogger(getClass()).debug("Supertype index: " + supertypeIndex);
     }
 
     public com.jeantessier.classreader.TargetType getTargetType() {

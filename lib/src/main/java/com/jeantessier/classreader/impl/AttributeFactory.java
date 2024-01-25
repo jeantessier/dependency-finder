@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -48,25 +48,25 @@ public class AttributeFactory {
 
             if (entry instanceof UTF8_info utf8_info) {
                 String name = utf8_info.getValue();
-                Logger.getLogger(AttributeFactory.class).debug("Attribute name index: " + nameIndex + " (" + name + ")");
+                LogManager.getLogger(AttributeFactory.class).debug("Attribute name index: " + nameIndex + " (" + name + ")");
 
                 AttributeType attributeType = AttributeType.forName(name);
                 if (attributeType != null) {
                     result = attributeType.create(constantPool, owner, in, this);
                 } else {
-                    Logger.getLogger(AttributeFactory.class).warn("Unknown attribute name \"" + name + "\"");
+                    LogManager.getLogger(AttributeFactory.class).warn("Unknown attribute name \"" + name + "\"");
                     result = new Custom_attribute(constantPool, owner, in, name);
                 }
             } else {
-                Logger.getLogger(AttributeFactory.class).debug("Attribute name: " + entry);
+                LogManager.getLogger(AttributeFactory.class).debug("Attribute name: " + entry);
 
-                Logger.getLogger(AttributeFactory.class).warn("Unknown attribute with invalid name \"" + entry + "\"");
+                LogManager.getLogger(AttributeFactory.class).warn("Unknown attribute with invalid name \"" + entry + "\"");
                 result = new Custom_attribute(constantPool, owner, in);
             }
         } else {
-            Logger.getLogger(AttributeFactory.class).debug("Attribute name index: " + nameIndex);
+            LogManager.getLogger(AttributeFactory.class).debug("Attribute name index: " + nameIndex);
 
-            Logger.getLogger(AttributeFactory.class).warn("Unknown attribute with no name (name index = " + nameIndex + ")");
+            LogManager.getLogger(AttributeFactory.class).warn("Unknown attribute with no name (name index = " + nameIndex + ")");
             result = new Custom_attribute(constantPool, owner, in);
         }
 

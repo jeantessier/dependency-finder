@@ -32,7 +32,7 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.diff.*;
@@ -58,7 +58,7 @@ public class JarJarDiff extends DiffCommand {
         // then descending to class level for packages
         // that are in both the old and the new codebase.
 
-        Logger.getLogger(getClass()).info("Comparing ...");
+        LogManager.getLogger(getClass()).info("Comparing ...");
         getVerboseListener().print("Comparing ...");
 
         String name = getCommandLine().getSingleSwitch("name");
@@ -67,7 +67,7 @@ public class JarJarDiff extends DiffCommand {
 
         Differences differences = getDifferencesFactory().createProjectDifferences(name, oldLabel, oldPackages, newLabel, newPackages);
 
-        Logger.getLogger(getClass()).info("Printing results ...");
+        LogManager.getLogger(getClass()).info("Printing results ...");
         getVerboseListener().print("Printing results ...");
 
         Report report = new Report(getCommandLine().getSingleSwitch("indent-text"), getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));

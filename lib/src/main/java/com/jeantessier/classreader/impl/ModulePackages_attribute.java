@@ -33,7 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.*;
 import java.util.*;
@@ -46,13 +46,13 @@ public class ModulePackages_attribute extends Attribute_info implements com.jean
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
         int numPackages = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + numPackages + " package(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading " + numPackages + " package(s) ...");
         IntStream.range(0, numPackages).forEach(i -> {
             try {
-                Logger.getLogger(getClass()).debug("parameter " + i + ":");
+                LogManager.getLogger(getClass()).debug("parameter " + i + ":");
                 packages.add(new ModulePackage(constantPool, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

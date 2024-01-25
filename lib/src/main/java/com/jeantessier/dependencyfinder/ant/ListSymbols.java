@@ -43,7 +43,7 @@ import com.jeantessier.classreader.SymbolGatherer;
 import com.jeantessier.classreader.SymbolGathererStrategy;
 import com.jeantessier.classreader.TransientClassfileLoader;
 import com.jeantessier.text.RegularExpressionParser;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.Path;
@@ -328,7 +328,7 @@ public class ListSymbols extends Task {
                         try {
                             return Files.lines(filepath);
                         } catch (IOException ex) {
-                            Logger.getLogger(getClass()).error("Couldn't read file " + filepath, ex);
+                            LogManager.getLogger(getClass()).error("Couldn't read file " + filepath, ex);
                             return Stream.empty();
                         }
                     }).distinct()

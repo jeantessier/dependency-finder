@@ -47,7 +47,7 @@ import com.jeantessier.dependency.SelectiveTraversalStrategy;
 import com.jeantessier.dependency.TextPrinter;
 import com.jeantessier.dependency.TraversalStrategy;
 import com.jeantessier.dependency.XMLPrinter;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Path;
 import org.xml.sax.SAXException;
@@ -642,7 +642,7 @@ public class DependencyReporter extends GraphTask {
                         try {
                             return Files.lines(filepath);
                         } catch (IOException ex) {
-                            Logger.getLogger(getClass()).error("Couldn't read file " + filepath, ex);
+                            LogManager.getLogger(getClass()).error("Couldn't read file " + filepath, ex);
                             return Stream.empty();
                         }
                     }).distinct()

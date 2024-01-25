@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -46,13 +46,13 @@ public class EnclosingMethod_attribute extends Attribute_info implements com.jea
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
         classIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Class index: " + classIndex + " (" + getClassInfo() + ")");
+        LogManager.getLogger(getClass()).debug("Class index: " + classIndex + " (" + getClassInfo() + ")");
 
         methodIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Method index: " + methodIndex + " (" + getMethod() + ")");
+        LogManager.getLogger(getClass()).debug("Method index: " + methodIndex + " (" + getMethod() + ")");
     }
 
     public int getClassIndex() {

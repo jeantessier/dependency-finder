@@ -49,7 +49,7 @@ import com.jeantessier.dependency.PackageNode;
 import com.jeantessier.dependency.RegularExpressionSelectionCriteria;
 import com.jeantessier.dependency.SelectiveTraversalStrategy;
 import com.jeantessier.dependency.TransitiveClosure;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -172,7 +172,7 @@ public class DependencyFinder extends JFrame {
             UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
             SwingUtilities.updateComponentTreeUI(this);
         } catch (Exception ex) {
-            Logger.getLogger(DependencyFinder.class).error("Unable to set look and feel", ex);
+            LogManager.getLogger(DependencyFinder.class).error("Unable to set look and feel", ex);
         }
         
         statusLine.showInfo("Ready.");

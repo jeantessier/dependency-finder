@@ -37,7 +37,7 @@ import com.jeantessier.dependency.ClassNode;
 import com.jeantessier.dependency.FeatureNode;
 import com.jeantessier.dependency.LCOM4Gatherer;
 import com.jeantessier.dependency.Node;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -102,11 +102,11 @@ public class ClassCohesion extends DependencyGraphCommand {
     public void doProcessing() throws Exception {
         var gatherer = new LCOM4Gatherer();
 
-        Logger.getLogger(OOMetrics.class).debug("Reading classes and computing metrics as we go ...");
+        LogManager.getLogger(OOMetrics.class).debug("Reading classes and computing metrics as we go ...");
         getVerboseListener().print("Reading classes and computing metrics as we go ...");
         gatherer.traverseNodes(loadGraph().getPackages().values());
 
-        Logger.getLogger(OOMetrics.class).debug("Printing results ...");
+        LogManager.getLogger(OOMetrics.class).debug("Printing results ...");
         getVerboseListener().print("Printing results ...");
 
         if (getCommandLine().isPresent("csv")) {
@@ -121,7 +121,7 @@ public class ClassCohesion extends DependencyGraphCommand {
              printYAMLFile(gatherer.getResults());
         }
 
-        Logger.getLogger(OOMetrics.class).debug("Done.");
+        LogManager.getLogger(OOMetrics.class).debug("Done.");
     }
 
     private void printCSVFiles(Map<ClassNode, Collection<Collection<FeatureNode>>> results) throws IOException {

@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.classreader.Integer_info;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.*;
 import java.util.*;
@@ -51,13 +51,13 @@ public class StackMapTable_attribute extends Attribute_info implements com.jeant
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
         int numEntries = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + numEntries + " stack map frame(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading " + numEntries + " stack map frame(s) ...");
         IntStream.range(0, numEntries).forEach(i -> {
             try {
-                Logger.getLogger(getClass()).debug("stack map frame " + i + ":");
+                LogManager.getLogger(getClass()).debug("stack map frame " + i + ":");
                 entries.add(stackMapFrameFactory.create(constantPool, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

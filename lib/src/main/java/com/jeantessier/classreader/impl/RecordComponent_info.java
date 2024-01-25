@@ -33,7 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.*;
 import java.util.*;
@@ -51,16 +51,16 @@ public class RecordComponent_info implements com.jeantessier.classreader.RecordC
         this.constantPool = constantPool;
 
         nameIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("name index: " + nameIndex + " (" + getName() + ")");
+        LogManager.getLogger(getClass()).debug("name index: " + nameIndex + " (" + getName() + ")");
 
         descriptorIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("descriptor index: " + descriptorIndex + " (" + getDescriptor() + ")");
+        LogManager.getLogger(getClass()).debug("descriptor index: " + descriptorIndex + " (" + getDescriptor() + ")");
 
         int attributeCount = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + attributeCount + " record component attribute(s)");
+        LogManager.getLogger(getClass()).debug("Reading " + attributeCount + " record component attribute(s)");
         IntStream.range(0, attributeCount).forEach(i -> {
             try {
-                Logger.getLogger(getClass()).debug("record component attribute " + i + ":");
+                LogManager.getLogger(getClass()).debug("record component attribute " + i + ":");
                 attributes.add(attributeFactory.create(getConstantPool(), this, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

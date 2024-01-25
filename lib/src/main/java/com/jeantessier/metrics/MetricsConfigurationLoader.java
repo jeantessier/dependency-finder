@@ -32,7 +32,7 @@
 
 package com.jeantessier.metrics;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -89,16 +89,16 @@ public class MetricsConfigurationLoader {
 
         try {
             if (validate) {
-                Logger.getLogger(getClass()).warn("XML validation turned on");
+                LogManager.getLogger(getClass()).warn("XML validation turned on");
                 reader.setFeature("http://xml.org/sax/features/validation", true);
                 reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true);
             } else {
-                Logger.getLogger(getClass()).info("XML validation turned off");
+                LogManager.getLogger(getClass()).info("XML validation turned off");
                 reader.setFeature("http://xml.org/sax/features/validation", false);
                 reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
             }
         } catch (Exception ex) {
-            Logger.getLogger(getClass()).warn("Problem setting validation feature on XML reader",ex);
+            LogManager.getLogger(getClass()).warn("Problem setting validation feature on XML reader",ex);
         }
 
         reader.parse(in);

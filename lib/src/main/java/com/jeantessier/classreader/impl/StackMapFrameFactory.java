@@ -32,7 +32,7 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -49,12 +49,12 @@ public class StackMapFrameFactory {
 
         int tag = in.readUnsignedByte();
         FrameType frameType = FrameType.forTag(tag);
-        Logger.getLogger(getClass()).debug("tag " + tag + " (" + frameType + ")");
+        LogManager.getLogger(getClass()).debug("tag " + tag + " (" + frameType + ")");
         if (frameType != null) {
             result = frameType.create(tag, verificationTypeInfoFactory, constantPool, in);
         } else {
             String message = "Unknown frame type '" + tag + "'";
-            Logger.getLogger(AttributeFactory.class).warn(message);
+            LogManager.getLogger(AttributeFactory.class).warn(message);
             throw new IOException(message);
         }
 

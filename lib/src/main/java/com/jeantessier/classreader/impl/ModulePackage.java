@@ -35,7 +35,7 @@ package com.jeantessier.classreader.impl;
 import com.jeantessier.classreader.ClassNameHelper;
 import com.jeantessier.classreader.UTF8_info;
 import com.jeantessier.classreader.Visitor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -49,7 +49,7 @@ public class ModulePackage implements com.jeantessier.classreader.ModulePackage 
         this.constantPool = constantPool;
 
         packageIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Package index: " + packageIndex + " (" + getPackage() + ")");
+        LogManager.getLogger(getClass()).debug("Package index: " + packageIndex + " (" + getPackage() + ")");
     }
 
     public ConstantPool getConstantPool() {

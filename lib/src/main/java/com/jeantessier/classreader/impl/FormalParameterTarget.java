@@ -33,7 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.Visitor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class FormalParameterTarget extends Target_info implements com.jeantessie
         this.targetType = targetType;
 
         formalParameterIndex = in.readUnsignedByte();
-        Logger.getLogger(getClass()).debug("Formal parameter index: " + formalParameterIndex);
+        LogManager.getLogger(getClass()).debug("Formal parameter index: " + formalParameterIndex);
     }
 
     public com.jeantessier.classreader.TargetType getTargetType() {

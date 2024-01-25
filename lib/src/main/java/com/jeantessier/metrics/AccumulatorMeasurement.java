@@ -32,7 +32,7 @@
 
 package com.jeantessier.metrics;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
@@ -88,7 +88,7 @@ public abstract class AccumulatorMeasurement extends MeasurementBase implements 
                     }
                 }
             } catch (Exception ex) {
-                Logger.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\"", ex);
+                LogManager.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\"", ex);
                 terms.clear();
             }
         }
@@ -97,12 +97,12 @@ public abstract class AccumulatorMeasurement extends MeasurementBase implements 
     }
 
     private void logTerms(String initText) {
-        Logger.getLogger(getClass()).debug("Initialize with\n" + initText);
-        Logger.getLogger(getClass()).debug("Terms:");
+        LogManager.getLogger(getClass()).debug("Initialize with\n" + initText);
+        LogManager.getLogger(getClass()).debug("Terms:");
 
         terms.forEach((key, values) -> {
-            Logger.getLogger(getClass()).debug("\t" + key);
-            values.forEach(s -> Logger.getLogger(getClass()).debug("\t\t" + s));
+            LogManager.getLogger(getClass()).debug("\t" + key);
+            values.forEach(s -> LogManager.getLogger(getClass()).debug("\t\t" + s));
         });
     }
 

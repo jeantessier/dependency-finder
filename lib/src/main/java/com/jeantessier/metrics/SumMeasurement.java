@@ -35,7 +35,7 @@ package com.jeantessier.metrics;
 import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 /**
  *  <p>Adds up numerical values.  Use it with just one term to alias
@@ -69,7 +69,7 @@ public class SumMeasurement extends MeasurementBase {
 
             in.close();
         } catch (Exception ex) {
-            Logger.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\"", ex);
+            LogManager.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\"", ex);
             terms.clear();
         }
     }
@@ -96,13 +96,13 @@ public class SumMeasurement extends MeasurementBase {
                     setEmpty(true);
 
                     if (getContext() != null) {
-                        Logger.getLogger(getClass()).debug("Start computing \"" + getShortName() + "\" on \"" + getContext().getName() + "\": value=" + value);
+                        LogManager.getLogger(getClass()).debug("Start computing \"" + getShortName() + "\" on \"" + getContext().getName() + "\": value=" + value);
                     } else {
-                        Logger.getLogger(getClass()).debug("Start computing \"" + getShortName() + "\" on null: value=" + value);
+                        LogManager.getLogger(getClass()).debug("Start computing \"" + getShortName() + "\" on null: value=" + value);
                     }
 
                     for (String term : getTerms()) {
-                        Logger.getLogger(getClass()).debug("Evaluating term \"" + term + "\"");
+                        LogManager.getLogger(getClass()).debug("Evaluating term \"" + term + "\"");
 
                         double termValue = Double.NaN;
 
@@ -116,17 +116,17 @@ public class SumMeasurement extends MeasurementBase {
                             }
                         }
 
-                        Logger.getLogger(getClass()).debug("term \"" + term + "\" is " + termValue);
+                        LogManager.getLogger(getClass()).debug("term \"" + term + "\" is " + termValue);
 
                         value += termValue;
 
-                        Logger.getLogger(getClass()).debug("value=" + value);
+                        LogManager.getLogger(getClass()).debug("value=" + value);
                     }
                     
                     if (getContext() != null) {
-                        Logger.getLogger(getClass()).debug("Stop computing \"" + getShortName() + "\" on \"" + getContext().getName() + "\": value=" + value);
+                        LogManager.getLogger(getClass()).debug("Stop computing \"" + getShortName() + "\" on \"" + getContext().getName() + "\": value=" + value);
                     } else {
-                        Logger.getLogger(getClass()).debug("Stop computing \"" + getShortName() + "\" on null: value=" + value);
+                        LogManager.getLogger(getClass()).debug("Stop computing \"" + getShortName() + "\" on null: value=" + value);
                     }
                     
                     setCached(true);
@@ -135,9 +135,9 @@ public class SumMeasurement extends MeasurementBase {
         }
 
         if (getContext() != null) {
-            Logger.getLogger(getClass()).debug("\"" + getShortName() + "\" on \"" + getContext().getName() + "\": value=" + value);
+            LogManager.getLogger(getClass()).debug("\"" + getShortName() + "\" on \"" + getContext().getName() + "\": value=" + value);
         } else {
-            Logger.getLogger(getClass()).debug("\"" + getShortName() + "\" on null: value=" + value);
+            LogManager.getLogger(getClass()).debug("\"" + getShortName() + "\" on null: value=" + value);
         }
 
         return value;

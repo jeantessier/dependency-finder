@@ -34,14 +34,14 @@ package com.jeantessier.text;
 
 import java.util.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 public class RegularExpressionParser {
     public static List<String> parseRE(String re) {
         List<String> result = new LinkedList<>();
 
-        Logger logger = Logger.getLogger(RegularExpressionParser.class);
-        logger.debug("ParseRE \"" + re + "\"");
+        Logger logger = LogManager.getLogger();
+        logger.debug("ParseRE \"{}\"", () -> re);
 
         int length = re.length();
         int start  = 0;

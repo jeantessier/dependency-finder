@@ -7,10 +7,13 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.log4j)
+    implementation(libs.log4j.api)
     implementation(libs.oro)
 
     compileOnly(libs.ant)
+
+    runtimeOnly(libs.log4j.core)
+    runtimeOnly(libs.saxon.he)
 
     testImplementation(libs.junit)
     testImplementation(libs.bundles.jmock)
@@ -44,6 +47,11 @@ tasks.jar {
         )
         attributes(mapOf("Java-Bean" to "True"), "com/jeantessier/dependencyfinder/Version.class")
     }
+}
+
+val copyJarsForDependencies by tasks.register<Copy>("copyJarsForDependencies") {
+    from(configurations.runtimeClasspath)
+    into(projectDir)
 }
 
 java {

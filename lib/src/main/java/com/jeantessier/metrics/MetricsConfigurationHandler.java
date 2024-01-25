@@ -32,7 +32,7 @@
 
 package com.jeantessier.metrics;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 
@@ -63,10 +63,10 @@ public class MetricsConfigurationHandler extends DefaultHandler {
     }
     
     public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
-        Logger.getLogger(getClass()).debug("startElement qName = " + qName);
+        LogManager.getLogger(getClass()).debug("startElement qName = " + qName);
 
         for (int i=0; i<atts.getLength(); i++) {
-            Logger.getLogger(getClass()).debug("    " + atts.getQName(i) + ": " + atts.getValue(i));
+            LogManager.getLogger(getClass()).debug("    " + atts.getQName(i) + ": " + atts.getValue(i));
         }
 
         currentName.delete(0, currentName.length());
@@ -136,11 +136,11 @@ public class MetricsConfigurationHandler extends DefaultHandler {
             configuration.addGroupDefinition(name, pattern);
         }
         
-        Logger.getLogger(getClass()).debug("endElement qName = " + qName + " (\"" + currentName.toString().trim() + "\")");
+        LogManager.getLogger(getClass()).debug("endElement qName = " + qName + " (\"" + currentName.toString().trim() + "\")");
     }
 
     public void characters(char[] ch, int start, int length) throws SAXException {
         currentName.append(ch, start, length);
-        Logger.getLogger(getClass()).debug("characters: \"" + new String(ch, start, length) + "\"");
+        LogManager.getLogger(getClass()).debug("characters: \"" + new String(ch, start, length) + "\"");
     }
 }

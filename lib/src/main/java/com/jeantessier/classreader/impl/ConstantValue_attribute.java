@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -45,10 +45,10 @@ public class ConstantValue_attribute extends Attribute_info implements com.jeant
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
         valueIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Constant value: " + getValueIndex() + " (" + getRawValue() + ")");
+        LogManager.getLogger(getClass()).debug("Constant value: " + getValueIndex() + " (" + getRawValue() + ")");
     }
 
     public int getValueIndex() {

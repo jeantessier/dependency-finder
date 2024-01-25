@@ -32,7 +32,7 @@
 
 package com.jeantessier.metrics;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.apache.oro.text.perl.Perl5Util;
 
 import java.lang.reflect.InvocationTargetException;
@@ -336,7 +336,7 @@ public class MetricsFactory {
             try {
                 metrics.track(descriptor.createMeasurement(metrics));
             } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
-                Logger.getLogger(getClass()).warn("Unable to create measurement \"" + descriptor.getShortName() + "\"", ex);
+                LogManager.getLogger(getClass()).warn("Unable to create measurement \"" + descriptor.getShortName() + "\"", ex);
             }
         });
     }

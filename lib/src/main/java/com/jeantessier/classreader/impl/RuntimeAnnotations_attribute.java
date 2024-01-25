@@ -36,7 +36,7 @@ import java.io.*;
 import java.util.*;
 import java.util.stream.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -47,13 +47,13 @@ public abstract class RuntimeAnnotations_attribute extends Annotations_attribute
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
         int numAnnotations = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + numAnnotations + " annotation(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading " + numAnnotations + " annotation(s) ...");
         IntStream.range(0, numAnnotations).forEach(i -> {
             try {
-                Logger.getLogger(getClass()).debug("annotation " + i + ":");
+                LogManager.getLogger(getClass()).debug("annotation " + i + ":");
                 annotations.add(new Annotation(constantPool, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

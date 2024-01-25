@@ -34,7 +34,7 @@ package com.jeantessier.metrics;
 
 import java.io.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 /**
  *  <p>Divides one measurement (base) by another (divider).  Both
@@ -128,7 +128,7 @@ public class RatioMeasurement extends MeasurementBase {
 
             in.close();
         } catch (Exception ex) {
-            Logger.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\"", ex);
+            LogManager.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\"", ex);
             baseName    = null;
             dividerName = null;
         }

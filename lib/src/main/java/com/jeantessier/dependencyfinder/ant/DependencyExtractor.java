@@ -43,7 +43,7 @@ import com.jeantessier.dependency.LinkMinimizer;
 import com.jeantessier.dependency.NodeFactory;
 import com.jeantessier.dependency.RegularExpressionSelectionCriteria;
 import com.jeantessier.dependency.SelectionCriteria;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.Path;
@@ -385,7 +385,7 @@ public class DependencyExtractor extends Task {
                         try {
                             return Files.lines(filepath);
                         } catch (IOException ex) {
-                            Logger.getLogger(getClass()).error("Couldn't read file " + filepath, ex);
+                            LogManager.getLogger(getClass()).error("Couldn't read file " + filepath, ex);
                             return Stream.empty();
                         }
                     }).distinct()

@@ -7,8 +7,9 @@ fitlibrary = "20070619"
 httpunit = "1.7.3"
 jmock = "2.12.0"
 junit = "4.13.2"
-log4j = "1.2.17"
+log4j = "2.22.1"
 oro = "2.0.8"
+saxon-he = "12.4"
 
 [libraries]
 ant = { module = "org.apache.ant:ant", version.ref = "ant" }
@@ -19,8 +20,10 @@ jmock-imposters = { module = "org.jmock:jmock-imposters", version.ref = "jmock" 
 jmock-junit3 = { module = "org.jmock:jmock-junit3", version.ref = "jmock" }
 jmock-junit4 = { module = "org.jmock:jmock-junit4", version.ref = "jmock" }
 junit = { module = "junit:junit", version.ref = "junit" }
-log4j = { module = "log4j:log4j", version.ref = "log4j" }
+log4j-api = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4j" }
+log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
 oro = { module = "oro:oro", version.ref = "oro" }
+saxon-he = { module = "net.sf.saxon:Saxon-HE", version.ref = "saxon-he" }
 
 [bundles]
 jmock = ["byte-buddy", "jmock-junit3", "jmock-junit4", "jmock-imposters"]

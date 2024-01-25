@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -45,10 +45,10 @@ public class Signature_attribute extends Attribute_info implements com.jeantessi
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
         signatureIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Signature: " + signatureIndex + " (" + getSignature() + ")");
+        LogManager.getLogger(getClass()).debug("Signature: " + signatureIndex + " (" + getSignature() + ")");
     }
 
     public int getSignatureIndex() {

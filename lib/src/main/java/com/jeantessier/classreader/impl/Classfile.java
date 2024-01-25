@@ -33,7 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -76,7 +76,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         this.loader = loader;
 
         magicNumber = in.readInt();
-        Logger.getLogger(getClass()).debug("magic number = 0x" + Integer.toHexString(magicNumber).toUpperCase());
+        LogManager.getLogger(getClass()).debug("magic number = 0x" + Integer.toHexString(magicNumber).toUpperCase());
 
         if (magicNumber != 0xCAFEBABE) {
             throw new IOException("Bad magic number");
@@ -84,34 +84,34 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         
         // Reading the file format's version number
         minorVersion = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("minor version = " + minorVersion);
+        LogManager.getLogger(getClass()).debug("minor version = " + minorVersion);
         majorVersion = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("major version = " + majorVersion);
+        LogManager.getLogger(getClass()).debug("major version = " + majorVersion);
 
         // Reading the constant pool
-        Logger.getLogger(getClass()).debug("Reading the constant pool ...");
+        LogManager.getLogger(getClass()).debug("Reading the constant pool ...");
         constantPool = new ConstantPool(this, in);
-        Logger.getLogger(getClass()).debug(constantPool);
+        LogManager.getLogger(getClass()).debug(constantPool);
 
         // Skipping the access flags
         accessFlags = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("accessFlags = " + accessFlags);
+        LogManager.getLogger(getClass()).debug("accessFlags = " + accessFlags);
 
         // Retrieving this class's name
         classIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("thisClass = " + classIndex + " (" + getClassName() + ")");
+        LogManager.getLogger(getClass()).debug("thisClass = " + classIndex + " (" + getClassName() + ")");
 
         // Retrieving this class's superclass
         superclassIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("superclass = " + superclassIndex + " (" + getSuperclassName() + ")");
+        LogManager.getLogger(getClass()).debug("superclass = " + superclassIndex + " (" + getSuperclassName() + ")");
 
         // Retrieving the interfaces
         int interfaceCount = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + interfaceCount + " interface(s)");
+        LogManager.getLogger(getClass()).debug("Reading " + interfaceCount + " interface(s)");
         IntStream.range(0, interfaceCount).forEach(i -> {
             try {
                 Class_info interfaceInfo = (Class_info) constantPool.get(in.readUnsignedShort());
-                Logger.getLogger(getClass()).debug("    " + interfaceInfo.getName());
+                LogManager.getLogger(getClass()).debug("    " + interfaceInfo.getName());
                 interfaces.add(interfaceInfo);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -120,10 +120,10 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
 
         // Retrieving the fields
         int fieldCount = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + fieldCount + " field(s)");
+        LogManager.getLogger(getClass()).debug("Reading " + fieldCount + " field(s)");
         IntStream.range(0, fieldCount).forEach(i -> {
             try {
-                Logger.getLogger(getClass()).debug("Field " + i + ":");
+                LogManager.getLogger(getClass()).debug("Field " + i + ":");
                 fields.add(new Field_info(this, in, attributeFactory));
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -132,10 +132,10 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
 
         // Retrieving the methods
         int methodCount = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + methodCount + " method(s)");
+        LogManager.getLogger(getClass()).debug("Reading " + methodCount + " method(s)");
         IntStream.range(0, methodCount).forEach(i -> {
             try {
-                Logger.getLogger(getClass()).debug("Method " + i + ":");
+                LogManager.getLogger(getClass()).debug("Method " + i + ":");
                 methods.add(new Method_info(this, in, attributeFactory));
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -144,10 +144,10 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
 
         // Retrieving the attributes
         int attributeCount = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + attributeCount + " class attribute(s)");
+        LogManager.getLogger(getClass()).debug("Reading " + attributeCount + " class attribute(s)");
         IntStream.range(0, attributeCount).forEach(i -> {
             try {
-                Logger.getLogger(getClass()).debug("Attribute " + i + ":");
+                LogManager.getLogger(getClass()).debug("Attribute " + i + ":");
                 attributes.add(attributeFactory.create(constantPool, this, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

@@ -33,7 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.Visitor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -47,7 +47,7 @@ public class ModuleOpensTo implements com.jeantessier.classreader.ModuleOpensTo 
         this.constantPool = constantPool;
 
         opensToIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Opens to: " + opensToIndex + " (" + getOpensTo() + ")");
+        LogManager.getLogger(getClass()).debug("Opens to: " + opensToIndex + " (" + getOpensTo() + ")");
     }
 
     public ConstantPool getConstantPool() {

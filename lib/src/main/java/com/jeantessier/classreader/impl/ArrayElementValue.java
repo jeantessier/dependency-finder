@@ -35,7 +35,7 @@ package com.jeantessier.classreader.impl;
 import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -50,9 +50,9 @@ public class ArrayElementValue extends ElementValue implements com.jeantessier.c
         super(constantPool);
 
         int numValues = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + numValues + " value(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading " + numValues + " value(s) ...");
         for (int i = 0; i < numValues; i++) {
-            Logger.getLogger(getClass()).debug("value " + i + ":");
+            LogManager.getLogger(getClass()).debug("value " + i + ":");
             values.add(elementValueFactory.create(constantPool, in));
         }
     }

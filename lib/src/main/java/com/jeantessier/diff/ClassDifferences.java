@@ -34,7 +34,7 @@ package com.jeantessier.diff;
 
 import java.util.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -62,9 +62,9 @@ public class ClassDifferences extends RemovableDifferences {
         setNewClass(newClass);
 
         if (isModified()) {
-            Logger.getLogger(getClass()).debug(getName() + " declaration has been modified.");
+            LogManager.getLogger(getClass()).debug(getName() + " declaration has been modified.");
         } else {
-            Logger.getLogger(getClass()).debug(getName() + " declaration has not been modified.");
+            LogManager.getLogger(getClass()).debug(getName() + " declaration has not been modified.");
         }
     }
 

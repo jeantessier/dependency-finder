@@ -43,12 +43,7 @@ public class PackageNode extends Node {
 
     // Only to be used by NodeFactory and DeletingVisitor
     void setConfirmed(boolean confirmed) {
-        Iterator<ClassNode> i = getClasses().iterator();
-        while (!confirmed && i.hasNext()) {
-            confirmed = i.next().isConfirmed();
-        }
-        
-        super.setConfirmed(confirmed);
+        super.setConfirmed(confirmed || getClasses().parallelStream().anyMatch(Node::isConfirmed));
     }
 
     public void addClass(ClassNode node) {

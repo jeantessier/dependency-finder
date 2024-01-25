@@ -34,7 +34,7 @@ package com.jeantessier.classreader;
 
 import java.io.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 public class StrictDispatcher implements ClassfileLoaderDispatcher {
     public ClassfileLoaderAction dispatch(String filename) {
@@ -42,19 +42,19 @@ public class StrictDispatcher implements ClassfileLoaderDispatcher {
         
         if (filename.endsWith(".jar")) {
             result = ClassfileLoaderAction.JAR;
-            Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_JAR");
+            LogManager.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_JAR");
         } else if (filename.endsWith(".zip")) {
             result = ClassfileLoaderAction.ZIP;
-            Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_ZIP");
+            LogManager.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_ZIP");
         } else if (filename.endsWith(".class")) {
             result = ClassfileLoaderAction.CLASS;
-            Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_CLASS");
+            LogManager.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_CLASS");
         } else if (new File(filename).exists()) {
             result = ClassfileLoaderAction.DIRECTORY;
-            Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_DIRECTORY");
+            LogManager.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_DIRECTORY");
         } else {
             result = ClassfileLoaderAction.IGNORE;
-            Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_IGNORE");
+            LogManager.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_IGNORE");
         }
         
         return result;

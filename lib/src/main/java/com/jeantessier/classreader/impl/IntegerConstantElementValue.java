@@ -34,14 +34,14 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
 public class IntegerConstantElementValue extends ConstantElementValue implements com.jeantessier.classreader.IntegerConstantElementValue {
     public IntegerConstantElementValue(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool, in);
-        Logger.getLogger(getClass()).debug("Const value index: " + getConstValueIndex() + " (" + getConstValue() + ")");
+        LogManager.getLogger(getClass()).debug("Const value index: " + getConstValueIndex() + " (" + getConstValue() + ")");
     }
 
     public int getConstValue() {

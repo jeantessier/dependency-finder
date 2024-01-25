@@ -35,7 +35,7 @@ package com.jeantessier.classreader;
 import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 public class PermissiveDispatcher implements ClassfileLoaderDispatcher {
     private static final Collection<String> IGNORED_SUFFIXES = List.of(
@@ -65,22 +65,22 @@ public class PermissiveDispatcher implements ClassfileLoaderDispatcher {
 
         if (new File(filename).isDirectory()) {
             result = ClassfileLoaderAction.DIRECTORY;
-            Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_DIRECTORY");
+            LogManager.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_DIRECTORY");
         } else if (filename.endsWith(".jar")) {
             result = ClassfileLoaderAction.JAR;
-            Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_JAR");
+            LogManager.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_JAR");
         } else if (filename.endsWith(".zip")) {
             result = ClassfileLoaderAction.ZIP;
-            Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_ZIP");
+            LogManager.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_ZIP");
         } else if (filename.endsWith(".class")) {
             result = ClassfileLoaderAction.CLASS;
-            Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_CLASS");
+            LogManager.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_CLASS");
         } else if (IGNORED_SUFFIXES.parallelStream().anyMatch(filename::endsWith)) {
             result = ClassfileLoaderAction.IGNORE;
-            Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_IGNORE");
+            LogManager.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_IGNORE");
         } else {
             result = ClassfileLoaderAction.ZIP;
-            Logger.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_ZIP");
+            LogManager.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_ZIP");
         }
   
         return result;

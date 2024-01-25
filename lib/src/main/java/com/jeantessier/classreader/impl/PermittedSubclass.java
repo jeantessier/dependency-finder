@@ -33,7 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.Visitor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -47,7 +47,7 @@ public class PermittedSubclass implements com.jeantessier.classreader.PermittedS
         this.constantPool = constantPool;
 
         subclassIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("permitted subclass index: " + subclassIndex + " (" + getSubclass() + ")");
+        LogManager.getLogger(getClass()).debug("permitted subclass index: " + subclassIndex + " (" + getSubclass() + ")");
     }
 
     public ConstantPool getConstantPool() {

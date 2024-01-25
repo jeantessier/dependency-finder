@@ -34,7 +34,7 @@ package com.jeantessier.dependency;
 
 import java.util.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 public class CycleDetector extends VisitorBase {
     private final LinkedList<Node> currentPath = new LinkedList<>();
@@ -144,16 +144,16 @@ public class CycleDetector extends VisitorBase {
     private void addCycle() {
         Cycle cycle = new Cycle(currentPath);
         cycles.add(cycle);
-        Logger.getLogger(getClass()).debug("Found cycle " + cycle);
+        LogManager.getLogger(getClass()).debug("Found cycle " + cycle);
     }
 
     private void pushNodeOnCurrentPath(Node node) {
         currentPath.addLast(node);
-        Logger.getLogger(getClass()).debug("Pushed " + node + " on currentPath: " + currentPath);
+        LogManager.getLogger(getClass()).debug("Pushed " + node + " on currentPath: " + currentPath);
     }
 
     private void popNodeFromCurrentPath(Node node) {
         Node popedNode = currentPath.removeLast();
-        Logger.getLogger(getClass()).debug("Popped " + node + " (" + popedNode + ") from currentPath: " + currentPath);
+        LogManager.getLogger(getClass()).debug("Popped " + node + " (" + popedNode + ") from currentPath: " + currentPath);
     }
 }

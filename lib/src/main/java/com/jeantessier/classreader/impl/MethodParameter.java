@@ -35,7 +35,7 @@ package com.jeantessier.classreader.impl;
 import com.jeantessier.classreader.ClassNameHelper;
 import com.jeantessier.classreader.UTF8_info;
 import com.jeantessier.classreader.Visitor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.*;
 
@@ -53,10 +53,10 @@ public class MethodParameter implements com.jeantessier.classreader.MethodParame
         this.constantPool = constantPool;
 
         nameIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Name index: " + nameIndex + " (" + getName() + ")");
+        LogManager.getLogger(getClass()).debug("Name index: " + nameIndex + " (" + getName() + ")");
 
         accessFlags = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Access flags: " + accessFlags);
+        LogManager.getLogger(getClass()).debug("Access flags: " + accessFlags);
     }
 
     public ConstantPool getConstantPool() {

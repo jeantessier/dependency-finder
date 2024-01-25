@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -45,10 +45,10 @@ public class SourceDebugExtension_attribute extends Attribute_info implements co
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
         debugExtension = in.readUTF();
-        Logger.getLogger(getClass()).debug("Debug extension: " + debugExtension);
+        LogManager.getLogger(getClass()).debug("Debug extension: " + debugExtension);
     }
 
     public String getDebugExtension() {

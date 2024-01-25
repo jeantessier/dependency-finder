@@ -36,7 +36,7 @@ import java.io.*;
 import java.util.*;
 import java.util.stream.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -47,13 +47,13 @@ public class LocalVariableTypeTable_attribute extends Attribute_info implements 
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
         int localVariableTableTypeLength = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + localVariableTableTypeLength + " local variable type(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading " + localVariableTableTypeLength + " local variable type(s) ...");
         IntStream.range(0, localVariableTableTypeLength).forEach(i -> {
             try {
-                Logger.getLogger(getClass()).debug("Local variable type " + i + ":");
+                LogManager.getLogger(getClass()).debug("Local variable type " + i + ":");
                 localVariableTypes.add(new LocalVariableType(this, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

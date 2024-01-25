@@ -36,9 +36,11 @@ import java.util.*;
 
 import junit.framework.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 public class TestTransitiveClosureNonMaximized extends TestCase {
+    private final Logger logger = LogManager.getLogger();
+
     private NodeFactory factory;
 
     private FeatureNode in2;
@@ -89,9 +91,9 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         startCriteria.setMatchingFeatures(true);
         stopCriteria.setMatchingFeatures(true);
 
-        Logger.getLogger(getClass()).info("Start f2f test from feature ...");
+        logger.info("Start f2f test from feature ...");
         compute(Collections.singleton(base));
-        Logger.getLogger(getClass()).info("Stop f2f test from feature ...");
+        logger.info("Stop f2f test from feature ...");
 
         assertEquals(5, resultFactory.getFeatures().size());
         assertTrue(resultFactory.getFeatures().containsValue(in2));
@@ -138,9 +140,9 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         startCriteria.setMatchingFeatures(true);
         stopCriteria.setMatchingFeatures(true);
 
-        Logger.getLogger(getClass()).info("Start f2f test from package list ...");
+        logger.info("Start f2f test from package list ...");
         compute(factory.getPackages().values());
-        Logger.getLogger(getClass()).info("Stop f2f test from package list ...");
+        logger.info("Stop f2f test from package list ...");
 
         assertEquals(5, resultFactory.getFeatures().size());
         assertTrue(resultFactory.getFeatures().containsValue(in2));
@@ -187,9 +189,9 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         startCriteria.setMatchingClasses(true);
         stopCriteria.setMatchingClasses(true);
 
-        Logger.getLogger(getClass()).info("Start c2c test from class ...");
+        logger.info("Start c2c test from class ...");
         compute(Collections.singleton(base.getClassNode()));
-        Logger.getLogger(getClass()).info("Stop c2c test from class ...");
+        logger.info("Stop c2c test from class ...");
 
         assertEquals(0, resultFactory.getFeatures().size());
 
@@ -227,9 +229,9 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         startCriteria.setMatchingClasses(true);
         stopCriteria.setMatchingClasses(true);
 
-        Logger.getLogger(getClass()).info("Start c2c test from package list ...");
+        logger.info("Start c2c test from package list ...");
         compute(factory.getPackages().values());
-        Logger.getLogger(getClass()).info("Stop c2c test from package list ...");
+        logger.info("Stop c2c test from package list ...");
 
         assertEquals(0, resultFactory.getFeatures().size());
 
@@ -267,9 +269,9 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         startCriteria.setMatchingPackages(true);
         stopCriteria.setMatchingPackages(true);
 
-        Logger.getLogger(getClass()).info("Start p2p test from package ...");
+        logger.info("Start p2p test from package ...");
         compute(Collections.singleton(base.getClassNode().getPackageNode()));
-        Logger.getLogger(getClass()).info("Stop p2p test from package ...");
+        logger.info("Stop p2p test from package ...");
 
         assertEquals(0, resultFactory.getFeatures().size());
 
@@ -298,9 +300,9 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         startCriteria.setMatchingPackages(true);
         stopCriteria.setMatchingPackages(true);
 
-        Logger.getLogger(getClass()).info("Start p2p test from package list ...");
+        logger.info("Start p2p test from package list ...");
         compute(factory.getPackages().values());
-        Logger.getLogger(getClass()).info("Stop p2p test from package list ...");
+        logger.info("Stop p2p test from package list ...");
 
         assertEquals(0, resultFactory.getFeatures().size());
 

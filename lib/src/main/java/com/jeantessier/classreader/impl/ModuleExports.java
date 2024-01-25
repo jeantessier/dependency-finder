@@ -33,7 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -55,16 +55,16 @@ public class ModuleExports implements com.jeantessier.classreader.ModuleExports 
         this.constantPool = constantPool;
 
         exportsIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Exports: " + exportsIndex + " (" + getExports() + ")");
+        LogManager.getLogger(getClass()).debug("Exports: " + exportsIndex + " (" + getExports() + ")");
 
         exportsFlags = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Exports flags: " + exportsFlags);
+        LogManager.getLogger(getClass()).debug("Exports flags: " + exportsFlags);
 
         var numExportsTo = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + numExportsTo + " exports to ...");
+        LogManager.getLogger(getClass()).debug("Reading " + numExportsTo + " exports to ...");
         IntStream.range(0, numExportsTo).forEach(i -> {
             try {
-                Logger.getLogger(getClass()).debug("exports to " + i + ":");
+                LogManager.getLogger(getClass()).debug("exports to " + i + ":");
                 exportsTos.add(new ModuleExportsTo(constantPool, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

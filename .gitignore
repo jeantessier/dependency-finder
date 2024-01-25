@@ -101,7 +101,7 @@ dist
 docs/Developer.html
 docs/Manual.html
 docs/Tools.html
-lib/DependencyFinder*.jar
+lib/*.jar
 
 .gradle
 build

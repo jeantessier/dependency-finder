@@ -35,7 +35,7 @@ package com.jeantessier.metrics;
 import java.util.*;
 import java.util.stream.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 public class Metrics {
     private static final Measurement NULL_MEASUREMENT = new NullMeasurement();
@@ -62,9 +62,9 @@ public class Metrics {
         this.name   = name;
 
         if (parent == null) {
-            Logger.getLogger(getClass()).debug("Created top-level metrics \"" + name + "\"");
+            LogManager.getLogger(getClass()).debug("Created top-level metrics \"" + name + "\"");
         } else {
-            Logger.getLogger(getClass()).debug("Created metrics \"" + name + "\" under \"" + parent.getName() + "\"");
+            LogManager.getLogger(getClass()).debug("Created metrics \"" + name + "\" under \"" + parent.getName() + "\"");
         }
     }
 

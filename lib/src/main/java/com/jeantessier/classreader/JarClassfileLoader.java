@@ -32,7 +32,7 @@
 
 package com.jeantessier.classreader;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,26 +45,26 @@ public class JarClassfileLoader extends ZipClassfileLoader {
     }
 
     protected void load(String filename) {
-        Logger.getLogger(getClass()).debug("Reading " + filename);
+        LogManager.getLogger(getClass()).debug("Reading " + filename);
 
         try (var jarfile = new JarFile(filename)) {
             fireBeginGroup(filename, jarfile.size());
             load(jarfile);
             fireEndGroup(filename);
         } catch (IOException ex) {
-            Logger.getLogger(getClass()).error("Cannot load JAR file \"" + filename + "\"", ex);
+            LogManager.getLogger(getClass()).error("Cannot load JAR file \"" + filename + "\"", ex);
         }
     }
 
     protected void load(String filename, InputStream in) {
-        Logger.getLogger(getClass()).debug("Reading " + filename);
+        LogManager.getLogger(getClass()).debug("Reading " + filename);
         
         try (var jarfile = new JarInputStream(in)) {
             fireBeginGroup(filename, -1);
             load(jarfile);
             fireEndGroup(filename);
         } catch (IOException ex) {
-            Logger.getLogger(getClass()).error("Cannot load JAR file \"" + filename + "\"", ex);
+            LogManager.getLogger(getClass()).error("Cannot load JAR file \"" + filename + "\"", ex);
         }
     }
 }

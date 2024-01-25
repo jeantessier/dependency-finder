@@ -33,7 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.Visitor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.*;
 
@@ -44,7 +44,7 @@ public class ObjectVariableInfo extends VerificationTypeInfo implements com.jean
         super(constantPool);
 
         classInfoIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Class info index: " + classInfoIndex + " (" + getClassInfo() + ")");
+        LogManager.getLogger(getClass()).debug("Class info index: " + classInfoIndex + " (" + getClassInfo() + ")");
     }
 
     public int getClassInfoIndex() {

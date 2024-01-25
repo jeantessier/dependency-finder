@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -47,10 +47,10 @@ public class LineNumber implements com.jeantessier.classreader.LineNumber {
         this.lineNumberTable = lineNumberTable;
 
         startPC = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Line number table start PC: " + startPC);
+        LogManager.getLogger(getClass()).debug("Line number table start PC: " + startPC);
 
         lineNumber = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Line number: " + lineNumber);
+        LogManager.getLogger(getClass()).debug("Line number: " + lineNumber);
     }
 
     public LineNumberTable_attribute getLineNumberTable() {

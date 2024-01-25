@@ -37,7 +37,7 @@ import com.jeantessier.commandline.CommandLineUsage;
 import com.jeantessier.commandline.NullParameterStrategy;
 import com.jeantessier.metrics.MetricsConfigurationLoader;
 import com.jeantessier.metrics.MetricsFactory;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -91,7 +91,7 @@ public class OOMetrics extends JFrame {
             UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
             SwingUtilities.updateComponentTreeUI(this);
         } catch (Exception ex) {
-            Logger.getLogger(OOMetrics.class).error("Unable to set look and feel", ex);
+            LogManager.getLogger(OOMetrics.class).error("Unable to set look and feel", ex);
         }
 
         statusLine.showInfo("Ready.");

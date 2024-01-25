@@ -32,7 +32,7 @@
 
 package com.jeantessier.metrics;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
@@ -214,7 +214,7 @@ public class StatisticalMeasurement extends MeasurementBase {
 
             in.close();
         } catch (Exception ex) {
-            Logger.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\"", ex);
+            LogManager.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\"", ex);
             monitoredMeasurement = null;
         }
     }
@@ -334,60 +334,60 @@ public class StatisticalMeasurement extends MeasurementBase {
     }
 
     private void visitMetrics(Metrics metrics) {
-        Logger.getLogger(getClass()).debug("VisitMetrics: " + metrics.getName());
+        LogManager.getLogger(getClass()).debug("VisitMetrics: " + metrics.getName());
 
         Measurement measurement = metrics.getMeasurement(monitoredMeasurement);
 
-        Logger.getLogger(getClass()).debug("measurement for " + monitoredMeasurement + " is " + measurement.getClass());
+        LogManager.getLogger(getClass()).debug("measurement for " + monitoredMeasurement + " is " + measurement.getClass());
 
         if (measurement instanceof StatisticalMeasurement stats) {
-            Logger.getLogger(getClass()).debug("dispose of StatisticalMeasurements is " + dispose);
+            LogManager.getLogger(getClass()).debug("dispose of StatisticalMeasurements is " + dispose);
 
             switch (dispose) {
                 case DISPOSE_MINIMUM -> {
-                    Logger.getLogger(getClass()).debug("using Minimum(): " + stats.getMinimum());
+                    LogManager.getLogger(getClass()).debug("using Minimum(): " + stats.getMinimum());
                     data.add(stats.getMinimum());
                 }
                 case DISPOSE_MEDIAN -> {
-                    Logger.getLogger(getClass()).debug("using Median(): " + stats.getMedian());
+                    LogManager.getLogger(getClass()).debug("using Median(): " + stats.getMedian());
                     data.add(stats.getMedian());
                 }
                 case DISPOSE_AVERAGE -> {
-                    Logger.getLogger(getClass()).debug("using Average(): " + stats.getAverage());
+                    LogManager.getLogger(getClass()).debug("using Average(): " + stats.getAverage());
                     data.add(stats.getAverage());
                 }
                 case DISPOSE_STANDARD_DEVIATION -> {
-                    Logger.getLogger(getClass()).debug("using StandardDeviation(): " + stats.getStandardDeviation());
+                    LogManager.getLogger(getClass()).debug("using StandardDeviation(): " + stats.getStandardDeviation());
                     data.add(stats.getStandardDeviation());
                 }
                 case DISPOSE_MAXIMUM -> {
-                    Logger.getLogger(getClass()).debug("using Maximum(): " + stats.getMaximum());
+                    LogManager.getLogger(getClass()).debug("using Maximum(): " + stats.getMaximum());
                     data.add(stats.getMaximum());
                 }
                 case DISPOSE_SUM -> {
-                    Logger.getLogger(getClass()).debug("using Sum(): " + stats.getSum());
+                    LogManager.getLogger(getClass()).debug("using Sum(): " + stats.getSum());
                     data.add(stats.getSum());
                 }
                 case DISPOSE_NB_DATA_POINTS -> {
-                    Logger.getLogger(getClass()).debug("using NbDataPoints(): " + stats.getNbDataPoints());
+                    LogManager.getLogger(getClass()).debug("using NbDataPoints(): " + stats.getNbDataPoints());
                     data.add((double) stats.getNbDataPoints());
                 }
                 default -> {
-                    Logger.getLogger(getClass()).debug("Skipping to next level ...");
+                    LogManager.getLogger(getClass()).debug("Skipping to next level ...");
                     for (Metrics subMetrics : metrics.getSubMetrics()) {
                         visitMetrics(subMetrics);
                     }
                 }
             }
         } else if (measurement instanceof NullMeasurement) {
-            Logger.getLogger(getClass()).debug("Skipping to next level ...");
+            LogManager.getLogger(getClass()).debug("Skipping to next level ...");
             for (Metrics subMetrics : metrics.getSubMetrics()) {
                 visitMetrics(subMetrics);
             }
         } else {
             Number value = measurement.getValue();
 
-            Logger.getLogger(getClass()).debug(monitoredMeasurement + " on " + metrics.getName() + " is " + value);
+            LogManager.getLogger(getClass()).debug(monitoredMeasurement + " on " + metrics.getName() + " is " + value);
 
             if (value != null) {
                 data.add(value.doubleValue());

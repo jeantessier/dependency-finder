@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -49,16 +49,16 @@ public class ExceptionHandler implements com.jeantessier.classreader.ExceptionHa
         this.code = code;
 
         startPC = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("start PC: " + startPC);
+        LogManager.getLogger(getClass()).debug("start PC: " + startPC);
 
         endPC = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("end PC: " + endPC);
+        LogManager.getLogger(getClass()).debug("end PC: " + endPC);
 
         handlerPC = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("handler PC: " + handlerPC);
+        LogManager.getLogger(getClass()).debug("handler PC: " + handlerPC);
 
         catchTypeIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("catch type index: " + catchTypeIndex + " (" + getCatchType() + ")");
+        LogManager.getLogger(getClass()).debug("catch type index: " + catchTypeIndex + " (" + getCatchType() + ")");
     }
 
     public Code_attribute getCode() {

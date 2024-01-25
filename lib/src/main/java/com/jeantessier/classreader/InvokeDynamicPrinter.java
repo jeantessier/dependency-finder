@@ -32,7 +32,7 @@
 
 package com.jeantessier.classreader;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.PrintWriter;
 import java.util.stream.IntStream;
@@ -50,14 +50,14 @@ public class InvokeDynamicPrinter extends Printer {
     }
 
     public void visitClassfile(Classfile classfile) {
-        Logger.getLogger(getClass()).debug("visitClassfile(" + classfile.getClassName() + ")");
+        LogManager.getLogger(getClass()).debug("visitClassfile(" + classfile.getClassName() + ")");
         currentClassfile = classfile;
         classfile.getAllMethods().forEach(method -> method.accept(this));
     }
 
     // ConstantPool
     public void visitClass_info(Class_info entry) {
-        Logger.getLogger(getClass()).debug("visitClass_info(" + entry.getName() + ")");
+        LogManager.getLogger(getClass()).debug("visitClass_info(" + entry.getName() + ")");
         indent().append(currentConstantPoolIndex).append(" : ").append(entry.getClass().getSimpleName()).append(" ").append(entry.getName()).eol();
 
         raiseIndent();
@@ -67,7 +67,7 @@ public class InvokeDynamicPrinter extends Printer {
     }
 
     public void visitFieldRef_info(FieldRef_info entry) {
-        Logger.getLogger(getClass()).debug("visitFieldRef_info(" + entry.getFullSignature() + ")");
+        LogManager.getLogger(getClass()).debug("visitFieldRef_info(" + entry.getFullSignature() + ")");
         indent().append(currentConstantPoolIndex).append(" : ").append(entry.getClass().getSimpleName()).append(" ").append(entry.getFullSignature()).eol();
 
         raiseIndent();
@@ -79,7 +79,7 @@ public class InvokeDynamicPrinter extends Printer {
     }
 
     public void visitMethodRef_info(MethodRef_info entry) {
-        Logger.getLogger(getClass()).debug("visitMethodRef_info(" + entry.getFullSignature() + ")");
+        LogManager.getLogger(getClass()).debug("visitMethodRef_info(" + entry.getFullSignature() + ")");
         indent().append(currentConstantPoolIndex).append(" : ").append(entry.getClass().getSimpleName()).append(" ").append(entry.getFullSignature()).eol();
 
         raiseIndent();
@@ -91,7 +91,7 @@ public class InvokeDynamicPrinter extends Printer {
     }
 
     public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
-        Logger.getLogger(getClass()).debug("visitInterfaceMethodRef_info(" + entry.getFullSignature() + ")");
+        LogManager.getLogger(getClass()).debug("visitInterfaceMethodRef_info(" + entry.getFullSignature() + ")");
         indent().append(currentConstantPoolIndex).append(" : ").append(entry.getClass().getSimpleName()).append(" ").append(entry.getFullSignature()).eol();
 
         raiseIndent();
@@ -103,7 +103,7 @@ public class InvokeDynamicPrinter extends Printer {
     }
 
     public void visitString_info(String_info entry) {
-        Logger.getLogger(getClass()).debug("visitString_info(" + entry.getValue() + ")");
+        LogManager.getLogger(getClass()).debug("visitString_info(" + entry.getValue() + ")");
         indent().append(currentConstantPoolIndex).append(" : ").append(entry.getClass().getSimpleName()).append(" \"").append(entry.getValue()).append("\"").eol();
 
         raiseIndent();
@@ -113,27 +113,27 @@ public class InvokeDynamicPrinter extends Printer {
     }
 
     public void visitInteger_info(Integer_info entry) {
-        Logger.getLogger(getClass()).debug("visitInteger_info(" + entry.getValue() + ")");
+        LogManager.getLogger(getClass()).debug("visitInteger_info(" + entry.getValue() + ")");
         indent().append(currentConstantPoolIndex).append(" : ").append(entry.getClass().getSimpleName()).append(" ").append(entry.getValue()).eol();
     }
 
     public void visitFloat_info(Float_info entry) {
-        Logger.getLogger(getClass()).debug("visitFloat_info(" + entry.getValue() + ")");
+        LogManager.getLogger(getClass()).debug("visitFloat_info(" + entry.getValue() + ")");
         indent().append(currentConstantPoolIndex).append(" : ").append(entry.getClass().getSimpleName()).append(" ").append(entry.getValue()).eol();
     }
 
     public void visitLong_info(Long_info entry) {
-        Logger.getLogger(getClass()).debug("visitLong_info(" + entry.getValue() + ")");
+        LogManager.getLogger(getClass()).debug("visitLong_info(" + entry.getValue() + ")");
         indent().append(currentConstantPoolIndex).append(" : ").append(entry.getClass().getSimpleName()).append(" ").append(entry.getValue()).eol();
     }
 
     public void visitDouble_info(Double_info entry) {
-        Logger.getLogger(getClass()).debug("visitDouble_info(" + entry.getValue() + ")");
+        LogManager.getLogger(getClass()).debug("visitDouble_info(" + entry.getValue() + ")");
         indent().append(currentConstantPoolIndex).append(" : ").append(entry.getClass().getSimpleName()).append(" ").append(entry.getValue()).eol();
     }
 
     public void visitNameAndType_info(NameAndType_info entry) {
-        Logger.getLogger(getClass()).debug("visitNameAndType_info(" + entry.getName() + " + " + entry.getType() + ")");
+        LogManager.getLogger(getClass()).debug("visitNameAndType_info(" + entry.getName() + " + " + entry.getType() + ")");
         indent().append(currentConstantPoolIndex).append(" : ").append(entry.getClass().getSimpleName()).eol();
 
         raiseIndent();
@@ -145,12 +145,12 @@ public class InvokeDynamicPrinter extends Printer {
     }
 
     public void visitUTF8_info(UTF8_info entry) {
-        Logger.getLogger(getClass()).debug("visitUTF8_info(" + entry.getValue() + ")");
+        LogManager.getLogger(getClass()).debug("visitUTF8_info(" + entry.getValue() + ")");
         indent().append(currentConstantPoolIndex).append(" : ").append(entry.getClass().getSimpleName()).append(" \"").append(entry.getValue()).append("\"").eol();
     }
 
     public void visitMethodHandle_info(MethodHandle_info entry) {
-        Logger.getLogger(getClass()).debug("visitMethodHandle_info(" + entry.getReferenceKind().getDescription() + " " + entry.getReference().getFullSignature() + ")");
+        LogManager.getLogger(getClass()).debug("visitMethodHandle_info(" + entry.getReferenceKind().getDescription() + " " + entry.getReference().getFullSignature() + ")");
         indent().append(currentConstantPoolIndex).append(" : ").append(entry.getClass().getSimpleName()).append(" ").append(entry.getReferenceKind().getDescription()).append("(").append(entry.getRawReferenceKind()).append(") ").append(entry.getReference().getFullSignature()).eol();
 
         raiseIndent();
@@ -160,7 +160,7 @@ public class InvokeDynamicPrinter extends Printer {
     }
 
     public void visitMethodType_info(MethodType_info entry) {
-        Logger.getLogger(getClass()).debug("visitMethodType_info(" + entry.getDescriptor() + ")");
+        LogManager.getLogger(getClass()).debug("visitMethodType_info(" + entry.getDescriptor() + ")");
         indent().append(currentConstantPoolIndex).append(" : ").append(entry.getClass().getSimpleName()).append(" ").append(entry).eol();
 
         raiseIndent();
@@ -170,7 +170,7 @@ public class InvokeDynamicPrinter extends Printer {
     }
 
     public void visitDynamic_info(Dynamic_info entry) {
-        Logger.getLogger(getClass()).debug("visitDynamic_info(bootstrap method #" + entry.getBootstrapMethodAttrIndex() + " + " + entry.getSignature() + ")");
+        LogManager.getLogger(getClass()).debug("visitDynamic_info(bootstrap method #" + entry.getBootstrapMethodAttrIndex() + " + " + entry.getSignature() + ")");
         indent().append(currentConstantPoolIndex).append(" : ").append(entry.getClass().getSimpleName()).append(" ").append(entry).eol();
 
         raiseIndent();
@@ -185,7 +185,7 @@ public class InvokeDynamicPrinter extends Printer {
     }
 
     public void visitInvokeDynamic_info(InvokeDynamic_info entry) {
-        Logger.getLogger(getClass()).debug("visitInvokeDynamic_info(bootstrap method #" + entry.getBootstrapMethodAttrIndex() + " + " + entry.getSignature() + ")");
+        LogManager.getLogger(getClass()).debug("visitInvokeDynamic_info(bootstrap method #" + entry.getBootstrapMethodAttrIndex() + " + " + entry.getSignature() + ")");
         indent().append(currentConstantPoolIndex).append(" : ").append(entry.getClass().getSimpleName()).append(" ").append(entry).eol();
 
         raiseIndent();
@@ -200,7 +200,7 @@ public class InvokeDynamicPrinter extends Printer {
     }
 
     public void visitModule_info(Module_info entry) {
-        Logger.getLogger(getClass()).debug("visitModule_info(" + entry.getName() + ")");
+        LogManager.getLogger(getClass()).debug("visitModule_info(" + entry.getName() + ")");
         indent().append(currentConstantPoolIndex).append(" : ").append(entry.getClass().getSimpleName()).eol();
 
         raiseIndent();
@@ -210,7 +210,7 @@ public class InvokeDynamicPrinter extends Printer {
     }
 
     public void visitPackage_info(Package_info entry) {
-        Logger.getLogger(getClass()).debug("visitPackage_info(" + entry.getName() + ")");
+        LogManager.getLogger(getClass()).debug("visitPackage_info(" + entry.getName() + ")");
         indent().append(currentConstantPoolIndex).append(" : ").append(entry.getClass().getSimpleName()).eol();
 
         raiseIndent();
@@ -221,7 +221,7 @@ public class InvokeDynamicPrinter extends Printer {
 
     // Features
     public void visitMethod_info(Method_info entry) {
-        Logger.getLogger(getClass()).debug("visitMethod_info(" + entry.getFullSignature() + ")");
+        LogManager.getLogger(getClass()).debug("visitMethod_info(" + entry.getFullSignature() + ")");
         currentMethod = entry;
         super.visitMethod_info(entry);
     }
@@ -232,14 +232,14 @@ public class InvokeDynamicPrinter extends Printer {
     }
 
     public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute) {
-        Logger.getLogger(getClass()).debug("visitBootstrapMethods_attribute(w/ " + attribute.getBootstrapMethods().size() + " method(s))");
+        LogManager.getLogger(getClass()).debug("visitBootstrapMethods_attribute(w/ " + attribute.getBootstrapMethods().size() + " method(s))");
         // Do not traverse the BootstrapMethods from the attribute.
         // Only from the invokedynamic instructions.
     }
 
     // Attribute helpers
     public void visitInstruction(Instruction helper) {
-        Logger.getLogger(getClass()).debug("visitInstruction(" + helper.getStart() + " : " + helper.getMnemonic() + ")");
+        LogManager.getLogger(getClass()).debug("visitInstruction(" + helper.getStart() + " : " + helper.getMnemonic() + ")");
         if (helper.getOpcode() == 0xba /* invokedynamic */) {
             indent().append(currentMethod.getFullSignature()).eol();
 
@@ -270,7 +270,7 @@ public class InvokeDynamicPrinter extends Printer {
     }
 
     public void visitBootstrapMethod(BootstrapMethod helper) {
-        Logger.getLogger(getClass()).debug("visitBootstrapMethod(" + helper.getBootstrapMethod().getReference().getFullSignature() + " w/ [" + helper.getArgumentIndices().stream().map(String::valueOf).collect(joining(" ,")) + "])");
+        LogManager.getLogger(getClass()).debug("visitBootstrapMethod(" + helper.getBootstrapMethod().getReference().getFullSignature() + " w/ [" + helper.getArgumentIndices().stream().map(String::valueOf).collect(joining(" ,")) + "])");
         indent().append(currentBootstrapMethodIndex).append(" : BootstrapMethod").eol();
 
         raiseIndent();

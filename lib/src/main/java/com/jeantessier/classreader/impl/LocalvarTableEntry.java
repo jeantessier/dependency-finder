@@ -33,7 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.Visitor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.*;
 
@@ -44,13 +44,13 @@ public class LocalvarTableEntry implements com.jeantessier.classreader.LocalvarT
 
     public LocalvarTableEntry(DataInput in) throws IOException {
         startPc = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Start pc: " + startPc);
+        LogManager.getLogger(getClass()).debug("Start pc: " + startPc);
 
         length = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Length: " + length);
+        LogManager.getLogger(getClass()).debug("Length: " + length);
 
         index = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Index: " + index);
+        LogManager.getLogger(getClass()).debug("Index: " + index);
     }
 
     public int getStartPc() {

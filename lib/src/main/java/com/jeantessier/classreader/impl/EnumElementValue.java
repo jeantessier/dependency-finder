@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.classreader.UTF8_info;
@@ -47,10 +47,10 @@ public class EnumElementValue extends ElementValue implements com.jeantessier.cl
         super(constantPool);
 
         typeNameIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Type name index: " + typeNameIndex + "(" + getTypeName() + ")");
+        LogManager.getLogger(getClass()).debug("Type name index: " + typeNameIndex + "(" + getTypeName() + ")");
 
         constNameIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Const name index: " + constNameIndex + "(" + getConstName() + ")");
+        LogManager.getLogger(getClass()).debug("Const name index: " + constNameIndex + "(" + getConstName() + ")");
     }
 
     public int getTypeNameIndex() {

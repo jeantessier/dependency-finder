@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.TypePathKind;
 import com.jeantessier.classreader.Visitor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.*;
 
@@ -45,10 +45,10 @@ public class TypePathEntry implements com.jeantessier.classreader.TypePathEntry 
     public TypePathEntry(DataInput in) throws IOException {
         var rawTypePathKind = in.readUnsignedByte();
         typePathKind = TypePathKind.forTypePathKind(rawTypePathKind);
-        Logger.getLogger(getClass()).debug("Type path kind: " + rawTypePathKind + " (" + typePathKind.getDescription() + ")");
+        LogManager.getLogger(getClass()).debug("Type path kind: " + rawTypePathKind + " (" + typePathKind.getDescription() + ")");
 
         typeArgumentIndex = in.readUnsignedByte();
-        Logger.getLogger(getClass()).debug("Type argument index: " + typeArgumentIndex);
+        LogManager.getLogger(getClass()).debug("Type argument index: " + typeArgumentIndex);
     }
 
     public TypePathKind getTypePathKind() {

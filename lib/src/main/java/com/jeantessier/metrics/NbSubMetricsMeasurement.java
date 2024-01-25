@@ -32,7 +32,7 @@
 
 package com.jeantessier.metrics;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
@@ -96,7 +96,7 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 
             in.close();
         } catch (Exception ex) {
-            Logger.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\"", ex);
+            LogManager.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\"", ex);
             terms.clear();
         }
     }
@@ -157,7 +157,7 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
     private boolean evaluateTerm(String term, Metrics metrics) {
         boolean result;
 
-        Logger.getLogger(getClass()).debug("EvaluateTerm(\"" + term + "\", " + metrics + ")");
+        LogManager.getLogger(getClass()).debug("EvaluateTerm(\"" + term + "\", " + metrics + ")");
         
         List<String> elements = new ArrayList<>();
         perl().split(elements, OPERATORS_REGULAR_EXPRESSION, term);
@@ -215,7 +215,7 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
             }
         }
 
-        Logger.getLogger(getClass()).debug("EvaluateTerm(\"" + term + "\", " + metrics + "): " + result);
+        LogManager.getLogger(getClass()).debug("EvaluateTerm(\"" + term + "\", " + metrics + "): " + result);
 
         return result;
     }
@@ -225,7 +225,7 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
             
         name = name.trim();
 
-        Logger.getLogger(getClass()).debug("ResolveOperand(\"" + name + "\", " + metrics + ")");
+        LogManager.getLogger(getClass()).debug("ResolveOperand(\"" + name + "\", " + metrics + ")");
 
         if (name.length() != 0) {
             int dispose;
@@ -288,7 +288,7 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
             }
         }
 
-        Logger.getLogger(getClass()).debug("ResolveOperand(\"" + name + "\", " + metrics + "): " + result);
+        LogManager.getLogger(getClass()).debug("ResolveOperand(\"" + name + "\", " + metrics + "): " + result);
         
         return result;
     }

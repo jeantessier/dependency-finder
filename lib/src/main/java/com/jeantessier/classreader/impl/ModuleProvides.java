@@ -33,7 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -51,13 +51,13 @@ public class ModuleProvides implements com.jeantessier.classreader.ModuleProvide
         this.constantPool = constantPool;
 
         providesIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Provides: " + providesIndex + " (" + getProvides() + ")");
+        LogManager.getLogger(getClass()).debug("Provides: " + providesIndex + " (" + getProvides() + ")");
 
         var numProvidesWith = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + numProvidesWith + " provides with ...");
+        LogManager.getLogger(getClass()).debug("Reading " + numProvidesWith + " provides with ...");
         IntStream.range(0, numProvidesWith).forEach(i -> {
             try {
-                Logger.getLogger(getClass()).debug("provides with " + i + ":");
+                LogManager.getLogger(getClass()).debug("provides with " + i + ":");
                 providesWiths.add(new ModuleProvidesWith(constantPool, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

@@ -32,7 +32,7 @@
 
 package com.jeantessier.metrics;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -67,11 +67,11 @@ public class NameListMeasurement extends MeasurementBase implements CollectionMe
             } else if (initText.trim().equalsIgnoreCase("set")) {
                 values = new HashSet<>();
             } else {
-                Logger.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\", using default value of SET instead");
+                LogManager.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\", using default value of SET instead");
                 values = new HashSet<>();
             }
         } else {
-            Logger.getLogger(getClass()).debug("Cannot initialize with null text, using default value of SET instead");
+            LogManager.getLogger(getClass()).debug("Cannot initialize with null text, using default value of SET instead");
             values = new HashSet<>();
         }
     }

@@ -32,7 +32,7 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.*;
 
@@ -42,12 +42,12 @@ public class VerificationTypeInfoFactory {
 
         int tag = in.readUnsignedByte();
         VerificationType verificationType = VerificationType.forTag(tag);
-        Logger.getLogger(getClass()).debug("tag " + tag + " (" + verificationType + ")");
+        LogManager.getLogger(getClass()).debug("tag " + tag + " (" + verificationType + ")");
         if (verificationType != null) {
             result = verificationType.create(constantPool, in);
         } else {
             String message = "Unknown verification type info tag '" + tag + "'";
-            Logger.getLogger(AttributeFactory.class).warn(message);
+            LogManager.getLogger(AttributeFactory.class).warn(message);
             throw new IOException(message);
         }
 

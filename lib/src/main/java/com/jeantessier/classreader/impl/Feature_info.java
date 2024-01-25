@@ -35,7 +35,7 @@ package com.jeantessier.classreader.impl;
 import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -61,18 +61,18 @@ public abstract class Feature_info implements com.jeantessier.classreader.Featur
         this.classfile = classfile;
 
         accessFlags = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug(getFeatureType() + " access flags: " + accessFlags);
+        LogManager.getLogger(getClass()).debug(getFeatureType() + " access flags: " + accessFlags);
 
         nameIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug(getFeatureType() + " name: " + nameIndex + " (" + getName() + ")");
+        LogManager.getLogger(getClass()).debug(getFeatureType() + " name: " + nameIndex + " (" + getName() + ")");
 
         descriptorIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug(getFeatureType() + " Descriptor: " + descriptorIndex + " (" + getDescriptor() + ")");
+        LogManager.getLogger(getClass()).debug(getFeatureType() + " Descriptor: " + descriptorIndex + " (" + getDescriptor() + ")");
 
         int attributeCount = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + attributeCount + " " + getFeatureType() + " attribute(s)");
+        LogManager.getLogger(getClass()).debug("Reading " + attributeCount + " " + getFeatureType() + " attribute(s)");
         for (int i=0; i<attributeCount; i++) {
-            Logger.getLogger(getClass()).debug(getFeatureType() + " attribute " + i + ":");
+            LogManager.getLogger(getClass()).debug(getFeatureType() + " attribute " + i + ":");
             attributes.add(attributeFactory.create(getClassfile().getConstantPool(), this, in));
         }
     }

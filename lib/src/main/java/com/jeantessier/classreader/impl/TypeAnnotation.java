@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.ClassNameHelper;
 import com.jeantessier.classreader.Visitor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -63,19 +63,19 @@ public class TypeAnnotation implements com.jeantessier.classreader.TypeAnnotatio
 
         var rawTargetType = in.readUnsignedShort();
         targetType = TargetType.forTargetType(rawTargetType);
-        Logger.getLogger(getClass()).debug("Target type: " + targetType.getHexTargetType() + "(" + targetType.getDescription() + ")");
+        LogManager.getLogger(getClass()).debug("Target type: " + targetType.getHexTargetType() + "(" + targetType.getDescription() + ")");
 
         target = targetType.create(in);
 
         typePath = new TypePath(in);
 
         typeIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Type index: " + typeIndex + " (" + getType() + ")");
+        LogManager.getLogger(getClass()).debug("Type index: " + typeIndex + " (" + getType() + ")");
 
         int numElementValuePairs = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + numElementValuePairs + " element value pair(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading " + numElementValuePairs + " element value pair(s) ...");
         for (int i=0; i<numElementValuePairs; i++) {
-            Logger.getLogger(getClass()).debug("Element value pair " + i + ":");
+            LogManager.getLogger(getClass()).debug("Element value pair " + i + ":");
             elementValuePairs.add(new ElementValuePair(constantPool, in, elementValueFactory));
         }
     }

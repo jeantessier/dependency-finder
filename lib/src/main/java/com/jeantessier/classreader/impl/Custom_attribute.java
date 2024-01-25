@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.text.*;
@@ -53,13 +53,13 @@ public class Custom_attribute extends Attribute_info implements com.jeantessier.
         this.name = name;
 
         int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
         this.info = new byte[byteCount];
         in.readFully(info);
 
-        if (Logger.getLogger(getClass()).isDebugEnabled()) {
-            Logger.getLogger(getClass()).debug("Read " + byteCount + " byte(s): " + Hex.toString(this.info));
+        if (LogManager.getLogger(getClass()).isDebugEnabled()) {
+            LogManager.getLogger(getClass()).debug("Read " + byteCount + " byte(s): " + Hex.toString(this.info));
         }
     }
 

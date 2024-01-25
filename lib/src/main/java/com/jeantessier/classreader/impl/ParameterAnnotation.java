@@ -35,7 +35,7 @@ package com.jeantessier.classreader.impl;
 import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -44,9 +44,9 @@ public class ParameterAnnotation implements com.jeantessier.classreader.Paramete
 
     public ParameterAnnotation(ConstantPool constantPool, DataInput in) throws IOException {
         int numAnnotations = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + numAnnotations + " annotation(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading " + numAnnotations + " annotation(s) ...");
         for (int i=0; i<numAnnotations; i++) {
-            Logger.getLogger(getClass()).debug("Annotation " + i + ":");
+            LogManager.getLogger(getClass()).debug("Annotation " + i + ":");
             annotations.add(new Annotation(constantPool, in));
         }
     }

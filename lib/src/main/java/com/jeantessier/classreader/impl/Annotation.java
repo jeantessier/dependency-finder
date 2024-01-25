@@ -35,7 +35,7 @@ package com.jeantessier.classreader.impl;
 import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -54,12 +54,12 @@ public class Annotation implements com.jeantessier.classreader.Annotation {
         this.constantPool = constantPool;
 
         typeIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Type index: " + typeIndex + " (" + getType() + ")");
+        LogManager.getLogger(getClass()).debug("Type index: " + typeIndex + " (" + getType() + ")");
 
         int numElementValuePairs = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + numElementValuePairs + " element value pair(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading " + numElementValuePairs + " element value pair(s) ...");
         for (int i=0; i<numElementValuePairs; i++) {
-            Logger.getLogger(getClass()).debug("Element value pair " + i + ":");
+            LogManager.getLogger(getClass()).debug("Element value pair " + i + ":");
             elementValuePairs.add(new ElementValuePair(constantPool, in, elementValueFactory));
         }
     }

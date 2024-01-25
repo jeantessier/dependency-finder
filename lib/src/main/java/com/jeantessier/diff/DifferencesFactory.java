@@ -35,7 +35,7 @@ package com.jeantessier.diff;
 import java.util.*;
 import java.util.stream.Stream;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -56,11 +56,11 @@ public class DifferencesFactory {
     }
 
     public Differences createProjectDifferences(String name, String oldVersion, PackageMapper oldPackages, String newVersion, PackageMapper newPackages) {
-        Logger.getLogger(getClass()).debug("Begin " + name + " (" + oldVersion + " -> " + newVersion + ")");
+        LogManager.getLogger(getClass()).debug("Begin " + name + " (" + oldVersion + " -> " + newVersion + ")");
 
         ProjectDifferences projectDifferences = new ProjectDifferences(name, oldVersion, newVersion);
 
-        Logger.getLogger(getClass()).debug("      Collecting packages ...");
+        LogManager.getLogger(getClass()).debug("      Collecting packages ...");
 
         var packageNames = Stream.concat(
                 oldPackages.getPackageNames().stream(),
@@ -69,7 +69,7 @@ public class DifferencesFactory {
                 .sorted()
                 .toList();
 
-        Logger.getLogger(getClass()).debug("      Diff'ing packages ...");
+        LogManager.getLogger(getClass()).debug("      Diff'ing packages ...");
 
         packageNames.forEach(packageName -> {
             Map<String, Classfile> oldPackage = oldPackages.getPackage(packageName);
@@ -87,18 +87,18 @@ public class DifferencesFactory {
             }
         });
 
-        Logger.getLogger(getClass()).debug("End   " + name + " (" + oldVersion + " -> " + newVersion + ")");
+        LogManager.getLogger(getClass()).debug("End   " + name + " (" + oldVersion + " -> " + newVersion + ")");
 
         return projectDifferences;
     }
 
     public Differences createPackageDifferences(String name, Map<String, Classfile> oldPackage, Map<String, Classfile> newPackage) {
-        Logger.getLogger(getClass()).debug("Begin " + name);
+        LogManager.getLogger(getClass()).debug("Begin " + name);
 
         PackageDifferences packageDifferences = new PackageDifferences(name, oldPackage, newPackage);
 
         if (oldPackage != null && !oldPackage.isEmpty() && newPackage != null && !newPackage.isEmpty()) {
-            Logger.getLogger(getClass()).debug("      Diff'ing classes ...");
+            LogManager.getLogger(getClass()).debug("      Diff'ing classes ...");
 
             Stream.concat(
                     oldPackage.keySet().stream(),
@@ -113,16 +113,16 @@ public class DifferencesFactory {
                         }
                     });
 
-            Logger.getLogger(getClass()).debug("      " + name + " has " + packageDifferences.getClassDifferences().size() + " class(es) that changed.");
+            LogManager.getLogger(getClass()).debug("      " + name + " has " + packageDifferences.getClassDifferences().size() + " class(es) that changed.");
         }
 
-        Logger.getLogger(getClass()).debug("End   " + name);
+        LogManager.getLogger(getClass()).debug("End   " + name);
 
         return packageDifferences;
     }
 
     public Differences createClassDifferences(String name, Classfile oldClass, Classfile newClass) {
-        Logger.getLogger(getClass()).debug("Begin " + name);
+        LogManager.getLogger(getClass()).debug("Begin " + name);
 
         ClassDifferences classDifferences;
         if (((oldClass != null) && oldClass.isInterface()) || ((newClass != null) && newClass.isInterface())) {
@@ -140,13 +140,13 @@ public class DifferencesFactory {
         this.newClass = newClass;
 
         if (oldClass != null && newClass != null) {
-            Logger.getLogger(getClass()).debug("      Collecting fields ...");
+            LogManager.getLogger(getClass()).debug("      Collecting fields ...");
 
             Map<String, String> fieldLevel = new TreeMap<>();
             oldClass.getAllFields().forEach(field -> fieldLevel.put(field.getName(), field.getFullSignature()));
             newClass.getAllFields().forEach(field -> fieldLevel.put(field.getName(), field.getFullSignature()));
 
-            Logger.getLogger(getClass()).debug("      Diff'ing fields ...");
+            LogManager.getLogger(getClass()).debug("      Diff'ing fields ...");
 
             fieldLevel.forEach((fieldName, fullSignature) -> {
                 Field_info oldField = oldClass.getField(fieldName);
@@ -157,13 +157,13 @@ public class DifferencesFactory {
                 }
             });
 
-            Logger.getLogger(getClass()).debug("      Collecting methods ...");
+            LogManager.getLogger(getClass()).debug("      Collecting methods ...");
 
             Map<String, String> methodLevel = new TreeMap<>();
             oldClass.getAllMethods().forEach(method -> methodLevel.put(method.getSignature(), method.getFullSignature()));
             newClass.getAllMethods().forEach(method -> methodLevel.put(method.getSignature(), method.getFullSignature()));
 
-            Logger.getLogger(getClass()).debug("      Diff'ing methods ...");
+            LogManager.getLogger(getClass()).debug("      Diff'ing methods ...");
 
             methodLevel.forEach((signature, fullSignature) -> {
                 Method_info oldMethod = oldClass.getMethod(signature);
@@ -174,20 +174,20 @@ public class DifferencesFactory {
                 }
             });
 
-            Logger.getLogger(getClass()).debug(name + " has " + classDifferences.getFeatureDifferences().size() + " feature(s) that changed.");
+            LogManager.getLogger(getClass()).debug(name + " has " + classDifferences.getFeatureDifferences().size() + " feature(s) that changed.");
 
             if (oldClass.isDeprecated() != newClass.isDeprecated()) {
                 result = new DeprecatableDifferences(result, oldClass, newClass);
             }
         }
 
-        Logger.getLogger(getClass()).debug("End   " + name);
+        LogManager.getLogger(getClass()).debug("End   " + name);
 
         return result;
     }
 
     public Differences createFeatureDifferences(String name, Feature_info oldFeature, Feature_info newFeature) {
-        Logger.getLogger(getClass()).debug("Begin " + name);
+        LogManager.getLogger(getClass()).debug("Begin " + name);
 
         FeatureDifferences featureDifferences;
         if (oldFeature instanceof Field_info || newFeature instanceof Field_info) {
@@ -227,7 +227,7 @@ public class DifferencesFactory {
             }
         }
 
-        Logger.getLogger(getClass()).debug("End   " + name);
+        LogManager.getLogger(getClass()).debug("End   " + name);
 
         return result;
     }

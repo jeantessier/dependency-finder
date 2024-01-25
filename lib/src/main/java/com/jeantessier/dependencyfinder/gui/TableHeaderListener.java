@@ -34,7 +34,7 @@ package com.jeantessier.dependencyfinder.gui;
 
 import com.jeantessier.metrics.MeasurementDescriptor;
 import com.jeantessier.metrics.StatisticalMeasurement;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -56,34 +56,34 @@ class TableHeaderListener implements MouseListener, MouseMotionListener {
         String columnName = model.getRawColumnName(column);
         int columnDispose = model.getRawColumnDispose(column);
 
-        Logger.getLogger(getClass()).debug("mouseClicked");
-        Logger.getLogger(getClass()).debug("event.getX()       = " + event.getX());
-        Logger.getLogger(getClass()).debug("view column        = " + viewColumn);
-        Logger.getLogger(getClass()).debug("column             = " + column);
-        Logger.getLogger(getClass()).debug("raw column name    = " + columnName);
-        Logger.getLogger(getClass()).debug("raw column dispose = " + columnDispose);
+        LogManager.getLogger(getClass()).debug("mouseClicked");
+        LogManager.getLogger(getClass()).debug("event.getX()       = " + event.getX());
+        LogManager.getLogger(getClass()).debug("view column        = " + viewColumn);
+        LogManager.getLogger(getClass()).debug("column             = " + column);
+        LogManager.getLogger(getClass()).debug("raw column name    = " + columnName);
+        LogManager.getLogger(getClass()).debug("raw column dispose = " + columnDispose);
 
         model.sortOn(columnName, columnDispose);
     }
 
     public void mouseEntered(MouseEvent event) {
-        Logger.getLogger(getClass()).debug("mouseEntered");
+        LogManager.getLogger(getClass()).debug("mouseEntered");
     }
 
     public void mouseExited(MouseEvent event) {
-        Logger.getLogger(getClass()).debug("mouseExited");
+        LogManager.getLogger(getClass()).debug("mouseExited");
     }
 
     public void mousePressed(MouseEvent event) {
-        Logger.getLogger(getClass()).debug("mousePressed");
+        LogManager.getLogger(getClass()).debug("mousePressed");
     }
 
     public void mouseReleased(MouseEvent event) {
-        Logger.getLogger(getClass()).debug("mouseReleased");
+        LogManager.getLogger(getClass()).debug("mouseReleased");
     }
 
     public void mouseDragged(MouseEvent event) {
-        Logger.getLogger(getClass()).debug("mouseDragged");
+        LogManager.getLogger(getClass()).debug("mouseDragged");
     }
 
     public void mouseMoved(MouseEvent event) {

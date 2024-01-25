@@ -33,7 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.*;
 
@@ -53,13 +53,13 @@ public class ModuleRequires implements com.jeantessier.classreader.ModuleRequire
         this.constantPool = constantPool;
 
         requiresIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Requires: " + requiresIndex + " (" + getRequires() + ")");
+        LogManager.getLogger(getClass()).debug("Requires: " + requiresIndex + " (" + getRequires() + ")");
 
         requiresFlags = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Requires flags: " + requiresFlags);
+        LogManager.getLogger(getClass()).debug("Requires flags: " + requiresFlags);
 
         requiresVersionIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Requires version: " + requiresVersionIndex + " (" + getRequiresVersion() + ")");
+        LogManager.getLogger(getClass()).debug("Requires version: " + requiresVersionIndex + " (" + getRequiresVersion() + ")");
     }
 
     public ConstantPool getConstantPool() {

@@ -35,7 +35,7 @@ package com.jeantessier.dependency;
 import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 import org.apache.oro.text.perl.*;
 
 public class TextPrinter extends Printer {
@@ -65,7 +65,7 @@ public class TextPrinter extends Printer {
     }
     
     protected void preprocessPackageNode(PackageNode node) {
-        Logger.getLogger(getClass()).debug("Printing package \"" + node + "\" and its " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds");
+        LogManager.getLogger(getClass()).debug("Printing package \"" + node + "\" and its " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds");
         
         super.preprocessPackageNode(node);
 
@@ -75,7 +75,7 @@ public class TextPrinter extends Printer {
     }
 
     protected void preprocessAfterDependenciesPackageNode(PackageNode node) {
-        Logger.getLogger(getClass()).debug("Package \"" + node + "\" with " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds had " + dependencies.size() + " dependencies.");
+        LogManager.getLogger(getClass()).debug("Package \"" + node + "\" with " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds had " + dependencies.size() + " dependencies.");
         
         if (shouldShowPackageNode(node) || !dependencies.isEmpty()) {
             lowerIndent();
@@ -94,24 +94,24 @@ public class TextPrinter extends Printer {
 
     public void visitInboundPackageNode(PackageNode node) {
         if (isShowInbounds()) {
-            Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
+            LogManager.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
             dependencies.merge(node, -1, Integer::sum);
         } else {
-            Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
+            LogManager.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
         }
     }
 
     public void visitOutboundPackageNode(PackageNode node) {
         if (isShowOutbounds()) {
-            Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
+            LogManager.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
             dependencies.merge(node, 1, Integer::sum);
         } else {
-            Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" --> \"" + node + "\"");
+            LogManager.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" --> \"" + node + "\"");
         }
     }
 
     protected void preprocessClassNode(ClassNode node) {
-        Logger.getLogger(getClass()).debug("Printing class \"" + node + "\" and its " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds");
+        LogManager.getLogger(getClass()).debug("Printing class \"" + node + "\" and its " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds");
         
         super.preprocessClassNode(node);
 
@@ -121,7 +121,7 @@ public class TextPrinter extends Printer {
     }
 
     protected void preprocessAfterDependenciesClassNode(ClassNode node) {
-        Logger.getLogger(getClass()).debug("Class \"" + node + "\" with " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds had " + dependencies.size() + " dependencies.");
+        LogManager.getLogger(getClass()).debug("Class \"" + node + "\" with " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds had " + dependencies.size() + " dependencies.");
         
         if (shouldShowClassNode(node) || !dependencies.isEmpty()) {
             lowerIndent();
@@ -140,24 +140,24 @@ public class TextPrinter extends Printer {
     
     public void visitInboundClassNode(ClassNode node) {
         if (isShowInbounds()) {
-            Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
+            LogManager.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
             dependencies.merge(node, -1, Integer::sum);
         } else {
-            Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
+            LogManager.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
         }
     }
 
     public void visitOutboundClassNode(ClassNode node) {
         if (isShowOutbounds()) {
-            Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
+            LogManager.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
             dependencies.merge(node, 1, Integer::sum);
         } else {
-            Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" --> \"" + node + "\"");
+            LogManager.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" --> \"" + node + "\"");
         }
     }
 
     protected void preprocessFeatureNode(FeatureNode node) {
-        Logger.getLogger(getClass()).debug("Printing feature \"" + node + "\" and its " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds");
+        LogManager.getLogger(getClass()).debug("Printing feature \"" + node + "\" and its " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds");
         
         super.preprocessFeatureNode(node);
 
@@ -167,7 +167,7 @@ public class TextPrinter extends Printer {
     }
 
     protected void postprocessFeatureNode(FeatureNode node) {
-        Logger.getLogger(getClass()).debug("Feature \"" + node + "\" with " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds had " + dependencies.size() + " dependencies.");
+        LogManager.getLogger(getClass()).debug("Feature \"" + node + "\" with " + node.getInboundDependencies().size() + " inbounds and " + node.getOutboundDependencies().size() + " outbounds had " + dependencies.size() + " dependencies.");
         
         if (shouldShowFeatureNode(node) || !dependencies.isEmpty()) {
             lowerIndent();
@@ -190,19 +190,19 @@ public class TextPrinter extends Printer {
 
     public void visitInboundFeatureNode(FeatureNode node) {
         if (isShowInbounds()) {
-            Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
+            LogManager.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
             dependencies.merge(node, -1, Integer::sum);
         } else {
-            Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
+            LogManager.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" <-- \"" + node + "\"");
         }
     }
 
     public void visitOutboundFeatureNode(FeatureNode node) {
         if (isShowOutbounds()) {
-            Logger.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
+            LogManager.getLogger(getClass()).debug("Printing \"" + getCurrentNode() + "\" --> \"" + node + "\"");
             dependencies.merge(node, 1, Integer::sum);
         } else {
-            Logger.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" --> \"" + node + "\"");
+            LogManager.getLogger(getClass()).debug("Ignoring \"" + getCurrentNode() + "\" --> \"" + node + "\"");
         }
     }
 

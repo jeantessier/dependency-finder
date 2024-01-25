@@ -36,7 +36,7 @@ import java.io.*;
 import java.util.*;
 import java.util.stream.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.Instruction;
 import com.jeantessier.classreader.LocalVariable;
@@ -54,26 +54,26 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
         maxStack = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Code max stack: " + maxStack);
+        LogManager.getLogger(getClass()).debug("Code max stack: " + maxStack);
 
         maxLocals = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Code max locals: " + maxLocals);
+        LogManager.getLogger(getClass()).debug("Code max locals: " + maxLocals);
 
         int codeLength = in.readInt();
-        Logger.getLogger(getClass()).debug("Code length: " + codeLength);
+        LogManager.getLogger(getClass()).debug("Code length: " + codeLength);
         
         code = new byte[codeLength];
         in.readFully(code);
-        Logger.getLogger(getClass()).debug("Read " + codeLength + " byte(s): " + Hex.toString(code));
+        LogManager.getLogger(getClass()).debug("Read " + codeLength + " byte(s): " + Hex.toString(code));
 
         int exceptionTableLength = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + exceptionTableLength + " exception handler(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading " + exceptionTableLength + " exception handler(s) ...");
         IntStream.range (0, exceptionTableLength).forEach(i -> {
             try {
-                Logger.getLogger(getClass()).debug("Exception handler " + i + ":");
+                LogManager.getLogger(getClass()).debug("Exception handler " + i + ":");
                 exceptionHandlers.add(new ExceptionHandler(this, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -81,18 +81,18 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
         });
 
         int attributeCount = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + attributeCount + " code attribute(s)");
+        LogManager.getLogger(getClass()).debug("Reading " + attributeCount + " code attribute(s)");
         IntStream.range(0, attributeCount).forEach(i -> {
             try {
-                Logger.getLogger(getClass()).debug("code attribute " + i + ":");
+                LogManager.getLogger(getClass()).debug("code attribute " + i + ":");
                 attributes.add(attributeFactory.create(getConstantPool(), this, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
 
-        if (Logger.getLogger(getClass()).isDebugEnabled()) {
-            Logger.getLogger(getClass()).debug("Read instructions(s):");
+        if (LogManager.getLogger(getClass()).isDebugEnabled()) {
+            LogManager.getLogger(getClass()).debug("Read instructions(s):");
             forEach(this::logInstruction);
         }
     }
@@ -141,7 +141,7 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
         appendOffset(message, instruction);
         appendValue(message, instruction);
 
-        Logger.getLogger(getClass()).debug(message);
+        LogManager.getLogger(getClass()).debug(message);
     }
 
     private StringBuilder appendIndexedConstantPoolEntry(StringBuilder message, Instruction instruction) {

@@ -33,7 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.Visitable;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -48,13 +48,13 @@ public abstract class RuntimeTypeAnnotations_attribute extends Annotations_attri
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
         int numParameters = in.readUnsignedByte();
-        Logger.getLogger(getClass()).debug("Reading " + numParameters + " parameter(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading " + numParameters + " parameter(s) ...");
         IntStream.range(0, numParameters).forEach(i -> {
             try {
-                Logger.getLogger(getClass()).debug("parameter " + i + ":");
+                LogManager.getLogger(getClass()).debug("parameter " + i + ":");
                 typeAnnotations.add(new TypeAnnotation(constantPool, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

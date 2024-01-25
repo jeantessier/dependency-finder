@@ -32,7 +32,7 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.diff.*;
@@ -53,7 +53,7 @@ public class ClassClassDiff extends DiffCommand {
         // Starting to compare, first at class level,
         // then descending to feature level.
 
-        Logger.getLogger(getClass()).info("Comparing ...");
+        LogManager.getLogger(getClass()).info("Comparing ...");
         getVerboseListener().print("Comparing ...");
 
         String name = getCommandLine().getSingleSwitch("name");
@@ -65,7 +65,7 @@ public class ClassClassDiff extends DiffCommand {
 
         Differences differences = getDifferencesFactory().createClassDifferences(name, oldClass, newClass);
 
-        Logger.getLogger(getClass()).info("Printing results ...");
+        LogManager.getLogger(getClass()).info("Printing results ...");
         getVerboseListener().print("Printing results ...");
 
         Report report = new Report(getCommandLine().getSingleSwitch("indent-text"), getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));

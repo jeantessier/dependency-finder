@@ -36,7 +36,7 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 public final class DescriptorHelper {
     private static final Map<String, String> conversion = Map.of(
@@ -58,7 +58,7 @@ public final class DescriptorHelper {
     public static String convert(String type) {
         String result = null;
 
-        Logger.getLogger(DescriptorHelper.class).debug("Begin Convert(\"" + type + "\")");
+        LogManager.getLogger(DescriptorHelper.class).debug("Begin Convert(\"" + type + "\")");
 
         if (type.length() == 1) {
             result = conversion.get(type);
@@ -70,7 +70,7 @@ public final class DescriptorHelper {
             result = convert(type.substring(1)) + "[]";
         }
 
-        Logger.getLogger(DescriptorHelper.class).debug("End   Convert(\"" + type + "\"): \"" + result + "\"");
+        LogManager.getLogger(DescriptorHelper.class).debug("End   Convert(\"" + type + "\"): \"" + result + "\"");
 
         return result;
     }
@@ -78,7 +78,7 @@ public final class DescriptorHelper {
     public static String getSignature(String descriptor) {
         StringBuilder result = new StringBuilder();
 
-        Logger.getLogger(DescriptorHelper.class).debug("Begin Signature(\"" + descriptor + "\")");
+        LogManager.getLogger(DescriptorHelper.class).debug("Begin Signature(\"" + descriptor + "\")");
 
         result.append("(");
 
@@ -92,20 +92,20 @@ public final class DescriptorHelper {
 
         result.append(")");
 
-        Logger.getLogger(DescriptorHelper.class).debug("End   Signature(\"" + descriptor + "\"): \"" + result + "\"");
+        LogManager.getLogger(DescriptorHelper.class).debug("End   Signature(\"" + descriptor + "\"): \"" + result + "\"");
 
         return result.toString();
     }
 
     public static int getParameterCount(String descriptor) {
-        Logger.getLogger(DescriptorHelper.class).debug("Begin ParameterCount(\"" + descriptor + "\")");
+        LogManager.getLogger(DescriptorHelper.class).debug("Begin ParameterCount(\"" + descriptor + "\")");
 
         var start = descriptor.indexOf("(") + 1;
         var end = descriptor.indexOf(")");
 
         var result = (int) StreamSupport.stream(new DescriptorSpliterator(descriptor.substring(start, end)), false).count();
 
-        Logger.getLogger(DescriptorHelper.class).debug("End   ParameterCount(\"" + descriptor + "\"): \"" + result + "\"");
+        LogManager.getLogger(DescriptorHelper.class).debug("End   ParameterCount(\"" + descriptor + "\"): \"" + result + "\"");
 
         return result;
     }

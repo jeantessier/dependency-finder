@@ -41,7 +41,7 @@ import com.jeantessier.metrics.Metrics;
 import com.jeantessier.metrics.MetricsComparator;
 import com.jeantessier.metrics.MetricsConfigurationLoader;
 import com.jeantessier.metrics.MetricsFactory;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -130,7 +130,7 @@ public class OOMetrics extends DirectoryExplorerCommand {
     }
 
     protected void doProcessing() throws Exception {
-        Logger.getLogger(OOMetrics.class).debug("Reading configuration ...");
+        LogManager.getLogger(OOMetrics.class).debug("Reading configuration ...");
         getVerboseListener().print("Reading configuration ...");
 
         String projectName = getCommandLine().getSingleSwitch("project-name");
@@ -152,13 +152,13 @@ public class OOMetrics extends DirectoryExplorerCommand {
         gatherer.addMetricsListener(getVerboseListener());
 
         if (getCommandLine().isPresent("enable-cross-class-measurements")) {
-            Logger.getLogger(OOMetrics.class).debug("Reading in all classes ...");
+            LogManager.getLogger(OOMetrics.class).debug("Reading in all classes ...");
             getVerboseListener().print("Reading in all classes ...");
             ClassfileLoader loader = new AggregatingClassfileLoader();
             loader.addLoadListener(getVerboseListener());
             loader.load(getCommandLine().getParameters());
 
-            Logger.getLogger(OOMetrics.class).debug("Computing metrics ...");
+            LogManager.getLogger(OOMetrics.class).debug("Computing metrics ...");
             getVerboseListener().print("Computing metrics ...");
             gatherer.visitClassfiles(loader.getAllClassfiles());
         } else {
@@ -166,7 +166,7 @@ public class OOMetrics extends DirectoryExplorerCommand {
             loader.addLoadListener(getVerboseListener());
             loader.addLoadListener(new LoadListenerVisitorAdapter(gatherer));
 
-            Logger.getLogger(OOMetrics.class).debug("Reading classes and computing metrics as we go ...");
+            LogManager.getLogger(OOMetrics.class).debug("Reading classes and computing metrics as we go ...");
             getVerboseListener().print("Reading classes and computing metrics as we go ...");
             loader.load(getCommandLine().getParameters());
         }
@@ -176,7 +176,7 @@ public class OOMetrics extends DirectoryExplorerCommand {
             gatherer.getMetricsFactory().getAllMethodMetrics().forEach(metrics -> gatherer.getMetricsFactory().includeMethodMetrics(metrics));
         }
 
-        Logger.getLogger(OOMetrics.class).debug("Printing results ...");
+        LogManager.getLogger(OOMetrics.class).debug("Printing results ...");
         getVerboseListener().print("Printing results ...");
 
         if (getCommandLine().isPresent("csv")) {
@@ -191,7 +191,7 @@ public class OOMetrics extends DirectoryExplorerCommand {
             printYAMLFile(gatherer.getMetricsFactory());
         }
 
-        Logger.getLogger(OOMetrics.class).debug("Done.");
+        LogManager.getLogger(OOMetrics.class).debug("Done.");
     }
 
     private static Collection<String> createCollection(Collection<String> includes, Collection<String> excludes) throws IOException {

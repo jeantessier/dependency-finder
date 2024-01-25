@@ -32,7 +32,7 @@
 
 package com.jeantessier.dependencyfinder;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.IOException;
 import java.util.jar.Attributes;
@@ -61,7 +61,7 @@ public class Version {
             try (JarFile jar = new JarFile(jarName)) {
                 attributes = jar.getManifest().getMainAttributes();
             } catch (IOException ex) {
-                Logger.getLogger(getClass()).error("Could not get version information, using defaults", ex);
+                LogManager.getLogger(getClass()).error("Could not get version information, using defaults", ex);
             }
         }
     }

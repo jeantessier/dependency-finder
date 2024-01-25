@@ -33,7 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.Visitor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.*;
 import java.util.*;
@@ -47,10 +47,10 @@ public class LocalvarTarget extends Target_info implements com.jeantessier.class
         this.targetType = targetType;
 
         var tableLength = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + tableLength + " localvar table entry(ies) ...");
+        LogManager.getLogger(getClass()).debug("Reading " + tableLength + " localvar table entry(ies) ...");
         IntStream.range(0, tableLength).forEach(i -> {
             try {
-                Logger.getLogger(getClass()).debug("entry " + i + ":");
+                LogManager.getLogger(getClass()).debug("entry " + i + ":");
                 table.add(new LocalvarTableEntry(in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

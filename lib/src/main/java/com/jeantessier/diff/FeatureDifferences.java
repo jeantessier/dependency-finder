@@ -32,7 +32,7 @@
 
 package com.jeantessier.diff;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -59,9 +59,9 @@ public abstract class FeatureDifferences extends RemovableDifferences {
         this.newFeature = newFeature;
 
         if (isModified()) {
-            Logger.getLogger(getClass()).debug(getName() + " declaration has been modified.");
+            LogManager.getLogger(getClass()).debug(getName() + " declaration has been modified.");
         } else {
-            Logger.getLogger(getClass()).debug(getName() + " declaration has not been modified.");
+            LogManager.getLogger(getClass()).debug(getName() + " declaration has not been modified.");
         }
     }
 

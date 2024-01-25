@@ -33,7 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.Visitor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.*;
 
@@ -46,7 +46,7 @@ public class NestMember implements com.jeantessier.classreader.NestMember {
         this.constantPool = constantPool;
 
         memberClassIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("class index: " + memberClassIndex + " (" + getMemberClass() + ")");
+        LogManager.getLogger(getClass()).debug("class index: " + memberClassIndex + " (" + getMemberClass() + ")");
     }
 
     public ConstantPool getConstantPool() {

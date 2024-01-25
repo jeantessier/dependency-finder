@@ -34,7 +34,7 @@ package com.jeantessier.dependency;
 
 import java.util.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 import org.apache.oro.text.perl.*;
 
 public class NodeFactory {
@@ -49,19 +49,19 @@ public class NodeFactory {
     }
     
     public PackageNode createPackage(String packageName, boolean confirmed) {
-        Logger.getLogger(getClass()).debug("Create package \"" + packageName + "\"");
+        LogManager.getLogger(getClass()).debug("Create package \"" + packageName + "\"");
 
         PackageNode result = packages.get(packageName);
 
         if (result == null) {
             result = new PackageNode(packageName, confirmed);
             packages.put(packageName, result);
-            Logger.getLogger(getClass()).debug("Added package \"" + packageName + "\"");
+            LogManager.getLogger(getClass()).debug("Added package \"" + packageName + "\"");
         }
 
         if (confirmed && !result.isConfirmed()) {
             result.setConfirmed(confirmed);
-            Logger.getLogger(getClass()).debug("Package \"" + packageName + "\" is confirmed");
+            LogManager.getLogger(getClass()).debug("Package \"" + packageName + "\" is confirmed");
         }
 
         return result;
@@ -69,7 +69,7 @@ public class NodeFactory {
     
     // Only to be used by DeletingVisitor
     void deletePackage(PackageNode node) {
-        Logger.getLogger(getClass()).debug("Delete package \"" + node + "\"");
+        LogManager.getLogger(getClass()).debug("Delete package \"" + node + "\"");
 
         packages.remove(node.getName());
     }
@@ -83,7 +83,7 @@ public class NodeFactory {
     }
     
     public ClassNode createClass(String className, boolean confirmed) {
-        Logger.getLogger(getClass()).debug("Create class \"" + className + "\"");
+        LogManager.getLogger(getClass()).debug("Create class \"" + className + "\"");
 
         ClassNode result = classes.get(className);
 
@@ -97,12 +97,12 @@ public class NodeFactory {
             result = new ClassNode(parent, className, confirmed);
             parent.addClass(result);
             classes.put(className, result);
-            Logger.getLogger(getClass()).debug("Added class \"" + className + "\"");
+            LogManager.getLogger(getClass()).debug("Added class \"" + className + "\"");
         }
 
         if (confirmed && !result.isConfirmed()) {
             result.setConfirmed(confirmed);
-            Logger.getLogger(getClass()).debug("Class \"" + className + "\" is confirmed");
+            LogManager.getLogger(getClass()).debug("Class \"" + className + "\" is confirmed");
         }
 
         return result;
@@ -110,7 +110,7 @@ public class NodeFactory {
 
     // Only to be used by DeletingVisitor
     void deleteClass(ClassNode node) {
-        Logger.getLogger(getClass()).debug("Delete class \"" + node + "\"");
+        LogManager.getLogger(getClass()).debug("Delete class \"" + node + "\"");
 
         node.getPackageNode().removeClass(node);
         classes.remove(node.getName());
@@ -125,7 +125,7 @@ public class NodeFactory {
     }
     
     public FeatureNode createFeature(String featureName, boolean confirmed) {
-        Logger.getLogger(getClass()).debug("Create feature \"" + featureName + "\"");
+        LogManager.getLogger(getClass()).debug("Create feature \"" + featureName + "\"");
 
         FeatureNode result = features.get(featureName);
 
@@ -144,12 +144,12 @@ public class NodeFactory {
             result = new FeatureNode(parent, featureName, confirmed);
             parent.addFeature(result);
             features.put(featureName, result);
-            Logger.getLogger(getClass()).debug("Added feature \"" + featureName + "\"");
+            LogManager.getLogger(getClass()).debug("Added feature \"" + featureName + "\"");
         }
 
         if (confirmed && !result.isConfirmed()) {
             result.setConfirmed(confirmed);
-            Logger.getLogger(getClass()).debug("Feature \"" + featureName + "\" is confirmed");
+            LogManager.getLogger(getClass()).debug("Feature \"" + featureName + "\" is confirmed");
         }
 
         return result;
@@ -157,7 +157,7 @@ public class NodeFactory {
     
     // Only to be used by DeletingVisitor
     void deleteFeature(FeatureNode node) {
-        Logger.getLogger(getClass()).debug("Delete feature \"" + node + "\"");
+        LogManager.getLogger(getClass()).debug("Delete feature \"" + node + "\"");
 
         node.getClassNode().removeFeature(node);
         features.remove(node.getName());

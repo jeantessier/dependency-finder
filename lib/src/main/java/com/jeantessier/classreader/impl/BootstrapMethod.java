@@ -35,7 +35,7 @@ package com.jeantessier.classreader.impl;
 import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -48,15 +48,15 @@ public class BootstrapMethod implements com.jeantessier.classreader.BootstrapMet
         this.bootstrapMethods = bootstrapMethods;
 
         bootstrapMethodRef = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Bootstrap method ref: " + bootstrapMethodRef + " (" + getBootstrapMethod() + ")");
+        LogManager.getLogger(getClass()).debug("Bootstrap method ref: " + bootstrapMethodRef + " (" + getBootstrapMethod() + ")");
 
         var numArgument = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + numArgument + " argument(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading " + numArgument + " argument(s) ...");
         for (int i=0; i<numArgument; i++) {
-            Logger.getLogger(getClass()).debug("Reading argument " + i);
+            LogManager.getLogger(getClass()).debug("Reading argument " + i);
             var argumentIndex = in.readUnsignedShort();
             var argument = bootstrapMethods.getConstantPool().get(argumentIndex);
-            Logger.getLogger(getClass()).debug("Argument " + i + ": " + argumentIndex + " (" + argument + ")");
+            LogManager.getLogger(getClass()).debug("Argument " + i + ": " + argumentIndex + " (" + argument + ")");
             argumentIndices.add(argumentIndex);
         }
     }

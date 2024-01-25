@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -45,10 +45,10 @@ public class SourceFile_attribute extends Attribute_info implements com.jeantess
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
         sourceFileIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Source file: " + sourceFileIndex + " (" + getSourceFile() + ")");
+        LogManager.getLogger(getClass()).debug("Source file: " + sourceFileIndex + " (" + getSourceFile() + ")");
     }
 
     public int getSourceFileIndex() {

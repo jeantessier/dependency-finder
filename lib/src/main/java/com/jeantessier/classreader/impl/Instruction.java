@@ -35,7 +35,7 @@ package com.jeantessier.classreader.impl;
 import com.jeantessier.classreader.BootstrapMethodFinder;
 import com.jeantessier.classreader.LocalVariableFinder;
 import com.jeantessier.classreader.Visitor;
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import java.util.*;
 
@@ -852,7 +852,7 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
     public Collection<? extends ConstantPoolEntry> getDynamicConstantPoolEntries() {
         return switch (getOpcode()) {
             case 0xba: // invokedynamic
-                Logger.getLogger(getClass()).debug("getDynamicConstantPoolEntries()");
+                LogManager.getLogger(getClass()).debug("getDynamicConstantPoolEntries()");
                 if (code.getConstantPool().get(getIndex()) instanceof Dynamic_info entry) {
                     BootstrapMethodFinder finder = new BootstrapMethodFinder(entry.getBootstrapMethodAttrIndex());
                     code.getConstantPool().getClassfile().accept(finder);

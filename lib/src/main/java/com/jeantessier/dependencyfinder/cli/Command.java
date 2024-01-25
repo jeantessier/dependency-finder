@@ -45,7 +45,7 @@ import com.jeantessier.dependency.NullSelectionCriteria;
 import com.jeantessier.dependency.RegularExpressionSelectionCriteria;
 import com.jeantessier.dependency.SelectionCriteria;
 import com.jeantessier.dependencyfinder.Version;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.*;
 import java.nio.file.*;
@@ -146,7 +146,7 @@ public abstract class Command {
         }
 
         if (result) {
-            exceptions.forEach(exception -> Logger.getLogger(getClass()).error(exception));
+            exceptions.forEach(exception -> LogManager.getLogger(getClass()).error(exception));
             result = exceptions.isEmpty();
         }
 
@@ -433,7 +433,7 @@ public abstract class Command {
                     try {
                         return Files.lines(path);
                     } catch (IOException ex) {
-                        Logger.getLogger(getClass()).error("Couldn't read file " + path, ex);
+                        LogManager.getLogger(getClass()).error("Couldn't read file " + path, ex);
                         return Stream.empty();
                     }
                 }).distinct()

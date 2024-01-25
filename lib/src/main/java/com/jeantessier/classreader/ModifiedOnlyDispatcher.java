@@ -35,7 +35,7 @@ package com.jeantessier.classreader;
 import java.io.*;
 import java.util.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 public class ModifiedOnlyDispatcher implements ClassfileLoaderDispatcher {
     private final ClassfileLoaderDispatcher delegate;
@@ -51,19 +51,19 @@ public class ModifiedOnlyDispatcher implements ClassfileLoaderDispatcher {
 
         if (result == ClassfileLoaderAction.CLASS) {
             Long timestamp = timestamps.getOrDefault(filename, Long.MIN_VALUE);
-            Logger.getLogger(getClass()).debug(filename + " has timestamp " + timestamp);
+            LogManager.getLogger(getClass()).debug(filename + " has timestamp " + timestamp);
 
             File file = new File(filename);
             long lastModified = file.lastModified();
             if (timestamp >= lastModified) {
-                Logger.getLogger(getClass()).debug("Already dispatched \"" + filename + "\": IGNORE");
+                LogManager.getLogger(getClass()).debug("Already dispatched \"" + filename + "\": IGNORE");
                 result = ClassfileLoaderAction.IGNORE;
             } else {
-                Logger.getLogger(getClass()).debug("Delegating ...");
+                LogManager.getLogger(getClass()).debug("Delegating ...");
                 timestamps.put(filename, lastModified);
             }
         } else {
-            Logger.getLogger(getClass()).debug("Delegating ...");
+            LogManager.getLogger(getClass()).debug("Delegating ...");
         }
 
         return result;

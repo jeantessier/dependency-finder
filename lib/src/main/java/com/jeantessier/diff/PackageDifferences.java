@@ -35,7 +35,7 @@ package com.jeantessier.diff;
 import java.util.*;
 
 import com.jeantessier.classreader.Classfile;
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 /**
  *  Documents the difference, if any, for a given package.
@@ -56,9 +56,9 @@ public class PackageDifferences extends RemovableDifferences {
         newDeclaration = (newPackage != null && !newPackage.isEmpty()) ? name : null;
 
         if (isModified()) {
-            Logger.getLogger(getClass()).debug(getName() + " declaration has been modified.");
+            LogManager.getLogger(getClass()).debug(getName() + " declaration has been modified.");
         } else {
-            Logger.getLogger(getClass()).debug(getName() + " declaration has not been modified.");
+            LogManager.getLogger(getClass()).debug(getName() + " declaration has not been modified.");
         }
     }
 

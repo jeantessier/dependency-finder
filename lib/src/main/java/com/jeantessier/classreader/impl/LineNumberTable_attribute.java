@@ -36,7 +36,7 @@ import java.io.*;
 import java.util.*;
 import java.util.stream.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -47,13 +47,13 @@ public class LineNumberTable_attribute extends Attribute_info implements com.jea
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
         int lineNumberTableLength = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + lineNumberTableLength + " line number(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading " + lineNumberTableLength + " line number(s) ...");
         IntStream.range(0, lineNumberTableLength).forEach(i -> {
             try {
-                Logger.getLogger(getClass()).debug("Line number entry " + i + ":");
+                LogManager.getLogger(getClass()).debug("Line number entry " + i + ":");
                 lineNumbers.add(new LineNumber(this, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

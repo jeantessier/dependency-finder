@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.Visitable;
 import com.jeantessier.classreader.Visitor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -46,10 +46,10 @@ public class NestHost_attribute extends Attribute_info implements com.jeantessie
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
         hostClassIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Host class: " + hostClassIndex + " (" + getHostClass() + ")");
+        LogManager.getLogger(getClass()).debug("Host class: " + hostClassIndex + " (" + getHostClass() + ")");
     }
 
     public int getHostClassIndex() {

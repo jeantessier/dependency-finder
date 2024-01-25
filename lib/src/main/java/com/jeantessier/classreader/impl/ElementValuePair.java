@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.UTF8_info;
 import com.jeantessier.classreader.*;
@@ -53,7 +53,7 @@ public class ElementValuePair implements com.jeantessier.classreader.ElementValu
         this.constantPool = constantPool;
 
         elementNameIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Element name index: " + elementNameIndex + " (" + getElementName() + ")");
+        LogManager.getLogger(getClass()).debug("Element name index: " + elementNameIndex + " (" + getElementName() + ")");
 
         elementValue = elementValueFactory.create(constantPool, in);
     }

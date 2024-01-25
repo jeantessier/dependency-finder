@@ -34,7 +34,7 @@ package com.jeantessier.dependency;
 
 import java.util.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 /**
  *  This is a basic implementation of Visitor.
@@ -82,16 +82,16 @@ public abstract class VisitorBase implements Visitor {
             result = currentNodes.getLast();
         }
 
-        if (Logger.getLogger(getClass()).isDebugEnabled()) {
-            Logger.getLogger(getClass()).debug(currentNodes + ": " + result);
+        if (LogManager.getLogger(getClass()).isDebugEnabled()) {
+            LogManager.getLogger(getClass()).debug(currentNodes + ": " + result);
         }
 
         return result;
     }
 
     protected void pushNode(Node currentNode) {
-        if (Logger.getLogger(getClass()).isDebugEnabled()) {
-            Logger.getLogger(getClass()).debug(currentNodes + " + " + currentNode);
+        if (LogManager.getLogger(getClass()).isDebugEnabled()) {
+            LogManager.getLogger(getClass()).debug(currentNodes + " + " + currentNode);
         }
 
         currentNodes.addLast(currentNode);
@@ -100,8 +100,8 @@ public abstract class VisitorBase implements Visitor {
     protected Node popNode() {
         Node result = currentNodes.removeLast();
 
-        if (Logger.getLogger(getClass()).isDebugEnabled()) {
-            Logger.getLogger(getClass()).debug(currentNodes + " -> " + result);
+        if (LogManager.getLogger(getClass()).isDebugEnabled()) {
+            LogManager.getLogger(getClass()).debug(currentNodes + " -> " + result);
         }
 
         return result;

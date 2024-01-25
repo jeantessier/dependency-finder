@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.classreader.UTF8_info;
@@ -46,7 +46,7 @@ public class ClassElementValue extends ElementValue implements com.jeantessier.c
         super(constantPool);
 
         classInfoIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Class info index: " + classInfoIndex + " (" + getClassInfo() + ")");
+        LogManager.getLogger(getClass()).debug("Class info index: " + classInfoIndex + " (" + getClassInfo() + ")");
     }
 
     public int getClassInfoIndex() {

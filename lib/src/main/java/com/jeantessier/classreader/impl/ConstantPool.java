@@ -32,16 +32,13 @@
 
 package com.jeantessier.classreader.impl;
 
-import com.jeantessier.classreader.Printer;
 import com.jeantessier.classreader.TextPrinter;
 import com.jeantessier.classreader.Visitor;
-import org.apache.log4j.Logger;
 
-import java.io.DataInput;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.ArrayList;
+import org.apache.logging.log4j.*;
+
+import java.io.*;
+import java.util.*;
 
 public class ConstantPool extends ArrayList<com.jeantessier.classreader.ConstantPoolEntry> implements com.jeantessier.classreader.ConstantPool {
     private final Classfile classfile;
@@ -64,7 +61,7 @@ public class ConstantPool extends ArrayList<com.jeantessier.classreader.Constant
         for (int i=1; i<count; i++) {
             byte tag = in.readByte();
 
-            Logger.getLogger(getClass()).info("Entry " + i + " has tag " + tag + " (" + ConstantPoolEntry.stringValueOf(tag) + ")");
+            LogManager.getLogger(getClass()).info("Entry {} has tag {} ({})", i, tag, ConstantPoolEntry.stringValueOf(tag));
 
             switch(tag) {
                 case ConstantPoolEntry.CONSTANT_Class:
@@ -91,13 +88,13 @@ public class ConstantPool extends ArrayList<com.jeantessier.classreader.Constant
                 case ConstantPoolEntry.CONSTANT_Long:
                     add(new Long_info(this, in));
                     i++;
-                    Logger.getLogger(getClass()).info("Entry " + i + " is unusable.");
+                    LogManager.getLogger(getClass()).info("Entry {} is unusable.", i);
                     add(new UnusableEntry(this, in, "previous entry is tagged CONSTANT_Long_info"));
                     break;
                 case ConstantPoolEntry.CONSTANT_Double:
                     add(new Double_info(this, in));
                     i++;
-                    Logger.getLogger(getClass()).info("Entry " + i + " is unusable.");
+                    LogManager.getLogger(getClass()).info("Entry {} is unusable.", i);
                     add(new UnusableEntry(this, in, "previous entry is tagged CONSTANT_Double_info"));
                     break;
                 case ConstantPoolEntry.CONSTANT_NameAndType:
@@ -125,7 +122,7 @@ public class ConstantPool extends ArrayList<com.jeantessier.classreader.Constant
                     add(new Package_info(this, in));
                     break;
                 default:
-                    Logger.getLogger(getClass()).info("Unknown Tag " + tag);
+                    LogManager.getLogger(getClass()).info("Unknown Tag {}", tag);
                     break;
             }
         }

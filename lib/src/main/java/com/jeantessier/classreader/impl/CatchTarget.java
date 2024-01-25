@@ -33,7 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.Visitor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class CatchTarget extends Target_info implements com.jeantessier.classrea
         this.targetType = targetType;
 
         exceptionTableIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Exception table index: " + exceptionTableIndex);
+        LogManager.getLogger(getClass()).debug("Exception table index: " + exceptionTableIndex);
     }
 
     public com.jeantessier.classreader.TargetType getTargetType() {

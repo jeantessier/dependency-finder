@@ -33,7 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.Visitor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.*;
 
@@ -45,7 +45,7 @@ public class ThrowsTarget extends Target_info implements com.jeantessier.classre
         this.targetType = targetType;
 
         throwsTypeIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Throws type index: " + throwsTypeIndex);
+        LogManager.getLogger(getClass()).debug("Throws type index: " + throwsTypeIndex);
     }
 
     public com.jeantessier.classreader.TargetType getTargetType() {

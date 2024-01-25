@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -60,16 +60,16 @@ public class InnerClass implements com.jeantessier.classreader.InnerClass {
         this.innerClasses = innerClasses;
 
         innerClassInfoIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Inner class info index: " + innerClassInfoIndex + " (" + getInnerClassInfo() + ")");
+        LogManager.getLogger(getClass()).debug("Inner class info index: " + innerClassInfoIndex + " (" + getInnerClassInfo() + ")");
 
         outerClassInfoIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Outer class info index: " + outerClassInfoIndex + " (" + getOuterClassInfo() + ")");
+        LogManager.getLogger(getClass()).debug("Outer class info index: " + outerClassInfoIndex + " (" + getOuterClassInfo() + ")");
 
         innerNameIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Inner name index: " + innerNameIndex + " (" + getInnerName() + ")");
+        LogManager.getLogger(getClass()).debug("Inner name index: " + innerNameIndex + " (" + getInnerName() + ")");
 
         accessFlags = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Inner class access flags: " + accessFlags);
+        LogManager.getLogger(getClass()).debug("Inner class access flags: " + accessFlags);
     }
 
     public InnerClasses_attribute getInnerClasses() {

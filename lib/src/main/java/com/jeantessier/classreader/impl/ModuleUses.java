@@ -33,7 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.Visitor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -47,7 +47,7 @@ public class ModuleUses implements com.jeantessier.classreader.ModuleUses {
         this.constantPool = constantPool;
 
         usesIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Uses: " + usesIndex + " (" + getUses() + ")");
+        LogManager.getLogger(getClass()).debug("Uses: " + usesIndex + " (" + getUses() + ")");
     }
 
     public ConstantPool getConstantPool() {

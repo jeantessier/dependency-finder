@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -50,19 +50,19 @@ public class LocalVariable implements com.jeantessier.classreader.LocalVariable 
         this.localVariableTable = localVariableTable;
 
         startPC = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("start PC: " + startPC);
+        LogManager.getLogger(getClass()).debug("start PC: " + startPC);
 
         length = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("length: " + length);
+        LogManager.getLogger(getClass()).debug("length: " + length);
 
         nameIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("name: " + nameIndex + " (" + getName() + ")");
+        LogManager.getLogger(getClass()).debug("name: " + nameIndex + " (" + getName() + ")");
 
         descriptorIndex = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("descriptor: " + descriptorIndex + " (" + getDescriptor() + ")");
+        LogManager.getLogger(getClass()).debug("descriptor: " + descriptorIndex + " (" + getDescriptor() + ")");
 
         index = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("index: " + index);
+        LogManager.getLogger(getClass()).debug("index: " + index);
     }
 
     public LocalVariableTable_attribute getLocalVariableTable() {

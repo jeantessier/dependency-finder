@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 public class ElementValueFactory {
     public ElementValue create(ConstantPool constantPool, DataInput in) throws IOException {
@@ -42,12 +42,12 @@ public class ElementValueFactory {
 
         char tag = (char) in.readUnsignedByte();
         ElementValueType elementValueType = ElementValueType.forTag(tag);
-        Logger.getLogger(getClass()).debug("tag " + tag + " (" + elementValueType + ")");
+        LogManager.getLogger(getClass()).debug("tag " + tag + " (" + elementValueType + ")");
         if (elementValueType != null) {
             result = elementValueType.create(constantPool, in);
         } else {
             String message = "Unknown element value tag '" + tag + "'";
-            Logger.getLogger(AttributeFactory.class).warn(message);
+            LogManager.getLogger(AttributeFactory.class).warn(message);
             throw new IOException(message);
         }
 

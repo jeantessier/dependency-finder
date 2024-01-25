@@ -53,9 +53,7 @@ public class ClassNode extends Node {
     // Only to be used by NodeFactory and DeletingVisitor
     void setConfirmed(boolean confirmed) {
         if (!confirmed) {
-            for (FeatureNode featureNode : getFeatures()) {
-                featureNode.setConfirmed(false);
-            }
+            getFeatures().forEach(node -> node.setConfirmed(false));
         }
         
         super.setConfirmed(confirmed);

@@ -32,7 +32,7 @@
 
 package com.jeantessier.diff;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 /**
  *  Documents the difference, if any, for a given programming
@@ -57,7 +57,7 @@ public abstract class RemovableDifferences implements Differences {
     public boolean isRemoved() {
         boolean result = (getOldDeclaration() != null) && (getNewDeclaration() == null);
 
-        Logger.getLogger(getClass()).debug(getName() + " IsRemoved(): " + result);
+        LogManager.getLogger(getClass()).debug(getName() + " IsRemoved(): " + result);
         
         return result;
     }
@@ -65,7 +65,7 @@ public abstract class RemovableDifferences implements Differences {
     public boolean isModified() {
         boolean result = (getOldDeclaration() != null) && (getNewDeclaration() != null) && !getOldDeclaration().equals(getNewDeclaration());
 
-        Logger.getLogger(getClass()).debug(getName() + " IsModified(): " + result);
+        LogManager.getLogger(getClass()).debug(getName() + " IsModified(): " + result);
         
         return result;
     }
@@ -73,7 +73,7 @@ public abstract class RemovableDifferences implements Differences {
     public boolean isNew() {
         boolean result = (getOldDeclaration() == null) && (getNewDeclaration() != null);
 
-        Logger.getLogger(getClass()).debug(getName() + " IsNew(): " + result);
+        LogManager.getLogger(getClass()).debug(getName() + " IsNew(): " + result);
         
         return result;
     }

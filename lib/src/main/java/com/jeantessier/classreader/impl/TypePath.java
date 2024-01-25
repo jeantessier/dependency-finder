@@ -33,7 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.*;
 import java.util.*;
@@ -44,10 +44,10 @@ public class TypePath implements com.jeantessier.classreader.TypePath {
 
     public TypePath(DataInput in) throws IOException {
         var pathLength = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + pathLength + " path entry(ies) ...");
+        LogManager.getLogger(getClass()).debug("Reading " + pathLength + " path entry(ies) ...");
         IntStream.range(0, pathLength).forEach(i -> {
             try {
-                Logger.getLogger(getClass()).debug("entry " + i + ":");
+                LogManager.getLogger(getClass()).debug("entry " + i + ":");
                 path.add(new TypePathEntry(in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

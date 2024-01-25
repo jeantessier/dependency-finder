@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.Visitable;
 import com.jeantessier.classreader.Visitor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -49,13 +49,13 @@ public class PermittedSubclasses_attribute extends Attribute_info implements com
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        Logger.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
 
         int numClasses = in.readUnsignedShort();
-        Logger.getLogger(getClass()).debug("Reading " + numClasses + " classes(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading " + numClasses + " classes(s) ...");
         IntStream.range(0, numClasses).forEach(i -> {
             try {
-                Logger.getLogger(getClass()).debug("class " + i + ":");
+                LogManager.getLogger(getClass()).debug("class " + i + ":");
                 subclasses.add(new PermittedSubclass(constantPool, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

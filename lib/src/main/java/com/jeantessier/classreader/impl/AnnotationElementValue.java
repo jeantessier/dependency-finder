@@ -34,7 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 import com.jeantessier.classreader.*;
 
@@ -45,7 +45,7 @@ public class AnnotationElementValue extends ElementValue implements com.jeantess
         super(constantPool);
 
         annotation = new Annotation(constantPool, in);
-        Logger.getLogger(getClass()).debug("Annotation: " + annotation);
+        LogManager.getLogger(getClass()).debug("Annotation: " + annotation);
     }
 
     public Annotation getAnnotation() {

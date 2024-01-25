@@ -33,7 +33,7 @@
 package com.jeantessier.classreader.impl;
 
 import com.jeantessier.classreader.Visitor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -47,10 +47,10 @@ public class TypeParameterBoundTarget extends Target_info implements com.jeantes
         this.targetType = targetType;
 
         typeParameterIndex = in.readUnsignedByte();
-        Logger.getLogger(getClass()).debug("Type parameter index: " + typeParameterIndex);
+        LogManager.getLogger(getClass()).debug("Type parameter index: " + typeParameterIndex);
 
         boundIndex = in.readUnsignedByte();
-        Logger.getLogger(getClass()).debug("Bound index: " + typeParameterIndex);
+        LogManager.getLogger(getClass()).debug("Bound index: " + typeParameterIndex);
     }
 
     public com.jeantessier.classreader.TargetType getTargetType() {

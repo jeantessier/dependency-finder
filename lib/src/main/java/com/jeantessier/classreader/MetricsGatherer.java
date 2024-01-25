@@ -35,7 +35,7 @@ package com.jeantessier.classreader;
 import java.util.*;
 import java.util.stream.*;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 public class MetricsGatherer extends VisitorBase {
     private final Collection<String> classes = new TreeSet<>();
@@ -489,7 +489,7 @@ public class MetricsGatherer extends VisitorBase {
         } else if (owner instanceof Method_info method) {
             syntheticMethods.add(method);
         } else {
-            Logger.getLogger(getClass()).warn("Synthetic attribute on unknown Visitable: " + owner.getClass().getName());
+            LogManager.getLogger(getClass()).warn("Synthetic attribute on unknown Visitable: " + owner.getClass().getName());
         }
     }
 
@@ -536,7 +536,7 @@ public class MetricsGatherer extends VisitorBase {
         } else if (owner instanceof Method_info method) {
             deprecatedMethods.add(method);
         } else {
-            Logger.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: " + owner.getClass().getName());
+            LogManager.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: " + owner.getClass().getName());
         }
     }
 

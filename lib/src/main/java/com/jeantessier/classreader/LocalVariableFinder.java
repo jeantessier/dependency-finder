@@ -32,7 +32,7 @@
 
 package com.jeantessier.classreader;
 
-import org.apache.log4j.*;
+import org.apache.logging.log4j.*;
 
 public class LocalVariableFinder extends VisitorBase {
     private final int localVariableIndex;
@@ -50,7 +50,7 @@ public class LocalVariableFinder extends VisitorBase {
     }
 
     public void visitCode_attribute(Code_attribute attribute) {
-        Logger.getLogger(getClass()).debug("Visiting " + attribute.getAttributes().size() + " code attribute(s) ...");
+        LogManager.getLogger(getClass()).debug("Visiting " + attribute.getAttributes().size() + " code attribute(s) ...");
         for (Attribute_info attribute_info : attribute.getAttributes()) {
             attribute_info.accept(this);
         }
