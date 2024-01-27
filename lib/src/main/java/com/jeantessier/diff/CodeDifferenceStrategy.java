@@ -87,12 +87,10 @@ public class CodeDifferenceStrategy implements DifferenceStrategy {
                 result = !oldInstruction.equals(newInstruction);
             }
 
-            if (LogManager.getLogger(getClass()).isDebugEnabled()) {
-                LogManager.getLogger(getClass()).debug("Code compare for {}", () -> oldCode.getOwner());
-                LogManager.getLogger(getClass()).debug("old code: {}", () -> Hex.toString(oldCode.getCode()));
-                LogManager.getLogger(getClass()).debug("new code: {}", () -> Hex.toString(newCode.getCode()));
-                LogManager.getLogger(getClass()).debug(result ? "[different]" : "[same]");
-            }
+            LogManager.getLogger(getClass()).debug("Code compare for {}", () -> oldCode.getOwner());
+            LogManager.getLogger(getClass()).debug("old code: {}", () -> Hex.toString(oldCode.getCode()));
+            LogManager.getLogger(getClass()).debug("new code: {}", () -> Hex.toString(newCode.getCode()));
+            LogManager.getLogger(getClass()).debug(result ? "[different]" : "[same]");
         } else {
             result = oldCode != newCode;
         }
