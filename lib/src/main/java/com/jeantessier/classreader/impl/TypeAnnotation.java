@@ -63,19 +63,19 @@ public class TypeAnnotation implements com.jeantessier.classreader.TypeAnnotatio
 
         var rawTargetType = in.readUnsignedShort();
         targetType = TargetType.forTargetType(rawTargetType);
-        LogManager.getLogger(getClass()).debug("Target type: " + targetType.getHexTargetType() + "(" + targetType.getDescription() + ")");
+        LogManager.getLogger(getClass()).debug("Target type: {}({})", targetType.getHexTargetType(), targetType.getDescription());
 
         target = targetType.create(in);
 
         typePath = new TypePath(in);
 
         typeIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Type index: " + typeIndex + " (" + getType() + ")");
+        LogManager.getLogger(getClass()).debug("Type index: {} ({})", typeIndex, getType());
 
         int numElementValuePairs = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + numElementValuePairs + " element value pair(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading {} element value pair(s) ...", numElementValuePairs);
         for (int i=0; i<numElementValuePairs; i++) {
-            LogManager.getLogger(getClass()).debug("Element value pair " + i + ":");
+            LogManager.getLogger(getClass()).debug("Element value pair {}:", i);
             elementValuePairs.add(new ElementValuePair(constantPool, in, elementValueFactory));
         }
     }

@@ -45,34 +45,34 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
     }
 
     protected void load(String filename) {
-        LogManager.getLogger(getClass()).debug("Starting group in file " + filename);
+        LogManager.getLogger(getClass()).debug("Starting group in file {}", filename);
         
         try (var zipfile = new ZipFile(filename)) {
             fireBeginGroup(filename, zipfile.size());
 
-            LogManager.getLogger(getClass()).debug("Loading ZipFile " + filename);
+            LogManager.getLogger(getClass()).debug("Loading ZipFile {}", filename);
             load(zipfile);
-            LogManager.getLogger(getClass()).debug("Loaded ZipFile " + filename);
+            LogManager.getLogger(getClass()).debug("Loaded ZipFile {}", filename);
 
             fireEndGroup(filename);
         } catch (IOException ex) {
-            LogManager.getLogger(getClass()).error("Cannot load Zip file \"" + filename + "\"", ex);
+            LogManager.getLogger(getClass()).error("Cannot load Zip file \"{}\"", filename, ex);
         }
     }
 
     protected void load(String filename, InputStream in) {
-        LogManager.getLogger(getClass()).debug("Starting group in stream " + filename);
+        LogManager.getLogger(getClass()).debug("Starting group in stream {}", filename);
         
         try (var zipInputStream = new ZipInputStream(in)) {
             fireBeginGroup(filename, -1);
 
-            LogManager.getLogger(getClass()).debug("Loading ZipInputStream " + filename);
+            LogManager.getLogger(getClass()).debug("Loading ZipInputStream {}", filename);
             load(zipInputStream);
-            LogManager.getLogger(getClass()).debug("Loaded ZipInputStream " + filename);
+            LogManager.getLogger(getClass()).debug("Loaded ZipInputStream {}", filename);
 
             fireEndGroup(filename);
         } catch (IOException ex) {
-            LogManager.getLogger(getClass()).error("Cannot load Zip file \"" + filename + "\"", ex);
+            LogManager.getLogger(getClass()).error("Cannot load Zip file \"{}\"", filename, ex);
         }
     }
 
@@ -81,7 +81,7 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
                 .forEach(entry -> {
                     fireBeginFile(entry.getName());
 
-                    LogManager.getLogger(getClass()).debug("Starting file " + entry.getName() + " (" + entry.getSize() + " bytes)");
+                    LogManager.getLogger(getClass()).debug("Starting file {} ({} bytes)", entry.getName(), entry.getSize());
 
                     byte[] bytes;
                     try (InputStream in = zipfile.getInputStream(entry)) {
@@ -90,7 +90,7 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
                         throw new RuntimeException(ex);
                     }
 
-                    LogManager.getLogger(getClass()).debug("Passing up file " + entry.getName() + " (" + bytes.length + " bytes)");
+                    LogManager.getLogger(getClass()).debug("Passing up file {} ({} bytes)", entry.getName(), bytes.length);
                     getLoader().load(entry.getName(), new ByteArrayInputStream(bytes));
 
                     fireEndFile(entry.getName());
@@ -102,10 +102,10 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
         while ((entry = in.getNextEntry()) != null) {
             fireBeginFile(entry.getName());
                 
-            LogManager.getLogger(getClass()).debug("Starting file " + entry.getName() + " (" + entry.getSize() + " bytes)");
+            LogManager.getLogger(getClass()).debug("Starting file {} ({} bytes)", entry.getName(), entry.getSize());
             byte[] bytes = readBytes(in);
             
-            LogManager.getLogger(getClass()).debug("Passing up file " + entry.getName() + " (" + bytes.length + " bytes)");
+            LogManager.getLogger(getClass()).debug("Passing up file {} ({} bytes)", entry.getName(), bytes.length);
             getLoader().load(entry.getName(), new ByteArrayInputStream(bytes));
             
             fireEndFile(entry.getName());

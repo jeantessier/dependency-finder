@@ -51,16 +51,16 @@ public class RecordComponent_info implements com.jeantessier.classreader.RecordC
         this.constantPool = constantPool;
 
         nameIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("name index: " + nameIndex + " (" + getName() + ")");
+        LogManager.getLogger(getClass()).debug("name index: {} ({})", nameIndex, getName());
 
         descriptorIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("descriptor index: " + descriptorIndex + " (" + getDescriptor() + ")");
+        LogManager.getLogger(getClass()).debug("descriptor index: {} ({})", descriptorIndex, getDescriptor());
 
         int attributeCount = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + attributeCount + " record component attribute(s)");
+        LogManager.getLogger(getClass()).debug("Reading {} record component attribute(s)", attributeCount);
         IntStream.range(0, attributeCount).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("record component attribute " + i + ":");
+                LogManager.getLogger(getClass()).debug("record component attribute {}:", i);
                 attributes.add(attributeFactory.create(getConstantPool(), this, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

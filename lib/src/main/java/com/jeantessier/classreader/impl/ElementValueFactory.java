@@ -42,7 +42,7 @@ public class ElementValueFactory {
 
         char tag = (char) in.readUnsignedByte();
         ElementValueType elementValueType = ElementValueType.forTag(tag);
-        LogManager.getLogger(getClass()).debug("tag " + tag + " (" + elementValueType + ")");
+        LogManager.getLogger(getClass()).debug("tag {} ({})", tag, elementValueType);
         if (elementValueType != null) {
             result = elementValueType.create(constantPool, in);
         } else {

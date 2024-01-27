@@ -433,7 +433,7 @@ public abstract class Command {
                     try {
                         return Files.lines(path);
                     } catch (IOException ex) {
-                        LogManager.getLogger(getClass()).error("Couldn't read file " + path, ex);
+                        LogManager.getLogger(getClass()).error("Couldn't read file {}", path, ex);
                         return Stream.empty();
                     }
                 }).distinct()

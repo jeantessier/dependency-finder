@@ -47,13 +47,13 @@ public class BootstrapMethods_attribute extends Attribute_info implements com.je
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
 
         int numBootstrapMethods = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + numBootstrapMethods + " bootstrap method(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading {} bootstrap method(s) ...", numBootstrapMethods);
         IntStream.range(0, numBootstrapMethods).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("bootstrap method " + i + ":");
+                LogManager.getLogger(getClass()).debug("bootstrap method {}:", i);
                 bootstrapMethods.add(new BootstrapMethod(this, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

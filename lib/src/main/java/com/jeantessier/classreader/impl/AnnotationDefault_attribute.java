@@ -49,7 +49,7 @@ public class AnnotationDefault_attribute extends Attribute_info implements com.j
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
 
         elementValue = elementValueFactory.create(constantPool, in);
     }

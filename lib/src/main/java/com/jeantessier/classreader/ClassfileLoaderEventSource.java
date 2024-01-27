@@ -73,20 +73,20 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
         previousDispatch = dispatch;
         
         switch (dispatch) {
-            case IGNORE -> LogManager.getLogger(getClass()).debug("IGNORE \"" + filename + "\"");
+            case IGNORE -> LogManager.getLogger(getClass()).debug("IGNORE \"{}\"", filename);
             case CLASS, DIRECTORY -> {
-                LogManager.getLogger(getClass()).debug("DIRECTORY or CLASS \"" + filename + "\"");
+                LogManager.getLogger(getClass()).debug("DIRECTORY or CLASS \"{}\"", filename);
                 dirLoader.load(filename);
             }
             case ZIP -> {
-                LogManager.getLogger(getClass()).debug("ZIP \"" + filename + "\"");
+                LogManager.getLogger(getClass()).debug("ZIP \"{}\"", filename);
                 zipLoader.load(filename);
             }
             case JAR -> {
-                LogManager.getLogger(getClass()).debug("JAR \"" + filename + "\"");
+                LogManager.getLogger(getClass()).debug("JAR \"{}\"", filename);
                 jarLoader.load(filename);
             }
-            default -> LogManager.getLogger(getClass()).debug("default (IGNORE) \"" + filename + "\"");
+            default -> LogManager.getLogger(getClass()).debug("default (IGNORE) \"{}\"", filename);
         }
     }
 
@@ -98,30 +98,30 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
         }
         
         switch (dispatch) {
-            case IGNORE -> LogManager.getLogger(getClass()).debug("IGNORE \"" + filename + "\"");
+            case IGNORE -> LogManager.getLogger(getClass()).debug("IGNORE \"{}\"", filename);
             case DIRECTORY -> {
-                LogManager.getLogger(getClass()).debug("DIRECTORY \"" + filename + "\"");
+                LogManager.getLogger(getClass()).debug("DIRECTORY \"{}\"", filename);
                 dirLoader.load(filename, in);
             }
             case ZIP -> {
-                LogManager.getLogger(getClass()).debug("ZIP \"" + filename + "\"");
+                LogManager.getLogger(getClass()).debug("ZIP \"{}\"", filename);
                 zipLoader.load(filename, in);
             }
             case JAR -> {
-                LogManager.getLogger(getClass()).debug("JAR \"" + filename + "\"");
+                LogManager.getLogger(getClass()).debug("JAR \"{}\"", filename);
                 jarLoader.load(filename, in);
             }
             case CLASS -> {
-                LogManager.getLogger(getClass()).debug("CLASS \"" + filename + "\"");
+                LogManager.getLogger(getClass()).debug("CLASS \"{}\"", filename);
                 try {
                     fireBeginClassfile(filename);
                     Classfile classfile = load(new DataInputStream(in));
                     fireEndClassfile(filename, classfile);
                 } catch (Exception ex) {
-                    LogManager.getLogger(getClass()).warn("Cannot load class from file \"" + filename + "\"", ex);
+                    LogManager.getLogger(getClass()).warn("Cannot load class from file \"{}\"", filename, ex);
                 }
             }
-            default -> LogManager.getLogger(getClass()).debug("default (IGNORE) \"" + filename + "\"");
+            default -> LogManager.getLogger(getClass()).debug("default (IGNORE) \"{}\"", filename);
         }
     }
 
@@ -145,7 +145,7 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     }
 
     protected void fireBeginGroup(String groupName, int size) {
-        LogManager.getLogger(getClass()).debug("Begin group \"" + groupName + "\" of size " + size);
+        LogManager.getLogger(getClass()).debug("Begin group \"{}\" of size {}", groupName, size);
 
         LoadEvent event = new LoadEvent(this, groupName, size);
         loadListeners.forEach(listener -> listener.beginGroup(event));
@@ -155,35 +155,35 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     }
     
     protected void fireBeginFile(String filename) {
-        LogManager.getLogger(getClass()).debug("Begin file \"" + filename + "\"");
+        LogManager.getLogger(getClass()).debug("Begin file \"{}\"", filename);
         
         LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);
         loadListeners.forEach(listener -> listener.beginFile(event));
     }
     
     protected void fireBeginClassfile(String filename) {
-        LogManager.getLogger(getClass()).debug("Begin classfile \"" + filename + "\"");
+        LogManager.getLogger(getClass()).debug("Begin classfile \"{}\"", filename);
         
         LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);
         loadListeners.forEach(listener -> listener.beginClassfile(event));
     }
 
     protected void fireEndClassfile(String filename, Classfile classfile) {
-        LogManager.getLogger(getClass()).debug("End classfile \"" + filename + "\": " + ((classfile != null) ? classfile.getClassName() : "nothing"));
+        LogManager.getLogger(getClass()).debug("End classfile \"{}\": {}", () -> filename, () -> ((classfile != null) ? classfile.getClassName() : "nothing"));
         
         LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, classfile);
         loadListeners.forEach(listener -> listener.endClassfile(event));
     }
 
     protected void fireEndFile(String filename) {
-        LogManager.getLogger(getClass()).debug("End file \"" + filename + "\"");
+        LogManager.getLogger(getClass()).debug("End file \"{}\"", filename);
         
         LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);
         loadListeners.forEach(listener -> listener.endFile(event));
     }
 
     protected void fireEndGroup(String groupName) {
-        LogManager.getLogger(getClass()).debug("End group \"" + groupName + "\"");
+        LogManager.getLogger(getClass()).debug("End group \"{}\"", groupName);
         
         LoadEvent event = new LoadEvent(this, groupName, null, null);
         loadListeners.forEach(listener -> listener.endGroup(event));

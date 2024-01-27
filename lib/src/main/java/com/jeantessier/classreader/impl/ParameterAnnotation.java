@@ -44,9 +44,9 @@ public class ParameterAnnotation implements com.jeantessier.classreader.Paramete
 
     public ParameterAnnotation(ConstantPool constantPool, DataInput in) throws IOException {
         int numAnnotations = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + numAnnotations + " annotation(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading {} annotation(s) ...", numAnnotations);
         for (int i=0; i<numAnnotations; i++) {
-            LogManager.getLogger(getClass()).debug("Annotation " + i + ":");
+            LogManager.getLogger(getClass()).debug("Annotation {}:", i);
             annotations.add(new Annotation(constantPool, in));
         }
     }

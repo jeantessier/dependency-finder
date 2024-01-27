@@ -49,7 +49,7 @@ public class StackMapFrameFactory {
 
         int tag = in.readUnsignedByte();
         FrameType frameType = FrameType.forTag(tag);
-        LogManager.getLogger(getClass()).debug("tag " + tag + " (" + frameType + ")");
+        LogManager.getLogger(getClass()).debug("tag {} ({})", tag, frameType);
         if (frameType != null) {
             result = frameType.create(tag, verificationTypeInfoFactory, constantPool, in);
         } else {

@@ -53,10 +53,10 @@ public class MethodParameter implements com.jeantessier.classreader.MethodParame
         this.constantPool = constantPool;
 
         nameIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Name index: " + nameIndex + " (" + getName() + ")");
+        LogManager.getLogger(getClass()).debug("Name index: {} ({})", nameIndex, getName());
 
         accessFlags = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Access flags: " + accessFlags);
+        LogManager.getLogger(getClass()).debug("Access flags: {}", accessFlags);
     }
 
     public ConstantPool getConstantPool() {

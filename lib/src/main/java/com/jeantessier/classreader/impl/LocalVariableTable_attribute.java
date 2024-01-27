@@ -47,13 +47,13 @@ public class LocalVariableTable_attribute extends Attribute_info implements com.
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
 
         int localVariableTableLength = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + localVariableTableLength + " local variable(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading {} local variable(s) ...", localVariableTableLength);
         IntStream.range(0, localVariableTableLength).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("Local variable " + i + ":");
+                LogManager.getLogger(getClass()).debug("Local variable {}:", i);
                 localVariables.add(new LocalVariable(this, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

@@ -53,14 +53,12 @@ public class Custom_attribute extends Attribute_info implements com.jeantessier.
         this.name = name;
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
 
         this.info = new byte[byteCount];
         in.readFully(info);
 
-        if (LogManager.getLogger(getClass()).isDebugEnabled()) {
-            LogManager.getLogger(getClass()).debug("Read " + byteCount + " byte(s): " + Hex.toString(this.info));
-        }
+        LogManager.getLogger(getClass()).debug("Read {} byte(s): {}", () -> byteCount, () -> Hex.toString(this.info));
     }
 
     public String getName() {

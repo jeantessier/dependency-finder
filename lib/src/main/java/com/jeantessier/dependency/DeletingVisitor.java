@@ -54,7 +54,7 @@ public class DeletingVisitor implements Visitor, RemoveVisitor {
      */
     
     public void visitPackageNode(PackageNode node) {
-        LogManager.getLogger(getClass()).debug("visitPackageNode(" + node + ")");
+        LogManager.getLogger(getClass()).debug("visitPackageNode({})", node);
 
         new ArrayList<>(node.getClasses()).forEach(classNode -> classNode.accept(this));
 
@@ -62,7 +62,7 @@ public class DeletingVisitor implements Visitor, RemoveVisitor {
     }
 
     public void visitClassNode(ClassNode node) {
-        LogManager.getLogger(getClass()).debug("visitClassNode(" + node + ")");
+        LogManager.getLogger(getClass()).debug("visitClassNode({})", node);
 
         new ArrayList<>(node.getFeatures()).forEach(featureNode -> featureNode.accept(this));
 
@@ -70,7 +70,7 @@ public class DeletingVisitor implements Visitor, RemoveVisitor {
     }
 
     public void visitFeatureNode(FeatureNode node) {
-        LogManager.getLogger(getClass()).debug("visitFeatureNode(" + node + ")");
+        LogManager.getLogger(getClass()).debug("visitFeatureNode({})", node);
         
         visitNode(node);
     }
@@ -91,7 +91,7 @@ public class DeletingVisitor implements Visitor, RemoveVisitor {
      */
     
     public void visitOutboundPackageNode(PackageNode node) {
-        LogManager.getLogger(getClass()).debug("visitOutboundPackageNode(" + node + ")");
+        LogManager.getLogger(getClass()).debug("visitOutboundPackageNode({})", node);
         
         if (canDeletePackage(node)) {
             factory.deletePackage(node);
@@ -99,7 +99,7 @@ public class DeletingVisitor implements Visitor, RemoveVisitor {
     }
     
     public void visitOutboundClassNode(ClassNode node) {
-        LogManager.getLogger(getClass()).debug("visitOutboundClassNode(" + node + ")");
+        LogManager.getLogger(getClass()).debug("visitOutboundClassNode({})", node);
         
         if (canDeleteClass(node)) {
             factory.deleteClass(node);
@@ -109,7 +109,7 @@ public class DeletingVisitor implements Visitor, RemoveVisitor {
     }
     
     public void visitOutboundFeatureNode(FeatureNode node) {
-        LogManager.getLogger(getClass()).debug("visitOutboundFeatureNode(" + node + ")");
+        LogManager.getLogger(getClass()).debug("visitOutboundFeatureNode({})", node);
         
         if (canDeleteFeature(node)) {
             factory.deleteFeature(node);

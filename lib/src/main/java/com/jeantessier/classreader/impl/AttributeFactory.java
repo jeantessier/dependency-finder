@@ -48,25 +48,25 @@ public class AttributeFactory {
 
             if (entry instanceof UTF8_info utf8_info) {
                 String name = utf8_info.getValue();
-                LogManager.getLogger(AttributeFactory.class).debug("Attribute name index: " + nameIndex + " (" + name + ")");
+                LogManager.getLogger(AttributeFactory.class).debug("Attribute name index: {} ({})", nameIndex, name);
 
                 AttributeType attributeType = AttributeType.forName(name);
                 if (attributeType != null) {
                     result = attributeType.create(constantPool, owner, in, this);
                 } else {
-                    LogManager.getLogger(AttributeFactory.class).warn("Unknown attribute name \"" + name + "\"");
+                    LogManager.getLogger(AttributeFactory.class).warn("Unknown attribute name \"{}\"", name);
                     result = new Custom_attribute(constantPool, owner, in, name);
                 }
             } else {
-                LogManager.getLogger(AttributeFactory.class).debug("Attribute name: " + entry);
+                LogManager.getLogger(AttributeFactory.class).debug("Attribute name: {}", entry);
 
-                LogManager.getLogger(AttributeFactory.class).warn("Unknown attribute with invalid name \"" + entry + "\"");
+                LogManager.getLogger(AttributeFactory.class).warn("Unknown attribute with invalid name \"{}\"", entry);
                 result = new Custom_attribute(constantPool, owner, in);
             }
         } else {
-            LogManager.getLogger(AttributeFactory.class).debug("Attribute name index: " + nameIndex);
+            LogManager.getLogger(AttributeFactory.class).debug("Attribute name index: {}", nameIndex);
 
-            LogManager.getLogger(AttributeFactory.class).warn("Unknown attribute with no name (name index = " + nameIndex + ")");
+            LogManager.getLogger(AttributeFactory.class).warn("Unknown attribute with no name (name index = {})", nameIndex);
             result = new Custom_attribute(constantPool, owner, in);
         }
 

@@ -61,18 +61,18 @@ public abstract class Feature_info implements com.jeantessier.classreader.Featur
         this.classfile = classfile;
 
         accessFlags = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug(getFeatureType() + " access flags: " + accessFlags);
+        LogManager.getLogger(getClass()).debug("{} access flags: {}", getFeatureType(), accessFlags);
 
         nameIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug(getFeatureType() + " name: " + nameIndex + " (" + getName() + ")");
+        LogManager.getLogger(getClass()).debug("{} name: {} ({})", getFeatureType(), nameIndex, getName());
 
         descriptorIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug(getFeatureType() + " Descriptor: " + descriptorIndex + " (" + getDescriptor() + ")");
+        LogManager.getLogger(getClass()).debug("{} descriptor: {} ({})", getFeatureType(), descriptorIndex, getDescriptor());
 
         int attributeCount = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + attributeCount + " " + getFeatureType() + " attribute(s)");
+        LogManager.getLogger(getClass()).debug("Reading {} {} attribute(s)", attributeCount, getFeatureType());
         for (int i=0; i<attributeCount; i++) {
-            LogManager.getLogger(getClass()).debug(getFeatureType() + " attribute " + i + ":");
+            LogManager.getLogger(getClass()).debug("{} attribute {}:", getFeatureType(), i);
             attributes.add(attributeFactory.create(getClassfile().getConstantPool(), this, in));
         }
     }

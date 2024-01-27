@@ -46,13 +46,13 @@ public class ModulePackages_attribute extends Attribute_info implements com.jean
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
 
         int numPackages = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + numPackages + " package(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading {} package(s) ...", numPackages);
         IntStream.range(0, numPackages).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("parameter " + i + ":");
+                LogManager.getLogger(getClass()).debug("parameter {}:", i);
                 packages.add(new ModulePackage(constantPool, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

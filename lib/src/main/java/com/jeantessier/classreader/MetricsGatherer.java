@@ -489,7 +489,7 @@ public class MetricsGatherer extends VisitorBase {
         } else if (owner instanceof Method_info method) {
             syntheticMethods.add(method);
         } else {
-            LogManager.getLogger(getClass()).warn("Synthetic attribute on unknown Visitable: " + owner.getClass().getName());
+            LogManager.getLogger(getClass()).warn("Synthetic attribute on unknown Visitable: {}", owner.getClass().getName());
         }
     }
 
@@ -536,7 +536,7 @@ public class MetricsGatherer extends VisitorBase {
         } else if (owner instanceof Method_info method) {
             deprecatedMethods.add(method);
         } else {
-            LogManager.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: " + owner.getClass().getName());
+            LogManager.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: {}", owner.getClass().getName());
         }
     }
 

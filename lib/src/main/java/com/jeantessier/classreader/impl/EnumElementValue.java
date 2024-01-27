@@ -47,10 +47,10 @@ public class EnumElementValue extends ElementValue implements com.jeantessier.cl
         super(constantPool);
 
         typeNameIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Type name index: " + typeNameIndex + "(" + getTypeName() + ")");
+        LogManager.getLogger(getClass()).debug("Type name index: {}({})", typeNameIndex, getTypeName());
 
         constNameIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Const name index: " + constNameIndex + "(" + getConstName() + ")");
+        LogManager.getLogger(getClass()).debug("Const name index: {}({})", constNameIndex, getConstName());
     }
 
     public int getTypeNameIndex() {

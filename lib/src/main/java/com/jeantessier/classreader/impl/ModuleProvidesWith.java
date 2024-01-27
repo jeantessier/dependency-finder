@@ -47,7 +47,7 @@ public class ModuleProvidesWith implements com.jeantessier.classreader.ModulePro
         this.constantPool = constantPool;
 
         providesWithIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Provides with: " + providesWithIndex + " (" + getProvidesWith() + ")");
+        LogManager.getLogger(getClass()).debug("Provides with: {} ({})", providesWithIndex, getProvidesWith());
     }
 
     public ConstantPool getConstantPool() {

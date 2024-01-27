@@ -42,7 +42,7 @@ public class VerificationTypeInfoFactory {
 
         int tag = in.readUnsignedByte();
         VerificationType verificationType = VerificationType.forTag(tag);
-        LogManager.getLogger(getClass()).debug("tag " + tag + " (" + verificationType + ")");
+        LogManager.getLogger(getClass()).debug("tag {} ({})", tag, verificationType);
         if (verificationType != null) {
             result = verificationType.create(constantPool, in);
         } else {

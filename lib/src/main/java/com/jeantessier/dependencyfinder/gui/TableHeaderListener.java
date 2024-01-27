@@ -57,11 +57,11 @@ class TableHeaderListener implements MouseListener, MouseMotionListener {
         int columnDispose = model.getRawColumnDispose(column);
 
         LogManager.getLogger(getClass()).debug("mouseClicked");
-        LogManager.getLogger(getClass()).debug("event.getX()       = " + event.getX());
-        LogManager.getLogger(getClass()).debug("view column        = " + viewColumn);
-        LogManager.getLogger(getClass()).debug("column             = " + column);
-        LogManager.getLogger(getClass()).debug("raw column name    = " + columnName);
-        LogManager.getLogger(getClass()).debug("raw column dispose = " + columnDispose);
+        LogManager.getLogger(getClass()).debug("event.getX()       = {}", event.getX());
+        LogManager.getLogger(getClass()).debug("view column        = {}", viewColumn);
+        LogManager.getLogger(getClass()).debug("column             = {}", column);
+        LogManager.getLogger(getClass()).debug("raw column name    = {}", columnName);
+        LogManager.getLogger(getClass()).debug("raw column dispose = {}", columnDispose);
 
         model.sortOn(columnName, columnDispose);
     }

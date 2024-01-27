@@ -45,10 +45,10 @@ public class SourceFile_attribute extends Attribute_info implements com.jeantess
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
 
         sourceFileIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Source file: " + sourceFileIndex + " (" + getSourceFile() + ")");
+        LogManager.getLogger(getClass()).debug("Source file: {} ({})", sourceFileIndex, getSourceFile());
     }
 
     public int getSourceFileIndex() {

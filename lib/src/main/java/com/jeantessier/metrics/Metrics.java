@@ -62,9 +62,9 @@ public class Metrics {
         this.name   = name;
 
         if (parent == null) {
-            LogManager.getLogger(getClass()).debug("Created top-level metrics \"" + name + "\"");
+            LogManager.getLogger(getClass()).debug("Created top-level metrics \"{}\"", name);
         } else {
-            LogManager.getLogger(getClass()).debug("Created metrics \"" + name + "\" under \"" + parent.getName() + "\"");
+            LogManager.getLogger(getClass()).debug("Created metrics \"{}\" under \"{}\"", name, parent.getName());
         }
     }
 

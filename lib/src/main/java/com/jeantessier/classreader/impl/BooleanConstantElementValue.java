@@ -41,7 +41,7 @@ import com.jeantessier.classreader.*;
 public class BooleanConstantElementValue extends ConstantElementValue implements com.jeantessier.classreader.BooleanConstantElementValue {
     public BooleanConstantElementValue(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool, in);
-        LogManager.getLogger(getClass()).debug("Const value index: " + getConstValueIndex() + " (" + getConstValue() + ")");
+        LogManager.getLogger(getClass()).debug("Const value index: {} ({})", getConstValueIndex(), getConstValue());
     }
 
     /**

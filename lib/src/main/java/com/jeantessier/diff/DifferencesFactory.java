@@ -56,7 +56,7 @@ public class DifferencesFactory {
     }
 
     public Differences createProjectDifferences(String name, String oldVersion, PackageMapper oldPackages, String newVersion, PackageMapper newPackages) {
-        LogManager.getLogger(getClass()).debug("Begin " + name + " (" + oldVersion + " -> " + newVersion + ")");
+        LogManager.getLogger(getClass()).debug("Begin {} ({} -> {})", name, oldVersion, newVersion);
 
         ProjectDifferences projectDifferences = new ProjectDifferences(name, oldVersion, newVersion);
 
@@ -87,13 +87,13 @@ public class DifferencesFactory {
             }
         });
 
-        LogManager.getLogger(getClass()).debug("End   " + name + " (" + oldVersion + " -> " + newVersion + ")");
+        LogManager.getLogger(getClass()).debug("End   {} ({} -> {})", name, oldVersion, newVersion);
 
         return projectDifferences;
     }
 
     public Differences createPackageDifferences(String name, Map<String, Classfile> oldPackage, Map<String, Classfile> newPackage) {
-        LogManager.getLogger(getClass()).debug("Begin " + name);
+        LogManager.getLogger(getClass()).debug("Begin {}", name);
 
         PackageDifferences packageDifferences = new PackageDifferences(name, oldPackage, newPackage);
 
@@ -113,16 +113,16 @@ public class DifferencesFactory {
                         }
                     });
 
-            LogManager.getLogger(getClass()).debug("      " + name + " has " + packageDifferences.getClassDifferences().size() + " class(es) that changed.");
+            LogManager.getLogger(getClass()).debug("      {} has {} class(es) that changed.", () -> name, () -> packageDifferences.getClassDifferences().size());
         }
 
-        LogManager.getLogger(getClass()).debug("End   " + name);
+        LogManager.getLogger(getClass()).debug("End   {}", name);
 
         return packageDifferences;
     }
 
     public Differences createClassDifferences(String name, Classfile oldClass, Classfile newClass) {
-        LogManager.getLogger(getClass()).debug("Begin " + name);
+        LogManager.getLogger(getClass()).debug("Begin {}", name);
 
         ClassDifferences classDifferences;
         if (((oldClass != null) && oldClass.isInterface()) || ((newClass != null) && newClass.isInterface())) {
@@ -174,20 +174,20 @@ public class DifferencesFactory {
                 }
             });
 
-            LogManager.getLogger(getClass()).debug(name + " has " + classDifferences.getFeatureDifferences().size() + " feature(s) that changed.");
+            LogManager.getLogger(getClass()).debug("{} has {} feature(s) that changed.", () -> name, () -> classDifferences.getFeatureDifferences().size());
 
             if (oldClass.isDeprecated() != newClass.isDeprecated()) {
                 result = new DeprecatableDifferences(result, oldClass, newClass);
             }
         }
 
-        LogManager.getLogger(getClass()).debug("End   " + name);
+        LogManager.getLogger(getClass()).debug("End   {}", name);
 
         return result;
     }
 
     public Differences createFeatureDifferences(String name, Feature_info oldFeature, Feature_info newFeature) {
-        LogManager.getLogger(getClass()).debug("Begin " + name);
+        LogManager.getLogger(getClass()).debug("Begin {}", name);
 
         FeatureDifferences featureDifferences;
         if (oldFeature instanceof Field_info || newFeature instanceof Field_info) {
@@ -227,7 +227,7 @@ public class DifferencesFactory {
             }
         }
 
-        LogManager.getLogger(getClass()).debug("End   " + name);
+        LogManager.getLogger(getClass()).debug("End   {}", name);
 
         return result;
     }

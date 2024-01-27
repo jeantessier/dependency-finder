@@ -60,16 +60,16 @@ public class InnerClass implements com.jeantessier.classreader.InnerClass {
         this.innerClasses = innerClasses;
 
         innerClassInfoIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Inner class info index: " + innerClassInfoIndex + " (" + getInnerClassInfo() + ")");
+        LogManager.getLogger(getClass()).debug("Inner class info index: {} ({})", innerClassInfoIndex, getInnerClassInfo());
 
         outerClassInfoIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Outer class info index: " + outerClassInfoIndex + " (" + getOuterClassInfo() + ")");
+        LogManager.getLogger(getClass()).debug("Outer class info index: {} ({})", outerClassInfoIndex, getOuterClassInfo());
 
         innerNameIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Inner name index: " + innerNameIndex + " (" + getInnerName() + ")");
+        LogManager.getLogger(getClass()).debug("Inner name index: {} ({})", innerNameIndex, getInnerName());
 
         accessFlags = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Inner class access flags: " + accessFlags);
+        LogManager.getLogger(getClass()).debug("Inner class access flags: {}", accessFlags);
     }
 
     public InnerClasses_attribute getInnerClasses() {

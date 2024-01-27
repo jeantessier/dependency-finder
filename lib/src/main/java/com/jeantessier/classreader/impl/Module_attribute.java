@@ -58,22 +58,22 @@ public class Module_attribute extends Attribute_info implements com.jeantessier.
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
 
         moduleNameIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Module name: " + moduleNameIndex + " (" + getModuleName() + ")");
+        LogManager.getLogger(getClass()).debug("Module name: {} ({})", moduleNameIndex, getModuleName());
 
         moduleFlags = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Module flags: " + moduleFlags);
+        LogManager.getLogger(getClass()).debug("Module flags: {}", moduleFlags);
 
         moduleVersionIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Module version: " + moduleVersionIndex + " (" + getModuleVersion() + ")");
+        LogManager.getLogger(getClass()).debug("Module version: {} ({})", moduleVersionIndex, getModuleVersion());
 
         var numRequires = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + numRequires + " module requires ...");
+        LogManager.getLogger(getClass()).debug("Reading {} module requires ...", numRequires);
         IntStream.range(0, numRequires).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("requires " + i + ":");
+                LogManager.getLogger(getClass()).debug("requires {}:", i);
                 requires.add(new ModuleRequires(constantPool, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -81,10 +81,10 @@ public class Module_attribute extends Attribute_info implements com.jeantessier.
         });
 
         var numExports = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + numExports + " module exports ...");
+        LogManager.getLogger(getClass()).debug("Reading {} module exports ...", numExports);
         IntStream.range(0, numExports).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("exports " + i + ":");
+                LogManager.getLogger(getClass()).debug("exports {}:", i);
                 exports.add(new ModuleExports(constantPool, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -92,10 +92,10 @@ public class Module_attribute extends Attribute_info implements com.jeantessier.
         });
 
         var numOpens = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + numOpens + " module opens ...");
+        LogManager.getLogger(getClass()).debug("Reading {} module opens ...", numOpens);
         IntStream.range(0, numOpens).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("opens " + i + ":");
+                LogManager.getLogger(getClass()).debug("opens {}:", i);
                 opens.add(new ModuleOpens(constantPool, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -103,10 +103,10 @@ public class Module_attribute extends Attribute_info implements com.jeantessier.
         });
 
         var numUses = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + numUses + " module uses ...");
+        LogManager.getLogger(getClass()).debug("Reading {} module uses ...", numUses);
         IntStream.range(0, numUses).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("uses " + i + ":");
+                LogManager.getLogger(getClass()).debug("uses {}:", i);
                 uses.add(new ModuleUses(constantPool, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -114,10 +114,10 @@ public class Module_attribute extends Attribute_info implements com.jeantessier.
         });
 
         var numProvides = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + numProvides + " module provides ...");
+        LogManager.getLogger(getClass()).debug("Reading {} module provides ...", numProvides);
         IntStream.range(0, numProvides).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("provides " + i + ":");
+                LogManager.getLogger(getClass()).debug("provides {}:", i);
                 provides.add(new ModuleProvides(constantPool, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

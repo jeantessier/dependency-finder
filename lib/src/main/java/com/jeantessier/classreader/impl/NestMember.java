@@ -46,7 +46,7 @@ public class NestMember implements com.jeantessier.classreader.NestMember {
         this.constantPool = constantPool;
 
         memberClassIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("class index: " + memberClassIndex + " (" + getMemberClass() + ")");
+        LogManager.getLogger(getClass()).debug("class index: {} ({})", memberClassIndex, getMemberClass());
     }
 
     public ConstantPool getConstantPool() {

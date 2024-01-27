@@ -60,7 +60,7 @@ public abstract class VisitorBase implements Visitor {
         constantPool.stream()
                 .skip(1) // Constant pool indices start at 1
                 .forEach(entry -> {
-                    LogManager.getLogger(getClass()).debug("Visiting constant pool entry " + currentIndex() + ": " + entry);
+                    LogManager.getLogger(getClass()).debug("Visiting constant pool entry {}: {}", currentIndex(), entry);
                     entry.accept(this);
                     incrementIndex();
                 });
@@ -117,16 +117,16 @@ public abstract class VisitorBase implements Visitor {
         visitInstructions(attribute);
 
         Collection<? extends ExceptionHandler> exceptionHandlers = attribute.getExceptionHandlers();
-        LogManager.getLogger(getClass()).debug("Visiting " + exceptionHandlers.size() + " exception handler(s) ...");
+        LogManager.getLogger(getClass()).debug("Visiting {} exception handler(s) ...", () -> exceptionHandlers.size());
         visitExceptionHandlers(exceptionHandlers);
 
         Collection<? extends Attribute_info> attributes = attribute.getAttributes();
-        LogManager.getLogger(getClass()).debug("Visiting " + attributes.size() + " code attribute(s) ...");
+        LogManager.getLogger(getClass()).debug("Visiting {} code attribute(s) ...", () -> attributes.size());
         visitAttributes(attributes);
     }
 
     public void visitLocalVariableTypeTable_attribute(LocalVariableTypeTable_attribute attribute) {
-        LogManager.getLogger(getClass()).debug("Visiting " + attribute.getLocalVariableTypes().size() + " local variable type(s) ...");
+        LogManager.getLogger(getClass()).debug("Visiting {} local variable type(s) ...", () -> attribute.getLocalVariableTypes().size());
         attribute.getLocalVariableTypes().forEach(localVariableType -> localVariableType.accept(this));
     }
 
@@ -139,7 +139,7 @@ public abstract class VisitorBase implements Visitor {
     }
 
     protected void visitRuntimeAnnotations_attribute(RuntimeAnnotations_attribute attribute) {
-        LogManager.getLogger(getClass()).debug("Visiting " + attribute.getAnnotations().size() + " annotation(s) ...");
+        LogManager.getLogger(getClass()).debug("Visiting {} annotation(s) ...", () -> attribute.getAnnotations().size());
         attribute.getAnnotations().forEach(annotation -> annotation.accept(this));
     }
 
@@ -152,7 +152,7 @@ public abstract class VisitorBase implements Visitor {
     }
 
     protected void visitRuntimeTypeAnnotations_attribute(RuntimeTypeAnnotations_attribute attribute) {
-        LogManager.getLogger(getClass()).debug("Visiting " + attribute.getTypeAnnotations().size() + " type annotation(s) ...");
+        LogManager.getLogger(getClass()).debug("Visiting {} type annotation(s) ...", () -> attribute.getTypeAnnotations().size());
         attribute.getTypeAnnotations().forEach(parameterAnnotation -> parameterAnnotation.accept(this));
     }
 
@@ -165,7 +165,7 @@ public abstract class VisitorBase implements Visitor {
     }
 
     protected void visitRuntimeParameterAnnotations_attribute(RuntimeParameterAnnotations_attribute attribute) {
-        LogManager.getLogger(getClass()).debug("Visiting " + attribute.getParameterAnnotations().size() + " parameter annotation(s) ...");
+        LogManager.getLogger(getClass()).debug("Visiting {} parameter annotation(s) ...", () -> attribute.getParameterAnnotations().size());
         attribute.getParameterAnnotations().forEach(parameterAnnotation -> parameterAnnotation.accept(this));
     }
 

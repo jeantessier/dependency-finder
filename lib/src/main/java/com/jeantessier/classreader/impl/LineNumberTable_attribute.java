@@ -47,13 +47,13 @@ public class LineNumberTable_attribute extends Attribute_info implements com.jea
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
 
         int lineNumberTableLength = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + lineNumberTableLength + " line number(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading {} line number(s) ...", lineNumberTableLength);
         IntStream.range(0, lineNumberTableLength).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("Line number entry " + i + ":");
+                LogManager.getLogger(getClass()).debug("Line number entry {}:", i);
                 lineNumbers.add(new LineNumber(this, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

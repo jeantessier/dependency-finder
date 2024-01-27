@@ -45,7 +45,7 @@ public class AnnotationElementValue extends ElementValue implements com.jeantess
         super(constantPool);
 
         annotation = new Annotation(constantPool, in);
-        LogManager.getLogger(getClass()).debug("Annotation: " + annotation);
+        LogManager.getLogger(getClass()).debug("Annotation: {}", annotation);
     }
 
     public Annotation getAnnotation() {

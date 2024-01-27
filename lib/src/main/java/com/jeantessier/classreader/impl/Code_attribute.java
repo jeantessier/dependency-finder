@@ -54,26 +54,26 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
 
         maxStack = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Code max stack: " + maxStack);
+        LogManager.getLogger(getClass()).debug("Code max stack: {}", maxStack);
 
         maxLocals = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Code max locals: " + maxLocals);
+        LogManager.getLogger(getClass()).debug("Code max locals: {}", maxLocals);
 
         int codeLength = in.readInt();
-        LogManager.getLogger(getClass()).debug("Code length: " + codeLength);
+        LogManager.getLogger(getClass()).debug("Code length: {}", codeLength);
         
         code = new byte[codeLength];
         in.readFully(code);
-        LogManager.getLogger(getClass()).debug("Read " + codeLength + " byte(s): " + Hex.toString(code));
+        LogManager.getLogger(getClass()).debug("Read {} byte(s): {}", () -> codeLength, () -> Hex.toString(code));
 
         int exceptionTableLength = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + exceptionTableLength + " exception handler(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading {} exception handler(s) ...", exceptionTableLength);
         IntStream.range (0, exceptionTableLength).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("Exception handler " + i + ":");
+                LogManager.getLogger(getClass()).debug("Exception handler {}:", i);
                 exceptionHandlers.add(new ExceptionHandler(this, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -81,10 +81,10 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
         });
 
         int attributeCount = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + attributeCount + " code attribute(s)");
+        LogManager.getLogger(getClass()).debug("Reading {} code attribute(s)", attributeCount);
         IntStream.range(0, attributeCount).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("code attribute " + i + ":");
+                LogManager.getLogger(getClass()).debug("code attribute {}:", i);
                 attributes.add(attributeFactory.create(getConstantPool(), this, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

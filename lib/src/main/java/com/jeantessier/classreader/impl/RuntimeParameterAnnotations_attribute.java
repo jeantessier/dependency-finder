@@ -47,13 +47,13 @@ public abstract class RuntimeParameterAnnotations_attribute extends Annotations_
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
 
         int numParameters = in.readUnsignedByte();
-        LogManager.getLogger(getClass()).debug("Reading " + numParameters + " parameter(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading {} parameter(s) ...", numParameters);
         IntStream.range(0, numParameters).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("parameter " + i + ":");
+                LogManager.getLogger(getClass()).debug("parameter {}:", i);
                 parameterAnnotations.add(new ParameterAnnotation(constantPool, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

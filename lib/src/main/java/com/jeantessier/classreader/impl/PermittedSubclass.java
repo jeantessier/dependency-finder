@@ -47,7 +47,7 @@ public class PermittedSubclass implements com.jeantessier.classreader.PermittedS
         this.constantPool = constantPool;
 
         subclassIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("permitted subclass index: " + subclassIndex + " (" + getSubclass() + ")");
+        LogManager.getLogger(getClass()).debug("permitted subclass index: {} ({})", subclassIndex, getSubclass());
     }
 
     public ConstantPool getConstantPool() {

@@ -41,7 +41,7 @@ import com.jeantessier.classreader.*;
 public class LongConstantElementValue extends ConstantElementValue implements com.jeantessier.classreader.LongConstantElementValue {
     public LongConstantElementValue(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool, in);
-        LogManager.getLogger(getClass()).debug("Const value index: " + getConstValueIndex() + " (" + getConstValue() + ")");
+        LogManager.getLogger(getClass()).debug("Const value index: {} ({})", getConstValueIndex(), getConstValue());
     }
 
     public long getConstValue() {

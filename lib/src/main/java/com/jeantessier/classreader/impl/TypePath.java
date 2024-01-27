@@ -44,10 +44,10 @@ public class TypePath implements com.jeantessier.classreader.TypePath {
 
     public TypePath(DataInput in) throws IOException {
         var pathLength = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + pathLength + " path entry(ies) ...");
+        LogManager.getLogger(getClass()).debug("Reading {} path entry(ies) ...", pathLength);
         IntStream.range(0, pathLength).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("entry " + i + ":");
+                LogManager.getLogger(getClass()).debug("entry {}:", i);
                 path.add(new TypePathEntry(in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

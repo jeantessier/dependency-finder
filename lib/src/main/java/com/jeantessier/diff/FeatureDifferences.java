@@ -59,9 +59,9 @@ public abstract class FeatureDifferences extends RemovableDifferences {
         this.newFeature = newFeature;
 
         if (isModified()) {
-            LogManager.getLogger(getClass()).debug(getName() + " declaration has been modified.");
+            LogManager.getLogger(getClass()).debug("{} declaration has been modified.", getName());
         } else {
-            LogManager.getLogger(getClass()).debug(getName() + " declaration has not been modified.");
+            LogManager.getLogger(getClass()).debug("{} declaration has not been modified.", getName());
         }
     }
 

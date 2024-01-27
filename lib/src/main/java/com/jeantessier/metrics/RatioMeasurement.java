@@ -128,7 +128,7 @@ public class RatioMeasurement extends MeasurementBase {
 
             in.close();
         } catch (Exception ex) {
-            LogManager.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\"", ex);
+            LogManager.getLogger(getClass()).debug("Cannot initialize with \"{}\"", initText, ex);
             baseName    = null;
             dividerName = null;
         }

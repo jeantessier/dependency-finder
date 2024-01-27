@@ -51,13 +51,13 @@ public class ModuleProvides implements com.jeantessier.classreader.ModuleProvide
         this.constantPool = constantPool;
 
         providesIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Provides: " + providesIndex + " (" + getProvides() + ")");
+        LogManager.getLogger(getClass()).debug("Provides: {} ({})", providesIndex, getProvides());
 
         var numProvidesWith = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + numProvidesWith + " provides with ...");
+        LogManager.getLogger(getClass()).debug("Reading {} provides with ...", numProvidesWith);
         IntStream.range(0, numProvidesWith).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("provides with " + i + ":");
+                LogManager.getLogger(getClass()).debug("provides with {}:", i);
                 providesWiths.add(new ModuleProvidesWith(constantPool, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

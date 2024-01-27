@@ -47,16 +47,16 @@ public class Exceptions_attribute extends Attribute_info implements com.jeantess
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
 
         int exceptionCount = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + exceptionCount + " exception(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading {} exception(s) ...", exceptionCount);
         IntStream.range(0, exceptionCount).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("Exception " + i + ":");
+                LogManager.getLogger(getClass()).debug("Exception {}:", i);
                 Class_info exception = (Class_info) constantPool.get(in.readUnsignedShort());
                 exceptions.add(exception);
-                LogManager.getLogger(getClass()).debug("Class " + exception);
+                LogManager.getLogger(getClass()).debug("Class {}", exception);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

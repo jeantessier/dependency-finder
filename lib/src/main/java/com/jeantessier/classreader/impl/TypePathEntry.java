@@ -45,10 +45,10 @@ public class TypePathEntry implements com.jeantessier.classreader.TypePathEntry 
     public TypePathEntry(DataInput in) throws IOException {
         var rawTypePathKind = in.readUnsignedByte();
         typePathKind = TypePathKind.forTypePathKind(rawTypePathKind);
-        LogManager.getLogger(getClass()).debug("Type path kind: " + rawTypePathKind + " (" + typePathKind.getDescription() + ")");
+        LogManager.getLogger(getClass()).debug("Type path kind: {} ({})", rawTypePathKind, typePathKind.getDescription());
 
         typeArgumentIndex = in.readUnsignedByte();
-        LogManager.getLogger(getClass()).debug("Type argument index: " + typeArgumentIndex);
+        LogManager.getLogger(getClass()).debug("Type argument index: {}", typeArgumentIndex);
     }
 
     public TypePathKind getTypePathKind() {

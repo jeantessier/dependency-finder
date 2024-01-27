@@ -47,13 +47,13 @@ public class InnerClasses_attribute extends Attribute_info implements com.jeante
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
 
         int classCount = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + classCount + " inner class(es) ...");
+        LogManager.getLogger(getClass()).debug("Reading {} inner class(es) ...", classCount);
         IntStream.range(0, classCount).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("Inner class " + i + ":");
+                LogManager.getLogger(getClass()).debug("Inner class {}:", i);
                 classes.add(new InnerClass(this, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

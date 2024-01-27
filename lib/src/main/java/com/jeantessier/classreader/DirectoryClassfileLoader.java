@@ -42,7 +42,7 @@ public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
     }
 
     protected void load(String filename) {
-        LogManager.getLogger(getClass()).debug("Starting group from path \"" + filename + "\"");
+        LogManager.getLogger(getClass()).debug("Starting group from path \"{}\"", filename);
         
         DirectoryExplorer explorer = new DirectoryExplorer(filename);
 
@@ -51,14 +51,14 @@ public class DirectoryClassfileLoader extends ClassfileLoaderDecorator {
         explorer.getFiles().forEach(file -> {
             fireBeginFile(file.getPath());
 
-            LogManager.getLogger(getClass()).debug("Starting file \"" + file.getPath() + "\" (" + file.length() + " bytes)");
+            LogManager.getLogger(getClass()).debug("Starting file \"{}\" ({} bytes)", file.getPath(), file.length());
 
             if (!file.isDirectory()) {
                 // Errors with contents format will be handled and logged by Load().
                 try (var in = new FileInputStream(file)) {
                     getLoader().load(file.getPath(), in);
                 } catch (IOException ex) {
-                    LogManager.getLogger(getClass()).error("Cannot load file \"" + file.getPath() + "\"", ex);
+                    LogManager.getLogger(getClass()).error("Cannot load file \"{}\"", file.getPath(), ex);
                 }
             }
 

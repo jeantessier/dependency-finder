@@ -47,10 +47,10 @@ public class TypeArgumentTarget extends Target_info implements com.jeantessier.c
         this.targetType = targetType;
 
         offset = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Offset: " + offset);
+        LogManager.getLogger(getClass()).debug("Offset: {}", offset);
 
         typeArgumentIndex = in.readUnsignedByte();
-        LogManager.getLogger(getClass()).debug("Type argument index: " + typeArgumentIndex);
+        LogManager.getLogger(getClass()).debug("Type argument index: {}", typeArgumentIndex);
     }
 
     public com.jeantessier.classreader.TargetType getTargetType() {

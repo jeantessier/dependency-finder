@@ -45,10 +45,10 @@ public class SourceDebugExtension_attribute extends Attribute_info implements co
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
 
         debugExtension = in.readUTF();
-        LogManager.getLogger(getClass()).debug("Debug extension: " + debugExtension);
+        LogManager.getLogger(getClass()).debug("Debug extension: {}", debugExtension);
     }
 
     public String getDebugExtension() {

@@ -42,19 +42,19 @@ public class StrictDispatcher implements ClassfileLoaderDispatcher {
         
         if (filename.endsWith(".jar")) {
             result = ClassfileLoaderAction.JAR;
-            LogManager.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_JAR");
+            LogManager.getLogger(getClass()).debug("Dispatching \"{}\": ACTION_JAR", filename);
         } else if (filename.endsWith(".zip")) {
             result = ClassfileLoaderAction.ZIP;
-            LogManager.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_ZIP");
+            LogManager.getLogger(getClass()).debug("Dispatching \"{}\": ACTION_ZIP", filename);
         } else if (filename.endsWith(".class")) {
             result = ClassfileLoaderAction.CLASS;
-            LogManager.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_CLASS");
+            LogManager.getLogger(getClass()).debug("Dispatching \"{}\": ACTION_CLASS", filename);
         } else if (new File(filename).exists()) {
             result = ClassfileLoaderAction.DIRECTORY;
-            LogManager.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_DIRECTORY");
+            LogManager.getLogger(getClass()).debug("Dispatching \"{}\": ACTION_DIRECTORY", filename);
         } else {
             result = ClassfileLoaderAction.IGNORE;
-            LogManager.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_IGNORE");
+            LogManager.getLogger(getClass()).debug("Dispatching \"{}\": ACTION_IGNORE", filename);
         }
         
         return result;

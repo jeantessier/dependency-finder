@@ -82,27 +82,20 @@ public abstract class VisitorBase implements Visitor {
             result = currentNodes.getLast();
         }
 
-        if (LogManager.getLogger(getClass()).isDebugEnabled()) {
-            LogManager.getLogger(getClass()).debug(currentNodes + ": " + result);
-        }
+        LogManager.getLogger(getClass()).debug("{}: {}", currentNodes, result);
 
         return result;
     }
 
     protected void pushNode(Node currentNode) {
-        if (LogManager.getLogger(getClass()).isDebugEnabled()) {
-            LogManager.getLogger(getClass()).debug(currentNodes + " + " + currentNode);
-        }
-
+        LogManager.getLogger(getClass()).debug("{} + {}", currentNodes, currentNode);
         currentNodes.addLast(currentNode);
     }
 
     protected Node popNode() {
         Node result = currentNodes.removeLast();
 
-        if (LogManager.getLogger(getClass()).isDebugEnabled()) {
-            LogManager.getLogger(getClass()).debug(currentNodes + " -> " + result);
-        }
+        LogManager.getLogger(getClass()).debug("{} -> {}", currentNodes, result);
 
         return result;
     }

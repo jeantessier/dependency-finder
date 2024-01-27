@@ -45,26 +45,26 @@ public class JarClassfileLoader extends ZipClassfileLoader {
     }
 
     protected void load(String filename) {
-        LogManager.getLogger(getClass()).debug("Reading " + filename);
+        LogManager.getLogger(getClass()).debug("Reading {}", filename);
 
         try (var jarfile = new JarFile(filename)) {
             fireBeginGroup(filename, jarfile.size());
             load(jarfile);
             fireEndGroup(filename);
         } catch (IOException ex) {
-            LogManager.getLogger(getClass()).error("Cannot load JAR file \"" + filename + "\"", ex);
+            LogManager.getLogger(getClass()).error("Cannot load JAR file \"{}\"", filename, ex);
         }
     }
 
     protected void load(String filename, InputStream in) {
-        LogManager.getLogger(getClass()).debug("Reading " + filename);
+        LogManager.getLogger(getClass()).debug("Reading {}", filename);
         
         try (var jarfile = new JarInputStream(in)) {
             fireBeginGroup(filename, -1);
             load(jarfile);
             fireEndGroup(filename);
         } catch (IOException ex) {
-            LogManager.getLogger(getClass()).error("Cannot load JAR file \"" + filename + "\"", ex);
+            LogManager.getLogger(getClass()).error("Cannot load JAR file \"{}\"", filename, ex);
         }
     }
 }

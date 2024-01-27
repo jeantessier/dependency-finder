@@ -88,7 +88,7 @@ public abstract class AccumulatorMeasurement extends MeasurementBase implements 
                     }
                 }
             } catch (Exception ex) {
-                LogManager.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\"", ex);
+                LogManager.getLogger(getClass()).debug("Cannot initialize with \"{}\"", initText, ex);
                 terms.clear();
             }
         }
@@ -97,12 +97,12 @@ public abstract class AccumulatorMeasurement extends MeasurementBase implements 
     }
 
     private void logTerms(String initText) {
-        LogManager.getLogger(getClass()).debug("Initialize with\n" + initText);
+        LogManager.getLogger(getClass()).debug("Initialize with\n{}", initText);
         LogManager.getLogger(getClass()).debug("Terms:");
 
         terms.forEach((key, values) -> {
-            LogManager.getLogger(getClass()).debug("\t" + key);
-            values.forEach(s -> LogManager.getLogger(getClass()).debug("\t\t" + s));
+            LogManager.getLogger(getClass()).debug("\t{}", key);
+            values.forEach(s -> LogManager.getLogger(getClass()).debug("\t\t{}", s));
         });
     }
 

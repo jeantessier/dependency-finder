@@ -151,7 +151,7 @@ public class MetricsGatherer extends VisitorBase {
     public void visitClassfile(Classfile classfile) {
         String className = classfile.getClassName();
         LogManager.getLogger(getClass()).debug("VisitClassfile():");
-        LogManager.getLogger(getClass()).debug("    class = \"" + className + "\"");
+        LogManager.getLogger(getClass()).debug("    class = \"{}\"", className);
 
         fireBeginClass(classfile);
         
@@ -231,7 +231,7 @@ public class MetricsGatherer extends VisitorBase {
     // ConstantPool entries
     public void visitClass_info(Class_info entry) {
         LogManager.getLogger(getClass()).debug("VisitClass_info():");
-        LogManager.getLogger(getClass()).debug("    name = \"" + entry.getName() + "\"");
+        LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getName());
         if (entry.getName().startsWith("[")) {
             addClassDependencies(processDescriptor(entry.getName()));
         } else {
@@ -241,9 +241,9 @@ public class MetricsGatherer extends VisitorBase {
     
     public void visitFieldRef_info(FieldRef_info entry) {
         LogManager.getLogger(getClass()).debug("VisitFieldRef_info():");
-        LogManager.getLogger(getClass()).debug("    class = \"" + entry.getClassName() + "\"");
-        LogManager.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().getName() + "\"");
-        LogManager.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
+        LogManager.getLogger(getClass()).debug("    class = \"{}\"", () -> entry.getClassName());
+        LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getRawNameAndType().getName());
+        LogManager.getLogger(getClass()).debug("    type = \"{}\"", () -> entry.getRawNameAndType().getType());
 
         // Dependencies on attributes are accounted as dependencies on their class
         entry.getRawClass().accept(this);
@@ -252,18 +252,18 @@ public class MetricsGatherer extends VisitorBase {
 
     public void visitMethodRef_info(MethodRef_info entry) {
         LogManager.getLogger(getClass()).debug("VisitMethodRef_info():");
-        LogManager.getLogger(getClass()).debug("    class = \"" + entry.getClassName() + "\"");
-        LogManager.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().getName() + "\"");
-        LogManager.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
+        LogManager.getLogger(getClass()).debug("    class = \"{}\"", () -> entry.getClassName());
+        LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getRawNameAndType().getName());
+        LogManager.getLogger(getClass()).debug("    type = \"{}\"", () -> entry.getRawNameAndType().getType());
         addMethodDependency(entry.getFullSignature());
         addClassDependencies(processDescriptor(entry.getRawNameAndType().getType()));
     }
 
     public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
         LogManager.getLogger(getClass()).debug("VisitInterfaceMethodRef_info():");
-        LogManager.getLogger(getClass()).debug("    class = \"" + entry.getClassName() + "\"");
-        LogManager.getLogger(getClass()).debug("    name = \"" + entry.getRawNameAndType().getName() + "\"");
-        LogManager.getLogger(getClass()).debug("    type = \"" + entry.getRawNameAndType().getType() + "\"");
+        LogManager.getLogger(getClass()).debug("    class = \"{}\"", () -> entry.getClassName());
+        LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getRawNameAndType().getName());
+        LogManager.getLogger(getClass()).debug("    type = \"{}\"", () -> entry.getRawNameAndType().getType());
         addMethodDependency(entry.getFullSignature());
         addClassDependencies(processDescriptor(entry.getRawNameAndType().getType()));
     }
@@ -272,13 +272,13 @@ public class MetricsGatherer extends VisitorBase {
         String fullName = entry.getFullName();
         getCurrentClass().addToMeasurement(BasicMeasurements.ATTRIBUTES, fullName);
 
-        LogManager.getLogger(getClass()).debug("VisitField_info(" + entry.getFullSignature() + ")");
-        LogManager.getLogger(getClass()).debug("Current class: " + getCurrentClass().getName());
-        LogManager.getLogger(getClass()).debug("Access flag: " + entry.getAccessFlags());
-        LogManager.getLogger(getClass()).debug("Public: " + entry.isPublic());
-        LogManager.getLogger(getClass()).debug("Private: " + entry.isPrivate());
-        LogManager.getLogger(getClass()).debug("Protected: " + entry.isProtected());
-        LogManager.getLogger(getClass()).debug("Static: " + entry.isStatic());
+        LogManager.getLogger(getClass()).debug("VisitField_info({})", () -> entry.getFullSignature());
+        LogManager.getLogger(getClass()).debug("Current class: {}", () -> getCurrentClass().getName());
+        LogManager.getLogger(getClass()).debug("Access flag: {}", () -> entry.getAccessFlags());
+        LogManager.getLogger(getClass()).debug("Public: {}", () -> entry.isPublic());
+        LogManager.getLogger(getClass()).debug("Private: {}", () -> entry.isPrivate());
+        LogManager.getLogger(getClass()).debug("Protected: {}", () -> entry.isProtected());
+        LogManager.getLogger(getClass()).debug("Static: {}", () -> entry.isStatic());
         
         if (entry.isPublic()) {
             getCurrentClass().addToMeasurement(BasicMeasurements.PUBLIC_ATTRIBUTES, fullName);
@@ -325,13 +325,13 @@ public class MetricsGatherer extends VisitorBase {
         setCurrentMethod(getMetricsFactory().createMethodMetrics(fullSignature));
         getMetricsFactory().includeMethodMetrics(getCurrentMethod());
         
-        LogManager.getLogger(getClass()).debug("VisitMethod_info(" + fullSignature + ")");
-        LogManager.getLogger(getClass()).debug("Current class: " + getCurrentClass().getName());
-        LogManager.getLogger(getClass()).debug("Access flag: " + entry.getAccessFlags());
-        LogManager.getLogger(getClass()).debug("Public: " + entry.isPublic());
-        LogManager.getLogger(getClass()).debug("Private: " + entry.isPrivate());
-        LogManager.getLogger(getClass()).debug("Protected: " + entry.isProtected());
-        LogManager.getLogger(getClass()).debug("Static: " + entry.isStatic());
+        LogManager.getLogger(getClass()).debug("VisitMethod_info({})", () -> entry.getFullSignature());
+        LogManager.getLogger(getClass()).debug("Current class: {}", () -> getCurrentClass().getName());
+        LogManager.getLogger(getClass()).debug("Access flag: {}", () -> entry.getAccessFlags());
+        LogManager.getLogger(getClass()).debug("Public: {}", () -> entry.isPublic());
+        LogManager.getLogger(getClass()).debug("Private: {}", () -> entry.isPrivate());
+        LogManager.getLogger(getClass()).debug("Protected: {}", () -> entry.isProtected());
+        LogManager.getLogger(getClass()).debug("Static: {}", () -> entry.isStatic());
 
         sloc = 0;
         isSynthetic = entry.isSynthetic();
@@ -394,7 +394,7 @@ public class MetricsGatherer extends VisitorBase {
         } else if (owner instanceof Method_info methodInfo) {
             getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_METHODS, methodInfo.getFullSignature());
         } else {
-            LogManager.getLogger(getClass()).warn("Synthetic attribute on unknown Visitable: " + owner.getClass().getName());
+            LogManager.getLogger(getClass()).warn("Synthetic attribute on unknown Visitable: {}", () -> owner.getClass().getName());
         }
     }
 
@@ -410,7 +410,7 @@ public class MetricsGatherer extends VisitorBase {
         } else if (owner instanceof Method_info methodInfo) {
             getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_METHODS, methodInfo.getFullSignature());
         } else {
-            LogManager.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: " + owner.getClass().getName());
+            LogManager.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: {}", () -> owner.getClass().getName());
         }
     }
 
@@ -541,7 +541,7 @@ public class MetricsGatherer extends VisitorBase {
     private Collection<String> processDescriptor(String str) {
         Collection<String> result = new LinkedList<>();
         
-        LogManager.getLogger(getClass()).debug("ProcessDescriptor: " + str);
+        LogManager.getLogger(getClass()).debug("ProcessDescriptor: {}", str);
 
         int currentPos = 0;
         int startPos;
@@ -557,7 +557,7 @@ public class MetricsGatherer extends VisitorBase {
             }
         }
 
-        LogManager.getLogger(getClass()).debug("ProcessDescriptor: " + result);
+        LogManager.getLogger(getClass()).debug("ProcessDescriptor: {}", result);
         
         return result;
     }
@@ -567,13 +567,13 @@ public class MetricsGatherer extends VisitorBase {
     }
     
     private void addClassDependency(String name) {
-        LogManager.getLogger(getClass()).debug("AddClassDependency(\"" + name + "\") ...");
+        LogManager.getLogger(getClass()).debug("AddClassDependency(\"{}\") ...", name);
 
         if (!getCurrentClass().getName().equals(name) && isInFilter(name)) {
             Metrics other = getMetricsFactory().createClassMetrics(name);
                 
             if (getCurrentMethod() != null && isInScope(getCurrentMethod().getName())) {
-                LogManager.getLogger(getClass()).debug("AddClassDependency " + getCurrentMethod().getName() + " -> " + name + " ...");
+                LogManager.getLogger(getClass()).debug("AddClassDependency {} -> {} ...", getCurrentMethod().getName(), name);
                 
                 if (getCurrentClass().getParent().equals(other.getParent())) {
                     LogManager.getLogger(getClass()).debug("Intra-Package ...");
@@ -585,7 +585,7 @@ public class MetricsGatherer extends VisitorBase {
                     other.addToMeasurement(BasicMeasurements.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES, getCurrentMethod().getName());
                 }
             } else if (isInScope(getCurrentClass().getName())) {
-                LogManager.getLogger(getClass()).debug("AddClassDependency " + getCurrentClass().getName() + " -> " + name + " ...");
+                LogManager.getLogger(getClass()).debug("AddClassDependency {} -> {} ...", getCurrentClass().getName(), name);
                 
                 if (getCurrentClass().getParent().equals(other.getParent())) {
                     LogManager.getLogger(getClass()).debug("Intra-Package ...");
@@ -601,7 +601,7 @@ public class MetricsGatherer extends VisitorBase {
     }
     
     private void addMethodDependency(String name) {
-        LogManager.getLogger(getClass()).debug("AddMethodDependency " + getCurrentMethod().getName() + " -> " + name + " ...");
+        LogManager.getLogger(getClass()).debug("AddMethodDependency {} -> {} ...", getCurrentMethod().getName(), name);
 
         if (!getCurrentMethod().getName().equals(name) && isInScope(getCurrentMethod().getName()) && isInFilter(name)) {
             Metrics other = getMetricsFactory().createMethodMetrics(name);

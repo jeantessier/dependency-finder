@@ -49,7 +49,7 @@ public class ModulePackage implements com.jeantessier.classreader.ModulePackage 
         this.constantPool = constantPool;
 
         packageIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Package index: " + packageIndex + " (" + getPackage() + ")");
+        LogManager.getLogger(getClass()).debug("Package index: {} ({})", packageIndex, getPackage());
     }
 
     public ConstantPool getConstantPool() {

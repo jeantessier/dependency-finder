@@ -50,7 +50,7 @@ public class LocalVariableFinder extends VisitorBase {
     }
 
     public void visitCode_attribute(Code_attribute attribute) {
-        LogManager.getLogger(getClass()).debug("Visiting " + attribute.getAttributes().size() + " code attribute(s) ...");
+        LogManager.getLogger(getClass()).debug("Visiting {} code attribute(s) ...", attribute.getAttributes().size());
         for (Attribute_info attribute_info : attribute.getAttributes()) {
             attribute_info.accept(this);
         }

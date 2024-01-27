@@ -50,19 +50,19 @@ public class LocalVariableType implements com.jeantessier.classreader.LocalVaria
         this.localVariableTypeTable = localVariableTypeTable;
 
         startPC = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("start PC: " + startPC);
+        LogManager.getLogger(getClass()).debug("start PC: {}", startPC);
 
         length = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("length: " + length);
+        LogManager.getLogger(getClass()).debug("length: {}", length);
 
         nameIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("name: " + nameIndex + " (" + getName() + ")");
+        LogManager.getLogger(getClass()).debug("name: {} ({})", nameIndex, getName());
 
         signatureIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("signature: " + signatureIndex + " (" + getSignature() + ")");
+        LogManager.getLogger(getClass()).debug("signature: {} ({})", signatureIndex, getSignature());
 
         index = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("index: " + index);
+        LogManager.getLogger(getClass()).debug("index: {}", index);
     }
 
     public LocalVariableTypeTable_attribute getLocalVariableTypeTable() {

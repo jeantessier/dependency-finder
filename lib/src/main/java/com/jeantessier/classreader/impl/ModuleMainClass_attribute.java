@@ -44,10 +44,10 @@ public class ModuleMainClass_attribute extends Attribute_info implements com.jea
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
 
         mainClassIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Main class: " + mainClassIndex + " (" + getMainClass() + ")");
+        LogManager.getLogger(getClass()).debug("Main class: {} ({})", mainClassIndex, getMainClass());
     }
 
     public int getMainClassIndex() {

@@ -51,13 +51,13 @@ public class StackMapTable_attribute extends Attribute_info implements com.jeant
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
 
         int numEntries = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + numEntries + " stack map frame(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading {} stack map frame(s) ...", numEntries);
         IntStream.range(0, numEntries).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("stack map frame " + i + ":");
+                LogManager.getLogger(getClass()).debug("stack map frame {}:", i);
                 entries.add(stackMapFrameFactory.create(constantPool, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

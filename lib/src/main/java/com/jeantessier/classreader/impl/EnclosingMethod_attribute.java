@@ -46,13 +46,13 @@ public class EnclosingMethod_attribute extends Attribute_info implements com.jea
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
 
         classIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Class index: " + classIndex + " (" + getClassInfo() + ")");
+        LogManager.getLogger(getClass()).debug("Class index: {} ({})", classIndex, getClassInfo());
 
         methodIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Method index: " + methodIndex + " (" + getMethod() + ")");
+        LogManager.getLogger(getClass()).debug("Method index: {} ({})", methodIndex, getMethod());
     }
 
     public int getClassIndex() {

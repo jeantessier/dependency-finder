@@ -67,7 +67,7 @@ public class NameListMeasurement extends MeasurementBase implements CollectionMe
             } else if (initText.trim().equalsIgnoreCase("set")) {
                 values = new HashSet<>();
             } else {
-                LogManager.getLogger(getClass()).debug("Cannot initialize with \"" + initText + "\", using default value of SET instead");
+                LogManager.getLogger(getClass()).debug("Cannot initialize with \"{}\", using default value of SET instead", initText);
                 values = new HashSet<>();
             }
         } else {

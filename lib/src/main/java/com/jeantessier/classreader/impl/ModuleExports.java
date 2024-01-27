@@ -55,16 +55,16 @@ public class ModuleExports implements com.jeantessier.classreader.ModuleExports 
         this.constantPool = constantPool;
 
         exportsIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Exports: " + exportsIndex + " (" + getExports() + ")");
+        LogManager.getLogger(getClass()).debug("Exports: {} ({})", exportsIndex, getExports());
 
         exportsFlags = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Exports flags: " + exportsFlags);
+        LogManager.getLogger(getClass()).debug("Exports flags: {}", exportsFlags);
 
         var numExportsTo = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + numExportsTo + " exports to ...");
+        LogManager.getLogger(getClass()).debug("Reading {} exports to ...", numExportsTo);
         IntStream.range(0, numExportsTo).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("exports to " + i + ":");
+                LogManager.getLogger(getClass()).debug("exports to {}:", i);
                 exportsTos.add(new ModuleExportsTo(constantPool, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

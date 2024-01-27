@@ -65,22 +65,22 @@ public class PermissiveDispatcher implements ClassfileLoaderDispatcher {
 
         if (new File(filename).isDirectory()) {
             result = ClassfileLoaderAction.DIRECTORY;
-            LogManager.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_DIRECTORY");
+            LogManager.getLogger(getClass()).debug("Dispatching \"{}\": ACTION_DIRECTORY", filename);
         } else if (filename.endsWith(".jar")) {
             result = ClassfileLoaderAction.JAR;
-            LogManager.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_JAR");
+            LogManager.getLogger(getClass()).debug("Dispatching \"{}\": ACTION_JAR", filename);
         } else if (filename.endsWith(".zip")) {
             result = ClassfileLoaderAction.ZIP;
-            LogManager.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_ZIP");
+            LogManager.getLogger(getClass()).debug("Dispatching \"{}\": ACTION_ZIP", filename);
         } else if (filename.endsWith(".class")) {
             result = ClassfileLoaderAction.CLASS;
-            LogManager.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_CLASS");
+            LogManager.getLogger(getClass()).debug("Dispatching \"{}\": ACTION_CLASS", filename);
         } else if (IGNORED_SUFFIXES.parallelStream().anyMatch(filename::endsWith)) {
             result = ClassfileLoaderAction.IGNORE;
-            LogManager.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_IGNORE");
+            LogManager.getLogger(getClass()).debug("Dispatching \"{}\": ACTION_IGNORE", filename);
         } else {
             result = ClassfileLoaderAction.ZIP;
-            LogManager.getLogger(getClass()).debug("Dispatching \"" + filename + "\": ACTION_ZIP");
+            LogManager.getLogger(getClass()).debug("Dispatching \"{}\": ACTION_ZIP", filename);
         }
   
         return result;

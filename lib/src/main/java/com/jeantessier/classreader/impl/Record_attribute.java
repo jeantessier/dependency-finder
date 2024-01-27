@@ -46,13 +46,13 @@ public class Record_attribute extends Attribute_info implements com.jeantessier.
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
 
         int numRecordComponents = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + numRecordComponents + " record component(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading {} record component(s) ...", numRecordComponents);
         IntStream.range(0, numRecordComponents).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("parameter " + i + ":");
+                LogManager.getLogger(getClass()).debug("parameter {}:", i);
                 recordComponents.add(new RecordComponent_info(constantPool, in, attributeFactory));
             } catch (IOException e) {
                 throw new RuntimeException(e);

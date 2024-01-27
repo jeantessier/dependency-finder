@@ -47,7 +47,7 @@ public class ModuleOpensTo implements com.jeantessier.classreader.ModuleOpensTo 
         this.constantPool = constantPool;
 
         opensToIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Opens to: " + opensToIndex + " (" + getOpensTo() + ")");
+        LogManager.getLogger(getClass()).debug("Opens to: {} ({})", opensToIndex, getOpensTo());
     }
 
     public ConstantPool getConstantPool() {

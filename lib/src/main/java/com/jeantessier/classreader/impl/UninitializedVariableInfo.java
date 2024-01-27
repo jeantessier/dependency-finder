@@ -44,7 +44,7 @@ public class UninitializedVariableInfo extends VerificationTypeInfo implements c
         super(constantPool);
 
         offset = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Offset: " + offset);
+        LogManager.getLogger(getClass()).debug("Offset: {}", offset);
     }
 
     public int getOffset() {

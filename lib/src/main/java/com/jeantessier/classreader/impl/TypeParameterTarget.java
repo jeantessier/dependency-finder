@@ -46,7 +46,7 @@ public class TypeParameterTarget extends Target_info implements com.jeantessier.
         this.targetType = targetType;
 
         typeParameterIndex = in.readUnsignedByte();
-        LogManager.getLogger(getClass()).debug("Type parameter index: " + typeParameterIndex);
+        LogManager.getLogger(getClass()).debug("Type parameter index: {}", typeParameterIndex);
     }
 
     public com.jeantessier.classreader.TargetType getTargetType() {

@@ -49,13 +49,13 @@ public class PermittedSubclasses_attribute extends Attribute_info implements com
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
 
         int numClasses = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + numClasses + " classes(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading {} classes(s) ...", numClasses);
         IntStream.range(0, numClasses).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("class " + i + ":");
+                LogManager.getLogger(getClass()).debug("class {}:", i);
                 subclasses.add(new PermittedSubclass(constantPool, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

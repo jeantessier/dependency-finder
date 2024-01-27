@@ -46,7 +46,7 @@ public class ClassElementValue extends ElementValue implements com.jeantessier.c
         super(constantPool);
 
         classInfoIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Class info index: " + classInfoIndex + " (" + getClassInfo() + ")");
+        LogManager.getLogger(getClass()).debug("Class info index: {} ({})", classInfoIndex, getClassInfo());
     }
 
     public int getClassInfoIndex() {

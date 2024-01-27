@@ -47,10 +47,10 @@ public class LocalvarTarget extends Target_info implements com.jeantessier.class
         this.targetType = targetType;
 
         var tableLength = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + tableLength + " localvar table entry(ies) ...");
+        LogManager.getLogger(getClass()).debug("Reading {} localvar table entry(ies) ...", tableLength);
         IntStream.range(0, tableLength).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("entry " + i + ":");
+                LogManager.getLogger(getClass()).debug("entry {}:", i);
                 table.add(new LocalvarTableEntry(in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

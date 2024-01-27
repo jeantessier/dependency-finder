@@ -45,10 +45,10 @@ public class Signature_attribute extends Attribute_info implements com.jeantessi
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
 
         signatureIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Signature: " + signatureIndex + " (" + getSignature() + ")");
+        LogManager.getLogger(getClass()).debug("Signature: {} ({})", signatureIndex, getSignature());
     }
 
     public int getSignatureIndex() {

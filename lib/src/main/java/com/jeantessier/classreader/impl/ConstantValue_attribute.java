@@ -45,10 +45,10 @@ public class ConstantValue_attribute extends Attribute_info implements com.jeant
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
 
         valueIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Constant value: " + getValueIndex() + " (" + getRawValue() + ")");
+        LogManager.getLogger(getClass()).debug("Constant value: {} ({})", getValueIndex(), getRawValue());
     }
 
     public int getValueIndex() {

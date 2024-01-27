@@ -46,7 +46,7 @@ public class CatchTarget extends Target_info implements com.jeantessier.classrea
         this.targetType = targetType;
 
         exceptionTableIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Exception table index: " + exceptionTableIndex);
+        LogManager.getLogger(getClass()).debug("Exception table index: {}", exceptionTableIndex);
     }
 
     public com.jeantessier.classreader.TargetType getTargetType() {

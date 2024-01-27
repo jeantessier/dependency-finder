@@ -41,7 +41,7 @@ import com.jeantessier.classreader.*;
 public class ByteConstantElementValue extends ConstantElementValue implements com.jeantessier.classreader.ByteConstantElementValue {
     public ByteConstantElementValue(ConstantPool constantPool, DataInput in) throws IOException {
         super(constantPool, in);
-        LogManager.getLogger(getClass()).debug("Const value index: " + getConstValueIndex() + " (" + getConstValue() + ")");
+        LogManager.getLogger(getClass()).debug("Const value index: {} ({})", getConstValueIndex(), getConstValue());
     }
 
     public byte getConstValue() {

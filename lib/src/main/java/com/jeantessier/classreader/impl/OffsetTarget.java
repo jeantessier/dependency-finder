@@ -46,7 +46,7 @@ public class OffsetTarget extends Target_info implements com.jeantessier.classre
         this.targetType = targetType;
 
         offset = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Offset: " + offset);
+        LogManager.getLogger(getClass()).debug("Offset: {}", offset);
     }
 
     public com.jeantessier.classreader.TargetType getTargetType() {

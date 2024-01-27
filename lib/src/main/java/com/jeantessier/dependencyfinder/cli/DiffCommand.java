@@ -118,7 +118,7 @@ public abstract class DiffCommand extends Command {
                     result = (DifferenceStrategy) Class.forName(level).getDeclaredConstructor().newInstance();
                 }
             } catch (ReflectiveOperationException | ClassCastException ex) {
-                LogManager.getLogger(getClass()).error("Unknown level \"" + level + "\", using default level \"" + DEFAULT_LEVEL + "\"", ex);
+                LogManager.getLogger(getClass()).error("Unknown level \"{}\", using default level \"{}\"", level, DEFAULT_LEVEL, ex);
                 result = getDefaultStrategy(baseStrategy);
             }
         }

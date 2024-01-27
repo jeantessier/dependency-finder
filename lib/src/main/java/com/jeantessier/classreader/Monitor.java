@@ -67,16 +67,16 @@ public class Monitor extends LoadListenerVisitorAdapter {
     }
     
     public void beginFile(LoadEvent event) {
-        LogManager.getLogger(getClass()).debug("beginFile(..., " + event.getFilename() + ", ...)");
+        LogManager.getLogger(getClass()).debug("beginFile(..., {}, ...)", event.getFilename());
         
         currentFiles.add(event.getFilename());
     }
 
     public void endClassfile(LoadEvent event) {
-        LogManager.getLogger(getClass()).debug("endClassfile(..., " + event.getFilename() + ", " + event.getClassfile() + ")");
+        LogManager.getLogger(getClass()).debug("endClassfile(..., {}, {})", event.getFilename(), event.getClassfile());
         
         if (previousFiles.contains(event.getFilename())) {
-            LogManager.getLogger(getClass()).debug("Removing " + event.getClassfile() + " ...");
+            LogManager.getLogger(getClass()).debug("Removing {} ...", event.getClassfile());
             removeVisitor.removeClass(event.getClassfile().getClassName());
         }
         
@@ -86,7 +86,7 @@ public class Monitor extends LoadListenerVisitorAdapter {
     }
     
     public void endFile(LoadEvent event) {
-        LogManager.getLogger(getClass()).debug("endFile(..., " + event.getFilename() + ", ...)");
+        LogManager.getLogger(getClass()).debug("endFile(..., {}, ...)", event.getFilename());
         
         previousFiles.remove(event.getFilename());
     }
@@ -103,7 +103,7 @@ public class Monitor extends LoadListenerVisitorAdapter {
     private void removeUnreadFiles() {
         previousFiles.forEach(previousFile -> {
             String classname = fileToClass.get(previousFile);
-            LogManager.getLogger(getClass()).debug("Removing " + classname + " ...");
+            LogManager.getLogger(getClass()).debug("Removing {} ...", classname);
             removeVisitor.removeClass(classname);
         });
     }

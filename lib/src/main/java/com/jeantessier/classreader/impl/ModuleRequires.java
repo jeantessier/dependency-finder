@@ -53,13 +53,13 @@ public class ModuleRequires implements com.jeantessier.classreader.ModuleRequire
         this.constantPool = constantPool;
 
         requiresIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Requires: " + requiresIndex + " (" + getRequires() + ")");
+        LogManager.getLogger(getClass()).debug("Requires: {} ({})", requiresIndex, getRequires());
 
         requiresFlags = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Requires flags: " + requiresFlags);
+        LogManager.getLogger(getClass()).debug("Requires flags: {}", requiresFlags);
 
         requiresVersionIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Requires version: " + requiresVersionIndex + " (" + getRequiresVersion() + ")");
+        LogManager.getLogger(getClass()).debug("Requires version: {} ({})", requiresVersionIndex, getRequiresVersion());
     }
 
     public ConstantPool getConstantPool() {

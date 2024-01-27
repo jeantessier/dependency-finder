@@ -55,16 +55,16 @@ public class ModuleOpens implements com.jeantessier.classreader.ModuleOpens {
         this.constantPool = constantPool;
 
         opensIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Opens: " + opensIndex + " (" + getOpens() + ")");
+        LogManager.getLogger(getClass()).debug("Opens: {} ({})", opensIndex, getOpens());
 
         opensFlags = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Opens flags: " + opensFlags);
+        LogManager.getLogger(getClass()).debug("Opens flags: {}", opensFlags);
 
         var numOpensTo = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + numOpensTo + " opens to ...");
+        LogManager.getLogger(getClass()).debug("Reading {} opens to ...", numOpensTo);
         IntStream.range(0, numOpensTo).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("opens to " + i + ":");
+                LogManager.getLogger(getClass()).debug("opens to {}:", i);
                 opensTos.add(new ModuleOpensTo(constantPool, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

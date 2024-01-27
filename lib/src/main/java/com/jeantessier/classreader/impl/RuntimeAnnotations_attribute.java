@@ -47,13 +47,13 @@ public abstract class RuntimeAnnotations_attribute extends Annotations_attribute
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
 
         int numAnnotations = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + numAnnotations + " annotation(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading {} annotation(s) ...", numAnnotations);
         IntStream.range(0, numAnnotations).forEach(i -> {
             try {
-                LogManager.getLogger(getClass()).debug("annotation " + i + ":");
+                LogManager.getLogger(getClass()).debug("annotation {}:", i);
                 annotations.add(new Annotation(constantPool, in));
             } catch (IOException e) {
                 throw new RuntimeException(e);

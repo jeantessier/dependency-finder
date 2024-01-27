@@ -47,10 +47,10 @@ public class TypeParameterBoundTarget extends Target_info implements com.jeantes
         this.targetType = targetType;
 
         typeParameterIndex = in.readUnsignedByte();
-        LogManager.getLogger(getClass()).debug("Type parameter index: " + typeParameterIndex);
+        LogManager.getLogger(getClass()).debug("Type parameter index: {}", typeParameterIndex);
 
         boundIndex = in.readUnsignedByte();
-        LogManager.getLogger(getClass()).debug("Bound index: " + typeParameterIndex);
+        LogManager.getLogger(getClass()).debug("Bound index: {}", typeParameterIndex);
     }
 
     public com.jeantessier.classreader.TargetType getTargetType() {

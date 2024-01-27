@@ -47,7 +47,7 @@ public class ModuleExportsTo implements com.jeantessier.classreader.ModuleExport
         this.constantPool = constantPool;
 
         exportsToIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Exports to: " + exportsToIndex + " (" + getExportsTo() + ")");
+        LogManager.getLogger(getClass()).debug("Exports to: {} ({})", exportsToIndex, getExportsTo());
     }
 
     public ConstantPool getConstantPool() {

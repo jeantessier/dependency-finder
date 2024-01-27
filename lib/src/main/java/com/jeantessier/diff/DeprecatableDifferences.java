@@ -51,11 +51,11 @@ public class DeprecatableDifferences extends DecoratorDifferences {
     DeprecatableDifferences(Differences component, Deprecatable oldDeprecatable, Deprecatable newDeprecatable) {
         super(component);
 
-        LogManager.getLogger(getClass()).debug("Begin " + getName());
+        LogManager.getLogger(getClass()).debug("Begin {}", getName());
 
         if (oldDeprecatable != null && newDeprecatable != null) {
-            LogManager.getLogger(getClass()).debug("      old deprecatable: " + oldDeprecatable.isDeprecated());
-            LogManager.getLogger(getClass()).debug("      new deprecatable: " + newDeprecatable.isDeprecated());
+            LogManager.getLogger(getClass()).debug("      old deprecatable: {}", () -> oldDeprecatable.isDeprecated());
+            LogManager.getLogger(getClass()).debug("      new deprecatable: {}", () -> newDeprecatable.isDeprecated());
 
             removedDeprecation = oldDeprecatable.isDeprecated() && !newDeprecatable.isDeprecated();
             newDeprecation = !oldDeprecatable.isDeprecated() && newDeprecatable.isDeprecated();
@@ -64,7 +64,7 @@ public class DeprecatableDifferences extends DecoratorDifferences {
             newDeprecation = false;
         }
 
-        LogManager.getLogger(getClass()).debug("End   " + getName());
+        LogManager.getLogger(getClass()).debug("End   {}", getName());
     }
 
     public boolean isNewDeprecation() {

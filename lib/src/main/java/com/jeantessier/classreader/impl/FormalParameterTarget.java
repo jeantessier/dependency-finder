@@ -46,7 +46,7 @@ public class FormalParameterTarget extends Target_info implements com.jeantessie
         this.targetType = targetType;
 
         formalParameterIndex = in.readUnsignedByte();
-        LogManager.getLogger(getClass()).debug("Formal parameter index: " + formalParameterIndex);
+        LogManager.getLogger(getClass()).debug("Formal parameter index: {}", formalParameterIndex);
     }
 
     public com.jeantessier.classreader.TargetType getTargetType() {

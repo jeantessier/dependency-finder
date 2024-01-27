@@ -46,7 +46,7 @@ public class SupertypeTarget extends Target_info implements com.jeantessier.clas
         this.targetType = targetType;
 
         supertypeIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Supertype index: " + supertypeIndex);
+        LogManager.getLogger(getClass()).debug("Supertype index: {}", supertypeIndex);
     }
 
     public com.jeantessier.classreader.TargetType getTargetType() {

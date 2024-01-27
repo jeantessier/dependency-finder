@@ -46,10 +46,10 @@ public class NestHost_attribute extends Attribute_info implements com.jeantessie
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
 
         hostClassIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Host class: " + hostClassIndex + " (" + getHostClass() + ")");
+        LogManager.getLogger(getClass()).debug("Host class: {} ({})", hostClassIndex, getHostClass());
     }
 
     public int getHostClassIndex() {

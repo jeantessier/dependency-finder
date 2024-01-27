@@ -69,10 +69,10 @@ public class NodeHandler extends DefaultHandler {
     }
 
     public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
-        LogManager.getLogger(getClass()).debug("qName = " + qName);
+        LogManager.getLogger(getClass()).debug("qName = {}", qName);
 
         for (int i=0; i<atts.getLength(); i++) {
-            LogManager.getLogger(getClass()).debug("    " + atts.getQName(i) + ": " + atts.getValue(i));
+            LogManager.getLogger(getClass()).debug("    {}: {}", atts.getQName(i), atts.getValue(i));
         }
 
         currentName.delete(0, currentName.length());
@@ -99,19 +99,19 @@ public class NodeHandler extends DefaultHandler {
             currentDependencyAttributes = new AttributesImpl(atts);
         }
 
-        LogManager.getLogger(getClass()).debug("    current node type: " + currentNodeType);
-        LogManager.getLogger(getClass()).debug("    current dependency type: " + currentDependencyType);
+        LogManager.getLogger(getClass()).debug("    current node type: {}", currentNodeType);
+        LogManager.getLogger(getClass()).debug("    current dependency type: {}", currentDependencyType);
     }
 
     public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
-        LogManager.getLogger(getClass()).debug("qName = " + qName);
+        LogManager.getLogger(getClass()).debug("qName = {}", qName);
 
         if ("dependencies".equals(qName)) {
             fireEndSession();
         } else if ("name".equals(qName)) {
             LogManager.getLogger(getClass()).debug("    Processing <name> tag:");
-            LogManager.getLogger(getClass()).debug("        current name: " + currentName);
-            LogManager.getLogger(getClass()).debug("        current node type: " + currentNodeType);
+            LogManager.getLogger(getClass()).debug("        current name: {}", currentName);
+            LogManager.getLogger(getClass()).debug("        current node type: {}", currentNodeType);
 
             switch (currentNodeType) {
                 case PACKAGE:
@@ -127,8 +127,8 @@ public class NodeHandler extends DefaultHandler {
             }
         } else if ("outbound".equals(qName)) {
             LogManager.getLogger(getClass()).debug("    Processing <outbound> tag:");
-            LogManager.getLogger(getClass()).debug("        current_name: " + currentName);
-            LogManager.getLogger(getClass()).debug("        current_dependency_type: " + currentDependencyType);
+            LogManager.getLogger(getClass()).debug("        current_name: {}", currentName);
+            LogManager.getLogger(getClass()).debug("        current_dependency_type: {}", currentDependencyType);
 
             Node other = switch (currentDependencyType) {
                 case PACKAGE -> getFactory().createPackage(currentName.toString(), isConfirmed(currentDependencyAttributes));
@@ -140,8 +140,8 @@ public class NodeHandler extends DefaultHandler {
             fireDependency(currentNode, other);
         } else if ("inbound".equals(qName)) {
             LogManager.getLogger(getClass()).debug("    Processing <inbound> tag:");
-            LogManager.getLogger(getClass()).debug("        current_name: " + currentName);
-            LogManager.getLogger(getClass()).debug("        current_dependency_type: " + currentDependencyType);
+            LogManager.getLogger(getClass()).debug("        current_name: {}", currentName);
+            LogManager.getLogger(getClass()).debug("        current_dependency_type: {}", currentDependencyType);
 
             Node other = switch (currentDependencyType) {
                 case PACKAGE -> getFactory().createPackage(currentName.toString(), isConfirmed(currentDependencyAttributes));
@@ -156,7 +156,7 @@ public class NodeHandler extends DefaultHandler {
 
     public void characters(char[] ch, int start, int length) throws SAXException {
         currentName.append(ch, start, length);
-        LogManager.getLogger(getClass()).debug("characters: \"" + new String(ch, start, length) + "\"");
+        LogManager.getLogger(getClass()).debug("characters: \"{}\"", () -> new String(ch, start, length));
     }
 
     public void addDependencyListener(DependencyListener listener) {

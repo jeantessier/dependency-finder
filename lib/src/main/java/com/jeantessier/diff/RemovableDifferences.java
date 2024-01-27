@@ -57,7 +57,7 @@ public abstract class RemovableDifferences implements Differences {
     public boolean isRemoved() {
         boolean result = (getOldDeclaration() != null) && (getNewDeclaration() == null);
 
-        LogManager.getLogger(getClass()).debug(getName() + " IsRemoved(): " + result);
+        LogManager.getLogger(getClass()).debug("{} IsRemoved(): {}", getName(), result);
         
         return result;
     }
@@ -65,7 +65,7 @@ public abstract class RemovableDifferences implements Differences {
     public boolean isModified() {
         boolean result = (getOldDeclaration() != null) && (getNewDeclaration() != null) && !getOldDeclaration().equals(getNewDeclaration());
 
-        LogManager.getLogger(getClass()).debug(getName() + " IsModified(): " + result);
+        LogManager.getLogger(getClass()).debug("{} IsModified(): {}", getName(), result);
         
         return result;
     }
@@ -73,7 +73,7 @@ public abstract class RemovableDifferences implements Differences {
     public boolean isNew() {
         boolean result = (getOldDeclaration() == null) && (getNewDeclaration() != null);
 
-        LogManager.getLogger(getClass()).debug(getName() + " IsNew(): " + result);
+        LogManager.getLogger(getClass()).debug("{} IsNew(): {}", getName(), result);
         
         return result;
     }

@@ -44,7 +44,7 @@ public class ObjectVariableInfo extends VerificationTypeInfo implements com.jean
         super(constantPool);
 
         classInfoIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Class info index: " + classInfoIndex + " (" + getClassInfo() + ")");
+        LogManager.getLogger(getClass()).debug("Class info index: {} ({})", classInfoIndex, getClassInfo());
     }
 
     public int getClassInfoIndex() {

@@ -45,7 +45,7 @@ public class ThrowsTarget extends Target_info implements com.jeantessier.classre
         this.targetType = targetType;
 
         throwsTypeIndex = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Throws type index: " + throwsTypeIndex);
+        LogManager.getLogger(getClass()).debug("Throws type index: {}", throwsTypeIndex);
     }
 
     public com.jeantessier.classreader.TargetType getTargetType() {

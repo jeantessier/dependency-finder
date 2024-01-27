@@ -642,7 +642,7 @@ public class DependencyReporter extends GraphTask {
                         try {
                             return Files.lines(filepath);
                         } catch (IOException ex) {
-                            LogManager.getLogger(getClass()).error("Couldn't read file " + filepath, ex);
+                            LogManager.getLogger(getClass()).error("Couldn't read file {}", filepath, ex);
                             return Stream.empty();
                         }
                     }).distinct()

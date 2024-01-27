@@ -144,16 +144,16 @@ public class CycleDetector extends VisitorBase {
     private void addCycle() {
         Cycle cycle = new Cycle(currentPath);
         cycles.add(cycle);
-        LogManager.getLogger(getClass()).debug("Found cycle " + cycle);
+        LogManager.getLogger(getClass()).debug("Found cycle {}", cycle);
     }
 
     private void pushNodeOnCurrentPath(Node node) {
         currentPath.addLast(node);
-        LogManager.getLogger(getClass()).debug("Pushed " + node + " on currentPath: " + currentPath);
+        LogManager.getLogger(getClass()).debug("Pushed {} on currentPath: {}", node, currentPath);
     }
 
     private void popNodeFromCurrentPath(Node node) {
-        Node popedNode = currentPath.removeLast();
-        LogManager.getLogger(getClass()).debug("Popped " + node + " (" + popedNode + ") from currentPath: " + currentPath);
+        Node poppedNode = currentPath.removeLast();
+        LogManager.getLogger(getClass()).debug("Popped {} ({}) from currentPath: {}", node, poppedNode, currentPath);
     }
 }

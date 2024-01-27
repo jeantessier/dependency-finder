@@ -47,10 +47,10 @@ public class LineNumber implements com.jeantessier.classreader.LineNumber {
         this.lineNumberTable = lineNumberTable;
 
         startPC = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Line number table start PC: " + startPC);
+        LogManager.getLogger(getClass()).debug("Line number table start PC: {}", startPC);
 
         lineNumber = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Line number: " + lineNumber);
+        LogManager.getLogger(getClass()).debug("Line number: {}", lineNumber);
     }
 
     public LineNumberTable_attribute getLineNumberTable() {

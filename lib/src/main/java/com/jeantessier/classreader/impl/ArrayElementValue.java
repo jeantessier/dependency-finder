@@ -50,9 +50,9 @@ public class ArrayElementValue extends ElementValue implements com.jeantessier.c
         super(constantPool);
 
         int numValues = in.readUnsignedShort();
-        LogManager.getLogger(getClass()).debug("Reading " + numValues + " value(s) ...");
+        LogManager.getLogger(getClass()).debug("Reading {} value(s) ...", numValues);
         for (int i = 0; i < numValues; i++) {
-            LogManager.getLogger(getClass()).debug("value " + i + ":");
+            LogManager.getLogger(getClass()).debug("value {}:", i);
             values.add(elementValueFactory.create(constantPool, in));
         }
     }

@@ -43,7 +43,7 @@ public class Deprecated_attribute extends Attribute_info implements com.jeantess
         super(constantPool, owner);
 
         int byteCount = in.readInt();
-        LogManager.getLogger(getClass()).debug("Attribute length: " + byteCount);
+        LogManager.getLogger(getClass()).debug("Attribute length: {}", byteCount);
     }
 
     public String toString() {
