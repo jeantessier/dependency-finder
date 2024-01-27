@@ -1,0 +1,17 @@
+Refactored Log4J calls to use lazy string interpolation.
+
+Lines like:
+
+    debug("msg " + val);
+
+became:
+
+    debug("msg {}", val):
+
+So Log4J only does the string interpolation if the log is enabled.
+
+Some lines where a value was expensive to compute became:
+
+    debug("msg {}", () -> val);
+
+So that even the computation is deferred until the log actually needs it.
