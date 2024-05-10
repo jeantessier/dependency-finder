@@ -22,10 +22,11 @@ have a different major version from the actual classes in the JAR file, so we
 would not lose any information by ignoring it.
 
 I came across the second case while running =OOMetrics= against the LOG4J
-archives.  The =META-INF/versions= directory inside each JAR file has
-additional =.class= files that augment the main declaration of their respective
-class in the normal location inside the archive.  For example, =log4j-api.jar=
-has both:
+archives.  It has to do with "Multi-release JAR files", as described in the
+[[https://docs.oracle.com/en/java/javase/22/docs/specs/jar/jar.html][JAR File Specification]].
+The =META-INF/versions/_N_= directory inside each JAR file can have additional
+=.class= files that replace the top-level declaration of their respective
+class.  For example, =log4j-api.jar= has both:
 
     * =META-INF/versions/9/org/apache/logging/log4j/util/Base64Util.class= with major version =53=
     * =org/apache/logging/log4j/util/Base64Util.class= with major version =52=
