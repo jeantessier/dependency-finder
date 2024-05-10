@@ -1,0 +1,40 @@
+Found a problem with how =OOMetrics= collects major version information.  It
+assumes it visits each class only once, which may not always be the case.  I
+found at least two situations where it visits a class more than once.  Since
+=MetricsGatherer= calls =addToMeasurement()=, it ends up accumulating the value
+of major version, leading to confusing results.
+
+The first case is =module-info=.  Module information is stored in a top-level
+=.class= file named =module-info.class=.  It contains a classfile structure
+with the =ACC_MODULE= flag turned on, the name `module-info`, is part of the
+default package, and it doesn't have a superclass.  If you run =OOMetrics= on
+multiple JAR files together, it is possible that more than one of these files
+will have a =module-info.class= entry and =OOMetrics= will treat them as
+multiple presentations of the single =module-info= "class".  When it processes
+the "Major Version" measurement, it _adds_ the value of the major version to
+the measurement instance.  If two =module-info.class= files have the major
+version =61=, the resulting metrics measurement has a value of =122=.
+
+Unfortunately, =OOMetrics= only has _method_, _class_, _group_, and _project_
+levels of metrics.  Either it can treat =module-info= as a class, when it is
+not one, or it can ignore it altogether.  It is probably unlikely that it would
+have a different major version from the actual classes in the JAR file, so we
+would not lose any information by ignoring it.
+
+I came across the second case while running =OOMetrics= against the LOG4J
+archives.  The =META-INF/versions= directory inside each JAR file has
+additional =.class= files that augment the main declaration of their respective
+class in the normal location inside the archive.  For example, =log4j-api.jar=
+has both:
+
+    * =META-INF/versions/9/org/apache/logging/log4j/util/Base64Util.class= with major version =53=
+    * =org/apache/logging/log4j/util/Base64Util.class= with major version =52=
+
+Again, =OOMetrics= traverses both classfile structures but uses the same
+=Metrics= instance for class =Base64Util= to aggregate measurements across both
+structures.  The result is a "Major Version" measurement of =105=.
+
+Instead of using a =CounterMeasurement= with an =add()= method that accumulates
+values, I could create a new type of measurement that only records the first or
+last value passed to =add()=.  The only visitors are printers, so the impact
+would be contained.
