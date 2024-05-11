@@ -303,7 +303,11 @@ public class TestContextAccumulatorMeasurement extends TestCase implements Measu
     public void visitNameListMeasurement(NameListMeasurement measurement) {
         // Do nothing
     }
-    
+
+    public void visitSingleValueMeasurement(SingleValueMeasurement measurement) {
+        // Do nothing
+    }
+
     public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
         // Do nothing
     }

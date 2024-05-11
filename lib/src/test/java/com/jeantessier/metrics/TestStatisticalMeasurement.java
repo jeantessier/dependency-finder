@@ -334,6 +334,10 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
         // Do nothing
     }
 
+    public void visitSingleValueMeasurement(SingleValueMeasurement measurement) {
+        // Do nothing
+    }
+
     public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
         // Do nothing
     }

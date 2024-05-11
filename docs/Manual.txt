@@ -4030,6 +4030,9 @@ The current types of measurement are as follow:
     <dt>=RatioMeasurement=</dt>
     <dd>Divides one measurement (base) by another (divider).  Both
     must be in the same context.</dd>
+    <dt>=SingleValueMeasurement=</dt>
+    <dd>A simple value holder, it stores the latest value that was
+    put in it.  If you try to add a non-number, it does nothing.</dd>
     <dt>=StatisticalMeasurement=</dt>
     <dd>Computes the statistical properties of a given measurement
     across the submetrics of the measurement's context.  Given a

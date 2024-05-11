@@ -282,7 +282,11 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
     public void visitNameListMeasurement(NameListMeasurement measurement) {
         // Do nothing
     }
-    
+
+    public void visitSingleValueMeasurement(SingleValueMeasurement measurement) {
+        // Do nothing
+    }
+
     public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
         visited = measurement;
     }

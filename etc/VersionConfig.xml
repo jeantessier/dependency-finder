@@ -60,7 +60,7 @@
         <measurement>
             <short-name>MaV</short-name>
             <long-name>Major Version</long-name>
-            <class>com.jeantessier.metrics.CounterMeasurement</class>
+            <class>com.jeantessier.metrics.SingleValueMeasurement</class>
         </measurement>
     </class-measurements>
     <method-measurements/>

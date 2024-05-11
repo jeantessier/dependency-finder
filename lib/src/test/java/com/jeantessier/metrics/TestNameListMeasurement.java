@@ -331,7 +331,11 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
     public void visitNameListMeasurement(NameListMeasurement measurement) {
         visited = measurement;
     }
-    
+
+    public void visitSingleValueMeasurement(SingleValueMeasurement measurement) {
+        // Do nothing
+    }
+
     public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
         // Do nothing
     }

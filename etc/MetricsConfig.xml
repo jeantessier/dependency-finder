@@ -359,12 +359,12 @@
         <measurement>
             <short-name>MaV</short-name>
             <long-name>Major Version</long-name>
-            <class>com.jeantessier.metrics.CounterMeasurement</class>
+            <class>com.jeantessier.metrics.SingleValueMeasurement</class>
         </measurement>
         <measurement>
             <short-name>MiV</short-name>
             <long-name>Minor Version</long-name>
-            <class>com.jeantessier.metrics.CounterMeasurement</class>
+            <class>com.jeantessier.metrics.SingleValueMeasurement</class>
         </measurement>
         <measurement>
             <short-name>CNCC</short-name>
