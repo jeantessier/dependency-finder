@@ -5,3 +5,106 @@ minor version numbers in =OOMetrics=.
 
 It doesn't fix the problem with processing multiple copies of the same class in
 multi-release JAR files, though.
+
+For example, I extracted =log4j-api.jar= to =/tmp= so I could analyze the
+various versions of the =Base64Util= class separately.
+
+For the JDK 8 version of the class in the top-level declaration:
+
+    OOMetrics \
+        -txt \
+        -classes \
+        -methods \
+        /tmp/log4j-api/org/apache/logging/log4j/util/Base64Util.class
+
+    Class metrics
+    -------------
+    org.apache.logging.log4j.util.Base64Util
+        Major Version (MaV): 52
+        Methods (M): 3
+        Attributes (A): *2*
+        Inner Classes (IC): 0
+        Single Lines of Code (SLOC): *27*
+        Subclasses (SUB): 0
+        Depth of Inheritance (DOI): 0
+    &nbsp;
+    &nbsp;
+    Method metrics
+    --------------
+    org.apache.logging.log4j.util.Base64Util.Base64Util()
+        Single Lines of Code (SLOC): *1*
+    &nbsp;
+    org.apache.logging.log4j.util.Base64Util.encode(java.lang.String)
+        Single Lines of Code (SLOC): *8*
+    &nbsp;
+    org.apache.logging.log4j.util.Base64Util.static {}
+        Single Lines of Code (SLOC): *15*
+
+For the JDK 9 version of the class in the =META-INF/versions/9= directory:
+
+    OOMetrics \
+        -txt \
+        -classes
+        -methods \
+        /tmp/log4j-api/META-INF/versions/9/org/apache/logging/log4j/util/Base64Util.class
+
+    Class metrics
+    -------------
+    org.apache.logging.log4j.util.Base64Util
+        Major Version (MaV): 53
+        Methods (M): 3
+        Attributes (A): *1*
+        Inner Classes (IC): 0
+        Single Lines of Code (SLOC): *5*
+        Subclasses (SUB): 0
+        Depth of Inheritance (DOI): 0
+    &nbsp;
+    &nbsp;
+    Method metrics
+    --------------
+    org.apache.logging.log4j.util.Base64Util.Base64Util()
+        Single Lines of Code (SLOC): *1*
+    &nbsp;
+    org.apache.logging.log4j.util.Base64Util.encode(java.lang.String)
+        Single Lines of Code (SLOC): *1*
+    &nbsp;
+    org.apache.logging.log4j.util.Base64Util.static {}
+        Single Lines of Code (SLOC): *1*
+
+When I run =OOMetrics= on both files at the same time, notice how the =SLOC=
+and =A= measurements adds up across both versions of the class.
+
+    OOMetrics \
+        -txt \
+        -classes \
+        -methods \
+        /tmp/log4j-api/META-INF/versions/9/org/apache/logging/log4j/util/Base64Util.class \
+        /tmp/log4j-api/org/apache/logging/log4j/util/Base64Util.class
+
+    Class metrics
+    -------------
+    org.apache.logging.log4j.util.Base64Util
+        Major Version (MaV): 52
+        Methods (M): 3
+        Attributes (A): *3*                   // 2 + 1
+        Inner Classes (IC): 0
+        Single Lines of Code (SLOC): *32*     // 27 + 5
+        Subclasses (SUB): 0
+        Depth of Inheritance (DOI): 0
+    &nbsp;
+    &nbsp;
+    Method metrics
+    --------------
+    org.apache.logging.log4j.util.Base64Util.Base64Util()
+        Single Lines of Code (SLOC): *2*     // 1 + 1
+    &nbsp;
+    org.apache.logging.log4j.util.Base64Util.encode(java.lang.String)
+        Single Lines of Code (SLOC): *9*     // 8 + 1
+    &nbsp;
+    org.apache.logging.log4j.util.Base64Util.static {}
+        Single Lines of Code (SLOC): *16*    // 15 + 1
+
+The Major Version measurement now uses the new =SingleValueMeasurement=, so it
+takes the value of the last version that was visited.  When analyzing a JAR
+file, =OOMetrics= visits the versions in =META-INF/versions/_N_= before the
+top-level version.
