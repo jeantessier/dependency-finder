@@ -1,0 +1,87 @@
+@startuml
+
+skin rose
+skinparam style strictuml
+
+' Your diagram here!
+
+interface Measurement <<interface>> {
+  value
+}
+
+Measurement <|.. NullMeasurement
+
+interface CollectionMeasurement <<interface>> {
+  values
+}
+Measurement <|-- CollectionMeasurement
+
+abstract MeasurementBase
+Measurement <|.. MeasurementBase
+
+abstract AccumulatorMeasurement {
+  terms
+}
+MeasurementBase <|-- AccumulatorMeasurement
+CollectionMeasurement <|.. AccumulatorMeasurement
+
+class ContextAccumulatorMeasurement
+AccumulatorMeasurement <|-- ContextAccumulatorMeasurement
+
+class SubMetricsAccumulatorMeasurement
+AccumulatorMeasurement <|-- SubMetricsAccumulatorMeasurement
+
+class CounterMeasurement
+MeasurementBase <|-- CounterMeasurement
+
+class SingleValueMeasurement #lightgreen
+MeasurementBase <|-- SingleValueMeasurement
+
+class NameListMeasurement
+MeasurementBase <|-- NameListMeasurement
+CollectionMeasurement <|.. NameListMeasurement
+
+class NbSubMetricsMeasurement {
+  terms
+}
+MeasurementBase <|-- NbSubMetricsMeasurement
+
+class RatioMeasurement {
+  base
+  divider
+}
+MeasurementBase <|-- RatioMeasurement
+
+class StatisticalMeasurement {
+  monitoredMeasurement
+  data
+  minimum
+  median
+  average
+  standardDeviation
+  maximum
+  sum
+  nbDataPoints
+}
+MeasurementBase <|-- StatisticalMeasurement
+
+class SumMeasurement {
+  terms
+}
+MeasurementBase <|-- SumMeasurement
+
+class MeasurementDescriptor #white {
+  shortName
+  longName
+  classFor
+  initText
+}
+Measurement -> MeasurementDescriptor
+
+class Metrics #white {
+  name
+}
+Metrics o- "*" Metrics : submetrics
+Metrics -- Measurement
+
+@enduml

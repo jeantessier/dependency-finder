@@ -1,0 +1,7 @@
+Added =SingleValueMeasurement= to fix the problem with tracking major and
+minor version numbers in =OOMetrics=.
+
+[[../images/MetricsMeasurementHierarchy.png][../images/s_MetricsMeasurementHierarchy.png]]
+
+It doesn't fix the problem with processing multiple copies of the same class in
+multi-release JAR files, though.
