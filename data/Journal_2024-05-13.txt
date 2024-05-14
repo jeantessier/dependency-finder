@@ -1,0 +1,47 @@
+I am looking for a way to pick a single version of a class from a multi-release
+JAR file.  Such JAR files can contain any number of versions of a given class
+in various =META-INF/versions/_N_= directories, plus a default version in the
+top-level directory.  If I ignore the =META-INF/versions/_N_= directories, then
+I might be ignoring more advanced versions.  If I only look at the first file I
+encounter, then I might be picking an arbitrary version.
+
+JAR files tend to list files in alphabetical order, so it might list versions
+of an example class =com.foo.Bar= as:
+
+    1 =META-INF/versions/11/com/foo/Bar.class=
+    1 =META-INF/versions/17/com/foo/Bar.class=
+    1 =META-INF/versions/21/com/foo/Bar.class=
+    1 =META-INF/versions/22/com/foo/Bar.class=
+    1 =META-INF/versions/9/com/foo/Bar.class=
+    1 =com/foo/Bar.class=
+
+This JAR file supports up to JDK 22.  But maybe the user is limited to JDK 17
+for business reasons.  They would want to analyze the JDK 17 version and ignore
+all others.
+
+JAR files tend to list files in alphabetical order, but they don't really have
+to.
+
+I could add some filtering function in =JarClassfileLoader=.  But its usage is
+buried pretty deep in the framework.  It would be difficult to pass a filtering
+criteria for which JDK version to target through constructors.  I could add a
+filter between the loader and the visitor.
+
+    loader.addLoadListener(*new MultiReleaseFilter(targetJDK,* new LoadListenerVisitorAdapter(gatherer)*)*);
+
+[[../images/LoadListenerHierarchy.png][../images/s_LoadListenerHierarchy.png]]
+
+The filter could zero in to the most adequate version that meets the
+=targetJDK= criteria.  It would need receive versions in decreasing order of
+JDK version, so I might have to tweak =JarClassfileLoader= anyway.  It would
+traverse JAR file entries in order of version instead of alphabetically.
+
+    1 =META-INF/versions/22/com/foo/Bar.class=
+    1 =META-INF/versions/21/com/foo/Bar.class=
+    1 =META-INF/versions/17/com/foo/Bar.class=
+    1 =META-INF/versions/11/com/foo/Bar.class=
+    1 =META-INF/versions/9/com/foo/Bar.class=
+    1 =com/foo/Bar.class=
+
+If the target is JDK 19, it would forward events about the third entry and skip
+all others.
