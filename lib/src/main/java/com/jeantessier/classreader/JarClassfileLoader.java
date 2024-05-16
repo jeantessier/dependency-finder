@@ -34,14 +34,8 @@ package com.jeantessier.classreader;
 
 import org.apache.logging.log4j.*;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.jar.JarFile;
-import java.util.jar.JarInputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
+import java.io.*;
+import java.util.jar.*;
 
 public class JarClassfileLoader extends ZipClassfileLoader {
     public JarClassfileLoader(ClassfileLoader loader) {
@@ -92,8 +86,8 @@ public class JarClassfileLoader extends ZipClassfileLoader {
     }
 
     private void load(JarInputStream in) throws IOException {
-        ZipEntry entry;
-        while ((entry = in.getNextEntry()) != null) {
+        JarEntry entry;
+        while ((entry = in.getNextJarEntry()) != null) {
             fireBeginFile(entry.getName());
 
             LogManager.getLogger(getClass()).debug("Starting file {} ({} bytes)", entry.getName(), entry.getSize());
