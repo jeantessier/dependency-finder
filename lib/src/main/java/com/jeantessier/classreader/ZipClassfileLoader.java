@@ -76,57 +76,37 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
         }
     }
 
-    protected void load(ZipFile zipfile) throws IOException {
+    private void load(ZipFile zipfile) throws IOException {
         zipfile.stream()
                 .forEach(entry -> {
                     fireBeginFile(entry.getName());
 
                     LogManager.getLogger(getClass()).debug("Starting file {} ({} bytes)", entry.getName(), entry.getSize());
-
-                    byte[] bytes;
                     try (InputStream in = zipfile.getInputStream(entry)) {
-                        bytes = readBytes(in);
+                        var bytes = in.readAllBytes(); // readBytes(in);
+
+                        LogManager.getLogger(getClass()).debug("Passing up file {} ({} bytes)", entry.getName(), bytes.length);
+                        getLoader().load(entry.getName(), new ByteArrayInputStream(bytes));
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
-
-                    LogManager.getLogger(getClass()).debug("Passing up file {} ({} bytes)", entry.getName(), bytes.length);
-                    getLoader().load(entry.getName(), new ByteArrayInputStream(bytes));
 
                     fireEndFile(entry.getName());
                 });
     }
 
-    protected void load(ZipInputStream in) throws IOException {
+    private void load(ZipInputStream in) throws IOException {
         ZipEntry entry;
         while ((entry = in.getNextEntry()) != null) {
             fireBeginFile(entry.getName());
                 
             LogManager.getLogger(getClass()).debug("Starting file {} ({} bytes)", entry.getName(), entry.getSize());
-            byte[] bytes = readBytes(in);
+            var bytes = in.readAllBytes();
             
             LogManager.getLogger(getClass()).debug("Passing up file {} ({} bytes)", entry.getName(), bytes.length);
             getLoader().load(entry.getName(), new ByteArrayInputStream(bytes));
             
             fireEndFile(entry.getName());
         }
-    }
-
-    private byte[] readBytes(InputStream in) {
-        byte[] result = null;
-
-        try (var out = new ByteArrayOutputStream()) {
-            var buffer = new byte[BUFFER_SIZE];
-            var bytesRead = 0;
-            while ((bytesRead = in.read(buffer, 0, BUFFER_SIZE)) != -1) {
-                out.write(buffer, 0, bytesRead);
-            }
-
-            result = out.toByteArray();
-        } catch (IOException ex) {
-            LogManager.getLogger(getClass()).debug("Error loading Zip entry", ex);
-        }
-
-        return(result);
     }
 }

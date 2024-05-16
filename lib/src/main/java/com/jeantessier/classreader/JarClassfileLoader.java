@@ -34,10 +34,14 @@ package com.jeantessier.classreader;
 
 import org.apache.logging.log4j.*;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.jar.JarFile;
 import java.util.jar.JarInputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 public class JarClassfileLoader extends ZipClassfileLoader {
     public JarClassfileLoader(ClassfileLoader loader) {
@@ -65,6 +69,40 @@ public class JarClassfileLoader extends ZipClassfileLoader {
             fireEndGroup(filename);
         } catch (IOException ex) {
             LogManager.getLogger(getClass()).error("Cannot load JAR file \"{}\"", filename, ex);
+        }
+    }
+
+    private void load(JarFile jarfile) throws IOException {
+        jarfile.stream()
+                .forEach(entry -> {
+                    fireBeginFile(entry.getName());
+
+                    LogManager.getLogger(getClass()).debug("Starting file {} ({} bytes)", entry.getName(), entry.getSize());
+                    try (InputStream in = jarfile.getInputStream(entry)) {
+                        var bytes = in.readAllBytes();
+
+                        LogManager.getLogger(getClass()).debug("Passing up file {} ({} bytes)", entry.getName(), bytes.length);
+                        getLoader().load(entry.getName(), new ByteArrayInputStream(bytes));
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+
+                    fireEndFile(entry.getName());
+                });
+    }
+
+    private void load(JarInputStream in) throws IOException {
+        ZipEntry entry;
+        while ((entry = in.getNextEntry()) != null) {
+            fireBeginFile(entry.getName());
+
+            LogManager.getLogger(getClass()).debug("Starting file {} ({} bytes)", entry.getName(), entry.getSize());
+            var bytes = in.readAllBytes();
+
+            LogManager.getLogger(getClass()).debug("Passing up file {} ({} bytes)", entry.getName(), bytes.length);
+            getLoader().load(entry.getName(), new ByteArrayInputStream(bytes));
+
+            fireEndFile(entry.getName());
         }
     }
 }
