@@ -1,0 +1,8 @@
+Drew up a map of all the tools that create classfile loaders and will need an
+extra parameter to target JDK versions when reading multi-release JAR files.
+
+[[../images/ToolsClassHierarchy.png][../images/s_ToolsClassHierarchy.png]]
+
+The green ones use =TransientClassfileLoader=.  The red ones use
+=AggregatingClassfileLoader=.  Two-colored ones, like =OOMetrics=, use both.
+The yellow boxes use neither.

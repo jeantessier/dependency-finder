@@ -1,0 +1,228 @@
+@startuml
+
+skin rose
+skinparam style strictuml
+
+set separator none
+hide empty members
+
+package com.jeantessier.classreader {
+  class AggregatingClassfileLoader #pink
+
+  class TransientClassfileLoader #lightgreen
+
+  AggregatingClassfileLoader -[hidden]-> TransientClassfileLoader
+}
+
+package org.apache.tools.ant {
+  abstract Task #lightgrey {
+    execute()
+  }
+}
+
+package com.jeantessier.dependencyfinder.ant {
+  abstract GraphTask #lightgrey
+  Task <|-- GraphTask
+
+  class "ClassMetrics" as ant_ClassMetrics #lightgreen
+  Task <|-- ant_ClassMetrics
+
+  class "DependencyClosure" as ant_DependencyClosure
+  GraphTask <|-- ant_DependencyClosure
+
+  class "DependencyCycles" as ant_DependencyCycles
+  GraphTask <|-- ant_DependencyCycles
+
+  class "DependencyExtractor" as ant_DependencyExtractor #lightgreen
+  Task <|-- ant_DependencyExtractor
+
+  class "DependencyMetrics" as ant_DependencyMetrics
+  GraphTask <|-- ant_DependencyMetrics
+
+  class "DependencyReporter" as ant_DependencyReporter
+  GraphTask <|-- ant_DependencyReporter
+
+  class "JarJarDiff" as ant_JarJarDiff #pink
+  Task <|-- ant_JarJarDiff
+
+  class "ListDeprecatedElements" as ant_ListDeprecatedElements #pink
+  Task <|-- ant_ListDeprecatedElements
+
+  class "ListDiff" as ant_ListDiff
+  Task <|-- ant_ListDiff
+
+  class "ListSymbols" as ant_ListSymbols #lightgreen
+  Task <|-- ant_ListSymbols
+
+  class "OOMetrics" as ant_OOMetrics #pink/lightgreen
+  Task <|-- ant_OOMetrics
+
+  ant_DependencyClosure -[hidden]-> ant_DependencyCycles
+  ant_DependencyMetrics -[hidden]-> ant_DependencyReporter
+  ant_JarJarDiff -[hidden]-> ant_ListDeprecatedElements
+  ant_DependencyExtractor -[hidden]-> ant_ClassMetrics
+  ant_ListDe -[hidden]-> ant_ListDiff
+}
+
+package com.jeantessier.dependencyfinder.cli {
+  abstract Command #lightgrey {
+    run()
+    process()
+    {abstract} doProcess()
+  }
+
+  abstract DiffCommand #lightgrey
+  Command <|-- DiffCommand
+
+  abstract DependencyGraphCommand #lightgrey
+  Command <|-- DependencyGraphCommand
+
+  abstract DirectoryExplorerCommand #lightgrey
+  Command <|-- DirectoryExplorerCommand
+
+  class "ClassClassDiff" as cli_ClassClassDiff #pink
+  DiffCommand <|-- cli_ClassClassDiff
+
+  class "ClassCohesion" as cli_ClassCohesion
+  DependencyGraphCommand <|-- cli_ClassCohesion
+
+  class "ClassDump" as cli_ClassDump
+
+  class "ClassFinder" as cli_ClassFinder #lightgreen
+  DirectoryExplorerCommand <|-- cli_ClassFinder
+
+  class "ClassList" as cli_ClassList #pink
+  DirectoryExplorerCommand <|-- cli_ClassList
+
+  class "ClassMetrics" as cli_ClassMetrics #lightgreen
+  DirectoryExplorerCommand <|-- cli_ClassMetrics
+
+  class "ClassReader" as cli_ClassReader #pink
+  Command <|-- cli_ClassReader
+
+  class "DependencyClosure" as cli_DependencyClosure
+  DependencyGraphCommand <|-- cli_DependencyClosure
+
+  class "DependencyCycles" as cli_DependencyCycles
+  DependencyGraphCommand <|-- cli_DependencyCycles
+
+  class "DependencyExtractor" as cli_DependencyExtractor #lightgreen
+  DirectoryExplorerCommand <|-- cli_DependencyExtractor
+
+  class "DependencyMetrics" as cli_DependencyMetrics
+  DependencyGraphCommand <|-- cli_DependencyMetrics
+
+  class "DependencyReporter" as cli_DependencyReporter
+  DependencyGraphCommand <|-- cli_DependencyReporter
+
+  class "JarJarDiff" as cli_JarJarDiff #pink
+  DiffCommand <|-- cli_JarJarDiff
+
+  class "ListDeprecatedElements" as cli_ListDeprecatedElements #lightgreen
+  DirectoryExplorerCommand <|-- cli_ListDeprecatedElements
+
+  class "ListDiff" as cli_ListDiff
+  Command <|-- cli_ListDiff
+
+  class "ListDynamicInstructions" as cli_ListDynamicInstructions #lightgreen
+  DirectoryExplorerCommand <|-- cli_ListDynamicInstructions
+
+  class "ListSymbols" as cli_ListSymbols #lightgreen
+  DirectoryExplorerCommand <|-- cli_ListSymbols
+
+  class "OOMetrics" as cli_OOMetrics #pink/lightgreen
+  DirectoryExplorerCommand <|-- cli_OOMetrics
+
+  cli_DependencyClosure -[hidden]-> cli_DependencyCycles
+  cli_DependencyMetrics -[hidden]-> cli_DependencyReporter
+  cli_DependencyMetrics -[hidden]-> cli_ClassCohesion
+  cli_ClassMetrics -[hidden]-> cli_DependencyExtractor
+  cli_ListDeprecatedElements -[hidden]-> cli_ListDynamicInstructions
+  cli_DependencyExtractor -[hidden]-> cli_ClassFinder
+  cli_ListSymbols -[hidden]-> cli_ListDeprecatedElements
+}
+
+package javax.swing {
+  interface Action <<interface>> #lightgrey
+
+  abstract AbstractAction #lightgrey
+  Action <|.. AbstractAction
+}
+
+package com.jeantessier.dependencyfinder.gui {
+  class AboutAction
+  AbstractAction <|-- AboutAction
+
+  class AdvancedQueryPanelAction
+  AbstractAction <|-- AdvancedQueryPanelAction
+
+  class AllQueriesAction
+  AbstractAction <|-- AllQueriesAction
+
+  class ClosureQueryAction
+  AbstractAction <|-- ClosureQueryAction
+
+  class DependencyExtractAction #lightgreen
+  AbstractAction <|-- DependencyExtractAction
+
+  class DependencyQueryAction
+  AbstractAction <|-- DependencyQueryAction
+
+  class ExitAction
+  AbstractAction <|-- ExitAction
+
+  class MetricsExtractAction #pink/lightgreen
+  AbstractAction <|-- MetricsExtractAction
+
+  class MetricsQueryAction
+  AbstractAction <|-- MetricsQueryAction
+
+  class NewDependencyGraphAction
+  AbstractAction <|-- NewDependencyGraphAction
+
+  class NewMetricsAction
+  AbstractAction <|-- NewMetricsAction
+
+  class OpenFileAction
+  AbstractAction <|-- OpenFileAction
+
+  class PrinterControlAction
+  AbstractAction <|-- PrinterControlAction
+
+  class RefreshDependencyGraphAction #lightgreen
+  AbstractAction <|-- RefreshDependencyGraphAction
+
+  class SaveFileAction
+  AbstractAction <|-- SaveFileAction
+
+  class SimpleQueryPanelAction
+  AbstractAction <|-- SimpleQueryPanelAction
+
+  AboutAction -[hidden]-> AdvancedQueryPanelAction
+  AllQueriesAction -[hidden]-> ClosureQueryAction
+  DependencyQueryAction -[hidden]-> ExitAction
+  MetricsQueryAction -[hidden]-> NewDependencyGraphAction
+  NewMetricsAction -[hidden]-> OpenFileAction
+  PrinterControlAction -[hidden]-> SaveFileAction
+  SimpleQueryPanelAction -[hidden]-> AboutAction
+  SimpleQueryPanelAction -[hidden]-> AllQueriesAction
+  MetricsQueryAction -[hidden]-> DependencyQueryAction
+  MetricsQueryAction -[hidden]-> NewMetricsAction
+}
+
+package webapp {
+  class closure <<JSP>>
+
+  class extract <<JSP>> #lightgreen
+
+  class load <<JSP>>
+
+  class metrics <<JSP>>
+
+  class query <<JSP>>
+}
+
+com.jeantessier.dependencyfinder.ant --[hidden]--> com.jeantessier.dependencyfinder.cli
+com.jeantessier.dependencyfinder.cli --[hidden]--> javax.swing
+
+@enduml
