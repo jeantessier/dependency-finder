@@ -89,14 +89,14 @@ public class TestJarClassfileLoader extends TestClassfileLoaderBase {
 
         assertEquals("Begin Session",    0, getBeginSessionEvents().size());
         assertEquals("Begin Group",      2, getBeginGroupEvents().size());
-        assertEquals("Begin File",      32, getBeginFileEvents().size());
+        assertEquals("Begin File",      34, getBeginFileEvents().size());
         assertEquals("Begin Classfile", 14, getBeginClassfileEvents().size());
         assertEquals("End Classfile",   14, getEndClassfileEvents().size());
-        assertEquals("End File",        32, getEndFileEvents().size());
+        assertEquals("End File",        34, getEndFileEvents().size());
         assertEquals("End Group",        2, getEndGroupEvents().size());
         assertEquals("End Session",      0, getEndSessionEvents().size());
 
-        assertEquals("Group size", -1, getBeginGroupEvents().getFirst().getSize());
+        assertEquals("Group size", 34, getBeginGroupEvents().getFirst().getSize());
     }
 
     public void testLoadWrongInputStream() throws IOException {
@@ -114,6 +114,6 @@ public class TestJarClassfileLoader extends TestClassfileLoaderBase {
         assertEquals("End Group",        2, getEndGroupEvents().size());
         assertEquals("End Session",      0, getEndSessionEvents().size());
 
-        assertEquals("Group size", -1, getBeginGroupEvents().getFirst().getSize());
+        assertEquals("Group size", 32, getBeginGroupEvents().getFirst().getSize());
     }
 }

@@ -38,8 +38,6 @@ import java.io.*;
 import java.util.zip.*;
 
 public class ZipClassfileLoader extends ClassfileLoaderDecorator {
-    private static final int BUFFER_SIZE = 16 * 1024;
-    
     public ZipClassfileLoader(ClassfileLoader loader) {
         super(loader);
     }
@@ -72,7 +70,7 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
 
             fireEndGroup(filename);
         } catch (IOException ex) {
-            LogManager.getLogger(getClass()).error("Cannot load Zip file \"{}\"", filename, ex);
+            LogManager.getLogger(getClass()).error("Cannot load Zip file \"{}\" from input stream", filename, ex);
         }
     }
 
@@ -81,11 +79,11 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
                 .forEach(entry -> {
                     fireBeginFile(entry.getName());
 
-                    LogManager.getLogger(getClass()).debug("Starting file {} ({} bytes)", entry.getName(), entry.getSize());
+                    LogManager.getLogger(getClass()).debug("Starting ZIP entry {} ({} bytes)", entry.getName(), entry.getSize());
                     try (InputStream in = zipfile.getInputStream(entry)) {
                         var bytes = in.readAllBytes(); // readBytes(in);
 
-                        LogManager.getLogger(getClass()).debug("Passing up file {} ({} bytes)", entry.getName(), bytes.length);
+                        LogManager.getLogger(getClass()).debug("Passing up ZIP entry {} ({} bytes)", entry.getName(), bytes.length);
                         getLoader().load(entry.getName(), new ByteArrayInputStream(bytes));
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
@@ -100,10 +98,10 @@ public class ZipClassfileLoader extends ClassfileLoaderDecorator {
         while ((entry = in.getNextEntry()) != null) {
             fireBeginFile(entry.getName());
                 
-            LogManager.getLogger(getClass()).debug("Starting file {} ({} bytes)", entry.getName(), entry.getSize());
+            LogManager.getLogger(getClass()).debug("Starting ZIP entry {} ({} bytes)", entry.getName(), entry.getSize());
             var bytes = in.readAllBytes();
             
-            LogManager.getLogger(getClass()).debug("Passing up file {} ({} bytes)", entry.getName(), bytes.length);
+            LogManager.getLogger(getClass()).debug("Passing up ZIP entry {} ({} bytes)", entry.getName(), bytes.length);
             getLoader().load(entry.getName(), new ByteArrayInputStream(bytes));
             
             fireEndFile(entry.getName());

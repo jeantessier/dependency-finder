@@ -44,23 +44,42 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     private final ClassfileLoaderDispatcher dispatcher;
     
     private final ClassfileLoader dirLoader = new DirectoryClassfileLoader(this);
-    private final ClassfileLoader jarLoader = new JarClassfileLoader(this);
+    private final ClassfileLoader jarLoader;
     private final ClassfileLoader zipLoader = new ZipClassfileLoader(this);
 
-    private final HashSet<LoadListener> loadListeners = new HashSet<>();
+    private final Set<LoadListener> loadListeners = new HashSet<>();
 
     private final LinkedList<String> groupNames = new LinkedList<>();
     private final LinkedList<Integer> groupSizes = new LinkedList<>();
 
     private ClassfileLoaderAction previousDispatch;
-    
+
     public ClassfileLoaderEventSource(ClassfileFactory factory) {
-        this(factory, DEFAULT_DISPATCHER);
+        this.factory = factory;
+        this.dispatcher = DEFAULT_DISPATCHER;
+
+        jarLoader = new JarClassfileLoader(this);
+    }
+
+    public ClassfileLoaderEventSource(ClassfileFactory factory, int targetJdk) {
+        this.factory = factory;
+        this.dispatcher = DEFAULT_DISPATCHER;
+
+        jarLoader = new JarClassfileLoader(this, targetJdk);
     }
 
     public ClassfileLoaderEventSource(ClassfileFactory factory, ClassfileLoaderDispatcher dispatcher) {
         this.factory = factory;
         this.dispatcher = dispatcher;
+
+        jarLoader = new JarClassfileLoader(this);
+    }
+
+    public ClassfileLoaderEventSource(ClassfileFactory factory, int targetJdk, ClassfileLoaderDispatcher dispatcher) {
+        this.factory = factory;
+        this.dispatcher = dispatcher;
+
+        jarLoader = new JarClassfileLoader(this, targetJdk);
     }
 
     protected ClassfileFactory getFactory() {
