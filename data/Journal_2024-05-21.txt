@@ -1,0 +1,4 @@
+Wrote a test to create a multi-release JAR file and read it using
+=JarClassfileLoader=.  I don't quite know how I will approach processing
+the JAR file to zero-in on a single =.class= file, but I now have a test in
+place to let me know how I'm doing.

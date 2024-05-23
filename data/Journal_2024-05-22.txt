@@ -1,0 +1,30 @@
+Worked on =JarClassfileLoader= to handle multi-release JAR files and only load
+a single version of a class, potentially based on a target JDK.  The changes
+removed any commonality there was between =ZipClassfileLoader= and
+=JarClassfileLoader=, so I made them sibbling classes instead of one inheriting
+from the other.  When loading a JAR file from an =InputStream=, I copy it to a
+temporary file so I can better use the Streams API to sort and filter entries.
+
+Next, I will have to update all the tools and their documentation to add a
+switch to target specific JDK versions.
+
+Created a multi-release JAR file from the command line.  I'm using the same
+=.class= file multiple times.  I just need to have the same class in multiple
+=META-INF/versions/_N_= locations.
+
+    jar cf multi.jar -C integration-tests/build/classes/java/main test.class
+    jar uf multi.jar --release 17 -C integration-tests/build/classes/java/main test.class
+    jar uf multi.jar --release 9 -C integration-tests/build/classes/java/main test.class
+    jar uf multi.jar --release 22 -C integration-tests/build/classes/java/main test.class
+    jar uf multi.jar --release 21 -C integration-tests/build/classes/java/main test.class
+
+And here is the resulting JAR file.
+
+    *jar tf multi.jar*
+    META-INF/
+    META-INF/MANIFEST.MF
+    test.class
+    META-INF/versions/17/test.class
+    META-INF/versions/9/test.class
+    META-INF/versions/22/test.class
+    META-INF/versions/21/test.class
