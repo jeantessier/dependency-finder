@@ -211,17 +211,29 @@ package com.jeantessier.dependencyfinder.gui {
 }
 
 package webapp {
-  class closure <<JSP>>
-
   class extract <<JSP>> #lightgreen
-
   class load <<JSP>>
-
-  class metrics <<JSP>>
+  extract -[hidden]-> load
 
   class query <<JSP>>
+  class advandedquery <<JSP>>
+  query -[hidden]-> advandedquery
+
+  class closure <<JSP>>
+  class advandedclosure <<JSP>>
+  closure -[hidden]-> advandedclosure
+
+  class cycles <<JSP>>
+  class advandedcycles <<JSP>>
+  cycles -[hidden]-> advandedcycles
+
+  class metrics <<JSP>>
+  class advandedmetrics <<JSP>>
+  metrics -[hidden]-> advandedmetrics
 }
 
+com.jeantessier.classreader --[hidden]-> org.apache.tools.ant
+webapp --[hidden]--> org.apache.tools.ant
 com.jeantessier.dependencyfinder.ant --[hidden]--> com.jeantessier.dependencyfinder.cli
 com.jeantessier.dependencyfinder.cli --[hidden]--> javax.swing
 
