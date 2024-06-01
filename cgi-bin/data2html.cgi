@@ -53,7 +53,9 @@ if ($0 =~ /(\w+)\./) {
     $DOCUMENT = $1;
 }
 
-&PrintContentType();
+if (!grep { /--no-headers/ } @ARGV) {
+    &PrintContentType();
+}
 &PrintDocumentHeader($DOCUMENT);
 &PrintDocumentParts($DOCUMENT);
 &PrintDocumentFooter();
@@ -76,7 +78,8 @@ sub PrintDocumentHeader {
     print "<html lang=\"en\">\n";
     print "\n";
     print "<head>\n";
-    print "<link rel=\"stylesheet\" type=\"text/css\" href=\"../style.css\" />\n";
+    print "<link rel=\"stylesheet\" type=\"text/css\" href=\"../tufte.min.css\" />\n";
+    print "<link rel=\"stylesheet\" type=\"text/css\" href=\"../Journal.css\" />\n";
     print "<link rel=\"shortcut icon\" href=\"../images/logoicon.gif\" type=\"image/gif\" />\n";
     print "<title>$title</title>\n";
     print "\n";
@@ -94,14 +97,9 @@ sub PrintDocumentHeader {
     print "\n";
     print "<body>\n";
     print "\n";
-    print "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\"><tr>\n";
-    print "<td align=\"left\"><h2>$title</h2></td>\n";
-    print "<td align=\"right\">\n";
-    print @subtitle;
-    print "</td>\n";
-    print "</tr></table>\n";
+    print "<article>\n";
+    print "<h1>$title</h1>\n";
     print "\n";
-    print "<dl>\n";
 }
 
 sub PrintDocumentParts {
@@ -126,8 +124,8 @@ sub PrintDocumentPart {
         $day = $3;
     }
 
-    print "<dt><a name=\"$year-$month-$day\">$MONTH{$month} $day, $year</a></dt>\n";
-    print "<dd>\n";
+    print "<section>\n";
+    print "<h2><a name=\"$year-$month-$day\">$MONTH{$month} $day, $year</a></h2>\n";
 
     local ($in_paragraph, $in_quote, $in_ordered_list, $in_unordered_list, $in_html);
 
@@ -186,8 +184,8 @@ sub PrintDocumentPart {
         $line =~ s/=([^=]+)=/<code>\1<\/code>/g;
         $line =~ s/_([^_]+)_/<i>\1<\/i>/g;
         $line =~ s/\*([^*]+)\*/<b>\1<\/b>/g;
-        $line =~ s/\[\[([^\]]*)\]\[(.*\.((gif)|(jpg)|(png)))\]\]/<a target="_blank" href="\1"><img border="0" src="\2" \/><\/a><br \/>/gi;
-        $line =~ s/\[\[([^\]]*\.((gif)|(jpg)|(png)))\]\]/<img src="\1" \/><br \/>/gi;
+        $line =~ s/\[\[([^\]]*)\]\[(.*\.((gif)|(jpg)|(png)))\]\]/<figure class=\"fullwidth\"><img src="\1" \/><\/figure>/gi;
+        $line =~ s/\[\[([^\]]*\.((gif)|(jpg)|(png)))\]\]/<figure><img src="\1" \/><\/figure>/gi;
         $line =~ s/\[\[(\d\d\d\d-\d\d-\d\d)\]\]/<a href="#\1">\1<\/a>/gi;
         $line =~ s/\[\[([^\]]*)\]\[(.*)\]\]/<a target="_blank" href="\1">\2<\/a>/g;
         
@@ -210,13 +208,13 @@ sub PrintDocumentPart {
 
     close(FILEHANDLE);
 
-    print "</dd>\n";
+    print "</section>\n";
+    print "\n";
 }
 
 sub PrintDocumentFooter {
     print "\n";
-    print "</dl>\n";
-    print "\n";
+    print "</article>\n";
     print "</body>\n";
     print "\n";
     print "</html>\n";
