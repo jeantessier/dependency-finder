@@ -71,9 +71,9 @@ sub PrintDocumentHeader {
     chomp $title;
     close(FILEHANDLE);
 
-    print "<!doctype html PUBLIC \"-//W3C//DTD HTML 4.01//EN\">\n";
+    print "<!doctype html>\n";
     print "\n";
-    print "<html>\n";
+    print "<html lang=\"en\">\n";
     print "\n";
     print "<head>\n";
     print "<link rel=\"stylesheet\" type=\"text/css\" href=\"../style.css\" />\n";
