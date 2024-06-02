@@ -265,37 +265,31 @@ public class StatisticalMeasurement extends MeasurementBase {
                     data = new LinkedList<>();
                     setEmpty(true);
 
-                    for (Metrics metrics : getContext().getSubMetrics()) {
-                        visitMetrics(metrics);
-                    }
+                    getContext().getSubMetrics().forEach(this::visitMetrics);
 
                     if (!data.isEmpty()) {
                         Collections.sort(data);
 
                         minimum      = data.get(0);
                         maximum      = data.get(data.size() - 1);
-                        nbDataPoints = data.size();
 
-                        sum = 0.0;
-                        for (Double number : data) {
-                            sum += number;
-                        }
                     } else {
                         minimum      = Double.NaN;
                         maximum      = Double.NaN;
-                        nbDataPoints = 0;
-                        sum          = 0.0;
                     }
 
+                    nbDataPoints = data.size();
+                    sum = data.stream()
+                            .reduce(Double::sum)
+                            .orElse(0.0);
                     median = findMedianOf(data);
                     average = sum / nbDataPoints;
 
                     if (!data.isEmpty()) {
-                        double temp = 0.0;
-
-                        for (Double number : data) {
-                            temp += Math.pow(number - average, 2);
-                        }
+                        var temp = data.parallelStream()
+                                .map(n -> Math.pow(n - average, 2))
+                                .reduce(Double::sum)
+                                .orElse(0.0);
 
                         standardDeviation = Math.sqrt(temp / nbDataPoints);
                     } else {
