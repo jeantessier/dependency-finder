@@ -258,40 +258,8 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
 
         assertFalse("After Add()", measurement.isEmpty());
     }
-    
-    public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
-        // Do nothing
-    }
-    
-    public void visitRatioMeasurement(RatioMeasurement measurement) {
-        // Do nothing
-    }
-    
-    public void visitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
-        // Do nothing
-    }
-    
-    public void visitCounterMeasurement(CounterMeasurement measurement) {
-        // Do nothing
-    }
-    
-    public void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
-        // Do nothing
-    }
-        
-    public void visitNameListMeasurement(NameListMeasurement measurement) {
-        // Do nothing
-    }
-
-    public void visitSingleValueMeasurement(SingleValueMeasurement measurement) {
-        // Do nothing
-    }
 
     public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
         visited = measurement;
-    }
-
-    public void visitSumMeasurement(SumMeasurement measurement) {
-        // Do nothing
     }
 }

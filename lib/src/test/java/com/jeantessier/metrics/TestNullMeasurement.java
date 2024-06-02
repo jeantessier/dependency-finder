@@ -67,40 +67,4 @@ public class TestNullMeasurement extends TestCase implements MeasurementVisitor 
         measurement.accept(this);
         assertNull(visited);
     }
-    
-    public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
-        visited = measurement;
-    }
-    
-    public void visitRatioMeasurement(RatioMeasurement measurement) {
-        visited = measurement;
-    }
-    
-    public void visitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
-        visited = measurement;
-    }
-    
-    public void visitCounterMeasurement(CounterMeasurement measurement) {
-        visited = measurement;
-    }
-    
-    public void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
-        // Do nothing
-    }
-    
-    public void visitNameListMeasurement(NameListMeasurement measurement) {
-        // Do nothing
-    }
-
-    public void visitSingleValueMeasurement(SingleValueMeasurement measurement) {
-        // Do nothing
-    }
-
-    public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
-        // Do nothing
-    }
-    
-    public void visitSumMeasurement(SumMeasurement measurement) {
-        visited = measurement;
-    }
 }

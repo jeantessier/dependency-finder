@@ -33,13 +33,39 @@
 package com.jeantessier.metrics;
 
 public interface MeasurementVisitor {
-    void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement);
-    void visitCounterMeasurement(CounterMeasurement measurement);
-    void visitNameListMeasurement(NameListMeasurement measurement);
-    void visitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement);
-    void visitRatioMeasurement(RatioMeasurement measurement);
-    void visitSingleValueMeasurement(SingleValueMeasurement measurement);
-    void visitStatisticalMeasurement(StatisticalMeasurement measurement);
-    void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement);
-    void visitSumMeasurement(SumMeasurement measurement);
+    default void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
+        // Do nothing
+    }
+
+    default void visitCounterMeasurement(CounterMeasurement measurement) {
+        // Do nothing
+    }
+
+    default void visitNameListMeasurement(NameListMeasurement measurement) {
+        // Do nothing
+    }
+
+    default void visitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
+        // Do nothing
+    }
+
+    default void visitRatioMeasurement(RatioMeasurement measurement) {
+        // Do nothing
+    }
+
+    default void visitSingleValueMeasurement(SingleValueMeasurement measurement) {
+        // Do nothing
+    }
+
+    default void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
+        // Do nothing
+    }
+
+    default void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
+        // Do nothing
+    }
+
+    default void visitSumMeasurement(SumMeasurement measurement) {
+        // Do nothing
+    }
 }

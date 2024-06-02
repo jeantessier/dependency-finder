@@ -366,40 +366,8 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
         assertEquals("divider != 0", 0, m2.getValue().intValue());
         assertTrue("0/0", measurement.isEmpty());
     }
-    
-    public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
-        // Do nothing
-    }
-    
+
     public void visitRatioMeasurement(RatioMeasurement measurement) {
         visited = measurement;
-    }
-    
-    public void visitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
-        // Do nothing
-    }
-    
-    public void visitCounterMeasurement(CounterMeasurement measurement) {
-        // Do nothing
-    }
-    
-    public void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
-        // Do nothing
-    }
-    
-    public void visitNameListMeasurement(NameListMeasurement measurement) {
-        // Do nothing
-    }
-
-    public void visitSingleValueMeasurement(SingleValueMeasurement measurement) {
-        // Do nothing
-    }
-
-    public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
-        // Do nothing
-    }
-
-    public void visitSumMeasurement(SumMeasurement measurement) {
-        // Do nothing
     }
 }
