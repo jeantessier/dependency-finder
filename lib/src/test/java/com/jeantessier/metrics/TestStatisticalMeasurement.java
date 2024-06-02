@@ -100,7 +100,7 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
         assertEquals("sum",     101.0, measurement.getSum(),     0.01);
     }
 
-    public void testComputeTriple() {
+    public void testComputeTriplet() {
         Metrics m1 = new Metrics("m1");
         Metrics m2 = new Metrics("m2");
         Metrics m3 = new Metrics("m3");
