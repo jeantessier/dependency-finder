@@ -1,0 +1,12 @@
+Switched the Introduction page and the Journal page to
+[[https://edwardtufte.github.io/tufte-css/][Tufte CSS]].
+
+I have been using Tufte CSS for my
+[[https://jeantessier.com/SoftwareEngineering/Journal.html][personal blog]]
+for a few years now, and I like the look.  It uses white space intelligently
+to help the eye read the text with minimal straining.  I write my blog using
+Markdown and a JavaScript library converts it to HTML in the browser.  This
+conversion step sometimes interfere with some of the features of Tufte CSS, so
+I cannot use it to its full potential.  But the Journal page is rendered HTML
+on the server, and I have complete control on it.  I can use features like
+sidenotes and figures to their fullest.
