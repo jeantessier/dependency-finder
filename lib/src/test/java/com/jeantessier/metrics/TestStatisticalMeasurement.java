@@ -34,6 +34,8 @@ package com.jeantessier.metrics;
 
 import junit.framework.*;
 
+import java.util.stream.IntStream;
+
 public class TestStatisticalMeasurement extends TestCase implements MeasurementVisitor {
     private StatisticalMeasurement measurement;
     private Metrics metrics;
@@ -258,6 +260,18 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
         assertEquals("standard deviation",  304.09, measurement.getStandardDeviation(), 0.01);
         assertEquals("maximum",            1024.0,  measurement.getMaximum(), 0.01);
         assertEquals("sum",                2047.0,  measurement.getSum(),     0.01);
+    }
+
+    public void testCompute1000() {
+        IntStream.rangeClosed(1, 1000).forEach(n -> metrics.addSubMetrics(new Metrics("m" + n).track("bar", new CounterMeasurement(null, null, null)).addToMeasurement("bar", n)));
+
+        assertEquals("size",                 1000,    measurement.getNbDataPoints());
+        assertEquals("minimum",                 1.0,  measurement.getMinimum(), 0.01);
+        assertEquals("median",                500.5,  measurement.getMedian(),  0.01);
+        assertEquals("average",               500.5,  measurement.getAverage(), 0.01);
+        assertEquals("standard deviation",    288.67, measurement.getStandardDeviation(), 0.01);
+        assertEquals("maximum",              1000.0,  measurement.getMaximum(), 0.01);
+        assertEquals("sum",                500500.0,  measurement.getSum(),     0.01);
     }
 
     public void testAccept() {

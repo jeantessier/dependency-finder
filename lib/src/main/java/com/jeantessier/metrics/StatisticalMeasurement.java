@@ -258,6 +258,17 @@ public class StatisticalMeasurement extends MeasurementBase {
         return nbDataPoints;
     }
 
+    public double getPercentile(int percentile) {
+        collectData();
+
+        if (data.isEmpty()) {
+            return Double.NaN;
+        }
+
+        int pos = (int) Math.ceil((percentile / 100.0) * data.size()) - 1;
+        return data.get(pos);
+    }
+
     private void collectData() {
         if (getContext().getSubMetrics().size() != nbSubmetrics) {
             synchronized (this) {
