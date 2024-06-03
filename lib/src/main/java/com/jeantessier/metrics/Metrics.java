@@ -80,60 +80,66 @@ public class Metrics {
         return name;
     }
 
-    void track(Measurement measurement) {
-        track(measurement.getShortName(), measurement);
+    Metrics track(Measurement measurement) {
+        return track(measurement.getShortName(), measurement);
     }
     
-    void track(String name, Measurement measurement) {
+    Metrics track(String name, Measurement measurement) {
         measurements.put(name, measurement);
+        return this;
     }
 
-    public void addToMeasurement(BasicMeasurements name) {
-        addToMeasurement(name.getAbbreviation());
+    public Metrics addToMeasurement(BasicMeasurements name) {
+        return addToMeasurement(name.getAbbreviation());
     }
 
-    public void addToMeasurement(String name) {
-        addToMeasurement(name, 1);
+    public Metrics addToMeasurement(String name) {
+        return addToMeasurement(name, 1);
     }
 
-    public void addToMeasurement(BasicMeasurements name, int delta) {
-        addToMeasurement(name.getAbbreviation(), delta);
+    public Metrics addToMeasurement(BasicMeasurements name, int delta) {
+        return addToMeasurement(name.getAbbreviation(), delta);
     }
 
-    public void addToMeasurement(String name, int delta) {
+    public Metrics addToMeasurement(String name, int delta) {
         getMeasurement(name).add(delta);
+        return this;
     }
 
-    public void addToMeasurement(BasicMeasurements name, long delta) {
-        addToMeasurement(name.getAbbreviation(), delta);
+    public Metrics addToMeasurement(BasicMeasurements name, long delta) {
+        return addToMeasurement(name.getAbbreviation(), delta);
     }
 
-    public void addToMeasurement(String name, long delta) {
+    public Metrics addToMeasurement(String name, long delta) {
         getMeasurement(name).add(delta);
+        return this;
     }
     
-    public void addToMeasurement(BasicMeasurements name, float delta) {
-        addToMeasurement(name.getAbbreviation(), delta);
+    public Metrics addToMeasurement(BasicMeasurements name, float delta) {
+        return addToMeasurement(name.getAbbreviation(), delta);
     }
 
-    public void addToMeasurement(String name, float delta) {
+    public Metrics addToMeasurement(String name, float delta) {
         getMeasurement(name).add(delta);
+        return this;
     }
     
-    public void addToMeasurement(BasicMeasurements name, double delta) {
-        addToMeasurement(name.getAbbreviation(), delta);
+    public Metrics addToMeasurement(BasicMeasurements name, double delta) {
+        return addToMeasurement(name.getAbbreviation(), delta);
     }
 
-    public void addToMeasurement(String name, double delta) {
+    public Metrics addToMeasurement(String name, double delta) {
         getMeasurement(name).add(delta);
+        return this;
     }
     
-    public void addToMeasurement(BasicMeasurements name, Object delta) {
-        addToMeasurement(name.getAbbreviation(), delta);
+    public Metrics addToMeasurement(BasicMeasurements name, Object delta) {
+        return addToMeasurement(name.getAbbreviation(), delta);
     }
 
-    public void addToMeasurement(String name, Object delta) {
+    public Metrics addToMeasurement(String name, Object delta) {
         getMeasurement(name).add(delta);
+        return this;
     }
 
     public Measurement getMeasurement(BasicMeasurements name) {
