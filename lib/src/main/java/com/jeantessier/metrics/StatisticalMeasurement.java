@@ -267,64 +267,49 @@ public class StatisticalMeasurement extends MeasurementBase {
 
                     getContext().getSubMetrics().forEach(this::visitMetrics);
 
-                    if (!data.isEmpty()) {
+                    if (data.isEmpty()) {
+                        minimum = Double.NaN;
+                        median  = Double.NaN;
+                        maximum = Double.NaN;
+                    } else {
                         Collections.sort(data);
 
-                        minimum      = data.get(0);
-                        maximum      = data.get(data.size() - 1);
+                        minimum = data.get(0);
+                        maximum = data.get(data.size() - 1);
 
-                    } else {
-                        minimum      = Double.NaN;
-                        maximum      = Double.NaN;
+                        if (data.size() % 2 == 0) {
+                            // Even-sized list, average the two middle values
+                            int pos = data.size() / 2;
+                            double leftMiddleElement = data.get(pos - 1);
+                            double rightMiddleElement = data.get(pos);
+                            median = (leftMiddleElement + rightMiddleElement) / 2;
+                        } else {
+                            // Odd-sized list, use the middle value
+                            median = data.get(data.size() / 2);
+                        }
                     }
 
                     nbDataPoints = data.size();
                     sum = data.stream()
                             .reduce(Double::sum)
                             .orElse(0.0);
-                    median = findMedianOf(data);
                     average = sum / nbDataPoints;
 
-                    if (!data.isEmpty()) {
+                    if (data.isEmpty()) {
+                        standardDeviation = Double.NaN;
+                    } else {
                         var temp = data.parallelStream()
                                 .map(n -> Math.pow(n - average, 2))
                                 .reduce(Double::sum)
                                 .orElse(0.0);
 
                         standardDeviation = Math.sqrt(temp / nbDataPoints);
-                    } else {
-                        standardDeviation = Double.NaN;
                     }
 
                     nbSubmetrics = getContext().getSubMetrics().size();
                 }
             }
         }
-    }
-
-    private double findMedianOf(List<Double> data) {
-        if (data.isEmpty()) {
-            return findMedianOfEmptyList(data);
-        }
-        if (data.size() % 2 == 0) {
-            return findMedianEvenSizedList(data);
-        }
-        return findMedianOfOddSizedList(data);
-    }
-
-    private double findMedianOfEmptyList(List<Double> data) {
-        return Double.NaN;
-    }
-
-    private double findMedianEvenSizedList(List<Double> data) {
-        int pos = data.size() / 2;
-        double leftMiddleElement = data.get(pos - 1);
-        double rightMiddleElement = data.get(pos);
-        return (leftMiddleElement + rightMiddleElement) / 2;
-    }
-
-    private double findMedianOfOddSizedList(List<Double> data) {
-        return data.get(data.size() / 2);
     }
 
     private void visitMetrics(Metrics metrics) {
@@ -413,16 +398,12 @@ public class StatisticalMeasurement extends MeasurementBase {
     }
 
     public String toString() {
-        StringBuilder result = new StringBuilder();
-
-        result.append("[").append(valueFormat.format(getMinimum()));
-        result.append(" ").append(valueFormat.format(getMedian()));
-        result.append("/").append(valueFormat.format(getAverage()));
-        result.append(" ").append(valueFormat.format(getStandardDeviation()));
-        result.append(" ").append(valueFormat.format(getMaximum()));
-        result.append(" ").append(valueFormat.format(getSum()));
-        result.append(" (").append(valueFormat.format(getNbDataPoints())).append(")]");
-
-        return result.toString();
+        return "[" + valueFormat.format(getMinimum()) +
+                " " + valueFormat.format(getMedian()) +
+                "/" + valueFormat.format(getAverage()) +
+                " " + valueFormat.format(getStandardDeviation()) +
+                " " + valueFormat.format(getMaximum()) +
+                " " + valueFormat.format(getSum()) +
+                " (" + valueFormat.format(getNbDataPoints()) + ")]";
     }
 }
