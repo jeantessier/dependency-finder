@@ -59,6 +59,19 @@ import java.util.List;
  *      <li>number of data points</li>
  *  </ul>
  *
+ * <p>Most of these statistical values are self-descriptive.  There is a
+ * subtlety regarding the <i>median</i> value, though.  If the number of data
+ * points is odd, we can sort them and return the single value in the middle.
+ * For the dataset <code>[1, 2, <b>3</b>, 4, 5]</code>, the median is
+ * <code>3</code>.  But if the number of data points is even, there is no
+ * single value in the middle.  Instead, we return the average of the two
+ * values in the middle of the sorted dataset.  For the dataset
+ * <code>[1, 2, <b>3, 4</b>, 5, 6]</code>, the median is the average of
+ * <code>3</code> and <code>4</code>, so the median value is <code>3.5</code>.
+ * This is in accordance with the definition of
+ * <a href="https://en.wikipedia.org/wiki/Median#Finite_set_of_numbers" target="_top">median</a>
+ * on Wikipedia.</p>
+ *
  *  <p>This is the syntax for initializing this type of measurement:</p>
  *
  *  <pre>
@@ -71,8 +84,8 @@ import java.util.List;
  *  <p>If the monitored measurement is itself a statistical measurement, the
  *  disposition indicates how to deal with it, which of its values to use in
  *  this measurement's calculation.  The default is {@link #DISPOSE_IGNORE},
- *  meaning it should skip statistical measurements look in further submetrics
- *  for raw values.</p>
+ *  meaning it should skip the statistical measurement and dig further in
+ *  sub-submetrics for more raw values.</p>
  *
  *  <p>The second disposition tells which internal value to return in calls to
  *  its {@link #compute} method, which will be used by clients that do not

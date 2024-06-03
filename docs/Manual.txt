@@ -4047,7 +4047,18 @@ The current types of measurement are as follow:
         <li>maximum value</li>
         <li>sum</li>
         <li>number of data points</li>
-    </ul></dd>
+    </ul>
+    A quick note regarding the median value.  If the number of data
+    points is odd, we can sort them and return the single value in the
+    middle.  For the dataset =[1, 2, *3*, 4, 5]=, the median is =3=.
+    But if the number of data points is even, there is no single value
+    in the middle.  Instead, we return the average of the two values in
+    the middle of the sorted dataset.  For the dataset
+    =[1, 2, *3, 4*, 5, 6]=, the median is the average of =3= and =4=, so
+    the median value is =3.5=.  This matches the definition of
+    [[https://en.wikipedia.org/wiki/Median#Finite%5Fset%5Fof%5Fnumbers][median]]
+    on Wikipedia.
+    </dd>
     <dt>=SubMetricsAccumulatorMeasurement=</dt>
     <dd>Aggregates lists from measurements in submetrics of the current
     context.  It uses Perl regular expressions to filter list elements.</dd>
@@ -4058,8 +4069,8 @@ The current types of measurement are as follow:
 </blockquote>
 
 Whenever a measurement references another measurement, there is a chance
-that that measurement is in fact a =StatisticalMeasurement= standing in
-for a collection of others at the levels below.  The measurement making
+that that measurement is itself a =StatisticalMeasurement= standing in
+for a collection of others at the lower levels.  The measurement making
 the reference can specify explicitly which subvalue (i.e., minimum, median,
 etc.) of the =StatisticalMeasurement= it wants to use for its own
 computation.  Or, it can rely on the =StatisticalMeasurement='s self
