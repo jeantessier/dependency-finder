@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!/usr/bin/env perl
 
 #   
 #   Copyright (c) 2001-2023, Jean Tessier
