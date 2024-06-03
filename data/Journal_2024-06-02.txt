@@ -1,0 +1,21 @@
+Refactored =StatisticalMeasurement= to add percentiles.  The statistics that it
+exposes are minimum, median, and maximum.  But this does not tell us how far
+outliers are from the other results.  For that, it would be helpul to have
+values line the 90<sup>th</sup> percentile or the 99<sup>th</sup> percentile.
+And maybe even the 1<sup>st</sup> and 10<sup>th</sup> percentile for the lower
+end of the range.  Maybe, once I have a percentile function, I can replace
+=getMedian()= with the 50<sup>th</sup> percentile!
+
+I keep thinking of the median as a value from the set.  But looking at the
+code, I noticed it was averaging the two central values when the dataset had an
+even number of elements.  That is how they
+[[https://en.wikipedia.org/wiki/Median#Finite%5Fset%5Fof%5Fnumbers][recommend to do it]]
+on Wikipedia, and it is likely where I picked it up.  So I left the
+calculation of the median as it was, but with a little bit of clean up to use
+the Streams API and inline some trivial methods.
+
+I did add =getPercentile(n)= and I will look for the best way to expose
+percentiles in =OOMetrics= reports.  I could use canned percentiles, like
+=1=, =10=, =50=, =90=, and =99=, but I'd like to let users decide which
+percentiles make sense for them.  Maybe there is a way to specify them in the
+configuration, as part of the initialization text for =StatisticalMeasurement=.
