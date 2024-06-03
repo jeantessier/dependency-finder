@@ -151,8 +151,7 @@ public class StatisticalMeasurement extends MeasurementBase {
     public StatisticalMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
         super(descriptor, context, initText);
 
-        try {
-            BufferedReader in = new BufferedReader(new StringReader(initText));
+        try (var in = new BufferedReader(new StringReader(initText))) {
             monitoredMeasurement = in.readLine().trim();
 
             synchronized (perl()) {
@@ -161,25 +160,17 @@ public class StatisticalMeasurement extends MeasurementBase {
 
                     String disposeText = perl().group(2);
 
-                    if (disposeText.equalsIgnoreCase("DISPOSE_IGNORE")) {
-                        dispose = DISPOSE_IGNORE;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_MINIMUM")) {
-                        dispose = DISPOSE_MINIMUM;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_MEDIAN")) {
-                        dispose = DISPOSE_MEDIAN;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_AVERAGE")) {
-                        dispose = DISPOSE_AVERAGE;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_STANDARD_DEVIATION")) {
-                        dispose = DISPOSE_STANDARD_DEVIATION;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
-                        dispose = DISPOSE_MAXIMUM;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_SUM")) {
-                        dispose = DISPOSE_SUM;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_NB_DATA_POINTS")) {
-                        dispose = DISPOSE_NB_DATA_POINTS;
-                    } else {
-                        dispose = DISPOSE_IGNORE;
-                    }
+                    dispose = switch (disposeText.toUpperCase()) {
+                        case "DISPOSE_IGNORE" -> DISPOSE_IGNORE;
+                        case "DISPOSE_MINIMUM" -> DISPOSE_MINIMUM;
+                        case "DISPOSE_MEDIAN" -> DISPOSE_MEDIAN;
+                        case "DISPOSE_AVERAGE" -> DISPOSE_AVERAGE;
+                        case "DISPOSE_STANDARD_DEVIATION" -> DISPOSE_STANDARD_DEVIATION;
+                        case "DISPOSE_MAXIMUM" -> DISPOSE_MAXIMUM;
+                        case "DISPOSE_SUM" -> DISPOSE_SUM;
+                        case "DISPOSE_NB_DATA_POINTS" -> DISPOSE_NB_DATA_POINTS;
+                        default -> DISPOSE_IGNORE;
+                    };
                 } else {
                     dispose = DISPOSE_IGNORE;
                 }
@@ -189,30 +180,20 @@ public class StatisticalMeasurement extends MeasurementBase {
             if (selfDisposeText != null) {
                 selfDisposeText = selfDisposeText.trim();
 
-                if (selfDisposeText.equalsIgnoreCase("DISPOSE_IGNORE")) {
-                    selfDispose = DISPOSE_IGNORE;
-                } else if (selfDisposeText.equalsIgnoreCase("DISPOSE_MINIMUM")) {
-                    selfDispose = DISPOSE_MINIMUM;
-                } else if (selfDisposeText.equalsIgnoreCase("DISPOSE_MEDIAN")) {
-                    selfDispose = DISPOSE_MEDIAN;
-                } else if (selfDisposeText.equalsIgnoreCase("DISPOSE_AVERAGE")) {
-                    selfDispose = DISPOSE_AVERAGE;
-                } else if (selfDisposeText.equalsIgnoreCase("DISPOSE_STANDARD_DEVIATION")) {
-                    selfDispose = DISPOSE_STANDARD_DEVIATION;
-                } else if (selfDisposeText.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
-                    selfDispose = DISPOSE_MAXIMUM;
-                } else if (selfDisposeText.equalsIgnoreCase("DISPOSE_SUM")) {
-                    selfDispose = DISPOSE_SUM;
-                } else if (selfDisposeText.equalsIgnoreCase("DISPOSE_NB_DATA_POINTS")) {
-                    selfDispose = DISPOSE_NB_DATA_POINTS;
-                } else {
-                    selfDispose = DISPOSE_AVERAGE;
-                }
+                selfDispose = switch (selfDisposeText.toUpperCase()) {
+                    case "DISPOSE_IGNORE" -> DISPOSE_IGNORE;
+                    case "DISPOSE_MINIMUM" -> DISPOSE_MINIMUM;
+                    case "DISPOSE_MEDIAN" -> DISPOSE_MEDIAN;
+                    case "DISPOSE_AVERAGE" -> DISPOSE_AVERAGE;
+                    case "DISPOSE_STANDARD_DEVIATION" -> DISPOSE_STANDARD_DEVIATION;
+                    case "DISPOSE_MAXIMUM" -> DISPOSE_MAXIMUM;
+                    case "DISPOSE_SUM" -> DISPOSE_SUM;
+                    case "DISPOSE_NB_DATA_POINTS" -> DISPOSE_NB_DATA_POINTS;
+                    default -> DISPOSE_AVERAGE;
+                };
             } else {
                 selfDispose = DISPOSE_AVERAGE;
             }
-
-            in.close();
         } catch (Exception ex) {
             LogManager.getLogger(getClass()).debug("Cannot initialize with \"{}\"", initText, ex);
             monitoredMeasurement = null;
