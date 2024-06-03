@@ -32,27 +32,55 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.TestCase;
+import org.junit.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
 
-import java.util.stream.IntStream;
+import java.util.stream.*;
 
-public class TestStatisticalMeasurementPercentile extends TestCase implements MeasurementVisitor {
+import static org.junit.Assert.*;
+import static org.junit.runners.Parameterized.*;
+
+@RunWith(Parameterized.class)
+public class TestStatisticalMeasurementPercentile {
+    @Parameters(name="StatisticalMeasurement with {0} dataset of size {1}")
+    public static Object[][] data() {
+        return new Object[][]{
+                {"Single", 1, 1, 1, 1, 1, 1, 1},
+                {"Tiny", 3, 1, 1, 2, 3, 3, 3},
+                {"Small", 10, 1, 1, 5, 9, 10, 10},
+                {"Large", 1_000, 10, 100, 500, 900, 990, 1_000},
+        };
+    }
+    
+    @Parameter(0)
+    public String label;
+    
+    @Parameter(1)
+    public int sampleSize;
+
+    @Parameter(2)
+    public double expectedP1;
+
+    @Parameter(3)
+    public double expectedP10;
+
+    @Parameter(4)
+    public double expectedP50;
+
+    @Parameter(5)
+    public double expectedP90;
+
+    @Parameter(6)
+    public double expectedP99;
+
+    @Parameter(7)
+    public double expectedP100;
+    
     private StatisticalMeasurement measurement;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        int sampleSize;
-        if (getName().contains("Large")) {
-            sampleSize = 1000;
-        } else if (getName().contains("Small")) {
-            sampleSize = 10;
-        } else if (getName().contains("Tiny")) {
-            sampleSize = 3;
-        } else {
-            sampleSize = 1;
-        }
-
+    @Before
+    public void setUp() {
         var metrics = new Metrics("foo");
         IntStream.rangeClosed(1, sampleSize).forEach(n ->
                 metrics.addSubMetrics(new Metrics("m" + n)
@@ -63,99 +91,33 @@ public class TestStatisticalMeasurementPercentile extends TestCase implements Me
         measurement = new StatisticalMeasurement(null, metrics, "bar");
     }
 
-    public void testSingleP1() {
-        assertEquals("p1", 1.0, measurement.getPercentile(1), 0.01);
+    @Test
+    public void p1() {
+        assertEquals("p1", expectedP1, measurement.getPercentile(1), 0.01);
     }
 
-    public void testSingleP10() {
-        assertEquals("p10", 1.0, measurement.getPercentile(10), 0.01);
+    @Test
+    public void p10() {
+        assertEquals("p10", expectedP10, measurement.getPercentile(10), 0.01);
     }
 
-    public void testSingleP50() {
-        assertEquals("p50", 1.0, measurement.getPercentile(50), 0.01);
+    @Test
+    public void p50() {
+        assertEquals("p50", expectedP50, measurement.getPercentile(50), 0.01);
     }
 
-    public void testSingleP90() {
-        assertEquals("p90", 1.0, measurement.getPercentile(90), 0.01);
+    @Test
+    public void p90() {
+        assertEquals("p90", expectedP90, measurement.getPercentile(90), 0.01);
     }
 
-    public void testSingleP99() {
-        assertEquals("p99", 1.0, measurement.getPercentile(99), 0.01);
+    @Test
+    public void p99() {
+        assertEquals("p99", expectedP99, measurement.getPercentile(99), 0.01);
     }
 
-    public void testSingleP100() {
-        assertEquals("p100", 1.0, measurement.getPercentile(100), 0.01);
-    }
-
-    public void testTinyP1() {
-        assertEquals("p1", 1.0, measurement.getPercentile(1), 0.01);
-    }
-
-    public void testTinyP10() {
-        assertEquals("p10", 1.0, measurement.getPercentile(10), 0.01);
-    }
-
-    public void testTinyP50() {
-        assertEquals("p50", 2.0, measurement.getPercentile(50), 0.01);
-    }
-
-    public void testTinyP90() {
-        assertEquals("p90", 3.0, measurement.getPercentile(90), 0.01);
-    }
-
-    public void testTinyP99() {
-        assertEquals("p99", 3.0, measurement.getPercentile(99), 0.01);
-    }
-
-    public void testTinyP100() {
-        assertEquals("p100", 3.0, measurement.getPercentile(100), 0.01);
-    }
-
-    public void testSmallP1() {
-        assertEquals("p1", 1.0, measurement.getPercentile(1), 0.01);
-    }
-
-    public void testSmallP10() {
-        assertEquals("p10", 1.0, measurement.getPercentile(10), 0.01);
-    }
-
-    public void testSmallP50() {
-        assertEquals("p50", 5.0, measurement.getPercentile(50), 0.01);
-    }
-
-    public void testSmallP90() {
-        assertEquals("p90", 9.0, measurement.getPercentile(90), 0.01);
-    }
-
-    public void testSmallP99() {
-        assertEquals("p99", 10.0, measurement.getPercentile(99), 0.01);
-    }
-
-    public void testSmallP100() {
-        assertEquals("p100", 10.0, measurement.getPercentile(100), 0.01);
-    }
-
-    public void testLargeP1() {
-        assertEquals("p1", 10.0, measurement.getPercentile(1), 0.01);
-    }
-
-    public void testLargeP10() {
-        assertEquals("p10", 100.0, measurement.getPercentile(10), 0.01);
-    }
-
-    public void testLargeP50() {
-        assertEquals("p50", 500.0, measurement.getPercentile(50), 0.01);
-    }
-
-    public void testLargeP90() {
-        assertEquals("p90", 900.0, measurement.getPercentile(90), 0.01);
-    }
-
-    public void testLargeP99() {
-        assertEquals("p99", 990.0, measurement.getPercentile(99), 0.01);
-    }
-
-    public void testLargeP100() {
-        assertEquals("p100", 1000.0, measurement.getPercentile(100), 0.01);
+    @Test
+    public void p100() {
+        assertEquals("p100", expectedP100, measurement.getPercentile(100), 0.01);
     }
 }
