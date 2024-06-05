@@ -32,8 +32,7 @@
 
 package com.jeantessier.metrics;
 
-import java.io.PrintWriter;
-import java.util.List;
+import java.io.*;
 
 public class YAMLPrinter extends Printer {
     private final MetricsConfiguration configuration;

@@ -118,7 +118,7 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
     }
 
     public void testInLowerBoundRange() throws Exception {
-        descriptor.setLowerThreshold(1);
+        descriptor.setLowerThreshold(1.0);
 
         measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 
@@ -152,7 +152,7 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
     }
 
     public void testInBoundRange() throws Exception {
-        descriptor.setLowerThreshold(1);
+        descriptor.setLowerThreshold(1.0);
         descriptor.setUpperThreshold(1.5);
 
         measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);

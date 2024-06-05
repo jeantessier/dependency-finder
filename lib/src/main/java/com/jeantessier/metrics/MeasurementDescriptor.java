@@ -35,16 +35,14 @@ package com.jeantessier.metrics;
 import java.lang.reflect.*;
 
 public class MeasurementDescriptor {
-    private static final Class constructorSignature[] = {MeasurementDescriptor.class, Metrics.class, String.class};
-
-    private String     shortName;
-    private String     longName;
-    private Class      classFor;
-    private String     initText;
-    private Comparable lowerThreshold;
-    private Comparable upperThreshold;
-    private boolean    visible        = true;
-    private boolean    cached         = true;
+    private String                       shortName;
+    private String                       longName;
+    private Class<? extends Measurement> classFor;
+    private String                       initText;
+    private Double                       lowerThreshold;
+    private Double                       upperThreshold;
+    private boolean                      visible        = true;
+    private boolean                      cached         = true;
 
     public String getShortName() {
         return shortName;
@@ -62,11 +60,11 @@ public class MeasurementDescriptor {
         this.longName = longName;
     }
     
-    public Class getClassFor() {
+    public Class<? extends Measurement> getClassFor() {
         return classFor;
     }
 
-    public void setClassFor(Class classFor) {
+    public void setClassFor(Class<? extends Measurement> classFor) {
         if (classFor != null) {
             this.classFor = classFor;
         } else {
@@ -75,7 +73,7 @@ public class MeasurementDescriptor {
     }
 
     public void getClassForByName(String className) throws ClassNotFoundException {
-        this.classFor = Class.forName(className);
+        this.classFor = (Class<? extends Measurement>) Class.forName(className);
     }
 
     public String getInitText() {
@@ -86,19 +84,19 @@ public class MeasurementDescriptor {
         this.initText = initText;
     }
 
-    public Comparable getLowerThreshold() {
+    public Double getLowerThreshold() {
         return lowerThreshold;
     }
 
-    public void setLowerThreshold(Comparable lowerThreshold) {
+    public void setLowerThreshold(Double lowerThreshold) {
         this.lowerThreshold = lowerThreshold;
     }
 
-    public Comparable getUpperThreshold() {
+    public Double getUpperThreshold() {
         return upperThreshold;
     }
 
-    public void setUpperThreshold(Comparable upperThreshold) {
+    public void setUpperThreshold(Double upperThreshold) {
         this.upperThreshold = upperThreshold;
     }
 
@@ -123,20 +121,13 @@ public class MeasurementDescriptor {
     }
     
     public Measurement createMeasurement(Metrics context) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        Measurement result = null;
-
-        Constructor constructor = getClassFor().getConstructor(constructorSignature);
-        Object params[] = new Object[3];
-        params[0] = this;
-        params[1] = context;
-        params[2] = getInitText();
-        result = (Measurement) constructor.newInstance(params);
-
-        return result;
+        return getClassFor()
+                .getConstructor(MeasurementDescriptor.class, Metrics.class, String.class)
+                .newInstance(this, context, getInitText());
     }
 
     public String getRangeAsString() {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         result.append("[");
         result.append((getLowerThreshold() != null) ? getLowerThreshold().toString() : "*");

@@ -282,7 +282,7 @@ public class TestMetrics extends TestCase {
         descriptor1.setShortName("foo");
         descriptor1.setLongName("foo");
         descriptor1.setClassFor(CounterMeasurement.class);
-        descriptor1.setUpperThreshold(1);
+        descriptor1.setUpperThreshold(1.0);
 
         metrics.track(descriptor1.createMeasurement(metrics));
 

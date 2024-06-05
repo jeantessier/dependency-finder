@@ -34,7 +34,7 @@ package com.jeantessier.metrics;
 
 import junit.framework.*;
 
-import java.util.stream.IntStream;
+import java.util.stream.*;
 
 public class TestStatisticalMeasurement extends TestCase implements MeasurementVisitor {
     private StatisticalMeasurement measurement;
@@ -61,7 +61,7 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
         assertTrue("average", Double.isNaN(measurement.getAverage()));
         assertTrue("standard deviation", Double.isNaN(measurement.getStandardDeviation()));
         assertTrue("maximum", Double.isNaN(measurement.getMaximum()));
-        assertEquals("sum", 0.0, measurement.getSum(), 0.01);
+        assertTrue("sum", Double.isNaN(measurement.getSum()));
     }
 
     public void testComputeSingle() {
@@ -72,12 +72,12 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
         metrics.addSubMetrics(m);
 
         assertEquals("size",               1,   measurement.getNbDataPoints());
-        assertEquals("minimum",            1.0, measurement.getMinimum(), 0.01);
-        assertEquals("median",             1.0, measurement.getMedian(),  0.01);
-        assertEquals("average",            1.0, measurement.getAverage(), 0.01);
+        assertEquals("minimum",            1.0, measurement.getMinimum(),           0.01);
+        assertEquals("median",             1.0, measurement.getMedian(),            0.01);
+        assertEquals("average",            1.0, measurement.getAverage(),           0.01);
         assertEquals("standard deviation", 0.0, measurement.getStandardDeviation(), 0.01);
-        assertEquals("maximum",            1.0, measurement.getMaximum(), 0.01);
-        assertEquals("sum",                1.0, measurement.getSum(),     0.01);
+        assertEquals("maximum",            1.0, measurement.getMaximum(),           0.01);
+        assertEquals("sum",                1.0, measurement.getSum(),               0.01);
     }
 
     public void testComputePair() {
@@ -93,13 +93,13 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
         m1.addToMeasurement("bar", 1);
         m2.addToMeasurement("bar", 100);
 
-        assertEquals("size",      2,   measurement.getNbDataPoints());
-        assertEquals("minimum",   1.0, measurement.getMinimum(), 0.01);
-        assertEquals("median",   50.5, measurement.getMedian(),  0.01);
-        assertEquals("average",  50.5, measurement.getAverage(), 0.01);
-        assertEquals("standard deviation", 49.5, measurement.getStandardDeviation(), 0.01);
-        assertEquals("maximum", 100.0, measurement.getMaximum(), 0.01);
-        assertEquals("sum",     101.0, measurement.getSum(),     0.01);
+        assertEquals("size",                 2,   measurement.getNbDataPoints());
+        assertEquals("minimum",              1.0, measurement.getMinimum(),           0.01);
+        assertEquals("median",              50.5, measurement.getMedian(),            0.01);
+        assertEquals("average",             50.5, measurement.getAverage(),           0.01);
+        assertEquals("standard deviation",  49.5, measurement.getStandardDeviation(), 0.01);
+        assertEquals("maximum",            100.0, measurement.getMaximum(),           0.01);
+        assertEquals("sum",                101.0, measurement.getSum(),               0.01);
     }
 
     public void testComputeTriplet() {
@@ -119,13 +119,13 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
         m2.addToMeasurement("bar", 10);
         m3.addToMeasurement("bar", 100);
 
-        assertEquals("size",      3,   measurement.getNbDataPoints());
-        assertEquals("minimum",   1.0, measurement.getMinimum(), 0.01);
-        assertEquals("median",   10.0, measurement.getMedian(),  0.01);
-        assertEquals("average",  37.0, measurement.getAverage(), 0.01);
-        assertEquals("standard deviation", 44.7, measurement.getStandardDeviation(), 0.01);
-        assertEquals("maximum", 100.0, measurement.getMaximum(), 0.01);
-        assertEquals("sum",     111.0, measurement.getSum(),     0.01);
+        assertEquals("size",                 3,   measurement.getNbDataPoints());
+        assertEquals("minimum",              1.0, measurement.getMinimum(),           0.01);
+        assertEquals("median",              10.0, measurement.getMedian(),            0.01);
+        assertEquals("average",             37.0, measurement.getAverage(),           0.01);
+        assertEquals("standard deviation",  44.7, measurement.getStandardDeviation(), 0.01);
+        assertEquals("maximum",            100.0, measurement.getMaximum(),           0.01);
+        assertEquals("sum",                111.0, measurement.getSum(),               0.01);
     }
 
     public void testComputeDie() {
@@ -158,12 +158,12 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
         m6.addToMeasurement("bar", 6);
 
         assertEquals("size",                6,    measurement.getNbDataPoints());
-        assertEquals("minimum",             1.0,  measurement.getMinimum(), 0.01);
-        assertEquals("median",              3.5,  measurement.getMedian(),  0.01);
-        assertEquals("average",             3.5,  measurement.getAverage(), 0.01);
+        assertEquals("minimum",             1.0,  measurement.getMinimum(),           0.01);
+        assertEquals("median",              3.5,  measurement.getMedian(),            0.01);
+        assertEquals("average",             3.5,  measurement.getAverage(),           0.01);
         assertEquals("standard deviation",  1.71, measurement.getStandardDeviation(), 0.01);
-        assertEquals("maximum",             6.0,  measurement.getMaximum(), 0.01);
-        assertEquals("sum",                21.0,  measurement.getSum(),     0.01);
+        assertEquals("maximum",             6.0,  measurement.getMaximum(),           0.01);
+        assertEquals("sum",                21.0,  measurement.getSum(),               0.01);
     }
 
     public void testComputeConstant() {
@@ -195,13 +195,13 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
         m5.addToMeasurement("bar", 1);
         m6.addToMeasurement("bar", 1);
 
-        assertEquals("size",               6,    measurement.getNbDataPoints());
-        assertEquals("minimum",            1.0,  measurement.getMinimum(), 0.01);
-        assertEquals("median",             1.0,  measurement.getMedian(),  0.01);
-        assertEquals("average",            1.0,  measurement.getAverage(), 0.01);
+        assertEquals("size",               6,   measurement.getNbDataPoints());
+        assertEquals("minimum",            1.0, measurement.getMinimum(),           0.01);
+        assertEquals("median",             1.0, measurement.getMedian(),            0.01);
+        assertEquals("average",            1.0, measurement.getAverage(),           0.01);
         assertEquals("standard deviation", 0.0, measurement.getStandardDeviation(), 0.01);
-        assertEquals("maximum",            1.0,  measurement.getMaximum(), 0.01);
-        assertEquals("sum",                6.0,  measurement.getSum(),     0.01);
+        assertEquals("maximum",            1.0, measurement.getMaximum(),           0.01);
+        assertEquals("sum",                6.0, measurement.getSum(),               0.01);
     }
 
     public void testComputeExponential() {
@@ -254,24 +254,24 @@ public class TestStatisticalMeasurement extends TestCase implements MeasurementV
         m11.addToMeasurement("bar", 1024);
 
         assertEquals("size",                 11,    measurement.getNbDataPoints());
-        assertEquals("minimum",               1.0,  measurement.getMinimum(), 0.01);
-        assertEquals("median",               32.0,  measurement.getMedian(),  0.01);
-        assertEquals("average",             186.1,  measurement.getAverage(), 0.01);
+        assertEquals("minimum",               1.0,  measurement.getMinimum(),           0.01);
+        assertEquals("median",               32.0,  measurement.getMedian(),            0.01);
+        assertEquals("average",             186.1,  measurement.getAverage(),           0.01);
         assertEquals("standard deviation",  304.09, measurement.getStandardDeviation(), 0.01);
-        assertEquals("maximum",            1024.0,  measurement.getMaximum(), 0.01);
-        assertEquals("sum",                2047.0,  measurement.getSum(),     0.01);
+        assertEquals("maximum",            1024.0,  measurement.getMaximum(),           0.01);
+        assertEquals("sum",                2047.0,  measurement.getSum(),               0.01);
     }
 
     public void testCompute1000() {
         IntStream.rangeClosed(1, 1000).forEach(n -> metrics.addSubMetrics(new Metrics("m" + n).track("bar", new CounterMeasurement(null, null, null)).addToMeasurement("bar", n)));
 
         assertEquals("size",                 1000,    measurement.getNbDataPoints());
-        assertEquals("minimum",                 1.0,  measurement.getMinimum(), 0.01);
-        assertEquals("median",                500.5,  measurement.getMedian(),  0.01);
-        assertEquals("average",               500.5,  measurement.getAverage(), 0.01);
+        assertEquals("minimum",                 1.0,  measurement.getMinimum(),           0.01);
+        assertEquals("median",                500.5,  measurement.getMedian(),            0.01);
+        assertEquals("average",               500.5,  measurement.getAverage(),           0.01);
         assertEquals("standard deviation",    288.67, measurement.getStandardDeviation(), 0.01);
-        assertEquals("maximum",              1000.0,  measurement.getMaximum(), 0.01);
-        assertEquals("sum",                500500.0,  measurement.getSum(),     0.01);
+        assertEquals("maximum",              1000.0,  measurement.getMaximum(),           0.01);
+        assertEquals("sum",                500500.0,  measurement.getSum(),               0.01);
     }
 
     public void testAccept() {

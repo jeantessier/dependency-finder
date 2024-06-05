@@ -37,9 +37,9 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 import static org.jmock.Expectations.aNull;
-import static org.junit.Assert.assertThat;
 
 public class TestSignatureFinder {
     @Rule

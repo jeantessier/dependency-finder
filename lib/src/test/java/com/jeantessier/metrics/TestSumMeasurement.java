@@ -230,7 +230,7 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 
     public void testInLowerBoundRange() throws Exception {
         descriptor.setInitText("bar");
-        descriptor.setLowerThreshold(1);
+        descriptor.setLowerThreshold(1.0);
 
         metrics.track("bar", new CounterMeasurement(null, null, null));
 
@@ -271,7 +271,7 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 
     public void testInBoundRange() throws Exception {
         descriptor.setInitText("bar");
-        descriptor.setLowerThreshold(1);
+        descriptor.setLowerThreshold(1.0);
         descriptor.setUpperThreshold(1.5);
 
         metrics.track("bar", new CounterMeasurement(null, null, null));

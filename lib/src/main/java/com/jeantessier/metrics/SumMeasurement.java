@@ -154,26 +154,18 @@ public class SumMeasurement extends MeasurementBase {
                     name = perl().group(1);
                     
                     String disposeText = perl().group(2);
-                    
-                    if (disposeText.equalsIgnoreCase("DISPOSE_IGNORE")) {
-                        dispose = StatisticalMeasurement.DISPOSE_IGNORE;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_MINIMUM")) {
-                        dispose = StatisticalMeasurement.DISPOSE_MINIMUM;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_MEDIAN")) {
-                        dispose = StatisticalMeasurement.DISPOSE_MEDIAN;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_AVERAGE")) {
-                        dispose = StatisticalMeasurement.DISPOSE_AVERAGE;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_STANDARD_DEVIATION")) {
-                        dispose = StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
-                        dispose = StatisticalMeasurement.DISPOSE_MAXIMUM;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_SUM")) {
-                        dispose = StatisticalMeasurement.DISPOSE_SUM;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_NB_DATA_POINTS")) {
-                        dispose = StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
-                    } else {
-                        dispose = StatisticalMeasurement.DISPOSE_IGNORE;
-                    }
+
+                    dispose = switch (disposeText.toUpperCase()) {
+                        case "DISPOSE_IGNORE" -> StatisticalMeasurement.DISPOSE_IGNORE;
+                        case "DISPOSE_MINIMUM" -> StatisticalMeasurement.DISPOSE_MINIMUM;
+                        case "DISPOSE_MEDIAN" -> StatisticalMeasurement.DISPOSE_MEDIAN;
+                        case "DISPOSE_AVERAGE" -> StatisticalMeasurement.DISPOSE_AVERAGE;
+                        case "DISPOSE_STANDARD_DEVIATION" -> StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;
+                        case "DISPOSE_MAXIMUM" -> StatisticalMeasurement.DISPOSE_MAXIMUM;
+                        case "DISPOSE_SUM" -> StatisticalMeasurement.DISPOSE_SUM;
+                        case "DISPOSE_NB_DATA_POINTS" -> StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
+                        default -> StatisticalMeasurement.DISPOSE_IGNORE;
+                    };
                 } else {
                     dispose = StatisticalMeasurement.DISPOSE_IGNORE;
                 }

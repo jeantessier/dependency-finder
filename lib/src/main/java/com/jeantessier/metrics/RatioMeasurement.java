@@ -72,26 +72,18 @@ public class RatioMeasurement extends MeasurementBase {
                     baseName = perl().group(1);
                     
                     String disposeText = perl().group(2);
-                    
-                    if (disposeText.equalsIgnoreCase("DISPOSE_IGNORE")) {
-                        baseDispose = StatisticalMeasurement.DISPOSE_IGNORE;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_MINIMUM")) {
-                        baseDispose = StatisticalMeasurement.DISPOSE_MINIMUM;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_MEDIAN")) {
-                        baseDispose = StatisticalMeasurement.DISPOSE_MEDIAN;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_AVERAGE")) {
-                        baseDispose = StatisticalMeasurement.DISPOSE_AVERAGE;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_STANDARD_DEVIATION")) {
-                        baseDispose = StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
-                        baseDispose = StatisticalMeasurement.DISPOSE_MAXIMUM;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_SUM")) {
-                        baseDispose = StatisticalMeasurement.DISPOSE_SUM;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_NB_DATA_POINTS")) {
-                        baseDispose = StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
-                    } else {
-                        baseDispose = StatisticalMeasurement.DISPOSE_IGNORE;
-                    }
+
+                    baseDispose = switch (disposeText.toUpperCase()) {
+                        case "DISPOSE_IGNORE" -> StatisticalMeasurement.DISPOSE_IGNORE;
+                        case "DISPOSE_MINIMUM" -> StatisticalMeasurement.DISPOSE_MINIMUM;
+                        case "DISPOSE_MEDIAN" -> StatisticalMeasurement.DISPOSE_MEDIAN;
+                        case "DISPOSE_AVERAGE" -> StatisticalMeasurement.DISPOSE_AVERAGE;
+                        case "DISPOSE_STANDARD_DEVIATION" -> StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;
+                        case "DISPOSE_MAXIMUM" -> StatisticalMeasurement.DISPOSE_MAXIMUM;
+                        case "DISPOSE_SUM" -> StatisticalMeasurement.DISPOSE_SUM;
+                        case "DISPOSE_NB_DATA_POINTS" -> StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
+                        default -> StatisticalMeasurement.DISPOSE_IGNORE;
+                    };
                 } else {
                     baseDispose = StatisticalMeasurement.DISPOSE_IGNORE;
                 }
@@ -101,26 +93,18 @@ public class RatioMeasurement extends MeasurementBase {
                     dividerName = perl().group(1);
                     
                     String disposeText = perl().group(2);
-                    
-                    if (disposeText.equalsIgnoreCase("DISPOSE_IGNORE")) {
-                        dividerDispose = StatisticalMeasurement.DISPOSE_IGNORE;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_MINIMUM")) {
-                        dividerDispose = StatisticalMeasurement.DISPOSE_MINIMUM;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_MEDIAN")) {
-                        dividerDispose = StatisticalMeasurement.DISPOSE_MEDIAN;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_AVERAGE")) {
-                        dividerDispose = StatisticalMeasurement.DISPOSE_AVERAGE;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_STANDARD_DEVIATION")) {
-                        dividerDispose = StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_MAXIMUM")) {
-                        dividerDispose = StatisticalMeasurement.DISPOSE_MAXIMUM;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_SUM")) {
-                        dividerDispose = StatisticalMeasurement.DISPOSE_SUM;
-                    } else if (disposeText.equalsIgnoreCase("DISPOSE_NB_DATA_POINTS")) {
-                        dividerDispose = StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
-                    } else {
-                        dividerDispose = StatisticalMeasurement.DISPOSE_IGNORE;
-                    }
+
+                    dividerDispose = switch (disposeText) {
+                        case "DISPOSE_IGNORE" -> StatisticalMeasurement.DISPOSE_IGNORE;
+                        case "DISPOSE_MINIMUM" -> StatisticalMeasurement.DISPOSE_MINIMUM;
+                        case "DISPOSE_MEDIAN" -> StatisticalMeasurement.DISPOSE_MEDIAN;
+                        case "DISPOSE_AVERAGE" -> StatisticalMeasurement.DISPOSE_AVERAGE;
+                        case "DISPOSE_STANDARD_DEVIATION" -> StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;
+                        case "DISPOSE_MAXIMUM" -> StatisticalMeasurement.DISPOSE_MAXIMUM;
+                        case "DISPOSE_SUM" -> StatisticalMeasurement.DISPOSE_SUM;
+                        case "DISPOSE_NB_DATA_POINTS" -> StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
+                        default -> StatisticalMeasurement.DISPOSE_IGNORE;
+                    };
                 } else {
                     dividerDispose = StatisticalMeasurement.DISPOSE_IGNORE;
                 }

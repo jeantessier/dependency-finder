@@ -228,7 +228,7 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
         descriptor.setClassFor(NameListMeasurement.class);
-        descriptor.setLowerThreshold(1);
+        descriptor.setLowerThreshold(1.0);
 
         measurement = (NameListMeasurement) descriptor.createMeasurement();
 
@@ -270,7 +270,7 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
         descriptor.setClassFor(NameListMeasurement.class);
-        descriptor.setLowerThreshold(1);
+        descriptor.setLowerThreshold(1.0);
         descriptor.setUpperThreshold(1.5);
 
         measurement = (NameListMeasurement) descriptor.createMeasurement();

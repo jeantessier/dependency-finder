@@ -188,27 +188,7 @@ public class TestSingleValueMeasurement extends TestCase implements MeasurementV
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
         descriptor.setClassFor(SingleValueMeasurement.class);
-        descriptor.setLowerThreshold(1);
-
-        measurement = (SingleValueMeasurement) descriptor.createMeasurement();
-
-        assertFalse(measurement.isInRange());
-
-        measurement.add(1);
-
-        assertTrue(measurement.isInRange());
-
-        measurement.add(2);
-
-        assertTrue(measurement.isInRange());
-    }
-
-    public void testInStringLowerBoundRange() throws Exception {
-        MeasurementDescriptor descriptor = new MeasurementDescriptor();
-        descriptor.setShortName("foo");
-        descriptor.setLongName("bar");
-        descriptor.setClassFor(SingleValueMeasurement.class);
-        descriptor.setLowerThreshold("1");
+        descriptor.setLowerThreshold(1.0);
 
         measurement = (SingleValueMeasurement) descriptor.createMeasurement();
 
@@ -243,54 +223,13 @@ public class TestSingleValueMeasurement extends TestCase implements MeasurementV
         assertFalse(measurement.isInRange());
     }
 
-    public void testInStringUpperBoundRange() throws Exception {
-        MeasurementDescriptor descriptor = new MeasurementDescriptor();
-        descriptor.setShortName("foo");
-        descriptor.setLongName("bar");
-        descriptor.setClassFor(SingleValueMeasurement.class);
-        descriptor.setUpperThreshold("1.5");
-
-        measurement = (SingleValueMeasurement) descriptor.createMeasurement();
-
-        assertTrue(measurement.isInRange());
-
-        measurement.add(1);
-
-        assertTrue(measurement.isInRange());
-
-        measurement.add(2);
-
-        assertFalse(measurement.isInRange());
-    }
-
     public void testInBoundRange() throws Exception {
         MeasurementDescriptor descriptor = new MeasurementDescriptor();
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
         descriptor.setClassFor(SingleValueMeasurement.class);
-        descriptor.setLowerThreshold(1);
+        descriptor.setLowerThreshold(1.0);
         descriptor.setUpperThreshold(1.5);
-
-        measurement = (SingleValueMeasurement) descriptor.createMeasurement();
-
-        assertFalse(measurement.isInRange());
-
-        measurement.add(1);
-
-        assertTrue(measurement.isInRange());
-
-        measurement.add(2);
-
-        assertFalse(measurement.isInRange());
-    }
-
-    public void testInStringBoundRange() throws Exception {
-        MeasurementDescriptor descriptor = new MeasurementDescriptor();
-        descriptor.setShortName("foo");
-        descriptor.setLongName("bar");
-        descriptor.setClassFor(SingleValueMeasurement.class);
-        descriptor.setLowerThreshold("1");
-        descriptor.setUpperThreshold("1.5");
 
         measurement = (SingleValueMeasurement) descriptor.createMeasurement();
 

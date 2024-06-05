@@ -125,9 +125,9 @@ public class MetricsConfigurationHandler extends DefaultHandler {
         } else if (qName.equals("init")) {
             descriptor.setInitText(currentName.toString().trim());
         } else if (qName.equals("lower-threshold")) {
-            descriptor.setLowerThreshold(currentName.toString().trim());
+            descriptor.setLowerThreshold(Double.valueOf(currentName.toString()));
         } else if (qName.equals("upper-threshold")) {
-            descriptor.setUpperThreshold(currentName.toString().trim());
+            descriptor.setUpperThreshold(Double.valueOf(currentName.toString()));
         } else if (qName.equals("name")) {
             name = currentName.toString().trim();
         } else if (qName.equals("pattern")) {

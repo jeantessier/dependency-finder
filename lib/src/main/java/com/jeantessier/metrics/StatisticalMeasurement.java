@@ -34,13 +34,10 @@ package com.jeantessier.metrics;
 
 import org.apache.logging.log4j.*;
 
-import java.io.BufferedReader;
-import java.io.StringReader;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.*;
+import java.text.*;
+import java.util.*;
+import java.util.regex.*;
 
 /**
  *  <p>Computes the statistical properties of a given measurement across the
@@ -95,6 +92,9 @@ import java.util.List;
 public class StatisticalMeasurement extends MeasurementBase {
     private static final NumberFormat valueFormat = new DecimalFormat("#.##");
 
+    private static final Pattern PERCENTILE_LINE_REGEX = Pattern.compile("\\s*P\\s+\\d+.*", Pattern.CASE_INSENSITIVE);
+    private static final Pattern PERCENTILE_REGEX = Pattern.compile("(\\d+)");
+
     /** Ignore StatisticalMeasurements and drill down to the next level */
     public static final int DISPOSE_IGNORE = 0;
 
@@ -145,19 +145,43 @@ public class StatisticalMeasurement extends MeasurementBase {
         };
     }
 
+    public static List<Integer> parseRequestedPercentiles(String initText) throws IOException {
+        try (var in = new BufferedReader(new StringReader(initText))) {
+            return in.lines()
+                    .filter(line -> PERCENTILE_LINE_REGEX.matcher(line).matches())
+                    .flatMap(line -> PERCENTILE_REGEX.matcher(line).results())
+                    .map(matchResult -> matchResult.group(1))
+                    .map(Integer::valueOf)
+                    .toList();
+        }
+    }
+
+    public static int countValues(String initText) {
+        var result = 7;
+
+        try {
+            result += parseRequestedPercentiles(initText).size();
+        } catch (IOException e) {
+            // Ignore
+        }
+
+        return result;
+    }
+
     private String monitoredMeasurement;
-    private int    dispose;
-    private int    selfDispose;
+    private int dispose;
+    private int selfDispose;
 
     private List<Double> data = new LinkedList<>();
 
-    private double minimum           = 0.0;
-    private double median            = 0.0;
-    private double average           = 0.0;
+    private double minimum = 0.0;
+    private double median = 0.0;
+    private double average = 0.0;
     private double standardDeviation = 0.0;
-    private double maximum           = 0.0;
-    private double sum               = 0.0;
-    private int    nbDataPoints      = 0;
+    private double maximum = 0.0;
+    private double sum = 0.0;
+    private int nbDataPoints = 0;
+    private List<Integer> requestedPercentiles = new LinkedList<>();
 
     private int nbSubmetrics = -1;
 
@@ -182,7 +206,10 @@ public class StatisticalMeasurement extends MeasurementBase {
                         case "DISPOSE_MAXIMUM" -> DISPOSE_MAXIMUM;
                         case "DISPOSE_SUM" -> DISPOSE_SUM;
                         case "DISPOSE_NB_DATA_POINTS" -> DISPOSE_NB_DATA_POINTS;
-                        default -> DISPOSE_IGNORE;
+                        default -> {
+                            LogManager.getLogger(getClass()).error("Unknown dispose value \"{}\" for monitored measurement \"{}\" of measurement \"{}\", defaulting to DISPOSE_IGNORE", disposeText, monitoredMeasurement, descriptor.getLongName());
+                            yield DISPOSE_IGNORE;
+                        }
                     };
                 } else {
                     dispose = DISPOSE_IGNORE;
@@ -190,7 +217,7 @@ public class StatisticalMeasurement extends MeasurementBase {
             }
 
             String selfDisposeText = in.readLine();
-            if (selfDisposeText != null) {
+            if (selfDisposeText != null && perl().match("/(dispose_\\w+)/i", selfDisposeText)) {
                 selfDisposeText = selfDisposeText.trim();
 
                 selfDispose = switch (selfDisposeText.toUpperCase()) {
@@ -202,13 +229,18 @@ public class StatisticalMeasurement extends MeasurementBase {
                     case "DISPOSE_MAXIMUM" -> DISPOSE_MAXIMUM;
                     case "DISPOSE_SUM" -> DISPOSE_SUM;
                     case "DISPOSE_NB_DATA_POINTS" -> DISPOSE_NB_DATA_POINTS;
-                    default -> DISPOSE_AVERAGE;
+                    default -> {
+                        LogManager.getLogger(getClass()).error("Unknown self-dispose value \"{}\" for measurement \"{}\", defaulting to DISPOSE_AVERAGE", selfDisposeText, descriptor.getLongName());
+                        yield DISPOSE_AVERAGE;
+                    }
                 };
             } else {
                 selfDispose = DISPOSE_AVERAGE;
             }
+
+            requestedPercentiles = parseRequestedPercentiles(initText);
         } catch (Exception ex) {
-            LogManager.getLogger(getClass()).debug("Cannot initialize with \"{}\"", initText, ex);
+            LogManager.getLogger(getClass()).error("Cannot initialize \"{}\" with init text \"{}\"", descriptor.getLongName(), initText, ex);
             monitoredMeasurement = null;
         }
     }
@@ -250,6 +282,10 @@ public class StatisticalMeasurement extends MeasurementBase {
     public int getNbDataPoints() {
         collectData();
         return nbDataPoints;
+    }
+
+    public List<Integer> getRequestedPercentiles() {
+        return requestedPercentiles;
     }
 
     public double getPercentile(int percentile) {
@@ -297,7 +333,7 @@ public class StatisticalMeasurement extends MeasurementBase {
                     nbDataPoints = data.size();
                     sum = data.stream()
                             .reduce(Double::sum)
-                            .orElse(0.0);
+                            .orElse(Double.NaN);
                     average = sum / nbDataPoints;
 
                     if (data.isEmpty()) {

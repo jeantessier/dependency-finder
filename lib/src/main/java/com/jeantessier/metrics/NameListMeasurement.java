@@ -86,10 +86,6 @@ public class NameListMeasurement extends MeasurementBase implements CollectionMe
         visitor.visitNameListMeasurement(this);
     }
 
-    public Number getValue() {
-        return values.size();
-    }
-
     public boolean isEmpty() {
         return values.isEmpty();
     }

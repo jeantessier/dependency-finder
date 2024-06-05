@@ -39,8 +39,8 @@ import org.junit.*;
 
 import java.io.*;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
 public class TestMethod_info {
     private static final int TEST_ACCESS_FLAG = 0x0008;

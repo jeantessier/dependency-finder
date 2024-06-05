@@ -151,7 +151,7 @@ public class Metrics {
     }
 
     public boolean hasMeasurement(String name) {
-        return measurements.get(name) != null;
+        return measurements.containsKey(name);
     }
     
     public Collection<String> getMeasurementNames() {

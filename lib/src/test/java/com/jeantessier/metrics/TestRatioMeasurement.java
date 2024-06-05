@@ -261,7 +261,7 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
     }
 
     public void testInLowerBoundRange() throws Exception {
-        descriptor.setLowerThreshold(1);
+        descriptor.setLowerThreshold(1.0);
 
         measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
         
@@ -297,7 +297,7 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
     }
 
     public void testInBoundRange() throws Exception {
-        descriptor.setLowerThreshold(1);
+        descriptor.setLowerThreshold(1.0);
         descriptor.setUpperThreshold(1.5);
 
         measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);

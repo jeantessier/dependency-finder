@@ -336,7 +336,7 @@ public class MetricsFactory {
             try {
                 metrics.track(descriptor.createMeasurement(metrics));
             } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
-                LogManager.getLogger(getClass()).warn("Unable to create measurement \"{}\"", descriptor.getShortName(), ex);
+                LogManager.getLogger(getClass()).warn("\"{}\" is unable to track \"{}\"", metrics.getName(), descriptor.getShortName(), ex);
             }
         });
     }

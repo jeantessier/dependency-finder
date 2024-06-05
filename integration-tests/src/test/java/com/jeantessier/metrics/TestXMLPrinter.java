@@ -76,7 +76,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         buffer = new StringWriter();
         configuration = new MetricsConfigurationLoader().load(CONFIGURATION_FILENAME);
 
-	boolean validate = Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE");
+	    boolean validate = Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE");
 
         reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
         reader.setFeature("http://xml.org/sax/features/validation", validate);

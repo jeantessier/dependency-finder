@@ -37,8 +37,8 @@ import org.jmock.imposters.*;
 import org.jmock.integration.junit4.*;
 import org.junit.*;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
 public class TestClass_info {
     private static final int CLASS_NAME_INDEX = 1;

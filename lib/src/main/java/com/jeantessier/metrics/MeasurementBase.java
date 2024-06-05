@@ -36,6 +36,8 @@ import org.apache.oro.text.perl.*;
 
 import com.jeantessier.text.*;
 
+import java.util.*;
+
 public abstract class MeasurementBase implements Measurement {
     private static final Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
 
@@ -101,42 +103,25 @@ public abstract class MeasurementBase implements Measurement {
     }
 
     public boolean isInRange() {
-        boolean result = true;
+        var descriptor = Optional.ofNullable(getDescriptor());
 
-        if (getDescriptor() != null) {
-            Comparable lowerThreshold = getDescriptor().getLowerThreshold();
-            Comparable upperThreshold = getDescriptor().getUpperThreshold();
-
-            if (result && lowerThreshold != null) {
-                if (lowerThreshold instanceof String) {
-                    try {
-                        result = Double.parseDouble((String) lowerThreshold) <= compute();
-                    } catch (NumberFormatException ex) {
-                        // Ignore
-                    }
-                } else if (lowerThreshold instanceof Number) {
-                    result = ((Number) lowerThreshold).doubleValue() <= compute();
-                } else {
-                    result = lowerThreshold.compareTo(getValue()) <= 0;
-                }
-            }
-            
-            if (result && upperThreshold != null) {
-                if (upperThreshold instanceof String) {
-                    try {
-                        result = Double.parseDouble((String) upperThreshold) >= compute();
-                    } catch (NumberFormatException ex) {
-                        // Ignore
-                    }
-                } else if (upperThreshold instanceof Number) {
-                    result = ((Number) upperThreshold).doubleValue() >= compute();
-                } else {
-                    result = upperThreshold.compareTo(getValue()) >= 0;
-                }
-            }
+        // Check the lower threshold, if present
+        if (descriptor
+                .map(MeasurementDescriptor::getLowerThreshold)
+                .map(lowerThreshold -> lowerThreshold > compute())
+                .orElse(false)) {
+            return false;
         }
-        
-        return result;
+
+        // Check the upper threshold, if present
+        if (descriptor
+                .map(MeasurementDescriptor::getUpperThreshold)
+                .map(upperThreshold -> upperThreshold < compute())
+                .orElse(false)) {
+            return false;
+        }
+
+        return true;
     }
     
     public void add(Object object) {

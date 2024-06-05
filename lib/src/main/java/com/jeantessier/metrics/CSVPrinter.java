@@ -32,9 +32,11 @@
 
 package com.jeantessier.metrics;
 
-import java.io.PrintWriter;
-import java.util.Iterator;
-import java.util.List;
+import java.io.*;
+import java.util.*;
+import java.util.stream.*;
+
+import static java.util.stream.Collectors.*;
 
 public class CSVPrinter extends Printer {
     private final List<MeasurementDescriptor> descriptors;
@@ -54,90 +56,69 @@ public class CSVPrinter extends Printer {
     }
     
     private void appendLongNames() {
-        append("\"name\", ");
-        
-        Iterator<MeasurementDescriptor> i = descriptors.iterator();
-        while (i.hasNext()) {
-            MeasurementDescriptor descriptor = i.next();
-
-            if (descriptor.isVisible()) {
-                if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
-                    append("\"").append(descriptor.getLongName()).append("\", ");
-                    append("\"").append(descriptor.getLongName()).append("\", ");
-                    append("\"").append(descriptor.getLongName()).append("\", ");
-                    append("\"").append(descriptor.getLongName()).append("\", ");
-                    append("\"").append(descriptor.getLongName()).append("\", ");
-                    append("\"").append(descriptor.getLongName()).append("\", ");
-                    append("\"").append(descriptor.getLongName()).append("\"");
-                } else {
-                    append("\"").append(descriptor.getLongName()).append("\"");
-                }
-                
-                if (i.hasNext()) {
-                    append(", ");
-                }
-            }
-        }
-        
+        append(
+                Stream.concat(
+                        Stream.of("name"),
+                        descriptors.stream()
+                                .filter(descriptor -> isShowHiddenMeasurements() || descriptor.isVisible())
+                                .flatMap(descriptor -> {
+                                    if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
+                                        return IntStream.rangeClosed(1, StatisticalMeasurement.countValues(descriptor.getInitText())).mapToObj(n -> descriptor.getLongName());
+                                    } else {
+                                        return Stream.of(descriptor.getLongName());
+                                    }
+                                })
+                        )
+                        .map(name -> name.isEmpty() ? "" : "\"" + name + "\"")
+                        .collect(joining(", ")));
         eol();
     }
 
     private void appendShortNames() {
-        append(", ");
-        
-        Iterator<MeasurementDescriptor> i = descriptors.iterator();
-        while (i.hasNext()) {
-            MeasurementDescriptor descriptor = i.next();
-
-            if (descriptor.isVisible()) {
-                if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
-                    append("\"").append(descriptor.getShortName()).append("\", ");
-                    append("\"").append(descriptor.getShortName()).append("\", ");
-                    append("\"").append(descriptor.getShortName()).append("\", ");
-                    append("\"").append(descriptor.getShortName()).append("\", ");
-                    append("\"").append(descriptor.getShortName()).append("\", ");
-                    append("\"").append(descriptor.getShortName()).append("\", ");
-                    append("\"").append(descriptor.getShortName()).append("\"");
-                } else {
-                    append("\"").append(descriptor.getShortName()).append("\"");
-                }
-                
-                if (i.hasNext()) {
-                    append(", ");
-                }
-            }
-        }
-        
+        append(
+                Stream.concat(
+                        Stream.of(""),
+                        descriptors.stream()
+                                .filter(descriptor -> isShowHiddenMeasurements() || descriptor.isVisible())
+                                .flatMap(descriptor -> {
+                                    if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
+                                        return IntStream.rangeClosed(1, StatisticalMeasurement.countValues(descriptor.getInitText())).mapToObj(n -> descriptor.getShortName());
+                                    } else {
+                                        return Stream.of(descriptor.getShortName());
+                                    }
+                                })
+                        )
+                        .map(name -> name.isEmpty() ? "" : "\"" + name + "\"")
+                        .collect(joining(", ")));
         eol();
     }
 
     private void appendStatSubNames() {
-        append(", ");
-        
-        Iterator<MeasurementDescriptor> i = descriptors.iterator();
-        while (i.hasNext()) {
-            MeasurementDescriptor descriptor = i.next();
-
-            if (descriptor.isVisible()) {
-                if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
-                    append("minimum, ");
-                    append("median, ");
-                    append("average, ");
-                    append("std dev, ");
-                    append("maxium, ");
-                    append("sum, ");
-                    append("nb");
-                }
-                
-                if (i.hasNext()) {
-                    append(", ");
-                }
-            }
-        }
-        
+        append(
+                Stream.concat(
+                                Stream.of(""),
+                                descriptors.stream()
+                                        .filter(descriptor -> isShowHiddenMeasurements() || descriptor.isVisible())
+                                        .flatMap(descriptor -> {
+                                            if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
+                                                try {
+                                                    return Stream.concat(
+                                                            Stream.of("minimum", "median", "average", "std dev", "maximum", "sum", "nb"),
+                                                            StatisticalMeasurement.parseRequestedPercentiles(descriptor.getInitText()).stream().map(percentile -> "p" + percentile)
+                                                    );
+                                                } catch (IOException e) {
+                                                    return Stream.of("minimum", "median", "average", "std dev", "maximum", "sum", "nb");
+                                                }
+                                            } else {
+                                                return Stream.of("");
+                                            }
+                                        })
+                        )
+                        .map(name -> name.isEmpty() ? "" : "\"" + name + "\"")
+                        .collect(joining(", ")));
         eol();
     }
-            
+
     public void visitMetrics(Metrics metrics) {
         if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
             append("\"").append(metrics.getName()).append("\", ");
@@ -162,13 +143,21 @@ public class CSVPrinter extends Printer {
     }
 
     public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
-        append(measurement.getMinimum()).append(", ");
-        append(measurement.getMedian()).append(", ");
-        append(measurement.getAverage()).append(", ");
-        append(measurement.getStandardDeviation()).append(", ");
-        append(measurement.getMaximum()).append(", ");
-        append(measurement.getSum()).append(", ");
-        append(measurement.getNbDataPoints());
+        append(
+                Stream.concat(
+                        Stream.of(
+                                measurement.getMinimum(),
+                                measurement.getMedian(),
+                                measurement.getAverage(),
+                                measurement.getStandardDeviation(),
+                                measurement.getMaximum(),
+                                measurement.getSum(),
+                                measurement.getNbDataPoints()
+                        ),
+                        measurement.getRequestedPercentiles().stream().map(measurement::getPercentile)
+                )
+                .map(String::valueOf)
+                .collect(joining(", ")));
     }
     
     protected void visitMeasurement(Measurement measurement) {

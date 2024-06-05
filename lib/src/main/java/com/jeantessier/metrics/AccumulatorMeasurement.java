@@ -106,10 +106,6 @@ public abstract class AccumulatorMeasurement extends MeasurementBase implements 
         });
     }
 
-    public Number getValue() {
-        return getValues().size();
-    }
-
     public boolean isEmpty() {
         return getValues().isEmpty();
     }

@@ -269,7 +269,7 @@ public class TestMetricsConfigurationLoader extends TestCase {
         assertEquals(com.jeantessier.metrics.CounterMeasurement.class, descriptor.getClassFor());
         assertNull("descriptor.Init()", descriptor.getInitText());
         assertNull("descriptor.LowerThreshold()", descriptor.getLowerThreshold());
-        assertEquals("descriptor.UpperThreshold()", "50", descriptor.getUpperThreshold());
+        assertEquals("descriptor.UpperThreshold()", 50, descriptor.getUpperThreshold(), 0.01);
     }
 
     public void testGroupDefinitions() throws IOException, SAXException, ParserConfigurationException {
