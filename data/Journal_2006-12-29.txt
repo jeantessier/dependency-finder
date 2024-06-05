@@ -12,5 +12,12 @@ Looked at fixing the Clover code coverage build file.  Got rid of the section
 on jcoverage, since I can't seem to find a version of it that does not require
 Eclipse.
 
-Added a link to my LinkedIn profile at the top of my "Jean's Journal" blog.
-[[http://www.linkedin.com/in/jeantessier][http://www.linkedin.com/img/webpromo/btn%5Fliprofile%5Fblue%5F80x15.gif]]
+Added a link to my LinkedIn profile
+<label for%3D"mn-2006-12-29-linkedin" class%3D"margin-toggle">&#8853;</label>
+<input type%3D"checkbox" id%3D"mn-2006-12-29-linkedin" class%3D"margin-toggle"/>
+<span class%3D"marginnote">
+    Jean Tessier on <a target%3D"_blank" href%3D"https://www.linkedin.com/in/jeantessier">LinkedIn</a><br />
+    <img src%3D"https://www.linkedin.com/img/webpromo/btn%5Fliprofile%5Fblue%5F80x15.gif" width%3D"80" height%3D"15" border%3D"0" alt%3D"View Jean Tessier's LinkedIn profile"/>
+</span>
+at the top of my "Jean's Journal" blog.
+ 

@@ -98,7 +98,12 @@ sub PrintDocumentHeader {
     print "<body>\n";
     print "\n";
     print "<article>\n";
+    print "<section>\n";
     print "<h1>$title</h1>\n";
+    print "<p>\n";
+    print @subtitle;
+    print "</p>\n";
+    print "</section>\n";
     print "\n";
 }
 
