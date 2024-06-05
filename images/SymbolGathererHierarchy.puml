@@ -2,6 +2,7 @@
 
 skin rose
 skinparam style strictuml
+skinparam backgroundColor transparent
 
 hide empty members
 

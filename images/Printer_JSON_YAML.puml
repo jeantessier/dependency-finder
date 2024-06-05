@@ -2,107 +2,110 @@
 
 skin rose
 skinparam style strictuml
+skinparam backgroundColor transparent
+
+set separator none
 hide empty members
 
-namespace com.jeantessier.classreader {
+package com.jeantessier.classreader {
 
-    interface Visitor <<interface>>
+    interface classreader.Visitor as "Visitor" <<interface>>
 
-    abstract class VisitorBase
-    Visitor <|.. VisitorBase
+    abstract class classreader.VisitorBase as "VisitorBase"
+    classreader.Visitor <|.. classreader.VisitorBase
 
-    abstract class Printer
-    VisitorBase <|-- Printer
+    abstract class classreader.Printer as "Printer"
+    classreader.VisitorBase <|-- classreader.Printer
 
-    class DeprecationPrinter
-    Printer <|-- DeprecationPrinter
+    class classreader.DeprecationPrinter as "DeprecationPrinter"
+    classreader.Printer <|-- classreader.DeprecationPrinter
 
-    class TextPrinter
-    Printer <|-- TextPrinter
+    class classreader.TextPrinter as "TextPrinter"
+    classreader.Printer <|-- classreader.TextPrinter
 
-    class XMLPrinter
-    Printer <|-- XMLPrinter
+    class classreader.XMLPrinter as "XMLPrinter"
+    classreader.Printer <|-- classreader.XMLPrinter
 
-    class JSONPrinter #lightgreen
-    Printer <|-- JSONPrinter
-    DeprecationPrinter -[hidden]-> JSONPrinter
+    class classreader.JSONPrinter as "JSONPrinter" #lightgreen
+    classreader.Printer <|-- classreader.JSONPrinter
+    classreader.DeprecationPrinter -[hidden]-> classreader.JSONPrinter
 
-    class YAMLPrinter #lightgreen
-    Printer <|-- YAMLPrinter
-    TextPrinter -[hidden]-> YAMLPrinter
-
-}
-
-namespace com.jeantessier.dependency {
-
-    interface Visitor <<interface>>
-
-    abstract class VisitorBase
-    Visitor <|.. VisitorBase
-
-    abstract class Printer
-    VisitorBase <|-- Printer
-
-    class HTMLPrinter
-    Printer <|-- HTMLPrinter
-
-    class TextPrinter
-    Printer <|-- TextPrinter
-
-    class XMLPrinter
-    Printer <|-- XMLPrinter
-
-    class JSONPrinter #lightgreen
-    Printer <|-- JSONPrinter
-    HTMLPrinter -[hidden]-> JSONPrinter
-
-    class YAMLPrinter #lightgreen
-    Printer <|-- YAMLPrinter
-    TextPrinter -[hidden]-> YAMLPrinter
+    class classreader.YAMLPrinter as "YAMLPrinter" #lightgreen
+    classreader.Printer <|-- classreader.YAMLPrinter
+    classreader.TextPrinter -[hidden]-> classreader.YAMLPrinter
 
 }
 
-namespace com.jeantessier.diff {
+package com.jeantessier.dependency {
 
-    interface Visitor <<interface>>
+    interface dependency.Visitor as "Visitor" <<interface>>
 
-    abstract class VisitorBase
-    Visitor <|.. VisitorBase
+    abstract class dependency.VisitorBase as "VisitorBase"
+    dependency.Visitor <|.. dependency.VisitorBase
 
-    abstract class Printer
-    VisitorBase <|-- Printer
+    abstract class dependency.Printer as "Printer"
+    dependency.VisitorBase <|-- dependency.Printer
 
-    class ClassReport
-    Printer <|-- ClassReport
+    class dependency.HTMLPrinter as "HTMLPrinter"
+    dependency.Printer <|-- dependency.HTMLPrinter
 
-    class Report
-    Printer <|-- Report
+    class dependency.TextPrinter as "TextPrinter"
+    dependency.Printer <|-- dependency.TextPrinter
+
+    class dependency.XMLPrinter as "XMLPrinter"
+    dependency.Printer <|-- dependency.XMLPrinter
+
+    class classreader.JSONPrinter as "JSONPrinter" as "JSONPrinter" #lightgreen
+    dependency.Printer <|-- dependency.JSONPrinter
+    dependency.HTMLPrinter -[hidden]-> dependency.JSONPrinter
+
+    class dependency.YAMLPrinter as "YAMLPrinter" #lightgreen
+    dependency.Printer <|-- dependency.YAMLPrinter
+    dependency.TextPrinter -[hidden]-> dependency.YAMLPrinter
 
 }
 
-namespace com.jeantessier.metrics {
+package com.jeantessier.diff {
+
+    interface diff.Visitor as "Visitor" <<interface>>
+
+    abstract class diff.VisitorBase as "VisitorBase"
+    diff.Visitor <|.. diff.VisitorBase
+
+    abstract class diff.Printer as "Printer"
+    diff.VisitorBase <|-- diff.Printer
+
+    class diff.ClassReport as "ClassReport"
+    diff.Printer <|-- diff.ClassReport
+
+    class diff.Report as "Report"
+    diff.Printer <|-- diff.Report
+
+}
+
+package com.jeantessier.metrics {
 
     interface MeasurementVisitor <<interface>>
 
-    abstract class Printer
-    MeasurementVisitor <|.. Printer
+    abstract class metrics.Printer as "Printer"
+    MeasurementVisitor <|.. metrics.Printer
 
-    class CSVPrinter
-    Printer <|-- CSVPrinter
+    class metrics.CSVPrinter as "CSVPrinter"
+    metrics.Printer <|-- metrics.CSVPrinter
 
-    class TextPrinter
-    Printer <|-- TextPrinter
+    class metrics.TextPrinter as "TextPrinter"
+    metrics.Printer <|-- metrics.TextPrinter
 
-    class XMLPrinter
-    Printer <|-- XMLPrinter
+    class metrics.XMLPrinter as "XMLPrinter"
+    metrics.Printer <|-- metrics.XMLPrinter
 
-    class JSONPrinter #lightgreen
-    Printer <|-- JSONPrinter
-    CSVPrinter -[hidden]-> JSONPrinter
+    class metrics.JSONPrinter as "JSONPrinter" #lightgreen
+    metrics.Printer <|-- metrics.JSONPrinter
+    metrics.CSVPrinter -[hidden]-> metrics.JSONPrinter
 
-    class YAMLPrinter #lightgreen
-    Printer <|-- YAMLPrinter
-    TextPrinter -[hidden]-> YAMLPrinter
+    class metrics.YAMLPrinter as "YAMLPrinter" #lightgreen
+    metrics.Printer <|-- metrics.YAMLPrinter
+    metrics.TextPrinter -[hidden]-> metrics.YAMLPrinter
 
 }
 

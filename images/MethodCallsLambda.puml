@@ -6,6 +6,7 @@
 
 skin rose
 skinparam style strictuml
+skinparam backgroundColor transparent
 
 ' title Method Calling a Lambda
 

@@ -2,17 +2,16 @@
 
 skin rose
 skinparam style strictuml
-
-' Your diagram here!
+skinparam backgroundColor transparent
 
 interface Measurement <<interface>> {
-  value
+    value
 }
 
 Measurement <|.. NullMeasurement
 
 interface CollectionMeasurement <<interface>> {
-  values
+    values
 }
 Measurement <|-- CollectionMeasurement
 
@@ -20,7 +19,7 @@ abstract MeasurementBase
 Measurement <|.. MeasurementBase
 
 abstract AccumulatorMeasurement {
-  terms
+    terms
 }
 MeasurementBase <|-- AccumulatorMeasurement
 CollectionMeasurement <|.. AccumulatorMeasurement
@@ -42,44 +41,44 @@ MeasurementBase <|-- NameListMeasurement
 CollectionMeasurement <|.. NameListMeasurement
 
 class NbSubMetricsMeasurement {
-  terms
+    terms
 }
 MeasurementBase <|-- NbSubMetricsMeasurement
 
 class RatioMeasurement {
-  base
-  divider
+    base
+    divider
 }
 MeasurementBase <|-- RatioMeasurement
 
 class StatisticalMeasurement {
-  monitoredMeasurement
-  data
-  minimum
-  median
-  average
-  standardDeviation
-  maximum
-  sum
-  nbDataPoints
+    monitoredMeasurement
+    data
+    minimum
+    median
+    average
+    standardDeviation
+    maximum
+    sum
+    nbDataPoints
 }
 MeasurementBase <|-- StatisticalMeasurement
 
 class SumMeasurement {
-  terms
+    terms
 }
 MeasurementBase <|-- SumMeasurement
 
-class MeasurementDescriptor #white {
-  shortName
-  longName
-  classFor
-  initText
+class MeasurementDescriptor #transparent {
+    shortName
+    longName
+    classFor
+    initText
 }
 Measurement -> MeasurementDescriptor
 
-class Metrics #white {
-  name
+class Metrics #transparent {
+    name
 }
 Metrics o- "*" Metrics : submetrics
 Metrics -- Measurement

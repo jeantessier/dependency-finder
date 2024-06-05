@@ -2,112 +2,127 @@
 
 skin rose
 skinparam style strictuml
+skinparam backgroundColor transparent
 
-package java_util as "java.util" {
-  interface EventListener <<interface>> #white
+set separator none
+
+package java.util {
+
+    interface EventListener <<interface>> #transparent
+
 }
 
-package com_jeantessier_classreader as "com.jeantessier.classreader" {
-class LoadEvent {
-  groupName
-  filename
-  classfile
-  size
+package com.jeantessier.classreader {
+
+    class LoadEvent {
+        groupName
+        filename
+        classfile
+        size
+    }
+
+    interface LoadListener <<interface>> {
+        beginSession()
+        beginGroup()
+        beginFile()
+        beginClassfile()
+        endClassfile()
+        endFile()
+        endGroup()
+        endSesion()
+    }
+    EventListener <|-- LoadListener
+    LoadListener .> LoadEvent
+
+    class LoadListenerDecorator
+    LoadListener <|.. LoadListenerDecorator
+    LoadListenerDecorator --> LoadListener : delegate
+
+    class MultiReleaseFilter #lightgreen {
+        maximumJdkVersion
+        beginFile()
+        beginClassfile()
+        endClassfile()
+        endFile()
+    }
+    LoadListenerDecorator <|-- MultiReleaseFilter
+
+    class FilteringLoadListener
+    LoadListenerDecorator <|-- FilteringLoadListener
+
+    class ClassfileFilteringLoadListener {
+        beginClassfile()
+        endClassfile()
+    }
+    FilteringLoadListener <|-- ClassfileFilteringLoadListener
+
+    class FileFilteringLoadListener {
+        beginFile()
+        endFile()
+    }
+    FilteringLoadListener <|-- FileFilteringLoadListener
+
+    class GroupFilteringLoadListener {
+        beginGroup()
+        endGroup()
+    }
+    FilteringLoadListener <|-- GroupFilteringLoadListener
+
+    class LoadListenerVisitorAdapter {
+        endClassfile()
+    }
+    LoadListener <|.. LoadListenerVisitorAdapter
+    LoadListenerVisitorAdapter -> Visitor
+
+    class Monitor
+    LoadListenerVisitorAdapter <|-- Monitor
+
+    class LoadListenerBase
+    LoadListener <|.. LoadListenerBase
+
+    interface Visitor <<interface>> {
+        accept(classfile)
+    }
+
+    class PackageMapper
+    LoadListener <|.. PackageMapper
+
 }
 
-interface LoadListener <<interface>> {
-  beginSession()
-  beginGroup()
-  beginFile()
-  beginClassfile()
-  endClassfile()
-  endFile()
-  endGroup()
-  endSesion()
-}
-EventListener <|-- LoadListener
-LoadListener .> LoadEvent
+package com.jeantessier.dependencyfinder {
 
-class LoadListenerDecorator
-LoadListener <|.. LoadListenerDecorator
-LoadListenerDecorator --> LoadListener : delegate
+    class VerboseListenerBase
+    LoadListenerBase <|-- VerboseListenerBase
 
-class MultiReleaseFilter #lightgreen {
-  maximumJdkVersion
-  beginFile()
-  beginClassfile()
-  endClassfile()
-  endFile()
-}
-LoadListenerDecorator <|-- MultiReleaseFilter
-
-class FilteringLoadListener
-LoadListenerDecorator <|-- FilteringLoadListener
-
-class ClassfileFilteringLoadListener {
-  beginClassfile()
-  endClassfile()
-}
-FilteringLoadListener <|-- ClassfileFilteringLoadListener
-
-class FileFilteringLoadListener {
-  beginFile()
-  endFile()
-}
-FilteringLoadListener <|-- FileFilteringLoadListener
-
-class GroupFilteringLoadListener {
-  beginGroup()
-  endGroup()
-}
-FilteringLoadListener <|-- GroupFilteringLoadListener
-
-class LoadListenerVisitorAdapter {
-  endClassfile()
-}
-LoadListener <|.. LoadListenerVisitorAdapter
-LoadListenerVisitorAdapter -> Visitor
-
-class Monitor
-LoadListenerVisitorAdapter <|-- Monitor
-
-class LoadListenerBase
-LoadListener <|.. LoadListenerBase
-
-interface Visitor <<interface>> {
-  accept(classfile)
 }
 
-class PackageMapper
-LoadListener <|.. PackageMapper
+package com.jeantessier.dependencyfinder.ant {
+
+    class ant.VerboseListener as "VerboseListener"
+    VerboseListenerBase <|-- ant.VerboseListener
+
 }
 
-package com_jeantessier_dependencyfinder as "com.jeantessier.dependencyfinder" {
-  class VerboseListenerBase
-  LoadListenerBase <|-- VerboseListenerBase
+package com.jeantessier.dependencyfinder.cli {
+
+    class cli.VerboseListener as "VerboseListener"
+    VerboseListenerBase <|-- cli.VerboseListener
+
+    class ClassMatcher {
+        includes
+        excludes
+    }
+    LoadListenerBase <|-- ClassMatcher
+
 }
 
-package com_jeantessier_dependencyfinder_ant as "com.jeantessier.dependencyfinder.ant" {
-  class VerboseListener
-  VerboseListenerBase <|-- VerboseListener
+package com.jeantessier.dependencyfinder.gui {
+
+    class gui.VerboseListener as "VerboseListener"
+    VerboseListenerBase <|-- gui.VerboseListener
+
 }
 
-package com_jeantessier_dependencyfinder_cli as "com.jeantessier.dependencyfinder.cli" {
-  class VerboseListener
-  VerboseListenerBase <|-- VerboseListener
-
-  class ClassMatcher {
-    includes
-    excludes
-  }
-  LoadListenerBase <|-- ClassMatcher
-}
-
-package com_jeantessier_dependencyfinder_gui as "com.jeantessier.dependencyfinder.gui" {
-  class VerboseListener
-  VerboseListenerBase <|-- VerboseListener
-}
-
-com_jeantessier_classreader --[hidden]--> com_jeantessier_dependencyfinder
+com.jeantessier.classreader --[hidden]--> com.jeantessier.dependencyfinder
 
 @enduml
