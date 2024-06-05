@@ -1,0 +1,4 @@
+Wrote a bunch of unit tests for =CSVPrinter= to specify its exact behavior.
+
+Added =skinparam backgroundColor transparent= to PlantUML diagrams so they look
+better on the Journal page, which gets an off-white background from Tufte CSS.

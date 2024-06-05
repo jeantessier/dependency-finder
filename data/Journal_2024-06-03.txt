@@ -1,0 +1,36 @@
+Fourteen years later after the fact, I find out that
+<label for%3D"mn-2024-06-03-oro" class%3D"margin-toggle">&#8853;</label>
+<input type="checkbox" id%3D"mn-2024-06-03-oro" class%3D"margin-toggle"/>
+<span class%3D"marginnote">"Users are encouraged to use similar features in
+newer Java versions, where available."</span>
+[[https://jakarta.apache.org/oro/][Jakarta ORO has been retired]].  I use it
+all over the place in DependencyFinder, so I will not be ripping it out any
+time soon.  But I might start using =java.util.regex= in select places,
+especially when the Streams API makes it even more powerful.
+
+I came up with a way to request various percentiles as part of the init text
+for =StatisticalMeasurement=.  It was nice and contained in the measurements
+themselves, until I got to =CSVPrinter=.  It prints a header that would need
+column names for each requested percentile, but it hasn't seen the measurements
+at this point.  It operates solely in terms of descriptors, and the descriptors
+are measurement type agnostic.  The printer already has a special case for
+=StatisticalMeasurement=, so I could call static methods of this class to help
+me figure out the percentile columns.
+
+I found a troubling bug in =com.jeantessier.metrics.TextPrinter=.  It renders
+all metrics according to the project-level measurement descriptors.  It renders
+group-level, class-level, and method-level metrics as if they had been
+populated with the project-level descriptors.  This means that it does not
+render any measurement whose name does not appear among the top, project-level
+configuration.
+<label for%3D"mn-2024-06-03-text-printer" class%3D"margin-toggle">&#8853;</label>
+<input type="checkbox" id%3D"mn-2024-06-03-text-printer" class%3D"margin-toggle"/>
+<span class%3D"marginnote">I first noticed it when my class-level report in CSV had a
+"Character Count" =CNCC= measurement that did not appear in text reports,
+even though all the other switches were the same.</span>
+Most of the other printers,
+=JSONPrinter=, =XMLPrinter=, and =YAMLPrinter=, explicitly navigate down to
+each level and pass on the appropriate collection of descriptors.  For
+=CSVPrinter=, it is done externally by the calling tools.  But =TextPrinter=
+uses a single collection of descriptors for all metrics and this needs to be
+fixed.
