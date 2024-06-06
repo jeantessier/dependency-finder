@@ -1833,7 +1833,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-parameters-attribute", 1);
     }
 
-    public void testVisitMethodParameter() throws Exception {
+    public void testVisitMethodParameter_withAllSubElements() throws Exception {
         final MethodParameter methodParameter = mock(MethodParameter.class);
         final int accessFlags = 123;
         final String expectedAccessFlags = "00000000 01111011"; // 123 in binary
@@ -1841,16 +1841,16 @@ public class TestXMLPrinter extends MockObjectTestCase {
 
         checking(new Expectations() {{
             oneOf (methodParameter).getRawName();
-                will(returnValue(mockUtf8_info));
+            will(returnValue(mockUtf8_info));
             oneOf (mockUtf8_info).accept(printer);
             oneOf (methodParameter).getAccessFlags();
-                will(returnValue(accessFlags));
+            will(returnValue(accessFlags));
             oneOf (methodParameter).isFinal();
-                will(returnValue(true));
+            will(returnValue(true));
             oneOf (methodParameter).isSynthetic();
-                will(returnValue(true));
+            will(returnValue(true));
             oneOf (methodParameter).isMandated();
-                will(returnValue(true));
+            will(returnValue(true));
         }});
 
         printer.visitMethodParameter(methodParameter);
@@ -1863,6 +1863,36 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-parameter/final", 1);
         assertXPathCount(xmlDocument, "method-parameter/synthetic", 1);
         assertXPathCount(xmlDocument, "method-parameter/mandated", 1);
+    }
+
+    public void testVisitMethodParameter_noSubElements() throws Exception {
+        final MethodParameter methodParameter = mock(MethodParameter.class);
+        final int accessFlags = 0;
+        final String expectedAccessFlags = "00000000 00000000";
+
+        checking(new Expectations() {{
+            oneOf (methodParameter).getRawName();
+                will(returnValue(null));
+            oneOf (methodParameter).getAccessFlags();
+                will(returnValue(accessFlags));
+            oneOf (methodParameter).isFinal();
+                will(returnValue(false));
+            oneOf (methodParameter).isSynthetic();
+                will(returnValue(false));
+            oneOf (methodParameter).isMandated();
+                will(returnValue(false));
+        }});
+
+        printer.visitMethodParameter(methodParameter);
+
+        String xmlDocument = buffer.toString();
+        assertXPathCount(xmlDocument, "method-parameter", 1);
+        assertXPathCount(xmlDocument, "method-parameter/@access-flags", 1);
+        assertXPathText(xmlDocument, "method-parameter/@access-flags", expectedAccessFlags);
+        assertXPathCount(xmlDocument, "method-parameter/name", 0);
+        assertXPathCount(xmlDocument, "method-parameter/final", 0);
+        assertXPathCount(xmlDocument, "method-parameter/synthetic", 0);
+        assertXPathCount(xmlDocument, "method-parameter/mandated", 0);
     }
 
     public void testVisitModule_attributeWithVersion() throws Exception {

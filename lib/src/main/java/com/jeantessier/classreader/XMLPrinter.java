@@ -1196,10 +1196,13 @@ public class XMLPrinter extends Printer {
         indent().append("<method-parameter access-flags=\"").append(format.format(helper.getAccessFlags())).append("\">").eol();
         raiseIndent();
 
-        indent();
-        append("<name>");
-        helper.getRawName().accept(this);
-        append("</name>").eol();
+        Optional.ofNullable(helper.getRawName())
+                .ifPresent(rawName -> {
+                    indent();
+                    append("<name>");
+                    rawName.accept(this);
+                    append("</name>").eol();
+                });
 
         if (helper.isFinal())     indent().append("<final/>").eol();
         if (helper.isSynthetic()) indent().append("<synthetic/>").eol();
