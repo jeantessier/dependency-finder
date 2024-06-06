@@ -604,7 +604,7 @@
 
 <!ELEMENT method-parameters-attribute (method-parameter*) >
 
-<!ELEMENT method-parameter (name, final?, synthetic?, mandated?) >
+<!ELEMENT method-parameter (name?, final?, synthetic?, mandated?) >
 <!ATTLIST method-parameter
           access-flags CDATA #REQUIRED
 >
