@@ -1,0 +1,140 @@
+Found another problem, and this one is a big one.
+
+I've always assumed field names and method signatures were unique within a
+given class.  After all, the Java language specification states that:
+
+<blockquote cite="https://docs.oracle.com/javase/specs/jls/se22/html/jls-8.html#jls-8.3">
+
+It is a compile-time error for the body of a class declaration to declare two fields
+with the same name.
+
+<footer>[[https://docs.oracle.com/javase/specs/jls/se22/html/jls-8.html#jls-8.3][The Java Language Specification &sect;8.3 Field Declarations]]</footer>
+</blockquote>
+
+<blockquote cite="https://docs.oracle.com/javase/specs/jls/se22/html/jls-8.html#jls-8.4.2">
+
+It is a compile-time error to declare two methods with override-equivalent
+signatures in a class.
+
+<footer>[[https://docs.oracle.com/javase/specs/jls/se22/html/jls-8.html#jls-8.4.2][The Java Language Specification &sect;8.4.2 Method Signature]]</footer>
+</blockquote>
+
+While this is true for Java code that you feed to the compiler, it is not
+strictly true inside the classfile structure.  Bridge methods are allowed to
+share a signature with the method they are a bridge for.  Here is an example.
+
+Suppose an interface package =a=.
+
+    package a;
+    &nbsp;
+    public interface Foo {}
+    &nbsp;
+    public interface FooCreator {
+        Foo buildFrom(String name);
+    }
+
+And its implementation package =a.impl=:
+
+    package a.impl;
+    &nbsp;
+    public class Foo implements a.Foo {}
+    &nbsp;
+    public class FooBuilder implements a.FooBuilder {
+        public Foo buildFrom(String name) {
+            return new Foo();
+        }
+    }
+
+The interface method =a.FooBuilder.buildFrom(String)= returns an instance of
+interface =a.Foo=.  The implementation method
+=a.impl.FooBuilder.buildFrom(String)= is returning an instance of class
+=a.impl.Foo=.  This is legal, since =a.impl.Foo= _is a_ =a.Foo=.  While the
+methods' _signatures_ match, their _descriptors_ do not, because the return
+types are different.
+
+To resolve this, the compiler generates a _bridge method_ in
+=a.impl.FooBuilder= that reconciles the descriptors.  It has the same signature
+as the implementation method, but the descriptor matches the one from the
+interface.  It is as if the implementation<label for%3D"sn-2024-06-05-bridge-method" class%3D"margin-toggle sidenote-number"></label>
+<input type%3D"checkbox" id%3D"sn-2024-06-05-bridge-method" class%3D"margin-toggle">
+<span class%3D"sidenote">This code will not compile because there are two methods
+with the signature =buildFor(String)=.</span>
+had been:
+
+    package a.impl;
+    &nbsp;
+    public class Foo implements a.Foo {}
+    &nbsp;
+    public class FooBuilder implements a.FooBuilder {
+        public Foo buildFrom(String name) {
+            return new Foo();
+        }
+        &nbsp;
+        *public a.Foo buildFrom(String name) {*
+            *return buildFrom(name);* // meaning, the other method defined above
+        *}*
+    }
+
+In this case, you could fix it by explicitly returning the interface type
+in the declaration of the implementation method.
+
+    package a.impl;
+    &nbsp;
+    public class FooBuilder implements a.FooBuilder {
+        public *a.Foo* buildFrom(String name) {
+            return new Foo();
+        }
+    }
+
+But this may be impractical if package names are long, or if the result is
+one method with a very long declation when all the other methods oin the class
+are much more concise.
+
+Sometimes, it is inevitable.  Consider the following interface and its
+implementation.
+<label for%3D"mn-2024-06-05-method-parameter-name-bug" class%3D"margin-toggle">&#8853;</label>
+<input type%3D"checkbox" id%3D"mn-2024-06-05-method-parameter-name-bug" class%3D"margin-toggle"/>
+<span class%3D"marginnote">Funnily, when I tried to run =ClassReader= on this
+=Wrapper= class, I found another bug.  A name deep inside an attribute
+structure turns out to be optional and, my code assumed it was always
+present.</span>
+
+    public class Wrapper&lt;T&gt; implements Comparable&lt;Wrapper&lt;T&gt;&gt; {
+        private final T wrappedObject;
+        &nbsp;
+        public Wrapper(T object) {
+            wrappedObject = object;
+        }
+        &nbsp;
+        public int compareTo(Wrapper&lt;T&gt; other) {
+            // Implementation compares
+            // "this" to "other" and returns
+            // -1, 0, or 1 as appropriate.
+        }
+    }
+
+After type erasure, =Comparable= demands a method with the signature
+=compareTo(java.lang.Object)=.  But the compiler demands that we write a method
+with the signature =compareTo(Wrapper&lt;T&gt;)=.  We will not be able to avoid
+this bridge method.
+
+=Classfile= stores a collection of methods, so the bridge methods and the
+methods they are bridging are present and accounted for.
+
+Now, for the bug.  There are times in Dependency Finder when I use maps to
+store information about methods.  These maps are keyed on the methods'
+signature.  For example:
+
+    * =FeatureNode= in a dependency graph
+    * method-related differences
+    * method-related metrics
+    * =Classfile.getMethod(String)= will return the first method witha a matching signature, but it searches the methods in a indeterminate order.
+
+Depending on the case, two methods with the same signatures may end up merged
+together (this is the case in dependency graphs), or one method may completely
+mask the other (this is the case in difference reports).
+
+I will need to identify all the places where I use a maps keyed on method
+signatures and figure out an alternative implementation, including changing
+assumptions downstream from them that methods signatures are unique within a
+class.
