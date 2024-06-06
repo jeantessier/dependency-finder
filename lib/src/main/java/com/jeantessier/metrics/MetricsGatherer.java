@@ -290,28 +290,39 @@ public class MetricsGatherer extends VisitorBase {
             getCurrentClass().addToMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES, fullName);
         }
 
-        if (entry.isStatic()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.STATIC_ATTRIBUTES, fullName);
-        }
-
         if (entry.isFinal()) {
             getCurrentClass().addToMeasurement(BasicMeasurements.FINAL_ATTRIBUTES, fullName);
         }
 
-        if (entry.isVolatile()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.VOLATILE_ATTRIBUTES, fullName);
+        if (entry.isDeprecated()) {
+            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_ATTRIBUTES, fullName);
+        }
+
+        if (entry.isSynthetic()) {
+            getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_ATTRIBUTES, fullName);
+        }
+
+        if (entry.isStatic()) {
+            getCurrentClass().addToMeasurement(BasicMeasurements.STATIC_ATTRIBUTES, fullName);
         }
 
         if (entry.isTransient()) {
             getCurrentClass().addToMeasurement(BasicMeasurements.TRANSIENT_ATTRIBUTES, fullName);
         }
 
+        if (entry.isVolatile()) {
+            getCurrentClass().addToMeasurement(BasicMeasurements.VOLATILE_ATTRIBUTES, fullName);
+        }
+
+        if (entry.isEnum()) {
+            getCurrentClass().addToMeasurement(BasicMeasurements.ENUM_ATTRIBUTES, fullName);
+        }
+
         sloc = 1;
-        isSynthetic = entry.isSynthetic();
-        
+
         super.visitField_info(entry);
         
-        if (!isSynthetic) {
+        if (!entry.isSynthetic()) {
             getCurrentClass().addToMeasurement(BasicMeasurements.CLASS_SLOC, sloc);
         }
 
@@ -334,8 +345,7 @@ public class MetricsGatherer extends VisitorBase {
         LogManager.getLogger(getClass()).debug("Static: {}", () -> entry.isStatic());
 
         sloc = 0;
-        isSynthetic = entry.isSynthetic();
-        
+
         if (entry.isPublic()) {
             getCurrentClass().addToMeasurement(BasicMeasurements.PUBLIC_METHODS, fullSignature);
         } else if (entry.isPrivate()) {
@@ -346,20 +356,8 @@ public class MetricsGatherer extends VisitorBase {
             getCurrentClass().addToMeasurement(BasicMeasurements.PACKAGE_METHODS, fullSignature);
         }
 
-        if (entry.isStatic()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.STATIC_METHODS, fullSignature);
-        }
-
         if (entry.isFinal()) {
             getCurrentClass().addToMeasurement(BasicMeasurements.FINAL_METHODS, fullSignature);
-        }
-
-        if (entry.isSynchronized()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.SYNCHRONIZED_METHODS, fullSignature);
-        }
-
-        if (entry.isNative()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.NATIVE_METHODS, fullSignature);
         }
 
         if (entry.isAbstract()) {
@@ -367,11 +365,39 @@ public class MetricsGatherer extends VisitorBase {
             sloc = 1;
         }
 
+        if (entry.isDeprecated()) {
+            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_METHODS, fullSignature);
+        }
+
+        if (entry.isStatic()) {
+            getCurrentClass().addToMeasurement(BasicMeasurements.STATIC_METHODS, fullSignature);
+        }
+
+        if (entry.isSynchronized()) {
+            getCurrentClass().addToMeasurement(BasicMeasurements.SYNCHRONIZED_METHODS, fullSignature);
+        }
+
+        if (entry.isBridge()) {
+            getCurrentClass().addToMeasurement(BasicMeasurements.BRIDGE_METHODS, fullSignature);
+        }
+
+        if (entry.isVarargs()) {
+            getCurrentClass().addToMeasurement(BasicMeasurements.VARARGS_METHODS, fullSignature);
+        }
+
+        if (entry.isNative()) {
+            getCurrentClass().addToMeasurement(BasicMeasurements.NATIVE_METHODS, fullSignature);
+        }
+
+        if (entry.isStrict()) {
+            getCurrentClass().addToMeasurement(BasicMeasurements.STRICT_METHODS, fullSignature);
+        }
+
         getCurrentMethod().addToMeasurement(BasicMeasurements.PARAMETERS, DescriptorHelper.getParameterCount(entry.getDescriptor()));
         
         super.visitMethod_info(entry);
         
-        if (!isSynthetic) {
+        if (!entry.isSynthetic()) {
             getCurrentMethod().addToMeasurement(BasicMeasurements.SLOC, sloc);
         }
 
@@ -496,10 +522,34 @@ public class MetricsGatherer extends VisitorBase {
                 getCurrentClass().addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES, innerClassName);
             }
 
+            if (helper.isInterface()) {
+                getCurrentProject().addToMeasurement(BasicMeasurements.INTERFACE_INNER_CLASSES, innerClassName);
+                groups.forEach(group -> group.addToMeasurement(BasicMeasurements.INTERFACE_INNER_CLASSES, innerClassName));
+                getCurrentClass().addToMeasurement(BasicMeasurements.INTERFACE_INNER_CLASSES, innerClassName);
+            }
+
             if (helper.isAbstract()) {
                 getCurrentProject().addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, innerClassName);
                 groups.forEach(group -> group.addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, innerClassName));
                 getCurrentClass().addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, innerClassName);
+            }
+
+            if (helper.isSynthetic()) {
+                getCurrentProject().addToMeasurement(BasicMeasurements.SYNTHETIC_INNER_CLASSES, innerClassName);
+                groups.forEach(group -> group.addToMeasurement(BasicMeasurements.SYNTHETIC_INNER_CLASSES, innerClassName));
+                getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_INNER_CLASSES, innerClassName);
+            }
+
+            if (helper.isAnnotation()) {
+                getCurrentProject().addToMeasurement(BasicMeasurements.ANNOTATION_INNER_CLASSES, innerClassName);
+                groups.forEach(group -> group.addToMeasurement(BasicMeasurements.ANNOTATION_INNER_CLASSES, innerClassName));
+                getCurrentClass().addToMeasurement(BasicMeasurements.ANNOTATION_INNER_CLASSES, innerClassName);
+            }
+
+            if (helper.isEnum()) {
+                getCurrentProject().addToMeasurement(BasicMeasurements.ENUM_INNER_CLASSES, innerClassName);
+                groups.forEach(group -> group.addToMeasurement(BasicMeasurements.ENUM_INNER_CLASSES, innerClassName));
+                getCurrentClass().addToMeasurement(BasicMeasurements.ENUM_INNER_CLASSES, innerClassName);
             }
         }
     }

@@ -455,8 +455,23 @@
             <class>com.jeantessier.metrics.CounterMeasurement</class>
         </measurement>
         <measurement>
+            <short-name>BM</short-name>
+            <long-name>Bridge Methods</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>VM</short-name>
+            <long-name>Varargs Methods</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
             <short-name>NM</short-name>
             <long-name>Native Methods</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>StrictM</short-name>
+            <long-name>Strict Methods</long-name>
             <class>com.jeantessier.metrics.CounterMeasurement</class>
         </measurement>
         <measurement>
@@ -555,11 +570,38 @@
             </init>
         </measurement>
         <measurement>
+            <short-name>BMR</short-name>
+            <long-name>Ratio of Bridge Methods</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                BM
+                M
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>VMR</short-name>
+            <long-name>Ratio of Varars Methods</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                VM
+                M
+            </init>
+        </measurement>
+        <measurement>
             <short-name>NMR</short-name>
             <long-name>Ratio of Native Methods</long-name>
             <class>com.jeantessier.metrics.RatioMeasurement</class>
             <init>
                 NM
+                M
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>StrictMR</short-name>
+            <long-name>Ratio of Strict Methods</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                StrictM
                 M
             </init>
         </measurement>
@@ -625,6 +667,11 @@
         <measurement>
             <short-name>VA</short-name>
             <long-name>Volatile Attributes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>EA</short-name>
+            <long-name>Enum Attributes</long-name>
             <class>com.jeantessier.metrics.CounterMeasurement</class>
         </measurement>
         <measurement>
@@ -718,6 +765,15 @@
             </init>
         </measurement>
         <measurement>
+            <short-name>EAR</short-name>
+            <long-name>Ratio of Enum Attributes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                EA
+                A
+            </init>
+        </measurement>
+        <measurement>
             <short-name>IC</short-name>
             <long-name>Inner Classes</long-name>
             <class>com.jeantessier.metrics.CounterMeasurement</class>
@@ -743,8 +799,8 @@
             <class>com.jeantessier.metrics.CounterMeasurement</class>
         </measurement>
         <measurement>
-            <short-name>AIC</short-name>
-            <long-name>Abstract Inner Classes</long-name>
+            <short-name>SIC</short-name>
+            <long-name>Static Inner Classes</long-name>
             <class>com.jeantessier.metrics.CounterMeasurement</class>
         </measurement>
         <measurement>
@@ -753,8 +809,28 @@
             <class>com.jeantessier.metrics.CounterMeasurement</class>
         </measurement>
         <measurement>
-            <short-name>SIC</short-name>
-            <long-name>Static Inner Classes</long-name>
+            <short-name>IIC</short-name>
+            <long-name>Interface Inner Classes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>AIC</short-name>
+            <long-name>Abstract Inner Classes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>SynthIC</short-name>
+            <long-name>Synthetic Inner Classes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>AnnIC</short-name>
+            <long-name>Annotation Inner Classes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>EIC</short-name>
+            <long-name>Enum Inner Classes</long-name>
             <class>com.jeantessier.metrics.CounterMeasurement</class>
         </measurement>
         <measurement>
@@ -794,11 +870,11 @@
             </init>
         </measurement>
         <measurement>
-            <short-name>AICR</short-name>
-            <long-name>Ratio of Abstract Inner Classes</long-name>
+            <short-name>SICR</short-name>
+            <long-name>Ratio of Static Inner Classes</long-name>
             <class>com.jeantessier.metrics.RatioMeasurement</class>
             <init>
-                AIC
+                SIC
                 IC
             </init>
         </measurement>
@@ -812,11 +888,47 @@
             </init>
         </measurement>
         <measurement>
-            <short-name>SICR</short-name>
-            <long-name>Ratio of Static Inner Classes</long-name>
+            <short-name>IICR</short-name>
+            <long-name>Ratio of Interface Inner Classes</long-name>
             <class>com.jeantessier.metrics.RatioMeasurement</class>
             <init>
-                SIC
+                IIC
+                IC
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>AICR</short-name>
+            <long-name>Ratio of Abstract Inner Classes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                AIC
+                IC
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>SynthICR</short-name>
+            <long-name>Ratio of Synthetic Inner Classes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                SynthIC
+                IC
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>AnnICR</short-name>
+            <long-name>Ratio of Annotation Inner Classes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                AnnIC
+                IC
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>EICR</short-name>
+            <long-name>Ratio of Enum Inner Classes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                EIC
                 IC
             </init>
         </measurement>

@@ -126,7 +126,8 @@ public class TestMetricsGatherer {
         assertMeasurementEquals(metrics, BasicMeasurements.MINOR_VERSION, classfile.getMinorVersion());
 
         assertMeasurementEquals(metrics, BasicMeasurements.SLOC, 7);
-        assertMeasurementEquals(metrics, "M", 2);
+
+        assertMeasurementEquals(metrics, BasicMeasurements.METHODS, 2);
         assertMeasurementEquals(metrics, BasicMeasurements.PUBLIC_METHODS, 2);
         assertMeasurementEquals(metrics, BasicMeasurements.PROTECTED_METHODS, 0);
         assertMeasurementEquals(metrics, BasicMeasurements.PRIVATE_METHODS, 0);
@@ -137,8 +138,11 @@ public class TestMetricsGatherer {
         assertMeasurementEquals(metrics, BasicMeasurements.SYNTHETIC_METHODS, 0);
         assertMeasurementEquals(metrics, BasicMeasurements.STATIC_METHODS, 1);
         assertMeasurementEquals(metrics, BasicMeasurements.SYNCHRONIZED_METHODS, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.BRIDGE_METHODS, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.VARARGS_METHODS, 0);
         assertMeasurementEquals(metrics, BasicMeasurements.NATIVE_METHODS, 0);
         assertMeasurementEquals(metrics, BasicMeasurements.TRIVIAL_METHODS, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.STRICT_METHODS, 0);
         assertMeasurementEquals(metrics, "PuMR", 1.0);
         assertMeasurementEquals(metrics, "ProMR", 0.0);
         assertMeasurementEquals(metrics, "PriMR", 0.0);
@@ -149,9 +153,13 @@ public class TestMetricsGatherer {
         assertMeasurementEquals(metrics, "SynthMR", 0.0);
         assertMeasurementEquals(metrics, "SMR", 0.5);
         assertMeasurementEquals(metrics, "SynchMR", 0.0);
+        assertMeasurementEquals(metrics, "BMR", 0.0);
+        assertMeasurementEquals(metrics, "VMR", 0.0);
         assertMeasurementEquals(metrics, "NMR", 0.0);
         assertMeasurementEquals(metrics, "TMR", 0.0);
-        assertMeasurementEquals(metrics, "A", 0.0);
+        assertMeasurementEquals(metrics, "StrictMR", 0.0);
+
+        assertMeasurementEquals(metrics, BasicMeasurements.ATTRIBUTES, 0);
         assertMeasurementEquals(metrics, BasicMeasurements.PUBLIC_ATTRIBUTES, 0);
         assertMeasurementEquals(metrics, BasicMeasurements.PROTECTED_ATTRIBUTES, 0);
         assertMeasurementEquals(metrics, BasicMeasurements.PRIVATE_ATTRIBUTES, 0);
@@ -162,6 +170,7 @@ public class TestMetricsGatherer {
         assertMeasurementEquals(metrics, BasicMeasurements.STATIC_ATTRIBUTES, 0);
         assertMeasurementEquals(metrics, BasicMeasurements.TRANSIENT_ATTRIBUTES, 0);
         assertMeasurementEquals(metrics, BasicMeasurements.VOLATILE_ATTRIBUTES, 0);
+        assertMeasurementEquals(metrics, BasicMeasurements.ENUM_ATTRIBUTES, 0);
         assertMeasurementIsNaN(metrics, "PuAR");
         assertMeasurementIsNaN(metrics, "ProAR");
         assertMeasurementIsNaN(metrics, "PriAR");
@@ -172,6 +181,8 @@ public class TestMetricsGatherer {
         assertMeasurementIsNaN(metrics, "SAR");
         assertMeasurementIsNaN(metrics, "TAR");
         assertMeasurementIsNaN(metrics, "VAR");
+        assertMeasurementIsNaN(metrics, "EAR");
+
         assertMeasurementEquals(metrics, BasicMeasurements.SUBCLASSES, 0);
         assertMeasurementIsEmpty(metrics, BasicMeasurements.DEPTH_OF_INHERITANCE);
 

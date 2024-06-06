@@ -577,56 +577,24 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             oneOf (mockField).getFullName();
-            will(returnValue(FIELD_NAME));
+                will(returnValue(FIELD_NAME));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
             allowing (mockField).getAccessFlags();
             allowing (mockField).isPublic();
-            will(returnValue(true));
+                will(returnValue(true));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PUBLIC_ATTRIBUTES, FIELD_NAME);
+            ignoring (mockField).isProtected();
             ignoring (mockField).isPrivate();
-            ignoring (mockField).isProtected();
             ignoring (mockField).isPackage();
-            ignoring (mockField).isStatic();
             ignoring (mockField).isFinal();
-            ignoring (mockField).isVolatile();
-            ignoring (mockField).isTransient();
+            ignoring (mockField).isDeprecated();
             ignoring (mockField).isSynthetic();
-            ignoring (mockField).getAttributes();
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
-            ignoring (mockField).getDescriptor();
-        }});
-
-        MetricsGatherer sut = new MetricsGatherer(mockFactory);
-        sut.setCurrentClass(mockMetrics);
-        sut.visitField_info(mockField);
-    }
-
-    public void testVisitField_info_private() {
-        final MetricsFactory mockFactory = mock(MetricsFactory.class);
-        final Field_info mockField = mock(Field_info.class);
-        final Metrics mockMetrics = mock(Metrics.class);
-
-        checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics();
-            oneOf (mockField).getFullName();
-            will(returnValue(FIELD_NAME));
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
-            allowing (mockField).getFullSignature();
-            allowing (mockMetrics).getName();
-            allowing (mockField).getAccessFlags();
-            ignoring (mockField).isPublic();
-            allowing (mockField).isPrivate();
-            will(returnValue(true));
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PRIVATE_ATTRIBUTES, FIELD_NAME);
-            ignoring (mockField).isProtected();
-            ignoring (mockField).isPackage();
             ignoring (mockField).isStatic();
-            ignoring (mockField).isFinal();
-            ignoring (mockField).isVolatile();
             ignoring (mockField).isTransient();
-            ignoring (mockField).isSynthetic();
+            ignoring (mockField).isVolatile();
+            ignoring (mockField).isEnum();
             ignoring (mockField).getAttributes();
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
             ignoring (mockField).getDescriptor();
@@ -645,22 +613,60 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             oneOf (mockField).getFullName();
-            will(returnValue(FIELD_NAME));
+                will(returnValue(FIELD_NAME));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
             allowing (mockField).getAccessFlags();
             ignoring (mockField).isPublic();
-            ignoring (mockField).isPrivate();
             allowing (mockField).isProtected();
-            will(returnValue(true));
+                will(returnValue(true));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PROTECTED_ATTRIBUTES, FIELD_NAME);
+            ignoring (mockField).isPrivate();
             ignoring (mockField).isPackage();
-            ignoring (mockField).isStatic();
             ignoring (mockField).isFinal();
-            ignoring (mockField).isVolatile();
-            ignoring (mockField).isTransient();
+            ignoring (mockField).isDeprecated();
             ignoring (mockField).isSynthetic();
+            ignoring (mockField).isStatic();
+            ignoring (mockField).isTransient();
+            ignoring (mockField).isVolatile();
+            ignoring (mockField).isEnum();
+            ignoring (mockField).getAttributes();
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+            ignoring (mockField).getDescriptor();
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
+        sut.setCurrentClass(mockMetrics);
+        sut.visitField_info(mockField);
+    }
+
+    public void testVisitField_info_private() {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Field_info mockField = mock(Field_info.class);
+        final Metrics mockMetrics = mock(Metrics.class);
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics();
+            oneOf (mockField).getFullName();
+                will(returnValue(FIELD_NAME));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
+            allowing (mockField).getFullSignature();
+            allowing (mockMetrics).getName();
+            allowing (mockField).getAccessFlags();
+            ignoring (mockField).isPublic();
+            ignoring (mockField).isProtected();
+            allowing (mockField).isPrivate();
+                will(returnValue(true));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PRIVATE_ATTRIBUTES, FIELD_NAME);
+            ignoring (mockField).isPackage();
+            ignoring (mockField).isFinal();
+            ignoring (mockField).isDeprecated();
+            ignoring (mockField).isSynthetic();
+            ignoring (mockField).isStatic();
+            ignoring (mockField).isTransient();
+            ignoring (mockField).isVolatile();
+            ignoring (mockField).isEnum();
             ignoring (mockField).getAttributes();
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
             ignoring (mockField).getDescriptor();
@@ -679,57 +685,24 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             oneOf (mockField).getFullName();
-            will(returnValue(FIELD_NAME));
+                will(returnValue(FIELD_NAME));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
             allowing (mockField).getAccessFlags();
             ignoring (mockField).isPublic();
-            ignoring (mockField).isPrivate();
             ignoring (mockField).isProtected();
+            ignoring (mockField).isPrivate();
             allowing (mockField).isPackage();
-            will(returnValue(true));
+                will(returnValue(true));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES, FIELD_NAME);
+            ignoring (mockField).isFinal();
+            ignoring (mockField).isDeprecated();
+            ignoring (mockField).isSynthetic();
             ignoring (mockField).isStatic();
-            ignoring (mockField).isFinal();
-            ignoring (mockField).isVolatile();
             ignoring (mockField).isTransient();
-            ignoring (mockField).isSynthetic();
-            ignoring (mockField).getAttributes();
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
-            ignoring (mockField).getDescriptor();
-        }});
-
-        MetricsGatherer sut = new MetricsGatherer(mockFactory);
-        sut.setCurrentClass(mockMetrics);
-        sut.visitField_info(mockField);
-    }
-
-    public void testVisitField_info_static() {
-        final MetricsFactory mockFactory = mock(MetricsFactory.class);
-        final Field_info mockField = mock(Field_info.class);
-        final Metrics mockMetrics = mock(Metrics.class);
-
-        checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics();
-            oneOf (mockField).getFullName();
-            will(returnValue(FIELD_NAME));
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
-            allowing (mockField).getFullSignature();
-            allowing (mockMetrics).getName();
-            allowing (mockField).getAccessFlags();
-            ignoring (mockField).isPublic();
-            ignoring (mockField).isPrivate();
-            ignoring (mockField).isProtected();
-            ignoring (mockField).isPackage();
-            ignoring (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES, FIELD_NAME);
-            allowing (mockField).isStatic();
-            will(returnValue(true));
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.STATIC_ATTRIBUTES, FIELD_NAME);
-            ignoring (mockField).isFinal();
             ignoring (mockField).isVolatile();
-            ignoring (mockField).isTransient();
-            ignoring (mockField).isSynthetic();
+            ignoring (mockField).isEnum();
             ignoring (mockField).getAttributes();
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
             ignoring (mockField).getDescriptor();
@@ -748,23 +721,25 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             oneOf (mockField).getFullName();
-            will(returnValue(FIELD_NAME));
+                will(returnValue(FIELD_NAME));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
             allowing (mockField).getAccessFlags();
             ignoring (mockField).isPublic();
-            ignoring (mockField).isPrivate();
             ignoring (mockField).isProtected();
+            ignoring (mockField).isPrivate();
             ignoring (mockField).isPackage();
             ignoring (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES, FIELD_NAME);
-            ignoring (mockField).isStatic();
             allowing (mockField).isFinal();
-            will(returnValue(true));
+                will(returnValue(true));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.FINAL_ATTRIBUTES, FIELD_NAME);
-            ignoring (mockField).isVolatile();
-            ignoring (mockField).isTransient();
+            ignoring (mockField).isDeprecated();
             ignoring (mockField).isSynthetic();
+            ignoring (mockField).isStatic();
+            ignoring (mockField).isTransient();
+            ignoring (mockField).isVolatile();
+            ignoring (mockField).isEnum();
             ignoring (mockField).getAttributes();
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
             ignoring (mockField).getDescriptor();
@@ -775,7 +750,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitField_info_volatile() {
+    public void testVisitField_info_deprecated() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -783,23 +758,99 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             oneOf (mockField).getFullName();
-            will(returnValue(FIELD_NAME));
+                will(returnValue(FIELD_NAME));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
             allowing (mockField).getAccessFlags();
             ignoring (mockField).isPublic();
-            ignoring (mockField).isPrivate();
             ignoring (mockField).isProtected();
+            ignoring (mockField).isPrivate();
             ignoring (mockField).isPackage();
             ignoring (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES, FIELD_NAME);
-            ignoring (mockField).isStatic();
             ignoring (mockField).isFinal();
-            allowing (mockField).isVolatile();
-            will(returnValue(true));
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.VOLATILE_ATTRIBUTES, FIELD_NAME);
-            ignoring (mockField).isTransient();
+            allowing (mockField).isDeprecated();
+                will(returnValue(true));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.DEPRECATED_ATTRIBUTES, FIELD_NAME);
             ignoring (mockField).isSynthetic();
+            ignoring (mockField).isStatic();
+            ignoring (mockField).isTransient();
+            ignoring (mockField).isVolatile();
+            ignoring (mockField).isEnum();
+            ignoring (mockField).getAttributes();
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+            ignoring (mockField).getDescriptor();
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
+        sut.setCurrentClass(mockMetrics);
+        sut.visitField_info(mockField);
+    }
+
+    public void testVisitField_info_synthetic() {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Field_info mockField = mock(Field_info.class);
+        final Metrics mockMetrics = mock(Metrics.class);
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics();
+            oneOf (mockField).getFullName();
+                will(returnValue(FIELD_NAME));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
+            allowing (mockField).getFullSignature();
+            allowing (mockMetrics).getName();
+            allowing (mockField).getAccessFlags();
+            ignoring (mockField).isPublic();
+            ignoring (mockField).isProtected();
+            ignoring (mockField).isPrivate();
+            ignoring (mockField).isPackage();
+            ignoring (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES, FIELD_NAME);
+            ignoring (mockField).isFinal();
+            ignoring (mockField).isDeprecated();
+            allowing (mockField).isSynthetic();
+                will(returnValue(true));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SYNTHETIC_ATTRIBUTES, FIELD_NAME);
+            ignoring (mockField).isStatic();
+            ignoring (mockField).isTransient();
+            ignoring (mockField).isVolatile();
+            ignoring (mockField).isEnum();
+            ignoring (mockField).getAttributes();
+            never (mockMetrics).addToMeasurement(with(equal(BasicMeasurements.CLASS_SLOC)), with(any(Number.class)));
+            ignoring (mockField).getDescriptor();
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
+        sut.setCurrentClass(mockMetrics);
+        sut.visitField_info(mockField);
+    }
+
+    public void testVisitField_info_static() {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Field_info mockField = mock(Field_info.class);
+        final Metrics mockMetrics = mock(Metrics.class);
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics();
+            oneOf (mockField).getFullName();
+                will(returnValue(FIELD_NAME));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
+            allowing (mockField).getFullSignature();
+            allowing (mockMetrics).getName();
+            allowing (mockField).getAccessFlags();
+            ignoring (mockField).isPublic();
+            ignoring (mockField).isProtected();
+            ignoring (mockField).isPrivate();
+            ignoring (mockField).isPackage();
+            ignoring (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES, FIELD_NAME);
+            ignoring (mockField).isFinal();
+            ignoring (mockField).isDeprecated();
+            ignoring (mockField).isSynthetic();
+            allowing (mockField).isStatic();
+                will(returnValue(true));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.STATIC_ATTRIBUTES, FIELD_NAME);
+            ignoring (mockField).isTransient();
+            ignoring (mockField).isVolatile();
+            ignoring (mockField).isEnum();
             ignoring (mockField).getAttributes();
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
             ignoring (mockField).getDescriptor();
@@ -818,23 +869,25 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             oneOf (mockField).getFullName();
-            will(returnValue(FIELD_NAME));
+                will(returnValue(FIELD_NAME));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
             allowing (mockField).getAccessFlags();
             ignoring (mockField).isPublic();
-            ignoring (mockField).isPrivate();
             ignoring (mockField).isProtected();
+            ignoring (mockField).isPrivate();
             ignoring (mockField).isPackage();
             ignoring (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES, FIELD_NAME);
-            ignoring (mockField).isStatic();
             ignoring (mockField).isFinal();
-            ignoring (mockField).isVolatile();
-            allowing (mockField).isTransient();
-            will(returnValue(true));
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.TRANSIENT_ATTRIBUTES, FIELD_NAME);
+            ignoring (mockField).isDeprecated();
             ignoring (mockField).isSynthetic();
+            ignoring (mockField).isStatic();
+            allowing (mockField).isTransient();
+                will(returnValue(true));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.TRANSIENT_ATTRIBUTES, FIELD_NAME);
+            ignoring (mockField).isVolatile();
+            ignoring (mockField).isEnum();
             ignoring (mockField).getAttributes();
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
             ignoring (mockField).getDescriptor();
@@ -845,46 +898,76 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitField_info_synthetic() {
+    public void testVisitField_info_volatile() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
-        final Attribute_info mockSyntheticAttribute = mock(Synthetic_attribute.class);
-        final Collection<? extends Attribute_info> attributes = Collections.singleton(mockSyntheticAttribute);
-
-        checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics();
-        }});
-
-        final MetricsGatherer sut = new MetricsGatherer(mockFactory);
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             oneOf (mockField).getFullName();
-            will(returnValue(FIELD_NAME));
+                will(returnValue(FIELD_NAME));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockField).getFullSignature();
             allowing (mockMetrics).getName();
             allowing (mockField).getAccessFlags();
             ignoring (mockField).isPublic();
-            ignoring (mockField).isPrivate();
             ignoring (mockField).isProtected();
+            ignoring (mockField).isPrivate();
             ignoring (mockField).isPackage();
             ignoring (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES, FIELD_NAME);
-            ignoring (mockField).isStatic();
             ignoring (mockField).isFinal();
-            ignoring (mockField).isVolatile();
+            ignoring (mockField).isDeprecated();
+            ignoring (mockField).isSynthetic();
+            ignoring (mockField).isStatic();
             ignoring (mockField).isTransient();
-            allowing (mockField).isSynthetic();
-            will(returnValue(true));
-            never (mockMetrics).addToMeasurement(with(equal(BasicMeasurements.SYNTHETIC_ATTRIBUTES)), with(any(String.class)));
-            oneOf (mockField).getAttributes();
-            will(returnValue(attributes));
-            oneOf (mockSyntheticAttribute).accept(sut);
-            never (mockMetrics).addToMeasurement(with(equal(BasicMeasurements.CLASS_SLOC)), with(any(Number.class)));
+            allowing (mockField).isVolatile();
+                will(returnValue(true));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.VOLATILE_ATTRIBUTES, FIELD_NAME);
+            ignoring (mockField).isEnum();
+            ignoring (mockField).getAttributes();
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
             ignoring (mockField).getDescriptor();
         }});
 
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
+        sut.setCurrentClass(mockMetrics);
+        sut.visitField_info(mockField);
+    }
+
+    public void testVisitField_info_enum() {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Field_info mockField = mock(Field_info.class);
+        final Metrics mockMetrics = mock(Metrics.class);
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics();
+            oneOf (mockField).getFullName();
+                will(returnValue(FIELD_NAME));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
+            allowing (mockField).getFullSignature();
+            allowing (mockMetrics).getName();
+            allowing (mockField).getAccessFlags();
+            ignoring (mockField).isPublic();
+            ignoring (mockField).isProtected();
+            ignoring (mockField).isPrivate();
+            ignoring (mockField).isPackage();
+            ignoring (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES, FIELD_NAME);
+            ignoring (mockField).isFinal();
+            ignoring (mockField).isDeprecated();
+            ignoring (mockField).isSynthetic();
+            ignoring (mockField).isStatic();
+            ignoring (mockField).isTransient();
+            ignoring (mockField).isVolatile();
+            allowing (mockField).isEnum();
+                will(returnValue(true));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ENUM_ATTRIBUTES, FIELD_NAME);
+            ignoring (mockField).getAttributes();
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+            ignoring (mockField).getDescriptor();
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
         sut.visitField_info(mockField);
     }
@@ -898,65 +981,30 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
-            will(returnValue(METHOD_SIGNATURE));
+                will(returnValue(METHOD_SIGNATURE));
             oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
-            will(returnValue(mockMetrics));
+                will(returnValue(mockMetrics));
             oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
             allowing (mockMethod).getAccessFlags();
             allowing (mockMethod).isPublic();
-            will(returnValue(true));
+                will(returnValue(true));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PUBLIC_METHODS, METHOD_SIGNATURE);
+            ignoring (mockMethod).isProtected();
             ignoring (mockMethod).isPrivate();
-            ignoring (mockMethod).isProtected();
             ignoring (mockMethod).isPackage();
-            ignoring (mockMethod).isStatic();
             ignoring (mockMethod).isFinal();
-            ignoring (mockMethod).isSynchronized();
-            ignoring (mockMethod).isNative();
             ignoring (mockMethod).isAbstract();
+            ignoring (mockMethod).isDeprecated();
             ignoring (mockMethod).isSynthetic();
-            allowing (mockMethod).getDescriptor();
-            will(returnValue("()V"));
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
-            ignoring (mockMethod).getAttributes();
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
-        }});
-
-        MetricsGatherer sut = new MetricsGatherer(mockFactory);
-        sut.setCurrentClass(mockMetrics);
-        sut.visitMethod_info(mockMethod);
-    }
-
-    public void testVisitMethod_info_private() {
-        final MetricsFactory mockFactory = mock(MetricsFactory.class);
-        final Method_info mockMethod = mock(Method_info.class);
-        final Metrics mockMetrics = mock(Metrics.class);
-
-        checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics();
-            allowing (mockMethod).getClassfile();
-            allowing (mockMethod).getFullSignature();
-            will(returnValue(METHOD_SIGNATURE));
-            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
-            will(returnValue(mockMetrics));
-            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
-            allowing (mockMetrics).getName();
-            allowing (mockMethod).getAccessFlags();
-            ignoring (mockMethod).isPublic();
-            allowing (mockMethod).isPrivate();
-            will(returnValue(true));
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PRIVATE_METHODS, METHOD_SIGNATURE);
-            ignoring (mockMethod).isProtected();
-            ignoring (mockMethod).isPackage();
             ignoring (mockMethod).isStatic();
-            ignoring (mockMethod).isFinal();
             ignoring (mockMethod).isSynchronized();
+            ignoring (mockMethod).isBridge();
+            ignoring (mockMethod).isVarargs();
             ignoring (mockMethod).isNative();
-            ignoring (mockMethod).isAbstract();
-            ignoring (mockMethod).isSynthetic();
+            ignoring (mockMethod).isStrict();
             allowing (mockMethod).getDescriptor();
-            will(returnValue("()V"));
+                will(returnValue("()V"));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
@@ -976,26 +1024,73 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
-            will(returnValue(METHOD_SIGNATURE));
+                will(returnValue(METHOD_SIGNATURE));
             oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
-            will(returnValue(mockMetrics));
+                will(returnValue(mockMetrics));
             oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
             allowing (mockMethod).getAccessFlags();
             ignoring (mockMethod).isPublic();
-            ignoring (mockMethod).isPrivate();
             allowing (mockMethod).isProtected();
-            will(returnValue(true));
+                will(returnValue(true));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PROTECTED_METHODS, METHOD_SIGNATURE);
+            ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isPackage();
-            ignoring (mockMethod).isStatic();
             ignoring (mockMethod).isFinal();
-            ignoring (mockMethod).isSynchronized();
-            ignoring (mockMethod).isNative();
             ignoring (mockMethod).isAbstract();
+            ignoring (mockMethod).isDeprecated();
             ignoring (mockMethod).isSynthetic();
+            ignoring (mockMethod).isStatic();
+            ignoring (mockMethod).isSynchronized();
+            ignoring (mockMethod).isBridge();
+            ignoring (mockMethod).isVarargs();
+            ignoring (mockMethod).isNative();
+            ignoring (mockMethod).isStrict();
             allowing (mockMethod).getDescriptor();
-            will(returnValue("()V"));
+                will(returnValue("()V"));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
+            ignoring (mockMethod).getAttributes();
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
+        sut.setCurrentClass(mockMetrics);
+        sut.visitMethod_info(mockMethod);
+    }
+
+    public void testVisitMethod_info_private() {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Method_info mockMethod = mock(Method_info.class);
+        final Metrics mockMetrics = mock(Metrics.class);
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics();
+            allowing (mockMethod).getClassfile();
+            allowing (mockMethod).getFullSignature();
+                will(returnValue(METHOD_SIGNATURE));
+            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
+                will(returnValue(mockMetrics));
+            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
+            allowing (mockMetrics).getName();
+            allowing (mockMethod).getAccessFlags();
+            ignoring (mockMethod).isPublic();
+            ignoring (mockMethod).isProtected();
+            allowing (mockMethod).isPrivate();
+                will(returnValue(true));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PRIVATE_METHODS, METHOD_SIGNATURE);
+            ignoring (mockMethod).isPackage();
+            ignoring (mockMethod).isFinal();
+            ignoring (mockMethod).isAbstract();
+            ignoring (mockMethod).isDeprecated();
+            ignoring (mockMethod).isSynthetic();
+            ignoring (mockMethod).isStatic();
+            ignoring (mockMethod).isSynchronized();
+            ignoring (mockMethod).isBridge();
+            ignoring (mockMethod).isVarargs();
+            ignoring (mockMethod).isNative();
+            ignoring (mockMethod).isStrict();
+            allowing (mockMethod).getDescriptor();
+                will(returnValue("()V"));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
@@ -1015,64 +1110,28 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
-            will(returnValue(METHOD_SIGNATURE));
+                will(returnValue(METHOD_SIGNATURE));
             oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
-            will(returnValue(mockMetrics));
+                will(returnValue(mockMetrics));
             oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
             allowing (mockMethod).getAccessFlags();
             ignoring (mockMethod).isPublic();
-            ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isProtected();
+            ignoring (mockMethod).isPrivate();
             allowing (mockMethod).isPackage();
-            will(returnValue(true));
+                will(returnValue(true));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
+            ignoring (mockMethod).isFinal();
+            ignoring (mockMethod).isAbstract();
+            ignoring (mockMethod).isDeprecated();
+            ignoring (mockMethod).isSynthetic();
             ignoring (mockMethod).isStatic();
-            ignoring (mockMethod).isFinal();
             ignoring (mockMethod).isSynchronized();
+            ignoring (mockMethod).isBridge();
+            ignoring (mockMethod).isVarargs();
             ignoring (mockMethod).isNative();
-            ignoring (mockMethod).isAbstract();
-            ignoring (mockMethod).isSynthetic();
-            allowing (mockMethod).getDescriptor();
-            will(returnValue("()V"));
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
-            ignoring (mockMethod).getAttributes();
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
-        }});
-
-        MetricsGatherer sut = new MetricsGatherer(mockFactory);
-        sut.setCurrentClass(mockMetrics);
-        sut.visitMethod_info(mockMethod);
-    }
-
-    public void testVisitMethod_info_static() {
-        final MetricsFactory mockFactory = mock(MetricsFactory.class);
-        final Method_info mockMethod = mock(Method_info.class);
-        final Metrics mockMetrics = mock(Metrics.class);
-
-        checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics();
-            allowing (mockMethod).getClassfile();
-            allowing (mockMethod).getFullSignature();
-            will(returnValue(METHOD_SIGNATURE));
-            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
-            will(returnValue(mockMetrics));
-            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
-            allowing (mockMetrics).getName();
-            allowing (mockMethod).getAccessFlags();
-            ignoring (mockMethod).isPublic();
-            ignoring (mockMethod).isPrivate();
-            ignoring (mockMethod).isProtected();
-            ignoring (mockMethod).isPackage();
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
-            allowing (mockMethod).isStatic();
-            will(returnValue(true));
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.STATIC_METHODS, METHOD_SIGNATURE);
-            ignoring (mockMethod).isFinal();
-            ignoring (mockMethod).isSynchronized();
-            ignoring (mockMethod).isNative();
-            ignoring (mockMethod).isAbstract();
-            ignoring (mockMethod).isSynthetic();
+            ignoring (mockMethod).isStrict();
             allowing (mockMethod).getDescriptor();
             will(returnValue("()V"));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
@@ -1094,107 +1153,31 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
-            will(returnValue(METHOD_SIGNATURE));
+                will(returnValue(METHOD_SIGNATURE));
             oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
-            will(returnValue(mockMetrics));
+                will(returnValue(mockMetrics));
             oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
             allowing (mockMethod).getAccessFlags();
             ignoring (mockMethod).isPublic();
-            ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isProtected();
+            ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isPackage();
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
-            ignoring (mockMethod).isStatic();
             allowing (mockMethod).isFinal();
-            will(returnValue(true));
+                will(returnValue(true));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.FINAL_METHODS, METHOD_SIGNATURE);
-            ignoring (mockMethod).isSynchronized();
-            ignoring (mockMethod).isNative();
             ignoring (mockMethod).isAbstract();
+            ignoring (mockMethod).isDeprecated();
             ignoring (mockMethod).isSynthetic();
-            allowing (mockMethod).getDescriptor();
-            will(returnValue("()V"));
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
-            ignoring (mockMethod).getAttributes();
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
-        }});
-
-        MetricsGatherer sut = new MetricsGatherer(mockFactory);
-        sut.setCurrentClass(mockMetrics);
-        sut.visitMethod_info(mockMethod);
-    }
-
-    public void testVisitMethod_info_synchronized() {
-        final MetricsFactory mockFactory = mock(MetricsFactory.class);
-        final Method_info mockMethod = mock(Method_info.class);
-        final Metrics mockMetrics = mock(Metrics.class);
-
-        checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics();
-            allowing (mockMethod).getClassfile();
-            allowing (mockMethod).getFullSignature();
-            will(returnValue(METHOD_SIGNATURE));
-            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
-            will(returnValue(mockMetrics));
-            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
-            allowing (mockMetrics).getName();
-            allowing (mockMethod).getAccessFlags();
-            ignoring (mockMethod).isPublic();
-            ignoring (mockMethod).isPrivate();
-            ignoring (mockMethod).isProtected();
-            ignoring (mockMethod).isPackage();
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
             ignoring (mockMethod).isStatic();
-            ignoring (mockMethod).isFinal();
-            allowing (mockMethod).isSynchronized();
-            will(returnValue(true));
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SYNCHRONIZED_METHODS, METHOD_SIGNATURE);
-            ignoring (mockMethod).isNative();
-            ignoring (mockMethod).isAbstract();
-            ignoring (mockMethod).isSynthetic();
-            allowing (mockMethod).getDescriptor();
-            will(returnValue("()V"));
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
-            ignoring (mockMethod).getAttributes();
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
-        }});
-
-        MetricsGatherer sut = new MetricsGatherer(mockFactory);
-        sut.setCurrentClass(mockMetrics);
-        sut.visitMethod_info(mockMethod);
-    }
-
-    public void testVisitMethod_info_native() {
-        final MetricsFactory mockFactory = mock(MetricsFactory.class);
-        final Method_info mockMethod = mock(Method_info.class);
-        final Metrics mockMetrics = mock(Metrics.class);
-
-        checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics();
-            allowing (mockMethod).getClassfile();
-            allowing (mockMethod).getFullSignature();
-            will(returnValue(METHOD_SIGNATURE));
-            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
-            will(returnValue(mockMetrics));
-            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
-            allowing (mockMetrics).getName();
-            allowing (mockMethod).getAccessFlags();
-            ignoring (mockMethod).isPublic();
-            ignoring (mockMethod).isPrivate();
-            ignoring (mockMethod).isProtected();
-            ignoring (mockMethod).isPackage();
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
-            ignoring (mockMethod).isStatic();
-            ignoring (mockMethod).isFinal();
             ignoring (mockMethod).isSynchronized();
-            allowing (mockMethod).isNative();
-            will(returnValue(true));
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.NATIVE_METHODS, METHOD_SIGNATURE);
-            ignoring (mockMethod).isAbstract();
-            ignoring (mockMethod).isSynthetic();
+            ignoring (mockMethod).isBridge();
+            ignoring (mockMethod).isVarargs();
+            ignoring (mockMethod).isNative();
+            ignoring (mockMethod).isStrict();
             allowing (mockMethod).getDescriptor();
-            will(returnValue("()V"));
+                will(returnValue("()V"));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
@@ -1214,30 +1197,78 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
-            will(returnValue(METHOD_SIGNATURE));
+                will(returnValue(METHOD_SIGNATURE));
             oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
-            will(returnValue(mockMetrics));
+                will(returnValue(mockMetrics));
             oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
             allowing (mockMethod).getAccessFlags();
             ignoring (mockMethod).isPublic();
-            ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isProtected();
+            ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isPackage();
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
-            ignoring (mockMethod).isStatic();
             ignoring (mockMethod).isFinal();
-            ignoring (mockMethod).isSynchronized();
-            ignoring (mockMethod).isNative();
             allowing (mockMethod).isAbstract();
-            will(returnValue(true));
+                will(returnValue(true));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_METHODS, METHOD_SIGNATURE);
+            ignoring (mockMethod).isDeprecated();
             ignoring (mockMethod).isSynthetic();
+            ignoring (mockMethod).isStatic();
+            ignoring (mockMethod).isSynchronized();
+            ignoring (mockMethod).isBridge();
+            ignoring (mockMethod).isVarargs();
+            ignoring (mockMethod).isNative();
+            ignoring (mockMethod).isStrict();
             allowing (mockMethod).getDescriptor();
             will(returnValue("()V"));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 1);
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
+        sut.setCurrentClass(mockMetrics);
+        sut.visitMethod_info(mockMethod);
+    }
+
+    public void testVisitMethod_info_deprecated() {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Method_info mockMethod = mock(Method_info.class);
+        final Metrics mockMetrics = mock(Metrics.class);
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics();
+            allowing (mockMethod).getClassfile();
+            allowing (mockMethod).getFullSignature();
+                will(returnValue(METHOD_SIGNATURE));
+            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
+                will(returnValue(mockMetrics));
+            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
+            allowing (mockMetrics).getName();
+            allowing (mockMethod).getAccessFlags();
+            ignoring (mockMethod).isPublic();
+            ignoring (mockMethod).isProtected();
+            ignoring (mockMethod).isPrivate();
+            ignoring (mockMethod).isPackage();
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
+            ignoring (mockMethod).isFinal();
+            ignoring (mockMethod).isAbstract();
+            allowing (mockMethod).isDeprecated();
+                will(returnValue(true));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.DEPRECATED_METHODS, METHOD_SIGNATURE);
+            ignoring (mockMethod).isSynthetic();
+            ignoring (mockMethod).isStatic();
+            ignoring (mockMethod).isSynchronized();
+            ignoring (mockMethod).isBridge();
+            ignoring (mockMethod).isVarargs();
+            ignoring (mockMethod).isNative();
+            ignoring (mockMethod).isStrict();
+            allowing (mockMethod).getDescriptor();
+                will(returnValue("()V"));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
+            ignoring (mockMethod).getAttributes();
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1254,30 +1285,298 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
             allowing (mockMethod).getFullSignature();
-            will(returnValue(METHOD_SIGNATURE));
+                will(returnValue(METHOD_SIGNATURE));
             oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
-            will(returnValue(mockMetrics));
+                will(returnValue(mockMetrics));
             oneOf (mockFactory).includeMethodMetrics(mockMetrics);
             allowing (mockMetrics).getName();
             allowing (mockMethod).getAccessFlags();
             ignoring (mockMethod).isPublic();
-            ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isProtected();
+            ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isPackage();
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
-            ignoring (mockMethod).isStatic();
             ignoring (mockMethod).isFinal();
-            ignoring (mockMethod).isSynchronized();
-            ignoring (mockMethod).isNative();
             ignoring (mockMethod).isAbstract();
+            ignoring (mockMethod).isDeprecated();
             allowing (mockMethod).isSynthetic();
-            will(returnValue(true));
+                will(returnValue(true));
             never (mockMetrics).addToMeasurement(with(equal(BasicMeasurements.SYNTHETIC_METHODS)), with(any(String.class)));
+            ignoring (mockMethod).isStatic();
+            ignoring (mockMethod).isSynchronized();
+            ignoring (mockMethod).isBridge();
+            ignoring (mockMethod).isVarargs();
+            ignoring (mockMethod).isNative();
+            ignoring (mockMethod).isStrict();
+            allowing (mockMethod).getDescriptor();
+                will(returnValue("()V"));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
+            ignoring (mockMethod).getAttributes();
+            never (mockMetrics).addToMeasurement(with(equal(BasicMeasurements.SLOC)), with(any(Number.class)));
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
+        sut.setCurrentClass(mockMetrics);
+        sut.visitMethod_info(mockMethod);
+    }
+
+    public void testVisitMethod_info_static() {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Method_info mockMethod = mock(Method_info.class);
+        final Metrics mockMetrics = mock(Metrics.class);
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics();
+            allowing (mockMethod).getClassfile();
+            allowing (mockMethod).getFullSignature();
+                will(returnValue(METHOD_SIGNATURE));
+            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
+                will(returnValue(mockMetrics));
+            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
+            allowing (mockMetrics).getName();
+            allowing (mockMethod).getAccessFlags();
+            ignoring (mockMethod).isPublic();
+            ignoring (mockMethod).isProtected();
+            ignoring (mockMethod).isPrivate();
+            ignoring (mockMethod).isPackage();
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
+            ignoring (mockMethod).isFinal();
+            ignoring (mockMethod).isAbstract();
+            ignoring (mockMethod).isDeprecated();
+            ignoring (mockMethod).isSynthetic();
+            allowing (mockMethod).isStatic();
+                will(returnValue(true));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.STATIC_METHODS, METHOD_SIGNATURE);
+            ignoring (mockMethod).isSynchronized();
+            ignoring (mockMethod).isBridge();
+            ignoring (mockMethod).isVarargs();
+            ignoring (mockMethod).isNative();
+            ignoring (mockMethod).isStrict();
+            allowing (mockMethod).getDescriptor();
+                will(returnValue("()V"));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
+            ignoring (mockMethod).getAttributes();
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
+        sut.setCurrentClass(mockMetrics);
+        sut.visitMethod_info(mockMethod);
+    }
+
+    public void testVisitMethod_info_synchronized() {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Method_info mockMethod = mock(Method_info.class);
+        final Metrics mockMetrics = mock(Metrics.class);
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics();
+            allowing (mockMethod).getClassfile();
+            allowing (mockMethod).getFullSignature();
+                will(returnValue(METHOD_SIGNATURE));
+            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
+                will(returnValue(mockMetrics));
+            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
+            allowing (mockMetrics).getName();
+            allowing (mockMethod).getAccessFlags();
+            ignoring (mockMethod).isPublic();
+            ignoring (mockMethod).isProtected();
+            ignoring (mockMethod).isPrivate();
+            ignoring (mockMethod).isPackage();
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
+            ignoring (mockMethod).isFinal();
+            ignoring (mockMethod).isAbstract();
+            ignoring (mockMethod).isDeprecated();
+            ignoring (mockMethod).isSynthetic();
+            ignoring (mockMethod).isStatic();
+            allowing (mockMethod).isSynchronized();
+                will(returnValue(true));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SYNCHRONIZED_METHODS, METHOD_SIGNATURE);
+            ignoring (mockMethod).isBridge();
+            ignoring (mockMethod).isVarargs();
+            ignoring (mockMethod).isNative();
+            ignoring (mockMethod).isStrict();
+            allowing (mockMethod).getDescriptor();
+                will(returnValue("()V"));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
+            ignoring (mockMethod).getAttributes();
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
+        sut.setCurrentClass(mockMetrics);
+        sut.visitMethod_info(mockMethod);
+    }
+
+    public void testVisitMethod_info_bridge() {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Method_info mockMethod = mock(Method_info.class);
+        final Metrics mockMetrics = mock(Metrics.class);
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics();
+            allowing (mockMethod).getClassfile();
+            allowing (mockMethod).getFullSignature();
+                will(returnValue(METHOD_SIGNATURE));
+            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
+                will(returnValue(mockMetrics));
+            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
+            allowing (mockMetrics).getName();
+            allowing (mockMethod).getAccessFlags();
+            ignoring (mockMethod).isPublic();
+            ignoring (mockMethod).isProtected();
+            ignoring (mockMethod).isPrivate();
+            ignoring (mockMethod).isPackage();
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
+            ignoring (mockMethod).isFinal();
+            ignoring (mockMethod).isAbstract();
+            ignoring (mockMethod).isDeprecated();
+            ignoring (mockMethod).isSynthetic();
+            ignoring (mockMethod).isStatic();
+            ignoring (mockMethod).isSynchronized();
+            allowing (mockMethod).isBridge();
+                will(returnValue(true));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.BRIDGE_METHODS, METHOD_SIGNATURE);
+            ignoring (mockMethod).isVarargs();
+            ignoring (mockMethod).isNative();
+            ignoring (mockMethod).isStrict();
             allowing (mockMethod).getDescriptor();
             will(returnValue("()V"));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            never (mockMetrics).addToMeasurement(with(equal(BasicMeasurements.SLOC)), with(any(Number.class)));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
+        sut.setCurrentClass(mockMetrics);
+        sut.visitMethod_info(mockMethod);
+    }
+
+    public void testVisitMethod_info_varars() {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Method_info mockMethod = mock(Method_info.class);
+        final Metrics mockMetrics = mock(Metrics.class);
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics();
+            allowing (mockMethod).getClassfile();
+            allowing (mockMethod).getFullSignature();
+                will(returnValue(METHOD_SIGNATURE));
+            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
+                will(returnValue(mockMetrics));
+            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
+            allowing (mockMetrics).getName();
+            allowing (mockMethod).getAccessFlags();
+            ignoring (mockMethod).isPublic();
+            ignoring (mockMethod).isProtected();
+            ignoring (mockMethod).isPrivate();
+            ignoring (mockMethod).isPackage();
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
+            ignoring (mockMethod).isFinal();
+            ignoring (mockMethod).isAbstract();
+            ignoring (mockMethod).isDeprecated();
+            ignoring (mockMethod).isSynthetic();
+            ignoring (mockMethod).isStatic();
+            ignoring (mockMethod).isSynchronized();
+            ignoring (mockMethod).isBridge();
+            allowing (mockMethod).isVarargs();
+                will(returnValue(true));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.VARARGS_METHODS, METHOD_SIGNATURE);
+            ignoring (mockMethod).isNative();
+            ignoring (mockMethod).isStrict();
+            allowing (mockMethod).getDescriptor();
+                will(returnValue("()V"));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
+            ignoring (mockMethod).getAttributes();
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
+        sut.setCurrentClass(mockMetrics);
+        sut.visitMethod_info(mockMethod);
+    }
+
+    public void testVisitMethod_info_native() {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Method_info mockMethod = mock(Method_info.class);
+        final Metrics mockMetrics = mock(Metrics.class);
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics();
+            allowing (mockMethod).getClassfile();
+            allowing (mockMethod).getFullSignature();
+                will(returnValue(METHOD_SIGNATURE));
+            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
+                will(returnValue(mockMetrics));
+            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
+            allowing (mockMetrics).getName();
+            allowing (mockMethod).getAccessFlags();
+            ignoring (mockMethod).isPublic();
+            ignoring (mockMethod).isProtected();
+            ignoring (mockMethod).isPrivate();
+            ignoring (mockMethod).isPackage();
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
+            ignoring (mockMethod).isFinal();
+            ignoring (mockMethod).isAbstract();
+            ignoring (mockMethod).isDeprecated();
+            ignoring (mockMethod).isSynthetic();
+            ignoring (mockMethod).isStatic();
+            ignoring (mockMethod).isSynchronized();
+            ignoring (mockMethod).isBridge();
+            ignoring (mockMethod).isVarargs();
+            allowing (mockMethod).isNative();
+                will(returnValue(true));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.NATIVE_METHODS, METHOD_SIGNATURE);
+            ignoring (mockMethod).isStrict();
+            allowing (mockMethod).getDescriptor();
+                will(returnValue("()V"));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
+            ignoring (mockMethod).getAttributes();
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
+        sut.setCurrentClass(mockMetrics);
+        sut.visitMethod_info(mockMethod);
+    }
+
+    public void testVisitMethod_info_strict() {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Method_info mockMethod = mock(Method_info.class);
+        final Metrics mockMetrics = mock(Metrics.class);
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics();
+            allowing (mockMethod).getClassfile();
+            allowing (mockMethod).getFullSignature();
+                will(returnValue(METHOD_SIGNATURE));
+            oneOf (mockFactory).createMethodMetrics(METHOD_SIGNATURE);
+                will(returnValue(mockMetrics));
+            oneOf (mockFactory).includeMethodMetrics(mockMetrics);
+            allowing (mockMetrics).getName();
+            allowing (mockMethod).getAccessFlags();
+            ignoring (mockMethod).isPublic();
+            ignoring (mockMethod).isProtected();
+            ignoring (mockMethod).isPrivate();
+            ignoring (mockMethod).isPackage();
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
+            ignoring (mockMethod).isFinal();
+            ignoring (mockMethod).isAbstract();
+            ignoring (mockMethod).isDeprecated();
+            ignoring (mockMethod).isSynthetic();
+            ignoring (mockMethod).isStatic();
+            ignoring (mockMethod).isSynchronized();
+            ignoring (mockMethod).isBridge();
+            ignoring (mockMethod).isVarargs();
+            ignoring (mockMethod).isNative();
+            allowing (mockMethod).isStrict();
+                will(returnValue(true));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.STRICT_METHODS, METHOD_SIGNATURE);
+            allowing (mockMethod).getDescriptor();
+                will(returnValue("()V"));
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
+            ignoring (mockMethod).getAttributes();
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1301,16 +1600,20 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockMetrics).getName();
             allowing (mockMethod).getAccessFlags();
             ignoring (mockMethod).isPublic();
-            ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isProtected();
+            ignoring (mockMethod).isPrivate();
             ignoring (mockMethod).isPackage();
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PACKAGE_METHODS, METHOD_SIGNATURE);
-            ignoring (mockMethod).isStatic();
             ignoring (mockMethod).isFinal();
-            ignoring (mockMethod).isSynchronized();
-            ignoring (mockMethod).isNative();
             ignoring (mockMethod).isAbstract();
+            ignoring (mockMethod).isDeprecated();
             ignoring (mockMethod).isSynthetic();
+            ignoring (mockMethod).isStatic();
+            ignoring (mockMethod).isSynchronized();
+            ignoring (mockMethod).isBridge();
+            ignoring (mockMethod).isVarargs();
+            ignoring (mockMethod).isNative();
+            ignoring (mockMethod).isStrict();
             atLeast(1).of (mockMethod).getDescriptor();
             will(returnValue("(iLjava/lang/Object;)V"));
             ignoring (mockFactory).createClassMetrics("java.lang.Object");
@@ -1411,6 +1714,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
         final Metrics mockGroupMetrics = mock(Metrics.class, "currentGroup");
+        final Metrics mockDefinedGroupMetrics = mock(Metrics.class, "definedGroup");
         final Metrics mockClassMetrics = mock(Metrics.class, "currentClass");
 
         checking(new Expectations() {{
@@ -1423,61 +1727,27 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockInnerClass).getInnerClassInfo();
                 will(returnValue(INNER_CLASS_NAME));
             oneOf (mockFactory).getGroupMetrics(INNER_CLASS_NAME);
-                will(returnValue(Collections.emptyList()));
+                will(returnValue(List.of(mockDefinedGroupMetrics)));
             oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
             oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockDefinedGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
             oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
             allowing (mockInnerClass).isPublic();
                 will(returnValue(true));
             oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES, INNER_CLASS_NAME);
             oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockDefinedGroupMetrics).addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES, INNER_CLASS_NAME);
             oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.PUBLIC_INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isProtected();
             ignoring (mockInnerClass).isPrivate();
-            ignoring (mockInnerClass).isProtected();
             ignoring (mockInnerClass).isPackage();
             ignoring (mockInnerClass).isStatic();
             ignoring (mockInnerClass).isFinal();
+            ignoring (mockInnerClass).isInterface();
             ignoring (mockInnerClass).isAbstract();
-        }});
-
-        MetricsGatherer sut = new MetricsGatherer(mockFactory);
-        sut.setCurrentGroup(mockGroupMetrics);
-        sut.setCurrentClass(mockClassMetrics);
-        sut.visitInnerClass(mockInnerClass);
-    }
-
-    public void testVisitInnerClass_private() {
-        final MetricsFactory mockFactory = mock(MetricsFactory.class);
-        final InnerClass mockInnerClass = mock(InnerClass.class);
-        final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
-        final Metrics mockGroupMetrics = mock(Metrics.class, "currentGroup");
-        final Metrics mockClassMetrics = mock(Metrics.class, "currentClass");
-
-        checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics();
-                will(returnValue(mockProjectMetrics));
-            oneOf (mockClassMetrics).getName();
-                will(returnValue(CLASS_NAME));
-            exactly(2).of (mockInnerClass).getOuterClassInfo();
-                will(returnValue(CLASS_NAME));
-            allowing (mockInnerClass).getInnerClassInfo();
-                will(returnValue(INNER_CLASS_NAME));
-            oneOf (mockFactory).getGroupMetrics(INNER_CLASS_NAME);
-                will(returnValue(Collections.emptyList()));
-            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
-            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
-            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
-            ignoring (mockInnerClass).isPublic();
-            allowing (mockInnerClass).isPrivate();
-                will(returnValue(true));
-            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES, INNER_CLASS_NAME);
-            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES, INNER_CLASS_NAME);
-            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES, INNER_CLASS_NAME);
-            ignoring (mockInnerClass).isProtected();
-            ignoring (mockInnerClass).isPackage();
-            ignoring (mockInnerClass).isStatic();
-            ignoring (mockInnerClass).isFinal();
-            ignoring (mockInnerClass).isAbstract();
+            ignoring (mockInnerClass).isSynthetic();
+            ignoring (mockInnerClass).isAnnotation();
+            ignoring (mockInnerClass).isEnum();
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1510,17 +1780,65 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             oneOf (mockDefinedGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
             oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
             ignoring (mockInnerClass).isPublic();
-            ignoring (mockInnerClass).isPrivate();
             allowing (mockInnerClass).isProtected();
                 will(returnValue(true));
             oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PROTECTED_INNER_CLASSES, INNER_CLASS_NAME);
             oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.PROTECTED_INNER_CLASSES, INNER_CLASS_NAME);
             oneOf (mockDefinedGroupMetrics).addToMeasurement(BasicMeasurements.PROTECTED_INNER_CLASSES, INNER_CLASS_NAME);
             oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.PROTECTED_INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isPrivate();
             ignoring (mockInnerClass).isPackage();
             ignoring (mockInnerClass).isStatic();
             ignoring (mockInnerClass).isFinal();
+            ignoring (mockInnerClass).isInterface();
             ignoring (mockInnerClass).isAbstract();
+            ignoring (mockInnerClass).isSynthetic();
+            ignoring (mockInnerClass).isAnnotation();
+            ignoring (mockInnerClass).isEnum();
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
+        sut.setCurrentGroup(mockGroupMetrics);
+        sut.setCurrentClass(mockClassMetrics);
+        sut.visitInnerClass(mockInnerClass);
+    }
+
+    public void testVisitInnerClass_private() {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+        final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
+        final Metrics mockGroupMetrics = mock(Metrics.class, "currentGroup");
+        final Metrics mockClassMetrics = mock(Metrics.class, "currentClass");
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics();
+                will(returnValue(mockProjectMetrics));
+            oneOf (mockClassMetrics).getName();
+                will(returnValue(CLASS_NAME));
+            exactly(2).of (mockInnerClass).getOuterClassInfo();
+                will(returnValue(CLASS_NAME));
+            allowing (mockInnerClass).getInnerClassInfo();
+                will(returnValue(INNER_CLASS_NAME));
+            oneOf (mockFactory).getGroupMetrics(INNER_CLASS_NAME);
+                will(returnValue(Collections.emptyList()));
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isPublic();
+            ignoring (mockInnerClass).isProtected();
+            allowing (mockInnerClass).isPrivate();
+                will(returnValue(true));
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.PRIVATE_INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isPackage();
+            ignoring (mockInnerClass).isStatic();
+            ignoring (mockInnerClass).isFinal();
+            ignoring (mockInnerClass).isInterface();
+            ignoring (mockInnerClass).isAbstract();
+            ignoring (mockInnerClass).isSynthetic();
+            ignoring (mockInnerClass).isAnnotation();
+            ignoring (mockInnerClass).isEnum();
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1551,8 +1869,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
             oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
             ignoring (mockInnerClass).isPublic();
-            ignoring (mockInnerClass).isPrivate();
             ignoring (mockInnerClass).isProtected();
+            ignoring (mockInnerClass).isPrivate();
             allowing (mockInnerClass).isPackage();
                 will(returnValue(true));
             oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
@@ -1560,7 +1878,11 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
             ignoring (mockInnerClass).isStatic();
             ignoring (mockInnerClass).isFinal();
+            ignoring (mockInnerClass).isInterface();
             ignoring (mockInnerClass).isAbstract();
+            ignoring (mockInnerClass).isSynthetic();
+            ignoring (mockInnerClass).isAnnotation();
+            ignoring (mockInnerClass).isEnum();
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1591,8 +1913,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
             oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
             ignoring (mockInnerClass).isPublic();
-            ignoring (mockInnerClass).isPrivate();
             ignoring (mockInnerClass).isProtected();
+            ignoring (mockInnerClass).isPrivate();
             ignoring (mockInnerClass).isPackage();
             oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
             oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
@@ -1603,7 +1925,11 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.STATIC_INNER_CLASSES, INNER_CLASS_NAME);
             oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.STATIC_INNER_CLASSES, INNER_CLASS_NAME);
             ignoring (mockInnerClass).isFinal();
+            ignoring (mockInnerClass).isInterface();
             ignoring (mockInnerClass).isAbstract();
+            ignoring (mockInnerClass).isSynthetic();
+            ignoring (mockInnerClass).isAnnotation();
+            ignoring (mockInnerClass).isEnum();
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1634,8 +1960,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
             oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
             ignoring (mockInnerClass).isPublic();
-            ignoring (mockInnerClass).isPrivate();
             ignoring (mockInnerClass).isProtected();
+            ignoring (mockInnerClass).isPrivate();
             ignoring (mockInnerClass).isPackage();
             oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
             oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
@@ -1646,7 +1972,58 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES, INNER_CLASS_NAME);
             oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES, INNER_CLASS_NAME);
             oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.FINAL_INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isInterface();
             ignoring (mockInnerClass).isAbstract();
+            ignoring (mockInnerClass).isSynthetic();
+            ignoring (mockInnerClass).isAnnotation();
+            ignoring (mockInnerClass).isEnum();
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
+        sut.setCurrentGroup(mockGroupMetrics);
+        sut.setCurrentClass(mockClassMetrics);
+        sut.visitInnerClass(mockInnerClass);
+    }
+
+    public void testVisitInnerClass_interface() {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+        final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
+        final Metrics mockGroupMetrics = mock(Metrics.class, "currentGroup");
+        final Metrics mockClassMetrics = mock(Metrics.class, "currentClass");
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics();
+                will(returnValue(mockProjectMetrics));
+            oneOf (mockClassMetrics).getName();
+                will(returnValue(CLASS_NAME));
+            exactly(2).of (mockInnerClass).getOuterClassInfo();
+                will(returnValue(CLASS_NAME));
+            allowing (mockInnerClass).getInnerClassInfo();
+                will(returnValue(INNER_CLASS_NAME));
+            oneOf (mockFactory).getGroupMetrics(INNER_CLASS_NAME);
+                will(returnValue(Collections.emptyList()));
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isPublic();
+            ignoring (mockInnerClass).isPrivate();
+            ignoring (mockInnerClass).isProtected();
+            ignoring (mockInnerClass).isPackage();
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isStatic();
+            ignoring (mockInnerClass).isFinal();
+            allowing (mockInnerClass).isInterface();
+                will(returnValue(true));
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.INTERFACE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.INTERFACE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.INTERFACE_INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isAbstract();
+            ignoring (mockInnerClass).isSynthetic();
+            ignoring (mockInnerClass).isAnnotation();
+            ignoring (mockInnerClass).isEnum();
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1685,11 +2062,156 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
             ignoring (mockInnerClass).isStatic();
             ignoring (mockInnerClass).isFinal();
+            ignoring (mockInnerClass).isInterface();
             allowing (mockInnerClass).isAbstract();
                 will(returnValue(true));
             oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, INNER_CLASS_NAME);
             oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, INNER_CLASS_NAME);
             oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isSynthetic();
+            ignoring (mockInnerClass).isAnnotation();
+            ignoring (mockInnerClass).isEnum();
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
+        sut.setCurrentGroup(mockGroupMetrics);
+        sut.setCurrentClass(mockClassMetrics);
+        sut.visitInnerClass(mockInnerClass);
+    }
+
+    public void testVisitInnerClass_synthetic() {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+        final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
+        final Metrics mockGroupMetrics = mock(Metrics.class, "currentGroup");
+        final Metrics mockClassMetrics = mock(Metrics.class, "currentClass");
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics();
+                will(returnValue(mockProjectMetrics));
+            oneOf (mockClassMetrics).getName();
+                will(returnValue(CLASS_NAME));
+            exactly(2).of (mockInnerClass).getOuterClassInfo();
+                will(returnValue(CLASS_NAME));
+            allowing (mockInnerClass).getInnerClassInfo();
+                will(returnValue(INNER_CLASS_NAME));
+            oneOf (mockFactory).getGroupMetrics(INNER_CLASS_NAME);
+                will(returnValue(Collections.emptyList()));
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isPublic();
+            ignoring (mockInnerClass).isPrivate();
+            ignoring (mockInnerClass).isProtected();
+            ignoring (mockInnerClass).isPackage();
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isStatic();
+            ignoring (mockInnerClass).isFinal();
+            ignoring (mockInnerClass).isInterface();
+            ignoring (mockInnerClass).isAbstract();
+            allowing (mockInnerClass).isSynthetic();
+                will(returnValue(true));
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.SYNTHETIC_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.SYNTHETIC_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.SYNTHETIC_INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isAnnotation();
+            ignoring (mockInnerClass).isEnum();
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
+        sut.setCurrentGroup(mockGroupMetrics);
+        sut.setCurrentClass(mockClassMetrics);
+        sut.visitInnerClass(mockInnerClass);
+    }
+
+    public void testVisitInnerClass_annotation() {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+        final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
+        final Metrics mockGroupMetrics = mock(Metrics.class, "currentGroup");
+        final Metrics mockClassMetrics = mock(Metrics.class, "currentClass");
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics();
+                will(returnValue(mockProjectMetrics));
+            oneOf (mockClassMetrics).getName();
+                will(returnValue(CLASS_NAME));
+            exactly(2).of (mockInnerClass).getOuterClassInfo();
+                will(returnValue(CLASS_NAME));
+            allowing (mockInnerClass).getInnerClassInfo();
+                will(returnValue(INNER_CLASS_NAME));
+            oneOf (mockFactory).getGroupMetrics(INNER_CLASS_NAME);
+                will(returnValue(Collections.emptyList()));
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isPublic();
+            ignoring (mockInnerClass).isPrivate();
+            ignoring (mockInnerClass).isProtected();
+            ignoring (mockInnerClass).isPackage();
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isStatic();
+            ignoring (mockInnerClass).isFinal();
+            ignoring (mockInnerClass).isInterface();
+            ignoring (mockInnerClass).isAbstract();
+            ignoring (mockInnerClass).isSynthetic();
+            allowing (mockInnerClass).isAnnotation();
+                will(returnValue(true));
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.ANNOTATION_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.ANNOTATION_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.ANNOTATION_INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isEnum();
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
+        sut.setCurrentGroup(mockGroupMetrics);
+        sut.setCurrentClass(mockClassMetrics);
+        sut.visitInnerClass(mockInnerClass);
+    }
+
+    public void testVisitInnerClass_enum() {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final InnerClass mockInnerClass = mock(InnerClass.class);
+        final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
+        final Metrics mockGroupMetrics = mock(Metrics.class, "currentGroup");
+        final Metrics mockClassMetrics = mock(Metrics.class, "currentClass");
+
+        checking(new Expectations() {{
+            allowing (mockFactory).createProjectMetrics();
+                will(returnValue(mockProjectMetrics));
+            oneOf (mockClassMetrics).getName();
+                will(returnValue(CLASS_NAME));
+            exactly(2).of (mockInnerClass).getOuterClassInfo();
+                will(returnValue(CLASS_NAME));
+            allowing (mockInnerClass).getInnerClassInfo();
+                will(returnValue(INNER_CLASS_NAME));
+            oneOf (mockFactory).getGroupMetrics(INNER_CLASS_NAME);
+                will(returnValue(Collections.emptyList()));
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isPublic();
+            ignoring (mockInnerClass).isPrivate();
+            ignoring (mockInnerClass).isProtected();
+            ignoring (mockInnerClass).isPackage();
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.PACKAGE_INNER_CLASSES, INNER_CLASS_NAME);
+            ignoring (mockInnerClass).isStatic();
+            ignoring (mockInnerClass).isFinal();
+            ignoring (mockInnerClass).isInterface();
+            ignoring (mockInnerClass).isAbstract();
+            ignoring (mockInnerClass).isSynthetic();
+            ignoring (mockInnerClass).isAnnotation();
+            allowing (mockInnerClass).isEnum();
+                will(returnValue(true));
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.ENUM_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.ENUM_INNER_CLASSES, INNER_CLASS_NAME);
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.ENUM_INNER_CLASSES, INNER_CLASS_NAME);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);

@@ -48,6 +48,8 @@ public enum BasicMeasurements {
 
     MAJOR_VERSION("MaV"),
     MINOR_VERSION("MiV"),
+
+    METHODS("M"),
     PUBLIC_METHODS("PuM"),
     PROTECTED_METHODS("ProM"),
     PRIVATE_METHODS("PriM"),
@@ -58,7 +60,10 @@ public enum BasicMeasurements {
     SYNTHETIC_METHODS("SynthM"),
     STATIC_METHODS("SM"),
     SYNCHRONIZED_METHODS("SynchM"),
+    BRIDGE_METHODS("BM"),
+    VARARGS_METHODS("VM"),
     NATIVE_METHODS("NM"),
+    STRICT_METHODS("StrictM"),
     TRIVIAL_METHODS("TM"),
 
     ATTRIBUTES("A"),
@@ -72,15 +77,20 @@ public enum BasicMeasurements {
     STATIC_ATTRIBUTES("SA"),
     TRANSIENT_ATTRIBUTES("TA"),
     VOLATILE_ATTRIBUTES("VA"),
+    ENUM_ATTRIBUTES("EA"),
 
     INNER_CLASSES("IC"),
     PUBLIC_INNER_CLASSES("PuIC"),
     PROTECTED_INNER_CLASSES("ProIC"),
     PRIVATE_INNER_CLASSES("PriIC"),
     PACKAGE_INNER_CLASSES("PaIC"),
-    ABSTRACT_INNER_CLASSES("AIC"),
-    FINAL_INNER_CLASSES("FIC"),
     STATIC_INNER_CLASSES("SIC"),
+    FINAL_INNER_CLASSES("FIC"),
+    INTERFACE_INNER_CLASSES("IIC"),
+    ABSTRACT_INNER_CLASSES("AIC"),
+    SYNTHETIC_INNER_CLASSES("SynthIC"),
+    ANNOTATION_INNER_CLASSES("AnnIC"),
+    ENUM_INNER_CLASSES("EIC"),
 
     DEPTH_OF_INHERITANCE("DOI"),
     SUBCLASSES("SUB"),
@@ -111,9 +121,9 @@ public enum BasicMeasurements {
     METHOD_NAME_CHARACTER_COUNT("MNCC"),
     METHOD_NAME_WORD_COUNT("MNWC");
 
-    private String abbreviation;
+    private final String abbreviation;
 
-    private BasicMeasurements(String abbreviation) {
+    BasicMeasurements(String abbreviation) {
         this.abbreviation = abbreviation;
     }
 
