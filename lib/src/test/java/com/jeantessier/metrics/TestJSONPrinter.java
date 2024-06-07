@@ -120,7 +120,7 @@ public class TestJSONPrinter {
         printer.visitMetrics(Collections.singleton(projectMetrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator(); // Skipping the headers
+        var lines = buffer.toString().lines().iterator();
         var i = 0;
         assertEquals("Line " + ++i, "[", lines.next());
         assertEquals("Line " + ++i, "    ", lines.next());
@@ -207,7 +207,7 @@ public class TestJSONPrinter {
         printer.visitMetrics(Collections.singleton(projectMetrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator(); // Skipping the headers
+        var lines = buffer.toString().lines().iterator();
         var i = 0;
         assertEquals("Line " + ++i, "[", lines.next());
         assertEquals("Line " + ++i, "    {", lines.next());
@@ -339,7 +339,7 @@ public class TestJSONPrinter {
         printer.visitMetrics(Collections.singleton(projectMetrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator(); // Skipping the headers
+        var lines = buffer.toString().lines().iterator();
         var i = 0;
         assertEquals("Line " + ++i, "[", lines.next());
         assertEquals("Line " + ++i, "    {", lines.next());
@@ -500,7 +500,7 @@ public class TestJSONPrinter {
         printer.visitMetrics(Collections.singleton(projectMetrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator(); // Skipping the headers
+        var lines = buffer.toString().lines().iterator();
         var i = 0;
         Iterator<Integer> it;
         assertEquals("Line " + ++i, "[", lines.next());

@@ -1,6 +1,6 @@
 package com.jeantessier.metrics;
 
-import org.junit.Test;
+import org.junit.*;
 
 import java.io.*;
 import java.util.*;
@@ -123,7 +123,7 @@ public class TestXMLPrinter {
         printer.visitMetrics(Collections.singleton(projectMetrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator(); // Skipping the headers
+        var lines = buffer.toString().lines().iterator();
         var i = 0;
         assertEquals("Line " + ++i, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", lines.next());
         assertEquals("Line " + ++i, "", lines.next());
@@ -213,7 +213,7 @@ public class TestXMLPrinter {
         printer.visitMetrics(Collections.singleton(projectMetrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator(); // Skipping the headers
+        var lines = buffer.toString().lines().iterator();
         var i = 0;
         assertEquals("Line " + ++i, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", lines.next());
         assertEquals("Line " + ++i, "", lines.next());
@@ -335,7 +335,7 @@ public class TestXMLPrinter {
         printer.visitMetrics(Collections.singleton(projectMetrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator(); // Skipping the headers
+        var lines = buffer.toString().lines().iterator();
         var i = 0;
         assertEquals("Line " + ++i, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", lines.next());
         assertEquals("Line " + ++i, "", lines.next());
@@ -486,7 +486,7 @@ public class TestXMLPrinter {
         printer.visitMetrics(Collections.singleton(projectMetrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator(); // Skipping the headers
+        var lines = buffer.toString().lines().iterator();
         var i = 0;
         assertEquals("Line " + ++i, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", lines.next());
         assertEquals("Line " + ++i, "", lines.next());

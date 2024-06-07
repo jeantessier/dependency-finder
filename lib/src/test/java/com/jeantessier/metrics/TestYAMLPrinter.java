@@ -1,6 +1,6 @@
 package com.jeantessier.metrics;
 
-import org.junit.Test;
+import org.junit.*;
 
 import java.io.*;
 import java.util.*;
@@ -118,7 +118,7 @@ public class TestYAMLPrinter {
         printer.visitMetrics(Collections.singleton(projectMetrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator(); // Skipping the headers
+        var lines = buffer.toString().lines().iterator();
         var i = 0;
         assertEquals("Line " + ++i, "metrics:", lines.next());
         assertThat("End of report", lines.hasNext(), is(false));
@@ -203,7 +203,7 @@ public class TestYAMLPrinter {
         printer.visitMetrics(Collections.singleton(projectMetrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator(); // Skipping the headers
+        var lines = buffer.toString().lines().iterator();
         var i = 0;
         assertEquals("Line " + ++i, "metrics:", lines.next());
         assertEquals("Line " + ++i, "    -", lines.next());
@@ -319,7 +319,7 @@ public class TestYAMLPrinter {
         printer.visitMetrics(Collections.singleton(projectMetrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator(); // Skipping the headers
+        var lines = buffer.toString().lines().iterator();
         var i = 0;
         assertEquals("Line " + ++i, "metrics:", lines.next());
         assertEquals("Line " + ++i, "    -", lines.next());
@@ -464,7 +464,7 @@ public class TestYAMLPrinter {
         printer.visitMetrics(Collections.singleton(projectMetrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator(); // Skipping the headers
+        var lines = buffer.toString().lines().iterator();
         var i = 0;
         assertEquals("Line " + ++i, "metrics:", lines.next());
         assertEquals("Line " + ++i, "    -", lines.next());
