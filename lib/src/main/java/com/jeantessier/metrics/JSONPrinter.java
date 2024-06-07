@@ -207,6 +207,7 @@ public class JSONPrinter extends Printer {
     public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
         append("{").eol();
         raiseIndent();
+
         indent().append("\"short-name\": \"").append(measurement.getShortName()).append("\",").eol();
         indent().append("\"long-name\": \"").append(measurement.getLongName()).append("\",").eol();
         indent().append("\"value\": ").append(measurement.getValue()).append(",").eol();
@@ -216,7 +217,30 @@ public class JSONPrinter extends Printer {
         indent().append("\"standard-deviation\": ").append(measurement.getStandardDeviation()).append(",").eol();
         indent().append("\"maximum\": ").append(measurement.getMaximum()).append(",").eol();
         indent().append("\"sum\": ").append(measurement.getSum()).append(",").eol();
-        indent().append("\"nb-data-points\": ").append(measurement.getNbDataPoints()).eol();
+
+        var requestedPercentiles = measurement.getRequestedPercentiles();
+        if (requestedPercentiles.isEmpty()) {
+            indent().append("\"nb-data-points\": ").append(measurement.getNbDataPoints()).eol();
+        } else {
+            indent().append("\"nb-data-points\": ").append(measurement.getNbDataPoints()).append(",").eol();
+            indent().append("\"percentiles\": {").eol();
+            raiseIndent();
+
+            var i = requestedPercentiles.iterator();
+            while (i.hasNext()) {
+                var percentile = i.next();
+                indent();
+                append("\"p").append(percentile).append("\": ").append(measurement.getPercentile(percentile));
+                if (i.hasNext()) {
+                    append(",");
+                }
+                eol();
+            }
+
+            lowerIndent();
+            indent().append("}").eol();
+        }
+
         lowerIndent();
         indent().append("}");
     }
