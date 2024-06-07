@@ -154,6 +154,42 @@ public class TestCSVPrinter {
     }
 
     @Test
+    public void testReport_DescriptorForHiddenMeasurement() throws Exception {
+        // Given
+        var longName = "long name " + random.nextInt(1_000);
+        var shortName = "SN" + random.nextInt(1_000);
+
+        // and
+        var descriptor = new MeasurementDescriptor();
+        descriptor.setLongName(longName);
+        descriptor.setShortName(shortName);
+        descriptor.setClassFor(CounterMeasurement.class);
+        descriptor.setVisible(false);
+
+        // and
+        descriptors.add(descriptor);
+
+        // and
+        var printer = new CSVPrinter(new PrintWriter(buffer), descriptors);
+
+        // and
+        var metricsName = "metrics name " + random.nextInt(1_000);
+        var metrics = new Metrics(metricsName);
+        metrics.track(descriptor.createMeasurement(metrics));
+
+        // and
+        var measurementValue = random.nextInt(1_000);
+        metrics.addToMeasurement(shortName, measurementValue);
+
+        // When
+        printer.visitMetrics(Collections.singleton(metrics));
+
+        // Then
+        var lines = buffer.toString().lines().skip(3).iterator(); // Skipping the headers
+        assertThat("End of report", lines.hasNext(), is(false));
+    }
+
+    @Test
     public void testReport_DescriptorForSingleValueMeasurement() throws Exception {
         // Given
         var longName = "long name " + random.nextInt(1_000);

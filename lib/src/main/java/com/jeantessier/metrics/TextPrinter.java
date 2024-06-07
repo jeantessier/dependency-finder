@@ -32,10 +32,11 @@
 
 package com.jeantessier.metrics;
 
-import java.io.PrintWriter;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.List;
+import java.io.*;
+import java.text.*;
+import java.util.*;
+
+import static java.util.stream.Collectors.*;
 
 public class TextPrinter extends Printer {
     private static final NumberFormat valueFormat = new DecimalFormat("#.##");
@@ -77,7 +78,16 @@ public class TextPrinter extends Printer {
         }
 
         append(" ").append(measurement);
-        
+
+        var requestedPercentiles = measurement.getRequestedPercentiles();
+        if (!requestedPercentiles.isEmpty()) {
+            append(" ");
+            append(requestedPercentiles.stream()
+                    .map(percentile -> "p" + percentile + ":" + measurement.getPercentile(percentile))
+                    .collect(joining(" "))
+            );
+        }
+
         eol();
     }
     
