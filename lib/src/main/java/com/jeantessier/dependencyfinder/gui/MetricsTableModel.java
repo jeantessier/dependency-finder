@@ -57,7 +57,16 @@ public class MetricsTableModel extends AbstractTableModel {
     }
 
     public Object getValueAt(int rowIndex, int columnIndex) {
-        return getMetrics().getChartData(rowIndex)[columnIndex];
+        if (rowIndex == 0 && columnIndex == 0) {
+            return 0;
+        }
+
+        long result = getMetrics().getChartData(rowIndex)[columnIndex];
+        if (result != 0) {
+            return result;
+        }
+
+        return "";
     }
 
     public String getColumnName(int column) {
