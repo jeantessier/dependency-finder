@@ -44,7 +44,7 @@
 
 <!ELEMENT name (#PCDATA) >
 
-<!ELEMENT measurement (short-name, long-name, value, (members? | (minimum, median, average, standard-deviation, maximum, sum, nb-data-points))) >
+<!ELEMENT measurement (short-name, long-name, value, (members? | (minimum, median, average, standard-deviation, maximum, sum, nb-data-points, percentile*))) >
 
 <!ELEMENT short-name (#PCDATA) >
 
@@ -53,6 +53,8 @@
 <!ELEMENT value (#PCDATA) >
 
 <!ELEMENT members (member*) >
+
+<!ELEMENT member (#PCDATA) >
 
 <!ELEMENT minimum (#PCDATA) >
 
@@ -68,4 +70,7 @@
 
 <!ELEMENT nb-data-points (#PCDATA) >
 
-<!ELEMENT member (#PCDATA) >
+<!ELEMENT percentile (#PCDATA) >
+<!ATTLIST percentile
+          p-value CDATA #REQUIRED
+>

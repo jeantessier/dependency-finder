@@ -469,7 +469,6 @@ public class TestYAMLPrinter {
         // Then
         var lines = buffer.toString().lines().iterator(); // Skipping the headers
         var i = 0;
-        Iterator<Integer> it;
         assertEquals("Line " + ++i, "metrics:", lines.next());
         assertEquals("Line " + ++i, "    -", lines.next());
         assertEquals("Line " + ++i, "        name: " + projectMetricsName, lines.next());

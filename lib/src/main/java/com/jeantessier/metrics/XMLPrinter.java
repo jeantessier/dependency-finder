@@ -127,6 +127,7 @@ public class XMLPrinter extends Printer {
     public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
         indent().append("<measurement>").eol();
         raiseIndent();
+
         indent().append("<short-name>").append(measurement.getShortName()).append("</short-name>").eol();
         indent().append("<long-name>").append(measurement.getLongName()).append("</long-name>").eol();
         indent().append("<value>").append(measurement.getValue()).append("</value>").eol();
@@ -137,6 +138,9 @@ public class XMLPrinter extends Printer {
         indent().append("<maximum>").append(measurement.getMaximum()).append("</maximum>").eol();
         indent().append("<sum>").append(measurement.getSum()).append("</sum>").eol();
         indent().append("<nb-data-points>").append(measurement.getNbDataPoints()).append("</nb-data-points>").eol();
+
+        measurement.getRequestedPercentiles().forEach(percentile -> indent().append("<percentile p-value=\"").append(percentile).append("\">").append(measurement.getPercentile(percentile)).append("</percentile>").eol());
+
         lowerIndent();
         indent().append("</measurement>").eol();
     }

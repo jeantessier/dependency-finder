@@ -172,7 +172,7 @@ public class YAMLPrinter extends Printer {
             indent().append("percentiles:").eol();
             raiseIndent();
 
-            measurement.getRequestedPercentiles().forEach(percentile -> indent().append("p").append(percentile).append(": ").append(measurement.getPercentile(percentile)).eol());
+            requestedPercentiles.forEach(percentile -> indent().append("p").append(percentile).append(": ").append(measurement.getPercentile(percentile)).eol());
 
             lowerIndent();
         }
