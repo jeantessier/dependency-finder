@@ -223,6 +223,6 @@ public class YAMLPrinter extends Printer {
     }
 
     private String formatText(String name) {
-        return name.length() > 0 ? name : "\"\"";
+        return name.isEmpty() ? "\"\"" : name;
     }
 }

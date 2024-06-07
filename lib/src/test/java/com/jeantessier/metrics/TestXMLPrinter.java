@@ -2,16 +2,13 @@ package com.jeantessier.metrics;
 
 import org.junit.Test;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Random;
-import java.util.stream.IntStream;
+import java.io.*;
+import java.util.*;
+import java.util.stream.*;
 
-import static java.util.stream.Collectors.joining;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static java.util.stream.Collectors.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 
 public class TestXMLPrinter {
