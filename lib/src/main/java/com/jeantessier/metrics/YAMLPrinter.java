@@ -166,6 +166,17 @@ public class YAMLPrinter extends Printer {
         indent().append("maximum: ").append(measurement.getMaximum()).eol();
         indent().append("sum: ").append(measurement.getSum()).eol();
         indent().append("nb-data-points: ").append(measurement.getNbDataPoints()).eol();
+
+        var requestedPercentiles = measurement.getRequestedPercentiles();
+        if (!requestedPercentiles.isEmpty()) {
+            indent().append("percentiles:").eol();
+            raiseIndent();
+
+            measurement.getRequestedPercentiles().forEach(percentile -> indent().append("p").append(percentile).append(": ").append(measurement.getPercentile(percentile)).eol());
+
+            lowerIndent();
+        }
+
         lowerIndent();
     }
     
