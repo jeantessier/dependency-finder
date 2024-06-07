@@ -259,8 +259,8 @@ public class OOMetrics extends DirectoryExplorerCommand {
     private void printMetrics(List<MeasurementDescriptor> descriptors, Collection<Metrics> metrics, Class<? extends Printer> clazz) throws IOException {
         try {
             printMetrics(metrics, clazz.getConstructor(PrintWriter.class, List.class).newInstance(getOut(), descriptors));
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
