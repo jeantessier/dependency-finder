@@ -36,27 +36,17 @@ import com.jeantessier.classreader.AggregatingClassfileLoader;
 import com.jeantessier.classreader.ClassfileLoader;
 import com.jeantessier.classreader.LoadListenerVisitorAdapter;
 import com.jeantessier.classreader.TransientClassfileLoader;
-import com.jeantessier.metrics.Metrics;
-import com.jeantessier.metrics.MetricsComparator;
-import com.jeantessier.metrics.MetricsConfigurationLoader;
-import com.jeantessier.metrics.MetricsFactory;
+import com.jeantessier.metrics.*;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.Path;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import javax.xml.parsers.*;
+import java.io.*;
+import java.lang.reflect.*;
+import java.nio.file.*;
+import java.util.*;
 
 public class OOMetrics extends Task {
     public static final String DEFAULT_PROJECT_NAME = "Project";
@@ -445,228 +435,94 @@ public class OOMetrics extends Task {
     }
 
     private void printCSVFiles(MetricsFactory factory) throws IOException {
-        MetricsComparator comparator = new MetricsComparator(getSort());
-        if (getReverse()) {
-            comparator.reverse();
-        }
+        printCSVFile(getProjectmetrics(), "project", factory.getConfiguration().getProjectMeasurements(), factory.getProjectMetrics());
+        printCSVFile(getGroupmetrics(),   "groups",  factory.getConfiguration().getGroupMeasurements(),   factory.getGroupMetrics());
+        printCSVFile(getClassmetrics(),   "classes", factory.getConfiguration().getClassMeasurements(),   factory.getClassMetrics());
+        printCSVFile(getMethodmetrics(),  "methods", factory.getConfiguration().getMethodMeasurements(),  factory.getMethodMetrics());
+    }
 
-        if (getProjectmetrics()) {
-            String filename = getDestprefix().getAbsolutePath() + "_project.csv";
+    private void printCSVFile(boolean flag, String name, List<MeasurementDescriptor> descriptors, Collection<Metrics> metrics) throws IOException {
+        if (flag) {
+            String filename = getDestprefix().getAbsolutePath() + "_" + name + ".csv";
             log("Saving metrics to " + filename);
 
             try (PrintWriter out = new PrintWriter(new FileWriter(filename))) {
-                List<Metrics> metrics = new ArrayList<>(factory.getProjectMetrics());
-                metrics.sort(comparator);
-
-                com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.CSVPrinter(out, factory.getConfiguration().getProjectMeasurements());
-                printer.setExpandCollectionMeasurements(getExpand());
-                printer.setShowEmptyMetrics(getShowemptymetrics());
-                printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
-                if (getIndenttext() != null) {
-                    printer.setIndentText(getIndenttext());
-                }
-
-                printer.visitMetrics(metrics);
-            }
-        }
-
-        if (getGroupmetrics()) {
-            String filename = getDestprefix().getAbsolutePath() + "_groups.csv";
-            log("Saving metrics to " + filename);
-
-            try (PrintWriter out = new PrintWriter(new FileWriter(filename))) {
-                List<Metrics> metrics = new ArrayList<>(factory.getGroupMetrics());
-                metrics.sort(comparator);
-
-                com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.CSVPrinter(out, factory.getConfiguration().getGroupMeasurements());
-                printer.setExpandCollectionMeasurements(getExpand());
-                printer.setShowEmptyMetrics(getShowemptymetrics());
-                printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
-                if (getIndenttext() != null) {
-                    printer.setIndentText(getIndenttext());
-                }
-
-                printer.visitMetrics(metrics);
-            }
-        }
-
-        if (getClassmetrics()) {
-            String filename = getDestprefix().getAbsolutePath() + "_classes.csv";
-            log("Saving metrics to " + filename);
-
-            try (PrintWriter out = new PrintWriter(new FileWriter(filename))) {
-                List<Metrics> metrics = new ArrayList<>(factory.getClassMetrics());
-                metrics.sort(comparator);
-
-                com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.CSVPrinter(out, factory.getConfiguration().getClassMeasurements());
-                printer.setExpandCollectionMeasurements(getExpand());
-                printer.setShowEmptyMetrics(getShowemptymetrics());
-                printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
-                if (getIndenttext() != null) {
-                    printer.setIndentText(getIndenttext());
-                }
-
-                printer.visitMetrics(metrics);
-            }
-        }
-
-        if (getMethodmetrics()) {
-            String filename = getDestprefix().getAbsolutePath() + "_methods.csv";
-            log("Saving metrics to " + filename);
-
-            try (PrintWriter out = new PrintWriter(new FileWriter(filename))) {
-                List<Metrics> metrics = new ArrayList<>(factory.getMethodMetrics());
-                metrics.sort(comparator);
-
-                com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.CSVPrinter(out, factory.getConfiguration().getMethodMeasurements());
-                printer.setExpandCollectionMeasurements(getExpand());
-                printer.setShowEmptyMetrics(getShowemptymetrics());
-                printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
-                if (getIndenttext() != null) {
-                    printer.setIndentText(getIndenttext());
-                }
-
-                printer.visitMetrics(metrics);
+                printMetrics(descriptors, metrics, CSVPrinter.class, out);
             }
         }
     }
 
     private void printJSONFile(MetricsFactory factory) throws IOException {
-        MetricsComparator comparator = new MetricsComparator(getSort());
-        if (getReverse()) {
-            comparator.reverse();
-        }
-
         String filename = getDestprefix().getAbsolutePath() + ".json";
         log("Saving metrics to " + filename);
 
         try (PrintWriter out = new PrintWriter(new FileWriter(filename))) {
-            List<Metrics> metrics = new ArrayList<>(factory.getProjectMetrics());
-            metrics.sort(comparator);
-
-            com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.JSONPrinter(out, factory.getConfiguration());
-            printer.setExpandCollectionMeasurements(getExpand());
-            printer.setShowEmptyMetrics(getShowemptymetrics());
-            printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
-            if (getIndenttext() != null) {
-                printer.setIndentText(getIndenttext());
-            }
-
-            printer.visitMetrics(metrics);
+            printMetrics(factory.getProjectMetrics(), new com.jeantessier.metrics.JSONPrinter(out, factory.getConfiguration()));
         }
     }
 
     private void printTextFile(MetricsFactory factory) throws IOException {
-        MetricsComparator comparator = new MetricsComparator(getSort());
-        if (getReverse()) {
-            comparator.reverse();
-        }
-
         String filename = getDestprefix().getAbsolutePath() + ".txt";
         log("Saving metrics to " + filename);
         
         try (PrintWriter out = new PrintWriter(new FileWriter(filename))) {
-            com.jeantessier.metrics.TextPrinter printer = new com.jeantessier.metrics.TextPrinter(out, factory.getConfiguration().getProjectMeasurements());
-            printer.setExpandCollectionMeasurements(getExpand());
-            printer.setShowEmptyMetrics(getShowemptymetrics());
-            printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
-            if (getIndenttext() != null) {
-                printer.setIndentText(getIndenttext());
-            }
+            printTextFile(getProjectmetrics(), "Project metrics", factory.getConfiguration().getProjectMeasurements(), factory.getProjectMetrics(), out);
+            printTextFile(getGroupmetrics(),   "Group metrics",   factory.getConfiguration().getGroupMeasurements(),   factory.getGroupMetrics(),   out);
+            printTextFile(getClassmetrics(),   "Class metrics",   factory.getConfiguration().getClassMeasurements(),   factory.getClassMetrics(),   out);
+            printTextFile(getMethodmetrics(),  "Method metrics",  factory.getConfiguration().getMethodMeasurements(),  factory.getMethodMetrics(),  out);
+        }
+    }
 
-            if (getProjectmetrics()) {
-                out.println("Project metrics");
-                out.println("---------------");
-
-                List<Metrics> metrics = new ArrayList<>(factory.getProjectMetrics());
-                metrics.sort(comparator);
-                printer.visitMetrics(metrics);
-
-                out.println();
-            }
-
-            if (getGroupmetrics()) {
-                out.println("Group metrics");
-                out.println("-------------");
-
-                List<Metrics> metrics = new ArrayList<>(factory.getGroupMetrics());
-                metrics.sort(comparator);
-                printer.visitMetrics(metrics);
-
-                out.println();
-            }
-
-            if (getClassmetrics()) {
-                out.println("Class metrics");
-                out.println("-------------");
-
-                List<Metrics> metrics = new ArrayList<>(factory.getClassMetrics());
-                metrics.sort(comparator);
-                printer.visitMetrics(metrics);
-
-                out.println();
-            }
-
-            if (getMethodmetrics()) {
-                out.println("Method metrics");
-                out.println("--------------");
-
-                List<Metrics> metrics = new ArrayList<>(factory.getMethodMetrics());
-                metrics.sort(comparator);
-                printer.visitMetrics(metrics);
-
-                out.println();
-            }
+    private void printTextFile(boolean flag, String label, List<MeasurementDescriptor> descriptors, Collection<Metrics> metrics, PrintWriter out) {
+        if (flag) {
+            out.println(label);
+            out.println(label.replaceAll(".", "-"));
+            printMetrics(descriptors, metrics, TextPrinter.class, out);
+            out.println();
         }
     }
 
     private void printXMLFile(MetricsFactory factory) throws IOException {
-        MetricsComparator comparator = new MetricsComparator(getSort());
-        if (getReverse()) {
-            comparator.reverse();
-        }
-
         String filename = getDestprefix().getAbsolutePath() + ".xml";
         log("Saving metrics to " + filename);
 
         try (PrintWriter out = new PrintWriter(new FileWriter(filename))) {
-            List<Metrics> metrics = new ArrayList<>(factory.getProjectMetrics());
-            metrics.sort(comparator);
-
-            com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.XMLPrinter(out, factory.getConfiguration(), getEncoding(), getDtdprefix());
-            printer.setExpandCollectionMeasurements(getExpand());
-            printer.setShowEmptyMetrics(getShowemptymetrics());
-            printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
-            if (getIndenttext() != null) {
-                printer.setIndentText(getIndenttext());
-            }
-
-            printer.visitMetrics(metrics);
+            printMetrics(factory.getProjectMetrics(), new com.jeantessier.metrics.XMLPrinter(out, factory.getConfiguration(), getEncoding(), getDtdprefix()));
         }
     }
 
     private void printYAMLFile(MetricsFactory factory) throws IOException {
-        MetricsComparator comparator = new MetricsComparator(getSort());
-        if (getReverse()) {
-            comparator.reverse();
-        }
-
         String filename = getDestprefix().getAbsolutePath() + ".yaml";
         log("Saving metrics to " + filename);
 
         try (PrintWriter out = new PrintWriter(new FileWriter(filename))) {
-            List<Metrics> metrics = new ArrayList<>(factory.getProjectMetrics());
-            metrics.sort(comparator);
-
-            com.jeantessier.metrics.Printer printer = new com.jeantessier.metrics.YAMLPrinter(out, factory.getConfiguration());
-            printer.setExpandCollectionMeasurements(getExpand());
-            printer.setShowEmptyMetrics(getShowemptymetrics());
-            printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
-            if (getIndenttext() != null) {
-                printer.setIndentText(getIndenttext());
-            }
-
-            printer.visitMetrics(metrics);
+            printMetrics(factory.getProjectMetrics(), new com.jeantessier.metrics.YAMLPrinter(out, factory.getConfiguration()));
         }
+    }
+
+    private void printMetrics(List<MeasurementDescriptor> descriptors, Collection<Metrics> metrics, Class<? extends Printer> clazz, PrintWriter out) {
+        try {
+            printMetrics(metrics, clazz.getConstructor(PrintWriter.class, List.class).newInstance(out, descriptors));
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+            throw new BuildException(ex);
+        }
+    }
+
+    private void printMetrics(Collection<Metrics> metrics, Printer printer) {
+        printer.setExpandCollectionMeasurements(getExpand());
+        printer.setShowEmptyMetrics(getShowemptymetrics());
+        printer.setShowHiddenMeasurements(getShowhiddenmeasurements());
+        if (getIndenttext() != null) {
+            printer.setIndentText(getIndenttext());
+        }
+
+        var comparator = new MetricsComparator(getSort());
+        if (getReverse()) {
+            comparator.reverse();
+        }
+
+        metrics.stream()
+                .sorted(comparator)
+                .forEach(printer::visitMetrics);
     }
 }
