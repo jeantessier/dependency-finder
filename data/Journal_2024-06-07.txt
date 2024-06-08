@@ -1,0 +1,6 @@
+Looked at adding percentiles to =OOMetricsGUI=.  I haven't looked at the Swing
+code that makes up the GUI applications since I first wrote it over 20 years
+ago.  It uses sets of constants to build column names, so the set of subvalues
+is essentially hard-coded.  I will have to do some major refactoring of the
+models that feed the GUI to make column names more dynamic and make them based
+on what's in the metrics configuration.
