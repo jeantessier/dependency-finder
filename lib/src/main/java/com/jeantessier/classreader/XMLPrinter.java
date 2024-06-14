@@ -630,7 +630,7 @@ public class XMLPrinter extends Printer {
         appendClassInfo(attribute.getClassIndex(), attribute.getRawClassInfo());
 
         indent().append("<method>");
-        if (attribute.getMethodIndex() != 0) {
+        if (attribute.hasMethod()) {
             NameAndType_info nat = attribute.getRawMethod();
             if (nat.getName().equals("<init>")) {
                 String className = attribute.getClassInfo();

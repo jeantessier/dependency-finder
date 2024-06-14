@@ -73,6 +73,10 @@ public class EnclosingMethod_attribute extends Attribute_info implements com.jea
         return result;
     }
 
+    public boolean hasMethod() {
+        return getMethodIndex() != 0;
+    }
+
     public int getMethodIndex() {
         return methodIndex;
     }
@@ -84,7 +88,7 @@ public class EnclosingMethod_attribute extends Attribute_info implements com.jea
     public String getMethod() {
         String result = "";
 
-        if (getMethodIndex() != 0) {
+        if (hasMethod()) {
             NameAndType_info rawMethod = getRawMethod();
             result = rawMethod.getName() + rawMethod.getType();
         }

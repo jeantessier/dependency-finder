@@ -1327,7 +1327,6 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final EnclosingMethod_attribute mockEnclosingMethod = mock(EnclosingMethod_attribute.class);
         final int classIndex = 123;
         final Class_info mockClassInfo = mock(Class_info.class);
-        final int methodIndex = 0;
 
         checking(new Expectations() {{
             oneOf (mockEnclosingMethod).getClassIndex();
@@ -1335,8 +1334,8 @@ public class TestXMLPrinter extends MockObjectTestCase {
             oneOf (mockEnclosingMethod).getRawClassInfo();
                 will(returnValue(mockClassInfo));
             oneOf (mockClassInfo).accept(printer);
-            oneOf (mockEnclosingMethod).getMethodIndex();
-                will(returnValue(methodIndex));
+            oneOf (mockEnclosingMethod).hasMethod();
+                will(returnValue(false));
         }});
 
         printer.visitEnclosingMethod_attribute(mockEnclosingMethod);
@@ -1350,7 +1349,6 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final EnclosingMethod_attribute mockEnclosingMethod = mock(EnclosingMethod_attribute.class);
         final int classIndex = 123;
         final Class_info mockClassInfo = mock(Class_info.class);
-        final int methodIndex = 456;
         final NameAndType_info mockNameAndType = mock(NameAndType_info.class);
 
         checking(new Expectations() {{
@@ -1359,8 +1357,8 @@ public class TestXMLPrinter extends MockObjectTestCase {
             oneOf (mockEnclosingMethod).getRawClassInfo();
                 will(returnValue(mockClassInfo));
             oneOf (mockClassInfo).accept(printer);
-            oneOf (mockEnclosingMethod).getMethodIndex();
-                will(returnValue(methodIndex));
+            oneOf (mockEnclosingMethod).hasMethod();
+                will(returnValue(true));
             oneOf (mockEnclosingMethod).getRawMethod();
                 will(returnValue(mockNameAndType));
             exactly(2).of (mockNameAndType).getName();
@@ -1381,7 +1379,6 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final EnclosingMethod_attribute mockEnclosingMethod = mock(EnclosingMethod_attribute.class);
         final int classIndex = 123;
         final Class_info mockClassInfo = mock(Class_info.class);
-        final int methodIndex = 456;
         final NameAndType_info mockNameAndType = mock(NameAndType_info.class);
 
         checking(new Expectations() {{
@@ -1392,8 +1389,8 @@ public class TestXMLPrinter extends MockObjectTestCase {
             oneOf (mockClassInfo).accept(printer);
             oneOf (mockEnclosingMethod).getClassInfo();
                 will(returnValue("com.jeantessier.test.TestClass"));
-            oneOf (mockEnclosingMethod).getMethodIndex();
-                will(returnValue(methodIndex));
+            oneOf (mockEnclosingMethod).hasMethod();
+                will(returnValue(true));
             oneOf (mockEnclosingMethod).getRawMethod();
                 will(returnValue(mockNameAndType));
             oneOf (mockNameAndType).getName();

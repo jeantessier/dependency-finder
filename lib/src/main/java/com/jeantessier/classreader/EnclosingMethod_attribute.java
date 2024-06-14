@@ -37,6 +37,7 @@ public interface EnclosingMethod_attribute extends Attribute_info {
     Class_info getRawClassInfo();
     String getClassInfo();
 
+    boolean hasMethod();
     int getMethodIndex();
     NameAndType_info getRawMethod();
     String getMethod();
