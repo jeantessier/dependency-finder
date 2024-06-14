@@ -1840,16 +1840,16 @@ public class TestXMLPrinter extends MockObjectTestCase {
             oneOf (methodParameter).hasName();
                 will(returnValue(true));
             oneOf (methodParameter).getRawName();
-            will(returnValue(mockUtf8_info));
+                will(returnValue(mockUtf8_info));
             oneOf (mockUtf8_info).accept(printer);
             oneOf (methodParameter).getAccessFlags();
-            will(returnValue(accessFlags));
+                will(returnValue(accessFlags));
             oneOf (methodParameter).isFinal();
-            will(returnValue(true));
+                will(returnValue(true));
             oneOf (methodParameter).isSynthetic();
-            will(returnValue(true));
+                will(returnValue(true));
             oneOf (methodParameter).isMandated();
-            will(returnValue(true));
+                will(returnValue(true));
         }});
 
         printer.visitMethodParameter(methodParameter);
