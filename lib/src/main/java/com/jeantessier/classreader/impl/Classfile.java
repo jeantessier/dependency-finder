@@ -224,12 +224,16 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         return superclassIndex;
     }
 
+    public boolean hasSuperclass() {
+        return getSuperclassIndex() != 0;
+    }
+
     public Class_info getRawSuperclass() {
         return (Class_info) getConstantPool().get(getSuperclassIndex());
     }
 
     public String getSuperclassName() {
-        if (getSuperclassIndex() != 0) {
+        if (hasSuperclass()) {
             return getRawSuperclass().getName();
         }
         
@@ -400,7 +404,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
             if (isAbstract()) result.append("abstract ");
             result.append("class ").append(getClassName());
 
-            if (getSuperclassIndex() != 0) {
+            if (hasSuperclass()) {
                 result.append(" extends ").append(getSuperclassName());
             }
             

@@ -51,6 +51,7 @@ public interface Classfile extends Deprecatable, Visitable, Comparable<Classfile
     String getPackageName();
     String getSimpleName();
 
+    boolean hasSuperclass();
     int getSuperclassIndex();
     Class_info getRawSuperclass();
     String getSuperclassName();

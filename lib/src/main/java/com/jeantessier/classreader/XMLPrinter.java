@@ -100,7 +100,7 @@ public class XMLPrinter extends Printer {
 
         indent();
         append("<superclass>");
-        if (classfile.getSuperclassIndex() != 0) {
+        if (classfile.hasSuperclass()) {
             classfile.getRawSuperclass().accept(this);
         }
         append("</superclass>").eol();

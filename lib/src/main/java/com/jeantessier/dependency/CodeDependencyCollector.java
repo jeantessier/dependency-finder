@@ -93,7 +93,7 @@ public class CodeDependencyCollector extends CollectorBase {
 
         fireBeginClass(classfile.getClassName());
 
-        if (classfile.getSuperclassIndex() != 0) {
+        if (classfile.hasSuperclass()) {
             Class_info superclass = classfile.getRawSuperclass();
             superclass.accept(this);
             currentClass.addParent(getFactory().createClass(superclass.getName()));
