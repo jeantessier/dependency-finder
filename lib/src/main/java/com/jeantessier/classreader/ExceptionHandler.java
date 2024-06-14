@@ -37,6 +37,8 @@ public interface ExceptionHandler extends Visitable {
     int getStartPC();
     int getEndPC();
     int getHandlerPC();
+
+    boolean hasCatchType();
     int getCatchTypeIndex();
     Class_info getRawCatchType();
     String getCatchType();

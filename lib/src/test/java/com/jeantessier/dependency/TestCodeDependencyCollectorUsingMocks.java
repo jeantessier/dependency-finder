@@ -221,8 +221,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
 
         checking(new Expectations() {{
-            oneOf (mockExceptionHandler).getCatchTypeIndex();
-                will(returnValue(0));
+            oneOf (mockExceptionHandler).hasCatchType();
+                will(returnValue(false));
         }});
 
         sut.visitExceptionHandler(mockExceptionHandler);
@@ -233,8 +233,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         final Class_info mockCatchType = mock(Class_info.class);
 
         checking(new Expectations() {{
-            oneOf (mockExceptionHandler).getCatchTypeIndex();
-                will(returnValue(1));
+            oneOf (mockExceptionHandler).hasCatchType();
+                will(returnValue(true));
             oneOf (mockExceptionHandler).getRawCatchType();
                 will(returnValue(mockCatchType));
             oneOf (mockCatchType).accept(sut);

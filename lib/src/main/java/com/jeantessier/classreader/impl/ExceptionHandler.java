@@ -77,6 +77,10 @@ public class ExceptionHandler implements com.jeantessier.classreader.ExceptionHa
         return handlerPC;
     }
 
+    public boolean hasCatchType() {
+        return catchTypeIndex != 0;
+    }
+
     public int getCatchTypeIndex() {
         return catchTypeIndex;
     }
@@ -88,7 +92,7 @@ public class ExceptionHandler implements com.jeantessier.classreader.ExceptionHa
     public String getCatchType() {
         String result = "<none>";
 
-        if (getCatchTypeIndex() != 0) {
+        if (hasCatchType()) {
             result = getRawCatchType().getName();
         }
 

@@ -1085,7 +1085,7 @@ public class XMLPrinter extends Printer {
         append("<handler-pc>").append(helper.getHandlerPC()).append("</handler-pc>");
 
         append("<catch-type>");
-        if (helper.getCatchTypeIndex() != 0) {
+        if (helper.hasCatchType()) {
             helper.getRawCatchType().accept(this);
         }
         append("</catch-type>");

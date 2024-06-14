@@ -251,7 +251,7 @@ public class CodeDependencyCollector extends CollectorBase {
     public void visitExceptionHandler(ExceptionHandler helper) {
         LogManager.getLogger(getClass()).debug("{}VisitExceptionHandler(): {}", getClass().getName(), helper);
 
-        if (helper.getCatchTypeIndex() != 0) {
+        if (helper.hasCatchType()) {
             helper.getRawCatchType().accept(this);
         }
 

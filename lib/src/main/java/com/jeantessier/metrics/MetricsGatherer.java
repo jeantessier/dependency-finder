@@ -474,7 +474,7 @@ public class MetricsGatherer extends VisitorBase {
     }
 
     public void visitExceptionHandler(ExceptionHandler helper) {
-        if (helper.getCatchTypeIndex() != 0) {
+        if (helper.hasCatchType()) {
             helper.getRawCatchType().accept(this);
         }
     }

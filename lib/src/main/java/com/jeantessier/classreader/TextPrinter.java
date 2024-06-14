@@ -293,7 +293,7 @@ public class TextPrinter extends Printer {
 
     public void visitExceptionHandler(ExceptionHandler handler) {
         append("        ").append(handler.getStartPC()).append("-").append(handler.getEndPC()).append(": ").append(handler.getHandlerPC());
-        if (handler.getCatchTypeIndex() != 0) {
+        if (handler.hasCatchType()) {
             append(" (").append(handler.getCatchType()).append(")");
         }
         eol();

@@ -68,8 +68,6 @@ public class TestTextPrinter extends MockObjectTestCase {
     private LocalVariable mockLocalVariable;
     private StringWriter out;
 
-    private Sequence dataWrites;
-
     private TextPrinter sut;
 
     protected void setUp() throws Exception {
@@ -81,8 +79,6 @@ public class TestTextPrinter extends MockObjectTestCase {
         mockInstruction = mock(Instruction.class);
         mockLocalVariable = mock(LocalVariable.class);
         out = new StringWriter();
-
-        dataWrites = sequence("dataWrites");
 
         sut = new TextPrinter(new PrintWriter(out));
     }
@@ -525,7 +521,6 @@ public class TestTextPrinter extends MockObjectTestCase {
         final int startPc = 1;
         final int endPc = 2;
         final int handlerPc = 3;
-        final int catchTypeIndex = 4;
         final String catchType = "foo";
 
         final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
@@ -540,8 +535,8 @@ public class TestTextPrinter extends MockObjectTestCase {
             oneOf (mockExceptionHandler).getHandlerPC();
                 will(returnValue(handlerPc));
 
-            oneOf (mockExceptionHandler).getCatchTypeIndex();
-                will(returnValue(catchTypeIndex));
+            oneOf (mockExceptionHandler).hasCatchType();
+                will(returnValue(true));
             oneOf (mockExceptionHandler).getCatchType();
                 will(returnValue(catchType));
         }});
@@ -557,7 +552,6 @@ public class TestTextPrinter extends MockObjectTestCase {
         final int startPc = 1;
         final int endPc = 2;
         final int handlerPc = 3;
-        final int catchTypeIndex = 0;
 
         final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
 
@@ -571,8 +565,8 @@ public class TestTextPrinter extends MockObjectTestCase {
             oneOf (mockExceptionHandler).getHandlerPC();
                 will(returnValue(handlerPc));
 
-            oneOf (mockExceptionHandler).getCatchTypeIndex();
-                will(returnValue(catchTypeIndex));
+            oneOf (mockExceptionHandler).hasCatchType();
+                will(returnValue(false));
         }});
 
         sut.visitExceptionHandler(mockExceptionHandler);
