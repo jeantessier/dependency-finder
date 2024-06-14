@@ -558,10 +558,10 @@ public class MetricsGatherer extends VisitorBase {
     boolean isInnerClassOfCurrentClass(InnerClass helper) {
         boolean result;
 
-        if (helper.getOuterClassInfo().equals("")) {
-            result = perl.match("/^" + getCurrentClass().getName() + "\\$\\d+$/", helper.getInnerClassInfo());
-        } else {
+        if (helper.hasOuterClassInfo()) {
             result = helper.getOuterClassInfo().equals(getCurrentClass().getName());
+        } else {
+            result = perl.match("/^" + getCurrentClass().getName() + "\\$\\d+$/", helper.getInnerClassInfo());
         }
 
         return result;

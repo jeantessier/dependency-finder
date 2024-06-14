@@ -39,10 +39,12 @@ public interface InnerClass extends Visitable, Comparable<InnerClass> {
     Class_info getRawInnerClassInfo();
     String getInnerClassInfo();
 
+    boolean hasOuterClassInfo();
     int getOuterClassInfoIndex();
     Class_info getRawOuterClassInfo();
     String getOuterClassInfo();
 
+    boolean hasInnerName();
     int getInnerNameIndex();
     UTF8_info getRawInnerName();
     String getInnerName();

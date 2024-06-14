@@ -1110,21 +1110,19 @@ public class XMLPrinter extends Printer {
 
         indent();
         append("<inner-class-info>");
-        if (helper.getInnerClassInfoIndex() != 0) {
-            helper.getRawInnerClassInfo().accept(this);
-        }
+        helper.getRawInnerClassInfo().accept(this);
         append("</inner-class-info>").eol();
 
         indent();
         append("<outer-class-info>");
-        if (helper.getOuterClassInfoIndex() != 0) {
+        if (helper.hasOuterClassInfo()) {
             helper.getRawOuterClassInfo().accept(this);
         }
         append("</outer-class-info>").eol();
 
         indent();
         append("<inner-name>");
-        if (helper.getInnerNameIndex() != 0) {
+        if (helper.hasInnerName()) {
             helper.getRawInnerName().accept(this);
         }
         append("</inner-name>").eol();

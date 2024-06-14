@@ -94,6 +94,10 @@ public class InnerClass implements com.jeantessier.classreader.InnerClass {
         return result;
     }
 
+    public boolean hasOuterClassInfo() {
+        return outerClassInfoIndex != 0;
+    }
+
     public int getOuterClassInfoIndex() {
         return outerClassInfoIndex;
     }
@@ -105,11 +109,15 @@ public class InnerClass implements com.jeantessier.classreader.InnerClass {
     public String getOuterClassInfo() {
         String result = "";
 
-        if (getOuterClassInfoIndex() != 0) {
+        if (hasOuterClassInfo()) {
             result = getRawOuterClassInfo().getName();
         }
 
         return result;
+    }
+
+    public boolean hasInnerName() {
+        return innerNameIndex != 0;
     }
 
     public int getInnerNameIndex() {
@@ -123,7 +131,7 @@ public class InnerClass implements com.jeantessier.classreader.InnerClass {
     public String getInnerName() {
         String result = "";
 
-        if (getInnerNameIndex() != 0) {
+        if (hasInnerName()) {
             result = getRawInnerName().getValue();
         }
 
@@ -179,11 +187,11 @@ public class InnerClass implements com.jeantessier.classreader.InnerClass {
     }
 
     public boolean isMemberClass() {
-        return getOuterClassInfoIndex() != 0;
+        return hasOuterClassInfo();
     }
 
     public boolean isAnonymousClass() {
-        return getInnerNameIndex() == 0;
+        return !hasInnerName();
     }
 
     public String toString() {

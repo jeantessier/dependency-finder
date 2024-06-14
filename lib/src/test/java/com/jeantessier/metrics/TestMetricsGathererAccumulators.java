@@ -32,7 +32,6 @@
 
 package com.jeantessier.metrics;
 
-import com.jeantessier.classreader.Attribute_info;
 import com.jeantessier.classreader.Classfile;
 import com.jeantessier.classreader.Deprecated_attribute;
 import com.jeantessier.classreader.Field_info;
@@ -45,7 +44,6 @@ import org.jmock.Expectations;
 import org.jmock.imposters.ByteBuddyClassImposteriser;
 import org.jmock.integration.junit3.MockObjectTestCase;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -1638,7 +1636,9 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockFactory).createProjectMetrics();
             oneOf (mockMetrics).getName();
                 will(returnValue(CLASS_NAME));
-            exactly(2).of (mockInnerClass).getOuterClassInfo();
+            oneOf (mockInnerClass).hasOuterClassInfo();
+                will(returnValue(true));
+            oneOf (mockInnerClass).getOuterClassInfo();
                 will(returnValue(CLASS_NAME));
         }});
 
@@ -1658,7 +1658,9 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockFactory).createProjectMetrics();
             oneOf (mockMetrics).getName();
                 will(returnValue(CLASS_NAME));
-            exactly(2).of (mockInnerClass).getOuterClassInfo();
+            oneOf (mockInnerClass).hasOuterClassInfo();
+                will(returnValue(true));
+            oneOf (mockInnerClass).getOuterClassInfo();
                 will(returnValue(otherClassName));
         }});
 
@@ -1676,8 +1678,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockFactory).createProjectMetrics();
             oneOf (mockMetrics).getName();
                 will(returnValue(CLASS_NAME));
-            oneOf (mockInnerClass).getOuterClassInfo();
-                will(returnValue(""));
+            oneOf (mockInnerClass).hasOuterClassInfo();
+                will(returnValue(false));
             oneOf (mockInnerClass).getInnerClassInfo();
                 will(returnValue(ANONYMOUS_INNER_CLASS_NAME));
         }});
@@ -1698,8 +1700,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             allowing (mockFactory).createProjectMetrics();
             oneOf (mockMetrics).getName();
                 will(returnValue(CLASS_NAME));
-            oneOf (mockInnerClass).getOuterClassInfo();
-                will(returnValue(""));
+            oneOf (mockInnerClass).hasOuterClassInfo();
+                will(returnValue(false));
             oneOf (mockInnerClass).getInnerClassInfo();
                 will(returnValue(otherInnerClassName));
         }});
@@ -1722,7 +1724,9 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
                 will(returnValue(mockProjectMetrics));
             oneOf (mockClassMetrics).getName();
                 will(returnValue(CLASS_NAME));
-            exactly(2).of (mockInnerClass).getOuterClassInfo();
+            oneOf (mockInnerClass).hasOuterClassInfo();
+                will(returnValue(true));
+            oneOf (mockInnerClass).getOuterClassInfo();
                 will(returnValue(CLASS_NAME));
             allowing (mockInnerClass).getInnerClassInfo();
                 will(returnValue(INNER_CLASS_NAME));
@@ -1769,7 +1773,9 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
                 will(returnValue(mockProjectMetrics));
             oneOf (mockClassMetrics).getName();
                 will(returnValue(CLASS_NAME));
-            exactly(2).of (mockInnerClass).getOuterClassInfo();
+            oneOf (mockInnerClass).hasOuterClassInfo();
+                will(returnValue(true));
+            oneOf (mockInnerClass).getOuterClassInfo();
                 will(returnValue(CLASS_NAME));
             allowing (mockInnerClass).getInnerClassInfo();
                 will(returnValue(INNER_CLASS_NAME));
@@ -1815,7 +1821,9 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
                 will(returnValue(mockProjectMetrics));
             oneOf (mockClassMetrics).getName();
                 will(returnValue(CLASS_NAME));
-            exactly(2).of (mockInnerClass).getOuterClassInfo();
+            oneOf (mockInnerClass).hasOuterClassInfo();
+                will(returnValue(true));
+            oneOf (mockInnerClass).getOuterClassInfo();
                 will(returnValue(CLASS_NAME));
             allowing (mockInnerClass).getInnerClassInfo();
                 will(returnValue(INNER_CLASS_NAME));
@@ -1859,7 +1867,9 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
                 will(returnValue(mockProjectMetrics));
             oneOf (mockClassMetrics).getName();
                 will(returnValue(CLASS_NAME));
-            exactly(2).of (mockInnerClass).getOuterClassInfo();
+            oneOf (mockInnerClass).hasOuterClassInfo();
+                will(returnValue(true));
+            oneOf (mockInnerClass).getOuterClassInfo();
                 will(returnValue(CLASS_NAME));
             allowing (mockInnerClass).getInnerClassInfo();
                 will(returnValue(INNER_CLASS_NAME));
@@ -1903,7 +1913,9 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
                 will(returnValue(mockProjectMetrics));
             oneOf (mockClassMetrics).getName();
                 will(returnValue(CLASS_NAME));
-            exactly(2).of (mockInnerClass).getOuterClassInfo();
+            oneOf (mockInnerClass).hasOuterClassInfo();
+                will(returnValue(true));
+            oneOf (mockInnerClass).getOuterClassInfo();
                 will(returnValue(CLASS_NAME));
             allowing (mockInnerClass).getInnerClassInfo();
                 will(returnValue(INNER_CLASS_NAME));
@@ -1950,7 +1962,9 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
                 will(returnValue(mockProjectMetrics));
             oneOf (mockClassMetrics).getName();
                 will(returnValue(CLASS_NAME));
-            exactly(2).of (mockInnerClass).getOuterClassInfo();
+            oneOf (mockInnerClass).hasOuterClassInfo();
+                will(returnValue(true));
+            oneOf (mockInnerClass).getOuterClassInfo();
                 will(returnValue(CLASS_NAME));
             allowing (mockInnerClass).getInnerClassInfo();
                 will(returnValue(INNER_CLASS_NAME));
@@ -1997,7 +2011,9 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
                 will(returnValue(mockProjectMetrics));
             oneOf (mockClassMetrics).getName();
                 will(returnValue(CLASS_NAME));
-            exactly(2).of (mockInnerClass).getOuterClassInfo();
+            oneOf (mockInnerClass).hasOuterClassInfo();
+                will(returnValue(true));
+            oneOf (mockInnerClass).getOuterClassInfo();
                 will(returnValue(CLASS_NAME));
             allowing (mockInnerClass).getInnerClassInfo();
                 will(returnValue(INNER_CLASS_NAME));
@@ -2044,7 +2060,9 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
                 will(returnValue(mockProjectMetrics));
             oneOf (mockClassMetrics).getName();
                 will(returnValue(CLASS_NAME));
-            exactly(2).of (mockInnerClass).getOuterClassInfo();
+            oneOf (mockInnerClass).hasOuterClassInfo();
+                will(returnValue(true));
+            oneOf (mockInnerClass).getOuterClassInfo();
                 will(returnValue(CLASS_NAME));
             allowing (mockInnerClass).getInnerClassInfo();
                 will(returnValue(INNER_CLASS_NAME));
@@ -2091,7 +2109,9 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
                 will(returnValue(mockProjectMetrics));
             oneOf (mockClassMetrics).getName();
                 will(returnValue(CLASS_NAME));
-            exactly(2).of (mockInnerClass).getOuterClassInfo();
+            oneOf (mockInnerClass).hasOuterClassInfo();
+                will(returnValue(true));
+            oneOf (mockInnerClass).getOuterClassInfo();
                 will(returnValue(CLASS_NAME));
             allowing (mockInnerClass).getInnerClassInfo();
                 will(returnValue(INNER_CLASS_NAME));
@@ -2138,7 +2158,9 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
                 will(returnValue(mockProjectMetrics));
             oneOf (mockClassMetrics).getName();
                 will(returnValue(CLASS_NAME));
-            exactly(2).of (mockInnerClass).getOuterClassInfo();
+            oneOf (mockInnerClass).hasOuterClassInfo();
+                will(returnValue(true));
+            oneOf (mockInnerClass).getOuterClassInfo();
                 will(returnValue(CLASS_NAME));
             allowing (mockInnerClass).getInnerClassInfo();
                 will(returnValue(INNER_CLASS_NAME));
@@ -2185,7 +2207,9 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
                 will(returnValue(mockProjectMetrics));
             oneOf (mockClassMetrics).getName();
                 will(returnValue(CLASS_NAME));
-            exactly(2).of (mockInnerClass).getOuterClassInfo();
+            oneOf (mockInnerClass).hasOuterClassInfo();
+                will(returnValue(true));
+            oneOf (mockInnerClass).getOuterClassInfo();
                 will(returnValue(CLASS_NAME));
             allowing (mockInnerClass).getInnerClassInfo();
                 will(returnValue(INNER_CLASS_NAME));
