@@ -63,16 +63,20 @@ public class MethodParameter implements com.jeantessier.classreader.MethodParame
         return constantPool;
     }
 
+    public boolean hasName() {
+        return getNameIndex() != 0;
+    }
+
     public int getNameIndex() {
         return nameIndex;
     }
 
     public UTF8_info getRawName() {
-        return getNameIndex() != 0 ? (UTF8_info) getConstantPool().get(getNameIndex()) : null;
+        return hasName() ? (UTF8_info) getConstantPool().get(getNameIndex()) : null;
     }
 
     public String getName() {
-        return getNameIndex() != 0 ? ClassNameHelper.convertClassName(getRawName().getValue()) : null;
+        return hasName() ? ClassNameHelper.convertClassName(getRawName().getValue()) : null;
     }
 
     public int getAccessFlags() {

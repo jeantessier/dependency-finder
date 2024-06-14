@@ -1837,6 +1837,8 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final UTF8_info mockUtf8_info = mock(UTF8_info.class);
 
         checking(new Expectations() {{
+            oneOf (methodParameter).hasName();
+                will(returnValue(true));
             oneOf (methodParameter).getRawName();
             will(returnValue(mockUtf8_info));
             oneOf (mockUtf8_info).accept(printer);
@@ -1868,8 +1870,8 @@ public class TestXMLPrinter extends MockObjectTestCase {
         final String expectedAccessFlags = "00000000 00000000";
 
         checking(new Expectations() {{
-            oneOf (methodParameter).getRawName();
-                will(returnValue(null));
+            oneOf (methodParameter).hasName();
+                will(returnValue(false));
             oneOf (methodParameter).getAccessFlags();
                 will(returnValue(accessFlags));
             oneOf (methodParameter).isFinal();

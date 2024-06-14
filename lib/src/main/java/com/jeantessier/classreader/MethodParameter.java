@@ -33,6 +33,7 @@
 package com.jeantessier.classreader;
 
 public interface MethodParameter extends Visitable {
+    boolean hasName();
     int getNameIndex();
     UTF8_info getRawName();
     String getName();
