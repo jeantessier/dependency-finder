@@ -76,8 +76,7 @@ public class MetricsGatherer extends VisitorBase {
     private Metrics currentMethod;
 
     private int sloc;
-    private boolean isSynthetic;
-    
+
     private final HashSet<MetricsListener> metricsListeners = new HashSet<>();
 
     public MetricsGatherer(MetricsFactory factory) {
@@ -413,8 +412,6 @@ public class MetricsGatherer extends VisitorBase {
     public void visitSynthetic_attribute(Synthetic_attribute attribute) {
         Object owner = attribute.getOwner();
 
-        isSynthetic = true;
-        
         if (owner instanceof Field_info fieldInfo) {
             getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_ATTRIBUTES, fieldInfo.getFullName());
         } else if (owner instanceof Method_info methodInfo) {
