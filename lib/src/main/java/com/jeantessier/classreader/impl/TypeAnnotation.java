@@ -101,13 +101,7 @@ public class TypeAnnotation implements com.jeantessier.classreader.TypeAnnotatio
     }
 
     public String getType() {
-        String result = "";
-
-        if (getTypeIndex() != 0) {
-            result = ClassNameHelper.convertClassName(getRawType().getValue());
-        }
-
-        return result;
+        return ClassNameHelper.convertClassName(getRawType().getValue());
     }
 
     public Collection<? extends ElementValuePair> getElementValuePairs() {

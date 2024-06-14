@@ -73,13 +73,7 @@ public class Annotation implements com.jeantessier.classreader.Annotation {
     }
 
     public String getType() {
-        String result = "";
-
-        if (getTypeIndex() != 0) {
-            result = ClassNameHelper.convertClassName(getRawType().getValue());
-        }
-
-        return result;
+        return ClassNameHelper.convertClassName(getRawType().getValue());
     }
 
     public Collection<? extends ElementValuePair> getElementValuePairs() {

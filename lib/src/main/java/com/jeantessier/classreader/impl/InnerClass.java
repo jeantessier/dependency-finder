@@ -85,13 +85,7 @@ public class InnerClass implements com.jeantessier.classreader.InnerClass {
     }
 
     public String getInnerClassInfo() {
-        String result = "";
-
-        if (getInnerClassInfoIndex() != 0) {
-            result = getRawInnerClassInfo().getName();
-        }
-
-        return result;
+        return getRawInnerClassInfo().getName();
     }
 
     public boolean hasOuterClassInfo() {
