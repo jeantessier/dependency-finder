@@ -115,8 +115,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
                 will(returnValue(TEST_CLASS_NAME));
             oneOf (mockFactory).createClass(TEST_CLASS_NAME, true);
                 will(returnValue(mockClassNode));
-            oneOf (mockClassfile).getSuperclassIndex();
-                will(returnValue(0));
+            oneOf (mockClassfile).hasSuperclass();
+                will(returnValue(false));
             never (mockClassNode).addParent(with(any(ClassNode.class)));
             ignoring (mockClassfile).getAllInterfaces();
             ignoring (mockClassfile).getAllFields();
@@ -138,8 +138,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
                 will(returnValue(TEST_CLASS_NAME));
             oneOf (mockFactory).createClass(TEST_CLASS_NAME, true);
                 will(returnValue(mockClassNode));
-            oneOf (mockClassfile).getSuperclassIndex();
-                will(returnValue(1));
+            oneOf (mockClassfile).hasSuperclass();
+                will(returnValue(true));
             oneOf (mockClassfile).getRawSuperclass();
                 will(returnValue(mockRawSuperclass));
             oneOf (mockRawSuperclass).accept(sut);
@@ -171,8 +171,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
                 will(returnValue(TEST_CLASS_NAME));
             oneOf (mockFactory).createClass(TEST_CLASS_NAME, true);
                 will(returnValue(mockClassNode));
-            oneOf (mockClassfile).getSuperclassIndex();
-                will(returnValue(0));
+            oneOf (mockClassfile).hasSuperclass();
+                will(returnValue(false));
             oneOf (mockClassfile).getAllInterfaces();
                 will(returnValue(allInterfaces));
             oneOf (mockInterface).accept(sut);
@@ -203,7 +203,7 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
 
             oneOf (mockFactory).createClass(TEST_CLASS_NAME, true);
 
-            ignoring (mockClassfile).getSuperclassIndex();
+            ignoring (mockClassfile).hasSuperclass();
             ignoring (mockClassfile).getAllInterfaces();
             ignoring (mockClassfile).getAllFields();
             ignoring (mockClassfile).getAllMethods();

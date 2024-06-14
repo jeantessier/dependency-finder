@@ -577,7 +577,7 @@ public class MetricsGatherer extends VisitorBase {
     private int computeDepthOfInheritance(Classfile classfile) {
         int result = 1;
         
-        if (classfile != null && classfile.getSuperclassIndex() != 0) {
+        if (classfile != null && classfile.hasSuperclass()) {
             Classfile superclass = classfile.getLoader().getClassfile(classfile.getSuperclassName());
             result += computeDepthOfInheritance(superclass);
         }

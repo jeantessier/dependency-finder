@@ -104,7 +104,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockClassfile).isInterface();
             ignoring (mockClassfile).isAbstract();
 
-            ignoring (mockClassfile).getSuperclassIndex();
+            ignoring (mockClassfile).hasSuperclass();
             ignoring (mockClassfile).getAllInterfaces();
             ignoring (mockClassfile).getAllInterfaces();
             ignoring (mockClassfile).getAllFields();
@@ -164,7 +164,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockClassfile).isInterface();
             ignoring (mockClassfile).isAbstract();
 
-            ignoring (mockClassfile).getSuperclassIndex();
+            ignoring (mockClassfile).hasSuperclass();
             ignoring (mockClassfile).getAllInterfaces();
             ignoring (mockClassfile).getAllInterfaces();
             ignoring (mockClassfile).getAllFields();
@@ -230,7 +230,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockClassfile).isInterface();
             ignoring (mockClassfile).isAbstract();
 
-            ignoring (mockClassfile).getSuperclassIndex();
+            ignoring (mockClassfile).hasSuperclass();
             ignoring (mockClassfile).getAllInterfaces();
             ignoring (mockClassfile).getAllInterfaces();
             ignoring (mockClassfile).getAllFields();
@@ -296,7 +296,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockClassfile).isInterface();
             ignoring (mockClassfile).isAbstract();
 
-            ignoring (mockClassfile).getSuperclassIndex();
+            ignoring (mockClassfile).hasSuperclass();
             ignoring (mockClassfile).getAllInterfaces();
             ignoring (mockClassfile).getAllInterfaces();
             ignoring (mockClassfile).getAllFields();
@@ -358,7 +358,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.INTERFACES, CLASS_NAME);
             ignoring (mockClassfile).isAbstract();
 
-            ignoring (mockClassfile).getSuperclassIndex();
+            ignoring (mockClassfile).hasSuperclass();
             ignoring (mockClassfile).getAllInterfaces();
             ignoring (mockClassfile).getAllInterfaces();
             ignoring (mockClassfile).getAllFields();
@@ -420,7 +420,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_CLASSES, CLASS_NAME);
             oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.ABSTRACT_CLASSES, CLASS_NAME);
 
-            ignoring (mockClassfile).getSuperclassIndex();
+            ignoring (mockClassfile).hasSuperclass();
             ignoring (mockClassfile).getAllInterfaces();
             ignoring (mockClassfile).getAllInterfaces();
             ignoring (mockClassfile).getAllFields();
@@ -480,7 +480,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockClassfile).isInterface();
             ignoring (mockClassfile).isAbstract();
 
-            ignoring (mockClassfile).getSuperclassIndex();
+            ignoring (mockClassfile).hasSuperclass();
             ignoring (mockClassfile).getAllInterfaces();
             ignoring (mockClassfile).getAllInterfaces();
             ignoring (mockClassfile).getAllFields();
@@ -545,7 +545,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockClassfile).isInterface();
             ignoring (mockClassfile).isAbstract();
 
-            ignoring (mockClassfile).getSuperclassIndex();
+            ignoring (mockClassfile).hasSuperclass();
             ignoring (mockClassfile).getAllInterfaces();
             ignoring (mockClassfile).getAllInterfaces();
             ignoring (mockClassfile).getAllFields();
