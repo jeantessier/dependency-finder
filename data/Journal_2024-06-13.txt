@@ -1,0 +1,33 @@
+Every once in a while, an item in the =Classfile= structure will reference an
+entry in the constant pool.  The constant pool index starts at =1= and the
+=Classfile= structure uses a special value of =0= to indicate an empty
+reference.  For example, =Classfile= has a item called =super_class= that
+indicates the superclass of the current class being described by the
+=Classfile=.  The item =super_class= can have the value =0= if the current
+class does not have a superclass, e.g., =Object= or interfaces.
+
+For each of these items, the interfaces in =com.jeantessier.classreader= expose
+a number of methods to get the index value, the raw constant pool entry, or a
+more helpful value.  For example, for =super_class=, we have:
+
+    * =int getSuperclassIndex()=
+    * =Class_info getRawSuperclass()=
+    * =String getSuperclassName()=
+
+In the code, when we need to verify if there is a superclass or not, we would
+check the value of =getSuperclassIndex()=.  This introduces a magic constant
+=0= that means "there is no superclass."
+
+Magic constants tend to make the code harder to read.  So, I added a new method
+for such items:
+
+    * =boolean hasSuperclass()=
+
+The new method handles the check for =0= so the magic constant does not spread
+throughout the code.  It makes the client code easier to read.
+
+Since I had a pervasive pattern for checking for =0= everytime I looked up
+these items from the constant pool, I found a few places where I was checking
+for =0= when the specification clearly states that it must not be zero.  In
+these cases, I removed the check and I expect the =Classfile= structure to be
+compliant with the specification.
