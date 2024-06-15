@@ -853,14 +853,14 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
         return switch (getOpcode()) {
             case 0xba: // invokedynamic
                 LogManager.getLogger(getClass()).debug("getDynamicConstantPoolEntries()");
-                if (code.getConstantPool().get(getIndex()) instanceof Dynamic_info entry) {
+                if (getIndexedConstantPoolEntry() instanceof Dynamic_info entry) {
                     BootstrapMethodFinder finder = new BootstrapMethodFinder(entry.getBootstrapMethodAttrIndex());
                     code.getConstantPool().getClassfile().accept(finder);
                     yield finder.getBootstrapMethod().getArguments().stream()
                             .filter(argument -> argument instanceof MethodHandle_info)
                             .map(methodHandle -> ((MethodHandle_info) methodHandle).getReference())
                             .toList();
-                } else if (code.getConstantPool().get(getIndex()) instanceof InvokeDynamic_info entry) {
+                } else if (getIndexedConstantPoolEntry() instanceof InvokeDynamic_info entry) {
                     BootstrapMethodFinder finder = new BootstrapMethodFinder(entry.getBootstrapMethodAttrIndex());
                     code.getConstantPool().getClassfile().accept(finder);
                     yield finder.getBootstrapMethod().getArguments().stream()
@@ -873,6 +873,25 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
             default:
                 yield Collections.emptyList();
         };
+
+        // TODO: Replace with type pattern matching in switch expression in Java 21
+        // return switch (getIndexedConstantPoolEntry()) {
+        //     case Dynamic_info entry -> {
+        //         BootstrapMethodFinder finder = new BootstrapMethodFinder(entry.getBootstrapMethodAttrIndex());
+        //         code.getConstantPool().getClassfile().accept(finder);
+        //         yield finder.getBootstrapMethod().getArguments().stream()
+        //                 .filter(argument -> argument instanceof MethodHandle_info)
+        //                 .map(methodHandle -> ((MethodHandle_info) methodHandle).getReference());
+        //     }
+        //     case InvokeDynamic_info entry -> {
+        //         BootstrapMethodFinder finder = new BootstrapMethodFinder(entry.getBootstrapMethodAttrIndex());
+        //         code.getConstantPool().getClassfile().accept(finder);
+        //         yield finder.getBootstrapMethod().getArguments().stream()
+        //                 .filter(argument -> argument instanceof MethodHandle_info)
+        //                 .map(methodHandle -> ((MethodHandle_info) methodHandle).getReference());
+        //     }
+        //     default -> Stream.empty();
+        // };
     }
 
     public com.jeantessier.classreader.LocalVariable getIndexedLocalVariable() {

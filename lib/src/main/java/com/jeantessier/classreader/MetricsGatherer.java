@@ -491,6 +491,14 @@ public class MetricsGatherer extends VisitorBase {
         } else {
             LogManager.getLogger(getClass()).warn("Synthetic attribute on unknown Visitable: {}", owner.getClass().getName());
         }
+
+        // TODO: Replace with type pattern matching in switch expression in Java 21
+        // switch (attribute.getOwner()) {
+        //     case Classfile classfile -> syntheticClasses.add(classfile);
+        //     case Field_info field -> syntheticFields.add(field);
+        //     case Method_info method -> syntheticMethods.add(method);
+        //     default -> LogManager.getLogger(getClass()).warn("Synthetic attribute on unknown Visitable: {}", owner.getClass().getName());
+        // }
     }
 
     public void visitSignature_attribute(Signature_attribute attribute) {
@@ -538,6 +546,14 @@ public class MetricsGatherer extends VisitorBase {
         } else {
             LogManager.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: {}", owner.getClass().getName());
         }
+
+        // TODO: Replace with type pattern matching in switch expression in Java 21
+        // switch (attribute.getOwner()) {
+        //     case Classfile classfile -> deprecatedClasses.add(classfile);
+        //     case Field_info field -> deprecatedFields.add(field);
+        //     case Method_info method -> deprecatedMethods.add(method);
+        //     default -> LogManager.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: {}", owner.getClass().getName());
+        // }
     }
 
     public void visitRuntimeVisibleAnnotations_attribute(RuntimeVisibleAnnotations_attribute attribute) {

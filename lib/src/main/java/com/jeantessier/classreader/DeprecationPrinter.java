@@ -51,5 +51,21 @@ public class DeprecationPrinter extends Printer {
             classfile.getAllFields().forEach(field -> append(field.getFullSignature()).eol());
             classfile.getAllMethods().forEach(method -> append(method.getFullSignature()).eol());
         }
+
+        // TODO: Replace with type pattern matching in switch expression in Java 21
+        // switch (attribute.getOwner()) {
+        //     case Feature_info feature_info -> {
+        //         // There is probably a way to fold the if statement in the case above
+        //         if (!feature_info.getClassfile().isDeprecated()) {
+        //             append(feature_info.getFullSignature()).eol();
+        //         }
+        //     }
+        //     case Classfile classfile -> {
+        //         append(classfile).eol();
+        //         classfile.getAllFields().forEach(field -> append(field.getFullSignature()).eol());
+        //         classfile.getAllMethods().forEach(method -> append(method.getFullSignature()).eol());
+        //     }
+        //     default -> LogManager.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: {}", owner.getClass().getName());
+        // }
     }
 }
