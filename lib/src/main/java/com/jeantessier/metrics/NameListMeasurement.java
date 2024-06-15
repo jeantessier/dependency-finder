@@ -77,8 +77,8 @@ public class NameListMeasurement extends MeasurementBase implements CollectionMe
     }
 
     public void add(Object object) {
-        if (object instanceof String) {
-            values.add((String) object);
+        if (object instanceof String string) {
+            values.add(string);
         }
     }
 

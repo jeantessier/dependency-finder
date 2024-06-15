@@ -61,8 +61,8 @@ public class SingleValueMeasurement extends MeasurementBase {
     }
 
     public void add(Object object) {
-        if (object instanceof Number) {
-            value = ((Number) object).doubleValue();
+        if (object instanceof Number number) {
+            value = number.doubleValue();
         }
 
         setEmpty(false);
