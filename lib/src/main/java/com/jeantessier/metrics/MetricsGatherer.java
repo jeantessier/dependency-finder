@@ -201,6 +201,21 @@ public class MetricsGatherer extends VisitorBase {
             groups.forEach(group -> group.addToMeasurement(BasicMeasurements.SYNTHETIC_CLASSES, className));
         }
 
+        if (classfile.isAnnotation()) {
+            getCurrentProject().addToMeasurement(BasicMeasurements.ANNOTATION_CLASSES, className);
+            groups.forEach(group -> group.addToMeasurement(BasicMeasurements.ANNOTATION_CLASSES, className));
+        }
+
+        if (classfile.isEnum()) {
+            getCurrentProject().addToMeasurement(BasicMeasurements.ENUM_CLASSES, className);
+            groups.forEach(group -> group.addToMeasurement(BasicMeasurements.ENUM_CLASSES, className));
+        }
+
+        if (classfile.isModule()) {
+            getCurrentProject().addToMeasurement(BasicMeasurements.MODULE_CLASSES, className);
+            groups.forEach(group -> group.addToMeasurement(BasicMeasurements.MODULE_CLASSES, className));
+        }
+
         if (classfile.hasSuperclass()) {
             classfile.getRawSuperclass().accept(this);
 

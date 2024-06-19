@@ -222,6 +222,21 @@
             <class>com.jeantessier.metrics.CounterMeasurement</class>
         </measurement>
         <measurement>
+            <short-name>AnnC</short-name>
+            <long-name>Annotation Classes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>EC</short-name>
+            <long-name>Enum Classes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>MC</short-name>
+            <long-name>Module Classes</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
             <short-name>I</short-name>
             <long-name>Interfaces</long-name>
             <class>com.jeantessier.metrics.CounterMeasurement</class>
@@ -274,6 +289,33 @@
             <class>com.jeantessier.metrics.RatioMeasurement</class>
             <init>
                 SynthC
+                C
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>AnnCR</short-name>
+            <long-name>Ratio of Annotation Classes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                AnnC
+                C
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>ECR</short-name>
+            <long-name>Ratio of Enum Classes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                EC
+                C
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>MCR</short-name>
+            <long-name>Ratio of Module Classes</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                MC
                 C
             </init>
         </measurement>
