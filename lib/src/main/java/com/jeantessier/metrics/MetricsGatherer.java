@@ -368,6 +368,10 @@ public class MetricsGatherer extends VisitorBase {
             getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_METHODS, fullSignature);
         }
 
+        if (entry.isSynthetic()) {
+            getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_METHODS, fullSignature);
+        }
+
         if (entry.isStatic()) {
             getCurrentClass().addToMeasurement(BasicMeasurements.STATIC_METHODS, fullSignature);
         }
@@ -408,25 +412,6 @@ public class MetricsGatherer extends VisitorBase {
     // 
     // Attributes
     //
-
-    public void visitSynthetic_attribute(Synthetic_attribute attribute) {
-        Object owner = attribute.getOwner();
-
-        if (owner instanceof Field_info fieldInfo) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_ATTRIBUTES, fieldInfo.getFullName());
-        } else if (owner instanceof Method_info methodInfo) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_METHODS, methodInfo.getFullSignature());
-        } else {
-            LogManager.getLogger(getClass()).warn("Synthetic attribute on unknown Visitable: {}", () -> owner.getClass().getName());
-        }
-
-        // TODO: Replace with type pattern matching in switch expression in Java 21
-        // switch (attribute.getOwner()) {
-        //     case Field_info fieldInfo -> getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_ATTRIBUTES, fieldInfo.getFullName());
-        //     case Method_info methodInfo -> getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_METHODS, methodInfo.getFullSignature());
-        //     default -> LogManager.getLogger(getClass()).warn("Synthetic attribute on unknown Visitable: {}", () -> owner.getClass().getName());
-        // }
-    }
 
     public void visitDeprecated_attribute(Deprecated_attribute attribute) {
         Object owner = attribute.getOwner();

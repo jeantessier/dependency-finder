@@ -136,7 +136,7 @@ public class ClassMetrics extends Task {
             getOut().println(metrics.getFields().size() + " field(s) (average " + (metrics.getFields().size() / (metrics.getClasses().size() + (double) metrics.getInterfaces().size())) + " per class/interface)");
             getOut().println();
             
-            printCFM(" synthetic element(s)", metrics.getSyntheticClasses(), metrics.getSyntheticFields(), metrics.getSyntheticMethods());
+            printCFMIC(" synthetic element(s)", metrics.getSyntheticClasses(), metrics.getSyntheticFields(), metrics.getSyntheticMethods(), metrics.getSyntheticInnerClasses());
             printCFM(" deprecated element(s)", metrics.getDeprecatedClasses(), metrics.getDeprecatedFields(), metrics.getDeprecatedMethods());
             printCFMIC(" public element(s)", metrics.getPublicClasses(), metrics.getPublicFields(), metrics.getPublicMethods(), metrics.getPublicInnerClasses());
             printFMIC(" protected element(s)", metrics.getProtectedFields(), metrics.getProtectedMethods(), metrics.getProtectedInnerClasses());
@@ -146,7 +146,27 @@ public class ClassMetrics extends Task {
             
             printFMIC(" static element(s)", metrics.getStaticFields(), metrics.getStaticMethods(), metrics.getStaticInnerClasses());
             printCFMIC(" final element(s)", metrics.getFinalClasses(), metrics.getFinalFields(), metrics.getFinalMethods(), metrics.getFinalInnerClasses());
-            
+            printCIC(" annotation element(s)", metrics.getAnnotationClasses(), metrics.getAnnotationInnerClasses());
+            printCFIC(" enum element(s)", metrics.getEnumClasses(), metrics.getEnumFields(), metrics.getEnumInnerClasses());
+
+            getOut().println(metrics.getSuperClasses().size() + " super class(es)");
+            if (getList()) {
+                getOut().println(
+                        metrics.getSuperClasses().stream()
+                                .map(aClass -> "        " + aClass)
+                                .collect(joining(EOL))
+                );
+            }
+
+            getOut().println(metrics.getModuleClasses().size() + " module class(es)");
+            if (getList()) {
+                getOut().println(
+                        metrics.getModuleClasses().stream()
+                                .map(aClass -> "        " + aClass)
+                                .collect(joining(EOL))
+                );
+            }
+
             getOut().println(metrics.getSynchronizedMethods().size() + " synchronized method(s)");
             if (getList()) {
                 getOut().println(
@@ -155,7 +175,7 @@ public class ClassMetrics extends Task {
                                 .collect(joining(EOL))
                 );
             }
-            
+
             getOut().println(metrics.getNativeMethods().size() + " native method(s)");
             if (getList()) {
                 getOut().println(
@@ -164,7 +184,34 @@ public class ClassMetrics extends Task {
                                 .collect(joining(EOL))
                 );
             }
-            
+
+            getOut().println(metrics.getBridgeMethods().size() + " bridge method(s)");
+            if (getList()) {
+                getOut().println(
+                        metrics.getBridgeMethods().stream()
+                                .map(method -> "        " + method)
+                                .collect(joining(EOL))
+                );
+            }
+
+            getOut().println(metrics.getVarargsMethods().size() + " varargs method(s)");
+            if (getList()) {
+                getOut().println(
+                        metrics.getVarargsMethods().stream()
+                                .map(method -> "        " + method)
+                                .collect(joining(EOL))
+                );
+            }
+
+            getOut().println(metrics.getStrictMethods().size() + " strict method(s)");
+            if (getList()) {
+                getOut().println(
+                        metrics.getStrictMethods().stream()
+                                .map(method -> "        " + method)
+                                .collect(joining(EOL))
+                );
+            }
+
             getOut().println(metrics.getVolatileFields().size() + " volatile field(s)");
             if (getList()) {
                 getOut().println(
@@ -234,140 +281,75 @@ public class ClassMetrics extends Task {
     }
 
     private void printCMIC(String label, Collection<Classfile> classes, Collection<Method_info> methods, Collection<InnerClass> innerClasses) throws IOException {
-        getOut().println((classes.size() +
-                     methods.size() +
-                     innerClasses.size()) + label);
-        if (getList()) {
-
-            getOut().println("    " + classes.size() + " class(es)");
-            getOut().println(
-                    classes.stream()
-                            .map(aClass -> "        " + aClass)
-                            .collect(joining(EOL))
-            );
-
-            getOut().println("    " + methods.size() + " method(s)");
-            getOut().println(
-                    methods.stream()
-                            .map(method -> "        " + method)
-                            .collect(joining(EOL))
-            );
-
-            getOut().println("    " + innerClasses.size() + " inner class(es)");
-            getOut().println(
-                    innerClasses.stream()
-                            .map(innerClass -> "        " + innerClass)
-                            .collect(joining(EOL))
-            );
-        } else {
-            getOut().println("    " + classes.size() + " class(es)");
-            getOut().println("    " + methods.size() + " method(s)");
-            getOut().println("    " + innerClasses.size() + " inner class(es)");
-        }
+        print(label, classes, null, methods, innerClasses);
     }
 
     private void printCFMIC(String label, Collection<Classfile> classes, Collection<Field_info> fields, Collection<Method_info> methods, Collection<InnerClass> innerClasses) throws IOException {
-        getOut().println((classes.size() +
-                     fields.size() +
-                     methods.size() +
-                     innerClasses.size()) + label);
-        if (getList()) {
-            getOut().println("    " + classes.size() + " class(es)");
-            getOut().println(
-                    classes.stream()
-                            .map(aClass -> "        " + aClass)
-                            .collect(joining(EOL))
-            );
-
-            getOut().println("    " + fields.size() + " field(s)");
-            getOut().println(
-                    fields.stream()
-                            .map(field -> "        " + field)
-                            .collect(joining(EOL))
-            );
-
-            getOut().println("    " + methods.size() + " method(s)");
-            getOut().println(
-                    methods.stream()
-                            .map(method -> "        " + method)
-                            .collect(joining(EOL))
-            );
-
-            getOut().println("    " + innerClasses.size() + " inner class(es)");
-            getOut().println(
-                    innerClasses.stream()
-                            .map(innerClass -> "        " + innerClass)
-                            .collect(joining(EOL))
-            );
-        } else {
-            getOut().println("    " + classes.size() + " class(es)");
-            getOut().println("    " + fields.size() + " fields(s)");
-            getOut().println("    " + methods.size() + " method(s)");
-            getOut().println("    " + innerClasses.size() + " inner class(es)");
-        }
+        print(label, classes, fields, methods, innerClasses);
     }
 
     private void printCFM(String label, Collection<Classfile> classes, Collection<Field_info> fields, Collection<Method_info> methods) throws IOException {
-        getOut().println((classes.size() +
-                     fields.size() +
-                     methods.size()) + label);
-        if (getList()) {
-            getOut().println("    " + classes.size() + " class(es)");
-            getOut().println(
-                    classes.stream()
-                            .map(aClass -> "        " + aClass)
-                            .collect(joining(EOL))
-            );
+        print(label, classes, fields, methods, null);
+    }
 
-            getOut().println("    " + fields.size() + " field(s)");
-            getOut().println(
-                    fields.stream()
-                            .map(field -> "        " + field)
-                            .collect(joining(EOL))
-            );
+    private void printCFIC(String label, Collection<Classfile> classes, Collection<Field_info> fields, Collection<InnerClass> innerClasses) throws IOException {
+        print(label, classes, fields, null, innerClasses);
+    }
 
-            getOut().println("    " + methods.size() + " method(s)");
-            getOut().println(
-                    methods.stream()
-                            .map(method -> "        " + method)
-                            .collect(joining(EOL))
-            );
-        } else {
-            getOut().println("    " + classes.size() + " class(es)");
-            getOut().println("    " + fields.size() + " fields(s)");
-            getOut().println("    " + methods.size() + " method(s)");
-        }
+    private void printCIC(String label, Collection<Classfile> classes, Collection<InnerClass> innerClasses) throws IOException {
+        print(label, classes, null, null, innerClasses);
     }
 
     private void printFMIC(String label, Collection<Field_info> fields, Collection<Method_info> methods, Collection<InnerClass> innerClasses) throws IOException {
-        getOut().println((fields.size() +
-                     methods.size() +
-                     innerClasses.size()) + label);
+        print(label, null, fields, methods, innerClasses);
+    }
+
+    private void print(String label, Collection<Classfile> classes, Collection<Field_info> fields, Collection<Method_info> methods, Collection<InnerClass> innerClasses) throws IOException {
+        getOut().println(((classes != null ? classes.size() : 0) +
+                (fields != null ? fields.size() : 0) +
+                (methods != null ? methods.size() : 0) +
+                (innerClasses != null ? innerClasses.size() : 0)) + label);
         if (getList()) {
-            getOut().println("    " + fields.size() + " field(s)");
-            getOut().println(
-                    fields.stream()
-                            .map(field -> "        " + field)
-                            .collect(joining(EOL))
-            );
+            if (classes != null) {
+                getOut().println("    " + classes.size() + " class(es)");
+                getOut().println(
+                        classes.stream()
+                                .map(aClass -> "        " + aClass)
+                                .collect(joining(EOL))
+                );
+            }
 
-            getOut().println("    " + methods.size() + " method(s)");
-            getOut().println(
-                    methods.stream()
-                            .map(method -> "        " + method)
-                            .collect(joining(EOL))
-            );
+            if (fields != null) {
+                getOut().println("    " + fields.size() + " field(s)");
+                getOut().println(
+                        fields.stream()
+                                .map(field -> "        " + field)
+                                .collect(joining(EOL))
+                );
+            }
 
-            getOut().println("    " + innerClasses.size() + " inner class(es)");
-            getOut().println(
-                    innerClasses.stream()
-                            .map(innerClass -> "        " + innerClass)
-                            .collect(joining(EOL))
-            );
+            if (methods != null) {
+                getOut().println("    " + methods.size() + " method(s)");
+                getOut().println(
+                        methods.stream()
+                                .map(method -> "        " + method)
+                                .collect(joining(EOL))
+                );
+            }
+
+            if (innerClasses != null) {
+                getOut().println("    " + innerClasses.size() + " inner class(es)");
+                getOut().println(
+                        innerClasses.stream()
+                                .map(innerClass -> "        " + innerClass)
+                                .collect(joining(EOL))
+                );
+            }
         } else {
-            getOut().println("    " + fields.size() + " fields(s)");
-            getOut().println("    " + methods.size() + " method(s)");
-            getOut().println("    " + innerClasses.size() + " inner class(es)");
+            if (classes != null) getOut().println("    " + classes.size() + " class(es)");
+            if (fields != null) getOut().println("    " + fields.size() + " fields(s)");
+            if (methods != null) getOut().println("    " + methods.size() + " method(s)");
+            if (innerClasses != null) getOut().println("    " + innerClasses.size() + " inner class(es)");
         }
     }
 

@@ -40,9 +40,12 @@ public enum BasicMeasurements {
     PACKAGE_CLASSES("PaC"),
     FINAL_CLASSES("FC"),
     SUPER_CLASSES("SuperC"),
+    INTERFACES("I"),
     ABSTRACT_CLASSES("AC"),
     SYNTHETIC_CLASSES("SynthC"),
-    INTERFACES("I"),
+    ANNOTATION_CLASSES("AnnC"),
+    ENUM_CLASSES("EC"),
+    MODULE_CLASSES("MC"),
     DEPRECATED_CLASSES("DC"),
     STATIC_CLASSES("SC"),
 

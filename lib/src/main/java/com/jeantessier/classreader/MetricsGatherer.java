@@ -45,6 +45,12 @@ public class MetricsGatherer extends VisitorBase {
     private final Collection<Classfile> syntheticClasses = new TreeSet<>();
     private final Collection<Field_info> syntheticFields = new TreeSet<>();
     private final Collection<Method_info> syntheticMethods = new TreeSet<>();
+    private final Collection<InnerClass> syntheticInnerClasses = new TreeSet<>();
+    private final Collection<Classfile> annotationClasses = new TreeSet<>();
+    private final Collection<InnerClass> annotationInnerClasses = new TreeSet<>();
+    private final Collection<Classfile> enumClasses = new TreeSet<>();
+    private final Collection<Field_info> enumFields = new TreeSet<>();
+    private final Collection<InnerClass> enumInnerClasses = new TreeSet<>();
     private final Collection<Classfile> deprecatedClasses = new TreeSet<>();
     private final Collection<Field_info> deprecatedFields = new TreeSet<>();
     private final Collection<Method_info> deprecatedMethods = new TreeSet<>();
@@ -72,8 +78,13 @@ public class MetricsGatherer extends VisitorBase {
     private final Collection<Field_info> finalFields = new TreeSet<>();
     private final Collection<Method_info> finalMethods = new TreeSet<>();
     private final Collection<InnerClass> finalInnerClasses = new TreeSet<>();
+    private final Collection<Classfile> superClasses = new TreeSet<>();
+    private final Collection<Classfile> moduleClasses = new TreeSet<>();
     private final Collection<Method_info> synchronizedMethods = new TreeSet<>();
     private final Collection<Method_info> nativeMethods = new TreeSet<>();
+    private final Collection<Method_info> bridgeMethods = new TreeSet<>();
+    private final Collection<Method_info> varargsMethods = new TreeSet<>();
+    private final Collection<Method_info> strictMethods = new TreeSet<>();
     private final Collection<Field_info> volatileFields = new TreeSet<>();
     private final Collection<Field_info> transientFields = new TreeSet<>();
     private final Map<Integer, Long> constantPoolEntryCounts = new HashMap<>();
@@ -115,6 +126,30 @@ public class MetricsGatherer extends VisitorBase {
 
     public Collection<Method_info> getSyntheticMethods() {
         return syntheticMethods;
+    }
+
+    public Collection<InnerClass> getSyntheticInnerClasses() {
+        return syntheticInnerClasses;
+    }
+
+    public Collection<Classfile> getAnnotationClasses() {
+        return annotationClasses;
+    }
+
+    public Collection<InnerClass> getAnnotationInnerClasses() {
+        return annotationInnerClasses;
+    }
+
+    public Collection<Classfile> getEnumClasses() {
+        return enumClasses;
+    }
+
+    public Collection<Field_info> getEnumFields() {
+        return enumFields;
+    }
+
+    public Collection<InnerClass> getEnumInnerClasses() {
+        return enumInnerClasses;
     }
 
     public Collection<Classfile> getDeprecatedClasses() {
@@ -225,12 +260,32 @@ public class MetricsGatherer extends VisitorBase {
         return finalInnerClasses;
     }
 
+    public Collection<Classfile> getSuperClasses() {
+        return superClasses;
+    }
+
+    public Collection<Classfile> getModuleClasses() {
+        return moduleClasses;
+    }
+
     public Collection<Method_info> getSynchronizedMethods() {
         return synchronizedMethods;
     }
 
     public Collection<Method_info> getNativeMethods() {
         return nativeMethods;
+    }
+
+    public Collection<Method_info> getBridgeMethods() {
+        return bridgeMethods;
+    }
+
+    public Collection<Method_info> getVarargsMethods() {
+        return varargsMethods;
+    }
+
+    public Collection<Method_info> getStrictMethods() {
+        return strictMethods;
     }
 
     public Collection<Field_info> getVolatileFields() {
@@ -270,6 +325,10 @@ public class MetricsGatherer extends VisitorBase {
             finalClasses.add(classfile);
         }
 
+        if (classfile.isSuper()) {
+            superClasses.add(classfile);
+        }
+
         if (classfile.isInterface()) {
             interfaces.add(classfile.getClassName());
         } else {
@@ -278,6 +337,22 @@ public class MetricsGatherer extends VisitorBase {
 
         if (classfile.isAbstract()) {
             abstractClasses.add(classfile);
+        }
+
+        if (classfile.isSynthetic()) {
+            syntheticClasses.add(classfile);
+        }
+
+        if (classfile.isAnnotation()) {
+            annotationClasses.add(classfile);
+        }
+
+        if (classfile.isEnum()) {
+            enumClasses.add(classfile);
+        }
+
+        if (classfile.isModule()) {
+            moduleClasses.add(classfile);
         }
 
         super.visitClassfile(classfile);
@@ -390,20 +465,32 @@ public class MetricsGatherer extends VisitorBase {
             packageFields.add(entry);
         }
 
+        if (entry.isFinal()) {
+            finalFields.add(entry);
+        }
+
+        if (entry.isDeprecated()) {
+            deprecatedFields.add(entry);
+        }
+
+        if (entry.isSynthetic()) {
+            syntheticFields.add(entry);
+        }
+
         if (entry.isStatic()) {
             staticFields.add(entry);
         }
 
-        if (entry.isFinal()) {
-            finalFields.add(entry);
+        if (entry.isTransient()) {
+            transientFields.add(entry);
         }
 
         if (entry.isVolatile()) {
             volatileFields.add(entry);
         }
 
-        if (entry.isTransient()) {
-            transientFields.add(entry);
+        if (entry.isEnum()) {
+            enumFields.add(entry);
         }
 
         super.visitField_info(entry);
@@ -422,24 +509,44 @@ public class MetricsGatherer extends VisitorBase {
             packageMethods.add(entry);
         }
 
-        if (entry.isStatic()) {
-            staticMethods.add(entry);
-        }
-
         if (entry.isFinal()) {
             finalMethods.add(entry);
+        }
+
+        if (entry.isAbstract()) {
+            abstractMethods.add(entry);
+        }
+
+        if (entry.isDeprecated()) {
+            deprecatedMethods.add(entry);
+        }
+
+        if (entry.isSynthetic()) {
+            syntheticMethods.add(entry);
+        }
+
+        if (entry.isStatic()) {
+            staticMethods.add(entry);
         }
 
         if (entry.isSynchronized()) {
             synchronizedMethods.add(entry);
         }
 
+        if (entry.isBridge()) {
+            bridgeMethods.add(entry);
+        }
+
+        if (entry.isVarargs()) {
+            varargsMethods.add(entry);
+        }
+
         if (entry.isNative()) {
             nativeMethods.add(entry);
         }
 
-        if (entry.isAbstract()) {
-            abstractMethods.add(entry);
+        if (entry.isStrict()) {
+            strictMethods.add(entry);
         }
 
         super.visitMethod_info(entry);
@@ -479,26 +586,6 @@ public class MetricsGatherer extends VisitorBase {
     public void visitSynthetic_attribute(Synthetic_attribute attribute) {
         super.visitSynthetic_attribute(attribute);
         visitAttribute(attribute.getAttributeName());
-
-        Object owner = attribute.getOwner();
-
-        if (owner instanceof Classfile classfile) {
-            syntheticClasses.add(classfile);
-        } else if (owner instanceof Field_info field) {
-            syntheticFields.add(field);
-        } else if (owner instanceof Method_info method) {
-            syntheticMethods.add(method);
-        } else {
-            LogManager.getLogger(getClass()).warn("Synthetic attribute on unknown Visitable: {}", owner.getClass().getName());
-        }
-
-        // TODO: Replace with type pattern matching in switch expression in Java 21
-        // switch (attribute.getOwner()) {
-        //     case Classfile classfile -> syntheticClasses.add(classfile);
-        //     case Field_info field -> syntheticFields.add(field);
-        //     case Method_info method -> syntheticMethods.add(method);
-        //     default -> LogManager.getLogger(getClass()).warn("Synthetic attribute on unknown Visitable: {}", owner.getClass().getName());
-        // }
     }
 
     public void visitSignature_attribute(Signature_attribute attribute) {
@@ -676,6 +763,18 @@ public class MetricsGatherer extends VisitorBase {
 
         if (helper.isAbstract()) {
             abstractInnerClasses.add(helper);
+        }
+
+        if (helper.isSynthetic()) {
+            syntheticInnerClasses.add(helper);
+        }
+
+        if (helper.isAnnotation()) {
+            annotationInnerClasses.add(helper);
+        }
+
+        if (helper.isEnum()) {
+            enumInnerClasses.add(helper);
         }
     }
 }
