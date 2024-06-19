@@ -115,7 +115,7 @@ public class TestCSVPrinter {
         // Given
         var numPercentiles = random.nextInt(10) + 1;
         var percentiles = IntStream.rangeClosed(1, numPercentiles)
-                .mapToObj(n -> random.nextInt(100))
+                .mapToObj(n -> random.nextInt(100) + 1)
                 .toList();
 
         // and
@@ -265,7 +265,7 @@ public class TestCSVPrinter {
         // Given
         var numPercentiles = random.nextInt(10) + 1;
         var percentiles = IntStream.rangeClosed(1, numPercentiles)
-                .mapToObj(n -> random.nextInt(100))
+                .mapToObj(n -> random.nextInt(100) + 1)
                 .toList();
 
         // and
