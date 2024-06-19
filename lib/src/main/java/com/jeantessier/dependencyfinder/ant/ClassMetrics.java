@@ -268,7 +268,7 @@ public class ClassMetrics extends Task {
         if (getList() && collection != null) {
             getOut().println(
                     collection.stream()
-                            .map(innerClass -> "        " + innerClass)
+                            .map(name -> "        " + name)
                             .collect(joining(EOL))
             );
         }

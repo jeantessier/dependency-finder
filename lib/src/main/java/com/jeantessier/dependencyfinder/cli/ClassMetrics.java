@@ -214,7 +214,7 @@ public class ClassMetrics extends DirectoryExplorerCommand {
         if (list && !collection.isEmpty()) {
             getOut().println(
                     collection.stream()
-                            .map(method -> "        " + method)
+                            .map(name -> "        " + name)
                             .collect(joining(EOL))
             );
         }
