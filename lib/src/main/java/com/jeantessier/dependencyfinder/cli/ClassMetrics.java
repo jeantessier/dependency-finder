@@ -65,22 +65,10 @@ public class ClassMetrics extends DirectoryExplorerCommand {
         getVerboseListener().print("Printing report ...");
 
         getOut().println(metrics.getClasses().size() + " class(es)");
-        if (list) {
-            getOut().println(
-                    metrics.getClasses().stream()
-                            .map(o -> "        " + o)
-                            .collect(joining(EOL))
-            );
-        }
+        printCollection(metrics.getClasses());
 
         getOut().println(metrics.getInterfaces().size() + " interface(s)");
-        if (list) {
-            getOut().println(
-                    metrics.getInterfaces().stream()
-                            .map(o -> "        " + o)
-                            .collect(joining(EOL))
-            );
-        }
+        printCollection(metrics.getInterfaces());
 
         getOut().println();
         getOut().println(metrics.getMethods().size() + " method(s) (average " + (metrics.getMethods().size() / (metrics.getClasses().size() + (double) metrics.getInterfaces().size())) + " per class/interface)");
@@ -101,85 +89,31 @@ public class ClassMetrics extends DirectoryExplorerCommand {
         printCFIC(" enum element(s)", metrics.getEnumClasses(), metrics.getEnumFields(), metrics.getEnumInnerClasses());
 
         getOut().println(metrics.getSuperClasses().size() + " super class(es)");
-        if (list) {
-            getOut().println(
-                    metrics.getSuperClasses().stream()
-                            .map(aClass -> "        " + aClass)
-                            .collect(joining(EOL))
-            );
-        }
+        printCollection(metrics.getSuperClasses());
 
         getOut().println(metrics.getModuleClasses().size() + " module class(es)");
-        if (list) {
-            getOut().println(
-                    metrics.getModuleClasses().stream()
-                            .map(aClass -> "        " + aClass)
-                            .collect(joining(EOL))
-            );
-        }
+        printCollection(metrics.getModuleClasses());
 
         getOut().println(metrics.getSynchronizedMethods().size() + " synchronized method(s)");
-        if (list) {
-            getOut().println(
-                    metrics.getSynchronizedMethods().stream()
-                            .map(method -> "        " + method)
-                            .collect(joining(EOL))
-            );
-        }
+        printCollection(metrics.getSynchronizedMethods());
 
         getOut().println(metrics.getNativeMethods().size() + " native method(s)");
-        if (list) {
-            getOut().println(
-                    metrics.getNativeMethods().stream()
-                            .map(method -> "        " + method)
-                            .collect(joining(EOL))
-            );
-        }
+        printCollection(metrics.getNativeMethods());
 
         getOut().println(metrics.getBridgeMethods().size() + " bridge method(s)");
-        if (list) {
-            getOut().println(
-                    metrics.getBridgeMethods().stream()
-                            .map(method -> "        " + method)
-                            .collect(joining(EOL))
-            );
-        }
+        printCollection(metrics.getBridgeMethods());
 
         getOut().println(metrics.getVarargsMethods().size() + " varargs method(s)");
-        if (list) {
-            getOut().println(
-                    metrics.getVarargsMethods().stream()
-                            .map(method -> "        " + method)
-                            .collect(joining(EOL))
-            );
-        }
+        printCollection(metrics.getVarargsMethods());
 
         getOut().println(metrics.getStrictMethods().size() + " strict method(s)");
-        if (list) {
-            getOut().println(
-                    metrics.getStrictMethods().stream()
-                            .map(method -> "        " + method)
-                            .collect(joining(EOL))
-            );
-        }
+        printCollection(metrics.getStrictMethods());
 
         getOut().println(metrics.getVolatileFields().size() + " volatile field(s)");
-        if (list) {
-            getOut().println(
-                    metrics.getVolatileFields().stream()
-                            .map(field -> "        " + field)
-                            .collect(joining(EOL))
-            );
-        }
+        printCollection(metrics.getVolatileFields());
 
         getOut().println(metrics.getTransientFields().size() + " transient field(s)");
-        if (list) {
-            getOut().println(
-                    metrics.getTransientFields().stream()
-                            .map(field -> "        " + field)
-                            .collect(joining(EOL))
-            );
-        }
+        printCollection(metrics.getTransientFields());
 
         getOut().println(metrics.getConstantPoolEntryCounts().values().stream().reduce(0L, Long::sum) + " constant pool entry(ies)");
         if (list) {
@@ -255,47 +189,34 @@ public class ClassMetrics extends DirectoryExplorerCommand {
                 (fields != null ? fields.size() : 0) +
                 (methods != null ? methods.size() : 0) +
                 (innerClasses != null ? innerClasses.size() : 0)) + label);
-        if (list) {
-            if (classes != null) {
-                getOut().println("    " + classes.size() + " class(es)");
-                getOut().println(
-                        classes.stream()
-                                .map(aClass -> "        " + aClass)
-                                .collect(joining(EOL))
-                );
-            }
+        if (classes != null) {
+            getOut().println("    " + classes.size() + " class(es)");
+            printCollection(classes);
+        }
 
-            if (fields != null) {
-                getOut().println("    " + fields.size() + " field(s)");
-                getOut().println(
-                        fields.stream()
-                                .map(field -> "        " + field)
-                                .collect(joining(EOL))
-                );
-            }
+        if (fields != null) {
+            getOut().println("    " + fields.size() + " field(s)");
+            printCollection(fields);
+        }
 
-            if (methods != null) {
-                getOut().println("    " + methods.size() + " method(s)");
-                getOut().println(
-                        methods.stream()
-                                .map(method -> "        " + method)
-                                .collect(joining(EOL))
-                );
-            }
+        if (methods != null) {
+            getOut().println("    " + methods.size() + " method(s)");
+            printCollection(methods);
+        }
 
-            if (innerClasses != null) {
-                getOut().println("    " + innerClasses.size() + " inner class(es)");
-                getOut().println(
-                        innerClasses.stream()
-                                .map(innerClass -> "        " + innerClass)
-                                .collect(joining(EOL))
-                );
-            }
-        } else {
-            if (classes != null) getOut().println("    " + classes.size() + " class(es)");
-            if (fields != null) getOut().println("    " + fields.size() + " fields(s)");
-            if (methods != null) getOut().println("    " + methods.size() + " method(s)");
-            if (innerClasses != null) getOut().println("    " + innerClasses.size() + " inner class(es)");
+        if (innerClasses != null) {
+            getOut().println("    " + innerClasses.size() + " inner class(es)");
+            printCollection(innerClasses);
+        }
+    }
+
+    private void printCollection(Collection<?> collection) throws IOException {
+        if (list && !collection.isEmpty()) {
+            getOut().println(
+                    collection.stream()
+                            .map(method -> "        " + method)
+                            .collect(joining(EOL))
+            );
         }
     }
 
