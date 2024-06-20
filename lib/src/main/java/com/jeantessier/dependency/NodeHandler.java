@@ -54,7 +54,7 @@ public class NodeHandler extends DefaultHandler {
     private Attributes   currentFeatureAttributes;
     private final StringBuffer currentName = new StringBuffer();
 
-    private final HashSet<DependencyListener> dependencyListeners = new HashSet<>();
+    private final Collection<DependencyListener> dependencyListeners = new HashSet<>();
 
     public NodeHandler() {
         this(new NodeFactory());
@@ -159,84 +159,40 @@ public class NodeHandler extends DefaultHandler {
         LogManager.getLogger(getClass()).debug("characters: \"{}\"", () -> new String(ch, start, length));
     }
 
+    private boolean isConfirmed(Attributes atts) {
+        return atts.getValue("confirmed") == null || "yes".equalsIgnoreCase(atts.getValue("confirmed"));
+    }
+
     public void addDependencyListener(DependencyListener listener) {
-        synchronized(dependencyListeners) {
-            dependencyListeners.add(listener);
-        }
+        dependencyListeners.add(listener);
     }
 
     public void removeDependencyListener(DependencyListener listener) {
-        synchronized(dependencyListeners) {
-            dependencyListeners.remove(listener);
-        }
+        dependencyListeners.remove(listener);
     }
 
     protected void fireBeginSession() {
         DependencyEvent event = new DependencyEvent(this);
-
-        HashSet<DependencyListener> listeners;
-        synchronized(dependencyListeners) {
-            listeners = (HashSet<DependencyListener>) dependencyListeners.clone();
-        }
-
-        for (DependencyListener listener : listeners) {
-            listener.beginSession(event);
-        }
+        dependencyListeners.forEach(listener -> listener.beginSession(event));
     }
     
     protected void fireBeginClass(String classname) {
         DependencyEvent event = new DependencyEvent(this, classname);
-
-        HashSet<DependencyListener> listeners;
-        synchronized(dependencyListeners) {
-            listeners = (HashSet<DependencyListener>) dependencyListeners.clone();
-        }
-
-        for (DependencyListener listener : listeners) {
-            listener.beginClass(event);
-        }
+        dependencyListeners.forEach(listener -> listener.beginClass(event));
     }
 
     protected void fireDependency(Node dependent, Node dependable) {
         DependencyEvent event = new DependencyEvent(this, dependent, dependable);
-
-        HashSet<DependencyListener> listeners;
-        synchronized(dependencyListeners) {
-            listeners = (HashSet<DependencyListener>) dependencyListeners.clone();
-        }
-
-        for (DependencyListener listener : listeners) {
-            listener.dependency(event);
-        }
+        dependencyListeners.forEach(listener -> listener.dependency(event));
     }
 
     protected void fireEndClass(String classname) {
         DependencyEvent event = new DependencyEvent(this, classname);
-
-        HashSet<DependencyListener> listeners;
-        synchronized(dependencyListeners) {
-            listeners = (HashSet<DependencyListener>) dependencyListeners.clone();
-        }
-
-        for (DependencyListener listener : listeners) {
-            listener.endClass(event);
-        }
+        dependencyListeners.forEach(listener -> listener.endClass(event));
     }
 
     protected void fireEndSession() {
         DependencyEvent event = new DependencyEvent(this);
-
-        HashSet<DependencyListener> listeners;
-        synchronized(dependencyListeners) {
-            listeners = (HashSet<DependencyListener>) dependencyListeners.clone();
-        }
-
-        for (DependencyListener listener : listeners) {
-            listener.endSession(event);
-        }
-    }
-
-    private boolean isConfirmed(Attributes atts) {
-        return atts.getValue("confirmed") == null || "yes".equalsIgnoreCase(atts.getValue("confirmed"));
+        dependencyListeners.forEach(listener -> listener.endSession(event));
     }
 }

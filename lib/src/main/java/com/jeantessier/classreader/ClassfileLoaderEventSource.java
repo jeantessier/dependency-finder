@@ -47,7 +47,7 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
     private final ClassfileLoader jarLoader;
     private final ClassfileLoader zipLoader = new ZipClassfileLoader(this);
 
-    private final Set<LoadListener> loadListeners = new HashSet<>();
+    private final Collection<LoadListener> loadListeners = new HashSet<>();
 
     private final LinkedList<String> groupNames = new LinkedList<>();
     private final LinkedList<Integer> groupSizes = new LinkedList<>();
@@ -144,16 +144,36 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
         }
     }
 
+    private String getTopGroupName() {
+        return groupNames.isEmpty() ? null : groupNames.getLast();
+    }
+
+    private void pushGroupName(String groupName) {
+        groupNames.addLast(groupName);
+    }
+
+    private void popGroupName() {
+        groupNames.removeLast();
+    }
+
+    private int getTopGroupSize() {
+        return groupSizes.isEmpty() ? 0 : groupSizes.getLast();
+    }
+
+    private void pushGroupSize(int size) {
+        groupSizes.addLast(size);
+    }
+
+    private void popGroupSize() {
+        groupSizes.removeLast();
+    }
+
     public void addLoadListener(LoadListener listener) {
-        synchronized(loadListeners) {
-            loadListeners.add(listener);
-        }
+        loadListeners.add(listener);
     }
 
     public void removeLoadListener(LoadListener listener) {
-        synchronized(loadListeners) {
-            loadListeners.remove(listener);
-        }
+        loadListeners.remove(listener);
     }
 
     protected void fireBeginSession() {
@@ -216,29 +236,5 @@ public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
         
         LoadEvent event = new LoadEvent(this, null, null, null);
         loadListeners.forEach(listener -> listener.endSession(event));
-    }
-
-    private String getTopGroupName() {
-        return groupNames.isEmpty() ? null : groupNames.getLast();
-    }
-
-    private void pushGroupName(String groupName) {
-        groupNames.addLast(groupName);
-    }
-
-    private void popGroupName() {
-        groupNames.removeLast();
-    }
-
-    private int getTopGroupSize() {
-        return groupSizes.isEmpty() ? 0 : groupSizes.getLast();
-    }
-
-    private void pushGroupSize(int size) {
-        groupSizes.addLast(size);
-    }
-
-    private void popGroupSize() {
-        groupSizes.removeLast();
     }
 }

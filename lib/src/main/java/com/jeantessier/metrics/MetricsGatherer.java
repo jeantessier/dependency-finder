@@ -32,35 +32,17 @@
 
 package com.jeantessier.metrics;
 
-import com.jeantessier.classreader.ClassNameHelper;
-import com.jeantessier.classreader.Class_info;
-import com.jeantessier.classreader.Classfile;
-import com.jeantessier.classreader.Deprecated_attribute;
-import com.jeantessier.classreader.DescriptorHelper;
-import com.jeantessier.classreader.ExceptionHandler;
-import com.jeantessier.classreader.FieldRef_info;
-import com.jeantessier.classreader.Field_info;
-import com.jeantessier.classreader.InnerClass;
-import com.jeantessier.classreader.Instruction;
-import com.jeantessier.classreader.InterfaceMethodRef_info;
-import com.jeantessier.classreader.LineNumber;
-import com.jeantessier.classreader.LocalVariable;
-import com.jeantessier.classreader.MethodRef_info;
-import com.jeantessier.classreader.Method_info;
-import com.jeantessier.classreader.Synthetic_attribute;
-import com.jeantessier.classreader.VisitorBase;
+import com.jeantessier.classreader.*;
 import org.apache.logging.log4j.*;
 import org.apache.oro.text.perl.Perl5Util;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.*;
 
 /**
- *  Collects metrics from Classfile instances.
+ *  <p>Collects metrics from Classfile instances.</p>
  *  
- *  This class can only approximate SLOC based on information provided
- *  by the compiler.
+ *  <p>This class can only approximate SLOC based on information provided
+ *  by the compiler.</p>
  */
 public class MetricsGatherer extends VisitorBase {
     private static final Perl5Util perl = new Perl5Util();
@@ -77,7 +59,7 @@ public class MetricsGatherer extends VisitorBase {
 
     private int sloc;
 
-    private final HashSet<MetricsListener> metricsListeners = new HashSet<>();
+    private final Collection<MetricsListener> metricsListeners = new HashSet<>();
 
     public MetricsGatherer(MetricsFactory factory) {
         this.factory = factory;
@@ -709,52 +691,40 @@ public class MetricsGatherer extends VisitorBase {
     }
 
     public void addMetricsListener(MetricsListener listener) {
-        synchronized(metricsListeners) {
-            metricsListeners.add(listener);
-        }
+        metricsListeners.add(listener);
     }
 
     public void removeMetricsListener(MetricsListener listener) {
-        synchronized(metricsListeners) {
-            metricsListeners.remove(listener);
-        }
+        metricsListeners.remove(listener);
     }
 
     protected void fireBeginSession(int size) {
         MetricsEvent event = new MetricsEvent(this, size);
-        cloneListeners().forEach(listener -> listener.beginSession(event));
+        metricsListeners.forEach(listener -> listener.beginSession(event));
     }
 
     protected void fireBeginClass(Classfile classfile) {
         MetricsEvent event = new MetricsEvent(this, classfile);
-        cloneListeners().forEach(listener -> listener.beginClass(event));
+        metricsListeners.forEach(listener -> listener.beginClass(event));
     }
 
     protected void fireBeginMethod(Method_info method) {
         MetricsEvent event = new MetricsEvent(this, method);
-        cloneListeners().forEach(listener -> listener.beginMethod(event));
+        metricsListeners.forEach(listener -> listener.beginMethod(event));
     }
 
     protected void fireEndMethod(Method_info method, Metrics metrics) {
         MetricsEvent event = new MetricsEvent(this, method, metrics);
-        cloneListeners().forEach(listener -> listener.endMethod(event));
+        metricsListeners.forEach(listener -> listener.endMethod(event));
     }
 
     protected void fireEndClass(Classfile classfile, Metrics metrics) {
         MetricsEvent event = new MetricsEvent(this, classfile, metrics);
-        cloneListeners().forEach(listener -> listener.endClass(event));
+        metricsListeners.forEach(listener -> listener.endClass(event));
     }
 
     protected void fireEndSession() {
         MetricsEvent event = new MetricsEvent(this);
-        cloneListeners().forEach(listener -> listener.endSession(event));
-    }
-
-    private Collection<MetricsListener> cloneListeners() {
-        Collection<MetricsListener> result;
-        synchronized(metricsListeners) {
-            result = (Collection<MetricsListener>) metricsListeners.clone();
-        }
-        return result;
+        metricsListeners.forEach(listener -> listener.endSession(event));
     }
 }

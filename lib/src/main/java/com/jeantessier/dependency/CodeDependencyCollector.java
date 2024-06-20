@@ -53,7 +53,8 @@ public class CodeDependencyCollector extends CollectorBase {
     private final SelectionCriteria filterCriteria;
 
     private Node current;
-    private final HashSet<DependencyListener> dependencyListeners = new HashSet<>();
+
+    private final Collection<DependencyListener> dependencyListeners = new HashSet<>();
 
     public CodeDependencyCollector() {
         this(new NodeFactory());
@@ -308,15 +309,11 @@ public class CodeDependencyCollector extends CollectorBase {
     }
 
     public void addDependencyListener(DependencyListener listener) {
-        synchronized(dependencyListeners) {
-            dependencyListeners.add(listener);
-        }
+        dependencyListeners.add(listener);
     }
 
     public void removeDependencyListener(DependencyListener listener) {
-        synchronized(dependencyListeners) {
-            dependencyListeners.remove(listener);
-        }
+        dependencyListeners.remove(listener);
     }
 
     protected void fireBeginSession() {

@@ -58,6 +58,10 @@ public abstract class ClassfileLoaderDecorator extends ClassfileLoader {
         return getLoader().getAllClassNames();
     }
 
+    protected Classfile load(DataInput in) throws IOException {
+        return getLoader().load(in);
+    }
+
     public void addLoadListener(LoadListener listener) {
         getLoader().addLoadListener(listener);
     }
@@ -96,9 +100,5 @@ public abstract class ClassfileLoaderDecorator extends ClassfileLoader {
 
     protected void fireEndSession() {
         getLoader().fireEndSession();
-    }
-    
-    protected Classfile load(DataInput in) throws IOException {
-        return getLoader().load(in);
     }
 }
