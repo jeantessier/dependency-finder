@@ -113,6 +113,14 @@ public class Code_attribute extends Attribute_info implements Iterable<Instructi
         return new CodeIterator(this, code);
     }
 
+    public Spliterator<Instruction> spliterator() {
+        return new CodeSpliterator(this, code);
+    }
+
+    public Stream<Instruction> stream() {
+        return StreamSupport.stream(spliterator(), false);
+    }
+
     public Collection<ExceptionHandler> getExceptionHandlers() {
         return exceptionHandlers;
     }

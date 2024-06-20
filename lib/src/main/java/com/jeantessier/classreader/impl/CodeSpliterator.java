@@ -30,17 +30,44 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.jeantessier.classreader;
+package com.jeantessier.classreader.impl;
 
-import java.util.*;
-import java.util.stream.*;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 
-public interface Code_attribute extends Attribute_info, Iterable<Instruction> {
-    int getMaxStack();
-    int getMaxLocals();
-    byte[] getCode();
-    Iterator<Instruction> iterator();
-    Stream<Instruction> stream();
-    Collection<? extends ExceptionHandler> getExceptionHandlers();
-    Collection<? extends Attribute_info> getAttributes();
+public class CodeSpliterator implements Spliterator<com.jeantessier.classreader.Instruction> {
+    private final Code_attribute code;
+    private final byte[] bytecode;
+    private int pc;
+
+    public CodeSpliterator(Code_attribute code, byte[] bytecode) {
+        this.code = code;
+        this.bytecode = bytecode;
+        this.pc = 0;
+    }
+
+    public boolean tryAdvance(Consumer<? super com.jeantessier.classreader.Instruction> action) {
+        if (pc < bytecode.length) {
+            var instruction = new Instruction(code, bytecode, pc);
+            pc += instruction.getLength();
+
+            action.accept(instruction);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public Spliterator<com.jeantessier.classreader.Instruction> trySplit() {
+        return null;
+    }
+
+    public long estimateSize() {
+        return bytecode.length - pc;
+    }
+
+    public int characteristics() {
+        return Spliterator.ORDERED | Spliterator.NONNULL | Spliterator.IMMUTABLE;
+    }
 }
