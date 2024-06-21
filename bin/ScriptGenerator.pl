@@ -42,6 +42,7 @@ use constant { true => 1, false => 0 };
 getopts(":cguvw");
 
 %TEMPLATES = (
+              "BridgeCollector" => ".cli.template.txt",
               "ClassClassDiff" => ".cli.template.txt",
               "ClassCohesion" => ".cli.template.txt",
               "ClassDump" => ".cli.template.txt",
