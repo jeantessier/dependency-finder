@@ -73,7 +73,7 @@ public class XMLPrinter extends Printer {
         if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
             indent().append("<project>").eol();
             raiseIndent();
-            indent().append("<name>").append(metrics.getName()).append("</name>").eol();
+            indent().append("<name>").append(metrics.getKey()).append("</name>").eol();
             
             visitMeasurements(metrics, configuration.getProjectMeasurements());
             metrics.getSubMetrics().forEach(this::visitGroupMetrics);
@@ -87,7 +87,7 @@ public class XMLPrinter extends Printer {
         if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
             indent().append("<group>").eol();
             raiseIndent();
-            indent().append("<name>").append(metrics.getName()).append("</name>").eol();
+            indent().append("<name>").append(metrics.getKey()).append("</name>").eol();
             
             visitMeasurements(metrics, configuration.getGroupMeasurements());
             metrics.getSubMetrics().forEach(this::visitClassMetrics);
@@ -101,7 +101,7 @@ public class XMLPrinter extends Printer {
         if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
             indent().append("<class>").eol();
             raiseIndent();
-            indent().append("<name>").append(metrics.getName()).append("</name>").eol();
+            indent().append("<name>").append(metrics.getKey()).append("</name>").eol();
             
             visitMeasurements(metrics, configuration.getClassMeasurements());
             metrics.getSubMetrics().forEach(this::visitMethodMetrics);
@@ -115,7 +115,7 @@ public class XMLPrinter extends Printer {
         if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
             indent().append("<method>").eol();
             raiseIndent();
-            indent().append("<name>").append(metrics.getName()).append("</name>").eol();
+            indent().append("<name>").append(metrics.getKey()).append("</name>").eol();
             
             visitMeasurements(metrics, configuration.getMethodMeasurements());
             
@@ -167,7 +167,9 @@ public class XMLPrinter extends Printer {
         if (isExpandCollectionMeasurements()) {
             indent().append("<members>").eol();
             raiseIndent();
-            measurement.getValues().forEach(member -> indent().append("<member>").append(member).append("</member>").eol());
+            measurement.getValues().stream()
+                    .sorted()
+                    .forEach(member -> indent().append("<member>").append(member).append("</member>").eol());
             lowerIndent();
             indent().append("</members>").eol();
         }

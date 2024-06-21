@@ -106,17 +106,17 @@ public class TestMetricsFactory extends TestCase {
     }
 
     public void testCreateMethodMetrics() {
-        Metrics m1 = factory.createMethodMetrics("foo");
+        Metrics m1 = factory.createMethodMetrics("foo", "bar");
         assertNotNull(m1);
         assertEquals("New metrics name", "foo", m1.getName());
 
-        Metrics m2 = factory.createMethodMetrics("foo");
+        Metrics m2 = factory.createMethodMetrics("foo", "bar");
         assertSame(m1, m2);
         assertEquals("method measurements", configuration.getMethodMeasurements().size(), m1.getMeasurementNames().size());
     }
     
     public void testIncludeMethodMetrics() {
-        Metrics m1 = factory.createMethodMetrics("foo");
+        Metrics m1 = factory.createMethodMetrics("foo", "bar");
 
         assertFalse("MethodMetrics() contains external metrics", factory.getMethodMetrics().contains(m1));
 
@@ -126,13 +126,13 @@ public class TestMetricsFactory extends TestCase {
     }
     
     public void testCreateStaticInitializerMetrics() {
-        Metrics m = factory.createMethodMetrics("foo.static {}");
+        Metrics m = factory.createMethodMetrics("foo.static {}", "void");
 
         assertEquals("class name", "foo", m.getParent().getName());
     }
 
     public void testCreateStructure() {
-        Metrics methodMetrics  = factory.createMethodMetrics("a.A.a()");
+        Metrics methodMetrics  = factory.createMethodMetrics("a.A.a()", "a.A");
         Metrics classMetrics   = factory.createClassMetrics("a.A");
         Metrics packageMetrics = factory.createGroupMetrics("a");
         Metrics projectMetrics = factory.createProjectMetrics();

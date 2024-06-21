@@ -91,7 +91,7 @@
             <init>
                 CaComp
                 IEP
-                IEPM /^(.*)\.[^\.]*\(.*\)$/
+                IEPM /^(.*)\.[^\.]*\(.*\)(: \S.*)?$/
             </init>
         </measurement>
         <measurement>
@@ -183,7 +183,7 @@
             <long-name>Afferent Coupling from methods</long-name>
             <class>com.jeantessier.metrics.SubMetricsAccumulatorMeasurement</class>
             <init>
-                IEPM /^(.*)\.[^\.]*\(.*\)$/
+                IEPM /^(.*)\.[^\.]*\(.*\)(: \S.*)?$/
             </init>
         </measurement>
         <measurement visible="no">
@@ -191,7 +191,7 @@
             <long-name>Efferent Coupling from methods</long-name>
             <class>com.jeantessier.metrics.SubMetricsAccumulatorMeasurement</class>
             <init>
-                OEPF /^(.*)\.[^\.]*\(.*\)$/
+                OEPF /^(.*)\.[^\.]*\(.*\)(: \S.*)?$/
                 OEPC
             </init>
         </measurement>

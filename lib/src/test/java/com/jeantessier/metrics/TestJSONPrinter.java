@@ -7,8 +7,6 @@ import java.util.*;
 import java.util.stream.*;
 
 import static java.util.stream.Collectors.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 public class TestJSONPrinter {
@@ -34,10 +32,8 @@ public class TestJSONPrinter {
         // Then
         var lines = buffer.toString().lines().iterator();
         var i = 0;
-        assertEquals("Line " + ++i, "[", lines.next());
-        assertEquals("Line " + ++i, "    ", lines.next());
-        assertEquals("Line " + ++i, "]", lines.next());
-        assertThat("End of report", lines.hasNext(), is(false));
+        assertEquals("Line " + ++i, "[]", lines.next());
+        assertFalse("End of report", lines.hasNext());
     }
 
     @Test
@@ -122,10 +118,8 @@ public class TestJSONPrinter {
         // Then
         var lines = buffer.toString().lines().iterator();
         var i = 0;
-        assertEquals("Line " + ++i, "[", lines.next());
-        assertEquals("Line " + ++i, "    ", lines.next());
-        assertEquals("Line " + ++i, "]", lines.next());
-        assertThat("End of report", lines.hasNext(), is(false));
+        assertEquals("Line " + ++i, "[]", lines.next());
+        assertFalse("End of report", lines.hasNext());
     }
 
     @Test
@@ -257,7 +251,7 @@ public class TestJSONPrinter {
         assertEquals("Line " + ++i, "        ]", lines.next());
         assertEquals("Line " + ++i, "    }", lines.next());
         assertEquals("Line " + ++i, "]", lines.next());
-        assertThat("End of report", lines.hasNext(), is(false));
+        assertFalse("End of report", lines.hasNext());
     }
 
     @Test
@@ -410,7 +404,7 @@ public class TestJSONPrinter {
         assertEquals("Line " + ++i, "        ]", lines.next());
         assertEquals("Line " + ++i, "    }", lines.next());
         assertEquals("Line " + ++i, "]", lines.next());
-        assertThat("End of report", lines.hasNext(), is(false));
+        assertFalse("End of report", lines.hasNext());
     }
 
     @Test
@@ -611,6 +605,6 @@ public class TestJSONPrinter {
         assertEquals("Line " + ++i, "        ]", lines.next());
         assertEquals("Line " + ++i, "    }", lines.next());
         assertEquals("Line " + ++i, "]", lines.next());
-        assertThat("End of report", lines.hasNext(), is(false));
+        assertFalse("End of report", lines.hasNext());
     }
 }
