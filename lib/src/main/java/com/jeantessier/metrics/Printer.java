@@ -198,12 +198,19 @@ public abstract class Printer implements MeasurementVisitor {
 
     protected abstract void visitMeasurement(Measurement measurement);
 
-    protected boolean hasVisibleMeasurements(List<MeasurementDescriptor> descriptors) {
-        return descriptors.stream()
-                .anyMatch(descriptor -> isShowHiddenMeasurements() || descriptor.isVisible());
+    protected boolean hasVisibleMetrics(Collection<Metrics> metrics) {
+        return isShowEmptyMetrics() || isShowHiddenMeasurements() || metrics.stream().anyMatch(m -> !m.isEmpty());
     }
 
-    protected void visitMeasurements(Metrics metrics, List<MeasurementDescriptor> descriptors) {
+    protected boolean isVisibleMetrics(Metrics metrics) {
+        return isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty();
+    }
+
+    protected boolean hasVisibleMeasurements(Collection<MeasurementDescriptor> descriptors) {
+        return isShowHiddenMeasurements() || descriptors.stream().anyMatch(MeasurementDescriptor::isVisible);
+    }
+
+    protected void visitMeasurements(Metrics metrics, Collection<MeasurementDescriptor> descriptors) {
         descriptors.stream()
                 .filter(descriptor -> isShowHiddenMeasurements() || descriptor.isVisible())
                 .forEach(descriptor -> metrics.getMeasurement(descriptor.getShortName()).accept(this));

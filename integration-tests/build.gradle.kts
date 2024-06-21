@@ -13,6 +13,7 @@ dependencies {
     testImplementation(libs.bundles.jmock)
 
     testImplementation(project("jarjardiff"))
+    testImplementation(project("metrics"))
 }
 
 java {

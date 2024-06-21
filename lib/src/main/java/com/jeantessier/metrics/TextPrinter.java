@@ -56,7 +56,7 @@ public class TextPrinter extends Printer {
         if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
             currentMetrics = metrics;
             
-            indent().append(metrics.getName()).eol();
+            indent().append(metrics.getKey()).eol();
             raiseIndent();
 
             visitMeasurements(metrics, descriptors);
@@ -118,7 +118,9 @@ public class TextPrinter extends Printer {
     protected void visitCollectionMeasurement(CollectionMeasurement measurement) {
         if (isExpandCollectionMeasurements()) {
             raiseIndent();
-            measurement.getValues().forEach(value -> indent().append(value).eol());
+            measurement.getValues().stream()
+                    .sorted()
+                    .forEach(value -> indent().append(value).eol());
             lowerIndent();
         }
     }

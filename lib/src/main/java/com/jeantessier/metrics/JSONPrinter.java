@@ -55,26 +55,30 @@ public class JSONPrinter extends Printer {
     }
 
     private void visitProjectMetrics(Collection<Metrics> metrics) {
-        append("[").eol();
-        raiseIndent();
+        if (hasVisibleMetrics(metrics)) {
+            append("[").eol();
+            raiseIndent();
 
-        indent().append(metrics.stream()
-                .filter(projectMetrics -> isShowEmptyMetrics() || isShowHiddenMeasurements() || !projectMetrics.isEmpty())
-                .map(projectMetrics -> {
-                    StringWriter out = new StringWriter();
-                    clonePrinter(out).visitProjectMetrics(projectMetrics);
-                    return out.toString();
-                })
-                .collect(joining(", "))).eol();
+            indent().append(metrics.stream()
+                    .filter(this::isVisibleMetrics)
+                    .map(projectMetrics -> {
+                        StringWriter out = new StringWriter();
+                        clonePrinter(out).visitProjectMetrics(projectMetrics);
+                        return out.toString();
+                    })
+                    .collect(joining(", "))).eol();
 
-        lowerIndent();
-        indent().append("]");
+            lowerIndent();
+            indent().append("]");
+        } else {
+            append("[]");
+        }
     }
 
     private void visitProjectMetrics(Metrics metrics) {
         append("{").eol();
         raiseIndent();
-        indent().append("\"name\": \"").append(metrics.getName()).append("\",").eol();
+        indent().append("\"name\": \"").append(metrics.getKey()).append("\",").eol();
 
         indent().append("\"measurements\": ");
         visitMeasurements(metrics, configuration.getProjectMeasurements());
@@ -89,26 +93,30 @@ public class JSONPrinter extends Printer {
     }
 
     private void visitGroupMetrics(Collection<Metrics> metrics) {
-        append("[").eol();
-        raiseIndent();
+        if (hasVisibleMetrics(metrics)) {
+            append("[").eol();
+            raiseIndent();
 
-        indent().append(metrics.stream()
-                .filter(groupMetrics -> isShowEmptyMetrics() || isShowHiddenMeasurements() || !groupMetrics.isEmpty())
-                .map(groupMetrics -> {
-                    StringWriter out = new StringWriter();
-                    clonePrinter(out).visitGroupMetrics(groupMetrics);
-                    return out.toString();
-                })
-                .collect(joining(", "))).eol();
+            indent().append(metrics.stream()
+                    .filter(this::isVisibleMetrics)
+                    .map(groupMetrics -> {
+                        StringWriter out = new StringWriter();
+                        clonePrinter(out).visitGroupMetrics(groupMetrics);
+                        return out.toString();
+                    })
+                    .collect(joining(", "))).eol();
 
-        lowerIndent();
-        indent().append("]");
+            lowerIndent();
+            indent().append("]");
+        } else {
+            append("[]");
+        }
     }
 
     private void visitGroupMetrics(Metrics metrics) {
         append("{").eol();
         raiseIndent();
-        indent().append("\"name\": \"").append(metrics.getName()).append("\",").eol();
+        indent().append("\"name\": \"").append(metrics.getKey()).append("\",").eol();
 
         indent().append("\"measurements\": ");
         visitMeasurements(metrics, configuration.getGroupMeasurements());
@@ -123,26 +131,30 @@ public class JSONPrinter extends Printer {
     }
 
     private void visitClassMetrics(Collection<Metrics> metrics) {
-        append("[").eol();
-        raiseIndent();
+        if (hasVisibleMetrics(metrics)) {
+            append("[").eol();
+            raiseIndent();
 
-        indent().append(metrics.stream()
-                .filter(classMetrics -> isShowEmptyMetrics() || isShowHiddenMeasurements() || !classMetrics.isEmpty())
-                .map(classMetrics -> {
-                    StringWriter out = new StringWriter();
-                    clonePrinter(out).visitClassMetrics(classMetrics);
-                    return out.toString();
-                })
-                .collect(joining(", "))).eol();
+            indent().append(metrics.stream()
+                    .filter(this::isVisibleMetrics)
+                    .map(classMetrics -> {
+                        StringWriter out = new StringWriter();
+                        clonePrinter(out).visitClassMetrics(classMetrics);
+                        return out.toString();
+                    })
+                    .collect(joining(", "))).eol();
 
-        lowerIndent();
-        indent().append("]");
+            lowerIndent();
+            indent().append("]");
+        } else {
+            append("[]");
+        }
     }
 
     private void visitClassMetrics(Metrics metrics) {
         append("{").eol();
         raiseIndent();
-        indent().append("\"name\": \"").append(metrics.getName()).append("\",").eol();
+        indent().append("\"name\": \"").append(metrics.getKey()).append("\",").eol();
 
         indent().append("\"measurements\": ");
         visitMeasurements(metrics, configuration.getClassMeasurements());
@@ -157,26 +169,30 @@ public class JSONPrinter extends Printer {
     }
 
     private void visitMethodMetrics(Collection<Metrics> metrics) {
-        append("[").eol();
-        raiseIndent();
+        if (hasVisibleMetrics(metrics)) {
+            append("[").eol();
+            raiseIndent();
 
-        indent().append(metrics.stream()
-                .filter(methodMetrics -> isShowEmptyMetrics() || isShowHiddenMeasurements() || !methodMetrics.isEmpty())
-                .map(methodMetrics -> {
-                    StringWriter out = new StringWriter();
-                    clonePrinter(out).visitMethodMetrics(methodMetrics);
-                    return out.toString();
-                })
-                .collect(joining(", "))).eol();
+            indent().append(metrics.stream()
+                    .filter(this::isVisibleMetrics)
+                    .map(methodMetrics -> {
+                        StringWriter out = new StringWriter();
+                        clonePrinter(out).visitMethodMetrics(methodMetrics);
+                        return out.toString();
+                    })
+                    .collect(joining(", "))).eol();
 
-        lowerIndent();
-        indent().append("]");
+            lowerIndent();
+            indent().append("]");
+        } else {
+            append("[]");
+        }
     }
 
     private void visitMethodMetrics(Metrics metrics) {
         append("{").eol();
         raiseIndent();
-        indent().append("\"name\": \"").append(metrics.getName()).append("\",").eol();
+        indent().append("\"name\": \"").append(metrics.getKey()).append("\",").eol();
 
         indent().append("\"measurements\": ");
         visitMeasurements(metrics, configuration.getMethodMeasurements());
@@ -187,21 +203,25 @@ public class JSONPrinter extends Printer {
     }
 
     protected void visitMeasurements(Metrics metrics, List<MeasurementDescriptor> descriptors) {
-        append("[").eol();
-        raiseIndent();
+        if (hasVisibleMeasurements(descriptors)) {
+            append("[").eol();
+            raiseIndent();
 
-        indent().append(descriptors.stream()
-                .filter(descriptor -> isShowHiddenMeasurements() || descriptor.isVisible())
-                .map(descriptor -> metrics.getMeasurement(descriptor.getShortName()))
-                .map(measurement -> {
-                    StringWriter out = new StringWriter();
-                    measurement.accept(clonePrinter(out));
-                    return out.toString();
-                })
-                .collect(joining(", "))).eol();
+            indent().append(descriptors.stream()
+                    .filter(descriptor -> isShowHiddenMeasurements() || descriptor.isVisible())
+                    .map(descriptor -> metrics.getMeasurement(descriptor.getShortName()))
+                    .map(measurement -> {
+                        StringWriter out = new StringWriter();
+                        measurement.accept(clonePrinter(out));
+                        return out.toString();
+                    })
+                    .collect(joining(", "))).eol();
 
-        lowerIndent();
-        indent().append("]");
+            lowerIndent();
+            indent().append("]");
+        } else {
+            append("[]");
+        }
     }
 
     public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
@@ -265,7 +285,7 @@ public class JSONPrinter extends Printer {
 
         if (isExpandCollectionMeasurements()) {
             indent().append("\"value\": ").append(measurement.getValue()).append(",").eol();
-            indent().append("\"members\": [").append(measurement.getValues().stream().map(value -> "\"" + value + "\"").collect(joining(", "))).append("]").eol();
+            indent().append("\"members\": [").append(measurement.getValues().stream().sorted().map(value -> "\"" + value + "\"").collect(joining(", "))).append("]").eol();
         } else {
             indent().append("\"value\": ").append(measurement.getValue()).eol();
         }

@@ -33,6 +33,8 @@
 package com.jeantessier.metrics;
 
 import java.io.*;
+import java.util.Collection;
+import java.util.function.Consumer;
 
 public class YAMLPrinter extends Printer {
     private final MetricsConfiguration configuration;
@@ -54,25 +56,10 @@ public class YAMLPrinter extends Printer {
         if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
             indent().append("-").eol();
             raiseIndent();
-            indent().append("name: ").append(formatText(metrics.getName())).eol();
+            indent().append("name: ").append(formatText(metrics.getKey())).eol();
 
-            if (hasVisibleMeasurements(configuration.getProjectMeasurements())) {
-                indent().append("measurements:").eol();
-                raiseIndent();
-                visitMeasurements(metrics, configuration.getProjectMeasurements());
-                lowerIndent();
-            } else {
-                indent().append("measurements: []").eol();
-            }
-
-            if (metrics.getSubMetrics().isEmpty()) {
-                indent().append("groups: []").eol();
-            } else {
-                indent().append("groups:").eol();
-                raiseIndent();
-                metrics.getSubMetrics().forEach(this::visitGroupMetrics);
-                lowerIndent();
-            }
+            printMeasurements(metrics, configuration.getProjectMeasurements());
+            printMetrics("groups", metrics.getSubMetrics(), this::visitGroupMetrics);
 
             lowerIndent();
         }
@@ -82,25 +69,10 @@ public class YAMLPrinter extends Printer {
         if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
             indent().append("-").eol();
             raiseIndent();
-            indent().append("name: ").append(formatText(metrics.getName())).eol();
+            indent().append("name: ").append(formatText(metrics.getKey())).eol();
 
-            if (hasVisibleMeasurements(configuration.getGroupMeasurements())) {
-                indent().append("measurements:").eol();
-                raiseIndent();
-                visitMeasurements(metrics, configuration.getGroupMeasurements());
-                lowerIndent();
-            } else {
-                indent().append("measurements: []").eol();
-            }
-
-            if (metrics.getSubMetrics().isEmpty()) {
-                indent().append("classes: []").eol();
-            } else {
-                indent().append("classes:").eol();
-                raiseIndent();
-                metrics.getSubMetrics().forEach(this::visitClassMetrics);
-                lowerIndent();
-            }
+            printMeasurements(metrics, configuration.getGroupMeasurements());
+            printMetrics("classes", metrics.getSubMetrics(), this::visitClassMetrics);
 
             lowerIndent();
         }
@@ -110,46 +82,46 @@ public class YAMLPrinter extends Printer {
         if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
             indent().append("-").eol();
             raiseIndent();
-            indent().append("name: ").append(formatText(metrics.getName())).eol();
+            indent().append("name: ").append(formatText(metrics.getKey())).eol();
 
-            if (hasVisibleMeasurements(configuration.getClassMeasurements())) {
-                indent().append("measurements:").eol();
-                raiseIndent();
-                visitMeasurements(metrics, configuration.getClassMeasurements());
-                lowerIndent();
-            } else {
-                indent().append("measurements: []").eol();
-            }
-
-            if (metrics.getSubMetrics().isEmpty()) {
-                indent().append("methods:  []").eol();
-            } else {
-                indent().append("methods:").eol();
-                raiseIndent();
-                metrics.getSubMetrics().forEach(this::visitMethodMetrics);
-                lowerIndent();
-            }
+            printMeasurements(metrics, configuration.getClassMeasurements());
+            printMetrics("methods", metrics.getSubMetrics(), this::visitMethodMetrics);
 
             lowerIndent();
         }
     }
 
     private void visitMethodMetrics(Metrics metrics) {
-        if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
-            indent().append("-").eol();
+        indent().append("-").eol();
+        raiseIndent();
+        indent().append("name: ").append(formatText(metrics.getKey())).eol();
+
+        printMeasurements(metrics, configuration.getMethodMeasurements());
+
+        lowerIndent();
+    }
+
+    private void printMeasurements(Metrics metrics, Collection<MeasurementDescriptor> descriptors) {
+        if (hasVisibleMeasurements(descriptors)) {
+            indent().append("measurements:").eol();
             raiseIndent();
-            indent().append("name: ").append(formatText(metrics.getName())).eol();
-
-            if (hasVisibleMeasurements(configuration.getMethodMeasurements())) {
-                indent().append("measurements:").eol();
-                raiseIndent();
-                visitMeasurements(metrics, configuration.getMethodMeasurements());
-                lowerIndent();
-            } else {
-                indent().append("measurements: []").eol();
-            }
-
+            visitMeasurements(metrics, descriptors);
             lowerIndent();
+        } else {
+            indent().append("measurements: []").eol();
+        }
+    }
+
+    private void printMetrics(String label, Collection<Metrics> metrics, Consumer<Metrics> consumer) {
+        if (hasVisibleMetrics(metrics)) {
+            indent().append(label).append(":").eol();
+            raiseIndent();
+            metrics.stream()
+                    .filter(this::isVisibleMetrics)
+                    .forEach(consumer);
+            lowerIndent();
+        } else {
+            indent().append(label).append(": []").eol();
         }
     }
 
@@ -205,7 +177,9 @@ public class YAMLPrinter extends Printer {
             } else {
                 indent().append("members:").eol();
                 raiseIndent();
-                measurement.getValues().forEach(member -> indent().append("- ").append(formatText(member)).eol());
+                measurement.getValues().stream()
+                        .sorted()
+                        .forEach(member -> indent().append("- ").append(formatText(member)).eol());
                 lowerIndent();
             }
         }
@@ -223,6 +197,14 @@ public class YAMLPrinter extends Printer {
     }
 
     private String formatText(String name) {
-        return name.isEmpty() ? "\"\"" : name;
+        if (name.isEmpty()) {
+            return "\"\"";
+        }
+
+        if (name.contains(": ")) {
+            return "\"" + name + "\"";
+        }
+
+        return name;
     }
 }

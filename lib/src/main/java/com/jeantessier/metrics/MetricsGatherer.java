@@ -37,6 +37,7 @@ import org.apache.logging.log4j.*;
 import org.apache.oro.text.perl.Perl5Util;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  *  <p>Collects metrics from Classfile instances.</p>
@@ -112,12 +113,10 @@ public class MetricsGatherer extends VisitorBase {
     }
 
     private Collection<Metrics> getAllMatchingGroups(String className) {
-        Collection<Metrics> result = new java.util.ArrayList<>();
-
-        result.add(getCurrentGroup());
-        result.addAll(getMetricsFactory().getGroupMetrics(className));
-
-        return result;
+        return Stream.concat(
+                Stream.of(getCurrentGroup()),
+                getMetricsFactory().getGroupMetrics(className).stream()
+        ).toList();
     }
 
     public void visitClassfiles(Collection<Classfile> classfiles) {
@@ -131,8 +130,19 @@ public class MetricsGatherer extends VisitorBase {
     // Classfile
     public void visitClassfile(Classfile classfile) {
         String className = classfile.getClassName();
-        LogManager.getLogger(getClass()).debug("VisitClassfile():");
+
+        LogManager.getLogger(getClass()).debug("visitClassfile():");
         LogManager.getLogger(getClass()).debug("    class = \"{}\"", className);
+        LogManager.getLogger(getClass()).debug("    access flag: {}", () -> classfile.getAccessFlags());
+        LogManager.getLogger(getClass()).debug("    public: {}", () -> classfile.isPublic());
+        LogManager.getLogger(getClass()).debug("    final: {}", () -> classfile.isFinal());
+        LogManager.getLogger(getClass()).debug("    super: {}", () -> classfile.isSuper());
+        LogManager.getLogger(getClass()).debug("    interface: {}", () -> classfile.isInterface());
+        LogManager.getLogger(getClass()).debug("    abstract: {}", () -> classfile.isAbstract());
+        LogManager.getLogger(getClass()).debug("    synthetic: {}", () -> classfile.isSynthetic());
+        LogManager.getLogger(getClass()).debug("    annotation: {}", () -> classfile.isAnnotation());
+        LogManager.getLogger(getClass()).debug("    enum: {}", () -> classfile.isEnum());
+        LogManager.getLogger(getClass()).debug("    module: {}", () -> classfile.isModule());
 
         fireBeginClass(classfile);
         
@@ -149,6 +159,9 @@ public class MetricsGatherer extends VisitorBase {
         Collection<Metrics> groups = getAllMatchingGroups(className);
 
         groups.forEach(group -> group.addToMeasurement(BasicMeasurements.PACKAGES, getCurrentGroup().getName()));
+
+        getCurrentProject().addToMeasurement(BasicMeasurements.CLASSES, className);
+        groups.forEach(group -> group.addToMeasurement(BasicMeasurements.CLASSES, className));
 
         if (classfile.isPublic()) {
             getCurrentProject().addToMeasurement(BasicMeasurements.PUBLIC_CLASSES, className);
@@ -226,7 +239,7 @@ public class MetricsGatherer extends VisitorBase {
     
     // ConstantPool entries
     public void visitClass_info(Class_info entry) {
-        LogManager.getLogger(getClass()).debug("VisitClass_info():");
+        LogManager.getLogger(getClass()).debug("visitClass_info():");
         LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getName());
         if (entry.getName().startsWith("[")) {
             addClassDependencies(processDescriptor(entry.getName()));
@@ -236,7 +249,7 @@ public class MetricsGatherer extends VisitorBase {
     }
     
     public void visitFieldRef_info(FieldRef_info entry) {
-        LogManager.getLogger(getClass()).debug("VisitFieldRef_info():");
+        LogManager.getLogger(getClass()).debug("visitFieldRef_info():");
         LogManager.getLogger(getClass()).debug("    class = \"{}\"", () -> entry.getClassName());
         LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getRawNameAndType().getName());
         LogManager.getLogger(getClass()).debug("    type = \"{}\"", () -> entry.getRawNameAndType().getType());
@@ -247,35 +260,41 @@ public class MetricsGatherer extends VisitorBase {
     }
 
     public void visitMethodRef_info(MethodRef_info entry) {
-        LogManager.getLogger(getClass()).debug("VisitMethodRef_info():");
+        LogManager.getLogger(getClass()).debug("visitMethodRef_info():");
         LogManager.getLogger(getClass()).debug("    class = \"{}\"", () -> entry.getClassName());
         LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getRawNameAndType().getName());
         LogManager.getLogger(getClass()).debug("    type = \"{}\"", () -> entry.getRawNameAndType().getType());
-        addMethodDependency(entry.getFullSignature());
+        addMethodDependency(entry.getFullSignature(), entry.getReturnType());
         addClassDependencies(processDescriptor(entry.getRawNameAndType().getType()));
     }
 
     public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
-        LogManager.getLogger(getClass()).debug("VisitInterfaceMethodRef_info():");
+        LogManager.getLogger(getClass()).debug("visitInterfaceMethodRef_info():");
         LogManager.getLogger(getClass()).debug("    class = \"{}\"", () -> entry.getClassName());
         LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getRawNameAndType().getName());
         LogManager.getLogger(getClass()).debug("    type = \"{}\"", () -> entry.getRawNameAndType().getType());
-        addMethodDependency(entry.getFullSignature());
+        addMethodDependency(entry.getFullSignature(), entry.getReturnType());
         addClassDependencies(processDescriptor(entry.getRawNameAndType().getType()));
     }
 
     public void visitField_info(Field_info entry) {
         String fullName = entry.getFullName();
+
+        LogManager.getLogger(getClass()).debug("visitField_info({})", () -> entry.getFullSignature());
+        LogManager.getLogger(getClass()).debug("    current class: {}", () -> getCurrentClass().getName());
+        LogManager.getLogger(getClass()).debug("    access flag: {}", () -> entry.getAccessFlags());
+        LogManager.getLogger(getClass()).debug("    public: {}", () -> entry.isPublic());
+        LogManager.getLogger(getClass()).debug("    private: {}", () -> entry.isPrivate());
+        LogManager.getLogger(getClass()).debug("    protected: {}", () -> entry.isProtected());
+        LogManager.getLogger(getClass()).debug("    static: {}", () -> entry.isStatic());
+        LogManager.getLogger(getClass()).debug("    final: {}", () -> entry.isFinal());
+        LogManager.getLogger(getClass()).debug("    volatile: {}", () -> entry.isVolatile());
+        LogManager.getLogger(getClass()).debug("    transient: {}", () -> entry.isTransient());
+        LogManager.getLogger(getClass()).debug("    synthetic: {}", () -> entry.isSynthetic());
+        LogManager.getLogger(getClass()).debug("    enum: {}", () -> entry.isEnum());
+
         getCurrentClass().addToMeasurement(BasicMeasurements.ATTRIBUTES, fullName);
 
-        LogManager.getLogger(getClass()).debug("VisitField_info({})", () -> entry.getFullSignature());
-        LogManager.getLogger(getClass()).debug("Current class: {}", () -> getCurrentClass().getName());
-        LogManager.getLogger(getClass()).debug("Access flag: {}", () -> entry.getAccessFlags());
-        LogManager.getLogger(getClass()).debug("Public: {}", () -> entry.isPublic());
-        LogManager.getLogger(getClass()).debug("Private: {}", () -> entry.isPrivate());
-        LogManager.getLogger(getClass()).debug("Protected: {}", () -> entry.isProtected());
-        LogManager.getLogger(getClass()).debug("Static: {}", () -> entry.isStatic());
-        
         if (entry.isPublic()) {
             getCurrentClass().addToMeasurement(BasicMeasurements.PUBLIC_ATTRIBUTES, fullName);
         } else if (entry.isPrivate()) {
@@ -328,69 +347,78 @@ public class MetricsGatherer extends VisitorBase {
     public void visitMethod_info(Method_info entry) {
         fireBeginMethod(entry);
 
-        String fullSignature = entry.getFullSignature();
-        setCurrentMethod(getMetricsFactory().createMethodMetrics(fullSignature));
+        setCurrentMethod(getMetricsFactory().createMethodMetrics(entry.getFullSignature(), entry.getReturnType()));
         getMetricsFactory().includeMethodMetrics(getCurrentMethod());
         
-        LogManager.getLogger(getClass()).debug("VisitMethod_info({})", () -> entry.getFullSignature());
-        LogManager.getLogger(getClass()).debug("Current class: {}", () -> getCurrentClass().getName());
-        LogManager.getLogger(getClass()).debug("Access flag: {}", () -> entry.getAccessFlags());
-        LogManager.getLogger(getClass()).debug("Public: {}", () -> entry.isPublic());
-        LogManager.getLogger(getClass()).debug("Private: {}", () -> entry.isPrivate());
-        LogManager.getLogger(getClass()).debug("Protected: {}", () -> entry.isProtected());
-        LogManager.getLogger(getClass()).debug("Static: {}", () -> entry.isStatic());
+        LogManager.getLogger(getClass()).debug("visitMethod_info({})", () -> entry.getFullSignature());
+        LogManager.getLogger(getClass()).debug("    current class: {}", () -> getCurrentClass().getName());
+        LogManager.getLogger(getClass()).debug("    access flag: {}", () -> entry.getAccessFlags());
+        LogManager.getLogger(getClass()).debug("    public: {}", () -> entry.isPublic());
+        LogManager.getLogger(getClass()).debug("    private: {}", () -> entry.isPrivate());
+        LogManager.getLogger(getClass()).debug("    protected: {}", () -> entry.isProtected());
+        LogManager.getLogger(getClass()).debug("    static: {}", () -> entry.isStatic());
+        LogManager.getLogger(getClass()).debug("    final: {}", () -> entry.isFinal());
+        LogManager.getLogger(getClass()).debug("    synchronized: {}", () -> entry.isSynchronized());
+        LogManager.getLogger(getClass()).debug("    bridge: {}", () -> entry.isBridge());
+        LogManager.getLogger(getClass()).debug("    varars: {}", () -> entry.isVarargs());
+        LogManager.getLogger(getClass()).debug("    native: {}", () -> entry.isNative());
+        LogManager.getLogger(getClass()).debug("    abstract: {}", () -> entry.isAbstract());
+        LogManager.getLogger(getClass()).debug("    strict: {}", () -> entry.isStrict());
+        LogManager.getLogger(getClass()).debug("    synthetic: {}", () -> entry.isSynthetic());
 
         sloc = 0;
 
+        getCurrentClass().addToMeasurement(BasicMeasurements.METHODS, getCurrentMethod().getKey());
+
         if (entry.isPublic()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PUBLIC_METHODS, fullSignature);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PUBLIC_METHODS, getCurrentMethod().getKey());
         } else if (entry.isPrivate()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PRIVATE_METHODS, fullSignature);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PRIVATE_METHODS, getCurrentMethod().getKey());
         } else if (entry.isProtected()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PROTECTED_METHODS, fullSignature);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PROTECTED_METHODS, getCurrentMethod().getKey());
         } else {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PACKAGE_METHODS, fullSignature);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PACKAGE_METHODS, getCurrentMethod().getKey());
         }
 
         if (entry.isFinal()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.FINAL_METHODS, fullSignature);
+            getCurrentClass().addToMeasurement(BasicMeasurements.FINAL_METHODS, getCurrentMethod().getKey());
         }
 
         if (entry.isAbstract()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.ABSTRACT_METHODS, fullSignature);
+            getCurrentClass().addToMeasurement(BasicMeasurements.ABSTRACT_METHODS, getCurrentMethod().getKey());
             sloc = 1;
         }
 
         if (entry.isDeprecated()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_METHODS, fullSignature);
+            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_METHODS, getCurrentMethod().getKey());
         }
 
         if (entry.isSynthetic()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_METHODS, fullSignature);
+            getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_METHODS, getCurrentMethod().getKey());
         }
 
         if (entry.isStatic()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.STATIC_METHODS, fullSignature);
+            getCurrentClass().addToMeasurement(BasicMeasurements.STATIC_METHODS, getCurrentMethod().getKey());
         }
 
         if (entry.isSynchronized()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.SYNCHRONIZED_METHODS, fullSignature);
+            getCurrentClass().addToMeasurement(BasicMeasurements.SYNCHRONIZED_METHODS, getCurrentMethod().getKey());
         }
 
         if (entry.isBridge()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.BRIDGE_METHODS, fullSignature);
+            getCurrentClass().addToMeasurement(BasicMeasurements.BRIDGE_METHODS, getCurrentMethod().getKey());
         }
 
         if (entry.isVarargs()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.VARARGS_METHODS, fullSignature);
+            getCurrentClass().addToMeasurement(BasicMeasurements.VARARGS_METHODS, getCurrentMethod().getKey());
         }
 
         if (entry.isNative()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.NATIVE_METHODS, fullSignature);
+            getCurrentClass().addToMeasurement(BasicMeasurements.NATIVE_METHODS, getCurrentMethod().getKey());
         }
 
         if (entry.isStrict()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.STRICT_METHODS, fullSignature);
+            getCurrentClass().addToMeasurement(BasicMeasurements.STRICT_METHODS, getCurrentMethod().getKey());
         }
 
         getCurrentMethod().addToMeasurement(BasicMeasurements.PARAMETERS, DescriptorHelper.getParameterCount(entry.getDescriptor()));
@@ -570,6 +598,8 @@ public class MetricsGatherer extends VisitorBase {
     }
 
     public void visitLocalVariable(LocalVariable helper) {
+        LogManager.getLogger(getClass()).debug("visitLocalVariable({})", () -> helper.getName());
+
         getCurrentMethod().addToMeasurement(BasicMeasurements.LOCAL_VARIABLES, helper.getName());
 
         addClassDependencies(processDescriptor(helper.getDescriptor()));
@@ -589,7 +619,7 @@ public class MetricsGatherer extends VisitorBase {
     private Collection<String> processDescriptor(String str) {
         Collection<String> result = new LinkedList<>();
         
-        LogManager.getLogger(getClass()).debug("ProcessDescriptor: {}", str);
+        LogManager.getLogger(getClass()).debug("processDescriptor(\"{}\")", str);
 
         int currentPos = 0;
         int startPos;
@@ -605,7 +635,7 @@ public class MetricsGatherer extends VisitorBase {
             }
         }
 
-        LogManager.getLogger(getClass()).debug("ProcessDescriptor: {}", result);
+        LogManager.getLogger(getClass()).debug("    Parses to {}", result);
         
         return result;
     }
@@ -615,58 +645,67 @@ public class MetricsGatherer extends VisitorBase {
     }
     
     private void addClassDependency(String name) {
-        LogManager.getLogger(getClass()).debug("AddClassDependency(\"{}\") ...", name);
+        LogManager.getLogger(getClass()).debug("addClassDependency(\"{}\"):", name);
 
         if (!getCurrentClass().getName().equals(name) && isInFilter(name)) {
             Metrics other = getMetricsFactory().createClassMetrics(name);
                 
             if (getCurrentMethod() != null && isInScope(getCurrentMethod().getName())) {
-                LogManager.getLogger(getClass()).debug("AddClassDependency {} -> {} ...", getCurrentMethod().getName(), name);
+                LogManager.getLogger(getClass()).debug("    add class dependency {} --> {}", getCurrentMethod().getKey(), name);
                 
                 if (getCurrentClass().getParent().equals(other.getParent())) {
-                    LogManager.getLogger(getClass()).debug("Intra-Package ...");
+                    LogManager.getLogger(getClass()).debug("    Intra-Package!");
                     getCurrentMethod().addToMeasurement(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES, other.getName());
-                    other.addToMeasurement(BasicMeasurements.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES, getCurrentMethod().getName());
+                    other.addToMeasurement(BasicMeasurements.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES, getCurrentMethod().getKey());
                 } else {
-                    LogManager.getLogger(getClass()).debug("Extra-Package ...");
+                    LogManager.getLogger(getClass()).debug("    Extra-Package!");
                     getCurrentMethod().addToMeasurement(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES, other.getName());
-                    other.addToMeasurement(BasicMeasurements.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES, getCurrentMethod().getName());
+                    other.addToMeasurement(BasicMeasurements.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES, getCurrentMethod().getKey());
                 }
             } else if (isInScope(getCurrentClass().getName())) {
-                LogManager.getLogger(getClass()).debug("AddClassDependency {} -> {} ...", getCurrentClass().getName(), name);
+                LogManager.getLogger(getClass()).debug("    add class dependency {} --> {}", getCurrentClass().getName(), name);
                 
                 if (getCurrentClass().getParent().equals(other.getParent())) {
-                    LogManager.getLogger(getClass()).debug("Intra-Package ...");
+                    LogManager.getLogger(getClass()).debug("    Intra-Package!");
                     getCurrentClass().addToMeasurement(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_DEPENDENCIES, other.getName());
                     other.addToMeasurement(BasicMeasurements.INBOUND_INTRA_PACKAGE_DEPENDENCIES, getCurrentClass().getName());
                 } else {
-                    LogManager.getLogger(getClass()).debug("Extra-Package ...");
+                    LogManager.getLogger(getClass()).debug("    Extra-Package!");
                     getCurrentClass().addToMeasurement(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES, other.getName());
                     other.addToMeasurement(BasicMeasurements.INBOUND_EXTRA_PACKAGE_DEPENDENCIES, getCurrentClass().getName());
                 }
+            } else {
+                LogManager.getLogger(getClass()).debug("    skipping class dependency {} --> {}", getCurrentClass().getName(), name);
             }
+        } else {
+            LogManager.getLogger(getClass()).debug("    skipping class dependency {} --> {}", getCurrentClass().getName(), name);
         }
     }
     
-    private void addMethodDependency(String name) {
-        LogManager.getLogger(getClass()).debug("AddMethodDependency {} -> {} ...", getCurrentMethod().getName(), name);
+    private void addMethodDependency(String name, String returnType) {
+        LogManager.getLogger(getClass()).debug("addMethodDependency(\"{}\", \"{}\"):", name, returnType);
 
-        if (!getCurrentMethod().getName().equals(name) && isInScope(getCurrentMethod().getName()) && isInFilter(name)) {
-            Metrics other = getMetricsFactory().createMethodMetrics(name);
+        var otherKey = name + ": " + returnType;
+
+        if (!getCurrentMethod().getKey().equals(otherKey) && isInScope(getCurrentMethod().getName()) && isInFilter(name)) {
+            LogManager.getLogger(getClass()).debug("    add method dependency {} --> {}", getCurrentMethod().getKey(), otherKey);
+            Metrics other = getMetricsFactory().createMethodMetrics(name, returnType);
             
             if (getCurrentClass().equals(other.getParent())) {
-                LogManager.getLogger(getClass()).debug("Intra-Class ...");
-                getCurrentMethod().addToMeasurement(BasicMeasurements.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES, other.getName());
-                other.addToMeasurement(BasicMeasurements.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES, getCurrentMethod().getName());
+                LogManager.getLogger(getClass()).debug("    Intra-Class!");
+                getCurrentMethod().addToMeasurement(BasicMeasurements.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES, other.getKey());
+                other.addToMeasurement(BasicMeasurements.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES, getCurrentMethod().getKey());
             } else if (getCurrentGroup().equals(other.getParent().getParent())) {
-                LogManager.getLogger(getClass()).debug("Intra-Package ...");
-                getCurrentMethod().addToMeasurement(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES, other.getName());
-                other.addToMeasurement(BasicMeasurements.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES, getCurrentMethod().getName());
+                LogManager.getLogger(getClass()).debug("    Intra-Package!");
+                getCurrentMethod().addToMeasurement(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES, other.getKey());
+                other.addToMeasurement(BasicMeasurements.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES, getCurrentMethod().getKey());
             } else {
-                LogManager.getLogger(getClass()).debug("Extra-Package ...");
-                getCurrentMethod().addToMeasurement(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES, other.getName());
-                other.addToMeasurement(BasicMeasurements.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES, getCurrentMethod().getName());
+                LogManager.getLogger(getClass()).debug("    Extra-Package!");
+                getCurrentMethod().addToMeasurement(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES, other.getKey());
+                other.addToMeasurement(BasicMeasurements.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES, getCurrentMethod().getKey());
             }
+        } else {
+            LogManager.getLogger(getClass()).debug("    skipping method dependency {} --> {}", getCurrentMethod().getKey(), otherKey);
         }
     }
     

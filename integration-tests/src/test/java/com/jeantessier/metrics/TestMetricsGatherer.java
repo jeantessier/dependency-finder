@@ -84,7 +84,7 @@ public class TestMetricsGatherer {
 
     @Test
     public void test_test_test() {
-        Metrics metrics = factory.createMethodMetrics("test.test()");
+        Metrics metrics = factory.createMethodMetrics("test.test()", "void");
 
         assertMeasurementEquals(metrics, BasicMeasurements.SLOC, 1);
         assertMeasurementEquals(metrics, BasicMeasurements.PARAMETERS, 0);
@@ -96,13 +96,13 @@ public class TestMetricsGatherer {
         assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES);
         assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES);
         assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES);
-        assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES, "java.lang.Object.Object()");
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES, "java.lang.Object.Object(): void");
         assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES);
     }
     
     @Test
     public void test_test_main() {
-        Metrics metrics = factory.createMethodMetrics("test.main(java.lang.String[])");
+        Metrics metrics = factory.createMethodMetrics("test.main(java.lang.String[])", "void");
 
         assertMeasurementEquals(metrics, BasicMeasurements.SLOC, 5);
         assertMeasurementEquals(metrics, BasicMeasurements.PARAMETERS, 1);
@@ -114,7 +114,7 @@ public class TestMetricsGatherer {
         assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES);
         assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES);
         assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES);
-        assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES, "java.util.Collections.singleton(java.lang.Object)", "java.lang.Object.Object()", "java.io.PrintStream.println(java.lang.Object)");
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES, "java.util.Collections.singleton(java.lang.Object): java.util.Set", "java.lang.Object.Object(): void", "java.io.PrintStream.println(java.lang.Object): void");
         assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES, "java.io.PrintStream", "java.lang.NullPointerException", "java.lang.Object", "java.lang.String", "java.lang.System", "java.util.Collection", "java.util.Set");
     }
 
