@@ -3527,16 +3527,25 @@ of software.  Dependency Finder recognizes four sizes of _chunks_:
 <blockquote>
 <dl>
     <dt>Project</dt>
-    <dd>These metrics apply to the project as a whole.</dd>
+    <dd>These metrics apply to the project as a whole.  You can give the name
+    of the project directly to the =OOMetrics= tools.</dd>
     <dt>Group</dt>
-    <dd>These metrics apply to groups of classes.  A Java
-    package is a _de facto_ group, but you can specify
-    arbitrary groups using Perl regular expressions.</dd>
+    <dd>These metrics apply to groups of classes.  A Java package is
+    automatically a group, named after the package.  You can also define
+    arbitrary groups, using Perl regular expressions.  Any class that matches
+    any if the regular expressions will be part of the group.  A classes can be
+    part of multiple groups: its package and any number of user-defined
+    groups.</dd>
     <dt>Class</dt>
-    <dd>These metrics apply to a single class.</dd>
+    <dd>These metrics apply to individual classes.  They are named with the
+    fully qualified name of the class.</dd>
     <dt>Method</dt>
-    <dd>These metrics apply to individual methods within
-    a class.</dd>
+    <dd>These metrics apply to individual methods within a class.  They are
+    named after the fully qualified signature of the method.  But, some
+    synthetic methods have the same signature as existing methods (e.g.,
+    some bridge methods), so we append the return type to the signature to
+    create a unique name.  For instance, =java.lang.Class.getName()= becomes
+    =java.lang.Class.getName(): java.lang.String=</dd>
 </dl>
 </blockquote>
 
@@ -3738,7 +3747,7 @@ class="highlight">
 
 </td></tr><tr><td valign="top">
 
-    p.A.a(B)
+    p.A.a(B): void
         OIPC: 1
             p.B
 
@@ -3746,7 +3755,7 @@ class="highlight">
 
     p.B
         IIPM: 1
-            p.A.a(B)
+            p.A.a(B): void
 
 </td></tr><tr><td colspan="3">
 
@@ -3781,7 +3790,7 @@ class="highlight">
 
 </td></tr><tr><td valign="top">
 
-    a.A.a(B)
+    a.A.a(B): void
         OEPC: 1
             p.B
 
@@ -3789,7 +3798,7 @@ class="highlight">
 
     b.B
         IEPM: 1
-            a.A.a(B)
+            a.A.a(B): void
 
 </td></tr><tr><td colspan="3">
 
@@ -3905,15 +3914,15 @@ class="highlight">
 
 </td></tr><tr><td valign="top">
 
-    p.C.a()
+    p.C.a(): void
         OICF: 1
-            p.C.b()
+            p.C.b(): void
 
 </td><td valign="top">
 
-    p.C.b()
+    p.C.b(): void
         IICM: 1
-            p.C.a()
+            p.C.a(): void
 
 </td></tr><tr><td colspan="3">
 
@@ -3949,15 +3958,15 @@ class="highlight">
 
 </td></tr><tr><td valign="top">
 
-    p.A.a()
+    p.A.a(): void
         OIPF: 1
-            p.B.b()
+            p.B.b(): void
 
 </td><td valign="top">
 
-    p.B.b()
+    p.B.b(): void
         IIPM: 1
-            p.A.a()
+            p.A.a(): void
 
 </td></tr><tr><td colspan="3">
 
@@ -3995,15 +4004,15 @@ class="highlight">
 
 </td></tr><tr><td valign="top">
 
-    a.A.a()
+    a.A.a(): void
         OEPF: 1
-            b.B.b()
+            b.B.b(): void
 
 </td><td valign="top">
 
-    b.B.b()
+    b.B.b(): void
         IEPM: 1
-            a.A.a()
+            a.A.a(): void
 
 </td></tr></table>
 
@@ -4048,7 +4057,7 @@ The current types of measurement are as follow:
         <li>sum</li>
         <li>number of data points</li>
     </ul>
-    A quick note regarding the median value.  If the number of data
+    <p>A quick note regarding the median value.  If the number of data
     points is odd, we can sort them and return the single value in the
     middle.  For the dataset =[1, 2, *3*, 4, 5]=, the median is =3=.
     But if the number of data points is even, there is no single value
@@ -4057,7 +4066,10 @@ The current types of measurement are as follow:
     =[1, 2, *3, 4*, 5, 6]=, the median is the average of =3= and =4=, so
     the median value is =3.5=.  This matches the definition of
     [[https://en.wikipedia.org/wiki/Median#Finite%5Fset%5Fof%5Fnumbers][median]]
-    on Wikipedia.
+    on Wikipedia.</p>
+    <p>You can also pull specific percentile values by specifying them as part
+    of the configuration.  =p50= is akin to he median.  =p100= is the maximum
+    value.</p>
     </dd>
     <dt>=SubMetricsAccumulatorMeasurement=</dt>
     <dd>Aggregates lists from measurements in submetrics of the current
@@ -4276,9 +4288,9 @@ depends on the switches on the command-line.
 
 </div>
 
-You can use the following switches to determine which groups of metrics are
-included in the report.  You can combine them if you need to.  The default, if
-you do not specify any of them, is to include all of them.
+You can use the following switches to determine which levels of metrics are
+included in the report.  You can combine them if you want to.  If you do not
+specify any level, the default is to include all of them.
 
 <blockquote>
 <dl>
@@ -4298,27 +4310,31 @@ You must specify an output mode with one of these switches.
 <blockquote>
 <dl>
     <dt>=-csv=</dt>
-    <dd>Writes each section in its own CSV file, perfect for loading in
-    Google Docs or Microsoft Excel and for charting.</dd>
+    <dd>Writes each requested section in its own CSV file, perfect for loading
+    in Google Docs or Microsoft Excel, and for charting.</dd>
+    <dt>=-json=</dt>
+    <dd>Writes a single JSON report with all the requested sections.</dd>
+    <dt>=-text=</dt>
     <dt>=-txt=</dt>
-    <dd>Writes a single text report with all requested sections.</dd>
+    <dd>Writes a single text report with all the requested sections.</dd>
     <dt>=-xml=</dt>
-    <dd>Writes a single XML report with all requested sections.</dd>
+    <dd>Writes a single XML report with all the requested sections.</dd>
+    <dt>=-yaml=</dt>
+    <dt>=-yml=</dt>
+    <dd>Writes a single YAML report with all the requested sections.</dd>
 </dl>
 </blockquote>
 
-You can specify an output file with the =-out= switch.  But in this case,
-the switch only provides a prefix for the output files.  =OOMetrics= will
-add the appropriate suffix, depending on the output mode.  For text and
-XML output, it writes only one file with the total report.  For CSV output,
-however, it writes one file per selected section; each filename starts
-with the prefix you specify, followed by either "=%5Fproject=",
-"=%5Fgroups=", "=%5Fclasses=", or "=%5Fmethods=" according to the section,
-and ends with the "=.csv=" suffix.
+You can specify an output file with the =-out= switch.  For text, JSON, XML,
+and YAML output, it writes a single file with the total report.  For CSV
+output, however, the =-out= switch provides a prefix and =OOMetrics= will
+write one file per selected level and append either "=%5Fproject.csv=",
+"=%5Fgroups.csv=", "=%5Fclasses.csv=", or "=%5Fmethods.csv=", according to the
+level.
 
 <div class="highlight">
 
-    $ OOMetrics -out df
+    $ OOMetrics -out df.txt
                 -txt
                 ${DEPENDENCYFINDER_HOME}/lib/DependencyFinder.jar
 
@@ -4329,8 +4345,17 @@ and ends with the "=.csv=" suffix.
 You use the =com.jeantessier.dependencyfinder.ant.OOMetrics= task to compute
 metrics and produce a report.  You need to associate the class to a tag using
 Ant's =&lt;taskdef&gt;= task.  You also need to tell Ant where to find the
-Dependency Finder classes.    There is a special
+Dependency Finder classes.  There is a special
 [[tasks/index.html][help page]] on how to do this.
+
+You can specify an output file with the =destprefix= attribute.  Here, the
+attribute only provides a prefix for the output files.  =OOMetrics= will
+add the appropriate suffix, depending on the output mode.  For text, JSON, XML,
+and YAML output, it writes only one file with the total report.  For CSV output,
+however, it writes one file per selected section; each filename starts
+with the prefix you specify, followed by either "=%5Fproject.csv=",
+"=%5Fgroups.csv=", "=%5Fclasses.csv=", or "=%5Fmethods.csv=", according to the
+level.
 
 <div class="highlight">
 
