@@ -25,7 +25,7 @@ public class TestCSVPrinter {
         // Given
 
         // When
-        new CSVPrinter(new PrintWriter(buffer), descriptors);
+        new CSVPrinter(new PrintWriter(buffer), descriptors).visitMetrics(Collections.emptyList());
 
         // Then
         var lines = buffer.toString().lines().iterator();
@@ -44,7 +44,7 @@ public class TestCSVPrinter {
         descriptors.add(descriptor);
 
         // When
-        new CSVPrinter(new PrintWriter(buffer), descriptors);
+        new CSVPrinter(new PrintWriter(buffer), descriptors).visitMetrics(Collections.emptyList());
 
         // Then
         var lines = buffer.toString().lines().iterator();
@@ -69,7 +69,7 @@ public class TestCSVPrinter {
         descriptors.add(descriptor);
 
         // When
-        new CSVPrinter(new PrintWriter(buffer), descriptors);
+        new CSVPrinter(new PrintWriter(buffer), descriptors).visitMetrics(Collections.emptyList());
 
         // Then
         var lines = buffer.toString().lines().iterator();
@@ -96,7 +96,7 @@ public class TestCSVPrinter {
         descriptors.add(descriptor);
 
         // When
-        new CSVPrinter(new PrintWriter(buffer), descriptors);
+        new CSVPrinter(new PrintWriter(buffer), descriptors).visitMetrics(Collections.emptyList());
 
         // Then
         var expectedSubnames = standardSubnames.stream()
@@ -136,7 +136,7 @@ public class TestCSVPrinter {
         descriptors.add(descriptor);
 
         // When
-        new CSVPrinter(new PrintWriter(buffer), descriptors);
+        new CSVPrinter(new PrintWriter(buffer), descriptors).visitMetrics(Collections.emptyList());
 
         // Then
         var expectedSubnames = standardSubnames.stream()

@@ -277,9 +277,11 @@ public class OOMetrics extends DirectoryExplorerCommand {
             comparator.reverse();
         }
 
-        metrics.stream()
-                .sorted(comparator)
-                .forEach(printer::visitMetrics);
+        printer.visitMetrics(
+                metrics.stream()
+                        .sorted(comparator)
+                        .toList()
+        );
     }
 
     public static void main(String[] args) throws Exception {
