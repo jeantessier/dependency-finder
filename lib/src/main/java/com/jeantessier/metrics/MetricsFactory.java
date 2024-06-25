@@ -101,7 +101,7 @@ public class MetricsFactory {
     }
     
     public void includeProjectMetrics(Metrics metrics) {
-        includedProjects.put(metrics.getKey(), metrics);
+        includedProjects.put(metrics.getName(), metrics);
     }
 
     public Collection<String> getProjectNames() {
@@ -155,7 +155,7 @@ public class MetricsFactory {
     }
 
     public void includeGroupMetrics(Metrics metrics) {
-        includedGroups.put(metrics.getKey(), metrics);
+        includedGroups.put(metrics.getName(), metrics);
         metrics.getParent().addSubMetrics(metrics);
         includeProjectMetrics(metrics.getParent());
     }
@@ -223,7 +223,7 @@ public class MetricsFactory {
     }
 
     public void includeClassMetrics(Metrics metrics) {
-        includedClasses.put(metrics.getKey(), metrics);
+        includedClasses.put(metrics.getName(), metrics);
         metrics.getParent().addSubMetrics(metrics);
         includeGroupMetrics(metrics.getParent());
 
@@ -250,25 +250,24 @@ public class MetricsFactory {
         return Collections.unmodifiableCollection(classes.values());
     }
 
-    public Metrics createMethodMetrics(String name, String returnType) {
-        var key = name + ": " + returnType;
-        var result = methods.get(key);
+    public Metrics createMethodMetrics(String name) {
+        var result = methods.get(name);
 
         if (result == null) {
-            result = buildMethodMetrics(name, key);
-            methods.put(key, result);
+            result = buildMethodMetrics(name);
+            methods.put(name, result);
         }
         
         return result;
     }
 
-    private Metrics buildMethodMetrics(String name, String key) {
+    private Metrics buildMethodMetrics(String name) {
         String className = "";
         String featureName = "";
-        if (perl.match("/^(.*)\\.([^\\.]*)\\(.*\\)$/", name)) {
+        if (perl.match("/^(.*)\\.([^\\.]*)\\(.*\\)(: \\S.*)?$/", name)) {
             className = perl.group(1);
             featureName = perl.group(2);
-        } else if (perl.match("/^(.*)\\.(static) {}$/", name)) {
+        } else if (perl.match("/^(.*)\\.(static) {}(: \\S.*)?$/", name)) {
             className = perl.group(1);
             featureName = perl.group(2);
         } else if (perl.match("/^(.*)\\.([\\^.]*)$/", name)) {
@@ -276,7 +275,7 @@ public class MetricsFactory {
             featureName = perl.group(2);
         }
         Metrics classMetrics = createClassMetrics(className);
-        Metrics result = new Metrics(classMetrics, name, key);
+        Metrics result = new Metrics(classMetrics, name);
         classMetrics.addSubMetrics(result);
 
         populateMetrics(result, getConfiguration().getMethodMeasurements());
@@ -299,7 +298,7 @@ public class MetricsFactory {
     }
 
     public void includeMethodMetrics(Metrics metrics) {
-        includedMethods.put(metrics.getKey(), metrics);
+        includedMethods.put(metrics.getName(), metrics);
         metrics.getParent().addSubMetrics(metrics);
         includeClassMetrics(metrics.getParent());
     }

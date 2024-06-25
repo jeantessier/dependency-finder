@@ -264,7 +264,7 @@ public class MetricsGatherer extends VisitorBase {
         LogManager.getLogger(getClass()).debug("    class = \"{}\"", () -> entry.getClassName());
         LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getRawNameAndType().getName());
         LogManager.getLogger(getClass()).debug("    type = \"{}\"", () -> entry.getRawNameAndType().getType());
-        addMethodDependency(entry.getFullSignature(), entry.getReturnType());
+        addMethodDependency(getMethodMetricsName(entry.getFullSignature(), entry.getReturnType()));
         addClassDependencies(processDescriptor(entry.getRawNameAndType().getType()));
     }
 
@@ -273,7 +273,7 @@ public class MetricsGatherer extends VisitorBase {
         LogManager.getLogger(getClass()).debug("    class = \"{}\"", () -> entry.getClassName());
         LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getRawNameAndType().getName());
         LogManager.getLogger(getClass()).debug("    type = \"{}\"", () -> entry.getRawNameAndType().getType());
-        addMethodDependency(entry.getFullSignature(), entry.getReturnType());
+        addMethodDependency(getMethodMetricsName(entry.getFullSignature(), entry.getReturnType()));
         addClassDependencies(processDescriptor(entry.getRawNameAndType().getType()));
     }
 
@@ -347,7 +347,7 @@ public class MetricsGatherer extends VisitorBase {
     public void visitMethod_info(Method_info entry) {
         fireBeginMethod(entry);
 
-        setCurrentMethod(getMetricsFactory().createMethodMetrics(entry.getFullSignature(), entry.getReturnType()));
+        setCurrentMethod(getMetricsFactory().createMethodMetrics(getMethodMetricsName(entry.getFullSignature(), entry.getReturnType())));
         getMetricsFactory().includeMethodMetrics(getCurrentMethod());
         
         LogManager.getLogger(getClass()).debug("visitMethod_info({})", () -> entry.getFullSignature());
@@ -368,57 +368,57 @@ public class MetricsGatherer extends VisitorBase {
 
         sloc = 0;
 
-        getCurrentClass().addToMeasurement(BasicMeasurements.METHODS, getCurrentMethod().getKey());
+        getCurrentClass().addToMeasurement(BasicMeasurements.METHODS, getCurrentMethod().getName());
 
         if (entry.isPublic()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PUBLIC_METHODS, getCurrentMethod().getKey());
+            getCurrentClass().addToMeasurement(BasicMeasurements.PUBLIC_METHODS, getCurrentMethod().getName());
         } else if (entry.isPrivate()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PRIVATE_METHODS, getCurrentMethod().getKey());
+            getCurrentClass().addToMeasurement(BasicMeasurements.PRIVATE_METHODS, getCurrentMethod().getName());
         } else if (entry.isProtected()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PROTECTED_METHODS, getCurrentMethod().getKey());
+            getCurrentClass().addToMeasurement(BasicMeasurements.PROTECTED_METHODS, getCurrentMethod().getName());
         } else {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PACKAGE_METHODS, getCurrentMethod().getKey());
+            getCurrentClass().addToMeasurement(BasicMeasurements.PACKAGE_METHODS, getCurrentMethod().getName());
         }
 
         if (entry.isFinal()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.FINAL_METHODS, getCurrentMethod().getKey());
+            getCurrentClass().addToMeasurement(BasicMeasurements.FINAL_METHODS, getCurrentMethod().getName());
         }
 
         if (entry.isAbstract()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.ABSTRACT_METHODS, getCurrentMethod().getKey());
+            getCurrentClass().addToMeasurement(BasicMeasurements.ABSTRACT_METHODS, getCurrentMethod().getName());
             sloc = 1;
         }
 
         if (entry.isDeprecated()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_METHODS, getCurrentMethod().getKey());
+            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_METHODS, getCurrentMethod().getName());
         }
 
         if (entry.isSynthetic()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_METHODS, getCurrentMethod().getKey());
+            getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_METHODS, getCurrentMethod().getName());
         }
 
         if (entry.isStatic()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.STATIC_METHODS, getCurrentMethod().getKey());
+            getCurrentClass().addToMeasurement(BasicMeasurements.STATIC_METHODS, getCurrentMethod().getName());
         }
 
         if (entry.isSynchronized()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.SYNCHRONIZED_METHODS, getCurrentMethod().getKey());
+            getCurrentClass().addToMeasurement(BasicMeasurements.SYNCHRONIZED_METHODS, getCurrentMethod().getName());
         }
 
         if (entry.isBridge()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.BRIDGE_METHODS, getCurrentMethod().getKey());
+            getCurrentClass().addToMeasurement(BasicMeasurements.BRIDGE_METHODS, getCurrentMethod().getName());
         }
 
         if (entry.isVarargs()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.VARARGS_METHODS, getCurrentMethod().getKey());
+            getCurrentClass().addToMeasurement(BasicMeasurements.VARARGS_METHODS, getCurrentMethod().getName());
         }
 
         if (entry.isNative()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.NATIVE_METHODS, getCurrentMethod().getKey());
+            getCurrentClass().addToMeasurement(BasicMeasurements.NATIVE_METHODS, getCurrentMethod().getName());
         }
 
         if (entry.isStrict()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.STRICT_METHODS, getCurrentMethod().getKey());
+            getCurrentClass().addToMeasurement(BasicMeasurements.STRICT_METHODS, getCurrentMethod().getName());
         }
 
         getCurrentMethod().addToMeasurement(BasicMeasurements.PARAMETERS, DescriptorHelper.getParameterCount(entry.getDescriptor()));
@@ -651,16 +651,16 @@ public class MetricsGatherer extends VisitorBase {
             Metrics other = getMetricsFactory().createClassMetrics(name);
                 
             if (getCurrentMethod() != null && isInScope(getCurrentMethod().getName())) {
-                LogManager.getLogger(getClass()).debug("    add class dependency {} --> {}", getCurrentMethod().getKey(), name);
+                LogManager.getLogger(getClass()).debug("    add class dependency {} --> {}", getCurrentMethod().getName(), name);
                 
                 if (getCurrentClass().getParent().equals(other.getParent())) {
                     LogManager.getLogger(getClass()).debug("    Intra-Package!");
                     getCurrentMethod().addToMeasurement(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES, other.getName());
-                    other.addToMeasurement(BasicMeasurements.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES, getCurrentMethod().getKey());
+                    other.addToMeasurement(BasicMeasurements.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES, getCurrentMethod().getName());
                 } else {
                     LogManager.getLogger(getClass()).debug("    Extra-Package!");
                     getCurrentMethod().addToMeasurement(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES, other.getName());
-                    other.addToMeasurement(BasicMeasurements.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES, getCurrentMethod().getKey());
+                    other.addToMeasurement(BasicMeasurements.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES, getCurrentMethod().getName());
                 }
             } else if (isInScope(getCurrentClass().getName())) {
                 LogManager.getLogger(getClass()).debug("    add class dependency {} --> {}", getCurrentClass().getName(), name);
@@ -682,30 +682,28 @@ public class MetricsGatherer extends VisitorBase {
         }
     }
     
-    private void addMethodDependency(String name, String returnType) {
-        LogManager.getLogger(getClass()).debug("addMethodDependency(\"{}\", \"{}\"):", name, returnType);
+    private void addMethodDependency(String name) {
+        LogManager.getLogger(getClass()).debug("addMethodDependency(\"{}\"):", name);
 
-        var otherKey = name + ": " + returnType;
-
-        if (!getCurrentMethod().getKey().equals(otherKey) && isInScope(getCurrentMethod().getName()) && isInFilter(name)) {
-            LogManager.getLogger(getClass()).debug("    add method dependency {} --> {}", getCurrentMethod().getKey(), otherKey);
-            Metrics other = getMetricsFactory().createMethodMetrics(name, returnType);
+        if (!getCurrentMethod().getName().equals(name) && isInScope(getCurrentMethod().getName()) && isInFilter(name)) {
+            LogManager.getLogger(getClass()).debug("    add method dependency {} --> {}", getCurrentMethod().getName(), name);
+            Metrics other = getMetricsFactory().createMethodMetrics(name);
             
             if (getCurrentClass().equals(other.getParent())) {
                 LogManager.getLogger(getClass()).debug("    Intra-Class!");
-                getCurrentMethod().addToMeasurement(BasicMeasurements.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES, other.getKey());
-                other.addToMeasurement(BasicMeasurements.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES, getCurrentMethod().getKey());
+                getCurrentMethod().addToMeasurement(BasicMeasurements.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES, other.getName());
+                other.addToMeasurement(BasicMeasurements.INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES, getCurrentMethod().getName());
             } else if (getCurrentGroup().equals(other.getParent().getParent())) {
                 LogManager.getLogger(getClass()).debug("    Intra-Package!");
-                getCurrentMethod().addToMeasurement(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES, other.getKey());
-                other.addToMeasurement(BasicMeasurements.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES, getCurrentMethod().getKey());
+                getCurrentMethod().addToMeasurement(BasicMeasurements.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES, other.getName());
+                other.addToMeasurement(BasicMeasurements.INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES, getCurrentMethod().getName());
             } else {
                 LogManager.getLogger(getClass()).debug("    Extra-Package!");
-                getCurrentMethod().addToMeasurement(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES, other.getKey());
-                other.addToMeasurement(BasicMeasurements.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES, getCurrentMethod().getKey());
+                getCurrentMethod().addToMeasurement(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES, other.getName());
+                other.addToMeasurement(BasicMeasurements.INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES, getCurrentMethod().getName());
             }
         } else {
-            LogManager.getLogger(getClass()).debug("    skipping method dependency {} --> {}", getCurrentMethod().getKey(), otherKey);
+            LogManager.getLogger(getClass()).debug("    skipping method dependency {} --> {}", getCurrentMethod().getName(), name);
         }
     }
     
@@ -729,6 +727,10 @@ public class MetricsGatherer extends VisitorBase {
         return result;
     }
 
+    private String getMethodMetricsName(String signature, String returnType) {
+        return signature + ": " + returnType;
+    }
+    
     public void addMetricsListener(MetricsListener listener) {
         metricsListeners.add(listener);
     }
