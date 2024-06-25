@@ -1,0 +1,9 @@
+"name", "Inbound Extra-Package Method Dependencies", "Outbound Extra-Package Feature Dependencies", "Outbound Extra-Package Class Dependencies"
+, "IEPM", "OEPF", "OEPC"
+, , , 
+"client.Client.Client(): void", 0.0, 1.0, 0.0
+"client.Client.m1(): void", 0.0, 1.0, 0.0
+"provider.Provider.Provider(): void", 0.0, 1.0, 0.0
+"provider.Provider.internal(): void", 0.0, 0.0, 0.0
+"provider.Provider.m1(): void", 1.0, 0.0, 0.0
+"provider.Provider.m2(): void", 0.0, 0.0, 0.0

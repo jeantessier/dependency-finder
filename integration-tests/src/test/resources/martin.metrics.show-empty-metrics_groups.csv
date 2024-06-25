@@ -1,0 +1,5 @@
+"name", "Afferent Coupling", "Efferent Coupling", "Instability", "Number of Classes", "Number of Abstract Classes and Interfaces", "Abstractness", "Normalized Distance"
+, "Ca", "Ce", "I", "Nc", "Na", "A", "D'"
+, , , , , , , 
+"client", 0.0, 2.0, 1.0, 1.0, 0.0, 0.0, 0.0
+"provider", 1.0, 1.0, 0.5, 1.0, 0.0, 0.0, -0.5

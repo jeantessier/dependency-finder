@@ -45,89 +45,22 @@ public class CSVPrinter extends Printer {
         super(out);
         
         this.descriptors = descriptors;
+    }
 
+    public void visitMetrics(Collection<Metrics> metrics) {
         appendHeader();
-    }
-
-    private void appendHeader() {
-        appendLongNames();
-        appendShortNames();
-        appendStatSubNames();
-    }
-    
-    private void appendLongNames() {
-        append(
-                Stream.concat(
-                        Stream.of("name"),
-                        descriptors.stream()
-                                .filter(descriptor -> isShowHiddenMeasurements() || descriptor.isVisible())
-                                .flatMap(descriptor -> {
-                                    if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
-                                        return IntStream.rangeClosed(1, StatisticalMeasurement.countValues(descriptor.getInitText())).mapToObj(n -> descriptor.getLongName());
-                                    } else {
-                                        return Stream.of(descriptor.getLongName());
-                                    }
-                                })
-                        )
-                        .map(name -> name.isEmpty() ? "" : "\"" + name + "\"")
-                        .collect(joining(", ")));
-        eol();
-    }
-
-    private void appendShortNames() {
-        append(
-                Stream.concat(
-                        Stream.of(""),
-                        descriptors.stream()
-                                .filter(descriptor -> isShowHiddenMeasurements() || descriptor.isVisible())
-                                .flatMap(descriptor -> {
-                                    if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
-                                        return IntStream.rangeClosed(1, StatisticalMeasurement.countValues(descriptor.getInitText())).mapToObj(n -> descriptor.getShortName());
-                                    } else {
-                                        return Stream.of(descriptor.getShortName());
-                                    }
-                                })
-                        )
-                        .map(name -> name.isEmpty() ? "" : "\"" + name + "\"")
-                        .collect(joining(", ")));
-        eol();
-    }
-
-    private void appendStatSubNames() {
-        append(
-                Stream.concat(
-                                Stream.of(""),
-                                descriptors.stream()
-                                        .filter(descriptor -> isShowHiddenMeasurements() || descriptor.isVisible())
-                                        .flatMap(descriptor -> {
-                                            if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
-                                                try {
-                                                    return Stream.concat(
-                                                            Stream.of("minimum", "median", "average", "std dev", "maximum", "sum", "nb"),
-                                                            StatisticalMeasurement.parseRequestedPercentiles(descriptor.getInitText()).stream().map(percentile -> "p" + percentile)
-                                                    );
-                                                } catch (IOException e) {
-                                                    return Stream.of("minimum", "median", "average", "std dev", "maximum", "sum", "nb");
-                                                }
-                                            } else {
-                                                return Stream.of("");
-                                            }
-                                        })
-                        )
-                        .map(name -> name.isEmpty() ? "" : "\"" + name + "\"")
-                        .collect(joining(", ")));
-        eol();
+        super.visitMetrics(metrics);
     }
 
     public void visitMetrics(Metrics metrics) {
-        if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
+        if (isVisibleMetrics(metrics)) {
             append("\"").append(metrics.getName()).append("\", ");
             
             Iterator<MeasurementDescriptor> i = descriptors.iterator();
             while (i.hasNext()) {
                 MeasurementDescriptor descriptor = i.next();
                 
-                if (isShowHiddenMeasurements() || descriptor.isVisible()) {
+                if (isVisibleMeasurement(descriptor)) {
                     Measurement measurement = metrics.getMeasurement(descriptor.getShortName());
                     
                     measurement.accept(this);
@@ -162,5 +95,75 @@ public class CSVPrinter extends Printer {
     
     protected void visitMeasurement(Measurement measurement) {
         append(measurement.getValue());
+    }
+
+    private void appendHeader() {
+        appendLongNames();
+        appendShortNames();
+        appendStatSubNames();
+    }
+
+    private void appendLongNames() {
+        append(
+                Stream.concat(
+                                Stream.of("name"),
+                                descriptors.stream()
+                                        .filter(this::isVisibleMeasurement)
+                                        .flatMap(descriptor -> {
+                                            if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
+                                                return IntStream.rangeClosed(1, StatisticalMeasurement.countValues(descriptor.getInitText())).mapToObj(n -> descriptor.getLongName());
+                                            } else {
+                                                return Stream.of(descriptor.getLongName());
+                                            }
+                                        })
+                        )
+                        .map(name -> name.isEmpty() ? "" : "\"" + name + "\"")
+                        .collect(joining(", ")));
+        eol();
+    }
+
+    private void appendShortNames() {
+        append(
+                Stream.concat(
+                                Stream.of(""),
+                                descriptors.stream()
+                                        .filter(this::isVisibleMeasurement)
+                                        .flatMap(descriptor -> {
+                                            if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
+                                                return IntStream.rangeClosed(1, StatisticalMeasurement.countValues(descriptor.getInitText())).mapToObj(n -> descriptor.getShortName());
+                                            } else {
+                                                return Stream.of(descriptor.getShortName());
+                                            }
+                                        })
+                        )
+                        .map(name -> name.isEmpty() ? "" : "\"" + name + "\"")
+                        .collect(joining(", ")));
+        eol();
+    }
+
+    private void appendStatSubNames() {
+        append(
+                Stream.concat(
+                                Stream.of(""),
+                                descriptors.stream()
+                                        .filter(this::isVisibleMeasurement)
+                                        .flatMap(descriptor -> {
+                                            if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {
+                                                try {
+                                                    return Stream.concat(
+                                                            Stream.of("minimum", "median", "average", "std dev", "maximum", "sum", "nb"),
+                                                            StatisticalMeasurement.parseRequestedPercentiles(descriptor.getInitText()).stream().map(percentile -> "p" + percentile)
+                                                    );
+                                                } catch (IOException e) {
+                                                    return Stream.of("minimum", "median", "average", "std dev", "maximum", "sum", "nb");
+                                                }
+                                            } else {
+                                                return Stream.of("");
+                                            }
+                                        })
+                        )
+                        .map(name -> name.isEmpty() ? "" : "\"" + name + "\"")
+                        .collect(joining(", ")));
+        eol();
     }
 }

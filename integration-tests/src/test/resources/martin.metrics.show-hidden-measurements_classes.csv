@@ -1,0 +1,5 @@
+"name", "Inbound Extra-Package Dependencies", "Outbound Extra-Package Dependencies", "Inbound Extra-Package Method Dependencies", "Afferent Coupling from methods", "Efferent Coupling from methods"
+, "IEP", "OEP", "IEPM", "CaComp", "CeComp"
+, , , , , 
+"client.Client", 0.0, 1.0, 0.0, 0.0, 2.0
+"provider.Provider", 0.0, 1.0, 0.0, 1.0, 1.0
