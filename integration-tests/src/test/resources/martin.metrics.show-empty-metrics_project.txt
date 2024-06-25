@@ -1,0 +1,8 @@
+Project metrics
+---------------
+Project
+    Instability (I): 0.75 [0.5 0.75/0.75 0.25 1 1.5 (2)]
+    Abstractness (A): 0 [0 0/0 0 0 0 (2)]
+    Normalized Distance (D'): -0.25 [-0.5 -0.25/-0.25 0.25 0 -0.5 (2)]
+
+

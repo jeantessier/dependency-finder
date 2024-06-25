@@ -15,6 +15,9 @@ public class TestPrinterVisibilityBase {
 
     protected MetricsConfiguration configuration;
     protected Collection<Metrics> projectMetrics;
+    protected Collection<Metrics> groupMetrics;
+    protected Collection<Metrics> classMetrics;
+    protected Collection<Metrics> methodMetrics;
 
     @Before
     public void loadTestData() throws Exception {
@@ -29,5 +32,8 @@ public class TestPrinterVisibilityBase {
         loader.load(List.of(CLIENT_CLASSPATH, PROVIDER_CLASSPATH));
 
         projectMetrics = factory.getProjectMetrics();
+        groupMetrics = factory.getGroupMetrics();
+        classMetrics = factory.getClassMetrics();
+        methodMetrics = factory.getMethodMetrics();
     }
 }

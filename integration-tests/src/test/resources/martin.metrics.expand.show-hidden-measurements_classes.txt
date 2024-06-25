@@ -1,0 +1,23 @@
+Class metrics
+-------------
+client.Client
+    Inbound Extra-Package Dependencies (IEP): 0
+    Outbound Extra-Package Dependencies (OEP): 1
+        java.lang.Object
+    Inbound Extra-Package Method Dependencies (IEPM): 0
+    Afferent Coupling from methods (CaComp): 0
+    Efferent Coupling from methods (CeComp): 2
+        java.lang.Object
+        provider.Provider
+
+provider.Provider
+    Inbound Extra-Package Dependencies (IEP): 0
+    Outbound Extra-Package Dependencies (OEP): 1
+        java.lang.Object
+    Inbound Extra-Package Method Dependencies (IEPM): 0
+    Afferent Coupling from methods (CaComp): 1
+        client.Client
+    Efferent Coupling from methods (CeComp): 1
+        java.lang.Object
+
+

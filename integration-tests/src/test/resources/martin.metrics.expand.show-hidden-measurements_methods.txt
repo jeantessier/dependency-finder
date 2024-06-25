@@ -1,0 +1,37 @@
+Method metrics
+--------------
+client.Client.Client(): void
+    Inbound Extra-Package Method Dependencies (IEPM): 0
+    Outbound Extra-Package Feature Dependencies (OEPF): 1
+        java.lang.Object.Object(): void
+    Outbound Extra-Package Class Dependencies (OEPC): 0
+
+client.Client.m1(): void
+    Inbound Extra-Package Method Dependencies (IEPM): 0
+    Outbound Extra-Package Feature Dependencies (OEPF): 1
+        provider.Provider.m1(): void
+    Outbound Extra-Package Class Dependencies (OEPC): 0
+
+provider.Provider.Provider(): void
+    Inbound Extra-Package Method Dependencies (IEPM): 0
+    Outbound Extra-Package Feature Dependencies (OEPF): 1
+        java.lang.Object.Object(): void
+    Outbound Extra-Package Class Dependencies (OEPC): 0
+
+provider.Provider.internal(): void
+    Inbound Extra-Package Method Dependencies (IEPM): 0
+    Outbound Extra-Package Feature Dependencies (OEPF): 0
+    Outbound Extra-Package Class Dependencies (OEPC): 0
+
+provider.Provider.m1(): void
+    Inbound Extra-Package Method Dependencies (IEPM): 1
+        client.Client.m1(): void
+    Outbound Extra-Package Feature Dependencies (OEPF): 0
+    Outbound Extra-Package Class Dependencies (OEPC): 0
+
+provider.Provider.m2(): void
+    Inbound Extra-Package Method Dependencies (IEPM): 0
+    Outbound Extra-Package Feature Dependencies (OEPF): 0
+    Outbound Extra-Package Class Dependencies (OEPC): 0
+
+

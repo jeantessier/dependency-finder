@@ -1,0 +1,31 @@
+Group metrics
+-------------
+client
+    Classes (C): 1
+    Abstract Classes (AC): 0
+    Afferent Coupling (Ca): 0
+    Efferent Coupling (Ce): 2
+        java.lang.Object
+        provider.Provider
+    Coupling (CaCe): 2
+    Instability (I): 1
+    Number of Classes (Nc): 1
+    Number of Abstract Classes and Interfaces (Na): 0
+    Abstractness (A): 0
+    Normalized Distance (D'): 0
+
+provider
+    Classes (C): 1
+    Abstract Classes (AC): 0
+    Afferent Coupling (Ca): 1
+        client.Client
+    Efferent Coupling (Ce): 1
+        java.lang.Object
+    Coupling (CaCe): 2
+    Instability (I): 0.5
+    Number of Classes (Nc): 1
+    Number of Abstract Classes and Interfaces (Na): 0
+    Abstractness (A): 0
+    Normalized Distance (D'): -0.5
+
+
