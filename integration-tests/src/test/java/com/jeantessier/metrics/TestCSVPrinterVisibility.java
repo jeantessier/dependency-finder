@@ -52,11 +52,7 @@ public class TestCSVPrinterVisibility extends TestPrinterVisibilityBase {
         var printer = createPrinter(out, configuration.getProjectMeasurements());
 
         // When
-        printer.visitMetrics(
-                projectMetrics.stream()
-                        .sorted(new MetricsComparator("name"))
-                        .toList()
-        );
+        printer.visitMetrics(projectMetrics);
 
         // Then
         var expectedReport = Files.readString(REPORTS_DIR.resolve(expectedOutput + "_project.csv"));
@@ -74,11 +70,7 @@ public class TestCSVPrinterVisibility extends TestPrinterVisibilityBase {
         var printer = createPrinter(out, configuration.getGroupMeasurements());
 
         // When
-        printer.visitMetrics(
-                groupMetrics.stream()
-                        .sorted(new MetricsComparator("name"))
-                        .toList()
-        );
+        printer.visitMetrics(groupMetrics);
 
         // Then
         var expectedReport = Files.readString(REPORTS_DIR.resolve(expectedOutput + "_groups.csv"));
@@ -96,11 +88,7 @@ public class TestCSVPrinterVisibility extends TestPrinterVisibilityBase {
         var printer = createPrinter(out, configuration.getClassMeasurements());
 
         // When
-        printer.visitMetrics(
-                classMetrics.stream()
-                        .sorted(new MetricsComparator("name"))
-                        .toList()
-        );
+        printer.visitMetrics(classMetrics);
 
         // Then
         var expectedReport = Files.readString(REPORTS_DIR.resolve(expectedOutput + "_classes.csv"));
@@ -118,11 +106,7 @@ public class TestCSVPrinterVisibility extends TestPrinterVisibilityBase {
         var printer = createPrinter(out, configuration.getMethodMeasurements());
 
         // When
-        printer.visitMetrics(
-                methodMetrics.stream()
-                        .sorted(new MetricsComparator("name"))
-                        .toList()
-        );
+        printer.visitMetrics(methodMetrics);
 
         // Then
         var expectedReport = Files.readString(REPORTS_DIR.resolve(expectedOutput + "_methods.csv"));

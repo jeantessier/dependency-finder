@@ -118,6 +118,7 @@ public class YAMLPrinter extends Printer {
             raiseIndent();
             metrics.stream()
                     .filter(this::isVisibleMetrics)
+                    .sorted(getComparator())
                     .forEach(consumer);
             lowerIndent();
         } else {

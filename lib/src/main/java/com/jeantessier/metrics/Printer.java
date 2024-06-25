@@ -44,6 +44,8 @@ public abstract class Printer implements MeasurementVisitor {
     private boolean showHiddenMeasurements = false;
     private boolean expandCollectionMeasurements = false;
     private String indentText = DEFAULT_INDENT_TEXT;
+    private Comparator<Metrics> comparator = new MetricsComparator("name");
+
     private int indentLevel = 0;
 
     public Printer(PrintWriter out) {
@@ -90,6 +92,14 @@ public abstract class Printer implements MeasurementVisitor {
 
     public void setExpandCollectionMeasurements(boolean expandCollectionMeasurements) {
         this.expandCollectionMeasurements = expandCollectionMeasurements;
+    }
+
+    public Comparator<Metrics> getComparator() {
+        return comparator;
+    }
+
+    public void setComparator(Comparator<Metrics> comparator) {
+        this.comparator = comparator;
     }
 
     protected Printer append(boolean b) {
@@ -159,7 +169,9 @@ public abstract class Printer implements MeasurementVisitor {
     }
 
     public void visitMetrics(Collection<Metrics> metrics) {
-        metrics.forEach(this::visitMetrics);
+        metrics.stream()
+                .sorted(getComparator())
+                .forEach(this::visitMetrics);
     }
     
     public abstract void visitMetrics(Metrics metrics);

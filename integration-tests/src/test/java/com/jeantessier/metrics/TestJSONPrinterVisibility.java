@@ -55,7 +55,6 @@ public class TestJSONPrinterVisibility extends TestPrinterVisibilityBase {
 
         // When
         printer.visitMetrics(projectMetrics);
-        out.println();
 
         // Then
         var expectedReport = Files.readString(REPORTS_DIR.resolve(expectedOutput));

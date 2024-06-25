@@ -53,9 +53,7 @@ public class TestTextPrinterVisibility extends TestPrinterVisibilityBase {
         var printer = createPrinter(out, configuration.getProjectMeasurements());
 
         // When
-        projectMetrics.stream()
-                .sorted(new MetricsComparator("name"))
-                .forEach(printer::visitMetrics);
+        printer.visitMetrics(projectMetrics);
 
         // Then
         var expectedReport = readExpectedReport("project");
@@ -73,9 +71,7 @@ public class TestTextPrinterVisibility extends TestPrinterVisibilityBase {
         var printer = createPrinter(out, configuration.getGroupMeasurements());
 
         // When
-        groupMetrics.stream()
-                .sorted(new MetricsComparator("name"))
-                .forEach(printer::visitMetrics);
+        printer.visitMetrics(groupMetrics);
 
         // Then
         var expectedReport = readExpectedReport("groups");
@@ -93,9 +89,7 @@ public class TestTextPrinterVisibility extends TestPrinterVisibilityBase {
         var printer = createPrinter(out, configuration.getClassMeasurements());
 
         // When
-        classMetrics.stream()
-                .sorted(new MetricsComparator("name"))
-                .forEach(printer::visitMetrics);
+        printer.visitMetrics(classMetrics);
 
         // Then
         var expectedReport = readExpectedReport("classes");
@@ -113,9 +107,7 @@ public class TestTextPrinterVisibility extends TestPrinterVisibilityBase {
         var printer = createPrinter(out, configuration.getMethodMeasurements());
 
         // When
-        methodMetrics.stream()
-                .sorted(new MetricsComparator("name"))
-                .forEach(printer::visitMetrics);
+        printer.visitMetrics(methodMetrics);
 
         // Then
         var expectedReport = readExpectedReport("methods");

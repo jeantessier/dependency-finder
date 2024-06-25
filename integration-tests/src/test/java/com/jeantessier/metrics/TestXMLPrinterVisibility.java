@@ -54,9 +54,7 @@ public class TestXMLPrinterVisibility extends TestPrinterVisibilityBase {
         printer.setShowHiddenMeasurements(showHiddenMeasurements);
 
         // When
-        projectMetrics.stream()
-                .sorted(new MetricsComparator("name"))
-                .forEach(printer::visitMetrics);
+        printer.visitMetrics(projectMetrics);
 
         // Then
         var expectedReport = Files.readString(REPORTS_DIR.resolve(expectedOutput));
