@@ -39,14 +39,14 @@ $BINDIR/OOMetrics -configuration $ETCDIR/MartinConfig.xml metrics/build/classes/
 $BINDIR/OOMetrics -configuration $ETCDIR/MartinConfig.xml metrics/build/classes/java/main/{client,provider} -out $OUTPUTDIR/martin.metrics.expand.show-hidden-measurements.xml -xml -expand -show-hidden-measurements
 
 # OOMetrics text output
-for section in project groups classes methods
+for level in project groups classes methods
 do
-    echo "Generating OOMetrics text output for $section"
-    $BINDIR/OOMetrics -configuration $ETCDIR/MartinConfig.xml metrics/build/classes/java/main/{client,provider} -out $OUTPUTDIR/martin.metrics_$section.txt -txt -$section
-    $BINDIR/OOMetrics -configuration $ETCDIR/MartinConfig.xml metrics/build/classes/java/main/{client,provider} -out $OUTPUTDIR/martin.metrics.expand_$section.txt -txt -$section -expand
-    $BINDIR/OOMetrics -configuration $ETCDIR/MartinConfig.xml metrics/build/classes/java/main/{client,provider} -out $OUTPUTDIR/martin.metrics.show-empty-metrics_$section.txt -txt -$section -show-empty-metrics
-    $BINDIR/OOMetrics -configuration $ETCDIR/MartinConfig.xml metrics/build/classes/java/main/{client,provider} -out $OUTPUTDIR/martin.metrics.show-hidden-measurements_$section.txt -txt -$section -show-hidden-measurements
-    $BINDIR/OOMetrics -configuration $ETCDIR/MartinConfig.xml metrics/build/classes/java/main/{client,provider} -out $OUTPUTDIR/martin.metrics.expand.show-hidden-measurements_$section.txt -txt -$section -expand -show-hidden-measurements
+    echo "Generating OOMetrics text output for $level"
+    $BINDIR/OOMetrics -configuration $ETCDIR/MartinConfig.xml metrics/build/classes/java/main/{client,provider} -out $OUTPUTDIR/martin.metrics_$level.txt -txt -$level
+    $BINDIR/OOMetrics -configuration $ETCDIR/MartinConfig.xml metrics/build/classes/java/main/{client,provider} -out $OUTPUTDIR/martin.metrics.expand_$level.txt -txt -$level -expand
+    $BINDIR/OOMetrics -configuration $ETCDIR/MartinConfig.xml metrics/build/classes/java/main/{client,provider} -out $OUTPUTDIR/martin.metrics.show-empty-metrics_$level.txt -txt -$level -show-empty-metrics
+    $BINDIR/OOMetrics -configuration $ETCDIR/MartinConfig.xml metrics/build/classes/java/main/{client,provider} -out $OUTPUTDIR/martin.metrics.show-hidden-measurements_$level.txt -txt -$level -show-hidden-measurements
+    $BINDIR/OOMetrics -configuration $ETCDIR/MartinConfig.xml metrics/build/classes/java/main/{client,provider} -out $OUTPUTDIR/martin.metrics.expand.show-hidden-measurements_$level.txt -txt -$level -expand -show-hidden-measurements
 done
 
 # OOMetrics CSV output
