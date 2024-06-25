@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE metrics SYSTEM "https://depfind.sourceforge.io/dtd/metrics.dtd">
+
+<metrics>
+    <project>
+        <name>Project</name>
+        <measurement>
+            <short-name>I</short-name>
+            <long-name>Instability</long-name>
+            <value>0.75</value>
+            <minimum>0.5</minimum>
+            <median>0.75</median>
+            <average>0.75</average>
+            <standard-deviation>0.25</standard-deviation>
+            <maximum>1.0</maximum>
+            <sum>1.5</sum>
+            <nb-data-points>2</nb-data-points>
+        </measurement>
+        <measurement>
+            <short-name>A</short-name>
+            <long-name>Abstractness</long-name>
+            <value>0.0</value>
+            <minimum>0.0</minimum>
+            <median>0.0</median>
+            <average>0.0</average>
+            <standard-deviation>0.0</standard-deviation>
+            <maximum>0.0</maximum>
+            <sum>0.0</sum>
+            <nb-data-points>2</nb-data-points>
+        </measurement>
+        <measurement>
+            <short-name>D'</short-name>
+            <long-name>Normalized Distance</long-name>
+            <value>-0.25</value>
+            <minimum>-0.5</minimum>
+            <median>-0.25</median>
+            <average>-0.25</average>
+            <standard-deviation>0.25</standard-deviation>
+            <maximum>0.0</maximum>
+            <sum>-0.5</sum>
+            <nb-data-points>2</nb-data-points>
+        </measurement>
+        <group>
+            <name>client</name>
+            <measurement>
+                <short-name>Ca</short-name>
+                <long-name>Afferent Coupling</long-name>
+                <value>0.0</value>
+            </measurement>
+            <measurement>
+                <short-name>Ce</short-name>
+                <long-name>Efferent Coupling</long-name>
+                <value>2.0</value>
+            </measurement>
+            <measurement>
+                <short-name>I</short-name>
+                <long-name>Instability</long-name>
+                <value>1.0</value>
+            </measurement>
+            <measurement>
+                <short-name>Nc</short-name>
+                <long-name>Number of Classes</long-name>
+                <value>1.0</value>
+            </measurement>
+            <measurement>
+                <short-name>Na</short-name>
+                <long-name>Number of Abstract Classes and Interfaces</long-name>
+                <value>0.0</value>
+            </measurement>
+            <measurement>
+                <short-name>A</short-name>
+                <long-name>Abstractness</long-name>
+                <value>0.0</value>
+            </measurement>
+            <measurement>
+                <short-name>D'</short-name>
+                <long-name>Normalized Distance</long-name>
+                <value>0.0</value>
+            </measurement>
+            <class>
+                <name>client.Client</name>
+                <method>
+                    <name>client.Client.Client(): void</name>
+                </method>
+                <method>
+                    <name>client.Client.m1(): void</name>
+                </method>
+            </class>
+        </group>
+        <group>
+            <name>provider</name>
+            <measurement>
+                <short-name>Ca</short-name>
+                <long-name>Afferent Coupling</long-name>
+                <value>1.0</value>
+            </measurement>
+            <measurement>
+                <short-name>Ce</short-name>
+                <long-name>Efferent Coupling</long-name>
+                <value>1.0</value>
+            </measurement>
+            <measurement>
+                <short-name>I</short-name>
+                <long-name>Instability</long-name>
+                <value>0.5</value>
+            </measurement>
+            <measurement>
+                <short-name>Nc</short-name>
+                <long-name>Number of Classes</long-name>
+                <value>1.0</value>
+            </measurement>
+            <measurement>
+                <short-name>Na</short-name>
+                <long-name>Number of Abstract Classes and Interfaces</long-name>
+                <value>0.0</value>
+            </measurement>
+            <measurement>
+                <short-name>A</short-name>
+                <long-name>Abstractness</long-name>
+                <value>0.0</value>
+            </measurement>
+            <measurement>
+                <short-name>D'</short-name>
+                <long-name>Normalized Distance</long-name>
+                <value>-0.5</value>
+            </measurement>
+            <class>
+                <name>provider.Provider</name>
+                <method>
+                    <name>provider.Provider.Provider(): void</name>
+                </method>
+                <method>
+                    <name>provider.Provider.internal(): void</name>
+                </method>
+                <method>
+                    <name>provider.Provider.m1(): void</name>
+                </method>
+                <method>
+                    <name>provider.Provider.m2(): void</name>
+                </method>
+            </class>
+        </group>
+    </project>
+</metrics>
