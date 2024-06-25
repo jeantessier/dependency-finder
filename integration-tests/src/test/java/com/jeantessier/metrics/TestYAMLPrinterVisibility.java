@@ -15,9 +15,11 @@ public class TestYAMLPrinterVisibility extends TestPrinterVisibilityBase {
     @Parameters(name="generate a report with {0}")
     public static Object[][] data() {
         return new Object[][] {
-                {"standard options", YAMLPrinter.class, false, false, "martin.metrics.yml"},
-                {"expand option", YAMLPrinter.class, true, false, "martin.metrics.expand.yml"},
-                {"show-empty-metrics option", YAMLPrinter.class, false, true, "martin.metrics.show-empty-metrics.yml"},
+                {"standard options", YAMLPrinter.class, false, false, false, "martin.metrics.yml"},
+                {"expand option", YAMLPrinter.class, true, false, false, "martin.metrics.expand.yml"},
+                {"show-empty-metrics option", YAMLPrinter.class, false, true, false, "martin.metrics.show-empty-metrics.yml"},
+                {"show-hidden-measurements option", YAMLPrinter.class, false, false, true, "martin.metrics.show-hidden-measurements.yml"},
+                {"expand and show-hidden-measurements options", YAMLPrinter.class, true, false, true, "martin.metrics.expand.show-hidden-measurements.yml"},
         };
     }
 
@@ -34,6 +36,9 @@ public class TestYAMLPrinterVisibility extends TestPrinterVisibilityBase {
     public boolean showEmptyMetrics;
 
     @Parameter(4)
+    public boolean showHiddenMeasurements;
+
+    @Parameter(5)
     public String expectedOutput;
 
     @Test
@@ -46,6 +51,7 @@ public class TestYAMLPrinterVisibility extends TestPrinterVisibilityBase {
         var printer = printerClass.getConstructor(out.getClass(), configuration.getClass()).newInstance(out, configuration);
         printer.setExpandCollectionMeasurements(expandCollectionMeasurements);
         printer.setShowEmptyMetrics(showEmptyMetrics);
+        printer.setShowHiddenMeasurements(showHiddenMeasurements);
 
         // When
         projectMetrics.stream()

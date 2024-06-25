@@ -15,9 +15,11 @@ public class TestJSONPrinterVisibility extends TestPrinterVisibilityBase {
     @Parameters(name="generate a report with {0}")
     public static Object[][] data() {
         return new Object[][] {
-                {"standard options", JSONPrinter.class, false, false, "martin.metrics.json"},
-                {"expand option", JSONPrinter.class, true, false, "martin.metrics.expand.json"},
-                {"show-empty-metrics option", JSONPrinter.class, false, true, "martin.metrics.show-empty-metrics.json"},
+                {"standard options", JSONPrinter.class, false, false, false, "martin.metrics.json"},
+                {"expand option", JSONPrinter.class, true, false, false, "martin.metrics.expand.json"},
+                {"show-empty-metrics option", JSONPrinter.class, false, true, false, "martin.metrics.show-empty-metrics.json"},
+                {"show-hidden-measurements option", JSONPrinter.class, false, false, true, "martin.metrics.show-hidden-measurements.json"},
+                {"expand and show-hidden-measurements options", JSONPrinter.class, true, false, true, "martin.metrics.expand.show-hidden-measurements.json"},
         };
     }
 
@@ -34,6 +36,9 @@ public class TestJSONPrinterVisibility extends TestPrinterVisibilityBase {
     public boolean showEmptyMetrics;
 
     @Parameter(4)
+    public boolean showHiddenMeasurements;
+
+    @Parameter(5)
     public String expectedOutput;
 
     @Test
@@ -46,6 +51,7 @@ public class TestJSONPrinterVisibility extends TestPrinterVisibilityBase {
         var printer = printerClass.getConstructor(out.getClass(), configuration.getClass()).newInstance(out, configuration);
         printer.setExpandCollectionMeasurements(expandCollectionMeasurements);
         printer.setShowEmptyMetrics(showEmptyMetrics);
+        printer.setShowHiddenMeasurements(showHiddenMeasurements);
 
         // When
         printer.visitMetrics(projectMetrics);
