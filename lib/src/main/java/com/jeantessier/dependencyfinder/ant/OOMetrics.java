@@ -520,9 +520,8 @@ public class OOMetrics extends Task {
         if (getReverse()) {
             comparator.reverse();
         }
+        printer.setComparator(comparator);
 
-        metrics.stream()
-                .sorted(comparator)
-                .forEach(printer::visitMetrics);
+        printer.visitMetrics(metrics);
     }
 }

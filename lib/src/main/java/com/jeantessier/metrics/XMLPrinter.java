@@ -76,7 +76,9 @@ public class XMLPrinter extends Printer {
             indent().append("<name>").append(metrics.getName()).append("</name>").eol();
             
             visitMeasurements(metrics, configuration.getProjectMeasurements());
-            metrics.getSubMetrics().forEach(this::visitGroupMetrics);
+            metrics.getSubMetrics().stream()
+                    .sorted(getComparator())
+                    .forEach(this::visitGroupMetrics);
             
             lowerIndent();
             indent().append("</project>").eol();
@@ -90,7 +92,9 @@ public class XMLPrinter extends Printer {
             indent().append("<name>").append(metrics.getName()).append("</name>").eol();
             
             visitMeasurements(metrics, configuration.getGroupMeasurements());
-            metrics.getSubMetrics().forEach(this::visitClassMetrics);
+            metrics.getSubMetrics().stream()
+                    .sorted(getComparator())
+                    .forEach(this::visitClassMetrics);
             
             lowerIndent();
             indent().append("</group>").eol();
@@ -104,7 +108,9 @@ public class XMLPrinter extends Printer {
             indent().append("<name>").append(metrics.getName()).append("</name>").eol();
             
             visitMeasurements(metrics, configuration.getClassMeasurements());
-            metrics.getSubMetrics().forEach(this::visitMethodMetrics);
+            metrics.getSubMetrics().stream()
+                    .sorted(getComparator())
+                    .forEach(this::visitMethodMetrics);
 
             lowerIndent();
             indent().append("</class>").eol();

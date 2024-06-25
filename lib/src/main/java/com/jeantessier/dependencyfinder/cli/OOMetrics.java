@@ -276,12 +276,9 @@ public class OOMetrics extends DirectoryExplorerCommand {
         if (getCommandLine().getToggleSwitch("reverse")) {
             comparator.reverse();
         }
+        printer.setComparator(comparator);
 
-        printer.visitMetrics(
-                metrics.stream()
-                        .sorted(comparator)
-                        .toList()
-        );
+        printer.visitMetrics(metrics);
     }
 
     public static void main(String[] args) throws Exception {

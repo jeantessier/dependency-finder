@@ -48,6 +48,7 @@ public class JSONPrinter extends Printer {
 
     public void visitMetrics(Collection<Metrics> metrics) {
         visitProjectMetrics(metrics);
+        eol();
     }
 
     public void visitMetrics(Metrics metrics) {
@@ -61,6 +62,7 @@ public class JSONPrinter extends Printer {
 
             indent().append(metrics.stream()
                     .filter(this::isVisibleMetrics)
+                    .sorted(getComparator())
                     .map(projectMetrics -> {
                         StringWriter out = new StringWriter();
                         clonePrinter(out).visitProjectMetrics(projectMetrics);
@@ -99,6 +101,7 @@ public class JSONPrinter extends Printer {
 
             indent().append(metrics.stream()
                     .filter(this::isVisibleMetrics)
+                    .sorted(getComparator())
                     .map(groupMetrics -> {
                         StringWriter out = new StringWriter();
                         clonePrinter(out).visitGroupMetrics(groupMetrics);
@@ -137,6 +140,7 @@ public class JSONPrinter extends Printer {
 
             indent().append(metrics.stream()
                     .filter(this::isVisibleMetrics)
+                    .sorted(getComparator())
                     .map(classMetrics -> {
                         StringWriter out = new StringWriter();
                         clonePrinter(out).visitClassMetrics(classMetrics);
@@ -175,6 +179,7 @@ public class JSONPrinter extends Printer {
 
             indent().append(metrics.stream()
                     .filter(this::isVisibleMetrics)
+                    .sorted(getComparator())
                     .map(methodMetrics -> {
                         StringWriter out = new StringWriter();
                         clonePrinter(out).visitMethodMetrics(methodMetrics);
@@ -312,6 +317,7 @@ public class JSONPrinter extends Printer {
         result.setShowEmptyMetrics(isShowEmptyMetrics());
         result.setShowEmptyMetrics(isShowEmptyMetrics());
         result.setExpandCollectionMeasurements(isExpandCollectionMeasurements());
+        result.setComparator(getComparator());
 
         return result;
     }
