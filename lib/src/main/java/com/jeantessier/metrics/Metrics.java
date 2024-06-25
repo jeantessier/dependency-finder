@@ -42,7 +42,6 @@ public class Metrics {
     
     private final Metrics parent;
     private final String  name;
-    private final String  key;
 
     private final Map<String, Measurement> measurements = new TreeMap<>();
     private final Map<String, Metrics> submetrics = new TreeMap<>();
@@ -59,13 +58,8 @@ public class Metrics {
      *             (e.g., class name, method name).
      */
     public Metrics(Metrics parent, String name) {
-        this(parent, name, name);
-    }
-
-    public Metrics(Metrics parent, String name, String key) {
         this.parent = parent;
         this.name   = name;
-        this.key    = key;
 
         if (parent == null) {
             LogManager.getLogger(getClass()).debug("Created top-level metrics \"{}\"", name);
@@ -84,10 +78,6 @@ public class Metrics {
      */
     public String getName() {
         return name;
-    }
-
-    public String getKey() {
-        return key;
     }
 
     Metrics track(Measurement measurement) {
@@ -169,7 +159,7 @@ public class Metrics {
     }
     
     public Metrics addSubMetrics(Metrics metrics) {
-        return submetrics.put(metrics.getKey(), metrics);
+        return submetrics.put(metrics.getName(), metrics);
     }
     
     public Collection<Metrics> getSubMetrics() {

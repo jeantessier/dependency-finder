@@ -68,11 +68,11 @@ public class TestMetricsGathererSLOC extends TestCase {
     }
     
     public void test_sloc_TestInterface_method1() {
-        assertEquals(BasicMeasurements.SLOC, 1, factory.createMethodMetrics("sloc.TestInterface.method1()", "void").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+        assertEquals(BasicMeasurements.SLOC, 1, factory.createMethodMetrics("sloc.TestInterface.method1(): void").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
     }
     
     public void test_sloc_TestInterface_method2() {
-        assertEquals(BasicMeasurements.SLOC, 1, factory.createMethodMetrics("sloc.TestInterface.method2()", "void").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+        assertEquals(BasicMeasurements.SLOC, 1, factory.createMethodMetrics("sloc.TestInterface.method2(): void").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
     }
     
     public void test_sloc_TestAbstractClass() {
@@ -83,11 +83,11 @@ public class TestMetricsGathererSLOC extends TestCase {
     }
     
     public void test_sloc_TestAbstractClass_method1() {
-        assertEquals(BasicMeasurements.SLOC, 13, factory.createMethodMetrics("sloc.TestAbstractClass.method1()", "void").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+        assertEquals(BasicMeasurements.SLOC, 13, factory.createMethodMetrics("sloc.TestAbstractClass.method1(): void").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
     }
     
     public void test_sloc_TestAbstractClass_method2() {
-        assertEquals(BasicMeasurements.SLOC, 0, factory.createMethodMetrics("sloc.TestAbstractClass.method2()", "void").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+        assertEquals(BasicMeasurements.SLOC, 0, factory.createMethodMetrics("sloc.TestAbstractClass.method2(): void").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
     }
     
     public void test_sloc_TestSuperClass() {
@@ -105,11 +105,11 @@ public class TestMetricsGathererSLOC extends TestCase {
     }
     
     public void test_sloc_TestClass_method1() {
-        assertEquals(BasicMeasurements.SLOC, 0, factory.createMethodMetrics("sloc.TestClass.method1()", "void").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+        assertEquals(BasicMeasurements.SLOC, 0, factory.createMethodMetrics("sloc.TestClass.method1(): void").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
     }
     
     public void test_sloc_TestClass_method2() {
-        assertEquals(BasicMeasurements.SLOC, 2, factory.createMethodMetrics("sloc.TestClass.method2()", "void").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+        assertEquals(BasicMeasurements.SLOC, 2, factory.createMethodMetrics("sloc.TestClass.method2(): void").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
     }
 
     public void test_sloc() {

@@ -81,7 +81,7 @@ public class MetricsGathererFixture extends DoFixture {
                 .filter(metrics -> metrics.getName().equals(name))
                 .map(this::convertMetricsToMeasurements)
                 .findAny()
-                .orElseThrow();
+                .orElseThrow(() -> new RuntimeException("No metrics found for \"" + name + "\" in " + metricsCollection.stream().map(Metrics::getName).toList()));
     }
 
     private Collection<SingleMeasurement> convertMetricsToMeasurements(Metrics metrics) {

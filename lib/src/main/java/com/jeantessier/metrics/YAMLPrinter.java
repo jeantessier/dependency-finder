@@ -56,7 +56,7 @@ public class YAMLPrinter extends Printer {
         if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
             indent().append("-").eol();
             raiseIndent();
-            indent().append("name: ").append(formatText(metrics.getKey())).eol();
+            indent().append("name: ").append(formatText(metrics.getName())).eol();
 
             printMeasurements(metrics, configuration.getProjectMeasurements());
             printMetrics("groups", metrics.getSubMetrics(), this::visitGroupMetrics);
@@ -69,7 +69,7 @@ public class YAMLPrinter extends Printer {
         if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
             indent().append("-").eol();
             raiseIndent();
-            indent().append("name: ").append(formatText(metrics.getKey())).eol();
+            indent().append("name: ").append(formatText(metrics.getName())).eol();
 
             printMeasurements(metrics, configuration.getGroupMeasurements());
             printMetrics("classes", metrics.getSubMetrics(), this::visitClassMetrics);
@@ -82,7 +82,7 @@ public class YAMLPrinter extends Printer {
         if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {
             indent().append("-").eol();
             raiseIndent();
-            indent().append("name: ").append(formatText(metrics.getKey())).eol();
+            indent().append("name: ").append(formatText(metrics.getName())).eol();
 
             printMeasurements(metrics, configuration.getClassMeasurements());
             printMetrics("methods", metrics.getSubMetrics(), this::visitMethodMetrics);
@@ -94,7 +94,7 @@ public class YAMLPrinter extends Printer {
     private void visitMethodMetrics(Metrics metrics) {
         indent().append("-").eol();
         raiseIndent();
-        indent().append("name: ").append(formatText(metrics.getKey())).eol();
+        indent().append("name: ").append(formatText(metrics.getName())).eol();
 
         printMeasurements(metrics, configuration.getMethodMeasurements());
 

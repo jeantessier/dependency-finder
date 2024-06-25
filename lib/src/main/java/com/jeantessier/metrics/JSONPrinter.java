@@ -78,7 +78,7 @@ public class JSONPrinter extends Printer {
     private void visitProjectMetrics(Metrics metrics) {
         append("{").eol();
         raiseIndent();
-        indent().append("\"name\": \"").append(metrics.getKey()).append("\",").eol();
+        indent().append("\"name\": \"").append(metrics.getName()).append("\",").eol();
 
         indent().append("\"measurements\": ");
         visitMeasurements(metrics, configuration.getProjectMeasurements());
@@ -116,7 +116,7 @@ public class JSONPrinter extends Printer {
     private void visitGroupMetrics(Metrics metrics) {
         append("{").eol();
         raiseIndent();
-        indent().append("\"name\": \"").append(metrics.getKey()).append("\",").eol();
+        indent().append("\"name\": \"").append(metrics.getName()).append("\",").eol();
 
         indent().append("\"measurements\": ");
         visitMeasurements(metrics, configuration.getGroupMeasurements());
@@ -154,7 +154,7 @@ public class JSONPrinter extends Printer {
     private void visitClassMetrics(Metrics metrics) {
         append("{").eol();
         raiseIndent();
-        indent().append("\"name\": \"").append(metrics.getKey()).append("\",").eol();
+        indent().append("\"name\": \"").append(metrics.getName()).append("\",").eol();
 
         indent().append("\"measurements\": ");
         visitMeasurements(metrics, configuration.getClassMeasurements());
@@ -192,7 +192,7 @@ public class JSONPrinter extends Printer {
     private void visitMethodMetrics(Metrics metrics) {
         append("{").eol();
         raiseIndent();
-        indent().append("\"name\": \"").append(metrics.getKey()).append("\",").eol();
+        indent().append("\"name\": \"").append(metrics.getName()).append("\",").eol();
 
         indent().append("\"measurements\": ");
         visitMeasurements(metrics, configuration.getMethodMeasurements());
