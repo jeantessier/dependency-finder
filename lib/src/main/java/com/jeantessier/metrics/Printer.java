@@ -210,6 +210,10 @@ public abstract class Printer implements MeasurementVisitor {
         return isShowHiddenMeasurements() || descriptors.stream().anyMatch(MeasurementDescriptor::isVisible);
     }
 
+    protected boolean isVisibleMeasurement(MeasurementDescriptor descriptor) {
+        return isShowHiddenMeasurements() || descriptor.isVisible();
+    }
+
     protected void visitMeasurements(Metrics metrics, Collection<MeasurementDescriptor> descriptors) {
         descriptors.stream()
                 .filter(descriptor -> isShowHiddenMeasurements() || descriptor.isVisible())

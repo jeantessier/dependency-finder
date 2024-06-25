@@ -208,7 +208,7 @@ public class JSONPrinter extends Printer {
             raiseIndent();
 
             indent().append(descriptors.stream()
-                    .filter(descriptor -> isShowHiddenMeasurements() || descriptor.isVisible())
+                    .filter(this::isVisibleMeasurement)
                     .map(descriptor -> metrics.getMeasurement(descriptor.getShortName()))
                     .map(measurement -> {
                         StringWriter out = new StringWriter();
