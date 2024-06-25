@@ -1,0 +1,264 @@
+metrics:
+    -
+        name: Project
+        measurements:
+            -
+                short-name: I
+                long-name: Instability
+                value: 0.75
+                minimum: 0.5
+                median: 0.75
+                average: 0.75
+                standard-deviation: 0.25
+                maximum: 1.0
+                sum: 1.5
+                nb-data-points: 2
+            -
+                short-name: A
+                long-name: Abstractness
+                value: 0.0
+                minimum: 0.0
+                median: 0.0
+                average: 0.0
+                standard-deviation: 0.0
+                maximum: 0.0
+                sum: 0.0
+                nb-data-points: 2
+            -
+                short-name: D'
+                long-name: Normalized Distance
+                value: -0.25
+                minimum: -0.5
+                median: -0.25
+                average: -0.25
+                standard-deviation: 0.25
+                maximum: 0.0
+                sum: -0.5
+                nb-data-points: 2
+        groups:
+            -
+                name: client
+                measurements:
+                    -
+                        short-name: C
+                        long-name: Classes
+                        value: 1.0
+                    -
+                        short-name: AC
+                        long-name: Abstract Classes
+                        value: 0.0
+                    -
+                        short-name: Ca
+                        long-name: Afferent Coupling
+                        value: 0.0
+                    -
+                        short-name: Ce
+                        long-name: Efferent Coupling
+                        value: 2.0
+                    -
+                        short-name: CaCe
+                        long-name: Coupling
+                        value: 2.0
+                    -
+                        short-name: I
+                        long-name: Instability
+                        value: 1.0
+                    -
+                        short-name: Nc
+                        long-name: Number of Classes
+                        value: 1.0
+                    -
+                        short-name: Na
+                        long-name: Number of Abstract Classes and Interfaces
+                        value: 0.0
+                    -
+                        short-name: A
+                        long-name: Abstractness
+                        value: 0.0
+                    -
+                        short-name: D'
+                        long-name: Normalized Distance
+                        value: 0.0
+                classes:
+                    -
+                        name: client.Client
+                        measurements:
+                            -
+                                short-name: IEP
+                                long-name: Inbound Extra-Package Dependencies
+                                value: 0.0
+                            -
+                                short-name: OEP
+                                long-name: Outbound Extra-Package Dependencies
+                                value: 1.0
+                            -
+                                short-name: IEPM
+                                long-name: Inbound Extra-Package Method Dependencies
+                                value: 0.0
+                            -
+                                short-name: CaComp
+                                long-name: Afferent Coupling from methods
+                                value: 0.0
+                            -
+                                short-name: CeComp
+                                long-name: Efferent Coupling from methods
+                                value: 2.0
+                        methods:
+                            -
+                                name: "client.Client.Client(): void"
+                                measurements:
+                                    -
+                                        short-name: IEPM
+                                        long-name: Inbound Extra-Package Method Dependencies
+                                        value: 0.0
+                                    -
+                                        short-name: OEPF
+                                        long-name: Outbound Extra-Package Feature Dependencies
+                                        value: 1.0
+                                    -
+                                        short-name: OEPC
+                                        long-name: Outbound Extra-Package Class Dependencies
+                                        value: 0.0
+                            -
+                                name: "client.Client.m1(): void"
+                                measurements:
+                                    -
+                                        short-name: IEPM
+                                        long-name: Inbound Extra-Package Method Dependencies
+                                        value: 0.0
+                                    -
+                                        short-name: OEPF
+                                        long-name: Outbound Extra-Package Feature Dependencies
+                                        value: 1.0
+                                    -
+                                        short-name: OEPC
+                                        long-name: Outbound Extra-Package Class Dependencies
+                                        value: 0.0
+            -
+                name: provider
+                measurements:
+                    -
+                        short-name: C
+                        long-name: Classes
+                        value: 1.0
+                    -
+                        short-name: AC
+                        long-name: Abstract Classes
+                        value: 0.0
+                    -
+                        short-name: Ca
+                        long-name: Afferent Coupling
+                        value: 1.0
+                    -
+                        short-name: Ce
+                        long-name: Efferent Coupling
+                        value: 1.0
+                    -
+                        short-name: CaCe
+                        long-name: Coupling
+                        value: 2.0
+                    -
+                        short-name: I
+                        long-name: Instability
+                        value: 0.5
+                    -
+                        short-name: Nc
+                        long-name: Number of Classes
+                        value: 1.0
+                    -
+                        short-name: Na
+                        long-name: Number of Abstract Classes and Interfaces
+                        value: 0.0
+                    -
+                        short-name: A
+                        long-name: Abstractness
+                        value: 0.0
+                    -
+                        short-name: D'
+                        long-name: Normalized Distance
+                        value: -0.5
+                classes:
+                    -
+                        name: provider.Provider
+                        measurements:
+                            -
+                                short-name: IEP
+                                long-name: Inbound Extra-Package Dependencies
+                                value: 0.0
+                            -
+                                short-name: OEP
+                                long-name: Outbound Extra-Package Dependencies
+                                value: 1.0
+                            -
+                                short-name: IEPM
+                                long-name: Inbound Extra-Package Method Dependencies
+                                value: 0.0
+                            -
+                                short-name: CaComp
+                                long-name: Afferent Coupling from methods
+                                value: 1.0
+                            -
+                                short-name: CeComp
+                                long-name: Efferent Coupling from methods
+                                value: 1.0
+                        methods:
+                            -
+                                name: "provider.Provider.Provider(): void"
+                                measurements:
+                                    -
+                                        short-name: IEPM
+                                        long-name: Inbound Extra-Package Method Dependencies
+                                        value: 0.0
+                                    -
+                                        short-name: OEPF
+                                        long-name: Outbound Extra-Package Feature Dependencies
+                                        value: 1.0
+                                    -
+                                        short-name: OEPC
+                                        long-name: Outbound Extra-Package Class Dependencies
+                                        value: 0.0
+                            -
+                                name: "provider.Provider.internal(): void"
+                                measurements:
+                                    -
+                                        short-name: IEPM
+                                        long-name: Inbound Extra-Package Method Dependencies
+                                        value: 0.0
+                                    -
+                                        short-name: OEPF
+                                        long-name: Outbound Extra-Package Feature Dependencies
+                                        value: 0.0
+                                    -
+                                        short-name: OEPC
+                                        long-name: Outbound Extra-Package Class Dependencies
+                                        value: 0.0
+                            -
+                                name: "provider.Provider.m1(): void"
+                                measurements:
+                                    -
+                                        short-name: IEPM
+                                        long-name: Inbound Extra-Package Method Dependencies
+                                        value: 1.0
+                                    -
+                                        short-name: OEPF
+                                        long-name: Outbound Extra-Package Feature Dependencies
+                                        value: 0.0
+                                    -
+                                        short-name: OEPC
+                                        long-name: Outbound Extra-Package Class Dependencies
+                                        value: 0.0
+                            -
+                                name: "provider.Provider.m2(): void"
+                                measurements:
+                                    -
+                                        short-name: IEPM
+                                        long-name: Inbound Extra-Package Method Dependencies
+                                        value: 0.0
+                                    -
+                                        short-name: OEPF
+                                        long-name: Outbound Extra-Package Feature Dependencies
+                                        value: 0.0
+                                    -
+                                        short-name: OEPC
+                                        long-name: Outbound Extra-Package Class Dependencies
+                                        value: 0.0
