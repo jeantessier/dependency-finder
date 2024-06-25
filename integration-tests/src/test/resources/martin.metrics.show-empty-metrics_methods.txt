@@ -1,0 +1,15 @@
+Method metrics
+--------------
+client.Client.Client(): void
+
+client.Client.m1(): void
+
+provider.Provider.Provider(): void
+
+provider.Provider.internal(): void
+
+provider.Provider.m1(): void
+
+provider.Provider.m2(): void
+
+
