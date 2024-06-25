@@ -25,11 +25,13 @@
 
 .lowlight {
     background: rgb(204, 204, 255);
+    border-radius: 0.33rem;
 }
 
 .highlight {
-    border: thin dashed gray;
     background: rgb(255, 255, 136);
+    border: thin dashed gray;
+    border-radius: 0.66rem;
 }
 
 .description {
