@@ -1,4 +1,4 @@
-Played with replacing the [[http://ant.apache.org/][Ant]] build script with
+Played with replacing the [[https://ant.apache.org/][Ant]] build script with
 [[https://gradle.org/][Gradle]].  It has a number of pre-defined tasks to deal
 with Java project.  It also expects a certain code organization that echoes what
 I have seen on other projects.  Source code is under =src/main/java= and unit
