@@ -354,7 +354,7 @@ Version name for the report.
 
 <blockquote>
 
-Writes the output to _filename_.  If _filename_ does not exists,
+Writes the output to _filename_.  If _filename_ ,
 it is created.  If it already exists, its content is overwritten.
 
 <table border="0">
@@ -621,7 +621,7 @@ than one.
 
 <blockquote>
 
-Writes the output to _filename_.  If _filename_ does not exists,
+Writes the output to _filename_.  If _filename_ ,
 it is created.  If it already exists, its content is overwritten.
 
 <table border="0">
@@ -1125,7 +1125,7 @@ Uses _text_ for indentation when -compact is not in use.
 
 <blockquote>
 
-Writes the output to _filename_.  If _filename_ does not exists,
+Writes the output to _filename_.  If _filename_ ,
 it is created.  If it already exists, its content is overwritten.
 
 <table border="0">
@@ -1364,7 +1364,7 @@ Uses _text_ for each indentation level in textual and XML output.
 
 <blockquote>
 
-Writes the output to _filename_.  If _filename_ does not exists,
+Writes the output to _filename_.  If _filename_ ,
 it is created.  If it already exists, its content is overwritten.
 
 <table border="0">
@@ -1618,7 +1618,7 @@ instruction set is used in the codebase.
 
 <blockquote>
 
-Writes the output to _filename_.  If _filename_ does not exists,
+Writes the output to _filename_.  If _filename_ ,
 it is created.  If it already exists, its content is overwritten.
 
 <table border="0">
@@ -1887,7 +1887,7 @@ Uses _text_ for each indentation level in XML output.
 
 <blockquote>
 
-Writes the output to _filename_.  If _filename_ does not exists,
+Writes the output to _filename_.  If _filename_ ,
 it is created.  If it already exists, its content is overwritten.
 
 <table border="0">
@@ -2946,7 +2946,7 @@ switch is omitted, the traversal will be unbounded.
 
 <blockquote>
 
-Writes the output to _filename_.  If _filename_ does not exists,
+Writes the output to _filename_.  If _filename_ ,
 it is created.  If it already exists, its content is overwritten.
 
 <table border="0">
@@ -3559,7 +3559,7 @@ for cycles.  Use this switch to restrict it to something manageable.
 
 <blockquote>
 
-Writes the output to _filename_.  If _filename_ does not exists,
+Writes the output to _filename_.  If _filename_ ,
 it is created.  If it already exists, its content is overwritten.
 
 <table border="0">
@@ -4139,7 +4139,7 @@ Uses _text_ for each indentation level in textual and XML output.
 
 <blockquote>
 
-Maximizes the dependency graph before outputing it.
+Maximizes the dependency graph before outputting it.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4153,7 +4153,7 @@ Maximizes the dependency graph before outputing it.
 
 <blockquote>
 
-Minimizes the dependency graph before outputing it.
+Minimizes the dependency graph before outputting it.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4167,7 +4167,7 @@ Minimizes the dependency graph before outputing it.
 
 <blockquote>
 
-Writes the output to _filename_.  If _filename_ does not exists,
+Writes the output to _filename_.  If _filename_ ,
 it is created.  If it already exists, its content is overwritten.
 
 <table border="0">
@@ -6453,7 +6453,7 @@ Lists the packages, classes, and features analyzed.
 
 <blockquote>
 
-Writes the output to _filename_.  If _filename_ does not exists,
+Writes the output to _filename_.  If _filename_ ,
 it is created.  If it already exists, its content is overwritten.
 
 <table border="0">
@@ -7393,7 +7393,7 @@ Uses _text_ for each indentation level in textual and XML output.
 
 <blockquote>
 
-Maximize the dependency graph before outputing it.
+Maximize the dependency graph before outputting it.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -7407,7 +7407,7 @@ Maximize the dependency graph before outputing it.
 
 <blockquote>
 
-Minimize the dependency graph before outputing it.
+Minimize the dependency graph before outputting it.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -7421,7 +7421,7 @@ Minimize the dependency graph before outputing it.
 
 <blockquote>
 
-Writes the output to _filename_.  If _filename_ does not exists,
+Writes the output to _filename_.  If _filename_ ,
 it is created.  If it already exists, its content is overwritten.
 
 <table border="0">
@@ -7915,7 +7915,7 @@ See =-o= above.
 <blockquote>
 
 To convert the dependency graph in =dg.xml= to a hyperlinked
-HTML file with only outboud dependencies:
+HTML file with only outbound dependencies:
 
 <div class="highlight">
 
@@ -8031,7 +8031,7 @@ See =-o= above.
 <blockquote>
 
 To convert the dependency graph in =dg.xml= to plain text
-with only outboud dependencies:
+with only outbound dependencies:
 
 <div class="highlight">
 
@@ -8040,7 +8040,7 @@ with only outboud dependencies:
 </div>
 
 To convert the dependency graph in =dg.xml= to a plain text
-file with only outboud dependencies:
+file with only outbound dependencies:
 
 <div class="highlight">
 
@@ -8412,7 +8412,7 @@ See =-o= above.
 <blockquote>
 
 To convert the dependency graph in =dg.xml= to a hyperlinked
-HTML file with only outboud dependencies:
+HTML file with only outbound dependencies:
 
 <div class="highlight">
 
@@ -8527,7 +8527,7 @@ See =-o= above.
 <blockquote>
 
 To convert the dependency graph in =dg.xml= to plain text
-with only outboud dependencies:
+with only outbound dependencies:
 
 <div class="highlight">
 
@@ -8536,7 +8536,7 @@ with only outboud dependencies:
 </div>
 
 To convert the dependency graph in =dg.xml= to a plain text
-file with only outboud dependencies:
+file with only outbound dependencies:
 
 <div class="highlight">
 
@@ -9138,7 +9138,7 @@ Version name for the report.
 
 <blockquote>
 
-Writes the output to _filename_.  If _filename_ does not exists,
+Writes the output to _filename_.  If _filename_ ,
 it is created.  If it already exists, its content is overwritten.
 
 <table border="0">
@@ -9303,7 +9303,7 @@ Prints synopsis.
 
 <blockquote>
 
-Writes the output to _filename_.  If _filename_ does not exists,
+Writes the output to _filename_.  If _filename_ ,
 it is created.  If it already exists, its content is overwritten.
 
 <table border="0">
@@ -9456,7 +9456,7 @@ source or bytecode required.
 
 Removes redundant entries from the both the =removed= and =added= lists.
 If a package is in a list, its classes and their features are redundant and
-can be removed.  If a class is in a list, its feaures are redundant and can
+can be removed.  If a class is in a list, its features are redundant and can
 be removed.
 
 <table border="0">
@@ -9611,7 +9611,7 @@ Version name for the report.
 
 <blockquote>
 
-Writes the output to _filename_.  If _filename_ does not exists,
+Writes the output to _filename_.  If _filename_ ,
 it is created.  If it already exists, its content is overwritten.
 
 <table border="0">
@@ -10038,7 +10038,7 @@ Prints synopsis.
 
 <blockquote>
 
-Writes the output to _filename_.  If _filename_ does not exists,
+Writes the output to _filename_.  If _filename_ ,
 it is created.  If it already exists, its content is overwritten.
 
 <table border="0">
@@ -10437,7 +10437,7 @@ Lists names of fields.
 <blockquote>
 
 Lists names of final methods or classes fields.  With this switch, the tool
-only lists such classs and methods; no fields or local variables.  =Enum=
+only lists such class and methods; no fields or local variables.  =Enum=
 classes and anonymous inner classes are implicitly final, but they are not
 listed by the tool.
 
@@ -10565,7 +10565,7 @@ lax by allowing access to members that should have been private.
 
 <blockquote>
 
-Writes the output to _filename_.  If _filename_ does not exists,
+Writes the output to _filename_.  If _filename_ ,
 it is created.  If it already exists, its content is overwritten.
 
 <table border="0">
@@ -11637,7 +11637,7 @@ Include method-related metrics.
 
 <blockquote>
 
-Writes the output to _filename_.  If _filename_ does not exists,
+Writes the output to _filename_.  If _filename_ ,
 it is created.  If it already exists, its content is overwritten.
 
 When used with =-csv=, _filename_ is taken as a prefix to which the tool will
@@ -11763,7 +11763,7 @@ Includes entries where analysis didn't gather any information.
 <blockquote>
 
 Shows all measurements, even if they were meant to be hidden through their
-visiblity in the configuration.  This is useful when trying to debug a complex
+visibility in the configuration.  This is useful when trying to debug a complex
 configuration and tracking the flow of information.
 
 <table border="0">
