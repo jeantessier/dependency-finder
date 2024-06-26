@@ -15,7 +15,7 @@ by Jean Tessier
 This application extracts information from compiled Java code and makes
 it available to users in a numbers of ways.
 
-Many authors have stressed the importance of managing depencencies
+Many authors have stressed the importance of managing dependencies
 ([[http://www.objectmentor.com/resources/listArticles?key%3Dauthor&author%3DRobert%20C.%20Martin][Robert C. Martin]],
 [[http://www.amazon.com/exec/obidos/ASIN/0201633620/o/qid%3D980962318/sr%3D8-1/ref%3Daps%5Fsr%5Fb%5F1%5F1/105-0176284-9920776][John Lakos]]).
 Managing
@@ -33,10 +33,10 @@ improvement.
 
 Finally, this application includes a tool that computes the changes in the
 API of a system between successive versions.  If you use third-party
-libraries, you can use it to verity that the parts you are dependending
-upon have not changed.  If you provide libraries to others, you can use it
-to assertain the impact changes might have on your customers.  You can even
-use it to monitor the evolution of your own software.
+libraries, you can use it to verity that the parts you are depending upon
+have not changed.  If you provide libraries to others, you can use it to
+ascertain the impact changes might have on your customers.  You can even use
+it to monitor the evolution of your own software.
 
 ---+++ History Behind Dependency Finder
 
@@ -94,8 +94,8 @@ Extract the ZIP file to some directory you like.  The extraction will create a
 subdirectory named "DependencyFinder-<VERSION />" that is the root of the
 package.
 
-For example, if you extract it to =C:\=, you will endup with a directory called
-=C:\DependencyFinder-<VERSION />\=.
+For example, if you extract it to =C:\=, you will end up with a directory
+called =C:\DependencyFinder-<VERSION />\=.
 
 ---++++ Step 3: Environment Variables
 
@@ -198,7 +198,7 @@ or
 
     $ bunzip2 DependencyFinder-<VERSION />.bin.tar.bz2 | tar xvf -
 
-For example, if you extract it to =$HOME=, you will endup with a directory
+For example, if you extract it to =$HOME=, you will end up with a directory
 called =$HOME/DependencyFinder-<VERSION />=.
 
 ---++++ Step 3: Environment Variables
@@ -1004,7 +1004,7 @@ support some or all of the following five command-line switches:
             Prints the time it took to run the command.  If you run commands
             against a large codebase or dependency graph, it can take a
             substantial amount of time before it returns.  This information
-            can help you plan lenghty operations in the future.
+            can help you plan lengthy operations in the future.
         </td>
     </tr>
     <tr>
@@ -1024,7 +1024,7 @@ support some or all of the following five command-line switches:
 ---+++ Ant
 
 You can run the functions of the CLI as part of your build script if you are
-using the [[http://ant.apache.org/][Ant]] build tool from the
+using the [[https://ant.apache.org/][Ant]] build tool from the
 [[http://apache.org/][Apache Foundation]].  There is a special
 [[tasks/index.html][help page]] on how to use Dependency Finder with Ant.
 
@@ -1186,7 +1186,7 @@ Here is the full dependency graph, as seen by Dependency Finder, for the
 
 </div>
 
-Dependency Finder uses =*= to distinguish identifers that were only
+Dependency Finder uses =*= to distinguish identifiers that were only
 _referenced_ in the code it analyzed, as opposed to _concrete_ symbols that it
 actually encountered.  In this case, we only analyzed =TestInterface= and not
 =Object=, so as far Dependency Finder is concerned, the actual existence of
@@ -1242,7 +1242,7 @@ Here, the implicit constructor for =ChildClass= calls the implicit constructor
 for =ParentClass= (which in turn calls the default constructor for =Object=).
 So there is a dependency:
 
-    ChildClass.ChildClass --> ParentClass.ParentClass()
+    ChildClass.ChildClass() --> ParentClass.ParentClass()
 
 These constructors were created by the compiler, but they are actual methods
 in the bytecode for their respective class.  Dependency Finder considers them
@@ -1260,15 +1260,15 @@ the calls to =ChildClass.a()= as calls to =ParentClass.a()= at runtime.
 
 Up until JDK 1.3, the compiler would have resolved the call to =a()= to the
 definition in =ParentClass=.  This works fine until later versions of classes
-start overridding =a()=.  Let us imaging a class =MiddleClass= that sits
+start overriding =a()=.  Let us imaging a class =MiddleClass= that sits
 between =ParentClass= and =ChildClass= in the inheritance hierarchy.  At first,
-neither =MiddleClass= nor =ChildClass= override =a()=, so the compiled would
+neither =MiddleClass= nor =ChildClass= override =a()=, so the compiler would
 resolve the method call to the version in =ParentClass=.  If we later
 substitute a new version of =MiddleClass= that overrides =a()= but we do not
 recompile =ChildClass=, it will mistakenly use the version in =ParentClass=
 instead of the correct version in =MiddleClass=.  The compiler in JDK 1.4 and
 forward no longer tries to resolve references to symbols to prevent this
-problem from occuring.
+problem from occurring.
 
 Here is what the dependency graph would look like, using the JDK 1.3 compiler.
 
@@ -1875,7 +1875,7 @@ goes up dramatically.
 The illustrations below show how combinations of these are minimized or
 maximized.  You can minimize a graph that has been maximized and obtain
 the same minimized graph as if you had minimized the original graph.
-Similarily, if you maximize a graph that has been minimized, you end up
+Similarly, if you maximize a graph that has been minimized, you end up
 with the same graph as if you had minimized the original graph.
 
 <div align="center">
@@ -2434,7 +2434,7 @@ checkbox, the one labeled "empty nodes".
 If you are using the command-line tools, =DependencyReporter= has switches
 matching the checkboxes from the GUI and web application.  You can use it with
 =-show-inbounds=, with or without =-show-empty-nodes=.  The Ant task also has
-matching attribtues.
+matching attributes.
 
 Another option with command-line tools, what you have to work from is most
 likely a graph rendered in XML, either from =DependencyExtractor= or
@@ -2536,7 +2536,7 @@ checkbox, the one labeled "empty nodes".
 If you are using the command-line tools, =DependencyReporter= has switches
 matching the checkboxes from the GUI and web application.  You can use it with
 =-show-outbounds=, with or without =-show-empty-nodes=.  The Ant task also has
-matching attribtues.
+matching attributes.
 
 Another option with the command-line tools, what you have to work from is most
 likely a graph rendered in XML, either from =DependencyExtractor= or
@@ -2625,7 +2625,7 @@ If you are using the command-line tools, =DependencyReporter= has switches
 matching the checkboxes from the GUI and web application.  You can use it with
 both =-show-inbounds= and =-show-outbounds=, with or without
 =-show-empty-nodes=.  All three are on if you don't specify anything.  The Ant
-task also has matching attribtues.
+task also has matching attributes.
 
 Another option with the command-line tools, what you have to work from is most
 likely a graph rendered in XML, either from =DependencyExtractor= or
@@ -2804,7 +2804,7 @@ try to build a graph across many applications.  You can ease this situation by:
 
 ---++++ Break the Codebase
 
-If you have multiple JAR files, you can simply process them individualy.
+If you have multiple JAR files, you can simply process them individually.
 
 If you have one large JAR file, you can extract it to a temporary location and
 put the files in smaller groups, such as related packages rooted at some
@@ -4180,7 +4180,7 @@ exist.
     <dt>=StatisticalMeasurement=</dt>
     <dd>Get distribution information for another measurement</dd>
     <dt>=SumMeasurement=</dt>
-    <dd>Add measurments together or provide aliases to existing ones</dd>
+    <dd>Add measurements together or provide aliases to existing ones</dd>
 </dl>
 </blockquote>
 
@@ -4234,7 +4234,7 @@ Note that if all these ranges include the threshold themselves.  If a value
 is equal to either the lower or the upper threshold, it is still considered
 valid.  Also, if the upper threshold is less than the lower threshold, then
 no value will ever be considered valid.  At this time, you cannot specify an
-exlusive range, where a measurement would be valid unless it fell within the
+exclusive range, where a measurement would be valid unless it fell within the
 designated range.
 
 A future version of Dependency Finder will let you write custom measurement
@@ -4623,7 +4623,7 @@ not report a method that went from final to non-final since that couldn't
 possibly break client code: subclasses would not have been able to override it
 since it was marked final.
 
-Similarily, =JarJarDiff= will report on removed members and classes, but not on
+Similarly, =JarJarDiff= will report on removed members and classes, but not on
 new ones.  See the javadocs for
 =com.jeantessier.diff.IncompatibleDifferenceStrategy= for a complete list of
 what's in the report and what is not.
@@ -4707,7 +4707,7 @@ depending on how you want to structure the results.
 
 But regardless of which way you go about it, you must first list the deprecated
 symbols you are looking for.  Run =ListDeprecatedElements= on all the JARs that
-might contain deprecated symbos.  Don't forget to include =rt.jar=.  Save the
+might contain deprecated symbols.  Don't forget to include =rt.jar=.  Save the
 output to a file that will list each deprecated element, one per line.
 
 <div class="highlight">

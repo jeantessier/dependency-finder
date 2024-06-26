@@ -96,7 +96,7 @@ other.
 
 ---+++ Assimilation
 
-Another, less desireable, option is for you to surrender your code to me for
+Another, less desirable, option is for you to surrender your code to me for
 inclusion in Dependency Finder.  I will review your code thoroughly and I may
 modify it extensively to make it meets *my* standards of quality (I'm not
 necessarily claiming that my standards are better, but they are *mine*) and
@@ -127,7 +127,7 @@ instances of =Classfile= back.
 
 <div align="center">
     [[images/ClassfileLoaders.gif]]
-*=CLassfileLoader= Hierarchy*
+*=ClassfileLoader= Hierarchy*
 </div>
 
 Here is the basic interface for =ClassfileLoader=:
@@ -303,7 +303,7 @@ pattern to traverse =Classfile= instances.
 ---++ Dependencies
 
 You create a dependency graph with a =NodeFactory=.  The factory keeps track
-of the package nodes at the top of the graph and all their surbordinate nodes.
+of the package nodes at the top of the graph and all their subordinate nodes.
 Individual nodes keep track of their outbound and inbound dependencies.
 
 You extract dependencies from =Classfile= instances with a
@@ -373,7 +373,7 @@ No. 4 comes from analyzing the signature of =write()=, *not* from the constant
 
 Because =Node= uses =Set= to store dependencies on other =Node=s, duplicate
 dependencies are removed.  No. 1 and No. 5 above are duplicates.  No. 2 and
-No. 6 are duplicates too.  In the end, the graph would look as follow:
+No. 6 are duplicates too.  In the end, the graph would look as follows:
 
 <div class="lowlight">
 
@@ -419,13 +419,13 @@ names, similar to what you would expect on =CLASSPATH=.  The =ClassfileLoader=
 will explore each one in turn, looking for =.class= files.  Typically, I give
 it a single directory where my compiled classes are, such as =classes/=, or a
 single JAR file, such as =myapp.jar=.  For large projects, I have sometimes
-give it multiple JARs, though now =ClassfileLoader= is smart enough to search
+given it multiple JARs, though now =ClassfileLoader= is smart enough to search
 for them automatically if I put all the JARs in one directory, such as =lib/=.
 
 Line 6 sets _verboseListener_.  It is only there to provide a progress
 indicator for the user.  It counts how many files are slated to be processed
 and listens to "beginFile" events to tell the user how many percent-complete.
-It also displays the name of files are they are being processed.  There is a
+It also displays the name of files as they are being processed.  There is a
 =VerboseListenerBase= in the =com.jeantessier.dependencyfinder= package with
 common functionality.  Each subpackage (=cli=, =ant=, =gui=, the webapp)
 extends it to create its own =VerboseListener= that is specific to that
@@ -434,8 +434,8 @@ package's user interface.
 Lines 8 and 9 set up the _collector_ that will build the graph and store it in
 _factory_.  After all this, _factory_ will contain the resulting graph.
 
-Line 11 creates the _loader_ and lines 12 and 13 attach our two listeners to it
-so they will receive =LoadEvent=s.  Notice how we use a
+Line 11 creates the _loader_ and lines 12 and 13 attach our two listeners to
+it, so they will receive =LoadEvent=s.  Notice how we use a
 =LoadListenerVisitorAdapter= to tie the _collector_.  Again, _verboseListener_
 on line 13 is only there to help keep the user appraised of what is going on.
 
@@ -453,13 +453,13 @@ You might also want to look at =GraphCopier= and =GraphSummarizer= as example
 visitors.  They use two factories and a =TraversalStrategy= to make a partial
 copy of a graph.  You can take a look at =query.jsp= for an example of how this
 is done.  It uses the graph in the _factory_, select specific nodes and
-dependencies from it according to the =TraversalStragey=, and copy them to
+dependencies from it according to the =TraversalStrategy=, and copy them to
 their own internal =NodeFactory= instances.  Then, the JSP runs a =Printer= on
 the scope =NodeFactory= from the copier, not the original _factory_.
 
 ---+++ Updating the Graph for Changed Files
 
-So far, we have looked at extracting a brand new graph.  For a large codebase,
+So far, we have looked at extracting a brand-new graph.  For a large codebase,
 this can take a while.  It would be nice if, after making a simple change, we
 could refresh the graph quickly by having it re-extract only those files that
 have changed and adjust the graph accordingly.
@@ -548,7 +548,7 @@ any special treatment before we register it with the _loader_.
 ---+++ Sample Standalone Application with Refresh
 
 If you are writing your own long-lived application that needs to pick up
-changes to the =.class= files, you would setup the =ClassfileLoader= and
+changes to the =.class= files, you would set up the =ClassfileLoader= and
 dispatcher and visitors once at initialization and hold on to the resulting
 loader.
 
@@ -576,7 +576,7 @@ any classes that were not looked at during the session that just ended.  By
 default, the _monitor_ uses open sessions and does not remove any classes
 (except as part of revising a modified class).
 
-Lines 9 and 10 setup the _loader_ instance for use by the application.
+Lines 9 and 10 set up the _loader_ instance for use by the application.
 
 When you want to pickup changes in the classes, all you need to do is call
 =load()= on the loader with the location of the =.class= files.
@@ -588,7 +588,7 @@ When you want to pickup changes in the classes, all you need to do is call
 </div>
 
 Here, _sources_ would point to the code that you want to analyze.  The
-application would have to execure this line everytime it wants to refresh the
+application would have to execute this line everytime it wants to refresh the
 graph, either because it detected a change in the =.class= files or in response
 to a user action.
 
@@ -694,7 +694,7 @@ before any dependencies or classes have been visited.
 dependencies but before the classes.  They represent two more extension points
 for this template method.
 
-Similarily, a subclass can do some processing after going down to visit the
+Similarly, a subclass can do some processing after going down to visit the
 classes.  This is shown in lines 20 through 32.
 =postprocessBeforeDependenciesPackageNode()= on line 21, is called before any
 dependencies but after the classes have been visited.
@@ -732,7 +732,7 @@ definitions.
 
 This lets =VisitorBase= maintain a stack of =Nodes= that represents the current
 path through the graph.  All subclasses can call =getCurrentNode()= to get at
-the current node in the traversal.  This is particuliarily handy in the methods
+the current node in the traversal.  This is particularly handy in the methods
 that process inbound and outbound nodes to let them know which perspective to
 use when looking at a dependency.  For a dependency =A&nbsp;--&gt;&nbsp;B=, are
 we visiting =A= and looking at an outbound dependency to =B=?  Or are we
@@ -741,16 +741,17 @@ about this distinction, like =TextPrinter= for example.
 
 ---++++ =Visitor= and =TraversalStrategy=
 
-Here is an example showing the sequence of calls betweeen a visitor
+Here is an example showing the sequence of calls between a visitor
 implementation based on =VisitorBase=, its =TraversalStrategy=, and a sample
 dependency graph.  You can find the graph in
 [[SampleGraph.xml][SampleGraph.xml]].
 
-Here is the sample graph, magnified so you can see what is going on.  The focus
-will be placed on package =P1=, class =C1=, and feature =f1=.  Even-numbered
-elements have dependencies on them and they have dependencies on odd-numbered
-elements.  This example illustrates the traversal order and processing that
-occurs on child nodes, outbound dependencies, and inbound dependencies.
+Here is the sample graph, magnified, so you can see what is going on.  The
+focus will be placed on package =P1=, class =C1=, and feature =f1=.
+Even-numbered elements have dependencies on them, and they have dependencies on
+odd-numbered elements.  This example illustrates the traversal order and
+processing that occurs on child nodes, outbound dependencies, and inbound
+dependencies.
 
 <div align="center">
     [[images/DependencyVisitorLegend.gif]]
@@ -956,7 +957,7 @@ You can use =com.jeantessier.dependency.NodeFactory= to create a tree
 of packages, classes, and features from each codebase.  You can then
 start to compare them to each other.  If a package is in the old
 codebase but not in the new one, you can mark it as having been removed.
-If it is not in the old codebase but it is in new one, then you can
+If it is not in the old codebase, but it is in new one, then you can
 mark it as having been recently added.  For packages that are present
 in both codebase, you can repeat this analysis at the class level, and
 then at the feature level.
@@ -974,7 +975,7 @@ usually don't have individual specific semantics, besides those they share as a
 group.
 
 You create a =CommandLine= instance to parse your command-line.  At creation
-time, you can supply a specifc =ParameterStrategy=.  Here are a the ones that
+time, you can supply a specific =ParameterStrategy=.  Here are the ones that
 ship with Dependency Finder.
 
 <blockquote>
@@ -1017,8 +1018,8 @@ types of switches described below.
     on the command-line.  The values are accumulated in the same order as on
     the command-line and you retrieve them as a single =List=.</dd>
     <dt>=AliasSwitch=</dt>
-    <dd>An alias swich passes its values to the switches it is an alias for.
-    You can use an alias switch to group many switches together so you can set
+    <dd>An alias switch passes its values to the switches it is an alias for.
+    You can use an alias switch to group many switches together, so you can set
     them all at once with just one name.</dd>
 </dl>
 </blockquote>
@@ -1058,7 +1059,8 @@ This target will create everything you need to run Dependency Finder in-place.
 
     =ant exec=
 
-If you make a change and you simply want to refresh the executable, simply run:
+If you make a change, and you simply want to refresh the executable, simply
+run:
 
     =and jar=
 
