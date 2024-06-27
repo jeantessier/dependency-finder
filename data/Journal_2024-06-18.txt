@@ -1,19 +1,18 @@
 There were some flaky tests in the metrics printers.  Looking into it, it
-turned out that when they were generating random percentiles, they sometimes
-used the value =0=.  Percentiles have to be =0 < p <= 100=, so a value of =0=
-was causing problems.
+turned out that when generating random percentiles, they sometimes used the
+value =0=.  Percentiles have to be =0 < p <%3D 100=, so a value of =0= was
+causing problems.
 
-=OOMetrics= and =ClassMetrics= were only using =Synthetic_attribute= to
+=OOMetrics= and =ClassMetrics= were only using =Synthetic%5Fattribute= to
 identify synthetic elements and they were ignoring elements that have the
-=ACC_SYNTHETIC= in their =access_flags=.  I refactored them to use the helper
-method =isSynthetic()=, which adequately checks both the attribute and the
-access flags.
+=ACC%5FSYNTHETIC= in their =access%5Fflags=.  I refactored them to use the
+helper method =isSynthetic()=, which adequately checks both the attribute and
+the access flags.
 
 I also updated both =OOMetrics= and =ClassMetrics= to include reports of all
 variations of classes, fields, methods, and inner classes.  They had fallen
 behind during the update to Java 21.  I took this opportunity to refactor
-=ClassMetrics= to remove a lot of duplication in how it printed reports.  When
-I switched them to the Streams API, I mistakenly added quite a few empty lines
-in reports with the =-list= switch.  I was able to restore the look of the
-reports back to how it was before I decided to use the Streams API, but with
-the new additions.
+=ClassMetrics= to remove a lot of duplication in how it prints reports.  When I
+switched to the Streams API, I mistakenly added quite a few empty lines in
+reports with the =-list= switch.  I was able to restore the look of the reports
+back to how it was before, while preserving the new additions.
