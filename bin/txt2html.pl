@@ -33,9 +33,9 @@
 #   
 
 BEGIN {
-    $TEXT .= "<!doctype html PUBLIC \"-//W3C//DTD HTML 4.01//EN\">\n";
+    $TEXT .= "<!doctype html>\n";
     $TEXT .= "\n";
-    $TEXT .= "<html>\n";
+    $TEXT .= "<html lang=\"en\">\n";
     $TEXT .= "\n";
     $TEXT .= "<head>\n";
     $TEXT .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />\n";
