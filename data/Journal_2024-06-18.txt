@@ -1,6 +1,6 @@
 There were some flaky tests in the metrics printers.  Looking into it, it
 turned out that when generating random percentiles, they sometimes used the
-value =0=.  Percentiles have to be =0 < p <%3D 100=, so a value of =0= was
+value =0=.  Percentiles have to be =0 &lt; p &leq; 100=, so a value of =0= was
 causing problems.
 
 =OOMetrics= and =ClassMetrics= were only using =Synthetic%5Fattribute= to
