@@ -1,0 +1,12 @@
+Removed the synchronization around the firing of events.  Synchronizing the
+list of listeners makes a lot of sense if listeners keep registering and
+de-registering while we are firing events.  But in Dependency Finder, we set up
+the listeners are the beginning and don't change them once the main processing
+starts.  There is no need to synchronize this list when we are firing events.
+I was copying the list of listeners in a synchronized block to keep the
+critical section short.  By removing the critical section, I don't need to copy
+lists all the time anymore.
+
+I wrote =CodeSpliterator=, as a simile to =CodeIterator=, so the
+=Code%5Fattribute= can expose a =Stream&lt;Instruction&gt;= via its =stream()=
+method.

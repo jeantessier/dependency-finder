@@ -1,0 +1,28 @@
+Worked on
+issue [[https://github.com/jeantessier/dependency-finder/issues/8][#8]].
+
+I added an indexing _key_ to =Metrics=, separate from their _name_, for use
+when tracking metrics.  For project-, group-, and class-level metrics, it is
+the same as their name.  But for methods, it is the combination of the method's
+signature and its return type.  Some synthetic methods have the same signature
+as an existing method, but will have a different return type (e.g.,
+[[https://docs.oracle.com/javase/specs/jls/se22/html/jls-15.html#jls-15.12.4.5][erasures]],
+[[https://docs.oracle.com/javase/specs/jls/se22/html/jls-15.html#jls-15.12.4.5][bridge methods]]).
+
+I had to change references to method names to use the _key_ instead, so each
+variation gets reported correctly.
+
+I added some tests for the various metrics printers.  Keeping track of all the
+hidden vs. empty options was getting too complicated to do in my head.  I put
+the expected output in files under =integration-tests/src/test/resources= and
+the tests generate an actual output and compare it to the expected output from
+the files.  These tests can be somewhat fragile if the output changes a lot,
+but I don't feel this will be the case here.  I could use data-driven tests to
+generate most variations.  I use the =MartinConfig.xml= configuration because
+it has hidden measurements, and it surfaces all variations of empty metrics,
+hidden measurements, etc.
+
+In the process of testing the printers, I realized the JSON printer was missing
+a newline character at the end of its output.  I had noticed a weird character
+when I called =OOMetrics -json=, but never understood that it was because of a
+missing newline.  Now, this mystery is solved.

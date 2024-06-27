@@ -1,0 +1,9 @@
+Continued work on
+issue [[https://github.com/jeantessier/dependency-finder/issues/8][#8]].
+
+It turns out everywhere in =OOMetrics= where I used a method's signature ended
+up using the new _key_.  So, I faced reality and make this _key_ the actual
+name of method-level metrics.
+
+Completed the tests for all metrics printers.  They now cover all outputs and
+a few additional variations.

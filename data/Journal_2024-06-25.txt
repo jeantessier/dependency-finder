@@ -1,0 +1,2 @@
+Updated the =OOMetrics= documentation to use the new names of method metrics.
+And fixed a number of typos across the documentation in the process.
