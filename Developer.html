@@ -225,7 +225,7 @@ other.
 <h3>Assimilation</h3>
 
 <p>
-Another, less desireable, option is for you to surrender your code to me for
+Another, less desirable, option is for you to surrender your code to me for
 inclusion in Dependency Finder.  I will review your code thoroughly and I may
 modify it extensively to make it meets <b>my</b> standards of quality (I'm not
 necessarily claiming that my standards are better, but they are <b>mine</b>) and
@@ -264,7 +264,7 @@ instances of <code>Classfile</code> back.
 
 <div align="center">
     <img src="images/ClassfileLoaders.gif" /><br />
-<b><code>CLassfileLoader</code> Hierarchy</b>
+<b><code>ClassfileLoader</code> Hierarchy</b>
 </div>
 
 <p>
@@ -497,7 +497,7 @@ pattern to traverse <code>Classfile</code> instances.
 
 <p>
 You create a dependency graph with a <code>NodeFactory</code>.  The factory keeps track
-of the package nodes at the top of the graph and all their surbordinate nodes.
+of the package nodes at the top of the graph and all their subordinate nodes.
 Individual nodes keep track of their outbound and inbound dependencies.
 </p>
 
@@ -587,7 +587,7 @@ No. 4 comes from analyzing the signature of <code>write()</code>, <b>not</b> fro
 <p>
 Because <code>Node</code> uses <code>Set</code> to store dependencies on other <code>Node</code>s, duplicate
 dependencies are removed.  No. 1 and No. 5 above are duplicates.  No. 2 and
-No. 6 are duplicates too.  In the end, the graph would look as follow:
+No. 6 are duplicates too.  In the end, the graph would look as follows:
 </p>
 
 <div class="lowlight">
@@ -642,7 +642,7 @@ names, similar to what you would expect on <code>CLASSPATH</code>.  The <code>Cl
 will explore each one in turn, looking for <code>.class</code> files.  Typically, I give
 it a single directory where my compiled classes are, such as <code>classes/</code>, or a
 single JAR file, such as <code>myapp.jar</code>.  For large projects, I have sometimes
-give it multiple JARs, though now <code>ClassfileLoader</code> is smart enough to search
+given it multiple JARs, though now <code>ClassfileLoader</code> is smart enough to search
 for them automatically if I put all the JARs in one directory, such as <code>lib/</code>.
 </p>
 
@@ -650,7 +650,7 @@ for them automatically if I put all the JARs in one directory, such as <code>lib
 Line 6 sets <i>verboseListener</i>.  It is only there to provide a progress
 indicator for the user.  It counts how many files are slated to be processed
 and listens to "beginFile" events to tell the user how many percent-complete.
-It also displays the name of files are they are being processed.  There is a
+It also displays the name of files as they are being processed.  There is a
 <code>VerboseListenerBase</code> in the <code>com.jeantessier.dependencyfinder</code> package with
 common functionality.  Each subpackage (<code>cli</code>, <code>ant</code>, <code>gui</code>, the webapp)
 extends it to create its own <code>VerboseListener</code> that is specific to that
@@ -663,8 +663,8 @@ Lines 8 and 9 set up the <i>collector</i> that will build the graph and store it
 </p>
 
 <p>
-Line 11 creates the <i>loader</i> and lines 12 and 13 attach our two listeners to it
-so they will receive <code>LoadEvent</code>s.  Notice how we use a
+Line 11 creates the <i>loader</i> and lines 12 and 13 attach our two listeners to
+it, so they will receive <code>LoadEvent</code>s.  Notice how we use a
 <code>LoadListenerVisitorAdapter</code> to tie the <i>collector</i>.  Again, <i>verboseListener</i>
 on line 13 is only there to help keep the user appraised of what is going on.
 </p>
@@ -690,7 +690,7 @@ You might also want to look at <code>GraphCopier</code> and <code>GraphSummarize
 visitors.  They use two factories and a <code>TraversalStrategy</code> to make a partial
 copy of a graph.  You can take a look at <code>query.jsp</code> for an example of how this
 is done.  It uses the graph in the <i>factory</i>, select specific nodes and
-dependencies from it according to the <code>TraversalStragey</code>, and copy them to
+dependencies from it according to the <code>TraversalStrategy</code>, and copy them to
 their own internal <code>NodeFactory</code> instances.  Then, the JSP runs a <code>Printer</code> on
 the scope <code>NodeFactory</code> from the copier, not the original <i>factory</i>.
 </p>
@@ -699,7 +699,7 @@ the scope <code>NodeFactory</code> from the copier, not the original <i>factory<
 <h3>Updating the Graph for Changed Files</h3>
 
 <p>
-So far, we have looked at extracting a brand new graph.  For a large codebase,
+So far, we have looked at extracting a brand-new graph.  For a large codebase,
 this can take a while.  It would be nice if, after making a simple change, we
 could refresh the graph quickly by having it re-extract only those files that
 have changed and adjust the graph accordingly.
@@ -806,7 +806,7 @@ any special treatment before we register it with the <i>loader</i>.
 
 <p>
 If you are writing your own long-lived application that needs to pick up
-changes to the <code>.class</code> files, you would setup the <code>ClassfileLoader</code> and
+changes to the <code>.class</code> files, you would set up the <code>ClassfileLoader</code> and
 dispatcher and visitors once at initialization and hold on to the resulting
 loader.
 </p>
@@ -842,7 +842,7 @@ default, the <i>monitor</i> uses open sessions and does not remove any classes
 </p>
 
 <p>
-Lines 9 and 10 setup the <i>loader</i> instance for use by the application.
+Lines 9 and 10 set up the <i>loader</i> instance for use by the application.
 </p>
 
 <p>
@@ -860,7 +860,7 @@ When you want to pickup changes in the classes, all you need to do is call
 
 <p>
 Here, <i>sources</i> would point to the code that you want to analyze.  The
-application would have to execure this line everytime it wants to refresh the
+application would have to execute this line everytime it wants to refresh the
 graph, either because it detected a change in the <code>.class</code> files or in response
 to a user action.
 </p>
@@ -993,7 +993,7 @@ for this template method.
 </p>
 
 <p>
-Similarily, a subclass can do some processing after going down to visit the
+Similarly, a subclass can do some processing after going down to visit the
 classes.  This is shown in lines 20 through 32.
 <code>postprocessBeforeDependenciesPackageNode()</code> on line 21, is called before any
 dependencies but after the classes have been visited.
@@ -1045,7 +1045,7 @@ definitions.
 <p>
 This lets <code>VisitorBase</code> maintain a stack of <code>Nodes</code> that represents the current
 path through the graph.  All subclasses can call <code>getCurrentNode()</code> to get at
-the current node in the traversal.  This is particuliarily handy in the methods
+the current node in the traversal.  This is particularly handy in the methods
 that process inbound and outbound nodes to let them know which perspective to
 use when looking at a dependency.  For a dependency <code>A&nbsp;--&gt;&nbsp;B</code>, are
 we visiting <code>A</code> and looking at an outbound dependency to <code>B</code>?  Or are we
@@ -1057,18 +1057,19 @@ about this distinction, like <code>TextPrinter</code> for example.
 <h4><code>Visitor</code> and <code>TraversalStrategy</code></h4>
 
 <p>
-Here is an example showing the sequence of calls betweeen a visitor
+Here is an example showing the sequence of calls between a visitor
 implementation based on <code>VisitorBase</code>, its <code>TraversalStrategy</code>, and a sample
 dependency graph.  You can find the graph in
 <a href="SampleGraph.xml">SampleGraph.xml</a>.
 </p>
 
 <p>
-Here is the sample graph, magnified so you can see what is going on.  The focus
-will be placed on package <code>P1</code>, class <code>C1</code>, and feature <code>f1</code>.  Even-numbered
-elements have dependencies on them and they have dependencies on odd-numbered
-elements.  This example illustrates the traversal order and processing that
-occurs on child nodes, outbound dependencies, and inbound dependencies.
+Here is the sample graph, magnified, so you can see what is going on.  The
+focus will be placed on package <code>P1</code>, class <code>C1</code>, and feature <code>f1</code>.
+Even-numbered elements have dependencies on them, and they have dependencies on
+odd-numbered elements.  This example illustrates the traversal order and
+processing that occurs on child nodes, outbound dependencies, and inbound
+dependencies.
 </p>
 
 <div align="center">
@@ -1317,7 +1318,7 @@ You can use <code>com.jeantessier.dependency.NodeFactory</code> to create a tree
 of packages, classes, and features from each codebase.  You can then
 start to compare them to each other.  If a package is in the old
 codebase but not in the new one, you can mark it as having been removed.
-If it is not in the old codebase but it is in new one, then you can
+If it is not in the old codebase, but it is in new one, then you can
 mark it as having been recently added.  For packages that are present
 in both codebase, you can repeat this analysis at the class level, and
 then at the feature level.
@@ -1340,7 +1341,7 @@ group.
 
 <p>
 You create a <code>CommandLine</code> instance to parse your command-line.  At creation
-time, you can supply a specifc <code>ParameterStrategy</code>.  Here are a the ones that
+time, you can supply a specific <code>ParameterStrategy</code>.  Here are the ones that
 ship with Dependency Finder.
 </p>
 
@@ -1386,8 +1387,8 @@ types of switches described below.
     on the command-line.  The values are accumulated in the same order as on
     the command-line and you retrieve them as a single <code>List</code>.</dd>
     <dt><code>AliasSwitch</code></dt>
-    <dd>An alias swich passes its values to the switches it is an alias for.
-    You can use an alias switch to group many switches together so you can set
+    <dd>An alias switch passes its values to the switches it is an alias for.
+    You can use an alias switch to group many switches together, so you can set
     them all at once with just one name.</dd>
 </dl>
 </blockquote>
@@ -1446,7 +1447,8 @@ This target will create everything you need to run Dependency Finder in-place.
 </pre>
 
 <p>
-If you make a change and you simply want to refresh the executable, simply run:
+If you make a change, and you simply want to refresh the executable, simply
+run:
 </p>
 
 <pre>

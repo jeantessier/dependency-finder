@@ -202,7 +202,7 @@ it available to users in a numbers of ways.
 </p>
 
 <p>
-Many authors have stressed the importance of managing depencencies
+Many authors have stressed the importance of managing dependencies
 (<a href="http://www.objectmentor.com/resources/listArticles?key=author&author=Robert%20C.%20Martin">Robert C. Martin</a>,
 <a href="http://www.amazon.com/exec/obidos/ASIN/0201633620/o/qid=980962318/sr=8-1/ref=aps_sr_b_1_1/105-0176284-9920776">John Lakos</a>).
 Managing
@@ -224,10 +224,10 @@ improvement.
 <p>
 Finally, this application includes a tool that computes the changes in the
 API of a system between successive versions.  If you use third-party
-libraries, you can use it to verity that the parts you are dependending
-upon have not changed.  If you provide libraries to others, you can use it
-to assertain the impact changes might have on your customers.  You can even
-use it to monitor the evolution of your own software.
+libraries, you can use it to verity that the parts you are depending upon
+have not changed.  If you provide libraries to others, you can use it to
+ascertain the impact changes might have on your customers.  You can even use
+it to monitor the evolution of your own software.
 </p>
 
 <a name="HistoryBehindDependencyFinder"></a>
@@ -314,8 +314,8 @@ package.
 </p>
 
 <p>
-For example, if you extract it to <code>C:\</code>, you will endup with a directory called
-<code>C:\DependencyFinder-1.3.1\</code>.
+For example, if you extract it to <code>C:\</code>, you will end up with a directory
+called <code>C:\DependencyFinder-1.3.2\</code>.
 </p>
 
 <a name="Step3:EnvironmentVariables"></a>
@@ -495,8 +495,8 @@ or
 </pre>
 
 <p>
-For example, if you extract it to <code>$HOME</code>, you will endup with a directory
-called <code>$HOME/DependencyFinder-1.3.1</code>.
+For example, if you extract it to <code>$HOME</code>, you will end up with a directory
+called <code>$HOME/DependencyFinder-1.3.2</code>.
 </p>
 
 <a name="Step3:EnvironmentVariablesX"></a>
@@ -1396,7 +1396,7 @@ support some or all of the following five command-line switches:
             Prints the time it took to run the command.  If you run commands
             against a large codebase or dependency graph, it can take a
             substantial amount of time before it returns.  This information
-            can help you plan lenghty operations in the future.
+            can help you plan lengthy operations in the future.
         </td>
     </tr>
     <tr>
@@ -1646,7 +1646,7 @@ Here is the full dependency graph, as seen by Dependency Finder, for the
 </div>
 
 <p>
-Dependency Finder uses <code>*</code> to distinguish identifers that were only
+Dependency Finder uses <code>*</code> to distinguish identifiers that were only
 <i>referenced</i> in the code it analyzed, as opposed to <i>concrete</i> symbols that it
 actually encountered.  In this case, we only analyzed <code>TestInterface</code> and not
 <code>Object</code>, so as far Dependency Finder is concerned, the actual existence of
@@ -1712,7 +1712,7 @@ So there is a dependency:
 </p>
 
 <pre>
-    ChildClass.ChildClass --> ParentClass.ParentClass()
+    ChildClass.ChildClass() --> ParentClass.ParentClass()
 </pre>
 
 <p>
@@ -1740,15 +1740,15 @@ the calls to <code>ChildClass.a()</code> as calls to <code>ParentClass.a()</code
 <p>
 Up until JDK 1.3, the compiler would have resolved the call to <code>a()</code> to the
 definition in <code>ParentClass</code>.  This works fine until later versions of classes
-start overridding <code>a()</code>.  Let us imaging a class <code>MiddleClass</code> that sits
+start overriding <code>a()</code>.  Let us imaging a class <code>MiddleClass</code> that sits
 between <code>ParentClass</code> and <code>ChildClass</code> in the inheritance hierarchy.  At first,
-neither <code>MiddleClass</code> nor <code>ChildClass</code> override <code>a()</code>, so the compiled would
+neither <code>MiddleClass</code> nor <code>ChildClass</code> override <code>a()</code>, so the compiler would
 resolve the method call to the version in <code>ParentClass</code>.  If we later
 substitute a new version of <code>MiddleClass</code> that overrides <code>a()</code> but we do not
 recompile <code>ChildClass</code>, it will mistakenly use the version in <code>ParentClass</code>
 instead of the correct version in <code>MiddleClass</code>.  The compiler in JDK 1.4 and
 forward no longer tries to resolve references to symbols to prevent this
-problem from occuring.
+problem from occurring.
 </p>
 
 <p>
@@ -2540,7 +2540,7 @@ goes up dramatically.
 The illustrations below show how combinations of these are minimized or
 maximized.  You can minimize a graph that has been maximized and obtain
 the same minimized graph as if you had minimized the original graph.
-Similarily, if you maximize a graph that has been minimized, you end up
+Similarly, if you maximize a graph that has been minimized, you end up
 with the same graph as if you had minimized the original graph.
 </p>
 
@@ -3190,7 +3190,7 @@ checkbox, the one labeled "empty nodes".
 If you are using the command-line tools, <code>DependencyReporter</code> has switches
 matching the checkboxes from the GUI and web application.  You can use it with
 <code>-show-inbounds</code>, with or without <code>-show-empty-nodes</code>.  The Ant task also has
-matching attribtues.
+matching attributes.
 </p>
 
 <p>
@@ -3321,7 +3321,7 @@ checkbox, the one labeled "empty nodes".
 If you are using the command-line tools, <code>DependencyReporter</code> has switches
 matching the checkboxes from the GUI and web application.  You can use it with
 <code>-show-outbounds</code>, with or without <code>-show-empty-nodes</code>.  The Ant task also has
-matching attribtues.
+matching attributes.
 </p>
 
 <p>
@@ -3433,7 +3433,7 @@ If you are using the command-line tools, <code>DependencyReporter</code> has swi
 matching the checkboxes from the GUI and web application.  You can use it with
 both <code>-show-inbounds</code> and <code>-show-outbounds</code>, with or without
 <code>-show-empty-nodes</code>.  All three are on if you don't specify anything.  The Ant
-task also has matching attribtues.
+task also has matching attributes.
 </p>
 
 <p>
@@ -3633,7 +3633,7 @@ try to build a graph across many applications.  You can ease this situation by:
 <h4>Break the Codebase</h4>
 
 <p>
-If you have multiple JAR files, you can simply process them individualy.
+If you have multiple JAR files, you can simply process them individually.
 </p>
 
 <p>
@@ -4513,13 +4513,18 @@ of software.  Dependency Finder recognizes four sizes of <i>chunks</i>:
 <blockquote>
 <dl>
     <dt>Project</dt>
-    <dd>These metrics apply to the project as a whole.</dd>
+    <dd>These metrics apply to the project as a whole.  You can give the name
+    of the project directly to the <code>OOMetrics</code> tools.</dd>
     <dt>Group</dt>
-    <dd>These metrics apply to groups of classes.  A Java
-    package is a <i>de facto</i> group, but you can specify
-    arbitrary groups using Perl regular expressions.</dd>
+    <dd>These metrics apply to groups of classes.  A Java package is
+    automatically a group, named after the package.  You can also define
+    arbitrary groups, using Perl regular expressions.  Any class that matches
+    any if the regular expressions will be part of the group.  A classes can be
+    part of multiple groups: its package and any number of user-defined
+    groups.</dd>
     <dt>Class</dt>
-    <dd>These metrics apply to a single class.</dd>
+    <dd>These metrics apply to individual classes.  They are named with the
+    fully qualified name of the class.</dd>
     <dt>Method</dt>
     <dd>These metrics apply to individual methods within
     a class.</dd>
@@ -5189,8 +5194,8 @@ The current types of measurement are as follow:
 
 <p>
 Whenever a measurement references another measurement, there is a chance
-that that measurement is in fact a <code>StatisticalMeasurement</code> standing in
-for a collection of others at the levels below.  The measurement making
+that that measurement is itself a <code>StatisticalMeasurement</code> standing in
+for a collection of others at the lower levels.  The measurement making
 the reference can specify explicitly which subvalue (i.e., minimum, median,
 etc.) of the <code>StatisticalMeasurement</code> it wants to use for its own
 computation.  Or, it can rely on the <code>StatisticalMeasurement</code>'s self
@@ -5312,7 +5317,7 @@ exist.
     <dt><code>StatisticalMeasurement</code></dt>
     <dd>Get distribution information for another measurement</dd>
     <dt><code>SumMeasurement</code></dt>
-    <dd>Add measurments together or provide aliases to existing ones</dd>
+    <dd>Add measurements together or provide aliases to existing ones</dd>
 </dl>
 </blockquote>
 
@@ -5373,7 +5378,7 @@ Note that if all these ranges include the threshold themselves.  If a value
 is equal to either the lower or the upper threshold, it is still considered
 valid.  Also, if the upper threshold is less than the lower threshold, then
 no value will ever be considered valid.  At this time, you cannot specify an
-exlusive range, where a measurement would be valid unless it fell within the
+exclusive range, where a measurement would be valid unless it fell within the
 designated range.
 </p>
 
@@ -5449,9 +5454,9 @@ depends on the switches on the command-line.
 </div>
 
 <p>
-You can use the following switches to determine which groups of metrics are
-included in the report.  You can combine them if you need to.  The default, if
-you do not specify any of them, is to include all of them.
+You can use the following switches to determine which levels of metrics are
+included in the report.  You can combine them if you want to.  If you do not
+specify any level, the default is to include all of them.
 </p>
 
 <blockquote>
@@ -5511,7 +5516,7 @@ and ends with the "<code>.csv</code>" suffix.
 You use the <code>com.jeantessier.dependencyfinder.ant.OOMetrics</code> task to compute
 metrics and produce a report.  You need to associate the class to a tag using
 Ant's <code>&lt;taskdef&gt;</code> task.  You also need to tell Ant where to find the
-Dependency Finder classes.    There is a special
+Dependency Finder classes.  There is a special
 <a href="tasks/index.html">help page</a> on how to do this.
 </p>
 
@@ -5852,7 +5857,7 @@ since it was marked final.
 </p>
 
 <p>
-Similarily, <code>JarJarDiff</code> will report on removed members and classes, but not on
+Similarly, <code>JarJarDiff</code> will report on removed members and classes, but not on
 new ones.  See the javadocs for
 <code>com.jeantessier.diff.IncompatibleDifferenceStrategy</code> for a complete list of
 what's in the report and what is not.
@@ -5965,7 +5970,7 @@ depending on how you want to structure the results.
 <p>
 But regardless of which way you go about it, you must first list the deprecated
 symbols you are looking for.  Run <code>ListDeprecatedElements</code> on all the JARs that
-might contain deprecated symbos.  Don't forget to include <code>rt.jar</code>.  Save the
+might contain deprecated symbols.  Don't forget to include <code>rt.jar</code>.  Save the
 output to a file that will list each deprecated element, one per line.
 </p>
 
