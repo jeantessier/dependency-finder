@@ -782,6 +782,71 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
+    public void testVisitClassfile_deprecated() {
+        final MetricsFactory mockFactory = mock(MetricsFactory.class);
+        final Classfile mockClassfile = mock(Classfile.class);
+        final Metrics mockProjectMetrics = mock(Metrics.class, "project");
+        final Metrics mockGroupMetrics = mock(Metrics.class, "group");
+        final Metrics mockClassMetrics = mock(Metrics.class, "class");
+
+        checking(new Expectations() {{
+            oneOf (mockFactory).createProjectMetrics();
+                will(returnValue(mockProjectMetrics));
+            oneOf (mockClassfile).getClassName();
+                will(returnValue(CLASS_NAME));
+            oneOf (mockFactory).createClassMetrics(CLASS_NAME);
+                will(returnValue(mockClassMetrics));
+            oneOf (mockFactory).includeClassMetrics(mockClassMetrics);
+            oneOf (mockFactory).getGroupMetrics(CLASS_NAME);
+                will(returnValue(Collections.emptyList()));
+            oneOf (mockClassMetrics).getParent();
+                will(returnValue(mockGroupMetrics));
+            oneOf (mockGroupMetrics).getParent();
+                will(returnValue(mockProjectMetrics));
+            atLeast(1).of (mockGroupMetrics).getName();
+                will(returnValue(PACKAGE_NAME));
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGES, PACKAGE_NAME);
+
+            ignoring (mockProjectMetrics).addToMeasurement(BasicMeasurements.CLASSES, CLASS_NAME);
+            ignoring (mockGroupMetrics).addToMeasurement(BasicMeasurements.CLASSES, CLASS_NAME);
+            ignoring (mockClassfile).getMajorVersion();
+            ignoring (mockClassMetrics).addToMeasurement(BasicMeasurements.MAJOR_VERSION, 0);
+            ignoring (mockClassfile).getMinorVersion();
+            ignoring (mockClassMetrics).addToMeasurement(BasicMeasurements.MINOR_VERSION, 0);
+            ignoring (mockClassfile).isPublic();
+            ignoring (mockClassfile).isPackage();
+            ignoring (mockProjectMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);
+            ignoring (mockGroupMetrics).addToMeasurement(BasicMeasurements.PACKAGE_CLASSES, CLASS_NAME);
+            ignoring (mockClassfile).isFinal();
+            ignoring (mockClassfile).isSuper();
+            ignoring (mockClassfile).isInterface();
+            ignoring (mockClassfile).isAbstract();
+
+            ignoring (mockClassfile).hasSuperclass();
+            ignoring (mockClassfile).getAllInterfaces();
+            ignoring (mockClassfile).getAllInterfaces();
+            ignoring (mockClassfile).getAllFields();
+            ignoring (mockClassfile).getAllMethods();
+
+            ignoring (mockClassfile).isSynthetic();
+            ignoring (mockClassfile).isAnnotation();
+            ignoring (mockClassfile).isEnum();
+            ignoring (mockClassfile).isModule();
+            allowing (mockClassfile).isDeprecated();
+                will(returnValue(true));
+            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, CLASS_NAME);
+            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, CLASS_NAME);
+            ignoring (mockClassfile).isGeneric();
+
+            ignoring (mockClassfile).getAttributes();
+
+            oneOf (mockClassMetrics).addToMeasurement(BasicMeasurements.CLASS_SLOC, 1);
+        }});
+
+        MetricsGatherer sut = new MetricsGatherer(mockFactory);
+        sut.visitClassfile(mockClassfile);
+    }
+
     public void testVisitField_info_public() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
@@ -2572,88 +2637,6 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.setCurrentGroup(mockGroupMetrics);
         sut.setCurrentClass(mockClassMetrics);
         sut.visitInnerClass(mockInnerClass);
-    }
-
-    public void testVisitDeprecated_attribute_class() {
-        final MetricsFactory mockFactory = mock(MetricsFactory.class);
-        final Classfile mockClassfile = mock(Classfile.class);
-        final Deprecated_attribute mockDeprecatedAttribute = mock(Deprecated_attribute.class);
-        final Metrics mockGroupMetrics = mock(Metrics.class, "group");
-        final Metrics mockDefinedGroupMetrics = mock(Metrics.class, "defined group");
-        final Metrics mockProjectMetrics = mock(Metrics.class, "project");
-
-        checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics();
-            oneOf (mockDeprecatedAttribute).getOwner();
-            will(returnValue(mockClassfile));
-            oneOf (mockClassfile).getClassName();
-            will(returnValue(CLASS_NAME));
-            oneOf (mockFactory).getGroupMetrics(CLASS_NAME);
-            will(returnValue(List.of(mockDefinedGroupMetrics)));
-            oneOf (mockProjectMetrics).addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, CLASS_NAME);
-            oneOf (mockGroupMetrics).addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, CLASS_NAME);
-            oneOf (mockDefinedGroupMetrics).addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, CLASS_NAME);
-        }});
-
-        MetricsGatherer sut = new MetricsGatherer(mockFactory);
-        sut.setCurrentProject(mockProjectMetrics);
-        sut.setCurrentGroup(mockGroupMetrics);
-        sut.visitDeprecated_attribute(mockDeprecatedAttribute);
-    }
-
-    public void testVisitDeprecated_attribute_field() {
-        final MetricsFactory mockFactory = mock(MetricsFactory.class);
-        final Field_info mockField = mock(Field_info.class);
-        final Deprecated_attribute mockDeprecatedAttribute = mock(Deprecated_attribute.class);
-        final Metrics mockMetrics = mock(Metrics.class);
-
-        checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics();
-            oneOf (mockDeprecatedAttribute).getOwner();
-                will(returnValue(mockField));
-            oneOf (mockField).getUniqueName();
-                will(returnValue(FIELD_UNIQUE_NAME));
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.DEPRECATED_ATTRIBUTES, FIELD_UNIQUE_NAME);
-        }});
-
-        MetricsGatherer sut = new MetricsGatherer(mockFactory);
-        sut.setCurrentClass(mockMetrics);
-        sut.visitDeprecated_attribute(mockDeprecatedAttribute);
-    }
-
-    public void testVisitDeprecated_attribute_method() {
-        final MetricsFactory mockFactory = mock(MetricsFactory.class);
-        final Method_info mockMethod = mock(Method_info.class);
-        final Deprecated_attribute mockDeprecatedAttribute = mock(Deprecated_attribute.class);
-        final Metrics mockMetrics = mock(Metrics.class);
-
-        checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics();
-            oneOf (mockDeprecatedAttribute).getOwner();
-                will(returnValue(mockMethod));
-            oneOf (mockMethod).getUniqueName();
-                will(returnValue(METHOD_UNIQUE_NAME));
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.DEPRECATED_METHODS, METHOD_UNIQUE_NAME);
-        }});
-
-        MetricsGatherer sut = new MetricsGatherer(mockFactory);
-        sut.setCurrentClass(mockMetrics);
-        sut.visitDeprecated_attribute(mockDeprecatedAttribute);
-    }
-
-    public void testVisitDeprecated_attribute_other() {
-        final MetricsFactory mockFactory = mock(MetricsFactory.class);
-        final Deprecated_attribute mockDeprecatedAttribute = mock(Deprecated_attribute.class);
-        final Visitable mockOwner = mock(Visitable.class);
-
-        checking(new Expectations() {{
-            allowing (mockFactory).createProjectMetrics();
-            oneOf (mockDeprecatedAttribute).getOwner();
-            will(returnValue(mockOwner));
-        }});
-
-        MetricsGatherer sut = new MetricsGatherer(mockFactory);
-        sut.visitDeprecated_attribute(mockDeprecatedAttribute);
     }
 
     public void testVisitLocalVariable() {

@@ -211,6 +211,11 @@ public class MetricsGatherer extends VisitorBase {
             groups.forEach(group -> group.addToMeasurement(BasicMeasurements.MODULE_CLASSES, className));
         }
 
+        if (classfile.isDeprecated()) {
+            getCurrentProject().addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, className);
+            groups.forEach(group -> group.addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, className));
+        }
+
         if (classfile.hasSuperclass()) {
             classfile.getRawSuperclass().accept(this);
 
@@ -438,35 +443,7 @@ public class MetricsGatherer extends VisitorBase {
     // Attributes
     //
 
-    public void visitDeprecated_attribute(Deprecated_attribute attribute) {
-        Object owner = attribute.getOwner();
-
-        if (owner instanceof Classfile classfile) {
-            String className = classfile.getClassName();
-            getCurrentProject().addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, className);
-            getAllMatchingGroups(className).forEach(group -> group.addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, className));
-        } else if (owner instanceof Field_info fieldInfo) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_ATTRIBUTES, fieldInfo.getUniqueName());
-        } else if (owner instanceof Method_info methodInfo) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_METHODS, methodInfo.getUniqueName());
-        } else {
-            LogManager.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: {}", () -> owner.getClass().getName());
-        }
-
-        // TODO: Replace with type pattern matching in switch expression in Java 21
-        // switch (attribute.getOwner()) {
-        //     case Classfile classfile -> {
-        //         String className = classfile.getClassName();
-        //         getCurrentProject().addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, className);
-        //         getAllMatchingGroups(className).forEach(group -> group.addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, className));
-        //     }
-        //     case Field_info fieldInfo -> getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_ATTRIBUTES, fieldInfo.getUniqueName());
-        //     case Method_info methodInfo -> getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_METHODS, methodInfo.getUniqueName());
-        //     default -> LogManager.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: {}", () -> owner.getClass().getName());
-        // }
-    }
-
-    // 
+    //
     // Attribute helpers
     //
 
