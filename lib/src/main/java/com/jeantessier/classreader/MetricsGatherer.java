@@ -355,6 +355,10 @@ public class MetricsGatherer extends VisitorBase {
             moduleClasses.add(classfile);
         }
 
+        if (classfile.isDeprecated()) {
+            deprecatedClasses.add(classfile);
+        }
+
         super.visitClassfile(classfile);
     }
 
@@ -616,31 +620,6 @@ public class MetricsGatherer extends VisitorBase {
     public void visitLocalVariableTypeTable_attribute(LocalVariableTypeTable_attribute attribute) {
         super.visitLocalVariableTypeTable_attribute(attribute);
         visitAttribute(attribute.getAttributeName());
-    }
-
-    public void visitDeprecated_attribute(Deprecated_attribute attribute) {
-        super.visitDeprecated_attribute(attribute);
-        visitAttribute(attribute.getAttributeName());
-
-        Object owner = attribute.getOwner();
-
-        if (owner instanceof Classfile classfile) {
-            deprecatedClasses.add(classfile);
-        } else if (owner instanceof Field_info field) {
-            deprecatedFields.add(field);
-        } else if (owner instanceof Method_info method) {
-            deprecatedMethods.add(method);
-        } else {
-            LogManager.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: {}", owner.getClass().getName());
-        }
-
-        // TODO: Replace with type pattern matching in switch expression in Java 21
-        // switch (attribute.getOwner()) {
-        //     case Classfile classfile -> deprecatedClasses.add(classfile);
-        //     case Field_info field -> deprecatedFields.add(field);
-        //     case Method_info method -> deprecatedMethods.add(method);
-        //     default -> LogManager.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: {}", owner.getClass().getName());
-        // }
     }
 
     public void visitRuntimeVisibleAnnotations_attribute(RuntimeVisibleAnnotations_attribute attribute) {
