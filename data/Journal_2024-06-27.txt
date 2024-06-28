@@ -1,1 +1,6 @@
-Updated the copyright notice to 2024.
+Moved the logic to build unique names for method metrics to =Feature_info= and
+=FeatureRef_info=, so they can be consistent across client packages.  Fields
+just use their name, and methods append their return type to their signature.
+Constructors and class initializers are exempt.
+
+I also updated the copyright notice to 2024.
