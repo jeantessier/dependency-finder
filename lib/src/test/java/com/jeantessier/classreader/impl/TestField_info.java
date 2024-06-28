@@ -42,6 +42,7 @@ import java.io.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.jmock.Expectations.aNull;
+import static org.junit.Assert.assertEquals;
 
 public class TestField_info {
     private static final int TEST_ACCESS_FLAG = 0x0000;
@@ -71,7 +72,7 @@ public class TestField_info {
         final Classfile mockClassfile = context.mock(Classfile.class);
 
         context.checking(new Expectations() {{
-            allowing(mockClassfile).getConstantPool();
+            allowing (mockClassfile).getConstantPool();
                 will(returnValue(mockConstantPool));
         }});
 
@@ -79,7 +80,7 @@ public class TestField_info {
         expectReadU2(TEST_NAME_INDEX);
         expectLookupUtf8(TEST_NAME_INDEX, "foo", "name");
         expectReadU2(TEST_SIGNATURE_INDEX);
-        expectLookupUtf8(TEST_SIGNATURE_INDEX, "i", "descriptor");
+        expectLookupUtf8(TEST_SIGNATURE_INDEX, "I", "descriptor");
 
         // Field has 0 attributes
         expectReadU2(0);
@@ -94,7 +95,7 @@ public class TestField_info {
         int attributeNameIndex = 789;
 
         context.checking(new Expectations() {{
-            allowing(mockClassfile).getConstantPool();
+            allowing (mockClassfile).getConstantPool();
                 will(returnValue(mockConstantPool));
         }});
 
@@ -102,7 +103,7 @@ public class TestField_info {
         expectReadU2(TEST_NAME_INDEX);
         expectLookupUtf8(TEST_NAME_INDEX, "foo", "name");
         expectReadU2(TEST_SIGNATURE_INDEX);
-        expectLookupUtf8(TEST_SIGNATURE_INDEX, "i", "descriptor");
+        expectLookupUtf8(TEST_SIGNATURE_INDEX, "I", "descriptor");
 
         // Field has 1 attribute: Synthetic
         expectReadU2(1);
@@ -112,6 +113,30 @@ public class TestField_info {
 
         Field_info sut = new Field_info(mockClassfile, mockIn);
         assertThat("getConstantValue()", sut.getConstantValue(), is(aNull(ConstantValue_attribute.class)));
+    }
+
+    @Test
+    public void testGetUniqueName() throws IOException {
+        final Classfile mockClassfile = context.mock(Classfile.class);
+
+        context.checking(new Expectations() {{
+            allowing (mockClassfile).getConstantPool();
+                will(returnValue(mockConstantPool));
+            allowing (mockClassfile).getClassName();
+                will(returnValue("Abc"));
+        }});
+
+        expectReadU2(TEST_ACCESS_FLAG);
+        expectReadU2(TEST_NAME_INDEX);
+        expectLookupUtf8(TEST_NAME_INDEX, "foo", "name");
+        expectReadU2(TEST_SIGNATURE_INDEX);
+        expectLookupUtf8(TEST_SIGNATURE_INDEX, "I", "descriptor");
+
+        // Field has 0 attributes
+        expectReadU2(0);
+
+        Field_info sut = new Field_info(mockClassfile, mockIn);
+        assertEquals("getUniqueName()", "Abc.foo", sut.getUniqueName());
     }
 
     protected void expectReadU2(final int i) throws IOException {
@@ -136,9 +161,9 @@ public class TestField_info {
 
     private void expectLookupUtf8(final int index, final String value, final UTF8_info mockUtf8_info) {
         context.checking(new Expectations() {{
-            atLeast(1).of(mockConstantPool).get(index);
+            atLeast(1).of (mockConstantPool).get(index);
                 will(returnValue(mockUtf8_info));
-            atLeast(1).of(mockUtf8_info).getValue();
+            atLeast(1).of (mockUtf8_info).getValue();
                 will(returnValue(value));
         }});
     }

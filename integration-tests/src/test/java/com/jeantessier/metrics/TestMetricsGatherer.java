@@ -71,7 +71,7 @@ public class TestMetricsGatherer {
         assertCollectionEquals("project names", factory.getProjectNames(), "test");
         assertCollectionEquals("group names", factory.getGroupNames(), "");
         assertCollectionEquals("class names", factory.getClassNames(), "test");
-        assertCollectionEquals("method names", factory.getMethodNames(), "test.main(java.lang.String[]): void", "test.test(): void");
+        assertCollectionEquals("method names", factory.getMethodNames(), "test.main(java.lang.String[]): void", "test.test()");
     }
     
     @Test
@@ -79,12 +79,12 @@ public class TestMetricsGatherer {
         assertCollectionEquals("all project names", factory.getAllProjectNames(), "test");
         assertCollectionEquals("all group names", factory.getAllGroupNames(), "", "java.io", "java.lang", "java.util");
         assertCollectionEquals("all class names", factory.getAllClassNames(), "java.io.PrintStream", "java.lang.NullPointerException", "java.lang.Object", "java.lang.String", "java.lang.System", "java.util.Collections", "java.util.Collection", "java.util.Set", "test");
-        assertCollectionEquals("all method names", factory.getAllMethodNames(), "java.io.PrintStream.println(java.lang.Object): void", "java.lang.Object.Object(): void", "java.util.Collections.singleton(java.lang.Object): java.util.Set", "test.main(java.lang.String[]): void", "test.test(): void");
+        assertCollectionEquals("all method names", factory.getAllMethodNames(), "java.io.PrintStream.println(java.lang.Object): void", "java.lang.Object.Object()", "java.util.Collections.singleton(java.lang.Object): java.util.Set", "test.main(java.lang.String[]): void", "test.test()");
     }
 
     @Test
     public void test_test_test() {
-        Metrics metrics = factory.createMethodMetrics("test.test(): void");
+        Metrics metrics = factory.createMethodMetrics("test.test()");
 
         assertMeasurementEquals(metrics, BasicMeasurements.SLOC, 1);
         assertMeasurementEquals(metrics, BasicMeasurements.PARAMETERS, 0);
@@ -96,7 +96,7 @@ public class TestMetricsGatherer {
         assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES);
         assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES);
         assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES);
-        assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES, "java.lang.Object.Object(): void");
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES, "java.lang.Object.Object()");
         assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES);
     }
     
@@ -114,7 +114,7 @@ public class TestMetricsGatherer {
         assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES);
         assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES);
         assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES);
-        assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES, "java.util.Collections.singleton(java.lang.Object): java.util.Set", "java.lang.Object.Object(): void", "java.io.PrintStream.println(java.lang.Object): void");
+        assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES, "java.util.Collections.singleton(java.lang.Object): java.util.Set", "java.lang.Object.Object()", "java.io.PrintStream.println(java.lang.Object): void");
         assertCollectionMeasurementEquals(metrics, BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES, "java.io.PrintStream", "java.lang.NullPointerException", "java.lang.Object", "java.lang.String", "java.lang.System", "java.util.Collection", "java.util.Set");
     }
 

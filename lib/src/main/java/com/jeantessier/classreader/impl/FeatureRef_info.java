@@ -86,6 +86,10 @@ public abstract class FeatureRef_info extends ConstantPoolEntry implements com.j
         return getClassName() + "." + getSignature();
     }
 
+    public String getUniqueName() {
+        return getFullSignature();
+    }
+
     public String toString() {
         StringBuilder result = new StringBuilder();
 

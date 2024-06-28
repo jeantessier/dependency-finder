@@ -1,6 +1,6 @@
 Method metrics
 --------------
-client.Client.Client(): void
+client.Client.Client()
     Inbound Extra-Package Method Dependencies (IEPM): 0
     Outbound Extra-Package Feature Dependencies (OEPF): 1
     Outbound Extra-Package Class Dependencies (OEPC): 0
@@ -10,7 +10,7 @@ client.Client.m1(): void
     Outbound Extra-Package Feature Dependencies (OEPF): 1
     Outbound Extra-Package Class Dependencies (OEPC): 0
 
-provider.Provider.Provider(): void
+provider.Provider.Provider()
     Inbound Extra-Package Method Dependencies (IEPM): 0
     Outbound Extra-Package Feature Dependencies (OEPF): 1
     Outbound Extra-Package Class Dependencies (OEPC): 0

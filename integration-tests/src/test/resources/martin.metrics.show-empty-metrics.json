@@ -77,7 +77,7 @@
                         "measurements": [],
                         "methods": [
                             {
-                                "name": "client.Client.Client(): void",
+                                "name": "client.Client.Client()",
                                 "measurements": []
                             }, {
                                 "name": "client.Client.m1(): void",
@@ -125,7 +125,7 @@
                         "measurements": [],
                         "methods": [
                             {
-                                "name": "provider.Provider.Provider(): void",
+                                "name": "provider.Provider.Provider()",
                                 "measurements": []
                             }, {
                                 "name": "provider.Provider.internal(): void",

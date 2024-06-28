@@ -1,9 +1,9 @@
 Method metrics
 --------------
-client.Client.Client(): void
+client.Client.Client()
     Inbound Extra-Package Method Dependencies (IEPM): 0
     Outbound Extra-Package Feature Dependencies (OEPF): 1
-        java.lang.Object.Object(): void
+        java.lang.Object.Object()
     Outbound Extra-Package Class Dependencies (OEPC): 0
 
 client.Client.m1(): void
@@ -12,10 +12,10 @@ client.Client.m1(): void
         provider.Provider.m1(): void
     Outbound Extra-Package Class Dependencies (OEPC): 0
 
-provider.Provider.Provider(): void
+provider.Provider.Provider()
     Inbound Extra-Package Method Dependencies (IEPM): 0
     Outbound Extra-Package Feature Dependencies (OEPF): 1
-        java.lang.Object.Object(): void
+        java.lang.Object.Object()
     Outbound Extra-Package Class Dependencies (OEPC): 0
 
 provider.Provider.internal(): void

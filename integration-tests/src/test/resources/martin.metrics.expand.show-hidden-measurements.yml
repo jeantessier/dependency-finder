@@ -117,7 +117,7 @@ metrics:
                                     - provider.Provider
                         methods:
                             -
-                                name: "client.Client.Client(): void"
+                                name: client.Client.Client()
                                 measurements:
                                     -
                                         short-name: IEPM
@@ -129,7 +129,7 @@ metrics:
                                         long-name: Outbound Extra-Package Feature Dependencies
                                         value: 1.0
                                         members:
-                                            - "java.lang.Object.Object(): void"
+                                            - java.lang.Object.Object()
                                     -
                                         short-name: OEPC
                                         long-name: Outbound Extra-Package Class Dependencies
@@ -235,7 +235,7 @@ metrics:
                                     - java.lang.Object
                         methods:
                             -
-                                name: "provider.Provider.Provider(): void"
+                                name: provider.Provider.Provider()
                                 measurements:
                                     -
                                         short-name: IEPM
@@ -247,7 +247,7 @@ metrics:
                                         long-name: Outbound Extra-Package Feature Dependencies
                                         value: 1.0
                                         members:
-                                            - "java.lang.Object.Object(): void"
+                                            - java.lang.Object.Object()
                                     -
                                         short-name: OEPC
                                         long-name: Outbound Extra-Package Class Dependencies

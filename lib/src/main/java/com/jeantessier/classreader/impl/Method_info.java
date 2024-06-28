@@ -149,6 +149,14 @@ public class Method_info extends Feature_info implements com.jeantessier.classre
         return result.toString();
     }
 
+    public String getUniqueName() {
+        if (isConstructor() || isStaticInitializer()) {
+            return super.getUniqueName();
+        }
+
+        return super.getUniqueName() + ": " + getReturnType();
+    }
+
     public com.jeantessier.classreader.Code_attribute getCode() {
         CodeFinder finder = new CodeFinder();
         accept(finder);

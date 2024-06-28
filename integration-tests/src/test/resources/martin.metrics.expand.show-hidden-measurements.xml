@@ -140,7 +140,7 @@
                     </members>
                 </measurement>
                 <method>
-                    <name>client.Client.Client(): void</name>
+                    <name>client.Client.Client()</name>
                     <measurement>
                         <short-name>IEPM</short-name>
                         <long-name>Inbound Extra-Package Method Dependencies</long-name>
@@ -153,7 +153,7 @@
                         <long-name>Outbound Extra-Package Feature Dependencies</long-name>
                         <value>1.0</value>
                         <members>
-                            <member>java.lang.Object.Object(): void</member>
+                            <member>java.lang.Object.Object()</member>
                         </members>
                     </measurement>
                     <measurement>
@@ -290,7 +290,7 @@
                     </members>
                 </measurement>
                 <method>
-                    <name>provider.Provider.Provider(): void</name>
+                    <name>provider.Provider.Provider()</name>
                     <measurement>
                         <short-name>IEPM</short-name>
                         <long-name>Inbound Extra-Package Method Dependencies</long-name>
@@ -303,7 +303,7 @@
                         <long-name>Outbound Extra-Package Feature Dependencies</long-name>
                         <value>1.0</value>
                         <members>
-                            <member>java.lang.Object.Object(): void</member>
+                            <member>java.lang.Object.Object()</member>
                         </members>
                     </measurement>
                     <measurement>

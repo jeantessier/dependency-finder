@@ -78,6 +78,14 @@ public class MethodRef_info extends FeatureRef_info implements com.jeantessier.c
         return result.toString();
     }
 
+    public String getUniqueName() {
+        if (isConstructor() || isStaticInitializer()) {
+            return super.getUniqueName();
+        }
+
+        return super.getUniqueName() + ": " + getReturnType();
+    }
+
     public void accept(Visitor visitor) {
         visitor.visitMethodRef_info(this);
     }

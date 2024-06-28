@@ -264,7 +264,7 @@ public class MetricsGatherer extends VisitorBase {
         LogManager.getLogger(getClass()).debug("    class = \"{}\"", () -> entry.getClassName());
         LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getRawNameAndType().getName());
         LogManager.getLogger(getClass()).debug("    type = \"{}\"", () -> entry.getRawNameAndType().getType());
-        addMethodDependency(getMethodMetricsName(entry.getFullSignature(), entry.getReturnType()));
+        addMethodDependency(entry.getUniqueName());
         addClassDependencies(processDescriptor(entry.getRawNameAndType().getType()));
     }
 
@@ -273,12 +273,12 @@ public class MetricsGatherer extends VisitorBase {
         LogManager.getLogger(getClass()).debug("    class = \"{}\"", () -> entry.getClassName());
         LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getRawNameAndType().getName());
         LogManager.getLogger(getClass()).debug("    type = \"{}\"", () -> entry.getRawNameAndType().getType());
-        addMethodDependency(getMethodMetricsName(entry.getFullSignature(), entry.getReturnType()));
+        addMethodDependency(entry.getUniqueName());
         addClassDependencies(processDescriptor(entry.getRawNameAndType().getType()));
     }
 
     public void visitField_info(Field_info entry) {
-        String fullName = entry.getFullName();
+        String uniqueName = entry.getUniqueName();
 
         LogManager.getLogger(getClass()).debug("visitField_info({})", () -> entry.getFullSignature());
         LogManager.getLogger(getClass()).debug("    current class: {}", () -> getCurrentClass().getName());
@@ -293,44 +293,44 @@ public class MetricsGatherer extends VisitorBase {
         LogManager.getLogger(getClass()).debug("    synthetic: {}", () -> entry.isSynthetic());
         LogManager.getLogger(getClass()).debug("    enum: {}", () -> entry.isEnum());
 
-        getCurrentClass().addToMeasurement(BasicMeasurements.ATTRIBUTES, fullName);
+        getCurrentClass().addToMeasurement(BasicMeasurements.ATTRIBUTES, uniqueName);
 
         if (entry.isPublic()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PUBLIC_ATTRIBUTES, fullName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PUBLIC_ATTRIBUTES, uniqueName);
         } else if (entry.isPrivate()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PRIVATE_ATTRIBUTES, fullName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PRIVATE_ATTRIBUTES, uniqueName);
         } else if (entry.isProtected()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PROTECTED_ATTRIBUTES, fullName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PROTECTED_ATTRIBUTES, uniqueName);
         } else {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES, fullName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES, uniqueName);
         }
 
         if (entry.isFinal()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.FINAL_ATTRIBUTES, fullName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.FINAL_ATTRIBUTES, uniqueName);
         }
 
         if (entry.isDeprecated()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_ATTRIBUTES, fullName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_ATTRIBUTES, uniqueName);
         }
 
         if (entry.isSynthetic()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_ATTRIBUTES, fullName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_ATTRIBUTES, uniqueName);
         }
 
         if (entry.isStatic()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.STATIC_ATTRIBUTES, fullName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.STATIC_ATTRIBUTES, uniqueName);
         }
 
         if (entry.isTransient()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.TRANSIENT_ATTRIBUTES, fullName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.TRANSIENT_ATTRIBUTES, uniqueName);
         }
 
         if (entry.isVolatile()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.VOLATILE_ATTRIBUTES, fullName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.VOLATILE_ATTRIBUTES, uniqueName);
         }
 
         if (entry.isEnum()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.ENUM_ATTRIBUTES, fullName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.ENUM_ATTRIBUTES, uniqueName);
         }
 
         sloc = 1;
@@ -347,7 +347,7 @@ public class MetricsGatherer extends VisitorBase {
     public void visitMethod_info(Method_info entry) {
         fireBeginMethod(entry);
 
-        setCurrentMethod(getMetricsFactory().createMethodMetrics(getMethodMetricsName(entry.getFullSignature(), entry.getReturnType())));
+        setCurrentMethod(getMetricsFactory().createMethodMetrics(entry.getUniqueName()));
         getMetricsFactory().includeMethodMetrics(getCurrentMethod());
         
         LogManager.getLogger(getClass()).debug("visitMethod_info({})", () -> entry.getFullSignature());
@@ -446,9 +446,9 @@ public class MetricsGatherer extends VisitorBase {
             getCurrentProject().addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, className);
             getAllMatchingGroups(className).forEach(group -> group.addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, className));
         } else if (owner instanceof Field_info fieldInfo) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_ATTRIBUTES, fieldInfo.getFullName());
+            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_ATTRIBUTES, fieldInfo.getUniqueName());
         } else if (owner instanceof Method_info methodInfo) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_METHODS, methodInfo.getFullSignature());
+            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_METHODS, methodInfo.getUniqueName());
         } else {
             LogManager.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: {}", () -> owner.getClass().getName());
         }
@@ -460,8 +460,8 @@ public class MetricsGatherer extends VisitorBase {
         //         getCurrentProject().addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, className);
         //         getAllMatchingGroups(className).forEach(group -> group.addToMeasurement(BasicMeasurements.DEPRECATED_CLASSES, className));
         //     }
-        //     case Field_info fieldInfo -> getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_ATTRIBUTES, fieldInfo.getFullName());
-        //     case Method_info methodInfo -> getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_METHODS, methodInfo.getFullSignature());
+        //     case Field_info fieldInfo -> getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_ATTRIBUTES, fieldInfo.getUniqueName());
+        //     case Method_info methodInfo -> getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_METHODS, methodInfo.getUniqueName());
         //     default -> LogManager.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: {}", () -> owner.getClass().getName());
         // }
     }
@@ -727,10 +727,6 @@ public class MetricsGatherer extends VisitorBase {
         return result;
     }
 
-    private String getMethodMetricsName(String signature, String returnType) {
-        return signature + ": " + returnType;
-    }
-    
     public void addMetricsListener(MetricsListener listener) {
         metricsListeners.add(listener);
     }

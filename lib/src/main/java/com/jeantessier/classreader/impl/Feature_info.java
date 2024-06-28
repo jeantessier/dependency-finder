@@ -167,6 +167,10 @@ public abstract class Feature_info implements com.jeantessier.classreader.Featur
         return getClassfile().getClassName() + "." + getSignature();
     }
 
+    public String getUniqueName() {
+        return getFullSignature();
+    }
+
     /**
      * Only used for pretty logging in constructor.
      * @return a printable string as to whether this is a field or a method

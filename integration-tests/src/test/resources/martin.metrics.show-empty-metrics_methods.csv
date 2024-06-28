@@ -1,9 +1,9 @@
 "name"
 
 
-"client.Client.Client(): void", 
+"client.Client.Client()", 
 "client.Client.m1(): void", 
-"provider.Provider.Provider(): void", 
+"provider.Provider.Provider()", 
 "provider.Provider.internal(): void", 
 "provider.Provider.m1(): void", 
 "provider.Provider.m2(): void", 

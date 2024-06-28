@@ -81,7 +81,7 @@
             <class>
                 <name>client.Client</name>
                 <method>
-                    <name>client.Client.Client(): void</name>
+                    <name>client.Client.Client()</name>
                 </method>
                 <method>
                     <name>client.Client.m1(): void</name>
@@ -128,7 +128,7 @@
             <class>
                 <name>provider.Provider</name>
                 <method>
-                    <name>provider.Provider.Provider(): void</name>
+                    <name>provider.Provider.Provider()</name>
                 </method>
                 <method>
                     <name>provider.Provider.internal(): void</name>

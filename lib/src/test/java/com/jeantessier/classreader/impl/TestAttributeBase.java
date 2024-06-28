@@ -261,10 +261,14 @@ public abstract class TestAttributeBase extends MockObjectTestCase {
         checking(new Expectations() {{
             oneOf (mockConstantPool).get(index);
                 will(returnValue(mockNameAndType_info));
-            oneOf (mockNameAndType_info).getName();
-                will(returnValue(name));
-            oneOf (mockNameAndType_info).getType();
-                will(returnValue(type));
+            if (name != null) {
+                oneOf (mockNameAndType_info).getName();
+                    will(returnValue(name));
+            }
+            if (type != null) {
+                oneOf (mockNameAndType_info).getType();
+                    will(returnValue(type));
+            }
         }});
     }
 
