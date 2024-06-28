@@ -1,6 +1,8 @@
-Moved the logic to build unique names for method metrics to =Feature_info= and
-=FeatureRef_info=, so they can be consistent across client packages.  Fields
-just use their name, and methods append their return type to their signature.
-Constructors and class initializers are exempt.
+Use methods' unique name in the dependency graph.  And also for fields, for
+good measure.  As it turns out, all that was required was to update a regex in
+=NodeFactory= and another regex in =TextPrinter=.
 
-I also updated the copyright notice to 2024.
+=OOMetrics= relied on =Deprecated%5Fattribute= to find deprecated classes.  But
+it used =Feature%5Finfo.isDeprecated()= for fields and methods.  I removed the
+inconsistency, and now =OOMetrics= no longer looks at =Deprecated%5Fattribute=
+directly.  It's all hidden behind =isDeprecated()= methods.
