@@ -35,8 +35,6 @@ package com.jeantessier.classreader;
 import java.util.*;
 import java.util.stream.*;
 
-import org.apache.logging.log4j.*;
-
 public class MetricsGatherer extends VisitorBase {
     private final Collection<String> classes = new TreeSet<>();
     private final Collection<String> interfaces = new TreeSet<>();
