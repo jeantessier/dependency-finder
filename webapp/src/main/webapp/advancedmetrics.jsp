@@ -2,7 +2,7 @@
 <%@ page errorPage="errorpage.jsp" %>
 
 <!--
-    Copyright (c) 2001-2023, Jean Tessier
+    Copyright (c) 2001-2024, Jean Tessier
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without

@@ -1,7 +1,7 @@
 <%@ page import="java.io.*, java.text.*, java.util.*, javax.servlet.jsp.*, org.apache.oro.text.perl.*, org.xml.sax.*, com.jeantessier.dependency.*" %>
 
 <!--
-    Copyright (c) 2001-2023, Jean Tessier
+    Copyright (c) 2001-2024, Jean Tessier
     All rights reserved.
     
     Redistribution and use in source and binary forms, with or without

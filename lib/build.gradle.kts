@@ -40,7 +40,7 @@ tasks.jar {
                 "Implementation-Date" to releaseDate,
                 "Implementation-URL" to "https://depfind.sourceforge.io/",
                 "Copyright-Holder" to "Jean Tessier",
-                "Copyright-Date" to "2001-2023",
+                "Copyright-Date" to "2001-2024",
                 "Compiler-Vendor" to System.getProperty("java.vendor"),
                 "Compiler-Title" to System.getProperty("java.runtime.name"),
                 "Compiler-Version" to System.getProperty("java.version"),
