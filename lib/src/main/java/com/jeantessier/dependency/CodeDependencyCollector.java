@@ -135,9 +135,9 @@ public class CodeDependencyCollector extends CollectorBase {
         LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getRawNameAndType().getName());
         LogManager.getLogger(getClass()).debug("    type = \"{}\"", () -> entry.getRawNameAndType().getType());
 
-        String signature = entry.getFullSignature();
-        if (filterCriteria.isMatchingFeatures() && filterCriteria.matchesFeatureName(signature)) {
-            Node other = getFactory().createFeature(signature);
+        String name = entry.getUniqueName();
+        if (filterCriteria.isMatchingFeatures() && filterCriteria.matchesFeatureName(name)) {
+            Node other = getFactory().createFeature(name);
             getCurrent().addDependency(other);
             LogManager.getLogger(getClass()).info("FieldRef_info dependency: {} --> {}", getCurrent(), other);
             fireDependency(getCurrent(), other);
@@ -155,9 +155,9 @@ public class CodeDependencyCollector extends CollectorBase {
         LogManager.getLogger(getClass()).debug("    type = \"{}\"", () -> entry.getRawNameAndType().getType());
 
         if (!entry.isStaticInitializer()) {
-            String signature = entry.getFullSignature();
-            if (filterCriteria.isMatchingFeatures() && filterCriteria.matchesFeatureName(signature)) {
-                Node other  = getFactory().createFeature(signature);
+            String name = entry.getUniqueName();
+            if (filterCriteria.isMatchingFeatures() && filterCriteria.matchesFeatureName(name)) {
+                Node other  = getFactory().createFeature(name);
                 getCurrent().addDependency(other);
                 LogManager.getLogger(getClass()).info("MethodRef_info dependency: {} --> {}", getCurrent(), other);
                 fireDependency(getCurrent(), other);
@@ -175,9 +175,9 @@ public class CodeDependencyCollector extends CollectorBase {
         LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getRawNameAndType().getName());
         LogManager.getLogger(getClass()).debug("    type = \"{}\"", () -> entry.getRawNameAndType().getType());
 
-        String signature = entry.getFullSignature();
-        if (filterCriteria.isMatchingFeatures() && filterCriteria.matchesFeatureName(signature)) {
-            Node other  = getFactory().createFeature(signature);
+        String name = entry.getUniqueName();
+        if (filterCriteria.isMatchingFeatures() && filterCriteria.matchesFeatureName(name)) {
+            Node other  = getFactory().createFeature(name);
             getCurrent().addDependency(other);
             LogManager.getLogger(getClass()).info("InterfaceMethodRef_info dependency: {} --> {}", getCurrent(), other);
             fireDependency(getCurrent(), other);
@@ -193,7 +193,7 @@ public class CodeDependencyCollector extends CollectorBase {
         LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getName());
         LogManager.getLogger(getClass()).debug("    descriptor = \"{}\"", () -> entry.getDescriptor());
 
-        setCurrent(getFactory().createFeature(entry.getFullSignature(), true));
+        setCurrent(getFactory().createFeature(entry.getUniqueName(), true));
 
         processDescriptor(entry.getDescriptor());
 
@@ -205,7 +205,7 @@ public class CodeDependencyCollector extends CollectorBase {
         LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getName());
         LogManager.getLogger(getClass()).debug("    descriptor = \"{}\"", () -> entry.getDescriptor());
 
-        setCurrent(getFactory().createFeature(entry.getFullSignature(), true));
+        setCurrent(getFactory().createFeature(entry.getUniqueName(), true));
 
         processDescriptor(entry.getDescriptor());
 

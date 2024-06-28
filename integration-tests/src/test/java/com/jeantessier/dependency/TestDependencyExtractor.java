@@ -78,12 +78,12 @@ public class TestDependencyExtractor extends TestCase {
 
         _package = factory.createPackage("");
         test_class = factory.createClass("test");
-        test_main_feature = factory.createFeature("test.main(java.lang.String[])");
+        test_main_feature = factory.createFeature("test.main(java.lang.String[]): void");
         test_test_feature = factory.createFeature("test.test()");
         
         java_io_package = factory.createPackage("java.io");
         java_io_PrintStream_class = factory.createClass("java.io.PrintStream");
-        java_io_PrintStream_println_feature = factory.createFeature("java.io.PrintStream.println(java.lang.Object)");
+        java_io_PrintStream_println_feature = factory.createFeature("java.io.PrintStream.println(java.lang.Object): void");
 
         java_lang_package = factory.createPackage("java.lang");
         java_lang_NullPointerException_class = factory.createClass("java.lang.NullPointerException");
@@ -95,7 +95,7 @@ public class TestDependencyExtractor extends TestCase {
         
         java_util_package = factory.createPackage("java.util");
         java_util_Collections_class = factory.createClass("java.util.Collections");
-        java_util_Collections_singleton_feature = factory.createFeature("java.util.Collections.singleton(java.lang.Object)");
+        java_util_Collections_singleton_feature = factory.createFeature("java.util.Collections.singleton(java.lang.Object): java.util.Set");
         java_util_Set_class = factory.createClass("java.util.Set");
         
         test_class.addDependency(java_lang_Object_class);
