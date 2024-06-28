@@ -254,7 +254,7 @@ public class ListDiffPrinter {
         String result = "";
 
         synchronized (perl) {
-            if (perl.match("/^(.*)\\.[^\\.]*\\(.*\\)/", featureName)) {
+            if (perl.match("/^(.*)\\.[^\\.]*\\(.*\\)(: \\S.*)?/", featureName)) {
                 result = perl.group(1);
             } else if (perl.match("/^(.*)\\.[\\^.]*/", featureName)) {
                 result = perl.group(1);
