@@ -23,8 +23,8 @@ jobs:
     steps:
     - name: Compiling commit
       run: |
-        echo "Compiling ref ${{ github.pull.ref }}" >> "$GITHUB_STEP_SUMMARY"
-        echo "Compiling head_commit ${{ github.pull.head_commit.id }}" >> "$GITHUB_STEP_SUMMARY"
+        echo "Compiling ref ${{ github.event.push.ref }}" >> "$GITHUB_STEP_SUMMARY"
+        echo "Compiling head_commit ${{ github.event.push.head_commit.id }}" >> "$GITHUB_STEP_SUMMARY"
     - name: Checkout the repo
       uses: actions/checkout@v4
     - name: Set up JDK 17
