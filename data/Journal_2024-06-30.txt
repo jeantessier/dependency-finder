@@ -1,0 +1,7 @@
+The next release will be =1.4.0=.  The change to method unique names will break
+some setups out there, just like I've been updating regular expressions in
+Dependency Finder itself.
+
+I've been experimenting with GitHub Actions.  I set up a workflow that runs
+=./gradlew build=, which builds everything and runs all tests.  I still have to
+figure out how to publish distributions and Docker images from GitHub Actions.
