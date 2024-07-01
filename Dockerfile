@@ -1,10 +1,10 @@
 #
 # To build:
 #     $ ./gradlew webapp:build
-#     $ docker build . --build-arg version=1.3.2 --tag jeantessier/dependency-finder-tomcat:1.3.2 --tag jeantessier/dependency-finder-tomcat:latest
+#     $ docker build . --build-arg version=1.4.0 --tag jeantessier/dependency-finder-tomcat:1.4.0 --tag jeantessier/dependency-finder-tomcat:latest
 #
 # To upload to hub.docker.com:
-#     $ docker push jeantessier/dependency-finder-tomcat:1.3.2
+#     $ docker push jeantessier/dependency-finder-tomcat:1.4.0
 #     $ docker push jeantessier/dependency-finder-tomcat:latest
 #
 # To run:
