@@ -1,11 +1,11 @@
 Now that I'm done with the work to bring the =.class= file parser up to the
 latest specification, I'm ready to do a release.  There were API changes that
 broke backwards compatibility, but there were no major new features.  If I
-adhered strictly to [semantic versioning](https://semver.org/), I should go to
-2.0, but I'm hesitant to do this since there are no major additions to
-Dependency Finder.  I'm also uncomfortable just going to =1.2.1=, because it's
-more than just a bugfix and there are some large-ish changes in the =Classfile=
-structure, after all.  So, I've decided to go with =1.3.0=.
+were to adhere strictly to [[https://semver.org/][semantic versioning]], I
+should go to 2.0.  But, I'm hesitant to do this since there are no major
+additions to Dependency Finder.  I'm also uncomfortable just going to =1.2.1=,
+because it's more than just a bugfix and there are some large-ish changes in
+the =Classfile= structure, after all.  So, I've decided to go with =1.3.0=.
 
 I'm doing my development using Java 21, but I'm reluctant to release bytecode
 with major version 65.  It all compiles and passes the tests with JDK 17.  I
