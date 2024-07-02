@@ -11,11 +11,11 @@ Dir.glob('*/build/test-results/test/TEST-*.xml')
       end
 
       counts = {
-        tests: docs.map {|doc| doc.xpath("count(//testcase)")}.sum,
-        passed: docs.map {|doc| doc.xpath("count(//testcase[not(*)])")}.sum,
-        skipped: docs.map {|doc| doc.xpath("count(//testcase[skipped])")}.sum,
-        failures: docs.map {|doc| doc.xpath("count(//testcase[failure])")}.sum,
-        errors: docs.map {|doc| doc.xpath("count(//testcase[error])")}.sum,
+        tests: docs.map {|doc| doc.xpath("count(//testcase)")}.sum.to_i,
+        passed: docs.map {|doc| doc.xpath("count(//testcase[not(*)])")}.sum.to_i,
+        skipped: docs.map {|doc| doc.xpath("count(//testcase[skipped])")}.sum.to_i,
+        failures: docs.map {|doc| doc.xpath("count(//testcase[failure])")}.sum.to_i,
+        errors: docs.map {|doc| doc.xpath("count(//testcase[error])")}.sum.to_i,
       }
 
       status = counts[:failures] == 0 && counts[:errors] == 0
