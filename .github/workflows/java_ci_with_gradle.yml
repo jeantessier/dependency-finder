@@ -50,21 +50,12 @@ jobs:
     # - name: Build with Gradle 8.5
     #   run: gradle build
 
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1.183.0
+      with:
+        bundler-cache: true
     - name: Summarize tests results
-      shell: ruby {0}
-      run: |
-        require 'nokogiri'
-
-        tests = Dir.glob('*/build/tet-results/test/TEST-*.xml').map do |name|
-          File.open(name) {|f| Nokogiri::XML f}
-        end
-          .map {|doc| doc.xpath "//@tests"}
-          .flatten
-          .map(&:value)
-          .map(&:to_i)
-          .sum
-
-        puts "There were #{tests} test(s)."
+      run: ruby test_summary.rb >> "$GITHUB_STEP_SUMMARY"
 
   dependency-submission:
 
