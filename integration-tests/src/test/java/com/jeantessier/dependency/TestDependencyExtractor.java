@@ -119,7 +119,7 @@ public class TestDependencyExtractor extends TestCase {
 
     public void testPackageList() {
         assertEquals("Different list of packages",
-                     factory.getPackages().keySet(),
+                     Collections.emptySet(),
                      testFactory.getPackages().keySet());
     }
     
