@@ -55,7 +55,7 @@ jobs:
       with:
         bundler-cache: true
     - name: Summarize tests results
-      run: ruby test_summary.rb >> "$GITHUB_STEP_SUMMARY"
+      run: bundle exec ruby test_summary.rb >> "$GITHUB_STEP_SUMMARY"
 
   dependency-submission:
 
