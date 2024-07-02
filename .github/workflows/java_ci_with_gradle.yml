@@ -53,7 +53,6 @@ jobs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1.183.0
       with:
-        ruby-version: '3.3'
         bundler-cache: true
     - name: Summarize tests results
       run: ruby test_summary.rb >> "$GITHUB_STEP_SUMMARY"
