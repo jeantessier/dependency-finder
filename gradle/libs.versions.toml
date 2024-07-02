@@ -6,7 +6,7 @@ fitlibrary = "20070619"
 #fitlibrary = "20080812"
 httpunit = "1.7.3"
 jmock = "2.13.1"
-junit = "4.13.2"
+junit-jupiter = "5.10.3"
 log4j = "2.22.1"
 oro = "2.0.8"
 saxon-he = "12.4"
@@ -19,7 +19,7 @@ httpunit = { module = "org.httpunit:httpunit", version.ref = "httpunit" }
 jmock-imposters = { module = "org.jmock:jmock-imposters", version.ref = "jmock" }
 jmock-junit3 = { module = "org.jmock:jmock-junit3", version.ref = "jmock" }
 jmock-junit4 = { module = "org.jmock:jmock-junit4", version.ref = "jmock" }
-junit = { module = "junit:junit", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
 log4j-api = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4j" }
 log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
 oro = { module = "oro:oro", version.ref = "oro" }

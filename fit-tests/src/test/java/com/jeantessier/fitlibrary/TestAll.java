@@ -35,13 +35,16 @@ package com.jeantessier.fitlibrary;
 import java.nio.file.*;
 
 import fitlibrary.runner.*;
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestAll extends TestCase {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestAll {
     public static final Path FIT_TESTS = Paths.get("src/test/fit");
     public static final Path FIT_REPORTS = Paths.get("build/reports/tests/fitlibrary");
     private static final String RIGHT_MARKER = "right, ";
 
+    @Test
     public void testFolderRunner() throws Exception {
         FolderRunner runner = new FolderRunner();
         Report report = runner.run(FIT_TESTS.toString(), FIT_REPORTS.toString());

@@ -10,7 +10,7 @@ dependencies {
     implementation(project(":lib"))
     implementation(libs.fitlibrary)
 
-    testImplementation(libs.junit)
+    testImplementation(libs.junit.jupiter)
     testImplementation(libs.oro)
 
     testImplementation(project("metrics"))

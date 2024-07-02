@@ -15,7 +15,7 @@ dependencies {
     runtimeOnly(libs.log4j.core)
     runtimeOnly(libs.saxon.he)
 
-    testImplementation(libs.junit)
+    testImplementation(libs.junit.jupiter)
     testImplementation(libs.bundles.jmock)
     testImplementation(libs.ant)
 }
