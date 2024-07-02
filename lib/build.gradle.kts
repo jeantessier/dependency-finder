@@ -18,6 +18,8 @@ dependencies {
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.bundles.jmock)
     testImplementation(libs.ant)
+
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
 }
 
 java {
@@ -58,4 +60,8 @@ java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }

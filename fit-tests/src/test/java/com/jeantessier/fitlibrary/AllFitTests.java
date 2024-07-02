@@ -39,17 +39,17 @@ import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestAll {
+class AllFitTests {
     public static final Path FIT_TESTS = Paths.get("src/test/fit");
     public static final Path FIT_REPORTS = Paths.get("build/reports/tests/fitlibrary");
     private static final String RIGHT_MARKER = "right, ";
 
     @Test
-    public void testFolderRunner() throws Exception {
+    void runFitTestsInFolder() throws Exception {
         FolderRunner runner = new FolderRunner();
         Report report = runner.run(FIT_TESTS.toString(), FIT_REPORTS.toString());
         String counts = report.getCounts();
         int pos = counts.indexOf(RIGHT_MARKER) + RIGHT_MARKER.length();
-        assertEquals("errors, see " + FIT_REPORTS.resolve(FolderRunner.INDEX_HTML), "0 wrong, 0 ignored, 0 exceptions", counts.substring(pos));
+        assertEquals("0 wrong, 0 ignored, 0 exceptions", counts.substring(pos), "errors, see " + FIT_REPORTS.resolve(FolderRunner.INDEX_HTML));
     }
 }
