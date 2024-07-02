@@ -1,0 +1,4 @@
+Updated the JUnit dependency to JUnit Jupiter (JUnit 5).  The tests are still
+written for a mix of JUnit 3 and JUnit 4, but at least the package dependency
+should now be up-to-date.  I received a security warning from GitHub and I'm
+hoping this upgrade addresses it.
