@@ -17,14 +17,11 @@ jobs:
       contents: read
 
     steps:
-    - name: Compiling commit
-      run: |
-        echo "Compiling ref \`${{ github.event.ref }}\`" >> "$GITHUB_STEP_SUMMARY"
-        echo "Compiling head_commit \`${{ github.event.head_commit.id }}\`" >> "$GITHUB_STEP_SUMMARY"
     - name: Checkout the repo
       uses: actions/checkout@v4
       with:
         ref: ${{ github.event.head_commit.id }}
+
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
@@ -34,21 +31,10 @@ jobs:
     # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
     # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
     - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+      uses: gradle/actions/setup-gradle@v3
 
     - name: Build with Gradle Wrapper
       run: ./gradlew build
-
-    # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
-    # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
-    #
-    # - name: Setup Gradle
-    #   uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
-    #   with:
-    #     gradle-version: '8.5'
-    #
-    # - name: Build with Gradle 8.5
-    #   run: gradle build
 
     - name: Summarize tests results
       uses: jeantessier/test-summary-action@v1
@@ -71,4 +57,4 @@ jobs:
     # Generates and submits a dependency graph, enabling Dependabot Alerts for all project dependencies.
     # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
     - name: Generate and submit dependency graph
-      uses: gradle/actions/dependency-submission@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+      uses: gradle/actions/dependency-submission@v3
