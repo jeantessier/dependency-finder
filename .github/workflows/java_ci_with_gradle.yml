@@ -50,17 +50,8 @@ jobs:
     # - name: Build with Gradle 8.5
     #   run: gradle build
 
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1.183.0
-      with:
-        bundler-cache: true
-      if: ${{ false }}
     - name: Summarize tests results
-      run: bundle exec ruby test_summary.rb >> "$GITHUB_STEP_SUMMARY"
-      if: ${{ false }}
-
-    - name: Summarize tests results
-      uses: jeantessier/test-summary-action@v1.0.3
+      uses: jeantessier/test-summary-action@v1
       if: ${{ always() }}
 
   dependency-submission:
