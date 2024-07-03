@@ -10,3 +10,12 @@ and generate a Markdown table.  I am not too keen to introduce yet another
 language, Ruby, in Dependency Finder.  But, it is the quickest and simplest way
 to parse XML files and extract the information I need.  It is only in the
 GitHub Actions workflow.  For now.
+
+I could extract the test summary logic into my own GitHub Action, separate from
+Dependency Finder.  This would keep the Ruby code out.  This new action could
+either be a Docker container or a composite action that calls Ruby from the
+runner's shell.
+
+Someone wrote a =[[https://github.com/test-summary][test-summary]]= GitHub
+Action that does a similar job.  This could be a way to not have to
+introduce Ruby into Dependency Finder.

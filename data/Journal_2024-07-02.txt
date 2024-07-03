@@ -1,0 +1,4 @@
+Created the GitHub Action
+=[[https://github.com/jeantessier/test-summary-action][jeantessier/test-summary-action]]=
+as a separate project.  I can use it instead of the custom Ruby code in
+Dependency Finder, and remove all needs for Ruby to keep it simple.
