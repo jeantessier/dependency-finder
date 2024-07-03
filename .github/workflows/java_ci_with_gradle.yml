@@ -54,9 +54,13 @@ jobs:
       uses: ruby/setup-ruby@v1.183.0
       with:
         bundler-cache: true
-      if: ${{ always() }}
+      if: ${{ never() }}
     - name: Summarize tests results
       run: bundle exec ruby test_summary.rb >> "$GITHUB_STEP_SUMMARY"
+      if: ${{ never() }}
+
+    - name: Summarize tests results
+      uses: jeantessier/test-summary-action@v1
       if: ${{ always() }}
 
   dependency-submission:
