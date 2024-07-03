@@ -350,7 +350,7 @@ For example, if you take the following method:
         try {
             out.write("abcd");
         } catch (java.io.IOException ex) {
-            out.close()
+            out.close();
         }
     }
 
@@ -360,11 +360,11 @@ Processing it will fire the following events in this order:
 
    1 =f() --&gt; out=
    1 =f() --&gt; java.io.Writer=
-   1 =f() --&gt; java.io.Writer.write(java.lang.String)=
+   1 =f() --&gt; java.io.Writer.write(java.lang.String): void=
    1 =f() --&gt; java.lang.String=
    1 =f() --&gt; out=
    1 =f() --&gt; java.io.Writer=
-   1 =f() --&gt; java.io.Writer.close()=
+   1 =f() --&gt; java.io.Writer.close(): void=
    1 =f() --&gt; java.io.IOException=
    1 =f() --&gt; java.lang.Exception=
 
@@ -380,8 +380,8 @@ No. 6 are duplicates too.  In the end, the graph would look as follows:
     f()
         --&gt; java.io.IOException
         --&gt; java.io.Writer
-        --&gt; java.io.Writer.close()
-        --&gt; java.io.Writer.write(java.lang.String)
+        --&gt; java.io.Writer.close(): void
+        --&gt; java.io.Writer.write(java.lang.String): void
         --&gt; java.lang.Exception
         --&gt; java.lang.String
         --&gt; out

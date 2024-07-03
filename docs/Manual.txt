@@ -1219,17 +1219,17 @@ Here is another, slightly more complex example:
             --> ParentClass
             ChildClass()
                 --> ParentClass.ParentClass()
-            a() *
-                <-- ChildClass.b()
-            b()
-                --> ChildClass.a() *
+            a(): void *
+                <-- ChildClass.b(): void
+            b(): void
+                --> ChildClass.a(): void *
         ParentClass
             <-- ChildClass
             --> java.lang.Object *
             ParentClass()
                 <-- ChildClass.ChildClass()
                 --> java.lang.Object.Object() *
-            a()
+            a(): void
     java.lang *
         Object *
             <-- ParentClass
@@ -1279,8 +1279,8 @@ Here is what the dependency graph would look like, using the JDK 1.3 compiler.
             --> MiddleClass
             ChildClass()
                 --> MiddleClass.MiddleClass()
-            *b()*
-                *--> ParentClass.a()*
+            *b(): void*
+                *--> ParentClass.a(): void*
         MiddleClass
             <-- ChildClass
             --> ParentClass
@@ -1294,8 +1294,8 @@ Here is what the dependency graph would look like, using the JDK 1.3 compiler.
             ParentClass()
                 <-- MiddleClass.ChildClass()
                 --> java.lang.Object.Object() *
-            *a()*
-                *<-- ChildClass.b()*
+            *a(): void*
+                *<-- ChildClass.b(): void*
     java.lang *
         Object *
             <-- ParentClass
@@ -1523,29 +1523,29 @@ Here is the raw output dependency graph.
     &nbsp;
         test
             --> java.lang.Object *
-            main(java.lang.String[])
+            main(java.lang.String[]): void
                 --> java.lang.Object *
                 --> java.lang.Object.Object() *
                 --> java.lang.String *
-                --> java.util.Collections.singleton(java.lang.Object) *
+                --> java.util.Collections.singleton(java.lang.Object): java.util.Set *
                 --> java.util.Set *
             test()
                 --> java.lang.Object.Object() *
     java.lang *
         Object *
             <-- test
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
             Object() *
-                <-- test.main(java.lang.String[])
+                <-- test.main(java.lang.String[]): void
                 <-- test.test()
         String *
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
     java.util *
         Collections *
-            singleton(java.lang.Object) *
-                <-- test.main(java.lang.String[])
+            singleton(java.lang.Object): java.util.Set *
+                <-- test.main(java.lang.String[]): void
         Set *
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
 
 </div>
 
@@ -2457,18 +2457,18 @@ with the following tools:
     java.lang *
         java.lang.Object *
             <-- test
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
             java.lang.Object.Object() *
-                <-- test.main(java.lang.String[])
+                <-- test.main(java.lang.String[]): void
                 <-- test.test()
         java.lang.String *
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
     java.util *
         java.util.Collections *
-            java.util.Collections.singleton(java.lang.Object) *
-                <-- test.main(java.lang.String[])
+            java.util.Collections.singleton(java.lang.Object): java.util.Set *
+                <-- test.main(java.lang.String[]): void
         java.util.Set *
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
 
 </div>
 
@@ -2490,23 +2490,23 @@ If you only want to remove outbound dependencies and keep empty nodes, use:
 
     &nbsp;
         test
-            test.main(java.lang.String[])
+            test.main(java.lang.String[]): void
             test.test()
     java.lang *
         java.lang.Object *
             <-- test
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
             java.lang.Object.Object() *
-                <-- test.main(java.lang.String[])
+                <-- test.main(java.lang.String[]): void
                 <-- test.test()
         java.lang.String *
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
     java.util *
         java.util.Collections *
-            java.util.Collections.singleton(java.lang.Object) *
-                <-- test.main(java.lang.String[])
+            java.util.Collections.singleton(java.lang.Object): java.util.Set *
+                <-- test.main(java.lang.String[]): void
         java.util.Set *
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
 
 </div>
 
@@ -2559,11 +2559,11 @@ following tools:
     &nbsp;
         test
             --> java.lang.Object *
-            test.main(java.lang.String[])
+            test.main(java.lang.String[]): void
                 --> java.lang.Object *
                 --> java.lang.Object.Object() *
                 --> java.lang.String *
-                --> java.util.Collections.singleton(java.lang.Object) *
+                --> java.util.Collections.singleton(java.lang.Object): java.util.Set *
                 --> java.util.Set *
             test.test()
                 --> java.lang.Object.Object() *
@@ -2589,11 +2589,11 @@ If you only want to remove inbound dependencies and keep empty nodes, use:
     &nbsp;
         test
             --> java.lang.Object *
-            test.main(java.lang.String[])
+            test.main(java.lang.String[]): void
                 --> java.lang.Object *
                 --> java.lang.Object.Object() *
                 --> java.lang.String *
-                --> java.util.Collections.singleton(java.lang.Object) *
+                --> java.util.Collections.singleton(java.lang.Object): java.util.Set *
                 --> java.util.Set *
             test.test()
                 --> java.lang.Object.Object() *
@@ -2603,7 +2603,7 @@ If you only want to remove inbound dependencies and keep empty nodes, use:
         java.lang.String *
     java.util *
         java.util.Collections *
-            java.util.Collections.singleton(java.lang.Object) *
+            java.util.Collections.singleton(java.lang.Object): java.util.Set *
         java.util.Set *
 
 </div>
@@ -2651,29 +2651,29 @@ navigation.
     &nbsp;
         test
             --> java.lang.Object *
-            test.main(java.lang.String[])
+            test.main(java.lang.String[]): void
                 --> java.lang.Object *
                 --> java.lang.Object.Object() *
                 --> java.lang.String *
-                --> java.util.Collections.singleton(java.lang.Object) *
+                --> java.util.Collections.singleton(java.lang.Object): java.util.Set *
                 --> java.util.Set *
             test.test()
                 --> java.lang.Object.Object() *
     java.lang *
         java.lang.Object *
             <-- test
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
             java.lang.Object.Object() *
-                <-- test.main(java.lang.String[])
+                <-- test.main(java.lang.String[]): void
                 <-- test.test()
         java.lang.String *
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
     java.util *
         java.util.Collections *
-            java.util.Collections.singleton(java.lang.Object) *
-                <-- test.main(java.lang.String[])
+            java.util.Collections.singleton(java.lang.Object): java.util.Set *
+                <-- test.main(java.lang.String[]): void
         java.util.Set *
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
 
 </div>
 

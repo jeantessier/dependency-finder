@@ -825,7 +825,7 @@ And here it is with =-list=:
 
     testpackage.TargetClass: 2
         --------
-        targetMethod()
+        targetMethod(): void
         --------
         targetAttribute
         --------
@@ -833,9 +833,9 @@ And here it is with =-list=:
     testpackage.TestClass: 3
         --------
         targetAttribute
-        testMethod(java.lang.String)
-        targetMethod()
-        sourceMethod()
+        testMethod(java.lang.String): void
+        targetMethod(): void
+        sourceMethod(): testpackage.TestClass
         --------
         testAttribute
         --------
@@ -845,7 +845,7 @@ And here it is with =-list=:
     testpackage.LocalOtherClass: 0
     testpackage.SourceClass: 2
         --------
-        sourceMethod()
+        sourceMethod(): testpackage.TestClass
         --------
         sourceAttribute
         --------
@@ -6790,10 +6790,10 @@ And here it is with =-list=:
     6&nbsp;feature(s)
         java.lang.Object.Object()
         java.lang.System.out
-        java.util.Collections.singleton(java.lang.Object)
-        java.io.PrintStream.println(java.lang.Object)
+        java.util.Collections.singleton(java.lang.Object): java.util.Set
+        java.io.PrintStream.println(java.lang.Object): void
         test.test()
-        test.main(java.lang.String[])
+        test.main(java.lang.String[]): void
     &nbsp;
     11&nbsp;outbound link(s)
         0&nbsp;from package(s) (average 0.0 per package)
@@ -10718,10 +10718,10 @@ alphabetical order.
 <div class="lowlight">
 
     test
-    test.main(java.lang.String[])
-    test.main(java.lang.String[]): args
-    test.main(java.lang.String[]): c
-    test.main(java.lang.String[]): ex
+    test.main(java.lang.String[]): void
+    test.main(java.lang.String[]): void: args
+    test.main(java.lang.String[]): void: c
+    test.main(java.lang.String[]): void: ex
     test.test()
     test.test(): this
 
