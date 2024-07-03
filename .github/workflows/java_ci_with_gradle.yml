@@ -60,7 +60,7 @@ jobs:
       if: ${{ false }}
 
     - name: Summarize tests results
-      uses: jeantessier/test-summary-action@v1.0.1
+      uses: jeantessier/test-summary-action@v1.0.2
       if: ${{ always() }}
 
   dependency-submission:
