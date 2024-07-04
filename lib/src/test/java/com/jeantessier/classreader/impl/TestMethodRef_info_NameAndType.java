@@ -76,7 +76,7 @@ public class TestMethodRef_info_NameAndType {
     public String expectedReturnType;
 
     @Parameter(5)
-    public String expectedUniqueName;
+    public String expectedFullUniqueName;
 
     @Rule
     public JUnitRuleMockery context = new JUnitRuleMockery() {{
@@ -142,7 +142,7 @@ public class TestMethodRef_info_NameAndType {
     }
 
     @Test
-    public void testGetUniqueName() {
-        assertEquals(expectedUniqueName, sut.getUniqueName());
+    public void testGetFullUniqueName() {
+        assertEquals(expectedFullUniqueName, sut.getFullUniqueName());
     }
 }

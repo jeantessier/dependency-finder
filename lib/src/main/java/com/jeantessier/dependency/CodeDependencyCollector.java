@@ -135,7 +135,7 @@ public class CodeDependencyCollector extends CollectorBase {
         LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getRawNameAndType().getName());
         LogManager.getLogger(getClass()).debug("    type = \"{}\"", () -> entry.getRawNameAndType().getType());
 
-        String name = entry.getUniqueName();
+        String name = entry.getFullUniqueName();
         if (filterCriteria.isMatchingFeatures() && filterCriteria.matchesFeatureName(name)) {
             Node other = getFactory().createFeature(name);
             getCurrent().addDependency(other);
@@ -155,7 +155,7 @@ public class CodeDependencyCollector extends CollectorBase {
         LogManager.getLogger(getClass()).debug("    type = \"{}\"", () -> entry.getRawNameAndType().getType());
 
         if (!entry.isStaticInitializer()) {
-            String name = entry.getUniqueName();
+            String name = entry.getFullUniqueName();
             if (filterCriteria.isMatchingFeatures() && filterCriteria.matchesFeatureName(name)) {
                 Node other  = getFactory().createFeature(name);
                 getCurrent().addDependency(other);
@@ -175,7 +175,7 @@ public class CodeDependencyCollector extends CollectorBase {
         LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getRawNameAndType().getName());
         LogManager.getLogger(getClass()).debug("    type = \"{}\"", () -> entry.getRawNameAndType().getType());
 
-        String name = entry.getUniqueName();
+        String name = entry.getFullUniqueName();
         if (filterCriteria.isMatchingFeatures() && filterCriteria.matchesFeatureName(name)) {
             Node other  = getFactory().createFeature(name);
             getCurrent().addDependency(other);
@@ -193,7 +193,7 @@ public class CodeDependencyCollector extends CollectorBase {
         LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getName());
         LogManager.getLogger(getClass()).debug("    descriptor = \"{}\"", () -> entry.getDescriptor());
 
-        setCurrent(getFactory().createFeature(entry.getUniqueName(), true));
+        setCurrent(getFactory().createFeature(entry.getFullUniqueName(), true));
 
         processDescriptor(entry.getDescriptor());
 
@@ -205,7 +205,7 @@ public class CodeDependencyCollector extends CollectorBase {
         LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getName());
         LogManager.getLogger(getClass()).debug("    descriptor = \"{}\"", () -> entry.getDescriptor());
 
-        setCurrent(getFactory().createFeature(entry.getUniqueName(), true));
+        setCurrent(getFactory().createFeature(entry.getFullUniqueName(), true));
 
         processDescriptor(entry.getDescriptor());
 

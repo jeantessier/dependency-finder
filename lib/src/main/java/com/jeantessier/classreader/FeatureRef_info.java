@@ -49,5 +49,5 @@ public interface FeatureRef_info extends ConstantPoolEntry {
     String getSignature();
     String getFullSignature();
 
-    String getUniqueName();
+    String getFullUniqueName();
 }

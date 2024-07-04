@@ -116,7 +116,7 @@ public class TestField_info {
     }
 
     @Test
-    public void testGetUniqueName() throws IOException {
+    public void testGetFullUniqueName() throws IOException {
         final Classfile mockClassfile = context.mock(Classfile.class);
 
         context.checking(new Expectations() {{
@@ -136,7 +136,7 @@ public class TestField_info {
         expectReadU2(0);
 
         Field_info sut = new Field_info(mockClassfile, mockIn);
-        assertEquals("getUniqueName()", "Abc.foo", sut.getUniqueName());
+        assertEquals("getFullUniqueName()", "Abc.foo", sut.getFullUniqueName());
     }
 
     protected void expectReadU2(final int i) throws IOException {

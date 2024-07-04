@@ -854,7 +854,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            allowing (mockField).getUniqueName();
+            allowing (mockField).getFullUniqueName();
                 will(returnValue(FIELD_NAME));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockMetrics).getName();
@@ -889,7 +889,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            allowing (mockField).getUniqueName();
+            allowing (mockField).getFullUniqueName();
                 will(returnValue(FIELD_NAME));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockMetrics).getName();
@@ -924,7 +924,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            allowing (mockField).getUniqueName();
+            allowing (mockField).getFullUniqueName();
                 will(returnValue(FIELD_NAME));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockMetrics).getName();
@@ -959,7 +959,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            allowing (mockField).getUniqueName();
+            allowing (mockField).getFullUniqueName();
                 will(returnValue(FIELD_NAME));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockMetrics).getName();
@@ -994,7 +994,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            allowing (mockField).getUniqueName();
+            allowing (mockField).getFullUniqueName();
                 will(returnValue(FIELD_NAME));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockMetrics).getName();
@@ -1030,7 +1030,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            allowing (mockField).getUniqueName();
+            allowing (mockField).getFullUniqueName();
                 will(returnValue(FIELD_NAME));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockMetrics).getName();
@@ -1067,7 +1067,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            allowing (mockField).getUniqueName();
+            allowing (mockField).getFullUniqueName();
                 will(returnValue(FIELD_NAME));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockMetrics).getName();
@@ -1109,7 +1109,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            allowing (mockField).getUniqueName();
+            allowing (mockField).getFullUniqueName();
                 will(returnValue(FIELD_NAME));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockMetrics).getName();
@@ -1145,7 +1145,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            allowing (mockField).getUniqueName();
+            allowing (mockField).getFullUniqueName();
                 will(returnValue(FIELD_NAME));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockMetrics).getName();
@@ -1181,7 +1181,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            allowing (mockField).getUniqueName();
+            allowing (mockField).getFullUniqueName();
                 will(returnValue(FIELD_NAME));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockMetrics).getName();
@@ -1217,7 +1217,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            allowing (mockField).getUniqueName();
+            allowing (mockField).getFullUniqueName();
                 will(returnValue(FIELD_NAME));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockMetrics).getName();
@@ -1253,7 +1253,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
-            allowing (mockField).getUniqueName();
+            allowing (mockField).getFullUniqueName();
                 will(returnValue(FIELD_NAME));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.ATTRIBUTES, FIELD_NAME);
             allowing (mockMetrics).getName();
@@ -1290,7 +1290,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
-            allowing (mockMethod).getUniqueName();
+            allowing (mockMethod).getFullUniqueName();
                 will(returnValue(METHOD_UNIQUE_NAME));
             oneOf (mockFactory).createMethodMetrics(METHOD_UNIQUE_NAME);
                 will(returnValue(mockMetrics));
@@ -1335,7 +1335,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
-            allowing (mockMethod).getUniqueName();
+            allowing (mockMethod).getFullUniqueName();
                 will(returnValue(METHOD_UNIQUE_NAME));
             oneOf (mockFactory).createMethodMetrics(METHOD_UNIQUE_NAME);
                 will(returnValue(mockMetrics));
@@ -1380,7 +1380,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
-            allowing (mockMethod).getUniqueName();
+            allowing (mockMethod).getFullUniqueName();
                 will(returnValue(METHOD_UNIQUE_NAME));
             oneOf (mockFactory).createMethodMetrics(METHOD_UNIQUE_NAME);
                 will(returnValue(mockMetrics));
@@ -1425,7 +1425,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
-            allowing (mockMethod).getUniqueName();
+            allowing (mockMethod).getFullUniqueName();
                 will(returnValue(METHOD_UNIQUE_NAME));
             oneOf (mockFactory).createMethodMetrics(METHOD_UNIQUE_NAME);
                 will(returnValue(mockMetrics));
@@ -1470,7 +1470,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
-            allowing (mockMethod).getUniqueName();
+            allowing (mockMethod).getFullUniqueName();
                 will(returnValue(METHOD_UNIQUE_NAME));
             oneOf (mockFactory).createMethodMetrics(METHOD_UNIQUE_NAME);
                 will(returnValue(mockMetrics));
@@ -1516,7 +1516,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
-            allowing (mockMethod).getUniqueName();
+            allowing (mockMethod).getFullUniqueName();
                 will(returnValue(METHOD_UNIQUE_NAME));
             oneOf (mockFactory).createMethodMetrics(METHOD_UNIQUE_NAME);
                 will(returnValue(mockMetrics));
@@ -1562,7 +1562,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
-            allowing (mockMethod).getUniqueName();
+            allowing (mockMethod).getFullUniqueName();
                 will(returnValue(METHOD_UNIQUE_NAME));
             oneOf (mockFactory).createMethodMetrics(METHOD_UNIQUE_NAME);
                 will(returnValue(mockMetrics));
@@ -1609,7 +1609,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
-            allowing (mockMethod).getUniqueName();
+            allowing (mockMethod).getFullUniqueName();
                 will(returnValue(METHOD_UNIQUE_NAME));
             oneOf (mockFactory).createMethodMetrics(METHOD_UNIQUE_NAME);
                 will(returnValue(mockMetrics));
@@ -1661,7 +1661,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
-            allowing (mockMethod).getUniqueName();
+            allowing (mockMethod).getFullUniqueName();
                 will(returnValue(METHOD_UNIQUE_NAME));
             oneOf (mockFactory).createMethodMetrics(METHOD_UNIQUE_NAME);
                 will(returnValue(mockMetrics));
@@ -1707,7 +1707,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
-            allowing (mockMethod).getUniqueName();
+            allowing (mockMethod).getFullUniqueName();
                 will(returnValue(METHOD_UNIQUE_NAME));
             oneOf (mockFactory).createMethodMetrics(METHOD_UNIQUE_NAME);
                 will(returnValue(mockMetrics));
@@ -1753,7 +1753,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
-            allowing (mockMethod).getUniqueName();
+            allowing (mockMethod).getFullUniqueName();
                 will(returnValue(METHOD_UNIQUE_NAME));
             oneOf (mockFactory).createMethodMetrics(METHOD_UNIQUE_NAME);
                 will(returnValue(mockMetrics));
@@ -1799,7 +1799,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
-            allowing (mockMethod).getUniqueName();
+            allowing (mockMethod).getFullUniqueName();
                 will(returnValue(METHOD_UNIQUE_NAME));
             oneOf (mockFactory).createMethodMetrics(METHOD_UNIQUE_NAME);
                 will(returnValue(mockMetrics));
@@ -1845,7 +1845,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
-            allowing (mockMethod).getUniqueName();
+            allowing (mockMethod).getFullUniqueName();
                 will(returnValue(METHOD_UNIQUE_NAME));
             oneOf (mockFactory).createMethodMetrics(METHOD_UNIQUE_NAME);
                 will(returnValue(mockMetrics));
@@ -1891,7 +1891,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
-            allowing (mockMethod).getUniqueName();
+            allowing (mockMethod).getFullUniqueName();
                 will(returnValue(METHOD_UNIQUE_NAME));
             oneOf (mockFactory).createMethodMetrics(METHOD_UNIQUE_NAME);
                 will(returnValue(mockMetrics));
@@ -1937,7 +1937,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
-            allowing (mockMethod).getUniqueName();
+            allowing (mockMethod).getFullUniqueName();
                 will(returnValue(METHOD_UNIQUE_NAME));
             oneOf (mockFactory).createMethodMetrics(METHOD_UNIQUE_NAME);
                 will(returnValue(mockMetrics));
@@ -1983,7 +1983,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         checking(new Expectations() {{
             allowing (mockFactory).createProjectMetrics();
             allowing (mockMethod).getClassfile();
-            allowing (mockMethod).getUniqueName();
+            allowing (mockMethod).getFullUniqueName();
                 will(returnValue(METHOD_UNIQUE_NAME));
             oneOf (mockFactory).createMethodMetrics(METHOD_UNIQUE_NAME);
                 will(returnValue(mockMetrics));

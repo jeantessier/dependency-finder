@@ -149,12 +149,12 @@ public class Method_info extends Feature_info implements com.jeantessier.classre
         return result.toString();
     }
 
-    public String getUniqueName() {
+    public String getFullUniqueName() {
         if (isConstructor() || isStaticInitializer()) {
-            return super.getUniqueName();
+            return super.getFullUniqueName();
         }
 
-        return super.getUniqueName() + ": " + getReturnType();
+        return super.getFullUniqueName() + ": " + getReturnType();
     }
 
     public com.jeantessier.classreader.Code_attribute getCode() {

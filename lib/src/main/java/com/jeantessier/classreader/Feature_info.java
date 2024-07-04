@@ -67,5 +67,5 @@ public interface Feature_info extends Deprecatable, Visitable {
 
     String getFullSignature();
 
-    String getUniqueName();
+    String getFullUniqueName();
 }

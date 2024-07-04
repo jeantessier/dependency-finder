@@ -269,7 +269,7 @@ public class MetricsGatherer extends VisitorBase {
         LogManager.getLogger(getClass()).debug("    class = \"{}\"", () -> entry.getClassName());
         LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getRawNameAndType().getName());
         LogManager.getLogger(getClass()).debug("    type = \"{}\"", () -> entry.getRawNameAndType().getType());
-        addMethodDependency(entry.getUniqueName());
+        addMethodDependency(entry.getFullUniqueName());
         addClassDependencies(processDescriptor(entry.getRawNameAndType().getType()));
     }
 
@@ -278,12 +278,12 @@ public class MetricsGatherer extends VisitorBase {
         LogManager.getLogger(getClass()).debug("    class = \"{}\"", () -> entry.getClassName());
         LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getRawNameAndType().getName());
         LogManager.getLogger(getClass()).debug("    type = \"{}\"", () -> entry.getRawNameAndType().getType());
-        addMethodDependency(entry.getUniqueName());
+        addMethodDependency(entry.getFullUniqueName());
         addClassDependencies(processDescriptor(entry.getRawNameAndType().getType()));
     }
 
     public void visitField_info(Field_info entry) {
-        String uniqueName = entry.getUniqueName();
+        String fullUniqueName = entry.getFullUniqueName();
 
         LogManager.getLogger(getClass()).debug("visitField_info({})", () -> entry.getFullSignature());
         LogManager.getLogger(getClass()).debug("    current class: {}", () -> getCurrentClass().getName());
@@ -298,44 +298,44 @@ public class MetricsGatherer extends VisitorBase {
         LogManager.getLogger(getClass()).debug("    synthetic: {}", () -> entry.isSynthetic());
         LogManager.getLogger(getClass()).debug("    enum: {}", () -> entry.isEnum());
 
-        getCurrentClass().addToMeasurement(BasicMeasurements.ATTRIBUTES, uniqueName);
+        getCurrentClass().addToMeasurement(BasicMeasurements.ATTRIBUTES, fullUniqueName);
 
         if (entry.isPublic()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PUBLIC_ATTRIBUTES, uniqueName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PUBLIC_ATTRIBUTES, fullUniqueName);
         } else if (entry.isPrivate()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PRIVATE_ATTRIBUTES, uniqueName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PRIVATE_ATTRIBUTES, fullUniqueName);
         } else if (entry.isProtected()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PROTECTED_ATTRIBUTES, uniqueName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PROTECTED_ATTRIBUTES, fullUniqueName);
         } else {
-            getCurrentClass().addToMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES, uniqueName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.PACKAGE_ATTRIBUTES, fullUniqueName);
         }
 
         if (entry.isFinal()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.FINAL_ATTRIBUTES, uniqueName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.FINAL_ATTRIBUTES, fullUniqueName);
         }
 
         if (entry.isDeprecated()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_ATTRIBUTES, uniqueName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.DEPRECATED_ATTRIBUTES, fullUniqueName);
         }
 
         if (entry.isSynthetic()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_ATTRIBUTES, uniqueName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.SYNTHETIC_ATTRIBUTES, fullUniqueName);
         }
 
         if (entry.isStatic()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.STATIC_ATTRIBUTES, uniqueName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.STATIC_ATTRIBUTES, fullUniqueName);
         }
 
         if (entry.isTransient()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.TRANSIENT_ATTRIBUTES, uniqueName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.TRANSIENT_ATTRIBUTES, fullUniqueName);
         }
 
         if (entry.isVolatile()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.VOLATILE_ATTRIBUTES, uniqueName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.VOLATILE_ATTRIBUTES, fullUniqueName);
         }
 
         if (entry.isEnum()) {
-            getCurrentClass().addToMeasurement(BasicMeasurements.ENUM_ATTRIBUTES, uniqueName);
+            getCurrentClass().addToMeasurement(BasicMeasurements.ENUM_ATTRIBUTES, fullUniqueName);
         }
 
         sloc = 1;
@@ -352,7 +352,7 @@ public class MetricsGatherer extends VisitorBase {
     public void visitMethod_info(Method_info entry) {
         fireBeginMethod(entry);
 
-        setCurrentMethod(getMetricsFactory().createMethodMetrics(entry.getUniqueName()));
+        setCurrentMethod(getMetricsFactory().createMethodMetrics(entry.getFullUniqueName()));
         getMetricsFactory().includeMethodMetrics(getCurrentMethod());
         
         LogManager.getLogger(getClass()).debug("visitMethod_info({})", () -> entry.getFullSignature());
