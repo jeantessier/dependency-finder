@@ -54,8 +54,8 @@ public class TestInterfaceMethodRef_info_NameAndType {
     @Parameters(name="MethodRef_info to {0} " + CLASS + ".{1} with type \"{2}\"")
     public static Object[][] data() {
         return new Object[][] {
-                {"void method", "(I)V", NAME + "(int)", "void", CLASS + "." + NAME + "(int): void"},
-                {"regular method", "(Ljava/lang/String;)Ljava/lang/Object;", NAME + "(java.lang.String)", "java.lang.Object", CLASS + "." + NAME + "(java.lang.String): java.lang.Object"},
+                {"void method", "(I)V", NAME + "(int)", "void", NAME + "(int): void", CLASS + "." + NAME + "(int): void"},
+                {"regular method", "(Ljava/lang/String;)Ljava/lang/Object;", NAME + "(java.lang.String)", "java.lang.Object", NAME + "(java.lang.String): java.lang.Object", CLASS + "." + NAME + "(java.lang.String): java.lang.Object"},
         };
     }
 
@@ -72,6 +72,9 @@ public class TestInterfaceMethodRef_info_NameAndType {
     public String expectedReturnType;
 
     @Parameter(4)
+    public String expectedUniqueName;
+
+    @Parameter(5)
     public String expectedFullUniqueName;
 
     @Rule
@@ -135,6 +138,11 @@ public class TestInterfaceMethodRef_info_NameAndType {
     @Test
     public void testGetReturnType() {
         assertEquals(expectedReturnType, sut.getReturnType());
+    }
+
+    @Test
+    public void testGetUniqueName() {
+        assertEquals(expectedUniqueName, sut.getUniqueName());
     }
 
     @Test

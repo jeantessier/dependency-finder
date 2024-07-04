@@ -113,28 +113,8 @@ public abstract class Feature_info implements com.jeantessier.classreader.Featur
         return nameIndex;
     }
 
-    public UTF8_info getRawName() {
-        return (UTF8_info) getClassfile().getConstantPool().get(getNameIndex());
-    }
-
-    public String getName() {
-        return getRawName().getValue();
-    }
-
-    public String getFullName() {
-        return getClassfile().getClassName() + "." + getName();
-    }
-
     public int getDescriptorIndex() {
         return descriptorIndex;
-    }
-
-    public UTF8_info getRawDescriptor() {
-        return (UTF8_info) getClassfile().getConstantPool().get(getDescriptorIndex());
-    }
-
-    public String getDescriptor() {
-        return getRawDescriptor().getValue();
     }
 
     public Collection<Attribute_info> getAttributes() {
@@ -153,22 +133,8 @@ public abstract class Feature_info implements com.jeantessier.classreader.Featur
         return getAttributes().parallelStream().anyMatch(attribute -> attribute instanceof Synthetic_attribute);
     }
 
-    public boolean isDeprecated() {
-        return getAttributes().parallelStream().anyMatch(attribute -> attribute instanceof Deprecated_attribute);
-    }
-
-    public boolean isGeneric() {
-        SignatureFinder finder = new SignatureFinder();
-        accept(finder);
-        return finder.getSignature() != null;
-    }
-
-    public String getFullSignature() {
-        return getClassfile().getClassName() + "." + getSignature();
-    }
-
-    public String getFullUniqueName() {
-        return getFullSignature();
+    public String getUniqueName() {
+        return getSignature();
     }
 
     /**
@@ -178,6 +144,6 @@ public abstract class Feature_info implements com.jeantessier.classreader.Featur
     protected abstract String getFeatureType();
 
     public String toString() {
-        return getFullSignature();
+        return getFullUniqueName();
     }
 }

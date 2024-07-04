@@ -48,24 +48,44 @@ public interface Feature_info extends Deprecatable, Visitable {
     boolean isFinal();
 
     int getNameIndex();
-    UTF8_info getRawName();
-    String getName();
-    String getFullName();
+    default UTF8_info getRawName() {
+        return (UTF8_info) getClassfile().getConstantPool().get(getNameIndex());
+    }
+    default String getName() {
+        return getRawName().getValue();
+    }
+    default String getFullName() {
+        return getClassfile().getClassName() + "." + getName();
+    }
 
     int getDescriptorIndex();
-    UTF8_info getRawDescriptor();
-    String getDescriptor();
+    default UTF8_info getRawDescriptor() {
+        return (UTF8_info) getClassfile().getConstantPool().get(getDescriptorIndex());
+    }
+    default String getDescriptor() {
+        return getRawDescriptor().getValue();
+    }
 
     Collection<? extends Attribute_info> getAttributes();
 
     boolean isSynthetic();
-    boolean isDeprecated();
-    boolean isGeneric();
+    default boolean isDeprecated() {
+        return getAttributes().parallelStream().anyMatch(attribute -> attribute instanceof Deprecated_attribute);
+    }
+    default boolean isGeneric() {
+        SignatureFinder finder = new SignatureFinder();
+        accept(finder);
+        return finder.getSignature() != null;
+    }
 
     String getDeclaration();
     String getSignature();
+    default String getFullSignature() {
+        return getClassfile().getClassName() + "." + getSignature();
+    }
 
-    String getFullSignature();
-
-    String getFullUniqueName();
+    String getUniqueName();
+    default String getFullUniqueName() {
+        return getClassfile().getClassName() + "." + getUniqueName();
+    }
 }

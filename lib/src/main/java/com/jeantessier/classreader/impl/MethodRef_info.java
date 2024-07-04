@@ -53,6 +53,11 @@ public class MethodRef_info extends FeatureRef_info implements com.jeantessier.c
         return DescriptorHelper.getReturnType(getRawNameAndType().getType());
     }
 
+    public String getNameAndType() {
+        var nat = getRawNameAndType();
+        return nat.getName() + nat.getType();
+    }
+
     public String getName() {
         String result;
 
@@ -78,27 +83,15 @@ public class MethodRef_info extends FeatureRef_info implements com.jeantessier.c
         return result.toString();
     }
 
-    public String getFullUniqueName() {
+    public String getUniqueName() {
         if (isConstructor() || isStaticInitializer()) {
-            return super.getFullUniqueName();
+            return super.getUniqueName();
         }
 
-        return super.getFullUniqueName() + ": " + getReturnType();
+        return super.getUniqueName() + ": " + getReturnType();
     }
 
     public void accept(Visitor visitor) {
         visitor.visitMethodRef_info(this);
-    }
-
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-
-        if (!isConstructor() && !isStaticInitializer()) {
-            result.append(getReturnType());
-            result.append(" ");
-        }
-        result.append(getFullSignature());
-
-        return result.toString();
     }
 }

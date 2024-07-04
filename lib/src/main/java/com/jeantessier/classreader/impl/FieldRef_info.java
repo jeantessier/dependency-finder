@@ -57,10 +57,6 @@ public class FieldRef_info extends FeatureRef_info implements com.jeantessier.cl
         return getName();
     }
 
-    public String toString() {
-        return getType() + " " + getFullName();
-    }
-
     public void accept(Visitor visitor) {
         visitor.visitFieldRef_info(this);
     }

@@ -116,6 +116,28 @@ public class TestField_info {
     }
 
     @Test
+    public void testGetUniqueName() throws IOException {
+        final Classfile mockClassfile = context.mock(Classfile.class);
+
+        context.checking(new Expectations() {{
+            allowing (mockClassfile).getConstantPool();
+                will(returnValue(mockConstantPool));
+        }});
+
+        expectReadU2(TEST_ACCESS_FLAG);
+        expectReadU2(TEST_NAME_INDEX);
+        expectLookupUtf8(TEST_NAME_INDEX, "foo", "name");
+        expectReadU2(TEST_SIGNATURE_INDEX);
+        expectLookupUtf8(TEST_SIGNATURE_INDEX, "I", "descriptor");
+
+        // Field has 0 attributes
+        expectReadU2(0);
+
+        Field_info sut = new Field_info(mockClassfile, mockIn);
+        assertEquals("getUniqueName()", "foo", sut.getUniqueName());
+    }
+
+    @Test
     public void testGetFullUniqueName() throws IOException {
         final Classfile mockClassfile = context.mock(Classfile.class);
 

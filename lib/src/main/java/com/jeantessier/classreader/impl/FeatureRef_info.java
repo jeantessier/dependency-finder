@@ -49,56 +49,20 @@ public abstract class FeatureRef_info extends ConstantPoolEntry implements com.j
         return classIndex;
     }
 
-    public Class_info getRawClass() {
-        return (Class_info) getConstantPool().get(getClassIndex());
-    }
-
-    public String getClassName() {
-        return getRawClass().getName();
-    }
-
-    public String getClassSimpleName() {
-        return getRawClass().getSimpleName();
-    }
-
     public int getNameAndTypeIndex() {
         return nameAndTypeIndex;
     }
 
-    public NameAndType_info getRawNameAndType() {
-        return (NameAndType_info) getConstantPool().get(getNameAndTypeIndex());
-    }
-
-    public String getNameAndType() {
-        NameAndType_info nat = getRawNameAndType();
-        return nat.getName() + nat.getType();
-    }
-
     public abstract String getName();
-
-    public String getFullName() {
-        return getClassName() + "." + getName();
-    }
 
     public abstract String getSignature();
 
-    public String getFullSignature() {
-        return getClassName() + "." + getSignature();
-    }
-
-    public String getFullUniqueName() {
-        return getFullSignature();
+    public String getUniqueName() {
+        return getSignature();
     }
 
     public String toString() {
-        StringBuilder result = new StringBuilder();
-
-        Class_info       c   = getRawClass();
-        NameAndType_info nat = getRawNameAndType();
-
-        result.append(c).append(".").append(nat.getName()).append(nat.getType());
-
-        return result.toString();
+        return getFullUniqueName();
     }
 
     public int hashCode() {

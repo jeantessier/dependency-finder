@@ -69,6 +69,12 @@ public class TestFieldRef_info extends TestAttributeBase {
         assertEquals(TYPE + " " + NAME, sut.getNameAndType());
     }
 
+    public void testGetUniqueName() {
+        expectLookupNameAndType(NAME_AND_TYPE_INDEX, NAME, null);
+
+        assertEquals(NAME, sut.getUniqueName());
+    }
+
     public void testGetFullUniqueName() {
         expectLookupClass(CLASS_INDEX, CLASS);
         expectLookupNameAndType(NAME_AND_TYPE_INDEX, NAME, null);

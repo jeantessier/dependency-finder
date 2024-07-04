@@ -53,10 +53,10 @@ public class TestMethodRef_info_NameAndType {
     @Parameters(name="MethodRef_info to {0} " + CLASS + ".{1} with type \"{2}\"")
     public static Object[][] data() {
         return new Object[][] {
-                {"void method", "foo", "(I)V", "foo(int)", "void", CLASS + ".foo(int): void"},
-                {"regular method", "foo", "(Ljava/lang/String;)Ljava/lang/Object;", "foo(java.lang.String)", "java.lang.Object", CLASS + ".foo(java.lang.String): java.lang.Object"},
-                {"constructor", "<init>", "()V", CLASS + "()", "void", CLASS + "." + CLASS + "()"},
-                {"static initializer", "<clinit>", "()V", "static {}", "void", CLASS + ".static {}"},
+                {"void method", "foo", "(I)V", "foo(int)", "void", "foo(int): void", CLASS + ".foo(int): void"},
+                {"regular method", "foo", "(Ljava/lang/String;)Ljava/lang/Object;", "foo(java.lang.String)", "java.lang.Object", "foo(java.lang.String): java.lang.Object", CLASS + ".foo(java.lang.String): java.lang.Object"},
+                {"constructor", "<init>", "()V", CLASS + "()", "void", CLASS + "()", CLASS + "." + CLASS + "()"},
+                {"static initializer", "<clinit>", "()V", "static {}", "void", "static {}", CLASS + ".static {}"},
         };
     }
 
@@ -76,6 +76,9 @@ public class TestMethodRef_info_NameAndType {
     public String expectedReturnType;
 
     @Parameter(5)
+    public String expectedUniqueName;
+
+    @Parameter(6)
     public String expectedFullUniqueName;
 
     @Rule
@@ -139,6 +142,11 @@ public class TestMethodRef_info_NameAndType {
     @Test
     public void testGetReturnType() {
         assertEquals(expectedReturnType, sut.getReturnType());
+    }
+
+    @Test
+    public void testGetUniqueName() {
+        assertEquals(expectedUniqueName, sut.getUniqueName());
     }
 
     @Test
