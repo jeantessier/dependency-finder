@@ -107,13 +107,15 @@ public abstract class TestDifferencesFactoryBase extends MockObjectTestCase {
     protected Field_info findField(String name, PackageMapper packages) {
         int pos = name.lastIndexOf(".");
         String className = name.substring(0, pos);
-        return findClass(className, packages).getField(name.substring(pos + 1));
+        Classfile classfile = findClass(className, packages);
+        return classfile.getField(field -> field.getName().equals(name.substring(pos + 1)));
     }
 
     protected Method_info findMethod(String name, PackageMapper packages) {
         int pos = name.lastIndexOf(".");
         String className = name.substring(0, pos);
-        return findClass(className, packages).getMethod(name.substring(pos + 1));
+        Classfile classfile = findClass(className, packages);
+        return classfile.getMethod(method -> method.getSignature().equals(name.substring(pos + 1)));
     }
 
     protected Differences find(String name, Collection<Differences> differences) {

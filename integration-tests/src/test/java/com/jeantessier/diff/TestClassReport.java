@@ -233,21 +233,21 @@ public class TestClassReport extends TestDifferencesFactoryBase implements Error
     }
 
     private void addRemovedFieldDifferences(String name) {
-        Field_info oldField = oldClassfile.getField(name);
+        Field_info oldField = oldClassfile.getField(f -> f.getName().equals(name));
         FieldDifferences fieldDifferences = new FieldDifferences(oldField.getFullName(), oldField, null);
         classDifferences.getFeatureDifferences().add(fieldDifferences);
     }
 
     private void addModifiedFieldDifferences(String name) {
-        Field_info oldField = oldClassfile.getField(name);
-        Field_info newField = newClassfile.getField(name);
+        Field_info oldField = oldClassfile.getField(f -> f.getName().equals(name));
+        Field_info newField = newClassfile.getField(f -> f.getName().equals(name));
         FieldDifferences fieldDifferences = new FieldDifferences(oldField.getFullName(), oldField, newField);
         fieldDifferences.setConstantValueDifference(true);
         classDifferences.getFeatureDifferences().add(fieldDifferences);
     }
 
     private void addNewFieldDifferences(String name) {
-        Field_info newField = newClassfile.getField(name);
+        Field_info newField = newClassfile.getField(f -> f.getName().equals(name));
         FieldDifferences fieldDifferences = new FieldDifferences(newField.getFullName(), null, newField);
         classDifferences.getFeatureDifferences().add(fieldDifferences);
     }

@@ -33,6 +33,7 @@
 package com.jeantessier.classreader;
 
 import java.util.*;
+import java.util.function.*;
 
 public interface Classfile extends Deprecatable, Visitable, Comparable<Classfile> {
     ClassfileLoader getLoader();
@@ -60,12 +61,12 @@ public interface Classfile extends Deprecatable, Visitable, Comparable<Classfile
     Class_info getInterface(String name);
 
     Collection<? extends Field_info> getAllFields();
-    Field_info getField(String name);
-    Field_info locateField(String name);
+    Field_info getField(Predicate<Field_info> filter);
+    Field_info locateField(Predicate<Field_info> filter);
 
     Collection<? extends Method_info> getAllMethods();
-    Method_info getMethod(String signature);
-    Method_info locateMethod(String signature);
+    Method_info getMethod(Predicate<Method_info> filter);
+    Method_info locateMethod(Predicate<Method_info> filter);
 
     Collection<? extends Attribute_info> getAttributes();
 

@@ -51,12 +51,16 @@ public class TestClassfile extends TestCase {
     }
 
     public void testGetCode() {
-        assertNotNull("UnmodifiedPackage.UnmodifiedClass.unmodifiedMethod()", loader.getClassfile("UnmodifiedPackage.UnmodifiedClass").getMethod("unmodifiedMethod()").getCode());
-        assertNull("UnmodifiedPackage.UnmodifiedInterface.unmodifiedMethod()", loader.getClassfile("UnmodifiedPackage.UnmodifiedInterface").getMethod("unmodifiedMethod()").getCode());
+        Classfile classfile1 = loader.getClassfile("UnmodifiedPackage.UnmodifiedClass");
+        assertNotNull("UnmodifiedPackage.UnmodifiedClass.unmodifiedMethod()", classfile1.getMethod(m -> m.getSignature().equals("unmodifiedMethod()")).getCode());
+        Classfile classfile = loader.getClassfile("UnmodifiedPackage.UnmodifiedInterface");
+        assertNull("UnmodifiedPackage.UnmodifiedInterface.unmodifiedMethod()", classfile.getMethod(m -> m.getSignature().equals("unmodifiedMethod()")).getCode());
     }
 
     public void testGetConstantValue() {
-        assertNull("UnmodifiedPackage.UnmodifiedClass.unmodifiedField", loader.getClassfile("UnmodifiedPackage.UnmodifiedClass").getField("unmodifiedField").getConstantValue());
-        assertNotNull("UnmodifiedPackage.UnmodifiedInterface.unmodifiedField", loader.getClassfile("UnmodifiedPackage.UnmodifiedInterface").getField("unmodifiedField").getConstantValue());
+        Classfile classfile1 = loader.getClassfile("UnmodifiedPackage.UnmodifiedClass");
+        assertNull("UnmodifiedPackage.UnmodifiedClass.unmodifiedField", classfile1.getField(f -> f.getName().equals("unmodifiedField")).getConstantValue());
+        Classfile classfile = loader.getClassfile("UnmodifiedPackage.UnmodifiedInterface");
+        assertNotNull("UnmodifiedPackage.UnmodifiedInterface.unmodifiedField", classfile.getField(f -> f.getName().equals("unmodifiedField")).getConstantValue());
     }
 }

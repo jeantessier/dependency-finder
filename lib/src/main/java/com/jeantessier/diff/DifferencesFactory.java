@@ -33,7 +33,8 @@
 package com.jeantessier.diff;
 
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.function.*;
+import java.util.stream.*;
 
 import org.apache.logging.log4j.*;
 
@@ -73,14 +74,7 @@ public class DifferencesFactory {
 
         packageNames.forEach(packageName -> {
             Map<String, Classfile> oldPackage = oldPackages.getPackage(packageName);
-            if (oldPackage == null) {
-                oldPackage = Collections.emptyMap();
-            }
-
             Map<String, Classfile> newPackage = newPackages.getPackage(packageName);
-            if (newPackage == null) {
-                newPackage = Collections.emptyMap();
-            }
 
             if (strategy.isPackageDifferent(oldPackage, newPackage)) {
                 projectDifferences.getPackageDifferences().add(createPackageDifferences(packageName, oldPackage, newPackage));
@@ -149,8 +143,9 @@ public class DifferencesFactory {
             LogManager.getLogger(getClass()).debug("      Diff'ing fields ...");
 
             fieldLevel.forEach((fieldName, fullSignature) -> {
-                Field_info oldField = oldClass.getField(fieldName);
-                Field_info newField = newClass.getField(fieldName);
+                Predicate<Field_info> predicate = field -> field.getSignature().equals(fieldName);
+                Field_info oldField = oldClass.getField(predicate);
+                Field_info newField = newClass.getField(predicate);
 
                 if (strategy.isFieldDifferent(oldField, newField)) {
                     classDifferences.getFeatureDifferences().add(createFeatureDifferences(fullSignature, oldField, newField));
@@ -166,8 +161,9 @@ public class DifferencesFactory {
             LogManager.getLogger(getClass()).debug("      Diff'ing methods ...");
 
             methodLevel.forEach((signature, fullSignature) -> {
-                Method_info oldMethod = oldClass.getMethod(signature);
-                Method_info newMethod = newClass.getMethod(signature);
+                Predicate<Method_info> predicate = method -> method.getSignature().equals(signature);
+                Method_info oldMethod = oldClass.getMethod(predicate);
+                Method_info newMethod = newClass.getMethod(predicate);
 
                 if (strategy.isMethodDifferent(oldMethod, newMethod)) {
                     classDifferences.getFeatureDifferences().add(createFeatureDifferences(fullSignature, oldMethod, newMethod));
@@ -197,7 +193,7 @@ public class DifferencesFactory {
                 ((FieldDifferences) featureDifferences).setConstantValueDifference(true);
             }
 
-            if (featureDifferences.isRemoved() && newClass.locateField(name) != null) {
+            if (featureDifferences.isRemoved() && newClass.locateField(field -> field.getName().equals(name)) != null) {
                 featureDifferences.setInherited(true);
             }
         } else {
@@ -212,7 +208,7 @@ public class DifferencesFactory {
             }
 
             if (featureDifferences.isRemoved()) {
-                Method_info attempt = newClass.locateMethod(name);
+                Method_info attempt = newClass.locateMethod(method -> method.getSignature().equals(name));
                 if ((attempt != null) && (oldFeature.getClassfile().isInterface() == attempt.getClassfile().isInterface())) {
                     featureDifferences.setInherited(true);
                 }

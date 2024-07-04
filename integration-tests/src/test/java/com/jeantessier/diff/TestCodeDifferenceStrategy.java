@@ -44,43 +44,53 @@ public class TestCodeDifferenceStrategy extends TestDifferencesFactoryBase {
     }
 
     public void testUnmodifiedConstantValue() {
-        ConstantValue_attribute oldValue = getOldJar().getClassfile("UnmodifiedPackage.UnmodifiedInterface").getField("unmodifiedField").getConstantValue();
-        ConstantValue_attribute newValue = getNewJar().getClassfile("UnmodifiedPackage.UnmodifiedInterface").getField("unmodifiedField").getConstantValue();
+        Classfile classfile1 = getOldJar().getClassfile("UnmodifiedPackage.UnmodifiedInterface");
+        ConstantValue_attribute oldValue = classfile1.getField(f -> f.getName().equals("unmodifiedField")).getConstantValue();
+        Classfile classfile = getNewJar().getClassfile("UnmodifiedPackage.UnmodifiedInterface");
+        ConstantValue_attribute newValue = classfile.getField(f -> f.getName().equals("unmodifiedField")).getConstantValue();
 
         assertFalse(strategy.isConstantValueDifferent(oldValue, newValue));
     }
 
     public void testRemovedConstantValue() {
-        ConstantValue_attribute oldValue = getOldJar().getClassfile("ModifiedPackage.ModifiedInterface").getField("removedField").getConstantValue();
+        Classfile classfile = getOldJar().getClassfile("ModifiedPackage.ModifiedInterface");
+        ConstantValue_attribute oldValue = classfile.getField(f -> f.getName().equals("removedField")).getConstantValue();
         ConstantValue_attribute newValue = null;
 
         assertTrue(strategy.isConstantValueDifferent(oldValue, newValue));
     }
 
     public void testModifiedConstantValue() {
-        ConstantValue_attribute oldValue = getOldJar().getClassfile("ModifiedPackage.ModifiedInterface").getField("modifiedValueField").getConstantValue();
-        ConstantValue_attribute newValue = getNewJar().getClassfile("ModifiedPackage.ModifiedInterface").getField("modifiedValueField").getConstantValue();
+        Classfile classfile1 = getOldJar().getClassfile("ModifiedPackage.ModifiedInterface");
+        ConstantValue_attribute oldValue = classfile1.getField(f -> f.getName().equals("modifiedValueField")).getConstantValue();
+        Classfile classfile = getNewJar().getClassfile("ModifiedPackage.ModifiedInterface");
+        ConstantValue_attribute newValue = classfile.getField(f -> f.getName().equals("modifiedValueField")).getConstantValue();
 
         assertTrue(strategy.isConstantValueDifferent(oldValue, newValue));
     }
 
     public void testNewConstantValue() {
         ConstantValue_attribute oldValue = null;
-        ConstantValue_attribute newValue = getNewJar().getClassfile("ModifiedPackage.ModifiedInterface").getField("newField").getConstantValue();
+        Classfile classfile = getNewJar().getClassfile("ModifiedPackage.ModifiedInterface");
+        ConstantValue_attribute newValue = classfile.getField(f -> f.getName().equals("newField")).getConstantValue();
 
         assertTrue(strategy.isConstantValueDifferent(oldValue, newValue));
     }
 
     public void testUnmodifiedCode() {
-        Code_attribute oldCode = getOldJar().getClassfile("UnmodifiedPackage.UnmodifiedClass").getMethod("unmodifiedMethod()").getCode();
-        Code_attribute newCode = getNewJar().getClassfile("UnmodifiedPackage.UnmodifiedClass").getMethod("unmodifiedMethod()").getCode();
+        Classfile classfile1 = getOldJar().getClassfile("UnmodifiedPackage.UnmodifiedClass");
+        Code_attribute oldCode = classfile1.getMethod(m -> m.getSignature().equals("unmodifiedMethod()")).getCode();
+        Classfile classfile = getNewJar().getClassfile("UnmodifiedPackage.UnmodifiedClass");
+        Code_attribute newCode = classfile.getMethod(m -> m.getSignature().equals("unmodifiedMethod()")).getCode();
 
         assertFalse(strategy.isCodeDifferent(oldCode, newCode));
     }
 
     public void testModifiedCode() {
-        Code_attribute oldCode = getOldJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("modifiedCodeMethod()").getCode();
-        Code_attribute newCode = getNewJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("modifiedCodeMethod()").getCode();
+        Classfile classfile1 = getOldJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Code_attribute oldCode = classfile1.getMethod(m -> m.getSignature().equals("modifiedCodeMethod()")).getCode();
+        Classfile classfile = getNewJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Code_attribute newCode = classfile.getMethod(m -> m.getSignature().equals("modifiedCodeMethod()")).getCode();
 
         assertTrue(strategy.isCodeDifferent(oldCode, newCode));
     }

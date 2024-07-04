@@ -54,7 +54,7 @@ public class TestVarargs extends TestCase {
     public void testMethodIsVarargs() {
         Classfile testenum = loader.getClassfile(TEST_VARARGS_CLASS);
 
-        assertTrue(TEST_VARARGS_CLASS + ".varargsmethod", testenum.getMethod("varargsmethod(java.lang.Object[])").isVarargs());
-        assertFalse(TEST_VARARGS_CLASS + ".nonvarargsmethod", testenum.getMethod("nonvarargsmethod(java.lang.Object[])").isVarargs());
+        assertTrue(TEST_VARARGS_CLASS + ".varargsmethod", testenum.getMethod(m -> m.getSignature().equals("varargsmethod(java.lang.Object[])")).isVarargs());
+        assertFalse(TEST_VARARGS_CLASS + ".nonvarargsmethod", testenum.getMethod(m -> m.getSignature().equals("nonvarargsmethod(java.lang.Object[])")).isVarargs());
     }
 }

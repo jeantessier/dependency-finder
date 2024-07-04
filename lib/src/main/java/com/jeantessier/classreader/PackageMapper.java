@@ -42,7 +42,7 @@ public class PackageMapper implements LoadListener {
     }
 
     public Map<String, Classfile> getPackage(String packageName) {
-        return packages.get(packageName);
+        return packages.getOrDefault(packageName, Collections.emptyMap());
     }
 
     public void endClassfile(LoadEvent event) {

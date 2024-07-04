@@ -39,6 +39,7 @@ import org.jmock.integration.junit4.*;
 import org.junit.*;
 
 import java.util.*;
+import java.util.function.*;
 
 import static org.junit.Assert.*;
 
@@ -92,7 +93,7 @@ public class TestClassfile {
 
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), fields, Collections.emptyList(), Collections.emptyList());
 
-        Field_info actualField = (Field_info) sut.locateField(TEST_FIELD_NAME);
+        Field_info actualField = (Field_info) sut.locateField(field -> field.getName().equals(TEST_FIELD_NAME));
         assertEquals("local field", actualField, expectedField);
     }
 
@@ -107,7 +108,7 @@ public class TestClassfile {
         context.checking(new Expectations() {{
             oneOf (loader).getClassfile(superclassName);
                 will(returnValue(superclass));
-            oneOf (superclass).locateField(TEST_FIELD_NAME);
+            oneOf (superclass).locateField(with(any(Predicate.class)));
                 will(returnValue(expectedField));
             oneOf (expectedField).isPublic();
                 will(returnValue(true));
@@ -115,7 +116,7 @@ public class TestClassfile {
 
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
-        Field_info actualField = (Field_info) sut.locateField(TEST_FIELD_NAME);
+        Field_info actualField = (Field_info) sut.locateField(field -> field.getName().equals(TEST_FIELD_NAME));
         assertEquals("public field", actualField, expectedField);
     }
 
@@ -130,7 +131,7 @@ public class TestClassfile {
         context.checking(new Expectations() {{
             oneOf (loader).getClassfile(superclassName);
                 will(returnValue(superclass));
-            oneOf (superclass).locateField(TEST_FIELD_NAME);
+            oneOf (superclass).locateField(with(any(Predicate.class)));
                 will(returnValue(expectedField));
             oneOf (expectedField).isPublic();
                 will(returnValue(false));
@@ -140,7 +141,7 @@ public class TestClassfile {
 
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
-        Field_info actualField = (Field_info) sut.locateField(TEST_FIELD_NAME);
+        Field_info actualField = (Field_info) sut.locateField(field -> field.getName().equals(TEST_FIELD_NAME));
         assertEquals("protected field", actualField, expectedField);
     }
 
@@ -164,7 +165,7 @@ public class TestClassfile {
                 will(returnValue(superclass));
             oneOf (superclass).getPackageName();
                 will(returnValue(TEST_PACKAGE_NAME));
-            oneOf (superclass).locateField(TEST_FIELD_NAME);
+            oneOf (superclass).locateField(with(any(Predicate.class)));
                 will(returnValue(expectedField));
             oneOf (expectedField).isPublic();
                 will(returnValue(false));
@@ -176,7 +177,7 @@ public class TestClassfile {
                 will(returnValue(sut));
         }});
 
-        Field_info actualField = (Field_info) sut.locateField(TEST_FIELD_NAME);
+        Field_info actualField = (Field_info) sut.locateField(field -> field.getName().equals(TEST_FIELD_NAME));
         assertEquals("package field", actualField, expectedField);
     }
 
@@ -200,7 +201,7 @@ public class TestClassfile {
                 will(returnValue(superclass));
             oneOf (superclass).getPackageName();
                 will(returnValue(""));
-            oneOf (superclass).locateField(TEST_FIELD_NAME);
+            oneOf (superclass).locateField(with(any(Predicate.class)));
                 will(returnValue(expectedField));
             oneOf (expectedField).isPublic();
                 will(returnValue(false));
@@ -212,7 +213,7 @@ public class TestClassfile {
                 will(returnValue(sut));
         }});
 
-        Field_info actualField = (Field_info) sut.locateField(TEST_FIELD_NAME);
+        Field_info actualField = (Field_info) sut.locateField(field -> field.getName().equals(TEST_FIELD_NAME));
         assertNull("package field", actualField);
     }
 
@@ -227,7 +228,7 @@ public class TestClassfile {
         context.checking(new Expectations() {{
             oneOf (loader).getClassfile(superclassName);
                 will(returnValue(superclass));
-            oneOf (superclass).locateField(TEST_FIELD_NAME);
+            oneOf (superclass).locateField(with(any(Predicate.class)));
                 will(returnValue(expectedField));
             oneOf (expectedField).isPublic();
                 will(returnValue(false));
@@ -239,7 +240,7 @@ public class TestClassfile {
 
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
-        Field_info actualField = (Field_info) sut.locateField(TEST_FIELD_NAME);
+        Field_info actualField = (Field_info) sut.locateField(field -> field.getName().equals(TEST_FIELD_NAME));
         assertNull("local field", actualField);
     }
 
@@ -256,7 +257,7 @@ public class TestClassfile {
 
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), methods, Collections.emptyList());
 
-        Method_info actualMethod = (Method_info) sut.locateMethod(TEST_METHOD_SIGNATURE);
+        Method_info actualMethod = (Method_info) sut.locateMethod(method -> method.getSignature().equals(TEST_METHOD_SIGNATURE));
         assertEquals("local method", actualMethod, expectedMethod);
     }
 
@@ -271,7 +272,7 @@ public class TestClassfile {
         context.checking(new Expectations() {{
             oneOf (loader).getClassfile(superclassName);
                 will(returnValue(superclass));
-            oneOf (superclass).locateMethod(TEST_METHOD_SIGNATURE);
+            oneOf (superclass).locateMethod(with(any(Predicate.class)));
                 will(returnValue(expectedMethod));
             oneOf (expectedMethod).isPublic();
                 will(returnValue(true));
@@ -279,7 +280,7 @@ public class TestClassfile {
 
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
-        Method_info actualMethod = (Method_info) sut.locateMethod(TEST_METHOD_SIGNATURE);
+        Method_info actualMethod = (Method_info) sut.locateMethod(method -> method.getSignature().equals(TEST_METHOD_SIGNATURE));
         assertEquals("public method", actualMethod, expectedMethod);
     }
 
@@ -294,7 +295,7 @@ public class TestClassfile {
         context.checking(new Expectations() {{
             oneOf (loader).getClassfile(superclassName);
                 will(returnValue(superclass));
-            oneOf (superclass).locateMethod(TEST_METHOD_SIGNATURE);
+            oneOf (superclass).locateMethod(with(any(Predicate.class)));
                 will(returnValue(expectedMethod));
             oneOf (expectedMethod).isPublic();
                 will(returnValue(false));
@@ -304,7 +305,7 @@ public class TestClassfile {
 
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
-        Method_info actualMethod = (Method_info) sut.locateMethod(TEST_METHOD_SIGNATURE);
+        Method_info actualMethod = (Method_info) sut.locateMethod(method -> method.getSignature().equals(TEST_METHOD_SIGNATURE));
         assertEquals("protected method", actualMethod, expectedMethod);
     }
 
@@ -328,7 +329,7 @@ public class TestClassfile {
                 will(returnValue(superclass));
             oneOf (superclass).getPackageName();
                 will(returnValue(TEST_PACKAGE_NAME));
-            oneOf (superclass).locateMethod(TEST_METHOD_SIGNATURE);
+            oneOf (superclass).locateMethod(with(any(Predicate.class)));
                 will(returnValue(expectedMethod));
             oneOf (expectedMethod).isPublic();
                 will(returnValue(false));
@@ -340,7 +341,7 @@ public class TestClassfile {
                 will(returnValue(sut));
         }});
 
-        Method_info actualMethod = (Method_info) sut.locateMethod(TEST_METHOD_SIGNATURE);
+        Method_info actualMethod = (Method_info) sut.locateMethod(method -> method.getSignature().equals(TEST_METHOD_SIGNATURE));
         assertEquals("package method", actualMethod, expectedMethod);
     }
 
@@ -364,7 +365,7 @@ public class TestClassfile {
                 will(returnValue(superclass));
             oneOf (superclass).getPackageName();
                 will(returnValue(""));
-            oneOf (superclass).locateMethod(TEST_METHOD_SIGNATURE);
+            oneOf (superclass).locateMethod(with(any(Predicate.class)));
                 will(returnValue(expectedMethod));
             oneOf (expectedMethod).isPublic();
                 will(returnValue(false));
@@ -376,7 +377,7 @@ public class TestClassfile {
                 will(returnValue(sut));
         }});
 
-        Method_info actualMethod = (Method_info) sut.locateMethod(TEST_METHOD_SIGNATURE);
+        Method_info actualMethod = (Method_info) sut.locateMethod(method -> method.getSignature().equals(TEST_METHOD_SIGNATURE));
         assertNull("package method", actualMethod);
     }
 
@@ -391,7 +392,7 @@ public class TestClassfile {
         context.checking(new Expectations() {{
             oneOf (loader).getClassfile(superclassName);
                 will(returnValue(superclass));
-            oneOf (superclass).locateMethod(TEST_METHOD_SIGNATURE);
+            oneOf (superclass).locateMethod(with(any(Predicate.class)));
                 will(returnValue(expectedMethod));
             oneOf (expectedMethod).isPublic();
                 will(returnValue(false));
@@ -403,7 +404,7 @@ public class TestClassfile {
 
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
-        Method_info actualMethod = (Method_info) sut.locateMethod(TEST_METHOD_SIGNATURE);
+        Method_info actualMethod = (Method_info) sut.locateMethod(method -> method.getSignature().equals(TEST_METHOD_SIGNATURE));
         assertNull("private method", actualMethod);
     }
 

@@ -71,8 +71,8 @@ public class TestEnum extends TestCase {
     public void testFieldIsEnum() {
         Classfile testenum = loader.getClassfile(TEST_ENUM_CLASS);
 
-        assertTrue(TEST_ENUM_CLASS + ".$VALUES", !testenum.getField("$VALUES").isEnum());
-        assertTrue(TEST_ENUM_CLASS + ".VALUE1", testenum.getField("VALUE1").isEnum());
+        assertTrue(TEST_ENUM_CLASS + ".$VALUES", !testenum.getField(f -> f.getName().equals("$VALUES")).isEnum());
+        assertTrue(TEST_ENUM_CLASS + ".VALUE1", testenum.getField(f -> f.getName().equals("VALUE1")).isEnum());
     }
 
     public void testInnerClassIsEnum() {

@@ -290,8 +290,8 @@ public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
         Classfile newClass = findClass("UnmodifiedPackage.UnmodifiedInterface", getNewPackages());
 
         checking(new Expectations() {{
-            oneOf (mockStrategy).isConstantValueDifferent(oldClass.getField("unmodifiedField").getConstantValue(), newClass.getField("unmodifiedField").getConstantValue());
-            oneOf (mockStrategy).isCodeDifferent(oldClass.getMethod("unmodifiedMethod()").getCode(), newClass.getMethod("unmodifiedMethod()").getCode());
+            oneOf (mockStrategy).isConstantValueDifferent(oldClass.getField(f -> f.getName().equals("unmodifiedField")).getConstantValue(), newClass.getField(field -> field.getName().equals("unmodifiedField")).getConstantValue());
+            oneOf (mockStrategy).isCodeDifferent(oldClass.getMethod(m -> m.getSignature().equals("unmodifiedMethod()")).getCode(), newClass.getMethod(method -> method.getSignature().equals("unmodifiedMethod()")).getCode());
         }});
 
         assertFalse(strategy.isClassDifferent(oldClass, newClass));
@@ -330,9 +330,9 @@ public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
         Classfile newClass = findClass("UnmodifiedPackage.UnmodifiedClass", getNewPackages());
 
         checking(new Expectations() {{
-            oneOf (mockStrategy).isConstantValueDifferent(oldClass.getField("unmodifiedField").getConstantValue(), newClass.getField("unmodifiedField").getConstantValue());
-            oneOf (mockStrategy).isCodeDifferent(oldClass.getMethod("UnmodifiedClass()").getCode(), newClass.getMethod("UnmodifiedClass()").getCode());
-            oneOf (mockStrategy).isCodeDifferent(oldClass.getMethod("unmodifiedMethod()").getCode(), newClass.getMethod("unmodifiedMethod()").getCode());
+            oneOf (mockStrategy).isConstantValueDifferent(oldClass.getField(f -> f.getName().equals("unmodifiedField")).getConstantValue(), newClass.getField(field -> field.getName().equals("unmodifiedField")).getConstantValue());
+            oneOf (mockStrategy).isCodeDifferent(oldClass.getMethod(m -> m.getSignature().equals("UnmodifiedClass()")).getCode(), newClass.getMethod(method2 -> method2.getSignature().equals("UnmodifiedClass()")).getCode());
+            oneOf (mockStrategy).isCodeDifferent(oldClass.getMethod(m -> m.getSignature().equals("unmodifiedMethod()")).getCode(), newClass.getMethod(method -> method.getSignature().equals("unmodifiedMethod()")).getCode());
         }});
 
         assertFalse(strategy.isClassDifferent(oldClass, newClass));

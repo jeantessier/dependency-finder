@@ -60,7 +60,7 @@ public class TestLocalVariableTypeTableAttribute extends TestCase {
 
     public void testConstructorHasLocalVariableTypeTableAttribute() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_CLASS_CLASS);
-        Method_info method = genericClass.getMethod(TEST_GENERIC_CLASS_CLASS + "(java.lang.Object)");
+        Method_info method = genericClass.getMethod(m -> m.getSignature().equals(TEST_GENERIC_CLASS_CLASS + "(java.lang.Object)"));
         Code_attribute code = method.getCode();
 
         LocalVariableTypeTable_attribute localVariableTypeTableAttribute = findLastLocalVariableTypeTableAttribute(code.getAttributes());
@@ -69,7 +69,7 @@ public class TestLocalVariableTypeTableAttribute extends TestCase {
 
     public void testGenericConstructorHasLocalVariableTypeTableAttribute() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_METHODS_CLASS);
-        Method_info method = genericClass.getMethod(TEST_GENERIC_METHODS_CLASS + "(java.lang.Object)");
+        Method_info method = genericClass.getMethod(m -> m.getSignature().equals(TEST_GENERIC_METHODS_CLASS + "(java.lang.Object)"));
         Code_attribute code = method.getCode();
 
         LocalVariableTypeTable_attribute localVariableTypeTableAttribute = findLastLocalVariableTypeTableAttribute(code.getAttributes());
@@ -78,7 +78,7 @@ public class TestLocalVariableTypeTableAttribute extends TestCase {
 
     public void testNonGenericMethodDoesNotHaveLocalVariableTypeTableAttribute() {
         Classfile nonGenericClass = loader.getClassfile(TEST_CLASS);
-        Method_info method = nonGenericClass.getMethod("main(java.lang.String[])");
+        Method_info method = nonGenericClass.getMethod(m -> m.getSignature().equals("main(java.lang.String[])"));
         Code_attribute code = method.getCode();
 
         LocalVariableTypeTable_attribute localVariableTypeTableAttribute = findLastLocalVariableTypeTableAttribute(code.getAttributes());
@@ -87,7 +87,7 @@ public class TestLocalVariableTypeTableAttribute extends TestCase {
 
     public void testNonGenericMethodUsingGenericsHasLocalVariableTypeTableAttribute() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_METHODS_CLASS);
-        Method_info method = genericClass.getMethod("testregularmethod(java.lang.Class)");
+        Method_info method = genericClass.getMethod(m -> m.getSignature().equals("testregularmethod(java.lang.Class)"));
         Code_attribute code = method.getCode();
 
         LocalVariableTypeTable_attribute localVariableTypeTableAttribute = findLastLocalVariableTypeTableAttribute(code.getAttributes());
@@ -96,7 +96,7 @@ public class TestLocalVariableTypeTableAttribute extends TestCase {
 
     public void testMethodHasLocalVariableTypeTableAttribute() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_CLASS_CLASS);
-        Method_info method = genericClass.getMethod("testmethod(java.lang.Object)");
+        Method_info method = genericClass.getMethod(m -> m.getSignature().equals("testmethod(java.lang.Object)"));
         Code_attribute code = method.getCode();
 
         LocalVariableTypeTable_attribute localVariableTypeTableAttribute = findLastLocalVariableTypeTableAttribute(code.getAttributes());
@@ -105,7 +105,7 @@ public class TestLocalVariableTypeTableAttribute extends TestCase {
 
     public void testGenericMethodHasLocalVariableTypeTableAttribute() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_METHODS_CLASS);
-        Method_info method = genericClass.getMethod("testmethod(java.lang.Object)");
+        Method_info method = genericClass.getMethod(m -> m.getSignature().equals("testmethod(java.lang.Object)"));
         Code_attribute code = method.getCode();
 
         LocalVariableTypeTable_attribute localVariableTypeTableAttribute = findLastLocalVariableTypeTableAttribute(code.getAttributes());
@@ -114,7 +114,7 @@ public class TestLocalVariableTypeTableAttribute extends TestCase {
 
     public void testLocalVariableType() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_CLASS_CLASS);
-        Method_info method = genericClass.getMethod(TEST_GENERIC_CLASS_CLASS + "(java.lang.Object)");
+        Method_info method = genericClass.getMethod(m -> m.getSignature().equals(TEST_GENERIC_CLASS_CLASS + "(java.lang.Object)"));
         Code_attribute code = method.getCode();
 
         LocalVariableTypeTable_attribute localVariableTypeTableAttribute = findLastLocalVariableTypeTableAttribute(code.getAttributes());

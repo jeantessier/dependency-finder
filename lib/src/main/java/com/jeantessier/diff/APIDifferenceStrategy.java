@@ -69,7 +69,9 @@ public class APIDifferenceStrategy extends DifferenceStrategyDecorator {
                 newClass.getAllFields().stream())
                 .map(Feature_info::getName)
                 .distinct()
-                .anyMatch(name -> isFieldDifferent(oldClass.getField(name), newClass.getField(name)));
+                .anyMatch(name -> isFieldDifferent(
+                        oldClass.getField(field -> field.getName().equals(name)),
+                        newClass.getField(field -> field.getName().equals(name))));
     }
 
     private boolean checkForDifferentMethods(Classfile oldClass, Classfile newClass) {
@@ -78,7 +80,9 @@ public class APIDifferenceStrategy extends DifferenceStrategyDecorator {
                 newClass.getAllMethods().stream())
                 .map(Feature_info::getSignature)
                 .distinct()
-                .anyMatch(signature -> isMethodDifferent(oldClass.getMethod(signature), newClass.getMethod(signature)));
+                .anyMatch(signature -> isMethodDifferent(
+                        oldClass.getMethod(method -> method.getSignature().equals(signature)),
+                        newClass.getMethod(method -> method.getSignature().equals(signature))));
     }
 
     public boolean isFieldDifferent(Field_info oldField, Field_info newField) {

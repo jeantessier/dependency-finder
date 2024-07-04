@@ -35,13 +35,12 @@ package com.jeantessier.classreader.impl;
 import com.jeantessier.classreader.*;
 import org.apache.logging.log4j.*;
 
-import java.io.DataInput;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.stream.IntStream;
+import java.io.*;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
-import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.*;
 
 public class Classfile implements com.jeantessier.classreader.Classfile {
     private static final int ACC_PUBLIC = 0x0001;
@@ -255,22 +254,22 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         return fields;
     }
 
-    public Field_info getField(String name) {
+    public com.jeantessier.classreader.Field_info getField(Predicate<com.jeantessier.classreader.Field_info> filter) {
         return fields.parallelStream()
-                .filter(field -> field.getName().equals(name))
+                .filter(filter)
                 .findAny()
                 .orElse(null);
     }
 
-    public com.jeantessier.classreader.Field_info locateField(String name) {
-        var localField = getField(name);
+    public com.jeantessier.classreader.Field_info locateField(Predicate<com.jeantessier.classreader.Field_info> filter) {
+        var localField = getField(filter);
         if (localField != null) {
             return localField;
         }
 
         var superclass = getLoader().getClassfile(getSuperclassName());
         if (superclass != null) {
-            var inheritedField = superclass.locateField(name);
+            var inheritedField = superclass.locateField(filter);
             if (inheritedField != null && (inheritedField.isPublic() || inheritedField.isProtected() || (inheritedField.isPackage() && inheritedField.getClassfile().getPackageName().equals(superclass.getPackageName())))) {
                 return inheritedField;
             }
@@ -279,7 +278,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         for (var interfaceInfo : getAllInterfaces()) {
             var interfaceClassfile = getLoader().getClassfile(interfaceInfo.getName());
             if (interfaceClassfile != null) {
-                var interfaceField = interfaceClassfile.locateField(name);
+                var interfaceField = interfaceClassfile.locateField(filter);
                 if (interfaceField != null && (interfaceField.isPublic() || interfaceField.isProtected())) {
                     return interfaceField;
                 }
@@ -293,22 +292,22 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         return methods;
     }
 
-    public Method_info getMethod(String signature) {
+    public com.jeantessier.classreader.Method_info getMethod(Predicate<com.jeantessier.classreader.Method_info> filter) {
         return methods.parallelStream()
-                .filter(method -> method.getSignature().equals(signature))
+                .filter(filter)
                 .findAny()
                 .orElse(null);
     }
 
-    public com.jeantessier.classreader.Method_info locateMethod(String signature) {
-        var localMethod = getMethod(signature);
+    public com.jeantessier.classreader.Method_info locateMethod(Predicate<com.jeantessier.classreader.Method_info> filter) {
+        var localMethod = getMethod(filter);
         if (localMethod != null) {
             return localMethod;
         }
 
         var superclass = getLoader().getClassfile(getSuperclassName());
         if (superclass != null) {
-            var inheritedMethod = superclass.locateMethod(signature);
+            var inheritedMethod = superclass.locateMethod(filter);
             if (inheritedMethod != null && (inheritedMethod.isPublic() || inheritedMethod.isProtected() || (inheritedMethod.isPackage() && inheritedMethod.getClassfile().getPackageName().equals(superclass.getPackageName())))) {
                 return inheritedMethod;
             }
@@ -317,7 +316,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         for (var interfaceInfo : getAllInterfaces()) {
             var interfaceClassfile = getLoader().getClassfile(interfaceInfo.getName());
             if (interfaceClassfile != null) {
-                var interfaceMethod = interfaceClassfile.locateMethod(signature);
+                var interfaceMethod = interfaceClassfile.locateMethod(filter);
                 if (interfaceMethod != null && (interfaceMethod.isPublic() || interfaceMethod.isProtected())) {
                     return interfaceMethod;
                 }

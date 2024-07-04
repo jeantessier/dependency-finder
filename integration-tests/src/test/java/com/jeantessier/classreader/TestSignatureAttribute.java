@@ -74,7 +74,7 @@ public class TestSignatureAttribute extends TestCase {
 
     public void testConstructorHasSignatureAttribute() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_CLASS_CLASS);
-        Method_info method = genericClass.getMethod(TEST_GENERIC_CLASS_CLASS + "(java.lang.Object)");
+        Method_info method = genericClass.getMethod(m -> m.getSignature().equals(TEST_GENERIC_CLASS_CLASS + "(java.lang.Object)"));
 
         Signature_attribute signatureAttribute = findSingleSignatureAttribute(method.getAttributes());
         assertNotNull("Signature attribute missing", signatureAttribute);
@@ -84,7 +84,7 @@ public class TestSignatureAttribute extends TestCase {
 
     public void testGenericConstructorHasSignatureAttribute() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_METHODS_CLASS);
-        Method_info method = genericClass.getMethod(TEST_GENERIC_METHODS_CLASS + "(java.lang.Object)");
+        Method_info method = genericClass.getMethod(m -> m.getSignature().equals(TEST_GENERIC_METHODS_CLASS + "(java.lang.Object)"));
 
         Signature_attribute signatureAttribute = findSingleSignatureAttribute(method.getAttributes());
         assertNotNull("Signature attribute missing", signatureAttribute);
@@ -94,7 +94,7 @@ public class TestSignatureAttribute extends TestCase {
 
     public void testMethodHasSignatureAttribute() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_CLASS_CLASS);
-        Method_info method = genericClass.getMethod("testmethod(java.lang.Object)");
+        Method_info method = genericClass.getMethod(m -> m.getSignature().equals("testmethod(java.lang.Object)"));
 
         Signature_attribute signatureAttribute = findSingleSignatureAttribute(method.getAttributes());
         assertNotNull("Signature attribute missing", signatureAttribute);
@@ -104,7 +104,7 @@ public class TestSignatureAttribute extends TestCase {
 
     public void testGenericMethodHasSignatureAttribute() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_METHODS_CLASS);
-        Method_info method = genericClass.getMethod("testmethod(java.lang.Object)");
+        Method_info method = genericClass.getMethod(m -> m.getSignature().equals("testmethod(java.lang.Object)"));
 
         Signature_attribute signatureAttribute = findSingleSignatureAttribute(method.getAttributes());
         assertNotNull("Signature attribute missing", signatureAttribute);
@@ -114,7 +114,7 @@ public class TestSignatureAttribute extends TestCase {
 
     public void testFieldHasSignatureAttribute() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_CLASS_CLASS);
-        Field_info field = genericClass.getField("testfield");
+        Field_info field = genericClass.getField(f -> f.getName().equals("testfield"));
 
         Signature_attribute signatureAttribute = findSingleSignatureAttribute(field.getAttributes());
         assertNotNull("Signature attribute missing", signatureAttribute);

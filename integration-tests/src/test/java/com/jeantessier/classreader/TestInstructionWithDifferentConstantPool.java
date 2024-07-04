@@ -53,12 +53,12 @@ public class TestInstructionWithDifferentConstantPool extends TestCase {
 
     public void testSamePositionInChangedConstantPool() {
         Classfile oldClassfile = oldLoader.getClassfile("ModifiedPackage.DifferentConstantPool");
-        Method_info oldMethod = oldClassfile.getMethod("DifferentConstantPool()");
+        Method_info oldMethod = oldClassfile.getMethod(m -> m.getSignature().equals("DifferentConstantPool()"));
         Code_attribute oldCode = oldMethod.getCode();
         byte[] oldBytecode = oldCode.getCode();
 
         Classfile newClassfile = newLoader.getClassfile("ModifiedPackage.DifferentConstantPool");
-        Method_info newMethod = newClassfile.getMethod("DifferentConstantPool()");
+        Method_info newMethod = newClassfile.getMethod(m -> m.getSignature().equals("DifferentConstantPool()"));
         Code_attribute newCode = newMethod.getCode();
         byte[] newBytecode = newCode.getCode();
 
@@ -102,12 +102,12 @@ public class TestInstructionWithDifferentConstantPool extends TestCase {
 
     public void testIndependantOfConstantPool() {
         Classfile oldClassfile = oldLoader.getClassfile("ModifiedPackage.DifferentConstantPool");
-        Method_info oldMethod = oldClassfile.getMethod("movedMethodRefInfo()");
+        Method_info oldMethod = oldClassfile.getMethod(m -> m.getSignature().equals("movedMethodRefInfo()"));
         Code_attribute oldCode = oldMethod.getCode();
         byte[] oldBytecode = oldCode.getCode();
 
         Classfile newClassfile = newLoader.getClassfile("ModifiedPackage.DifferentConstantPool");
-        Method_info newMethod = newClassfile.getMethod("movedMethodRefInfo()");
+        Method_info newMethod = newClassfile.getMethod(m -> m.getSignature().equals("movedMethodRefInfo()"));
         Code_attribute newCode = newMethod.getCode();
         byte[] newBytecode = newCode.getCode();
 
@@ -137,12 +137,12 @@ public class TestInstructionWithDifferentConstantPool extends TestCase {
 
     public void testShiftInChangedConstantPool() {
         Classfile oldClassfile = oldLoader.getClassfile("ModifiedPackage.DifferentConstantPool");
-        Method_info oldMethod = oldClassfile.getMethod("callingMovedMethodRefInfo()");
+        Method_info oldMethod = oldClassfile.getMethod(m -> m.getSignature().equals("callingMovedMethodRefInfo()"));
         Code_attribute oldCode = oldMethod.getCode();
         byte[] oldBytecode = oldCode.getCode();
 
         Classfile newClassfile = newLoader.getClassfile("ModifiedPackage.DifferentConstantPool");
-        Method_info newMethod = newClassfile.getMethod("callingMovedMethodRefInfo()");
+        Method_info newMethod = newClassfile.getMethod(m -> m.getSignature().equals("callingMovedMethodRefInfo()"));
         Code_attribute newCode = newMethod.getCode();
         byte[] newBytecode = newCode.getCode();
 

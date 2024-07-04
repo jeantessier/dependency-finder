@@ -214,155 +214,199 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends MockObje
      */
 
     public void testPrivateToPrivateField() {
-        Field_info oldField = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("privateToPrivateField");
-        Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("privateToPrivateField");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info oldField = classfile1.getField(f -> f.getName().equals("privateToPrivateField"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info newField = classfile.getField(f -> f.getName().equals("privateToPrivateField"));
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
     }
 
     public void testPrivateToProtectedField() {
-        Field_info oldField = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("privateToProtectedField");
-        Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("privateToProtectedField");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info oldField = classfile1.getField(f -> f.getName().equals("privateToProtectedField"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info newField = classfile.getField(f -> f.getName().equals("privateToProtectedField"));
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
     }
 
     public void testPrivateToPackageField() {
-        Field_info oldField = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("privateToPackagedField");
-        Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("privateToPackageField");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info oldField = classfile1.getField(f -> f.getName().equals("privateToPackagedField"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info newField = classfile.getField(f -> f.getName().equals("privateToPackageField"));
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
     }
 
     public void testPrivateToPublicField() {
-        Field_info oldField = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("privateToPublicField");
-        Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("privateToPublicField");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info oldField = classfile1.getField(f -> f.getName().equals("privateToPublicField"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info newField = classfile.getField(f -> f.getName().equals("privateToPublicField"));
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
     }
 
     public void testProtectedToPrivateField() {
-        Field_info oldField = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("protectedToPrivateField");
-        Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("protectedToPrivateField");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info oldField = classfile1.getField(f -> f.getName().equals("protectedToPrivateField"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info newField = classfile.getField(f -> f.getName().equals("protectedToPrivateField"));
 
         assertTrue(strategy.isFieldDifferent(oldField, newField));
     }
 
     public void testProtectedToProtectedField() {
-        Field_info oldField = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("protectedToProtectedField");
-        Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("protectedToProtectedField");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info oldField = classfile1.getField(f -> f.getName().equals("protectedToProtectedField"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info newField = classfile.getField(f -> f.getName().equals("protectedToProtectedField"));
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
     }
 
     public void testProtectedToPackageField() {
-        Field_info oldField = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("protectedToPackageField");
-        Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("protectedToPackageField");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info oldField = classfile1.getField(f -> f.getName().equals("protectedToPackageField"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info newField = classfile.getField(f -> f.getName().equals("protectedToPackageField"));
 
         assertTrue(strategy.isFieldDifferent(oldField, newField));
     }
 
     public void testProtectedToPublicField() {
-        Field_info oldField = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("protectedToPublicField");
-        Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("protectedToPublicField");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info oldField = classfile1.getField(f -> f.getName().equals("protectedToPublicField"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info newField = classfile.getField(f -> f.getName().equals("protectedToPublicField"));
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
     }
 
     public void testPackageToPrivateField() {
-        Field_info oldField = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("packageToPrivateField");
-        Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("packageToPrivateField");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info oldField = classfile1.getField(f -> f.getName().equals("packageToPrivateField"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info newField = classfile.getField(f -> f.getName().equals("packageToPrivateField"));
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
     }
 
     public void testPackageToProtectedField() {
-        Field_info oldField = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("packageToProtectedField");
-        Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("packageToProtectedField");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info oldField = classfile1.getField(f -> f.getName().equals("packageToProtectedField"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info newField = classfile.getField(f -> f.getName().equals("packageToProtectedField"));
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
     }
 
     public void testPackageToPackageField() {
-        Field_info oldField = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("packageToPackagedField");
-        Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("packageToPackageField");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info oldField = classfile1.getField(f -> f.getName().equals("packageToPackagedField"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info newField = classfile.getField(f -> f.getName().equals("packageToPackageField"));
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
     }
 
     public void testPackageToPublicField() {
-        Field_info oldField = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("packageToPublicField");
-        Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("packageToPublicField");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info oldField = classfile1.getField(f -> f.getName().equals("packageToPublicField"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info newField = classfile.getField(f -> f.getName().equals("packageToPublicField"));
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
     }
 
     public void testPublicToPrivateField() {
-        Field_info oldField = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("publicToPrivateField");
-        Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("publicToPrivateField");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info oldField = classfile1.getField(f -> f.getName().equals("publicToPrivateField"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info newField = classfile.getField(f -> f.getName().equals("publicToPrivateField"));
 
         assertTrue(strategy.isFieldDifferent(oldField, newField));
     }
 
     public void testPublicToProtectedField() {
-        Field_info oldField = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("publicToProtectedField");
-        Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("publicToProtectedField");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info oldField = classfile1.getField(f -> f.getName().equals("publicToProtectedField"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info newField = classfile.getField(f -> f.getName().equals("publicToProtectedField"));
 
         assertTrue(strategy.isFieldDifferent(oldField, newField));
     }
 
     public void testPublicToPackageField() {
-        Field_info oldField = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("publicToPackageField");
-        Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("publicToPackageField");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info oldField = classfile1.getField(f -> f.getName().equals("publicToPackageField"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info newField = classfile.getField(f -> f.getName().equals("publicToPackageField"));
 
         assertTrue(strategy.isFieldDifferent(oldField, newField));
     }
 
     public void testPublicToPublicField() {
-        Field_info oldField = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("publicToPublicField");
-        Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("publicToPublicField");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info oldField = classfile1.getField(f -> f.getName().equals("publicToPublicField"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info newField = classfile.getField(f -> f.getName().equals("publicToPublicField"));
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
     }
 
     public void testNonFinalToNonFinalField() {
-        Field_info oldField = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("nonFinalToNonFinalField");
-        Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("nonFinalToNonFinalField");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info oldField = classfile1.getField(f -> f.getName().equals("nonFinalToNonFinalField"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info newField = classfile.getField(f -> f.getName().equals("nonFinalToNonFinalField"));
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
     }
 
     public void testNonFinalToFinalField() {
-        Field_info oldField = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("nonFinalToFinalField");
-        Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("nonFinalToFinalField");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info oldField = classfile1.getField(f -> f.getName().equals("nonFinalToFinalField"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info newField = classfile.getField(f -> f.getName().equals("nonFinalToFinalField"));
 
         assertTrue(strategy.isFieldDifferent(oldField, newField));
     }
 
     public void testFinalToNonFinalField() {
-        Field_info oldField = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("finalToNonFinalField");
-        Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("finalToNonFinalField");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info oldField = classfile1.getField(f -> f.getName().equals("finalToNonFinalField"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info newField = classfile.getField(f -> f.getName().equals("finalToNonFinalField"));
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
     }
 
     public void testFinalToFinalField() {
-        Field_info oldField = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("finalToFinalField");
-        Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("finalToFinalField");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info oldField = classfile1.getField(f -> f.getName().equals("finalToFinalField"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info newField = classfile.getField(f -> f.getName().equals("finalToFinalField"));
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
     }
 
     public void testTypeToSameTypeField() {
-        Field_info oldField = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("typeToSameTypeField");
-        Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("typeToSameTypeField");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info oldField = classfile1.getField(f -> f.getName().equals("typeToSameTypeField"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info newField = classfile.getField(f -> f.getName().equals("typeToSameTypeField"));
 
         assertFalse(strategy.isFieldDifferent(oldField, newField));
     }
 
     public void testTypeToDifferentTypeField() {
-        Field_info oldField = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("typeToDifferentTypeField");
-        Field_info newField = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getField("typeToDifferentTypeField");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info oldField = classfile1.getField(f -> f.getName().equals("typeToDifferentTypeField"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Field_info newField = classfile.getField(f -> f.getName().equals("typeToDifferentTypeField"));
 
         assertTrue(strategy.isFieldDifferent(oldField, newField));
     }
@@ -372,127 +416,163 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends MockObje
      */
 
     public void testPrivateToPrivateConstructor() {
-        Method_info oldConstructor = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(int)");
-        Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(int)");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldConstructor = classfile1.getMethod(m -> m.getSignature().equals("ModifiedClass(int)"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newConstructor = classfile.getMethod(m -> m.getSignature().equals("ModifiedClass(int)"));
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
     }
 
     public void testPrivateToProtectedConstructor() {
-        Method_info oldConstructor = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(long");
-        Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(long)");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldConstructor = classfile1.getMethod(m -> m.getSignature().equals("ModifiedClass(long"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newConstructor = classfile.getMethod(m -> m.getSignature().equals("ModifiedClass(long)"));
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
     }
 
     public void testPrivateToPackageConstructor() {
-        Method_info oldConstructor = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(float)");
-        Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(float)");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldConstructor = classfile1.getMethod(m -> m.getSignature().equals("ModifiedClass(float)"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newConstructor = classfile.getMethod(m -> m.getSignature().equals("ModifiedClass(float)"));
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
     }
 
     public void testPrivateToPublicConstructor() {
-        Method_info oldConstructor = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(double)");
-        Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(double)");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldConstructor = classfile1.getMethod(m -> m.getSignature().equals("ModifiedClass(double)"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newConstructor = classfile.getMethod(m -> m.getSignature().equals("ModifiedClass(double)"));
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
     }
 
     public void testProtectedToPrivateConstructor() {
-        Method_info oldConstructor = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(int, int)");
-        Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(int, int)");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldConstructor = classfile1.getMethod(m -> m.getSignature().equals("ModifiedClass(int, int)"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newConstructor = classfile.getMethod(m -> m.getSignature().equals("ModifiedClass(int, int)"));
 
         assertTrue(strategy.isMethodDifferent(oldConstructor, newConstructor));
     }
 
     public void testProtectedToProtectedConstructor() {
-        Method_info oldConstructor = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(long, long)");
-        Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(long, long)");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldConstructor = classfile1.getMethod(m -> m.getSignature().equals("ModifiedClass(long, long)"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newConstructor = classfile.getMethod(m -> m.getSignature().equals("ModifiedClass(long, long)"));
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
     }
 
     public void testProtectedToPackageConstructor() {
-        Method_info oldConstructor = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(float, float)");
-        Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(float, float)");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldConstructor = classfile1.getMethod(m -> m.getSignature().equals("ModifiedClass(float, float)"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newConstructor = classfile.getMethod(m -> m.getSignature().equals("ModifiedClass(float, float)"));
 
         assertTrue(strategy.isMethodDifferent(oldConstructor, newConstructor));
     }
 
     public void testProtectedToPublicConstructor() {
-        Method_info oldConstructor = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(double, double)");
-        Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(double, double)");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldConstructor = classfile1.getMethod(m -> m.getSignature().equals("ModifiedClass(double, double)"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newConstructor = classfile.getMethod(m -> m.getSignature().equals("ModifiedClass(double, double)"));
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
     }
 
     public void testPackageToPrivateConstructor() {
-        Method_info oldConstructor = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(int, int, int)");
-        Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(int, int, int)");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldConstructor = classfile1.getMethod(m -> m.getSignature().equals("ModifiedClass(int, int, int)"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newConstructor = classfile.getMethod(m -> m.getSignature().equals("ModifiedClass(int, int, int)"));
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
     }
 
     public void testPackageToProtectedConstructor() {
-        Method_info oldConstructor = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(long, long, long)");
-        Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(long, long, long)");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldConstructor = classfile1.getMethod(m -> m.getSignature().equals("ModifiedClass(long, long, long)"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newConstructor = classfile.getMethod(m -> m.getSignature().equals("ModifiedClass(long, long, long)"));
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
     }
 
     public void testPackageToPackageConstructor() {
-        Method_info oldConstructor = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(float, float, float)");
-        Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(float, float, float)");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldConstructor = classfile1.getMethod(m -> m.getSignature().equals("ModifiedClass(float, float, float)"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newConstructor = classfile.getMethod(m -> m.getSignature().equals("ModifiedClass(float, float, float)"));
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
     }
 
     public void testPackageToPublicConstructor() {
-        Method_info oldConstructor = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(double, double, double)");
-        Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(double, double, double)");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldConstructor = classfile1.getMethod(m -> m.getSignature().equals("ModifiedClass(double, double, double)"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newConstructor = classfile.getMethod(m -> m.getSignature().equals("ModifiedClass(double, double, double)"));
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
     }
 
     public void testPublicToPrivateConstructor() {
-        Method_info oldConstructor = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(int, int, int, int)");
-        Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(int, int, int, int)");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldConstructor = classfile1.getMethod(m -> m.getSignature().equals("ModifiedClass(int, int, int, int)"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newConstructor = classfile.getMethod(m -> m.getSignature().equals("ModifiedClass(int, int, int, int)"));
 
         assertTrue(strategy.isMethodDifferent(oldConstructor, newConstructor));
     }
 
     public void testPublicToProtectedConstructor() {
-        Method_info oldConstructor = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(long, long, long, long)");
-        Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(long, long, long, long)");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldConstructor = classfile1.getMethod(m -> m.getSignature().equals("ModifiedClass(long, long, long, long)"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newConstructor = classfile.getMethod(m -> m.getSignature().equals("ModifiedClass(long, long, long, long)"));
 
         assertTrue(strategy.isMethodDifferent(oldConstructor, newConstructor));
     }
 
     public void testPublicToPackageConstructor() {
-        Method_info oldConstructor = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(float, float, float, float)");
-        Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(float, float, float, float)");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldConstructor = classfile1.getMethod(m -> m.getSignature().equals("ModifiedClass(float, float, float, float)"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newConstructor = classfile.getMethod(m -> m.getSignature().equals("ModifiedClass(float, float, float, float)"));
 
         assertTrue(strategy.isMethodDifferent(oldConstructor, newConstructor));
     }
 
     public void testPublicToPublicConstructor() {
-        Method_info oldConstructor = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(double, double, double, double)");
-        Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(double, double, double, double)");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldConstructor = classfile1.getMethod(m -> m.getSignature().equals("ModifiedClass(double, double, double, double)"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newConstructor = classfile.getMethod(m -> m.getSignature().equals("ModifiedClass(double, double, double, double)"));
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
     }
 
     public void testThrowsToSameThrowsConstructor() {
-        Method_info oldConstructor = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(java.lang.Object)");
-        Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(java.lang.Object)");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldConstructor = classfile1.getMethod(m -> m.getSignature().equals("ModifiedClass(java.lang.Object)"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newConstructor = classfile.getMethod(m -> m.getSignature().equals("ModifiedClass(java.lang.Object)"));
 
         assertFalse(strategy.isMethodDifferent(oldConstructor, newConstructor));
     }
 
     public void testThrowsToDifferentThrowsConstructor() {
-        Method_info oldConstructor = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(java.lang.Object, java.lang.Object)");
-        Method_info newConstructor = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("ModifiedClass(java.lang.Object, java.lang.Object)");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldConstructor = classfile1.getMethod(m -> m.getSignature().equals("ModifiedClass(java.lang.Object, java.lang.Object)"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newConstructor = classfile.getMethod(m -> m.getSignature().equals("ModifiedClass(java.lang.Object, java.lang.Object)"));
 
         assertTrue(strategy.isMethodDifferent(oldConstructor, newConstructor));
     }
@@ -502,225 +582,289 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends MockObje
     */
 
     public void testPrivateToPrivateMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("privateToPrivateMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("privateToPrivateMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("privateToPrivateMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("privateToPrivateMethod()"));
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testPrivateToProtectedMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("privateToProtectedMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("privateToProtectedMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("privateToProtectedMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("privateToProtectedMethod()"));
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testPrivateToPackageMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("privateToPackagedMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("privateToPackageMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("privateToPackagedMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("privateToPackageMethod()"));
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testPrivateToPublicMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("privateToPublicMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("privateToPublicMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("privateToPublicMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("privateToPublicMethod()"));
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testProtectedToPrivateMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("protectedToPrivateMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("protectedToPrivateMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("protectedToPrivateMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("protectedToPrivateMethod()"));
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testProtectedToProtectedMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("protectedToProtectedMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("protectedToProtectedMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("protectedToProtectedMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("protectedToProtectedMethod()"));
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testProtectedToPackageMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("protectedToPackageMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("protectedToPackageMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("protectedToPackageMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("protectedToPackageMethod()"));
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testProtectedToPublicMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("protectedToPublicMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("protectedToPublicMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("protectedToPublicMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("protectedToPublicMethod()"));
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testPackageToPrivateMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("packageToPrivateMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("packageToPrivateMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("packageToPrivateMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("packageToPrivateMethod()"));
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testPackageToProtectedMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("packageToProtectedMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("packageToProtectedMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("packageToProtectedMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("packageToProtectedMethod()"));
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testPackageToPackageMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("packageToPackagedMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("packageToPackageMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("packageToPackagedMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("packageToPackageMethod()"));
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testPackageToPublicMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("packageToPublicMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("packageToPublicMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("packageToPublicMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("packageToPublicMethod()"));
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testPublicToPrivateMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("publicToPrivateMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("publicToPrivateMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("publicToPrivateMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("publicToPrivateMethod()"));
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testPublicToProtectedMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("publicToProtectedMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("publicToProtectedMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("publicToProtectedMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("publicToProtectedMethod()"));
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testPublicToPackageMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("publicToPackageMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("publicToPackageMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("publicToPackageMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("publicToPackageMethod()"));
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testPublicToPublicMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("publicToPublicMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("publicToPublicMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("publicToPublicMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("publicToPublicMethod()"));
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testConcreteToConcreteMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("concreteToConcreteMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("concreteToConcreteMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("concreteToConcreteMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("concreteToConcreteMethod()"));
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testConcreteToAbstractMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("concreteToAbstractMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("concreteToAbstractMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("concreteToAbstractMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("concreteToAbstractMethod()"));
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testAbstractToConcreteMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("abstractToConcreteMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("abstractToConcreteMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("abstractToConcreteMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("abstractToConcreteMethod()"));
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testAbstractToAbstractMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("abstractToAbstractMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("abstractToAbstractMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("abstractToAbstractMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("abstractToAbstractMethod()"));
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testNonStaticToNonStaticMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("nonStaticToNonStaticMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("nonStaticToNonStaticMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("nonStaticToNonStaticMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("nonStaticToNonStaticMethod()"));
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testNonStaticToStaticMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("nonStaticToStaticMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("nonStaticToStaticMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("nonStaticToStaticMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("nonStaticToStaticMethod()"));
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testStaticToNonStaticMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("staticToNonStaticMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("staticToNonStaticMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("staticToNonStaticMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("staticToNonStaticMethod()"));
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testStaticToStaticMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("staticToStaticMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("staticToStaticMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("staticToStaticMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("staticToStaticMethod()"));
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testNonFinalToNonFinalMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("nonFinalToNonFinalMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("nonFinalToNonFinalMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("nonFinalToNonFinalMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("nonFinalToNonFinalMethod()"));
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testNonFinalToFinalMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("nonFinalToFinalMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("nonFinalToFinalMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("nonFinalToFinalMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("nonFinalToFinalMethod()"));
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testFinalToNonFinalMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("finalToNonFinalMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("finalToNonFinalMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("finalToNonFinalMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("finalToNonFinalMethod()"));
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testFinalToFinalMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("finalToFinalMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("finalToFinalMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("finalToFinalMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("finalToFinalMethod()"));
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testReturnTypeToSameReturnTypeMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("returnTypeToSameReturnTypeMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("returnTypeToSameReturnTypeMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("returnTypeToSameReturnTypeMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("returnTypeToSameReturnTypeMethod()"));
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testReturnTypeToDifferentReturnTypeMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("returnTypeToDifferentReturnTypeMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("returnTypeToDifferentReturnTypeMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("returnTypeToDifferentReturnTypeMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("returnTypeToDifferentReturnTypeMethod()"));
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testThrowsToSameThrowsMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("throwsToSameThrowsMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("throwsToSameThrowsMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("throwsToSameThrowsMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("throwsToSameThrowsMethod()"));
 
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     public void testThrowsToDifferentThrowsMethod() {
-        Method_info oldMethod = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("throwsToDifferentThrowsMethod()");
-        Method_info newMethod = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass").getMethod("throwsToDifferentThrowsMethod()");
+        Classfile classfile1 = getOldPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info oldMethod = classfile1.getMethod(m -> m.getSignature().equals("throwsToDifferentThrowsMethod()"));
+        Classfile classfile = getNewPublishedJar().getClassfile("ModifiedPackage.ModifiedClass");
+        Method_info newMethod = classfile.getMethod(m -> m.getSignature().equals("throwsToDifferentThrowsMethod()"));
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
     }
@@ -729,8 +873,8 @@ public class TestIncompatibleDifferenceStrategyWithPublishedAPI extends MockObje
         Classfile oldClass = getOldPublishedJar().getClassfile("ModifiedPackage.CompatibleClass");
         Classfile newClass = getNewPublishedJar().getClassfile("ModifiedPackage.CompatibleClass");
 
-        Method_info oldMethod = oldClass.getMethod("incompatibleMethod()");
-        Method_info newMethod = newClass.getMethod("incompatibleMethod()");
+        Method_info oldMethod = oldClass.getMethod(m -> m.getSignature().equals("incompatibleMethod()"));
+        Method_info newMethod = newClass.getMethod(m -> m.getSignature().equals("incompatibleMethod()"));
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
         assertTrue(strategy.isClassDifferent(oldClass, newClass));
