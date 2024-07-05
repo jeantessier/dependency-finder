@@ -1,0 +1,79 @@
+Did a bit of refactoring.  =DifferencesFactory= looks up fields by their name
+and methods by their signature.  I need it to do it by their unique name
+instead.  The original method to look up a =Method_info= is:
+
+    public Method%5Finfo getMethod(*String signature*) {
+        return methods.parallelStream()
+                .filter(method -> *method.getSignature()*.equals(signature))
+                .findAny()
+                .orElse(null);
+    }
+
+Instead of adding a separate variant just for =uniqueName=, I figured I could
+use a functional interface to let me pass in what to match against.  I can also
+re-write the existing method in terms of the new functional interface, so I
+don't break existing callers.
+
+    public Method%5Finfo getMethod(String signature) {
+        return getMethod(signature, *Method%5Finfo::getSignature*);
+    }
+    &nbsp;
+    public Method%5Finfo getMethod(String name, *Function&lt;Method%5Finfo, String&gt; getter*) {
+        return methods.parallelStream()
+                .filter(method -> *getter.apply(method)*.equals(name))
+                .findAny()
+                .orElse(null);
+    }
+
+With this new =getMethod()= in place, the =DifferencesFactory= can call it with
+=Method%5Finfo::getUniqueName= to find methods by their unique name.
+
+I could even take it one step further and pass in an arbitrary criteria using
+the =Predicate= functional interface.
+
+    public Method%5Finfo getMethod(String signature) {
+        return getMethod(signature, Method%5Finfo::getSignature);
+    }
+    &nbsp;
+    public Method%5Finfo getMethod(String name, Function&lt;Method%5Finfo, String&gt; getter) {
+        return getMethod(*method -> getter.apply(method).equals(name)*);
+    }
+    &nbsp;
+    public Method%5Finfo getMethod(*Predicate&lt;Method%5Finfo&gt; filter*) {
+        return methods.parallelStream()
+                .filter(*filter*)
+                .findAny()
+                .orElse(null);
+    }
+
+Now, it turns out there are just a couple of places where I use =getMethod()=.
+I converted these places to use =Predicate= instead.
+
+    oldClass.getMethod(*signature*);
+
+became
+
+    oldClass.getMethod(*method -&gt; method.getSignature().equals(signature)*)
+
+And with that, I only needed to keep the one version of =getMethod()= that
+takes a =Predicate=.  I did the same to =locateMethod(signature)=,
+=getField(name)=, and =locateField(name)= to convert them all to using
+=Predicate= as the criteria used in their search.
+
+With this refactoring in place, I could run differences on unique methods by
+changing =DifferencesFactory= to call:
+
+    oldClass.getMethod(method -&gt; *method.getUniqueName()*.equals(name))
+
+With one caveat.  The current logic uses _signatures_, like =foo(int)=, and not
+_full signatures_ like =some.package.Foo.foo(int)=.  The current incarnation of
+=uniqueName= is fully qualified, and I'm afraid it will break API differences,
+especially when =ClassClassDiff= tries to compare two classes with different
+names.
+
+So, I split the existing =getUniqueName()= into a method called
+=getUniqueName()= that returns an unqualified =foo(int): void= and another
+method called =getFullUniqueName()= that returns the fully qualified version
+with package and class names.  I changed all the places where I had been using
+=getUniqueName()= to call =getFullUniqueName()= instead.  Actually, it was the
+other way around: I did the renaming first, and then I split them.

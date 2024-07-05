@@ -1,0 +1,41 @@
+@startuml
+
+skin rose
+skinparam backgroundColor transparent
+skinparam componentStyle uml1
+
+set separator none
+hide empty members
+
+package standard.api.definition {
+
+    node "Foo" as api_Foo <<interface>> {
+    }
+
+    node "FooBuilder" as api_FooBuilder <<interface>> {
+        component "buildFrom(name: String): Foo" as api_buildFrom <<method declaration>>
+    }
+
+    api_FooBuilder .> api_Foo : creates
+
+}
+
+package specific.implementation {
+
+    node "Foo" as impl_Foo {
+    }
+    api_Foo <|.. impl_Foo
+
+    node "FooBuilder" as impl_FooBuilder {
+        component "buildFrom(name: String): specific.implementation.Foo" as impl_buildFrom <<method implementation>>
+        component "buildFrom(name: String): standard.api.definition.Foo" as bridge_buildFrom <<bridge method>> #pink
+
+        bridge_buildFrom ..> impl_buildFrom
+    }
+    api_FooBuilder <|.. impl_FooBuilder
+
+    impl_buildFrom .> impl_Foo : creates
+
+}
+
+@enduml

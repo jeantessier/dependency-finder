@@ -1,0 +1,75 @@
+Is changing a signature to remove the need for a bridge method a change in
+signature or the removal of a method?
+
+For example, imagine we have an API package defining interfaces for a =Foo=
+abstraction and its factory =FooBuilder=.
+
+    package standard.api.definition;
+    &nbsp;
+    public interface Foo {}
+    &nbsp;
+    public interface FooBuilder {
+        Foo buildFrom(String name);
+    }
+
+If we can implement these interfaces in a separate implementation package, we
+can match the names of the classes to the interfaces they implement.
+
+    package specific.implementation;
+    &nbsp;
+    public class Foo implements standard.api.definition.Foo {}
+    &nbsp;
+    public class FooBuilder implements standard.api.definition.FooBuilder {
+        public *Foo* buildFrom(String name) {
+            return new Foo();
+        }
+    }
+
+Since there are no =import= statements, the implementation of =buildFrom()= has
+a return type of =specific.implementation.Foo=.  Since it is a subtype of the
+=Foo= interface, it satisfies the contract of =buildFrom()= from the
+=FooBuilder= interface.  But the compiler will create a _bridge method_ with
+the correct return type and have it call our implementation.
+
+[[../images/FooWithoutBridgeMethod.png]]
+
+We can alleviate the need for a bridge method by giving our implementation the
+correct exact return type.  It makes the implementation more verbose and
+potentially harder to read, though.  Which is why we were using the form with
+the bridge method in the first place.
+
+    package specific.implementation;
+    &nbsp;
+    public class Foo implements standard.api.definition.Foo {}
+    &nbsp;
+    public class FooBuilder implements standard.api.definition.FooBuilder {
+        public *standard.api.definition.Foo* buildFrom(String name) {
+            return new Foo();
+        }
+    }
+
+Now, the code looks as follows.
+
+[[../images/FooWithBridgeMethod.png]]
+
+If I run both versions through =JarJarDiff= while it is using method
+_signatures_ to analyze differences, it reports:
+
+    *Method Changes:*
+        *old*:public specific.implementation.Foo buildFrom(java.lang.String)
+        *new*:public standard.api.definition.Foo buildFrom(java.lang.String)
+
+That is, it completely ignores the bridge method and compares the change in
+the implementations of the interface.
+
+But when I modify =JarJarDiff= to use methods' _unique name_ instead, it
+reports:
+
+    *Removed Methods:*
+        public specific.implementation.Foo buildFrom(java.lang.String)
+
+The bridge method is matched to the new implementation, and the old
+implementation has nothing to compare it against.
+
+So, which is the correct interpretation?  Is it a method change or did we
+remove a method?
