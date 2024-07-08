@@ -57,11 +57,14 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Check Ant version
-        run: ant -version
+      - name: Generate distribution artifacts
+        run: ant dist
 
-      - name: Ant project help
-        run: ant -projecthelp -verbose
+      - name: Store distribution artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: ${{ github.workspace }}/dist/*
 
   dependency-submission:
 
