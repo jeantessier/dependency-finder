@@ -28,7 +28,7 @@ jobs:
         ${{ github.workspace }}/cgi-bin/Journal.cgi --no-headers > ${{ github.workspace }}/cgi-bin/Journal.html
         ls -al cgi-bin
     - name: Store Journal
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Journal
         path: ${{ github.workspace }}/cgi-bin/Journal.html
