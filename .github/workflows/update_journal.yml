@@ -2,7 +2,8 @@ name: Update Journal
 
 on:
   push:
-    on: [gh-pages]
+    branches: [gh-pages]
+    paths: [data/Journal_*.txt]
   workflow_dispatch:
 
 jobs:
