@@ -1,0 +1,29 @@
+name: Update Journal
+
+on:
+  push:
+    on: [gh-pages]
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+    - name: Checkout the repo
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.head_commit.id }}
+    - name: Set up Journal generator
+      run: ln -s cgi-bin/data2html.cgi cgi-bin/Journal.cgi
+    - name: Generate Journal
+      run: ./cgi-bin/Journal.cgi --no-headers > cgi-bin/Journal.html
+    - name: Store Journal
+      uses: actions/upload-artifact@v3
+      with:
+        name: Journal
+        path: cgi-bin/Journal.html
