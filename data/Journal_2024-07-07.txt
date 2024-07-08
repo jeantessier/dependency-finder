@@ -1,0 +1,10 @@
+Used GitHub Actions to create the distribution files and store them in GitHub
+Packages.  I will figure out how to create a release from them later.  The
+examples I have to study use a tool to generate semantic versions, but I am not
+quite ready for that.
+
+I also added a workflow to compile the Journal entries into a single HTML file.
+I could use it on the
+[[https://jeantessier.github.io/dependency-finder/][github.io]] to have the
+Journal page there too.  I cannot run CGI scripts on GitHub, so I have to find
+a way to render static contents instead.
