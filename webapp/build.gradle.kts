@@ -1,5 +1,6 @@
 plugins {
     id("war")
+    id("jacoco")
 }
 
 repositories {
