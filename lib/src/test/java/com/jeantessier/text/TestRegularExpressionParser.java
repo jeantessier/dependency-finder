@@ -48,11 +48,20 @@ public class TestRegularExpressionParser {
     public static Object[][] data() {
         return new Object[][] {
                 {"normal RE", "/test/", List.of("/test/")},
+                {"multiple matches", "/test/g", List.of("/test/g")},
+                {"ignore case", "/test/i", List.of("/test/i")},
+                {"multiline", "/test/m", List.of("/test/m")},
+                {"multiple modifiers", "/test/gim", List.of("/test/gim")},
+                {"unknown modifier", "/test/a", List.of("/test/")},
                 {"broken RE", "/test", List.of("/test")},
                 {"multiple REs", "/test1/,/test2/", List.of("/test1/", "/test2/")},
                 {"multiple REs with space", "/test1/, /test2/", List.of("/test1/", "/test2/")},
+                {"multiple REs with spaces", " /test1/, /test2/ ", List.of("/test1/", "/test2/")},
                 {"embedded separator", "/test1\\/test2/", List.of("/test1\\/test2/")},
-                {"custom separator", "m=test1\\=test2=i", List.of("m=test1\\=test2=i")},
+                {"custom separator", "m=test=", List.of("m=test=")},
+                {"false start", "m", Collections.emptyList()},
+                {"not an RE", "test", Collections.emptyList()},
+                {"empty string", "", Collections.emptyList()},
         };
     }
 

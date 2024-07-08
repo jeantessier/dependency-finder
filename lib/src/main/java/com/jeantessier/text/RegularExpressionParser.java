@@ -47,7 +47,7 @@ public class RegularExpressionParser {
         int start  = 0;
         int stop   = -1;
 
-        while (start < length && stop < length) {
+        while (start < length) {
             String separator = null;
 
             // Locate begining & determine separator
@@ -101,6 +101,8 @@ public class RegularExpressionParser {
                 }
             }
         }
+
+        logger.debug("ParseRE \"{}\" results in {}", () -> re, () -> result);
 
         return result;
     }
