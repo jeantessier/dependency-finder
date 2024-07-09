@@ -1,0 +1,25 @@
+Added code coverage using [[https://www.jacoco.org/index.html][JaCoCo]], a
+descendent of [[https://emma.sourceforge.net/][EMMA]].  There is a
+[[https://docs.gradle.org/current/userguide/jacoco_plugin.html][Gradle plugin]]
+for it.  I used a variation with a
+_[[https://docs.gradle.org/current/samples/sample_jvm_multi_project_with_code_coverage_distribution.html][standalone utility project]]_
+to get transitive dependencies between the various test subprojects and the
+=:lib= subproject.  I set up =:integration-tests= and =:fit-tests= as their own
+subprojects, so they could encapsulate the test data and fixture classes that
+each one needs.  This makes it more complicated for JaCoCo to track coverage of
+classes in =:lib= that are exercised by the tests in these subprojects.
+
+[[../images/JaCoCoConfig.png]]
+
+It seems the other code coverage tools I had been using in the past, like
+[[https://sourceforge.net/projects/cobertura/][Cobertura]],
+[[https://cenqua.com/][Clover]], and
+[[http://sourceforge.net/projects/emma][EMMA]], have fallen behind.
+
+I also refreshed the Samples page to bring it up to date with the latest
+versions of Dependency Finder.  It had been over 10 years since the last
+update.  For some reason, the layout of the dependency graph page does not work
+properly with the latest graphs.  I can't see any difference, and it works just
+fine when I point my browser to the local files, or serve them from my laptop
+using a local webserver.  But when I load them from SourceForge, everything is
+against the left margin.

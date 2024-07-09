@@ -1,7 +1,7 @@
 Used GitHub Actions to create the distribution files and store them in GitHub
 Packages.  I will figure out how to create a release from them later.  The
-examples I have to study use a tool to generate semantic versions, but I am not
-quite ready for that.
+examples I have, they use a tool to generate semantic versions.  But, I am not
+quite ready for the level of involvement in supporting _semver_.
 
 I also added a workflow to compile the Journal entries into a single HTML file.
 I could use it on the
