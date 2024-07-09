@@ -1,8 +1,8 @@
 Added code coverage using [[https://www.jacoco.org/index.html][JaCoCo]], a
 descendent of [[https://emma.sourceforge.net/][EMMA]].  There is a
-[[https://docs.gradle.org/current/userguide/jacoco_plugin.html][Gradle plugin]]
+[[https://docs.gradle.org/current/userguide/jacoco%5Fplugin.html][Gradle plugin]]
 for it.  I used a variation with a
-_[[https://docs.gradle.org/current/samples/sample_jvm_multi_project_with_code_coverage_distribution.html][standalone utility project]]_
+_[[https://docs.gradle.org/current/samples/sample%5Fjvm%5Fmulti%5Fproject%5Fwith%5Fcode%5Fcoverage%5Fdistribution.html][standalone utility project]]_
 to get transitive dependencies between the various test subprojects and the
 =:lib= subproject.  I set up =:integration-tests= and =:fit-tests= as their own
 subprojects, so they could encapsulate the test data and fixture classes that
