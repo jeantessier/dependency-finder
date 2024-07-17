@@ -1,0 +1,8 @@
+I want to replace the =cgi-bin/Journal.cgi= script with a static page.  The
+script takes too long to generate the contents from all the Journal entries.
+I would like to automate the construction of a =Journal.html= static page as
+part of the continuous build, so I can still edit individual files for each
+Journal entry, but be able to load the Journal quickly when visiting the site.
+I have a GitHub workflow that generates =Journal.html= and saves it as a build
+artifact.  Next, I need to figure out how to deploy it to GitHub Pages
+alongside the rest of the website.
