@@ -35,14 +35,13 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Set up Journal generator
         run: |
-          ln -s ${{ github.workspace }}/cgi-bin/data2html.cgi ${{ github.workspace }}/cgi-bin/Journal.cgi
+          ln -s cgi-bin/data2html.cgi cgi-bin/Journal.cgi
           ls -al cgi-bin
       - name: Generate Journal
         run: |
-          ${{ github.workspace }}/cgi-bin/Journal.cgi --no-headers --top-level > ${{ github.workspace }}/Journal.html
+          ./cgi-bin/Journal.cgi --no-headers --top-level > Journal.html
           pwd
-          ls -al .
-          ls -al ${{ github.workspace }}
+          ls -al
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
