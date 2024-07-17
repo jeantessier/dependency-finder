@@ -36,15 +36,12 @@ jobs:
       - name: Set up Journal generator
         run: |
           ln -s ${{ github.workspace }}/cgi-bin/data2html.cgi ${{ github.workspace }}/cgi-bin/Journal.cgi
-          ls -al cgi-bin
       - name: Generate Journal
         run: |
           ${{ github.workspace }}/cgi-bin/Journal.cgi --no-headers --top-level > Journal.html
-          ls -al
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
           path: '.'
       - name: Deploy to GitHub Pages
         id: deployment
