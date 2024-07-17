@@ -78,9 +78,15 @@ sub PrintDocumentHeader {
     print "<html lang=\"en\">\n";
     print "\n";
     print "<head>\n";
-    print "<link rel=\"stylesheet\" type=\"text/css\" href=\"../tufte.min.css\" />\n";
-    print "<link rel=\"stylesheet\" type=\"text/css\" href=\"../Journal.css\" />\n";
-    print "<link rel=\"shortcut icon\" href=\"../images/logoicon.gif\" type=\"image/gif\" />\n";
+    if (grep { /--top-level/ } @ARGV) {
+        print "<link rel=\"stylesheet\" type=\"text/css\" href=\"tufte.min.css\" />\n";
+        print "<link rel=\"stylesheet\" type=\"text/css\" href=\"Journal.css\" />\n";
+        print "<link rel=\"shortcut icon\" href=\"images/logoicon.gif\" type=\"image/gif\" />\n";
+    } else {
+        print "<link rel=\"stylesheet\" type=\"text/css\" href=\"../tufte.min.css\" />\n";
+        print "<link rel=\"stylesheet\" type=\"text/css\" href=\"../Journal.css\" />\n";
+        print "<link rel=\"shortcut icon\" href=\"../images/logoicon.gif\" type=\"image/gif\" />\n";
+    }
     print "<title>$title</title>\n";
     print "\n";
     print "<!-- Google tag (gtag.js) -->\n";
@@ -197,7 +203,11 @@ sub PrintDocumentPart {
         $line =~ s/%2A/\*/gi;
         $line =~ s/%3D/=/gi;
         $line =~ s/%5F/_/gi;
-        
+
+        if (grep { /--top-level/ } @ARGV) {
+            $line =~ s/\.\.\///g;
+        }
+
         print $line;
     }
 
