@@ -95,6 +95,9 @@ jobs:
       - name: Generate code coverage report
         run: ./gradlew testCodeCoverageReport
 
+      - name: Summarize code coverage
+        uses: jeantessier/code-coverage-summary-action@v1
+
       - name: Store distribution artifacts
         uses: actions/upload-artifact@v4
         with:
