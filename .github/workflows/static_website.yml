@@ -36,6 +36,7 @@ jobs:
       - name: Set up Journal generator
         run: |
           ln -s ${{ github.workspace }}/cgi-bin/data2html.cgi ${{ github.workspace }}/cgi-bin/Journal.cgi
+          ln -s ${{ github.workspace }}/cgi-bin/data2atom.cgi ${{ github.workspace }}/cgi-bin/Journal.atom
       - name: Generate Journal
         run: |
           ${{ github.workspace }}/cgi-bin/Journal.cgi --no-headers --top-level > Journal.html
