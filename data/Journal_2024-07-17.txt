@@ -3,6 +3,13 @@ script takes too long to generate the contents from all the Journal entries.
 I would like to automate the construction of a =Journal.html= static page as
 part of the continuous build, so I can still edit individual files for each
 Journal entry, but be able to load the Journal quickly when visiting the site.
-I have a GitHub workflow that generates =Journal.html= and saves it as a build
-artifact.  Next, I need to figure out how to deploy it to GitHub Pages
+
+I had a GitHub workflow that would generate =Journal.html= and saves it as a
+build artifact.  I needed to figure out how to deploy it to GitHub Pages
 alongside the rest of the website.
+
+I found a "standard" GitHub Pages deployment workflow by playing around with
+Pages settings on the GitHub repo.  It packages all files it finds into a
+single archive and deploys it to GitHub Pages.  I added steps to generate the
+static Journal page and Atom feed (and fixed some URLs), that now I have a CI
+that generates the static assets that I need.

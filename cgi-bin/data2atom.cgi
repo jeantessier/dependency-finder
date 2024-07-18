@@ -47,13 +47,17 @@
           "12" => "December",
           );
 
+$URL_PREFIX = "https://jeantessier.github.io/dependency-finder";
+
 $DIRNAME = "data";
 
 if ($0 =~ /(\w+)\./) {
     $DOCUMENT = $1;
 }
 
-&PrintContentType();
+if (!grep { /--no-headers/ } @ARGV) {
+    &PrintContentType();
+}
 &PrintDocumentHeader($DOCUMENT);
 &PrintDocumentParts($DOCUMENT);
 &PrintDocumentFooter();
@@ -76,8 +80,13 @@ sub PrintDocumentHeader {
     print "<feed xmlns=\"http://www.w3.org/2005/Atom\">\n";
     print "\n";
     print "    <title>Dependency Finder - $title</title>\n";
-    print "    <id>http://depfind.sf.net/cgi-bin/$DOCUMENT.cgi</id>\n";
-    print "    <link href=\"http://depfind.sf.net/cgi-bin/$DOCUMENT.cgi\"/>\n";
+    if (grep { /--top-level/ } @ARGV) {
+        print "    <id>$URL_PREFIX/$DOCUMENT.html</id>\n";
+        print "    <link href=\"$URL_PREFIX/$DOCUMENT.html\"/>\n";
+    } else {
+        print "    <id>$URL_PREFIX/cgi-bin/$DOCUMENT.cgi</id>\n";
+        print "    <link href=\"$URL_PREFIX/cgi-bin/$DOCUMENT.cgi\"/>\n";
+    }
     print "    <author>\n";
     print "        <name>Jean Tessier</name>\n";
     print "    </author>\n";
@@ -109,8 +118,13 @@ sub PrintDocumentPart {
     print "\n";
     print "    <entry>\n";
     print "        <title>$MONTH{$month} $day, $year</title>\n";
-    print "        <id>http://depfind.sf.net/cgi-bin/Journal.cgi#$year-$month-$day</id>\n";
-    print "        <link href=\"http://depfind.sf.net/cgi-bin/Journal.cgi#$year-$month-$day\"/>\n";
+    if (grep { /--top-level/ } @ARGV) {
+        print "        <id>$URL_PREFIX/$DOCUMENT.html#$year-$month-$day</id>\n";
+        print "        <link href=\"$URL_PREFIX/$DOCUMENT.html#$year-$month-$day\"/>\n";
+    } else {
+        print "        <id>$URL_PREFIX/cgi-bin/$DOCUMENT.cgi#$year-$month-$day</id>\n";
+        print "        <link href=\"$URL_PREFIX/cgi-bin/$DOCUMENT.cgi#$year-$month-$day\"/>\n";
+    }
     print "        <published>$year-$month-$day</published>\n";
     print "        <content type=\"xhtml\">\n";
 
@@ -172,14 +186,20 @@ sub PrintDocumentPart {
         $line =~ s/_([^_]+)_/<i>\1<\/i>/g;
         $line =~ s/\*([^*]+)\*/<b>\1<\/b>/g;
         $line =~ s/\[\[(http[^\]]*)\]\[(http.*\.((gif)|(jpg)|(png)))\]\]/<a target="_blank" href="\1"><img border="0" src="\2" \/><\/a><br \/>/gi;
-        $line =~ s/\[\[(http[^\]]*)\]\[(.*\.((gif)|(jpg)|(png)))\]\]/<a target="_blank" href="\1"><img border="0" src="http:\/\/depfind.sf.net\/cgi-bin\/\2" \/><\/a><br \/>/gi;
-        $line =~ s/\[\[([^\]]*)\]\[(http.*\.((gif)|(jpg)|(png)))\]\]/<a target="_blank" href="http:\/\/depfind.sf.net\/cgi-bin\/\1"><img border="0" src="\2" \/><\/a><br \/>/gi;
-        $line =~ s/\[\[([^\]]*)\]\[(.*\.((gif)|(jpg)|(png)))\]\]/<a target="_blank" href="http:\/\/depfind.sf.net\/cgi-bin\/\1"><img border="0" src="http:\/\/depfind.sf.net\/cgi-bin\/\2" \/><\/a><br \/>/gi;
+        $line =~ s/\[\[(http[^\]]*)\]\[(.*\.((gif)|(jpg)|(png)))\]\]/<a target="_blank" href="\1"><img border="0" src="URL_PREFIX\/cgi-bin\/\2" \/><\/a><br \/>/gi;
+        $line =~ s/\[\[([^\]]*)\]\[(http.*\.((gif)|(jpg)|(png)))\]\]/<a target="_blank" href="URL_PREFIX\/cgi-bin\/\1"><img border="0" src="\2" \/><\/a><br \/>/gi;
+        $line =~ s/\[\[([^\]]*)\]\[(.*\.((gif)|(jpg)|(png)))\]\]/<a target="_blank" href="URL_PREFIX\/cgi-bin\/\1"><img border="0" src="URL_PREFIX\/cgi-bin\/\2" \/><\/a><br \/>/gi;
         $line =~ s/\[\[(http[^\]]*\.((gif)|(jpg)|(png)))\]\]/<img src="\1" \/><br \/>/gi;
-        $line =~ s/\[\[([^\]]*\.((gif)|(jpg)|(png)))\]\]/<img src="http:\/\/depfind.sf.net\/cgi-bin\/\1" \/><br \/>/gi;
-        $line =~ s/\[\[(\d\d\d\d-\d\d-\d\d)\]\]/<a href="http:\/\/depfind.sf.net\/cgi-bin\/Journal.cgi#\1">\1<\/a>/gi;
+        $line =~ s/\[\[([^\]]*\.((gif)|(jpg)|(png)))\]\]/<img src="URL_PREFIX\/cgi-bin\/\1" \/><br \/>/gi;
+        if (grep { /--top-level/ } @ARGV) {
+            $line =~ s/\[\[(\d\d\d\d-\d\d-\d\d)\]\]/<a href="URL_PREFIX\/Journal.html#\1">\1<\/a>/gi;
+        } else {
+            $line =~ s/\[\[(\d\d\d\d-\d\d-\d\d)\]\]/<a href="URL_PREFIX\/cgi-bin\/Journal.cgi#\1">\1<\/a>/gi;
+        }
         $line =~ s/\[\[(http[^\]]*)\]\[(.*)\]\]/<a target="_blank" href="\1">\2<\/a>/g;
-        $line =~ s/\[\[([^\]]*)\]\[(.*)\]\]/<a target="_blank" href="http:\/\/depfind.sf.net\/cgi-bin\/\1">\2<\/a>/g;
+        $line =~ s/\[\[([^\]]*)\]\[(.*)\]\]/<a target="_blank" href="URL_PREFIX\/cgi-bin\/\1">\2<\/a>/g;
+
+        $line =~ s/URL_PREFIX/$URL_PREFIX/g;
 
         $line =~ s/%2A/\*/gi;
         $line =~ s/%3D/=/gi;
@@ -188,6 +208,10 @@ sub PrintDocumentPart {
         $line =~ s/&(?!amp|lt|gt)/&amp;/g;
         $line =~ s/<-/&lt;-/g;
         $line =~ s/->/-&gt;/g;
+
+        if (grep { /--top-level/ } @ARGV) {
+            $line =~ s/cgi-bin\/\.\.\///g;
+        }
 
         print $line;
     }

@@ -1,2 +1,7 @@
+# CI artifacts for static serving of Journal
+Journal.atom
+Journal.html
+cgi-bin/Journal.*
+
 # IDE files
 *.iml
