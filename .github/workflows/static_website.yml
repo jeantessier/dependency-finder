@@ -40,6 +40,7 @@ jobs:
       - name: Generate Journal
         run: |
           ${{ github.workspace }}/cgi-bin/Journal.cgi --no-headers --top-level > Journal.html
+          ${{ github.workspace }}/cgi-bin/Journal.atom --no-headers --top-level > Journal.atom
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
