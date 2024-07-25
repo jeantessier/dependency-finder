@@ -6,24 +6,24 @@ skinparam componentStyle uml1
 
 node ":lib" as lib {
 
-    component "main" as lib_main
+    [main] as lib_main
 
-    component "test" as lib_test #lightgreen
+    [test] as lib_test #lightgreen
     lib_main <. lib_test
 
-    component "jacoco" as lib_jacoco #lightgrey
+    [jacoco] as lib_jacoco #lightgrey
     lib_main .[hidden].> lib_jacoco
 
 }
 
 node ":integration-tests" as integration_tests {
 
-    component "main" as integration_tests_main #transparent
+    [main] as integration_tests_main #transparent
 
-    component "test" as integration_tests_test #lightgreen
+    [test] as integration_tests_test #lightgreen
     integration_tests_main <. integration_tests_test
 
-    component "jacoco" as integration_tests_jacoco #lightgrey
+    [jacoco] as integration_tests_jacoco #lightgrey
     integration_tests_main .[hidden].> integration_tests_jacoco
 
 }
@@ -31,12 +31,12 @@ lib <.. integration_tests
 
 node ":fit-tests" as fit_tests {
 
-    component "main" as fit_tests_main #transparent
+    [main] as fit_tests_main #transparent
 
-    component "test" as fit_tests_test #lightgreen
+    [test] as fit_tests_test #lightgreen
     fit_tests_main <. fit_tests_test
 
-    component "jacoco" as fit_tests_jacoco #lightgrey
+    [jacoco] as fit_tests_jacoco #lightgrey
     fit_tests_main .[hidden].> fit_tests_jacoco
 
 }
@@ -44,12 +44,12 @@ lib <.. fit_tests
 
 node ":webapp" as webapp {
 
-    component "main" as webapp_main
+    [main] as webapp_main
 
-    component "test" as webapp_test #lightgreen
+    [test] as webapp_test #lightgreen
     webapp_main <. webapp_test
 
-    component "jacoco" as webapp_jacoco #lightgrey
+    [jacoco] as webapp_jacoco #lightgrey
     webapp_main .[hidden].> webapp_jacoco
 
 }
@@ -57,7 +57,7 @@ lib <.. webapp
 
 node ":code-coverage-report" as code_coverage_report {
 
-    component "jacoco-report-aggregation" as code_coverage_report_jacoco_report_aggregation #lightgrey
+    [jacoco-report-aggregation] as code_coverage_report_jacoco_report_aggregation #lightgrey
     code_coverage_report_jacoco_report_aggregation .up.> lib_jacoco
     code_coverage_report_jacoco_report_aggregation .up.> integration_tests_jacoco
     code_coverage_report_jacoco_report_aggregation .up.> fit_tests_jacoco

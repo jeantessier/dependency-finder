@@ -13,7 +13,7 @@ package standard.api.definition {
     }
 
     node "FooBuilder" as api_FooBuilder <<interface>> {
-        component "buildFrom(name: String): Foo" as api_buildFrom <<method declaration>>
+        [buildFrom(name: String): Foo] as api_buildFrom <<method declaration>>
     }
 
     api_FooBuilder .> api_Foo : creates
@@ -27,8 +27,8 @@ package specific.implementation {
     api_Foo <|.. impl_Foo
 
     node "FooBuilder" as impl_FooBuilder {
-        component "buildFrom(name: String): specific.implementation.Foo" as impl_buildFrom <<method implementation>>
-        component "buildFrom(name: String): standard.api.definition.Foo" as bridge_buildFrom <<bridge method>> #pink
+        [buildFrom(name: String): specific.implementation.Foo] as impl_buildFrom <<method implementation>>
+        [buildFrom(name: String): standard.api.definition.Foo] as bridge_buildFrom <<bridge method>> #pink
 
         bridge_buildFrom ..> impl_buildFrom
     }
