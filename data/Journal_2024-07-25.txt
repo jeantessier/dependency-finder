@@ -3,5 +3,5 @@ named [[https://www.instancio.org/][Instancio]].  I read about it in
 [[https://rieckpil.de/generating-java-test-data-with-instancio/][this article]].
 It looks somewhat akin to the
 =[[https://github.com/thoughtbot/factory%5Fbot][factory%5Fbot]]= gem in Ruby,
-and the Faker= library in [[https://rubygems.org/gems/faker][Ruby]] and
+and the Faker library in [[https://rubygems.org/gems/faker][Ruby]] and
 [[https://fakerjs.dev/][JavaScript]].
