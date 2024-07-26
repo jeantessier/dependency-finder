@@ -32,62 +32,47 @@
 
 package com.jeantessier.classreader;
 
-import junit.framework.TestCase;
+import org.junit.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 
-public class TestXMLPrinterEscaping extends TestCase {
-    private XMLPrinter printer;
+import static org.junit.Assert.*;
+import static org.junit.runners.Parameterized.*;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        printer = new XMLPrinter(new PrintWriter(new StringWriter()));
+@RunWith(Parameterized.class)
+public class TestXMLPrinterEscaping {
+    @Parameters(name="Escaping {0}")
+    public static Object[][] data() {
+        return new Object[][] {
+                {"normal characters", "abcdef", "abcdef"},
+                {"entities", "<abc>", "&lt;abc&gt;"},
+                {"low value characters", "\u0005", "<![CDATA[&#x5;]]>"},
+                {"high value characters", "\u0080", "<![CDATA[&#x80;]]>"},
+                {"very high value characters", "\u00ff", "<![CDATA[&#xFF;]]>"},
+                {"multi-byte characters", "\u1aff", "<![CDATA[&#x1AFF;]]>"},
+        };
     }
 
-    public void testEscapeXMLCharacters_normalCharacters() {
-        String testText = "abcdef";
-        String expectedText = "abcdef";
+    @Parameter(0)
+    public String label;
 
-        String actualText = printer.escapeXMLCharacters(testText);
+    @Parameter(1)
+    public String text;
 
-        assertEquals("text", expectedText, actualText);
+    @Parameter(2)
+    public String expectedResult;
+
+    private XMLPrinter sut;
+
+    @Before
+    public void setUp() {
+        sut = new XMLPrinter(new PrintWriter(new StringWriter()));
     }
 
-    public void testEscapeXMLCharacters_entities() {
-        String testText = "<abc>";
-        String expectedText = "&lt;abc&gt;";
-
-        String actualText = printer.escapeXMLCharacters(testText);
-
-        assertEquals("text", expectedText, actualText);
-    }
-
-    public void testEscapeXMLCharacters_lowValueCharacters() {
-        String testText = "\u0005";
-        String expectedText = "<![CDATA[&#x5;]]>";
-
-        String actualText = printer.escapeXMLCharacters(testText);
-
-        assertEquals("text", expectedText, actualText);
-    }
-
-    public void testEscapeXMLCharacters_highValueCharacters() {
-        String testText = "\u0080";
-        String expectedText = "<![CDATA[&#x80;]]>";
-
-        String actualText = printer.escapeXMLCharacters(testText);
-
-        assertEquals("text", expectedText, actualText);
-    }
-
-    public void testEscapeXMLCharacters_veryHighValueCharacters() {
-        String testText = "\u00ff";
-        String expectedText = "<![CDATA[&#xFF;]]>";
-
-        String actualText = printer.escapeXMLCharacters(testText);
-
-        assertEquals("text", expectedText, actualText);
+    @Test
+    public void testEscapeXMLCharacters() {
+        assertEquals("text", expectedResult, sut.escapeXMLCharacters(text));
     }
 }

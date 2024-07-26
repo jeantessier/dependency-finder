@@ -1764,30 +1764,32 @@ public class XMLPrinter extends Printer {
     // Visible for testing
     String escapeXMLCharacters(String text) {
         StringBuilder result = new StringBuilder();
-        boolean containsControlCharacters = false;
 
-        for (int i=0; i<text.length(); i++) {
-            char c = text.charAt(i);
-            if (c == '&') {
-                result.append("&amp;");
-            } else if (c == '<') {
-                result.append("&lt;");
-            } else if (c == '>') {
-                result.append("&gt;");
-            } else if (Character.isISOControl(c) || c > 0x9F) {
-                containsControlCharacters = true;
-                result.append("&#x");
-                result.append(Integer.toString(c, 16).toUpperCase());
-                result.append(";");
-            } else {
-                result.append(c);
-            }
-        }
+        text.codePoints()
+                .forEach(c -> {
+                    if (c == '&') {
+                        result.append("&amp;");
+                    } else if (c == '<') {
+                        result.append("&lt;");
+                    } else if (c == '>') {
+                        result.append("&gt;");
+                    } else if (Character.isISOControl(c) || c > 0x9F) {
+                        result.append("&#x");
+                        result.append(Integer.toString(c, 16).toUpperCase());
+                        result.append(";");
+                    } else {
+                        result.append(Character.toChars(c));
+                    }
+                });
 
-        if (containsControlCharacters) {
+        if (containsControlCharacters(text)) {
             return "<![CDATA[" + result + "]]>";
         } else {
             return result.toString();
         }
+    }
+
+    private boolean containsControlCharacters(String text) {
+        return text.codePoints().anyMatch(c -> Character.isISOControl(c) || c > 0x9F);
     }
 }
