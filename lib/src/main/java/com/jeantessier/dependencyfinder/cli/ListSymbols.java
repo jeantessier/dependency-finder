@@ -45,6 +45,7 @@ import com.jeantessier.classreader.TransientClassfileLoader;
 import com.jeantessier.commandline.CommandLineException;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class ListSymbols extends DirectoryExplorerCommand {
     protected void populateCommandLineSwitches() {
@@ -117,9 +118,12 @@ public class ListSymbols extends DirectoryExplorerCommand {
         loader.addLoadListener(getVerboseListener());
         loader.load(getCommandLine().getParameters());
 
-        for (String symbol : gatherer.getCollection()) {
-            getOut().println(symbol);
-        }
+        var out = getOut();
+        gatherer.stream()
+                .map(Object::toString)
+                .sorted()
+                .distinct()
+                .forEach(out::println);
     }
 
     public static void main(String[] args) throws Exception {

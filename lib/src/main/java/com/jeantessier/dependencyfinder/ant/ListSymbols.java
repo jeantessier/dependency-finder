@@ -247,12 +247,12 @@ public class ListSymbols extends Task {
 
         log("Saving symbols to " + getDestfile().getAbsolutePath());
 
-        try {
-            PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
-            for (String symbol : gatherer.getCollection()) {
-                out.println(symbol);
-            }
-            out.close();
+        try (var out = new PrintWriter(new FileWriter(getDestfile()))) {
+            gatherer.stream()
+                    .map(Object::toString)
+                    .sorted()
+                    .distinct()
+                    .forEach(out::println);
         } catch (IOException ex) {
             throw new BuildException(ex);
         }

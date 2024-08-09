@@ -48,7 +48,7 @@ import com.jeantessier.classreader.*;
  *     <li>Does not look at local variables</li>
  * </ul>
  */
-public class CodeDependencyCollector extends CollectorBase {
+public class CodeDependencyCollector extends com.jeantessier.classreader.VisitorBase {
     private final NodeFactory factory;
     private final SelectionCriteria filterCriteria;
 
@@ -82,10 +82,6 @@ public class CodeDependencyCollector extends CollectorBase {
      */
     void setCurrent(Node current) {
         this.current = current;
-    }
-
-    public Collection<String> getCollection() {
-        return getFactory().getPackages().keySet();
     }
 
     public void visitClassfile(Classfile classfile) {

@@ -32,18 +32,26 @@
 
 package com.jeantessier.classreader;
 
-public class SymbolGatherer extends CollectorBase {
+import java.util.*;
+import java.util.stream.*;
+
+public class SymbolGatherer extends VisitorBase {
     private final SymbolGathererStrategy strategy;
 
-    private Method_info currentMethod = null;
+    private final Collection<String> collection = new ArrayList<>();
+
     private InnerClass innerClass;
 
     public SymbolGatherer(SymbolGathererStrategy strategy) {
         this.strategy = strategy;
     }
 
-    void setCurrentMethodForTesting(Method_info entry) {
-        currentMethod = entry;
+    public Stream<String> stream() {
+        return collection.stream();
+    }
+
+    private void add(String element) {
+        collection.add(element);
     }
 
     // Classfile
@@ -74,23 +82,19 @@ public class SymbolGatherer extends CollectorBase {
             add(entry.getFullSignature());
         }
 
-        Method_info previousMethod = currentMethod;
-        currentMethod = entry;
         super.visitMethod_info(entry);
-        currentMethod = previousMethod;
     }
 
     public void visitLocalVariable(LocalVariable helper) {
         if (strategy.isMatching(helper)) {
-            add(currentMethod.getFullSignature() + ": " + helper.getName());
+            add(strategy.locateMethodFor(helper) + ": " + helper.getName());
         }
 
         super.visitLocalVariable(helper);
     }
 
     public void visitInnerClass(InnerClass helper) {
-        Classfile owner = (Classfile) helper.getInnerClasses().getOwner();
-        if (owner.getRawClass() == helper.getRawInnerClassInfo()) {
+        if (strategy.locateClassfileFor(helper).getRawClass() == helper.getRawInnerClassInfo()) {
             this.innerClass = helper;
         }
 

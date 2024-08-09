@@ -38,4 +38,60 @@ public interface SymbolGathererStrategy {
     boolean isMatching(Method_info method);
     boolean isMatching(LocalVariable localVariable);
     boolean isMatching(InnerClass innerClass);
+
+    class MethodLocator implements Visitor {
+        private Method_info method;
+
+        public Method_info getMethod() {
+            return method;
+        }
+
+        public void visitMethod_info(Method_info entry) {
+            method = entry;
+        }
+
+        public void visitCode_attribute(Code_attribute attribute) {
+            attribute.getOwner().accept(this);
+        }
+
+        public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
+            attribute.getOwner().accept(this);
+        }
+
+        public void visitLocalVariable(LocalVariable helper) {
+            helper.getLocalVariableTable().accept(this);
+        }
+    }
+
+    default Method_info locateMethodFor(LocalVariable localVariable) {
+        var methodLocator = new MethodLocator();
+        localVariable.accept(methodLocator);
+        return methodLocator.getMethod();
+    }
+
+    class ClassfileLocator implements Visitor {
+        private Classfile classfile;
+
+        public Classfile getClassfile() {
+            return classfile;
+        }
+
+        public void visitClassfile(Classfile classfile) {
+            this.classfile = classfile;
+        }
+
+        public void visitInnerClasses_attribute(InnerClasses_attribute attribute) {
+            attribute.getOwner().accept(this);
+        }
+
+        public void visitInnerClass(InnerClass helper) {
+            helper.getInnerClasses().accept(this);
+        }
+    }
+
+    default Classfile locateClassfileFor(InnerClass innerClass) {
+        var classfileLocator = new ClassfileLocator();
+        innerClass.accept(classfileLocator);
+        return classfileLocator.getClassfile();
+    }
 }
