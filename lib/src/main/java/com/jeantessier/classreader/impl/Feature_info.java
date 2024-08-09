@@ -37,8 +37,6 @@ import java.util.*;
 
 import org.apache.logging.log4j.*;
 
-import com.jeantessier.classreader.*;
-
 public abstract class Feature_info implements com.jeantessier.classreader.Feature_info {
     private static final int ACC_PUBLIC = 0x0001;
     private static final int ACC_PRIVATE = 0x0002;
