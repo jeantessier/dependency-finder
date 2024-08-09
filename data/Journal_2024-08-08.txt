@@ -1,0 +1,14 @@
+I read an article where they
+[[https://medium.com/javarevisited/looking-at-a-java-class-and-its-methods-through-a-kaleidoscope-998b510e39ac][categorize methods]]
+by their first letter, their prefix, their suffix, or their functional
+interface parameter.  In the article, they apply this categorization to
+=java.util.stream.Stream=, and look for any insights.  It got me wondering if I
+could do the same in Dependency Finder or arbitrary classes.  Would it help
+reveal any useful insights?
+
+=ListSymbols= is an obvious candidate to host this functionality.  It uses
+=SymbolGatherer=, which only works in terms of strings.  I need to refactor it
+to track `Method_info` so I can more easily isolate the method name to tease
+out prefixes and suffixes and so forth.  I could have a tabular output where
+I break down a method into its fully qualified class name, the method name,
+the method signature, and its return type.
