@@ -32,7 +32,7 @@
 
 package com.jeantessier.classreader;
 
-public interface LocalVariable extends Visitable {
+public interface LocalVariable extends Visitable, Comparable<LocalVariable> {
     LocalVariableTable_attribute getLocalVariableTable();
 
     int getStartPC();
@@ -47,4 +47,34 @@ public interface LocalVariable extends Visitable {
     String getDescriptor();
 
     int getIndex();
+
+    default Method_info getMethod() {
+        class MethodLocator implements Visitor {
+            private Method_info method;
+
+            public Method_info getMethod() {
+                return method;
+            }
+
+            public void visitMethod_info(Method_info entry) {
+                method = entry;
+            }
+
+            public void visitCode_attribute(Code_attribute attribute) {
+                attribute.getOwner().accept(this);
+            }
+
+            public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
+                attribute.getOwner().accept(this);
+            }
+
+            public void visitLocalVariable(LocalVariable helper) {
+                helper.getLocalVariableTable().accept(this);
+            }
+        }
+
+        var methodLocator = new MethodLocator();
+        accept(methodLocator);
+        return methodLocator.getMethod();
+    }
 }

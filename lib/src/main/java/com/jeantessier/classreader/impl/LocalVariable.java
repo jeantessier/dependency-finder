@@ -106,10 +106,27 @@ public class LocalVariable implements com.jeantessier.classreader.LocalVariable 
     }
 
     public String toString() {
-        return DescriptorHelper.getType(getDescriptor()) + " " + getName();
+        return getMethod() + ": " + getName();
     }
 
     public void accept(Visitor visitor) {
         visitor.visitLocalVariable(this);
+    }
+
+    public int compareTo(com.jeantessier.classreader.LocalVariable other) {
+        if (this == other) {
+            return 0;
+        }
+
+        if (other == null) {
+            throw new ClassCastException("compareTo: expected a " + getClass().getName() + " but got null");
+        }
+
+        int methodCompare = getMethod().compareTo(other.getMethod());
+        if (methodCompare != 0) {
+            return methodCompare;
+        }
+
+        return getName().compareTo(other.getName());
     }
 }

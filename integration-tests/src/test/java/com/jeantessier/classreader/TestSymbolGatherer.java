@@ -66,23 +66,23 @@ public class TestSymbolGatherer extends TestCase {
     public void testOnOneClass() {
         loader.load(Collections.singleton(TEST_FILENAME));
 
-        assertTrue("Missing test class name from " + getGatheredSymbols(), gatherer.stream().anyMatch(symbol -> symbol.equals("test")));
-        assertTrue("Missing test.main() method from " + getGatheredSymbols(), gatherer.stream().anyMatch(symbol -> symbol.equals("test.main(java.lang.String[])")));
-        assertTrue("Missing args parameter from " + getGatheredSymbols(), gatherer.stream().anyMatch(symbol -> symbol.equals("test.main(java.lang.String[]): void: args")));
-        assertTrue("Missing c local variable from " + getGatheredSymbols(), gatherer.stream().anyMatch(symbol -> symbol.equals("test.main(java.lang.String[]): void: c")));
-        assertTrue("Missing ex local variable from " + getGatheredSymbols(), gatherer.stream().anyMatch(symbol -> symbol.equals("test.main(java.lang.String[]): void: ex")));
-        assertTrue("Missing test.test() method from " + getGatheredSymbols(), gatherer.stream().anyMatch(symbol -> symbol.equals("test.test()")));
-        assertTrue("Missing this parameter from " + getGatheredSymbols(), gatherer.stream().anyMatch(symbol -> symbol.equals("test.test(): this")));
+        assertTrue("Missing test class name from " + getGatheredSymbols(), getGatheredSymbols().contains("test"));
+        assertTrue("Missing test.main() method from " + getGatheredSymbols(), getGatheredSymbols().contains("test.main(java.lang.String[]): void"));
+        assertTrue("Missing args parameter from " + getGatheredSymbols(), getGatheredSymbols().contains("test.main(java.lang.String[]): void: args"));
+        assertTrue("Missing c local variable from " + getGatheredSymbols(), getGatheredSymbols().contains("test.main(java.lang.String[]): void: c"));
+        assertTrue("Missing ex local variable from " + getGatheredSymbols(), getGatheredSymbols().contains("test.main(java.lang.String[]): void: ex"));
+        assertTrue("Missing test.test() method from " + getGatheredSymbols(), getGatheredSymbols().contains("test.test()"));
+        assertTrue("Missing this parameter from " + getGatheredSymbols(), getGatheredSymbols().contains("test.test(): this"));
         assertEquals("Different number of symbols in " + getGatheredSymbols(), 7, gatherer.stream().count());
     }
 
     public void testOnOneInnerClass() {
         loader.load(Collections.singleton(INNER_TEST_FILENAME));
 
-        assertTrue("Missing test$InnerClass class name from " + getGatheredSymbols(), gatherer.stream().anyMatch(symbol -> symbol.equals("test$InnerClass")));
-        assertTrue("Missing test$InnerClass.innerField field from " + getGatheredSymbols(), gatherer.stream().anyMatch(symbol -> symbol.equals("test$InnerClass.innerField")));
-        assertTrue("Missing test$InnerClass.test$InnerClass() method from " + getGatheredSymbols(), gatherer.stream().anyMatch(symbol -> symbol.equals("test$InnerClass.test$InnerClass()")));
-        assertTrue("Missing this parameter from " + getGatheredSymbols(), gatherer.stream().anyMatch(symbol -> symbol.equals("test$InnerClass.test$InnerClass(): this")));
+        assertTrue("Missing test$InnerClass class name from " + getGatheredSymbols(), getGatheredSymbols().contains("test$InnerClass"));
+        assertTrue("Missing test$InnerClass.innerField field from " + getGatheredSymbols(), getGatheredSymbols().contains("test$InnerClass.innerField"));
+        assertTrue("Missing test$InnerClass.test$InnerClass() method from " + getGatheredSymbols(), getGatheredSymbols().contains("test$InnerClass.test$InnerClass()"));
+        assertTrue("Missing this parameter from " + getGatheredSymbols(), getGatheredSymbols().contains("test$InnerClass.test$InnerClass(): this"));
         assertEquals("Different number of symbols in " + getGatheredSymbols(), 4, gatherer.stream().count());
     }
 
@@ -95,7 +95,7 @@ public class TestSymbolGatherer extends TestCase {
 
         loader.load(Arrays.asList(TEST_FILENAME, INNER_TEST_FILENAME));
 
-        assertTrue("Missing test class name from " + getGatheredSymbols(), gatherer.stream().anyMatch(symbol -> symbol.equals("test")));
+        assertTrue("Missing test class name from " + getGatheredSymbols(), getGatheredSymbols().contains("test"));
         assertEquals("Different number of symbols in " + getGatheredSymbols(), 1, gatherer.stream().count());
     }
 
@@ -108,7 +108,7 @@ public class TestSymbolGatherer extends TestCase {
 
         loader.load(Arrays.asList(TEST_FILENAME, INNER_TEST_FILENAME));
 
-        assertTrue("Missing test$InnerClass.innerField field from " + getGatheredSymbols(), gatherer.stream().anyMatch(symbol -> symbol.equals("test$InnerClass.innerField")));
+        assertTrue("Missing test$InnerClass.innerField field from " + getGatheredSymbols(), getGatheredSymbols().contains("test$InnerClass.innerField"));
         assertEquals("Different number of symbols in " + getGatheredSymbols(), 1, gatherer.stream().count());
     }
 
@@ -121,9 +121,9 @@ public class TestSymbolGatherer extends TestCase {
 
         loader.load(Arrays.asList(TEST_FILENAME, INNER_TEST_FILENAME));
 
-        assertTrue("Missing test$InnerClass.test$InnerClass() method from " + getGatheredSymbols(), gatherer.stream().anyMatch(symbol -> symbol.equals("test$InnerClass.test$InnerClass()")));
-        assertTrue("Missing test.main() method from " + getGatheredSymbols(), gatherer.stream().anyMatch(symbol -> symbol.equals("test.main(java.lang.String[])")));
-        assertTrue("Missing test.test() method from " + getGatheredSymbols(), gatherer.stream().anyMatch(symbol -> symbol.equals("test.test()")));
+        assertTrue("Missing test$InnerClass.test$InnerClass() method from " + getGatheredSymbols(), getGatheredSymbols().contains("test$InnerClass.test$InnerClass()"));
+        assertTrue("Missing test.main() method from " + getGatheredSymbols(), getGatheredSymbols().contains("test.main(java.lang.String[]): void"));
+        assertTrue("Missing test.test() method from " + getGatheredSymbols(), getGatheredSymbols().contains("test.test()"));
         assertEquals("Different number of symbols in " + getGatheredSymbols(), 3, gatherer.stream().count());
     }
 
@@ -136,11 +136,11 @@ public class TestSymbolGatherer extends TestCase {
 
         loader.load(Arrays.asList(TEST_FILENAME, INNER_TEST_FILENAME));
 
-        assertTrue("Missing this parameter from " + getGatheredSymbols(), gatherer.stream().anyMatch(symbol -> symbol.equals("test$InnerClass.test$InnerClass(): this")));
-        assertTrue("Missing args parameter from " + getGatheredSymbols(), gatherer.stream().anyMatch(symbol -> symbol.equals("test.main(java.lang.String[]): void: args")));
-        assertTrue("Missing c local variable from " + getGatheredSymbols(), gatherer.stream().anyMatch(symbol -> symbol.equals("test.main(java.lang.String[]): void: c")));
-        assertTrue("Missing ex local variable from " + getGatheredSymbols(), gatherer.stream().anyMatch(symbol -> symbol.equals("test.main(java.lang.String[]): void: ex")));
-        assertTrue("Missing this parameter from " + getGatheredSymbols(), gatherer.stream().anyMatch(symbol -> symbol.equals("test.test(): this")));
+        assertTrue("Missing this parameter from " + getGatheredSymbols(), getGatheredSymbols().contains("test$InnerClass.test$InnerClass(): this"));
+        assertTrue("Missing args parameter from " + getGatheredSymbols(), getGatheredSymbols().contains("test.main(java.lang.String[]): void: args"));
+        assertTrue("Missing c local variable from " + getGatheredSymbols(), getGatheredSymbols().contains("test.main(java.lang.String[]): void: c"));
+        assertTrue("Missing ex local variable from " + getGatheredSymbols(), getGatheredSymbols().contains("test.main(java.lang.String[]): void: ex"));
+        assertTrue("Missing this parameter from " + getGatheredSymbols(), getGatheredSymbols().contains("test.test(): this"));
         assertEquals("Different number of symbols in " + getGatheredSymbols(), 5, gatherer.stream().count());
     }
 
@@ -153,11 +153,13 @@ public class TestSymbolGatherer extends TestCase {
 
         loader.load(Arrays.asList(TEST_FILENAME, INNER_TEST_FILENAME));
 
-        assertTrue("Missing test$InnerClass class name from " + getGatheredSymbols(), gatherer.stream().anyMatch(symbol -> symbol.equals("test$InnerClass")));
+        assertTrue("Missing test$InnerClass class name from " + getGatheredSymbols(), getGatheredSymbols().contains("test$InnerClass"));
         assertEquals("Different number of symbols in " + getGatheredSymbols(), 1, gatherer.stream().count());
     }
 
     private Collection<String> getGatheredSymbols() {
-        return gatherer.stream().toList();
+        return gatherer.stream()
+                .map(Object::toString)
+                .toList();
     }
 }

@@ -38,7 +38,7 @@ import java.util.stream.*;
 public class SymbolGatherer extends VisitorBase {
     private final SymbolGathererStrategy strategy;
 
-    private final Collection<String> collection = new ArrayList<>();
+    private final Collection<Visitable> symbols = new ArrayList<>();
 
     private InnerClass innerClass;
 
@@ -46,12 +46,8 @@ public class SymbolGatherer extends VisitorBase {
         this.strategy = strategy;
     }
 
-    public Stream<String> stream() {
-        return collection.stream();
-    }
-
-    private void add(String element) {
-        collection.add(element);
+    public Stream<Visitable> stream() {
+        return symbols.stream();
     }
 
     // Classfile
@@ -61,17 +57,17 @@ public class SymbolGatherer extends VisitorBase {
 
         if (innerClass != null) {
             if (strategy.isMatching(innerClass)) {
-                add(innerClass.getInnerClassInfo());
+                symbols.add(innerClass);
             }
         } else if (strategy.isMatching(classfile)) {
-            add(classfile.getClassName());
+            symbols.add(classfile);
         }
     }
 
     // Features
     public void visitField_info(Field_info entry) {
         if (strategy.isMatching(entry)) {
-            add(entry.getFullSignature());
+            symbols.add(entry);
         }
 
         super.visitField_info(entry);
@@ -79,7 +75,7 @@ public class SymbolGatherer extends VisitorBase {
 
     public void visitMethod_info(Method_info entry) {
         if (strategy.isMatching(entry)) {
-            add(entry.getFullSignature());
+            symbols.add(entry);
         }
 
         super.visitMethod_info(entry);
@@ -87,14 +83,14 @@ public class SymbolGatherer extends VisitorBase {
 
     public void visitLocalVariable(LocalVariable helper) {
         if (strategy.isMatching(helper)) {
-            add(strategy.locateMethodFor(helper) + ": " + helper.getName());
+            symbols.add(helper);
         }
 
         super.visitLocalVariable(helper);
     }
 
     public void visitInnerClass(InnerClass helper) {
-        if (strategy.locateClassfileFor(helper).getRawClass() == helper.getRawInnerClassInfo()) {
+        if (helper.getClassfile().getRawClass() == helper.getRawInnerClassInfo()) {
             this.innerClass = helper;
         }
 

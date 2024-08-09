@@ -97,32 +97,4 @@ public class TestSymbolGathererStrategyDecorator extends MockObjectTestCase {
 
         sut.isMatching(mockInnerClass);
     }
-
-    public void testLocateMethodFor() {
-        final Method_info expectedMethod = mock(Method_info.class);
-        final LocalVariable mockLocalVariable = mock(LocalVariable.class);
-
-        checking(new Expectations() {{
-            oneOf (mockStrategy).locateMethodFor(mockLocalVariable);
-                will(returnValue(expectedMethod));
-        }});
-
-        Method_info actualMethod = sut.locateMethodFor(mockLocalVariable);
-
-        assertEquals("Located wrong method", expectedMethod, actualMethod);
-    }
-
-    public void testLocateClassfileFor() {
-        final Classfile expectedClassfile = mock(Classfile.class);
-        final InnerClass mockInnerClass = mock(InnerClass.class);
-
-        checking(new Expectations() {{
-            oneOf (mockStrategy).locateClassfileFor(mockInnerClass);
-                will(returnValue(expectedClassfile));
-        }});
-
-        Classfile actualClassfile = sut.locateClassfileFor(mockInnerClass);
-
-        assertEquals("Located wrong classfile", expectedClassfile, actualClassfile);
-    }
 }

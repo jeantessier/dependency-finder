@@ -60,10 +60,10 @@ public class TestSymbolGathererWithStrategy extends MockObjectTestCase {
 
         checking(new Expectations() {{
             oneOf (mockStrategy).isMatching(mockClassfile); will(returnValue(false));
-            
-            oneOf (mockClassfile).getAttributes();
-            oneOf (mockClassfile).getAllFields();
-            oneOf (mockClassfile).getAllMethods();
+
+            ignoring (mockClassfile).getAttributes();
+            ignoring (mockClassfile).getAllFields();
+            ignoring (mockClassfile).getAllMethods();
         }});
 
         sut.visitClassfile(mockClassfile);
@@ -72,23 +72,20 @@ public class TestSymbolGathererWithStrategy extends MockObjectTestCase {
     }
 
     public void testVisitClassfile_Matching() {
-        final String expectedName = "Foobar";
-
         final Classfile mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
             oneOf (mockStrategy).isMatching(mockClassfile); will(returnValue(true));
-            oneOf (mockClassfile).getClassName(); will(returnValue(expectedName));
 
-            oneOf (mockClassfile).getAttributes();
-            oneOf (mockClassfile).getAllFields();
-            oneOf (mockClassfile).getAllMethods();
+            ignoring (mockClassfile).getAttributes();
+            ignoring (mockClassfile).getAllFields();
+            ignoring (mockClassfile).getAllMethods();
         }});
 
         sut.visitClassfile(mockClassfile);
 
         assertEquals("Wrong size for " + getGatheredSymbols(), 1, sut.stream().count());
-        assertTrue("Missing class name " + getGatheredSymbols(), sut.stream().anyMatch(symbol -> symbol.equals(expectedName)));
+        assertTrue("Missing class name " + getGatheredSymbols(), sut.stream().anyMatch(symbol -> symbol == mockClassfile));
     }
 
     public void testVisitField_info_NotMatching() {
@@ -97,7 +94,7 @@ public class TestSymbolGathererWithStrategy extends MockObjectTestCase {
         checking(new Expectations() {{
             oneOf (mockStrategy).isMatching(mockField); will(returnValue(false));
 
-            oneOf (mockField).getAttributes();
+            ignoring (mockField).getAttributes();
         }});
 
         sut.visitField_info(mockField);
@@ -106,21 +103,18 @@ public class TestSymbolGathererWithStrategy extends MockObjectTestCase {
     }
 
     public void testVisitField_info_Matching() {
-        final String expectedName = "Foobar.foobar";
-
         final Field_info mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
             oneOf (mockStrategy).isMatching(mockField); will(returnValue(true));
-            oneOf (mockField).getFullSignature(); will(returnValue(expectedName));
 
-            oneOf (mockField).getAttributes();
+            ignoring (mockField).getAttributes();
         }});
 
         sut.visitField_info(mockField);
 
         assertEquals("Wrong size for " + getGatheredSymbols(), 1, sut.stream().count());
-        assertTrue("Missing field name " + getGatheredSymbols(), sut.stream().anyMatch(symbol -> symbol.equals(expectedName)));
+        assertTrue("Missing field name " + getGatheredSymbols(), sut.stream().anyMatch(symbol -> symbol == mockField));
     }
 
     public void testVisitMethod_info_NotMatching() {
@@ -129,7 +123,7 @@ public class TestSymbolGathererWithStrategy extends MockObjectTestCase {
         checking(new Expectations() {{
             oneOf (mockStrategy).isMatching(mockMethod); will(returnValue(false));
 
-            oneOf (mockMethod).getAttributes();
+            ignoring (mockMethod).getAttributes();
         }});
 
         sut.visitMethod_info(mockMethod);
@@ -138,21 +132,18 @@ public class TestSymbolGathererWithStrategy extends MockObjectTestCase {
     }
 
     public void testVisitMethod_info_Matching() {
-        final String expectedName = "Foobar.foobar";
-
         final Method_info mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
             oneOf (mockStrategy).isMatching(mockMethod); will(returnValue(true));
-            oneOf (mockMethod).getFullSignature(); will(returnValue(expectedName));
 
-            oneOf (mockMethod).getAttributes();
+            ignoring (mockMethod).getAttributes();
         }});
 
         sut.visitMethod_info(mockMethod);
 
         assertEquals("Wrong size for " + getGatheredSymbols(), 1, sut.stream().count());
-        assertTrue("Missing method name " + getGatheredSymbols(), sut.stream().anyMatch(symbol -> symbol.equals(expectedName)));
+        assertTrue("Missing method name " + getGatheredSymbols(), sut.stream().anyMatch(symbol -> symbol == mockMethod));
     }
 
     public void testVisitLocalVariable_NotMatching() {
@@ -168,20 +159,17 @@ public class TestSymbolGathererWithStrategy extends MockObjectTestCase {
     }
 
     public void testVisitLocalVariable_Matching() {
-        final String expectedName = "foobar";
-
         final Method_info mockMethod = mock(Method_info.class);
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
             oneOf (mockStrategy).isMatching(mockLocalVariable); will(returnValue(true));
-            oneOf (mockStrategy).locateMethodFor(mockLocalVariable); will(returnValue(mockMethod));
-            oneOf (mockLocalVariable).getName(); will(returnValue(expectedName));
         }});
 
         sut.visitLocalVariable(mockLocalVariable);
 
         assertEquals("Wrong size for " + getGatheredSymbols(), 1, sut.stream().count());
+        assertTrue("Missing local variable name " + getGatheredSymbols(), sut.stream().anyMatch(symbol -> symbol == mockLocalVariable));
     }
 
     public void testVisitInnerClass_NotMatching() {
@@ -192,17 +180,17 @@ public class TestSymbolGathererWithStrategy extends MockObjectTestCase {
 
         checking(new Expectations() {{
             oneOf (mockClassfile).getAttributes(); will(returnValue(Collections.singleton(mockInnerClasses)));
-            oneOf (mockClassfile).getAllFields();
-            oneOf (mockClassfile).getAllMethods();
+            ignoring (mockClassfile).getAllFields();
+            ignoring (mockClassfile).getAllMethods();
             oneOf (mockClassfile).getRawClass(); will(returnValue(mockClass_info));
 
             oneOf (mockInnerClasses).accept(sut); will(visitInnerClasses_attribute(mockInnerClasses));
             oneOf (mockInnerClasses).getInnerClasses(); will(returnValue(Collections.singleton(mockInnerClass)));
 
             oneOf (mockInnerClass).accept(sut); will(visitInnerClass(mockInnerClass));
+            oneOf (mockInnerClass).getClassfile(); will(returnValue(mockClassfile));
             oneOf (mockInnerClass).getRawInnerClassInfo(); will(returnValue(mockClass_info));
 
-            oneOf (mockStrategy).locateClassfileFor(mockInnerClass); will(returnValue(mockClassfile));
             oneOf (mockStrategy).isMatching(mockInnerClass); will(returnValue(false));
         }});
 
@@ -212,8 +200,6 @@ public class TestSymbolGathererWithStrategy extends MockObjectTestCase {
     }
 
     public void testVisitInnerClass_Matching() {
-        final String expectedName = "Foobar$Foobar";
-
         final Classfile mockClassfile = mock(Classfile.class);
         final Class_info mockClass_info = mock(Class_info.class);
         final InnerClasses_attribute mockInnerClasses = mock(InnerClasses_attribute.class);
@@ -221,25 +207,24 @@ public class TestSymbolGathererWithStrategy extends MockObjectTestCase {
 
         checking(new Expectations() {{
             oneOf (mockClassfile).getAttributes(); will(returnValue(Collections.singleton(mockInnerClasses)));
-            oneOf (mockClassfile).getAllFields();
-            oneOf (mockClassfile).getAllMethods();
+            ignoring (mockClassfile).getAllFields();
+            ignoring (mockClassfile).getAllMethods();
             oneOf (mockClassfile).getRawClass(); will(returnValue(mockClass_info));
 
             oneOf (mockInnerClasses).accept(sut); will(visitInnerClasses_attribute(mockInnerClasses));
             oneOf (mockInnerClasses).getInnerClasses(); will(returnValue(Collections.singleton(mockInnerClass)));
 
             oneOf (mockInnerClass).accept(sut); will(visitInnerClass(mockInnerClass));
+            oneOf (mockInnerClass).getClassfile(); will(returnValue(mockClassfile));
             oneOf (mockInnerClass).getRawInnerClassInfo(); will(returnValue(mockClass_info));
-            oneOf (mockInnerClass).getInnerClassInfo(); will(returnValue(expectedName));
 
-            oneOf (mockStrategy).locateClassfileFor(mockInnerClass); will(returnValue(mockClassfile));
             oneOf (mockStrategy).isMatching(mockInnerClass); will(returnValue(true));
         }});
 
         sut.visitClassfile(mockClassfile);
 
         assertEquals("Wrong size for " + getGatheredSymbols(), 1, sut.stream().count());
-        assertTrue("Missing inner class name " + getGatheredSymbols(), sut.stream().anyMatch(symbol -> symbol.equals(expectedName)));
+        assertTrue("Missing inner class name " + getGatheredSymbols(), sut.stream().anyMatch(symbol -> symbol == mockInnerClass));
     }
 
     private Action visitInnerClasses_attribute(InnerClasses_attribute attribute) {
@@ -261,6 +246,8 @@ public class TestSymbolGathererWithStrategy extends MockObjectTestCase {
     }
 
     private Collection<String> getGatheredSymbols() {
-        return sut.stream().toList();
+        return sut.stream()
+                .map(Object::toString)
+                .toList();
     }
 }

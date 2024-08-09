@@ -66,4 +66,30 @@ public interface InnerClass extends Visitable, Comparable<InnerClass> {
     
     boolean isMemberClass();
     boolean isAnonymousClass();
+
+    default Classfile getClassfile() {
+        class ClassfileLocator implements Visitor {
+            private Classfile classfile;
+
+            public Classfile getClassfile() {
+                return classfile;
+            }
+
+            public void visitClassfile(Classfile classfile) {
+                this.classfile = classfile;
+            }
+
+            public void visitInnerClasses_attribute(InnerClasses_attribute attribute) {
+                attribute.getOwner().accept(this);
+            }
+
+            public void visitInnerClass(InnerClass helper) {
+                helper.getInnerClasses().accept(this);
+            }
+        }
+
+        var classfileLocator = new ClassfileLocator();
+        accept(classfileLocator);
+        return classfileLocator.getClassfile();
+    }
 }
