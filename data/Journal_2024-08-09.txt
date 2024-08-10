@@ -1,0 +1,3 @@
+Refactored =SymbolGatherer= to track =Visitable= objects instead of only
+=String=.  The next step will be to separate output generation between text and
+CSV, and I might also add YAML, JSON, and XML for good measure.
