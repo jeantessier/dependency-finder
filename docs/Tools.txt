@@ -10335,7 +10335,9 @@ Lists all symbols it could find, based on parameters.
         [-private-accessibility]
         [-protected-accessibility]
         [-public-accessibility]
+        [-text]
         [-time]
+        [-txt]
         [-verbose [filename]]
         [-version]
         [filename ...]
@@ -10632,11 +10634,40 @@ Lists names of public classes, fields, and methods.
 
 </blockquote>
 
+
+---++++ =-text=
+
+<blockquote>
+
+Writes symbols as a sorted text list.  This is the same as =-txt=.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 ---++++ =-time=
 
 <blockquote>
 
 Prints how long it took to run the command.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-txt=
+
+<blockquote>
+
+Writes symbols as a sorted text list.  This is the same as =-text=.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -10711,7 +10742,7 @@ alphabetical order.
 
 <div class="highlight">
 
-    ListSymbols classes\test.class
+    ListSymbols -txt classes\test.class
 
 </div>
 
@@ -11356,8 +11387,8 @@ Computes object-oriented metrics on a codebase.
         [-show-empty-metrics]
         [-show-hidden-measurements]
         [-sort name]
-        [-time]
         [-text]
+        [-time]
         [-txt]
         [-validate]
         [-verbose [filename]]

@@ -44,6 +44,7 @@ import com.jeantessier.classreader.SymbolGathererStrategy;
 import com.jeantessier.classreader.TransientClassfileLoader;
 import com.jeantessier.commandline.CommandLineException;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -69,6 +70,9 @@ public class ListSymbols extends DirectoryExplorerCommand {
         getCommandLine().addMultipleValuesSwitch("includes-list");
         getCommandLine().addMultipleValuesSwitch("excludes");
         getCommandLine().addMultipleValuesSwitch("excludes-list");
+
+        getCommandLine().addToggleSwitch("text");
+        getCommandLine().addToggleSwitch("txt");
     }
 
     protected Collection<CommandLineException> parseCommandLine(String[] args) {
@@ -80,6 +84,18 @@ public class ListSymbols extends DirectoryExplorerCommand {
             getCommandLine().getSwitch("method-names").setValue(true);
             getCommandLine().getSwitch("local-names").setValue(true);
             getCommandLine().getSwitch("inner-class-names").setValue(true);
+        }
+
+        int modeSwitch = 0;
+
+        if (getCommandLine().getToggleSwitch("txt")) {
+            modeSwitch++;
+        }
+        if (getCommandLine().getToggleSwitch("text")) {
+            modeSwitch++;
+        }
+        if (modeSwitch != 1) {
+            exceptions.add(new CommandLineException("Must have one and only one of -text or -txt"));
         }
 
         return exceptions;
@@ -118,6 +134,12 @@ public class ListSymbols extends DirectoryExplorerCommand {
         loader.addLoadListener(getVerboseListener());
         loader.load(getCommandLine().getParameters());
 
+        if (getCommandLine().isPresent("text") || getCommandLine().isPresent("txt")) {
+            printTextFile(gatherer);
+        }
+    }
+
+    private void printTextFile(SymbolGatherer gatherer) throws IOException {
         var out = getOut();
         gatherer.stream()
                 .map(Object::toString)

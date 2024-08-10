@@ -71,6 +71,7 @@ public class ListSymbols extends Task {
     private Path excludesList;
     private File destfile;
     private Path path;
+    private boolean text = false;
 
     public boolean getClassnames() {
         return classNames;
@@ -220,6 +221,18 @@ public class ListSymbols extends Task {
         return path;
     }
 
+    public boolean getText() {
+        return text;
+    }
+
+    public void setText(boolean text) {
+        this.text = text;
+    }
+
+    public void setTxt(boolean text) {
+        setText(text);
+    }
+
     // Visible for tests only
     void validateParameters() throws BuildException {
         if (getPath() == null) {
@@ -245,6 +258,12 @@ public class ListSymbols extends Task {
         loader.addLoadListener(verboseListener);
         loader.load(Arrays.asList(getPath().list()));
 
+        if (getText()) {
+            printTextFile(gatherer);
+        }
+    }
+
+    private void printTextFile(SymbolGatherer gatherer) throws BuildException {
         log("Saving symbols to " + getDestfile().getAbsolutePath());
 
         try (var out = new PrintWriter(new FileWriter(getDestfile()))) {
