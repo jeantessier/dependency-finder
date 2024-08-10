@@ -72,45 +72,35 @@ public class ListDiff extends Command {
     }
 
     protected void doProcessing() throws Exception {
-        String line;
-        
         getVerboseListener().print("Loading old list ...");
-        Collection<String> oldAPI = new TreeSet<>();
-        BufferedReader oldIn = new BufferedReader(new FileReader(getCommandLine().getSingleSwitch("old")));
-        while((line = oldIn.readLine()) != null) {
-            oldAPI.add(line);
-        }
-        oldIn.close();
+        var oldAPI = readLines(getCommandLine().getSingleSwitch("old"));
 
         getVerboseListener().print("Loading new list ...");
-        Collection<String> newAPI = new TreeSet<>();
-        BufferedReader newIn = new BufferedReader(new FileReader(getCommandLine().getSingleSwitch("new")));
-        while((line = newIn.readLine()) != null) {
-            newAPI.add(line);
-        }
-        newIn.close();
+        var newAPI = readLines(getCommandLine().getSingleSwitch("new"));
 
-        ListDiffPrinter printer = new ListDiffPrinter(getCommandLine().getToggleSwitch("compress"), getCommandLine().getSingleSwitch("indent-text"), getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
+        var printer = new ListDiffPrinter(getCommandLine().getToggleSwitch("compress"), getCommandLine().getSingleSwitch("indent-text"), getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
         printer.setName(getCommandLine().getSingleSwitch("name"));
         printer.setOldVersion(getCommandLine().getSingleSwitch("old-label"));
         printer.setNewVersion(getCommandLine().getSingleSwitch("new-label"));
 
         getVerboseListener().print("Computing removed elements ...");
-        for (String name : oldAPI) {
-            if (!newAPI.contains(name)) {
-                printer.remove(name);
-            }
-        }
+        oldAPI.stream()
+                .filter(name -> !newAPI.contains(name))
+                .forEach(printer::remove);
 
         getVerboseListener().print("Computing added elements ...");
-        for (String name : newAPI) {
-            if (!oldAPI.contains(name)) {
-                printer.add(name);
-            }
-        }
+        newAPI.stream()
+                .filter(name -> !oldAPI.contains(name))
+                .forEach(printer::add);
 
         getVerboseListener().print("Printing results ...");
         getOut().print(printer);
+    }
+
+    private Collection<String> readLines(String filename) throws IOException {
+        try (var in = new BufferedReader(new FileReader(filename))) {
+            return new TreeSet<>(in.lines().toList());
+        }
     }
 
     public static void main(String[] args) throws Exception {

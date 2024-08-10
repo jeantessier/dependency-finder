@@ -174,27 +174,15 @@ public class ListDiff extends Task {
         validateParameters();
 
         try {
-            String line;
-            
             log("Loading old list from " + getOld().getAbsolutePath());
-            Collection<String> oldAPI = new TreeSet<>();
-            BufferedReader oldIn = new BufferedReader(new FileReader(getOld()));
-            while((line = oldIn.readLine()) != null) {
-                oldAPI.add(line);
-            }
-            oldIn.close();
-            
+            var oldAPI = readLines(getOld());
+
             log("Loading new list from " + getNew().getAbsolutePath());
-            Collection<String> newAPI = new TreeSet<>();
-            BufferedReader newIn = new BufferedReader(new FileReader(getNew()));
-            while((line = newIn.readLine()) != null) {
-                newAPI.add(line);
-            }
-            newIn.close();
-            
+            var newAPI = readLines(getNew());
+
             log("Comparing old and new lists ...");
 
-            ListDiffPrinter printer = new ListDiffPrinter(getCompress(), getIndenttext(), getEncoding(), getDtdprefix());
+            var printer = new ListDiffPrinter(getCompress(), getIndenttext(), getEncoding(), getDtdprefix());
             printer.setName(getName());
             printer.setOldVersion(getOldlabel());
             printer.setNewVersion(getNewlabel());
@@ -209,11 +197,17 @@ public class ListDiff extends Task {
 
             log("Saving difference report to " + getDestfile().getAbsolutePath());
 
-            PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
-            out.print(printer);
-            out.close();
+            try (var out = new PrintWriter(new FileWriter(getDestfile()))) {
+                out.print(printer);
+            }
         } catch (IOException ex) {
             throw new BuildException(ex);
+        }
+    }
+
+    private Collection<String> readLines(File file) throws IOException {
+        try (var in = new BufferedReader(new FileReader(file))) {
+            return new TreeSet<>(in.lines().toList());
         }
     }
 }
