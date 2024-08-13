@@ -32,16 +32,7 @@
 
 package com.jeantessier.dependencyfinder.ant;
 
-import com.jeantessier.classreader.AccessibilitySymbolGathererStrategy;
-import com.jeantessier.classreader.ClassfileLoader;
-import com.jeantessier.classreader.DefaultSymbolGathererStrategy;
-import com.jeantessier.classreader.FilteringSymbolGathererStrategy;
-import com.jeantessier.classreader.FinalMethodOrClassSymbolGathererStrategy;
-import com.jeantessier.classreader.LoadListenerVisitorAdapter;
-import com.jeantessier.classreader.NonPrivateFieldSymbolGathererStrategy;
-import com.jeantessier.classreader.SymbolGatherer;
-import com.jeantessier.classreader.SymbolGathererStrategy;
-import com.jeantessier.classreader.TransientClassfileLoader;
+import com.jeantessier.classreader.*;
 import com.jeantessier.text.RegularExpressionParser;
 import org.apache.logging.log4j.*;
 import org.apache.tools.ant.BuildException;
@@ -69,8 +60,9 @@ public class ListSymbols extends Task {
     private Path includesList;
     private List<String> excludes = Collections.emptyList();
     private Path excludesList;
-    private File destfile;
+    private File destprefix;
     private Path path;
+    private boolean csv = false;
     private boolean text = false;
 
     public boolean getClassnames() {
@@ -201,12 +193,12 @@ public class ListSymbols extends Task {
         return excludesList;
     }
 
-    public File getDestfile() {
-        return destfile;
+    public File getDestprefix() {
+        return destprefix;
     }
 
-    public void setDestfile(File destfile) {
-        this.destfile = destfile;
+    public void setDestprefix(File destprefix) {
+        this.destprefix = destprefix;
     }
 
     public Path createPath() {
@@ -219,6 +211,14 @@ public class ListSymbols extends Task {
 
     public Path getPath() {
         return path;
+    }
+
+    public boolean getCsv() {
+        return csv;
+    }
+
+    public void setCsv(boolean csv) {
+        this.csv = csv;
     }
 
     public boolean getText() {
@@ -239,8 +239,8 @@ public class ListSymbols extends Task {
             throw new BuildException("path must be set!");
         }
 
-        if (getDestfile() == null) {
-            throw new BuildException("destfile must be set!");
+        if (getDestprefix() == null) {
+            throw new BuildException("destprefix must be set!");
         }
     }
 
@@ -258,20 +258,37 @@ public class ListSymbols extends Task {
         loader.addLoadListener(verboseListener);
         loader.load(Arrays.asList(getPath().list()));
 
-        if (getText()) {
+        if (getCsv()) {
+            printCSVFiles(gatherer);
+        } else if (getText()) {
             printTextFile(gatherer);
         }
     }
 
-    private void printTextFile(SymbolGatherer gatherer) throws BuildException {
-        log("Saving symbols to " + getDestfile().getAbsolutePath());
+    private void printCSVFiles(SymbolGatherer gatherer) throws BuildException {
+        log("Saving symbols to " + getDestprefix().getAbsolutePath() + "_*.csv");
 
-        try (var out = new PrintWriter(new FileWriter(getDestfile()))) {
-            gatherer.stream()
-                    .map(Object::toString)
-                    .sorted()
-                    .distinct()
-                    .forEach(out::println);
+        try {
+            new CSVSymbolPrinter(
+                    null,
+                    getClassnames(),
+                    getFieldnames(),
+                    getMethodnames(),
+                    getLocalnames(),
+                    getInnerclassnames(),
+                    Optional.of(getDestprefix().getAbsolutePath())
+            ).print(gatherer);
+        } catch (IOException ex) {
+            throw new BuildException(ex);
+        }
+    }
+
+    private void printTextFile(SymbolGatherer gatherer) throws BuildException {
+        String filename = getDestprefix().getAbsolutePath() + ".txt";
+        log("Saving symbols to " + filename);
+
+        try (var out = new PrintWriter(new FileWriter(filename))) {
+            new TextSymbolPrinter(out).print(gatherer);
         } catch (IOException ex) {
             throw new BuildException(ex);
         }

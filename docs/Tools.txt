@@ -10372,6 +10372,21 @@ Lists names of classes.
 
 </blockquote>
 
+---++++ =-csv=
+
+<blockquote>
+
+Writes each set of symbols to its own CSV file, perfect for loading in Google
+Docs or Microsoft Excel and for charting.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
 ---++++ =-echo=
 
 <blockquote>

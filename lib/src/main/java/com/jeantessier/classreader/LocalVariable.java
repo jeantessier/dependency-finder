@@ -48,6 +48,8 @@ public interface LocalVariable extends Visitable, Comparable<LocalVariable> {
 
     int getIndex();
 
+    String getType();
+
     default Method_info getMethod() {
         class MethodLocator implements Visitor {
             private Method_info method;

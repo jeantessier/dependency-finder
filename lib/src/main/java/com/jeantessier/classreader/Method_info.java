@@ -33,6 +33,7 @@
 package com.jeantessier.classreader;
 
 import java.util.*;
+import java.util.stream.*;
 
 public interface Method_info extends Feature_info, Comparable<Method_info> {
     boolean isSynchronized();
@@ -46,6 +47,7 @@ public interface Method_info extends Feature_info, Comparable<Method_info> {
 
     Collection<? extends Class_info> getExceptions();
 
+    Stream<String> getParameterTypes();
     String getReturnType();
     Code_attribute getCode();
 }

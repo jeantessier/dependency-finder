@@ -81,15 +81,9 @@ public final class DescriptorHelper {
         LogManager.getLogger(DescriptorHelper.class).debug("Begin Signature(\"{}\")", descriptor);
 
         result.append("(");
-
-        var start = descriptor.indexOf("(") + 1;
-        var end = descriptor.indexOf(")");
-
         result.append(
-                StreamSupport.stream(new DescriptorSpliterator(descriptor.substring(start, end)), false)
-                        .collect(Collectors.joining(", "))
+                getParameterTypes(descriptor).collect(Collectors.joining(", "))
         );
-
         result.append(")");
 
         LogManager.getLogger(DescriptorHelper.class).debug("End   Signature(\"{}\"): \"{}\"", descriptor, result);
@@ -97,13 +91,17 @@ public final class DescriptorHelper {
         return result.toString();
     }
 
-    public static int getParameterCount(String descriptor) {
-        LogManager.getLogger(DescriptorHelper.class).debug("Begin ParameterCount(\"{}\")", descriptor);
-
+    public static Stream<String> getParameterTypes(String descriptor) {
         var start = descriptor.indexOf("(") + 1;
         var end = descriptor.indexOf(")");
 
-        var result = (int) StreamSupport.stream(new DescriptorSpliterator(descriptor.substring(start, end)), false).count();
+        return StreamSupport.stream(new DescriptorSpliterator(descriptor.substring(start, end)), false);
+    }
+
+    public static int getParameterCount(String descriptor) {
+        LogManager.getLogger(DescriptorHelper.class).debug("Begin ParameterCount(\"{}\")", descriptor);
+
+        var result = (int) getParameterTypes(descriptor).count();
 
         LogManager.getLogger(DescriptorHelper.class).debug("End   ParameterCount(\"{}\"): \"{}\"", descriptor, result);
 

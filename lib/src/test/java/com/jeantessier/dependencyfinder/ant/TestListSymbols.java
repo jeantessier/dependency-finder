@@ -74,7 +74,7 @@ public class TestListSymbols extends MockObjectTestCase {
 
     public void testAllMandatoryParameters() {
         sut.createPath();
-        sut.setDestfile(new File("foobar"));
+        sut.setDestprefix(new File("foobar"));
 
         sut.validateParameters();
     }
@@ -88,14 +88,14 @@ public class TestListSymbols extends MockObjectTestCase {
         }
     }
 
-    public void testMissingDestfile() {
+    public void testMissingDestprefix() {
         sut.createPath();
 
         try {
             sut.validateParameters();
-            fail("executed without destfile being set");
+            fail("executed without destprefix being set");
         } catch (BuildException ex) {
-            assertEquals("Wrong message", "destfile must be set!", ex.getMessage());
+            assertEquals("Wrong message", "destprefix must be set!", ex.getMessage());
         }
     }
 

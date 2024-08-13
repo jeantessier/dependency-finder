@@ -28,18 +28,25 @@ your dependency graphs according to a specific list of targets.</p>
     <td align="center" valign="top"><b>Required</b></td>
   </tr>
   <tr>
+    <td valign="top">destprefix</td>
+    <td valign="top">where to write the output.  The rest of the name depends
+      on the output format.  If the file does not exist, it is created.  If it
+      already exists, its content is overwritten.</td>
+    <td valign="top" align="center">Yes</td>
+  </tr>
+  <tr>
+    <td valign="top">csv</td>
+    <td valign="top">writes each set of symbols to its own CSV file, perfect for
+      loading in Microsoft Excel and charting.</td>
+    <td valign="top" align="center" rowspan="3">Yes, at least one of these</td>
+  </tr>
+  <tr>
     <td valign="top">text</td>
     <td valign="top">writes symbols as a sorted text list.</td>
   </tr>
   <tr>
     <td valign="top">txt</td>
     <td valign="top">writes symbols as a sorted text list.</td>
-  </tr>
-  <tr>
-    <td valign="top">destfile</td>
-    <td valign="top">where to write the output.  If the file does not exist,
-    it is created.  If it already exists, its content is overwritten.</td>
-    <td valign="top" align="center">Yes</td>
   </tr>
   <tr>
     <td valign="top">classnames</td>
@@ -142,7 +149,7 @@ and read them.  It is a
 files to analyze and save the resulting report to
 <code>symbols.txt</code>:</p>
 
-<pre>  &lt;listsymbols txt="yes" destfile=&quot;symbols.txt&quot;&gt;
+<pre>  &lt;listsymbols txt="yes" destprefix=&quot;symbols&quot;&gt;
     &lt;path&gt;
       &lt;pathelement location=&quot;.&quot;/&gt;
     &lt;/path&gt;
@@ -152,7 +159,7 @@ files to analyze and save the resulting report to
 <code>.class</code> files to analyze and save the resulting report
 to <code>symbols.txt</code>:</p>
 
-<pre>  &lt;listsymbols txt="yes" destfile=&quot;symbols.txt&quot;&gt;
+<pre>  &lt;listsymbols txt="yes" destprefix=&quot;symbols&quot;&gt;
     &lt;path&gt;
       &lt;pathelement location=&quot;DependencyFinder.jar&quot;/&gt;
       &lt;pathelement location=&quot;rt.jar&quot;/&gt;
@@ -162,7 +169,7 @@ to <code>symbols.txt</code>:</p>
 <p>To scan <code>DependencyFinder.jar</code> for non-private, non-static fields
 and save the resulting report to <code>non-private-fields.txt</code>:</p>
 
-<pre>  &lt;listsymbols txt="yes" destfile=&quot;non-private-fields.txt&quot; nonprivatefieldnames=&quot;yes&quot;&gt;
+<pre>  &lt;listsymbols txt="yes" destprefix=&quot;non-private-fields&quot; nonprivatefieldnames=&quot;yes&quot;&gt;
     &lt;path&gt;
       &lt;pathelement location=&quot;DependencyFinder.jar&quot;/&gt;
     &lt;/path&gt;
@@ -172,7 +179,7 @@ and save the resulting report to <code>non-private-fields.txt</code>:</p>
 test code, and save the resulting report to
 <code>non-private-fields.txt</code>:</p>
 
-<pre>  &lt;listsymbols txt="yes" destfile=&quot;non-private-fields.txt&quot; nonprivatefieldnames=&quot;yes&quot; excludes=&quot;/test/i&quot;&gt;
+<pre>  &lt;listsymbols txt="yes" destprefix=&quot;non-private-fields&quot; nonprivatefieldnames=&quot;yes&quot; excludes=&quot;/test/i&quot;&gt;
     &lt;path&gt;
       &lt;pathelement location=&quot;classes&quot;/&gt;
     &lt;/path&gt;

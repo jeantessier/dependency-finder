@@ -34,6 +34,7 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.*;
 
 import com.jeantessier.classreader.*;
 
@@ -113,6 +114,10 @@ public class Method_info extends Feature_info implements com.jeantessier.classre
         }
 
         return result.toString();
+    }
+
+    public Stream<String> getParameterTypes() {
+        return DescriptorHelper.getParameterTypes(getDescriptor());
     }
 
     public String getReturnType() {

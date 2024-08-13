@@ -32,23 +32,21 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
-import com.jeantessier.classreader.AccessibilitySymbolGathererStrategy;
-import com.jeantessier.classreader.ClassfileLoader;
-import com.jeantessier.classreader.DefaultSymbolGathererStrategy;
-import com.jeantessier.classreader.FilteringSymbolGathererStrategy;
-import com.jeantessier.classreader.FinalMethodOrClassSymbolGathererStrategy;
-import com.jeantessier.classreader.LoadListenerVisitorAdapter;
-import com.jeantessier.classreader.NonPrivateFieldSymbolGathererStrategy;
-import com.jeantessier.classreader.SymbolGatherer;
-import com.jeantessier.classreader.SymbolGathererStrategy;
-import com.jeantessier.classreader.TransientClassfileLoader;
+import com.jeantessier.classreader.*;
 import com.jeantessier.commandline.CommandLineException;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.stream.Collectors;
+import java.io.*;
+import java.util.*;
 
 public class ListSymbols extends DirectoryExplorerCommand {
+    private static final Map<Class<? extends Visitable>, Collection<String>> HEADERS = Map.of(
+            Classfile.class, List.of("symbol", "simple name"),
+            Field_info.class, List.of("symbol", "class", "name", "type"),
+            Method_info.class, List.of("symbol", "class", "name", "signature", "parameter types"),
+            LocalVariable.class, List.of("symbol", "method", "name", "type"),
+            InnerClass.class, List.of("symbol", "outer class", "inner name")
+    );
+
     protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
 
@@ -71,6 +69,7 @@ public class ListSymbols extends DirectoryExplorerCommand {
         getCommandLine().addMultipleValuesSwitch("excludes");
         getCommandLine().addMultipleValuesSwitch("excludes-list");
 
+        getCommandLine().addToggleSwitch("csv");
         getCommandLine().addToggleSwitch("text");
         getCommandLine().addToggleSwitch("txt");
     }
@@ -88,14 +87,17 @@ public class ListSymbols extends DirectoryExplorerCommand {
 
         int modeSwitch = 0;
 
-        if (getCommandLine().getToggleSwitch("txt")) {
+        if (getCommandLine().getToggleSwitch("csv")) {
             modeSwitch++;
         }
         if (getCommandLine().getToggleSwitch("text")) {
             modeSwitch++;
         }
+        if (getCommandLine().getToggleSwitch("txt")) {
+            modeSwitch++;
+        }
         if (modeSwitch != 1) {
-            exceptions.add(new CommandLineException("Must have one and only one of -text or -txt"));
+            exceptions.add(new CommandLineException("Must have one and only one of -csv, -text or -txt"));
         }
 
         return exceptions;
@@ -134,18 +136,29 @@ public class ListSymbols extends DirectoryExplorerCommand {
         loader.addLoadListener(getVerboseListener());
         loader.load(getCommandLine().getParameters());
 
-        if (getCommandLine().isPresent("text") || getCommandLine().isPresent("txt")) {
+        if (getCommandLine().isPresent("csv")) {
+            printCSVFiles(gatherer);
+        } else if (getCommandLine().isPresent("text") || getCommandLine().isPresent("txt")) {
             printTextFile(gatherer);
         }
     }
 
+    private void printCSVFiles(SymbolGatherer gatherer) throws IOException {
+        new CSVSymbolPrinter(
+                getOut(),
+                getCommandLine().getToggleSwitch("class-names"),
+                getCommandLine().getToggleSwitch("field-names"),
+                getCommandLine().getToggleSwitch("method-names"),
+                getCommandLine().getToggleSwitch("local-names"),
+                getCommandLine().getToggleSwitch("inner-class-names"),
+                getCommandLine().isPresent("out") ?
+                        Optional.of(getCommandLine().getSingleSwitch("out")) :
+                        Optional.empty()
+        ).print(gatherer);
+    }
+
     private void printTextFile(SymbolGatherer gatherer) throws IOException {
-        var out = getOut();
-        gatherer.stream()
-                .map(Object::toString)
-                .sorted()
-                .distinct()
-                .forEach(out::println);
+        new TextSymbolPrinter(getOut()).print(gatherer);
     }
 
     public static void main(String[] args) throws Exception {
