@@ -63,7 +63,13 @@ public class ListSymbols extends Task {
     private File destprefix;
     private Path path;
     private boolean csv = false;
+    private boolean json = false;
     private boolean text = false;
+    private boolean xml = false;
+    private boolean yaml = false;
+    private String encoding = XMLSymbolPrinter.DEFAULT_ENCODING;
+    private String dtdPrefix = XMLSymbolPrinter.DEFAULT_DTD_PREFIX;
+    private String indentText = XMLSymbolPrinter.DEFAULT_INDENT_TEXT;
 
     public boolean getClassnames() {
         return classNames;
@@ -221,6 +227,14 @@ public class ListSymbols extends Task {
         this.csv = csv;
     }
 
+    public boolean getJson() {
+        return json;
+    }
+
+    public void setJson(boolean json) {
+        this.json = json;
+    }
+
     public boolean getText() {
         return text;
     }
@@ -231,6 +245,50 @@ public class ListSymbols extends Task {
 
     public void setTxt(boolean text) {
         setText(text);
+    }
+
+    public boolean getXml() {
+        return xml;
+    }
+
+    public void setXml(boolean xml) {
+        this.xml = xml;
+    }
+
+    public boolean getYaml() {
+        return yaml;
+    }
+
+    public void setYaml(boolean yaml) {
+        this.yaml = yaml;
+    }
+
+    public void setYml(boolean yaml) {
+        setYaml(yaml);
+    }
+
+    public String getEncoding() {
+        return encoding;
+    }
+
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
+    }
+
+    public String getDtdprefix() {
+        return dtdPrefix;
+    }
+
+    public void setDtdprefix(String dtdPrefix) {
+        this.dtdPrefix = dtdPrefix;
+    }
+
+    public String getIndenttext() {
+        return indentText;
+    }
+
+    public void setIndenttext(String indentText) {
+        this.indentText = indentText;
     }
 
     // Visible for tests only
@@ -260,8 +318,14 @@ public class ListSymbols extends Task {
 
         if (getCsv()) {
             printCSVFiles(gatherer);
+        } else if (getJson()) {
+            printJSONFile(gatherer);
         } else if (getText()) {
             printTextFile(gatherer);
+        } else if (getXml()) {
+            printXMLFile(gatherer);
+        } else if (getYaml()) {
+            printYAMLFile(gatherer);
         }
     }
 
@@ -283,12 +347,53 @@ public class ListSymbols extends Task {
         }
     }
 
+    private void printJSONFile(SymbolGatherer gatherer) throws BuildException {
+        String filename = getDestprefix().getAbsolutePath() + ".json";
+        log("Saving symbols to " + filename);
+
+        try (var out = new PrintWriter(new FileWriter(filename))) {
+            new JSONSymbolPrinter(out).print(gatherer);
+        } catch (IOException ex) {
+            throw new BuildException(ex);
+        }
+    }
+
     private void printTextFile(SymbolGatherer gatherer) throws BuildException {
         String filename = getDestprefix().getAbsolutePath() + ".txt";
         log("Saving symbols to " + filename);
 
         try (var out = new PrintWriter(new FileWriter(filename))) {
             new TextSymbolPrinter(out).print(gatherer);
+        } catch (IOException ex) {
+            throw new BuildException(ex);
+        }
+    }
+
+    private void printXMLFile(SymbolGatherer gatherer) throws BuildException {
+        String filename = getDestprefix().getAbsolutePath() + ".xml";
+        log("Saving symbols to " + filename);
+
+        try (var out = new PrintWriter(new FileWriter(filename))) {
+            new XMLSymbolPrinter(
+                    out,
+                    getEncoding(),
+                    getDtdprefix(),
+                    getIndenttext()
+            ).print(gatherer);
+        } catch (IOException ex) {
+            throw new BuildException(ex);
+        }
+    }
+
+    private void printYAMLFile(SymbolGatherer gatherer) throws BuildException {
+        String filename = getDestprefix().getAbsolutePath() + ".yaml";
+        log("Saving symbols to " + filename);
+
+        try (var out = new PrintWriter(new FileWriter(filename))) {
+            new YAMLSymbolPrinter(
+                    out,
+                    getIndenttext()
+            ).print(gatherer);
         } catch (IOException ex) {
             throw new BuildException(ex);
         }

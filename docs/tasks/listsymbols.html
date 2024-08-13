@@ -38,7 +38,11 @@ your dependency graphs according to a specific list of targets.</p>
     <td valign="top">csv</td>
     <td valign="top">writes each set of symbols to its own CSV file, perfect for
       loading in Microsoft Excel and charting.</td>
-    <td valign="top" align="center" rowspan="3">Yes, at least one of these</td>
+    <td valign="top" align="center" rowspan="7">Yes, at least one of these</td>
+  </tr>
+  <tr>
+    <td valign="top">json</td>
+    <td valign="top">writes symbols as a JSON document.</td>
   </tr>
   <tr>
     <td valign="top">text</td>
@@ -47,6 +51,37 @@ your dependency graphs according to a specific list of targets.</p>
   <tr>
     <td valign="top">txt</td>
     <td valign="top">writes symbols as a sorted text list.</td>
+  </tr>
+  <tr>
+    <td valign="top">xml</td>
+    <td valign="top">writes symbols as an XML document with the
+      <code><a href="https://depfind.sourceforge.io/dtd/symbols.dtd">symbols</a></code>
+      DTD.</td>
+  </tr>
+  <tr>
+    <td valign="top">yaml</td>
+    <td valign="top">writes symbols as a YAML document.</td>
+  </tr>
+  <tr>
+    <td valign="top">yml</td>
+    <td valign="top">writes symbols as a YAML document.</td>
+  </tr>
+  <tr>
+    <td valign="top">encoding</td>
+    <td valign="top">encoding used for the XML output document.
+      Only useful with <code>xml</code>.</td>
+    <td align="center" valign="top">No</td>
+  </tr>
+  <tr>
+    <td valign="top">dtdprefix</td>
+    <td valign="top">prefix of the DTD URL for the XML output document.
+      Only useful with <code>xml</code>.</td>
+    <td align="center" valign="top">No</td>
+  </tr>
+  <tr>
+    <td valign="top">indenttext</td>
+    <td valign="top">used for each indentation level in textual and XML output.</td>
+    <td align="center" valign="top">No</td>
   </tr>
   <tr>
     <td valign="top">classnames</td>

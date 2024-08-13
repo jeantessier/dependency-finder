@@ -10387,6 +10387,21 @@ Docs or Microsoft Excel and for charting.
 
 </blockquote>
 
+---++++ =-dtd-prefix uri=
+
+<blockquote>
+
+The prefix of the DTD URL for the XML output document.
+Only useful with =-xml=.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=https://depfind.sourceforge.io/dtd=</td></tr>
+</table>
+
+</blockquote>
+
 ---++++ =-echo=
 
 <blockquote>
@@ -10397,6 +10412,21 @@ Prints the command-line, as seen by the tool.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-encoding name=
+
+<blockquote>
+
+The encoding used for the XML output document.
+Only useful with =-xml=.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>=utf-8=</td></tr>
 </table>
 
 </blockquote>
@@ -10518,11 +10548,39 @@ the files.
 
 </blockquote>
 
+---++++ =-indent-text text=
+
+<blockquote>
+
+Uses _text_ for each indentation level in XML output.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>Four spaces, "=&nbsp;&nbsp;&nbsp;&nbsp;="</td></tr>
+</table>
+
+</blockquote>
+
 ---++++ =-inner-class-names=
 
 <blockquote>
 
 Lists names of inner classes.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-json=
+
+<blockquote>
+
+Writes symbols report as a JSON document.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -10712,6 +10770,49 @@ a file, the tool will write the information to the standard output stream.
 <blockquote>
 
 Prints version information.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-xml=
+
+<blockquote>
+
+Writes symbols as an XML document with the
+=[[https://depfind.sourceforge.io/dtd/symbols.dtd][symbols]]= DTD.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-yaml=
+
+<blockquote>
+
+Writes symbols as a YAML document.  This is the same as =-yml=.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-yml=
+
+<blockquote>
+
+Writes symbols as a YAML document.  This is the same as =-yaml=.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -11547,7 +11648,8 @@ class to figure out how far it is from =java.lang.Object=.
 
 <blockquote>
 
-The encoding used for the XML output document.  Only useful with =-xml=.
+The encoding used for the XML output document.
+Only useful with =-xml=.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>

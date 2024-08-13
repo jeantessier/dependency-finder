@@ -39,16 +39,9 @@ import java.io.*;
 import java.util.*;
 
 public class ListSymbols extends DirectoryExplorerCommand {
-    private static final Map<Class<? extends Visitable>, Collection<String>> HEADERS = Map.of(
-            Classfile.class, List.of("symbol", "simple name"),
-            Field_info.class, List.of("symbol", "class", "name", "type"),
-            Method_info.class, List.of("symbol", "class", "name", "signature", "parameter types"),
-            LocalVariable.class, List.of("symbol", "method", "name", "type"),
-            InnerClass.class, List.of("symbol", "outer class", "inner name")
-    );
-
     protected void populateCommandLineSwitches() {
         super.populateCommandLineSwitches();
+        populateCommandLineSwitchesForXMLOutput(XMLSymbolPrinter.DEFAULT_ENCODING, XMLSymbolPrinter.DEFAULT_DTD_PREFIX, XMLSymbolPrinter.DEFAULT_INDENT_TEXT);
 
         getCommandLine().addToggleSwitch("class-names");
         getCommandLine().addToggleSwitch("field-names");
@@ -70,8 +63,12 @@ public class ListSymbols extends DirectoryExplorerCommand {
         getCommandLine().addMultipleValuesSwitch("excludes-list");
 
         getCommandLine().addToggleSwitch("csv");
+        getCommandLine().addToggleSwitch("json");
         getCommandLine().addToggleSwitch("text");
         getCommandLine().addToggleSwitch("txt");
+        getCommandLine().addToggleSwitch("xml");
+        getCommandLine().addToggleSwitch("yaml");
+        getCommandLine().addToggleSwitch("yml");
     }
 
     protected Collection<CommandLineException> parseCommandLine(String[] args) {
@@ -90,14 +87,26 @@ public class ListSymbols extends DirectoryExplorerCommand {
         if (getCommandLine().getToggleSwitch("csv")) {
             modeSwitch++;
         }
+        if (getCommandLine().getToggleSwitch("json")) {
+            modeSwitch++;
+        }
         if (getCommandLine().getToggleSwitch("text")) {
             modeSwitch++;
         }
         if (getCommandLine().getToggleSwitch("txt")) {
             modeSwitch++;
         }
+        if (getCommandLine().getToggleSwitch("xml")) {
+            modeSwitch++;
+        }
+        if (getCommandLine().getToggleSwitch("yaml")) {
+            modeSwitch++;
+        }
+        if (getCommandLine().getToggleSwitch("yml")) {
+            modeSwitch++;
+        }
         if (modeSwitch != 1) {
-            exceptions.add(new CommandLineException("Must have one and only one of -csv, -text or -txt"));
+            exceptions.add(new CommandLineException("Must have one and only one of -csv, -json, -text, -txt, -xml, -yml, or -yaml"));
         }
 
         return exceptions;
@@ -138,8 +147,14 @@ public class ListSymbols extends DirectoryExplorerCommand {
 
         if (getCommandLine().isPresent("csv")) {
             printCSVFiles(gatherer);
+        } else if (getCommandLine().isPresent("json")) {
+            printJsonFile(gatherer);
         } else if (getCommandLine().isPresent("text") || getCommandLine().isPresent("txt")) {
             printTextFile(gatherer);
+        } else if (getCommandLine().isPresent("xml")) {
+            printXMLFile(gatherer);
+        } else if (getCommandLine().isPresent("yaml") || getCommandLine().isPresent("yml")) {
+            printYAMLFile(gatherer);
         }
     }
 
@@ -157,8 +172,28 @@ public class ListSymbols extends DirectoryExplorerCommand {
         ).print(gatherer);
     }
 
+    private void printJsonFile(SymbolGatherer gatherer) throws IOException {
+        new JSONSymbolPrinter(getOut()).print(gatherer);
+    }
+
     private void printTextFile(SymbolGatherer gatherer) throws IOException {
         new TextSymbolPrinter(getOut()).print(gatherer);
+    }
+
+    private void printXMLFile(SymbolGatherer gatherer) throws IOException {
+        new XMLSymbolPrinter(
+                getOut(),
+                getCommandLine().getSingleSwitch("encoding"),
+                getCommandLine().getSingleSwitch("dtd-prefix"),
+                getCommandLine().getSingleSwitch("indent-text")
+        ).print(gatherer);
+    }
+
+    private void printYAMLFile(SymbolGatherer gatherer) throws IOException {
+        new YAMLSymbolPrinter(
+                getOut(),
+                getCommandLine().getSingleSwitch("indent-text")
+        ).print(gatherer);
     }
 
     public static void main(String[] args) throws Exception {
