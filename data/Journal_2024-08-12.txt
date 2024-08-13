@@ -1,0 +1,4 @@
+Extracted the logic to break down symbols to =SymbolPrinter= and wrote
+text and CSV variations.
+
+Also added JSON, XML, and YAML formats after further refactoring.

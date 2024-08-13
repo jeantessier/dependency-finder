@@ -1,0 +1,4 @@
+Worked on CSV output for =ListSymbols= and breaking down symbols into
+constituents.  I'm tring it out in the CLI first.  I'll have to extract it
+later to some common place (=com.jeantessier.classreader=?) that can be shared
+between the CLI and Ant tasks.
