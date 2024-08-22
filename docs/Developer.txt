@@ -1116,7 +1116,7 @@ branch of the repository that has been tagged appropriately.
     1 =git clone --local /original/path/to/git/project=
     1 =cd /tmp/DependencyFinder=
     1 Select Java 17.
-    1 =ant dist=
+    1 =ant -Drelease%3D<VERSION /> dist=
     1 Go to [[https://sourceforge.net/projects/depfind/][SourceForge project page]], click "Files" &gt;&gt; "DependencyFinder".
     1 Create a new folder, upload all files from =dist/= to the new folder.
     1 Make =DependencyFinder-<VERSION />.zip= the default download for Windows.

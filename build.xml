@@ -11,7 +11,7 @@
             <format property="NOW" pattern="yyyy-MM-dd HH:mm:ss"/>
         </tstamp>
 
-        <property name="release" value="1.4.0"/>
+        <property name="release" value="SNAPSHOT"/>
 
         <property name="srcDir" value="lib/src/main"/>
         <property name="binDir" value="bin"/>
@@ -49,8 +49,8 @@
             description="Compiles all classes">
         <exec executable="./gradlew">
             <arg value="assemble"/>
-            <env key="DEPENDENCY_FINDER_VERSION" value="${release}"/>
-            <env key="DEPENDENCY_FINDER_RELEASE_DATE" value="${NOW}"/>
+            <arg value="-Pversion=${release}"/>
+            <arg value="-PreleaseDate=${NOW}"/>
         </exec>
     </target>
 
@@ -158,9 +158,9 @@
         <exec executable="./gradlew">
             <arg value="copyJarsForDependencies"/>
         </exec>
-        <copy file="lib/build/libs/lib.jar" tofile="${jarFile}"/>
-        <copy file="lib/build/libs/lib-javadoc.jar" tofile="${javadocFile}"/>
-        <copy file="lib/build/libs/lib-sources.jar" tofile="${sourcesFile}"/>
+        <copy file="lib/build/libs/lib-${release}.jar" tofile="${jarFile}"/>
+        <copy file="lib/build/libs/lib-${release}-javadoc.jar" tofile="${javadocFile}"/>
+        <copy file="lib/build/libs/lib-${release}-sources.jar" tofile="${sourcesFile}"/>
     </target>
 
     <target name="war" depends="jar">

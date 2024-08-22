@@ -30,8 +30,7 @@ java {
 
 tasks.jar {
     manifest {
-        val version = System.getenv("DEPENDENCY_FINDER_VERSION") ?: "unknown"
-        val releaseDate = System.getenv("DEPENDENCY_FINDER_RELEASE_DATE") ?: "unknown"
+        val releaseDate = findProperty("releaseDate") ?: "unspecified"
         attributes(
                 "Specification-Vendor" to "Jean Tessier",
                 "Specification-Title" to "Dependency Finder",
