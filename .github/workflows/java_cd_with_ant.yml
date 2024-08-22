@@ -2,16 +2,15 @@ name: Java CD with Ant
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: Version of Dependency Finder to build
+        required: true
 
 jobs:
 
   dist:
     runs-on: ubuntu-latest
-
-    inputs:
-      version:
-        description: Version of Dependency Finder to build
-        required: true
 
     steps:
       - name: Checkout the repo
@@ -27,7 +26,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
 
       - name: Generate distribution artifacts
-        run: ant -Drelease=${{ inputs.homedrive }} dist
+        run: ant -Drelease=${{ inputs.version }} dist
 
       - name: Store distribution artifacts
         uses: actions/upload-artifact@v4
