@@ -31,5 +31,5 @@ jobs:
       - name: Store distribution artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: dist
+          name: dist-${{ inputs.version }}
           path: ${{ github.workspace }}/dist/*
