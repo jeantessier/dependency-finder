@@ -164,7 +164,7 @@
     </target>
 
     <target name="war" depends="jar">
-        <copy file="webapp/build/libs/webapp.war" tofile="${warFile}"/>
+        <copy file="webapp/build/libs/webapp-${release}.war" tofile="${warFile}"/>
     </target>
 
     <!--
