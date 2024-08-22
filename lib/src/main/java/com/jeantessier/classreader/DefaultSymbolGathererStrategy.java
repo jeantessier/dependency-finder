@@ -33,49 +33,49 @@
 package com.jeantessier.classreader;
 
 public class DefaultSymbolGathererStrategy implements SymbolGathererStrategy {
-    private boolean matchingClassNames = true;
-    private boolean matchingFieldNames = true;
-    private boolean matchingMethodNames = true;
-    private boolean matchingLocalNames = true;
-    private boolean matchingInnerClassNames = true;
+    private boolean matchingClasses = true;
+    private boolean matchingFields = true;
+    private boolean matchingMethods = true;
+    private boolean matchingLocalVariables = true;
+    private boolean matchingInnerClasses = true;
 
-    public void setMatchingClassNames(boolean matchingClassNames) {
-        this.matchingClassNames = matchingClassNames;
+    public void setMatchingClasses(boolean matchingClasses) {
+        this.matchingClasses = matchingClasses;
     }
 
-    public void setMatchingFieldNames(boolean matchingFieldNames) {
-        this.matchingFieldNames = matchingFieldNames;
+    public void setMatchingFields(boolean matchingFields) {
+        this.matchingFields = matchingFields;
     }
 
-    public void setMatchingMethodNames(boolean matchingMethodNames) {
-        this.matchingMethodNames = matchingMethodNames;
+    public void setMatchingMethods(boolean matchingMethods) {
+        this.matchingMethods = matchingMethods;
     }
 
-    public void setMatchingLocalNames(boolean matchingLocalNames) {
-        this.matchingLocalNames = matchingLocalNames;
+    public void setMatchingLocalVariables(boolean matchingLocalVariables) {
+        this.matchingLocalVariables = matchingLocalVariables;
     }
 
-    public void setMatchingInnerClassNames(boolean matchingInnerClassNames) {
-        this.matchingInnerClassNames = matchingInnerClassNames;
+    public void setMatchingInnerClasses(boolean matchingInnerClasses) {
+        this.matchingInnerClasses = matchingInnerClasses;
     }
 
     public boolean isMatching(Classfile classfile) {
-        return matchingClassNames;
+        return matchingClasses;
     }
 
     public boolean isMatching(Field_info field) {
-        return matchingFieldNames;
+        return matchingFields;
     }
 
     public boolean isMatching(Method_info method) {
-        return matchingMethodNames;
+        return matchingMethods;
     }
 
     public boolean isMatching(LocalVariable localVariable) {
-        return matchingLocalNames;
+        return matchingLocalVariables;
     }
 
     public boolean isMatching(InnerClass innerClass) {
-        return matchingInnerClassNames;
+        return matchingInnerClasses;
     }
 }

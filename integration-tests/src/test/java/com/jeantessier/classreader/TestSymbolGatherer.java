@@ -87,11 +87,11 @@ public class TestSymbolGatherer extends TestCase {
     }
 
     public void testClassNamesOnly() {
-        strategy.setMatchingClassNames(true);
-        strategy.setMatchingFieldNames(false);
-        strategy.setMatchingMethodNames(false);
-        strategy.setMatchingLocalNames(false);
-        strategy.setMatchingInnerClassNames(false);
+        strategy.setMatchingClasses(true);
+        strategy.setMatchingFields(false);
+        strategy.setMatchingMethods(false);
+        strategy.setMatchingLocalVariables(false);
+        strategy.setMatchingInnerClasses(false);
 
         loader.load(Arrays.asList(TEST_FILENAME, INNER_TEST_FILENAME));
 
@@ -100,11 +100,11 @@ public class TestSymbolGatherer extends TestCase {
     }
 
     public void testFieldNamesOnly() {
-        strategy.setMatchingClassNames(false);
-        strategy.setMatchingFieldNames(true);
-        strategy.setMatchingMethodNames(false);
-        strategy.setMatchingLocalNames(false);
-        strategy.setMatchingInnerClassNames(false);
+        strategy.setMatchingClasses(false);
+        strategy.setMatchingFields(true);
+        strategy.setMatchingMethods(false);
+        strategy.setMatchingLocalVariables(false);
+        strategy.setMatchingInnerClasses(false);
 
         loader.load(Arrays.asList(TEST_FILENAME, INNER_TEST_FILENAME));
 
@@ -113,11 +113,11 @@ public class TestSymbolGatherer extends TestCase {
     }
 
     public void testMethodNamesOnly() {
-        strategy.setMatchingClassNames(false);
-        strategy.setMatchingFieldNames(false);
-        strategy.setMatchingMethodNames(true);
-        strategy.setMatchingLocalNames(false);
-        strategy.setMatchingInnerClassNames(false);
+        strategy.setMatchingClasses(false);
+        strategy.setMatchingFields(false);
+        strategy.setMatchingMethods(true);
+        strategy.setMatchingLocalVariables(false);
+        strategy.setMatchingInnerClasses(false);
 
         loader.load(Arrays.asList(TEST_FILENAME, INNER_TEST_FILENAME));
 
@@ -128,11 +128,11 @@ public class TestSymbolGatherer extends TestCase {
     }
 
     public void testLocalNamesOnly() {
-        strategy.setMatchingClassNames(false);
-        strategy.setMatchingFieldNames(false);
-        strategy.setMatchingMethodNames(false);
-        strategy.setMatchingLocalNames(true);
-        strategy.setMatchingInnerClassNames(false);
+        strategy.setMatchingClasses(false);
+        strategy.setMatchingFields(false);
+        strategy.setMatchingMethods(false);
+        strategy.setMatchingLocalVariables(true);
+        strategy.setMatchingInnerClasses(false);
 
         loader.load(Arrays.asList(TEST_FILENAME, INNER_TEST_FILENAME));
 
@@ -145,11 +145,11 @@ public class TestSymbolGatherer extends TestCase {
     }
 
     public void testInnerClassNamesOnly() {
-        strategy.setMatchingClassNames(false);
-        strategy.setMatchingFieldNames(false);
-        strategy.setMatchingMethodNames(false);
-        strategy.setMatchingLocalNames(false);
-        strategy.setMatchingInnerClassNames(true);
+        strategy.setMatchingClasses(false);
+        strategy.setMatchingFields(false);
+        strategy.setMatchingMethods(false);
+        strategy.setMatchingLocalVariables(false);
+        strategy.setMatchingInnerClasses(true);
 
         loader.load(Arrays.asList(TEST_FILENAME, INNER_TEST_FILENAME));
 

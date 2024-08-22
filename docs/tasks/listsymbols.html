@@ -84,27 +84,27 @@ your dependency graphs according to a specific list of targets.</p>
     <td align="center" valign="top">No</td>
   </tr>
   <tr>
-    <td valign="top">classnames</td>
+    <td valign="top">classes</td>
     <td valign="top">list the names of classes.</td>
     <td valign="top" align="center">No</td>
   </tr>
   <tr>
-    <td valign="top">fieldnames</td>
+    <td valign="top">fields</td>
     <td valign="top">list the names of fields.</td>
     <td valign="top" align="center">No</td>
   </tr>
   <tr>
-    <td valign="top">methodnames</td>
+    <td valign="top">methods</td>
     <td valign="top">list the names of methods, including constructors.</td>
     <td valign="top" align="center">No</td>
   </tr>
   <tr>
-    <td valign="top">localnames</td>
+    <td valign="top">localvariables</td>
     <td valign="top">list the names of local variables.</td>
     <td valign="top" align="center">No</td>
   </tr>
   <tr>
-    <td valign="top">innerclassnames</td>
+    <td valign="top">innerclasses</td>
     <td valign="top">list the names of inner classes.</td>
     <td valign="top" align="center">No</td>
   </tr>
@@ -130,14 +130,14 @@ your dependency graphs according to a specific list of targets.</p>
     <td valign="top" align="center">No</td>
   </tr>
   <tr>
-    <td valign="top">nonprivatefieldnames</td>
+    <td valign="top">nonprivatefields</td>
     <td valign="top">list the names of fields that are not private and not
     static.  These can break encapsulation by allowing other classes to depend
     on the internal implementation of a class.</td>
     <td valign="top" align="center">No</td>
   </tr>
   <tr>
-    <td valign="top">finalmethodorclassnames</td>
+    <td valign="top">finalmethodsorclasses</td>
     <td valign="top">list the names of methods and classes that are marked as
     <code>final</code>.  These can make testing and mocking harder, so you
     should make sure they are really needed.</td>
@@ -204,7 +204,7 @@ to <code>symbols.txt</code>:</p>
 <p>To scan <code>DependencyFinder.jar</code> for non-private, non-static fields
 and save the resulting report to <code>non-private-fields.txt</code>:</p>
 
-<pre>  &lt;listsymbols txt="yes" destprefix=&quot;non-private-fields&quot; nonprivatefieldnames=&quot;yes&quot;&gt;
+<pre>  &lt;listsymbols txt="yes" destprefix=&quot;non-private-fields&quot; nonprivatefields=&quot;yes&quot;&gt;
     &lt;path&gt;
       &lt;pathelement location=&quot;DependencyFinder.jar&quot;/&gt;
     &lt;/path&gt;
@@ -214,7 +214,7 @@ and save the resulting report to <code>non-private-fields.txt</code>:</p>
 test code, and save the resulting report to
 <code>non-private-fields.txt</code>:</p>
 
-<pre>  &lt;listsymbols txt="yes" destprefix=&quot;non-private-fields&quot; nonprivatefieldnames=&quot;yes&quot; excludes=&quot;/test/i&quot;&gt;
+<pre>  &lt;listsymbols txt="yes" destprefix=&quot;non-private-fields&quot; nonprivatefields=&quot;yes&quot; excludes=&quot;/test/i&quot;&gt;
     &lt;path&gt;
       &lt;pathelement location=&quot;classes&quot;/&gt;
     &lt;/path&gt;

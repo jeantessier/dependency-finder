@@ -9,9 +9,17 @@ public class TextSymbolPrinter extends SymbolPrinter {
 
     public void print(SymbolGatherer gatherer) throws IOException {
         gatherer.stream()
-                .map(Object::toString)
+                .map(this::getTextFor)
                 .sorted()
                 .distinct()
                 .forEach(getOut()::println);
+    }
+
+    private String getTextFor(Visitable visitable) {
+        if (visitable instanceof Method_info method) {
+            return method.getFullSignature();
+        } else {
+            return visitable.toString();
+        }
     }
 }

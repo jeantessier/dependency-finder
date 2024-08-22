@@ -45,17 +45,17 @@ import java.util.*;
 import java.util.stream.*;
 
 public class ListSymbols extends Task {
-    private boolean classNames = false;
-    private boolean fieldNames = false;
-    private boolean methodNames = false;
-    private boolean localNames = false;
-    private boolean innerClassNames = false;
+    private boolean classes = false;
+    private boolean fields = false;
+    private boolean methods = false;
+    private boolean localVariables = false;
+    private boolean innerClasses = false;
     private  boolean publicAccessibility = false;
     private  boolean protectedAccessibility = false;
     private  boolean privateAccessibility = false;
     private  boolean packageAccessibility = false;
-    private boolean nonPrivateFieldNames = false;
-    private boolean finalMethodOrClassNames = false;
+    private boolean nonPrivateFields = false;
+    private boolean finalMethodsOrClasses = false;
     private List<String> includes = Collections.singletonList("//");
     private Path includesList;
     private List<String> excludes = Collections.emptyList();
@@ -71,44 +71,44 @@ public class ListSymbols extends Task {
     private String dtdPrefix = XMLSymbolPrinter.DEFAULT_DTD_PREFIX;
     private String indentText = XMLSymbolPrinter.DEFAULT_INDENT_TEXT;
 
-    public boolean getClassnames() {
-        return classNames;
+    public boolean getClasses() {
+        return classes;
     }
     
-    public void setClassnames(boolean classNames) {
-        this.classNames = classNames;
+    public void setClasses(boolean classes) {
+        this.classes = classes;
     }
 
-    public boolean getFieldnames() {
-        return fieldNames;
+    public boolean getFields() {
+        return fields;
     }
     
-    public void setFieldnames(boolean fieldNames) {
-        this.fieldNames = fieldNames;
+    public void setFields(boolean fields) {
+        this.fields = fields;
     }
 
-    public boolean getMethodnames() {
-        return methodNames;
+    public boolean getMethods() {
+        return methods;
     }
     
-    public void setMethodnames(boolean methodNames) {
-        this.methodNames = methodNames;
+    public void setMethods(boolean methods) {
+        this.methods = methods;
     }
 
-    public boolean getLocalnames() {
-        return localNames;
+    public boolean getLocalvariables() {
+        return localVariables;
     }
 
-    public void setInnerclassnames(boolean innerClassNames) {
-        this.innerClassNames = innerClassNames;
+    public void setLocalvariables(boolean localVariables) {
+        this.localVariables = localVariables;
     }
 
-    public boolean getInnerclassnames() {
-        return innerClassNames;
+    public boolean getInnerclasses() {
+        return innerClasses;
     }
 
-    public void setLocalnames(boolean localNames) {
-        this.localNames = localNames;
+    public void setInnerclasses(boolean innerClasses) {
+        this.innerClasses = innerClasses;
     }
 
     public boolean getPublicaccessibility() {
@@ -143,20 +143,20 @@ public class ListSymbols extends Task {
         this.packageAccessibility = packageAccessibility;
     }
 
-    public boolean getNonprivatefieldnames() {
-        return nonPrivateFieldNames;
+    public boolean getNonprivatefields() {
+        return nonPrivateFields;
     }
 
-    public void setNonprivatefieldnames(boolean nonPrivateFieldNames) {
-        this.nonPrivateFieldNames = nonPrivateFieldNames;
+    public void setNonprivatefields(boolean nonPrivateFields) {
+        this.nonPrivateFields = nonPrivateFields;
     }
 
-    public boolean getFinalmethodorclassnames() {
-        return finalMethodOrClassNames;
+    public boolean getFinalmethodsorclasses() {
+        return finalMethodsOrClasses;
     }
 
-    public void setFinalmethodorclassnames(boolean finalMethodOrClassNames) {
-        this.finalMethodOrClassNames = finalMethodOrClassNames;
+    public void setFinalmethodsorclasses(boolean finalMethodsOrClasses) {
+        this.finalMethodsOrClasses = finalMethodsOrClasses;
     }
 
     public List<String> getIncludes() {
@@ -335,11 +335,11 @@ public class ListSymbols extends Task {
         try {
             new CSVSymbolPrinter(
                     null,
-                    getClassnames(),
-                    getFieldnames(),
-                    getMethodnames(),
-                    getLocalnames(),
-                    getInnerclassnames(),
+                    getClasses(),
+                    getFields(),
+                    getMethods(),
+                    getLocalvariables(),
+                    getInnerclasses(),
                     Optional.of(getDestprefix().getAbsolutePath())
             ).print(gatherer);
         } catch (IOException ex) {
@@ -403,9 +403,9 @@ public class ListSymbols extends Task {
     SymbolGathererStrategy createStrategy() {
         SymbolGathererStrategy result;
 
-        if (getNonprivatefieldnames()) {
+        if (getNonprivatefields()) {
             result = new NonPrivateFieldSymbolGathererStrategy();
-        } else if (getFinalmethodorclassnames()) {
+        } else if (getFinalmethodsorclasses()) {
             result = new FinalMethodOrClassSymbolGathererStrategy();
         } else {
             result = createDefaultSymbolGathererStrategy();
@@ -428,32 +428,32 @@ public class ListSymbols extends Task {
         // This way, if you pass nothing, you get the default behavior and
         // the tool shows everything.  If you pass in one or more, you only
         // see symbols of the kind(s) you specified.
-        if (getClassnames() || getFieldnames() || getMethodnames() || getLocalnames() || getInnerclassnames()) {
-            result.setMatchingClassNames(false);
-            result.setMatchingFieldNames(false);
-            result.setMatchingMethodNames(false);
-            result.setMatchingLocalNames(false);
-            result.setMatchingInnerClassNames(false);
+        if (getClasses() || getFields() || getMethods() || getLocalvariables() || getInnerclasses()) {
+            result.setMatchingClasses(false);
+            result.setMatchingFields(false);
+            result.setMatchingMethods(false);
+            result.setMatchingLocalVariables(false);
+            result.setMatchingInnerClasses(false);
         }
 
-        if (getClassnames()) {
-            result.setMatchingClassNames(true);
+        if (getClasses()) {
+            result.setMatchingClasses(true);
         }
 
-        if (getFieldnames()) {
-            result.setMatchingFieldNames(true);
+        if (getFields()) {
+            result.setMatchingFields(true);
         }
 
-        if (getMethodnames()) {
-            result.setMatchingMethodNames(true);
+        if (getMethods()) {
+            result.setMatchingMethods(true);
         }
 
-        if (getLocalnames()) {
-            result.setMatchingLocalNames(true);
+        if (getLocalvariables()) {
+            result.setMatchingLocalVariables(true);
         }
 
-        if (getInnerclassnames()) {
-            result.setMatchingInnerClassNames(true);
+        if (getInnerclasses()) {
+            result.setMatchingInnerClasses(true);
         }
 
         return result;

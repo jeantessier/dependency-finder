@@ -45,11 +45,11 @@ public class CSVSymbolPrinter extends SymbolPrinter {
                     return Object.class;
                 }));
 
-        printCSVFile(printClasses, "class_names", "Classes", Classfile.class, symbolMap.get(Classfile.class));
-        printCSVFile(printFields, "field_names", "Fields", Field_info.class, symbolMap.get(Field_info.class));
-        printCSVFile(printMethods, "method_names", "Methods", Method_info.class, symbolMap.get(Method_info.class));
-        printCSVFile(printLocalVariables, "local_variable_names", "Local Variables", LocalVariable.class, symbolMap.get(LocalVariable.class));
-        printCSVFile(printInnerClasses, "inner_class_names", "Inner Classes", InnerClass.class, symbolMap.get(InnerClass.class));
+        printCSVFile(printClasses, "classes", "Classes", Classfile.class, symbolMap.get(Classfile.class));
+        printCSVFile(printFields, "fields", "Fields", Field_info.class, symbolMap.get(Field_info.class));
+        printCSVFile(printMethods, "methods", "Methods", Method_info.class, symbolMap.get(Method_info.class));
+        printCSVFile(printLocalVariables, "local_variables", "Local Variables", LocalVariable.class, symbolMap.get(LocalVariable.class));
+        printCSVFile(printInnerClasses, "inner_classes", "Inner Classes", InnerClass.class, symbolMap.get(InnerClass.class));
     }
 
     private void printCSVFile(boolean printFlag, String outSuffix, String sectionTitle, Class<? extends Visitable> visitableClass, Iterable<? extends Visitable> visitables) throws IOException {

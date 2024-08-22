@@ -10317,19 +10317,19 @@ Lists all symbols it could find, based on parameters.
 ---+++ Synopsis
 
     ListSymbols
-        [-class-names]
+        [-classes]
         [-echo]
         [-excludes value]*
         [-excludes-list filename]*
-        [-field-names]
-        [-final-method-or-class-names]
+        [-fields]
+        [-final-methods-or-classes]
         [-help]
         [-includes value]*
         [-includes-list filename]*
-        [-inner-class-names]
-        [-local-names]
-        [-method-names]
-        [-non-private-field-names]
+        [-inner-classes]
+        [-local-variables]
+        [-methods]
+        [-non-private-fields]
         [-out filename]
         [-package-accessibility]
         [-private-accessibility]
@@ -10358,7 +10358,7 @@ will list, for each method, its parameters and local variables.
 
 <blockquote>
 
----++++ =-class-names=
+---++++ =-classes=
 
 <blockquote>
 
@@ -10465,7 +10465,7 @@ files.
 
 </blockquote>
 
----++++ =-field-names=
+---++++ =-fields=
 
 <blockquote>
 
@@ -10479,7 +10479,7 @@ Lists names of fields.
 
 </blockquote>
 
----++++ =-final-method-or-class-names=
+---++++ =-final-methods-or-classes=
 
 <blockquote>
 
@@ -10562,7 +10562,7 @@ Uses _text_ for each indentation level in XML output.
 
 </blockquote>
 
----++++ =-inner-class-names=
+---++++ =-inner-classes=
 
 <blockquote>
 
@@ -10590,7 +10590,7 @@ Writes symbols report as a JSON document.
 
 </blockquote>
 
----++++ =-local-names=
+---++++ =-local-variables=
 
 <blockquote>
 
@@ -10604,7 +10604,7 @@ Lists names of local variables.
 
 </blockquote>
 
----++++ =-method-names=
+---++++ =-methods=
 
 <blockquote>
 
@@ -10618,7 +10618,7 @@ Lists names of methods.
 
 </blockquote>
 
----++++ =-non-private-field-names=
+---++++ =-non-private-fields=
 
 <blockquote>
 
@@ -10865,7 +10865,7 @@ alphabetical order.
 <div class="lowlight">
 
     test
-    test.main(java.lang.String[]): void
+    test.main(java.lang.String[])
     test.main(java.lang.String[]): void: args
     test.main(java.lang.String[]): void: c
     test.main(java.lang.String[]): void: ex

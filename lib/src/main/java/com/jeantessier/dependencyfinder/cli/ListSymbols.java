@@ -43,19 +43,19 @@ public class ListSymbols extends DirectoryExplorerCommand {
         super.populateCommandLineSwitches();
         populateCommandLineSwitchesForXMLOutput(XMLSymbolPrinter.DEFAULT_ENCODING, XMLSymbolPrinter.DEFAULT_DTD_PREFIX, XMLSymbolPrinter.DEFAULT_INDENT_TEXT);
 
-        getCommandLine().addToggleSwitch("class-names");
-        getCommandLine().addToggleSwitch("field-names");
-        getCommandLine().addToggleSwitch("method-names");
-        getCommandLine().addToggleSwitch("local-names");
-        getCommandLine().addToggleSwitch("inner-class-names");
+        getCommandLine().addToggleSwitch("classes");
+        getCommandLine().addToggleSwitch("fields");
+        getCommandLine().addToggleSwitch("methods");
+        getCommandLine().addToggleSwitch("local-variables");
+        getCommandLine().addToggleSwitch("inner-classes");
 
         getCommandLine().addToggleSwitch("public-accessibility");
         getCommandLine().addToggleSwitch("protected-accessibility");
         getCommandLine().addToggleSwitch("private-accessibility");
         getCommandLine().addToggleSwitch("package-accessibility");
 
-        getCommandLine().addToggleSwitch("non-private-field-names");
-        getCommandLine().addToggleSwitch("final-method-or-class-names");
+        getCommandLine().addToggleSwitch("non-private-fields");
+        getCommandLine().addToggleSwitch("final-methods-or-classes");
 
         getCommandLine().addMultipleValuesSwitch("includes", DEFAULT_INCLUDES);
         getCommandLine().addMultipleValuesSwitch("includes-list");
@@ -74,12 +74,12 @@ public class ListSymbols extends DirectoryExplorerCommand {
     protected Collection<CommandLineException> parseCommandLine(String[] args) {
         Collection<CommandLineException> exceptions = super.parseCommandLine(args);
 
-        if (!getCommandLine().isPresent("class-names") && !getCommandLine().isPresent("field-names") && !getCommandLine().isPresent("method-names") && !getCommandLine().isPresent("local-names") && !getCommandLine().isPresent("inner-class-names")) {
-            getCommandLine().getSwitch("class-names").setValue(true);
-            getCommandLine().getSwitch("field-names").setValue(true);
-            getCommandLine().getSwitch("method-names").setValue(true);
-            getCommandLine().getSwitch("local-names").setValue(true);
-            getCommandLine().getSwitch("inner-class-names").setValue(true);
+        if (!getCommandLine().isPresent("classes") && !getCommandLine().isPresent("fields") && !getCommandLine().isPresent("methods") && !getCommandLine().isPresent("local-variables") && !getCommandLine().isPresent("inner-classes")) {
+            getCommandLine().getSwitch("classes").setValue(true);
+            getCommandLine().getSwitch("fields").setValue(true);
+            getCommandLine().getSwitch("methods").setValue(true);
+            getCommandLine().getSwitch("local-variables").setValue(true);
+            getCommandLine().getSwitch("inner-classes").setValue(true);
         }
 
         int modeSwitch = 0;
@@ -115,17 +115,17 @@ public class ListSymbols extends DirectoryExplorerCommand {
     protected void doProcessing() throws Exception {
         SymbolGathererStrategy gathererStrategy;
 
-        if (getCommandLine().getToggleSwitch("non-private-field-names")) {
+        if (getCommandLine().getToggleSwitch("non-private-fields")) {
             gathererStrategy = new NonPrivateFieldSymbolGathererStrategy();
-        } else if (getCommandLine().getToggleSwitch("final-method-or-class-names")) {
+        } else if (getCommandLine().getToggleSwitch("final-methods-or-classes")) {
             gathererStrategy = new FinalMethodOrClassSymbolGathererStrategy();
         } else {
             DefaultSymbolGathererStrategy defaultGathererStrategy = new DefaultSymbolGathererStrategy();
-            defaultGathererStrategy.setMatchingClassNames(getCommandLine().getToggleSwitch("class-names"));
-            defaultGathererStrategy.setMatchingFieldNames(getCommandLine().getToggleSwitch("field-names"));
-            defaultGathererStrategy.setMatchingMethodNames(getCommandLine().getToggleSwitch("method-names"));
-            defaultGathererStrategy.setMatchingLocalNames(getCommandLine().getToggleSwitch("local-names"));
-            defaultGathererStrategy.setMatchingInnerClassNames(getCommandLine().getToggleSwitch("inner-class-names"));
+            defaultGathererStrategy.setMatchingClasses(getCommandLine().getToggleSwitch("classes"));
+            defaultGathererStrategy.setMatchingFields(getCommandLine().getToggleSwitch("fields"));
+            defaultGathererStrategy.setMatchingMethods(getCommandLine().getToggleSwitch("methods"));
+            defaultGathererStrategy.setMatchingLocalVariables(getCommandLine().getToggleSwitch("local-variables"));
+            defaultGathererStrategy.setMatchingInnerClasses(getCommandLine().getToggleSwitch("inner-classes"));
 
             gathererStrategy = defaultGathererStrategy;
         }
@@ -161,11 +161,11 @@ public class ListSymbols extends DirectoryExplorerCommand {
     private void printCSVFiles(SymbolGatherer gatherer) throws IOException {
         new CSVSymbolPrinter(
                 getOut(),
-                getCommandLine().getToggleSwitch("class-names"),
-                getCommandLine().getToggleSwitch("field-names"),
-                getCommandLine().getToggleSwitch("method-names"),
-                getCommandLine().getToggleSwitch("local-names"),
-                getCommandLine().getToggleSwitch("inner-class-names"),
+                getCommandLine().getToggleSwitch("classes"),
+                getCommandLine().getToggleSwitch("fields"),
+                getCommandLine().getToggleSwitch("methods"),
+                getCommandLine().getToggleSwitch("local-variables"),
+                getCommandLine().getToggleSwitch("inner-classes"),
                 getCommandLine().isPresent("out") ?
                         Optional.of(getCommandLine().getSingleSwitch("out")) :
                         Optional.empty()
