@@ -1,0 +1,50 @@
+I played with reproducing the method name analysis from
+[[https://medium.com/javarevisited/looking-at-a-java-class-and-its-methods-through-a-kaleidoscope-998b510e39ac][that article]]
+using a simple script in Ruby<label for%3D"sn-2024-08-13-ruby-csv" class%3D"margin-toggle sidenote-number"></label>
+<input type%3D"checkbox" id%3D"sn-2024-08-13-ruby-csv" class%3D"margin-toggle">
+<span class%3D"sidenote">I picked Ruby for this example because it has built-in
+support for reading CSV files.</span>.
+
+For example, I can get the top ten method prefixes with the following.  First,
+I extract the method names to a CSV file.
+
+    ListSymbols
+        -method-names
+        -csv
+        -out symbols
+        lib/DependencyFinder.jar
+
+Then, I can use this Ruby code to look at the names only, extract their prefix,
+and list the ten most common ones.
+
+    require 'csv'
+    &nbsp;
+    prefix_histo %3D Hash.new {|hash, key| hash[key] %3D []}
+    &nbsp;
+    CSV.foreach('symbols%5Fmethod%5Fnames.csv', headers: true, strip: true) do |row|
+        name = row['name']
+        &nbsp;
+        prefix_regex = /^([a-z]+)[A-Z].*/
+        match = prefix_regex.match(name)
+        prefix_histo[match[1]] << name if match
+    end
+    &nbsp;
+    puts "Top Prefixes"
+    puts "------------"
+    prefix%5Fhisto.sort%5Fby {|k, v| -v.size}[..10].each {|k, v| puts "#{v.size}\t#{k}"}
+
+As of this writing, the top ten prefixes are:
+
+    Top Prefixes
+    ------------
+    1524    get
+    651     visit
+    356     is
+    329     set
+    72      print
+    60      to
+    53      add
+    51      create
+    49      build
+    42      fire
+    36      has

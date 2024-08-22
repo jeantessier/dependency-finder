@@ -1,0 +1,18 @@
+The text output from =ListSymbols= can be used with =-includes-list= and
+=-excludes-list= command-line switches.  Methods will have their full signature
+matched against these lists, so I needed to change =TextSymbolPrinter= to show
+full signatures instead of _unique names_.
+
+I took the opportunity to rename the switches to =ListSymbols=.  Since it
+reports more than just names, now, I removed the _name_ part of the switches.
+
+    * =-class-names= &rArr; =-classes=
+    * =-field-names= &rArr; =-fields=
+    * =-method-names= &rArr; =-methods=
+    * =-local-names= &rArr; =-local-variables=
+    * =-inner-class-names= &rArr; =-inner-classes=
+
+and
+
+    * =-non-private-field-names= &rArr; =-non-private-fields=
+    * =-final-method-or-class-names= &rArr; =final-methods-or-classes=
