@@ -26,13 +26,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
 
       - name: Generate distribution artifacts
-        run: ant -Drelease=${{ inputs.version }} dist
-
-      - name: Store distribution artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist-${{ inputs.version }}
-          path: ${{ github.workspace }}/dist/*
+        run: ant -Drelease=${{ github.ref }} dist
 
       - name: Create Release
         id: create_release
@@ -45,7 +39,7 @@ jobs:
           body: |
             Release ${{ github.ref }}
 
-      - name: Upload TAR Release Asset
+      - name: Upload TAR release asset
         id: upload-release-asset-tar
         uses: actions/upload-release-asset@v1
         env:
@@ -55,9 +49,10 @@ jobs:
           asset_path: ./dist/DependencyFinder-${{ github.ref }}.tar.gz
           asset_name: DependencyFinder-${{ github.ref }}.tar.gz
           asset_content_type: application/gzip
-      - run: echo "- [DependencyFinder-${{ github.ref }}.tar.gz](${{ steps.upload-release-asset-tar.outputs.browser_download_url }})" >> $GITHUB_STEP_SUMMARY
+      - name: URL to uploaded TAR release asset
+        run: echo "- [DependencyFinder-${{ github.ref }}.tar.gz](${{ steps.upload-release-asset-tar.outputs.browser_download_url }})" >> $GITHUB_STEP_SUMMARY
 
-      - name: Upload WAR Release Asset
+      - name: Upload WAR release asset
         id: upload-release-asset-war
         uses: actions/upload-release-asset@v1
         env:
@@ -67,9 +62,10 @@ jobs:
           asset_path: ./dist/DependencyFinder-${{ github.ref }}.war
           asset_name: DependencyFinder-${{ github.ref }}.war
           asset_content_type: application/java-archive
-      - run: echo "- [DependencyFinder-${{ github.ref }}.war](${{ steps.upload-release-asset-war.outputs.browser_download_url }})" >> $GITHUB_STEP_SUMMARY
+      - name: URL to uploaded WAR release asset
+        run: echo "- [DependencyFinder-${{ github.ref }}.war](${{ steps.upload-release-asset-war.outputs.browser_download_url }})" >> $GITHUB_STEP_SUMMARY
 
-      - name: Upload ZIP Release Asset
+      - name: Upload ZIP release asset
         id: upload-release-asset-zip
         uses: actions/upload-release-asset@v1
         env:
@@ -79,4 +75,5 @@ jobs:
           asset_path: ./dist/DependencyFinder-${{ github.ref }}.zip
           asset_name: DependencyFinder-${{ github.ref }}.zip
           asset_content_type: application/zip
-      - run: echo "- [DependencyFinder-${{ github.ref }}.zip](${{ steps.upload-release-asset-zip.outputs.browser_download_url }})" >> $GITHUB_STEP_SUMMARY
+      - name: URL to uploaded ZIP release asset
+        run: echo "- [DependencyFinder-${{ github.ref }}.zip](${{ steps.upload-release-asset-zip.outputs.browser_download_url }})" >> $GITHUB_STEP_SUMMARY
