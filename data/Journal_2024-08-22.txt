@@ -1,0 +1,12 @@
+Created a GitHub Actions workflow to generate releases.  I found a way to pass
+in the =VERSION= value to And, and through it, to Gradle.  This way, Gradle can
+include it in the JAR file's manifest, and Ant can use it when it generates
+the Manual and Tools pages, as well as naming distribution files.
+
+I found a trick where pushing a tag can trigger a workflow.  The workflow has
+access to the tag name, so it can pass it to Ant and Gradle.  I also found a
+GitHub Action that creates a release in GitHub and uploads the distribution
+files to it.
+
+All I have left is to make the workflow create the Docker image and upload it
+to Docker Hub.
