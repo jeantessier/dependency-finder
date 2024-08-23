@@ -3,7 +3,7 @@ name: Release from Tag
 on:
   push:
     tags:
-      - "*"
+      - "*.*.*"
 
 jobs:
 
@@ -30,52 +30,13 @@ jobs:
 
       - name: Create Release
         id: create_release
-        uses: actions/create-release@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref_name }}
           body: |
             Release ${{ github.ref_name }}
             
             Compiled with Java 17.
+          files: dist/*
 
-      - name: Upload TAR release asset
-        id: upload-release-asset-tar
-        uses: actions/upload-release-asset@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./dist/DependencyFinder-${{ github.ref_name }}.tar.gz
-          asset_name: DependencyFinder-${{ github.ref_name }}.tar.gz
-          asset_content_type: application/gzip
-      - name: URL to uploaded TAR release asset
-        run: echo "- [DependencyFinder-${{ github.ref_name }}.tar.gz](${{ steps.upload-release-asset-tar.outputs.browser_download_url }})" >> $GITHUB_STEP_SUMMARY
-
-      - name: Upload WAR release asset
-        id: upload-release-asset-war
-        uses: actions/upload-release-asset@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./dist/DependencyFinder-${{ github.ref_name }}.war
-          asset_name: DependencyFinder-${{ github.ref_name }}.war
-          asset_content_type: application/java-archive
-      - name: URL to uploaded WAR release asset
-        run: echo "- [DependencyFinder-${{ github.ref_name }}.war](${{ steps.upload-release-asset-war.outputs.browser_download_url }})" >> $GITHUB_STEP_SUMMARY
-
-      - name: Upload ZIP release asset
-        id: upload-release-asset-zip
-        uses: actions/upload-release-asset@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./dist/DependencyFinder-${{ github.ref_name }}.zip
-          asset_name: DependencyFinder-${{ github.ref_name }}.zip
-          asset_content_type: application/zip
-      - name: URL to uploaded ZIP release asset
-        run: echo "- [DependencyFinder-${{ github.ref_name }}.zip](${{ steps.upload-release-asset-zip.outputs.browser_download_url }})" >> $GITHUB_STEP_SUMMARY
+      - name: URL to new release
+        run: echo "[DependencyFinder ${{ github.ref_name }}](${{ steps.create_release.outputs.url }})" >> $GITHUB_STEP_SUMMARY
