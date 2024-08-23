@@ -1,0 +1,2 @@
+Added steps to the GitHub Actions workflow that generates releases so it will
+also build the Docker image and upload it to Docker Hub.
