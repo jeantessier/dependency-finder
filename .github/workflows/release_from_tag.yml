@@ -39,4 +39,4 @@ jobs:
           files: dist/*
 
       - name: URL to new release
-        run: echo "[DependencyFinder ${{ github.ref_name }}](${{ steps.create_release.outputs.url }})" >> $GITHUB_STEP_SUMMARY
+        run: echo "Dependency Finder [${{ github.ref_name }}](${{ steps.create_release.outputs.url }})" >> $GITHUB_STEP_SUMMARY

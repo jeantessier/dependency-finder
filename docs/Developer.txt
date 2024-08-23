@@ -1112,6 +1112,7 @@ branch of the repository that has been tagged appropriately.
 
     1 =git tag -m "Tagging the <VERSION /> release of Dependency Finder" <VERSION />=
     1 =git push --tags= (a workflow on GitHub will create the release there)
+    1 =gh release download --pattern '*' --dir /tmp (copies the release files to =/tmp=)
     1 Go to [[https://sourceforge.net/projects/depfind/][SourceForge project page]], click "Files" &gt;&gt; "DependencyFinder".
     1 Create a new folder, upload all files from the GitHub release to the new folder.
     1 Make =DependencyFinder-<VERSION />.zip= the default download for Windows.
