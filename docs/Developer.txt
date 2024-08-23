@@ -1117,9 +1117,6 @@ branch of the repository that has been tagged appropriately.
     1 Create a new folder, upload all files from the GitHub release to the new folder.
     1 Make =DependencyFinder-<VERSION />.zip= the default download for Windows.
     1 Make =DependencyFinder-<VERSION />.tar.gz= the default download for all others.
-    1 =docker build . --build-arg version=<VERSION /> --tag jeantessier/dependency-finder-tomcat:<VERSION /> --tag jeantessier/dependency-finder-tomcat:latest=
-    1 =docker push jeantessier/dependency-finder-tomcat:<VERSION />=
-    1 =docker push jeantessier/dependency-finder-tomcat:latest=
     1 Close issues
     1 Generate sample files
 
