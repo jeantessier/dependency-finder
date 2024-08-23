@@ -50,6 +50,9 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
+          context: .
+          build-args: |
+            version=${{ github.ref_name }}
           push: true
           tags: |
             jeantessier/dependency-finder-tomcat:${{ github.ref_name }}
