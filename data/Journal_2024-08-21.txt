@@ -15,4 +15,4 @@ reports more than just names, now, I removed the _name_ part of the switches.
 and
 
     * =-non-private-field-names= &rArr; =-non-private-fields=
-    * =-final-method-or-class-names= &rArr; =final-methods-or-classes=
+    * =-final-method-or-class-names= &rArr; =-final-methods-or-classes=
