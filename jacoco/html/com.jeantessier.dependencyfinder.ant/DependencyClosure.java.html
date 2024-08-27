@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DependencyClosure.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependencyfinder.ant</a> &gt; <span class="el_source">DependencyClosure.java</span></div><h1>DependencyClosure.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependencyfinder.ant;
+
+import java.io.*;
+
+import javax.xml.parsers.*;
+
+import org.apache.tools.ant.*;
+
+import org.xml.sax.*;
+
+import com.jeantessier.dependency.*;
+
+<span class="nc" id="L45">public class DependencyClosure extends GraphTask {</span>
+<span class="nc" id="L46">    private String  startIncludes        = &quot;//&quot;;</span>
+<span class="nc" id="L47">    private String  startExcludes        = &quot;&quot;;</span>
+<span class="nc" id="L48">    private String  packageStartIncludes = &quot;&quot;;</span>
+<span class="nc" id="L49">    private String  packageStartExcludes = &quot;&quot;;</span>
+<span class="nc" id="L50">    private String  classStartIncludes   = &quot;&quot;;</span>
+<span class="nc" id="L51">    private String  classStartExcludes   = &quot;&quot;;</span>
+<span class="nc" id="L52">    private String  featureStartIncludes = &quot;&quot;;</span>
+<span class="nc" id="L53">    private String  featureStartExcludes = &quot;&quot;;</span>
+<span class="nc" id="L54">    private String  stopIncludes         = &quot;&quot;;</span>
+<span class="nc" id="L55">    private String  stopExcludes         = &quot;&quot;;</span>
+<span class="nc" id="L56">    private String  packageStopIncludes  = &quot;&quot;;</span>
+<span class="nc" id="L57">    private String  packageStopExcludes  = &quot;&quot;;</span>
+<span class="nc" id="L58">    private String  classStopIncludes    = &quot;&quot;;</span>
+<span class="nc" id="L59">    private String  classStopExcludes    = &quot;&quot;;</span>
+<span class="nc" id="L60">    private String  featureStopIncludes  = &quot;&quot;;</span>
+<span class="nc" id="L61">    private String  featureStopExcludes  = &quot;&quot;;</span>
+
+<span class="nc" id="L63">    private String  maximumInboundDepth  = &quot;&quot;;</span>
+<span class="nc" id="L64">    private String  maximumOutboundDepth = &quot;&quot;;</span>
+<span class="nc" id="L65">    private boolean xml                  = false;</span>
+<span class="nc" id="L66">    private String  encoding             = XMLPrinter.DEFAULT_ENCODING;</span>
+<span class="nc" id="L67">    private String  dtdPrefix            = XMLPrinter.DEFAULT_DTD_PREFIX;</span>
+    private String  indentText;
+
+    public String getStartincludes() {
+<span class="nc" id="L71">        return startIncludes;</span>
+    }
+
+    public void setStartincludes(String startIncludes) {
+<span class="nc" id="L75">        this.startIncludes = startIncludes;</span>
+<span class="nc" id="L76">    }</span>
+    
+    public String getStartexcludes() {
+<span class="nc" id="L79">        return startExcludes;</span>
+    }
+
+    public void setStartexcludes(String startExcludes) {
+<span class="nc" id="L83">        this.startExcludes = startExcludes;</span>
+<span class="nc" id="L84">    }</span>
+    
+    public String getPackagestartincludes() {
+<span class="nc" id="L87">        return packageStartIncludes;</span>
+    }
+
+    public void setPackagestartincludes(String packageStartIncludes) {
+<span class="nc" id="L91">        this.packageStartIncludes = packageStartIncludes;</span>
+<span class="nc" id="L92">    }</span>
+    
+    public String getPackagestartexcludes() {
+<span class="nc" id="L95">        return packageStartExcludes;</span>
+    }
+
+    public void setPackagestartexcludes(String packageStartExcludes) {
+<span class="nc" id="L99">        this.packageStartExcludes = packageStartExcludes;</span>
+<span class="nc" id="L100">    }</span>
+    
+    public String getClassstartincludes() {
+<span class="nc" id="L103">        return classStartIncludes;</span>
+    }
+
+    public void setClassstartincludes(String classStartIncludes) {
+<span class="nc" id="L107">        this.classStartIncludes = classStartIncludes;</span>
+<span class="nc" id="L108">    }</span>
+    
+    public String getClassstartexcludes() {
+<span class="nc" id="L111">        return classStartExcludes;</span>
+    }
+
+    public void setClassstartexcludes(String classStartExcludes) {
+<span class="nc" id="L115">        this.classStartExcludes = classStartExcludes;</span>
+<span class="nc" id="L116">    }</span>
+    
+    public String getFeaturestartincludes() {
+<span class="nc" id="L119">        return featureStartIncludes;</span>
+    }
+
+    public void setFeaturestartincludes(String featureStartIncludes) {
+<span class="nc" id="L123">        this.featureStartIncludes = featureStartIncludes;</span>
+<span class="nc" id="L124">    }</span>
+    
+    public String getFeaturestartexcludes() {
+<span class="nc" id="L127">        return featureStartExcludes;</span>
+    }
+
+    public void setFeaturestartexcludes(String featureStartExcludes) {
+<span class="nc" id="L131">        this.featureStartExcludes = featureStartExcludes;</span>
+<span class="nc" id="L132">    }</span>
+
+    public String getStopincludes() {
+<span class="nc" id="L135">        return stopIncludes;</span>
+    }
+
+    public void setStopincludes(String stopIncludes) {
+<span class="nc" id="L139">        this.stopIncludes = stopIncludes;</span>
+<span class="nc" id="L140">    }</span>
+    
+    public String getStopexcludes() {
+<span class="nc" id="L143">        return stopExcludes;</span>
+    }
+
+    public void setStopexcludes(String stopExcludes) {
+<span class="nc" id="L147">        this.stopExcludes = stopExcludes;</span>
+<span class="nc" id="L148">    }</span>
+    
+    public String getPackagestopincludes() {
+<span class="nc" id="L151">        return packageStopIncludes;</span>
+    }
+
+    public void setPackagestopincludes(String packageStopIncludes) {
+<span class="nc" id="L155">        this.packageStopIncludes = packageStopIncludes;</span>
+<span class="nc" id="L156">    }</span>
+    
+    public String getPackagestopexcludes() {
+<span class="nc" id="L159">        return packageStopExcludes;</span>
+    }
+
+    public void setPackagestopexcludes(String packageStopExcludes) {
+<span class="nc" id="L163">        this.packageStopExcludes = packageStopExcludes;</span>
+<span class="nc" id="L164">    }</span>
+    
+    public String getClassstopincludes() {
+<span class="nc" id="L167">        return classStopIncludes;</span>
+    }
+
+    public void setClassstopincludes(String classStopIncludes) {
+<span class="nc" id="L171">        this.classStopIncludes = classStopIncludes;</span>
+<span class="nc" id="L172">    }</span>
+    
+    public String getClassstopexcludes() {
+<span class="nc" id="L175">        return classStopExcludes;</span>
+    }
+
+    public void setClassstopexcludes(String classStopExcludes) {
+<span class="nc" id="L179">        this.classStopExcludes = classStopExcludes;</span>
+<span class="nc" id="L180">    }</span>
+    
+    public String getFeaturestopincludes() {
+<span class="nc" id="L183">        return featureStopIncludes;</span>
+    }
+
+    public void setFeaturestopincludes(String featureStopIncludes) {
+<span class="nc" id="L187">        this.featureStopIncludes = featureStopIncludes;</span>
+<span class="nc" id="L188">    }</span>
+    
+    public String getFeaturestopexcludes() {
+<span class="nc" id="L191">        return featureStopExcludes;</span>
+    }
+
+    public void setFeaturestopexcludes(String featureStopExcludes) {
+<span class="nc" id="L195">        this.featureStopExcludes = featureStopExcludes;</span>
+<span class="nc" id="L196">    }</span>
+
+    public String getMaximuminbounddepth() {
+<span class="nc" id="L199">        return maximumInboundDepth;</span>
+    }
+
+    public void setMaximuminbounddepth(String maximumInboundDepth) {
+<span class="nc" id="L203">        this.maximumInboundDepth = maximumInboundDepth;</span>
+<span class="nc" id="L204">    }</span>
+    
+    public String getMaximumoutbounddepth() {
+<span class="nc" id="L207">        return maximumOutboundDepth;</span>
+    }
+
+    public void setMaximumoutbounddepth(String maximumOutboundDepth) {
+<span class="nc" id="L211">        this.maximumOutboundDepth = maximumOutboundDepth;</span>
+<span class="nc" id="L212">    }</span>
+
+    public boolean getXml() {
+<span class="nc" id="L215">        return xml;</span>
+    }
+
+    public void setXml(boolean xml) {
+<span class="nc" id="L219">        this.xml = xml;</span>
+<span class="nc" id="L220">    }</span>
+
+    public String getEncoding() {
+<span class="nc" id="L223">        return encoding;</span>
+    }
+    
+    public void setEncoding(String encoding) {
+<span class="nc" id="L227">        this.encoding = encoding;</span>
+<span class="nc" id="L228">    }</span>
+
+    public String getDtdprefix() {
+<span class="nc" id="L231">        return dtdPrefix;</span>
+    }
+    
+    public void setDtdprefix(String dtdPrefix) {
+<span class="nc" id="L235">        this.dtdPrefix = dtdPrefix;</span>
+<span class="nc" id="L236">    }</span>
+
+    public String getIndenttext() {
+<span class="nc" id="L239">        return indentText;</span>
+    }
+    
+    public void setIndenttext(String indentText) {
+<span class="nc" id="L243">        this.indentText = indentText;</span>
+<span class="nc" id="L244">    }</span>
+    
+    public void execute() throws BuildException {
+        // first off, make sure that we've got what we need
+<span class="nc" id="L248">        validateParameters();</span>
+
+<span class="nc" id="L250">        VerboseListener verboseListener = new VerboseListener(this);</span>
+
+        try {
+<span class="nc" id="L253">            NodeFactory factory = new NodeFactory();</span>
+
+<span class="nc bnc" id="L255" title="All 2 branches missed.">            for (String filename : getSrc().list()) {</span>
+<span class="nc" id="L256">                log(&quot;Reading graph from &quot; + filename);</span>
+
+<span class="nc bnc" id="L258" title="All 2 branches missed.">                if (filename.endsWith(&quot;.xml&quot;)) {</span>
+<span class="nc" id="L259">                    NodeLoader loader = new NodeLoader(factory, getValidate());</span>
+<span class="nc" id="L260">                    loader.addDependencyListener(verboseListener);</span>
+<span class="nc" id="L261">                    loader.load(filename);</span>
+                }
+            }
+
+<span class="nc" id="L265">            TransitiveClosure selector = new TransitiveClosure(getStartCriteria(), getStopCriteria());</span>
+
+            try {
+<span class="nc bnc" id="L268" title="All 2 branches missed.">                if (getMaximuminbounddepth() != null) {</span>
+<span class="nc" id="L269">                    selector.setMaximumInboundDepth(Long.parseLong(getMaximuminbounddepth()));</span>
+                }
+<span class="nc" id="L271">            } catch (NumberFormatException ex) {</span>
+<span class="nc" id="L272">                selector.setMaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);</span>
+<span class="nc" id="L273">            }</span>
+            
+            try {
+<span class="nc bnc" id="L276" title="All 2 branches missed.">                if (getMaximumoutbounddepth() != null) {</span>
+<span class="nc" id="L277">                    selector.setMaximumOutboundDepth(Long.parseLong(getMaximumoutbounddepth()));</span>
+                }
+<span class="nc" id="L279">            } catch (NumberFormatException ex) {</span>
+<span class="nc" id="L280">                selector.setMaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);</span>
+<span class="nc" id="L281">            }</span>
+                
+<span class="nc" id="L283">            selector.traverseNodes(factory.getPackages().values());</span>
+        
+<span class="nc" id="L285">            log(&quot;Saving dependency graph to &quot; + getDestfile().getAbsolutePath());</span>
+        
+<span class="nc" id="L287">            PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));</span>
+
+            Printer printer;
+<span class="nc bnc" id="L290" title="All 2 branches missed.">            if (getXml()) {</span>
+<span class="nc" id="L291">                printer = new XMLPrinter(out, getEncoding(), getDtdprefix());</span>
+            } else {
+<span class="nc" id="L293">                printer = new TextPrinter(out);</span>
+            }
+                
+<span class="nc bnc" id="L296" title="All 2 branches missed.">            if (getIndenttext() != null) {</span>
+<span class="nc" id="L297">                printer.setIndentText(getIndenttext());</span>
+            }
+                
+<span class="nc" id="L300">            printer.traverseNodes(selector.getFactory().getPackages().values());</span>
+                
+<span class="nc" id="L302">            out.close();</span>
+<span class="nc" id="L303">        } catch (SAXException | ParserConfigurationException | IOException ex) {</span>
+<span class="nc" id="L304">            throw new BuildException(ex);</span>
+<span class="nc" id="L305">        }</span>
+<span class="nc" id="L306">    }</span>
+
+    private SelectionCriteria getStartCriteria() throws BuildException {
+<span class="nc" id="L309">        RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();</span>
+
+<span class="nc" id="L311">        result.setGlobalIncludes(getStartincludes());</span>
+<span class="nc" id="L312">        result.setGlobalExcludes(getStartexcludes());</span>
+<span class="nc" id="L313">        result.setPackageIncludes(getPackagestartincludes());</span>
+<span class="nc" id="L314">        result.setPackageExcludes(getPackagestartexcludes());</span>
+<span class="nc" id="L315">        result.setClassIncludes(getClassstartincludes());</span>
+<span class="nc" id="L316">        result.setClassExcludes(getClassstartexcludes());</span>
+<span class="nc" id="L317">        result.setFeatureIncludes(getFeaturestartincludes());</span>
+<span class="nc" id="L318">        result.setFeatureExcludes(getFeaturestartexcludes());</span>
+
+<span class="nc" id="L320">        return result;</span>
+    }
+
+    private SelectionCriteria getStopCriteria() throws BuildException {
+<span class="nc" id="L324">        RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();</span>
+
+<span class="nc" id="L326">        result.setGlobalIncludes(getStopincludes());</span>
+<span class="nc" id="L327">        result.setGlobalExcludes(getStopexcludes());</span>
+<span class="nc" id="L328">        result.setPackageIncludes(getPackagestopincludes());</span>
+<span class="nc" id="L329">        result.setPackageExcludes(getPackagestopexcludes());</span>
+<span class="nc" id="L330">        result.setClassIncludes(getClassstopincludes());</span>
+<span class="nc" id="L331">        result.setClassExcludes(getClassstopexcludes());</span>
+<span class="nc" id="L332">        result.setFeatureIncludes(getFeaturestopincludes());</span>
+<span class="nc" id="L333">        result.setFeatureExcludes(getFeaturestopexcludes());</span>
+
+<span class="nc" id="L335">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

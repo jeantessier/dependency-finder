@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FeatureRef_info.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader.impl</a> &gt; <span class="el_source">FeatureRef_info.java</span></div><h1>FeatureRef_info.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.classreader.impl;
+
+import java.io.*;
+
+public abstract class FeatureRef_info extends ConstantPoolEntry implements com.jeantessier.classreader.FeatureRef_info {
+    private final int classIndex;
+    private final int nameAndTypeIndex;
+
+    public FeatureRef_info(ConstantPool constantPool, DataInput in) throws IOException {
+<span class="fc" id="L42">        super(constantPool);</span>
+
+<span class="fc" id="L44">        classIndex = in.readUnsignedShort();</span>
+<span class="fc" id="L45">        nameAndTypeIndex = in.readUnsignedShort();</span>
+<span class="fc" id="L46">    }</span>
+
+    public int getClassIndex() {
+<span class="fc" id="L49">        return classIndex;</span>
+    }
+
+    public int getNameAndTypeIndex() {
+<span class="fc" id="L53">        return nameAndTypeIndex;</span>
+    }
+
+    public abstract String getName();
+
+    public abstract String getSignature();
+
+    public String getUniqueName() {
+<span class="fc" id="L61">        return getSignature();</span>
+    }
+
+    public String toString() {
+<span class="nc" id="L65">        return getFullUniqueName();</span>
+    }
+
+    public int hashCode() {
+<span class="fc" id="L69">        return getRawClass().hashCode() ^ getRawNameAndType().hashCode();</span>
+    }
+
+    public boolean equals(Object object) {
+<span class="fc" id="L73">        boolean result = false;</span>
+
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        if (this == object) {</span>
+<span class="fc" id="L76">            result = true;</span>
+<span class="pc bpc" id="L77" title="2 of 4 branches missed.">        } else if (object != null &amp;&amp; this.getClass().equals(object.getClass())) {</span>
+<span class="fc" id="L78">            FeatureRef_info other = (FeatureRef_info) object;</span>
+<span class="pc bpc" id="L79" title="2 of 4 branches missed.">            result = this.getRawClass().equals(other.getRawClass()) &amp;&amp; this.getRawNameAndType().equals(other.getRawNameAndType());</span>
+        }
+
+<span class="fc" id="L82">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

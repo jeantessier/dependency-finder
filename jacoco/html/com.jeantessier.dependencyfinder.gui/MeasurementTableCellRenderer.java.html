@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MeasurementTableCellRenderer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependencyfinder.gui</a> &gt; <span class="el_source">MeasurementTableCellRenderer.java</span></div><h1>MeasurementTableCellRenderer.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependencyfinder.gui;
+
+import java.awt.*;
+
+import javax.swing.*;
+import javax.swing.table.*;
+
+import com.jeantessier.metrics.*;
+
+<span class="nc" id="L42">public class MeasurementTableCellRenderer extends DefaultTableCellRenderer {</span>
+<span class="nc" id="L43">    private static final Color PRIMARY_NORMAL_BACKGROUND        = new Color(247, 247, 247);</span>
+<span class="nc" id="L44">    private static final Color SECONDARY_NORMAL_BACKGROUND      = new Color(223, 223, 223);</span>
+<span class="nc" id="L45">    private static final Color NORMAL_FOREGROUND                = Color.black;</span>
+
+<span class="nc" id="L47">    private static final Color PRIMARY_HIGHLIGHTED_BACKGROUND   = new Color(255, 223, 223);</span>
+<span class="nc" id="L48">    private static final Color SECONDARY_HIGHLIGHTED_BACKGROUND = new Color(255, 207, 207);</span>
+<span class="nc" id="L49">    private static final Color HIGHLIGHTED_FOREGROUND           = Color.red;</span>
+
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+<span class="nc" id="L52">        JLabel result = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);</span>
+
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        if (column == 0) {</span>
+<span class="nc" id="L55">            result.setHorizontalAlignment(JLabel.LEFT);</span>
+        } else {
+<span class="nc" id="L57">            result.setHorizontalAlignment(JLabel.CENTER);</span>
+        }
+
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (value instanceof Measurement measurement) {</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">            if (measurement.isInRange()) {</span>
+<span class="nc" id="L62">                formatAsNormalCell(isSelected, row, result);</span>
+            } else {
+<span class="nc" id="L64">                formatAsHighlightedCell(isSelected, row, result);</span>
+            }
+
+            String text;
+<span class="nc" id="L68">            int dispose = ((OOMetricsTableModel) table.getModel()).getRawColumnDispose(column);</span>
+
+<span class="nc bnc" id="L70" title="All 2 branches missed.">            if (measurement instanceof StatisticalMeasurement stats) {</span>
+<span class="nc bnc" id="L71" title="All 7 branches missed.">                text = switch (dispose) {</span>
+<span class="nc" id="L72">                    case StatisticalMeasurement.DISPOSE_MINIMUM -&gt; String.valueOf(stats.getMinimum());</span>
+<span class="nc" id="L73">                    case StatisticalMeasurement.DISPOSE_MEDIAN -&gt; String.valueOf(stats.getMedian());</span>
+<span class="nc" id="L74">                    case StatisticalMeasurement.DISPOSE_AVERAGE -&gt; String.valueOf(stats.getAverage());</span>
+<span class="nc" id="L75">                    case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION -&gt; String.valueOf(stats.getStandardDeviation());</span>
+<span class="nc" id="L76">                    case StatisticalMeasurement.DISPOSE_MAXIMUM -&gt; String.valueOf(stats.getMaximum());</span>
+<span class="nc" id="L77">                    case StatisticalMeasurement.DISPOSE_SUM -&gt; String.valueOf(stats.getSum());</span>
+<span class="nc" id="L78">                    default -&gt; &quot;n/a&quot;;</span>
+                };
+            } else {
+<span class="nc" id="L81">                text = measurement.getValue().toString();</span>
+            }
+
+<span class="nc" id="L84">            setCellContent(result, measurement, dispose, text);</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        } else if (value instanceof Metrics metrics) {</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">            if (metrics.isInRange()) {</span>
+<span class="nc" id="L87">                formatAsNormalCell(isSelected, row, result);</span>
+            } else {
+<span class="nc" id="L89">                formatAsHighlightedCell(isSelected, row, result);</span>
+            }
+
+<span class="nc" id="L92">            result.setText(metrics.getName());</span>
+<span class="nc" id="L93">            result.setToolTipText(metrics.getName());</span>
+        } else {
+<span class="nc" id="L95">            formatAsNormalCell(isSelected, row, result);</span>
+        }
+
+<span class="nc" id="L98">        return result;</span>
+    }
+
+    private void formatAsNormalCell(boolean isSelected, int row, JLabel result) {
+<span class="nc" id="L102">        result.setForeground(NORMAL_FOREGROUND);</span>
+
+<span class="nc bnc" id="L104" title="All 2 branches missed.">        if (!isSelected) {</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">            if (((row / 3) % 2) == 0) {</span>
+<span class="nc" id="L106">                result.setBackground(PRIMARY_NORMAL_BACKGROUND);</span>
+            } else {
+<span class="nc" id="L108">                result.setBackground(SECONDARY_NORMAL_BACKGROUND);</span>
+            }
+        }
+<span class="nc" id="L111">    }</span>
+
+    private void formatAsHighlightedCell(boolean isSelected, int row, JLabel result) {
+<span class="nc" id="L114">        result.setForeground(HIGHLIGHTED_FOREGROUND);</span>
+
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        if (!isSelected) {</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">            if (((row / 3) % 2) == 0) {</span>
+<span class="nc" id="L118">                result.setBackground(PRIMARY_HIGHLIGHTED_BACKGROUND);</span>
+            } else {
+<span class="nc" id="L120">                result.setBackground(SECONDARY_HIGHLIGHTED_BACKGROUND);</span>
+            }
+        }
+<span class="nc" id="L123">    }</span>
+
+    private void setCellContent(JLabel result, Measurement measurement, int dispose, String text) {
+<span class="nc" id="L126">        StringBuilder tooltip = new StringBuilder();</span>
+<span class="nc" id="L127">        tooltip.append(&quot;&lt;html&gt;&lt;body&gt;&lt;p&gt;&quot;);</span>
+<span class="nc" id="L128">        tooltip.append(&quot;&lt;b&gt;&quot;).append(measurement.getContext().getName()).append(&quot;&lt;/b&gt;&lt;br&gt;&quot;);</span>
+<span class="nc" id="L129">        tooltip.append(measurement.getLongName()).append(&quot; (&quot;).append(measurement.getShortName()).append(&quot;)&quot;);</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        if (measurement instanceof StatisticalMeasurement) {</span>
+<span class="nc" id="L131">            tooltip.append(&quot;, &quot;).append(StatisticalMeasurement.getDisposeLabel(dispose));</span>
+        }
+<span class="nc" id="L133">        tooltip.append(&quot;&lt;br&gt;&quot;);</span>
+<span class="nc" id="L134">        tooltip.append(&quot;valid range: &quot;).append(measurement.getDescriptor().getRangeAsString()).append(&quot;&lt;br&gt;&quot;);</span>
+<span class="nc" id="L135">        tooltip.append(&quot;value: &quot;).append(text);</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">        if (!measurement.isInRange()) {</span>
+<span class="nc" id="L137">            tooltip.append(&quot; &lt;b&gt;*** out of range ***&lt;/b&gt;&quot;);</span>
+        }
+<span class="nc bnc" id="L139" title="All 2 branches missed.">        if (measurement instanceof StatisticalMeasurement) {</span>
+<span class="nc" id="L140">            tooltip.append(&quot;&lt;br&gt;&quot;).append(measurement);</span>
+        }
+<span class="nc" id="L142">        tooltip.append(&quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&quot;);</span>
+
+<span class="nc" id="L144">        result.setText(text);</span>
+<span class="nc" id="L145">        result.setToolTipText(tooltip.toString());</span>
+<span class="nc" id="L146">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

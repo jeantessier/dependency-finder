@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JSONPrinter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.metrics</a> &gt; <span class="el_source">JSONPrinter.java</span></div><h1>JSONPrinter.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.metrics;
+
+import java.io.*;
+import java.util.*;
+
+import static java.util.stream.Collectors.joining;
+
+public class JSONPrinter extends Printer {
+    private final MetricsConfiguration configuration;
+
+    public JSONPrinter(PrintWriter out, MetricsConfiguration configuration) {
+<span class="fc" id="L44">        super(out);</span>
+        
+<span class="fc" id="L46">        this.configuration = configuration;</span>
+<span class="fc" id="L47">    }</span>
+
+    public void visitMetrics(Collection&lt;Metrics&gt; metrics) {
+<span class="fc" id="L50">        visitProjectMetrics(metrics);</span>
+<span class="fc" id="L51">        eol();</span>
+<span class="fc" id="L52">    }</span>
+
+    public void visitMetrics(Metrics metrics) {
+<span class="nc" id="L55">        visitProjectMetrics(metrics);</span>
+<span class="nc" id="L56">    }</span>
+
+    private void visitProjectMetrics(Collection&lt;Metrics&gt; metrics) {
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (hasVisibleMetrics(metrics)) {</span>
+<span class="fc" id="L60">            append(&quot;[&quot;).eol();</span>
+<span class="fc" id="L61">            raiseIndent();</span>
+
+<span class="fc" id="L63">            indent().append(metrics.stream()</span>
+<span class="fc" id="L64">                    .filter(this::isVisibleMetrics)</span>
+<span class="fc" id="L65">                    .sorted(getComparator())</span>
+<span class="fc" id="L66">                    .map(projectMetrics -&gt; {</span>
+<span class="fc" id="L67">                        StringWriter out = new StringWriter();</span>
+<span class="fc" id="L68">                        clonePrinter(out).visitProjectMetrics(projectMetrics);</span>
+<span class="fc" id="L69">                        return out.toString();</span>
+                    })
+<span class="fc" id="L71">                    .collect(joining(&quot;, &quot;))).eol();</span>
+
+<span class="fc" id="L73">            lowerIndent();</span>
+<span class="fc" id="L74">            indent().append(&quot;]&quot;);</span>
+        } else {
+<span class="fc" id="L76">            append(&quot;[]&quot;);</span>
+        }
+<span class="fc" id="L78">    }</span>
+
+    private void visitProjectMetrics(Metrics metrics) {
+<span class="fc" id="L81">        append(&quot;{&quot;).eol();</span>
+<span class="fc" id="L82">        raiseIndent();</span>
+<span class="fc" id="L83">        indent().append(&quot;\&quot;name\&quot;: \&quot;&quot;).append(metrics.getName()).append(&quot;\&quot;,&quot;).eol();</span>
+
+<span class="fc" id="L85">        indent().append(&quot;\&quot;measurements\&quot;: &quot;);</span>
+<span class="fc" id="L86">        visitMeasurements(metrics, configuration.getProjectMeasurements());</span>
+<span class="fc" id="L87">        append(&quot;,&quot;).eol();</span>
+
+<span class="fc" id="L89">        indent().append(&quot;\&quot;groups\&quot;: &quot;);</span>
+<span class="fc" id="L90">        visitGroupMetrics(metrics.getSubMetrics());</span>
+<span class="fc" id="L91">        eol();</span>
+
+<span class="fc" id="L93">        lowerIndent();</span>
+<span class="fc" id="L94">        indent().append(&quot;}&quot;);</span>
+<span class="fc" id="L95">    }</span>
+
+    private void visitGroupMetrics(Collection&lt;Metrics&gt; metrics) {
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">        if (hasVisibleMetrics(metrics)) {</span>
+<span class="fc" id="L99">            append(&quot;[&quot;).eol();</span>
+<span class="fc" id="L100">            raiseIndent();</span>
+
+<span class="fc" id="L102">            indent().append(metrics.stream()</span>
+<span class="fc" id="L103">                    .filter(this::isVisibleMetrics)</span>
+<span class="fc" id="L104">                    .sorted(getComparator())</span>
+<span class="fc" id="L105">                    .map(groupMetrics -&gt; {</span>
+<span class="fc" id="L106">                        StringWriter out = new StringWriter();</span>
+<span class="fc" id="L107">                        clonePrinter(out).visitGroupMetrics(groupMetrics);</span>
+<span class="fc" id="L108">                        return out.toString();</span>
+                    })
+<span class="fc" id="L110">                    .collect(joining(&quot;, &quot;))).eol();</span>
+
+<span class="fc" id="L112">            lowerIndent();</span>
+<span class="fc" id="L113">            indent().append(&quot;]&quot;);</span>
+        } else {
+<span class="nc" id="L115">            append(&quot;[]&quot;);</span>
+        }
+<span class="fc" id="L117">    }</span>
+
+    private void visitGroupMetrics(Metrics metrics) {
+<span class="fc" id="L120">        append(&quot;{&quot;).eol();</span>
+<span class="fc" id="L121">        raiseIndent();</span>
+<span class="fc" id="L122">        indent().append(&quot;\&quot;name\&quot;: \&quot;&quot;).append(metrics.getName()).append(&quot;\&quot;,&quot;).eol();</span>
+
+<span class="fc" id="L124">        indent().append(&quot;\&quot;measurements\&quot;: &quot;);</span>
+<span class="fc" id="L125">        visitMeasurements(metrics, configuration.getGroupMeasurements());</span>
+<span class="fc" id="L126">        append(&quot;,&quot;).eol();</span>
+
+<span class="fc" id="L128">        indent().append(&quot;\&quot;classes\&quot;: &quot;);</span>
+<span class="fc" id="L129">        visitClassMetrics(metrics.getSubMetrics());</span>
+<span class="fc" id="L130">        eol();</span>
+
+<span class="fc" id="L132">        lowerIndent();</span>
+<span class="fc" id="L133">        indent().append(&quot;}&quot;);</span>
+<span class="fc" id="L134">    }</span>
+
+    private void visitClassMetrics(Collection&lt;Metrics&gt; metrics) {
+<span class="fc bfc" id="L137" title="All 2 branches covered.">        if (hasVisibleMetrics(metrics)) {</span>
+<span class="fc" id="L138">            append(&quot;[&quot;).eol();</span>
+<span class="fc" id="L139">            raiseIndent();</span>
+
+<span class="fc" id="L141">            indent().append(metrics.stream()</span>
+<span class="fc" id="L142">                    .filter(this::isVisibleMetrics)</span>
+<span class="fc" id="L143">                    .sorted(getComparator())</span>
+<span class="fc" id="L144">                    .map(classMetrics -&gt; {</span>
+<span class="fc" id="L145">                        StringWriter out = new StringWriter();</span>
+<span class="fc" id="L146">                        clonePrinter(out).visitClassMetrics(classMetrics);</span>
+<span class="fc" id="L147">                        return out.toString();</span>
+                    })
+<span class="fc" id="L149">                    .collect(joining(&quot;, &quot;))).eol();</span>
+
+<span class="fc" id="L151">            lowerIndent();</span>
+<span class="fc" id="L152">            indent().append(&quot;]&quot;);</span>
+        } else {
+<span class="fc" id="L154">            append(&quot;[]&quot;);</span>
+        }
+<span class="fc" id="L156">    }</span>
+
+    private void visitClassMetrics(Metrics metrics) {
+<span class="fc" id="L159">        append(&quot;{&quot;).eol();</span>
+<span class="fc" id="L160">        raiseIndent();</span>
+<span class="fc" id="L161">        indent().append(&quot;\&quot;name\&quot;: \&quot;&quot;).append(metrics.getName()).append(&quot;\&quot;,&quot;).eol();</span>
+
+<span class="fc" id="L163">        indent().append(&quot;\&quot;measurements\&quot;: &quot;);</span>
+<span class="fc" id="L164">        visitMeasurements(metrics, configuration.getClassMeasurements());</span>
+<span class="fc" id="L165">        append(&quot;,&quot;).eol();</span>
+
+<span class="fc" id="L167">        indent().append(&quot;\&quot;methods\&quot;: &quot;);</span>
+<span class="fc" id="L168">        visitMethodMetrics(metrics.getSubMetrics());</span>
+<span class="fc" id="L169">        eol();</span>
+
+<span class="fc" id="L171">        lowerIndent();</span>
+<span class="fc" id="L172">        indent().append(&quot;}&quot;);</span>
+<span class="fc" id="L173">    }</span>
+
+    private void visitMethodMetrics(Collection&lt;Metrics&gt; metrics) {
+<span class="pc bpc" id="L176" title="1 of 2 branches missed.">        if (hasVisibleMetrics(metrics)) {</span>
+<span class="fc" id="L177">            append(&quot;[&quot;).eol();</span>
+<span class="fc" id="L178">            raiseIndent();</span>
+
+<span class="fc" id="L180">            indent().append(metrics.stream()</span>
+<span class="fc" id="L181">                    .filter(this::isVisibleMetrics)</span>
+<span class="fc" id="L182">                    .sorted(getComparator())</span>
+<span class="fc" id="L183">                    .map(methodMetrics -&gt; {</span>
+<span class="fc" id="L184">                        StringWriter out = new StringWriter();</span>
+<span class="fc" id="L185">                        clonePrinter(out).visitMethodMetrics(methodMetrics);</span>
+<span class="fc" id="L186">                        return out.toString();</span>
+                    })
+<span class="fc" id="L188">                    .collect(joining(&quot;, &quot;))).eol();</span>
+
+<span class="fc" id="L190">            lowerIndent();</span>
+<span class="fc" id="L191">            indent().append(&quot;]&quot;);</span>
+        } else {
+<span class="nc" id="L193">            append(&quot;[]&quot;);</span>
+        }
+<span class="fc" id="L195">    }</span>
+
+    private void visitMethodMetrics(Metrics metrics) {
+<span class="fc" id="L198">        append(&quot;{&quot;).eol();</span>
+<span class="fc" id="L199">        raiseIndent();</span>
+<span class="fc" id="L200">        indent().append(&quot;\&quot;name\&quot;: \&quot;&quot;).append(metrics.getName()).append(&quot;\&quot;,&quot;).eol();</span>
+
+<span class="fc" id="L202">        indent().append(&quot;\&quot;measurements\&quot;: &quot;);</span>
+<span class="fc" id="L203">        visitMeasurements(metrics, configuration.getMethodMeasurements());</span>
+<span class="fc" id="L204">        eol();</span>
+
+<span class="fc" id="L206">        lowerIndent();</span>
+<span class="fc" id="L207">        indent().append(&quot;}&quot;);</span>
+<span class="fc" id="L208">    }</span>
+
+    protected void visitMeasurements(Metrics metrics, List&lt;MeasurementDescriptor&gt; descriptors) {
+<span class="fc bfc" id="L211" title="All 2 branches covered.">        if (hasVisibleMeasurements(descriptors)) {</span>
+<span class="fc" id="L212">            append(&quot;[&quot;).eol();</span>
+<span class="fc" id="L213">            raiseIndent();</span>
+
+<span class="fc" id="L215">            indent().append(descriptors.stream()</span>
+<span class="fc" id="L216">                    .filter(this::isVisibleMeasurement)</span>
+<span class="fc" id="L217">                    .map(descriptor -&gt; metrics.getMeasurement(descriptor.getShortName()))</span>
+<span class="fc" id="L218">                    .map(measurement -&gt; {</span>
+<span class="fc" id="L219">                        StringWriter out = new StringWriter();</span>
+<span class="fc" id="L220">                        measurement.accept(clonePrinter(out));</span>
+<span class="fc" id="L221">                        return out.toString();</span>
+                    })
+<span class="fc" id="L223">                    .collect(joining(&quot;, &quot;))).eol();</span>
+
+<span class="fc" id="L225">            lowerIndent();</span>
+<span class="fc" id="L226">            indent().append(&quot;]&quot;);</span>
+        } else {
+<span class="fc" id="L228">            append(&quot;[]&quot;);</span>
+        }
+<span class="fc" id="L230">    }</span>
+
+    public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
+<span class="fc" id="L233">        append(&quot;{&quot;).eol();</span>
+<span class="fc" id="L234">        raiseIndent();</span>
+
+<span class="fc" id="L236">        indent().append(&quot;\&quot;short-name\&quot;: \&quot;&quot;).append(measurement.getShortName()).append(&quot;\&quot;,&quot;).eol();</span>
+<span class="fc" id="L237">        indent().append(&quot;\&quot;long-name\&quot;: \&quot;&quot;).append(measurement.getLongName()).append(&quot;\&quot;,&quot;).eol();</span>
+<span class="fc" id="L238">        indent().append(&quot;\&quot;value\&quot;: &quot;).append(measurement.getValue()).append(&quot;,&quot;).eol();</span>
+<span class="fc" id="L239">        indent().append(&quot;\&quot;minimum\&quot;: &quot;).append(measurement.getMinimum()).append(&quot;,&quot;).eol();</span>
+<span class="fc" id="L240">        indent().append(&quot;\&quot;median\&quot;: &quot;).append(measurement.getMedian()).append(&quot;,&quot;).eol();</span>
+<span class="fc" id="L241">        indent().append(&quot;\&quot;average\&quot;: &quot;).append(measurement.getAverage()).append(&quot;,&quot;).eol();</span>
+<span class="fc" id="L242">        indent().append(&quot;\&quot;standard-deviation\&quot;: &quot;).append(measurement.getStandardDeviation()).append(&quot;,&quot;).eol();</span>
+<span class="fc" id="L243">        indent().append(&quot;\&quot;maximum\&quot;: &quot;).append(measurement.getMaximum()).append(&quot;,&quot;).eol();</span>
+<span class="fc" id="L244">        indent().append(&quot;\&quot;sum\&quot;: &quot;).append(measurement.getSum()).append(&quot;,&quot;).eol();</span>
+
+<span class="fc" id="L246">        var requestedPercentiles = measurement.getRequestedPercentiles();</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">        if (requestedPercentiles.isEmpty()) {</span>
+<span class="fc" id="L248">            indent().append(&quot;\&quot;nb-data-points\&quot;: &quot;).append(measurement.getNbDataPoints()).eol();</span>
+        } else {
+<span class="fc" id="L250">            indent().append(&quot;\&quot;nb-data-points\&quot;: &quot;).append(measurement.getNbDataPoints()).append(&quot;,&quot;).eol();</span>
+<span class="fc" id="L251">            indent().append(&quot;\&quot;percentiles\&quot;: {&quot;).eol();</span>
+<span class="fc" id="L252">            raiseIndent();</span>
+
+<span class="fc" id="L254">            var i = requestedPercentiles.iterator();</span>
+<span class="fc bfc" id="L255" title="All 2 branches covered.">            while (i.hasNext()) {</span>
+<span class="fc" id="L256">                var percentile = i.next();</span>
+<span class="fc" id="L257">                indent();</span>
+<span class="fc" id="L258">                append(&quot;\&quot;p&quot;).append(percentile).append(&quot;\&quot;: &quot;).append(measurement.getPercentile(percentile));</span>
+<span class="fc bfc" id="L259" title="All 2 branches covered.">                if (i.hasNext()) {</span>
+<span class="fc" id="L260">                    append(&quot;,&quot;);</span>
+                }
+<span class="fc" id="L262">                eol();</span>
+<span class="fc" id="L263">            }</span>
+
+<span class="fc" id="L265">            lowerIndent();</span>
+<span class="fc" id="L266">            indent().append(&quot;}&quot;).eol();</span>
+        }
+
+<span class="fc" id="L269">        lowerIndent();</span>
+<span class="fc" id="L270">        indent().append(&quot;}&quot;);</span>
+<span class="fc" id="L271">    }</span>
+    
+    public void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
+<span class="nc" id="L274">        visitCollectionMeasurement(measurement);</span>
+<span class="nc" id="L275">    }</span>
+        
+    public void visitNameListMeasurement(NameListMeasurement measurement) {
+<span class="nc" id="L278">        visitCollectionMeasurement(measurement);</span>
+<span class="nc" id="L279">    }</span>
+    
+    public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
+<span class="fc" id="L282">        visitCollectionMeasurement(measurement);</span>
+<span class="fc" id="L283">    }</span>
+    
+    protected void visitCollectionMeasurement(CollectionMeasurement measurement) {
+<span class="fc" id="L286">        append(&quot;{&quot;).eol();</span>
+<span class="fc" id="L287">        raiseIndent();</span>
+<span class="fc" id="L288">        indent().append(&quot;\&quot;short-name\&quot;: \&quot;&quot;).append(measurement.getShortName()).append(&quot;\&quot;,&quot;).eol();</span>
+<span class="fc" id="L289">        indent().append(&quot;\&quot;long-name\&quot;: \&quot;&quot;).append(measurement.getLongName()).append(&quot;\&quot;,&quot;).eol();</span>
+
+<span class="fc bfc" id="L291" title="All 2 branches covered.">        if (isExpandCollectionMeasurements()) {</span>
+<span class="fc" id="L292">            indent().append(&quot;\&quot;value\&quot;: &quot;).append(measurement.getValue()).append(&quot;,&quot;).eol();</span>
+<span class="fc" id="L293">            indent().append(&quot;\&quot;members\&quot;: [&quot;).append(measurement.getValues().stream().sorted().map(value -&gt; &quot;\&quot;&quot; + value + &quot;\&quot;&quot;).collect(joining(&quot;, &quot;))).append(&quot;]&quot;).eol();</span>
+        } else {
+<span class="fc" id="L295">            indent().append(&quot;\&quot;value\&quot;: &quot;).append(measurement.getValue()).eol();</span>
+        }
+
+<span class="fc" id="L298">        lowerIndent();</span>
+<span class="fc" id="L299">        indent().append(&quot;}&quot;);</span>
+<span class="fc" id="L300">    }</span>
+    
+    protected void visitMeasurement(Measurement measurement) {
+<span class="fc" id="L303">        append(&quot;{&quot;).eol();</span>
+<span class="fc" id="L304">        raiseIndent();</span>
+<span class="fc" id="L305">        indent().append(&quot;\&quot;short-name\&quot;: \&quot;&quot;).append(measurement.getShortName()).append(&quot;\&quot;,&quot;).eol();</span>
+<span class="fc" id="L306">        indent().append(&quot;\&quot;long-name\&quot;: \&quot;&quot;).append(measurement.getLongName()).append(&quot;\&quot;,&quot;).eol();</span>
+<span class="fc" id="L307">        indent().append(&quot;\&quot;value\&quot;: &quot;).append(measurement.getValue()).eol();</span>
+<span class="fc" id="L308">        lowerIndent();</span>
+<span class="fc" id="L309">        indent().append(&quot;}&quot;);</span>
+<span class="fc" id="L310">    }</span>
+
+    private JSONPrinter clonePrinter(StringWriter out) {
+<span class="fc" id="L313">        JSONPrinter result = new JSONPrinter(new PrintWriter(out), configuration);</span>
+
+<span class="fc" id="L315">        result.setIndentLevel(getIndentLevel());</span>
+<span class="fc" id="L316">        result.setIndentText(getIndentText());</span>
+<span class="fc" id="L317">        result.setShowEmptyMetrics(isShowEmptyMetrics());</span>
+<span class="fc" id="L318">        result.setShowEmptyMetrics(isShowEmptyMetrics());</span>
+<span class="fc" id="L319">        result.setExpandCollectionMeasurements(isExpandCollectionMeasurements());</span>
+<span class="fc" id="L320">        result.setComparator(getComparator());</span>
+
+<span class="fc" id="L322">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

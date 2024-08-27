@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Visitor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader</a> &gt; <span class="el_source">Visitor.java</span></div><h1>Visitor.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.classreader;
+
+import java.util.*;
+
+public interface Visitor {
+    /*
+     * Classfile
+     */
+
+    default void visitClassfiles(Collection&lt;Classfile&gt; classfiles) {
+<span class="fc" id="L43">        classfiles.forEach(classfile -&gt; classfile.accept(this));</span>
+<span class="fc" id="L44">    }</span>
+
+    default void visitClassfile(Classfile classfile) {
+        // Do nothing
+<span class="nc" id="L48">    }</span>
+
+    /*
+     * ConstantPool entries
+     */
+
+    default void visitConstantPool(ConstantPool constantPool) {
+        // Do nothing
+<span class="nc" id="L56">    }</span>
+
+    default void visitClass_info(Class_info entry) {
+        // Do nothing
+<span class="fc" id="L60">    }</span>
+
+    default void visitFieldRef_info(FieldRef_info entry) {
+        // Do nothing
+<span class="fc" id="L64">    }</span>
+
+    default void visitMethodRef_info(MethodRef_info entry) {
+        // Do nothing
+<span class="fc" id="L68">    }</span>
+
+    default void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
+        // Do nothing
+<span class="fc" id="L72">    }</span>
+
+    default void visitString_info(String_info entry) {
+        // Do nothing
+<span class="fc" id="L76">    }</span>
+
+    default void visitInteger_info(Integer_info entry) {
+        // Do nothing
+<span class="fc" id="L80">    }</span>
+
+    default void visitFloat_info(Float_info entry) {
+        // Do nothing
+<span class="fc" id="L84">    }</span>
+
+    default void visitLong_info(Long_info entry) {
+        // Do nothing
+<span class="fc" id="L88">    }</span>
+
+    default void visitDouble_info(Double_info entry) {
+        // Do nothing
+<span class="fc" id="L92">    }</span>
+
+    default void visitNameAndType_info(NameAndType_info entry) {
+        // Do nothing
+<span class="fc" id="L96">    }</span>
+
+    default void visitUTF8_info(UTF8_info entry) {
+        // Do nothing
+<span class="fc" id="L100">    }</span>
+
+    default void visitMethodHandle_info(MethodHandle_info entry) {
+        // Do nothing
+<span class="fc" id="L104">    }</span>
+
+    default void visitMethodType_info(MethodType_info entry) {
+        // Do nothing
+<span class="fc" id="L108">    }</span>
+
+    default void visitDynamic_info(Dynamic_info entry) {
+        // Do nothing
+<span class="fc" id="L112">    }</span>
+
+    default void visitInvokeDynamic_info(InvokeDynamic_info entry) {
+        // Do nothing
+<span class="fc" id="L116">    }</span>
+
+    default void visitModule_info(Module_info entry) {
+        // Do nothing
+<span class="fc" id="L120">    }</span>
+
+    default void visitPackage_info(Package_info entry) {
+        // Do nothing
+<span class="fc" id="L124">    }</span>
+
+    default void visitUnusableEntry(UnusableEntry entry) {
+        // Do nothing
+<span class="nc" id="L128">    }</span>
+
+    /*
+     * Features
+     */
+
+    default void visitField_info(Field_info entry) {
+        // Do nothing
+<span class="nc" id="L136">    }</span>
+
+    default void visitMethod_info(Method_info entry) {
+        // Do nothing
+<span class="nc" id="L140">    }</span>
+
+    /*
+     * Attributes
+     */
+
+    default void visitConstantValue_attribute(ConstantValue_attribute attribute) {
+        // Do nothing
+<span class="fc" id="L148">    }</span>
+
+    default void visitCode_attribute(Code_attribute attribute) {
+        // Do nothing
+<span class="nc" id="L152">    }</span>
+
+    default void visitExceptions_attribute(Exceptions_attribute attribute) {
+<span class="fc" id="L155">        attribute.getExceptions().forEach(exception -&gt; exception.accept(this));</span>
+<span class="fc" id="L156">    }</span>
+
+    default void visitInnerClasses_attribute(InnerClasses_attribute attribute) {
+<span class="fc" id="L159">        attribute.getInnerClasses().forEach(innerClass -&gt; innerClass.accept(this));</span>
+<span class="fc" id="L160">    }</span>
+
+    default void visitEnclosingMethod_attribute(EnclosingMethod_attribute attribute) {
+        // Do nothing
+<span class="fc" id="L164">    }</span>
+
+    default void visitSynthetic_attribute(Synthetic_attribute attribute) {
+        // Do nothing
+<span class="fc" id="L168">    }</span>
+
+    default void visitSignature_attribute(Signature_attribute attribute) {
+        // Do nothing
+<span class="fc" id="L172">    }</span>
+
+    default void visitSourceFile_attribute(SourceFile_attribute attribute) {
+        // Do nothing
+<span class="fc" id="L176">    }</span>
+
+    default void visitSourceDebugExtension_attribute(SourceDebugExtension_attribute attribute) {
+        // Do nothing
+<span class="fc" id="L180">    }</span>
+
+    default void visitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
+<span class="fc" id="L183">        attribute.getLineNumbers().forEach(lineNumber -&gt; lineNumber.accept(this));</span>
+<span class="fc" id="L184">    }</span>
+
+    default void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
+<span class="fc" id="L187">        attribute.getLocalVariables().forEach(localVariable -&gt; localVariable.accept(this));</span>
+<span class="fc" id="L188">    }</span>
+
+    default void visitLocalVariableTypeTable_attribute(LocalVariableTypeTable_attribute attribute) {
+        // Do nothing
+<span class="nc" id="L192">    }</span>
+
+    default void visitDeprecated_attribute(Deprecated_attribute attribute) {
+        // Do nothing
+<span class="fc" id="L196">    }</span>
+
+    default void visitRuntimeVisibleAnnotations_attribute(RuntimeVisibleAnnotations_attribute attribute) {
+        // Do nothing
+<span class="nc" id="L200">    }</span>
+
+    default void visitRuntimeInvisibleAnnotations_attribute(RuntimeInvisibleAnnotations_attribute attribute) {
+        // Do nothing
+<span class="nc" id="L204">    }</span>
+
+    default void visitRuntimeVisibleParameterAnnotations_attribute(RuntimeVisibleParameterAnnotations_attribute attribute) {
+        // Do nothing
+<span class="nc" id="L208">    }</span>
+
+    default void visitRuntimeInvisibleParameterAnnotations_attribute(RuntimeInvisibleParameterAnnotations_attribute attribute) {
+        // Do nothing
+<span class="nc" id="L212">    }</span>
+
+    default void visitRuntimeVisibleTypeAnnotations_attribute(RuntimeVisibleTypeAnnotations_attribute attribute) {
+        // Do nothing
+<span class="nc" id="L216">    }</span>
+
+    default void visitRuntimeInvisibleTypeAnnotations_attribute(RuntimeInvisibleTypeAnnotations_attribute attribute) {
+        // Do nothing
+<span class="nc" id="L220">    }</span>
+
+    default void visitAnnotationDefault_attribute(AnnotationDefault_attribute attribute) {
+<span class="fc" id="L223">        attribute.getElemementValue().accept(this);</span>
+<span class="fc" id="L224">    }</span>
+
+    default void visitStackMapTable_attribute(StackMapTable_attribute attribute) {
+<span class="fc" id="L227">        attribute.getEntries().forEach(stackMapFrame -&gt; stackMapFrame.accept(this));</span>
+<span class="fc" id="L228">    }</span>
+
+    default void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute) {
+<span class="fc" id="L231">        attribute.getBootstrapMethods().forEach(bootstrapMethod -&gt; bootstrapMethod.accept(this));</span>
+<span class="fc" id="L232">    }</span>
+
+    default void visitMethodParameters_attribute(MethodParameters_attribute attribute) {
+<span class="fc" id="L235">        attribute.getMethodParameters().forEach(methodParameter -&gt; methodParameter.accept(this));</span>
+<span class="fc" id="L236">    }</span>
+
+    default void visitModule_attribute(Module_attribute attribute) {
+<span class="fc" id="L239">        attribute.getRequires().forEach(moduleRequires -&gt; moduleRequires.accept(this));</span>
+<span class="fc" id="L240">        attribute.getExports().forEach(moduleExports -&gt; moduleExports.accept(this));</span>
+<span class="fc" id="L241">        attribute.getOpens().forEach(moduleOpens -&gt; moduleOpens.accept(this));</span>
+<span class="fc" id="L242">        attribute.getUses().forEach(moduleUses -&gt; moduleUses.accept(this));</span>
+<span class="fc" id="L243">        attribute.getProvides().forEach(moduleProvides -&gt; moduleProvides.accept(this));</span>
+<span class="fc" id="L244">    }</span>
+
+    default void visitModulePackages_attribute(ModulePackages_attribute attribute) {
+<span class="fc" id="L247">        attribute.getPackages().forEach(modulePackage -&gt; modulePackage.accept(this));</span>
+<span class="fc" id="L248">    }</span>
+
+    default void visitModuleMainClass_attribute(ModuleMainClass_attribute attribute) {
+        // Do nothing
+<span class="fc" id="L252">    }</span>
+
+    default void visitNestHost_attribute(NestHost_attribute attribute) {
+        // Do nothing
+<span class="fc" id="L256">    }</span>
+
+    default void visitNestMembers_attribute(NestMembers_attribute attribute) {
+<span class="fc" id="L259">        attribute.getMembers().forEach(nestMember -&gt; nestMember.accept(this));</span>
+<span class="fc" id="L260">    }</span>
+
+    default void visitRecord_attribute(Record_attribute attribute) {
+<span class="fc" id="L263">        attribute.getRecordComponents().forEach(recordComponent -&gt; recordComponent.accept(this));</span>
+<span class="fc" id="L264">    }</span>
+
+    default void visitPermittedSubclasses_attribute(PermittedSubclasses_attribute attribute) {
+<span class="fc" id="L267">        attribute.getSubclasses().forEach(permittedSubclass -&gt; permittedSubclass.accept(this));</span>
+<span class="fc" id="L268">    }</span>
+
+    default void visitCustom_attribute(Custom_attribute attribute) {
+        // Do nothing
+<span class="fc" id="L272">    }</span>
+
+    /*
+     * Attribute helpers
+     */
+
+    default void visitInstruction(Instruction instruction) {
+        // Do nothing
+<span class="fc" id="L280">    }</span>
+
+    default void visitExceptionHandler(ExceptionHandler helper) {
+        // Do nothing
+<span class="fc" id="L284">    }</span>
+
+    default void visitInnerClass(InnerClass helper) {
+        // Do nothing
+<span class="fc" id="L288">    }</span>
+
+    default void visitLineNumber(LineNumber helper) {
+        // Do nothing
+<span class="fc" id="L292">    }</span>
+
+    default void visitLocalVariable(LocalVariable helper) {
+        // Do nothing
+<span class="fc" id="L296">    }</span>
+
+    default void visitLocalVariableType(LocalVariableType helper) {
+        // Do nothing
+<span class="fc" id="L300">    }</span>
+
+    default void visitBootstrapMethod(BootstrapMethod helper) {
+<span class="fc" id="L303">        helper.getBootstrapMethod().accept(this);</span>
+<span class="fc" id="L304">        helper.getArguments().forEach(argument -&gt; argument.accept(this));</span>
+<span class="fc" id="L305">    }</span>
+
+    default void visitMethodParameter(MethodParameter helper) {
+        // Do nothing
+<span class="fc" id="L309">    }</span>
+
+    default void visitModuleRequires(ModuleRequires helper) {
+        // Do nothing
+<span class="fc" id="L313">    }</span>
+
+    default void visitModuleExports(ModuleExports helper) {
+<span class="fc" id="L316">        helper.getExportsTos().forEach(moduleExportsTo -&gt; moduleExportsTo.accept(this));</span>
+<span class="fc" id="L317">    }</span>
+
+    default void visitModuleExportsTo(ModuleExportsTo helper) {
+        // Do nothing
+<span class="fc" id="L321">    }</span>
+
+    default void visitModuleOpens(ModuleOpens helper) {
+<span class="fc" id="L324">        helper.getOpensTos().forEach(moduleOpensTo -&gt; moduleOpensTo.accept(this));</span>
+<span class="fc" id="L325">    }</span>
+
+    default void visitModuleOpensTo(ModuleOpensTo helper) {
+        // Do nothing
+<span class="fc" id="L329">    }</span>
+
+    default void visitModuleUses(ModuleUses helper) {
+        // Do nothing
+<span class="fc" id="L333">    }</span>
+
+    default void visitModuleProvides(ModuleProvides helper) {
+<span class="fc" id="L336">        helper.getProvidesWiths().forEach(moduleProvidesWith -&gt; moduleProvidesWith.accept(this));</span>
+<span class="fc" id="L337">    }</span>
+
+    default void visitModuleProvidesWith(ModuleProvidesWith helper) {
+        // Do nothing
+<span class="fc" id="L341">    }</span>
+
+    default void visitModulePackage(ModulePackage helper) {
+        // Do nothing
+<span class="fc" id="L345">    }</span>
+
+    default void visitNestMember(NestMember helper) {
+        // Do nothing
+<span class="fc" id="L349">    }</span>
+
+    default void visitRecordComponent_info(RecordComponent_info helper) {
+<span class="fc" id="L352">        helper.getAttributes().forEach(attribute -&gt; attribute.accept(this));</span>
+<span class="fc" id="L353">    }</span>
+
+    default void visitPermittedSubclass(PermittedSubclass helper) {
+        // Do nothing
+<span class="fc" id="L357">    }</span>
+
+    /*
+     * Annotations
+     */
+
+    default void visitAnnotation(Annotation helper) {
+<span class="fc" id="L364">        helper.getElementValuePairs().forEach(elementValuePair -&gt; elementValuePair.accept(this));</span>
+<span class="fc" id="L365">    }</span>
+
+    default void visitParameterAnnotation(ParameterAnnotation helper) {
+<span class="fc" id="L368">        helper.getAnnotations().forEach(annotation -&gt; annotation.accept(this));</span>
+<span class="fc" id="L369">    }</span>
+
+    default void visitTypeAnnotation(TypeAnnotation helper) {
+<span class="nc" id="L372">        helper.getTarget().accept(this);</span>
+<span class="nc" id="L373">        helper.getTargetPath().accept(this);</span>
+<span class="nc" id="L374">        helper.getElementValuePairs().forEach(elementValuePair -&gt; elementValuePair.accept(this));</span>
+<span class="nc" id="L375">    }</span>
+
+    default void visitElementValuePair(ElementValuePair helper) {
+<span class="fc" id="L378">        helper.getElementValue().accept(this);</span>
+<span class="fc" id="L379">    }</span>
+
+    default void visitByteConstantElementValue(ByteConstantElementValue helper) {
+        // Do nothing
+<span class="fc" id="L383">    }</span>
+
+    default void visitCharConstantElementValue(CharConstantElementValue helper) {
+        // Do nothing
+<span class="fc" id="L387">    }</span>
+
+    default void visitDoubleConstantElementValue(DoubleConstantElementValue helper) {
+        // Do nothing
+<span class="fc" id="L391">    }</span>
+
+    default void visitFloatConstantElementValue(FloatConstantElementValue helper) {
+        // Do nothing
+<span class="fc" id="L395">    }</span>
+
+    default void visitIntegerConstantElementValue(IntegerConstantElementValue helper) {
+        // Do nothing
+<span class="fc" id="L399">    }</span>
+
+    default void visitLongConstantElementValue(LongConstantElementValue helper) {
+        // Do nothing
+<span class="fc" id="L403">    }</span>
+
+    default void visitShortConstantElementValue(ShortConstantElementValue helper) {
+        // Do nothing
+<span class="fc" id="L407">    }</span>
+
+    default void visitBooleanConstantElementValue(BooleanConstantElementValue helper) {
+        // Do nothing
+<span class="fc" id="L411">    }</span>
+
+    default void visitStringConstantElementValue(StringConstantElementValue helper) {
+        // Do nothing
+<span class="fc" id="L415">    }</span>
+
+    default void visitEnumElementValue(EnumElementValue helper) {
+        // Do nothing
+<span class="fc" id="L419">    }</span>
+
+    default void visitClassElementValue(ClassElementValue helper) {
+        // Do nothing
+<span class="fc" id="L423">    }</span>
+
+    default void visitAnnotationElementValue(AnnotationElementValue helper) {
+<span class="fc" id="L426">        helper.getAnnotation().accept(this);</span>
+<span class="fc" id="L427">    }</span>
+
+    default void visitArrayElementValue(ArrayElementValue helper) {
+<span class="fc" id="L430">        helper.getValues().forEach(elementValue -&gt; elementValue.accept(this));</span>
+<span class="fc" id="L431">    }</span>
+
+    default void visitTypeParameterTarget(TypeParameterTarget helper) {
+        // Do nothing
+<span class="nc" id="L435">    }</span>
+
+    default void visitSupertypeTarget(SupertypeTarget helper) {
+        // Do nothing
+<span class="nc" id="L439">    }</span>
+
+    default void visitTypeParameterBoundTarget(TypeParameterBoundTarget helper) {
+        // Do nothing
+<span class="nc" id="L443">    }</span>
+
+    default void visitEmptyTarget(EmptyTarget helper) {
+        // Do nothing
+<span class="nc" id="L447">    }</span>
+
+    default void visitFormalParameterTarget(FormalParameterTarget helper) {
+        // Do nothing
+<span class="nc" id="L451">    }</span>
+
+    default void visitThrowsTarget(ThrowsTarget helper) {
+        // Do nothing
+<span class="nc" id="L455">    }</span>
+
+    default void visitLocalvarTarget(LocalvarTarget helper) {
+<span class="fc" id="L458">        helper.getTable().forEach(entry -&gt; entry.accept(this));</span>
+<span class="fc" id="L459">    }</span>
+
+    default void visitCatchTarget(CatchTarget helper) {
+        // Do nothing
+<span class="nc" id="L463">    }</span>
+
+    default void visitOffsetTarget(OffsetTarget helper) {
+        // Do nothing
+<span class="nc" id="L467">    }</span>
+
+    default void visitTypeArgumentTarget(TypeArgumentTarget helper) {
+        // Do nothing
+<span class="nc" id="L471">    }</span>
+
+    default void visitLocalvarTableEntry(LocalvarTableEntry helper) {
+        // Do nothing
+<span class="nc" id="L475">    }</span>
+
+    default void visitTypePath(TypePath helper) {
+<span class="fc" id="L478">        helper.getPath().forEach(entry -&gt; entry.accept(this));</span>
+<span class="fc" id="L479">    }</span>
+
+    default void visitTypePathEntry(TypePathEntry helper) {
+        // Do nothing
+<span class="nc" id="L483">    }</span>
+
+    default void visitSameFrame(SameFrame helper) {
+        // Do nothing
+<span class="fc" id="L487">    }</span>
+
+    default void visitSameLocals1StackItemFrame(SameLocals1StackItemFrame helper) {
+        // Do nothing
+<span class="nc" id="L491">    }</span>
+
+    default void visitSameLocals1StackItemFrameExtended(SameLocals1StackItemFrameExtended helper) {
+        // Do nothing
+<span class="nc" id="L495">    }</span>
+
+    default void visitChopFrame(ChopFrame helper) {
+        // Do nothing
+<span class="fc" id="L499">    }</span>
+
+    default void visitSameFrameExtended(SameFrameExtended helper) {
+        // Do nothing
+<span class="fc" id="L503">    }</span>
+
+    default void visitAppendFrame(AppendFrame helper) {
+        // Do nothing
+<span class="nc" id="L507">    }</span>
+
+    default void visitFullFrame(FullFrame helper) {
+        // Do nothing
+<span class="nc" id="L511">    }</span>
+
+    default void visitTopVariableInfo(TopVariableInfo helper) {
+        // Do nothing
+<span class="fc" id="L515">    }</span>
+
+    default void visitIntegerVariableInfo(IntegerVariableInfo helper) {
+        // Do nothing
+<span class="fc" id="L519">    }</span>
+
+    default void visitFloatVariableInfo(FloatVariableInfo helper) {
+        // Do nothing
+<span class="fc" id="L523">    }</span>
+
+    default void visitLongVariableInfo(LongVariableInfo helper) {
+        // Do nothing
+<span class="fc" id="L527">    }</span>
+
+    default void visitDoubleVariableInfo(DoubleVariableInfo helper) {
+        // Do nothing
+<span class="fc" id="L531">    }</span>
+
+    default void visitNullVariableInfo(NullVariableInfo helper) {
+        // Do nothing
+<span class="fc" id="L535">    }</span>
+
+    default void visitUninitializedThisVariableInfo(UninitializedThisVariableInfo helper) {
+        // Do nothing
+<span class="fc" id="L539">    }</span>
+
+    default void visitObjectVariableInfo(ObjectVariableInfo helper) {
+<span class="fc" id="L542">        helper.getClassInfo().accept(this);</span>
+<span class="fc" id="L543">    }</span>
+
+    default void visitUninitializedVariableInfo(UninitializedVariableInfo helper) {
+        // Do nothing
+<span class="fc" id="L547">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

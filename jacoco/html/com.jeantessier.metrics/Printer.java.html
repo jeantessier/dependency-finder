@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Printer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.metrics</a> &gt; <span class="el_source">Printer.java</span></div><h1>Printer.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.metrics;
+
+import java.io.*;
+import java.util.*;
+
+public abstract class Printer implements MeasurementVisitor {
+    public static final String DEFAULT_INDENT_TEXT = &quot;    &quot;;
+
+    private final PrintWriter out;
+
+<span class="fc" id="L43">    private boolean showEmptyMetrics = false;</span>
+<span class="fc" id="L44">    private boolean showHiddenMeasurements = false;</span>
+<span class="fc" id="L45">    private boolean expandCollectionMeasurements = false;</span>
+<span class="fc" id="L46">    private String indentText = DEFAULT_INDENT_TEXT;</span>
+<span class="fc" id="L47">    private Comparator&lt;Metrics&gt; comparator = new MetricsComparator(&quot;name&quot;);</span>
+
+<span class="fc" id="L49">    private int indentLevel = 0;</span>
+
+<span class="fc" id="L51">    public Printer(PrintWriter out) {</span>
+<span class="fc" id="L52">        this.out = out;</span>
+<span class="fc" id="L53">    }</span>
+    
+    public String getIndentText() {
+<span class="fc" id="L56">        return indentText;</span>
+    }
+
+    public void setIndentText(String indentText) {
+<span class="fc" id="L60">        this.indentText = indentText;</span>
+<span class="fc" id="L61">    }</span>
+
+    // For cloning
+    int getIndentLevel() {
+<span class="fc" id="L65">        return indentLevel;</span>
+    }
+
+    // For cloning
+    void setIndentLevel(int indentLevel) {
+<span class="fc" id="L70">        this.indentLevel = indentLevel;</span>
+<span class="fc" id="L71">    }</span>
+
+    public boolean isShowEmptyMetrics() {
+<span class="fc" id="L74">        return showEmptyMetrics;</span>
+    }
+
+    public void setShowEmptyMetrics(boolean showEmptyMetrics) {
+<span class="fc" id="L78">        this.showEmptyMetrics = showEmptyMetrics;</span>
+<span class="fc" id="L79">    }</span>
+
+    public boolean isShowHiddenMeasurements() {
+<span class="fc" id="L82">        return showHiddenMeasurements;</span>
+    }
+
+    public void setShowHiddenMeasurements(boolean showHiddenMeasurements) {
+<span class="fc" id="L86">        this.showHiddenMeasurements = showHiddenMeasurements;</span>
+<span class="fc" id="L87">    }</span>
+
+    public boolean isExpandCollectionMeasurements() {
+<span class="fc" id="L90">        return expandCollectionMeasurements;</span>
+    }
+
+    public void setExpandCollectionMeasurements(boolean expandCollectionMeasurements) {
+<span class="fc" id="L94">        this.expandCollectionMeasurements = expandCollectionMeasurements;</span>
+<span class="fc" id="L95">    }</span>
+
+    public Comparator&lt;Metrics&gt; getComparator() {
+<span class="fc" id="L98">        return comparator;</span>
+    }
+
+    public void setComparator(Comparator&lt;Metrics&gt; comparator) {
+<span class="fc" id="L102">        this.comparator = comparator;</span>
+<span class="fc" id="L103">    }</span>
+
+    protected Printer append(boolean b) {
+<span class="nc" id="L106">        out.print(b);</span>
+<span class="nc" id="L107">        return this;</span>
+    }
+
+    protected Printer append(char c) {
+<span class="nc" id="L111">        out.print(c);</span>
+<span class="nc" id="L112">        return this;</span>
+    }
+
+    protected Printer append(char[] s) {
+<span class="nc" id="L116">        out.print(s);</span>
+<span class="nc" id="L117">        return this;</span>
+    }
+
+    protected Printer append(double d) {
+<span class="fc" id="L121">        out.print(d);</span>
+<span class="fc" id="L122">        return this;</span>
+    }
+
+    protected Printer append(float f) {
+<span class="nc" id="L126">        out.print(f);</span>
+<span class="nc" id="L127">        return this;</span>
+    }
+
+    protected Printer append(int i) {
+<span class="fc" id="L131">        out.print(i);</span>
+<span class="fc" id="L132">        return this;</span>
+    }
+
+    protected Printer append(long l) {
+<span class="nc" id="L136">        out.print(l);</span>
+<span class="nc" id="L137">        return this;</span>
+    }
+
+    protected Printer append(Object obj) {
+<span class="fc" id="L141">        out.print(obj);</span>
+<span class="fc" id="L142">        return this;</span>
+    }
+
+    protected Printer append(String s) {
+<span class="fc" id="L146">        out.print(s);</span>
+<span class="fc" id="L147">        return this;</span>
+    }
+
+    protected Printer indent() {
+<span class="fc bfc" id="L151" title="All 2 branches covered.">        for (int i=0; i&lt;getIndentLevel(); i++) {</span>
+<span class="fc" id="L152">            append(getIndentText());</span>
+        }
+
+<span class="fc" id="L155">        return this;</span>
+    }
+
+    protected Printer eol() {
+<span class="fc" id="L159">        out.println();</span>
+<span class="fc" id="L160">        return this;</span>
+    }
+    
+    protected void raiseIndent() {
+<span class="fc" id="L164">        indentLevel++;</span>
+<span class="fc" id="L165">    }</span>
+
+    protected void lowerIndent() {
+<span class="fc" id="L168">        indentLevel--;</span>
+<span class="fc" id="L169">    }</span>
+
+    public void visitMetrics(Collection&lt;Metrics&gt; metrics) {
+<span class="fc" id="L172">        metrics.stream()</span>
+<span class="fc" id="L173">                .sorted(getComparator())</span>
+<span class="fc" id="L174">                .forEach(this::visitMetrics);</span>
+<span class="fc" id="L175">    }</span>
+    
+    public abstract void visitMetrics(Metrics metrics);
+    
+    public void visitRatioMeasurement(RatioMeasurement measurement) {
+<span class="fc" id="L180">        visitMeasurement(measurement);</span>
+<span class="fc" id="L181">    }</span>
+    
+    public void visitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
+<span class="fc" id="L184">        visitMeasurement(measurement);</span>
+<span class="fc" id="L185">    }</span>
+    
+    public void visitCounterMeasurement(CounterMeasurement measurement) {
+<span class="fc" id="L188">        visitMeasurement(measurement);</span>
+<span class="fc" id="L189">    }</span>
+    
+    public void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
+<span class="nc" id="L192">        visitMeasurement(measurement);</span>
+<span class="nc" id="L193">    }</span>
+        
+    public void visitNameListMeasurement(NameListMeasurement measurement) {
+<span class="fc" id="L196">        visitMeasurement(measurement);</span>
+<span class="fc" id="L197">    }</span>
+
+    public void visitSingleValueMeasurement(SingleValueMeasurement measurement) {
+<span class="fc" id="L200">        visitMeasurement(measurement);</span>
+<span class="fc" id="L201">    }</span>
+
+    public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
+<span class="fc" id="L204">        visitMeasurement(measurement);</span>
+<span class="fc" id="L205">    }</span>
+
+    public void visitSumMeasurement(SumMeasurement measurement) {
+<span class="fc" id="L208">        visitMeasurement(measurement);</span>
+<span class="fc" id="L209">    }</span>
+
+    protected abstract void visitMeasurement(Measurement measurement);
+
+    protected boolean hasVisibleMetrics(Collection&lt;Metrics&gt; metrics) {
+<span class="fc bfc" id="L214" title="All 8 branches covered.">        return isShowEmptyMetrics() || isShowHiddenMeasurements() || metrics.stream().anyMatch(m -&gt; !m.isEmpty());</span>
+    }
+
+    protected boolean isVisibleMetrics(Metrics metrics) {
+<span class="fc bfc" id="L218" title="All 6 branches covered.">        return isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty();</span>
+    }
+
+    protected boolean hasVisibleMeasurements(Collection&lt;MeasurementDescriptor&gt; descriptors) {
+<span class="fc bfc" id="L222" title="All 4 branches covered.">        return isShowHiddenMeasurements() || descriptors.stream().anyMatch(MeasurementDescriptor::isVisible);</span>
+    }
+
+    protected boolean isVisibleMeasurement(MeasurementDescriptor descriptor) {
+<span class="fc bfc" id="L226" title="All 4 branches covered.">        return isShowHiddenMeasurements() || descriptor.isVisible();</span>
+    }
+
+    protected void visitMeasurements(Metrics metrics, Collection&lt;MeasurementDescriptor&gt; descriptors) {
+<span class="fc" id="L230">        descriptors.stream()</span>
+<span class="fc bfc" id="L231" title="All 4 branches covered.">                .filter(descriptor -&gt; isShowHiddenMeasurements() || descriptor.isVisible())</span>
+<span class="fc" id="L232">                .forEach(descriptor -&gt; metrics.getMeasurement(descriptor.getShortName()).accept(this));</span>
+<span class="fc" id="L233">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

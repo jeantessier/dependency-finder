@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DependencyExtractor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependencyfinder.ant</a> &gt; <span class="el_source">DependencyExtractor.java</span></div><h1>DependencyExtractor.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependencyfinder.ant;
+
+import com.jeantessier.classreader.ClassfileLoader;
+import com.jeantessier.classreader.LoadListenerVisitorAdapter;
+import com.jeantessier.classreader.TransientClassfileLoader;
+import com.jeantessier.dependency.CodeDependencyCollector;
+import com.jeantessier.dependency.CollectionSelectionCriteria;
+import com.jeantessier.dependency.ComprehensiveSelectionCriteria;
+import com.jeantessier.dependency.LinkMaximizer;
+import com.jeantessier.dependency.LinkMinimizer;
+import com.jeantessier.dependency.NodeFactory;
+import com.jeantessier.dependency.RegularExpressionSelectionCriteria;
+import com.jeantessier.dependency.SelectionCriteria;
+import org.apache.logging.log4j.*;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Task;
+import org.apache.tools.ant.types.Path;
+
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+import java.util.stream.*;
+
+<span class="nc" id="L56">public class DependencyExtractor extends Task {</span>
+<span class="nc" id="L57">    private String filterIncludes = &quot;//&quot;;</span>
+<span class="nc" id="L58">    private String filterExcludes = &quot;&quot;;</span>
+<span class="nc" id="L59">    private boolean packageFilter = false;</span>
+<span class="nc" id="L60">    private String packageFilterIncludes = &quot;&quot;;</span>
+<span class="nc" id="L61">    private String packageFilterExcludes = &quot;&quot;;</span>
+<span class="nc" id="L62">    private boolean classFilter = false;</span>
+<span class="nc" id="L63">    private String classFilterIncludes = &quot;&quot;;</span>
+<span class="nc" id="L64">    private String classFilterExcludes = &quot;&quot;;</span>
+<span class="nc" id="L65">    private boolean featureFilter = false;</span>
+<span class="nc" id="L66">    private String featureFilterIncludes = &quot;&quot;;</span>
+<span class="nc" id="L67">    private String featureFilterExcludes = &quot;&quot;;</span>
+
+    private Path filterIncludesList;
+    private Path filterExcludesList;
+
+<span class="nc" id="L72">    private boolean xml        = false;</span>
+<span class="nc" id="L73">    private boolean minimize   = false;</span>
+<span class="nc" id="L74">    private boolean maximize   = false;</span>
+<span class="nc" id="L75">    private String  encoding   = com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING;</span>
+<span class="nc" id="L76">    private String  dtdPrefix  = com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX;</span>
+    private String  indentText;
+    private File    destfile;
+    private Path    path;
+
+    public String getFilterincludes() {
+<span class="nc" id="L82">        return filterIncludes;</span>
+    }
+
+    public void setFilterincludes(String filterIncludes) {
+<span class="nc" id="L86">        this.filterIncludes = filterIncludes;</span>
+<span class="nc" id="L87">    }</span>
+
+    public String getFilterexcludes() {
+<span class="nc" id="L90">        return filterExcludes;</span>
+    }
+
+    public void setFilterexcludes(String filterExcludes) {
+<span class="nc" id="L94">        this.filterExcludes = filterExcludes;</span>
+<span class="nc" id="L95">    }</span>
+
+    public boolean getPackagefilter() {
+<span class="nc" id="L98">        return packageFilter;</span>
+    }
+
+    public void setPackagefilter(boolean packageFilter) {
+<span class="nc" id="L102">        this.packageFilter = packageFilter;</span>
+<span class="nc" id="L103">    }</span>
+
+    public String getPackagefilterincludes() {
+<span class="nc" id="L106">        return packageFilterIncludes;</span>
+    }
+
+    public void setPackagefilterincludes(String packageFilterIncludes) {
+<span class="nc" id="L110">        this.packageFilterIncludes = packageFilterIncludes;</span>
+<span class="nc" id="L111">    }</span>
+
+    public String getPackagefilterexcludes() {
+<span class="nc" id="L114">        return packageFilterExcludes;</span>
+    }
+
+    public void setPackagefilterexcludes(String packageFilterExcludes) {
+<span class="nc" id="L118">        this.packageFilterExcludes = packageFilterExcludes;</span>
+<span class="nc" id="L119">    }</span>
+
+    public boolean getClassfilter() {
+<span class="nc" id="L122">        return classFilter;</span>
+    }
+
+    public void setClassfilter(boolean classFilter) {
+<span class="nc" id="L126">        this.classFilter = classFilter;</span>
+<span class="nc" id="L127">    }</span>
+
+    public String getClassfilterincludes() {
+<span class="nc" id="L130">        return classFilterIncludes;</span>
+    }
+
+    public void setClassfilterincludes(String classFilterIncludes) {
+<span class="nc" id="L134">        this.classFilterIncludes = classFilterIncludes;</span>
+<span class="nc" id="L135">    }</span>
+
+    public String getClassfilterexcludes() {
+<span class="nc" id="L138">        return classFilterExcludes;</span>
+    }
+
+    public void setClassfilterexcludes(String classFilterExcludes) {
+<span class="nc" id="L142">        this.classFilterExcludes = classFilterExcludes;</span>
+<span class="nc" id="L143">    }</span>
+
+    public boolean getFeaturefilter() {
+<span class="nc" id="L146">        return featureFilter;</span>
+    }
+
+    public void setFeaturefilter(boolean featureFilter) {
+<span class="nc" id="L150">        this.featureFilter = featureFilter;</span>
+<span class="nc" id="L151">    }</span>
+
+    public String getFeaturefilterincludes() {
+<span class="nc" id="L154">        return featureFilterIncludes;</span>
+    }
+
+    public void setFeaturefilterincludes(String featureFilterIncludes) {
+<span class="nc" id="L158">        this.featureFilterIncludes = featureFilterIncludes;</span>
+<span class="nc" id="L159">    }</span>
+
+    public String getFeaturefilterexcludes() {
+<span class="nc" id="L162">        return featureFilterExcludes;</span>
+    }
+
+    public void setFeaturefilterexcludes(String featureFilterExcludes) {
+<span class="nc" id="L166">        this.featureFilterExcludes = featureFilterExcludes;</span>
+<span class="nc" id="L167">    }</span>
+
+    public Path createFilterincludeslist() {
+<span class="nc bnc" id="L170" title="All 2 branches missed.">        if (filterIncludesList == null) {</span>
+<span class="nc" id="L171">            filterIncludesList = new Path(getProject());</span>
+        }
+
+<span class="nc" id="L174">        return filterIncludesList;</span>
+    }
+
+    public Path getFilterincludeslist() {
+<span class="nc" id="L178">        return filterIncludesList;</span>
+    }
+
+    public Path createFilterexcludeslist() {
+<span class="nc bnc" id="L182" title="All 2 branches missed.">        if (filterExcludesList == null) {</span>
+<span class="nc" id="L183">            filterExcludesList = new Path(getProject());</span>
+        }
+
+<span class="nc" id="L186">        return filterExcludesList;</span>
+    }
+
+    public Path getFilterexcludeslist() {
+<span class="nc" id="L190">        return filterExcludesList;</span>
+    }
+
+    public boolean getXml() {
+<span class="nc" id="L194">        return xml;</span>
+    }
+
+    public void setXml(boolean xml) {
+<span class="nc" id="L198">        this.xml = xml;</span>
+<span class="nc" id="L199">    }</span>
+
+    public boolean getMinimize() {
+<span class="nc" id="L202">        return minimize;</span>
+    }
+
+    public void setMinimize(boolean minimize) {
+<span class="nc" id="L206">        this.minimize = minimize;</span>
+<span class="nc" id="L207">    }</span>
+
+    public boolean getMaximize() {
+<span class="nc" id="L210">        return maximize;</span>
+    }
+
+    public void setMaximize(boolean maximize) {
+<span class="nc" id="L214">        this.maximize = maximize;</span>
+<span class="nc" id="L215">    }</span>
+
+    public String getEncoding() {
+<span class="nc" id="L218">        return encoding;</span>
+    }
+    
+    public void setEncoding(String encoding) {
+<span class="nc" id="L222">        this.encoding = encoding;</span>
+<span class="nc" id="L223">    }</span>
+
+    public String getDtdprefix() {
+<span class="nc" id="L226">        return dtdPrefix;</span>
+    }
+    
+    public void setDtdprefix(String dtdPrefix) {
+<span class="nc" id="L230">        this.dtdPrefix = dtdPrefix;</span>
+<span class="nc" id="L231">    }</span>
+
+    public String getIndenttext() {
+<span class="nc" id="L234">        return indentText;</span>
+    }
+    
+    public void setIndenttext(String indentText) {
+<span class="nc" id="L238">        this.indentText = indentText;</span>
+<span class="nc" id="L239">    }</span>
+
+    public File getDestfile() {
+<span class="nc" id="L242">        return destfile;</span>
+    }
+    
+    public void setDestfile(File destfile) {
+<span class="nc" id="L246">        this.destfile = destfile;</span>
+<span class="nc" id="L247">    }</span>
+    
+    public Path createPath() {
+<span class="nc bnc" id="L250" title="All 2 branches missed.">        if (path == null) {</span>
+<span class="nc" id="L251">            path = new Path(getProject());</span>
+        }
+
+<span class="nc" id="L254">        return path;</span>
+    }
+    
+    public Path getPath() {
+<span class="nc" id="L258">        return path;</span>
+    }
+
+    public void execute() throws BuildException {
+        // first off, make sure that we've got what we need
+
+<span class="nc bnc" id="L264" title="All 2 branches missed.">        if (getPath() == null) {</span>
+<span class="nc" id="L265">            throw new BuildException(&quot;path must be set!&quot;);</span>
+        }
+
+<span class="nc bnc" id="L268" title="All 2 branches missed.">        if (getDestfile() == null) {</span>
+<span class="nc" id="L269">            throw new BuildException(&quot;destfile must be set!&quot;);</span>
+        }
+
+<span class="nc bnc" id="L272" title="All 4 branches missed.">        if (hasFilterRegularExpressionSwitches() &amp;&amp; hasFilterListSwitches()) {</span>
+<span class="nc" id="L273">            throw new BuildException(&quot;Cannot have filter attributes for regular expressions and lists at the same time!&quot;);</span>
+        }
+
+<span class="nc" id="L276">        log(&quot;Reading classes from path &quot; + getPath());</span>
+
+<span class="nc" id="L278">        VerboseListener verboseListener = new VerboseListener(this);</span>
+
+<span class="nc" id="L280">        NodeFactory factory = new NodeFactory();</span>
+<span class="nc" id="L281">        CodeDependencyCollector collector = new CodeDependencyCollector(factory, getFilterCriteria());</span>
+        
+<span class="nc" id="L283">        ClassfileLoader loader = new TransientClassfileLoader();</span>
+<span class="nc" id="L284">        loader.addLoadListener(new LoadListenerVisitorAdapter(collector));</span>
+<span class="nc" id="L285">        loader.addLoadListener(verboseListener);</span>
+<span class="nc" id="L286">        loader.load(Arrays.asList(getPath().list()));</span>
+
+<span class="nc bnc" id="L288" title="All 2 branches missed.">        if (getMinimize()) {</span>
+<span class="nc" id="L289">            LinkMinimizer minimizer = new LinkMinimizer();</span>
+<span class="nc" id="L290">            minimizer.traverseNodes(factory.getPackages().values());</span>
+<span class="nc bnc" id="L291" title="All 2 branches missed.">        } else if (getMaximize()) {</span>
+<span class="nc" id="L292">            LinkMaximizer maximizer = new LinkMaximizer();</span>
+<span class="nc" id="L293">            maximizer.traverseNodes(factory.getPackages().values());</span>
+        }
+
+<span class="nc" id="L296">        log(&quot;Saving dependency graph to &quot; + getDestfile().getAbsolutePath());</span>
+        
+        try {
+<span class="nc" id="L299">            PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));</span>
+
+            com.jeantessier.dependency.Printer printer;
+<span class="nc bnc" id="L302" title="All 2 branches missed.">            if (getXml()) {</span>
+<span class="nc" id="L303">                printer = new com.jeantessier.dependency.XMLPrinter(out, getEncoding(), getDtdprefix());</span>
+            } else {
+<span class="nc" id="L305">                printer = new com.jeantessier.dependency.TextPrinter(out);</span>
+            }
+                
+<span class="nc bnc" id="L308" title="All 2 branches missed.">            if (getIndenttext() != null) {</span>
+<span class="nc" id="L309">                printer.setIndentText(getIndenttext());</span>
+            }
+                
+<span class="nc" id="L312">            printer.traverseNodes(factory.getPackages().values());</span>
+                
+<span class="nc" id="L314">            out.close();</span>
+<span class="nc" id="L315">        } catch (IOException ex) {</span>
+<span class="nc" id="L316">            throw new BuildException(ex);</span>
+<span class="nc" id="L317">        }</span>
+<span class="nc" id="L318">    }</span>
+
+    protected SelectionCriteria getFilterCriteria() throws BuildException {
+<span class="nc" id="L321">        SelectionCriteria result = new ComprehensiveSelectionCriteria();</span>
+
+<span class="nc bnc" id="L323" title="All 2 branches missed.">        if (hasFilterRegularExpressionSwitches()) {</span>
+<span class="nc" id="L324">            result = createRegularExpressionFilterCriteria();</span>
+<span class="nc bnc" id="L325" title="All 2 branches missed.">        } else if (hasFilterListSwitches()) {</span>
+<span class="nc" id="L326">            result = createCollectionSelectionCriteria(getFilterincludeslist(), getFilterexcludeslist());</span>
+        }
+
+<span class="nc" id="L329">        return result;</span>
+    }
+
+    protected RegularExpressionSelectionCriteria createRegularExpressionFilterCriteria() throws BuildException {
+<span class="nc" id="L333">        RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();</span>
+
+<span class="nc bnc" id="L335" title="All 6 branches missed.">        if (getPackagefilter() || getClassfilter() || getFeaturefilter()) {</span>
+<span class="nc" id="L336">            result.setMatchingPackages(getPackagefilter());</span>
+<span class="nc" id="L337">            result.setMatchingClasses(getClassfilter());</span>
+<span class="nc" id="L338">            result.setMatchingFeatures(getFeaturefilter());</span>
+        }
+
+<span class="nc" id="L341">        result.setGlobalIncludes(getFilterincludes());</span>
+<span class="nc" id="L342">        result.setGlobalExcludes(getFilterexcludes());</span>
+<span class="nc" id="L343">        result.setPackageIncludes(getPackagefilterincludes());</span>
+<span class="nc" id="L344">        result.setPackageExcludes(getPackagefilterexcludes());</span>
+<span class="nc" id="L345">        result.setClassIncludes(getClassfilterincludes());</span>
+<span class="nc" id="L346">        result.setClassExcludes(getClassfilterexcludes());</span>
+<span class="nc" id="L347">        result.setFeatureIncludes(getFeaturefilterincludes());</span>
+<span class="nc" id="L348">        result.setFeatureExcludes(getFeaturefilterexcludes());</span>
+
+<span class="nc" id="L350">        return result;</span>
+    }
+
+    private boolean hasFilterRegularExpressionSwitches() {
+<span class="nc" id="L354">        return</span>
+<span class="nc bnc" id="L355" title="All 2 branches missed.">                !getFilterincludes().equals(&quot;//&quot;) ||</span>
+<span class="nc bnc" id="L356" title="All 2 branches missed.">                !getFilterexcludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L357" title="All 2 branches missed.">                getPackagefilter() ||</span>
+<span class="nc bnc" id="L358" title="All 2 branches missed.">                !getPackagefilterincludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L359" title="All 2 branches missed.">                !getPackagefilterexcludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L360" title="All 2 branches missed.">                getClassfilter() ||</span>
+<span class="nc bnc" id="L361" title="All 2 branches missed.">                !getClassfilterincludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L362" title="All 2 branches missed.">                !getClassfilterexcludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L363" title="All 2 branches missed.">                getFeaturefilter() ||</span>
+<span class="nc bnc" id="L364" title="All 2 branches missed.">                !getFeaturefilterincludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L365" title="All 2 branches missed.">                !getFeaturefilterexcludes().equals(&quot;&quot;);</span>
+    }
+
+    private boolean hasFilterListSwitches() {
+<span class="nc" id="L369">        return</span>
+<span class="nc bnc" id="L370" title="All 2 branches missed.">                getFilterincludeslist() != null ||</span>
+<span class="nc bnc" id="L371" title="All 2 branches missed.">                getFilterexcludeslist() != null;</span>
+    }
+
+    private CollectionSelectionCriteria createCollectionSelectionCriteria(Path includes, Path excludes) {
+<span class="nc" id="L375">        return new CollectionSelectionCriteria(loadCollection(includes), loadCollection(excludes));</span>
+    }
+
+    private Collection&lt;String&gt; loadCollection(Path path) {
+<span class="nc" id="L379">        Collection&lt;String&gt; result = null;</span>
+
+<span class="nc bnc" id="L381" title="All 2 branches missed.">        if (path != null) {</span>
+<span class="nc" id="L382">            result = Arrays.stream(path.list())</span>
+<span class="nc" id="L383">                    .map(Paths::get)</span>
+<span class="nc" id="L384">                    .flatMap(filepath -&gt; {</span>
+                        try {
+<span class="nc" id="L386">                            return Files.lines(filepath);</span>
+<span class="nc" id="L387">                        } catch (IOException ex) {</span>
+<span class="nc" id="L388">                            LogManager.getLogger(getClass()).error(&quot;Couldn't read file {}&quot;, filepath, ex);</span>
+<span class="nc" id="L389">                            return Stream.empty();</span>
+                        }
+<span class="nc" id="L391">                    }).distinct()</span>
+<span class="nc" id="L392">                    .toList();</span>
+        }
+
+<span class="nc" id="L395">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

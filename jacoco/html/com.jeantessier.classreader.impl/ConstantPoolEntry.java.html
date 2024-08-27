@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ConstantPoolEntry.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader.impl</a> &gt; <span class="el_source">ConstantPoolEntry.java</span></div><h1>ConstantPoolEntry.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.classreader.impl;
+
+public abstract class ConstantPoolEntry implements com.jeantessier.classreader.ConstantPoolEntry {
+    public static final byte CONSTANT_Class = 7;
+    public static final byte CONSTANT_Fieldref = 9;
+    public static final byte CONSTANT_Methodref = 10;
+    public static final byte CONSTANT_InterfaceMethodref = 11;
+    public static final byte CONSTANT_String = 8;
+    public static final byte CONSTANT_Integer = 3;
+    public static final byte CONSTANT_Float = 4;
+    public static final byte CONSTANT_Long = 5;
+    public static final byte CONSTANT_Double = 6;
+    public static final byte CONSTANT_NameAndType = 12;
+    public static final byte CONSTANT_Utf8 = 1;
+    public static final byte CONSTANT_MethodHandle = 15;
+    public static final byte CONSTANT_MethodType = 16;
+    public static final byte CONSTANT_Dynamic = 17;
+    public static final byte CONSTANT_InvokeDynamic = 18;
+    public static final byte CONSTANT_Module = 19;
+    public static final byte CONSTANT_Package = 20;
+
+    private final ConstantPool constantPool;
+
+<span class="fc" id="L56">    protected ConstantPoolEntry(ConstantPool constantPool) {</span>
+<span class="fc" id="L57">        this.constantPool = constantPool;</span>
+<span class="fc" id="L58">    }</span>
+
+    public ConstantPool getConstantPool() {
+<span class="fc" id="L61">        return constantPool;</span>
+    }
+
+    public static String stringValueOf(byte tag) {
+<span class="pc bpc" id="L65" title="10 of 18 branches missed.">        return switch (tag) {</span>
+<span class="fc" id="L66">            case CONSTANT_Class -&gt; &quot;CONSTANT_Class&quot;;</span>
+<span class="fc" id="L67">            case CONSTANT_Fieldref -&gt; &quot;CONSTANT_Fieldref&quot;;</span>
+<span class="fc" id="L68">            case CONSTANT_Methodref -&gt; &quot;CONSTANT_Methodref&quot;;</span>
+<span class="nc" id="L69">            case CONSTANT_InterfaceMethodref -&gt; &quot;CONSTANT_InterfaceMethodref&quot;;</span>
+<span class="fc" id="L70">            case CONSTANT_String -&gt; &quot;CONSTANT_String&quot;;</span>
+<span class="fc" id="L71">            case CONSTANT_Integer -&gt; &quot;CONSTANT_Integer&quot;;</span>
+<span class="fc" id="L72">            case CONSTANT_Float -&gt; &quot;CONSTANT_Float&quot;;</span>
+<span class="nc" id="L73">            case CONSTANT_Long -&gt; &quot;CONSTANT_Long&quot;;</span>
+<span class="nc" id="L74">            case CONSTANT_Double -&gt; &quot;CONSTANT_Double&quot;;</span>
+<span class="fc" id="L75">            case CONSTANT_NameAndType -&gt; &quot;CONSTANT_NameAndType&quot;;</span>
+<span class="fc" id="L76">            case CONSTANT_Utf8 -&gt; &quot;CONSTANT_Utf8&quot;;</span>
+<span class="nc" id="L77">            case CONSTANT_MethodHandle -&gt; &quot;CONSTANT_MethodHandle&quot;;</span>
+<span class="nc" id="L78">            case CONSTANT_MethodType -&gt; &quot;CONSTANT_MethodType&quot;;</span>
+<span class="nc" id="L79">            case CONSTANT_Dynamic -&gt; &quot;CONSTANT_Dynamic&quot;;</span>
+<span class="nc" id="L80">            case CONSTANT_InvokeDynamic -&gt; &quot;CONSTANT_InvokeDynamic&quot;;</span>
+<span class="nc" id="L81">            case CONSTANT_Module -&gt; &quot;CONSTANT_Module&quot;;</span>
+<span class="nc" id="L82">            case CONSTANT_Package -&gt; &quot;CONSTANT_Package&quot;;</span>
+<span class="nc" id="L83">            default -&gt; &quot;&lt;unidentified tag &quot; + tag + &quot;&gt;&quot;;</span>
+        };
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

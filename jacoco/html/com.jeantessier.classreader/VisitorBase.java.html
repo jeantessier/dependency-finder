@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VisitorBase.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader</a> &gt; <span class="el_source">VisitorBase.java</span></div><h1>VisitorBase.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.classreader;
+
+import org.apache.logging.log4j.*;
+
+import java.util.*;
+import java.util.stream.*;
+
+<span class="fc" id="L40">public abstract class VisitorBase implements Visitor {</span>
+    protected static final int STARTING_INDEX = 1;
+
+<span class="fc" id="L43">    private int currentIndex = STARTING_INDEX;</span>
+
+    protected void resetIndex() {
+<span class="fc" id="L46">        currentIndex = STARTING_INDEX;</span>
+<span class="fc" id="L47">    }</span>
+
+    protected void incrementIndex() {
+<span class="fc" id="L50">        currentIndex++;</span>
+<span class="fc" id="L51">    }</span>
+
+    protected int currentIndex() {
+<span class="fc" id="L54">        return currentIndex;</span>
+    }
+
+    public void visitConstantPool(ConstantPool constantPool) {
+<span class="fc" id="L58">        resetIndex();</span>
+
+<span class="fc" id="L60">        constantPool.stream()</span>
+<span class="fc" id="L61">                .skip(1) // Constant pool indices start at 1</span>
+<span class="fc" id="L62">                .forEach(entry -&gt; {</span>
+<span class="fc" id="L63">                    LogManager.getLogger(getClass()).debug(&quot;Visiting constant pool entry {}: {}&quot;, currentIndex(), entry);</span>
+<span class="fc" id="L64">                    entry.accept(this);</span>
+<span class="fc" id="L65">                    incrementIndex();</span>
+<span class="fc" id="L66">                });</span>
+<span class="fc" id="L67">    }</span>
+
+    /*
+     * Classfile
+     */
+
+    public void visitClassfile(Classfile classfile) {
+<span class="fc" id="L74">        visitClassfileFields(classfile);</span>
+<span class="fc" id="L75">        visitClassfileMethods(classfile);</span>
+<span class="fc" id="L76">        visitClassfileAttributes(classfile);</span>
+<span class="fc" id="L77">    }</span>
+
+    protected void visitClassfileFields(Classfile classfile) {
+<span class="fc" id="L80">        classfile.getAllFields().forEach(field -&gt; field.accept(this));</span>
+<span class="fc" id="L81">    }</span>
+
+    protected void visitClassfileMethods(Classfile classfile) {
+<span class="fc" id="L84">        classfile.getAllMethods().forEach(method -&gt; method.accept(this));</span>
+<span class="fc" id="L85">    }</span>
+
+    protected void visitClassfileAttributes(Classfile classfile) {
+<span class="fc" id="L88">        visitAttributes(classfile.getAttributes());</span>
+<span class="fc" id="L89">    }</span>
+
+    /*
+     * ConstantPool entries
+     */
+
+    /*
+     * Features
+     */
+
+    public void visitField_info(Field_info entry) {
+<span class="fc" id="L100">        visitAttributes(entry.getAttributes());</span>
+<span class="fc" id="L101">    }</span>
+
+    public void visitMethod_info(Method_info entry) {
+<span class="fc" id="L104">        visitAttributes(entry.getAttributes());</span>
+<span class="fc" id="L105">    }</span>
+
+    /*
+     * Attributes
+     */
+
+    protected void visitAttributes(Collection&lt;? extends Attribute_info&gt; attributes) {
+<span class="fc" id="L112">        attributes.forEach(attributeInfo -&gt; attributeInfo.accept(this));</span>
+<span class="fc" id="L113">    }</span>
+
+    public void visitCode_attribute(Code_attribute attribute) {
+<span class="fc" id="L116">        LogManager.getLogger(getClass()).debug(&quot;Visiting instruction(s) ...&quot;);</span>
+<span class="fc" id="L117">        visitInstructions(attribute);</span>
+
+<span class="fc" id="L119">        Collection&lt;? extends ExceptionHandler&gt; exceptionHandlers = attribute.getExceptionHandlers();</span>
+<span class="pc" id="L120">        LogManager.getLogger(getClass()).debug(&quot;Visiting {} exception handler(s) ...&quot;, () -&gt; exceptionHandlers.size());</span>
+<span class="fc" id="L121">        visitExceptionHandlers(exceptionHandlers);</span>
+
+<span class="fc" id="L123">        Collection&lt;? extends Attribute_info&gt; attributes = attribute.getAttributes();</span>
+<span class="pc" id="L124">        LogManager.getLogger(getClass()).debug(&quot;Visiting {} code attribute(s) ...&quot;, () -&gt; attributes.size());</span>
+<span class="fc" id="L125">        visitAttributes(attributes);</span>
+<span class="fc" id="L126">    }</span>
+
+    public void visitLocalVariableTypeTable_attribute(LocalVariableTypeTable_attribute attribute) {
+<span class="pc" id="L129">        LogManager.getLogger(getClass()).debug(&quot;Visiting {} local variable type(s) ...&quot;, () -&gt; attribute.getLocalVariableTypes().size());</span>
+<span class="fc" id="L130">        attribute.getLocalVariableTypes().forEach(localVariableType -&gt; localVariableType.accept(this));</span>
+<span class="fc" id="L131">    }</span>
+
+    public void visitRuntimeVisibleAnnotations_attribute(RuntimeVisibleAnnotations_attribute attribute) {
+<span class="fc" id="L134">        visitRuntimeAnnotations_attribute(attribute);</span>
+<span class="fc" id="L135">    }</span>
+
+    public void visitRuntimeInvisibleAnnotations_attribute(RuntimeInvisibleAnnotations_attribute attribute) {
+<span class="fc" id="L138">        visitRuntimeAnnotations_attribute(attribute);</span>
+<span class="fc" id="L139">    }</span>
+
+    protected void visitRuntimeAnnotations_attribute(RuntimeAnnotations_attribute attribute) {
+<span class="pc" id="L142">        LogManager.getLogger(getClass()).debug(&quot;Visiting {} annotation(s) ...&quot;, () -&gt; attribute.getAnnotations().size());</span>
+<span class="fc" id="L143">        attribute.getAnnotations().forEach(annotation -&gt; annotation.accept(this));</span>
+<span class="fc" id="L144">    }</span>
+
+    public void visitRuntimeVisibleTypeAnnotations_attribute(RuntimeVisibleTypeAnnotations_attribute attribute) {
+<span class="fc" id="L147">        visitRuntimeTypeAnnotations_attribute(attribute);</span>
+<span class="fc" id="L148">    }</span>
+
+    public void visitRuntimeInvisibleTypeAnnotations_attribute(RuntimeInvisibleTypeAnnotations_attribute attribute) {
+<span class="fc" id="L151">        visitRuntimeTypeAnnotations_attribute(attribute);</span>
+<span class="fc" id="L152">    }</span>
+
+    protected void visitRuntimeTypeAnnotations_attribute(RuntimeTypeAnnotations_attribute attribute) {
+<span class="pc" id="L155">        LogManager.getLogger(getClass()).debug(&quot;Visiting {} type annotation(s) ...&quot;, () -&gt; attribute.getTypeAnnotations().size());</span>
+<span class="fc" id="L156">        attribute.getTypeAnnotations().forEach(parameterAnnotation -&gt; parameterAnnotation.accept(this));</span>
+<span class="fc" id="L157">    }</span>
+
+    public void visitRuntimeVisibleParameterAnnotations_attribute(RuntimeVisibleParameterAnnotations_attribute attribute) {
+<span class="fc" id="L160">        visitRuntimeParameterAnnotations_attribute(attribute);</span>
+<span class="fc" id="L161">    }</span>
+
+    public void visitRuntimeInvisibleParameterAnnotations_attribute(RuntimeInvisibleParameterAnnotations_attribute attribute) {
+<span class="fc" id="L164">        visitRuntimeParameterAnnotations_attribute(attribute);</span>
+<span class="fc" id="L165">    }</span>
+
+    protected void visitRuntimeParameterAnnotations_attribute(RuntimeParameterAnnotations_attribute attribute) {
+<span class="pc" id="L168">        LogManager.getLogger(getClass()).debug(&quot;Visiting {} parameter annotation(s) ...&quot;, () -&gt; attribute.getParameterAnnotations().size());</span>
+<span class="fc" id="L169">        attribute.getParameterAnnotations().forEach(parameterAnnotation -&gt; parameterAnnotation.accept(this));</span>
+<span class="fc" id="L170">    }</span>
+
+    /*
+     * Attribute helpers
+     */
+
+    protected void visitInstructions(Code_attribute attribute) {
+<span class="fc" id="L177">        attribute.forEach(instruction -&gt; instruction.accept(this));</span>
+<span class="fc" id="L178">    }</span>
+
+    protected void visitExceptionHandlers(Collection&lt;? extends ExceptionHandler&gt; exceptionHandlers) {
+<span class="fc" id="L181">        exceptionHandlers.forEach(exceptionHandler -&gt; exceptionHandler.accept(this));</span>
+<span class="fc" id="L182">    }</span>
+
+    public void visitSameLocals1StackItemFrame(SameLocals1StackItemFrame helper) {
+<span class="fc" id="L185">        visitVerificationTypeInfos(Stream.of(helper.getStack()));</span>
+<span class="fc" id="L186">    }</span>
+
+    public void visitSameLocals1StackItemFrameExtended(SameLocals1StackItemFrameExtended helper) {
+<span class="fc" id="L189">        visitVerificationTypeInfos(Stream.of(helper.getStack()));</span>
+<span class="fc" id="L190">    }</span>
+
+    public void visitAppendFrame(AppendFrame helper) {
+<span class="fc" id="L193">        visitVerificationTypeInfos(helper.getLocals().stream());</span>
+<span class="fc" id="L194">    }</span>
+
+    public void visitFullFrame(FullFrame helper) {
+<span class="fc" id="L197">        visitVerificationTypeInfos(Stream.concat(helper.getLocals().stream(), helper.getStack().stream()));</span>
+<span class="fc" id="L198">    }</span>
+
+    protected void visitVerificationTypeInfos(Stream&lt;? extends VerificationTypeInfo&gt; stacks) {
+<span class="fc" id="L201">        stacks.forEach(stack -&gt; stack.accept(this));</span>
+<span class="fc" id="L202">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClassfileLoaderEventSource.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader</a> &gt; <span class="el_source">ClassfileLoaderEventSource.java</span></div><h1>ClassfileLoaderEventSource.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.classreader;
+
+import org.apache.logging.log4j.*;
+
+import java.io.*;
+import java.util.*;
+
+public abstract class ClassfileLoaderEventSource extends ClassfileLoader {
+<span class="fc" id="L41">    public static final ClassfileLoaderDispatcher DEFAULT_DISPATCHER = new PermissiveDispatcher();</span>
+    
+    private final ClassfileFactory factory;
+    private final ClassfileLoaderDispatcher dispatcher;
+    
+<span class="pc" id="L46">    private final ClassfileLoader dirLoader = new DirectoryClassfileLoader(this);</span>
+    private final ClassfileLoader jarLoader;
+<span class="pc" id="L48">    private final ClassfileLoader zipLoader = new ZipClassfileLoader(this);</span>
+
+<span class="pc" id="L50">    private final Collection&lt;LoadListener&gt; loadListeners = new HashSet&lt;&gt;();</span>
+
+<span class="pc" id="L52">    private final LinkedList&lt;String&gt; groupNames = new LinkedList&lt;&gt;();</span>
+<span class="pc" id="L53">    private final LinkedList&lt;Integer&gt; groupSizes = new LinkedList&lt;&gt;();</span>
+
+    private ClassfileLoaderAction previousDispatch;
+
+<span class="fc" id="L57">    public ClassfileLoaderEventSource(ClassfileFactory factory) {</span>
+<span class="fc" id="L58">        this.factory = factory;</span>
+<span class="fc" id="L59">        this.dispatcher = DEFAULT_DISPATCHER;</span>
+
+<span class="fc" id="L61">        jarLoader = new JarClassfileLoader(this);</span>
+<span class="fc" id="L62">    }</span>
+
+<span class="nc" id="L64">    public ClassfileLoaderEventSource(ClassfileFactory factory, int targetJdk) {</span>
+<span class="nc" id="L65">        this.factory = factory;</span>
+<span class="nc" id="L66">        this.dispatcher = DEFAULT_DISPATCHER;</span>
+
+<span class="nc" id="L68">        jarLoader = new JarClassfileLoader(this, targetJdk);</span>
+<span class="nc" id="L69">    }</span>
+
+<span class="fc" id="L71">    public ClassfileLoaderEventSource(ClassfileFactory factory, ClassfileLoaderDispatcher dispatcher) {</span>
+<span class="fc" id="L72">        this.factory = factory;</span>
+<span class="fc" id="L73">        this.dispatcher = dispatcher;</span>
+
+<span class="fc" id="L75">        jarLoader = new JarClassfileLoader(this);</span>
+<span class="fc" id="L76">    }</span>
+
+<span class="nc" id="L78">    public ClassfileLoaderEventSource(ClassfileFactory factory, int targetJdk, ClassfileLoaderDispatcher dispatcher) {</span>
+<span class="nc" id="L79">        this.factory = factory;</span>
+<span class="nc" id="L80">        this.dispatcher = dispatcher;</span>
+
+<span class="nc" id="L82">        jarLoader = new JarClassfileLoader(this, targetJdk);</span>
+<span class="nc" id="L83">    }</span>
+
+    protected ClassfileFactory getFactory() {
+<span class="fc" id="L86">        return factory;</span>
+    }
+
+    protected void load(String filename) {
+<span class="fc" id="L90">        ClassfileLoaderAction dispatch = dispatcher.dispatch(filename);</span>
+
+<span class="fc" id="L92">        previousDispatch = dispatch;</span>
+        
+<span class="pc bpc" id="L94" title="2 of 5 branches missed.">        switch (dispatch) {</span>
+<span class="nc" id="L95">            case IGNORE -&gt; LogManager.getLogger(getClass()).debug(&quot;IGNORE \&quot;{}\&quot;&quot;, filename);</span>
+            case CLASS, DIRECTORY -&gt; {
+<span class="fc" id="L97">                LogManager.getLogger(getClass()).debug(&quot;DIRECTORY or CLASS \&quot;{}\&quot;&quot;, filename);</span>
+<span class="fc" id="L98">                dirLoader.load(filename);</span>
+<span class="fc" id="L99">            }</span>
+            case ZIP -&gt; {
+<span class="fc" id="L101">                LogManager.getLogger(getClass()).debug(&quot;ZIP \&quot;{}\&quot;&quot;, filename);</span>
+<span class="fc" id="L102">                zipLoader.load(filename);</span>
+<span class="fc" id="L103">            }</span>
+            case JAR -&gt; {
+<span class="fc" id="L105">                LogManager.getLogger(getClass()).debug(&quot;JAR \&quot;{}\&quot;&quot;, filename);</span>
+<span class="fc" id="L106">                jarLoader.load(filename);</span>
+<span class="fc" id="L107">            }</span>
+<span class="nc" id="L108">            default -&gt; LogManager.getLogger(getClass()).debug(&quot;default (IGNORE) \&quot;{}\&quot;&quot;, filename);</span>
+        }
+<span class="fc" id="L110">    }</span>
+
+    protected void load(String filename, InputStream in) {
+<span class="fc" id="L113">        ClassfileLoaderAction dispatch = dispatcher.dispatch(filename);</span>
+
+<span class="pc bpc" id="L115" title="1 of 6 branches missed.">        if (dispatch == ClassfileLoaderAction.IGNORE &amp;&amp; getTopGroupSize() == 1 &amp;&amp;  filename.equals(getTopGroupName())) {</span>
+<span class="fc" id="L116">            dispatch = previousDispatch;</span>
+        }
+        
+<span class="pc bpc" id="L119" title="2 of 6 branches missed.">        switch (dispatch) {</span>
+<span class="fc" id="L120">            case IGNORE -&gt; LogManager.getLogger(getClass()).debug(&quot;IGNORE \&quot;{}\&quot;&quot;, filename);</span>
+            case DIRECTORY -&gt; {
+<span class="fc" id="L122">                LogManager.getLogger(getClass()).debug(&quot;DIRECTORY \&quot;{}\&quot;&quot;, filename);</span>
+<span class="fc" id="L123">                dirLoader.load(filename, in);</span>
+<span class="fc" id="L124">            }</span>
+            case ZIP -&gt; {
+<span class="fc" id="L126">                LogManager.getLogger(getClass()).debug(&quot;ZIP \&quot;{}\&quot;&quot;, filename);</span>
+<span class="fc" id="L127">                zipLoader.load(filename, in);</span>
+<span class="fc" id="L128">            }</span>
+            case JAR -&gt; {
+<span class="nc" id="L130">                LogManager.getLogger(getClass()).debug(&quot;JAR \&quot;{}\&quot;&quot;, filename);</span>
+<span class="nc" id="L131">                jarLoader.load(filename, in);</span>
+<span class="nc" id="L132">            }</span>
+            case CLASS -&gt; {
+<span class="fc" id="L134">                LogManager.getLogger(getClass()).debug(&quot;CLASS \&quot;{}\&quot;&quot;, filename);</span>
+                try {
+<span class="fc" id="L136">                    fireBeginClassfile(filename);</span>
+<span class="fc" id="L137">                    Classfile classfile = load(new DataInputStream(in));</span>
+<span class="fc" id="L138">                    fireEndClassfile(filename, classfile);</span>
+<span class="nc" id="L139">                } catch (Exception ex) {</span>
+<span class="nc" id="L140">                    LogManager.getLogger(getClass()).warn(&quot;Cannot load class from file \&quot;{}\&quot;&quot;, filename, ex);</span>
+<span class="fc" id="L141">                }</span>
+<span class="nc" id="L142">            }</span>
+<span class="nc" id="L143">            default -&gt; LogManager.getLogger(getClass()).debug(&quot;default (IGNORE) \&quot;{}\&quot;&quot;, filename);</span>
+        }
+<span class="fc" id="L145">    }</span>
+
+    private String getTopGroupName() {
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">        return groupNames.isEmpty() ? null : groupNames.getLast();</span>
+    }
+
+    private void pushGroupName(String groupName) {
+<span class="fc" id="L152">        groupNames.addLast(groupName);</span>
+<span class="fc" id="L153">    }</span>
+
+    private void popGroupName() {
+<span class="fc" id="L156">        groupNames.removeLast();</span>
+<span class="fc" id="L157">    }</span>
+
+    private int getTopGroupSize() {
+<span class="pc bpc" id="L160" title="1 of 2 branches missed.">        return groupSizes.isEmpty() ? 0 : groupSizes.getLast();</span>
+    }
+
+    private void pushGroupSize(int size) {
+<span class="fc" id="L164">        groupSizes.addLast(size);</span>
+<span class="fc" id="L165">    }</span>
+
+    private void popGroupSize() {
+<span class="fc" id="L168">        groupSizes.removeLast();</span>
+<span class="fc" id="L169">    }</span>
+
+    public void addLoadListener(LoadListener listener) {
+<span class="fc" id="L172">        loadListeners.add(listener);</span>
+<span class="fc" id="L173">    }</span>
+
+    public void removeLoadListener(LoadListener listener) {
+<span class="nc" id="L176">        loadListeners.remove(listener);</span>
+<span class="nc" id="L177">    }</span>
+
+    protected void fireBeginSession() {
+<span class="fc" id="L180">        LogManager.getLogger(getClass()).debug(&quot;Begin session&quot;);</span>
+        
+<span class="fc" id="L182">        var event = new LoadEvent(this, null, null, null);</span>
+<span class="fc" id="L183">        loadListeners.forEach(listener -&gt; listener.beginSession(event));</span>
+<span class="fc" id="L184">    }</span>
+
+    protected void fireBeginGroup(String groupName, int size) {
+<span class="fc" id="L187">        LogManager.getLogger(getClass()).debug(&quot;Begin group \&quot;{}\&quot; of size {}&quot;, groupName, size);</span>
+
+<span class="fc" id="L189">        LoadEvent event = new LoadEvent(this, groupName, size);</span>
+<span class="fc" id="L190">        loadListeners.forEach(listener -&gt; listener.beginGroup(event));</span>
+
+<span class="fc" id="L192">        pushGroupName(groupName);</span>
+<span class="fc" id="L193">        pushGroupSize(size);</span>
+<span class="fc" id="L194">    }</span>
+    
+    protected void fireBeginFile(String filename) {
+<span class="fc" id="L197">        LogManager.getLogger(getClass()).debug(&quot;Begin file \&quot;{}\&quot;&quot;, filename);</span>
+        
+<span class="fc" id="L199">        LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);</span>
+<span class="fc" id="L200">        loadListeners.forEach(listener -&gt; listener.beginFile(event));</span>
+<span class="fc" id="L201">    }</span>
+    
+    protected void fireBeginClassfile(String filename) {
+<span class="fc" id="L204">        LogManager.getLogger(getClass()).debug(&quot;Begin classfile \&quot;{}\&quot;&quot;, filename);</span>
+        
+<span class="fc" id="L206">        LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);</span>
+<span class="fc" id="L207">        loadListeners.forEach(listener -&gt; listener.beginClassfile(event));</span>
+<span class="fc" id="L208">    }</span>
+
+    protected void fireEndClassfile(String filename, Classfile classfile) {
+<span class="pc bnc" id="L211" title="All 2 branches missed.">        LogManager.getLogger(getClass()).debug(&quot;End classfile \&quot;{}\&quot;: {}&quot;, () -&gt; filename, () -&gt; ((classfile != null) ? classfile.getClassName() : &quot;nothing&quot;));</span>
+        
+<span class="fc" id="L213">        LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, classfile);</span>
+<span class="fc" id="L214">        loadListeners.forEach(listener -&gt; listener.endClassfile(event));</span>
+<span class="fc" id="L215">    }</span>
+
+    protected void fireEndFile(String filename) {
+<span class="fc" id="L218">        LogManager.getLogger(getClass()).debug(&quot;End file \&quot;{}\&quot;&quot;, filename);</span>
+        
+<span class="fc" id="L220">        LoadEvent event = new LoadEvent(this, getTopGroupName(), filename, null);</span>
+<span class="fc" id="L221">        loadListeners.forEach(listener -&gt; listener.endFile(event));</span>
+<span class="fc" id="L222">    }</span>
+
+    protected void fireEndGroup(String groupName) {
+<span class="fc" id="L225">        LogManager.getLogger(getClass()).debug(&quot;End group \&quot;{}\&quot;&quot;, groupName);</span>
+        
+<span class="fc" id="L227">        LoadEvent event = new LoadEvent(this, groupName, null, null);</span>
+<span class="fc" id="L228">        loadListeners.forEach(listener -&gt; listener.endGroup(event));</span>
+
+<span class="fc" id="L230">        popGroupName();</span>
+<span class="fc" id="L231">        popGroupSize();</span>
+<span class="fc" id="L232">    }</span>
+
+    protected void fireEndSession() {
+<span class="fc" id="L235">        LogManager.getLogger(getClass()).debug(&quot;End session&quot;);</span>
+        
+<span class="fc" id="L237">        LoadEvent event = new LoadEvent(this, null, null, null);</span>
+<span class="fc" id="L238">        loadListeners.forEach(listener -&gt; listener.endSession(event));</span>
+<span class="fc" id="L239">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

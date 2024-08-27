@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ModuleRequires.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader.impl</a> &gt; <span class="el_source">ModuleRequires.java</span></div><h1>ModuleRequires.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.classreader.impl;
+
+import com.jeantessier.classreader.*;
+import org.apache.logging.log4j.*;
+
+import java.io.*;
+
+public class ModuleRequires implements com.jeantessier.classreader.ModuleRequires {
+    private static final int ACC_TRANSITIVE = 0x0020;
+    private static final int ACC_STATIC_PHASE = 0x0040;
+    private static final int ACC_SYNTHETIC = 0x1000;
+    private static final int ACC_MANDATED = 0x8000;
+
+    private final ConstantPool constantPool;
+
+    private final int requiresIndex;
+    private final int requiresFlags;
+    private final int requiresVersionIndex;
+
+<span class="fc" id="L52">    public ModuleRequires(ConstantPool constantPool, DataInput in) throws IOException {</span>
+<span class="fc" id="L53">        this.constantPool = constantPool;</span>
+
+<span class="fc" id="L55">        requiresIndex = in.readUnsignedShort();</span>
+<span class="fc" id="L56">        LogManager.getLogger(getClass()).debug(&quot;Requires: {} ({})&quot;, requiresIndex, getRequires());</span>
+
+<span class="fc" id="L58">        requiresFlags = in.readUnsignedShort();</span>
+<span class="fc" id="L59">        LogManager.getLogger(getClass()).debug(&quot;Requires flags: {}&quot;, requiresFlags);</span>
+
+<span class="fc" id="L61">        requiresVersionIndex = in.readUnsignedShort();</span>
+<span class="fc" id="L62">        LogManager.getLogger(getClass()).debug(&quot;Requires version: {} ({})&quot;, requiresVersionIndex, getRequiresVersion());</span>
+<span class="fc" id="L63">    }</span>
+
+    public ConstantPool getConstantPool() {
+<span class="fc" id="L66">        return constantPool;</span>
+    }
+
+    public int getRequiresIndex() {
+<span class="fc" id="L70">        return requiresIndex;</span>
+    }
+
+    public Module_info getRawRequires() {
+<span class="fc" id="L74">        return (Module_info) getConstantPool().get(getRequiresIndex());</span>
+    }
+
+    public String getRequires() {
+<span class="fc" id="L78">        return getRawRequires().getName();</span>
+    }
+
+    public int getRequiresFlags() {
+<span class="fc" id="L82">        return requiresFlags;</span>
+    }
+
+    public boolean isTransitive() {
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        return (getRequiresFlags() &amp; ACC_TRANSITIVE) != 0;</span>
+    }
+
+    public boolean isStaticPhase() {
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        return (getRequiresFlags() &amp; ACC_STATIC_PHASE) != 0;</span>
+    }
+
+    public boolean isSynthetic() {
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        return (getRequiresFlags() &amp; ACC_SYNTHETIC) != 0;</span>
+    }
+
+    public boolean isMandated() {
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        return (getRequiresFlags() &amp; ACC_MANDATED) != 0;</span>
+    }
+
+    public int getRequiresVersionIndex() {
+<span class="fc" id="L102">        return requiresVersionIndex;</span>
+    }
+
+    public boolean hasRequiresVersion() {
+<span class="fc bfc" id="L106" title="All 2 branches covered.">        return getRequiresVersionIndex() != 0;</span>
+    }
+
+    public UTF8_info getRawRequiresVersion() {
+<span class="fc bfc" id="L110" title="All 2 branches covered.">        return hasRequiresVersion() ? (UTF8_info) getConstantPool().get(getRequiresVersionIndex()) : null;</span>
+    }
+
+    public String getRequiresVersion() {
+<span class="fc bfc" id="L114" title="All 2 branches covered.">        return hasRequiresVersion() ? getRawRequiresVersion().getValue() : null;</span>
+    }
+
+    public void accept(Visitor visitor) {
+<span class="fc" id="L118">        visitor.visitModuleRequires(this);</span>
+<span class="fc" id="L119">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

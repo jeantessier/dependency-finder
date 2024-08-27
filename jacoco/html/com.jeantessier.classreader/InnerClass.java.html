@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InnerClass.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader</a> &gt; <span class="el_source">InnerClass.java</span></div><h1>InnerClass.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.classreader;
+
+public interface InnerClass extends Visitable, Comparable&lt;InnerClass&gt; {
+    InnerClasses_attribute getInnerClasses();
+
+    int getInnerClassInfoIndex();
+    Class_info getRawInnerClassInfo();
+    String getInnerClassInfo();
+
+    boolean hasOuterClassInfo();
+    int getOuterClassInfoIndex();
+    Class_info getRawOuterClassInfo();
+    String getOuterClassInfo();
+
+    boolean hasInnerName();
+    int getInnerNameIndex();
+    UTF8_info getRawInnerName();
+    String getInnerName();
+
+    int getAccessFlags();
+
+    boolean isPublic();
+    boolean isProtected();
+    boolean isPrivate();
+    boolean isPackage();
+
+    boolean isStatic();
+    boolean isFinal();
+    boolean isInterface();
+    boolean isAbstract();
+    boolean isSynthetic();
+    boolean isAnnotation();
+    boolean isEnum();
+    
+    boolean isMemberClass();
+    boolean isAnonymousClass();
+
+    default Classfile getClassfile() {
+<span class="fc" id="L71">        class ClassfileLocator implements Visitor {</span>
+            private Classfile classfile;
+
+            public Classfile getClassfile() {
+<span class="fc" id="L75">                return classfile;</span>
+            }
+
+            public void visitClassfile(Classfile classfile) {
+<span class="fc" id="L79">                this.classfile = classfile;</span>
+<span class="fc" id="L80">            }</span>
+
+            public void visitInnerClasses_attribute(InnerClasses_attribute attribute) {
+<span class="fc" id="L83">                attribute.getOwner().accept(this);</span>
+<span class="fc" id="L84">            }</span>
+
+            public void visitInnerClass(InnerClass helper) {
+<span class="fc" id="L87">                helper.getInnerClasses().accept(this);</span>
+<span class="fc" id="L88">            }</span>
+        }
+
+<span class="fc" id="L91">        var classfileLocator = new ClassfileLocator();</span>
+<span class="fc" id="L92">        accept(classfileLocator);</span>
+<span class="fc" id="L93">        return classfileLocator.getClassfile();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

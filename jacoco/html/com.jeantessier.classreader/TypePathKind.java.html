@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TypePathKind.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader</a> &gt; <span class="el_source">TypePathKind.java</span></div><h1>TypePathKind.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.classreader;
+
+import java.util.Arrays;
+
+<span class="fc" id="L37">public enum TypePathKind {</span>
+<span class="fc" id="L38">    DEEPER_IN_ARRAY_TYPE(0, &quot;Annotation is deeper in an array type&quot;),</span>
+<span class="fc" id="L39">    DEEPER_IN_NESTED_TYPE(1, &quot;Annotation is deeper in a nested type&quot;),</span>
+<span class="fc" id="L40">    BOUND_OF_A_WILDCARD_TYPE_ARGUMENT(2, &quot;Annotation is on the bound of a wildcard type argument of a parameterized type&quot;),</span>
+<span class="fc" id="L41">    TYPE_ARGUMENT(3, &quot;Annotation is on a type argument of a parameterized type&quot;);</span>
+
+    private final int typePathKind;
+    private final String description;
+
+<span class="fc" id="L46">    TypePathKind(int typePathKind, String description) {</span>
+<span class="fc" id="L47">        this.typePathKind = typePathKind;</span>
+<span class="fc" id="L48">        this.description = description;</span>
+<span class="fc" id="L49">    }</span>
+
+    public int getTypePathKind() {
+<span class="fc" id="L52">        return typePathKind;</span>
+    }
+
+    public String getDescription() {
+<span class="nc" id="L56">        return description;</span>
+    }
+
+    public static TypePathKind forTypePathKind(int typePathKind) {
+<span class="fc" id="L60">        return Arrays.stream(values())</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">                .filter(value -&gt; value.getTypePathKind() == typePathKind)</span>
+<span class="fc" id="L62">                .findFirst()</span>
+<span class="fc" id="L63">                .orElse(null);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

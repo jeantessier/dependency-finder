@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NodeFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependency</a> &gt; <span class="el_source">NodeFactory.java</span></div><h1>NodeFactory.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependency;
+
+import java.util.*;
+
+import org.apache.logging.log4j.*;
+import org.apache.oro.text.perl.*;
+
+<span class="fc" id="L40">public class NodeFactory {</span>
+<span class="fc" id="L41">    private static final Perl5Util perl = new Perl5Util();</span>
+
+<span class="fc" id="L43">    private final Map&lt;String, PackageNode&gt; packages = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L44">    private final Map&lt;String, ClassNode&gt; classes = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L45">    private final Map&lt;String, FeatureNode&gt; features = new HashMap&lt;&gt;();</span>
+
+    public PackageNode createPackage(String packageName) {
+<span class="fc" id="L48">        return createPackage(packageName, false);</span>
+    }
+    
+    public PackageNode createPackage(String packageName, boolean confirmed) {
+<span class="fc" id="L52">        LogManager.getLogger(getClass()).debug(&quot;Create package \&quot;{}\&quot;&quot;, packageName);</span>
+
+<span class="fc" id="L54">        PackageNode result = packages.get(packageName);</span>
+
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (result == null) {</span>
+<span class="fc" id="L57">            result = new PackageNode(packageName, confirmed);</span>
+<span class="fc" id="L58">            packages.put(packageName, result);</span>
+<span class="fc" id="L59">            LogManager.getLogger(getClass()).debug(&quot;Added package \&quot;{}\&quot;&quot;, packageName);</span>
+        }
+
+<span class="fc bfc" id="L62" title="All 4 branches covered.">        if (confirmed &amp;&amp; !result.isConfirmed()) {</span>
+<span class="fc" id="L63">            result.setConfirmed(confirmed);</span>
+<span class="fc" id="L64">            LogManager.getLogger(getClass()).debug(&quot;Package \&quot;{}\&quot; is confirmed&quot;, packageName);</span>
+        }
+
+<span class="fc" id="L67">        return result;</span>
+    }
+    
+    // Only to be used by DeletingVisitor
+    void deletePackage(PackageNode node) {
+<span class="fc" id="L72">        LogManager.getLogger(getClass()).debug(&quot;Delete package \&quot;{}\&quot;&quot;, node);</span>
+
+<span class="fc" id="L74">        packages.remove(node.getName());</span>
+<span class="fc" id="L75">    }</span>
+
+    public Map&lt;String, PackageNode&gt; getPackages() {
+<span class="fc" id="L78">        return Collections.unmodifiableMap(packages);</span>
+    }
+
+    public ClassNode createClass(String className) {
+<span class="fc" id="L82">        return createClass(className, false);</span>
+    }
+    
+    public ClassNode createClass(String className, boolean confirmed) {
+<span class="fc" id="L86">        LogManager.getLogger(getClass()).debug(&quot;Create class \&quot;{}\&quot;&quot;, className);</span>
+
+<span class="fc" id="L88">        ClassNode result = classes.get(className);</span>
+
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        if (result == null) {</span>
+<span class="fc" id="L91">            String packageName = &quot;&quot;;</span>
+<span class="fc" id="L92">            int pos = className.lastIndexOf('.');</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">            if (pos != -1) {</span>
+<span class="fc" id="L94">                packageName = className.substring(0, pos);</span>
+            }
+<span class="fc" id="L96">            PackageNode parent = createPackage(packageName, confirmed);</span>
+<span class="fc" id="L97">            result = new ClassNode(parent, className, confirmed);</span>
+<span class="fc" id="L98">            parent.addClass(result);</span>
+<span class="fc" id="L99">            classes.put(className, result);</span>
+<span class="fc" id="L100">            LogManager.getLogger(getClass()).debug(&quot;Added class \&quot;{}\&quot;&quot;, className);</span>
+        }
+
+<span class="fc bfc" id="L103" title="All 4 branches covered.">        if (confirmed &amp;&amp; !result.isConfirmed()) {</span>
+<span class="fc" id="L104">            result.setConfirmed(confirmed);</span>
+<span class="fc" id="L105">            LogManager.getLogger(getClass()).debug(&quot;Class \&quot;{}\&quot; is confirmed&quot;, className);</span>
+        }
+
+<span class="fc" id="L108">        return result;</span>
+    }
+
+    // Only to be used by DeletingVisitor
+    void deleteClass(ClassNode node) {
+<span class="fc" id="L113">        LogManager.getLogger(getClass()).debug(&quot;Delete class \&quot;{}\&quot;&quot;, node);</span>
+
+<span class="fc" id="L115">        node.getPackageNode().removeClass(node);</span>
+<span class="fc" id="L116">        classes.remove(node.getName());</span>
+<span class="fc" id="L117">    }</span>
+
+    public Map&lt;String, ClassNode&gt; getClasses() {
+<span class="fc" id="L120">        return Collections.unmodifiableMap(classes);</span>
+    }
+
+    public FeatureNode createFeature(String featureName) {
+<span class="fc" id="L124">        return createFeature(featureName, false);</span>
+    }
+    
+    public FeatureNode createFeature(String featureName, boolean confirmed) {
+<span class="fc" id="L128">        LogManager.getLogger(getClass()).debug(&quot;Create feature \&quot;{}\&quot;&quot;, featureName);</span>
+
+<span class="fc" id="L130">        FeatureNode result = features.get(featureName);</span>
+
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        if (result == null) {</span>
+            String parentName;
+
+<span class="fc bfc" id="L135" title="All 2 branches covered.">            if (perl.match(&quot;/^(.*)\\.[^\\.]*\\(.*\\)(: \\S.*)?$/&quot;, featureName)) {</span>
+<span class="fc" id="L136">                parentName = perl.group(1);</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">            } else if (perl.match(&quot;/^(.*)\\.[^\\.]*$/&quot;, featureName)) {</span>
+<span class="fc" id="L138">                parentName = perl.group(1);</span>
+            } else {
+<span class="fc" id="L140">                parentName = &quot;&quot;;</span>
+            }
+
+<span class="fc" id="L143">            ClassNode parent = createClass(parentName, confirmed);</span>
+<span class="fc" id="L144">            result = new FeatureNode(parent, featureName, confirmed);</span>
+<span class="fc" id="L145">            parent.addFeature(result);</span>
+<span class="fc" id="L146">            features.put(featureName, result);</span>
+<span class="fc" id="L147">            LogManager.getLogger(getClass()).debug(&quot;Added feature \&quot;{}\&quot;&quot;, featureName);</span>
+        }
+
+<span class="fc bfc" id="L150" title="All 4 branches covered.">        if (confirmed &amp;&amp; !result.isConfirmed()) {</span>
+<span class="fc" id="L151">            result.setConfirmed(confirmed);</span>
+<span class="fc" id="L152">            LogManager.getLogger(getClass()).debug(&quot;Feature \&quot;{}\&quot; is confirmed&quot;, featureName);</span>
+        }
+
+<span class="fc" id="L155">        return result;</span>
+    }
+    
+    // Only to be used by DeletingVisitor
+    void deleteFeature(FeatureNode node) {
+<span class="fc" id="L160">        LogManager.getLogger(getClass()).debug(&quot;Delete feature \&quot;{}\&quot;&quot;, node);</span>
+
+<span class="fc" id="L162">        node.getClassNode().removeFeature(node);</span>
+<span class="fc" id="L163">        features.remove(node.getName());</span>
+<span class="fc" id="L164">    }</span>
+    
+    public Map&lt;String, FeatureNode&gt; getFeatures() {
+<span class="fc" id="L167">        return Collections.unmodifiableMap(features);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,758 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MetricsGatherer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader</a> &gt; <span class="el_source">MetricsGatherer.java</span></div><h1>MetricsGatherer.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.classreader;
+
+import java.util.*;
+import java.util.stream.*;
+
+public class MetricsGatherer extends VisitorBase {
+<span class="nc" id="L39">    private final Collection&lt;String&gt; classes = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L40">    private final Collection&lt;String&gt; interfaces = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L41">    private final Collection&lt;Method_info&gt; methods = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L42">    private final Collection&lt;Field_info&gt; fields = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L43">    private final Collection&lt;Classfile&gt; syntheticClasses = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L44">    private final Collection&lt;Field_info&gt; syntheticFields = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L45">    private final Collection&lt;Method_info&gt; syntheticMethods = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L46">    private final Collection&lt;InnerClass&gt; syntheticInnerClasses = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L47">    private final Collection&lt;Classfile&gt; annotationClasses = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L48">    private final Collection&lt;InnerClass&gt; annotationInnerClasses = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L49">    private final Collection&lt;Classfile&gt; enumClasses = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L50">    private final Collection&lt;Field_info&gt; enumFields = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L51">    private final Collection&lt;InnerClass&gt; enumInnerClasses = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L52">    private final Collection&lt;Classfile&gt; deprecatedClasses = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L53">    private final Collection&lt;Field_info&gt; deprecatedFields = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L54">    private final Collection&lt;Method_info&gt; deprecatedMethods = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L55">    private final Collection&lt;Classfile&gt; publicClasses = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L56">    private final Collection&lt;Field_info&gt; publicFields = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L57">    private final Collection&lt;Method_info&gt; publicMethods = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L58">    private final Collection&lt;InnerClass&gt; publicInnerClasses = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L59">    private final Collection&lt;Field_info&gt; protectedFields = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L60">    private final Collection&lt;Method_info&gt; protectedMethods = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L61">    private final Collection&lt;InnerClass&gt; protectedInnerClasses = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L62">    private final Collection&lt;Field_info&gt; privateFields = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L63">    private final Collection&lt;Method_info&gt; privateMethods = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L64">    private final Collection&lt;InnerClass&gt; privateInnerClasses = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L65">    private final Collection&lt;Classfile&gt; packageClasses = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L66">    private final Collection&lt;Field_info&gt; packageFields = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L67">    private final Collection&lt;Method_info&gt; packageMethods = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L68">    private final Collection&lt;InnerClass&gt; packageInnerClasses = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L69">    private final Collection&lt;Classfile&gt; abstractClasses = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L70">    private final Collection&lt;Method_info&gt; abstractMethods = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L71">    private final Collection&lt;InnerClass&gt; abstractInnerClasses = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L72">    private final Collection&lt;Field_info&gt; staticFields = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L73">    private final Collection&lt;Method_info&gt; staticMethods = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L74">    private final Collection&lt;InnerClass&gt; staticInnerClasses = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L75">    private final Collection&lt;Classfile&gt; finalClasses = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L76">    private final Collection&lt;Field_info&gt; finalFields = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L77">    private final Collection&lt;Method_info&gt; finalMethods = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L78">    private final Collection&lt;InnerClass&gt; finalInnerClasses = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L79">    private final Collection&lt;Classfile&gt; superClasses = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L80">    private final Collection&lt;Classfile&gt; moduleClasses = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L81">    private final Collection&lt;Method_info&gt; synchronizedMethods = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L82">    private final Collection&lt;Method_info&gt; nativeMethods = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L83">    private final Collection&lt;Method_info&gt; bridgeMethods = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L84">    private final Collection&lt;Method_info&gt; varargsMethods = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L85">    private final Collection&lt;Method_info&gt; strictMethods = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L86">    private final Collection&lt;Field_info&gt; volatileFields = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L87">    private final Collection&lt;Field_info&gt; transientFields = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L88">    private final Map&lt;Integer, Long&gt; constantPoolEntryCounts = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L89">    private final Map&lt;String, Long&gt; attributeCounts = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L90">    private final Collection&lt;Custom_attribute&gt; customAttributes = new LinkedList&lt;&gt;();</span>
+<span class="nc" id="L91">    private final long[] instructionCounts = new long[256];</span>
+
+<span class="nc" id="L93">    private boolean visitingConstantPool = false;</span>
+
+<span class="nc" id="L95">    public MetricsGatherer() {</span>
+<span class="nc bnc" id="L96" title="All 6 branches missed.">        IntStream.rangeClosed(1, 20).filter(tag -&gt; tag != 2 &amp;&amp; tag != 13 &amp;&amp; tag != 14).forEach(tag -&gt; constantPoolEntryCounts.put(tag, 0L));</span>
+<span class="nc" id="L97">        Arrays.stream(AttributeType.values()).forEach(attributeType -&gt; attributeCounts.put(attributeType.getAttributeName(), 0L));</span>
+<span class="nc" id="L98">        attributeCounts.put(&quot;Custom&quot;, 0L);</span>
+<span class="nc" id="L99">    }</span>
+
+    public Collection&lt;String&gt; getClasses() {
+<span class="nc" id="L102">        return classes;</span>
+    }
+
+    public Collection&lt;String&gt; getInterfaces() {
+<span class="nc" id="L106">        return interfaces;</span>
+    }
+
+    public Collection&lt;Method_info&gt; getMethods() {
+<span class="nc" id="L110">        return methods;</span>
+    }
+
+    public Collection&lt;Field_info&gt; getFields() {
+<span class="nc" id="L114">        return fields;</span>
+    }
+
+    public Collection&lt;Classfile&gt; getSyntheticClasses() {
+<span class="nc" id="L118">        return syntheticClasses;</span>
+    }
+
+    public Collection&lt;Field_info&gt; getSyntheticFields() {
+<span class="nc" id="L122">        return syntheticFields;</span>
+    }
+
+    public Collection&lt;Method_info&gt; getSyntheticMethods() {
+<span class="nc" id="L126">        return syntheticMethods;</span>
+    }
+
+    public Collection&lt;InnerClass&gt; getSyntheticInnerClasses() {
+<span class="nc" id="L130">        return syntheticInnerClasses;</span>
+    }
+
+    public Collection&lt;Classfile&gt; getAnnotationClasses() {
+<span class="nc" id="L134">        return annotationClasses;</span>
+    }
+
+    public Collection&lt;InnerClass&gt; getAnnotationInnerClasses() {
+<span class="nc" id="L138">        return annotationInnerClasses;</span>
+    }
+
+    public Collection&lt;Classfile&gt; getEnumClasses() {
+<span class="nc" id="L142">        return enumClasses;</span>
+    }
+
+    public Collection&lt;Field_info&gt; getEnumFields() {
+<span class="nc" id="L146">        return enumFields;</span>
+    }
+
+    public Collection&lt;InnerClass&gt; getEnumInnerClasses() {
+<span class="nc" id="L150">        return enumInnerClasses;</span>
+    }
+
+    public Collection&lt;Classfile&gt; getDeprecatedClasses() {
+<span class="nc" id="L154">        return deprecatedClasses;</span>
+    }
+
+    public Collection&lt;Field_info&gt; getDeprecatedFields() {
+<span class="nc" id="L158">        return deprecatedFields;</span>
+    }
+
+    public Collection&lt;Method_info&gt; getDeprecatedMethods() {
+<span class="nc" id="L162">        return deprecatedMethods;</span>
+    }
+
+    public Collection&lt;Classfile&gt; getPublicClasses() {
+<span class="nc" id="L166">        return publicClasses;</span>
+    }
+
+    public Collection&lt;Field_info&gt; getPublicFields() {
+<span class="nc" id="L170">        return publicFields;</span>
+    }
+
+    public Collection&lt;Method_info&gt; getPublicMethods() {
+<span class="nc" id="L174">        return publicMethods;</span>
+    }
+
+    public Collection&lt;InnerClass&gt; getPublicInnerClasses() {
+<span class="nc" id="L178">        return publicInnerClasses;</span>
+    }
+
+    public Collection&lt;Field_info&gt; getProtectedFields() {
+<span class="nc" id="L182">        return protectedFields;</span>
+    }
+
+    public Collection&lt;Method_info&gt; getProtectedMethods() {
+<span class="nc" id="L186">        return protectedMethods;</span>
+    }
+
+    public Collection&lt;InnerClass&gt; getProtectedInnerClasses() {
+<span class="nc" id="L190">        return protectedInnerClasses;</span>
+    }
+
+    public Collection&lt;Field_info&gt; getPrivateFields() {
+<span class="nc" id="L194">        return privateFields;</span>
+    }
+
+    public Collection&lt;Method_info&gt; getPrivateMethods() {
+<span class="nc" id="L198">        return privateMethods;</span>
+    }
+
+    public Collection&lt;InnerClass&gt; getPrivateInnerClasses() {
+<span class="nc" id="L202">        return privateInnerClasses;</span>
+    }
+
+    public Collection&lt;Classfile&gt; getPackageClasses() {
+<span class="nc" id="L206">        return packageClasses;</span>
+    }
+
+    public Collection&lt;Field_info&gt; getPackageFields() {
+<span class="nc" id="L210">        return packageFields;</span>
+    }
+
+    public Collection&lt;Method_info&gt; getPackageMethods() {
+<span class="nc" id="L214">        return packageMethods;</span>
+    }
+
+    public Collection&lt;InnerClass&gt; getPackageInnerClasses() {
+<span class="nc" id="L218">        return packageInnerClasses;</span>
+    }
+
+    public Collection&lt;Classfile&gt; getAbstractClasses() {
+<span class="nc" id="L222">        return abstractClasses;</span>
+    }
+
+    public Collection&lt;Method_info&gt; getAbstractMethods() {
+<span class="nc" id="L226">        return abstractMethods;</span>
+    }
+
+    public Collection&lt;InnerClass&gt; getAbstractInnerClasses() {
+<span class="nc" id="L230">        return abstractInnerClasses;</span>
+    }
+
+    public Collection&lt;Field_info&gt; getStaticFields() {
+<span class="nc" id="L234">        return staticFields;</span>
+    }
+
+    public Collection&lt;Method_info&gt; getStaticMethods() {
+<span class="nc" id="L238">        return staticMethods;</span>
+    }
+
+    public Collection&lt;InnerClass&gt; getStaticInnerClasses() {
+<span class="nc" id="L242">        return staticInnerClasses;</span>
+    }
+
+    public Collection&lt;Classfile&gt; getFinalClasses() {
+<span class="nc" id="L246">        return finalClasses;</span>
+    }
+
+    public Collection&lt;Field_info&gt; getFinalFields() {
+<span class="nc" id="L250">        return finalFields;</span>
+    }
+
+    public Collection&lt;Method_info&gt; getFinalMethods() {
+<span class="nc" id="L254">        return finalMethods;</span>
+    }
+
+    public Collection&lt;InnerClass&gt; getFinalInnerClasses() {
+<span class="nc" id="L258">        return finalInnerClasses;</span>
+    }
+
+    public Collection&lt;Classfile&gt; getSuperClasses() {
+<span class="nc" id="L262">        return superClasses;</span>
+    }
+
+    public Collection&lt;Classfile&gt; getModuleClasses() {
+<span class="nc" id="L266">        return moduleClasses;</span>
+    }
+
+    public Collection&lt;Method_info&gt; getSynchronizedMethods() {
+<span class="nc" id="L270">        return synchronizedMethods;</span>
+    }
+
+    public Collection&lt;Method_info&gt; getNativeMethods() {
+<span class="nc" id="L274">        return nativeMethods;</span>
+    }
+
+    public Collection&lt;Method_info&gt; getBridgeMethods() {
+<span class="nc" id="L278">        return bridgeMethods;</span>
+    }
+
+    public Collection&lt;Method_info&gt; getVarargsMethods() {
+<span class="nc" id="L282">        return varargsMethods;</span>
+    }
+
+    public Collection&lt;Method_info&gt; getStrictMethods() {
+<span class="nc" id="L286">        return strictMethods;</span>
+    }
+
+    public Collection&lt;Field_info&gt; getVolatileFields() {
+<span class="nc" id="L290">        return volatileFields;</span>
+    }
+
+    public Collection&lt;Field_info&gt; getTransientFields() {
+<span class="nc" id="L294">        return transientFields;</span>
+    }
+
+    public Map&lt;Integer, Long&gt; getConstantPoolEntryCounts() {
+<span class="nc" id="L298">        return constantPoolEntryCounts;</span>
+    }
+    public Map&lt;String, Long&gt; getAttributeCounts() {
+<span class="nc" id="L301">        return attributeCounts;</span>
+    }
+
+    public Collection&lt;Custom_attribute&gt; getCustomAttributes() {
+<span class="nc" id="L305">        return customAttributes;</span>
+    }
+
+    public long[] getInstructionCounts() {
+<span class="nc" id="L309">        return instructionCounts;</span>
+    }
+    
+    // Classfile
+    public void visitClassfile(Classfile classfile) {
+<span class="nc" id="L314">        classfile.getConstantPool().accept(this);</span>
+
+<span class="nc bnc" id="L316" title="All 2 branches missed.">        if (classfile.isPublic()) {</span>
+<span class="nc" id="L317">            publicClasses.add(classfile);</span>
+        } else {
+<span class="nc" id="L319">            packageClasses.add(classfile);</span>
+        }
+
+<span class="nc bnc" id="L322" title="All 2 branches missed.">        if (classfile.isFinal()) {</span>
+<span class="nc" id="L323">            finalClasses.add(classfile);</span>
+        }
+
+<span class="nc bnc" id="L326" title="All 2 branches missed.">        if (classfile.isSuper()) {</span>
+<span class="nc" id="L327">            superClasses.add(classfile);</span>
+        }
+
+<span class="nc bnc" id="L330" title="All 2 branches missed.">        if (classfile.isInterface()) {</span>
+<span class="nc" id="L331">            interfaces.add(classfile.getClassName());</span>
+        } else {
+<span class="nc" id="L333">            classes.add(classfile.getClassName());</span>
+        }
+
+<span class="nc bnc" id="L336" title="All 2 branches missed.">        if (classfile.isAbstract()) {</span>
+<span class="nc" id="L337">            abstractClasses.add(classfile);</span>
+        }
+
+<span class="nc bnc" id="L340" title="All 2 branches missed.">        if (classfile.isSynthetic()) {</span>
+<span class="nc" id="L341">            syntheticClasses.add(classfile);</span>
+        }
+
+<span class="nc bnc" id="L344" title="All 2 branches missed.">        if (classfile.isAnnotation()) {</span>
+<span class="nc" id="L345">            annotationClasses.add(classfile);</span>
+        }
+
+<span class="nc bnc" id="L348" title="All 2 branches missed.">        if (classfile.isEnum()) {</span>
+<span class="nc" id="L349">            enumClasses.add(classfile);</span>
+        }
+
+<span class="nc bnc" id="L352" title="All 2 branches missed.">        if (classfile.isModule()) {</span>
+<span class="nc" id="L353">            moduleClasses.add(classfile);</span>
+        }
+
+<span class="nc bnc" id="L356" title="All 2 branches missed.">        if (classfile.isDeprecated()) {</span>
+<span class="nc" id="L357">            deprecatedClasses.add(classfile);</span>
+        }
+
+<span class="nc" id="L360">        super.visitClassfile(classfile);</span>
+<span class="nc" id="L361">    }</span>
+
+    // ConstantPool
+
+    public void visitConstantPool(ConstantPool constantPool) {
+<span class="nc" id="L366">        visitingConstantPool = true;</span>
+<span class="nc" id="L367">        super.visitConstantPool(constantPool);</span>
+<span class="nc" id="L368">        visitingConstantPool = false;</span>
+<span class="nc" id="L369">    }</span>
+
+    public void visitClass_info(Class_info entry) {
+<span class="nc" id="L372">        super.visitClass_info(entry);</span>
+<span class="nc" id="L373">        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_Class);</span>
+<span class="nc" id="L374">    }</span>
+
+    public void visitFieldRef_info(FieldRef_info entry) {
+<span class="nc" id="L377">        super.visitFieldRef_info(entry);</span>
+<span class="nc" id="L378">        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_Fieldref);</span>
+<span class="nc" id="L379">    }</span>
+
+    public void visitMethodRef_info(MethodRef_info entry) {
+<span class="nc" id="L382">        super.visitMethodRef_info(entry);</span>
+<span class="nc" id="L383">        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_Methodref);</span>
+<span class="nc" id="L384">    }</span>
+
+    public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
+<span class="nc" id="L387">        super.visitInterfaceMethodRef_info(entry);</span>
+<span class="nc" id="L388">        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_InterfaceMethodref);</span>
+<span class="nc" id="L389">    }</span>
+
+    public void visitString_info(String_info entry) {
+<span class="nc" id="L392">        super.visitString_info(entry);</span>
+<span class="nc" id="L393">        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_String);</span>
+<span class="nc" id="L394">    }</span>
+
+    public void visitInteger_info(Integer_info entry) {
+<span class="nc" id="L397">        super.visitInteger_info(entry);</span>
+<span class="nc" id="L398">        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_Integer);</span>
+<span class="nc" id="L399">    }</span>
+
+    public void visitFloat_info(Float_info entry) {
+<span class="nc" id="L402">        super.visitFloat_info(entry);</span>
+<span class="nc" id="L403">        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_Float);</span>
+<span class="nc" id="L404">    }</span>
+
+    public void visitLong_info(Long_info entry) {
+<span class="nc" id="L407">        super.visitLong_info(entry);</span>
+<span class="nc" id="L408">        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_Long);</span>
+<span class="nc" id="L409">    }</span>
+
+    public void visitDouble_info(Double_info entry) {
+<span class="nc" id="L412">        super.visitDouble_info(entry);</span>
+<span class="nc" id="L413">        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_Double);</span>
+<span class="nc" id="L414">    }</span>
+
+    public void visitNameAndType_info(NameAndType_info entry) {
+<span class="nc" id="L417">        super.visitNameAndType_info(entry);</span>
+<span class="nc" id="L418">        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_NameAndType);</span>
+<span class="nc" id="L419">    }</span>
+
+    public void visitUTF8_info(UTF8_info entry) {
+<span class="nc" id="L422">        super.visitUTF8_info(entry);</span>
+<span class="nc" id="L423">        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_Utf8);</span>
+<span class="nc" id="L424">    }</span>
+
+    public void visitMethodHandle_info(MethodHandle_info entry) {
+<span class="nc" id="L427">        super.visitMethodHandle_info(entry);</span>
+<span class="nc" id="L428">        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_MethodHandle);</span>
+<span class="nc" id="L429">    }</span>
+
+    public void visitMethodType_info(MethodType_info entry) {
+<span class="nc" id="L432">        super.visitMethodType_info(entry);</span>
+<span class="nc" id="L433">        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_MethodType);</span>
+<span class="nc" id="L434">    }</span>
+
+    public void visitDynamic_info(Dynamic_info entry) {
+<span class="nc" id="L437">        super.visitDynamic_info(entry);</span>
+<span class="nc" id="L438">        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_Dynamic);</span>
+<span class="nc" id="L439">    }</span>
+
+    public void visitInvokeDynamic_info(InvokeDynamic_info entry) {
+<span class="nc" id="L442">        super.visitInvokeDynamic_info(entry);</span>
+<span class="nc" id="L443">        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_InvokeDynamic);</span>
+<span class="nc" id="L444">    }</span>
+
+    public void visitModule_info(Module_info entry) {
+<span class="nc" id="L447">        super.visitModule_info(entry);</span>
+<span class="nc" id="L448">        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_Module);</span>
+<span class="nc" id="L449">    }</span>
+
+    public void visitPackage_info(Package_info entry) {
+<span class="nc" id="L452">        super.visitPackage_info(entry);</span>
+<span class="nc" id="L453">        visitConstantPoolEntry(com.jeantessier.classreader.impl.ConstantPoolEntry.CONSTANT_Package);</span>
+<span class="nc" id="L454">    }</span>
+
+    // Features
+    public void visitField_info(Field_info entry) {
+<span class="nc" id="L458">        fields.add(entry);</span>
+
+<span class="nc bnc" id="L460" title="All 2 branches missed.">        if (entry.isPublic()) {</span>
+<span class="nc" id="L461">            publicFields.add(entry);</span>
+<span class="nc bnc" id="L462" title="All 2 branches missed.">        } else if (entry.isPrivate()) {</span>
+<span class="nc" id="L463">            privateFields.add(entry);</span>
+<span class="nc bnc" id="L464" title="All 2 branches missed.">        } else if (entry.isProtected()) {</span>
+<span class="nc" id="L465">            protectedFields.add(entry);</span>
+        } else {
+<span class="nc" id="L467">            packageFields.add(entry);</span>
+        }
+
+<span class="nc bnc" id="L470" title="All 2 branches missed.">        if (entry.isFinal()) {</span>
+<span class="nc" id="L471">            finalFields.add(entry);</span>
+        }
+
+<span class="nc bnc" id="L474" title="All 2 branches missed.">        if (entry.isDeprecated()) {</span>
+<span class="nc" id="L475">            deprecatedFields.add(entry);</span>
+        }
+
+<span class="nc bnc" id="L478" title="All 2 branches missed.">        if (entry.isSynthetic()) {</span>
+<span class="nc" id="L479">            syntheticFields.add(entry);</span>
+        }
+
+<span class="nc bnc" id="L482" title="All 2 branches missed.">        if (entry.isStatic()) {</span>
+<span class="nc" id="L483">            staticFields.add(entry);</span>
+        }
+
+<span class="nc bnc" id="L486" title="All 2 branches missed.">        if (entry.isTransient()) {</span>
+<span class="nc" id="L487">            transientFields.add(entry);</span>
+        }
+
+<span class="nc bnc" id="L490" title="All 2 branches missed.">        if (entry.isVolatile()) {</span>
+<span class="nc" id="L491">            volatileFields.add(entry);</span>
+        }
+
+<span class="nc bnc" id="L494" title="All 2 branches missed.">        if (entry.isEnum()) {</span>
+<span class="nc" id="L495">            enumFields.add(entry);</span>
+        }
+
+<span class="nc" id="L498">        super.visitField_info(entry);</span>
+<span class="nc" id="L499">    }</span>
+
+    public void visitMethod_info(Method_info entry) {
+<span class="nc" id="L502">        methods.add(entry);</span>
+
+<span class="nc bnc" id="L504" title="All 2 branches missed.">        if (entry.isPublic()) {</span>
+<span class="nc" id="L505">            publicMethods.add(entry);</span>
+<span class="nc bnc" id="L506" title="All 2 branches missed.">        } else if (entry.isPrivate()) {</span>
+<span class="nc" id="L507">            privateMethods.add(entry);</span>
+<span class="nc bnc" id="L508" title="All 2 branches missed.">        } else if (entry.isProtected()) {</span>
+<span class="nc" id="L509">            protectedMethods.add(entry);</span>
+        } else {
+<span class="nc" id="L511">            packageMethods.add(entry);</span>
+        }
+
+<span class="nc bnc" id="L514" title="All 2 branches missed.">        if (entry.isFinal()) {</span>
+<span class="nc" id="L515">            finalMethods.add(entry);</span>
+        }
+
+<span class="nc bnc" id="L518" title="All 2 branches missed.">        if (entry.isAbstract()) {</span>
+<span class="nc" id="L519">            abstractMethods.add(entry);</span>
+        }
+
+<span class="nc bnc" id="L522" title="All 2 branches missed.">        if (entry.isDeprecated()) {</span>
+<span class="nc" id="L523">            deprecatedMethods.add(entry);</span>
+        }
+
+<span class="nc bnc" id="L526" title="All 2 branches missed.">        if (entry.isSynthetic()) {</span>
+<span class="nc" id="L527">            syntheticMethods.add(entry);</span>
+        }
+
+<span class="nc bnc" id="L530" title="All 2 branches missed.">        if (entry.isStatic()) {</span>
+<span class="nc" id="L531">            staticMethods.add(entry);</span>
+        }
+
+<span class="nc bnc" id="L534" title="All 2 branches missed.">        if (entry.isSynchronized()) {</span>
+<span class="nc" id="L535">            synchronizedMethods.add(entry);</span>
+        }
+
+<span class="nc bnc" id="L538" title="All 2 branches missed.">        if (entry.isBridge()) {</span>
+<span class="nc" id="L539">            bridgeMethods.add(entry);</span>
+        }
+
+<span class="nc bnc" id="L542" title="All 2 branches missed.">        if (entry.isVarargs()) {</span>
+<span class="nc" id="L543">            varargsMethods.add(entry);</span>
+        }
+
+<span class="nc bnc" id="L546" title="All 2 branches missed.">        if (entry.isNative()) {</span>
+<span class="nc" id="L547">            nativeMethods.add(entry);</span>
+        }
+
+<span class="nc bnc" id="L550" title="All 2 branches missed.">        if (entry.isStrict()) {</span>
+<span class="nc" id="L551">            strictMethods.add(entry);</span>
+        }
+
+<span class="nc" id="L554">        super.visitMethod_info(entry);</span>
+<span class="nc" id="L555">    }</span>
+
+    // Attributes
+    public void visitConstantValue_attribute(ConstantValue_attribute attribute) {
+<span class="nc" id="L559">        super.visitConstantValue_attribute(attribute);</span>
+<span class="nc" id="L560">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L561">    }</span>
+
+    public void visitCode_attribute(Code_attribute attribute) {
+<span class="nc" id="L564">        super.visitCode_attribute(attribute);</span>
+<span class="nc" id="L565">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L566">    }</span>
+
+    public void visitStackMapTable_attribute(StackMapTable_attribute attribute) {
+<span class="nc" id="L569">        super.visitStackMapTable_attribute(attribute);</span>
+<span class="nc" id="L570">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L571">    }</span>
+
+    public void visitExceptions_attribute(Exceptions_attribute attribute) {
+<span class="nc" id="L574">        super.visitExceptions_attribute(attribute);</span>
+<span class="nc" id="L575">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L576">    }</span>
+
+    public void visitInnerClasses_attribute(InnerClasses_attribute attribute) {
+<span class="nc" id="L579">        super.visitInnerClasses_attribute(attribute);</span>
+<span class="nc" id="L580">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L581">    }</span>
+
+    public void visitEnclosingMethod_attribute(EnclosingMethod_attribute attribute) {
+<span class="nc" id="L584">        super.visitEnclosingMethod_attribute(attribute);</span>
+<span class="nc" id="L585">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L586">    }</span>
+
+    public void visitSynthetic_attribute(Synthetic_attribute attribute) {
+<span class="nc" id="L589">        super.visitSynthetic_attribute(attribute);</span>
+<span class="nc" id="L590">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L591">    }</span>
+
+    public void visitSignature_attribute(Signature_attribute attribute) {
+<span class="nc" id="L594">        super.visitSignature_attribute(attribute);</span>
+<span class="nc" id="L595">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L596">    }</span>
+
+    public void visitSourceFile_attribute(SourceFile_attribute attribute) {
+<span class="nc" id="L599">        super.visitSourceFile_attribute(attribute);</span>
+<span class="nc" id="L600">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L601">    }</span>
+
+    public void visitSourceDebugExtension_attribute(SourceDebugExtension_attribute attribute) {
+<span class="nc" id="L604">        super.visitSourceDebugExtension_attribute(attribute);</span>
+<span class="nc" id="L605">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L606">    }</span>
+
+    public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
+<span class="nc" id="L609">        super.visitLineNumberTable_attribute(attribute);</span>
+<span class="nc" id="L610">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L611">    }</span>
+
+    public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
+<span class="nc" id="L614">        super.visitLocalVariableTable_attribute(attribute);</span>
+<span class="nc" id="L615">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L616">    }</span>
+
+    public void visitLocalVariableTypeTable_attribute(LocalVariableTypeTable_attribute attribute) {
+<span class="nc" id="L619">        super.visitLocalVariableTypeTable_attribute(attribute);</span>
+<span class="nc" id="L620">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L621">    }</span>
+
+    public void visitRuntimeVisibleAnnotations_attribute(RuntimeVisibleAnnotations_attribute attribute) {
+<span class="nc" id="L624">        super.visitRuntimeVisibleAnnotations_attribute(attribute);</span>
+<span class="nc" id="L625">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L626">    }</span>
+
+    public void visitRuntimeInvisibleAnnotations_attribute(RuntimeInvisibleAnnotations_attribute attribute) {
+<span class="nc" id="L629">        super.visitRuntimeInvisibleAnnotations_attribute(attribute);</span>
+<span class="nc" id="L630">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L631">    }</span>
+
+    public void visitRuntimeVisibleParameterAnnotations_attribute(RuntimeVisibleParameterAnnotations_attribute attribute) {
+<span class="nc" id="L634">        super.visitRuntimeVisibleParameterAnnotations_attribute(attribute);</span>
+<span class="nc" id="L635">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L636">    }</span>
+
+    public void visitRuntimeInvisibleParameterAnnotations_attribute(RuntimeInvisibleParameterAnnotations_attribute attribute) {
+<span class="nc" id="L639">        super.visitRuntimeInvisibleParameterAnnotations_attribute(attribute);</span>
+<span class="nc" id="L640">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L641">    }</span>
+
+    public void visitAnnotationDefault_attribute(AnnotationDefault_attribute attribute) {
+<span class="nc" id="L644">        super.visitAnnotationDefault_attribute(attribute);</span>
+<span class="nc" id="L645">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L646">    }</span>
+
+    public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute) {
+<span class="nc" id="L649">        super.visitBootstrapMethods_attribute(attribute);</span>
+<span class="nc" id="L650">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L651">    }</span>
+
+    public void visitMethodParameters_attribute(MethodParameters_attribute attribute) {
+<span class="nc" id="L654">        super.visitMethodParameters_attribute(attribute);</span>
+<span class="nc" id="L655">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L656">    }</span>
+
+    public void visitModule_attribute(Module_attribute attribute) {
+<span class="nc" id="L659">        super.visitModule_attribute(attribute);</span>
+<span class="nc" id="L660">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L661">    }</span>
+
+    public void visitModulePackages_attribute(ModulePackages_attribute attribute) {
+<span class="nc" id="L664">        super.visitModulePackages_attribute(attribute);</span>
+<span class="nc" id="L665">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L666">    }</span>
+
+    public void visitModuleMainClass_attribute(ModuleMainClass_attribute attribute) {
+<span class="nc" id="L669">        super.visitModuleMainClass_attribute(attribute);</span>
+<span class="nc" id="L670">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L671">    }</span>
+
+    public void visitNestHost_attribute(NestHost_attribute attribute) {
+<span class="nc" id="L674">        super.visitNestHost_attribute(attribute);</span>
+<span class="nc" id="L675">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L676">    }</span>
+
+    public void visitNestMembers_attribute(NestMembers_attribute attribute) {
+<span class="nc" id="L679">        super.visitNestMembers_attribute(attribute);</span>
+<span class="nc" id="L680">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L681">    }</span>
+
+    public void visitRecord_attribute(Record_attribute attribute) {
+<span class="nc" id="L684">        super.visitRecord_attribute(attribute);</span>
+<span class="nc" id="L685">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L686">    }</span>
+
+    public void visitPermittedSubclasses_attribute(PermittedSubclasses_attribute attribute) {
+<span class="nc" id="L689">        super.visitPermittedSubclasses_attribute(attribute);</span>
+<span class="nc" id="L690">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L691">    }</span>
+
+    public void visitCustom_attribute(Custom_attribute attribute) {
+<span class="nc" id="L694">        super.visitCustom_attribute(attribute);</span>
+<span class="nc" id="L695">        visitAttribute(attribute.getAttributeName());</span>
+<span class="nc" id="L696">        customAttributes.add(attribute);</span>
+<span class="nc" id="L697">    }</span>
+
+    private void visitConstantPoolEntry(int tag) {
+<span class="nc bnc" id="L700" title="All 2 branches missed.">        if (visitingConstantPool) {</span>
+<span class="nc" id="L701">            constantPoolEntryCounts.put(tag, constantPoolEntryCounts.get(tag) + 1);</span>
+        }
+<span class="nc" id="L703">    }</span>
+
+    private void visitAttribute(String attributeName) {
+<span class="nc" id="L706">        attributeCounts.put(attributeName, attributeCounts.get(attributeName) + 1);</span>
+<span class="nc" id="L707">    }</span>
+
+    // Attribute helpers
+    public void visitInstruction(Instruction helper) {
+<span class="nc" id="L711">        getInstructionCounts()[helper.getOpcode()]++;</span>
+
+<span class="nc" id="L713">        super.visitInstruction(helper);</span>
+<span class="nc" id="L714">    }</span>
+
+    public void visitInnerClass(InnerClass helper) {
+<span class="nc bnc" id="L717" title="All 2 branches missed.">        if (helper.isPublic()) {</span>
+<span class="nc" id="L718">            publicInnerClasses.add(helper);</span>
+<span class="nc bnc" id="L719" title="All 2 branches missed.">        } else if (helper.isPrivate()) {</span>
+<span class="nc" id="L720">            privateInnerClasses.add(helper);</span>
+<span class="nc bnc" id="L721" title="All 2 branches missed.">        } else if (helper.isProtected()) {</span>
+<span class="nc" id="L722">            protectedInnerClasses.add(helper);</span>
+        } else {
+<span class="nc" id="L724">            packageInnerClasses.add(helper);</span>
+        }
+
+<span class="nc bnc" id="L727" title="All 2 branches missed.">        if (helper.isStatic()) {</span>
+<span class="nc" id="L728">            staticInnerClasses.add(helper);</span>
+        }
+
+<span class="nc bnc" id="L731" title="All 2 branches missed.">        if (helper.isFinal()) {</span>
+<span class="nc" id="L732">            finalInnerClasses.add(helper);</span>
+        }
+
+<span class="nc bnc" id="L735" title="All 2 branches missed.">        if (helper.isInterface()) {</span>
+<span class="nc" id="L736">            interfaces.add(helper.getInnerClassInfo());</span>
+        } else {
+<span class="nc" id="L738">            classes.add(helper.getInnerClassInfo());</span>
+        }
+
+<span class="nc bnc" id="L741" title="All 2 branches missed.">        if (helper.isAbstract()) {</span>
+<span class="nc" id="L742">            abstractInnerClasses.add(helper);</span>
+        }
+
+<span class="nc bnc" id="L745" title="All 2 branches missed.">        if (helper.isSynthetic()) {</span>
+<span class="nc" id="L746">            syntheticInnerClasses.add(helper);</span>
+        }
+
+<span class="nc bnc" id="L749" title="All 2 branches missed.">        if (helper.isAnnotation()) {</span>
+<span class="nc" id="L750">            annotationInnerClasses.add(helper);</span>
+        }
+
+<span class="nc bnc" id="L753" title="All 2 branches missed.">        if (helper.isEnum()) {</span>
+<span class="nc" id="L754">            enumInnerClasses.add(helper);</span>
+        }
+<span class="nc" id="L756">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

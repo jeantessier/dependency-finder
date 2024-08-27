@@ -1,0 +1,1349 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DependencyFinder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependencyfinder.gui</a> &gt; <span class="el_source">DependencyFinder.java</span></div><h1>DependencyFinder.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependencyfinder.gui;
+
+import com.jeantessier.classreader.ClassfileLoaderDispatcher;
+import com.jeantessier.classreader.ClassfileLoaderEventSource;
+import com.jeantessier.classreader.ModifiedOnlyDispatcher;
+import com.jeantessier.classreader.Monitor;
+import com.jeantessier.commandline.CommandLine;
+import com.jeantessier.commandline.CommandLineUsage;
+import com.jeantessier.commandline.NullParameterStrategy;
+import com.jeantessier.dependency.CodeDependencyCollector;
+import com.jeantessier.dependency.DeletingVisitor;
+import com.jeantessier.dependency.GraphCopier;
+import com.jeantessier.dependency.GraphSummarizer;
+import com.jeantessier.dependency.MetricsReport;
+import com.jeantessier.dependency.NodeFactory;
+import com.jeantessier.dependency.PackageNode;
+import com.jeantessier.dependency.RegularExpressionSelectionCriteria;
+import com.jeantessier.dependency.SelectiveTraversalStrategy;
+import com.jeantessier.dependency.TransitiveClosure;
+import org.apache.logging.log4j.*;
+
+import javax.swing.*;
+import javax.swing.border.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import java.util.*;
+
+public class DependencyFinder extends JFrame {
+    private static final String DEFAULT_FONT_NAME = &quot;Monospaced&quot;;
+    private static final String DESIRED_FONT_NAME = &quot;Courier&quot;;
+
+    private boolean minimize;
+    private boolean maximize;
+
+    private boolean advancedMode;
+<span class="nc" id="L69">    private final JPanel  queryPanel   = new JPanel();</span>
+    
+<span class="nc" id="L71">    private final JMenuBar          menuBar                = new JMenuBar();</span>
+<span class="nc" id="L72">    private final JMenu             fileMenu               = new JMenu();</span>
+<span class="nc" id="L73">    private final JMenu             viewMenu               = new JMenu();</span>
+<span class="nc" id="L74">    private final JMenu             helpMenu               = new JMenu();</span>
+<span class="nc" id="L75">    private final JToolBar          toolbar                = new JToolBar();</span>
+<span class="nc" id="L76">    private final JTextArea         dependenciesResultArea = new JTextArea();</span>
+<span class="nc" id="L77">    private final JTextArea         closureResultArea      = new JTextArea();</span>
+<span class="nc" id="L78">    private final JTextArea         metricsResultArea      = new JTextArea();</span>
+<span class="nc" id="L79">    private final MetricsTableModel metricsChartModel      = new MetricsTableModel();</span>
+<span class="nc" id="L80">    private final StatusLine        statusLine             = new StatusLine(420);</span>
+<span class="nc" id="L81">    private final JProgressBar      progressBar            = new JProgressBar();</span>
+
+<span class="nc" id="L83">    private Collection&lt;String&gt;        inputFiles  = null;</span>
+<span class="nc" id="L84">    private ClassfileLoaderDispatcher dispatcher  = null;</span>
+<span class="nc" id="L85">    private NodeFactory               nodeFactory = null;</span>
+<span class="nc" id="L86">    private Monitor                   monitor     = null;</span>
+
+<span class="nc" id="L88">    private final JCheckBox  packageScope          = new JCheckBox(&quot;packages&quot;);</span>
+<span class="nc" id="L89">    private final JCheckBox  classScope            = new JCheckBox(&quot;classes&quot;);</span>
+<span class="nc" id="L90">    private final JCheckBox  featureScope          = new JCheckBox(&quot;features&quot;);</span>
+<span class="nc" id="L91">    private final JTextField scopeIncludes         = new JTextField();</span>
+<span class="nc" id="L92">    private final JTextField packageScopeIncludes  = new JTextField();</span>
+<span class="nc" id="L93">    private final JTextField classScopeIncludes    = new JTextField();</span>
+<span class="nc" id="L94">    private final JTextField featureScopeIncludes  = new JTextField();</span>
+<span class="nc" id="L95">    private final JTextField scopeExcludes         = new JTextField();</span>
+<span class="nc" id="L96">    private final JTextField packageScopeExcludes  = new JTextField();</span>
+<span class="nc" id="L97">    private final JTextField classScopeExcludes    = new JTextField();</span>
+<span class="nc" id="L98">    private final JTextField featureScopeExcludes  = new JTextField();</span>
+    
+<span class="nc" id="L100">    private final JCheckBox  packageFilter         = new JCheckBox(&quot;packages&quot;);</span>
+<span class="nc" id="L101">    private final JCheckBox  classFilter           = new JCheckBox(&quot;classes&quot;);</span>
+<span class="nc" id="L102">    private final JCheckBox  featureFilter         = new JCheckBox(&quot;features&quot;);</span>
+<span class="nc" id="L103">    private final JTextField filterIncludes        = new JTextField();</span>
+<span class="nc" id="L104">    private final JTextField packageFilterIncludes = new JTextField();</span>
+<span class="nc" id="L105">    private final JTextField classFilterIncludes   = new JTextField();</span>
+<span class="nc" id="L106">    private final JTextField featureFilterIncludes = new JTextField();</span>
+<span class="nc" id="L107">    private final JTextField filterExcludes        = new JTextField();</span>
+<span class="nc" id="L108">    private final JTextField packageFilterExcludes = new JTextField();</span>
+<span class="nc" id="L109">    private final JTextField classFilterExcludes   = new JTextField();</span>
+<span class="nc" id="L110">    private final JTextField featureFilterExcludes = new JTextField();</span>
+
+<span class="nc" id="L112">    private final JCheckBox  showInbounds          = new JCheckBox(&quot;&lt;--&quot;);</span>
+<span class="nc" id="L113">    private final JCheckBox  showOutbounds         = new JCheckBox(&quot;--&gt;&quot;);</span>
+<span class="nc" id="L114">    private final JCheckBox  showEmptyNodes        = new JCheckBox(&quot;empty elements&quot;);</span>
+<span class="nc" id="L115">    private final JCheckBox  copyOnly              = new JCheckBox(&quot;copy only&quot;);</span>
+    
+<span class="nc" id="L117">    private final JTextField maximumInboundDepth   = new JTextField(&quot;0&quot;, 2);</span>
+<span class="nc" id="L118">    private final JTextField maximumOutboundDepth  = new JTextField(2);</span>
+
+<span class="nc" id="L120">    private GraphCopier dependenciesQuery    = null;</span>
+    
+<span class="nc" id="L122">    public DependencyFinder(CommandLine commandLine) {</span>
+<span class="nc" id="L123">        this.setSize(new Dimension(800, 600));</span>
+<span class="nc" id="L124">        this.setTitle(&quot;Dependency Finder&quot;);</span>
+<span class="nc" id="L125">        this.setIconImage(new ImageIcon(getClass().getResource(&quot;icons/logoicon.gif&quot;)).getImage());</span>
+<span class="nc" id="L126">        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L127">        this.addWindowListener(new WindowKiller());</span>
+
+<span class="nc" id="L129">        setNewDependencyGraph();</span>
+        
+<span class="nc" id="L131">        packageScope.setToolTipText(&quot;Select packages&quot;);</span>
+<span class="nc" id="L132">        classScope.setToolTipText(&quot;Select classes (with their package)&quot;);</span>
+<span class="nc" id="L133">        featureScope.setToolTipText(&quot;Select methods and fields (with their class and package)&quot;);</span>
+<span class="nc" id="L134">        scopeIncludes.setToolTipText(&quot;Package, class, method, or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/&quot;);</span>
+<span class="nc" id="L135">        packageScopeIncludes.setToolTipText(&quot;Package must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/&quot;);</span>
+<span class="nc" id="L136">        classScopeIncludes.setToolTipText(&quot;Class must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/&quot;);</span>
+<span class="nc" id="L137">        featureScopeIncludes.setToolTipText(&quot;Method or field must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/&quot;);</span>
+<span class="nc" id="L138">        scopeExcludes.setToolTipText(&quot;Package, class, method, or field must NOT match any of these expressions. E.g., /Test/&quot;);</span>
+<span class="nc" id="L139">        packageScopeExcludes.setToolTipText(&quot;Package must NOT match any of these expressions. E.g., /Test/&quot;);</span>
+<span class="nc" id="L140">        classScopeExcludes.setToolTipText(&quot;Class must NOT match any of these expressions. E.g., /Test/&quot;);</span>
+<span class="nc" id="L141">        featureScopeExcludes.setToolTipText(&quot;Method or field must NOT match any of these expressions. E.g., /Test/&quot;);</span>
+        
+<span class="nc" id="L143">        packageFilter.setToolTipText(&quot;Show dependencies to/from packages&quot;);</span>
+<span class="nc" id="L144">        classFilter.setToolTipText(&quot;Show dependencies to/from classes&quot;);</span>
+<span class="nc" id="L145">        featureFilter.setToolTipText(&quot;Show dependencies to/from methods and fields&quot;);</span>
+<span class="nc" id="L146">        filterIncludes.setToolTipText(&quot;Package, class, method, or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/&quot;);</span>
+<span class="nc" id="L147">        packageFilterIncludes.setToolTipText(&quot;Package at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/&quot;);</span>
+<span class="nc" id="L148">        classFilterIncludes.setToolTipText(&quot;Class at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/&quot;);</span>
+<span class="nc" id="L149">        featureFilterIncludes.setToolTipText(&quot;Method or field at the other end of the dependency must match any these expressions. E.g., /^com.mycompany/, /\\.get\\w+\\(/&quot;);</span>
+<span class="nc" id="L150">        filterExcludes.setToolTipText(&quot;Package, class, method, or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/&quot;);</span>
+<span class="nc" id="L151">        packageFilterExcludes.setToolTipText(&quot;Package at the other end of the dependency must NOT match any of these expressions. E.g., /Test/&quot;);</span>
+<span class="nc" id="L152">        classFilterExcludes.setToolTipText(&quot;Class at the other end of the dependency must NOT match any of these expressions. E.g., /Test/&quot;);</span>
+<span class="nc" id="L153">        featureFilterExcludes.setToolTipText(&quot;Method or field at the other end of the dependency must NOT match any of these expressions. E.g., /Test/&quot;);</span>
+        
+<span class="nc" id="L155">        showInbounds.setToolTipText(&quot;Show dependencies that point to the selected packages, classes, methods, or fields&quot;);</span>
+<span class="nc" id="L156">        showOutbounds.setToolTipText(&quot;Show dependencies that originate from the selected packages, classes, methods, or fields&quot;);</span>
+<span class="nc" id="L157">        showEmptyNodes.setToolTipText(&quot;Show selected packages, classes, methods, and fields even if they do not have dependencies&quot;);</span>
+<span class="nc" id="L158">        copyOnly.setToolTipText(&quot;&lt;html&gt;Only copy explicit dependencies to the result graph.&lt;br&gt;Do not introduce implicit dependencies&lt;br&gt;where explicit dependencies match the regular expressions&lt;br&gt;but are otherwise out of scope&lt;/html&gt;&quot;);</span>
+
+<span class="nc" id="L160">        showInbounds.setFont(getCodeFont(Font.BOLD, 14));</span>
+<span class="nc" id="L161">        showOutbounds.setFont(getCodeFont(Font.BOLD, 14));</span>
+        
+<span class="nc" id="L163">        maximumInboundDepth.setToolTipText(&quot;Maximum hops against the direction dependencies.  Empty field means no limit.&quot;);</span>
+<span class="nc" id="L164">        maximumOutboundDepth.setToolTipText(&quot;Maximum hops in the direction of dependencies.  Empty field means no limit.&quot;);</span>
+
+<span class="nc" id="L166">        setAdvancedMode(false);</span>
+        
+<span class="nc" id="L168">        buildMenus(commandLine);</span>
+<span class="nc" id="L169">        buildUI();</span>
+
+        try {
+<span class="nc" id="L172">            UIManager.setLookAndFeel(&quot;javax.swing.plaf.metal.MetalLookAndFeel&quot;);</span>
+<span class="nc" id="L173">            SwingUtilities.updateComponentTreeUI(this);</span>
+<span class="nc" id="L174">        } catch (Exception ex) {</span>
+<span class="nc" id="L175">            LogManager.getLogger(DependencyFinder.class).error(&quot;Unable to set look and feel&quot;, ex);</span>
+<span class="nc" id="L176">        }</span>
+        
+<span class="nc" id="L178">        statusLine.showInfo(&quot;Ready.&quot;);</span>
+<span class="nc" id="L179">    }</span>
+
+    private Font getCodeFont(int style, int size) {
+<span class="nc" id="L182">        String fontName = Arrays.stream(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames())</span>
+<span class="nc" id="L183">                .filter(name -&gt; name.contains(DESIRED_FONT_NAME))</span>
+<span class="nc" id="L184">                .findFirst()</span>
+<span class="nc" id="L185">                .orElse(DEFAULT_FONT_NAME);</span>
+
+<span class="nc" id="L187">        return new Font(fontName, style, size);</span>
+    }
+
+    private boolean isAdvancedMode() {
+<span class="nc" id="L191">        return advancedMode;</span>
+    }
+
+    void setAdvancedMode(boolean advancedMode) {
+<span class="nc" id="L195">        this.advancedMode = advancedMode;</span>
+
+<span class="nc" id="L197">        copyOnly.setVisible(advancedMode);</span>
+<span class="nc" id="L198">    }</span>
+    
+    public boolean getMaximize() {
+<span class="nc" id="L201">        return maximize;</span>
+    }
+
+    private void setMaximize(boolean maximize) {
+<span class="nc" id="L205">        this.maximize = maximize;</span>
+<span class="nc" id="L206">    }</span>
+
+    public boolean getMinimize() {
+<span class="nc" id="L209">        return minimize;</span>
+    }
+
+    private void setMinimize(boolean minimize) {
+<span class="nc" id="L213">        this.minimize = minimize;</span>
+<span class="nc" id="L214">    }</span>
+    
+    public ClassfileLoaderDispatcher getClassfileLoaderDispatcher() {
+<span class="nc" id="L217">        return dispatcher;</span>
+    }
+
+    private void setClassfileLoaderDispatcher(ClassfileLoaderDispatcher dispatcher) {
+<span class="nc" id="L221">        this.dispatcher = dispatcher;</span>
+<span class="nc" id="L222">    }</span>
+
+    public Monitor getMonitor() {
+<span class="nc" id="L225">        return monitor;</span>
+    }
+
+    private void setMonitor(Monitor monitor) {
+<span class="nc" id="L229">        this.monitor = monitor;</span>
+<span class="nc" id="L230">    }</span>
+    
+    public Collection&lt;String&gt; getInputFiles() {
+<span class="nc" id="L233">        return inputFiles;</span>
+    }
+
+    private void setInputFiles(Collection&lt;String&gt; inputFiles) {
+<span class="nc" id="L237">        this.inputFiles = inputFiles;</span>
+<span class="nc" id="L238">    }</span>
+    
+    public void addInputFile(File file) {
+<span class="nc" id="L241">        inputFiles.add(file.toString());</span>
+<span class="nc" id="L242">    }</span>
+
+    public Collection&lt;PackageNode&gt; getPackages() {
+<span class="nc" id="L245">        return getNodeFactory().getPackages().values();</span>
+    }
+
+    public NodeFactory getNodeFactory() {
+<span class="nc" id="L249">        return nodeFactory;</span>
+    }
+
+    private void setNodeFactory(NodeFactory nodeFactory) {
+<span class="nc" id="L253">        this.nodeFactory = nodeFactory;</span>
+<span class="nc" id="L254">    }</span>
+    
+    StatusLine getStatusLine() {
+<span class="nc" id="L257">        return statusLine;</span>
+    }
+        
+    JProgressBar getProgressBar() {
+<span class="nc" id="L261">        return progressBar;</span>
+    }
+
+    private void buildMenus(CommandLine commandLine) {
+<span class="nc" id="L265">        buildFileMenu(commandLine);</span>
+<span class="nc" id="L266">        buildViewMenu();</span>
+<span class="nc" id="L267">        buildHelpMenu();</span>
+
+<span class="nc" id="L269">        this.setJMenuBar(menuBar);</span>
+<span class="nc" id="L270">    }</span>
+    
+    private void buildFileMenu(CommandLine commandLine) {
+<span class="nc" id="L273">        menuBar.add(fileMenu);</span>
+
+<span class="nc" id="L275">        fileMenu.setText(&quot;File&quot;);</span>
+
+        Action    action;
+        JMenuItem menuItem;
+        JButton   button;
+
+<span class="nc" id="L281">        action = new DependencyExtractAction(this);</span>
+<span class="nc" id="L282">        menuItem = fileMenu.add(action);</span>
+<span class="nc" id="L283">        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK));</span>
+<span class="nc" id="L284">        menuItem.setMnemonic('e');</span>
+<span class="nc" id="L285">        button = toolbar.add(action);</span>
+<span class="nc" id="L286">        button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));</span>
+
+<span class="nc" id="L288">        action = new RefreshDependencyGraphAction(this);</span>
+<span class="nc" id="L289">        menuItem = fileMenu.add(action);</span>
+<span class="nc" id="L290">        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK));</span>
+<span class="nc" id="L291">        menuItem.setMnemonic('r');</span>
+<span class="nc" id="L292">        button = toolbar.add(action);</span>
+<span class="nc" id="L293">        button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));</span>
+
+<span class="nc" id="L295">        toolbar.addSeparator();</span>
+<span class="nc" id="L296">        fileMenu.addSeparator();</span>
+        
+<span class="nc" id="L298">        action = new OpenFileAction(this);</span>
+<span class="nc" id="L299">        menuItem = fileMenu.add(action);</span>
+<span class="nc" id="L300">        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));</span>
+<span class="nc" id="L301">        menuItem.setMnemonic('o');</span>
+<span class="nc" id="L302">        button = toolbar.add(action);</span>
+<span class="nc" id="L303">        button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));</span>
+        
+<span class="nc" id="L305">        action = new SaveFileAction(this, commandLine.getSingleSwitch(&quot;encoding&quot;), commandLine.getSingleSwitch(&quot;dtd-prefix&quot;));</span>
+<span class="nc" id="L306">        menuItem = fileMenu.add(action);</span>
+<span class="nc" id="L307">        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));</span>
+<span class="nc" id="L308">        menuItem.setMnemonic('s');</span>
+<span class="nc" id="L309">        button = toolbar.add(action);</span>
+<span class="nc" id="L310">        button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));</span>
+
+<span class="nc bnc" id="L312" title="All 2 branches missed.">        if (commandLine.isPresent(&quot;indent-text&quot;)) {</span>
+<span class="nc" id="L313">            ((SaveFileAction) action).setIndentText(commandLine.getSingleSwitch(&quot;indent-text&quot;));</span>
+        }
+        
+<span class="nc" id="L316">        toolbar.addSeparator();</span>
+<span class="nc" id="L317">        fileMenu.addSeparator();</span>
+        
+<span class="nc" id="L319">        action = new NewDependencyGraphAction(this);</span>
+<span class="nc" id="L320">        menuItem = fileMenu.add(action);</span>
+<span class="nc" id="L321">        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));</span>
+<span class="nc" id="L322">        menuItem.setMnemonic('n');</span>
+<span class="nc" id="L323">        button = toolbar.add(action);</span>
+<span class="nc" id="L324">        button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));</span>
+
+<span class="nc" id="L326">        toolbar.addSeparator();</span>
+<span class="nc" id="L327">        fileMenu.addSeparator();</span>
+        
+<span class="nc" id="L329">        action = new DependencyQueryAction(this);</span>
+<span class="nc" id="L330">        menuItem = fileMenu.add(action);</span>
+<span class="nc" id="L331">        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK));</span>
+<span class="nc" id="L332">        menuItem.setMnemonic('d');</span>
+<span class="nc" id="L333">        button = toolbar.add(action);</span>
+<span class="nc" id="L334">        button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));</span>
+
+<span class="nc" id="L336">        action = new ClosureQueryAction(this);</span>
+<span class="nc" id="L337">        menuItem = fileMenu.add(action);</span>
+<span class="nc" id="L338">        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK));</span>
+<span class="nc" id="L339">        menuItem.setMnemonic('c');</span>
+<span class="nc" id="L340">        button = toolbar.add(action);</span>
+<span class="nc" id="L341">        button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));</span>
+
+<span class="nc" id="L343">        action = new MetricsQueryAction(this);</span>
+<span class="nc" id="L344">        menuItem = fileMenu.add(action);</span>
+<span class="nc" id="L345">        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_DOWN_MASK));</span>
+<span class="nc" id="L346">        menuItem.setMnemonic('m');</span>
+<span class="nc" id="L347">        button = toolbar.add(action);</span>
+<span class="nc" id="L348">        button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));</span>
+
+<span class="nc" id="L350">        action = new AllQueriesAction(this);</span>
+<span class="nc" id="L351">        menuItem = fileMenu.add(action);</span>
+<span class="nc" id="L352">        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK));</span>
+<span class="nc" id="L353">        menuItem.setMnemonic('a');</span>
+<span class="nc" id="L354">        button = toolbar.add(action);</span>
+<span class="nc" id="L355">        button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));</span>
+
+<span class="nc" id="L357">        toolbar.addSeparator();</span>
+<span class="nc" id="L358">        fileMenu.addSeparator();</span>
+
+<span class="nc" id="L360">        action = new ExitAction(this);</span>
+<span class="nc" id="L361">        menuItem = fileMenu.add(action);</span>
+<span class="nc" id="L362">        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK));</span>
+<span class="nc" id="L363">        menuItem.setMnemonic('x');</span>
+<span class="nc" id="L364">    }</span>
+    
+    private void buildViewMenu() {
+<span class="nc" id="L367">        menuBar.add(viewMenu);</span>
+
+<span class="nc" id="L369">        viewMenu.setText(&quot;View&quot;);</span>
+
+<span class="nc" id="L371">        ButtonGroup group = new ButtonGroup();</span>
+        JMenuItem menuItem;
+        
+<span class="nc" id="L374">        menuItem = new JRadioButtonMenuItem(new SimpleQueryPanelAction(this));</span>
+<span class="nc" id="L375">        menuItem.setSelected(true);</span>
+<span class="nc" id="L376">        group.add(menuItem);</span>
+<span class="nc" id="L377">        viewMenu.add(menuItem);</span>
+        
+<span class="nc" id="L379">        menuItem = new JRadioButtonMenuItem(new AdvancedQueryPanelAction(this));</span>
+<span class="nc" id="L380">        group.add(menuItem);</span>
+<span class="nc" id="L381">        viewMenu.add(menuItem);</span>
+<span class="nc" id="L382">    }</span>
+
+    private void buildHelpMenu() {
+<span class="nc" id="L385">        menuBar.add(helpMenu);</span>
+
+<span class="nc" id="L387">        helpMenu.setText(&quot;Help&quot;);</span>
+
+        Action action;
+        JMenuItem menuItem;
+
+<span class="nc" id="L392">        action = new AboutAction(this);</span>
+<span class="nc" id="L393">        menuItem = helpMenu.add(action);</span>
+<span class="nc" id="L394">        menuItem.setMnemonic('a');</span>
+<span class="nc" id="L395">    }</span>
+
+    private void buildUI() {
+<span class="nc" id="L398">        this.getContentPane().setLayout(new BorderLayout());</span>
+<span class="nc" id="L399">        this.getContentPane().add(buildControlPanel(), BorderLayout.NORTH);</span>
+<span class="nc" id="L400">        this.getContentPane().add(buildResultPanel(), BorderLayout.CENTER);</span>
+<span class="nc" id="L401">        this.getContentPane().add(buildStatusPanel(), BorderLayout.SOUTH);</span>
+<span class="nc" id="L402">    }</span>
+
+    private JComponent buildControlPanel() {
+<span class="nc" id="L405">        JPanel result = new JPanel();</span>
+
+<span class="nc" id="L407">        result.setLayout(new BorderLayout());</span>
+<span class="nc" id="L408">        result.add(toolbar, BorderLayout.NORTH);</span>
+<span class="nc" id="L409">        result.add(buildQueryPanel(), BorderLayout.CENTER);</span>
+        
+<span class="nc" id="L411">        return result;</span>
+    }
+    
+    JComponent buildQueryPanel() {
+<span class="nc bnc" id="L415" title="All 2 branches missed.">        if (isAdvancedMode()) {</span>
+<span class="nc" id="L416">            buildAdvancedQueryPanel();</span>
+        } else {
+<span class="nc" id="L418">            buildSimpleQueryPanel();</span>
+        }
+        
+<span class="nc" id="L421">        return queryPanel;</span>
+    }
+    
+    private void buildSimpleQueryPanel() {
+<span class="nc" id="L425">        queryPanel.removeAll();</span>
+<span class="nc" id="L426">        queryPanel.setLayout(new GridLayout(1, 2));</span>
+<span class="nc" id="L427">        queryPanel.add(buildSimpleScopePanel());</span>
+<span class="nc" id="L428">        queryPanel.add(buildSimpleFilterPanel());</span>
+<span class="nc" id="L429">        queryPanel.revalidate();</span>
+<span class="nc" id="L430">    }</span>
+    
+    private void buildAdvancedQueryPanel() {
+<span class="nc" id="L433">        queryPanel.removeAll();</span>
+<span class="nc" id="L434">        queryPanel.setLayout(new GridLayout(1, 2));</span>
+<span class="nc" id="L435">        queryPanel.add(buildAdvancedScopePanel());</span>
+<span class="nc" id="L436">        queryPanel.add(buildAdvancedFilterPanel());</span>
+<span class="nc" id="L437">        queryPanel.revalidate();</span>
+<span class="nc" id="L438">    }</span>
+
+    private JComponent buildSimpleScopePanel() {
+<span class="nc" id="L441">        JPanel result = new JPanel();</span>
+
+<span class="nc" id="L443">        result.setBorder(BorderFactory.createTitledBorder(&quot;Select programming elements&quot;));</span>
+
+<span class="nc" id="L445">        result.setLayout(new BorderLayout());</span>
+
+<span class="nc" id="L447">        result.add(buildSimpleScopePanelCheckboxes(), BorderLayout.NORTH);</span>
+<span class="nc" id="L448">        result.add(buildSimpleScopePanelTextFields(), BorderLayout.SOUTH);</span>
+
+<span class="nc" id="L450">        return result;</span>
+    }
+    
+    private JComponent buildSimpleScopePanelTextFields() {
+<span class="nc" id="L454">        JPanel result = new JPanel();</span>
+
+<span class="nc" id="L456">        GridBagLayout      gbl = new GridBagLayout();</span>
+<span class="nc" id="L457">        GridBagConstraints c   = new GridBagConstraints();</span>
+<span class="nc" id="L458">        c.insets = new Insets(0, 2, 0, 2);</span>
+        
+<span class="nc" id="L460">        result.setLayout(gbl);</span>
+
+<span class="nc" id="L462">        JLabel scopeIncludesLabel = new JLabel(&quot;including:&quot;);</span>
+<span class="nc" id="L463">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L464">        c.fill = GridBagConstraints.NONE;</span>
+<span class="nc" id="L465">        c.gridx = 0;</span>
+<span class="nc" id="L466">        c.gridy = 0;</span>
+<span class="nc" id="L467">        c.weightx = 0;</span>
+<span class="nc" id="L468">        c.weighty = 0;</span>
+<span class="nc" id="L469">        result.add(scopeIncludesLabel);</span>
+<span class="nc" id="L470">        gbl.setConstraints(scopeIncludesLabel, c);</span>
+
+<span class="nc" id="L472">        JLabel scopeExcludesLabel = new JLabel(&quot;excluding:&quot;);</span>
+<span class="nc" id="L473">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L474">        c.fill = GridBagConstraints.NONE;</span>
+<span class="nc" id="L475">        c.gridx = 1;</span>
+<span class="nc" id="L476">        c.gridy = 0;</span>
+<span class="nc" id="L477">        c.weightx = 0;</span>
+<span class="nc" id="L478">        c.weighty = 0;</span>
+<span class="nc" id="L479">        result.add(scopeExcludesLabel);</span>
+<span class="nc" id="L480">        gbl.setConstraints(scopeExcludesLabel, c);</span>
+
+        // -scope-includes
+<span class="nc" id="L483">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L484">        c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="nc" id="L485">        c.gridx = 0;</span>
+<span class="nc" id="L486">        c.gridy = 1;</span>
+<span class="nc" id="L487">        c.weightx = 1;</span>
+<span class="nc" id="L488">        c.weighty = 0;</span>
+<span class="nc" id="L489">        result.add(scopeIncludes);</span>
+<span class="nc" id="L490">        gbl.setConstraints(scopeIncludes, c);</span>
+        
+        // -scope-excludes
+<span class="nc" id="L493">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L494">        c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="nc" id="L495">        c.gridx = 1;</span>
+<span class="nc" id="L496">        c.gridy = 1;</span>
+<span class="nc" id="L497">        c.weightx = 1;</span>
+<span class="nc" id="L498">        c.weighty = 0;</span>
+<span class="nc" id="L499">        result.add(scopeExcludes);</span>
+<span class="nc" id="L500">        gbl.setConstraints(scopeExcludes, c);</span>
+
+<span class="nc" id="L502">        return result;</span>
+    }
+
+    private JComponent buildSimpleScopePanelCheckboxes() {
+<span class="nc" id="L506">        JPanel result = new JPanel();</span>
+
+<span class="nc" id="L508">        GridBagLayout      gbl = new GridBagLayout();</span>
+<span class="nc" id="L509">        GridBagConstraints c   = new GridBagConstraints();</span>
+<span class="nc" id="L510">        c.insets = new Insets(0, 2, 0, 2);</span>
+        
+<span class="nc" id="L512">        result.setLayout(gbl);</span>
+
+        // -package-scope
+<span class="nc" id="L515">        c.anchor = GridBagConstraints.EAST;</span>
+<span class="nc" id="L516">        c.fill = GridBagConstraints.NONE;</span>
+<span class="nc" id="L517">        c.gridx = 0;</span>
+<span class="nc" id="L518">        c.gridy = 0;</span>
+<span class="nc" id="L519">        c.weightx = 1;</span>
+<span class="nc" id="L520">        c.weighty = 0;</span>
+<span class="nc" id="L521">        result.add(packageScope);</span>
+<span class="nc" id="L522">        gbl.setConstraints(packageScope, c);</span>
+
+        // -class-scope
+<span class="nc" id="L525">        c.anchor = GridBagConstraints.CENTER;</span>
+<span class="nc" id="L526">        c.fill = GridBagConstraints.NONE;</span>
+<span class="nc" id="L527">        c.gridx = 1;</span>
+<span class="nc" id="L528">        c.gridy = 0;</span>
+<span class="nc" id="L529">        c.weightx = 0;</span>
+<span class="nc" id="L530">        c.weighty = 0;</span>
+<span class="nc" id="L531">        result.add(classScope);</span>
+<span class="nc" id="L532">        gbl.setConstraints(classScope, c);</span>
+
+        // -feature-scope
+<span class="nc" id="L535">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L536">        c.fill = GridBagConstraints.NONE;</span>
+<span class="nc" id="L537">        c.gridx = 2;</span>
+<span class="nc" id="L538">        c.gridy = 0;</span>
+<span class="nc" id="L539">        c.weightx = 1;</span>
+<span class="nc" id="L540">        c.weighty = 0;</span>
+<span class="nc" id="L541">        result.add(featureScope);</span>
+<span class="nc" id="L542">        gbl.setConstraints(featureScope, c);</span>
+
+<span class="nc" id="L544">        return result;</span>
+    }
+    
+    private JComponent buildSimpleFilterPanel() {
+<span class="nc" id="L548">        JPanel result = new JPanel();</span>
+
+<span class="nc" id="L550">        result.setBorder(BorderFactory.createTitledBorder(&quot;Show dependencies (stop for closure)&quot;));</span>
+
+<span class="nc" id="L552">        result.setLayout(new BorderLayout());</span>
+
+<span class="nc" id="L554">        result.add(buildSimpleFilterPanelCheckboxes(), BorderLayout.NORTH);</span>
+<span class="nc" id="L555">        result.add(buildSimpleFilterPanelTextFields(), BorderLayout.SOUTH);</span>
+
+<span class="nc" id="L557">        return result;</span>
+    }
+    
+    private JComponent buildSimpleFilterPanelTextFields() {
+<span class="nc" id="L561">        JPanel result = new JPanel();</span>
+
+<span class="nc" id="L563">        GridBagLayout      gbl = new GridBagLayout();</span>
+<span class="nc" id="L564">        GridBagConstraints c   = new GridBagConstraints();</span>
+<span class="nc" id="L565">        c.insets = new Insets(0, 2, 0, 2);</span>
+        
+<span class="nc" id="L567">        result.setLayout(gbl);</span>
+
+<span class="nc" id="L569">        JLabel filterIncludesLabel = new JLabel(&quot;including:&quot;);</span>
+<span class="nc" id="L570">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L571">        c.fill = GridBagConstraints.NONE;</span>
+<span class="nc" id="L572">        c.gridx = 0;</span>
+<span class="nc" id="L573">        c.gridy = 0;</span>
+<span class="nc" id="L574">        c.weightx = 0;</span>
+<span class="nc" id="L575">        c.weighty = 0;</span>
+<span class="nc" id="L576">        result.add(filterIncludesLabel);</span>
+<span class="nc" id="L577">        gbl.setConstraints(filterIncludesLabel, c);</span>
+
+<span class="nc" id="L579">        JLabel filterExcludesLabel = new JLabel(&quot;excluding:&quot;);</span>
+<span class="nc" id="L580">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L581">        c.fill = GridBagConstraints.NONE;</span>
+<span class="nc" id="L582">        c.gridx = 1;</span>
+<span class="nc" id="L583">        c.gridy = 0;</span>
+<span class="nc" id="L584">        c.weightx = 0;</span>
+<span class="nc" id="L585">        c.weighty = 0;</span>
+<span class="nc" id="L586">        result.add(filterExcludesLabel);</span>
+<span class="nc" id="L587">        gbl.setConstraints(filterExcludesLabel, c);</span>
+
+        // -filter-includes
+<span class="nc" id="L590">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L591">        c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="nc" id="L592">        c.gridx = 0;</span>
+<span class="nc" id="L593">        c.gridy = 1;</span>
+<span class="nc" id="L594">        c.weightx = 1;</span>
+<span class="nc" id="L595">        c.weighty = 0;</span>
+<span class="nc" id="L596">        result.add(filterIncludes);</span>
+<span class="nc" id="L597">        gbl.setConstraints(filterIncludes, c);</span>
+
+        // -filter-excludes
+<span class="nc" id="L600">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L601">        c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="nc" id="L602">        c.gridx = 1;</span>
+<span class="nc" id="L603">        c.gridy = 1;</span>
+<span class="nc" id="L604">        c.weightx = 1;</span>
+<span class="nc" id="L605">        c.weighty = 0;</span>
+<span class="nc" id="L606">        result.add(filterExcludes);</span>
+<span class="nc" id="L607">        gbl.setConstraints(filterExcludes, c);</span>
+
+<span class="nc" id="L609">        return result;</span>
+    }
+    
+    private JComponent buildSimpleFilterPanelCheckboxes() {
+<span class="nc" id="L613">        JPanel result = new JPanel();</span>
+
+<span class="nc" id="L615">        GridBagLayout      gbl = new GridBagLayout();</span>
+<span class="nc" id="L616">        GridBagConstraints c   = new GridBagConstraints();</span>
+<span class="nc" id="L617">        c.insets = new Insets(0, 2, 0, 2);</span>
+        
+<span class="nc" id="L619">        result.setLayout(gbl);</span>
+
+        // -package-filter
+<span class="nc" id="L622">        c.anchor = GridBagConstraints.EAST;</span>
+<span class="nc" id="L623">        c.fill = GridBagConstraints.NONE;</span>
+<span class="nc" id="L624">        c.gridx = 0;</span>
+<span class="nc" id="L625">        c.gridy = 0;</span>
+<span class="nc" id="L626">        c.weightx = 1;</span>
+<span class="nc" id="L627">        c.weighty = 0;</span>
+<span class="nc" id="L628">        result.add(packageFilter);</span>
+<span class="nc" id="L629">        gbl.setConstraints(packageFilter, c);</span>
+
+        // -class-filter
+<span class="nc" id="L632">        c.anchor = GridBagConstraints.CENTER;</span>
+<span class="nc" id="L633">        c.fill = GridBagConstraints.NONE;</span>
+<span class="nc" id="L634">        c.gridx = 1;</span>
+<span class="nc" id="L635">        c.gridy = 0;</span>
+<span class="nc" id="L636">        c.weightx = 0;</span>
+<span class="nc" id="L637">        c.weighty = 0;</span>
+<span class="nc" id="L638">        result.add(classFilter);</span>
+<span class="nc" id="L639">        gbl.setConstraints(classFilter, c);</span>
+
+        // -feature-filter
+<span class="nc" id="L642">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L643">        c.fill = GridBagConstraints.NONE;</span>
+<span class="nc" id="L644">        c.gridx = 2;</span>
+<span class="nc" id="L645">        c.gridy = 0;</span>
+<span class="nc" id="L646">        c.weightx = 1;</span>
+<span class="nc" id="L647">        c.weighty = 0;</span>
+<span class="nc" id="L648">        result.add(featureFilter);</span>
+<span class="nc" id="L649">        gbl.setConstraints(featureFilter, c);</span>
+
+<span class="nc" id="L651">        return result;</span>
+    }
+
+    private JComponent buildAdvancedScopePanel() {
+<span class="nc" id="L655">        JPanel result = new JPanel();</span>
+
+<span class="nc" id="L657">        result.setBorder(BorderFactory.createTitledBorder(&quot;Select programming elements&quot;));</span>
+
+<span class="nc" id="L659">        GridBagLayout      gbl = new GridBagLayout();</span>
+<span class="nc" id="L660">        GridBagConstraints c   = new GridBagConstraints();</span>
+<span class="nc" id="L661">        c.insets = new Insets(2, 0, 2, 5);</span>
+        
+<span class="nc" id="L663">        result.setLayout(gbl);</span>
+
+        // -package-scope
+<span class="nc" id="L666">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L667">        c.fill = GridBagConstraints.NONE;</span>
+<span class="nc" id="L668">        c.gridx = 0;</span>
+<span class="nc" id="L669">        c.gridy = 2;</span>
+<span class="nc" id="L670">        c.weightx = 0;</span>
+<span class="nc" id="L671">        c.weighty = 0;</span>
+<span class="nc" id="L672">        result.add(packageScope);</span>
+<span class="nc" id="L673">        gbl.setConstraints(packageScope, c);</span>
+
+        // -class-scope
+<span class="nc" id="L676">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L677">        c.fill = GridBagConstraints.NONE;</span>
+<span class="nc" id="L678">        c.gridx = 0;</span>
+<span class="nc" id="L679">        c.gridy = 3;</span>
+<span class="nc" id="L680">        c.weightx = 0;</span>
+<span class="nc" id="L681">        c.weighty = 0;</span>
+<span class="nc" id="L682">        result.add(classScope);</span>
+<span class="nc" id="L683">        gbl.setConstraints(classScope, c);</span>
+
+        // -feature-scope
+<span class="nc" id="L686">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L687">        c.fill = GridBagConstraints.NONE;</span>
+<span class="nc" id="L688">        c.gridx = 0;</span>
+<span class="nc" id="L689">        c.gridy = 4;</span>
+<span class="nc" id="L690">        c.weightx = 0;</span>
+<span class="nc" id="L691">        c.weighty = 0;</span>
+<span class="nc" id="L692">        result.add(featureScope);</span>
+<span class="nc" id="L693">        gbl.setConstraints(featureScope, c);</span>
+
+<span class="nc" id="L695">        JLabel scopeIncludesLabel = new JLabel(&quot;including:&quot;);</span>
+<span class="nc" id="L696">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L697">        c.fill = GridBagConstraints.NONE;</span>
+<span class="nc" id="L698">        c.gridx = 1;</span>
+<span class="nc" id="L699">        c.gridy = 0;</span>
+<span class="nc" id="L700">        c.weightx = 0;</span>
+<span class="nc" id="L701">        c.weighty = 0;</span>
+<span class="nc" id="L702">        result.add(scopeIncludesLabel);</span>
+<span class="nc" id="L703">        gbl.setConstraints(scopeIncludesLabel, c);</span>
+
+        // -scope-includes
+<span class="nc" id="L706">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L707">        c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="nc" id="L708">        c.gridx = 1;</span>
+<span class="nc" id="L709">        c.gridy = 1;</span>
+<span class="nc" id="L710">        c.weightx = 1;</span>
+<span class="nc" id="L711">        c.weighty = 0;</span>
+<span class="nc" id="L712">        result.add(scopeIncludes);</span>
+<span class="nc" id="L713">        gbl.setConstraints(scopeIncludes, c);</span>
+
+        // -package-scope-includes
+<span class="nc" id="L716">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L717">        c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="nc" id="L718">        c.gridx = 1;</span>
+<span class="nc" id="L719">        c.gridy = 2;</span>
+<span class="nc" id="L720">        c.weightx = 1;</span>
+<span class="nc" id="L721">        c.weighty = 0;</span>
+<span class="nc" id="L722">        result.add(packageScopeIncludes);</span>
+<span class="nc" id="L723">        gbl.setConstraints(packageScopeIncludes, c);</span>
+
+        // -class-scope-includes
+<span class="nc" id="L726">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L727">        c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="nc" id="L728">        c.gridx = 1;</span>
+<span class="nc" id="L729">        c.gridy = 3;</span>
+<span class="nc" id="L730">        c.weightx = 1;</span>
+<span class="nc" id="L731">        c.weighty = 0;</span>
+<span class="nc" id="L732">        result.add(classScopeIncludes);</span>
+<span class="nc" id="L733">        gbl.setConstraints(classScopeIncludes, c);</span>
+
+        // -feature-scope-includes
+<span class="nc" id="L736">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L737">        c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="nc" id="L738">        c.gridx = 1;</span>
+<span class="nc" id="L739">        c.gridy = 4;</span>
+<span class="nc" id="L740">        c.weightx = 1;</span>
+<span class="nc" id="L741">        c.weighty = 0;</span>
+<span class="nc" id="L742">        result.add(featureScopeIncludes);</span>
+<span class="nc" id="L743">        gbl.setConstraints(featureScopeIncludes, c);</span>
+
+<span class="nc" id="L745">        JLabel scopeExcludesLabel = new JLabel(&quot;excluding:&quot;);</span>
+<span class="nc" id="L746">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L747">        c.fill = GridBagConstraints.NONE;</span>
+<span class="nc" id="L748">        c.gridx = 2;</span>
+<span class="nc" id="L749">        c.gridy = 0;</span>
+<span class="nc" id="L750">        c.weightx = 0;</span>
+<span class="nc" id="L751">        c.weighty = 0;</span>
+<span class="nc" id="L752">        result.add(scopeExcludesLabel);</span>
+<span class="nc" id="L753">        gbl.setConstraints(scopeExcludesLabel, c);</span>
+
+        // -scope-excludes
+<span class="nc" id="L756">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L757">        c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="nc" id="L758">        c.gridx = 2;</span>
+<span class="nc" id="L759">        c.gridy = 1;</span>
+<span class="nc" id="L760">        c.weightx = 1;</span>
+<span class="nc" id="L761">        c.weighty = 0;</span>
+<span class="nc" id="L762">        result.add(scopeExcludes);</span>
+<span class="nc" id="L763">        gbl.setConstraints(scopeExcludes, c);</span>
+
+        // -package-scope-excludes
+<span class="nc" id="L766">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L767">        c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="nc" id="L768">        c.gridx = 2;</span>
+<span class="nc" id="L769">        c.gridy = 2;</span>
+<span class="nc" id="L770">        c.weightx = 1;</span>
+<span class="nc" id="L771">        c.weighty = 0;</span>
+<span class="nc" id="L772">        result.add(packageScopeExcludes);</span>
+<span class="nc" id="L773">        gbl.setConstraints(packageScopeExcludes, c);</span>
+
+        // -class-scope-excludes
+<span class="nc" id="L776">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L777">        c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="nc" id="L778">        c.gridx = 2;</span>
+<span class="nc" id="L779">        c.gridy = 3;</span>
+<span class="nc" id="L780">        c.weightx = 1;</span>
+<span class="nc" id="L781">        c.weighty = 0;</span>
+<span class="nc" id="L782">        result.add(classScopeExcludes);</span>
+<span class="nc" id="L783">        gbl.setConstraints(classScopeExcludes, c);</span>
+
+        // -feature-scope-excludes
+<span class="nc" id="L786">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L787">        c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="nc" id="L788">        c.gridx = 2;</span>
+<span class="nc" id="L789">        c.gridy = 4;</span>
+<span class="nc" id="L790">        c.weightx = 1;</span>
+<span class="nc" id="L791">        c.weighty = 0;</span>
+<span class="nc" id="L792">        result.add(featureScopeExcludes);</span>
+<span class="nc" id="L793">        gbl.setConstraints(featureScopeExcludes, c);</span>
+
+<span class="nc" id="L795">        return result;</span>
+    }
+    
+    private JComponent buildAdvancedFilterPanel() {
+<span class="nc" id="L799">        JPanel result = new JPanel();</span>
+
+<span class="nc" id="L801">        result.setBorder(BorderFactory.createTitledBorder(&quot;Show dependencies (stop for closure)&quot;));</span>
+
+<span class="nc" id="L803">        GridBagLayout      gbl = new GridBagLayout();</span>
+<span class="nc" id="L804">        GridBagConstraints c   = new GridBagConstraints();</span>
+<span class="nc" id="L805">        c.insets = new Insets(2, 0, 2, 5);</span>
+        
+<span class="nc" id="L807">        result.setLayout(gbl);</span>
+
+        // -package-filter
+<span class="nc" id="L810">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L811">        c.fill = GridBagConstraints.NONE;</span>
+<span class="nc" id="L812">        c.gridx = 0;</span>
+<span class="nc" id="L813">        c.gridy = 2;</span>
+<span class="nc" id="L814">        c.weightx = 0;</span>
+<span class="nc" id="L815">        c.weighty = 0;</span>
+<span class="nc" id="L816">        result.add(packageFilter);</span>
+<span class="nc" id="L817">        gbl.setConstraints(packageFilter, c);</span>
+
+        // -class-filter
+<span class="nc" id="L820">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L821">        c.fill = GridBagConstraints.NONE;</span>
+<span class="nc" id="L822">        c.gridx = 0;</span>
+<span class="nc" id="L823">        c.gridy = 3;</span>
+<span class="nc" id="L824">        c.weightx = 0;</span>
+<span class="nc" id="L825">        c.weighty = 0;</span>
+<span class="nc" id="L826">        result.add(classFilter);</span>
+<span class="nc" id="L827">        gbl.setConstraints(classFilter, c);</span>
+
+        // -feature-filter
+<span class="nc" id="L830">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L831">        c.fill = GridBagConstraints.NONE;</span>
+<span class="nc" id="L832">        c.gridx = 0;</span>
+<span class="nc" id="L833">        c.gridy = 4;</span>
+<span class="nc" id="L834">        c.weightx = 0;</span>
+<span class="nc" id="L835">        c.weighty = 0;</span>
+<span class="nc" id="L836">        result.add(featureFilter);</span>
+<span class="nc" id="L837">        gbl.setConstraints(featureFilter, c);</span>
+
+<span class="nc" id="L839">        JLabel filterIncludesLabel = new JLabel(&quot;including:&quot;);</span>
+<span class="nc" id="L840">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L841">        c.fill = GridBagConstraints.NONE;</span>
+<span class="nc" id="L842">        c.gridx = 1;</span>
+<span class="nc" id="L843">        c.gridy = 0;</span>
+<span class="nc" id="L844">        c.weightx = 0;</span>
+<span class="nc" id="L845">        c.weighty = 0;</span>
+<span class="nc" id="L846">        result.add(filterIncludesLabel);</span>
+<span class="nc" id="L847">        gbl.setConstraints(filterIncludesLabel, c);</span>
+
+        // -filter-includes
+<span class="nc" id="L850">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L851">        c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="nc" id="L852">        c.gridx = 1;</span>
+<span class="nc" id="L853">        c.gridy = 1;</span>
+<span class="nc" id="L854">        c.weightx = 1;</span>
+<span class="nc" id="L855">        c.weighty = 0;</span>
+<span class="nc" id="L856">        result.add(filterIncludes);</span>
+<span class="nc" id="L857">        gbl.setConstraints(filterIncludes, c);</span>
+
+        // -package-filter-includes
+<span class="nc" id="L860">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L861">        c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="nc" id="L862">        c.gridx = 1;</span>
+<span class="nc" id="L863">        c.gridy = 2;</span>
+<span class="nc" id="L864">        c.weightx = 1;</span>
+<span class="nc" id="L865">        c.weighty = 0;</span>
+<span class="nc" id="L866">        result.add(packageFilterIncludes);</span>
+<span class="nc" id="L867">        gbl.setConstraints(packageFilterIncludes, c);</span>
+
+        // -class-filter-includes
+<span class="nc" id="L870">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L871">        c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="nc" id="L872">        c.gridx = 1;</span>
+<span class="nc" id="L873">        c.gridy = 3;</span>
+<span class="nc" id="L874">        c.weightx = 1;</span>
+<span class="nc" id="L875">        c.weighty = 0;</span>
+<span class="nc" id="L876">        result.add(classFilterIncludes);</span>
+<span class="nc" id="L877">        gbl.setConstraints(classFilterIncludes, c);</span>
+
+        // -feature-filter-includes
+<span class="nc" id="L880">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L881">        c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="nc" id="L882">        c.gridx = 1;</span>
+<span class="nc" id="L883">        c.gridy = 4;</span>
+<span class="nc" id="L884">        c.weightx = 1;</span>
+<span class="nc" id="L885">        c.weighty = 0;</span>
+<span class="nc" id="L886">        result.add(featureFilterIncludes);</span>
+<span class="nc" id="L887">        gbl.setConstraints(featureFilterIncludes, c);</span>
+
+<span class="nc" id="L889">        JLabel filterExcludesLabel = new JLabel(&quot;excluding:&quot;);</span>
+<span class="nc" id="L890">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L891">        c.fill = GridBagConstraints.NONE;</span>
+<span class="nc" id="L892">        c.gridx = 2;</span>
+<span class="nc" id="L893">        c.gridy = 0;</span>
+<span class="nc" id="L894">        c.weightx = 0;</span>
+<span class="nc" id="L895">        c.weighty = 0;</span>
+<span class="nc" id="L896">        result.add(filterExcludesLabel);</span>
+<span class="nc" id="L897">        gbl.setConstraints(filterExcludesLabel, c);</span>
+
+        // -filter-excludes
+<span class="nc" id="L900">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L901">        c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="nc" id="L902">        c.gridx = 2;</span>
+<span class="nc" id="L903">        c.gridy = 1;</span>
+<span class="nc" id="L904">        c.weightx = 1;</span>
+<span class="nc" id="L905">        c.weighty = 0;</span>
+<span class="nc" id="L906">        result.add(filterExcludes);</span>
+<span class="nc" id="L907">        gbl.setConstraints(filterExcludes, c);</span>
+
+        // -package-filter-excludes
+<span class="nc" id="L910">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L911">        c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="nc" id="L912">        c.gridx = 2;</span>
+<span class="nc" id="L913">        c.gridy = 2;</span>
+<span class="nc" id="L914">        c.weightx = 1;</span>
+<span class="nc" id="L915">        c.weighty = 0;</span>
+<span class="nc" id="L916">        result.add(packageFilterExcludes);</span>
+<span class="nc" id="L917">        gbl.setConstraints(packageFilterExcludes, c);</span>
+
+        // -class-filter-excludes
+<span class="nc" id="L920">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L921">        c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="nc" id="L922">        c.gridx = 2;</span>
+<span class="nc" id="L923">        c.gridy = 3;</span>
+<span class="nc" id="L924">        c.weightx = 1;</span>
+<span class="nc" id="L925">        c.weighty = 0;</span>
+<span class="nc" id="L926">        result.add(classFilterExcludes);</span>
+<span class="nc" id="L927">        gbl.setConstraints(classFilterExcludes, c);</span>
+
+        // -feature-filter-excludes
+<span class="nc" id="L930">        c.anchor = GridBagConstraints.WEST;</span>
+<span class="nc" id="L931">        c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="nc" id="L932">        c.gridx = 2;</span>
+<span class="nc" id="L933">        c.gridy = 4;</span>
+<span class="nc" id="L934">        c.weightx = 1;</span>
+<span class="nc" id="L935">        c.weighty = 0;</span>
+<span class="nc" id="L936">        result.add(featureFilterExcludes);</span>
+<span class="nc" id="L937">        gbl.setConstraints(featureFilterExcludes, c);</span>
+
+<span class="nc" id="L939">        return result;</span>
+    }
+    
+    private JComponent buildResultPanel() {
+<span class="nc" id="L943">        JTabbedPane result = new JTabbedPane();</span>
+
+<span class="nc" id="L945">        result.setBorder(BorderFactory.createTitledBorder(&quot;Results&quot;));</span>
+<span class="nc" id="L946">        result.addTab(&quot;Dependencies&quot;, buildDependenciesPanel());</span>
+<span class="nc" id="L947">        result.addTab(&quot;Closure&quot;,      buildClosurePanel());</span>
+<span class="nc" id="L948">        result.addTab(&quot;Metrics&quot;,      buildMetricsPanel());</span>
+        
+<span class="nc" id="L950">        return result;</span>
+    }
+
+    private JComponent buildDependenciesPanel() {
+<span class="nc" id="L954">        JPanel result = new JPanel();</span>
+
+<span class="nc" id="L956">        result.setLayout(new BorderLayout());</span>
+<span class="nc" id="L957">        result.add(buildPrinterControlPanel(),     BorderLayout.NORTH);</span>
+<span class="nc" id="L958">        result.add(buildDependenciesResultPanel(), BorderLayout.CENTER);</span>
+        
+<span class="nc" id="L960">        return result;</span>
+    }
+    
+    private JComponent buildPrinterControlPanel() {
+<span class="nc" id="L964">        JPanel result = new JPanel();</span>
+
+<span class="nc" id="L966">        result.add(new JLabel(&quot;Show &quot;));</span>
+<span class="nc" id="L967">        result.add(showInbounds);</span>
+<span class="nc" id="L968">        result.add(showOutbounds);</span>
+<span class="nc" id="L969">        result.add(showEmptyNodes);</span>
+<span class="nc" id="L970">        result.add(copyOnly);</span>
+
+<span class="nc" id="L972">        PrinterControlAction action = new PrinterControlAction(this);</span>
+<span class="nc" id="L973">        showInbounds.addActionListener(action);</span>
+<span class="nc" id="L974">        showOutbounds.addActionListener(action);</span>
+<span class="nc" id="L975">        showEmptyNodes.addActionListener(action);</span>
+
+<span class="nc" id="L977">        return result;</span>
+    }
+    
+    private JComponent buildDependenciesResultPanel() {
+<span class="nc" id="L981">        JComponent result = new JScrollPane(dependenciesResultArea);</span>
+        
+<span class="nc" id="L983">        dependenciesResultArea.setEditable(false);</span>
+<span class="nc" id="L984">        dependenciesResultArea.setFont(getCodeFont(Font.PLAIN, 12));</span>
+        
+<span class="nc" id="L986">        return result;</span>
+    }
+    
+    private JComponent buildClosurePanel() {
+<span class="nc" id="L990">        JPanel result = new JPanel();</span>
+        
+<span class="nc" id="L992">        result.setLayout(new BorderLayout());</span>
+<span class="nc" id="L993">        result.add(buildClosureControlPanel(), BorderLayout.NORTH);</span>
+<span class="nc" id="L994">        result.add(buildClosureResultPanel(),  BorderLayout.CENTER);</span>
+        
+<span class="nc" id="L996">        return result;</span>
+    }
+    
+    private JComponent buildClosureControlPanel() {
+<span class="nc" id="L1000">        JPanel result = new JPanel();</span>
+        
+<span class="nc" id="L1002">        result.add(new JLabel(&quot;Follow inbounds: &quot;));</span>
+<span class="nc" id="L1003">        result.add(maximumInboundDepth);</span>
+<span class="nc" id="L1004">        result.add(new JLabel(&quot;Follow outbounds: &quot;));</span>
+<span class="nc" id="L1005">        result.add(maximumOutboundDepth);</span>
+        
+<span class="nc" id="L1007">        return result;</span>
+    }
+
+    private JComponent buildClosureResultPanel() {
+<span class="nc" id="L1011">        JComponent result = new JScrollPane(closureResultArea);</span>
+        
+<span class="nc" id="L1013">        closureResultArea.setEditable(false);</span>
+<span class="nc" id="L1014">        closureResultArea.setFont(getCodeFont(Font.PLAIN, 12));</span>
+        
+<span class="nc" id="L1016">        return result;</span>
+    }
+    
+    private JComponent buildMetricsPanel() {
+<span class="nc" id="L1020">        return new JSplitPane(JSplitPane.VERTICAL_SPLIT, buildMetricsResultPanel(), buildMetricsChartPanel());</span>
+    }
+
+    private JComponent buildMetricsResultPanel() {
+<span class="nc" id="L1024">        JComponent result = new JScrollPane(metricsResultArea);</span>
+
+<span class="nc" id="L1026">        metricsResultArea.setEditable(false);</span>
+        
+<span class="nc" id="L1028">        return result;</span>
+    }
+
+    private JComponent buildMetricsChartPanel() {
+        JComponent result;
+
+<span class="nc" id="L1034">        JTable table = new JTable(metricsChartModel);</span>
+
+<span class="nc" id="L1036">        table.setCellSelectionEnabled(true);</span>
+<span class="nc" id="L1037">        table.setColumnSelectionAllowed(true);</span>
+        
+<span class="nc" id="L1039">        result = new JScrollPane(table);</span>
+
+<span class="nc" id="L1041">        return result;</span>
+    }
+    
+    private JComponent buildStatusPanel() {
+<span class="nc" id="L1045">        JPanel result = new JPanel();</span>
+
+<span class="nc" id="L1047">        Dimension size = getProgressBar().getPreferredSize();</span>
+<span class="nc" id="L1048">        size.width = 100;</span>
+<span class="nc" id="L1049">        getProgressBar().setPreferredSize(size);</span>
+<span class="nc" id="L1050">        getProgressBar().setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));</span>
+        
+<span class="nc" id="L1052">        result.setLayout(new BorderLayout());</span>
+<span class="nc" id="L1053">        result.add(getStatusLine(),  BorderLayout.CENTER);</span>
+<span class="nc" id="L1054">        result.add(getProgressBar(), BorderLayout.EAST);</span>
+        
+<span class="nc" id="L1056">        return result;</span>
+    }
+    
+    public void resetQuery() {
+<span class="nc" id="L1060">        packageScope.setSelected(true);</span>
+<span class="nc" id="L1061">        classScope.setSelected(false);</span>
+<span class="nc" id="L1062">        featureScope.setSelected(false);</span>
+<span class="nc" id="L1063">        scopeIncludes.setText(&quot;//&quot;);</span>
+<span class="nc" id="L1064">        packageScopeIncludes.setText(&quot;&quot;);</span>
+<span class="nc" id="L1065">        classScopeIncludes.setText(&quot;&quot;);</span>
+<span class="nc" id="L1066">        featureScopeIncludes.setText(&quot;&quot;);</span>
+<span class="nc" id="L1067">        scopeExcludes.setText(&quot;&quot;);</span>
+<span class="nc" id="L1068">        packageScopeExcludes.setText(&quot;&quot;);</span>
+<span class="nc" id="L1069">        classScopeExcludes.setText(&quot;&quot;);</span>
+<span class="nc" id="L1070">        featureScopeExcludes.setText(&quot;&quot;);</span>
+    
+<span class="nc" id="L1072">        packageFilter.setSelected(true);</span>
+<span class="nc" id="L1073">        classFilter.setSelected(false);</span>
+<span class="nc" id="L1074">        featureFilter.setSelected(false);</span>
+<span class="nc" id="L1075">        filterIncludes.setText(&quot;//&quot;);</span>
+<span class="nc" id="L1076">        packageFilterIncludes.setText(&quot;&quot;);</span>
+<span class="nc" id="L1077">        classFilterIncludes.setText(&quot;&quot;);</span>
+<span class="nc" id="L1078">        featureFilterIncludes.setText(&quot;&quot;);</span>
+<span class="nc" id="L1079">        filterExcludes.setText(&quot;&quot;);</span>
+<span class="nc" id="L1080">        packageFilterExcludes.setText(&quot;&quot;);</span>
+<span class="nc" id="L1081">        classFilterExcludes.setText(&quot;&quot;);</span>
+<span class="nc" id="L1082">        featureFilterExcludes.setText(&quot;&quot;);</span>
+
+<span class="nc" id="L1084">        showInbounds.setSelected(true);</span>
+<span class="nc" id="L1085">        showOutbounds.setSelected(true);</span>
+<span class="nc" id="L1086">        showEmptyNodes.setSelected(true);</span>
+<span class="nc" id="L1087">        copyOnly.setSelected(false);</span>
+<span class="nc" id="L1088">    }</span>
+    
+    void clearDependencyResult() {
+<span class="nc" id="L1091">        dependenciesQuery = null;</span>
+<span class="nc" id="L1092">        dependenciesResultArea.setText(&quot;&quot;);</span>
+<span class="nc" id="L1093">    }</span>
+    
+    void doDependencyQuery() {
+<span class="nc" id="L1096">        var scopeCriteria = new RegularExpressionSelectionCriteria();</span>
+        
+<span class="nc" id="L1098">        scopeCriteria.setMatchingPackages(packageScope.isSelected());</span>
+<span class="nc" id="L1099">        scopeCriteria.setMatchingClasses(classScope.isSelected());</span>
+<span class="nc" id="L1100">        scopeCriteria.setMatchingFeatures(featureScope.isSelected());</span>
+<span class="nc" id="L1101">        scopeCriteria.setGlobalIncludes(scopeIncludes.getText());</span>
+<span class="nc" id="L1102">        scopeCriteria.setGlobalExcludes(scopeExcludes.getText());</span>
+
+<span class="nc bnc" id="L1104" title="All 2 branches missed.">        if (isAdvancedMode()) {</span>
+<span class="nc" id="L1105">            scopeCriteria.setPackageIncludes(packageScopeIncludes.getText());</span>
+<span class="nc" id="L1106">            scopeCriteria.setClassIncludes(classScopeIncludes.getText());</span>
+<span class="nc" id="L1107">            scopeCriteria.setFeatureIncludes(featureScopeIncludes.getText());</span>
+<span class="nc" id="L1108">            scopeCriteria.setPackageExcludes(packageScopeExcludes.getText());</span>
+<span class="nc" id="L1109">            scopeCriteria.setClassExcludes(classScopeExcludes.getText());</span>
+<span class="nc" id="L1110">            scopeCriteria.setFeatureExcludes(featureScopeExcludes.getText());</span>
+        }
+    
+<span class="nc" id="L1113">        var filterCriteria = new RegularExpressionSelectionCriteria();</span>
+        
+<span class="nc" id="L1115">        filterCriteria.setMatchingPackages(packageFilter.isSelected());</span>
+<span class="nc" id="L1116">        filterCriteria.setMatchingClasses(classFilter.isSelected());</span>
+<span class="nc" id="L1117">        filterCriteria.setMatchingFeatures(featureFilter.isSelected());</span>
+<span class="nc" id="L1118">        filterCriteria.setGlobalIncludes(filterIncludes.getText());</span>
+<span class="nc" id="L1119">        filterCriteria.setGlobalExcludes(filterExcludes.getText());</span>
+
+<span class="nc bnc" id="L1121" title="All 2 branches missed.">        if (isAdvancedMode()) {</span>
+<span class="nc" id="L1122">            filterCriteria.setPackageIncludes(packageFilterIncludes.getText());</span>
+<span class="nc" id="L1123">            filterCriteria.setClassIncludes(classFilterIncludes.getText());</span>
+<span class="nc" id="L1124">            filterCriteria.setFeatureIncludes(featureFilterIncludes.getText());</span>
+<span class="nc" id="L1125">            filterCriteria.setPackageExcludes(packageFilterExcludes.getText());</span>
+<span class="nc" id="L1126">            filterCriteria.setClassExcludes(classFilterExcludes.getText());</span>
+<span class="nc" id="L1127">            filterCriteria.setFeatureExcludes(featureFilterExcludes.getText());</span>
+        }
+
+<span class="nc bnc" id="L1130" title="All 6 branches missed.">        if ((isAdvancedMode() &amp;&amp; copyOnly.isSelected()) || getMaximize()) {</span>
+<span class="nc" id="L1131">            var strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);</span>
+<span class="nc" id="L1132">            dependenciesQuery = new GraphCopier(strategy);</span>
+<span class="nc" id="L1133">        } else {</span>
+<span class="nc" id="L1134">            dependenciesQuery = new GraphSummarizer(scopeCriteria, filterCriteria);</span>
+        }
+        
+<span class="nc" id="L1137">        dependenciesQuery.traverseNodes(getPackages());</span>
+
+<span class="nc" id="L1139">        refreshDependenciesDisplay();</span>
+<span class="nc" id="L1140">    }</span>
+
+    void refreshDependenciesDisplay() {
+<span class="nc bnc" id="L1143" title="All 2 branches missed.">        if (dependenciesQuery != null) {</span>
+<span class="nc" id="L1144">            var out = new StringWriter();</span>
+<span class="nc" id="L1145">            var printer = new com.jeantessier.dependency.TextPrinter(new PrintWriter(out));</span>
+
+<span class="nc" id="L1147">            printer.setShowInbounds(showInbounds.isSelected());</span>
+<span class="nc" id="L1148">            printer.setShowOutbounds(showOutbounds.isSelected());</span>
+<span class="nc" id="L1149">            printer.setShowEmptyNodes(showEmptyNodes.isSelected());</span>
+
+<span class="nc" id="L1151">            printer.traverseNodes(dependenciesQuery.getScopeFactory().getPackages().values());</span>
+
+<span class="nc" id="L1153">            dependenciesResultArea.setText(out.toString());</span>
+        }
+<span class="nc" id="L1155">    }</span>
+    
+    void clearClosureResult() {
+<span class="nc" id="L1158">        closureResultArea.setText(&quot;&quot;);</span>
+<span class="nc" id="L1159">    }</span>
+    
+    void doClosureQuery() {
+<span class="nc" id="L1162">        var startCriteria = new RegularExpressionSelectionCriteria();</span>
+        
+<span class="nc" id="L1164">        startCriteria.setGlobalIncludes(scopeIncludes.getText());</span>
+<span class="nc" id="L1165">        startCriteria.setGlobalExcludes(scopeExcludes.getText());</span>
+
+<span class="nc bnc" id="L1167" title="All 2 branches missed.">        if (isAdvancedMode()) {</span>
+<span class="nc" id="L1168">            startCriteria.setPackageIncludes(packageScopeIncludes.getText());</span>
+<span class="nc" id="L1169">            startCriteria.setClassIncludes(classScopeIncludes.getText());</span>
+<span class="nc" id="L1170">            startCriteria.setFeatureIncludes(featureScopeIncludes.getText());</span>
+<span class="nc" id="L1171">            startCriteria.setPackageExcludes(packageScopeExcludes.getText());</span>
+<span class="nc" id="L1172">            startCriteria.setClassExcludes(classScopeExcludes.getText());</span>
+<span class="nc" id="L1173">            startCriteria.setFeatureExcludes(featureScopeExcludes.getText());</span>
+        }
+    
+<span class="nc" id="L1176">        var stopCriteria = new RegularExpressionSelectionCriteria();</span>
+        
+<span class="nc" id="L1178">        stopCriteria.setGlobalIncludes(filterIncludes.getText());</span>
+<span class="nc" id="L1179">        stopCriteria.setGlobalExcludes(filterExcludes.getText());</span>
+
+<span class="nc bnc" id="L1181" title="All 2 branches missed.">        if (isAdvancedMode()) {</span>
+<span class="nc" id="L1182">            stopCriteria.setPackageIncludes(packageFilterIncludes.getText());</span>
+<span class="nc" id="L1183">            stopCriteria.setClassIncludes(classFilterIncludes.getText());</span>
+<span class="nc" id="L1184">            stopCriteria.setFeatureIncludes(featureFilterIncludes.getText());</span>
+<span class="nc" id="L1185">            stopCriteria.setPackageExcludes(packageFilterExcludes.getText());</span>
+<span class="nc" id="L1186">            stopCriteria.setClassExcludes(classFilterExcludes.getText());</span>
+<span class="nc" id="L1187">            stopCriteria.setFeatureExcludes(featureFilterExcludes.getText());</span>
+        }
+
+<span class="nc" id="L1190">        var selector = new TransitiveClosure(startCriteria, stopCriteria);</span>
+
+        try {
+<span class="nc" id="L1193">            selector.setMaximumInboundDepth(Long.parseLong(maximumInboundDepth.getText()));</span>
+<span class="nc" id="L1194">        } catch (NumberFormatException ex) {</span>
+<span class="nc" id="L1195">            selector.setMaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);</span>
+<span class="nc" id="L1196">        }</span>
+
+        try {
+<span class="nc" id="L1199">            selector.setMaximumOutboundDepth(Long.parseLong(maximumOutboundDepth.getText()));</span>
+<span class="nc" id="L1200">        } catch (NumberFormatException ex) {</span>
+<span class="nc" id="L1201">            selector.setMaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);</span>
+<span class="nc" id="L1202">        }</span>
+        
+<span class="nc" id="L1204">        selector.traverseNodes(getPackages());</span>
+
+<span class="nc" id="L1206">        var scopeCriteria = new RegularExpressionSelectionCriteria();</span>
+        
+<span class="nc" id="L1208">        scopeCriteria.setMatchingPackages(packageScope.isSelected());</span>
+<span class="nc" id="L1209">        scopeCriteria.setMatchingClasses(classScope.isSelected());</span>
+<span class="nc" id="L1210">        scopeCriteria.setMatchingFeatures(featureScope.isSelected());</span>
+<span class="nc" id="L1211">        scopeCriteria.setGlobalIncludes(&quot;//&quot;);</span>
+
+<span class="nc" id="L1213">        var filterCriteria = new RegularExpressionSelectionCriteria();</span>
+        
+<span class="nc" id="L1215">        filterCriteria.setMatchingPackages(packageFilter.isSelected());</span>
+<span class="nc" id="L1216">        filterCriteria.setMatchingClasses(classFilter.isSelected());</span>
+<span class="nc" id="L1217">        filterCriteria.setMatchingFeatures(featureFilter.isSelected());</span>
+<span class="nc" id="L1218">        filterCriteria.setGlobalIncludes(&quot;//&quot;);</span>
+
+<span class="nc" id="L1220">        var summarizer = new GraphSummarizer(scopeCriteria, filterCriteria);</span>
+<span class="nc" id="L1221">        summarizer.traverseNodes(selector.getFactory().getPackages().values());</span>
+        
+<span class="nc" id="L1223">        var out = new StringWriter();</span>
+<span class="nc" id="L1224">        var printer = new com.jeantessier.dependency.TextPrinter(new PrintWriter(out));</span>
+<span class="nc" id="L1225">        printer.traverseNodes(summarizer.getScopeFactory().getPackages().values());</span>
+<span class="nc" id="L1226">        closureResultArea.setText(out.toString());</span>
+<span class="nc" id="L1227">    }</span>
+    
+    void clearMetricsResult() {
+<span class="nc" id="L1230">        metricsResultArea.setText(&quot;&quot;);</span>
+<span class="nc" id="L1231">    }</span>
+    
+    void doMetricsQuery() {
+<span class="nc" id="L1234">        var scopeCriteria = new RegularExpressionSelectionCriteria();</span>
+        
+<span class="nc" id="L1236">        scopeCriteria.setMatchingPackages(packageScope.isSelected());</span>
+<span class="nc" id="L1237">        scopeCriteria.setMatchingClasses(classScope.isSelected());</span>
+<span class="nc" id="L1238">        scopeCriteria.setMatchingFeatures(featureScope.isSelected());</span>
+<span class="nc" id="L1239">        scopeCriteria.setGlobalIncludes(scopeIncludes.getText());</span>
+<span class="nc" id="L1240">        scopeCriteria.setGlobalExcludes(scopeExcludes.getText());</span>
+
+<span class="nc bnc" id="L1242" title="All 2 branches missed.">        if (isAdvancedMode()) {</span>
+<span class="nc" id="L1243">            scopeCriteria.setPackageIncludes(packageScopeIncludes.getText());</span>
+<span class="nc" id="L1244">            scopeCriteria.setClassIncludes(classScopeIncludes.getText());</span>
+<span class="nc" id="L1245">            scopeCriteria.setFeatureIncludes(featureScopeIncludes.getText());</span>
+<span class="nc" id="L1246">            scopeCriteria.setPackageExcludes(packageScopeExcludes.getText());</span>
+<span class="nc" id="L1247">            scopeCriteria.setClassExcludes(classScopeExcludes.getText());</span>
+<span class="nc" id="L1248">            scopeCriteria.setFeatureExcludes(featureScopeExcludes.getText());</span>
+        }
+    
+<span class="nc" id="L1251">        var filterCriteria = new RegularExpressionSelectionCriteria();</span>
+        
+<span class="nc" id="L1253">        filterCriteria.setMatchingPackages(packageFilter.isSelected());</span>
+<span class="nc" id="L1254">        filterCriteria.setMatchingClasses(classFilter.isSelected());</span>
+<span class="nc" id="L1255">        filterCriteria.setMatchingFeatures(featureFilter.isSelected());</span>
+<span class="nc" id="L1256">        filterCriteria.setGlobalIncludes(filterIncludes.getText());</span>
+<span class="nc" id="L1257">        filterCriteria.setGlobalExcludes(filterExcludes.getText());</span>
+
+<span class="nc bnc" id="L1259" title="All 2 branches missed.">        if (isAdvancedMode()) {</span>
+<span class="nc" id="L1260">            filterCriteria.setPackageIncludes(packageFilterIncludes.getText());</span>
+<span class="nc" id="L1261">            filterCriteria.setClassIncludes(classFilterIncludes.getText());</span>
+<span class="nc" id="L1262">            filterCriteria.setFeatureIncludes(featureFilterIncludes.getText());</span>
+<span class="nc" id="L1263">            filterCriteria.setPackageExcludes(packageFilterExcludes.getText());</span>
+<span class="nc" id="L1264">            filterCriteria.setClassExcludes(classFilterExcludes.getText());</span>
+<span class="nc" id="L1265">            filterCriteria.setFeatureExcludes(featureFilterExcludes.getText());</span>
+        }
+
+<span class="nc" id="L1268">        var strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);</span>
+<span class="nc" id="L1269">        var metrics  = new com.jeantessier.dependency.MetricsGatherer(strategy);</span>
+        
+<span class="nc" id="L1271">        metrics.traverseNodes(getPackages());</span>
+
+<span class="nc" id="L1273">        var out = new StringWriter();</span>
+<span class="nc" id="L1274">        var report = new MetricsReport(new PrintWriter(out));</span>
+<span class="nc" id="L1275">        report.process(metrics);</span>
+        
+<span class="nc" id="L1277">        metricsResultArea.setText(out.toString());</span>
+<span class="nc" id="L1278">        metricsChartModel.setMetrics(metrics);</span>
+<span class="nc" id="L1279">    }</span>
+
+    void setNewDependencyGraph() {
+<span class="nc" id="L1282">        setInputFiles(new LinkedList&lt;&gt;());</span>
+<span class="nc" id="L1283">        setClassfileLoaderDispatcher(new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER));</span>
+
+<span class="nc" id="L1285">        var factory = new NodeFactory();</span>
+<span class="nc" id="L1286">        setNodeFactory(factory);</span>
+
+<span class="nc" id="L1288">        var collector = new CodeDependencyCollector(factory);</span>
+<span class="nc" id="L1289">        var deletingVisitor = new DeletingVisitor(factory);</span>
+<span class="nc" id="L1290">        setMonitor(new Monitor(collector, deletingVisitor));</span>
+
+<span class="nc" id="L1292">        resetQuery();</span>
+<span class="nc" id="L1293">    }</span>
+
+    public static void showError(CommandLineUsage clu, String msg) {
+<span class="nc" id="L1296">        System.err.println(msg);</span>
+<span class="nc" id="L1297">        showError(clu);</span>
+<span class="nc" id="L1298">    }</span>
+
+    public static void showError(CommandLineUsage clu) {
+<span class="nc" id="L1301">        System.err.println(clu);</span>
+<span class="nc" id="L1302">    }</span>
+
+    public static void main(String[] args) {
+        // Parsing the command line
+<span class="nc" id="L1306">        CommandLine commandLine = new CommandLine(new NullParameterStrategy());</span>
+<span class="nc" id="L1307">        commandLine.addToggleSwitch(&quot;minimize&quot;);</span>
+<span class="nc" id="L1308">        commandLine.addToggleSwitch(&quot;maximize&quot;);</span>
+<span class="nc" id="L1309">        commandLine.addSingleValueSwitch(&quot;encoding&quot;, com.jeantessier.dependency.XMLPrinter.DEFAULT_ENCODING);</span>
+<span class="nc" id="L1310">        commandLine.addSingleValueSwitch(&quot;dtd-prefix&quot;, com.jeantessier.dependency.XMLPrinter.DEFAULT_DTD_PREFIX);</span>
+<span class="nc" id="L1311">        commandLine.addSingleValueSwitch(&quot;indent-text&quot;, com.jeantessier.dependency.XMLPrinter.DEFAULT_INDENT_TEXT);</span>
+<span class="nc" id="L1312">        commandLine.addToggleSwitch(&quot;help&quot;);</span>
+
+<span class="nc" id="L1314">        CommandLineUsage usage = new CommandLineUsage(&quot;DependencyFinder&quot;);</span>
+<span class="nc" id="L1315">        commandLine.accept(usage);</span>
+
+        try {
+<span class="nc" id="L1318">            commandLine.parse(args);</span>
+<span class="nc" id="L1319">        } catch (IllegalArgumentException ex) {</span>
+<span class="nc" id="L1320">            showError(usage, ex.toString());</span>
+<span class="nc" id="L1321">            System.exit(1);</span>
+<span class="nc" id="L1322">        }</span>
+
+<span class="nc bnc" id="L1324" title="All 2 branches missed.">        if (commandLine.getToggleSwitch(&quot;help&quot;)) {</span>
+<span class="nc" id="L1325">            showError(usage);</span>
+<span class="nc" id="L1326">            System.exit(1);</span>
+        }
+
+<span class="nc bnc" id="L1329" title="All 4 branches missed.">        if (commandLine.getToggleSwitch(&quot;maximize&quot;) &amp;&amp; commandLine.getToggleSwitch(&quot;minimize&quot;)) {</span>
+<span class="nc" id="L1330">            showError(usage, &quot;Only one of -maximize or -minimize allowed&quot;);</span>
+        }
+
+        /*
+         *  Beginning of main processing
+         */
+
+        try {
+<span class="nc" id="L1338">            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());</span>
+<span class="nc" id="L1339">        } catch (Exception ex) {</span>
+            // Ignore
+<span class="nc" id="L1341">        }</span>
+
+<span class="nc" id="L1343">        DependencyFinder model = new DependencyFinder(commandLine);</span>
+<span class="nc" id="L1344">        model.setMaximize(commandLine.getToggleSwitch(&quot;maximize&quot;));</span>
+<span class="nc" id="L1345">        model.setMinimize(commandLine.getToggleSwitch(&quot;minimize&quot;));</span>
+<span class="nc" id="L1346">        model.setVisible(true);</span>
+<span class="nc" id="L1347">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

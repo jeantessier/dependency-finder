@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HTMLPrinter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependency</a> &gt; <span class="el_source">HTMLPrinter.java</span></div><h1>HTMLPrinter.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependency;
+
+import java.io.*;
+import java.util.*;
+
+public class HTMLPrinter extends TextPrinter {
+    private static final String FROM = &quot;&amp;lt;--&quot;;
+    private static final String TO = &quot;--&amp;gt;&quot;;
+    private static final String BIDIRECTIONAL = &quot;&amp;lt;-&amp;gt;&quot;;
+
+    private final String urlFormat;
+
+    public HTMLPrinter(PrintWriter out, String format) {
+<span class="fc" id="L46">        super(out);</span>
+
+<span class="fc" id="L48">        this.urlFormat = format;</span>
+<span class="fc" id="L49">    }</span>
+
+    public HTMLPrinter(TraversalStrategy strategy, PrintWriter out, String format) {
+<span class="fc" id="L52">        super(strategy, out);</span>
+
+<span class="fc" id="L54">        this.urlFormat = format;</span>
+<span class="fc" id="L55">    }</span>
+
+    protected Printer printScopeNodeName(Node node, String name) {
+<span class="fc" id="L58">        var fullName = node.getName();</span>
+
+<span class="fc" id="L60">        var urlArgument = perlEscapeName(fullName);</span>
+<span class="fc" id="L61">        var url = String.format(urlFormat, urlArgument);</span>
+
+<span class="fc" id="L63">        var link = new StringBuilder(&quot;&lt;a&quot;);</span>
+<span class="fc" id="L64">        link.append(&quot; class=\&quot;scope&quot;);</span>
+<span class="fc bfc" id="L65" title="All 4 branches covered.">        if (isShowInferred() &amp;&amp; !node.isConfirmed()) {</span>
+<span class="fc" id="L66">            link.append(&quot; inferred&quot;);</span>
+        }
+<span class="fc" id="L68">        link.append(&quot;\&quot;&quot;);</span>
+<span class="fc" id="L69">        link.append(&quot; href=\&quot;&quot;).append(url).append(&quot;\&quot;&quot;);</span>
+<span class="fc" id="L70">        link.append(&quot; id=\&quot;&quot;).append(fullName).append(&quot;\&quot;&quot;);</span>
+<span class="fc" id="L71">        link.append(&quot;&gt;&quot;);</span>
+<span class="fc" id="L72">        link.append(name);</span>
+<span class="fc" id="L73">        link.append(&quot;&lt;/a&gt;&quot;);</span>
+
+<span class="fc" id="L75">        openPotentialInferredSpan(node);</span>
+<span class="fc" id="L76">        printNodeName(node, link.toString());</span>
+<span class="fc" id="L77">        closePotentialInferredSpan(node);</span>
+
+<span class="fc" id="L79">        return this;</span>
+    }
+
+    protected void printDependencies(Node node, Map&lt;Node, Integer&gt; dependencies) {
+<span class="fc" id="L83">        String scopeNodeName = node.getName();</span>
+
+<span class="fc" id="L85">        dependencies.forEach((dependency, value) -&gt; {</span>
+<span class="fc" id="L86">            var rawName = dependency.getName();</span>
+<span class="fc" id="L87">            var urlArgument = perlEscapeName(rawName);</span>
+<span class="fc" id="L88">            var url = String.format(urlFormat, urlArgument);</span>
+
+            String symbol;
+            String idConjunction;
+<span class="fc bfc" id="L92" title="All 2 branches covered.">            if (value &lt; 0) {</span>
+<span class="fc" id="L93">                symbol = FROM;</span>
+<span class="fc" id="L94">                idConjunction = &quot;_from_&quot;;</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">            } else if (value &gt; 0) {</span>
+<span class="fc" id="L96">                symbol = TO;</span>
+<span class="fc" id="L97">                idConjunction = &quot;_to_&quot;;</span>
+            } else {
+<span class="fc" id="L99">                symbol = BIDIRECTIONAL;</span>
+<span class="fc" id="L100">                idConjunction = &quot;_bidirectional_&quot;;</span>
+            }
+
+<span class="fc" id="L103">            var link = new StringBuilder(&quot;&lt;a&quot;);</span>
+<span class="fc bfc" id="L104" title="All 4 branches covered.">            if (isShowInferred() &amp;&amp; !dependency.isConfirmed()) {</span>
+<span class="fc" id="L105">                link.append(&quot; class=\&quot;inferred\&quot;&quot;);</span>
+            }
+<span class="fc" id="L107">            link.append(&quot; href=\&quot;&quot;).append(url).append(&quot;\&quot;&quot;);</span>
+<span class="fc" id="L108">            link.append(&quot; id=\&quot;&quot;).append(scopeNodeName).append(idConjunction).append(rawName).append(&quot;\&quot;&quot;);</span>
+<span class="fc" id="L109">            link.append(&quot;&gt;&quot;);</span>
+<span class="fc" id="L110">            link.append(rawName);</span>
+<span class="fc" id="L111">            link.append(&quot;&lt;/a&gt;&quot;);</span>
+
+<span class="fc" id="L113">            indent();</span>
+<span class="fc" id="L114">            openPotentialInferredSpan(dependency);</span>
+<span class="fc" id="L115">            append(symbol).append(&quot; &quot;).printDependencyNodeName(dependency, link.toString());</span>
+<span class="fc" id="L116">            closePotentialInferredSpan(dependency);</span>
+<span class="fc" id="L117">            eol();</span>
+<span class="fc" id="L118">        });</span>
+<span class="fc" id="L119">    }</span>
+
+    private void openPotentialInferredSpan(Node node) {
+<span class="fc bfc" id="L122" title="All 4 branches covered.">        if (isShowInferred() &amp;&amp; !node.isConfirmed()) {</span>
+<span class="fc" id="L123">            append(&quot;&lt;span class=\&quot;inferred\&quot;&gt;&quot;);</span>
+        }
+<span class="fc" id="L125">    }</span>
+
+    private void closePotentialInferredSpan(Node node) {
+<span class="fc bfc" id="L128" title="All 4 branches covered.">        if (isShowInferred() &amp;&amp; !node.isConfirmed()) {</span>
+<span class="fc" id="L129">            append(&quot;&lt;/span&gt;&quot;);</span>
+        }
+<span class="fc" id="L131">    }</span>
+
+    private String perlEscapeName(String name) {
+<span class="fc" id="L134">        String result = name;</span>
+
+<span class="fc" id="L136">        result = perl().substitute(&quot;s/\\(/\\\\(/g&quot;, result);</span>
+<span class="fc" id="L137">        result = perl().substitute(&quot;s/\\)/\\\\)/g&quot;, result);</span>
+<span class="fc" id="L138">        result = perl().substitute(&quot;s/\\$/\\\\\\$/g&quot;, result);</span>
+<span class="fc" id="L139">        result = perl().substitute(&quot;s/\\[/\\\\[/g&quot;, result);</span>
+<span class="fc" id="L140">        result = perl().substitute(&quot;s/\\]/\\\\]/g&quot;, result);</span>
+
+<span class="fc" id="L142">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

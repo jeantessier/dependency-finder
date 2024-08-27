@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TextPrinter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader</a> &gt; <span class="el_source">TextPrinter.java</span></div><h1>TextPrinter.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.classreader;
+
+import java.io.*;
+import java.util.*;
+
+public class TextPrinter extends Printer {
+<span class="fc" id="L39">    private boolean top = true;</span>
+
+    public TextPrinter(PrintWriter out) {
+<span class="fc" id="L42">        super(out);</span>
+<span class="fc" id="L43">    }</span>
+    
+    public void visitClassfile(Classfile classfile) {
+<span class="nc" id="L46">        top = true;</span>
+<span class="nc" id="L47">        classfile.getConstantPool().accept(this);</span>
+<span class="nc" id="L48">        top = false;</span>
+
+<span class="nc" id="L50">        eol();</span>
+
+<span class="nc" id="L52">        append(classfile.getDeclaration()).append(&quot; {&quot;).eol();</span>
+
+<span class="nc" id="L54">        visitClassfileFields(classfile);</span>
+<span class="nc" id="L55">        visitClassfileMethods(classfile);</span>
+
+<span class="nc" id="L57">        append(&quot;}&quot;).eol();</span>
+<span class="nc" id="L58">    }</span>
+
+    public void visitClass_info(Class_info entry) {
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L62">            top = false;</span>
+<span class="nc" id="L63">            append(currentIndex()).append(&quot;: Class &quot;).append(entry).eol();</span>
+<span class="nc" id="L64">            top = true;</span>
+        } else {
+<span class="nc" id="L66">            append(entry);</span>
+        }
+<span class="nc" id="L68">    }</span>
+
+    public void visitFieldRef_info(FieldRef_info entry) {
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L72">            top = false;</span>
+<span class="nc" id="L73">            append(currentIndex()).append(&quot;: Field &quot;).append(entry).eol();</span>
+<span class="nc" id="L74">            top = true;</span>
+        } else {
+<span class="nc" id="L76">            append(entry);</span>
+        }
+<span class="nc" id="L78">    }</span>
+
+    public void visitMethodRef_info(MethodRef_info entry) {
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L82">            top = false;</span>
+<span class="nc" id="L83">            append(currentIndex()).append(&quot;: Method &quot;).append(entry).eol();</span>
+<span class="nc" id="L84">            top = true;</span>
+        } else {
+<span class="nc" id="L86">            append(entry);</span>
+        }
+<span class="nc" id="L88">    }</span>
+
+    public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L92">            top = false;</span>
+<span class="nc" id="L93">            append(currentIndex()).append(&quot;: Interface Method &quot;).append(entry).eol();</span>
+<span class="nc" id="L94">            top = true;</span>
+        } else {
+<span class="nc" id="L96">            append(entry);</span>
+        }
+<span class="nc" id="L98">    }</span>
+
+    public void visitString_info(String_info entry) {
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L102">            top = false;</span>
+<span class="nc" id="L103">            append(currentIndex()).append(&quot;: String \&quot;&quot;);</span>
+<span class="nc" id="L104">            entry.getRawValue().accept(this);</span>
+<span class="nc" id="L105">            append(&quot;\&quot;&quot;).eol();</span>
+<span class="nc" id="L106">            top = true;</span>
+        } else {
+<span class="nc" id="L108">            entry.getRawValue().accept(this);</span>
+        }
+<span class="nc" id="L110">    }</span>
+
+    public void visitInteger_info(Integer_info entry) {
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L114">            append(currentIndex()).append(&quot;: Integer &quot;).append(entry.getValue()).eol();</span>
+        } else {
+<span class="nc" id="L116">            append(entry.getValue());</span>
+        }
+<span class="nc" id="L118">    }</span>
+
+    public void visitFloat_info(Float_info entry) {
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L122">            append(currentIndex()).append(&quot;: Float &quot;).append(entry.getValue()).eol();</span>
+        } else {
+<span class="nc" id="L124">            append(entry.getValue());</span>
+        }
+<span class="nc" id="L126">    }</span>
+
+    public void visitLong_info(Long_info entry) {
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L130">            append(currentIndex()).append(&quot;: Long &quot;).append(entry.getValue()).eol();</span>
+        } else {
+<span class="nc" id="L132">            append(entry.getValue());</span>
+        }
+<span class="nc" id="L134">    }</span>
+
+    public void visitDouble_info(Double_info entry) {
+<span class="nc bnc" id="L137" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L138">            append(currentIndex()).append(&quot;: Double &quot;).append(entry.getValue()).eol();</span>
+        } else {
+<span class="nc" id="L140">            append(entry.getValue());</span>
+        }
+<span class="nc" id="L142">    }</span>
+
+    public void visitNameAndType_info(NameAndType_info entry) {
+<span class="nc bnc" id="L145" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L146">            top = false;</span>
+<span class="nc" id="L147">            append(currentIndex()).append(&quot;: Name and Type &quot;);</span>
+<span class="nc" id="L148">            entry.getRawName().accept(this);</span>
+<span class="nc" id="L149">            append(&quot; &quot;);</span>
+<span class="nc" id="L150">            entry.getRawType().accept(this);</span>
+<span class="nc" id="L151">            eol();</span>
+<span class="nc" id="L152">            top = true;</span>
+        } else {
+<span class="nc" id="L154">            entry.getRawName().accept(this);</span>
+<span class="nc" id="L155">            append(&quot; &quot;);</span>
+<span class="nc" id="L156">            entry.getRawType().accept(this);</span>
+        }
+<span class="nc" id="L158">    }</span>
+
+    public void visitUTF8_info(UTF8_info entry) {
+<span class="nc bnc" id="L161" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L162">            append(currentIndex()).append(&quot;: \&quot;&quot;).append(entry.getValue()).append(&quot;\&quot;&quot;).eol();</span>
+        } else {
+<span class="nc" id="L164">            append(entry.getValue());</span>
+        }
+<span class="nc" id="L166">    }</span>
+
+    public void visitMethodHandle_info(MethodHandle_info entry) {
+<span class="nc bnc" id="L169" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L170">            top = false;</span>
+<span class="nc" id="L171">            append(currentIndex()).append(&quot;: Method Handle &quot;);</span>
+<span class="nc" id="L172">            append(entry.getReferenceKind().getDescription());</span>
+<span class="nc" id="L173">            append(&quot; &quot;);</span>
+<span class="nc" id="L174">            entry.getReference().accept(this);</span>
+<span class="nc" id="L175">            eol();</span>
+<span class="nc" id="L176">            top = true;</span>
+        } else {
+<span class="nc" id="L178">            append(entry.getReferenceKind().getDescription());</span>
+<span class="nc" id="L179">            append(&quot; &quot;);</span>
+<span class="nc" id="L180">            entry.getReference().accept(this);</span>
+        }
+<span class="nc" id="L182">    }</span>
+
+    public void visitMethodType_info(MethodType_info entry) {
+<span class="nc bnc" id="L185" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L186">            top = false;</span>
+<span class="nc" id="L187">            append(currentIndex()).append(&quot;: Method Type &quot;).append(entry).eol();</span>
+<span class="nc" id="L188">            top = true;</span>
+        } else {
+<span class="nc" id="L190">            append(entry);</span>
+        }
+<span class="nc" id="L192">    }</span>
+
+    public void visitDynamic_info(Dynamic_info entry) {
+<span class="nc bnc" id="L195" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L196">            top = false;</span>
+<span class="nc" id="L197">            append(currentIndex()).append(&quot;: Dynamic &quot;);</span>
+<span class="nc" id="L198">            append(entry.getBootstrapMethodAttrIndex());</span>
+<span class="nc" id="L199">            append(&quot; &quot;);</span>
+<span class="nc" id="L200">            append(entry);</span>
+<span class="nc" id="L201">            eol();</span>
+<span class="nc" id="L202">            top = true;</span>
+        } else {
+<span class="nc" id="L204">            append(entry);</span>
+        }
+<span class="nc" id="L206">    }</span>
+
+    public void visitInvokeDynamic_info(InvokeDynamic_info entry) {
+<span class="nc bnc" id="L209" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L210">            top = false;</span>
+<span class="nc" id="L211">            append(currentIndex()).append(&quot;: Invoke Dynamic &quot;);</span>
+<span class="nc" id="L212">            append(entry.getBootstrapMethodAttrIndex());</span>
+<span class="nc" id="L213">            append(&quot; &quot;);</span>
+<span class="nc" id="L214">            append(entry);</span>
+<span class="nc" id="L215">            eol();</span>
+<span class="nc" id="L216">            top = true;</span>
+        } else {
+<span class="nc" id="L218">            append(entry);</span>
+        }
+<span class="nc" id="L220">    }</span>
+
+    public void visitModule_info(Module_info entry) {
+<span class="nc bnc" id="L223" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L224">            top = false;</span>
+<span class="nc" id="L225">            append(currentIndex()).append(&quot;: Module &quot;).append(entry).eol();</span>
+<span class="nc" id="L226">            top = true;</span>
+        } else {
+<span class="nc" id="L228">            append(entry);</span>
+        }
+<span class="nc" id="L230">    }</span>
+
+    public void visitPackage_info(Package_info entry) {
+<span class="nc bnc" id="L233" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L234">            top = false;</span>
+<span class="nc" id="L235">            append(currentIndex()).append(&quot;: Package &quot;).append(entry).eol();</span>
+<span class="nc" id="L236">            top = true;</span>
+        } else {
+<span class="nc" id="L238">            append(entry);</span>
+        }
+<span class="nc" id="L240">    }</span>
+
+    public void visitUnusableEntry(UnusableEntry entry) {
+<span class="nc bnc" id="L243" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L244">            append(currentIndex()).append(&quot;: &quot;).append(entry).eol();</span>
+        } else {
+<span class="nc" id="L246">            append(entry);</span>
+        }
+<span class="nc" id="L248">    }</span>
+
+    public void visitField_info(Field_info entry) {
+<span class="nc" id="L251">        append(&quot;    &quot;).append(entry.getDeclaration()).append(&quot;;&quot;).eol();</span>
+<span class="nc" id="L252">    }</span>
+
+    public void visitMethod_info(Method_info entry) {
+<span class="fc" id="L255">        eol();</span>
+<span class="fc" id="L256">        append(&quot;    &quot;);</span>
+<span class="fc" id="L257">        append(entry.getDeclaration());</span>
+<span class="fc bfc" id="L258" title="All 2 branches covered.">        if (!entry.isStaticInitializer()) {</span>
+<span class="fc" id="L259">            append(&quot;;&quot;);</span>
+        }
+<span class="fc" id="L261">        eol();</span>
+
+        // As per the Class File Format (paragraph 4.8.3):
+        // - abstract and native methods must *not* have a Code attribute
+        // - all other methods must have exactly one Code attribute.
+<span class="fc bfc" id="L266" title="All 4 branches covered.">        if (!entry.isAbstract() &amp;&amp; !entry.isNative()) {</span>
+<span class="fc" id="L267">            entry.getCode().accept(this);</span>
+        }
+<span class="fc" id="L269">    }</span>
+
+    public void visitCode_attribute(Code_attribute attribute) {
+<span class="fc" id="L272">        append(&quot;        CODE&quot;).eol();</span>
+<span class="fc" id="L273">        visitInstructions(attribute);</span>
+
+<span class="fc" id="L275">        Collection&lt;? extends ExceptionHandler&gt; exceptionHandlers = attribute.getExceptionHandlers();</span>
+<span class="fc bfc" id="L276" title="All 2 branches covered.">        if (!exceptionHandlers.isEmpty()) {</span>
+<span class="fc" id="L277">            append(&quot;        EXCEPTION HANDLING&quot;).eol();</span>
+<span class="fc" id="L278">            visitExceptionHandlers(exceptionHandlers);</span>
+        }
+<span class="fc" id="L280">    }</span>
+
+    public void visitInstruction(Instruction instruction) {
+<span class="fc" id="L283">        append(&quot;        &quot;).append(instruction.getStart()).append(&quot;:\t&quot;).append(instruction.getMnemonic());</span>
+<span class="fc" id="L284">        appendIndexedConstantPoolEntry(instruction);</span>
+<span class="fc" id="L285">        appendIndexedLocalVariable(instruction);</span>
+<span class="fc" id="L286">        appendDynamicConstantPoolEntries(instruction);</span>
+<span class="fc" id="L287">        appendOffset(instruction);</span>
+<span class="fc" id="L288">        appendValue(instruction);</span>
+<span class="fc" id="L289">        eol();</span>
+
+<span class="fc" id="L291">        super.visitInstruction(instruction);</span>
+<span class="fc" id="L292">    }</span>
+
+    public void visitExceptionHandler(ExceptionHandler handler) {
+<span class="fc" id="L295">        append(&quot;        &quot;).append(handler.getStartPC()).append(&quot;-&quot;).append(handler.getEndPC()).append(&quot;: &quot;).append(handler.getHandlerPC());</span>
+<span class="fc bfc" id="L296" title="All 2 branches covered.">        if (handler.hasCatchType()) {</span>
+<span class="fc" id="L297">            append(&quot; (&quot;).append(handler.getCatchType()).append(&quot;)&quot;);</span>
+        }
+<span class="fc" id="L299">        eol();</span>
+<span class="fc" id="L300">    }</span>
+
+    private Printer appendIndexedConstantPoolEntry(Instruction instruction) {
+<span class="pc bpc" id="L303" title="1 of 3 branches missed.">        switch (instruction.getOpcode()) {</span>
+            case 0x12: // ldc
+            case 0x13: // ldc_w
+            case 0x14: // ldc2_w
+            case 0xb2: // getstatic
+            case 0xb3: // putstatic
+            case 0xb4: // getfield
+            case 0xb5: // putfield
+            case 0xb6: // invokevirtual
+            case 0xb7: // invokespecial
+            case 0xb8: // invokestatic
+            case 0xb9: // invokeinterface
+            case 0xbb: // new
+            case 0xbd: // anewarray
+            case 0xc0: // checkcast
+            case 0xc1: // instanceof
+            case 0xc5: // multianewarray
+<span class="fc" id="L320">                append(&quot; &quot;);</span>
+<span class="fc" id="L321">                instruction.getIndexedConstantPoolEntry().accept(this);</span>
+<span class="fc" id="L322">                break;</span>
+            case 0xba: // invokedynamic
+<span class="nc" id="L324">                var indexedEntry = instruction.getIndexedConstantPoolEntry();</span>
+<span class="nc bnc" id="L325" title="All 2 branches missed.">                if (indexedEntry instanceof Dynamic_info dynamic_info) {</span>
+<span class="nc" id="L326">                    append(&quot; &quot;).append(dynamic_info.getName());</span>
+<span class="nc bnc" id="L327" title="All 2 branches missed.">                } else if (indexedEntry instanceof InvokeDynamic_info invokeDynamic_info) {</span>
+<span class="nc" id="L328">                    append(&quot; &quot;).append(invokeDynamic_info.getName());</span>
+                }
+                // TODO: Replace with type pattern matching in switch expression in Java 21
+                // switch (instruction.getIndexedConstantPoolEntry()) {
+                //     case Dynamic_info entry -&gt; append(&quot; &quot;).append(entry.getName());
+                //     case InvokeDynamic_info entry -&gt; append(&quot; &quot;).append(entry.getName());
+                //     default -&gt; append(&quot;&quot;);
+                // }
+<span class="nc" id="L336">                break;</span>
+            default:
+                // Do nothing
+                break;
+        }
+<span class="fc" id="L341">        return this;</span>
+    }
+
+    private Printer appendIndexedLocalVariable(Instruction instruction) {
+<span class="fc bfc" id="L345" title="All 3 branches covered.">        switch (instruction.getOpcode()) {</span>
+            case 0x1a: // iload_0
+            case 0x1e: // lload_0
+            case 0x22: // fload_0
+            case 0x26: // dload_0
+            case 0x2a: // aload_0
+            case 0x3b: // istore_0
+            case 0x3f: // lstore_0
+            case 0x43: // fstore_0
+            case 0x47: // dstore_0
+            case 0x4b: // astore_0
+            case 0x1b: // iload_1
+            case 0x1f: // lload_1
+            case 0x23: // fload_1
+            case 0x27: // dload_1
+            case 0x2b: // aload_1
+            case 0x3c: // istore_1
+            case 0x40: // lstore_1
+            case 0x44: // fstore_1
+            case 0x48: // dstore_1
+            case 0x4c: // astore_1
+            case 0x1c: // iload_2
+            case 0x20: // lload_2
+            case 0x24: // fload_2
+            case 0x28: // dload_2
+            case 0x2c: // aload_2
+            case 0x3d: // istore_2
+            case 0x41: // lstore_2
+            case 0x45: // fstore_2
+            case 0x49: // dstore_2
+            case 0x4d: // astore_2
+            case 0x1d: // iload_3
+            case 0x21: // lload_3
+            case 0x25: // fload_3
+            case 0x29: // dload_3
+            case 0x2d: // aload_3
+            case 0x3e: // istore_3
+            case 0x42: // lstore_3
+            case 0x46: // fstore_3
+            case 0x4a: // dstore_3
+            case 0x4e: // astore_3
+<span class="fc" id="L386">                appendLocalVariable(instruction.getIndexedLocalVariable());</span>
+<span class="fc" id="L387">                break;</span>
+            case 0x15: // iload
+            case 0x16: // llload
+            case 0x17: // fload
+            case 0x18: // dload
+            case 0x19: // aload
+            case 0x36: // istore
+            case 0x37: // lstore
+            case 0x38: // fstore
+            case 0x39: // dstore
+            case 0x3a: // astore
+            case 0xa9: // ret
+            case 0x84: // iinc
+            case 0xc4: // wide
+<span class="fc" id="L401">                appendLocalVariable(instruction.getIndexedLocalVariable());</span>
+<span class="fc" id="L402">                append(&quot; (#&quot;).append(instruction.getIndex()).append(&quot;)&quot;);</span>
+<span class="fc" id="L403">                break;</span>
+            default:
+                // Do nothing
+                break;
+        }
+<span class="fc" id="L408">        return this;</span>
+    }
+
+    private Printer appendDynamicConstantPoolEntries(Instruction instruction) {
+<span class="pc bpc" id="L412" title="1 of 2 branches missed.">        switch (instruction.getOpcode()) {</span>
+            case 0xba: // invokedynamic
+<span class="nc" id="L414">                instruction.getDynamicConstantPoolEntries().forEach(entry -&gt; {</span>
+<span class="nc" id="L415">                    append(&quot; &quot;);</span>
+<span class="nc" id="L416">                    entry.accept(this);</span>
+<span class="nc" id="L417">                });</span>
+<span class="nc" id="L418">                break;</span>
+            default:
+                // Do nothing
+                break;
+        }
+<span class="fc" id="L423">        return this;</span>
+    }
+
+    private Printer appendLocalVariable(LocalVariable localVariable) {
+<span class="fc bfc" id="L427" title="All 2 branches covered.">        if (localVariable != null) {</span>
+<span class="fc" id="L428">            append(&quot; &quot;).append(DescriptorHelper.getType(localVariable.getDescriptor())).append(&quot; &quot;).append(localVariable.getName());</span>
+        }
+<span class="fc" id="L430">        return this;</span>
+    }
+
+    private Printer appendOffset(Instruction instruction) {
+<span class="fc bfc" id="L434" title="All 2 branches covered.">        switch (instruction.getOpcode()) {</span>
+            case 0x99: // ifeq
+            case 0x9a: // ifne
+            case 0x9b: // iflt
+            case 0x9c: // ifge
+            case 0x9d: // ifgt
+            case 0x9e: // ifle
+            case 0x9f: // if_icmpeq
+            case 0xa0: // if_icmpne
+            case 0xa1: // if_icmplt
+            case 0xa2: // if_icmpge
+            case 0xa3: // if_icmpgt
+            case 0xa4: // if_icmple
+            case 0xa5: // if_acmpeq
+            case 0xa6: // if_acmpne
+            case 0xa7: // goto
+            case 0xa8: // jsr
+            case 0xc6: // ifnull
+            case 0xc7: // ifnonnull
+            case 0xc8: // goto_w
+            case 0xc9: // jsr_w
+<span class="fc" id="L455">                append(&quot; &quot;).append(instruction.getStart() + instruction.getOffset()).append(&quot; (&quot;);</span>
+<span class="fc bfc" id="L456" title="All 2 branches covered.">                if (instruction.getOffset() &gt;= 0) {</span>
+<span class="fc" id="L457">                    append(&quot;+&quot;);</span>
+                }
+<span class="fc" id="L459">                append(instruction.getOffset());</span>
+<span class="fc" id="L460">                append(&quot;)&quot;);</span>
+<span class="fc" id="L461">                break;</span>
+            default:
+                // Do nothing
+                break;
+        }
+<span class="fc" id="L466">        return this;</span>
+    }
+
+    private Printer appendValue(Instruction instruction) {
+<span class="pc bpc" id="L470" title="2 of 5 branches missed.">        switch (instruction.getOpcode()) {</span>
+            case 0x10: // bipush
+            case 0x11: // sipush
+            case 0x84: // iinc
+<span class="fc" id="L474">                append(&quot; &quot;).append(instruction.getValue());</span>
+<span class="fc" id="L475">                break;</span>
+            case 0xaa: // tableswitch
+<span class="nc" id="L477">                append(&quot; default:&quot;).appendSwitchDefault(instruction);</span>
+<span class="nc" id="L478">                append(&quot; | &quot;);</span>
+<span class="nc" id="L479">                appendTableSwitch(instruction, &quot; | &quot;);</span>
+<span class="nc" id="L480">                break;</span>
+            case 0xab: // lookupswitch
+<span class="nc" id="L482">                append(&quot; default:&quot;).appendSwitchDefault(instruction);</span>
+<span class="nc" id="L483">                append(&quot; | &quot;);</span>
+<span class="nc" id="L484">                appendLookupSwitch(instruction, &quot; | &quot;);</span>
+<span class="nc" id="L485">                break;</span>
+            case 0xc4: // wide
+<span class="fc bfc" id="L487" title="All 2 branches covered.">                if (instruction.getByte(1) == 0x84 /* iinc */) {</span>
+<span class="fc" id="L488">                    append(&quot; &quot;).append(instruction.getValue());</span>
+                }
+                break;
+            default:
+                // Do nothing
+                break;
+        }
+<span class="fc" id="L495">        return this;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

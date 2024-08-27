@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Printer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader</a> &gt; <span class="el_source">Printer.java</span></div><h1>Printer.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.classreader;
+
+import java.io.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+public abstract class Printer extends VisitorBase {
+    public static final String DEFAULT_INDENT_TEXT = &quot;    &quot;;
+
+    private final PrintWriter out;
+<span class="fc" id="L43">    private String indentText = DEFAULT_INDENT_TEXT;</span>
+<span class="fc" id="L44">    private int indentLevel = 0;</span>
+
+<span class="fc" id="L46">    public Printer(PrintWriter out) {</span>
+<span class="fc" id="L47">        this.out = out;</span>
+<span class="fc" id="L48">    }</span>
+    
+    public String getIndentText() {
+<span class="fc" id="L51">        return indentText;</span>
+    }
+
+    public void setIndentText(String indentText) {
+<span class="nc" id="L55">        this.indentText = indentText;</span>
+<span class="nc" id="L56">    }</span>
+    
+    protected Printer append(boolean b) {
+<span class="nc" id="L59">        out.print(b);</span>
+<span class="nc" id="L60">        return this;</span>
+    }
+
+    protected Printer append(char c) {
+<span class="fc" id="L64">        out.print(c);</span>
+<span class="fc" id="L65">        return this;</span>
+    }
+
+    protected Printer append(char[] s) {
+<span class="nc" id="L69">        out.print(s);</span>
+<span class="nc" id="L70">        return this;</span>
+    }
+
+    protected Printer append(double d) {
+<span class="nc" id="L74">        out.print(d);</span>
+<span class="nc" id="L75">        return this;</span>
+    }
+
+    protected Printer append(float f) {
+<span class="fc" id="L79">        out.print(f);</span>
+<span class="fc" id="L80">        return this;</span>
+    }
+
+    protected Printer append(int i) {
+<span class="fc" id="L84">        out.print(i);</span>
+<span class="fc" id="L85">        return this;</span>
+    }
+
+    protected Printer append(long l) {
+<span class="nc" id="L89">        out.print(l);</span>
+<span class="nc" id="L90">        return this;</span>
+    }
+
+    protected Printer append(Object obj) {
+<span class="fc" id="L94">        out.print(obj);</span>
+<span class="fc" id="L95">        return this;</span>
+    }
+
+    protected Printer append(String s) {
+<span class="fc" id="L99">        out.print(s);</span>
+<span class="fc" id="L100">        return this;</span>
+    }
+
+    protected Printer indent() {
+<span class="fc" id="L104">        append(getIndentText().repeat(indentLevel));</span>
+<span class="fc" id="L105">        return this;</span>
+    }
+
+    protected Printer eol() {
+<span class="fc" id="L109">        out.println();</span>
+<span class="fc" id="L110">        return this;</span>
+    }
+
+<span class="nc" id="L113">    private record SwitchEntry(int key, int offset, int jump) {};</span>
+
+    protected Printer appendSwitchDefault(Instruction instruction) {
+<span class="nc" id="L116">        return append(String.format(&quot;%+d[%d]&quot;, instruction.getDefault(), instruction.getStart() + instruction.getDefault()));</span>
+    }
+
+    protected Printer appendLookupSwitch(Instruction instruction) {
+<span class="nc" id="L120">        return appendLookupSwitch(instruction, &quot; &quot;);</span>
+    }
+
+    protected Printer appendLookupSwitch(Instruction instruction, String delimiter) {
+<span class="nc" id="L124">        return append(IntStream.range(0, instruction.getNPairs())</span>
+<span class="nc" id="L125">                .map(i -&gt; instruction.getPadding() + 8 + (i * 8)) // Calculate the entry's offset in the instruction</span>
+<span class="nc" id="L126">                .mapToObj(offset -&gt; new SwitchEntry(instruction.getInt(offset + 1), offset, instruction.getInt(offset + 5))) // Lookup key and jump values</span>
+<span class="nc" id="L127">                .map(entry -&gt; String.format(&quot;%d:%+d[%d]&quot;, entry.key, entry.jump, instruction.getStart() + entry.jump)) // Convert the entry to text</span>
+<span class="nc" id="L128">                .collect(Collectors.joining(delimiter)));</span>
+    }
+
+    protected Printer appendTableSwitch(Instruction instruction) {
+<span class="nc" id="L132">        return appendTableSwitch(instruction, &quot; &quot;);</span>
+    }
+
+    protected Printer appendTableSwitch(Instruction instruction, String delimiter) {
+<span class="nc" id="L136">        return append(IntStream.rangeClosed(instruction.getLow(), instruction.getHigh())</span>
+<span class="nc" id="L137">                .mapToObj(key -&gt; new SwitchEntry(key, instruction.getPadding() + 12 + ((key - instruction.getLow()) * 4), -1)) // Calculate the entry's offset in the instruction</span>
+<span class="nc" id="L138">                .map(partialEntry -&gt; new SwitchEntry(partialEntry.key, partialEntry.offset, instruction.getInt(partialEntry.offset + 1))) // Lookup the jump value</span>
+<span class="nc" id="L139">                .map(entry -&gt; String.format(&quot;%d:%+d[%d]&quot;, entry.key, entry.jump, instruction.getStart() + entry.jump)) // Convert the entry to text</span>
+<span class="nc" id="L140">                .collect(Collectors.joining(delimiter)));</span>
+    }
+
+    protected void raiseIndent() {
+<span class="fc" id="L144">        indentLevel++;</span>
+<span class="fc" id="L145">    }</span>
+
+    protected void lowerIndent() {
+<span class="fc" id="L148">        indentLevel--;</span>
+<span class="fc" id="L149">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

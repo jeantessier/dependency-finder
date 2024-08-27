@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RegularExpressionParser.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.text</a> &gt; <span class="el_source">RegularExpressionParser.java</span></div><h1>RegularExpressionParser.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.text;
+
+import java.util.*;
+
+import org.apache.logging.log4j.*;
+
+<span class="nc" id="L39">public class RegularExpressionParser {</span>
+    public static List&lt;String&gt; parseRE(String re) {
+<span class="fc" id="L41">        List&lt;String&gt; result = new LinkedList&lt;&gt;();</span>
+
+<span class="fc" id="L43">        Logger logger = LogManager.getLogger();</span>
+<span class="pc" id="L44">        logger.debug(&quot;ParseRE \&quot;{}\&quot;&quot;, () -&gt; re);</span>
+
+<span class="fc" id="L46">        int length = re.length();</span>
+<span class="fc" id="L47">        int start  = 0;</span>
+<span class="fc" id="L48">        int stop   = -1;</span>
+
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        while (start &lt; length) {</span>
+<span class="fc" id="L51">            String separator = null;</span>
+
+            // Locate begining &amp; determine separator
+<span class="fc bfc" id="L54" title="All 4 branches covered.">            while (start &lt; length &amp;&amp; stop &lt; start) {</span>
+<span class="fc bfc" id="L55" title="All 4 branches covered.">                if (re.charAt(start) == 'm' &amp;&amp; (start + 1) &lt; length) {</span>
+<span class="fc" id="L56">                    separator = re.substring(start + 1, start + 2);</span>
+<span class="fc" id="L57">                    stop = start + 2;</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">                } else if (re.charAt(start) == '/') {</span>
+<span class="fc" id="L59">                    separator = &quot;/&quot;;</span>
+<span class="fc" id="L60">                    stop = start + 1;</span>
+                } else {
+<span class="fc" id="L62">                    start++;</span>
+                }
+            }
+
+<span class="fc" id="L66">            logger.debug(&quot;start is &quot; + start);</span>
+<span class="fc" id="L67">            logger.debug(&quot;separator is &quot; + separator);</span>
+
+            // Locate end
+<span class="fc bfc" id="L70" title="All 4 branches covered.">            while (stop &lt; length &amp;&amp; start &lt; stop) {</span>
+<span class="fc" id="L71">                stop = re.indexOf(separator, stop);</span>
+<span class="fc" id="L72">                logger.debug(&quot;indexOf() is &quot; + stop);</span>
+
+<span class="fc bfc" id="L74" title="All 4 branches covered.">                if (stop == -1 || re.charAt(stop - 1) != '\\') {</span>
+
+<span class="fc bfc" id="L76" title="All 2 branches covered.">                    if (stop == -1) {</span>
+<span class="fc" id="L77">                        stop = length;</span>
+                    } else {
+                        // Look for modifiers
+<span class="fc" id="L80">                        stop++;</span>
+<span class="fc bfc" id="L81" title="All 4 branches covered.">                        while (stop &lt; length &amp;&amp; (re.charAt(stop) == 'g' ||</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">                                                 re.charAt(stop) == 'i' ||</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">                                                 re.charAt(stop) == 'm' ||</span>
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">                                                 re.charAt(stop) == 'o' ||</span>
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">                                                 re.charAt(stop) == 's' ||</span>
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">                                                 re.charAt(stop) == 'x')) {</span>
+<span class="fc" id="L87">                            stop++;</span>
+                        }
+                    }
+
+<span class="fc" id="L91">                    logger.debug(&quot;stop is &quot; + stop);</span>
+
+                    // Add candidate
+<span class="fc" id="L94">                    logger.debug(&quot;candidate is \&quot;&quot; + re.substring(start, stop) + &quot;\&quot;&quot;);</span>
+<span class="fc" id="L95">                    result.add(re.substring(start, stop));</span>
+
+                    // Move start
+<span class="fc" id="L98">                    start = stop + 1;</span>
+                } else {
+<span class="fc" id="L100">                    stop++;</span>
+                }
+            }
+<span class="fc" id="L103">        }</span>
+
+<span class="pc" id="L105">        logger.debug(&quot;ParseRE \&quot;{}\&quot; results in {}&quot;, () -&gt; re, () -&gt; result);</span>
+
+<span class="fc" id="L107">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

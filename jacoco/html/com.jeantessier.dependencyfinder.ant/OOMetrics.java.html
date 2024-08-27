@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OOMetrics.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependencyfinder.ant</a> &gt; <span class="el_source">OOMetrics.java</span></div><h1>OOMetrics.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependencyfinder.ant;
+
+import com.jeantessier.classreader.AggregatingClassfileLoader;
+import com.jeantessier.classreader.ClassfileLoader;
+import com.jeantessier.classreader.LoadListenerVisitorAdapter;
+import com.jeantessier.classreader.TransientClassfileLoader;
+import com.jeantessier.metrics.*;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Task;
+import org.apache.tools.ant.types.Path;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.*;
+import java.io.*;
+import java.lang.reflect.*;
+import java.nio.file.*;
+import java.util.*;
+
+<span class="nc" id="L51">public class OOMetrics extends Task {</span>
+    public static final String DEFAULT_PROJECT_NAME = &quot;Project&quot;;
+    public static final String DEFAULT_SORT = &quot;name&quot;;
+
+<span class="nc" id="L55">    private String projectName = DEFAULT_PROJECT_NAME;</span>
+    private File configuration;
+<span class="nc" id="L57">    private boolean csv = false;</span>
+<span class="nc" id="L58">    private boolean json = false;</span>
+<span class="nc" id="L59">    private boolean text = false;</span>
+<span class="nc" id="L60">    private boolean xml = false;</span>
+<span class="nc" id="L61">    private boolean yaml = false;</span>
+<span class="nc" id="L62">    private boolean validate = false;</span>
+<span class="nc" id="L63">    private String encoding = com.jeantessier.metrics.XMLPrinter.DEFAULT_ENCODING;</span>
+<span class="nc" id="L64">    private String dtdPrefix = com.jeantessier.metrics.XMLPrinter.DEFAULT_DTD_PREFIX;</span>
+    private String indentText;
+<span class="nc" id="L66">    private boolean projectMetrics = false;</span>
+<span class="nc" id="L67">    private boolean groupMetrics = false;</span>
+<span class="nc" id="L68">    private boolean classMetrics = false;</span>
+<span class="nc" id="L69">    private boolean methodMetrics = false;</span>
+    private Path scopeIncludesList;
+    private Path scopeExcludesList;
+    private Path filterIncludesList;
+    private Path filterExcludesList;
+<span class="nc" id="L74">    private boolean showAllMetrics = false;</span>
+<span class="nc" id="L75">    private boolean showEmptyMetrics = false;</span>
+<span class="nc" id="L76">    private boolean showHiddenMeasurements = false;</span>
+<span class="nc" id="L77">    private String sort = DEFAULT_SORT;</span>
+<span class="nc" id="L78">    private boolean expand = false;</span>
+<span class="nc" id="L79">    private boolean reverse = false;</span>
+<span class="nc" id="L80">    private boolean enableCrossClassMeasurements = false;</span>
+    private File destprefix;
+    private Path path;
+
+    public String getProjectname() {
+<span class="nc" id="L85">        return projectName;</span>
+    }
+    
+    public void setProjectname(String projectName) {
+<span class="nc" id="L89">        this.projectName = projectName;</span>
+<span class="nc" id="L90">    }</span>
+
+    public File getConfiguration() {
+<span class="nc" id="L93">        return configuration;</span>
+    }
+    
+    public void setConfiguration(File configuration) {
+<span class="nc" id="L97">        this.configuration = configuration;</span>
+<span class="nc" id="L98">    }</span>
+
+    public boolean getCsv() {
+<span class="nc" id="L101">        return csv;</span>
+    }
+
+    public void setCsv(boolean csv) {
+<span class="nc" id="L105">        this.csv = csv;</span>
+<span class="nc" id="L106">    }</span>
+
+    public boolean getJson() {
+<span class="nc" id="L109">        return json;</span>
+    }
+
+    public void setJson(boolean json) {
+<span class="nc" id="L113">        this.json = json;</span>
+<span class="nc" id="L114">    }</span>
+
+    public boolean getText() {
+<span class="nc" id="L117">        return text;</span>
+    }
+
+    public void setText(boolean text) {
+<span class="nc" id="L121">        this.text = text;</span>
+<span class="nc" id="L122">    }</span>
+
+    public void setTxt(boolean text) {
+<span class="nc" id="L125">        setText(text);</span>
+<span class="nc" id="L126">    }</span>
+
+    public boolean getXml() {
+<span class="nc" id="L129">        return xml;</span>
+    }
+
+    public void setXml(boolean xml) {
+<span class="nc" id="L133">        this.xml = xml;</span>
+<span class="nc" id="L134">    }</span>
+
+    public boolean getYaml() {
+<span class="nc" id="L137">        return yaml;</span>
+    }
+
+    public void setYaml(boolean yaml) {
+<span class="nc" id="L141">        this.yaml = yaml;</span>
+<span class="nc" id="L142">    }</span>
+
+    public void setYml(boolean yaml) {
+<span class="nc" id="L145">        setYaml(yaml);</span>
+<span class="nc" id="L146">    }</span>
+
+    public boolean getValidate() {
+<span class="nc" id="L149">        return validate;</span>
+    }
+
+    public void setValidate(boolean validate) {
+<span class="nc" id="L153">        this.validate = validate;</span>
+<span class="nc" id="L154">    }</span>
+
+    public String getEncoding() {
+<span class="nc" id="L157">        return encoding;</span>
+    }
+    
+    public void setEncoding(String encoding) {
+<span class="nc" id="L161">        this.encoding = encoding;</span>
+<span class="nc" id="L162">    }</span>
+
+    public String getDtdprefix() {
+<span class="nc" id="L165">        return dtdPrefix;</span>
+    }
+    
+    public void setDtdprefix(String dtdPrefix) {
+<span class="nc" id="L169">        this.dtdPrefix = dtdPrefix;</span>
+<span class="nc" id="L170">    }</span>
+
+    public String getIndenttext() {
+<span class="nc" id="L173">        return indentText;</span>
+    }
+    
+    public void setIndenttext(String indentText) {
+<span class="nc" id="L177">        this.indentText = indentText;</span>
+<span class="nc" id="L178">    }</span>
+
+    public boolean getProjectmetrics() {
+<span class="nc" id="L181">        return projectMetrics;</span>
+    }
+    
+    public void setProjectmetrics(boolean projectMetrics) {
+<span class="nc" id="L185">        this.projectMetrics = projectMetrics;</span>
+<span class="nc" id="L186">    }</span>
+
+    public boolean getGroupmetrics() {
+<span class="nc" id="L189">        return groupMetrics;</span>
+    }
+    
+    public void setGroupmetrics(boolean groupMetrics) {
+<span class="nc" id="L193">        this.groupMetrics = groupMetrics;</span>
+<span class="nc" id="L194">    }</span>
+
+    public boolean getClassmetrics() {
+<span class="nc" id="L197">        return classMetrics;</span>
+    }
+    
+    public void setClassmetrics(boolean classMetrics) {
+<span class="nc" id="L201">        this.classMetrics = classMetrics;</span>
+<span class="nc" id="L202">    }</span>
+
+    public boolean getMethodmetrics() {
+<span class="nc" id="L205">        return methodMetrics;</span>
+    }
+    
+    public void setMethodmetrics(boolean methodMetrics) {
+<span class="nc" id="L209">        this.methodMetrics = methodMetrics;</span>
+<span class="nc" id="L210">    }</span>
+
+    public void setAllmetrics(boolean allMetrics) {
+<span class="nc" id="L213">        setProjectmetrics(allMetrics);</span>
+<span class="nc" id="L214">        setGroupmetrics(allMetrics);</span>
+<span class="nc" id="L215">        setClassmetrics(allMetrics);</span>
+<span class="nc" id="L216">        setMethodmetrics(allMetrics);</span>
+<span class="nc" id="L217">    }</span>
+    
+    public Path createScopeincludeslist() {
+<span class="nc bnc" id="L220" title="All 2 branches missed.">        if (scopeIncludesList == null) {</span>
+<span class="nc" id="L221">            scopeIncludesList = new Path(getProject());</span>
+        }
+
+<span class="nc" id="L224">        return scopeIncludesList;</span>
+    }
+    
+    public Path getScopeincludeslist() {
+<span class="nc" id="L228">        return scopeIncludesList;</span>
+    }
+    
+    public Path createScopeexcludeslist() {
+<span class="nc bnc" id="L232" title="All 2 branches missed.">        if (scopeExcludesList == null) {</span>
+<span class="nc" id="L233">            scopeExcludesList = new Path(getProject());</span>
+        }
+
+<span class="nc" id="L236">        return scopeExcludesList;</span>
+    }
+    
+    public Path getScopeexcludeslist() {
+<span class="nc" id="L240">        return scopeExcludesList;</span>
+    }
+    
+    public Path createFilterincludeslist() {
+<span class="nc bnc" id="L244" title="All 2 branches missed.">        if (filterIncludesList == null) {</span>
+<span class="nc" id="L245">            filterIncludesList = new Path(getProject());</span>
+        }
+
+<span class="nc" id="L248">        return filterIncludesList;</span>
+    }
+    
+    public Path getFilterincludeslist() {
+<span class="nc" id="L252">        return filterIncludesList;</span>
+    }
+    
+    public Path createFilterexcludeslist() {
+<span class="nc bnc" id="L256" title="All 2 branches missed.">        if (filterExcludesList == null) {</span>
+<span class="nc" id="L257">            filterExcludesList = new Path(getProject());</span>
+        }
+
+<span class="nc" id="L260">        return filterExcludesList;</span>
+    }
+    
+    public Path getFilterexcludeslist() {
+<span class="nc" id="L264">        return filterExcludesList;</span>
+    }
+
+    public boolean getShowallmetrics() {
+<span class="nc" id="L268">        return showAllMetrics;</span>
+    }
+    
+    public void setShowallmetrics(boolean showAllMetrics) {
+<span class="nc" id="L272">        this.showAllMetrics = showAllMetrics;</span>
+<span class="nc" id="L273">    }</span>
+
+    public boolean getShowemptymetrics() {
+<span class="nc" id="L276">        return showEmptyMetrics;</span>
+    }
+    
+    public void setShowemptymetrics(boolean showEmptyMetrics) {
+<span class="nc" id="L280">        this.showEmptyMetrics = showEmptyMetrics;</span>
+<span class="nc" id="L281">    }</span>
+
+    public boolean getShowhiddenmeasurements() {
+<span class="nc" id="L284">        return showHiddenMeasurements;</span>
+    }
+    
+    public void setShowhiddenmeasurements(boolean showHiddenMeasurements) {
+<span class="nc" id="L288">        this.showHiddenMeasurements = showHiddenMeasurements;</span>
+<span class="nc" id="L289">    }</span>
+    
+    public String getSort() {
+<span class="nc" id="L292">        return sort;</span>
+    }
+    
+    public void setSort(String sort) {
+<span class="nc" id="L296">        this.sort = sort;</span>
+<span class="nc" id="L297">    }</span>
+
+    public boolean getExpand() {
+<span class="nc" id="L300">        return expand;</span>
+    }
+    
+    public void setExpand(boolean expand) {
+<span class="nc" id="L304">        this.expand = expand;</span>
+<span class="nc" id="L305">    }</span>
+
+    public boolean getReverse() {
+<span class="nc" id="L308">        return reverse;</span>
+    }
+    
+    public void setReverse(boolean reverse) {
+<span class="nc" id="L312">        this.reverse = reverse;</span>
+<span class="nc" id="L313">    }</span>
+
+    public boolean getEnablecrossclassmeasurements() {
+<span class="nc" id="L316">        return enableCrossClassMeasurements;</span>
+    }
+
+    public void setEnablecrossclassmeasurements(boolean enableCrossClassMeasurements) {
+<span class="nc" id="L320">        this.enableCrossClassMeasurements = enableCrossClassMeasurements;</span>
+<span class="nc" id="L321">    }</span>
+
+    public File getDestprefix() {
+<span class="nc" id="L324">        return destprefix;</span>
+    }
+    
+    public void setDestprefix(File destprefix) {
+<span class="nc" id="L328">        this.destprefix = destprefix;</span>
+<span class="nc" id="L329">    }</span>
+    
+    public Path createPath() {
+<span class="nc bnc" id="L332" title="All 2 branches missed.">        if (path == null) {</span>
+<span class="nc" id="L333">            path = new Path(getProject());</span>
+        }
+
+<span class="nc" id="L336">        return path;</span>
+    }
+    
+    public Path getPath() {
+<span class="nc" id="L340">        return path;</span>
+    }
+    
+    public void execute() throws BuildException {
+        // first off, make sure that we've got what we need
+
+<span class="nc bnc" id="L346" title="All 2 branches missed.">        if (getConfiguration() == null) {</span>
+<span class="nc" id="L347">            throw new BuildException(&quot;configuration must be set!&quot;);</span>
+        }
+        
+<span class="nc bnc" id="L350" title="All 2 branches missed.">        if (!getConfiguration().exists()) {</span>
+<span class="nc" id="L351">            throw new BuildException(&quot;configuration does not exist!&quot;);</span>
+        }
+        
+<span class="nc bnc" id="L354" title="All 2 branches missed.">        if (!getConfiguration().isFile()) {</span>
+<span class="nc" id="L355">            throw new BuildException(&quot;configuration is not a file!&quot;);</span>
+        }
+
+<span class="nc bnc" id="L358" title="All 2 branches missed.">        if (getPath() == null) {</span>
+<span class="nc" id="L359">            throw new BuildException(&quot;path must be set!&quot;);</span>
+        }
+
+<span class="nc bnc" id="L362" title="All 2 branches missed.">        if (getDestprefix() == null) {</span>
+<span class="nc" id="L363">            throw new BuildException(&quot;destprefix must be set!&quot;);</span>
+        }
+
+        try {
+<span class="nc" id="L367">            VerboseListener verboseListener = new VerboseListener(this);</span>
+            
+<span class="nc" id="L369">            log(&quot;Reading configuration ...&quot;);</span>
+<span class="nc" id="L370">            MetricsFactory factory = new MetricsFactory(getProjectname(), new MetricsConfigurationLoader(getValidate()).load(getConfiguration().getAbsolutePath()));</span>
+            
+<span class="nc" id="L372">            com.jeantessier.metrics.MetricsGatherer gatherer = new com.jeantessier.metrics.MetricsGatherer(factory);</span>
+<span class="nc bnc" id="L373" title="All 4 branches missed.">            if (getScopeincludeslist() != null || getScopeexcludeslist() != null) {</span>
+<span class="nc" id="L374">                gatherer.setScopeIncludes(createCollection(getScopeincludeslist(), getScopeexcludeslist()));</span>
+            }
+<span class="nc bnc" id="L376" title="All 4 branches missed.">            if (getFilterincludeslist() != null || getFilterexcludeslist() != null) {</span>
+<span class="nc" id="L377">                gatherer.setFilterIncludes(createCollection(getFilterincludeslist(), getFilterexcludeslist()));</span>
+            }
+<span class="nc" id="L379">            gatherer.addMetricsListener(verboseListener);</span>
+
+<span class="nc bnc" id="L381" title="All 2 branches missed.">            if (getEnablecrossclassmeasurements()) {</span>
+<span class="nc" id="L382">                log(&quot;Reading in all classes from path &quot; + getPath());</span>
+<span class="nc" id="L383">                ClassfileLoader loader = new AggregatingClassfileLoader();</span>
+<span class="nc" id="L384">                loader.addLoadListener(verboseListener);</span>
+<span class="nc" id="L385">                loader.load(Arrays.asList(getPath().list()));</span>
+
+<span class="nc" id="L387">                log(&quot;Computing metrics ...&quot;);</span>
+<span class="nc" id="L388">                gatherer.visitClassfiles(loader.getAllClassfiles());</span>
+<span class="nc" id="L389">            } else {</span>
+<span class="nc" id="L390">                ClassfileLoader loader = new TransientClassfileLoader();</span>
+<span class="nc" id="L391">                loader.addLoadListener(verboseListener);</span>
+<span class="nc" id="L392">                loader.addLoadListener(new LoadListenerVisitorAdapter(gatherer));</span>
+
+<span class="nc" id="L394">                log(&quot;Reading classes and computing metrics as we go ...&quot;);</span>
+<span class="nc" id="L395">                loader.load(Arrays.asList(getPath().list()));</span>
+            }
+
+<span class="nc bnc" id="L398" title="All 2 branches missed.">            if (getShowallmetrics()) {</span>
+<span class="nc" id="L399">                gatherer.getMetricsFactory().getAllClassMetrics().forEach(metrics -&gt; gatherer.getMetricsFactory().includeClassMetrics(metrics));</span>
+<span class="nc" id="L400">                gatherer.getMetricsFactory().getAllMethodMetrics().forEach(metrics -&gt; gatherer.getMetricsFactory().includeMethodMetrics(metrics));</span>
+            }
+
+<span class="nc bnc" id="L403" title="All 2 branches missed.">            if (getCsv()) {</span>
+<span class="nc" id="L404">                printCSVFiles(gatherer.getMetricsFactory());</span>
+<span class="nc bnc" id="L405" title="All 2 branches missed.">            } else if (getJson()) {</span>
+<span class="nc" id="L406">                printJSONFile(gatherer.getMetricsFactory());</span>
+<span class="nc bnc" id="L407" title="All 2 branches missed.">            } else if (getText()) {</span>
+<span class="nc" id="L408">                printTextFile(gatherer.getMetricsFactory());</span>
+<span class="nc bnc" id="L409" title="All 2 branches missed.">            } else if (getXml()) {</span>
+<span class="nc" id="L410">                printXMLFile(gatherer.getMetricsFactory());</span>
+<span class="nc bnc" id="L411" title="All 2 branches missed.">            } else if (getYaml()) {</span>
+<span class="nc" id="L412">                printYAMLFile(gatherer.getMetricsFactory());</span>
+            }
+<span class="nc" id="L414">        } catch (SAXException | ParserConfigurationException | IOException ex) {</span>
+<span class="nc" id="L415">            throw new BuildException(ex);</span>
+<span class="nc" id="L416">        }</span>
+<span class="nc" id="L417">    }</span>
+
+    private Collection&lt;String&gt; createCollection(Path includes, Path excludes) throws IOException {
+<span class="nc" id="L420">        Collection&lt;String&gt; result = new HashSet&lt;&gt;();</span>
+
+<span class="nc bnc" id="L422" title="All 2 branches missed.">        if (includes != null) {</span>
+<span class="nc bnc" id="L423" title="All 2 branches missed.">            for (String filename : includes.list()) {</span>
+<span class="nc" id="L424">                result.addAll(Files.readAllLines(Paths.get(filename)));</span>
+            }
+        }
+        
+<span class="nc bnc" id="L428" title="All 2 branches missed.">        if (excludes != null) {</span>
+<span class="nc bnc" id="L429" title="All 2 branches missed.">            for (String filename : excludes.list()) {</span>
+<span class="nc" id="L430">                result.removeAll(Files.readAllLines(Paths.get(filename)));</span>
+            }
+        }
+        
+<span class="nc" id="L434">        return result;</span>
+    }
+
+    private void printCSVFiles(MetricsFactory factory) throws IOException {
+<span class="nc" id="L438">        printCSVFile(getProjectmetrics(), &quot;project&quot;, factory.getConfiguration().getProjectMeasurements(), factory.getProjectMetrics());</span>
+<span class="nc" id="L439">        printCSVFile(getGroupmetrics(),   &quot;groups&quot;,  factory.getConfiguration().getGroupMeasurements(),   factory.getGroupMetrics());</span>
+<span class="nc" id="L440">        printCSVFile(getClassmetrics(),   &quot;classes&quot;, factory.getConfiguration().getClassMeasurements(),   factory.getClassMetrics());</span>
+<span class="nc" id="L441">        printCSVFile(getMethodmetrics(),  &quot;methods&quot;, factory.getConfiguration().getMethodMeasurements(),  factory.getMethodMetrics());</span>
+<span class="nc" id="L442">    }</span>
+
+    private void printCSVFile(boolean flag, String name, List&lt;MeasurementDescriptor&gt; descriptors, Collection&lt;Metrics&gt; metrics) throws IOException {
+<span class="nc bnc" id="L445" title="All 2 branches missed.">        if (flag) {</span>
+<span class="nc" id="L446">            String filename = getDestprefix().getAbsolutePath() + &quot;_&quot; + name + &quot;.csv&quot;;</span>
+<span class="nc" id="L447">            log(&quot;Saving metrics to &quot; + filename);</span>
+
+<span class="nc" id="L449">            try (PrintWriter out = new PrintWriter(new FileWriter(filename))) {</span>
+<span class="nc" id="L450">                printMetrics(descriptors, metrics, CSVPrinter.class, out);</span>
+            }
+        }
+<span class="nc" id="L453">    }</span>
+
+    private void printJSONFile(MetricsFactory factory) throws IOException {
+<span class="nc" id="L456">        String filename = getDestprefix().getAbsolutePath() + &quot;.json&quot;;</span>
+<span class="nc" id="L457">        log(&quot;Saving metrics to &quot; + filename);</span>
+
+<span class="nc" id="L459">        try (PrintWriter out = new PrintWriter(new FileWriter(filename))) {</span>
+<span class="nc" id="L460">            printMetrics(factory.getProjectMetrics(), new com.jeantessier.metrics.JSONPrinter(out, factory.getConfiguration()));</span>
+        }
+<span class="nc" id="L462">    }</span>
+
+    private void printTextFile(MetricsFactory factory) throws IOException {
+<span class="nc" id="L465">        String filename = getDestprefix().getAbsolutePath() + &quot;.txt&quot;;</span>
+<span class="nc" id="L466">        log(&quot;Saving metrics to &quot; + filename);</span>
+        
+<span class="nc" id="L468">        try (PrintWriter out = new PrintWriter(new FileWriter(filename))) {</span>
+<span class="nc" id="L469">            printTextFile(getProjectmetrics(), &quot;Project metrics&quot;, factory.getConfiguration().getProjectMeasurements(), factory.getProjectMetrics(), out);</span>
+<span class="nc" id="L470">            printTextFile(getGroupmetrics(),   &quot;Group metrics&quot;,   factory.getConfiguration().getGroupMeasurements(),   factory.getGroupMetrics(),   out);</span>
+<span class="nc" id="L471">            printTextFile(getClassmetrics(),   &quot;Class metrics&quot;,   factory.getConfiguration().getClassMeasurements(),   factory.getClassMetrics(),   out);</span>
+<span class="nc" id="L472">            printTextFile(getMethodmetrics(),  &quot;Method metrics&quot;,  factory.getConfiguration().getMethodMeasurements(),  factory.getMethodMetrics(),  out);</span>
+        }
+<span class="nc" id="L474">    }</span>
+
+    private void printTextFile(boolean flag, String label, List&lt;MeasurementDescriptor&gt; descriptors, Collection&lt;Metrics&gt; metrics, PrintWriter out) {
+<span class="nc bnc" id="L477" title="All 2 branches missed.">        if (flag) {</span>
+<span class="nc" id="L478">            out.println(label);</span>
+<span class="nc" id="L479">            out.println(label.replaceAll(&quot;.&quot;, &quot;-&quot;));</span>
+<span class="nc" id="L480">            printMetrics(descriptors, metrics, TextPrinter.class, out);</span>
+<span class="nc" id="L481">            out.println();</span>
+        }
+<span class="nc" id="L483">    }</span>
+
+    private void printXMLFile(MetricsFactory factory) throws IOException {
+<span class="nc" id="L486">        String filename = getDestprefix().getAbsolutePath() + &quot;.xml&quot;;</span>
+<span class="nc" id="L487">        log(&quot;Saving metrics to &quot; + filename);</span>
+
+<span class="nc" id="L489">        try (PrintWriter out = new PrintWriter(new FileWriter(filename))) {</span>
+<span class="nc" id="L490">            printMetrics(factory.getProjectMetrics(), new com.jeantessier.metrics.XMLPrinter(out, factory.getConfiguration(), getEncoding(), getDtdprefix()));</span>
+        }
+<span class="nc" id="L492">    }</span>
+
+    private void printYAMLFile(MetricsFactory factory) throws IOException {
+<span class="nc" id="L495">        String filename = getDestprefix().getAbsolutePath() + &quot;.yaml&quot;;</span>
+<span class="nc" id="L496">        log(&quot;Saving metrics to &quot; + filename);</span>
+
+<span class="nc" id="L498">        try (PrintWriter out = new PrintWriter(new FileWriter(filename))) {</span>
+<span class="nc" id="L499">            printMetrics(factory.getProjectMetrics(), new com.jeantessier.metrics.YAMLPrinter(out, factory.getConfiguration()));</span>
+        }
+<span class="nc" id="L501">    }</span>
+
+    private void printMetrics(List&lt;MeasurementDescriptor&gt; descriptors, Collection&lt;Metrics&gt; metrics, Class&lt;? extends Printer&gt; clazz, PrintWriter out) {
+        try {
+<span class="nc" id="L505">            printMetrics(metrics, clazz.getConstructor(PrintWriter.class, List.class).newInstance(out, descriptors));</span>
+<span class="nc" id="L506">        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {</span>
+<span class="nc" id="L507">            throw new BuildException(ex);</span>
+<span class="nc" id="L508">        }</span>
+<span class="nc" id="L509">    }</span>
+
+    private void printMetrics(Collection&lt;Metrics&gt; metrics, Printer printer) {
+<span class="nc" id="L512">        printer.setExpandCollectionMeasurements(getExpand());</span>
+<span class="nc" id="L513">        printer.setShowEmptyMetrics(getShowemptymetrics());</span>
+<span class="nc" id="L514">        printer.setShowHiddenMeasurements(getShowhiddenmeasurements());</span>
+<span class="nc bnc" id="L515" title="All 2 branches missed.">        if (getIndenttext() != null) {</span>
+<span class="nc" id="L516">            printer.setIndentText(getIndenttext());</span>
+        }
+
+<span class="nc" id="L519">        var comparator = new MetricsComparator(getSort());</span>
+<span class="nc bnc" id="L520" title="All 2 branches missed.">        if (getReverse()) {</span>
+<span class="nc" id="L521">            comparator.reverse();</span>
+        }
+<span class="nc" id="L523">        printer.setComparator(comparator);</span>
+
+<span class="nc" id="L525">        printer.visitMetrics(metrics);</span>
+<span class="nc" id="L526">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

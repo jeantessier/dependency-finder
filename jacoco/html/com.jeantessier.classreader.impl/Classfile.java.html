@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Classfile.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader.impl</a> &gt; <span class="el_source">Classfile.java</span></div><h1>Classfile.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.classreader.impl;
+
+import com.jeantessier.classreader.*;
+import org.apache.logging.log4j.*;
+
+import java.io.*;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
+
+import static java.util.stream.Collectors.*;
+
+public class Classfile implements com.jeantessier.classreader.Classfile {
+    private static final int ACC_PUBLIC = 0x0001;
+    private static final int ACC_FINAL = 0x0010;
+    private static final int ACC_SUPER = 0x0020;
+    private static final int ACC_INTERFACE = 0x0200;
+    private static final int ACC_ABSTRACT = 0x0400;
+    private static final int ACC_SYNTHETIC = 0x1000;
+    private static final int ACC_ANNOTATION = 0x2000;
+    private static final int ACC_ENUM = 0x4000;
+    private static final int ACC_MODULE = 0x8000;
+
+    private final ClassfileLoader loader;
+
+    private final int magicNumber;
+    private final int minorVersion;
+    private final int majorVersion;
+    private final ConstantPool constantPool;
+    private final int accessFlags;
+    private final int classIndex;
+    private final int superclassIndex;
+<span class="fc" id="L65">    private final Collection&lt;Class_info&gt; interfaces = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L66">    private final Collection&lt;Field_info&gt; fields = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L67">    private final Collection&lt;Method_info&gt; methods = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L68">    private final Collection&lt;Attribute_info&gt; attributes = new LinkedList&lt;&gt;();</span>
+
+    /**
+     *  Parses the input stream and extracts the class description.
+     *  You should only call this constructor from a ClassfileLoader.
+     */
+<span class="fc" id="L74">    public Classfile(ClassfileLoader loader, DataInput in, AttributeFactory attributeFactory) throws IOException {</span>
+<span class="fc" id="L75">        this.loader = loader;</span>
+
+<span class="fc" id="L77">        magicNumber = in.readInt();</span>
+<span class="pc" id="L78">        LogManager.getLogger(getClass()).debug(&quot;magic number = 0x{}&quot;, () -&gt; Integer.toHexString(magicNumber).toUpperCase());</span>
+
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">        if (magicNumber != 0xCAFEBABE) {</span>
+<span class="nc" id="L81">            throw new IOException(&quot;Bad magic number&quot;);</span>
+        }
+        
+        // Reading the file format's version number
+<span class="fc" id="L85">        minorVersion = in.readUnsignedShort();</span>
+<span class="fc" id="L86">        LogManager.getLogger(getClass()).debug(&quot;minor version = {}&quot;, minorVersion);</span>
+<span class="fc" id="L87">        majorVersion = in.readUnsignedShort();</span>
+<span class="fc" id="L88">        LogManager.getLogger(getClass()).debug(&quot;major version = {}&quot;, majorVersion);</span>
+
+        // Reading the constant pool
+<span class="fc" id="L91">        LogManager.getLogger(getClass()).debug(&quot;Reading the constant pool ...&quot;);</span>
+<span class="fc" id="L92">        constantPool = new ConstantPool(this, in);</span>
+<span class="fc" id="L93">        LogManager.getLogger(getClass()).debug(constantPool);</span>
+
+        // Skipping the access flags
+<span class="fc" id="L96">        accessFlags = in.readUnsignedShort();</span>
+<span class="fc" id="L97">        LogManager.getLogger(getClass()).debug(&quot;accessFlags = {}&quot;, accessFlags);</span>
+
+        // Retrieving this class's name
+<span class="fc" id="L100">        classIndex = in.readUnsignedShort();</span>
+<span class="fc" id="L101">        LogManager.getLogger(getClass()).debug(&quot;thisClass = {} ({})&quot;, classIndex, getClassName());</span>
+
+        // Retrieving this class's superclass
+<span class="fc" id="L104">        superclassIndex = in.readUnsignedShort();</span>
+<span class="fc" id="L105">        LogManager.getLogger(getClass()).debug(&quot;superclass = {} ({})&quot;, superclassIndex, getSuperclassName());</span>
+
+        // Retrieving the interfaces
+<span class="fc" id="L108">        int interfaceCount = in.readUnsignedShort();</span>
+<span class="fc" id="L109">        LogManager.getLogger(getClass()).debug(&quot;Reading {} interface(s)&quot;, interfaceCount);</span>
+<span class="fc" id="L110">        IntStream.range(0, interfaceCount).forEach(i -&gt; {</span>
+            try {
+<span class="fc" id="L112">                Class_info interfaceInfo = (Class_info) constantPool.get(in.readUnsignedShort());</span>
+<span class="fc" id="L113">                LogManager.getLogger(getClass()).debug(&quot;    {}&quot;, interfaceInfo.getName());</span>
+<span class="fc" id="L114">                interfaces.add(interfaceInfo);</span>
+<span class="nc" id="L115">            } catch (IOException e) {</span>
+<span class="nc" id="L116">                throw new RuntimeException(e);</span>
+<span class="fc" id="L117">            }</span>
+<span class="fc" id="L118">        });</span>
+
+        // Retrieving the fields
+<span class="fc" id="L121">        int fieldCount = in.readUnsignedShort();</span>
+<span class="fc" id="L122">        LogManager.getLogger(getClass()).debug(&quot;Reading {} field(s)&quot;, fieldCount);</span>
+<span class="fc" id="L123">        IntStream.range(0, fieldCount).forEach(i -&gt; {</span>
+            try {
+<span class="fc" id="L125">                LogManager.getLogger(getClass()).debug(&quot;Field {}:&quot;, i);</span>
+<span class="fc" id="L126">                fields.add(new Field_info(this, in, attributeFactory));</span>
+<span class="nc" id="L127">            } catch (IOException e) {</span>
+<span class="nc" id="L128">                throw new RuntimeException(e);</span>
+<span class="fc" id="L129">            }</span>
+<span class="fc" id="L130">        });</span>
+
+        // Retrieving the methods
+<span class="fc" id="L133">        int methodCount = in.readUnsignedShort();</span>
+<span class="fc" id="L134">        LogManager.getLogger(getClass()).debug(&quot;Reading {} method(s)&quot;, methodCount);</span>
+<span class="fc" id="L135">        IntStream.range(0, methodCount).forEach(i -&gt; {</span>
+            try {
+<span class="fc" id="L137">                LogManager.getLogger(getClass()).debug(&quot;Method {}:&quot;, i);</span>
+<span class="fc" id="L138">                methods.add(new Method_info(this, in, attributeFactory));</span>
+<span class="nc" id="L139">            } catch (IOException e) {</span>
+<span class="nc" id="L140">                throw new RuntimeException(e);</span>
+<span class="fc" id="L141">            }</span>
+<span class="fc" id="L142">        });</span>
+
+        // Retrieving the attributes
+<span class="fc" id="L145">        int attributeCount = in.readUnsignedShort();</span>
+<span class="fc" id="L146">        LogManager.getLogger(getClass()).debug(&quot;Reading {} class attribute(s)&quot;, attributeCount);</span>
+<span class="fc" id="L147">        IntStream.range(0, attributeCount).forEach(i -&gt; {</span>
+            try {
+<span class="fc" id="L149">                LogManager.getLogger(getClass()).debug(&quot;Attribute {}:&quot;, i);</span>
+<span class="fc" id="L150">                attributes.add(attributeFactory.create(constantPool, this, in));</span>
+<span class="nc" id="L151">            } catch (IOException e) {</span>
+<span class="nc" id="L152">                throw new RuntimeException(e);</span>
+<span class="fc" id="L153">            }</span>
+<span class="fc" id="L154">        });</span>
+<span class="fc" id="L155">    }</span>
+
+    /**
+     * For testing only
+     */
+<span class="fc" id="L160">    Classfile(ClassfileLoader loader, ConstantPool constantPool, int accessFlags, int classIndex, int superclassIndex, Collection&lt;Class_info&gt; interfaces, Collection&lt;Field_info&gt; fields, Collection&lt;Method_info&gt; methods, Collection&lt;Attribute_info&gt; attributes) {</span>
+<span class="fc" id="L161">        this.loader = loader;</span>
+<span class="fc" id="L162">        this.constantPool = constantPool;</span>
+
+<span class="fc" id="L164">        this.magicNumber = 0xCAFEBABE;</span>
+<span class="fc" id="L165">        this.minorVersion = Integer.MIN_VALUE;</span>
+<span class="fc" id="L166">        this.majorVersion = Integer.MAX_VALUE;</span>
+
+<span class="fc" id="L168">        this.accessFlags = accessFlags;</span>
+<span class="fc" id="L169">        this.classIndex = classIndex;</span>
+<span class="fc" id="L170">        this.superclassIndex = superclassIndex;</span>
+
+<span class="fc" id="L172">        this.interfaces.addAll(interfaces);</span>
+<span class="fc" id="L173">        this.fields.addAll(fields);</span>
+<span class="fc" id="L174">        this.methods.addAll(methods);</span>
+<span class="fc" id="L175">        this.attributes.addAll(attributes);</span>
+<span class="fc" id="L176">    }</span>
+
+    public ClassfileLoader getLoader() {
+<span class="fc" id="L179">        return loader;</span>
+    }
+
+    public int getMagicNumber() {
+<span class="fc" id="L183">        return magicNumber;</span>
+    }
+
+    public int getMinorVersion() {
+<span class="fc" id="L187">        return minorVersion;</span>
+    }
+
+    public int getMajorVersion() {
+<span class="fc" id="L191">        return majorVersion;</span>
+    }
+
+    public ConstantPool getConstantPool() {
+<span class="fc" id="L195">        return constantPool;</span>
+    }
+
+    public int getAccessFlags() {
+<span class="fc" id="L199">        return accessFlags;</span>
+    }
+
+    public int getClassIndex() {
+<span class="fc" id="L203">        return classIndex;</span>
+    }
+
+    public Class_info getRawClass() {
+<span class="fc" id="L207">        return (Class_info) getConstantPool().get(getClassIndex());</span>
+    }
+
+    public String getClassName() {
+<span class="fc" id="L211">        return getRawClass().getName();</span>
+    }
+
+    public String getPackageName() {
+<span class="fc" id="L215">        return getRawClass().getPackageName();</span>
+    }
+
+    public String getSimpleName() {
+<span class="fc" id="L219">        return getRawClass().getSimpleName();</span>
+    }
+
+    public int getSuperclassIndex() {
+<span class="fc" id="L223">        return superclassIndex;</span>
+    }
+
+    public boolean hasSuperclass() {
+<span class="pc bpc" id="L227" title="1 of 2 branches missed.">        return getSuperclassIndex() != 0;</span>
+    }
+
+    public Class_info getRawSuperclass() {
+<span class="fc" id="L231">        return (Class_info) getConstantPool().get(getSuperclassIndex());</span>
+    }
+
+    public String getSuperclassName() {
+<span class="pc bpc" id="L235" title="1 of 2 branches missed.">        if (hasSuperclass()) {</span>
+<span class="fc" id="L236">            return getRawSuperclass().getName();</span>
+        }
+        
+<span class="nc" id="L239">        return &quot;&quot;;</span>
+    }
+
+    public Class_info getInterface(String name) {
+<span class="nc" id="L243">        return interfaces.parallelStream()</span>
+<span class="nc" id="L244">                .filter(interfaceInfo -&gt; interfaceInfo.getName().equals(name))</span>
+<span class="nc" id="L245">                .findAny()</span>
+<span class="nc" id="L246">                .orElse(null);</span>
+    }
+
+    public Collection&lt;Class_info&gt; getAllInterfaces() {
+<span class="fc" id="L250">        return interfaces;</span>
+    }
+
+    public Collection&lt;Field_info&gt; getAllFields() {
+<span class="fc" id="L254">        return fields;</span>
+    }
+
+    public com.jeantessier.classreader.Field_info getField(Predicate&lt;com.jeantessier.classreader.Field_info&gt; filter) {
+<span class="fc" id="L258">        return fields.parallelStream()</span>
+<span class="fc" id="L259">                .filter(filter)</span>
+<span class="fc" id="L260">                .findAny()</span>
+<span class="fc" id="L261">                .orElse(null);</span>
+    }
+
+    public com.jeantessier.classreader.Field_info locateField(Predicate&lt;com.jeantessier.classreader.Field_info&gt; filter) {
+<span class="fc" id="L265">        var localField = getField(filter);</span>
+<span class="fc bfc" id="L266" title="All 2 branches covered.">        if (localField != null) {</span>
+<span class="fc" id="L267">            return localField;</span>
+        }
+
+<span class="fc" id="L270">        var superclass = getLoader().getClassfile(getSuperclassName());</span>
+<span class="fc bfc" id="L271" title="All 2 branches covered.">        if (superclass != null) {</span>
+<span class="fc" id="L272">            var inheritedField = superclass.locateField(filter);</span>
+<span class="pc bpc" id="L273" title="1 of 10 branches missed.">            if (inheritedField != null &amp;&amp; (inheritedField.isPublic() || inheritedField.isProtected() || (inheritedField.isPackage() &amp;&amp; inheritedField.getClassfile().getPackageName().equals(superclass.getPackageName())))) {</span>
+<span class="fc" id="L274">                return inheritedField;</span>
+            }
+        }
+
+<span class="pc bpc" id="L278" title="1 of 2 branches missed.">        for (var interfaceInfo : getAllInterfaces()) {</span>
+<span class="nc" id="L279">            var interfaceClassfile = getLoader().getClassfile(interfaceInfo.getName());</span>
+<span class="nc bnc" id="L280" title="All 2 branches missed.">            if (interfaceClassfile != null) {</span>
+<span class="nc" id="L281">                var interfaceField = interfaceClassfile.locateField(filter);</span>
+<span class="nc bnc" id="L282" title="All 6 branches missed.">                if (interfaceField != null &amp;&amp; (interfaceField.isPublic() || interfaceField.isProtected())) {</span>
+<span class="nc" id="L283">                    return interfaceField;</span>
+                }
+            }
+<span class="nc" id="L286">        }</span>
+
+<span class="fc" id="L288">        return null;</span>
+    }
+
+    public Collection&lt;Method_info&gt; getAllMethods() {
+<span class="fc" id="L292">        return methods;</span>
+    }
+
+    public com.jeantessier.classreader.Method_info getMethod(Predicate&lt;com.jeantessier.classreader.Method_info&gt; filter) {
+<span class="fc" id="L296">        return methods.parallelStream()</span>
+<span class="fc" id="L297">                .filter(filter)</span>
+<span class="fc" id="L298">                .findAny()</span>
+<span class="fc" id="L299">                .orElse(null);</span>
+    }
+
+    public com.jeantessier.classreader.Method_info locateMethod(Predicate&lt;com.jeantessier.classreader.Method_info&gt; filter) {
+<span class="fc" id="L303">        var localMethod = getMethod(filter);</span>
+<span class="fc bfc" id="L304" title="All 2 branches covered.">        if (localMethod != null) {</span>
+<span class="fc" id="L305">            return localMethod;</span>
+        }
+
+<span class="fc" id="L308">        var superclass = getLoader().getClassfile(getSuperclassName());</span>
+<span class="fc bfc" id="L309" title="All 2 branches covered.">        if (superclass != null) {</span>
+<span class="fc" id="L310">            var inheritedMethod = superclass.locateMethod(filter);</span>
+<span class="pc bpc" id="L311" title="1 of 10 branches missed.">            if (inheritedMethod != null &amp;&amp; (inheritedMethod.isPublic() || inheritedMethod.isProtected() || (inheritedMethod.isPackage() &amp;&amp; inheritedMethod.getClassfile().getPackageName().equals(superclass.getPackageName())))) {</span>
+<span class="fc" id="L312">                return inheritedMethod;</span>
+            }
+        }
+
+<span class="pc bpc" id="L316" title="1 of 2 branches missed.">        for (var interfaceInfo : getAllInterfaces()) {</span>
+<span class="nc" id="L317">            var interfaceClassfile = getLoader().getClassfile(interfaceInfo.getName());</span>
+<span class="nc bnc" id="L318" title="All 2 branches missed.">            if (interfaceClassfile != null) {</span>
+<span class="nc" id="L319">                var interfaceMethod = interfaceClassfile.locateMethod(filter);</span>
+<span class="nc bnc" id="L320" title="All 6 branches missed.">                if (interfaceMethod != null &amp;&amp; (interfaceMethod.isPublic() || interfaceMethod.isProtected())) {</span>
+<span class="nc" id="L321">                    return interfaceMethod;</span>
+                }
+            }
+<span class="nc" id="L324">        }</span>
+
+<span class="fc" id="L326">        return null;</span>
+    }
+
+    public Collection&lt;Attribute_info&gt; getAttributes() {
+<span class="fc" id="L330">        return attributes;</span>
+    }
+
+    public boolean isPublic() {
+<span class="fc bfc" id="L334" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_PUBLIC) != 0;</span>
+    }
+
+    public boolean isPackage() {
+<span class="pc bpc" id="L338" title="1 of 2 branches missed.">        return (getAccessFlags() &amp; ACC_PUBLIC) == 0;</span>
+    }
+
+    public boolean isFinal() {
+<span class="fc bfc" id="L342" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_FINAL) != 0;</span>
+    }
+
+    public boolean isSuper() {
+<span class="fc bfc" id="L346" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_SUPER) != 0;</span>
+    }
+
+    public boolean isInterface() {
+<span class="fc bfc" id="L350" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_INTERFACE) != 0;</span>
+    }
+
+    public boolean isAbstract() {
+<span class="fc bfc" id="L354" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_ABSTRACT) != 0;</span>
+    }
+
+    public boolean isSynthetic() {
+<span class="pc bpc" id="L358" title="2 of 4 branches missed.">        return isSyntheticFromAccessFlags() || isSyntheticFromAttribute();</span>
+    }
+
+    public boolean isAnnotation() {
+<span class="fc bfc" id="L362" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_ANNOTATION) != 0;</span>
+    }
+
+    public boolean isEnum() {
+<span class="fc bfc" id="L366" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_ENUM) != 0;</span>
+    }
+
+    public boolean isModule() {
+<span class="pc bpc" id="L370" title="1 of 2 branches missed.">        return (getAccessFlags() &amp; ACC_MODULE) != 0;</span>
+    }
+
+    private boolean isSyntheticFromAccessFlags() {
+<span class="pc bpc" id="L374" title="1 of 2 branches missed.">        return (getAccessFlags() &amp; ACC_SYNTHETIC) != 0;</span>
+    }
+
+    private boolean isSyntheticFromAttribute() {
+<span class="fc" id="L378">        return getAttributes().parallelStream().anyMatch(attribute -&gt; attribute instanceof Synthetic_attribute);</span>
+    }
+
+    public boolean isDeprecated() {
+<span class="fc" id="L382">        return getAttributes().parallelStream().anyMatch(attribute -&gt; attribute instanceof Deprecated_attribute);</span>
+    }
+
+    public boolean isGeneric() {
+<span class="fc" id="L386">        return getAttributes().parallelStream().anyMatch(attribute -&gt; attribute instanceof Signature_attribute);</span>
+    }
+
+    public String getDeclaration() {
+<span class="fc" id="L390">        var result = new StringBuilder();</span>
+
+<span class="pc bpc" id="L392" title="1 of 2 branches missed.">        if (isPublic()) result.append(&quot;public &quot;);</span>
+<span class="fc bfc" id="L393" title="All 2 branches covered.">        if (isFinal()) result.append(&quot;final &quot;);</span>
+
+<span class="fc bfc" id="L395" title="All 2 branches covered.">        if (isInterface()) {</span>
+<span class="fc" id="L396">            result.append(&quot;interface &quot;).append(getClassName());</span>
+
+<span class="fc bfc" id="L398" title="All 2 branches covered.">            if (!getAllInterfaces().isEmpty()) {</span>
+<span class="fc" id="L399">                result.append(&quot; extends &quot;);</span>
+<span class="fc" id="L400">                result.append(getAllInterfaces().stream().map(Class_info::toString).collect(joining(&quot;, &quot;)));</span>
+            }
+        } else {
+<span class="pc bpc" id="L403" title="1 of 2 branches missed.">            if (isAbstract()) result.append(&quot;abstract &quot;);</span>
+<span class="fc" id="L404">            result.append(&quot;class &quot;).append(getClassName());</span>
+
+<span class="pc bpc" id="L406" title="1 of 2 branches missed.">            if (hasSuperclass()) {</span>
+<span class="fc" id="L407">                result.append(&quot; extends &quot;).append(getSuperclassName());</span>
+            }
+            
+<span class="fc bfc" id="L410" title="All 2 branches covered.">            if (!getAllInterfaces().isEmpty()) {</span>
+<span class="fc" id="L411">                result.append(&quot; implements &quot;);</span>
+<span class="fc" id="L412">                result.append(getAllInterfaces().stream().map(Class_info::toString).collect(joining(&quot;, &quot;)));</span>
+            }
+        }
+
+<span class="fc" id="L416">        return result.toString();</span>
+    }
+
+    public void accept(Visitor visitor) {
+<span class="fc" id="L420">        visitor.visitClassfile(this);</span>
+<span class="fc" id="L421">    }</span>
+
+    public String toString() {
+<span class="fc" id="L424">        return getClassName();</span>
+    }
+
+    public boolean isInnerClass() {
+<span class="fc bfc" id="L428" title="All 2 branches covered.">        return getMatchingInnerClass() != null;</span>
+    }
+
+    public boolean isMemberClass() {
+<span class="nc" id="L432">        var innerClass = getMatchingInnerClass();</span>
+<span class="nc bnc" id="L433" title="All 2 branches missed.">        if (innerClass != null) {</span>
+<span class="nc" id="L434">            return innerClass.isMemberClass();</span>
+        }
+
+<span class="nc" id="L437">        return false;</span>
+    }
+
+    public boolean isLocalClass() {
+<span class="nc" id="L441">        var innerClass = getMatchingInnerClass();</span>
+<span class="nc" id="L442">        var enclosingMethod = getEnclosingMethod();</span>
+<span class="nc bnc" id="L443" title="All 4 branches missed.">        if (innerClass != null &amp;&amp; enclosingMethod != null) {</span>
+<span class="nc bnc" id="L444" title="All 2 branches missed.">            return !innerClass.isAnonymousClass();</span>
+        }
+
+<span class="nc" id="L447">        return false;</span>
+    }
+
+    public boolean isAnonymousClass() {
+<span class="nc" id="L451">        var innerClass = getMatchingInnerClass();</span>
+<span class="nc bnc" id="L452" title="All 2 branches missed.">        if (innerClass != null) {</span>
+<span class="nc" id="L453">            return innerClass.isAnonymousClass();</span>
+        }
+
+<span class="nc" id="L456">        return false;</span>
+    }
+
+    private InnerClass getMatchingInnerClass() {
+<span class="fc bfc" id="L460" title="All 2 branches covered.">        for (var attribute : getAttributes()) {</span>
+<span class="pc bpc" id="L461" title="1 of 2 branches missed.">            if (attribute instanceof InnerClasses_attribute innerClasses_attribute) {</span>
+<span class="fc bfc" id="L462" title="All 2 branches covered.">                for (var innerClass : innerClasses_attribute.getInnerClasses()) {</span>
+<span class="fc bfc" id="L463" title="All 2 branches covered.">                    if (innerClass.getInnerClassInfo().equals(getClassName())) {</span>
+<span class="fc" id="L464">                        return innerClass;</span>
+                    }
+<span class="fc" id="L466">                }</span>
+            }
+<span class="fc" id="L468">        }</span>
+
+<span class="fc" id="L470">        return null;</span>
+    }
+
+    private EnclosingMethod_attribute getEnclosingMethod() {
+<span class="nc bnc" id="L474" title="All 2 branches missed.">        for (var attribute : getAttributes()) {</span>
+<span class="nc bnc" id="L475" title="All 2 branches missed.">            if (attribute instanceof EnclosingMethod_attribute enclosingMethod_attribute) {</span>
+<span class="nc" id="L476">                return enclosingMethod_attribute;</span>
+            }
+<span class="nc" id="L478">        }</span>
+
+<span class="nc" id="L480">        return null;</span>
+    }
+
+    public boolean equals(Object object) {
+<span class="pc bpc" id="L484" title="1 of 2 branches missed.">        if (this == object) {</span>
+<span class="fc" id="L485">            return true;</span>
+        }
+
+<span class="nc bnc" id="L488" title="All 4 branches missed.">        if (object == null || getClass() != object.getClass()) {</span>
+<span class="nc" id="L489">            return false;</span>
+        }
+
+<span class="nc bnc" id="L492" title="All 2 branches missed.">        return compareTo((Classfile) object) == 0;</span>
+    }
+
+    public int hashCode() {
+<span class="nc" id="L496">        return getClassName().hashCode();</span>
+    }
+
+    public int compareTo(com.jeantessier.classreader.Classfile other) {
+<span class="nc bnc" id="L500" title="All 2 branches missed.">        if (this == other) {</span>
+<span class="nc" id="L501">            return 0;</span>
+        }
+
+<span class="nc bnc" id="L504" title="All 2 branches missed.">        if (other == null) {</span>
+<span class="nc" id="L505">            throw new ClassCastException(&quot;compareTo: expected a &quot; + getClass().getName() + &quot; but got null&quot;);</span>
+        }
+
+<span class="nc" id="L508">        return getClassName().compareTo(other.getClassName());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

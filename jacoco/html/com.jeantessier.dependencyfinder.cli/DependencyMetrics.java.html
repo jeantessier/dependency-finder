@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DependencyMetrics.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependencyfinder.cli</a> &gt; <span class="el_source">DependencyMetrics.java</span></div><h1>DependencyMetrics.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependencyfinder.cli;
+
+import java.util.*;
+
+import com.jeantessier.commandline.*;
+import com.jeantessier.dependency.*;
+
+<span class="fc" id="L40">public class DependencyMetrics extends DependencyGraphCommand {</span>
+    protected void populateCommandLineSwitches()  {
+<span class="fc" id="L42">        super.populateCommandLineSwitches();</span>
+
+<span class="fc" id="L44">        populateCommandLineSwitchesForScoping();</span>
+<span class="fc" id="L45">        populateCommandLineSwitchesForFiltering();</span>
+
+<span class="fc" id="L47">        getCommandLine().addAliasSwitch(&quot;p2p&quot;, &quot;package-scope&quot;, &quot;package-filter&quot;);</span>
+<span class="fc" id="L48">        getCommandLine().addAliasSwitch(&quot;c2p&quot;, &quot;class-scope&quot;, &quot;package-filter&quot;);</span>
+<span class="fc" id="L49">        getCommandLine().addAliasSwitch(&quot;c2c&quot;, &quot;class-scope&quot;, &quot;class-filter&quot;);</span>
+<span class="fc" id="L50">        getCommandLine().addAliasSwitch(&quot;f2f&quot;, &quot;feature-scope&quot;, &quot;feature-filter&quot;);</span>
+<span class="fc" id="L51">        getCommandLine().addAliasSwitch(&quot;includes&quot;, &quot;scope-includes&quot;, &quot;filter-includes&quot;);</span>
+<span class="fc" id="L52">        getCommandLine().addAliasSwitch(&quot;excludes&quot;, &quot;scope-excludes&quot;, &quot;filter-excludes&quot;);</span>
+
+<span class="fc" id="L54">        getCommandLine().addToggleSwitch(&quot;list&quot;);</span>
+<span class="fc" id="L55">        getCommandLine().addToggleSwitch(&quot;chart-classes-per-package&quot;);</span>
+<span class="fc" id="L56">        getCommandLine().addToggleSwitch(&quot;chart-features-per-class&quot;);</span>
+<span class="fc" id="L57">        getCommandLine().addToggleSwitch(&quot;chart-inbounds-per-package&quot;);</span>
+<span class="fc" id="L58">        getCommandLine().addToggleSwitch(&quot;chart-outbounds-per-package&quot;);</span>
+<span class="fc" id="L59">        getCommandLine().addToggleSwitch(&quot;chart-inbounds-per-class&quot;);</span>
+<span class="fc" id="L60">        getCommandLine().addToggleSwitch(&quot;chart-outbounds-per-class&quot;);</span>
+<span class="fc" id="L61">        getCommandLine().addToggleSwitch(&quot;chart-inbounds-per-feature&quot;);</span>
+<span class="fc" id="L62">        getCommandLine().addToggleSwitch(&quot;chart-outbounds-per-feature&quot;);</span>
+
+<span class="fc" id="L64">        getCommandLine().addAliasSwitch(&quot;chart-inbounds&quot;, &quot;chart-inbounds-per-package&quot;, &quot;chart-inbounds-per-class&quot;, &quot;chart-inbounds-per-feature&quot;);</span>
+<span class="fc" id="L65">        getCommandLine().addAliasSwitch(&quot;chart-outbounds&quot;, &quot;chart-outbounds-per-package&quot;, &quot;chart-outbounds-per-class&quot;, &quot;chart-outbounds-per-feature&quot;);</span>
+<span class="fc" id="L66">        getCommandLine().addAliasSwitch(&quot;chart-packages&quot;, &quot;chart-classes-per-package&quot;, &quot;chart-inbounds-per-package&quot;, &quot;chart-outbounds-per-package&quot;);</span>
+<span class="fc" id="L67">        getCommandLine().addAliasSwitch(&quot;chart-classes&quot;, &quot;chart-features-per-class&quot;, &quot;chart-inbounds-per-class&quot;, &quot;chart-outbounds-per-class&quot;);</span>
+<span class="fc" id="L68">        getCommandLine().addAliasSwitch(&quot;chart-features&quot;, &quot;chart-inbounds-per-feature&quot;, &quot;chart-outbounds-per-feature&quot;);</span>
+<span class="fc" id="L69">        getCommandLine().addAliasSwitch(&quot;chart-all&quot;, &quot;chart-classes-per-package&quot;, &quot;chart-features-per-class&quot;, &quot;chart-inbounds-per-package&quot;, &quot;chart-outbounds-per-package&quot;, &quot;chart-inbounds-per-class&quot;, &quot;chart-outbounds-per-class&quot;, &quot;chart-inbounds-per-feature&quot;, &quot;chart-outbounds-per-feature&quot;);</span>
+<span class="fc" id="L70">    }</span>
+
+    protected Collection&lt;CommandLineException&gt; parseCommandLine(String[] args) {
+<span class="fc" id="L73">        Collection&lt;CommandLineException&gt; exceptions = super.parseCommandLine(args);</span>
+
+<span class="fc" id="L75">        exceptions.addAll(validateCommandLineForScoping());</span>
+<span class="fc" id="L76">        exceptions.addAll(validateCommandLineForFiltering());</span>
+
+<span class="fc" id="L78">        return exceptions;</span>
+    }
+
+    public void doProcessing() throws Exception {
+<span class="nc" id="L82">        MetricsReport reporter = new MetricsReport(getOut());</span>
+
+<span class="nc" id="L84">        reporter.setListingElements(getCommandLine().getToggleSwitch(&quot;list&quot;));</span>
+<span class="nc" id="L85">        reporter.setChartingClassesPerPackage(getCommandLine().getToggleSwitch(&quot;chart-classes-per-package&quot;));</span>
+<span class="nc" id="L86">        reporter.setChartingFeaturesPerClass(getCommandLine().getToggleSwitch(&quot;chart-features-per-class&quot;));</span>
+<span class="nc" id="L87">        reporter.setChartingInboundsPerPackage(getCommandLine().getToggleSwitch(&quot;chart-inbounds-per-package&quot;));</span>
+<span class="nc" id="L88">        reporter.setChartingOutboundsPerPackage(getCommandLine().getToggleSwitch(&quot;chart-outbounds-per-package&quot;));</span>
+<span class="nc" id="L89">        reporter.setChartingInboundsPerClass(getCommandLine().getToggleSwitch(&quot;chart-inbounds-per-class&quot;));</span>
+<span class="nc" id="L90">        reporter.setChartingOutboundsPerClass(getCommandLine().getToggleSwitch(&quot;chart-outbounds-per-class&quot;));</span>
+<span class="nc" id="L91">        reporter.setChartingInboundsPerFeature(getCommandLine().getToggleSwitch(&quot;chart-inbounds-per-feature&quot;));</span>
+<span class="nc" id="L92">        reporter.setChartingOutboundsPerFeature(getCommandLine().getToggleSwitch(&quot;chart-outbounds-per-feature&quot;));</span>
+
+<span class="nc" id="L94">        SelectionCriteria scopeCriteria = getScopeCriteria();</span>
+<span class="nc" id="L95">        SelectionCriteria filterCriteria = getFilterCriteria();</span>
+
+<span class="nc" id="L97">        getVerboseListener().print(&quot;Generating report ...&quot;);</span>
+
+<span class="nc" id="L99">        MetricsGatherer metrics = new MetricsGatherer(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));</span>
+<span class="nc" id="L100">        metrics.traverseNodes(loadGraph().getPackages().values());</span>
+<span class="nc" id="L101">        reporter.process(metrics);</span>
+<span class="nc" id="L102">    }</span>
+
+    public static void main(String[] args) throws Exception {
+<span class="nc" id="L105">        new DependencyMetrics().run(args);</span>
+<span class="nc" id="L106">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

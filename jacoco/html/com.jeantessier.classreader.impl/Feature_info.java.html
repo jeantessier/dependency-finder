@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Feature_info.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader.impl</a> &gt; <span class="el_source">Feature_info.java</span></div><h1>Feature_info.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.classreader.impl;
+
+import java.io.*;
+import java.util.*;
+
+import org.apache.logging.log4j.*;
+
+public abstract class Feature_info implements com.jeantessier.classreader.Feature_info {
+    private static final int ACC_PUBLIC = 0x0001;
+    private static final int ACC_PRIVATE = 0x0002;
+    private static final int ACC_PROTECTED = 0x0004;
+    private static final int ACC_STATIC = 0x0008;
+    private static final int ACC_FINAL = 0x0010;
+    private static final int ACC_SYNTHETIC = 0x1000;
+
+    private final Classfile classfile;
+    private final int accessFlags;
+    private final int nameIndex;
+    private final int descriptorIndex;
+<span class="fc" id="L52">    private final Collection&lt;Attribute_info&gt; attributes = new LinkedList&lt;&gt;();</span>
+
+    public Feature_info(Classfile classfile, DataInput in) throws IOException {
+<span class="fc" id="L55">        this(classfile, in, new AttributeFactory());</span>
+<span class="fc" id="L56">    }</span>
+
+<span class="fc" id="L58">    public Feature_info(Classfile classfile, DataInput in, AttributeFactory attributeFactory) throws IOException {</span>
+<span class="fc" id="L59">        this.classfile = classfile;</span>
+
+<span class="fc" id="L61">        accessFlags = in.readUnsignedShort();</span>
+<span class="fc" id="L62">        LogManager.getLogger(getClass()).debug(&quot;{} access flags: {}&quot;, getFeatureType(), accessFlags);</span>
+
+<span class="fc" id="L64">        nameIndex = in.readUnsignedShort();</span>
+<span class="fc" id="L65">        LogManager.getLogger(getClass()).debug(&quot;{} name: {} ({})&quot;, getFeatureType(), nameIndex, getName());</span>
+
+<span class="fc" id="L67">        descriptorIndex = in.readUnsignedShort();</span>
+<span class="fc" id="L68">        LogManager.getLogger(getClass()).debug(&quot;{} descriptor: {} ({})&quot;, getFeatureType(), descriptorIndex, getDescriptor());</span>
+
+<span class="fc" id="L70">        int attributeCount = in.readUnsignedShort();</span>
+<span class="fc" id="L71">        LogManager.getLogger(getClass()).debug(&quot;Reading {} {} attribute(s)&quot;, attributeCount, getFeatureType());</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">        for (int i=0; i&lt;attributeCount; i++) {</span>
+<span class="fc" id="L73">            LogManager.getLogger(getClass()).debug(&quot;{} attribute {}:&quot;, getFeatureType(), i);</span>
+<span class="fc" id="L74">            attributes.add(attributeFactory.create(getClassfile().getConstantPool(), this, in));</span>
+        }
+<span class="fc" id="L76">    }</span>
+
+    public Classfile getClassfile() {
+<span class="fc" id="L79">        return classfile;</span>
+    }
+
+    public int getAccessFlags() {
+<span class="fc" id="L83">        return accessFlags;</span>
+    }
+
+    public boolean isPublic() {
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_PUBLIC) != 0;</span>
+    }
+
+    public boolean isProtected() {
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_PROTECTED) != 0;</span>
+    }
+
+    public boolean isPrivate() {
+<span class="fc bfc" id="L95" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_PRIVATE) != 0;</span>
+    }
+
+    public boolean isPackage() {
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        return (getAccessFlags() &amp; (ACC_PUBLIC | ACC_PROTECTED | ACC_PRIVATE)) == 0;</span>
+    }
+
+    public boolean isStatic() {
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_STATIC) != 0;</span>
+    }
+
+    public boolean isFinal() {
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_FINAL) != 0;</span>
+    }
+
+    public int getNameIndex() {
+<span class="fc" id="L111">        return nameIndex;</span>
+    }
+
+    public int getDescriptorIndex() {
+<span class="fc" id="L115">        return descriptorIndex;</span>
+    }
+
+    public Collection&lt;Attribute_info&gt; getAttributes() {
+<span class="fc" id="L119">        return attributes;</span>
+    }
+
+    public boolean isSynthetic() {
+<span class="pc bpc" id="L123" title="2 of 4 branches missed.">        return isSyntheticFromAccessFlag() || isSyntheticFromAttribute();</span>
+    }
+
+    private boolean isSyntheticFromAccessFlag() {
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">        return (getAccessFlags() &amp; ACC_SYNTHETIC) != 0;</span>
+    }
+
+    private boolean isSyntheticFromAttribute() {
+<span class="fc" id="L131">        return getAttributes().parallelStream().anyMatch(attribute -&gt; attribute instanceof Synthetic_attribute);</span>
+    }
+
+    public String getUniqueName() {
+<span class="fc" id="L135">        return getSignature();</span>
+    }
+
+    /**
+     * Only used for pretty logging in constructor.
+     * @return a printable string as to whether this is a field or a method
+     */
+    protected abstract String getFeatureType();
+
+    public String toString() {
+<span class="fc" id="L145">        return getFullUniqueName();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

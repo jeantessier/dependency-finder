@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClassNode.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependency</a> &gt; <span class="el_source">ClassNode.java</span></div><h1>ClassNode.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependency;
+
+import java.util.*;
+
+public class ClassNode extends Node {
+    private final PackageNode packageNode;
+<span class="fc" id="L39">    private final Collection&lt;FeatureNode&gt; features = new HashSet&lt;&gt;();</span>
+
+<span class="fc" id="L41">    private final Collection&lt;ClassNode&gt; parents = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L42">    private final Collection&lt;ClassNode&gt; children = new HashSet&lt;&gt;();</span>
+
+    public ClassNode(PackageNode packageNode, String name, boolean concrete) {
+<span class="fc" id="L45">        super(name, concrete);</span>
+<span class="fc" id="L46">        this.packageNode = packageNode;</span>
+<span class="fc" id="L47">    }</span>
+
+    public String getSimpleName() {
+<span class="fc" id="L50">        return getName().substring(getName().lastIndexOf('.') + 1);</span>
+    }
+
+    // Only to be used by NodeFactory and DeletingVisitor
+    void setConfirmed(boolean confirmed) {
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        if (!confirmed) {</span>
+<span class="fc" id="L56">            getFeatures().forEach(node -&gt; node.setConfirmed(false));</span>
+        }
+        
+<span class="fc" id="L59">        super.setConfirmed(confirmed);</span>
+<span class="fc" id="L60">        getPackageNode().setConfirmed(confirmed);</span>
+<span class="fc" id="L61">    }</span>
+
+    public PackageNode getPackageNode() {
+<span class="fc" id="L64">        return packageNode;</span>
+    }
+
+    public void addFeature(FeatureNode node) {
+<span class="fc" id="L68">        features.add(node);</span>
+<span class="fc" id="L69">    }</span>
+
+    public void removeFeature(FeatureNode node) {
+<span class="fc" id="L72">        features.remove(node);</span>
+<span class="fc" id="L73">    }</span>
+
+    public Collection&lt;FeatureNode&gt; getFeatures() {
+<span class="fc" id="L76">        return Collections.unmodifiableCollection(features);</span>
+    }
+
+    public boolean canAddDependencyTo(Node node) {
+<span class="fc bfc" id="L80" title="All 4 branches covered.">        return super.canAddDependencyTo(node) &amp;&amp; getPackageNode().canAddDependencyTo(node);</span>
+    }
+
+    public void accept(Visitor visitor) {
+<span class="fc" id="L84">        visitor.visitClassNode(this);</span>
+<span class="fc" id="L85">    }</span>
+
+    public void acceptInbound(Visitor visitor) {
+<span class="fc" id="L88">        visitor.visitInboundClassNode(this);</span>
+<span class="fc" id="L89">    }</span>
+
+    public void acceptOutbound(Visitor visitor) {
+<span class="fc" id="L92">        visitor.visitOutboundClassNode(this);</span>
+<span class="fc" id="L93">    }</span>
+
+    public void addParent(ClassNode parentClass) {
+<span class="fc" id="L96">        parents.add(parentClass);</span>
+<span class="fc" id="L97">        parentClass.children.add(this);</span>
+<span class="fc" id="L98">    }</span>
+
+    public Collection&lt;ClassNode&gt; getParents() {
+<span class="fc" id="L101">        return Collections.unmodifiableCollection(parents);</span>
+    }
+
+    public Collection&lt;ClassNode&gt; getChildren() {
+<span class="fc" id="L105">        return Collections.unmodifiableCollection(children);</span>
+    }
+
+    public FeatureNode getFeature(String featureSimpleName) {
+<span class="fc" id="L109">        FeatureNode result = null;</span>
+
+<span class="fc" id="L111">        String targetName = getName() + &quot;.&quot; + featureSimpleName;</span>
+<span class="fc bfc" id="L112" title="All 2 branches covered.">        for (FeatureNode feature : getFeatures()) {</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">            if (feature.getName().equals(targetName)) {</span>
+<span class="fc" id="L114">                result = feature;</span>
+            }
+<span class="fc" id="L116">        }</span>
+
+<span class="fc" id="L118">        return result;</span>
+    }
+
+    public Collection&lt;FeatureNode&gt; getInheritedFeatures(String featureSimpleName) {
+<span class="fc" id="L122">        Collection&lt;FeatureNode&gt; results = new LinkedList&lt;&gt;();</span>
+
+<span class="fc" id="L124">        FeatureNode featureNode = getFeature(featureSimpleName);</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">        if (featureNode != null) {</span>
+<span class="fc" id="L126">            results.add(featureNode);</span>
+        }
+
+<span class="fc bfc" id="L129" title="All 2 branches covered.">        for (ClassNode parent : getParents()) {</span>
+<span class="fc" id="L130">            results.addAll(parent.getInheritedFeatures(featureSimpleName));</span>
+<span class="fc" id="L131">        }</span>
+
+<span class="fc" id="L133">        return results;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

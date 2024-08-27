@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MetricsGathererFixture.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.metrics</a> &gt; <span class="el_source">MetricsGathererFixture.java</span></div><h1>MetricsGathererFixture.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.metrics;
+
+import java.io.*;
+import java.util.*;
+import javax.xml.parsers.*;
+
+import fitlibrary.*;
+import org.xml.sax.*;
+
+import com.jeantessier.classreader.*;
+
+<span class="fc" id="L44">public class MetricsGathererFixture extends DoFixture {</span>
+    private MetricsConfiguration configuration;
+    private ClassfileLoader loader;
+    private MetricsFactory factory;
+
+    public void loadConfigurationFrom(String configFilename) throws IOException, ParserConfigurationException, SAXException {
+<span class="fc" id="L50">        MetricsConfigurationLoader configurationLoader = new MetricsConfigurationLoader();</span>
+<span class="fc" id="L51">        configuration = configurationLoader.load(configFilename);</span>
+<span class="fc" id="L52">    }</span>
+
+    public void loadClassesFrom(String classpath) {
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        if (loader == null) {</span>
+<span class="fc" id="L56">            loader = new AggregatingClassfileLoader();</span>
+        }
+<span class="fc" id="L58">        loader.load(Collections.singleton(classpath));</span>
+<span class="fc" id="L59">    }</span>
+
+    public void computeMetrics() {
+<span class="fc" id="L62">        factory = new MetricsFactory(&quot;test&quot;, configuration);</span>
+<span class="fc" id="L63">        MetricsGatherer gatherer = new MetricsGatherer(factory);</span>
+<span class="fc" id="L64">        gatherer.visitClassfiles(loader.getAllClassfiles());</span>
+<span class="fc" id="L65">    }</span>
+
+    public Collection&lt;SingleMeasurement&gt; getMetricsForGroup(String groupname) {
+<span class="fc" id="L68">        return getMetrics(groupname, factory.getGroupMetrics());</span>
+    }
+
+    public Collection&lt;SingleMeasurement&gt; getMetricsForClass(String classname) {
+<span class="fc" id="L72">        return getMetrics(classname, factory.getClassMetrics());</span>
+    }
+
+    public Collection&lt;SingleMeasurement&gt; getMetricsForMethod(String methodname) {
+<span class="fc" id="L76">        return getMetrics(methodname, factory.getMethodMetrics());</span>
+    }
+
+    private Collection&lt;SingleMeasurement&gt; getMetrics(String name, Collection&lt;Metrics&gt; metricsCollection) {
+<span class="fc" id="L80">        return metricsCollection.stream()</span>
+<span class="fc" id="L81">                .filter(metrics -&gt; metrics.getName().equals(name))</span>
+<span class="fc" id="L82">                .map(this::convertMetricsToMeasurements)</span>
+<span class="fc" id="L83">                .findAny()</span>
+<span class="pc" id="L84">                .orElseThrow(() -&gt; new RuntimeException(&quot;No metrics found for \&quot;&quot; + name + &quot;\&quot; in &quot; + metricsCollection.stream().map(Metrics::getName).toList()));</span>
+    }
+
+    private Collection&lt;SingleMeasurement&gt; convertMetricsToMeasurements(Metrics metrics) {
+<span class="fc" id="L88">        return metrics.getMeasurementNames().stream()</span>
+<span class="fc" id="L89">                .map(metrics::getMeasurement)</span>
+<span class="fc" id="L90">                .map(measurement -&gt; new SingleMeasurement(measurement.getShortName(), measurement.getLongName(), measurement.getValue().doubleValue(), measurement.isInRange()))</span>
+<span class="fc" id="L91">                .toList();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

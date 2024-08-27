@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MetricsConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.metrics</a> &gt; <span class="el_source">MetricsConfiguration.java</span></div><h1>MetricsConfiguration.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.metrics;
+
+import com.jeantessier.text.MaximumCapacityPatternCache;
+import org.apache.oro.text.perl.Perl5Util;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import static java.util.stream.Collectors.toCollection;
+
+<span class="fc" id="L48">public class MetricsConfiguration {</span>
+<span class="fc" id="L49">    private static final Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());</span>
+    
+<span class="fc" id="L51">    private final List&lt;MeasurementDescriptor&gt; projectMeasurements = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L52">    private final List&lt;MeasurementDescriptor&gt; groupMeasurements = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L53">    private final List&lt;MeasurementDescriptor&gt; classMeasurements = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L54">    private final List&lt;MeasurementDescriptor&gt; methodMeasurements = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L55">    private final Map&lt;String, Collection&lt;String&gt;&gt; groupDefinitions = new HashMap&lt;&gt;();</span>
+    
+    public List&lt;MeasurementDescriptor&gt; getProjectMeasurements() {
+<span class="fc" id="L58">        return Collections.unmodifiableList(projectMeasurements);</span>
+    }
+
+    public void addProjectMeasurement(MeasurementDescriptor descriptor) {
+<span class="fc" id="L62">        projectMeasurements.add(descriptor);</span>
+<span class="fc" id="L63">    }</span>
+    
+    public List&lt;MeasurementDescriptor&gt; getGroupMeasurements() {
+<span class="fc" id="L66">        return Collections.unmodifiableList(groupMeasurements);</span>
+    }
+
+    public void addGroupMeasurement(MeasurementDescriptor descriptor) {
+<span class="fc" id="L70">        groupMeasurements.add(descriptor);</span>
+<span class="fc" id="L71">    }</span>
+    
+    public List&lt;MeasurementDescriptor&gt; getClassMeasurements() {
+<span class="fc" id="L74">        return Collections.unmodifiableList(classMeasurements);</span>
+    }
+
+    public void addClassMeasurement(MeasurementDescriptor descriptor) {
+<span class="fc" id="L78">        classMeasurements.add(descriptor);</span>
+<span class="fc" id="L79">    }</span>
+    
+    public List&lt;MeasurementDescriptor&gt; getMethodMeasurements() {
+<span class="fc" id="L82">        return Collections.unmodifiableList(methodMeasurements);</span>
+    }
+
+    public void addMethodMeasurement(MeasurementDescriptor descriptor) {
+<span class="fc" id="L86">        methodMeasurements.add(descriptor);</span>
+<span class="fc" id="L87">    }</span>
+
+    public void addGroupDefinition(String name, String pattern) {
+<span class="fc" id="L90">        groupDefinitions.computeIfAbsent(name, k -&gt; new LinkedList&lt;&gt;()).add(pattern);</span>
+<span class="fc" id="L91">    }</span>
+
+    public Collection&lt;String&gt; getGroups(String name) {
+<span class="fc" id="L94">        return groupDefinitions.entrySet().stream()</span>
+<span class="fc" id="L95">                .filter(entry -&gt; entry.getValue().stream().anyMatch(pattern -&gt; perl.match(pattern, name)))</span>
+<span class="fc" id="L96">                .map(Map.Entry::getKey)</span>
+<span class="fc" id="L97">                .collect(toCollection(HashSet::new));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

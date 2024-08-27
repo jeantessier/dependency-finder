@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OOMetricsTableModel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependencyfinder.gui</a> &gt; <span class="el_source">OOMetricsTableModel.java</span></div><h1>OOMetricsTableModel.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependencyfinder.gui;
+
+import com.jeantessier.metrics.Measurement;
+import com.jeantessier.metrics.MeasurementDescriptor;
+import com.jeantessier.metrics.Metrics;
+import com.jeantessier.metrics.MetricsComparator;
+import com.jeantessier.metrics.StatisticalMeasurement;
+
+import javax.swing.table.AbstractTableModel;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+public class OOMetricsTableModel extends AbstractTableModel {
+<span class="nc" id="L50">    private static final Integer LOCAL_DISPOSE_IGNORE = StatisticalMeasurement.DISPOSE_IGNORE;</span>
+<span class="nc" id="L51">    private static final Integer LOCAL_DISPOSE_MINIMUM = StatisticalMeasurement.DISPOSE_MINIMUM;</span>
+<span class="nc" id="L52">    private static final Integer LOCAL_DISPOSE_MEDIAN = StatisticalMeasurement.DISPOSE_MEDIAN;</span>
+<span class="nc" id="L53">    private static final Integer LOCAL_DISPOSE_AVERAGE = StatisticalMeasurement.DISPOSE_AVERAGE;</span>
+<span class="nc" id="L54">    private static final Integer LOCAL_DISPOSE_STANDARD_DEVIATION = StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;</span>
+<span class="nc" id="L55">    private static final Integer LOCAL_DISPOSE_MAXIMUM = StatisticalMeasurement.DISPOSE_MAXIMUM;</span>
+<span class="nc" id="L56">    private static final Integer LOCAL_DISPOSE_SUM = StatisticalMeasurement.DISPOSE_SUM;</span>
+//    private static final Integer LOCAL_DISPOSE_NB_DATA_POINTS = StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
+
+    private final List&lt;MeasurementDescriptor&gt; descriptors;
+    private List&lt;Metrics&gt; metricsList;
+
+    private String[] measurementNames;
+    private MeasurementDescriptor[] measurementDescriptors;
+    private int[] measurementDispose;
+    private Object[][] measurementValues;
+
+<span class="nc" id="L67">    private final MetricsComparator comparator = new MetricsComparator(&quot;name&quot;);</span>
+
+<span class="nc" id="L69">    public OOMetricsTableModel(List&lt;MeasurementDescriptor&gt; descriptors) {</span>
+<span class="nc" id="L70">        this.descriptors = descriptors;</span>
+
+<span class="nc" id="L72">        buildMetricNames();</span>
+<span class="nc" id="L73">        buildMetricValues();</span>
+<span class="nc" id="L74">    }</span>
+
+    public void setMetrics(Collection&lt;Metrics&gt; metricsList) {
+<span class="nc" id="L77">        this.metricsList = new ArrayList&lt;&gt;(metricsList);</span>
+
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        if (metricsList.isEmpty()) {</span>
+<span class="nc" id="L80">            buildMetricValues();</span>
+        } else {
+<span class="nc" id="L82">            this.metricsList.sort(comparator);</span>
+<span class="nc" id="L83">            buildMetricValues(this.metricsList);</span>
+        }
+
+<span class="nc" id="L86">        fireTableStructureChanged();</span>
+<span class="nc" id="L87">    }</span>
+
+    public MeasurementDescriptor getColumnDescriptor(int column) {
+<span class="nc" id="L90">        return measurementDescriptors[column];</span>
+    }
+
+    public void updateMetrics(Collection&lt;Metrics&gt; metricsList) {
+<span class="nc" id="L94">        this.metricsList = new ArrayList&lt;&gt;(metricsList);</span>
+
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if (metricsList.isEmpty()) {</span>
+<span class="nc" id="L97">            buildMetricValues();</span>
+        } else {
+<span class="nc" id="L99">            this.metricsList.sort(comparator);</span>
+<span class="nc" id="L100">            buildMetricValues(this.metricsList);</span>
+        }
+
+<span class="nc" id="L103">        fireTableDataChanged();</span>
+<span class="nc" id="L104">    }</span>
+
+    public void sortOn(String name, int dispose) {
+<span class="nc" id="L107">        comparator.sortOn(name, dispose);</span>
+
+<span class="nc" id="L109">        metricsList.sort(comparator);</span>
+<span class="nc" id="L110">        buildMetricValues(metricsList);</span>
+
+<span class="nc" id="L112">        fireTableDataChanged();</span>
+<span class="nc" id="L113">    }</span>
+
+    private void buildMetricNames() {
+<span class="nc" id="L116">        List&lt;String&gt; names = new LinkedList&lt;&gt;();</span>
+<span class="nc" id="L117">        names.add(&quot;name&quot;);</span>
+
+<span class="nc" id="L119">        List&lt;MeasurementDescriptor&gt; columnDescriptors = new LinkedList&lt;&gt;();</span>
+<span class="nc" id="L120">        columnDescriptors.add(null);</span>
+
+<span class="nc" id="L122">        List&lt;Integer&gt; dispose = new LinkedList&lt;&gt;();</span>
+<span class="nc" id="L123">        dispose.add(LOCAL_DISPOSE_IGNORE);</span>
+
+<span class="nc" id="L125">        descriptors.stream()</span>
+<span class="nc" id="L126">                .filter(MeasurementDescriptor::isVisible)</span>
+<span class="nc" id="L127">                .forEach(descriptor -&gt; {</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">                    if (descriptor.getClassFor().equals(StatisticalMeasurement.class)) {</span>
+<span class="nc" id="L129">                        names.add(descriptor.getShortName());</span>
+<span class="nc" id="L130">                        columnDescriptors.add(descriptor);</span>
+<span class="nc" id="L131">                        dispose.add(LOCAL_DISPOSE_MINIMUM);</span>
+<span class="nc" id="L132">                        names.add(descriptor.getShortName());</span>
+<span class="nc" id="L133">                        columnDescriptors.add(descriptor);</span>
+<span class="nc" id="L134">                        dispose.add(LOCAL_DISPOSE_MEDIAN);</span>
+<span class="nc" id="L135">                        names.add(descriptor.getShortName());</span>
+<span class="nc" id="L136">                        columnDescriptors.add(descriptor);</span>
+<span class="nc" id="L137">                        dispose.add(LOCAL_DISPOSE_AVERAGE);</span>
+<span class="nc" id="L138">                        names.add(descriptor.getShortName());</span>
+<span class="nc" id="L139">                        columnDescriptors.add(descriptor);</span>
+<span class="nc" id="L140">                        dispose.add(LOCAL_DISPOSE_STANDARD_DEVIATION);</span>
+<span class="nc" id="L141">                        names.add(descriptor.getShortName());</span>
+<span class="nc" id="L142">                        columnDescriptors.add(descriptor);</span>
+<span class="nc" id="L143">                        dispose.add(LOCAL_DISPOSE_MAXIMUM);</span>
+<span class="nc" id="L144">                        names.add(descriptor.getShortName());</span>
+<span class="nc" id="L145">                        columnDescriptors.add(descriptor);</span>
+<span class="nc" id="L146">                        dispose.add(LOCAL_DISPOSE_SUM);</span>
+                    } else {
+<span class="nc" id="L148">                        names.add(descriptor.getShortName());</span>
+<span class="nc" id="L149">                        columnDescriptors.add(descriptor);</span>
+<span class="nc" id="L150">                        dispose.add(LOCAL_DISPOSE_IGNORE);</span>
+                    }
+<span class="nc" id="L152">                });</span>
+
+<span class="nc" id="L154">        measurementNames = names.toArray(new String[0]);</span>
+<span class="nc" id="L155">        measurementDescriptors = columnDescriptors.toArray(new MeasurementDescriptor[0]);</span>
+<span class="nc" id="L156">        measurementDispose = new int[dispose.size()];</span>
+<span class="nc" id="L157">        IntStream.range(0, dispose.size()).forEach(i -&gt; measurementDispose[i] = dispose.get(i));</span>
+<span class="nc" id="L158">    }</span>
+
+    private void buildMetricValues() {
+<span class="nc" id="L161">        measurementValues  = new Object[0][];</span>
+<span class="nc" id="L162">    }</span>
+
+    private void buildMetricValues(Collection&lt;Metrics&gt; metricsList) {
+<span class="nc" id="L165">        measurementValues = new Object[metricsList.size()][];</span>
+
+<span class="nc" id="L167">        int i = 0;</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        for (Metrics currentMetrics : metricsList) {</span>
+<span class="nc" id="L169">            var measurements = descriptors.stream()</span>
+<span class="nc" id="L170">                    .filter(MeasurementDescriptor::isVisible)</span>
+<span class="nc" id="L171">                    .map(descriptor -&gt; currentMetrics.getMeasurement(descriptor.getShortName()))</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">                    .flatMap(measurement -&gt; measurement instanceof StatisticalMeasurement ? Stream.of(measurement, measurement, measurement, measurement, measurement, measurement) : Stream.of(measurement))</span>
+<span class="nc" id="L173">                    .toList();</span>
+
+<span class="nc" id="L175">            measurementValues[i] = new Object[measurements.size() + 1];</span>
+
+<span class="nc" id="L177">            int j = 0;</span>
+<span class="nc" id="L178">            measurementValues[i][j++] = currentMetrics.getName();</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">            for (Measurement measurement : measurements) {</span>
+<span class="nc" id="L180">                measurementValues[i][j++] = measurement;</span>
+<span class="nc" id="L181">            }</span>
+
+<span class="nc" id="L183">            i++;</span>
+<span class="nc" id="L184">        }</span>
+<span class="nc" id="L185">    }</span>
+
+    public int getColumnCount() {
+<span class="nc" id="L188">        return measurementNames.length;</span>
+    }
+
+    public int getRowCount() {
+<span class="nc" id="L192">        return measurementValues.length;</span>
+    }
+
+    public Object getValueAt(int rowIndex, int columnIndex) {
+<span class="nc" id="L196">        return measurementValues[rowIndex][columnIndex];</span>
+    }
+
+    public String getRawColumnName(int column) {
+<span class="nc" id="L200">        return measurementNames[column];</span>
+    }
+
+    public int getRawColumnDispose(int column) {
+<span class="nc" id="L204">        return measurementDispose[column];</span>
+    }
+
+    public String getColumnName(int column) {
+<span class="nc bnc" id="L208" title="All 2 branches missed.">        return switch (getRawColumnDispose(column)) {</span>
+            case StatisticalMeasurement.DISPOSE_MINIMUM:
+            case StatisticalMeasurement.DISPOSE_MEDIAN:
+            case StatisticalMeasurement.DISPOSE_AVERAGE:
+            case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION:
+            case StatisticalMeasurement.DISPOSE_MAXIMUM:
+            case StatisticalMeasurement.DISPOSE_SUM:
+<span class="nc" id="L215">                yield getRawColumnName(column) + &quot; (&quot; + StatisticalMeasurement.getDisposeAbbreviation(getRawColumnDispose(column)) + &quot;)&quot;;</span>
+            case StatisticalMeasurement.DISPOSE_IGNORE:
+            case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS:
+            default:
+<span class="nc" id="L219">                yield getRawColumnName(column);</span>
+        };
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

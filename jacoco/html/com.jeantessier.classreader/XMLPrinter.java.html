@@ -1,0 +1,1796 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>XMLPrinter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader</a> &gt; <span class="el_source">XMLPrinter.java</span></div><h1>XMLPrinter.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.classreader;
+
+import com.jeantessier.text.Hex;
+
+import java.io.*;
+import java.util.*;
+
+public class XMLPrinter extends Printer {
+    public static final String DEFAULT_ENCODING   = &quot;utf-8&quot;;
+    public static final String DEFAULT_DTD_PREFIX = &quot;https://depfind.sourceforge.io/dtd&quot;;
+
+<span class="fc" id="L44">    private static final BitFormat format = new BitFormat(16);</span>
+
+<span class="fc" id="L46">    private boolean top = true;</span>
+
+    public XMLPrinter(PrintWriter out) {
+<span class="fc" id="L49">        this(out, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);</span>
+<span class="fc" id="L50">    }</span>
+    
+    public XMLPrinter(PrintWriter out, String encoding, String dtdPrefix) {
+<span class="fc" id="L53">        super(out);</span>
+        
+<span class="fc" id="L55">        appendHeader(encoding, dtdPrefix);</span>
+<span class="fc" id="L56">    }</span>
+
+    private Printer appendHeader(String encoding, String dtdPrefix) {
+<span class="fc" id="L59">        append(&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;&quot;).append(encoding).append(&quot;\&quot; ?&gt;&quot;).eol();</span>
+<span class="fc" id="L60">        eol();</span>
+<span class="fc" id="L61">        append(&quot;&lt;!DOCTYPE classfiles SYSTEM \&quot;&quot;).append(dtdPrefix).append(&quot;/classfile.dtd\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L62">        eol();</span>
+
+<span class="fc" id="L64">        return this;</span>
+    }
+
+    public void visitClassfiles(Collection&lt;Classfile&gt; classfiles) {
+<span class="fc" id="L68">        indent().append(&quot;&lt;classfiles&gt;&quot;).eol();</span>
+<span class="fc" id="L69">        raiseIndent();</span>
+
+<span class="fc" id="L71">        super.visitClassfiles(classfiles);</span>
+
+<span class="fc" id="L73">        lowerIndent();</span>
+<span class="fc" id="L74">        indent().append(&quot;&lt;/classfiles&gt;&quot;).eol();</span>
+<span class="fc" id="L75">    }</span>
+    
+    public void visitClassfile(Classfile classfile) {
+<span class="fc" id="L78">        indent().append(&quot;&lt;!-- &quot;).append(classfile.getClassName()).append(&quot; --&gt;&quot;).eol();</span>
+<span class="fc" id="L79">        indent().append(&quot;&lt;classfile magic-number=\&quot;0x&quot;).append(Integer.toHexString(classfile.getMagicNumber()).toUpperCase()).append(&quot;\&quot; minor-version=\&quot;&quot;).append(classfile.getMinorVersion()).append(&quot;\&quot; major-version=\&quot;&quot;).append(classfile.getMajorVersion()).append(&quot;\&quot; access-flags=\&quot;&quot;).append(format.format(classfile.getAccessFlags())).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L80">        raiseIndent();</span>
+
+<span class="fc" id="L82">        top = true;</span>
+<span class="fc" id="L83">        classfile.getConstantPool().accept(this);</span>
+<span class="fc" id="L84">        top = false;</span>
+        
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        if (classfile.isPublic())     indent().append(&quot;&lt;public/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        if (classfile.isFinal())      indent().append(&quot;&lt;final/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">        if (classfile.isSuper())      indent().append(&quot;&lt;super/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">        if (classfile.isInterface())  indent().append(&quot;&lt;is-interface/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        if (classfile.isAbstract())   indent().append(&quot;&lt;abstract/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        if (classfile.isSynthetic())  indent().append(&quot;&lt;synthetic/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        if (classfile.isAnnotation()) indent().append(&quot;&lt;is-annotation/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        if (classfile.isEnum())       indent().append(&quot;&lt;enum/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        if (classfile.isModule())     indent().append(&quot;&lt;is-module/&gt;&quot;).eol();</span>
+
+<span class="fc" id="L96">        indent();</span>
+<span class="fc" id="L97">        append(&quot;&lt;this-class&gt;&quot;);</span>
+<span class="fc" id="L98">        classfile.getRawClass().accept(this);</span>
+<span class="fc" id="L99">        append(&quot;&lt;/this-class&gt;&quot;).eol();</span>
+
+<span class="fc" id="L101">        indent();</span>
+<span class="fc" id="L102">        append(&quot;&lt;superclass&gt;&quot;);</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        if (classfile.hasSuperclass()) {</span>
+<span class="fc" id="L104">            classfile.getRawSuperclass().accept(this);</span>
+        }
+<span class="fc" id="L106">        append(&quot;&lt;/superclass&gt;&quot;).eol();</span>
+
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        if (!classfile.getAllInterfaces().isEmpty()) {</span>
+<span class="fc" id="L109">            indent().append(&quot;&lt;interfaces&gt;&quot;).eol();</span>
+<span class="fc" id="L110">            raiseIndent();</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">            for (Class_info class_info : classfile.getAllInterfaces()) {</span>
+<span class="fc" id="L112">                indent();</span>
+<span class="fc" id="L113">                append(&quot;&lt;interface&gt;&quot;);</span>
+<span class="fc" id="L114">                class_info.accept(this);</span>
+<span class="fc" id="L115">                append(&quot;&lt;/interface&gt;&quot;).eol();</span>
+<span class="fc" id="L116">            }</span>
+<span class="fc" id="L117">            lowerIndent();</span>
+<span class="fc" id="L118">            indent().append(&quot;&lt;/interfaces&gt;&quot;).eol();</span>
+        }
+        
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        if (!classfile.getAllFields().isEmpty()) {</span>
+<span class="fc" id="L122">            indent().append(&quot;&lt;fields&gt;&quot;).eol();</span>
+<span class="fc" id="L123">            raiseIndent();</span>
+
+<span class="fc" id="L125">            visitClassfileFields(classfile);</span>
+
+<span class="fc" id="L127">            lowerIndent();</span>
+<span class="fc" id="L128">            indent().append(&quot;&lt;/fields&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L131" title="All 2 branches covered.">        if (!classfile.getAllMethods().isEmpty()) {</span>
+<span class="fc" id="L132">            indent().append(&quot;&lt;methods&gt;&quot;).eol();</span>
+<span class="fc" id="L133">            raiseIndent();</span>
+
+<span class="fc" id="L135">            visitClassfileMethods(classfile);</span>
+
+<span class="fc" id="L137">            lowerIndent();</span>
+<span class="fc" id="L138">            indent().append(&quot;&lt;/methods&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L141" title="All 2 branches covered.">        if (!classfile.getAttributes().isEmpty()) {</span>
+<span class="fc" id="L142">            indent().append(&quot;&lt;attributes&gt;&quot;).eol();</span>
+<span class="fc" id="L143">            raiseIndent();</span>
+
+<span class="fc" id="L145">            visitClassfileAttributes(classfile);</span>
+
+<span class="fc" id="L147">            lowerIndent();</span>
+<span class="fc" id="L148">            indent().append(&quot;&lt;/attributes&gt;&quot;).eol();</span>
+        }
+
+<span class="fc" id="L151">        lowerIndent();</span>
+<span class="fc" id="L152">        indent().append(&quot;&lt;/classfile&gt;&quot;).eol();</span>
+<span class="fc" id="L153">    }</span>
+
+    public void visitConstantPool(ConstantPool constantPool) {
+<span class="fc" id="L156">        indent().append(&quot;&lt;constant-pool&gt;&quot;).eol();</span>
+<span class="fc" id="L157">        raiseIndent();</span>
+
+<span class="fc" id="L159">        super.visitConstantPool(constantPool);</span>
+
+<span class="fc" id="L161">        lowerIndent();</span>
+<span class="fc" id="L162">        indent().append(&quot;&lt;/constant-pool&gt;&quot;).eol();</span>
+<span class="fc" id="L163">    }</span>
+
+    public void visitClass_info(Class_info entry) {
+<span class="fc bfc" id="L166" title="All 2 branches covered.">        if (top) {</span>
+<span class="fc" id="L167">            top = false;</span>
+<span class="fc" id="L168">            appendClassInfo(currentIndex(), entry);</span>
+<span class="fc" id="L169">            top = true;</span>
+        } else {
+            // entry.getRawName().accept(this);
+<span class="fc" id="L172">            append(entry.getName());</span>
+        }
+<span class="fc" id="L174">    }</span>
+
+    public void visitFieldRef_info(FieldRef_info entry) {
+<span class="fc" id="L177">        Class_info       c   = entry.getRawClass();</span>
+<span class="fc" id="L178">        NameAndType_info nat = entry.getRawNameAndType();</span>
+
+<span class="fc bfc" id="L180" title="All 2 branches covered.">        if (top) {</span>
+<span class="fc" id="L181">            top = false;</span>
+<span class="fc" id="L182">            indent();</span>
+<span class="fc" id="L183">            append(&quot;&lt;field-ref-info index=\&quot;&quot;).append(currentIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L184">            append(&quot;&lt;class&gt;&quot;);</span>
+<span class="fc" id="L185">            c.accept(this);</span>
+<span class="fc" id="L186">            append(&quot;&lt;/class&gt;&quot;);</span>
+<span class="fc" id="L187">            append(&quot;&lt;type&gt;&quot;);</span>
+<span class="fc" id="L188">            nat.getRawType().accept(this);</span>
+<span class="fc" id="L189">            append(&quot;&lt;/type&gt;&quot;);</span>
+<span class="fc" id="L190">            append(&quot;&lt;name&gt;&quot;);</span>
+<span class="fc" id="L191">            nat.getRawName().accept(this);</span>
+<span class="fc" id="L192">            append(&quot;&lt;/name&gt;&quot;);</span>
+<span class="fc" id="L193">            append(&quot;&lt;/field-ref-info&gt;&quot;).eol();</span>
+<span class="fc" id="L194">            top = true;</span>
+        } else {
+<span class="fc" id="L196">            append(DescriptorHelper.getType(nat.getType()));</span>
+<span class="fc" id="L197">            append(&quot; &quot;);</span>
+<span class="fc" id="L198">            append(entry.getFullSignature());</span>
+        }
+<span class="fc" id="L200">    }</span>
+
+    public void visitMethodRef_info(MethodRef_info entry) {
+<span class="fc" id="L203">        Class_info       c   = entry.getRawClass();</span>
+<span class="fc" id="L204">        NameAndType_info nat = entry.getRawNameAndType();</span>
+
+<span class="fc bfc" id="L206" title="All 2 branches covered.">        if (top) {</span>
+<span class="fc" id="L207">            top = false;</span>
+<span class="fc" id="L208">            indent();</span>
+<span class="fc" id="L209">            append(&quot;&lt;method-ref-info index=\&quot;&quot;).append(currentIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L210">            append(&quot;&lt;class&gt;&quot;);</span>
+<span class="fc" id="L211">            c.accept(this);</span>
+<span class="fc" id="L212">            append(&quot;&lt;/class&gt;&quot;);</span>
+<span class="fc" id="L213">            append(&quot;&lt;name&gt;&quot;);</span>
+<span class="fc" id="L214">            nat.getRawName().accept(this);</span>
+<span class="fc" id="L215">            append(&quot;&lt;/name&gt;&quot;);</span>
+<span class="fc" id="L216">            append(&quot;&lt;type&gt;&quot;);</span>
+<span class="fc" id="L217">            nat.getRawType().accept(this);</span>
+<span class="fc" id="L218">            append(&quot;&lt;/type&gt;&quot;);</span>
+<span class="fc" id="L219">            append(&quot;&lt;/method-ref-info&gt;&quot;).eol();</span>
+<span class="fc" id="L220">            top = true;</span>
+        } else {
+<span class="pc bpc" id="L222" title="1 of 4 branches missed.">            if (!entry.isConstructor() &amp;&amp; !entry.isStaticInitializer()) {</span>
+<span class="fc" id="L223">                append(DescriptorHelper.getReturnType(nat.getType())).append(&quot; &quot;);</span>
+            }
+<span class="fc" id="L225">            append(entry.getFullSignature());</span>
+        }
+<span class="fc" id="L227">    }</span>
+
+    public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
+<span class="nc" id="L230">        Class_info       c   = entry.getRawClass();</span>
+<span class="nc" id="L231">        NameAndType_info nat = entry.getRawNameAndType();</span>
+
+<span class="nc bnc" id="L233" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L234">            top = false;</span>
+<span class="nc" id="L235">            indent();</span>
+<span class="nc" id="L236">            append(&quot;&lt;interface-method-ref-info index=\&quot;&quot;).append(currentIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="nc" id="L237">            append(&quot;&lt;class&gt;&quot;);</span>
+<span class="nc" id="L238">            c.accept(this);</span>
+<span class="nc" id="L239">            append(&quot;&lt;/class&gt;&quot;);</span>
+<span class="nc" id="L240">            append(&quot;&lt;name&gt;&quot;);</span>
+<span class="nc" id="L241">            nat.getRawName().accept(this);</span>
+<span class="nc" id="L242">            append(&quot;&lt;/name&gt;&quot;);</span>
+<span class="nc" id="L243">            append(&quot;&lt;type&gt;&quot;);</span>
+<span class="nc" id="L244">            nat.getRawType().accept(this);</span>
+<span class="nc" id="L245">            append(&quot;&lt;/type&gt;&quot;);</span>
+<span class="nc" id="L246">            append(&quot;&lt;/interface-method-ref-info&gt;&quot;).eol();</span>
+<span class="nc" id="L247">            top = true;</span>
+        } else {
+<span class="nc" id="L249">            append(DescriptorHelper.getReturnType(nat.getType()));</span>
+<span class="nc" id="L250">            append(&quot; &quot;);</span>
+<span class="nc" id="L251">            append(entry.getFullSignature());</span>
+        }
+<span class="nc" id="L253">    }</span>
+
+    public void visitString_info(String_info entry) {
+<span class="fc bfc" id="L256" title="All 2 branches covered.">        if (top) {</span>
+<span class="fc" id="L257">            top = false;</span>
+<span class="fc" id="L258">            indent();</span>
+<span class="fc" id="L259">            append(&quot;&lt;string-info index=\&quot;&quot;).append(currentIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L260">            entry.getRawValue().accept(this);</span>
+<span class="fc" id="L261">            append(&quot;&lt;/string-info&gt;&quot;).eol();</span>
+<span class="fc" id="L262">            top = true;</span>
+        } else {
+<span class="fc" id="L264">            entry.getRawValue().accept(this);</span>
+        }
+<span class="fc" id="L266">    }</span>
+
+    public void visitInteger_info(Integer_info entry) {
+<span class="fc bfc" id="L269" title="All 2 branches covered.">        if (top) {</span>
+<span class="fc" id="L270">            top = false;</span>
+<span class="fc" id="L271">            indent();</span>
+<span class="fc" id="L272">            append(&quot;&lt;integer-info index=\&quot;&quot;).append(currentIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L273">            append(entry.getValue());</span>
+<span class="fc" id="L274">            append(&quot;&lt;/integer-info&gt;&quot;).eol();</span>
+<span class="fc" id="L275">            top = true;</span>
+        } else {
+<span class="fc" id="L277">            append(entry.getValue());</span>
+        }
+<span class="fc" id="L279">    }</span>
+
+    public void visitFloat_info(Float_info entry) {
+<span class="fc bfc" id="L282" title="All 2 branches covered.">        if (top) {</span>
+<span class="fc" id="L283">            top = false;</span>
+<span class="fc" id="L284">            indent();</span>
+<span class="fc" id="L285">            append(&quot;&lt;float-info index=\&quot;&quot;).append(currentIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L286">            append(entry.getValue());</span>
+<span class="fc" id="L287">            append(&quot;&lt;/float-info&gt;&quot;).eol();</span>
+<span class="fc" id="L288">            top = true;</span>
+        } else {
+<span class="fc" id="L290">            append(entry.getValue());</span>
+        }
+<span class="fc" id="L292">    }</span>
+
+    public void visitLong_info(Long_info entry) {
+<span class="nc bnc" id="L295" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L296">            top = false;</span>
+<span class="nc" id="L297">            indent();</span>
+<span class="nc" id="L298">            append(&quot;&lt;long-info index=\&quot;&quot;).append(currentIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="nc" id="L299">            append(entry.getValue());</span>
+<span class="nc" id="L300">            append(&quot;&lt;/long-info&gt;&quot;).eol();</span>
+<span class="nc" id="L301">            top = true;</span>
+        } else {
+<span class="nc" id="L303">            append(entry.getValue());</span>
+        }
+<span class="nc" id="L305">    }</span>
+
+    public void visitDouble_info(Double_info entry) {
+<span class="nc bnc" id="L308" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L309">            top = false;</span>
+<span class="nc" id="L310">            indent();</span>
+<span class="nc" id="L311">            append(&quot;&lt;double-info index=\&quot;&quot;).append(currentIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="nc" id="L312">            append(entry.getValue());</span>
+<span class="nc" id="L313">            append(&quot;&lt;/double-info&gt;&quot;).eol();</span>
+<span class="nc" id="L314">            top = true;</span>
+        } else {
+<span class="nc" id="L316">            append(entry.getValue());</span>
+        }
+<span class="nc" id="L318">    }</span>
+
+    public void visitNameAndType_info(NameAndType_info entry) {
+<span class="pc bpc" id="L321" title="1 of 2 branches missed.">        if (top) {</span>
+<span class="fc" id="L322">            top = false;</span>
+<span class="fc" id="L323">            indent();</span>
+<span class="fc" id="L324">            append(&quot;&lt;name-and-type-info index=\&quot;&quot;).append(currentIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L325">            append(&quot;&lt;name&gt;&quot;);</span>
+<span class="fc" id="L326">            entry.getRawName().accept(this);</span>
+<span class="fc" id="L327">            append(&quot;&lt;/name&gt;&quot;);</span>
+<span class="fc" id="L328">            append(&quot;&lt;type&gt;&quot;);</span>
+<span class="fc" id="L329">            entry.getRawType().accept(this);</span>
+<span class="fc" id="L330">            append(&quot;&lt;/type&gt;&quot;);</span>
+<span class="fc" id="L331">            append(&quot;&lt;/name-and-type-info&gt;&quot;).eol();</span>
+<span class="fc" id="L332">            top = true;</span>
+        } else {
+<span class="nc" id="L334">            entry.getRawName().accept(this);</span>
+<span class="nc" id="L335">            append(&quot; &quot;);</span>
+<span class="nc" id="L336">            entry.getRawType().accept(this);</span>
+        }
+<span class="fc" id="L338">    }</span>
+
+    public void visitUTF8_info(UTF8_info entry) {
+<span class="fc bfc" id="L341" title="All 2 branches covered.">        if (top) {</span>
+<span class="fc" id="L342">            top = false;</span>
+<span class="fc" id="L343">            indent().append(&quot;&lt;utf8-info index=\&quot;&quot;).append(currentIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L344">            append(escapeXMLCharacters(entry.getValue()));</span>
+<span class="fc" id="L345">            append(&quot;&lt;/utf8-info&gt;&quot;).eol();</span>
+<span class="fc" id="L346">            top = true;</span>
+        } else {
+<span class="fc" id="L348">            append(escapeXMLCharacters(entry.getValue()));</span>
+        }
+<span class="fc" id="L350">    }</span>
+
+    public void visitMethodHandle_info(MethodHandle_info entry) {
+<span class="nc bnc" id="L353" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L354">            top = false;</span>
+<span class="nc" id="L355">            indent();</span>
+<span class="nc" id="L356">            append(&quot;&lt;method-handle-info index=\&quot;&quot;).append(currentIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="nc" id="L357">            append(&quot;&lt;reference-kind kind=\&quot;&quot;).append(entry.getRawReferenceKind()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="nc" id="L358">            append(entry.getReferenceKind().getDescription());</span>
+<span class="nc" id="L359">            append(&quot;&lt;/reference-kind&gt;&quot;);</span>
+<span class="nc" id="L360">            append(&quot;&lt;reference index=\&quot;&quot;).append(entry.getReferenceIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="nc" id="L361">            entry.getReference().accept(this);</span>
+<span class="nc" id="L362">            append(&quot;&lt;/reference&gt;&quot;);</span>
+<span class="nc" id="L363">            append(&quot;&lt;/method-handle-info&gt;&quot;).eol();</span>
+<span class="nc" id="L364">            top = true;</span>
+        } else {
+<span class="nc" id="L366">            append(entry.getReferenceKind().getDescription());</span>
+<span class="nc" id="L367">            append(&quot; &quot;);</span>
+<span class="nc" id="L368">            entry.getReference().accept(this);</span>
+        }
+<span class="nc" id="L370">    }</span>
+
+    public void visitMethodType_info(MethodType_info entry) {
+<span class="nc bnc" id="L373" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L374">            top = false;</span>
+<span class="nc" id="L375">            indent();</span>
+<span class="nc" id="L376">            append(&quot;&lt;method-type-info index=\&quot;&quot;).append(currentIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="nc" id="L377">            entry.getRawDescriptor().accept(this);</span>
+<span class="nc" id="L378">            append(&quot;&lt;/method-type-info&gt;&quot;).eol();</span>
+<span class="nc" id="L379">            top = true;</span>
+        } else {
+<span class="nc" id="L381">            entry.getRawDescriptor().accept(this);</span>
+        }
+<span class="nc" id="L383">    }</span>
+
+    public void visitDynamic_info(Dynamic_info entry) {
+<span class="nc" id="L386">        NameAndType_info nat = entry.getRawNameAndType();</span>
+
+<span class="nc bnc" id="L388" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L389">            top = false;</span>
+<span class="nc" id="L390">            indent();</span>
+<span class="nc" id="L391">            append(&quot;&lt;dynamic-info index=\&quot;&quot;).append(currentIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="nc" id="L392">            append(&quot;&lt;bootstrap-method-attr index=\&quot;&quot;).append(entry.getBootstrapMethodAttrIndex()).append(&quot;\&quot;/&gt;&quot;);</span>
+<span class="nc" id="L393">            append(&quot;&lt;name&gt;&quot;);</span>
+<span class="nc" id="L394">            nat.getRawName().accept(this);</span>
+<span class="nc" id="L395">            append(&quot;&lt;/name&gt;&quot;);</span>
+<span class="nc" id="L396">            append(&quot;&lt;type&gt;&quot;);</span>
+<span class="nc" id="L397">            nat.getRawType().accept(this);</span>
+<span class="nc" id="L398">            append(&quot;&lt;/type&gt;&quot;);</span>
+<span class="nc" id="L399">            append(&quot;&lt;/dynamic-info&gt;&quot;).eol();</span>
+<span class="nc" id="L400">            top = true;</span>
+        } else {
+<span class="nc bnc" id="L402" title="All 2 branches missed.">            if (!entry.isStaticInitializer()) {</span>
+<span class="nc" id="L403">                append(DescriptorHelper.getReturnType(nat.getType())).append(&quot; &quot;);</span>
+            }
+<span class="nc" id="L405">            append(entry.getSignature());</span>
+        }
+<span class="nc" id="L407">    }</span>
+
+    public void visitInvokeDynamic_info(InvokeDynamic_info entry) {
+<span class="nc" id="L410">        NameAndType_info nat = entry.getRawNameAndType();</span>
+
+<span class="nc bnc" id="L412" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L413">            top = false;</span>
+<span class="nc" id="L414">            indent();</span>
+<span class="nc" id="L415">            append(&quot;&lt;invoke-dynamic-info index=\&quot;&quot;).append(currentIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="nc" id="L416">            append(&quot;&lt;bootstrap-method-attr index=\&quot;&quot;).append(entry.getBootstrapMethodAttrIndex()).append(&quot;\&quot;/&gt;&quot;);</span>
+<span class="nc" id="L417">            append(&quot;&lt;name&gt;&quot;);</span>
+<span class="nc" id="L418">            nat.getRawName().accept(this);</span>
+<span class="nc" id="L419">            append(&quot;&lt;/name&gt;&quot;);</span>
+<span class="nc" id="L420">            append(&quot;&lt;type&gt;&quot;);</span>
+<span class="nc" id="L421">            nat.getRawType().accept(this);</span>
+<span class="nc" id="L422">            append(&quot;&lt;/type&gt;&quot;);</span>
+<span class="nc" id="L423">            append(&quot;&lt;/invoke-dynamic-info&gt;&quot;).eol();</span>
+<span class="nc" id="L424">            top = true;</span>
+        } else {
+<span class="nc bnc" id="L426" title="All 2 branches missed.">            if (!entry.isStaticInitializer()) {</span>
+<span class="nc" id="L427">                append(DescriptorHelper.getReturnType(nat.getType())).append(&quot; &quot;);</span>
+            }
+<span class="nc" id="L429">            append(entry.getSignature());</span>
+        }
+<span class="nc" id="L431">    }</span>
+
+    public void visitModule_info(Module_info entry) {
+<span class="nc bnc" id="L434" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L435">            top = false;</span>
+<span class="nc" id="L436">            indent();</span>
+<span class="nc" id="L437">            append(&quot;&lt;module index=\&quot;&quot;).append(currentIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+            // entry.getRawName().accept(this);
+<span class="nc" id="L439">            append(entry.getName());</span>
+<span class="nc" id="L440">            append(&quot;&lt;/module&gt;&quot;).eol();</span>
+<span class="nc" id="L441">            top = true;</span>
+        } else {
+            // entry.getRawName().accept(this);
+<span class="nc" id="L444">            append(entry.getName());</span>
+        }
+<span class="nc" id="L446">    }</span>
+
+    public void visitPackage_info(Package_info entry) {
+<span class="nc bnc" id="L449" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L450">            top = false;</span>
+<span class="nc" id="L451">            indent();</span>
+<span class="nc" id="L452">            append(&quot;&lt;package index=\&quot;&quot;).append(currentIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+            // entry.getRawName().accept(this);
+<span class="nc" id="L454">            append(entry.getName());</span>
+<span class="nc" id="L455">            append(&quot;&lt;/package&gt;&quot;).eol();</span>
+<span class="nc" id="L456">            top = true;</span>
+        } else {
+            // entry.getRawName().accept(this);
+<span class="nc" id="L459">            append(entry.getName());</span>
+        }
+<span class="nc" id="L461">    }</span>
+
+    public void visitUnusableEntry(UnusableEntry entry) {
+<span class="nc bnc" id="L464" title="All 2 branches missed.">        if (top) {</span>
+<span class="nc" id="L465">            top = false;</span>
+<span class="nc" id="L466">            indent().append(&quot;&lt;unusable index=\&quot;&quot;).append(currentIndex()).append(&quot;\&quot;&gt;&quot;).append(entry.getReason()).append(&quot;&lt;/unusable&gt;&quot;).eol();</span>
+<span class="nc" id="L467">            top = true;</span>
+        } else {
+<span class="nc" id="L469">            append(entry);</span>
+        }
+<span class="nc" id="L471">    }</span>
+
+    public void visitField_info(Field_info entry) {
+<span class="fc" id="L474">        indent().append(&quot;&lt;field-info access-flags=\&quot;&quot;).append(format.format(entry.getAccessFlags())).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L475">        raiseIndent();</span>
+
+<span class="fc bfc" id="L477" title="All 2 branches covered.">        if (entry.isPublic())    indent().append(&quot;&lt;public/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L478" title="All 2 branches covered.">        if (entry.isProtected()) indent().append(&quot;&lt;protected/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L479" title="All 2 branches covered.">        if (entry.isPrivate())   indent().append(&quot;&lt;private/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L480" title="All 2 branches covered.">        if (entry.isStatic())    indent().append(&quot;&lt;static/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L481" title="All 2 branches covered.">        if (entry.isFinal())     indent().append(&quot;&lt;final/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L482" title="All 2 branches covered.">        if (entry.isVolatile())  indent().append(&quot;&lt;volatile/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L483" title="All 2 branches covered.">        if (entry.isTransient()) indent().append(&quot;&lt;transient/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L484" title="All 2 branches covered.">        if (entry.isSynthetic()) indent().append(&quot;&lt;synthetic/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L485" title="All 2 branches covered.">        if (entry.isEnum())      indent().append(&quot;&lt;enum/&gt;&quot;).eol();</span>
+
+<span class="fc" id="L487">        indent();</span>
+<span class="fc" id="L488">        append(&quot;&lt;name&gt;&quot;);</span>
+<span class="fc" id="L489">        entry.getRawName().accept(this);</span>
+<span class="fc" id="L490">        append(&quot;&lt;/name&gt;&quot;).eol();</span>
+        
+<span class="fc" id="L492">        indent().append(&quot;&lt;type&gt;&quot;).append(entry.getType()).append(&quot;&lt;/type&gt;&quot;).eol();</span>
+
+<span class="fc bfc" id="L494" title="All 2 branches covered.">        if (!entry.getAttributes().isEmpty()) {</span>
+<span class="fc" id="L495">            indent().append(&quot;&lt;attributes&gt;&quot;).eol();</span>
+<span class="fc" id="L496">            raiseIndent();</span>
+<span class="fc" id="L497">            super.visitField_info(entry);</span>
+<span class="fc" id="L498">            lowerIndent();</span>
+<span class="fc" id="L499">            indent().append(&quot;&lt;/attributes&gt;&quot;).eol();</span>
+        }
+
+<span class="fc" id="L502">        lowerIndent();</span>
+<span class="fc" id="L503">        indent().append(&quot;&lt;/field-info&gt;&quot;).eol();</span>
+<span class="fc" id="L504">    }</span>
+
+    public void visitMethod_info(Method_info entry) {
+<span class="fc" id="L507">        indent().append(&quot;&lt;method-info access-flags=\&quot;&quot;).append(format.format(entry.getAccessFlags())).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L508">        raiseIndent();</span>
+
+<span class="fc bfc" id="L510" title="All 2 branches covered.">        if (entry.isPublic())       indent().append(&quot;&lt;public/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L511" title="All 2 branches covered.">        if (entry.isProtected())    indent().append(&quot;&lt;protected/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L512" title="All 2 branches covered.">        if (entry.isPrivate())      indent().append(&quot;&lt;private/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L513" title="All 2 branches covered.">        if (entry.isStatic())       indent().append(&quot;&lt;static/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L514" title="All 2 branches covered.">        if (entry.isFinal())        indent().append(&quot;&lt;final/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L515" title="All 2 branches covered.">        if (entry.isSynchronized()) indent().append(&quot;&lt;synchronized/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L516" title="All 2 branches covered.">        if (entry.isBridge())       indent().append(&quot;&lt;bridge/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L517" title="All 2 branches covered.">        if (entry.isVarargs())      indent().append(&quot;&lt;varargs/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L518" title="All 2 branches covered.">        if (entry.isNative())       indent().append(&quot;&lt;native/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L519" title="All 2 branches covered.">        if (entry.isAbstract())     indent().append(&quot;&lt;abstract/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L520" title="All 2 branches covered.">        if (entry.isStrict())       indent().append(&quot;&lt;strict/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L521" title="All 2 branches covered.">        if (entry.isSynthetic())    indent().append(&quot;&lt;synthetic/&gt;&quot;).eol();</span>
+
+<span class="fc" id="L523">        indent();</span>
+<span class="fc" id="L524">        append(&quot;&lt;name&gt;&quot;);</span>
+<span class="fc" id="L525">        entry.getRawName().accept(this);</span>
+<span class="fc" id="L526">        append(&quot;&lt;/name&gt;&quot;).eol();</span>
+        
+<span class="pc bpc" id="L528" title="1 of 4 branches missed.">        if (!entry.getName().equals(&quot;&lt;init&gt;&quot;) &amp;&amp; !entry.getName().equals(&quot;&lt;clinit&gt;&quot;)) {</span>
+<span class="pc bpc" id="L529" title="1 of 2 branches missed.">            indent().append(&quot;&lt;return-type&gt;&quot;).append((entry.getReturnType() != null) ? entry.getReturnType() : &quot;void&quot;).append(&quot;&lt;/return-type&gt;&quot;).eol();</span>
+        }
+<span class="fc" id="L531">        indent().append(&quot;&lt;signature&gt;&quot;).append(entry.getSignature()).append(&quot;&lt;/signature&gt;&quot;).eol();</span>
+
+<span class="fc bfc" id="L533" title="All 2 branches covered.">        if (!entry.getAttributes().isEmpty()) {</span>
+<span class="fc" id="L534">            indent().append(&quot;&lt;attributes&gt;&quot;).eol();</span>
+<span class="fc" id="L535">            raiseIndent();</span>
+<span class="fc" id="L536">            super.visitMethod_info(entry);</span>
+<span class="fc" id="L537">            lowerIndent();</span>
+<span class="fc" id="L538">            indent().append(&quot;&lt;/attributes&gt;&quot;).eol();</span>
+        }
+
+<span class="fc" id="L541">        lowerIndent();</span>
+<span class="fc" id="L542">        indent().append(&quot;&lt;/method-info&gt;&quot;).eol();</span>
+<span class="fc" id="L543">    }</span>
+
+    public void visitConstantValue_attribute(ConstantValue_attribute attribute) {
+<span class="fc" id="L546">        indent().append(&quot;&lt;constant-value-attribute&gt;&quot;);</span>
+
+<span class="fc" id="L548">        attribute.getRawValue().accept(this);</span>
+
+<span class="fc" id="L550">        append(&quot;&lt;/constant-value-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L551">    }</span>
+
+    public void visitCode_attribute(Code_attribute attribute) {
+<span class="fc" id="L554">        indent().append(&quot;&lt;code-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L555">        raiseIndent();</span>
+
+<span class="fc" id="L557">        indent().append(&quot;&lt;length&gt;&quot;).append(attribute.getCode().length).append(&quot;&lt;/length&gt;&quot;).eol();</span>
+
+<span class="fc" id="L559">        indent().append(&quot;&lt;instructions&gt;&quot;).eol();</span>
+<span class="fc" id="L560">        raiseIndent();</span>
+<span class="fc bfc" id="L561" title="All 2 branches covered.">        for (Instruction instruction : attribute) {</span>
+<span class="fc" id="L562">            instruction.accept(this);</span>
+<span class="fc" id="L563">        }</span>
+<span class="fc" id="L564">        lowerIndent();</span>
+<span class="fc" id="L565">        indent().append(&quot;&lt;/instructions&gt;&quot;).eol();</span>
+
+<span class="fc bfc" id="L567" title="All 2 branches covered.">        if (!attribute.getExceptionHandlers().isEmpty()) {</span>
+<span class="fc" id="L568">            indent().append(&quot;&lt;exception-handlers&gt;&quot;).eol();</span>
+<span class="fc" id="L569">            raiseIndent();</span>
+<span class="fc bfc" id="L570" title="All 2 branches covered.">            for (ExceptionHandler exceptionHandler : attribute.getExceptionHandlers()) {</span>
+<span class="fc" id="L571">                exceptionHandler.accept(this);</span>
+<span class="fc" id="L572">            }</span>
+<span class="fc" id="L573">            lowerIndent();</span>
+<span class="fc" id="L574">            indent().append(&quot;&lt;/exception-handlers&gt;&quot;).eol();</span>
+        }
+        
+<span class="pc bpc" id="L577" title="1 of 2 branches missed.">        if (!attribute.getAttributes().isEmpty()) {</span>
+<span class="fc" id="L578">            indent().append(&quot;&lt;attributes&gt;&quot;).eol();</span>
+<span class="fc" id="L579">            raiseIndent();</span>
+<span class="fc bfc" id="L580" title="All 2 branches covered.">            for (Attribute_info attribute_info : attribute.getAttributes()) {</span>
+<span class="fc" id="L581">                attribute_info.accept(this);</span>
+<span class="fc" id="L582">            }</span>
+<span class="fc" id="L583">            lowerIndent();</span>
+<span class="fc" id="L584">            indent().append(&quot;&lt;/attributes&gt;&quot;).eol();</span>
+        }
+        
+<span class="fc" id="L587">        lowerIndent();</span>
+<span class="fc" id="L588">        indent().append(&quot;&lt;/code-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L589">    }</span>
+
+    public void visitStackMapTable_attribute(StackMapTable_attribute attribute) {
+<span class="fc" id="L592">        indent().append(&quot;&lt;stack-map-table-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L593">        raiseIndent();</span>
+
+<span class="fc" id="L595">        super.visitStackMapTable_attribute(attribute);</span>
+
+<span class="fc" id="L597">        lowerIndent();</span>
+<span class="fc" id="L598">        indent().append(&quot;&lt;/stack-map-table-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L599">    }</span>
+
+    public void visitExceptions_attribute(Exceptions_attribute attribute) {
+<span class="nc" id="L602">        indent().append(&quot;&lt;exceptions-attribute&gt;&quot;).eol();</span>
+<span class="nc" id="L603">        raiseIndent();</span>
+
+<span class="nc" id="L605">        attribute.getExceptions().forEach(exception -&gt; {</span>
+<span class="nc" id="L606">            indent();</span>
+<span class="nc" id="L607">            append(&quot;&lt;exception&gt;&quot;);</span>
+<span class="nc" id="L608">            exception.accept(this);</span>
+<span class="nc" id="L609">            append(&quot;&lt;/exception&gt;&quot;).eol();</span>
+<span class="nc" id="L610">        });</span>
+
+<span class="nc" id="L612">        lowerIndent();</span>
+<span class="nc" id="L613">        indent().append(&quot;&lt;/exceptions-attribute&gt;&quot;).eol();</span>
+<span class="nc" id="L614">    }</span>
+
+    public void visitInnerClasses_attribute(InnerClasses_attribute attribute) {
+<span class="fc" id="L617">        indent().append(&quot;&lt;inner-classes-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L618">        raiseIndent();</span>
+
+<span class="fc" id="L620">        super.visitInnerClasses_attribute(attribute);</span>
+
+<span class="fc" id="L622">        lowerIndent();</span>
+<span class="fc" id="L623">        indent().append(&quot;&lt;/inner-classes-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L624">    }</span>
+
+    public void visitEnclosingMethod_attribute(EnclosingMethod_attribute attribute) {
+<span class="fc" id="L627">        indent().append(&quot;&lt;enclosing-method-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L628">        raiseIndent();</span>
+
+<span class="fc" id="L630">        appendClassInfo(attribute.getClassIndex(), attribute.getRawClassInfo());</span>
+
+<span class="fc" id="L632">        indent().append(&quot;&lt;method&gt;&quot;);</span>
+<span class="fc bfc" id="L633" title="All 2 branches covered.">        if (attribute.hasMethod()) {</span>
+<span class="fc" id="L634">            NameAndType_info nat = attribute.getRawMethod();</span>
+<span class="fc bfc" id="L635" title="All 2 branches covered.">            if (nat.getName().equals(&quot;&lt;init&gt;&quot;)) {</span>
+<span class="fc" id="L636">                String className = attribute.getClassInfo();</span>
+<span class="fc" id="L637">                className = className.substring(className.lastIndexOf(&quot;.&quot;) + 1);</span>
+<span class="fc" id="L638">                append(className).append(DescriptorHelper.getSignature(nat.getType()));</span>
+<span class="fc" id="L639">            } else {</span>
+<span class="fc" id="L640">                append(DescriptorHelper.getReturnType(nat.getType())).append(&quot; &quot;).append(nat.getName()).append(DescriptorHelper.getSignature(nat.getType()));</span>
+            }
+        }
+<span class="fc" id="L643">        append(&quot;&lt;/method&gt;&quot;).eol();</span>
+
+<span class="fc" id="L645">        lowerIndent();</span>
+<span class="fc" id="L646">        indent().append(&quot;&lt;/enclosing-method-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L647">    }</span>
+
+    public void visitSynthetic_attribute(Synthetic_attribute attribute) {
+<span class="nc" id="L650">        indent().append(&quot;&lt;synthetic-attribute/&gt;&quot;).eol();</span>
+<span class="nc" id="L651">    }</span>
+
+    public void visitSignature_attribute(Signature_attribute attribute) {
+<span class="nc" id="L654">        indent().append(&quot;&lt;signature-attribute&gt;&quot;);</span>
+<span class="nc" id="L655">        attribute.getRawSignature().accept(this);</span>
+<span class="nc" id="L656">        append(&quot;&lt;/signature-attribute&gt;&quot;).eol();</span>
+<span class="nc" id="L657">    }</span>
+
+    public void visitSourceFile_attribute(SourceFile_attribute attribute) {
+<span class="fc" id="L660">        indent().append(&quot;&lt;source-file-attribute&gt;&quot;).append(attribute.getSourceFile()).append(&quot;&lt;/source-file-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L661">    }</span>
+
+    public void visitSourceDebugExtension_attribute(SourceDebugExtension_attribute attribute) {
+<span class="nc" id="L664">        indent().append(&quot;&lt;source-debug-extension&gt;&quot;).append(attribute.getDebugExtension()).append(&quot;&lt;/source-debug-extension&gt;&quot;).eol();</span>
+<span class="nc" id="L665">    }</span>
+
+    public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
+<span class="fc" id="L668">        indent().append(&quot;&lt;line-number-table-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L669">        raiseIndent();</span>
+
+<span class="fc" id="L671">        super.visitLineNumberTable_attribute(attribute);</span>
+
+<span class="fc" id="L673">        lowerIndent();</span>
+<span class="fc" id="L674">        indent().append(&quot;&lt;/line-number-table-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L675">    }</span>
+
+    public void visitLocalVariableTable_attribute(LocalVariableTable_attribute attribute) {
+<span class="fc" id="L678">        indent().append(&quot;&lt;local-variable-table-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L679">        raiseIndent();</span>
+
+<span class="fc" id="L681">        super.visitLocalVariableTable_attribute(attribute);</span>
+
+<span class="fc" id="L683">        lowerIndent();</span>
+<span class="fc" id="L684">        indent().append(&quot;&lt;/local-variable-table-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L685">    }</span>
+
+    public void visitLocalVariableTypeTable_attribute(LocalVariableTypeTable_attribute attribute) {
+<span class="nc" id="L688">        indent().append(&quot;&lt;local-variable-type-table-attribute&gt;&quot;).eol();</span>
+<span class="nc" id="L689">        raiseIndent();</span>
+
+<span class="nc" id="L691">        super.visitLocalVariableTypeTable_attribute(attribute);</span>
+
+<span class="nc" id="L693">        lowerIndent();</span>
+<span class="nc" id="L694">        indent().append(&quot;&lt;/local-variable-type-table-attribute&gt;&quot;).eol();</span>
+<span class="nc" id="L695">    }</span>
+
+    public void visitDeprecated_attribute(Deprecated_attribute attribute) {
+<span class="fc" id="L698">        indent().append(&quot;&lt;deprecated-attribute/&gt;&quot;).eol();</span>
+<span class="fc" id="L699">    }</span>
+
+    public void visitRuntimeVisibleAnnotations_attribute(RuntimeVisibleAnnotations_attribute attribute) {
+<span class="fc" id="L702">        indent().append(&quot;&lt;runtime-visible-annotations-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L703">        raiseIndent();</span>
+
+<span class="fc" id="L705">        super.visitRuntimeVisibleAnnotations_attribute(attribute);</span>
+
+<span class="fc" id="L707">        lowerIndent();</span>
+<span class="fc" id="L708">        indent().append(&quot;&lt;/runtime-visible-annotations-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L709">    }</span>
+
+    public void visitRuntimeInvisibleAnnotations_attribute(RuntimeInvisibleAnnotations_attribute attribute) {
+<span class="fc" id="L712">        indent().append(&quot;&lt;runtime-invisible-annotations-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L713">        raiseIndent();</span>
+
+<span class="fc" id="L715">        super.visitRuntimeInvisibleAnnotations_attribute(attribute);</span>
+
+<span class="fc" id="L717">        lowerIndent();</span>
+<span class="fc" id="L718">        indent().append(&quot;&lt;/runtime-invisible-annotations-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L719">    }</span>
+
+    protected void visitRuntimeAnnotations_attribute(RuntimeAnnotations_attribute attribute) {
+<span class="fc" id="L722">        indent().append(&quot;&lt;annotations&gt;&quot;).eol();</span>
+<span class="fc" id="L723">        raiseIndent();</span>
+
+<span class="fc" id="L725">        super.visitRuntimeAnnotations_attribute(attribute);</span>
+
+<span class="fc" id="L727">        lowerIndent();</span>
+<span class="fc" id="L728">        indent().append(&quot;&lt;/annotations&gt;&quot;).eol();</span>
+<span class="fc" id="L729">    }</span>
+
+    public void visitRuntimeVisibleParameterAnnotations_attribute(RuntimeVisibleParameterAnnotations_attribute attribute) {
+<span class="fc" id="L732">        indent().append(&quot;&lt;runtime-visible-parameter-annotations-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L733">        raiseIndent();</span>
+
+<span class="fc" id="L735">        super.visitRuntimeVisibleParameterAnnotations_attribute(attribute);</span>
+
+<span class="fc" id="L737">        lowerIndent();</span>
+<span class="fc" id="L738">        indent().append(&quot;&lt;/runtime-visible-parameter-annotations-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L739">    }</span>
+
+    public void visitRuntimeInvisibleParameterAnnotations_attribute(RuntimeInvisibleParameterAnnotations_attribute attribute) {
+<span class="fc" id="L742">        indent().append(&quot;&lt;runtime-invisible-parameter-annotations-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L743">        raiseIndent();</span>
+
+<span class="fc" id="L745">        super.visitRuntimeInvisibleParameterAnnotations_attribute(attribute);</span>
+
+<span class="fc" id="L747">        lowerIndent();</span>
+<span class="fc" id="L748">        indent().append(&quot;&lt;/runtime-invisible-parameter-annotations-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L749">    }</span>
+
+    protected void visitRuntimeParameterAnnotations_attribute(RuntimeParameterAnnotations_attribute attribute) {
+<span class="fc" id="L752">        indent().append(&quot;&lt;parameter-annotations&gt;&quot;).eol();</span>
+<span class="fc" id="L753">        raiseIndent();</span>
+
+<span class="fc" id="L755">        super.visitRuntimeParameterAnnotations_attribute(attribute);</span>
+
+<span class="fc" id="L757">        lowerIndent();</span>
+<span class="fc" id="L758">        indent().append(&quot;&lt;/parameter-annotations&gt;&quot;).eol();</span>
+<span class="fc" id="L759">    }</span>
+
+    public void visitRuntimeVisibleTypeAnnotations_attribute(RuntimeVisibleTypeAnnotations_attribute attribute) {
+<span class="fc" id="L762">        indent().append(&quot;&lt;runtime-visible-type-annotations-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L763">        raiseIndent();</span>
+
+<span class="fc" id="L765">        super.visitRuntimeVisibleTypeAnnotations_attribute(attribute);</span>
+
+<span class="fc" id="L767">        lowerIndent();</span>
+<span class="fc" id="L768">        indent().append(&quot;&lt;/runtime-visible-type-annotations-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L769">    }</span>
+
+    public void visitRuntimeInvisibleTypeAnnotations_attribute(RuntimeInvisibleTypeAnnotations_attribute attribute) {
+<span class="fc" id="L772">        indent().append(&quot;&lt;runtime-invisible-type-annotations-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L773">        raiseIndent();</span>
+
+<span class="fc" id="L775">        super.visitRuntimeInvisibleTypeAnnotations_attribute(attribute);</span>
+
+<span class="fc" id="L777">        lowerIndent();</span>
+<span class="fc" id="L778">        indent().append(&quot;&lt;/runtime-invisible-type-annotations-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L779">    }</span>
+
+    protected void visitRuntimeTypeAnnotations_attribute(RuntimeTypeAnnotations_attribute attribute) {
+<span class="fc" id="L782">        indent().append(&quot;&lt;type-annotations&gt;&quot;).eol();</span>
+<span class="fc" id="L783">        raiseIndent();</span>
+
+<span class="fc" id="L785">        super.visitRuntimeTypeAnnotations_attribute(attribute);</span>
+
+<span class="fc" id="L787">        lowerIndent();</span>
+<span class="fc" id="L788">        indent().append(&quot;&lt;/type-annotations&gt;&quot;).eol();</span>
+<span class="fc" id="L789">    }</span>
+
+    public void visitAnnotationDefault_attribute(AnnotationDefault_attribute attribute) {
+<span class="fc" id="L792">        indent().append(&quot;&lt;annotation-default-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L793">        raiseIndent();</span>
+
+<span class="fc" id="L795">        super.visitAnnotationDefault_attribute(attribute);</span>
+
+<span class="fc" id="L797">        lowerIndent();</span>
+<span class="fc" id="L798">        indent().append(&quot;&lt;/annotation-default-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L799">    }</span>
+
+    public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute) {
+<span class="fc" id="L802">        indent().append(&quot;&lt;bootstrap-methods-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L803">        raiseIndent();</span>
+
+<span class="fc" id="L805">        super.visitBootstrapMethods_attribute(attribute);</span>
+
+<span class="fc" id="L807">        lowerIndent();</span>
+<span class="fc" id="L808">        indent().append(&quot;&lt;/bootstrap-methods-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L809">    }</span>
+
+    public void visitMethodParameters_attribute(MethodParameters_attribute attribute) {
+<span class="fc" id="L812">        indent().append(&quot;&lt;method-parameters-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L813">        raiseIndent();</span>
+
+<span class="fc" id="L815">        super.visitMethodParameters_attribute(attribute);</span>
+
+<span class="fc" id="L817">        lowerIndent();</span>
+<span class="fc" id="L818">        indent().append(&quot;&lt;/method-parameters-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L819">    }</span>
+
+    public void visitModule_attribute(Module_attribute attribute) {
+<span class="fc" id="L822">        indent().append(&quot;&lt;module-attribute module-flags=\&quot;&quot;).append(format.format(attribute.getModuleFlags())).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L823">        raiseIndent();</span>
+
+<span class="fc" id="L825">        indent();</span>
+<span class="fc" id="L826">        append(&quot;&lt;name index=\&quot;&quot;).append(attribute.getModuleNameIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L827">        attribute.getRawModuleName().accept(this);</span>
+<span class="fc" id="L828">        append(&quot;&lt;/name&gt;&quot;).eol();</span>
+
+<span class="fc bfc" id="L830" title="All 2 branches covered.">        if (attribute.isOpen())      indent().append(&quot;&lt;open/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L831" title="All 2 branches covered.">        if (attribute.isSynthetic()) indent().append(&quot;&lt;synthetic/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L832" title="All 2 branches covered.">        if (attribute.isMandated())  indent().append(&quot;&lt;mandated/&gt;&quot;).eol();</span>
+
+<span class="fc bfc" id="L834" title="All 2 branches covered.">        if (attribute.hasModuleVersion()) {</span>
+<span class="fc" id="L835">            indent();</span>
+<span class="fc" id="L836">            append(&quot;&lt;version index=\&quot;&quot;).append(attribute.getModuleVersionIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L837">            attribute.getRawModuleVersion().accept(this);</span>
+<span class="fc" id="L838">            append(&quot;&lt;/version&gt;&quot;).eol();</span>
+        }
+
+<span class="fc" id="L841">        super.visitModule_attribute(attribute);</span>
+
+<span class="fc" id="L843">        lowerIndent();</span>
+<span class="fc" id="L844">        indent().append(&quot;&lt;/module-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L845">    }</span>
+
+    public void visitModulePackages_attribute(ModulePackages_attribute attribute) {
+<span class="fc" id="L848">        indent().append(&quot;&lt;module-packages-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L849">        raiseIndent();</span>
+
+<span class="fc" id="L851">        super.visitModulePackages_attribute(attribute);</span>
+
+<span class="fc" id="L853">        lowerIndent();</span>
+<span class="fc" id="L854">        indent().append(&quot;&lt;/module-packages-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L855">    }</span>
+
+    public void visitModuleMainClass_attribute(ModuleMainClass_attribute attribute) {
+<span class="fc" id="L858">        indent();</span>
+<span class="fc" id="L859">        append(&quot;&lt;module-main-class-attribute index=\&quot;&quot;).append(attribute.getMainClassIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L860">        attribute.getRawMainClass().accept(this);</span>
+<span class="fc" id="L861">        append(&quot;&lt;/module-main-class-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L862">    }</span>
+
+    public void visitNestHost_attribute(NestHost_attribute attribute) {
+<span class="fc" id="L865">        indent();</span>
+<span class="fc" id="L866">        append(&quot;&lt;nest-host-attribute index=\&quot;&quot;).append(attribute.getHostClassIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L867">        attribute.getRawHostClass().accept(this);</span>
+<span class="fc" id="L868">        append(&quot;&lt;/nest-host-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L869">    }</span>
+
+    public void visitNestMembers_attribute(NestMembers_attribute attribute) {
+<span class="fc" id="L872">        indent().append(&quot;&lt;nest-members-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L873">        raiseIndent();</span>
+
+<span class="fc" id="L875">        super.visitNestMembers_attribute(attribute);</span>
+
+<span class="fc" id="L877">        lowerIndent();</span>
+<span class="fc" id="L878">        indent().append(&quot;&lt;/nest-members-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L879">    }</span>
+
+    public void visitRecord_attribute(Record_attribute attribute) {
+<span class="fc" id="L882">        indent().append(&quot;&lt;record-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L883">        raiseIndent();</span>
+
+<span class="fc" id="L885">        super.visitRecord_attribute(attribute);</span>
+
+<span class="fc" id="L887">        lowerIndent();</span>
+<span class="fc" id="L888">        indent().append(&quot;&lt;/record-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L889">    }</span>
+
+    public void visitPermittedSubclasses_attribute(PermittedSubclasses_attribute attribute) {
+<span class="fc" id="L892">        indent().append(&quot;&lt;permitted-subclasses-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L893">        raiseIndent();</span>
+
+<span class="fc" id="L895">        super.visitPermittedSubclasses_attribute(attribute);</span>
+
+<span class="fc" id="L897">        lowerIndent();</span>
+<span class="fc" id="L898">        indent().append(&quot;&lt;/permitted-subclasses-attribute&gt;&quot;).eol();</span>
+<span class="fc" id="L899">    }</span>
+
+    public void visitCustom_attribute(Custom_attribute attribute) {
+<span class="nc" id="L902">        indent().append(&quot;&lt;custom-attribute name=\&quot;&quot;).append(escapeXMLCharacters(attribute.getName())).append(&quot;\&quot;&gt;&quot;).append(Hex.toString(attribute.getInfo())).append(&quot;&lt;/custom-attribute&gt;&quot;).eol();</span>
+<span class="nc" id="L903">    }</span>
+
+    public void visitInstruction(Instruction instruction) {
+<span class="fc" id="L906">        indent();</span>
+<span class="fc" id="L907">        append(&quot;&lt;instruction pc=\&quot;&quot;).append(instruction.getStart()).append(&quot;\&quot; length=\&quot;&quot;).append(instruction.getLength()).append(&quot;\&quot; op-code=\&quot;0x&quot;).append(String.format(&quot;%02X&quot;, instruction.getOpcode())).append(&quot;\&quot;&quot;);</span>
+<span class="pc bpc" id="L908" title="6 of 11 branches missed.">        switch (instruction.getOpcode()) {</span>
+            case 0x02: // iconst_m1
+            case 0x03: // iconst_0
+            case 0x04: // iconst_1
+            case 0x05: // iconst_2
+            case 0x06: // iconst_3
+            case 0x07: // iconst_4
+            case 0x08: // iconst_5
+            case 0x09: // lconst_0
+            case 0x0a: // lconst_1
+            case 0x0b: // fconst_0
+            case 0x0c: // fconst_1
+            case 0x0d: // fconst_2
+            case 0x0e: // dconst_0
+            case 0x0f: // dconst_1
+<span class="fc" id="L923">                append(&quot; value=\&quot;&quot;).append(instruction.getValue()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L924">                append(instruction);</span>
+<span class="fc" id="L925">                break;</span>
+            case 0x10: // bipush
+            case 0x11: // sipush
+<span class="nc" id="L928">                append(&quot; value=\&quot;&quot;).append(instruction.getValue()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="nc" id="L929">                append(instruction).append(&quot; &quot;).append(instruction.getValue());</span>
+<span class="nc" id="L930">                break;</span>
+            case 0x12: // ldc
+            case 0x13: // ldc_w
+            case 0x14: // ldc2_w
+            case 0xb2: // getstatic
+            case 0xb3: // putstatic
+            case 0xb4: // getfield
+            case 0xb5: // putfield
+            case 0xb6: // invokevirtual
+            case 0xb7: // invokespecial
+            case 0xb8: // invokestatic
+            case 0xb9: // invokeinterface
+            case 0xbb: // new
+            case 0xbd: // anewarray
+            case 0xc0: // checkcast
+            case 0xc1: // instanceof
+            case 0xc5: // multianewarray
+<span class="fc" id="L947">                append(&quot; index=\&quot;&quot;).append(instruction.getIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L948">                append(instruction);</span>
+<span class="fc" id="L949">                append(&quot; &quot;);</span>
+<span class="fc" id="L950">                instruction.getIndexedConstantPoolEntry().accept(this);</span>
+<span class="fc" id="L951">                break;</span>
+            case 0x1a: // iload_0
+            case 0x1e: // lload_0
+            case 0x22: // fload_0
+            case 0x26: // dload_0
+            case 0x2a: // aload_0
+            case 0x3b: // istore_0
+            case 0x3f: // lstore_0
+            case 0x43: // fstore_0
+            case 0x47: // dstore_0
+            case 0x4b: // astore_0
+            case 0x1b: // iload_1
+            case 0x1f: // lload_1
+            case 0x23: // fload_1
+            case 0x27: // dload_1
+            case 0x2b: // aload_1
+            case 0x3c: // istore_1
+            case 0x40: // lstore_1
+            case 0x44: // fstore_1
+            case 0x48: // dstore_1
+            case 0x4c: // astore_1
+            case 0x1c: // iload_2
+            case 0x20: // lload_2
+            case 0x24: // fload_2
+            case 0x28: // dload_2
+            case 0x2c: // aload_2
+            case 0x3d: // istore_2
+            case 0x41: // lstore_2
+            case 0x45: // fstore_2
+            case 0x49: // dstore_2
+            case 0x4d: // astore_2
+            case 0x1d: // iload_3
+            case 0x21: // lload_3
+            case 0x25: // fload_3
+            case 0x29: // dload_3
+            case 0x2d: // aload_3
+            case 0x3e: // istore_3
+            case 0x42: // lstore_3
+            case 0x46: // fstore_3
+            case 0x4a: // dstore_3
+            case 0x4e: // astore_3
+            case 0x15: // iload
+            case 0x16: // llload
+            case 0x17: // fload
+            case 0x18: // dload
+            case 0x19: // aload
+            case 0x36: // istore
+            case 0x37: // lstore
+            case 0x38: // fstore
+            case 0x39: // dstore
+            case 0x3a: // astore
+            case 0xa9: // ret
+<span class="fc" id="L1003">                append(&quot; index=\&quot;&quot;).append(instruction.getIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L1004">                append(instruction);</span>
+<span class="fc" id="L1005">                appendLocalVariable(instruction.getIndexedLocalVariable());</span>
+<span class="fc" id="L1006">                break;</span>
+            case 0x99: // ifeq
+            case 0x9a: // ifne
+            case 0x9b: // iflt
+            case 0x9c: // ifge
+            case 0x9d: // ifgt
+            case 0x9e: // ifle
+            case 0x9f: // if_icmpeq
+            case 0xa0: // if_icmpne
+            case 0xa1: // if_icmplt
+            case 0xa2: // if_icmpge
+            case 0xa3: // if_icmpgt
+            case 0xa4: // if_icmple
+            case 0xa5: // if_acmpeq
+            case 0xa6: // if_acmpne
+            case 0xa7: // goto
+            case 0xa8: // jsr
+            case 0xc6: // ifnull
+            case 0xc7: // ifnonnull
+            case 0xc8: // goto_w
+            case 0xc9: // jsr_w
+<span class="fc" id="L1027">                append(&quot; offset=\&quot;&quot;).append(instruction.getOffset()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L1028">                append(instruction).append(&quot; &quot;).append(instruction.getStart() + instruction.getOffset());</span>
+<span class="fc" id="L1029">                break;</span>
+            case 0x84: // iinc
+<span class="nc" id="L1031">                append(&quot; index=\&quot;&quot;).append(instruction.getIndex()).append(&quot;\&quot; value=\&quot;&quot;).append(instruction.getValue()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="nc" id="L1032">                append(instruction);</span>
+<span class="nc" id="L1033">                appendLocalVariable(instruction.getIndexedLocalVariable());</span>
+<span class="nc" id="L1034">                break;</span>
+            case 0xaa: // tableswitch
+<span class="nc" id="L1036">                append(&quot; padding=\&quot;&quot;).append(instruction.getPadding()).append(&quot;\&quot; default=\&quot;&quot;).appendSwitchDefault(instruction).append(&quot;\&quot; low=\&quot;&quot;).append(instruction.getLow()).append(&quot;\&quot; high=\&quot;&quot;).append(instruction.getHigh()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="nc" id="L1037">                append(instruction).append(&quot; &quot;).appendTableSwitch(instruction, &quot; | &quot;);</span>
+<span class="nc" id="L1038">                break;</span>
+            case 0xab: // lookupswitch
+<span class="nc" id="L1040">                append(&quot; padding=\&quot;&quot;).append(instruction.getPadding()).append(&quot;\&quot; default=\&quot;&quot;).appendSwitchDefault(instruction).append(&quot;\&quot; npairs=\&quot;&quot;).append(instruction.getNPairs()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="nc" id="L1041">                append(instruction).append(&quot; &quot;).appendLookupSwitch(instruction, &quot; | &quot;);</span>
+<span class="nc" id="L1042">                break;</span>
+            case 0xba: // invokedynamic
+<span class="nc" id="L1044">                append(&quot; index=\&quot;&quot;).append(instruction.getIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="nc" id="L1045">                append(instruction);</span>
+<span class="nc" id="L1046">                var indexedEntry = instruction.getIndexedConstantPoolEntry();</span>
+<span class="nc bnc" id="L1047" title="All 2 branches missed.">                if (indexedEntry instanceof Dynamic_info dynamic_info) {</span>
+<span class="nc" id="L1048">                    append(&quot; &quot;).append(dynamic_info.getName());</span>
+<span class="nc bnc" id="L1049" title="All 2 branches missed.">                } else if (indexedEntry instanceof InvokeDynamic_info invokeDynamic_info) {</span>
+<span class="nc" id="L1050">                    append(&quot; &quot;).append(invokeDynamic_info.getName());</span>
+                }
+                // TODO: Replace with type pattern matching in switch expression in Java 21
+                // switch (instruction.getIndexedConstantPoolEntry()) {
+                //     case Dynamic_info entry -&gt; append(&quot; &quot;).append(entry.getName());
+                //     case InvokeDynamic_info entry -&gt; append(&quot; &quot;).append(entry.getName());
+                //     default -&gt; append(&quot;&quot;);
+                // }
+<span class="nc" id="L1058">                instruction.getDynamicConstantPoolEntries().forEach(entry -&gt; {</span>
+<span class="nc" id="L1059">                    append(&quot; &quot;);</span>
+<span class="nc" id="L1060">                    entry.accept(this);</span>
+<span class="nc" id="L1061">                });</span>
+<span class="nc" id="L1062">                break;</span>
+            case 0xc4: // wide
+<span class="nc bnc" id="L1064" title="All 2 branches missed.">                if (instruction.getByte(1) == 0x84 /* iinc */) {</span>
+<span class="nc" id="L1065">                    append(&quot; index=\&quot;&quot;).append(instruction.getIndex()).append(&quot;\&quot; value=\&quot;&quot;).append(instruction.getValue()).append(&quot;\&quot;&gt;&quot;);</span>
+                } else {
+<span class="nc" id="L1067">                    append(&quot; index=\&quot;&quot;).append(instruction.getIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+                }
+<span class="nc" id="L1069">                append(instruction);</span>
+<span class="nc" id="L1070">                appendLocalVariable(instruction.getIndexedLocalVariable());</span>
+<span class="nc" id="L1071">                break;</span>
+            default:
+<span class="fc" id="L1073">                append(&quot;&gt;&quot;);</span>
+<span class="fc" id="L1074">                append(instruction);</span>
+                break;
+        }
+<span class="fc" id="L1077">        append(&quot;&lt;/instruction&gt;&quot;).eol();</span>
+<span class="fc" id="L1078">    }</span>
+
+    public void visitExceptionHandler(ExceptionHandler helper) {
+<span class="fc" id="L1081">        indent();</span>
+<span class="fc" id="L1082">        append(&quot;&lt;exception-handler&gt;&quot;);</span>
+<span class="fc" id="L1083">        append(&quot;&lt;start-pc&gt;&quot;).append(helper.getStartPC()).append(&quot;&lt;/start-pc&gt;&quot;);</span>
+<span class="fc" id="L1084">        append(&quot;&lt;end-pc&gt;&quot;).append(helper.getEndPC()).append(&quot;&lt;/end-pc&gt;&quot;);</span>
+<span class="fc" id="L1085">        append(&quot;&lt;handler-pc&gt;&quot;).append(helper.getHandlerPC()).append(&quot;&lt;/handler-pc&gt;&quot;);</span>
+
+<span class="fc" id="L1087">        append(&quot;&lt;catch-type&gt;&quot;);</span>
+<span class="pc bpc" id="L1088" title="1 of 2 branches missed.">        if (helper.hasCatchType()) {</span>
+<span class="fc" id="L1089">            helper.getRawCatchType().accept(this);</span>
+        }
+<span class="fc" id="L1091">        append(&quot;&lt;/catch-type&gt;&quot;);</span>
+
+<span class="fc" id="L1093">        append(&quot;&lt;/exception-handler&gt;&quot;).eol();</span>
+<span class="fc" id="L1094">    }</span>
+
+    public void visitInnerClass(InnerClass helper) {
+<span class="fc" id="L1097">        indent().append(&quot;&lt;inner-class access-flags=\&quot;&quot;).append(format.format(helper.getAccessFlags())).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L1098">        raiseIndent();</span>
+
+<span class="fc bfc" id="L1100" title="All 2 branches covered.">        if (helper.isPublic())     indent().append(&quot;&lt;public/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L1101" title="All 2 branches covered.">        if (helper.isProtected())  indent().append(&quot;&lt;protected/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L1102" title="All 2 branches covered.">        if (helper.isPrivate())    indent().append(&quot;&lt;private/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L1103" title="All 2 branches covered.">        if (helper.isStatic())     indent().append(&quot;&lt;static/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L1104" title="All 2 branches covered.">        if (helper.isFinal())      indent().append(&quot;&lt;final/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L1105" title="All 2 branches covered.">        if (helper.isInterface())  indent().append(&quot;&lt;is-interface/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L1106" title="All 2 branches covered.">        if (helper.isAbstract())   indent().append(&quot;&lt;abstract/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L1107" title="All 2 branches covered.">        if (helper.isSynthetic())  indent().append(&quot;&lt;synthetic/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L1108" title="All 2 branches covered.">        if (helper.isAnnotation()) indent().append(&quot;&lt;is-annotation/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L1109" title="All 2 branches covered.">        if (helper.isEnum())       indent().append(&quot;&lt;enum/&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1111">        indent();</span>
+<span class="fc" id="L1112">        append(&quot;&lt;inner-class-info&gt;&quot;);</span>
+<span class="fc" id="L1113">        helper.getRawInnerClassInfo().accept(this);</span>
+<span class="fc" id="L1114">        append(&quot;&lt;/inner-class-info&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1116">        indent();</span>
+<span class="fc" id="L1117">        append(&quot;&lt;outer-class-info&gt;&quot;);</span>
+<span class="fc bfc" id="L1118" title="All 2 branches covered.">        if (helper.hasOuterClassInfo()) {</span>
+<span class="fc" id="L1119">            helper.getRawOuterClassInfo().accept(this);</span>
+        }
+<span class="fc" id="L1121">        append(&quot;&lt;/outer-class-info&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1123">        indent();</span>
+<span class="fc" id="L1124">        append(&quot;&lt;inner-name&gt;&quot;);</span>
+<span class="fc bfc" id="L1125" title="All 2 branches covered.">        if (helper.hasInnerName()) {</span>
+<span class="fc" id="L1126">            helper.getRawInnerName().accept(this);</span>
+        }
+<span class="fc" id="L1128">        append(&quot;&lt;/inner-name&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1130">        lowerIndent();</span>
+<span class="fc" id="L1131">        indent().append(&quot;&lt;/inner-class&gt;&quot;).eol();</span>
+<span class="fc" id="L1132">    }</span>
+
+    public void visitLineNumber(LineNumber helper) {
+<span class="fc" id="L1135">        indent();</span>
+<span class="fc" id="L1136">        append(&quot;&lt;line-number&gt;&quot;);</span>
+<span class="fc" id="L1137">        append(&quot;&lt;start-pc&gt;&quot;).append(helper.getStartPC()).append(&quot;&lt;/start-pc&gt;&quot;);</span>
+<span class="fc" id="L1138">        append(&quot;&lt;line&gt;&quot;).append(helper.getLineNumber()).append(&quot;&lt;/line&gt;&quot;);</span>
+<span class="fc" id="L1139">        append(&quot;&lt;/line-number&gt;&quot;).eol();</span>
+<span class="fc" id="L1140">    }</span>
+
+    public void visitLocalVariable(LocalVariable helper) {
+<span class="fc" id="L1143">        indent();</span>
+<span class="fc" id="L1144">        append(&quot;&lt;local-variable pc=\&quot;&quot;).append(helper.getStartPC()).append(&quot;\&quot; length=\&quot;&quot;).append(helper.getLength()).append(&quot;\&quot; index=\&quot;&quot;).append(helper.getIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L1145">        append(&quot;&lt;name&gt;&quot;);</span>
+<span class="fc" id="L1146">        helper.getRawName().accept(this);</span>
+<span class="fc" id="L1147">        append(&quot;&lt;/name&gt;&quot;);</span>
+
+<span class="fc" id="L1149">        append(&quot;&lt;type&gt;&quot;).append(DescriptorHelper.getType(helper.getDescriptor())).append(&quot;&lt;/type&gt;&quot;);</span>
+<span class="fc" id="L1150">        append(&quot;&lt;/local-variable&gt;&quot;).eol();</span>
+<span class="fc" id="L1151">    }</span>
+
+    public void visitLocalVariableType(LocalVariableType helper) {
+<span class="fc" id="L1154">        indent();</span>
+<span class="fc" id="L1155">        append(&quot;&lt;local-variable-type pc=\&quot;&quot;).append(helper.getStartPC()).append(&quot;\&quot; length=\&quot;&quot;).append(helper.getLength()).append(&quot;\&quot; index=\&quot;&quot;).append(helper.getIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L1156">        append(&quot;&lt;name&gt;&quot;);</span>
+<span class="fc" id="L1157">        helper.getRawName().accept(this);</span>
+<span class="fc" id="L1158">        append(&quot;&lt;/name&gt;&quot;);</span>
+
+<span class="fc" id="L1160">        append(&quot;&lt;signature&gt;&quot;);</span>
+<span class="fc" id="L1161">        helper.getRawSignature().accept(this);</span>
+<span class="fc" id="L1162">        append(&quot;&lt;/signature&gt;&quot;);</span>
+<span class="fc" id="L1163">        append(&quot;&lt;/local-variable-type&gt;&quot;).eol();</span>
+<span class="fc" id="L1164">    }</span>
+
+    public void visitBootstrapMethod(BootstrapMethod helper) {
+<span class="fc" id="L1167">        indent().append(&quot;&lt;bootstrap-method&gt;&quot;).eol();</span>
+<span class="fc" id="L1168">        raiseIndent();</span>
+
+<span class="fc" id="L1170">        indent();</span>
+<span class="fc" id="L1171">        append(&quot;&lt;bootstrap-method-ref index=\&quot;&quot;).append(helper.getBootstrapMethodRef()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L1172">        helper.getBootstrapMethod().accept(this);</span>
+<span class="fc" id="L1173">        append(&quot;&lt;/bootstrap-method-ref&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1175">        indent().append(&quot;&lt;arguments&gt;&quot;).eol();</span>
+<span class="fc" id="L1176">        raiseIndent();</span>
+
+<span class="fc" id="L1178">        helper.getArgumentIndices()</span>
+<span class="fc" id="L1179">                .forEach(index -&gt; {</span>
+<span class="fc" id="L1180">                    indent();</span>
+<span class="fc" id="L1181">                    append(&quot;&lt;argument index=\&quot;&quot;).append(index).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L1182">                    helper.getArgument(index).accept(this);</span>
+<span class="fc" id="L1183">                    append(&quot;&lt;/argument&gt;&quot;).eol();</span>
+<span class="fc" id="L1184">                });</span>
+
+<span class="fc" id="L1186">        lowerIndent();</span>
+<span class="fc" id="L1187">        indent().append(&quot;&lt;/arguments&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1189">        lowerIndent();</span>
+<span class="fc" id="L1190">        indent().append(&quot;&lt;/bootstrap-method&gt;&quot;).eol();</span>
+<span class="fc" id="L1191">    }</span>
+
+    public void visitMethodParameter(MethodParameter helper) {
+<span class="fc" id="L1194">        indent().append(&quot;&lt;method-parameter access-flags=\&quot;&quot;).append(format.format(helper.getAccessFlags())).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L1195">        raiseIndent();</span>
+
+<span class="fc bfc" id="L1197" title="All 2 branches covered.">        if (helper.hasName()) {</span>
+<span class="fc" id="L1198">            indent();</span>
+<span class="fc" id="L1199">            append(&quot;&lt;name&gt;&quot;);</span>
+<span class="fc" id="L1200">            helper.getRawName().accept(this);</span>
+<span class="fc" id="L1201">            append(&quot;&lt;/name&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L1204" title="All 2 branches covered.">        if (helper.isFinal())     indent().append(&quot;&lt;final/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L1205" title="All 2 branches covered.">        if (helper.isSynthetic()) indent().append(&quot;&lt;synthetic/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L1206" title="All 2 branches covered.">        if (helper.isMandated())  indent().append(&quot;&lt;mandated/&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1208">        lowerIndent();</span>
+<span class="fc" id="L1209">        indent().append(&quot;&lt;/method-parameter&gt;&quot;).eol();</span>
+<span class="fc" id="L1210">    }</span>
+
+    public void visitModuleRequires(ModuleRequires helper) {
+<span class="fc" id="L1213">        indent().append(&quot;&lt;module-requires requires-flags=\&quot;&quot;).append(format.format(helper.getRequiresFlags())).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L1214">        raiseIndent();</span>
+
+<span class="fc" id="L1216">        indent();</span>
+<span class="fc" id="L1217">        append(&quot;&lt;module index=\&quot;&quot;).append(helper.getRequiresIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L1218">        helper.getRawRequires().accept(this);</span>
+<span class="fc" id="L1219">        append(&quot;&lt;/module&gt;&quot;).eol();</span>
+
+<span class="pc bpc" id="L1221" title="1 of 2 branches missed.">        if (helper.isTransitive())  indent().append(&quot;&lt;transitive/&gt;&quot;).eol();</span>
+<span class="pc bpc" id="L1222" title="1 of 2 branches missed.">        if (helper.isStaticPhase()) indent().append(&quot;&lt;static-phase/&gt;&quot;).eol();</span>
+<span class="pc bpc" id="L1223" title="1 of 2 branches missed.">        if (helper.isSynthetic())   indent().append(&quot;&lt;synthetic/&gt;&quot;).eol();</span>
+<span class="pc bpc" id="L1224" title="1 of 2 branches missed.">        if (helper.isMandated())    indent().append(&quot;&lt;mandated/&gt;&quot;).eol();</span>
+
+<span class="fc bfc" id="L1226" title="All 2 branches covered.">        if (helper.hasRequiresVersion()) {</span>
+<span class="fc" id="L1227">            indent();</span>
+<span class="fc" id="L1228">            append(&quot;&lt;version index=\&quot;&quot;).append(helper.getRequiresVersionIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L1229">            helper.getRawRequiresVersion().accept(this);</span>
+<span class="fc" id="L1230">            append(&quot;&lt;/version&gt;&quot;).eol();</span>
+        }
+
+<span class="fc" id="L1233">        lowerIndent();</span>
+<span class="fc" id="L1234">        indent().append(&quot;&lt;/module-requires&gt;&quot;).eol();</span>
+<span class="fc" id="L1235">    }</span>
+
+    public void visitModuleExports(ModuleExports helper) {
+<span class="fc" id="L1238">        indent().append(&quot;&lt;module-exports exports-flags=\&quot;&quot;).append(format.format(helper.getExportsFlags())).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L1239">        raiseIndent();</span>
+
+<span class="fc" id="L1241">        indent();</span>
+<span class="fc" id="L1242">        append(&quot;&lt;package index=\&quot;&quot;).append(helper.getExportsIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L1243">        helper.getRawExports().accept(this);</span>
+<span class="fc" id="L1244">        append(&quot;&lt;/package&gt;&quot;).eol();</span>
+
+<span class="fc bfc" id="L1246" title="All 2 branches covered.">        if (helper.isSynthetic())   indent().append(&quot;&lt;synthetic/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L1247" title="All 2 branches covered.">        if (helper.isMandated())    indent().append(&quot;&lt;mandated/&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1249">        helper.getExportsTos().forEach(moduleExportsTo -&gt; moduleExportsTo.accept(this));</span>
+
+<span class="fc" id="L1251">        lowerIndent();</span>
+<span class="fc" id="L1252">        indent().append(&quot;&lt;/module-exports&gt;&quot;).eol();</span>
+<span class="fc" id="L1253">    }</span>
+
+    public void visitModuleExportsTo(ModuleExportsTo helper) {
+<span class="fc" id="L1256">        indent().append(&quot;&lt;module-exports-to&gt;&quot;).eol();</span>
+<span class="fc" id="L1257">        raiseIndent();</span>
+
+<span class="fc" id="L1259">        indent();</span>
+<span class="fc" id="L1260">        append(&quot;&lt;module index=\&quot;&quot;).append(helper.getExportsToIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L1261">        helper.getRawExportsTo().accept(this);</span>
+<span class="fc" id="L1262">        append(&quot;&lt;/module&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1264">        lowerIndent();</span>
+<span class="fc" id="L1265">        indent().append(&quot;&lt;/module-exports-to&gt;&quot;).eol();</span>
+<span class="fc" id="L1266">    }</span>
+
+    public void visitModuleOpens(ModuleOpens helper) {
+<span class="fc" id="L1269">        indent().append(&quot;&lt;module-opens opens-flags=\&quot;&quot;).append(format.format(helper.getOpensFlags())).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L1270">        raiseIndent();</span>
+
+<span class="fc" id="L1272">        indent();</span>
+<span class="fc" id="L1273">        append(&quot;&lt;package index=\&quot;&quot;).append(helper.getOpensIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L1274">        helper.getRawOpens().accept(this);</span>
+<span class="fc" id="L1275">        append(&quot;&lt;/package&gt;&quot;).eol();</span>
+
+<span class="fc bfc" id="L1277" title="All 2 branches covered.">        if (helper.isSynthetic())   indent().append(&quot;&lt;synthetic/&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L1278" title="All 2 branches covered.">        if (helper.isMandated())    indent().append(&quot;&lt;mandated/&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1280">        helper.getOpensTos().forEach(moduleOpensTo -&gt; moduleOpensTo.accept(this));</span>
+
+<span class="fc" id="L1282">        lowerIndent();</span>
+<span class="fc" id="L1283">        indent().append(&quot;&lt;/module-opens&gt;&quot;).eol();</span>
+<span class="fc" id="L1284">    }</span>
+
+    public void visitModuleOpensTo(ModuleOpensTo helper) {
+<span class="fc" id="L1287">        indent().append(&quot;&lt;module-opens-to&gt;&quot;).eol();</span>
+<span class="fc" id="L1288">        raiseIndent();</span>
+
+<span class="fc" id="L1290">        indent();</span>
+<span class="fc" id="L1291">        append(&quot;&lt;module index=\&quot;&quot;).append(helper.getOpensToIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L1292">        helper.getRawOpensTo().accept(this);</span>
+<span class="fc" id="L1293">        append(&quot;&lt;/module&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1295">        lowerIndent();</span>
+<span class="fc" id="L1296">        indent().append(&quot;&lt;/module-opens-to&gt;&quot;).eol();</span>
+<span class="fc" id="L1297">    }</span>
+
+    public void visitModuleUses(ModuleUses helper) {
+<span class="fc" id="L1300">        indent().append(&quot;&lt;module-uses&gt;&quot;).eol();</span>
+<span class="fc" id="L1301">        raiseIndent();</span>
+
+<span class="fc" id="L1303">        appendClassInfo(helper.getUsesIndex(), helper.getRawUses());</span>
+
+<span class="fc" id="L1305">        lowerIndent();</span>
+<span class="fc" id="L1306">        indent().append(&quot;&lt;/module-uses&gt;&quot;).eol();</span>
+<span class="fc" id="L1307">    }</span>
+
+    public void visitModuleProvides(ModuleProvides helper) {
+<span class="fc" id="L1310">        indent().append(&quot;&lt;module-provides&gt;&quot;).eol();</span>
+<span class="fc" id="L1311">        raiseIndent();</span>
+
+<span class="fc" id="L1313">        appendClassInfo(helper.getProvidesIndex(), helper.getRawProvides());</span>
+
+<span class="fc" id="L1315">        helper.getProvidesWiths().forEach(moduleProvidesWith -&gt; moduleProvidesWith.accept(this));</span>
+
+<span class="fc" id="L1317">        lowerIndent();</span>
+<span class="fc" id="L1318">        indent().append(&quot;&lt;/module-provides&gt;&quot;).eol();</span>
+<span class="fc" id="L1319">    }</span>
+
+    public void visitModuleProvidesWith(ModuleProvidesWith helper) {
+<span class="fc" id="L1322">        indent().append(&quot;&lt;module-provides-with&gt;&quot;).eol();</span>
+<span class="fc" id="L1323">        raiseIndent();</span>
+
+<span class="fc" id="L1325">        appendClassInfo(helper.getProvidesWithIndex(), helper.getRawProvidesWith());</span>
+
+<span class="fc" id="L1327">        lowerIndent();</span>
+<span class="fc" id="L1328">        indent().append(&quot;&lt;/module-provides-with&gt;&quot;).eol();</span>
+<span class="fc" id="L1329">    }</span>
+
+    public void visitModulePackage(ModulePackage helper) {
+<span class="fc" id="L1332">        indent();</span>
+<span class="fc" id="L1333">        append(&quot;&lt;package index=\&quot;&quot;).append(helper.getPackageIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L1334">        helper.getRawPackage().accept(this);</span>
+<span class="fc" id="L1335">        append(&quot;&lt;/package&gt;&quot;).eol();</span>
+<span class="fc" id="L1336">    }</span>
+
+    public void visitNestMember(NestMember helper) {
+<span class="fc" id="L1339">        appendClassInfo(helper.getMemberClassIndex(), helper.getRawMemberClass());</span>
+<span class="fc" id="L1340">    }</span>
+
+    public void visitRecordComponent_info(RecordComponent_info helper) {
+<span class="fc" id="L1343">        indent().append(&quot;&lt;record-component&gt;&quot;).eol();</span>
+<span class="fc" id="L1344">        raiseIndent();</span>
+
+<span class="fc" id="L1346">        indent();</span>
+<span class="fc" id="L1347">        append(&quot;&lt;name index=\&quot;&quot;).append(helper.getNameIndex()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L1348">        helper.getRawName().accept(this);</span>
+<span class="fc" id="L1349">        append(&quot;&lt;/name&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1351">        indent().append(&quot;&lt;type index=\&quot;&quot;).append(helper.getDescriptorIndex()).append(&quot;\&quot;&gt;&quot;).append(helper.getType()).append(&quot;&lt;/type&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1353">        indent().append(&quot;&lt;attributes&gt;&quot;).eol();</span>
+<span class="fc" id="L1354">        raiseIndent();</span>
+
+<span class="fc" id="L1356">        super.visitRecordComponent_info(helper);</span>
+
+<span class="fc" id="L1358">        lowerIndent();</span>
+<span class="fc" id="L1359">        indent().append(&quot;&lt;/attributes&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1361">        lowerIndent();</span>
+<span class="fc" id="L1362">        indent().append(&quot;&lt;/record-component&gt;&quot;).eol();</span>
+<span class="fc" id="L1363">    }</span>
+
+
+    public void visitPermittedSubclass(PermittedSubclass helper) {
+<span class="fc" id="L1367">        appendClassInfo(helper.getSubclassIndex(), helper.getRawSubclass());</span>
+<span class="fc" id="L1368">    }</span>
+
+    public void visitAnnotation(Annotation helper) {
+<span class="fc" id="L1371">        indent().append(&quot;&lt;annotation&gt;&quot;).eol();</span>
+<span class="fc" id="L1372">        raiseIndent();</span>
+
+<span class="fc" id="L1374">        indent().append(&quot;&lt;type&gt;&quot;).append(helper.getType()).append(&quot;&lt;/type&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1376">        indent().append(&quot;&lt;element-value-pairs&gt;&quot;).eol();</span>
+<span class="fc" id="L1377">        raiseIndent();</span>
+
+<span class="fc" id="L1379">        super.visitAnnotation(helper);</span>
+
+<span class="fc" id="L1381">        lowerIndent();</span>
+<span class="fc" id="L1382">        indent().append(&quot;&lt;/element-value-pairs&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1384">        lowerIndent();</span>
+<span class="fc" id="L1385">        indent().append(&quot;&lt;/annotation&gt;&quot;).eol();</span>
+<span class="fc" id="L1386">    }</span>
+
+    public void visitParameterAnnotation(ParameterAnnotation helper) {
+<span class="fc" id="L1389">        indent().append(&quot;&lt;parameter-annotation&gt;&quot;).eol();</span>
+<span class="fc" id="L1390">        raiseIndent();</span>
+
+<span class="fc" id="L1392">        indent().append(&quot;&lt;annotations&gt;&quot;).eol();</span>
+<span class="fc" id="L1393">        raiseIndent();</span>
+
+<span class="fc" id="L1395">        super.visitParameterAnnotation(helper);</span>
+
+<span class="fc" id="L1397">        lowerIndent();</span>
+<span class="fc" id="L1398">        indent().append(&quot;&lt;/annotations&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1400">        lowerIndent();</span>
+<span class="fc" id="L1401">        indent().append(&quot;&lt;/parameter-annotation&gt;&quot;).eol();</span>
+<span class="fc" id="L1402">    }</span>
+
+    public void visitTypeAnnotation(TypeAnnotation helper) {
+<span class="fc" id="L1405">        indent().append(&quot;&lt;type-annotation&gt;&quot;).eol();</span>
+<span class="fc" id="L1406">        raiseIndent();</span>
+
+<span class="fc" id="L1408">        helper.getTarget().accept(this);</span>
+
+<span class="fc" id="L1410">        indent().append(&quot;&lt;target-path&gt;&quot;).eol();</span>
+<span class="fc" id="L1411">        raiseIndent();</span>
+
+<span class="fc" id="L1413">        helper.getTargetPath().accept(this);</span>
+
+<span class="fc" id="L1415">        lowerIndent();</span>
+<span class="fc" id="L1416">        indent().append(&quot;&lt;/target-path&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1418">        indent().append(&quot;&lt;element-value-pairs&gt;&quot;).eol();</span>
+<span class="fc" id="L1419">        raiseIndent();</span>
+
+<span class="fc" id="L1421">        helper.getElementValuePairs().forEach(elementValuePair -&gt; elementValuePair.accept(this));</span>
+
+<span class="fc" id="L1423">        lowerIndent();</span>
+<span class="fc" id="L1424">        indent().append(&quot;&lt;/element-value-pairs&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1426">        lowerIndent();</span>
+<span class="fc" id="L1427">        indent().append(&quot;&lt;/type-annotation&gt;&quot;).eol();</span>
+<span class="fc" id="L1428">    }</span>
+
+    public void visitTypeParameterTarget(TypeParameterTarget helper) {
+<span class="fc" id="L1431">        indent().append(&quot;&lt;type-parameter-target target-type=\&quot;&quot;).append(helper.getHexTargetType()).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L1432">        raiseIndent();</span>
+
+<span class="fc" id="L1434">        indent().append(&quot;&lt;type-parameter-index&gt;&quot;).append(helper.getTypeParameterIndex()).append(&quot;&lt;/type-parameter-index&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1436">        lowerIndent();</span>
+<span class="fc" id="L1437">        indent().append(&quot;&lt;/type-parameter-target&gt;&quot;).eol();</span>
+<span class="fc" id="L1438">    }</span>
+
+    public void visitSupertypeTarget(SupertypeTarget helper) {
+<span class="fc" id="L1441">        indent().append(&quot;&lt;supertype-target target-type=\&quot;&quot;).append(helper.getHexTargetType()).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L1442">        raiseIndent();</span>
+
+<span class="fc" id="L1444">        indent().append(&quot;&lt;supertype-index&gt;&quot;).append(helper.getSupertypeIndex()).append(&quot;&lt;/supertype-index&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1446">        lowerIndent();</span>
+<span class="fc" id="L1447">        indent().append(&quot;&lt;/supertype-target&gt;&quot;).eol();</span>
+<span class="fc" id="L1448">    }</span>
+
+    public void visitTypeParameterBoundTarget(TypeParameterBoundTarget helper) {
+<span class="fc" id="L1451">        indent().append(&quot;&lt;type-parameter-bound-target target-type=\&quot;&quot;).append(helper.getHexTargetType()).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L1452">        raiseIndent();</span>
+
+<span class="fc" id="L1454">        indent().append(&quot;&lt;type-parameter-index&gt;&quot;).append(helper.getTypeParameterIndex()).append(&quot;&lt;/type-parameter-index&gt;&quot;).eol();</span>
+<span class="fc" id="L1455">        indent().append(&quot;&lt;bound-index&gt;&quot;).append(helper.getBoundIndex()).append(&quot;&lt;/bound-index&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1457">        lowerIndent();</span>
+<span class="fc" id="L1458">        indent().append(&quot;&lt;/type-parameter-bound-target&gt;&quot;).eol();</span>
+<span class="fc" id="L1459">    }</span>
+
+    public void visitEmptyTarget(EmptyTarget helper) {
+<span class="fc" id="L1462">        indent().append(&quot;&lt;empty-target target-type=\&quot;&quot;).append(helper.getHexTargetType()).append(&quot;\&quot;/&gt;&quot;).eol();</span>
+<span class="fc" id="L1463">    }</span>
+
+    public void visitFormalParameterTarget(FormalParameterTarget helper) {
+<span class="fc" id="L1466">        indent().append(&quot;&lt;formal-parameter-target target-type=\&quot;&quot;).append(helper.getHexTargetType()).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L1467">        raiseIndent();</span>
+
+<span class="fc" id="L1469">        indent().append(&quot;&lt;formal-parameter-index&gt;&quot;).append(helper.getFormalParameterIndex()).append(&quot;&lt;/formal-parameter-index&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1471">        lowerIndent();</span>
+<span class="fc" id="L1472">        indent().append(&quot;&lt;/formal-parameter-target&gt;&quot;).eol();</span>
+<span class="fc" id="L1473">    }</span>
+
+    public void visitThrowsTarget(ThrowsTarget helper) {
+<span class="fc" id="L1476">        indent().append(&quot;&lt;throws-target target-type=\&quot;&quot;).append(helper.getHexTargetType()).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L1477">        raiseIndent();</span>
+
+<span class="fc" id="L1479">        indent().append(&quot;&lt;throws-type-index&gt;&quot;).append(helper.getThrowsTypeIndex()).append(&quot;&lt;/throws-type-index&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1481">        lowerIndent();</span>
+<span class="fc" id="L1482">        indent().append(&quot;&lt;/throws-target&gt;&quot;).eol();</span>
+<span class="fc" id="L1483">    }</span>
+
+    public void visitLocalvarTarget(LocalvarTarget helper) {
+<span class="fc" id="L1486">        indent().append(&quot;&lt;localvar-target target-type=\&quot;&quot;).append(helper.getHexTargetType()).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L1487">        raiseIndent();</span>
+
+<span class="fc" id="L1489">        super.visitLocalvarTarget(helper);</span>
+
+<span class="fc" id="L1491">        lowerIndent();</span>
+<span class="fc" id="L1492">        indent().append(&quot;&lt;/localvar-target&gt;&quot;).eol();</span>
+<span class="fc" id="L1493">    }</span>
+
+    public void visitCatchTarget(CatchTarget helper) {
+<span class="fc" id="L1496">        indent().append(&quot;&lt;catch-target target-type=\&quot;&quot;).append(helper.getHexTargetType()).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L1497">        raiseIndent();</span>
+
+<span class="fc" id="L1499">        indent().append(&quot;&lt;exception-table-index&gt;&quot;).append(helper.getExceptionTableIndex()).append(&quot;&lt;/exception-table-index&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1501">        lowerIndent();</span>
+<span class="fc" id="L1502">        indent().append(&quot;&lt;/catch-target&gt;&quot;).eol();</span>
+<span class="fc" id="L1503">    }</span>
+
+    public void visitOffsetTarget(OffsetTarget helper) {
+<span class="fc" id="L1506">        indent().append(&quot;&lt;offset-target target-type=\&quot;&quot;).append(helper.getHexTargetType()).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L1507">        raiseIndent();</span>
+
+<span class="fc" id="L1509">        indent().append(&quot;&lt;offset&gt;&quot;).append(helper.getOffset()).append(&quot;&lt;/offset&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1511">        lowerIndent();</span>
+<span class="fc" id="L1512">        indent().append(&quot;&lt;/offset-target&gt;&quot;).eol();</span>
+<span class="fc" id="L1513">    }</span>
+
+    public void visitTypeArgumentTarget(TypeArgumentTarget helper) {
+<span class="fc" id="L1516">        indent().append(&quot;&lt;type-argument-target target-type=\&quot;&quot;).append(helper.getHexTargetType()).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L1517">        raiseIndent();</span>
+
+<span class="fc" id="L1519">        indent().append(&quot;&lt;offset&gt;&quot;).append(helper.getOffset()).append(&quot;&lt;/offset&gt;&quot;).eol();</span>
+<span class="fc" id="L1520">        indent().append(&quot;&lt;type-argument-index&gt;&quot;).append(helper.getTypeArgumentIndex()).append(&quot;&lt;/type-argument-index&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1522">        lowerIndent();</span>
+<span class="fc" id="L1523">        indent().append(&quot;&lt;/type-argument-target&gt;&quot;).eol();</span>
+<span class="fc" id="L1524">    }</span>
+
+    public void visitTypePathEntry(TypePathEntry helper) {
+<span class="fc" id="L1527">        indent().append(&quot;&lt;type-path&gt;&quot;).eol();</span>
+<span class="fc" id="L1528">        raiseIndent();</span>
+
+<span class="fc" id="L1530">        indent().append(&quot;&lt;type-path-kind&gt;&quot;).append(helper.getTypePathKind().getTypePathKind()).append(&quot;&lt;/type-path-kind&gt;&quot;).eol();</span>
+<span class="fc" id="L1531">        indent().append(&quot;&lt;type-argument-index&gt;&quot;).append(helper.getTypeArgumentIndex()).append(&quot;&lt;/type-argument-index&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1533">        lowerIndent();</span>
+<span class="fc" id="L1534">        indent().append(&quot;&lt;/type-path&gt;&quot;).eol();</span>
+<span class="fc" id="L1535">    }</span>
+
+    public void visitElementValuePair(ElementValuePair helper) {
+<span class="fc" id="L1538">        indent().append(&quot;&lt;element-value-pair&gt;&quot;).eol();</span>
+<span class="fc" id="L1539">        raiseIndent();</span>
+
+<span class="fc" id="L1541">        indent().append(&quot;&lt;element-name&gt;&quot;).append(helper.getElementName()).append(&quot;&lt;/element-name&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1543">        super.visitElementValuePair(helper);</span>
+
+<span class="fc" id="L1545">        lowerIndent();</span>
+<span class="fc" id="L1546">        indent().append(&quot;&lt;/element-value-pair&gt;&quot;).eol();</span>
+<span class="fc" id="L1547">    }</span>
+
+    public void visitByteConstantElementValue(ByteConstantElementValue helper) {
+<span class="fc" id="L1550">        visitConstantElementValue(helper, &quot;byte&quot;);</span>
+<span class="fc" id="L1551">    }</span>
+
+    public void visitCharConstantElementValue(CharConstantElementValue helper) {
+<span class="fc" id="L1554">        visitConstantElementValue(helper, &quot;char&quot;);</span>
+<span class="fc" id="L1555">    }</span>
+
+    public void visitDoubleConstantElementValue(DoubleConstantElementValue helper) {
+<span class="fc" id="L1558">        visitConstantElementValue(helper, &quot;double&quot;);</span>
+<span class="fc" id="L1559">    }</span>
+
+    public void visitFloatConstantElementValue(FloatConstantElementValue helper) {
+<span class="fc" id="L1562">        visitConstantElementValue(helper, &quot;float&quot;);</span>
+<span class="fc" id="L1563">    }</span>
+
+    public void visitIntegerConstantElementValue(IntegerConstantElementValue helper) {
+<span class="fc" id="L1566">        visitConstantElementValue(helper, &quot;integer&quot;);</span>
+<span class="fc" id="L1567">    }</span>
+
+    public void visitLongConstantElementValue(LongConstantElementValue helper) {
+<span class="fc" id="L1570">        visitConstantElementValue(helper, &quot;long&quot;);</span>
+<span class="fc" id="L1571">    }</span>
+
+    public void visitShortConstantElementValue(ShortConstantElementValue helper) {
+<span class="fc" id="L1574">        visitConstantElementValue(helper, &quot;short&quot;);</span>
+<span class="fc" id="L1575">    }</span>
+
+    public void visitBooleanConstantElementValue(BooleanConstantElementValue helper) {
+<span class="fc" id="L1578">        visitConstantElementValue(helper, &quot;boolean&quot;);</span>
+<span class="fc" id="L1579">    }</span>
+
+    public void visitStringConstantElementValue(StringConstantElementValue helper) {
+<span class="fc" id="L1582">        visitConstantElementValue(helper, &quot;string&quot;);</span>
+<span class="fc" id="L1583">    }</span>
+
+    private void visitConstantElementValue(ConstantElementValue helper, String type) {
+<span class="fc" id="L1586">        indent();</span>
+<span class="fc" id="L1587">        append(&quot;&lt;&quot;).append(type).append(&quot;-element-value tag=\&quot;&quot;).append(helper.getTag()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L1588">        helper.getRawConstValue().accept(this);</span>
+<span class="fc" id="L1589">        append(&quot;&lt;/&quot;).append(type).append(&quot;-element-value&gt;&quot;).eol();</span>
+<span class="fc" id="L1590">    }</span>
+
+    public void visitEnumElementValue(EnumElementValue helper) {
+<span class="fc" id="L1593">        indent();</span>
+<span class="fc" id="L1594">        append(&quot;&lt;enum-element-value tag=\&quot;&quot;).append(helper.getTag()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L1595">        append(helper.getTypeName()).append(&quot;.&quot;).append(helper.getConstName());</span>
+<span class="fc" id="L1596">        append(&quot;&lt;/enum-element-value&gt;&quot;).eol();</span>
+<span class="fc" id="L1597">    }</span>
+
+    public void visitClassElementValue(ClassElementValue helper) {
+<span class="fc" id="L1600">        indent();</span>
+<span class="fc" id="L1601">        append(&quot;&lt;class-element-value tag=\&quot;&quot;).append(helper.getTag()).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L1602">        append(helper.getClassInfo());</span>
+<span class="fc" id="L1603">        append(&quot;&lt;/class-element-value&gt;&quot;).eol();</span>
+<span class="fc" id="L1604">    }</span>
+
+    public void visitAnnotationElementValue(AnnotationElementValue helper) {
+<span class="fc" id="L1607">        indent().append(&quot;&lt;annotation-element-value tag=\&quot;&quot;).append(helper.getTag()).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L1608">        raiseIndent();</span>
+
+<span class="fc" id="L1610">        super.visitAnnotationElementValue(helper);</span>
+
+<span class="fc" id="L1612">        lowerIndent();</span>
+<span class="fc" id="L1613">        indent().append(&quot;&lt;/annotation-element-value&gt;&quot;).eol();</span>
+<span class="fc" id="L1614">    }</span>
+
+    public void visitArrayElementValue(ArrayElementValue helper) {
+<span class="fc" id="L1617">        indent().append(&quot;&lt;array-element-value tag=\&quot;&quot;).append(helper.getTag()).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L1618">        raiseIndent();</span>
+
+<span class="fc" id="L1620">        super.visitArrayElementValue(helper);</span>
+
+<span class="fc" id="L1622">        lowerIndent();</span>
+<span class="fc" id="L1623">        indent().append(&quot;&lt;/array-element-value&gt;&quot;).eol();</span>
+<span class="fc" id="L1624">    }</span>
+
+    public void visitLocalvarTableEntry(LocalvarTableEntry helper) {
+<span class="fc" id="L1627">        indent().append(&quot;&lt;localvar start-pc=\&quot;&quot;).append(helper.getStartPc()).append(&quot;\&quot; length=\&quot;&quot;).append(helper.getLength()).append(&quot;\&quot; index=\&quot;&quot;).append(helper.getIndex()).append(&quot;\&quot;/&gt;&quot;).eol();</span>
+<span class="fc" id="L1628">    }</span>
+
+    public void visitSameFrame(SameFrame helper) {
+<span class="fc" id="L1631">        indent().append(&quot;&lt;same-frame frame-type=\&quot;&quot;).append(helper.getFrameType()).append(&quot;\&quot;/&gt;&quot;).eol();</span>
+<span class="fc" id="L1632">    }</span>
+
+    public void visitSameLocals1StackItemFrame(SameLocals1StackItemFrame helper) {
+<span class="fc" id="L1635">        indent().append(&quot;&lt;same-locals-1-stack-item-frame frame-type=\&quot;&quot;).append(helper.getFrameType()).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L1636">        raiseIndent();</span>
+
+<span class="fc" id="L1638">        indent().append(&quot;&lt;stack&gt;&quot;).eol();</span>
+<span class="fc" id="L1639">        raiseIndent();</span>
+<span class="fc" id="L1640">        super.visitSameLocals1StackItemFrame(helper);</span>
+<span class="fc" id="L1641">        lowerIndent();</span>
+<span class="fc" id="L1642">        indent().append(&quot;&lt;/stack&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1644">        lowerIndent();</span>
+<span class="fc" id="L1645">        indent().append(&quot;&lt;/same-locals-1-stack-item-frame&gt;&quot;).eol();</span>
+<span class="fc" id="L1646">    }</span>
+
+    public void visitSameLocals1StackItemFrameExtended(SameLocals1StackItemFrameExtended helper) {
+<span class="fc" id="L1649">        indent().append(&quot;&lt;same-locals-1-stack-item-frame-extended frame-type=\&quot;&quot;).append(helper.getFrameType()).append(&quot;\&quot; offset-delta=\&quot;&quot;).append(helper.getOffsetDelta()).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L1650">        raiseIndent();</span>
+
+<span class="fc" id="L1652">        indent().append(&quot;&lt;stack&gt;&quot;).eol();</span>
+<span class="fc" id="L1653">        raiseIndent();</span>
+<span class="fc" id="L1654">        super.visitSameLocals1StackItemFrameExtended(helper);</span>
+<span class="fc" id="L1655">        lowerIndent();</span>
+<span class="fc" id="L1656">        indent().append(&quot;&lt;/stack&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1658">        lowerIndent();</span>
+<span class="fc" id="L1659">        indent().append(&quot;&lt;/same-locals-1-stack-item-frame-extended&gt;&quot;).eol();</span>
+<span class="fc" id="L1660">    }</span>
+
+    public void visitChopFrame(ChopFrame helper) {
+<span class="fc" id="L1663">        indent().append(&quot;&lt;chop-frame frame-type=\&quot;&quot;).append(helper.getFrameType()).append(&quot;\&quot; offset-delta=\&quot;&quot;).append(helper.getOffsetDelta()).append(&quot;\&quot;/&gt;&quot;).eol();</span>
+<span class="fc" id="L1664">    }</span>
+
+    public void visitSameFrameExtended(SameFrameExtended helper) {
+<span class="fc" id="L1667">        indent().append(&quot;&lt;same-frame-extended frame-type=\&quot;&quot;).append(helper.getFrameType()).append(&quot;\&quot; offset-delta=\&quot;&quot;).append(helper.getOffsetDelta()).append(&quot;\&quot;/&gt;&quot;).eol();</span>
+<span class="fc" id="L1668">    }</span>
+
+    public void visitAppendFrame(AppendFrame helper) {
+<span class="fc" id="L1671">        indent().append(&quot;&lt;append-frame frame-type=\&quot;&quot;).append(helper.getFrameType()).append(&quot;\&quot; offset-delta=\&quot;&quot;).append(helper.getOffsetDelta()).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L1672">        raiseIndent();</span>
+
+<span class="fc" id="L1674">        indent().append(&quot;&lt;locals&gt;&quot;).eol();</span>
+<span class="fc" id="L1675">        raiseIndent();</span>
+<span class="fc" id="L1676">        super.visitAppendFrame(helper);</span>
+<span class="fc" id="L1677">        lowerIndent();</span>
+<span class="fc" id="L1678">        indent().append(&quot;&lt;/locals&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1680">        lowerIndent();</span>
+<span class="fc" id="L1681">        indent().append(&quot;&lt;/append-frame&gt;&quot;).eol();</span>
+<span class="fc" id="L1682">    }</span>
+
+    public void visitFullFrame(FullFrame helper) {
+<span class="fc" id="L1685">        indent().append(&quot;&lt;full-frame frame-type=\&quot;&quot;).append(helper.getFrameType()).append(&quot;\&quot; offset-delta=\&quot;&quot;).append(helper.getOffsetDelta()).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L1686">        raiseIndent();</span>
+
+<span class="fc" id="L1688">        indent().append(&quot;&lt;locals&gt;&quot;).eol();</span>
+<span class="fc" id="L1689">        raiseIndent();</span>
+<span class="fc" id="L1690">        helper.getLocals().forEach(local -&gt; local.accept(this));</span>
+<span class="fc" id="L1691">        lowerIndent();</span>
+<span class="fc" id="L1692">        indent().append(&quot;&lt;/locals&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1694">        indent().append(&quot;&lt;stack&gt;&quot;).eol();</span>
+<span class="fc" id="L1695">        raiseIndent();</span>
+<span class="fc" id="L1696">        helper.getStack().forEach(local -&gt; local.accept(this));</span>
+<span class="fc" id="L1697">        lowerIndent();</span>
+<span class="fc" id="L1698">        indent().append(&quot;&lt;/stack&gt;&quot;).eol();</span>
+
+<span class="fc" id="L1700">        lowerIndent();</span>
+<span class="fc" id="L1701">        indent().append(&quot;&lt;/full-frame&gt;&quot;).eol();</span>
+<span class="fc" id="L1702">    }</span>
+
+    public void visitTopVariableInfo(TopVariableInfo helper) {
+<span class="fc" id="L1705">        indent().append(&quot;&lt;top-variable-info tag=\&quot;&quot;).append(helper.getTag()).append(&quot;\&quot;/&gt;&quot;).eol();</span>
+<span class="fc" id="L1706">    }</span>
+
+    public void visitIntegerVariableInfo(IntegerVariableInfo helper) {
+<span class="fc" id="L1709">        indent().append(&quot;&lt;integer-variable-info tag=\&quot;&quot;).append(helper.getTag()).append(&quot;\&quot;/&gt;&quot;).eol();</span>
+<span class="fc" id="L1710">    }</span>
+
+    public void visitFloatVariableInfo(FloatVariableInfo helper) {
+<span class="fc" id="L1713">        indent().append(&quot;&lt;float-variable-info tag=\&quot;&quot;).append(helper.getTag()).append(&quot;\&quot;/&gt;&quot;).eol();</span>
+<span class="fc" id="L1714">    }</span>
+
+    public void visitLongVariableInfo(LongVariableInfo helper) {
+<span class="fc" id="L1717">        indent().append(&quot;&lt;long-variable-info tag=\&quot;&quot;).append(helper.getTag()).append(&quot;\&quot;/&gt;&quot;).eol();</span>
+<span class="fc" id="L1718">    }</span>
+
+    public void visitDoubleVariableInfo(DoubleVariableInfo helper) {
+<span class="fc" id="L1721">        indent().append(&quot;&lt;double-variable-info tag=\&quot;&quot;).append(helper.getTag()).append(&quot;\&quot;/&gt;&quot;).eol();</span>
+<span class="fc" id="L1722">    }</span>
+
+    public void visitNullVariableInfo(NullVariableInfo helper) {
+<span class="fc" id="L1725">        indent().append(&quot;&lt;null-variable-info tag=\&quot;&quot;).append(helper.getTag()).append(&quot;\&quot;/&gt;&quot;).eol();</span>
+<span class="fc" id="L1726">    }</span>
+
+    public void visitUninitializedThisVariableInfo(UninitializedThisVariableInfo helper) {
+<span class="fc" id="L1729">        indent().append(&quot;&lt;uninitialized-this-variable-info tag=\&quot;&quot;).append(helper.getTag()).append(&quot;\&quot;/&gt;&quot;).eol();</span>
+<span class="fc" id="L1730">    }</span>
+
+    public void visitObjectVariableInfo(ObjectVariableInfo helper) {
+<span class="fc" id="L1733">        indent().append(&quot;&lt;object-variable-info tag=\&quot;&quot;).append(helper.getTag()).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L1734">        raiseIndent();</span>
+
+<span class="fc" id="L1736">        top = true;</span>
+<span class="fc" id="L1737">        super.visitObjectVariableInfo(helper);</span>
+<span class="fc" id="L1738">        top = false;</span>
+
+<span class="fc" id="L1740">        lowerIndent();</span>
+<span class="fc" id="L1741">        indent().append(&quot;&lt;/object-variable-info&gt;&quot;).eol();</span>
+<span class="fc" id="L1742">    }</span>
+
+    public void visitUninitializedVariableInfo(UninitializedVariableInfo helper) {
+<span class="fc" id="L1745">        indent().append(&quot;&lt;uninitialized-variable-info tag=\&quot;&quot;).append(helper.getTag()).append(&quot;\&quot; offset=\&quot;&quot;).append(helper.getOffset()).append(&quot;\&quot;/&gt;&quot;).eol();</span>
+<span class="fc" id="L1746">    }</span>
+
+    private Printer appendLocalVariable(LocalVariable localVariable) {
+<span class="pc bpc" id="L1749" title="1 of 2 branches missed.">        if (localVariable != null) {</span>
+<span class="fc" id="L1750">            append(&quot; &quot;);</span>
+<span class="fc" id="L1751">            append(DescriptorHelper.getType(localVariable.getDescriptor())).append(&quot; &quot;).append(localVariable.getName());</span>
+        }
+<span class="fc" id="L1753">        return this;</span>
+    }
+
+    private Printer appendClassInfo(int index, Class_info class_info) {
+<span class="fc" id="L1757">        indent();</span>
+<span class="fc" id="L1758">        append(&quot;&lt;class index=\&quot;&quot;).append(index).append(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L1759">        class_info.accept(this);</span>
+<span class="fc" id="L1760">        append(&quot;&lt;/class&gt;&quot;).eol();</span>
+<span class="fc" id="L1761">        return this;</span>
+    }
+
+    // Visible for testing
+    String escapeXMLCharacters(String text) {
+<span class="fc" id="L1766">        StringBuilder result = new StringBuilder();</span>
+
+<span class="fc" id="L1768">        text.codePoints()</span>
+<span class="fc" id="L1769">                .forEach(c -&gt; {</span>
+<span class="fc bfc" id="L1770" title="All 2 branches covered.">                    if (c == '&amp;') {</span>
+<span class="fc" id="L1771">                        result.append(&quot;&amp;amp;&quot;);</span>
+<span class="fc bfc" id="L1772" title="All 2 branches covered.">                    } else if (c == '&lt;') {</span>
+<span class="fc" id="L1773">                        result.append(&quot;&amp;lt;&quot;);</span>
+<span class="fc bfc" id="L1774" title="All 2 branches covered.">                    } else if (c == '&gt;') {</span>
+<span class="fc" id="L1775">                        result.append(&quot;&amp;gt;&quot;);</span>
+<span class="fc bfc" id="L1776" title="All 4 branches covered.">                    } else if (Character.isISOControl(c) || c &gt; 0x9F) {</span>
+<span class="fc" id="L1777">                        result.append(&quot;&amp;#x&quot;);</span>
+<span class="fc" id="L1778">                        result.append(Integer.toString(c, 16).toUpperCase());</span>
+<span class="fc" id="L1779">                        result.append(&quot;;&quot;);</span>
+                    } else {
+<span class="fc" id="L1781">                        result.append(Character.toChars(c));</span>
+                    }
+<span class="fc" id="L1783">                });</span>
+
+<span class="fc bfc" id="L1785" title="All 2 branches covered.">        if (containsControlCharacters(text)) {</span>
+<span class="fc" id="L1786">            return &quot;&lt;![CDATA[&quot; + result + &quot;]]&gt;&quot;;</span>
+        } else {
+<span class="fc" id="L1788">            return result.toString();</span>
+        }
+    }
+
+    private boolean containsControlCharacters(String text) {
+<span class="fc bfc" id="L1793" title="All 4 branches covered.">        return text.codePoints().anyMatch(c -&gt; Character.isISOControl(c) || c &gt; 0x9F);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

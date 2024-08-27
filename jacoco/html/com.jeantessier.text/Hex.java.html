@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Hex.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.text</a> &gt; <span class="el_source">Hex.java</span></div><h1>Hex.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.text;
+
+import java.nio.*;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
+
+public final class Hex {
+    private static final int DEFAULT_CHAR_GROUP_SIZE = 8;
+
+    private Hex() {
+        // Do nothing
+    }
+
+    public static String toString(byte[] bytes) {
+<span class="fc" id="L48">        return toString(ByteBuffer.wrap(bytes), DEFAULT_CHAR_GROUP_SIZE);</span>
+    }
+
+    public static String toString(byte[] bytes, int charGroupSize) {
+<span class="fc" id="L52">        return toString(ByteBuffer.wrap(bytes), charGroupSize);</span>
+    }
+
+    private static String toString(ByteBuffer buffer, int charGroupSize) {
+<span class="fc" id="L56">        return Stream.generate(buffer::get)</span>
+<span class="fc" id="L57">                .limit(buffer.capacity())</span>
+<span class="fc" id="L58">                .map(b -&gt; String.format(&quot;%02X&quot;, b))</span>
+<span class="fc" id="L59">                .map(s -&gt; s.split(&quot;&quot;))</span>
+<span class="fc" id="L60">                .flatMap(Arrays::stream)</span>
+<span class="fc" id="L61">                .collect(new TextCollector(charGroupSize));</span>
+    }
+
+    private static class TextCollector implements Collector&lt;String, StringBuilder, String&gt; {
+        private final int charGroupSize;
+
+<span class="fc" id="L67">        private long currentGroupSize = 0;</span>
+
+<span class="fc" id="L69">        public TextCollector(int charGroupSize) {</span>
+<span class="fc" id="L70">            this.charGroupSize = charGroupSize;</span>
+<span class="fc" id="L71">        }</span>
+
+        public Supplier&lt;StringBuilder&gt; supplier() {
+<span class="fc" id="L74">            return StringBuilder::new;</span>
+        }
+
+        public BiConsumer&lt;StringBuilder, String&gt; accumulator() {
+<span class="fc" id="L78">            return (builder, c) -&gt; {</span>
+<span class="fc" id="L79">                builder.append(c);</span>
+<span class="fc" id="L80">                currentGroupSize += c.length();</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">                if (currentGroupSize % charGroupSize == 0) {</span>
+<span class="fc" id="L82">                    builder.append(&quot; &quot;);</span>
+                }
+<span class="fc" id="L84">            };</span>
+        }
+
+        public Function&lt;StringBuilder, String&gt; finisher() {
+<span class="fc" id="L88">            return (builder) -&gt; builder.toString().trim();</span>
+        }
+
+        public BinaryOperator&lt;StringBuilder&gt; combiner() {
+<span class="fc" id="L92">            return (builder1, builder2) -&gt; {</span>
+<span class="nc" id="L93">                builder1.append(builder2);</span>
+<span class="nc" id="L94">                currentGroupSize += builder2.length();</span>
+<span class="nc" id="L95">                return builder1;</span>
+            };
+        }
+
+        public Set&lt;Characteristics&gt; characteristics() {
+<span class="fc" id="L100">            return Collections.emptySet();</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

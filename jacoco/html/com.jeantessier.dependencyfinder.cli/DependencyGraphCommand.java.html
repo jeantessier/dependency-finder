@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DependencyGraphCommand.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependencyfinder.cli</a> &gt; <span class="el_source">DependencyGraphCommand.java</span></div><h1>DependencyGraphCommand.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependencyfinder.cli;
+
+import java.io.*;
+import javax.xml.parsers.*;
+
+import org.xml.sax.*;
+
+import com.jeantessier.dependency.*;
+
+<span class="fc" id="L42">public abstract class DependencyGraphCommand extends Command {</span>
+    protected void populateCommandLineSwitches() {
+<span class="fc" id="L44">        super.populateCommandLineSwitches();</span>
+
+<span class="fc" id="L46">        getCommandLine().addToggleSwitch(&quot;validate&quot;);</span>
+<span class="fc" id="L47">    }</span>
+
+    protected void showSpecificUsage(PrintStream out) {
+<span class="fc" id="L50">        out.println();</span>
+<span class="fc" id="L51">        out.println(&quot;Default is text output to the console.&quot;);</span>
+<span class="fc" id="L52">        out.println();</span>
+<span class="fc" id="L53">    }</span>
+
+    protected NodeFactory loadGraph() throws IOException, SAXException, ParserConfigurationException {
+<span class="nc" id="L56">        NodeFactory result = new NodeFactory();</span>
+
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        if (getCommandLine().getParameters().isEmpty()) {</span>
+<span class="nc" id="L59">            loadGraphFromSystemIn(result);</span>
+        } else {
+<span class="nc" id="L61">            loadGraphFromFiles(result);</span>
+        }
+
+<span class="nc" id="L64">        return result;</span>
+    }
+
+    private void loadGraphFromSystemIn(NodeFactory factory) throws IOException, SAXException, ParserConfigurationException {
+<span class="nc" id="L68">        getVerboseListener().print(&quot;Reading from standard input&quot;);</span>
+
+<span class="nc" id="L70">        NodeLoader loader = new NodeLoader(factory, getCommandLine().getToggleSwitch(&quot;validate&quot;));</span>
+<span class="nc" id="L71">        loader.addDependencyListener(getVerboseListener());</span>
+<span class="nc" id="L72">        loader.load(System.in);</span>
+
+<span class="nc" id="L74">        getVerboseListener().print(&quot;Read from standard input.&quot;);</span>
+<span class="nc" id="L75">    }</span>
+
+    private void loadGraphFromFiles(NodeFactory factory) throws IOException, SAXException, ParserConfigurationException {
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        for (String filename : getCommandLine().getParameters()) {</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">            if (filename.endsWith(&quot;.xml&quot;)) {</span>
+<span class="nc" id="L80">                loadGraphFromFile(factory, filename);</span>
+            } else {
+<span class="nc" id="L82">                getVerboseListener().print(&quot;Skipping \&quot;&quot; + filename + &quot;\&quot;.&quot;);</span>
+            }
+<span class="nc" id="L84">        }</span>
+<span class="nc" id="L85">    }</span>
+
+    private void loadGraphFromFile(NodeFactory factory, String filename) throws IOException, SAXException, ParserConfigurationException {
+<span class="nc" id="L88">        getVerboseListener().print(&quot;Reading &quot; + filename);</span>
+
+<span class="nc" id="L90">        NodeLoader loader = new NodeLoader(factory, getCommandLine().getToggleSwitch(&quot;validate&quot;));</span>
+<span class="nc" id="L91">        loader.addDependencyListener(getVerboseListener());</span>
+<span class="nc" id="L92">        loader.load(filename);</span>
+
+<span class="nc" id="L94">        getVerboseListener().print(&quot;Read \&quot;&quot; + filename + &quot;\&quot;.&quot;);</span>
+<span class="nc" id="L95">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

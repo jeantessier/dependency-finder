@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VerboseListenerBase.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependencyfinder</a> &gt; <span class="el_source">VerboseListenerBase.java</span></div><h1>VerboseListenerBase.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependencyfinder;
+
+import com.jeantessier.classreader.LoadEvent;
+import com.jeantessier.classreader.LoadListenerBase;
+
+<span class="fc" id="L38">public class VerboseListenerBase extends LoadListenerBase {</span>
+<span class="fc" id="L39">    private String ratioIndicator = &quot;&quot;;</span>
+
+    protected String getRatioIndicator() {
+<span class="nc" id="L42">        return ratioIndicator;</span>
+    }
+
+    private void setRatioIndicator(String ratioIndicator) {
+<span class="fc" id="L46">        this.ratioIndicator = ratioIndicator;</span>
+<span class="fc" id="L47">    }</span>
+
+    private int computeCurrentRatio() {
+<span class="fc" id="L50">        return getCurrentGroup().getCount() * 100 / getCurrentGroup().getSize();</span>
+    }
+
+    public void beginFile(LoadEvent event) {
+<span class="fc" id="L54">        int previousRatio = computeCurrentRatio();</span>
+
+<span class="fc" id="L56">        super.beginFile(event);</span>
+
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">        if (getCurrentGroup().getSize() &gt; 0) {</span>
+<span class="fc" id="L59">            int newRatio = computeCurrentRatio();</span>
+
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">            if (previousRatio != newRatio) {</span>
+<span class="fc" id="L62">                StringBuilder buffer = new StringBuilder(4);</span>
+
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">                if (newRatio &lt; 10) {</span>
+<span class="nc" id="L65">                    buffer.append(&quot; &quot;);</span>
+                }
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">                if (newRatio &lt; 100) {</span>
+<span class="nc" id="L68">                    buffer.append(&quot; &quot;);</span>
+                }
+<span class="fc" id="L70">                buffer.append(newRatio).append(&quot;%&quot;);</span>
+
+<span class="fc" id="L72">                setRatioIndicator(buffer.toString());</span>
+<span class="fc" id="L73">            } else {</span>
+<span class="nc" id="L74">                setRatioIndicator(&quot;&quot;);</span>
+            }
+<span class="fc" id="L76">        } else {</span>
+<span class="nc" id="L77">            setRatioIndicator(&quot;&quot;);</span>
+        }
+<span class="fc" id="L79">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

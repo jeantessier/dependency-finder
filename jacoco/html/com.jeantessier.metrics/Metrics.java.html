@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Metrics.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.metrics</a> &gt; <span class="el_source">Metrics.java</span></div><h1>Metrics.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.metrics;
+
+import java.util.*;
+import java.util.stream.*;
+
+import org.apache.logging.log4j.*;
+
+public class Metrics {
+<span class="fc" id="L41">    private static final Measurement NULL_MEASUREMENT = new NullMeasurement();</span>
+    
+    private final Metrics parent;
+    private final String  name;
+
+<span class="fc" id="L46">    private final Map&lt;String, Measurement&gt; measurements = new TreeMap&lt;&gt;();</span>
+<span class="fc" id="L47">    private final Map&lt;String, Metrics&gt; submetrics = new TreeMap&lt;&gt;();</span>
+
+    public Metrics(String name) {
+<span class="fc" id="L50">        this(null, name);</span>
+<span class="fc" id="L51">    }</span>
+    
+    /**
+     * @param parent The context for this metrics (e.g., methods's class, class'
+     *               package).  You may pass &lt;code&gt;null&lt;/code&gt; to create
+     *               top-level metrics.
+     * @param name The name of the element being measured
+     *             (e.g., class name, method name).
+     */
+<span class="fc" id="L60">    public Metrics(Metrics parent, String name) {</span>
+<span class="fc" id="L61">        this.parent = parent;</span>
+<span class="fc" id="L62">        this.name   = name;</span>
+
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (parent == null) {</span>
+<span class="fc" id="L65">            LogManager.getLogger(getClass()).debug(&quot;Created top-level metrics \&quot;{}\&quot;&quot;, name);</span>
+        } else {
+<span class="fc" id="L67">            LogManager.getLogger(getClass()).debug(&quot;Created metrics \&quot;{}\&quot; under \&quot;{}\&quot;&quot;, name, parent.getName());</span>
+        }
+<span class="fc" id="L69">    }</span>
+
+    public Metrics getParent() {
+<span class="fc" id="L72">        return parent;</span>
+    }
+
+    /**
+     *  @return The name of the element being measured
+     *          (e.g., class name, method name).
+     */
+    public String getName() {
+<span class="fc" id="L80">        return name;</span>
+    }
+
+    Metrics track(Measurement measurement) {
+<span class="fc" id="L84">        return track(measurement.getShortName(), measurement);</span>
+    }
+    
+    Metrics track(String name, Measurement measurement) {
+<span class="fc" id="L88">        measurements.put(name, measurement);</span>
+<span class="fc" id="L89">        return this;</span>
+    }
+
+    public Metrics addToMeasurement(BasicMeasurements name) {
+<span class="fc" id="L93">        return addToMeasurement(name.getAbbreviation());</span>
+    }
+
+    public Metrics addToMeasurement(String name) {
+<span class="fc" id="L97">        return addToMeasurement(name, 1);</span>
+    }
+
+    public Metrics addToMeasurement(BasicMeasurements name, int delta) {
+<span class="fc" id="L101">        return addToMeasurement(name.getAbbreviation(), delta);</span>
+    }
+
+    public Metrics addToMeasurement(String name, int delta) {
+<span class="fc" id="L105">        getMeasurement(name).add(delta);</span>
+<span class="fc" id="L106">        return this;</span>
+    }
+
+    public Metrics addToMeasurement(BasicMeasurements name, long delta) {
+<span class="nc" id="L110">        return addToMeasurement(name.getAbbreviation(), delta);</span>
+    }
+
+    public Metrics addToMeasurement(String name, long delta) {
+<span class="nc" id="L114">        getMeasurement(name).add(delta);</span>
+<span class="nc" id="L115">        return this;</span>
+    }
+    
+    public Metrics addToMeasurement(BasicMeasurements name, float delta) {
+<span class="nc" id="L119">        return addToMeasurement(name.getAbbreviation(), delta);</span>
+    }
+
+    public Metrics addToMeasurement(String name, float delta) {
+<span class="nc" id="L123">        getMeasurement(name).add(delta);</span>
+<span class="nc" id="L124">        return this;</span>
+    }
+    
+    public Metrics addToMeasurement(BasicMeasurements name, double delta) {
+<span class="nc" id="L128">        return addToMeasurement(name.getAbbreviation(), delta);</span>
+    }
+
+    public Metrics addToMeasurement(String name, double delta) {
+<span class="fc" id="L132">        getMeasurement(name).add(delta);</span>
+<span class="fc" id="L133">        return this;</span>
+    }
+    
+    public Metrics addToMeasurement(BasicMeasurements name, Object delta) {
+<span class="fc" id="L137">        return addToMeasurement(name.getAbbreviation(), delta);</span>
+    }
+
+    public Metrics addToMeasurement(String name, Object delta) {
+<span class="fc" id="L141">        getMeasurement(name).add(delta);</span>
+<span class="fc" id="L142">        return this;</span>
+    }
+
+    public Measurement getMeasurement(BasicMeasurements name) {
+<span class="fc" id="L146">        return getMeasurement(name.getAbbreviation());</span>
+    }
+
+    public Measurement getMeasurement(String name) {
+<span class="fc" id="L150">        return measurements.getOrDefault(name, NULL_MEASUREMENT);</span>
+    }
+
+    public boolean hasMeasurement(String name) {
+<span class="fc" id="L154">        return measurements.containsKey(name);</span>
+    }
+    
+    public Collection&lt;String&gt; getMeasurementNames() {
+<span class="fc" id="L158">        return Collections.unmodifiableCollection(measurements.keySet());</span>
+    }
+    
+    public Metrics addSubMetrics(Metrics metrics) {
+<span class="fc" id="L162">        return submetrics.put(metrics.getName(), metrics);</span>
+    }
+    
+    public Collection&lt;Metrics&gt; getSubMetrics() {
+<span class="fc" id="L166">        return Collections.unmodifiableCollection(submetrics.values());</span>
+    }
+
+    public boolean isEmpty() {
+<span class="fc" id="L170">        return</span>
+<span class="fc" id="L171">                measurements.values().stream()</span>
+<span class="fc" id="L172">                        .filter(measurement -&gt; measurement.getDescriptor().isVisible())</span>
+<span class="fc bfc" id="L173" title="All 2 branches covered.">                        .allMatch(Measurement::isEmpty) &amp;&amp;</span>
+<span class="fc" id="L174">                submetrics.values().stream()</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">                        .allMatch(Metrics::isEmpty);</span>
+    }
+
+    public boolean isInRange() {
+<span class="fc" id="L179">        return measurements.values().stream()</span>
+<span class="fc" id="L180">                .filter(measurement -&gt; measurement.getDescriptor().isVisible())</span>
+<span class="fc" id="L181">                .allMatch(Measurement::isInRange);</span>
+    }
+    
+    public String toString() {
+<span class="nc" id="L185">        StringBuilder result = new StringBuilder();</span>
+
+<span class="nc" id="L187">        result.append(getClass().getName()).append(&quot; &quot;).append(getName()).append(&quot; with [&quot;);</span>
+
+<span class="nc" id="L189">        result.append(measurements.entrySet().stream()</span>
+<span class="nc" id="L190">                .map(entry -&gt; &quot;\&quot;&quot; + entry.getKey() + &quot;\&quot;(&quot; + entry.getValue().getClass().getName() + &quot;)&quot;)</span>
+<span class="nc" id="L191">                .collect(Collectors.joining(&quot;, &quot;))</span>
+        );
+
+<span class="nc" id="L194">        result.append(&quot;]&quot;);</span>
+
+<span class="nc" id="L196">        return result.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

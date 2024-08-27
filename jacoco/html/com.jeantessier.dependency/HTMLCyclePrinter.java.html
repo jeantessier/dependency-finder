@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HTMLCyclePrinter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependency</a> &gt; <span class="el_source">HTMLCyclePrinter.java</span></div><h1>HTMLCyclePrinter.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependency;
+
+import java.io.*;
+
+import org.apache.oro.text.perl.*;
+
+public class HTMLCyclePrinter extends TextCyclePrinter {
+<span class="fc" id="L40">    private static final Perl5Util perl = new Perl5Util();</span>
+
+    protected static Perl5Util perl() {
+<span class="fc" id="L43">        return perl;</span>
+    }
+
+    private final String urlFormat;
+
+    public HTMLCyclePrinter(PrintWriter out, String urlFormat) {
+<span class="fc" id="L49">        super(out);</span>
+<span class="fc" id="L50">        this.urlFormat = urlFormat;</span>
+<span class="fc" id="L51">    }</span>
+
+    protected void printFirstNode(Node node) {
+<span class="fc" id="L54">        String fullName = node.getName();</span>
+<span class="fc" id="L55">        String url = formatUrl(fullName);</span>
+
+<span class="fc" id="L57">        out.print(&quot;&lt;a class=\&quot;scope\&quot; href=\&quot;&quot;);</span>
+<span class="fc" id="L58">        out.print(url);</span>
+<span class="fc" id="L59">        out.print(&quot;\&quot; id=\&quot;&quot;);</span>
+<span class="fc" id="L60">        out.print(fullName);</span>
+<span class="fc" id="L61">        out.print(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L62">        out.print(fullName);</span>
+<span class="fc" id="L63">        out.print(&quot;&lt;/a&gt;&quot;);</span>
+
+<span class="fc" id="L65">        out.println();</span>
+<span class="fc" id="L66">    }</span>
+
+    protected void printNode(Node previousNode, Node currentNode) {
+<span class="fc" id="L69">        String fullName = currentNode.getName();</span>
+<span class="fc" id="L70">        String url = formatUrl(fullName);</span>
+
+<span class="fc" id="L72">        out.print(&quot;--&amp;gt; &lt;a href=\&quot;&quot;);</span>
+<span class="fc" id="L73">        out.print(url);</span>
+<span class="fc" id="L74">        out.print(&quot;\&quot; id=\&quot;&quot;);</span>
+<span class="fc" id="L75">        out.print(previousNode);</span>
+<span class="fc" id="L76">        out.print(&quot;_to_&quot;);</span>
+<span class="fc" id="L77">        out.print(fullName);</span>
+<span class="fc" id="L78">        out.print(&quot;\&quot;&gt;&quot;);</span>
+<span class="fc" id="L79">        out.print(fullName);</span>
+<span class="fc" id="L80">        out.print(&quot;&lt;/a&gt;&quot;);</span>
+
+<span class="fc" id="L82">        out.println();</span>
+<span class="fc" id="L83">    }</span>
+
+    private String formatUrl(String fullName) {
+<span class="fc" id="L86">        String escapedName = fullName;</span>
+<span class="fc" id="L87">        escapedName = perl().substitute(&quot;s/\\(/\\\\(/g&quot;, escapedName);</span>
+<span class="fc" id="L88">        escapedName = perl().substitute(&quot;s/\\)/\\\\)/g&quot;, escapedName);</span>
+<span class="fc" id="L89">        escapedName = perl().substitute(&quot;s/\\$/\\\\\\$/g&quot;, escapedName);</span>
+
+<span class="fc" id="L91">        return String.format(urlFormat, escapedName);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

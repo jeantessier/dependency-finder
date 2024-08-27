@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CommandLine.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.commandline</a> &gt; <span class="el_source">CommandLine.java</span></div><h1>CommandLine.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.commandline;
+
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+/**
+ *  Command-line parser.
+ */
+public class CommandLine implements Visitable {
+    private static final boolean DEFAULT_STRICT = true;
+
+    private final boolean strict;
+    private final ParameterStrategy parameterStrategy;
+
+<span class="fc" id="L48">    private final Map&lt;String, CommandLineSwitch&gt; map = new TreeMap&lt;&gt;();</span>
+
+    public CommandLine() {
+<span class="fc" id="L51">        this(DEFAULT_STRICT, new CollectingParameterStrategy());</span>
+<span class="fc" id="L52">    }</span>
+
+    public CommandLine(boolean strict) {
+<span class="fc" id="L55">        this(strict, new CollectingParameterStrategy());</span>
+<span class="fc" id="L56">    }</span>
+
+    public CommandLine(ParameterStrategy parameterStrategy) {
+<span class="fc" id="L59">        this(DEFAULT_STRICT, parameterStrategy);</span>
+<span class="fc" id="L60">    }</span>
+
+<span class="fc" id="L62">    public CommandLine(boolean strict, ParameterStrategy parameterStrategy) {</span>
+<span class="fc" id="L63">        this.strict = strict;</span>
+<span class="fc" id="L64">        this.parameterStrategy = parameterStrategy;</span>
+<span class="fc" id="L65">    }</span>
+
+    public boolean isStrict() {
+<span class="fc" id="L68">        return strict;</span>
+    }
+
+    public ParameterStrategy getParameterStrategy() {
+<span class="fc" id="L72">        return parameterStrategy;</span>
+    }
+
+    public ToggleSwitch addToggleSwitch(String name) {
+<span class="fc" id="L76">        return addSwitch(new ToggleSwitch(name));</span>
+    }
+
+    public ToggleSwitch addToggleSwitch(String name, boolean defaultValue) {
+<span class="nc" id="L80">        return addSwitch(new ToggleSwitch(name, defaultValue));</span>
+    }
+
+    public SingleValueSwitch addSingleValueSwitch(String name) {
+<span class="fc" id="L84">        return addSwitch(new SingleValueSwitch(name));</span>
+    }
+
+    public SingleValueSwitch addSingleValueSwitch(String name, boolean mandatory) {
+<span class="fc" id="L88">        return addSwitch(new SingleValueSwitch(name, mandatory));</span>
+    }
+
+    public SingleValueSwitch addSingleValueSwitch(String name, String defaultValue) {
+<span class="fc" id="L92">        return addSwitch(new SingleValueSwitch(name, defaultValue));</span>
+    }
+
+    public SingleValueSwitch addSingleValueSwitch(String name, String defaultValue, boolean mandatory) {
+<span class="nc" id="L96">        return addSwitch(new SingleValueSwitch(name, defaultValue, mandatory));</span>
+    }
+
+    public OptionalValueSwitch addOptionalValueSwitch(String name) {
+<span class="fc" id="L100">        return addSwitch(new OptionalValueSwitch(name));</span>
+    }
+
+    public OptionalValueSwitch addOptionalValueSwitch(String name, boolean mandatory) {
+<span class="nc" id="L104">        return addSwitch(new OptionalValueSwitch(name, mandatory));</span>
+    }
+
+    public OptionalValueSwitch addOptionalValueSwitch(String name, String defaultValue) {
+<span class="fc" id="L108">        return addSwitch(new OptionalValueSwitch(name, defaultValue));</span>
+    }
+
+    public OptionalValueSwitch addOptionalValueSwitch(String name, String defaultValue, boolean mandatory) {
+<span class="nc" id="L112">        return addSwitch(new OptionalValueSwitch(name, defaultValue, mandatory));</span>
+    }
+
+    public MultipleValuesSwitch addMultipleValuesSwitch(String name) {
+<span class="fc" id="L116">        return addSwitch(new MultipleValuesSwitch(name));</span>
+    }
+
+    public MultipleValuesSwitch addMultipleValuesSwitch(String name, boolean mandatory) {
+<span class="fc" id="L120">        return addSwitch(new MultipleValuesSwitch(name, mandatory));</span>
+    }
+
+    public MultipleValuesSwitch addMultipleValuesSwitch(String name, String defaultValue) {
+<span class="fc" id="L124">        return addSwitch(new MultipleValuesSwitch(name, defaultValue));</span>
+    }
+
+    public MultipleValuesSwitch addMultipleValuesSwitch(String name, String defaultValue, boolean mandatory) {
+<span class="nc" id="L128">        return addSwitch(new MultipleValuesSwitch(name, defaultValue, mandatory));</span>
+    }
+
+    /**
+     * Returns an {@link AliasSwitch} mapping name to switchNames.
+     *
+     * @param name the name of the new alias.
+     * @param switchNames the switches that the alias maps to.
+     * @return an AliasSwitch for the new alias.
+     * @throws IllegalArgumentException if any switch name is unknown.
+     *
+     * @see AliasSwitch
+     */
+    public AliasSwitch addAliasSwitch(String name, String ... switchNames) {
+<span class="fc" id="L142">        CommandLineSwitch[] switches = new CommandLineSwitch[switchNames.length];</span>
+
+<span class="fc" id="L144">        IntStream.range(0, switchNames.length)</span>
+<span class="fc" id="L145">                .forEach(i -&gt; switches[i] = getSwitch(switchNames[i], true));</span>
+
+<span class="fc" id="L147">        return addSwitch(new AliasSwitch(name, switches));</span>
+    }
+
+    private &lt;T extends CommandLineSwitch&gt; T addSwitch(T cls) {
+<span class="fc" id="L151">        map.put(cls.getName(), cls);</span>
+<span class="fc" id="L152">        return cls;</span>
+    }
+
+    /**
+     * Returns a {@link CommandLineSwitch} matching name, if any.
+     *
+     * @param name the name of the switch to lookup.
+     * @return a switch matching name.
+     * @throws IllegalArgumentException if this CommandLine is strict and name is unknown.
+     *
+     * @see CommandLineSwitch
+     */
+    public CommandLineSwitch getSwitch(String name) {
+<span class="fc" id="L165">        return getSwitch(name, isStrict());</span>
+    }
+
+    /**
+     * Returns a {@link CommandLineSwitch} matching name, if any.
+     *
+     * @param name the name of the CommandLineSwitch to lookup.
+     * @param strict if true, will throw an exception if name is unknown.
+     * @return a CommandLineSwitch matching name.
+     * @throws IllegalArgumentException if strict is true and name is unknown.
+     */
+    public CommandLineSwitch getSwitch(String name, boolean strict) {
+<span class="fc" id="L177">        CommandLineSwitch cls = map.get(name);</span>
+
+<span class="fc bfc" id="L179" title="All 2 branches covered.">        if (cls == null) {</span>
+<span class="fc bfc" id="L180" title="All 2 branches covered.">            if (strict) {</span>
+<span class="fc" id="L181">                throw new IllegalArgumentException(&quot;Unknown switch \&quot;&quot; + name + &quot;\&quot;&quot;);</span>
+            } else {
+<span class="fc" id="L183">                cls = new OptionalValueSwitch(name);</span>
+<span class="fc" id="L184">                addSwitch(cls);</span>
+            }
+        }
+
+<span class="fc" id="L188">        return cls;</span>
+    }
+
+    public boolean getToggleSwitch(String name) {
+<span class="fc" id="L192">        boolean result = false;</span>
+
+<span class="fc" id="L194">        CommandLineSwitch cls = map.get(name);</span>
+<span class="pc bpc" id="L195" title="1 of 2 branches missed.">        if (cls != null) {</span>
+<span class="fc" id="L196">            result = (Boolean) cls.getValue();</span>
+        }
+
+<span class="fc" id="L199">        return result;</span>
+    }
+
+    public String getSingleSwitch(String name) {
+<span class="fc" id="L203">        return getStringSwitch(name);</span>
+    }
+
+    public String getOptionalSwitch(String name) {
+<span class="fc" id="L207">        return getStringSwitch(name);</span>
+    }
+
+    public List&lt;String&gt; getMultipleSwitch(String name) {
+<span class="fc" id="L211">        return getListSwitch(name);</span>
+    }
+
+    private String getStringSwitch(String name) {
+<span class="fc" id="L215">        String result = null;</span>
+
+<span class="fc" id="L217">        CommandLineSwitch cls = map.get(name);</span>
+<span class="pc bpc" id="L218" title="1 of 2 branches missed.">        if (cls != null) {</span>
+<span class="fc" id="L219">            result =  cls.getValue().toString();</span>
+        }
+
+<span class="fc" id="L222">        return result;</span>
+    }
+
+    private List&lt;String&gt; getListSwitch(String name) {
+<span class="fc" id="L226">        List&lt;String&gt; result = null;</span>
+
+<span class="fc" id="L228">        CommandLineSwitch cls = map.get(name);</span>
+<span class="pc bpc" id="L229" title="2 of 4 branches missed.">        if (cls != null &amp;&amp; cls.getValue() instanceof List) {</span>
+<span class="fc" id="L230">            result =  (List&lt;String&gt;) cls.getValue();</span>
+        }
+
+<span class="fc" id="L233">        return result;</span>
+    }
+
+    public boolean isPresent(String name) {
+<span class="fc" id="L237">        boolean result = false;</span>
+
+<span class="fc" id="L239">        CommandLineSwitch cls = map.get(name);</span>
+<span class="pc bpc" id="L240" title="1 of 2 branches missed.">        if (cls != null) {</span>
+<span class="fc" id="L241">            result = cls.isPresent();</span>
+        }
+
+<span class="fc" id="L244">        return result;</span>
+    }
+
+    public Set&lt;String&gt; getKnownSwitches() {
+<span class="fc" id="L248">        return map.keySet();</span>
+    }
+
+    public Collection&lt;CommandLineSwitch&gt; getSwitches() {
+<span class="fc" id="L252">        return map.values();</span>
+    }
+
+    public Set&lt;String&gt; getPresentSwitches() {
+<span class="fc" id="L256">        return getKnownSwitches().stream()</span>
+<span class="fc" id="L257">                .map(map::get)</span>
+<span class="fc" id="L258">                .filter(Objects::nonNull)</span>
+<span class="fc" id="L259">                .filter(CommandLineSwitch::isPresent)</span>
+<span class="fc" id="L260">                .map(CommandLineSwitch::getName)</span>
+<span class="fc" id="L261">                .collect(Collectors.toCollection(TreeSet::new));</span>
+    }
+
+    public List&lt;String&gt; getParameters() {
+<span class="fc" id="L265">        return parameterStrategy.getParameters();</span>
+    }
+
+    public Collection&lt;CommandLineException&gt; parse(String[] args) {
+<span class="fc" id="L269">        Collection&lt;CommandLineException&gt; exceptions = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L271">        int i=0;</span>
+<span class="fc bfc" id="L272" title="All 2 branches covered.">        while (i &lt; args.length) {</span>
+            try {
+<span class="fc bfc" id="L274" title="All 2 branches covered.">                if (args[i].startsWith(&quot;-&quot;)) {</span>
+<span class="fc" id="L275">                    String name  = args[i].substring(1);</span>
+<span class="fc" id="L276">                    String value = null;</span>
+
+<span class="fc bfc" id="L278" title="All 4 branches covered.">                    if (i+1 &lt; args.length &amp;&amp; !map.containsKey(args[i+1].substring(1))) {</span>
+<span class="fc" id="L279">                        value = args[i+1];</span>
+                    }
+
+<span class="fc" id="L282">                    i += getSwitch(name).parse(value);</span>
+<span class="fc" id="L283">                } else {</span>
+<span class="fc" id="L284">                    i += parameterStrategy.accept(args[i]);</span>
+                }
+<span class="fc" id="L286">            } catch (CommandLineException e) {</span>
+<span class="fc" id="L287">                exceptions.add(e);</span>
+<span class="fc" id="L288">                i++;</span>
+<span class="fc" id="L289">            }</span>
+        }
+
+        // Checking that all manadatory switches are present
+<span class="fc" id="L293">        map.values().forEach(cls -&gt; {</span>
+            try {
+<span class="fc" id="L295">                cls.validate();</span>
+<span class="fc" id="L296">            } catch (CommandLineException e) {</span>
+<span class="fc" id="L297">                exceptions.add(e);</span>
+<span class="fc" id="L298">            }</span>
+<span class="fc" id="L299">        });</span>
+
+        // Checking that all mandatory parameters are present
+        try {
+<span class="fc" id="L303">            parameterStrategy.validate();</span>
+<span class="fc" id="L304">        } catch (CommandLineException e) {</span>
+<span class="fc" id="L305">            exceptions.add(e);</span>
+<span class="fc" id="L306">        }</span>
+
+<span class="fc" id="L308">        return exceptions;</span>
+    }
+
+    public void accept(Visitor visitor) {
+<span class="fc" id="L312">        visitor.visitCommandLine(this);</span>
+<span class="fc" id="L313">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NameListMeasurement.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.metrics</a> &gt; <span class="el_source">NameListMeasurement.java</span></div><h1>NameListMeasurement.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.metrics;
+
+import org.apache.logging.log4j.*;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+
+/**
+ *  &lt;p&gt;Accumulates a set of values.  Its numerical value is the
+ *  cardinality (i.e., size) of the set.  &lt;code&gt;OOMetrics&lt;/code&gt;
+ *  uses it to keep track of dependencies.&lt;/p&gt;
+ *
+ *  &lt;p&gt;This is the syntax for initializing this type of
+ *  measurement:&lt;/p&gt;
+ *  
+ *  &lt;pre&gt;
+ *  &amp;lt;init&amp;gt;
+ *      [SET | LIST]
+ *  &amp;lt;/init&amp;gt;
+ *  &lt;/pre&gt;
+ *
+ *  &lt;p&gt;Defaults to SET (i.e., does not count duplicates).&lt;/p&gt;
+ */
+public class NameListMeasurement extends MeasurementBase implements CollectionMeasurement {
+    private final Collection&lt;String&gt; values;
+
+    public NameListMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
+<span class="fc" id="L62">        super(descriptor, context, initText);</span>
+
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (initText != null) {</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">            if (initText.trim().equalsIgnoreCase(&quot;list&quot;)) {</span>
+<span class="fc" id="L66">                values = new LinkedList&lt;&gt;();</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">            } else if (initText.trim().equalsIgnoreCase(&quot;set&quot;)) {</span>
+<span class="fc" id="L68">                values = new HashSet&lt;&gt;();</span>
+            } else {
+<span class="nc" id="L70">                LogManager.getLogger(getClass()).debug(&quot;Cannot initialize with \&quot;{}\&quot;, using default value of SET instead&quot;, initText);</span>
+<span class="nc" id="L71">                values = new HashSet&lt;&gt;();</span>
+            }
+        } else {
+<span class="fc" id="L74">            LogManager.getLogger(getClass()).debug(&quot;Cannot initialize with null text, using default value of SET instead&quot;);</span>
+<span class="fc" id="L75">            values = new HashSet&lt;&gt;();</span>
+        }
+<span class="fc" id="L77">    }</span>
+
+    public void add(Object object) {
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        if (object instanceof String string) {</span>
+<span class="fc" id="L81">            values.add(string);</span>
+        }
+<span class="fc" id="L83">    }</span>
+
+    public void accept(MeasurementVisitor visitor) {
+<span class="fc" id="L86">        visitor.visitNameListMeasurement(this);</span>
+<span class="fc" id="L87">    }</span>
+
+    public boolean isEmpty() {
+<span class="fc" id="L90">        return values.isEmpty();</span>
+    }
+
+    protected double compute() {
+<span class="fc" id="L94">        return values.size();</span>
+    }
+
+    public Collection&lt;String&gt; getValues() {
+<span class="fc" id="L98">        return Collections.unmodifiableCollection(values);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

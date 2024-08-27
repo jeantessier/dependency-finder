@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListDiff.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependencyfinder.cli</a> &gt; <span class="el_source">ListDiff.java</span></div><h1>ListDiff.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependencyfinder.cli;
+
+import java.io.*;
+import java.util.*;
+
+import com.jeantessier.diff.*;
+import com.jeantessier.commandline.*;
+
+<span class="fc" id="L41">public class ListDiff extends Command {</span>
+    protected void showSpecificUsage(PrintStream out) {
+<span class="fc" id="L43">        out.println();</span>
+<span class="fc" id="L44">        out.println(&quot;Defaults is text output to the console.&quot;);</span>
+<span class="fc" id="L45">        out.println();</span>
+<span class="fc" id="L46">    }</span>
+
+    protected void populateCommandLineSwitches() {
+<span class="fc" id="L49">        super.populateCommandLineSwitches();</span>
+<span class="fc" id="L50">        populateCommandLineSwitchesForXMLOutput(ListDiffPrinter.DEFAULT_ENCODING, ListDiffPrinter.DEFAULT_DTD_PREFIX, ListDiffPrinter.DEFAULT_INDENT_TEXT);</span>
+
+<span class="fc" id="L52">        getCommandLine().addSingleValueSwitch(&quot;name&quot;);</span>
+<span class="fc" id="L53">        getCommandLine().addSingleValueSwitch(&quot;old-label&quot;);</span>
+<span class="fc" id="L54">        getCommandLine().addSingleValueSwitch(&quot;old&quot;, true);</span>
+<span class="fc" id="L55">        getCommandLine().addSingleValueSwitch(&quot;new-label&quot;);</span>
+<span class="fc" id="L56">        getCommandLine().addSingleValueSwitch(&quot;new&quot;, true);</span>
+<span class="fc" id="L57">        getCommandLine().addToggleSwitch(&quot;compress&quot;);</span>
+<span class="fc" id="L58">    }</span>
+
+    protected Collection&lt;CommandLineException&gt; parseCommandLine(String[] args) {
+<span class="fc" id="L61">        Collection&lt;CommandLineException&gt; exceptions = super.parseCommandLine(args);</span>
+
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        if (!getCommandLine().isPresent(&quot;old-label&quot;)) {</span>
+<span class="fc" id="L64">            getCommandLine().getSwitch(&quot;old-label&quot;).setValue(getCommandLine().getSingleSwitch(&quot;old&quot;));</span>
+        }
+
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">        if (!getCommandLine().isPresent(&quot;new-label&quot;)) {</span>
+<span class="fc" id="L68">            getCommandLine().getSwitch(&quot;new-label&quot;).setValue(getCommandLine().getSingleSwitch(&quot;new&quot;));</span>
+        }
+
+<span class="fc" id="L71">        return exceptions;</span>
+    }
+
+    protected void doProcessing() throws Exception {
+<span class="nc" id="L75">        getVerboseListener().print(&quot;Loading old list ...&quot;);</span>
+<span class="nc" id="L76">        var oldAPI = readLines(getCommandLine().getSingleSwitch(&quot;old&quot;));</span>
+
+<span class="nc" id="L78">        getVerboseListener().print(&quot;Loading new list ...&quot;);</span>
+<span class="nc" id="L79">        var newAPI = readLines(getCommandLine().getSingleSwitch(&quot;new&quot;));</span>
+
+<span class="nc" id="L81">        var printer = new ListDiffPrinter(getCommandLine().getToggleSwitch(&quot;compress&quot;), getCommandLine().getSingleSwitch(&quot;indent-text&quot;), getCommandLine().getSingleSwitch(&quot;encoding&quot;), getCommandLine().getSingleSwitch(&quot;dtd-prefix&quot;));</span>
+<span class="nc" id="L82">        printer.setName(getCommandLine().getSingleSwitch(&quot;name&quot;));</span>
+<span class="nc" id="L83">        printer.setOldVersion(getCommandLine().getSingleSwitch(&quot;old-label&quot;));</span>
+<span class="nc" id="L84">        printer.setNewVersion(getCommandLine().getSingleSwitch(&quot;new-label&quot;));</span>
+
+<span class="nc" id="L86">        getVerboseListener().print(&quot;Computing removed elements ...&quot;);</span>
+<span class="nc" id="L87">        oldAPI.stream()</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">                .filter(name -&gt; !newAPI.contains(name))</span>
+<span class="nc" id="L89">                .forEach(printer::remove);</span>
+
+<span class="nc" id="L91">        getVerboseListener().print(&quot;Computing added elements ...&quot;);</span>
+<span class="nc" id="L92">        newAPI.stream()</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">                .filter(name -&gt; !oldAPI.contains(name))</span>
+<span class="nc" id="L94">                .forEach(printer::add);</span>
+
+<span class="nc" id="L96">        getVerboseListener().print(&quot;Printing results ...&quot;);</span>
+<span class="nc" id="L97">        getOut().print(printer);</span>
+<span class="nc" id="L98">    }</span>
+
+    private Collection&lt;String&gt; readLines(String filename) throws IOException {
+<span class="nc" id="L101">        try (var in = new BufferedReader(new FileReader(filename))) {</span>
+<span class="nc" id="L102">            return new TreeSet&lt;&gt;(in.lines().toList());</span>
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+<span class="nc" id="L107">        new ListDiff().run(args);</span>
+<span class="nc" id="L108">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

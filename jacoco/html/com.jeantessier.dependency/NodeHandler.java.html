@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NodeHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependency</a> &gt; <span class="el_source">NodeHandler.java</span></div><h1>NodeHandler.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependency;
+
+import java.util.*;
+
+import org.apache.logging.log4j.*;
+import org.xml.sax.*;
+import org.xml.sax.helpers.*;
+
+public class NodeHandler extends DefaultHandler {
+    private static final int PACKAGE = 1;
+    private static final int CLASS   = 2;
+    private static final int FEATURE = 3;
+
+    private final NodeFactory factory;
+
+    private int          currentNodeType;
+    private int          currentDependencyType;
+    private Attributes   currentDependencyAttributes;
+    private Node         currentNode;
+    private Attributes   currentPackageAttributes;
+    private Attributes   currentClassAttributes;
+    private Attributes   currentFeatureAttributes;
+<span class="fc" id="L55">    private final StringBuffer currentName = new StringBuffer();</span>
+
+<span class="fc" id="L57">    private final Collection&lt;DependencyListener&gt; dependencyListeners = new HashSet&lt;&gt;();</span>
+
+    public NodeHandler() {
+<span class="fc" id="L60">        this(new NodeFactory());</span>
+<span class="fc" id="L61">    }</span>
+
+<span class="fc" id="L63">    public NodeHandler(NodeFactory factory) {</span>
+<span class="fc" id="L64">        this.factory = factory;</span>
+<span class="fc" id="L65">    }</span>
+
+    public NodeFactory getFactory() {
+<span class="fc" id="L68">        return factory;</span>
+    }
+
+    public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
+<span class="fc" id="L72">        LogManager.getLogger(getClass()).debug(&quot;qName = {}&quot;, qName);</span>
+
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        for (int i=0; i&lt;atts.getLength(); i++) {</span>
+<span class="fc" id="L75">            LogManager.getLogger(getClass()).debug(&quot;    {}: {}&quot;, atts.getQName(i), atts.getValue(i));</span>
+        }
+
+<span class="fc" id="L78">        currentName.delete(0, currentName.length());</span>
+
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        if (&quot;dependencies&quot;.equals(qName)) {</span>
+<span class="fc" id="L81">            fireBeginSession();</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        } else if (&quot;package&quot;.equals(qName)) {</span>
+<span class="fc" id="L83">            currentNodeType = PACKAGE;</span>
+<span class="fc" id="L84">            currentPackageAttributes = new AttributesImpl(atts);</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        } else if (&quot;class&quot;.equals(qName)) {</span>
+<span class="fc" id="L86">            currentNodeType = CLASS;</span>
+<span class="fc" id="L87">            currentClassAttributes = new AttributesImpl(atts);</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">        } else if (&quot;feature&quot;.equals(qName)) {</span>
+<span class="fc" id="L89">            currentNodeType = FEATURE;</span>
+<span class="fc" id="L90">            currentFeatureAttributes = new AttributesImpl(atts);</span>
+<span class="fc bfc" id="L91" title="All 4 branches covered.">        } else if (&quot;inbound&quot;.equals(qName) || &quot;outbound&quot;.equals(qName)) {</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">            if (&quot;package&quot;.equals(atts.getValue(&quot;type&quot;))) {</span>
+<span class="fc" id="L93">                currentDependencyType = PACKAGE;</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">            } else if (&quot;class&quot;.equals(atts.getValue(&quot;type&quot;))) {</span>
+<span class="fc" id="L95">                currentDependencyType = CLASS;</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">            } else if (&quot;feature&quot;.equals(atts.getValue(&quot;type&quot;))) {</span>
+<span class="fc" id="L97">                currentDependencyType = FEATURE;</span>
+            }
+<span class="fc" id="L99">            currentDependencyAttributes = new AttributesImpl(atts);</span>
+        }
+
+<span class="fc" id="L102">        LogManager.getLogger(getClass()).debug(&quot;    current node type: {}&quot;, currentNodeType);</span>
+<span class="fc" id="L103">        LogManager.getLogger(getClass()).debug(&quot;    current dependency type: {}&quot;, currentDependencyType);</span>
+<span class="fc" id="L104">    }</span>
+
+    public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
+<span class="fc" id="L107">        LogManager.getLogger(getClass()).debug(&quot;qName = {}&quot;, qName);</span>
+
+<span class="fc bfc" id="L109" title="All 2 branches covered.">        if (&quot;dependencies&quot;.equals(qName)) {</span>
+<span class="fc" id="L110">            fireEndSession();</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">        } else if (&quot;name&quot;.equals(qName)) {</span>
+<span class="fc" id="L112">            LogManager.getLogger(getClass()).debug(&quot;    Processing &lt;name&gt; tag:&quot;);</span>
+<span class="fc" id="L113">            LogManager.getLogger(getClass()).debug(&quot;        current name: {}&quot;, currentName);</span>
+<span class="fc" id="L114">            LogManager.getLogger(getClass()).debug(&quot;        current node type: {}&quot;, currentNodeType);</span>
+
+<span class="pc bpc" id="L116" title="1 of 4 branches missed.">            switch (currentNodeType) {</span>
+                case PACKAGE:
+<span class="fc" id="L118">                    currentNode = getFactory().createPackage(currentName.toString(), isConfirmed(currentPackageAttributes));</span>
+<span class="fc" id="L119">                    break;</span>
+                case CLASS:
+<span class="fc" id="L121">                    currentNode = getFactory().createClass(currentName.toString(), isConfirmed(currentClassAttributes));</span>
+<span class="fc" id="L122">                    fireBeginClass(currentNode.getName());</span>
+<span class="fc" id="L123">                    break;</span>
+                case FEATURE:
+<span class="fc" id="L125">                    currentNode = getFactory().createFeature(currentName.toString(), isConfirmed(currentFeatureAttributes));</span>
+<span class="fc" id="L126">                    break;</span>
+            }
+<span class="fc bfc" id="L128" title="All 2 branches covered.">        } else if (&quot;outbound&quot;.equals(qName)) {</span>
+<span class="fc" id="L129">            LogManager.getLogger(getClass()).debug(&quot;    Processing &lt;outbound&gt; tag:&quot;);</span>
+<span class="fc" id="L130">            LogManager.getLogger(getClass()).debug(&quot;        current_name: {}&quot;, currentName);</span>
+<span class="fc" id="L131">            LogManager.getLogger(getClass()).debug(&quot;        current_dependency_type: {}&quot;, currentDependencyType);</span>
+
+<span class="pc bpc" id="L133" title="1 of 4 branches missed.">            Node other = switch (currentDependencyType) {</span>
+<span class="fc" id="L134">                case PACKAGE -&gt; getFactory().createPackage(currentName.toString(), isConfirmed(currentDependencyAttributes));</span>
+<span class="fc" id="L135">                case CLASS -&gt; getFactory().createClass(currentName.toString(), isConfirmed(currentDependencyAttributes));</span>
+<span class="fc" id="L136">                case FEATURE -&gt; getFactory().createFeature(currentName.toString(), isConfirmed(currentDependencyAttributes));</span>
+<span class="pc" id="L137">                default -&gt; null;</span>
+            };
+<span class="fc" id="L139">            currentNode.addDependency(other);</span>
+<span class="fc" id="L140">            fireDependency(currentNode, other);</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">        } else if (&quot;inbound&quot;.equals(qName)) {</span>
+<span class="fc" id="L142">            LogManager.getLogger(getClass()).debug(&quot;    Processing &lt;inbound&gt; tag:&quot;);</span>
+<span class="fc" id="L143">            LogManager.getLogger(getClass()).debug(&quot;        current_name: {}&quot;, currentName);</span>
+<span class="fc" id="L144">            LogManager.getLogger(getClass()).debug(&quot;        current_dependency_type: {}&quot;, currentDependencyType);</span>
+
+<span class="pc bpc" id="L146" title="1 of 4 branches missed.">            Node other = switch (currentDependencyType) {</span>
+<span class="fc" id="L147">                case PACKAGE -&gt; getFactory().createPackage(currentName.toString(), isConfirmed(currentDependencyAttributes));</span>
+<span class="fc" id="L148">                case CLASS -&gt; getFactory().createClass(currentName.toString(), isConfirmed(currentDependencyAttributes));</span>
+<span class="fc" id="L149">                case FEATURE -&gt; getFactory().createFeature(currentName.toString(), isConfirmed(currentDependencyAttributes));</span>
+<span class="pc" id="L150">                default -&gt; null;</span>
+            };
+<span class="fc" id="L152">            other.addDependency(currentNode);</span>
+<span class="fc" id="L153">            fireDependency(other, currentNode);</span>
+        }
+<span class="fc" id="L155">    }</span>
+
+    public void characters(char[] ch, int start, int length) throws SAXException {
+<span class="fc" id="L158">        currentName.append(ch, start, length);</span>
+<span class="pc" id="L159">        LogManager.getLogger(getClass()).debug(&quot;characters: \&quot;{}\&quot;&quot;, () -&gt; new String(ch, start, length));</span>
+<span class="fc" id="L160">    }</span>
+
+    private boolean isConfirmed(Attributes atts) {
+<span class="fc bfc" id="L163" title="All 4 branches covered.">        return atts.getValue(&quot;confirmed&quot;) == null || &quot;yes&quot;.equalsIgnoreCase(atts.getValue(&quot;confirmed&quot;));</span>
+    }
+
+    public void addDependencyListener(DependencyListener listener) {
+<span class="nc" id="L167">        dependencyListeners.add(listener);</span>
+<span class="nc" id="L168">    }</span>
+
+    public void removeDependencyListener(DependencyListener listener) {
+<span class="nc" id="L171">        dependencyListeners.remove(listener);</span>
+<span class="nc" id="L172">    }</span>
+
+    protected void fireBeginSession() {
+<span class="fc" id="L175">        DependencyEvent event = new DependencyEvent(this);</span>
+<span class="pc" id="L176">        dependencyListeners.forEach(listener -&gt; listener.beginSession(event));</span>
+<span class="fc" id="L177">    }</span>
+    
+    protected void fireBeginClass(String classname) {
+<span class="fc" id="L180">        DependencyEvent event = new DependencyEvent(this, classname);</span>
+<span class="pc" id="L181">        dependencyListeners.forEach(listener -&gt; listener.beginClass(event));</span>
+<span class="fc" id="L182">    }</span>
+
+    protected void fireDependency(Node dependent, Node dependable) {
+<span class="fc" id="L185">        DependencyEvent event = new DependencyEvent(this, dependent, dependable);</span>
+<span class="pc" id="L186">        dependencyListeners.forEach(listener -&gt; listener.dependency(event));</span>
+<span class="fc" id="L187">    }</span>
+
+    protected void fireEndClass(String classname) {
+<span class="nc" id="L190">        DependencyEvent event = new DependencyEvent(this, classname);</span>
+<span class="nc" id="L191">        dependencyListeners.forEach(listener -&gt; listener.endClass(event));</span>
+<span class="nc" id="L192">    }</span>
+
+    protected void fireEndSession() {
+<span class="fc" id="L195">        DependencyEvent event = new DependencyEvent(this);</span>
+<span class="pc" id="L196">        dependencyListeners.forEach(listener -&gt; listener.endSession(event));</span>
+<span class="fc" id="L197">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

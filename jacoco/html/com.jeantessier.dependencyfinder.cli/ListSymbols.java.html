@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListSymbols.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependencyfinder.cli</a> &gt; <span class="el_source">ListSymbols.java</span></div><h1>ListSymbols.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependencyfinder.cli;
+
+import com.jeantessier.classreader.*;
+import com.jeantessier.commandline.CommandLineException;
+
+import java.io.*;
+import java.util.*;
+
+<span class="fc" id="L41">public class ListSymbols extends DirectoryExplorerCommand {</span>
+    protected void populateCommandLineSwitches() {
+<span class="fc" id="L43">        super.populateCommandLineSwitches();</span>
+<span class="fc" id="L44">        populateCommandLineSwitchesForXMLOutput(XMLSymbolPrinter.DEFAULT_ENCODING, XMLSymbolPrinter.DEFAULT_DTD_PREFIX, XMLSymbolPrinter.DEFAULT_INDENT_TEXT);</span>
+
+<span class="fc" id="L46">        getCommandLine().addToggleSwitch(&quot;classes&quot;);</span>
+<span class="fc" id="L47">        getCommandLine().addToggleSwitch(&quot;fields&quot;);</span>
+<span class="fc" id="L48">        getCommandLine().addToggleSwitch(&quot;methods&quot;);</span>
+<span class="fc" id="L49">        getCommandLine().addToggleSwitch(&quot;local-variables&quot;);</span>
+<span class="fc" id="L50">        getCommandLine().addToggleSwitch(&quot;inner-classes&quot;);</span>
+
+<span class="fc" id="L52">        getCommandLine().addToggleSwitch(&quot;public-accessibility&quot;);</span>
+<span class="fc" id="L53">        getCommandLine().addToggleSwitch(&quot;protected-accessibility&quot;);</span>
+<span class="fc" id="L54">        getCommandLine().addToggleSwitch(&quot;private-accessibility&quot;);</span>
+<span class="fc" id="L55">        getCommandLine().addToggleSwitch(&quot;package-accessibility&quot;);</span>
+
+<span class="fc" id="L57">        getCommandLine().addToggleSwitch(&quot;non-private-fields&quot;);</span>
+<span class="fc" id="L58">        getCommandLine().addToggleSwitch(&quot;final-methods-or-classes&quot;);</span>
+
+<span class="fc" id="L60">        getCommandLine().addMultipleValuesSwitch(&quot;includes&quot;, DEFAULT_INCLUDES);</span>
+<span class="fc" id="L61">        getCommandLine().addMultipleValuesSwitch(&quot;includes-list&quot;);</span>
+<span class="fc" id="L62">        getCommandLine().addMultipleValuesSwitch(&quot;excludes&quot;);</span>
+<span class="fc" id="L63">        getCommandLine().addMultipleValuesSwitch(&quot;excludes-list&quot;);</span>
+
+<span class="fc" id="L65">        getCommandLine().addToggleSwitch(&quot;csv&quot;);</span>
+<span class="fc" id="L66">        getCommandLine().addToggleSwitch(&quot;json&quot;);</span>
+<span class="fc" id="L67">        getCommandLine().addToggleSwitch(&quot;text&quot;);</span>
+<span class="fc" id="L68">        getCommandLine().addToggleSwitch(&quot;txt&quot;);</span>
+<span class="fc" id="L69">        getCommandLine().addToggleSwitch(&quot;xml&quot;);</span>
+<span class="fc" id="L70">        getCommandLine().addToggleSwitch(&quot;yaml&quot;);</span>
+<span class="fc" id="L71">        getCommandLine().addToggleSwitch(&quot;yml&quot;);</span>
+<span class="fc" id="L72">    }</span>
+
+    protected Collection&lt;CommandLineException&gt; parseCommandLine(String[] args) {
+<span class="fc" id="L75">        Collection&lt;CommandLineException&gt; exceptions = super.parseCommandLine(args);</span>
+
+<span class="fc bfc" id="L77" title="All 10 branches covered.">        if (!getCommandLine().isPresent(&quot;classes&quot;) &amp;&amp; !getCommandLine().isPresent(&quot;fields&quot;) &amp;&amp; !getCommandLine().isPresent(&quot;methods&quot;) &amp;&amp; !getCommandLine().isPresent(&quot;local-variables&quot;) &amp;&amp; !getCommandLine().isPresent(&quot;inner-classes&quot;)) {</span>
+<span class="fc" id="L78">            getCommandLine().getSwitch(&quot;classes&quot;).setValue(true);</span>
+<span class="fc" id="L79">            getCommandLine().getSwitch(&quot;fields&quot;).setValue(true);</span>
+<span class="fc" id="L80">            getCommandLine().getSwitch(&quot;methods&quot;).setValue(true);</span>
+<span class="fc" id="L81">            getCommandLine().getSwitch(&quot;local-variables&quot;).setValue(true);</span>
+<span class="fc" id="L82">            getCommandLine().getSwitch(&quot;inner-classes&quot;).setValue(true);</span>
+        }
+
+<span class="fc" id="L85">        int modeSwitch = 0;</span>
+
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;csv&quot;)) {</span>
+<span class="nc" id="L88">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;json&quot;)) {</span>
+<span class="nc" id="L91">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;text&quot;)) {</span>
+<span class="nc" id="L94">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;txt&quot;)) {</span>
+<span class="nc" id="L97">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;xml&quot;)) {</span>
+<span class="nc" id="L100">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;yaml&quot;)) {</span>
+<span class="nc" id="L103">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;yml&quot;)) {</span>
+<span class="nc" id="L106">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">        if (modeSwitch != 1) {</span>
+<span class="fc" id="L109">            exceptions.add(new CommandLineException(&quot;Must have one and only one of -csv, -json, -text, -txt, -xml, -yml, or -yaml&quot;));</span>
+        }
+
+<span class="fc" id="L112">        return exceptions;</span>
+    }
+
+    protected void doProcessing() throws Exception {
+        SymbolGathererStrategy gathererStrategy;
+
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;non-private-fields&quot;)) {</span>
+<span class="nc" id="L119">            gathererStrategy = new NonPrivateFieldSymbolGathererStrategy();</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        } else if (getCommandLine().getToggleSwitch(&quot;final-methods-or-classes&quot;)) {</span>
+<span class="nc" id="L121">            gathererStrategy = new FinalMethodOrClassSymbolGathererStrategy();</span>
+        } else {
+<span class="nc" id="L123">            DefaultSymbolGathererStrategy defaultGathererStrategy = new DefaultSymbolGathererStrategy();</span>
+<span class="nc" id="L124">            defaultGathererStrategy.setMatchingClasses(getCommandLine().getToggleSwitch(&quot;classes&quot;));</span>
+<span class="nc" id="L125">            defaultGathererStrategy.setMatchingFields(getCommandLine().getToggleSwitch(&quot;fields&quot;));</span>
+<span class="nc" id="L126">            defaultGathererStrategy.setMatchingMethods(getCommandLine().getToggleSwitch(&quot;methods&quot;));</span>
+<span class="nc" id="L127">            defaultGathererStrategy.setMatchingLocalVariables(getCommandLine().getToggleSwitch(&quot;local-variables&quot;));</span>
+<span class="nc" id="L128">            defaultGathererStrategy.setMatchingInnerClasses(getCommandLine().getToggleSwitch(&quot;inner-classes&quot;));</span>
+
+<span class="nc" id="L130">            gathererStrategy = defaultGathererStrategy;</span>
+        }
+
+<span class="nc bnc" id="L133" title="All 8 branches missed.">        if (getCommandLine().isPresent(&quot;includes&quot;) || getCommandLine().isPresent(&quot;includes-list&quot;) || getCommandLine().isPresent(&quot;excludes&quot;) || getCommandLine().isPresent(&quot;excludes-list&quot;)) {</span>
+<span class="nc" id="L134">            gathererStrategy = new FilteringSymbolGathererStrategy(gathererStrategy, getCommandLine().getMultipleSwitch(&quot;includes&quot;), loadCollection(getCommandLine().getMultipleSwitch(&quot;includes-list&quot;)), getCommandLine().getMultipleSwitch(&quot;excludes&quot;), loadCollection(getCommandLine().getMultipleSwitch(&quot;excludes-list&quot;)));</span>
+        }
+
+<span class="nc bnc" id="L137" title="All 8 branches missed.">        if (getCommandLine().isPresent(&quot;public-accessibility&quot;) || getCommandLine().isPresent(&quot;protected-accessibility&quot;) || getCommandLine().isPresent(&quot;private-accessibility&quot;) || getCommandLine().isPresent(&quot;package-accessibility&quot;)) {</span>
+<span class="nc" id="L138">            gathererStrategy = new AccessibilitySymbolGathererStrategy(gathererStrategy, getCommandLine().getToggleSwitch(&quot;public-accessibility&quot;), getCommandLine().getToggleSwitch(&quot;protected-accessibility&quot;), getCommandLine().getToggleSwitch(&quot;private-accessibility&quot;), getCommandLine().getToggleSwitch(&quot;package-accessibility&quot;));</span>
+        }
+
+<span class="nc" id="L141">        SymbolGatherer gatherer = new SymbolGatherer(gathererStrategy);</span>
+
+<span class="nc" id="L143">        ClassfileLoader loader = new TransientClassfileLoader();</span>
+<span class="nc" id="L144">        loader.addLoadListener(new LoadListenerVisitorAdapter(gatherer));</span>
+<span class="nc" id="L145">        loader.addLoadListener(getVerboseListener());</span>
+<span class="nc" id="L146">        loader.load(getCommandLine().getParameters());</span>
+
+<span class="nc bnc" id="L148" title="All 2 branches missed.">        if (getCommandLine().isPresent(&quot;csv&quot;)) {</span>
+<span class="nc" id="L149">            printCSVFiles(gatherer);</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">        } else if (getCommandLine().isPresent(&quot;json&quot;)) {</span>
+<span class="nc" id="L151">            printJsonFile(gatherer);</span>
+<span class="nc bnc" id="L152" title="All 4 branches missed.">        } else if (getCommandLine().isPresent(&quot;text&quot;) || getCommandLine().isPresent(&quot;txt&quot;)) {</span>
+<span class="nc" id="L153">            printTextFile(gatherer);</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">        } else if (getCommandLine().isPresent(&quot;xml&quot;)) {</span>
+<span class="nc" id="L155">            printXMLFile(gatherer);</span>
+<span class="nc bnc" id="L156" title="All 4 branches missed.">        } else if (getCommandLine().isPresent(&quot;yaml&quot;) || getCommandLine().isPresent(&quot;yml&quot;)) {</span>
+<span class="nc" id="L157">            printYAMLFile(gatherer);</span>
+        }
+<span class="nc" id="L159">    }</span>
+
+    private void printCSVFiles(SymbolGatherer gatherer) throws IOException {
+<span class="nc" id="L162">        new CSVSymbolPrinter(</span>
+<span class="nc" id="L163">                getOut(),</span>
+<span class="nc" id="L164">                getCommandLine().getToggleSwitch(&quot;classes&quot;),</span>
+<span class="nc" id="L165">                getCommandLine().getToggleSwitch(&quot;fields&quot;),</span>
+<span class="nc" id="L166">                getCommandLine().getToggleSwitch(&quot;methods&quot;),</span>
+<span class="nc" id="L167">                getCommandLine().getToggleSwitch(&quot;local-variables&quot;),</span>
+<span class="nc" id="L168">                getCommandLine().getToggleSwitch(&quot;inner-classes&quot;),</span>
+<span class="nc bnc" id="L169" title="All 2 branches missed.">                getCommandLine().isPresent(&quot;out&quot;) ?</span>
+<span class="nc" id="L170">                        Optional.of(getCommandLine().getSingleSwitch(&quot;out&quot;)) :</span>
+<span class="nc" id="L171">                        Optional.empty()</span>
+<span class="nc" id="L172">        ).print(gatherer);</span>
+<span class="nc" id="L173">    }</span>
+
+    private void printJsonFile(SymbolGatherer gatherer) throws IOException {
+<span class="nc" id="L176">        new JSONSymbolPrinter(getOut()).print(gatherer);</span>
+<span class="nc" id="L177">    }</span>
+
+    private void printTextFile(SymbolGatherer gatherer) throws IOException {
+<span class="nc" id="L180">        new TextSymbolPrinter(getOut()).print(gatherer);</span>
+<span class="nc" id="L181">    }</span>
+
+    private void printXMLFile(SymbolGatherer gatherer) throws IOException {
+<span class="nc" id="L184">        new XMLSymbolPrinter(</span>
+<span class="nc" id="L185">                getOut(),</span>
+<span class="nc" id="L186">                getCommandLine().getSingleSwitch(&quot;encoding&quot;),</span>
+<span class="nc" id="L187">                getCommandLine().getSingleSwitch(&quot;dtd-prefix&quot;),</span>
+<span class="nc" id="L188">                getCommandLine().getSingleSwitch(&quot;indent-text&quot;)</span>
+<span class="nc" id="L189">        ).print(gatherer);</span>
+<span class="nc" id="L190">    }</span>
+
+    private void printYAMLFile(SymbolGatherer gatherer) throws IOException {
+<span class="nc" id="L193">        new YAMLSymbolPrinter(</span>
+<span class="nc" id="L194">                getOut(),</span>
+<span class="nc" id="L195">                getCommandLine().getSingleSwitch(&quot;indent-text&quot;)</span>
+<span class="nc" id="L196">        ).print(gatherer);</span>
+<span class="nc" id="L197">    }</span>
+
+    public static void main(String[] args) throws Exception {
+<span class="nc" id="L200">        new ListSymbols().run(args);</span>
+<span class="nc" id="L201">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

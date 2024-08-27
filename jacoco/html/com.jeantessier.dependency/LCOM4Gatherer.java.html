@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LCOM4Gatherer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependency</a> &gt; <span class="el_source">LCOM4Gatherer.java</span></div><h1>LCOM4Gatherer.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependency;
+
+import java.util.*;
+
+import org.apache.oro.text.perl.*;
+
+import static java.util.stream.Collectors.*;
+
+<span class="fc" id="L41">public class LCOM4Gatherer implements Visitor {</span>
+<span class="fc" id="L42">    private static final Perl5Util perl = new Perl5Util();</span>
+
+<span class="fc" id="L44">    private final Map&lt;ClassNode, Collection&lt;Collection&lt;FeatureNode&gt;&gt;&gt; results = new HashMap&lt;&gt;();</span>
+    private Collection&lt;FeatureNode&gt; currentComponent;
+    private ClassNode currentClass;
+    private LinkedList&lt;FeatureNode&gt; unvisitedNodes;
+
+    private Set&lt;Collection&lt;FeatureNode&gt;&gt; currentComponents;
+
+    public Map&lt;ClassNode, Collection&lt;Collection&lt;FeatureNode&gt;&gt;&gt; getResults() {
+<span class="fc" id="L52">        return results;</span>
+    }
+
+    public void traverseNodes(Collection&lt;? extends Node&gt; nodes) {
+<span class="fc" id="L56">        nodes.stream()</span>
+<span class="fc" id="L57">                .filter(Node::isConfirmed)</span>
+<span class="fc" id="L58">                .forEach(node -&gt; node.accept(this));</span>
+<span class="fc" id="L59">    }</span>
+
+    public void visitPackageNode(PackageNode node) {
+<span class="fc" id="L62">        traverseNodes(node.getClasses());</span>
+<span class="fc" id="L63">    }</span>
+
+    public void visitClassNode(ClassNode node) {
+<span class="fc" id="L66">        currentClass = node;</span>
+
+<span class="fc" id="L68">        currentComponents = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L69">        results.put(currentClass, currentComponents);</span>
+
+<span class="fc" id="L71">        unvisitedNodes = filterOutConstructors(currentClass.getFeatures());</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">        while (!unvisitedNodes.isEmpty()) {</span>
+<span class="fc" id="L73">            unvisitedNodes.removeFirst().accept(this);</span>
+        }
+<span class="fc" id="L75">    }</span>
+
+    public void visitFeatureNode(FeatureNode node) {
+<span class="fc" id="L78">        currentComponent = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L79">        currentComponents.add(currentComponent);</span>
+<span class="fc" id="L80">        currentComponent.add(node);</span>
+
+<span class="fc" id="L82">        traverseInbound(node.getInboundDependencies());</span>
+<span class="fc" id="L83">        traverseOutbound(node.getOutboundDependencies());</span>
+<span class="fc" id="L84">    }</span>
+
+    public void visitInboundFeatureNode(FeatureNode node) {
+<span class="fc" id="L87">        visitFeatureDependency(node);</span>
+<span class="fc" id="L88">    }</span>
+
+    public void visitOutboundFeatureNode(FeatureNode node) {
+<span class="fc" id="L91">        visitFeatureDependency(node);</span>
+<span class="fc" id="L92">    }</span>
+
+    private void visitFeatureDependency(FeatureNode node) {
+<span class="fc bfc" id="L95" title="All 4 branches covered.">        if (currentClass.equals(node.getClassNode()) &amp;&amp; unvisitedNodes.contains(node)) {</span>
+<span class="fc" id="L96">            unvisitedNodes.remove(node);</span>
+<span class="fc" id="L97">            currentComponent.add(node);</span>
+<span class="fc" id="L98">            traverseInbound(node.getInboundDependencies());</span>
+<span class="fc" id="L99">            traverseOutbound(node.getOutboundDependencies());</span>
+        }
+<span class="fc" id="L101">    }</span>
+
+    private LinkedList&lt;FeatureNode&gt; filterOutConstructors(Collection&lt;FeatureNode&gt; featureNodes) {
+<span class="fc" id="L104">        return featureNodes.stream()</span>
+<span class="fc" id="L105">                .filter(Node::isConfirmed)</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">                .filter(featureNode-&gt; !isConstructor(featureNode))</span>
+<span class="fc" id="L107">                .collect(toCollection(LinkedList::new));</span>
+    }
+
+    private boolean isConstructor(FeatureNode node) {
+<span class="fc" id="L111">        return perl.match(&quot;/(\\w+)\\.\\1\\(/&quot;, node.getName());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OOMetrics.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependencyfinder.cli</a> &gt; <span class="el_source">OOMetrics.java</span></div><h1>OOMetrics.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependencyfinder.cli;
+
+import com.jeantessier.classreader.AggregatingClassfileLoader;
+import com.jeantessier.classreader.ClassfileLoader;
+import com.jeantessier.classreader.LoadListenerVisitorAdapter;
+import com.jeantessier.classreader.TransientClassfileLoader;
+import com.jeantessier.commandline.CommandLineException;
+import com.jeantessier.metrics.*;
+import org.apache.logging.log4j.*;
+
+import java.io.*;
+import java.lang.reflect.*;
+import java.nio.file.*;
+import java.util.*;
+
+<span class="fc" id="L48">public class OOMetrics extends DirectoryExplorerCommand {</span>
+    public static final String DEFAULT_PROJECT_NAME = &quot;Project&quot;;
+    public static final String DEFAULT_SORT = &quot;name&quot;;
+
+    protected void populateCommandLineSwitches() {
+<span class="fc" id="L53">        super.populateCommandLineSwitches();</span>
+<span class="fc" id="L54">        populateCommandLineSwitchesForXMLOutput(XMLPrinter.DEFAULT_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX, XMLPrinter.DEFAULT_INDENT_TEXT);</span>
+
+<span class="fc" id="L56">        getCommandLine().addSingleValueSwitch(&quot;project-name&quot;, DEFAULT_PROJECT_NAME);</span>
+<span class="fc" id="L57">        getCommandLine().addSingleValueSwitch(&quot;default-configuration&quot;, true);</span>
+<span class="fc" id="L58">        getCommandLine().addSingleValueSwitch(&quot;configuration&quot;);</span>
+<span class="fc" id="L59">        getCommandLine().addToggleSwitch(&quot;csv&quot;);</span>
+<span class="fc" id="L60">        getCommandLine().addToggleSwitch(&quot;json&quot;);</span>
+<span class="fc" id="L61">        getCommandLine().addToggleSwitch(&quot;text&quot;);</span>
+<span class="fc" id="L62">        getCommandLine().addToggleSwitch(&quot;txt&quot;);</span>
+<span class="fc" id="L63">        getCommandLine().addToggleSwitch(&quot;xml&quot;);</span>
+<span class="fc" id="L64">        getCommandLine().addToggleSwitch(&quot;yaml&quot;);</span>
+<span class="fc" id="L65">        getCommandLine().addToggleSwitch(&quot;yml&quot;);</span>
+<span class="fc" id="L66">        getCommandLine().addToggleSwitch(&quot;validate&quot;);</span>
+<span class="fc" id="L67">        getCommandLine().addToggleSwitch(&quot;project&quot;);</span>
+<span class="fc" id="L68">        getCommandLine().addToggleSwitch(&quot;groups&quot;);</span>
+<span class="fc" id="L69">        getCommandLine().addToggleSwitch(&quot;classes&quot;);</span>
+<span class="fc" id="L70">        getCommandLine().addToggleSwitch(&quot;methods&quot;);</span>
+<span class="fc" id="L71">        getCommandLine().addMultipleValuesSwitch(&quot;scope-includes-list&quot;);</span>
+<span class="fc" id="L72">        getCommandLine().addMultipleValuesSwitch(&quot;scope-excludes-list&quot;);</span>
+<span class="fc" id="L73">        getCommandLine().addMultipleValuesSwitch(&quot;filter-includes-list&quot;);</span>
+<span class="fc" id="L74">        getCommandLine().addMultipleValuesSwitch(&quot;filter-excludes-list&quot;);</span>
+<span class="fc" id="L75">        getCommandLine().addToggleSwitch(&quot;show-all-metrics&quot;);</span>
+<span class="fc" id="L76">        getCommandLine().addToggleSwitch(&quot;show-empty-metrics&quot;);</span>
+<span class="fc" id="L77">        getCommandLine().addToggleSwitch(&quot;show-hidden-measurements&quot;);</span>
+<span class="fc" id="L78">        getCommandLine().addSingleValueSwitch(&quot;sort&quot;, DEFAULT_SORT);</span>
+<span class="fc" id="L79">        getCommandLine().addToggleSwitch(&quot;expand&quot;);</span>
+<span class="fc" id="L80">        getCommandLine().addToggleSwitch(&quot;reverse&quot;);</span>
+<span class="fc" id="L81">        getCommandLine().addToggleSwitch(&quot;enable-cross-class-measurements&quot;);</span>
+<span class="fc" id="L82">    }</span>
+
+    protected Collection&lt;CommandLineException&gt; parseCommandLine(String[] args) {
+<span class="fc" id="L85">        Collection&lt;CommandLineException&gt; exceptions = super.parseCommandLine(args);</span>
+
+<span class="pc bpc" id="L87" title="3 of 8 branches missed.">        if (!getCommandLine().isPresent(&quot;project&quot;) &amp;&amp; !getCommandLine().isPresent(&quot;groups&quot;) &amp;&amp; !getCommandLine().isPresent(&quot;classes&quot;) &amp;&amp; !getCommandLine().isPresent(&quot;methods&quot;)) {</span>
+<span class="fc" id="L88">            getCommandLine().getSwitch(&quot;project&quot;).setValue(true);</span>
+<span class="fc" id="L89">            getCommandLine().getSwitch(&quot;groups&quot;).setValue(true);</span>
+<span class="fc" id="L90">            getCommandLine().getSwitch(&quot;classes&quot;).setValue(true);</span>
+<span class="fc" id="L91">            getCommandLine().getSwitch(&quot;methods&quot;).setValue(true);</span>
+        }
+
+<span class="fc" id="L94">        int modeSwitch = 0;</span>
+
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        if (getCommandLine().getToggleSwitch(&quot;csv&quot;)) {</span>
+<span class="fc" id="L97">            modeSwitch++;</span>
+        }
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        if (getCommandLine().getToggleSwitch(&quot;txt&quot;)) {</span>
+<span class="fc" id="L100">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;text&quot;)) {</span>
+<span class="nc" id="L103">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;xml&quot;)) {</span>
+<span class="nc" id="L106">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;json&quot;)) {</span>
+<span class="nc" id="L109">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L111" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;yaml&quot;)) {</span>
+<span class="nc" id="L112">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;yml&quot;)) {</span>
+<span class="nc" id="L115">            modeSwitch++;</span>
+        }
+<span class="fc bfc" id="L117" title="All 2 branches covered.">        if (modeSwitch != 1) {</span>
+<span class="fc" id="L118">            exceptions.add(new CommandLineException(&quot;Must have one and only one of -csv, -json, -text, -txt, -xml, -yml, or -yaml&quot;));</span>
+        }
+
+<span class="fc" id="L121">        return exceptions;</span>
+    }
+
+    protected void doProcessing() throws Exception {
+<span class="nc" id="L125">        LogManager.getLogger(OOMetrics.class).debug(&quot;Reading configuration ...&quot;);</span>
+<span class="nc" id="L126">        getVerboseListener().print(&quot;Reading configuration ...&quot;);</span>
+
+<span class="nc" id="L128">        String projectName = getCommandLine().getSingleSwitch(&quot;project-name&quot;);</span>
+
+        MetricsFactory factory;
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        if (getCommandLine().isPresent(&quot;configuration&quot;)) {</span>
+<span class="nc" id="L132">            factory = new MetricsFactory(projectName, new MetricsConfigurationLoader(getCommandLine().getToggleSwitch(&quot;validate&quot;)).load(getCommandLine().getSingleSwitch(&quot;configuration&quot;)));</span>
+        } else {
+<span class="nc" id="L134">            factory = new MetricsFactory(projectName, new MetricsConfigurationLoader(getCommandLine().getToggleSwitch(&quot;validate&quot;)).load(getCommandLine().getSingleSwitch(&quot;default-configuration&quot;)));</span>
+        }
+
+<span class="nc" id="L137">        MetricsGatherer gatherer = new MetricsGatherer(factory);</span>
+<span class="nc bnc" id="L138" title="All 4 branches missed.">        if (getCommandLine().isPresent(&quot;scope-includes-list&quot;) || getCommandLine().isPresent(&quot;scope-excludes-list&quot;)) {</span>
+<span class="nc" id="L139">            gatherer.setScopeIncludes(createCollection(getCommandLine().getMultipleSwitch(&quot;scope-includes-list&quot;), getCommandLine().getMultipleSwitch(&quot;scope-excludes-list&quot;)));</span>
+        }
+<span class="nc bnc" id="L141" title="All 4 branches missed.">        if (getCommandLine().isPresent(&quot;filter-includes-list&quot;) || getCommandLine().isPresent(&quot;filter-excludes-list&quot;)) {</span>
+<span class="nc" id="L142">            gatherer.setFilterIncludes(createCollection(getCommandLine().getMultipleSwitch(&quot;filter-includes-list&quot;), getCommandLine().getMultipleSwitch(&quot;filter-excludes-list&quot;)));</span>
+        }
+<span class="nc" id="L144">        gatherer.addMetricsListener(getVerboseListener());</span>
+
+<span class="nc bnc" id="L146" title="All 2 branches missed.">        if (getCommandLine().isPresent(&quot;enable-cross-class-measurements&quot;)) {</span>
+<span class="nc" id="L147">            LogManager.getLogger(OOMetrics.class).debug(&quot;Reading in all classes ...&quot;);</span>
+<span class="nc" id="L148">            getVerboseListener().print(&quot;Reading in all classes ...&quot;);</span>
+<span class="nc" id="L149">            ClassfileLoader loader = new AggregatingClassfileLoader();</span>
+<span class="nc" id="L150">            loader.addLoadListener(getVerboseListener());</span>
+<span class="nc" id="L151">            loader.load(getCommandLine().getParameters());</span>
+
+<span class="nc" id="L153">            LogManager.getLogger(OOMetrics.class).debug(&quot;Computing metrics ...&quot;);</span>
+<span class="nc" id="L154">            getVerboseListener().print(&quot;Computing metrics ...&quot;);</span>
+<span class="nc" id="L155">            gatherer.visitClassfiles(loader.getAllClassfiles());</span>
+<span class="nc" id="L156">        } else {</span>
+<span class="nc" id="L157">            ClassfileLoader loader = new TransientClassfileLoader();</span>
+<span class="nc" id="L158">            loader.addLoadListener(getVerboseListener());</span>
+<span class="nc" id="L159">            loader.addLoadListener(new LoadListenerVisitorAdapter(gatherer));</span>
+
+<span class="nc" id="L161">            LogManager.getLogger(OOMetrics.class).debug(&quot;Reading classes and computing metrics as we go ...&quot;);</span>
+<span class="nc" id="L162">            getVerboseListener().print(&quot;Reading classes and computing metrics as we go ...&quot;);</span>
+<span class="nc" id="L163">            loader.load(getCommandLine().getParameters());</span>
+        }
+
+<span class="nc bnc" id="L166" title="All 2 branches missed.">        if (getCommandLine().isPresent(&quot;show-all-metrics&quot;)) {</span>
+<span class="nc" id="L167">            gatherer.getMetricsFactory().getAllClassMetrics().forEach(metrics -&gt; gatherer.getMetricsFactory().includeClassMetrics(metrics));</span>
+<span class="nc" id="L168">            gatherer.getMetricsFactory().getAllMethodMetrics().forEach(metrics -&gt; gatherer.getMetricsFactory().includeMethodMetrics(metrics));</span>
+        }
+
+<span class="nc" id="L171">        LogManager.getLogger(OOMetrics.class).debug(&quot;Printing results ...&quot;);</span>
+<span class="nc" id="L172">        getVerboseListener().print(&quot;Printing results ...&quot;);</span>
+
+<span class="nc bnc" id="L174" title="All 2 branches missed.">        if (getCommandLine().isPresent(&quot;csv&quot;)) {</span>
+<span class="nc" id="L175">            printCSVFiles(gatherer.getMetricsFactory());</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">        } else if (getCommandLine().isPresent(&quot;json&quot;)) {</span>
+<span class="nc" id="L177">            printJSONFile(gatherer.getMetricsFactory());</span>
+<span class="nc bnc" id="L178" title="All 4 branches missed.">        } else if (getCommandLine().isPresent(&quot;text&quot;) || getCommandLine().isPresent(&quot;txt&quot;)) {</span>
+<span class="nc" id="L179">            printTextFile(gatherer.getMetricsFactory());</span>
+<span class="nc bnc" id="L180" title="All 2 branches missed.">        } else if (getCommandLine().isPresent(&quot;xml&quot;)) {</span>
+<span class="nc" id="L181">            printXMLFile(gatherer.getMetricsFactory());</span>
+<span class="nc bnc" id="L182" title="All 4 branches missed.">        } else if (getCommandLine().isPresent(&quot;yaml&quot;) || getCommandLine().isPresent(&quot;yml&quot;)) {</span>
+<span class="nc" id="L183">            printYAMLFile(gatherer.getMetricsFactory());</span>
+        }
+
+<span class="nc" id="L186">        LogManager.getLogger(OOMetrics.class).debug(&quot;Done.&quot;);</span>
+<span class="nc" id="L187">    }</span>
+
+    private static Collection&lt;String&gt; createCollection(Collection&lt;String&gt; includes, Collection&lt;String&gt; excludes) throws IOException {
+<span class="nc" id="L190">        Collection&lt;String&gt; result = new HashSet&lt;&gt;();</span>
+
+<span class="nc bnc" id="L192" title="All 2 branches missed.">        for (String include : includes) {</span>
+<span class="nc" id="L193">            result.addAll(Files.readAllLines(Paths.get(include)));</span>
+<span class="nc" id="L194">        }</span>
+
+<span class="nc bnc" id="L196" title="All 2 branches missed.">        for (String exclude : excludes) {</span>
+<span class="nc" id="L197">            result.removeAll(Files.readAllLines(Paths.get(exclude)));</span>
+<span class="nc" id="L198">        }</span>
+
+<span class="nc" id="L200">        return result;</span>
+    }
+
+    private void printCSVFiles(MetricsFactory factory) throws IOException {
+<span class="nc" id="L204">        printCSVFile(&quot;project&quot;, &quot;Project&quot;, factory.getConfiguration().getProjectMeasurements(), factory.getProjectMetrics());</span>
+<span class="nc" id="L205">        printCSVFile(&quot;groups&quot;,  &quot;Groups&quot;,  factory.getConfiguration().getGroupMeasurements(),   factory.getGroupMetrics());</span>
+<span class="nc" id="L206">        printCSVFile(&quot;classes&quot;, &quot;Classes&quot;, factory.getConfiguration().getClassMeasurements(),   factory.getClassMetrics());</span>
+<span class="nc" id="L207">        printCSVFile(&quot;methods&quot;, &quot;Methods&quot;, factory.getConfiguration().getMethodMeasurements(),  factory.getMethodMetrics());</span>
+<span class="nc" id="L208">    }</span>
+
+    private void printCSVFile(String name, String label, List&lt;MeasurementDescriptor&gt; descriptors, Collection&lt;Metrics&gt; metrics) throws IOException {
+<span class="nc bnc" id="L211" title="All 2 branches missed.">        if (getCommandLine().getToggleSwitch(name)) {</span>
+<span class="nc bnc" id="L212" title="All 2 branches missed.">            if (getCommandLine().isPresent(&quot;out&quot;)) {</span>
+<span class="nc" id="L213">                setOut(new PrintWriter(new FileWriter(getCommandLine().getSingleSwitch(&quot;out&quot;) + &quot;_&quot; + name + &quot;.csv&quot;)));</span>
+            } else {
+<span class="nc" id="L215">                getOut().print(label);</span>
+<span class="nc" id="L216">                getOut().println(&quot;:&quot;);</span>
+            }
+
+<span class="nc" id="L219">            printMetrics(descriptors, metrics, CSVPrinter.class);</span>
+
+<span class="nc bnc" id="L221" title="All 2 branches missed.">            if (getCommandLine().isPresent(&quot;out&quot;)) {</span>
+<span class="nc" id="L222">                getOut().close();</span>
+            }
+        }
+<span class="nc" id="L225">    }</span>
+
+    private void printJSONFile(MetricsFactory factory) throws IOException {
+<span class="nc" id="L228">        printMetrics(factory.getProjectMetrics(), new JSONPrinter(getOut(), factory.getConfiguration()));</span>
+<span class="nc" id="L229">        getOut().close();</span>
+<span class="nc" id="L230">    }</span>
+
+    private void printTextFile(MetricsFactory factory) throws IOException {
+<span class="nc" id="L233">        printTextFile(&quot;project&quot;, &quot;Project metrics&quot;, factory.getConfiguration().getProjectMeasurements(), factory.getProjectMetrics());</span>
+<span class="nc" id="L234">        printTextFile(&quot;groups&quot;,  &quot;Group metrics&quot;,   factory.getConfiguration().getGroupMeasurements(),   factory.getGroupMetrics());</span>
+<span class="nc" id="L235">        printTextFile(&quot;classes&quot;, &quot;Class metrics&quot;,   factory.getConfiguration().getClassMeasurements(),   factory.getClassMetrics());</span>
+<span class="nc" id="L236">        printTextFile(&quot;methods&quot;, &quot;Method metrics&quot;,  factory.getConfiguration().getMethodMeasurements(),  factory.getMethodMetrics());</span>
+<span class="nc" id="L237">        getOut().close();</span>
+<span class="nc" id="L238">    }</span>
+
+    private void printTextFile(String name, String label, List&lt;MeasurementDescriptor&gt; descriptors, Collection&lt;Metrics&gt; metrics) throws IOException {
+<span class="nc bnc" id="L241" title="All 2 branches missed.">        if (getCommandLine().getToggleSwitch(name)) {</span>
+<span class="nc" id="L242">            getOut().println(label);</span>
+<span class="nc" id="L243">            getOut().println(label.replaceAll(&quot;.&quot;, &quot;-&quot;));</span>
+<span class="nc" id="L244">            printMetrics(descriptors, metrics, TextPrinter.class);</span>
+<span class="nc" id="L245">            getOut().println();</span>
+        }
+<span class="nc" id="L247">    }</span>
+
+    private void printXMLFile(MetricsFactory factory) throws IOException {
+<span class="nc" id="L250">        printMetrics(factory.getProjectMetrics(), new XMLPrinter(getOut(), factory.getConfiguration(), getCommandLine().getSingleSwitch(&quot;encoding&quot;), getCommandLine().getSingleSwitch(&quot;dtd-prefix&quot;)));</span>
+<span class="nc" id="L251">        getOut().close();</span>
+<span class="nc" id="L252">    }</span>
+
+    private void printYAMLFile(MetricsFactory factory) throws IOException {
+<span class="nc" id="L255">        printMetrics(factory.getProjectMetrics(), new YAMLPrinter(getOut(), factory.getConfiguration()));</span>
+<span class="nc" id="L256">        getOut().close();</span>
+<span class="nc" id="L257">    }</span>
+
+    private void printMetrics(List&lt;MeasurementDescriptor&gt; descriptors, Collection&lt;Metrics&gt; metrics, Class&lt;? extends Printer&gt; clazz) throws IOException {
+        try {
+<span class="nc" id="L261">            printMetrics(metrics, clazz.getConstructor(PrintWriter.class, List.class).newInstance(getOut(), descriptors));</span>
+<span class="nc" id="L262">        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {</span>
+<span class="nc" id="L263">            throw new RuntimeException(ex);</span>
+<span class="nc" id="L264">        }</span>
+<span class="nc" id="L265">    }</span>
+
+    private void printMetrics(Collection&lt;Metrics&gt; metrics, Printer printer) {
+<span class="nc" id="L268">        printer.setExpandCollectionMeasurements(getCommandLine().getToggleSwitch(&quot;expand&quot;));</span>
+<span class="nc" id="L269">        printer.setShowEmptyMetrics(getCommandLine().isPresent(&quot;show-empty-metrics&quot;));</span>
+<span class="nc" id="L270">        printer.setShowHiddenMeasurements(getCommandLine().isPresent(&quot;show-hidden-measurements&quot;));</span>
+<span class="nc bnc" id="L271" title="All 2 branches missed.">        if (getCommandLine().isPresent(&quot;indent-text&quot;)) {</span>
+<span class="nc" id="L272">            printer.setIndentText(getCommandLine().getSingleSwitch(&quot;indent-text&quot;));</span>
+        }
+
+<span class="nc" id="L275">        var comparator = new MetricsComparator(getCommandLine().getSingleSwitch(&quot;sort&quot;));</span>
+<span class="nc bnc" id="L276" title="All 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;reverse&quot;)) {</span>
+<span class="nc" id="L277">            comparator.reverse();</span>
+        }
+<span class="nc" id="L279">        printer.setComparator(comparator);</span>
+
+<span class="nc" id="L281">        printer.visitMetrics(metrics);</span>
+<span class="nc" id="L282">    }</span>
+
+    public static void main(String[] args) throws Exception {
+<span class="nc" id="L285">        new OOMetrics().run(args);</span>
+<span class="nc" id="L286">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

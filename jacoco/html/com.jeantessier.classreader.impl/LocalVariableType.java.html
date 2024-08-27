@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LocalVariableType.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader.impl</a> &gt; <span class="el_source">LocalVariableType.java</span></div><h1>LocalVariableType.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.classreader.impl;
+
+import java.io.*;
+
+import org.apache.logging.log4j.*;
+
+import com.jeantessier.classreader.*;
+
+public class LocalVariableType implements com.jeantessier.classreader.LocalVariableType {
+    private final LocalVariableTypeTable_attribute localVariableTypeTable;
+    private final int startPC;
+    private final int length;
+    private final int nameIndex;
+    private final int signatureIndex;
+    private final int index;
+
+<span class="fc" id="L49">    public LocalVariableType(LocalVariableTypeTable_attribute localVariableTypeTable, DataInput in) throws IOException {</span>
+<span class="fc" id="L50">        this.localVariableTypeTable = localVariableTypeTable;</span>
+
+<span class="fc" id="L52">        startPC = in.readUnsignedShort();</span>
+<span class="fc" id="L53">        LogManager.getLogger(getClass()).debug(&quot;start PC: {}&quot;, startPC);</span>
+
+<span class="fc" id="L55">        length = in.readUnsignedShort();</span>
+<span class="fc" id="L56">        LogManager.getLogger(getClass()).debug(&quot;length: {}&quot;, length);</span>
+
+<span class="fc" id="L58">        nameIndex = in.readUnsignedShort();</span>
+<span class="fc" id="L59">        LogManager.getLogger(getClass()).debug(&quot;name: {} ({})&quot;, nameIndex, getName());</span>
+
+<span class="fc" id="L61">        signatureIndex = in.readUnsignedShort();</span>
+<span class="fc" id="L62">        LogManager.getLogger(getClass()).debug(&quot;signature: {} ({})&quot;, signatureIndex, getSignature());</span>
+
+<span class="fc" id="L64">        index = in.readUnsignedShort();</span>
+<span class="fc" id="L65">        LogManager.getLogger(getClass()).debug(&quot;index: {}&quot;, index);</span>
+<span class="fc" id="L66">    }</span>
+
+    public LocalVariableTypeTable_attribute getLocalVariableTypeTable() {
+<span class="fc" id="L69">        return localVariableTypeTable;</span>
+    }
+
+    public int getStartPC() {
+<span class="fc" id="L73">        return startPC;</span>
+    }
+
+    public int getLength() {
+<span class="fc" id="L77">        return length;</span>
+    }
+
+    public int getNameIndex() {
+<span class="fc" id="L81">        return nameIndex;</span>
+    }
+
+    public UTF8_info getRawName() {
+<span class="fc" id="L85">        return (UTF8_info) getLocalVariableTypeTable().getConstantPool().get(getNameIndex());</span>
+    }
+
+    public String getName() {
+<span class="fc" id="L89">        return getRawName().getValue();</span>
+    }
+
+    public int getSignatureIndex() {
+<span class="fc" id="L93">        return signatureIndex;</span>
+    }
+
+    public UTF8_info getRawSignature() {
+<span class="fc" id="L97">        return (UTF8_info) getLocalVariableTypeTable().getConstantPool().get(getSignatureIndex());</span>
+    }
+
+    public String getSignature() {
+<span class="fc" id="L101">        return getRawSignature().getValue();</span>
+    }
+
+    public int getIndex() {
+<span class="fc" id="L105">        return index;</span>
+    }
+
+    public String toString() {
+<span class="nc" id="L109">        return &quot;Local variable type &quot; + getSignature() + &quot; &quot; + getName();</span>
+    }
+
+    public void accept(Visitor visitor) {
+<span class="nc" id="L113">        visitor.visitLocalVariableType(this);</span>
+<span class="nc" id="L114">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

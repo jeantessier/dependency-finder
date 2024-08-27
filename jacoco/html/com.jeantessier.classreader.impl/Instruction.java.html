@@ -1,0 +1,1018 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Instruction.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader.impl</a> &gt; <span class="el_source">Instruction.java</span></div><h1>Instruction.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.classreader.impl;
+
+import com.jeantessier.classreader.BootstrapMethodFinder;
+import com.jeantessier.classreader.LocalVariableFinder;
+import com.jeantessier.classreader.Visitor;
+import org.apache.logging.log4j.*;
+
+import java.util.*;
+
+public class Instruction implements com.jeantessier.classreader.Instruction {
+    private static final int NB_OPCODES = 0x100;
+
+<span class="fc" id="L45">    private static final String[] opcode = new String[NB_OPCODES];</span>
+<span class="fc" id="L46">    private static final int[] length = new int[NB_OPCODES];</span>
+
+    static {
+<span class="fc" id="L49">        opcode[0x00] = &quot;nop&quot;;</span>
+<span class="fc" id="L50">        length[0x00] = 1;</span>
+<span class="fc" id="L51">        opcode[0x01] = &quot;aconst_null&quot;;</span>
+<span class="fc" id="L52">        length[0x01] = 1;</span>
+<span class="fc" id="L53">        opcode[0x02] = &quot;iconst_m1&quot;;</span>
+<span class="fc" id="L54">        length[0x02] = 1;</span>
+<span class="fc" id="L55">        opcode[0x03] = &quot;iconst_0&quot;;</span>
+<span class="fc" id="L56">        length[0x03] = 1;</span>
+<span class="fc" id="L57">        opcode[0x04] = &quot;iconst_1&quot;;</span>
+<span class="fc" id="L58">        length[0x04] = 1;</span>
+<span class="fc" id="L59">        opcode[0x05] = &quot;iconst_2&quot;;</span>
+<span class="fc" id="L60">        length[0x05] = 1;</span>
+<span class="fc" id="L61">        opcode[0x06] = &quot;iconst_3&quot;;</span>
+<span class="fc" id="L62">        length[0x06] = 1;</span>
+<span class="fc" id="L63">        opcode[0x07] = &quot;iconst_4&quot;;</span>
+<span class="fc" id="L64">        length[0x07] = 1;</span>
+<span class="fc" id="L65">        opcode[0x08] = &quot;iconst_5&quot;;</span>
+<span class="fc" id="L66">        length[0x08] = 1;</span>
+<span class="fc" id="L67">        opcode[0x09] = &quot;lconst_0&quot;;</span>
+<span class="fc" id="L68">        length[0x09] = 1;</span>
+<span class="fc" id="L69">        opcode[0x0a] = &quot;lconst_1&quot;;</span>
+<span class="fc" id="L70">        length[0x0a] = 1;</span>
+<span class="fc" id="L71">        opcode[0x0b] = &quot;fconst_0&quot;;</span>
+<span class="fc" id="L72">        length[0x0b] = 1;</span>
+<span class="fc" id="L73">        opcode[0x0c] = &quot;fconst_1&quot;;</span>
+<span class="fc" id="L74">        length[0x0c] = 1;</span>
+<span class="fc" id="L75">        opcode[0x0d] = &quot;fconst_2&quot;;</span>
+<span class="fc" id="L76">        length[0x0d] = 1;</span>
+<span class="fc" id="L77">        opcode[0x0e] = &quot;dconst_0&quot;;</span>
+<span class="fc" id="L78">        length[0x0e] = 1;</span>
+<span class="fc" id="L79">        opcode[0x0f] = &quot;dconst_1&quot;;</span>
+<span class="fc" id="L80">        length[0x0f] = 1;</span>
+
+<span class="fc" id="L82">        opcode[0x10] = &quot;bipush&quot;;</span>
+<span class="fc" id="L83">        length[0x10] = 2;</span>
+<span class="fc" id="L84">        opcode[0x11] = &quot;sipush&quot;;</span>
+<span class="fc" id="L85">        length[0x11] = 3;</span>
+<span class="fc" id="L86">        opcode[0x12] = &quot;ldc&quot;;</span>
+<span class="fc" id="L87">        length[0x12] = 2;</span>
+<span class="fc" id="L88">        opcode[0x13] = &quot;ldc_w&quot;;</span>
+<span class="fc" id="L89">        length[0x13] = 3;</span>
+<span class="fc" id="L90">        opcode[0x14] = &quot;ldc2_w&quot;;</span>
+<span class="fc" id="L91">        length[0x14] = 3;</span>
+<span class="fc" id="L92">        opcode[0x15] = &quot;iload&quot;;</span>
+<span class="fc" id="L93">        length[0x15] = 2;</span>
+<span class="fc" id="L94">        opcode[0x16] = &quot;lload&quot;;</span>
+<span class="fc" id="L95">        length[0x16] = 2;</span>
+<span class="fc" id="L96">        opcode[0x17] = &quot;fload&quot;;</span>
+<span class="fc" id="L97">        length[0x17] = 2;</span>
+<span class="fc" id="L98">        opcode[0x18] = &quot;dload&quot;;</span>
+<span class="fc" id="L99">        length[0x18] = 2;</span>
+<span class="fc" id="L100">        opcode[0x19] = &quot;aload&quot;;</span>
+<span class="fc" id="L101">        length[0x19] = 2;</span>
+<span class="fc" id="L102">        opcode[0x1a] = &quot;iload_0&quot;;</span>
+<span class="fc" id="L103">        length[0x1a] = 1;</span>
+<span class="fc" id="L104">        opcode[0x1b] = &quot;iload_1&quot;;</span>
+<span class="fc" id="L105">        length[0x1b] = 1;</span>
+<span class="fc" id="L106">        opcode[0x1c] = &quot;iload_2&quot;;</span>
+<span class="fc" id="L107">        length[0x1c] = 1;</span>
+<span class="fc" id="L108">        opcode[0x1d] = &quot;iload_3&quot;;</span>
+<span class="fc" id="L109">        length[0x1d] = 1;</span>
+<span class="fc" id="L110">        opcode[0x1e] = &quot;lload_0&quot;;</span>
+<span class="fc" id="L111">        length[0x1e] = 1;</span>
+<span class="fc" id="L112">        opcode[0x1f] = &quot;lload_1&quot;;</span>
+<span class="fc" id="L113">        length[0x1f] = 1;</span>
+
+<span class="fc" id="L115">        opcode[0x20] = &quot;lload_2&quot;;</span>
+<span class="fc" id="L116">        length[0x20] = 1;</span>
+<span class="fc" id="L117">        opcode[0x21] = &quot;lload_3&quot;;</span>
+<span class="fc" id="L118">        length[0x21] = 1;</span>
+<span class="fc" id="L119">        opcode[0x22] = &quot;fload_0&quot;;</span>
+<span class="fc" id="L120">        length[0x22] = 1;</span>
+<span class="fc" id="L121">        opcode[0x23] = &quot;fload_1&quot;;</span>
+<span class="fc" id="L122">        length[0x23] = 1;</span>
+<span class="fc" id="L123">        opcode[0x24] = &quot;fload_2&quot;;</span>
+<span class="fc" id="L124">        length[0x24] = 1;</span>
+<span class="fc" id="L125">        opcode[0x25] = &quot;fload_3&quot;;</span>
+<span class="fc" id="L126">        length[0x25] = 1;</span>
+<span class="fc" id="L127">        opcode[0x26] = &quot;dload_0&quot;;</span>
+<span class="fc" id="L128">        length[0x26] = 1;</span>
+<span class="fc" id="L129">        opcode[0x27] = &quot;dload_1&quot;;</span>
+<span class="fc" id="L130">        length[0x27] = 1;</span>
+<span class="fc" id="L131">        opcode[0x28] = &quot;dload_2&quot;;</span>
+<span class="fc" id="L132">        length[0x28] = 1;</span>
+<span class="fc" id="L133">        opcode[0x29] = &quot;dload_3&quot;;</span>
+<span class="fc" id="L134">        length[0x29] = 1;</span>
+<span class="fc" id="L135">        opcode[0x2a] = &quot;aload_0&quot;;</span>
+<span class="fc" id="L136">        length[0x2a] = 1;</span>
+<span class="fc" id="L137">        opcode[0x2b] = &quot;aload_1&quot;;</span>
+<span class="fc" id="L138">        length[0x2b] = 1;</span>
+<span class="fc" id="L139">        opcode[0x2c] = &quot;aload_2&quot;;</span>
+<span class="fc" id="L140">        length[0x2c] = 1;</span>
+<span class="fc" id="L141">        opcode[0x2d] = &quot;aload_3&quot;;</span>
+<span class="fc" id="L142">        length[0x2d] = 1;</span>
+<span class="fc" id="L143">        opcode[0x2e] = &quot;iaload&quot;;</span>
+<span class="fc" id="L144">        length[0x2e] = 1;</span>
+<span class="fc" id="L145">        opcode[0x2f] = &quot;laload&quot;;</span>
+<span class="fc" id="L146">        length[0x2f] = 1;</span>
+
+<span class="fc" id="L148">        opcode[0x30] = &quot;faload&quot;;</span>
+<span class="fc" id="L149">        length[0x30] = 1;</span>
+<span class="fc" id="L150">        opcode[0x31] = &quot;daload&quot;;</span>
+<span class="fc" id="L151">        length[0x31] = 1;</span>
+<span class="fc" id="L152">        opcode[0x32] = &quot;aaload&quot;;</span>
+<span class="fc" id="L153">        length[0x32] = 1;</span>
+<span class="fc" id="L154">        opcode[0x33] = &quot;baload&quot;;</span>
+<span class="fc" id="L155">        length[0x33] = 1;</span>
+<span class="fc" id="L156">        opcode[0x34] = &quot;caload&quot;;</span>
+<span class="fc" id="L157">        length[0x34] = 1;</span>
+<span class="fc" id="L158">        opcode[0x35] = &quot;saload&quot;;</span>
+<span class="fc" id="L159">        length[0x35] = 1;</span>
+<span class="fc" id="L160">        opcode[0x36] = &quot;istore&quot;;</span>
+<span class="fc" id="L161">        length[0x36] = 2;</span>
+<span class="fc" id="L162">        opcode[0x37] = &quot;lstore&quot;;</span>
+<span class="fc" id="L163">        length[0x37] = 2;</span>
+<span class="fc" id="L164">        opcode[0x38] = &quot;fstore&quot;;</span>
+<span class="fc" id="L165">        length[0x38] = 2;</span>
+<span class="fc" id="L166">        opcode[0x39] = &quot;dstore&quot;;</span>
+<span class="fc" id="L167">        length[0x39] = 2;</span>
+<span class="fc" id="L168">        opcode[0x3a] = &quot;astore&quot;;</span>
+<span class="fc" id="L169">        length[0x3a] = 2;</span>
+<span class="fc" id="L170">        opcode[0x3b] = &quot;istore_0&quot;;</span>
+<span class="fc" id="L171">        length[0x3b] = 1;</span>
+<span class="fc" id="L172">        opcode[0x3c] = &quot;istore_1&quot;;</span>
+<span class="fc" id="L173">        length[0x3c] = 1;</span>
+<span class="fc" id="L174">        opcode[0x3d] = &quot;istore_2&quot;;</span>
+<span class="fc" id="L175">        length[0x3d] = 1;</span>
+<span class="fc" id="L176">        opcode[0x3e] = &quot;istore_3&quot;;</span>
+<span class="fc" id="L177">        length[0x3e] = 1;</span>
+<span class="fc" id="L178">        opcode[0x3f] = &quot;lstore_0&quot;;</span>
+<span class="fc" id="L179">        length[0x3f] = 1;</span>
+
+<span class="fc" id="L181">        opcode[0x40] = &quot;lstore_1&quot;;</span>
+<span class="fc" id="L182">        length[0x40] = 1;</span>
+<span class="fc" id="L183">        opcode[0x41] = &quot;lstore_2&quot;;</span>
+<span class="fc" id="L184">        length[0x41] = 1;</span>
+<span class="fc" id="L185">        opcode[0x42] = &quot;lstore_3&quot;;</span>
+<span class="fc" id="L186">        length[0x42] = 1;</span>
+<span class="fc" id="L187">        opcode[0x43] = &quot;fstore_0&quot;;</span>
+<span class="fc" id="L188">        length[0x43] = 1;</span>
+<span class="fc" id="L189">        opcode[0x44] = &quot;fstore_1&quot;;</span>
+<span class="fc" id="L190">        length[0x44] = 1;</span>
+<span class="fc" id="L191">        opcode[0x45] = &quot;fstore_2&quot;;</span>
+<span class="fc" id="L192">        length[0x45] = 1;</span>
+<span class="fc" id="L193">        opcode[0x46] = &quot;fstore_3&quot;;</span>
+<span class="fc" id="L194">        length[0x46] = 1;</span>
+<span class="fc" id="L195">        opcode[0x47] = &quot;dstore_0&quot;;</span>
+<span class="fc" id="L196">        length[0x47] = 1;</span>
+<span class="fc" id="L197">        opcode[0x48] = &quot;dstore_1&quot;;</span>
+<span class="fc" id="L198">        length[0x48] = 1;</span>
+<span class="fc" id="L199">        opcode[0x49] = &quot;dstore_2&quot;;</span>
+<span class="fc" id="L200">        length[0x49] = 1;</span>
+<span class="fc" id="L201">        opcode[0x4a] = &quot;dstore_3&quot;;</span>
+<span class="fc" id="L202">        length[0x4a] = 1;</span>
+<span class="fc" id="L203">        opcode[0x4b] = &quot;astore_0&quot;;</span>
+<span class="fc" id="L204">        length[0x4b] = 1;</span>
+<span class="fc" id="L205">        opcode[0x4c] = &quot;astore_1&quot;;</span>
+<span class="fc" id="L206">        length[0x4c] = 1;</span>
+<span class="fc" id="L207">        opcode[0x4d] = &quot;astore_2&quot;;</span>
+<span class="fc" id="L208">        length[0x4d] = 1;</span>
+<span class="fc" id="L209">        opcode[0x4e] = &quot;astore_3&quot;;</span>
+<span class="fc" id="L210">        length[0x4e] = 1;</span>
+<span class="fc" id="L211">        opcode[0x4f] = &quot;iastore&quot;;</span>
+<span class="fc" id="L212">        length[0x4f] = 1;</span>
+
+<span class="fc" id="L214">        opcode[0x50] = &quot;lastore&quot;;</span>
+<span class="fc" id="L215">        length[0x50] = 1;</span>
+<span class="fc" id="L216">        opcode[0x51] = &quot;fastore&quot;;</span>
+<span class="fc" id="L217">        length[0x51] = 1;</span>
+<span class="fc" id="L218">        opcode[0x52] = &quot;dastore&quot;;</span>
+<span class="fc" id="L219">        length[0x52] = 1;</span>
+<span class="fc" id="L220">        opcode[0x53] = &quot;aastore&quot;;</span>
+<span class="fc" id="L221">        length[0x53] = 1;</span>
+<span class="fc" id="L222">        opcode[0x54] = &quot;bastore&quot;;</span>
+<span class="fc" id="L223">        length[0x54] = 1;</span>
+<span class="fc" id="L224">        opcode[0x55] = &quot;castore&quot;;</span>
+<span class="fc" id="L225">        length[0x55] = 1;</span>
+<span class="fc" id="L226">        opcode[0x56] = &quot;sastore&quot;;</span>
+<span class="fc" id="L227">        length[0x56] = 1;</span>
+<span class="fc" id="L228">        opcode[0x57] = &quot;pop&quot;;</span>
+<span class="fc" id="L229">        length[0x57] = 1;</span>
+<span class="fc" id="L230">        opcode[0x58] = &quot;pop2&quot;;</span>
+<span class="fc" id="L231">        length[0x58] = 1;</span>
+<span class="fc" id="L232">        opcode[0x59] = &quot;dup&quot;;</span>
+<span class="fc" id="L233">        length[0x59] = 1;</span>
+<span class="fc" id="L234">        opcode[0x5a] = &quot;dup_x1&quot;;</span>
+<span class="fc" id="L235">        length[0x5a] = 1;</span>
+<span class="fc" id="L236">        opcode[0x5b] = &quot;dup_x2&quot;;</span>
+<span class="fc" id="L237">        length[0x5b] = 1;</span>
+<span class="fc" id="L238">        opcode[0x5c] = &quot;dup2&quot;;</span>
+<span class="fc" id="L239">        length[0x5c] = 1;</span>
+<span class="fc" id="L240">        opcode[0x5d] = &quot;dup2_x1&quot;;</span>
+<span class="fc" id="L241">        length[0x5d] = 1;</span>
+<span class="fc" id="L242">        opcode[0x5e] = &quot;dup2_x2&quot;;</span>
+<span class="fc" id="L243">        length[0x5e] = 1;</span>
+<span class="fc" id="L244">        opcode[0x5f] = &quot;swap&quot;;</span>
+<span class="fc" id="L245">        length[0x5f] = 1;</span>
+
+<span class="fc" id="L247">        opcode[0x60] = &quot;iadd&quot;;</span>
+<span class="fc" id="L248">        length[0x60] = 1;</span>
+<span class="fc" id="L249">        opcode[0x61] = &quot;ladd&quot;;</span>
+<span class="fc" id="L250">        length[0x61] = 1;</span>
+<span class="fc" id="L251">        opcode[0x62] = &quot;fadd&quot;;</span>
+<span class="fc" id="L252">        length[0x62] = 1;</span>
+<span class="fc" id="L253">        opcode[0x63] = &quot;dadd&quot;;</span>
+<span class="fc" id="L254">        length[0x63] = 1;</span>
+<span class="fc" id="L255">        opcode[0x64] = &quot;isub&quot;;</span>
+<span class="fc" id="L256">        length[0x64] = 1;</span>
+<span class="fc" id="L257">        opcode[0x65] = &quot;lsub&quot;;</span>
+<span class="fc" id="L258">        length[0x65] = 1;</span>
+<span class="fc" id="L259">        opcode[0x66] = &quot;fsub&quot;;</span>
+<span class="fc" id="L260">        length[0x66] = 1;</span>
+<span class="fc" id="L261">        opcode[0x67] = &quot;dsub&quot;;</span>
+<span class="fc" id="L262">        length[0x67] = 1;</span>
+<span class="fc" id="L263">        opcode[0x68] = &quot;imul&quot;;</span>
+<span class="fc" id="L264">        length[0x68] = 1;</span>
+<span class="fc" id="L265">        opcode[0x69] = &quot;lmul&quot;;</span>
+<span class="fc" id="L266">        length[0x69] = 1;</span>
+<span class="fc" id="L267">        opcode[0x6a] = &quot;fmul&quot;;</span>
+<span class="fc" id="L268">        length[0x6a] = 1;</span>
+<span class="fc" id="L269">        opcode[0x6b] = &quot;dmul&quot;;</span>
+<span class="fc" id="L270">        length[0x6b] = 1;</span>
+<span class="fc" id="L271">        opcode[0x6c] = &quot;idiv&quot;;</span>
+<span class="fc" id="L272">        length[0x6c] = 1;</span>
+<span class="fc" id="L273">        opcode[0x6d] = &quot;ldiv&quot;;</span>
+<span class="fc" id="L274">        length[0x6d] = 1;</span>
+<span class="fc" id="L275">        opcode[0x6e] = &quot;fdiv&quot;;</span>
+<span class="fc" id="L276">        length[0x6e] = 1;</span>
+<span class="fc" id="L277">        opcode[0x6f] = &quot;ddiv&quot;;</span>
+<span class="fc" id="L278">        length[0x6f] = 1;</span>
+
+<span class="fc" id="L280">        opcode[0x70] = &quot;irem&quot;;</span>
+<span class="fc" id="L281">        length[0x70] = 1;</span>
+<span class="fc" id="L282">        opcode[0x71] = &quot;lrem&quot;;</span>
+<span class="fc" id="L283">        length[0x71] = 1;</span>
+<span class="fc" id="L284">        opcode[0x72] = &quot;frem&quot;;</span>
+<span class="fc" id="L285">        length[0x72] = 1;</span>
+<span class="fc" id="L286">        opcode[0x73] = &quot;drem&quot;;</span>
+<span class="fc" id="L287">        length[0x73] = 1;</span>
+<span class="fc" id="L288">        opcode[0x74] = &quot;ineg&quot;;</span>
+<span class="fc" id="L289">        length[0x74] = 1;</span>
+<span class="fc" id="L290">        opcode[0x75] = &quot;lneg&quot;;</span>
+<span class="fc" id="L291">        length[0x75] = 1;</span>
+<span class="fc" id="L292">        opcode[0x76] = &quot;fneg&quot;;</span>
+<span class="fc" id="L293">        length[0x76] = 1;</span>
+<span class="fc" id="L294">        opcode[0x77] = &quot;dneg&quot;;</span>
+<span class="fc" id="L295">        length[0x77] = 1;</span>
+<span class="fc" id="L296">        opcode[0x78] = &quot;ishl&quot;;</span>
+<span class="fc" id="L297">        length[0x78] = 1;</span>
+<span class="fc" id="L298">        opcode[0x79] = &quot;lshl&quot;;</span>
+<span class="fc" id="L299">        length[0x79] = 1;</span>
+<span class="fc" id="L300">        opcode[0x7a] = &quot;ishr&quot;;</span>
+<span class="fc" id="L301">        length[0x7a] = 1;</span>
+<span class="fc" id="L302">        opcode[0x7b] = &quot;lshr&quot;;</span>
+<span class="fc" id="L303">        length[0x7b] = 1;</span>
+<span class="fc" id="L304">        opcode[0x7c] = &quot;iushr&quot;;</span>
+<span class="fc" id="L305">        length[0x7c] = 1;</span>
+<span class="fc" id="L306">        opcode[0x7d] = &quot;lushr&quot;;</span>
+<span class="fc" id="L307">        length[0x7d] = 1;</span>
+<span class="fc" id="L308">        opcode[0x7e] = &quot;iand&quot;;</span>
+<span class="fc" id="L309">        length[0x7e] = 1;</span>
+<span class="fc" id="L310">        opcode[0x7f] = &quot;land&quot;;</span>
+<span class="fc" id="L311">        length[0x7f] = 1;</span>
+
+<span class="fc" id="L313">        opcode[0x80] = &quot;ior&quot;;</span>
+<span class="fc" id="L314">        length[0x80] = 1;</span>
+<span class="fc" id="L315">        opcode[0x81] = &quot;lor&quot;;</span>
+<span class="fc" id="L316">        length[0x81] = 1;</span>
+<span class="fc" id="L317">        opcode[0x82] = &quot;ixor&quot;;</span>
+<span class="fc" id="L318">        length[0x82] = 1;</span>
+<span class="fc" id="L319">        opcode[0x83] = &quot;lxor&quot;;</span>
+<span class="fc" id="L320">        length[0x83] = 1;</span>
+<span class="fc" id="L321">        opcode[0x84] = &quot;iinc&quot;;</span>
+<span class="fc" id="L322">        length[0x84] = 3;</span>
+<span class="fc" id="L323">        opcode[0x85] = &quot;i2l&quot;;</span>
+<span class="fc" id="L324">        length[0x85] = 1;</span>
+<span class="fc" id="L325">        opcode[0x86] = &quot;i2f&quot;;</span>
+<span class="fc" id="L326">        length[0x86] = 1;</span>
+<span class="fc" id="L327">        opcode[0x87] = &quot;i2d&quot;;</span>
+<span class="fc" id="L328">        length[0x87] = 1;</span>
+<span class="fc" id="L329">        opcode[0x88] = &quot;l2i&quot;;</span>
+<span class="fc" id="L330">        length[0x88] = 1;</span>
+<span class="fc" id="L331">        opcode[0x89] = &quot;l2f&quot;;</span>
+<span class="fc" id="L332">        length[0x89] = 1;</span>
+<span class="fc" id="L333">        opcode[0x8a] = &quot;l2d&quot;;</span>
+<span class="fc" id="L334">        length[0x8a] = 1;</span>
+<span class="fc" id="L335">        opcode[0x8b] = &quot;f2i&quot;;</span>
+<span class="fc" id="L336">        length[0x8b] = 1;</span>
+<span class="fc" id="L337">        opcode[0x8c] = &quot;f2l&quot;;</span>
+<span class="fc" id="L338">        length[0x8c] = 1;</span>
+<span class="fc" id="L339">        opcode[0x8d] = &quot;f2d&quot;;</span>
+<span class="fc" id="L340">        length[0x8d] = 1;</span>
+<span class="fc" id="L341">        opcode[0x8e] = &quot;d2i&quot;;</span>
+<span class="fc" id="L342">        length[0x8e] = 1;</span>
+<span class="fc" id="L343">        opcode[0x8f] = &quot;d2l&quot;;</span>
+<span class="fc" id="L344">        length[0x8f] = 1;</span>
+
+<span class="fc" id="L346">        opcode[0x90] = &quot;d2f&quot;;</span>
+<span class="fc" id="L347">        length[0x90] = 1;</span>
+<span class="fc" id="L348">        opcode[0x91] = &quot;i2b&quot;;</span>
+<span class="fc" id="L349">        length[0x91] = 1;</span>
+<span class="fc" id="L350">        opcode[0x92] = &quot;i2c&quot;;</span>
+<span class="fc" id="L351">        length[0x92] = 1;</span>
+<span class="fc" id="L352">        opcode[0x93] = &quot;i2s&quot;;</span>
+<span class="fc" id="L353">        length[0x93] = 1;</span>
+<span class="fc" id="L354">        opcode[0x94] = &quot;lcmp&quot;;</span>
+<span class="fc" id="L355">        length[0x94] = 1;</span>
+<span class="fc" id="L356">        opcode[0x95] = &quot;fcmpl&quot;;</span>
+<span class="fc" id="L357">        length[0x95] = 1;</span>
+<span class="fc" id="L358">        opcode[0x96] = &quot;fcmpg&quot;;</span>
+<span class="fc" id="L359">        length[0x96] = 1;</span>
+<span class="fc" id="L360">        opcode[0x97] = &quot;dcmpl&quot;;</span>
+<span class="fc" id="L361">        length[0x97] = 1;</span>
+<span class="fc" id="L362">        opcode[0x98] = &quot;dcmpg&quot;;</span>
+<span class="fc" id="L363">        length[0x98] = 1;</span>
+<span class="fc" id="L364">        opcode[0x99] = &quot;ifeq&quot;;</span>
+<span class="fc" id="L365">        length[0x99] = 3;</span>
+<span class="fc" id="L366">        opcode[0x9a] = &quot;ifne&quot;;</span>
+<span class="fc" id="L367">        length[0x9a] = 3;</span>
+<span class="fc" id="L368">        opcode[0x9b] = &quot;iflt&quot;;</span>
+<span class="fc" id="L369">        length[0x9b] = 3;</span>
+<span class="fc" id="L370">        opcode[0x9c] = &quot;ifge&quot;;</span>
+<span class="fc" id="L371">        length[0x9c] = 3;</span>
+<span class="fc" id="L372">        opcode[0x9d] = &quot;ifgt&quot;;</span>
+<span class="fc" id="L373">        length[0x9d] = 3;</span>
+<span class="fc" id="L374">        opcode[0x9e] = &quot;ifle&quot;;</span>
+<span class="fc" id="L375">        length[0x9e] = 3;</span>
+<span class="fc" id="L376">        opcode[0x9f] = &quot;if_icmpeq&quot;;</span>
+<span class="fc" id="L377">        length[0x9f] = 3;</span>
+
+<span class="fc" id="L379">        opcode[0xa0] = &quot;if_icmpne&quot;;</span>
+<span class="fc" id="L380">        length[0xa0] = 3;</span>
+<span class="fc" id="L381">        opcode[0xa1] = &quot;if_icmplt&quot;;</span>
+<span class="fc" id="L382">        length[0xa1] = 3;</span>
+<span class="fc" id="L383">        opcode[0xa2] = &quot;if_icmpge&quot;;</span>
+<span class="fc" id="L384">        length[0xa2] = 3;</span>
+<span class="fc" id="L385">        opcode[0xa3] = &quot;if_icmpgt&quot;;</span>
+<span class="fc" id="L386">        length[0xa3] = 3;</span>
+<span class="fc" id="L387">        opcode[0xa4] = &quot;if_icmple&quot;;</span>
+<span class="fc" id="L388">        length[0xa4] = 3;</span>
+<span class="fc" id="L389">        opcode[0xa5] = &quot;if_acmpeq&quot;;</span>
+<span class="fc" id="L390">        length[0xa5] = 3;</span>
+<span class="fc" id="L391">        opcode[0xa6] = &quot;if_acmpne&quot;;</span>
+<span class="fc" id="L392">        length[0xa6] = 3;</span>
+<span class="fc" id="L393">        opcode[0xa7] = &quot;goto&quot;;</span>
+<span class="fc" id="L394">        length[0xa7] = 3;</span>
+<span class="fc" id="L395">        opcode[0xa8] = &quot;jsr&quot;;</span>
+<span class="fc" id="L396">        length[0xa8] = 3;</span>
+<span class="fc" id="L397">        opcode[0xa9] = &quot;ret&quot;;</span>
+<span class="fc" id="L398">        length[0xa9] = 2;</span>
+<span class="fc" id="L399">        opcode[0xaa] = &quot;tableswitch&quot;;</span>
+<span class="fc" id="L400">        length[0xaa] = -1;</span>
+<span class="fc" id="L401">        opcode[0xab] = &quot;lookupswitch&quot;;</span>
+<span class="fc" id="L402">        length[0xab] = -1;</span>
+<span class="fc" id="L403">        opcode[0xac] = &quot;ireturn&quot;;</span>
+<span class="fc" id="L404">        length[0xac] = 1;</span>
+<span class="fc" id="L405">        opcode[0xad] = &quot;lreturn&quot;;</span>
+<span class="fc" id="L406">        length[0xad] = 1;</span>
+<span class="fc" id="L407">        opcode[0xae] = &quot;freturn&quot;;</span>
+<span class="fc" id="L408">        length[0xae] = 1;</span>
+<span class="fc" id="L409">        opcode[0xaf] = &quot;dreturn&quot;;</span>
+<span class="fc" id="L410">        length[0xaf] = 1;</span>
+
+<span class="fc" id="L412">        opcode[0xb0] = &quot;areturn&quot;;</span>
+<span class="fc" id="L413">        length[0xb0] = 1;</span>
+<span class="fc" id="L414">        opcode[0xb1] = &quot;return&quot;;</span>
+<span class="fc" id="L415">        length[0xb1] = 1;</span>
+<span class="fc" id="L416">        opcode[0xb2] = &quot;getstatic&quot;;</span>
+<span class="fc" id="L417">        length[0xb2] = 3;</span>
+<span class="fc" id="L418">        opcode[0xb3] = &quot;putstatic&quot;;</span>
+<span class="fc" id="L419">        length[0xb3] = 3;</span>
+<span class="fc" id="L420">        opcode[0xb4] = &quot;getfield&quot;;</span>
+<span class="fc" id="L421">        length[0xb4] = 3;</span>
+<span class="fc" id="L422">        opcode[0xb5] = &quot;putfield&quot;;</span>
+<span class="fc" id="L423">        length[0xb5] = 3;</span>
+<span class="fc" id="L424">        opcode[0xb6] = &quot;invokevirtual&quot;;</span>
+<span class="fc" id="L425">        length[0xb6] = 3;</span>
+<span class="fc" id="L426">        opcode[0xb7] = &quot;invokespecial&quot;;</span>
+<span class="fc" id="L427">        length[0xb7] = 3;</span>
+<span class="fc" id="L428">        opcode[0xb8] = &quot;invokestatic&quot;;</span>
+<span class="fc" id="L429">        length[0xb8] = 3;</span>
+<span class="fc" id="L430">        opcode[0xb9] = &quot;invokeinterface&quot;;</span>
+<span class="fc" id="L431">        length[0xb9] = 5;</span>
+<span class="fc" id="L432">        opcode[0xba] = &quot;invokedynamic&quot;;</span>
+<span class="fc" id="L433">        length[0xba] = 5;</span>
+<span class="fc" id="L434">        opcode[0xbb] = &quot;new&quot;;</span>
+<span class="fc" id="L435">        length[0xbb] = 3;</span>
+<span class="fc" id="L436">        opcode[0xbc] = &quot;newarray&quot;;</span>
+<span class="fc" id="L437">        length[0xbc] = 2;</span>
+<span class="fc" id="L438">        opcode[0xbd] = &quot;anewarray&quot;;</span>
+<span class="fc" id="L439">        length[0xbd] = 3;</span>
+<span class="fc" id="L440">        opcode[0xbe] = &quot;arraylength&quot;;</span>
+<span class="fc" id="L441">        length[0xbe] = 1;</span>
+<span class="fc" id="L442">        opcode[0xbf] = &quot;athrow&quot;;</span>
+<span class="fc" id="L443">        length[0xbf] = 1;</span>
+
+<span class="fc" id="L445">        opcode[0xc0] = &quot;checkcast&quot;;</span>
+<span class="fc" id="L446">        length[0xc0] = 3;</span>
+<span class="fc" id="L447">        opcode[0xc1] = &quot;instanceof&quot;;</span>
+<span class="fc" id="L448">        length[0xc1] = 3;</span>
+<span class="fc" id="L449">        opcode[0xc2] = &quot;monitorenter&quot;;</span>
+<span class="fc" id="L450">        length[0xc2] = 1;</span>
+<span class="fc" id="L451">        opcode[0xc3] = &quot;monitorexit&quot;;</span>
+<span class="fc" id="L452">        length[0xc3] = 1;</span>
+<span class="fc" id="L453">        opcode[0xc4] = &quot;wide&quot;;</span>
+<span class="fc" id="L454">        length[0xc4] = -1;</span>
+<span class="fc" id="L455">        opcode[0xc5] = &quot;multianewarray&quot;;</span>
+<span class="fc" id="L456">        length[0xc5] = 4;</span>
+<span class="fc" id="L457">        opcode[0xc6] = &quot;ifnull&quot;;</span>
+<span class="fc" id="L458">        length[0xc6] = 3;</span>
+<span class="fc" id="L459">        opcode[0xc7] = &quot;ifnonnull&quot;;</span>
+<span class="fc" id="L460">        length[0xc7] = 3;</span>
+<span class="fc" id="L461">        opcode[0xc8] = &quot;goto_w&quot;;</span>
+<span class="fc" id="L462">        length[0xc8] = 5;</span>
+<span class="fc" id="L463">        opcode[0xc9] = &quot;jsr_w&quot;;</span>
+<span class="fc" id="L464">        length[0xc9] = 5;</span>
+<span class="fc" id="L465">        opcode[0xca] = &quot;breakpoint&quot;;</span>
+<span class="fc" id="L466">        length[0xca] = 1;</span>
+<span class="fc" id="L467">        opcode[0xcb] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L468">        length[0xcb] = 1;</span>
+<span class="fc" id="L469">        opcode[0xcc] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L470">        length[0xcc] = 1;</span>
+<span class="fc" id="L471">        opcode[0xcd] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L472">        length[0xcd] = 1;</span>
+<span class="fc" id="L473">        opcode[0xce] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L474">        length[0xce] = 1;</span>
+<span class="fc" id="L475">        opcode[0xcf] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L476">        length[0xcf] = 1;</span>
+
+<span class="fc" id="L478">        opcode[0xd0] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L479">        length[0xd0] = 1;</span>
+<span class="fc" id="L480">        opcode[0xd1] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L481">        length[0xd1] = 1;</span>
+<span class="fc" id="L482">        opcode[0xd2] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L483">        length[0xd2] = 1;</span>
+<span class="fc" id="L484">        opcode[0xd3] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L485">        length[0xd3] = 1;</span>
+<span class="fc" id="L486">        opcode[0xd4] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L487">        length[0xd4] = 1;</span>
+<span class="fc" id="L488">        opcode[0xd5] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L489">        length[0xd5] = 1;</span>
+<span class="fc" id="L490">        opcode[0xd6] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L491">        length[0xd6] = 1;</span>
+<span class="fc" id="L492">        opcode[0xd7] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L493">        length[0xd7] = 1;</span>
+<span class="fc" id="L494">        opcode[0xd8] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L495">        length[0xd8] = 1;</span>
+<span class="fc" id="L496">        opcode[0xd9] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L497">        length[0xd9] = 1;</span>
+<span class="fc" id="L498">        opcode[0xda] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L499">        length[0xda] = 1;</span>
+<span class="fc" id="L500">        opcode[0xdb] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L501">        length[0xdb] = 1;</span>
+<span class="fc" id="L502">        opcode[0xdc] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L503">        length[0xdc] = 1;</span>
+<span class="fc" id="L504">        opcode[0xdd] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L505">        length[0xdd] = 1;</span>
+<span class="fc" id="L506">        opcode[0xde] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L507">        length[0xde] = 1;</span>
+<span class="fc" id="L508">        opcode[0xdf] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L509">        length[0xdf] = 1;</span>
+
+<span class="fc" id="L511">        opcode[0xe0] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L512">        length[0xe0] = 1;</span>
+<span class="fc" id="L513">        opcode[0xe1] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L514">        length[0xe1] = 1;</span>
+<span class="fc" id="L515">        opcode[0xe2] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L516">        length[0xe2] = 1;</span>
+<span class="fc" id="L517">        opcode[0xe3] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L518">        length[0xe3] = 1;</span>
+<span class="fc" id="L519">        opcode[0xe4] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L520">        length[0xe4] = 1;</span>
+<span class="fc" id="L521">        opcode[0xe5] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L522">        length[0xe5] = 1;</span>
+<span class="fc" id="L523">        opcode[0xe6] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L524">        length[0xe6] = 1;</span>
+<span class="fc" id="L525">        opcode[0xe7] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L526">        length[0xe7] = 1;</span>
+<span class="fc" id="L527">        opcode[0xe8] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L528">        length[0xe8] = 1;</span>
+<span class="fc" id="L529">        opcode[0xe9] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L530">        length[0xe9] = 1;</span>
+<span class="fc" id="L531">        opcode[0xea] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L532">        length[0xea] = 1;</span>
+<span class="fc" id="L533">        opcode[0xeb] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L534">        length[0xeb] = 1;</span>
+<span class="fc" id="L535">        opcode[0xec] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L536">        length[0xec] = 1;</span>
+<span class="fc" id="L537">        opcode[0xed] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L538">        length[0xed] = 1;</span>
+<span class="fc" id="L539">        opcode[0xee] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L540">        length[0xee] = 1;</span>
+<span class="fc" id="L541">        opcode[0xef] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L542">        length[0xef] = 1;</span>
+
+<span class="fc" id="L544">        opcode[0xf0] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L545">        length[0xf0] = 1;</span>
+<span class="fc" id="L546">        opcode[0xf1] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L547">        length[0xf1] = 1;</span>
+<span class="fc" id="L548">        opcode[0xf2] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L549">        length[0xf2] = 1;</span>
+<span class="fc" id="L550">        opcode[0xf3] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L551">        length[0xf3] = 1;</span>
+<span class="fc" id="L552">        opcode[0xf4] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L553">        length[0xf4] = 1;</span>
+<span class="fc" id="L554">        opcode[0xf5] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L555">        length[0xf5] = 1;</span>
+<span class="fc" id="L556">        opcode[0xf6] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L557">        length[0xf6] = 1;</span>
+<span class="fc" id="L558">        opcode[0xf7] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L559">        length[0xf7] = 1;</span>
+<span class="fc" id="L560">        opcode[0xf8] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L561">        length[0xf8] = 1;</span>
+<span class="fc" id="L562">        opcode[0xf9] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L563">        length[0xf9] = 1;</span>
+<span class="fc" id="L564">        opcode[0xfa] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L565">        length[0xfa] = 1;</span>
+<span class="fc" id="L566">        opcode[0xfb] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L567">        length[0xfb] = 1;</span>
+<span class="fc" id="L568">        opcode[0xfc] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L569">        length[0xfc] = 1;</span>
+<span class="fc" id="L570">        opcode[0xfd] = &quot;xxxundefinedxxx&quot;;</span>
+<span class="fc" id="L571">        length[0xfd] = 1;</span>
+<span class="fc" id="L572">        opcode[0xfe] = &quot;impdep1&quot;;</span>
+<span class="fc" id="L573">        length[0xfe] = 1;</span>
+<span class="fc" id="L574">        opcode[0xff] = &quot;impdep2&quot;;</span>
+<span class="fc" id="L575">        length[0xff] = 1;</span>
+<span class="fc" id="L576">    }</span>
+
+    private final Code_attribute code;
+    private final byte[] bytecode;
+    private final int start;
+
+<span class="fc" id="L582">    public Instruction(Code_attribute code, byte[] bytecode, int start) {</span>
+<span class="fc" id="L583">        this.code = code;</span>
+<span class="fc" id="L584">        this.bytecode = bytecode;</span>
+<span class="fc" id="L585">        this.start = start;</span>
+<span class="fc" id="L586">    }</span>
+
+    public byte[] getBytecode() {
+<span class="fc" id="L589">        return bytecode;</span>
+    }
+
+    public int getStart() {
+<span class="fc" id="L593">        return start;</span>
+    }
+    
+    public int getOpcode() {
+<span class="fc" id="L597">        return getByte(0);</span>
+    }
+    
+    public static String getMnemonic(int instruction) {
+<span class="fc" id="L601">        return opcode[instruction];</span>
+    }
+        
+    public String getMnemonic() {
+<span class="fc" id="L605">        String result = getMnemonic(getOpcode());</span>
+
+<span class="fc bfc" id="L607" title="All 2 branches covered.">        if (getOpcode() == 0xc4 /* wide */) {</span>
+<span class="fc" id="L608">            result += &quot; &quot; + getMnemonic(getByte(1));</span>
+        }
+
+<span class="fc" id="L611">        return result;</span>
+    }
+
+    public int getLength() {
+<span class="fc bfc" id="L615" title="All 4 branches covered.">        return switch (getOpcode()) {</span>
+            case 0xaa: // tableswitch
+<span class="fc" id="L617">                yield</span>
+                    1 +                             // opcode
+<span class="fc" id="L619">                    getPadding() +                  // padding</span>
+                    12 +                            // (default, low, high) signed 32-bits values
+<span class="fc" id="L621">                    (getHigh() - getLow() + 1) * 4; // (high - low + 1) signed 32-bits values</span>
+
+            case 0xab: // lookupswitch
+<span class="fc" id="L624">                yield</span>
+                    1 +                 // opcode
+<span class="fc" id="L626">                    getPadding() +      // padding</span>
+                    8 +                 // (default, npairs) signed 32-bits values
+<span class="fc" id="L628">                    (getNPairs() * 8);  // npairs * (match, offset) signed 32-bits value</span>
+
+            case 0xc4: // wide
+<span class="fc bfc" id="L631" title="All 2 branches covered.">                yield getByte(1) == 0x84 /* iinc */ ? 6 : 4;</span>
+
+            default:
+<span class="fc" id="L634">                yield length[getOpcode()];</span>
+        };
+    }
+
+    public int getIndex() {
+<span class="fc bfc" id="L639" title="All 8 branches covered.">        return switch (getOpcode()) {</span>
+            case 0x13: // ldc_w
+            case 0x14: // ldc2_w
+            case 0xb2: // getstatic
+            case 0xb3: // putstatic
+            case 0xb4: // getfield
+            case 0xb5: // putfield
+            case 0xb6: // invokevirtual
+            case 0xb7: // invokespecial
+            case 0xb8: // invokestatic
+            case 0xb9: // invokeinterface
+            case 0xba: // invokedynamic
+            case 0xbb: // new
+            case 0xbd: // anewarray
+            case 0xc0: // checkcast
+            case 0xc1: // instanceof
+            case 0xc5: // multianewarray
+<span class="fc" id="L656">                yield getShort(1);</span>
+            case 0x1a: // iload_0
+            case 0x1e: // lload_0
+            case 0x22: // fload_0
+            case 0x26: // dload_0
+            case 0x2a: // aload_0
+            case 0x3b: // istore_0
+            case 0x3f: // lstore_0
+            case 0x43: // fstore_0
+            case 0x47: // dstore_0
+            case 0x4b: // astore_0
+<span class="fc" id="L667">                yield 0;</span>
+            case 0x1b: // iload_1
+            case 0x1f: // lload_1
+            case 0x23: // fload_1
+            case 0x27: // dload_1
+            case 0x2b: // aload_1
+            case 0x3c: // istore_1
+            case 0x40: // lstore_1
+            case 0x44: // fstore_1
+            case 0x48: // dstore_1
+            case 0x4c: // astore_1
+<span class="fc" id="L678">                yield 1;</span>
+            case 0x1c: // iload_2
+            case 0x20: // lload_2
+            case 0x24: // fload_2
+            case 0x28: // dload_2
+            case 0x2c: // aload_2
+            case 0x3d: // istore_2
+            case 0x41: // lstore_2
+            case 0x45: // fstore_2
+            case 0x49: // dstore_2
+            case 0x4d: // astore_2
+<span class="fc" id="L689">                yield 2;</span>
+            case 0x1d: // iload_3
+            case 0x21: // lload_3
+            case 0x25: // fload_3
+            case 0x29: // dload_3
+            case 0x2d: // aload_3
+            case 0x3e: // istore_3
+            case 0x42: // lstore_3
+            case 0x46: // fstore_3
+            case 0x4a: // dstore_3
+            case 0x4e: // astore_3
+<span class="fc" id="L700">                yield 3;</span>
+            case 0x12: // ldc
+            case 0x15: // iload
+            case 0x16: // llload
+            case 0x17: // fload
+            case 0x18: // dload
+            case 0x19: // aload
+            case 0x36: // istore
+            case 0x37: // lstore
+            case 0x38: // fstore
+            case 0x39: // dstore
+            case 0x3a: // astore
+            case 0x84: // iinc
+            case 0xa9: // ret
+<span class="fc" id="L714">                yield getByte(1);</span>
+            case 0xc4: // wide
+<span class="fc" id="L716">                yield getShort(2);</span>
+            default:
+<span class="fc" id="L718">                yield -1;</span>
+        };
+    }
+
+    public int getOffset() {
+<span class="fc bfc" id="L723" title="All 3 branches covered.">        return switch (getOpcode()) {</span>
+            case 0x99: // ifeq
+            case 0x9a: // ifne
+            case 0x9b: // iflt
+            case 0x9c: // ifge
+            case 0x9d: // ifgt
+            case 0x9e: // ifle
+            case 0x9f: // if_icmpeq
+            case 0xa0: // if_icmpne
+            case 0xa1: // if_icmplt
+            case 0xa2: // if_icmpge
+            case 0xa3: // if_icmpgt
+            case 0xa4: // if_icmple
+            case 0xa5: // if_acmpeq
+            case 0xa6: // if_acmpne
+            case 0xa7: // goto
+            case 0xa8: // jsr
+            case 0xc6: // ifnull
+            case 0xc7: // ifnonnull
+<span class="fc" id="L742">                yield getSignedShort(1);</span>
+            case 0xc8: // goto_w
+            case 0xc9: // jsr_w
+<span class="fc" id="L745">                yield getInt(1);</span>
+            default:
+<span class="fc" id="L747">                yield 0;</span>
+        };
+    }
+
+    public int getValue() {
+<span class="fc bfc" id="L752" title="All 12 branches covered.">        return switch (getOpcode()) {</span>
+            case 0x02: // iconst_m1
+<span class="fc" id="L754">                yield -1;</span>
+            case 0x03: // iconst_0
+            case 0x09: // lconst_0
+            case 0x0b: // fconst_0
+            case 0x0e: // dconst_0
+<span class="fc" id="L759">                yield 0;</span>
+            case 0x04: // iconst_1
+            case 0x0a: // lconst_1
+            case 0x0c: // fconst_1
+            case 0x0f: // dconst_1
+<span class="fc" id="L764">                yield 1;</span>
+            case 0x05: // iconst_2
+            case 0x0d: // fconst_2
+<span class="fc" id="L767">                yield 2;</span>
+            case 0x06: // iconst_3
+<span class="fc" id="L769">                yield 3;</span>
+            case 0x07: // iconst_4
+<span class="fc" id="L771">                yield 4;</span>
+            case 0x08: // iconst_5
+<span class="fc" id="L773">                yield 5;</span>
+            case 0x10: // bipush
+<span class="fc" id="L775">                yield getSignedByte(1);</span>
+            case 0x11: // sipush
+<span class="fc" id="L777">                yield getSignedShort(1);</span>
+            case 0x84: // iinc
+<span class="fc" id="L779">                yield getSignedByte(2);</span>
+            case 0xc4: // wide
+<span class="fc bfc" id="L781" title="All 2 branches covered.">                yield getByte(1) == 0x84 /* iinc */ ? getSignedShort(4) : 0;</span>
+            default:
+<span class="fc" id="L783">                yield 0;</span>
+        };
+    }
+
+    public int getPadding() {
+<span class="fc" id="L788">        return 3 - (start % 4);</span>
+    }
+
+    public int getDefault() {
+<span class="nc" id="L792">        return getInt(getPadding() + 1);</span>
+    }
+
+    public int getLow() {
+<span class="fc" id="L796">        return getInt(getPadding() + 5);</span>
+    }
+
+    public int getHigh() {
+<span class="fc" id="L800">        return getInt(getPadding() + 9);</span>
+    }
+
+    public int getNPairs() {
+<span class="fc" id="L804">        return getInt(getPadding() + 5);</span>
+    }
+
+    private byte getSignedByte(int offset) {
+<span class="fc" id="L808">        return getBytecode()[getStart() + offset];</span>
+    }
+
+    public int getByte(int offset) {
+<span class="fc" id="L812">        return getSignedByte(offset) &amp; 0xff;</span>
+    }
+
+    private int getSignedShort(int offset) {
+<span class="fc" id="L816">        return (getSignedByte(offset+0) &lt;&lt; 8) | (getByte(offset+1));</span>
+    }
+
+    private int getShort(int offset) {
+<span class="fc" id="L820">        return (getByte(offset+0) &lt;&lt; 8) | (getByte(offset+1));</span>
+    }
+
+    public int getInt(int offset) {
+<span class="fc" id="L824">        return (getByte(offset+0) &lt;&lt; 24) | (getByte(offset+1) &lt;&lt; 16) | (getByte(offset+2) &lt;&lt; 8) | (getByte(offset+3));</span>
+    }
+
+    public com.jeantessier.classreader.ConstantPoolEntry getIndexedConstantPoolEntry() {
+<span class="fc bfc" id="L828" title="All 2 branches covered.">        return switch (getOpcode()) {</span>
+            case 0x12: // ldc
+            case 0x13: // ldc_w
+            case 0x14: // ldc2_w
+            case 0xb2: // getstatic
+            case 0xb3: // putstatic
+            case 0xb4: // getfield
+            case 0xb5: // putfield
+            case 0xb6: // invokevirtual
+            case 0xb7: // invokespecial
+            case 0xb8: // invokestatic
+            case 0xb9: // invokeinterface
+            case 0xba: // invokedynamic
+            case 0xbb: // new
+            case 0xbd: // anewarray
+            case 0xc0: // checkcast
+            case 0xc1: // instanceof
+            case 0xc5: // multianewarray
+<span class="fc" id="L846">                yield code.getConstantPool().get(getIndex());</span>
+            default:
+<span class="fc" id="L848">                yield null;</span>
+        };
+    }
+
+    public Collection&lt;? extends ConstantPoolEntry&gt; getDynamicConstantPoolEntries() {
+<span class="fc bfc" id="L853" title="All 2 branches covered.">        return switch (getOpcode()) {</span>
+            case 0xba: // invokedynamic
+<span class="fc" id="L855">                LogManager.getLogger(getClass()).debug(&quot;getDynamicConstantPoolEntries()&quot;);</span>
+<span class="fc bfc" id="L856" title="All 2 branches covered.">                if (getIndexedConstantPoolEntry() instanceof Dynamic_info entry) {</span>
+<span class="fc" id="L857">                    BootstrapMethodFinder finder = new BootstrapMethodFinder(entry.getBootstrapMethodAttrIndex());</span>
+<span class="fc" id="L858">                    code.getConstantPool().getClassfile().accept(finder);</span>
+<span class="fc" id="L859">                    yield finder.getBootstrapMethod().getArguments().stream()</span>
+<span class="fc" id="L860">                            .filter(argument -&gt; argument instanceof MethodHandle_info)</span>
+<span class="fc" id="L861">                            .map(methodHandle -&gt; ((MethodHandle_info) methodHandle).getReference())</span>
+<span class="fc" id="L862">                            .toList();</span>
+<span class="fc bfc" id="L863" title="All 2 branches covered.">                } else if (getIndexedConstantPoolEntry() instanceof InvokeDynamic_info entry) {</span>
+<span class="fc" id="L864">                    BootstrapMethodFinder finder = new BootstrapMethodFinder(entry.getBootstrapMethodAttrIndex());</span>
+<span class="fc" id="L865">                    code.getConstantPool().getClassfile().accept(finder);</span>
+<span class="fc" id="L866">                    yield finder.getBootstrapMethod().getArguments().stream()</span>
+<span class="fc" id="L867">                            .filter(argument -&gt; argument instanceof MethodHandle_info)</span>
+<span class="fc" id="L868">                            .map(methodHandle -&gt; ((MethodHandle_info) methodHandle).getReference())</span>
+<span class="fc" id="L869">                            .toList();</span>
+                } else {
+<span class="fc" id="L871">                    yield Collections.emptyList();</span>
+                }
+            default:
+<span class="fc" id="L874">                yield Collections.emptyList();</span>
+        };
+
+        // TODO: Replace with type pattern matching in switch expression in Java 21
+        // return switch (getIndexedConstantPoolEntry()) {
+        //     case Dynamic_info entry -&gt; {
+        //         BootstrapMethodFinder finder = new BootstrapMethodFinder(entry.getBootstrapMethodAttrIndex());
+        //         code.getConstantPool().getClassfile().accept(finder);
+        //         yield finder.getBootstrapMethod().getArguments().stream()
+        //                 .filter(argument -&gt; argument instanceof MethodHandle_info)
+        //                 .map(methodHandle -&gt; ((MethodHandle_info) methodHandle).getReference());
+        //     }
+        //     case InvokeDynamic_info entry -&gt; {
+        //         BootstrapMethodFinder finder = new BootstrapMethodFinder(entry.getBootstrapMethodAttrIndex());
+        //         code.getConstantPool().getClassfile().accept(finder);
+        //         yield finder.getBootstrapMethod().getArguments().stream()
+        //                 .filter(argument -&gt; argument instanceof MethodHandle_info)
+        //                 .map(methodHandle -&gt; ((MethodHandle_info) methodHandle).getReference());
+        //     }
+        //     default -&gt; Stream.empty();
+        // };
+    }
+
+    public com.jeantessier.classreader.LocalVariable getIndexedLocalVariable() {
+<span class="fc bfc" id="L898" title="All 4 branches covered.">        return switch (getOpcode()) {</span>
+            case 0x1a: // iload_0
+            case 0x1e: // lload_0
+            case 0x22: // fload_0
+            case 0x26: // dload_0
+            case 0x2a: // aload_0
+            case 0x1b: // iload_1
+            case 0x1f: // lload_1
+            case 0x23: // fload_1
+            case 0x27: // dload_1
+            case 0x2b: // aload_1
+            case 0x1c: // iload_2
+            case 0x20: // lload_2
+            case 0x24: // fload_2
+            case 0x28: // dload_2
+            case 0x2c: // aload_2
+            case 0x1d: // iload_3
+            case 0x21: // lload_3
+            case 0x25: // fload_3
+            case 0x29: // dload_3
+            case 0x2d: // aload_3
+            case 0x15: // iload
+            case 0x16: // llload
+            case 0x17: // fload
+            case 0x18: // dload
+            case 0x19: // aload
+            case 0x84: // iinc
+            case 0xa9: // ret
+<span class="fc" id="L926">                yield locateLocalVariable(getStart());</span>
+            case 0x3b: // istore_0
+            case 0x3f: // lstore_0
+            case 0x43: // fstore_0
+            case 0x47: // dstore_0
+            case 0x4b: // astore_0
+            case 0x3c: // istore_1
+            case 0x40: // lstore_1
+            case 0x44: // fstore_1
+            case 0x48: // dstore_1
+            case 0x4c: // astore_1
+            case 0x3d: // istore_2
+            case 0x41: // lstore_2
+            case 0x45: // fstore_2
+            case 0x49: // dstore_2
+            case 0x4d: // astore_2
+            case 0x3e: // istore_3
+            case 0x42: // lstore_3
+            case 0x46: // fstore_3
+            case 0x4a: // dstore_3
+            case 0x4e: // astore_3
+            case 0x36: // istore
+            case 0x37: // lstore
+            case 0x38: // fstore
+            case 0x39: // dstore
+            case 0x3a: // astore
+<span class="fc" id="L952">                yield locateLocalVariable(getStart() + getLength());</span>
+            case 0xc4: // wide
+<span class="pc bpc" id="L954" title="1 of 4 branches missed.">                if (getByte(1) &gt;= 0x36 &amp;&amp; getByte(1) &lt;= 0x3a) {</span>
+<span class="fc" id="L955">                    yield locateLocalVariable(getStart() + getLength());</span>
+                } else {
+<span class="fc" id="L957">                    yield locateLocalVariable(getStart());</span>
+                }
+            default:
+<span class="fc" id="L960">                yield null;</span>
+        };
+    }
+
+    private com.jeantessier.classreader.LocalVariable locateLocalVariable(int pc) {
+<span class="fc" id="L965">        LocalVariableFinder finder = new LocalVariableFinder(getIndex(), pc);</span>
+<span class="fc" id="L966">        code.accept(finder);</span>
+<span class="fc" id="L967">        return finder.getLocalVariable();</span>
+    }
+
+    public int hashCode() {
+<span class="fc" id="L971">        int result = getOpcode();</span>
+
+<span class="fc bfc" id="L973" title="All 2 branches covered.">        if (getIndexedConstantPoolEntry() != null) {</span>
+<span class="fc" id="L974">            result ^= getIndexedConstantPoolEntry().hashCode();</span>
+        } else {
+<span class="pc bpc" id="L976" title="1 of 2 branches missed.">            for (int i=1; i&lt;getLength(); i++) {</span>
+<span class="nc" id="L977">                result ^= bytecode[start+i];</span>
+            }
+        }
+
+<span class="fc" id="L981">        return result;</span>
+    }
+
+    public boolean equals(Object object) {
+        boolean result;
+
+<span class="fc bfc" id="L987" title="All 2 branches covered.">        if (this == object) {</span>
+<span class="fc" id="L988">            result = true;</span>
+<span class="pc bpc" id="L989" title="1 of 4 branches missed.">        } else if (object == null || getClass() != object.getClass()) {</span>
+<span class="fc" id="L990">            result = false;</span>
+        } else {
+<span class="fc" id="L992">            Instruction other = (Instruction) object;</span>
+<span class="fc bfc" id="L993" title="All 2 branches covered.">            result = getOpcode() == other.getOpcode();</span>
+
+<span class="pc bpc" id="L995" title="1 of 2 branches missed.">            ConstantPoolEntry thisEntry = (ConstantPoolEntry) ((code != null) ? getIndexedConstantPoolEntry() : null);</span>
+<span class="pc bpc" id="L996" title="1 of 2 branches missed.">            ConstantPoolEntry otherEntry = (ConstantPoolEntry) ((other.code != null) ? other.getIndexedConstantPoolEntry() : null);</span>
+
+<span class="pc bpc" id="L998" title="1 of 6 branches missed.">            if (result &amp;&amp; thisEntry != null &amp;&amp; otherEntry != null) {</span>
+<span class="fc" id="L999">                result = thisEntry.equals(otherEntry);</span>
+            } else {
+<span class="pc bpc" id="L1001" title="1 of 4 branches missed.">                for (int i=1; result &amp;&amp; i&lt;getLength(); i++) {</span>
+<span class="nc bnc" id="L1002" title="All 2 branches missed.">                    result = bytecode[start+i] == other.bytecode[other.start+i];</span>
+                }
+            }
+        }
+
+<span class="fc" id="L1007">        return result;</span>
+    }
+
+    public String toString() {
+<span class="fc" id="L1011">        return getMnemonic();</span>
+    }
+
+    public void accept(Visitor visitor) {
+<span class="fc" id="L1015">        visitor.visitInstruction(this);</span>
+<span class="fc" id="L1016">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

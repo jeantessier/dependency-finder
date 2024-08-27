@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CSVSymbolPrinter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader</a> &gt; <span class="el_source">CSVSymbolPrinter.java</span></div><h1>CSVSymbolPrinter.java</h1><pre class="source lang-java linenums">package com.jeantessier.classreader;
+
+import java.io.*;
+import java.util.*;
+import java.util.stream.*;
+
+import static java.util.stream.Collectors.*;
+
+public class CSVSymbolPrinter extends SymbolPrinter {
+    private final boolean printClasses;
+    private final boolean printFields;
+    private final boolean printMethods;
+    private final boolean printLocalVariables;
+    private final boolean printInnerClasses;
+    private final Optional&lt;String&gt; outPrefix;
+
+    public CSVSymbolPrinter(PrintWriter out, boolean printClasses, boolean printFields, boolean printMethods, boolean printLocalVariables, boolean printInnerClasses, Optional&lt;String&gt; outPrefix) {
+<span class="nc" id="L18">        super(out);</span>
+<span class="nc" id="L19">        this.printClasses = printClasses;</span>
+<span class="nc" id="L20">        this.printFields = printFields;</span>
+<span class="nc" id="L21">        this.printMethods = printMethods;</span>
+<span class="nc" id="L22">        this.printLocalVariables = printLocalVariables;</span>
+<span class="nc" id="L23">        this.printInnerClasses = printInnerClasses;</span>
+<span class="nc" id="L24">        this.outPrefix = outPrefix;</span>
+<span class="nc" id="L25">    }</span>
+
+    public void print(SymbolGatherer gatherer) throws IOException {
+<span class="nc" id="L28">        var symbolMap = gatherer.stream()</span>
+<span class="nc" id="L29">                .collect(groupingBy(symbol -&gt; {</span>
+<span class="nc bnc" id="L30" title="All 2 branches missed.">                    if (symbol instanceof Classfile) {</span>
+<span class="nc" id="L31">                        return Classfile.class;</span>
+                    }
+<span class="nc bnc" id="L33" title="All 2 branches missed.">                    if (symbol instanceof Field_info) {</span>
+<span class="nc" id="L34">                        return Field_info.class;</span>
+                    }
+<span class="nc bnc" id="L36" title="All 2 branches missed.">                    if (symbol instanceof Method_info) {</span>
+<span class="nc" id="L37">                        return Method_info.class;</span>
+                    }
+<span class="nc bnc" id="L39" title="All 2 branches missed.">                    if (symbol instanceof LocalVariable) {</span>
+<span class="nc" id="L40">                        return LocalVariable.class;</span>
+                    }
+<span class="nc bnc" id="L42" title="All 2 branches missed.">                    if (symbol instanceof InnerClass) {</span>
+<span class="nc" id="L43">                        return InnerClass.class;</span>
+                    }
+<span class="nc" id="L45">                    return Object.class;</span>
+                }));
+
+<span class="nc" id="L48">        printCSVFile(printClasses, &quot;classes&quot;, &quot;Classes&quot;, Classfile.class, symbolMap.get(Classfile.class));</span>
+<span class="nc" id="L49">        printCSVFile(printFields, &quot;fields&quot;, &quot;Fields&quot;, Field_info.class, symbolMap.get(Field_info.class));</span>
+<span class="nc" id="L50">        printCSVFile(printMethods, &quot;methods&quot;, &quot;Methods&quot;, Method_info.class, symbolMap.get(Method_info.class));</span>
+<span class="nc" id="L51">        printCSVFile(printLocalVariables, &quot;local_variables&quot;, &quot;Local Variables&quot;, LocalVariable.class, symbolMap.get(LocalVariable.class));</span>
+<span class="nc" id="L52">        printCSVFile(printInnerClasses, &quot;inner_classes&quot;, &quot;Inner Classes&quot;, InnerClass.class, symbolMap.get(InnerClass.class));</span>
+<span class="nc" id="L53">    }</span>
+
+    private void printCSVFile(boolean printFlag, String outSuffix, String sectionTitle, Class&lt;? extends Visitable&gt; visitableClass, Iterable&lt;? extends Visitable&gt; visitables) throws IOException {
+<span class="nc bnc" id="L56" title="All 4 branches missed.">        if (printFlag &amp;&amp; visitables != null) {</span>
+            PrintWriter out;
+
+<span class="nc bnc" id="L59" title="All 2 branches missed.">            if (outPrefix.isPresent()) {</span>
+<span class="nc" id="L60">                out = new PrintWriter(new FileWriter(outPrefix.get() + &quot;_&quot; + outSuffix + &quot;.csv&quot;));</span>
+            } else {
+<span class="nc" id="L62">                out = getOut();</span>
+<span class="nc" id="L63">                out.print(sectionTitle);</span>
+<span class="nc" id="L64">                out.println(&quot;:&quot;);</span>
+            }
+
+<span class="nc" id="L67">            out.println(format(getHeadersFor(visitableClass)));</span>
+<span class="nc" id="L68">            visitables.forEach(visitable -&gt; {</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">                out.println(format(getValuesFor(visitable).flatMap(e -&gt; e instanceof Stream&lt;?&gt; stream ? stream : Stream.of(e))));</span>
+<span class="nc" id="L70">            });</span>
+
+<span class="nc bnc" id="L72" title="All 2 branches missed.">            if (outPrefix.isPresent()) {</span>
+<span class="nc" id="L73">                out.close();</span>
+            } else {
+<span class="nc" id="L75">                out.println();</span>
+            }
+        }
+<span class="nc" id="L78">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

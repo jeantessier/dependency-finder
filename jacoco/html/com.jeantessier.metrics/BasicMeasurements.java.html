@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BasicMeasurements.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.metrics</a> &gt; <span class="el_source">BasicMeasurements.java</span></div><h1>BasicMeasurements.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.metrics;
+
+<span class="fc" id="L35">public enum BasicMeasurements {</span>
+<span class="fc" id="L36">    PACKAGES(&quot;P&quot;),</span>
+
+<span class="fc" id="L38">    CLASSES(&quot;C&quot;),</span>
+<span class="fc" id="L39">    PUBLIC_CLASSES(&quot;PuC&quot;),</span>
+<span class="fc" id="L40">    PACKAGE_CLASSES(&quot;PaC&quot;),</span>
+<span class="fc" id="L41">    FINAL_CLASSES(&quot;FC&quot;),</span>
+<span class="fc" id="L42">    SUPER_CLASSES(&quot;SuperC&quot;),</span>
+<span class="fc" id="L43">    INTERFACES(&quot;I&quot;),</span>
+<span class="fc" id="L44">    ABSTRACT_CLASSES(&quot;AC&quot;),</span>
+<span class="fc" id="L45">    SYNTHETIC_CLASSES(&quot;SynthC&quot;),</span>
+<span class="fc" id="L46">    ANNOTATION_CLASSES(&quot;AnnC&quot;),</span>
+<span class="fc" id="L47">    ENUM_CLASSES(&quot;EC&quot;),</span>
+<span class="fc" id="L48">    MODULE_CLASSES(&quot;MC&quot;),</span>
+<span class="fc" id="L49">    DEPRECATED_CLASSES(&quot;DC&quot;),</span>
+<span class="fc" id="L50">    STATIC_CLASSES(&quot;SC&quot;),</span>
+
+<span class="fc" id="L52">    MAJOR_VERSION(&quot;MaV&quot;),</span>
+<span class="fc" id="L53">    MINOR_VERSION(&quot;MiV&quot;),</span>
+
+<span class="fc" id="L55">    METHODS(&quot;M&quot;),</span>
+<span class="fc" id="L56">    PUBLIC_METHODS(&quot;PuM&quot;),</span>
+<span class="fc" id="L57">    PROTECTED_METHODS(&quot;ProM&quot;),</span>
+<span class="fc" id="L58">    PRIVATE_METHODS(&quot;PriM&quot;),</span>
+<span class="fc" id="L59">    PACKAGE_METHODS(&quot;PaM&quot;),</span>
+<span class="fc" id="L60">    FINAL_METHODS(&quot;FM&quot;),</span>
+<span class="fc" id="L61">    ABSTRACT_METHODS(&quot;AM&quot;),</span>
+<span class="fc" id="L62">    DEPRECATED_METHODS(&quot;DM&quot;),</span>
+<span class="fc" id="L63">    SYNTHETIC_METHODS(&quot;SynthM&quot;),</span>
+<span class="fc" id="L64">    STATIC_METHODS(&quot;SM&quot;),</span>
+<span class="fc" id="L65">    SYNCHRONIZED_METHODS(&quot;SynchM&quot;),</span>
+<span class="fc" id="L66">    BRIDGE_METHODS(&quot;BM&quot;),</span>
+<span class="fc" id="L67">    VARARGS_METHODS(&quot;VM&quot;),</span>
+<span class="fc" id="L68">    NATIVE_METHODS(&quot;NM&quot;),</span>
+<span class="fc" id="L69">    STRICT_METHODS(&quot;StrictM&quot;),</span>
+<span class="fc" id="L70">    TRIVIAL_METHODS(&quot;TM&quot;),</span>
+
+<span class="fc" id="L72">    ATTRIBUTES(&quot;A&quot;),</span>
+<span class="fc" id="L73">    PUBLIC_ATTRIBUTES(&quot;PuA&quot;),</span>
+<span class="fc" id="L74">    PROTECTED_ATTRIBUTES(&quot;ProA&quot;),</span>
+<span class="fc" id="L75">    PRIVATE_ATTRIBUTES(&quot;PriA&quot;),</span>
+<span class="fc" id="L76">    PACKAGE_ATTRIBUTES(&quot;PaA&quot;),</span>
+<span class="fc" id="L77">    FINAL_ATTRIBUTES(&quot;FA&quot;),</span>
+<span class="fc" id="L78">    DEPRECATED_ATTRIBUTES(&quot;DA&quot;),</span>
+<span class="fc" id="L79">    SYNTHETIC_ATTRIBUTES(&quot;SynthA&quot;),</span>
+<span class="fc" id="L80">    STATIC_ATTRIBUTES(&quot;SA&quot;),</span>
+<span class="fc" id="L81">    TRANSIENT_ATTRIBUTES(&quot;TA&quot;),</span>
+<span class="fc" id="L82">    VOLATILE_ATTRIBUTES(&quot;VA&quot;),</span>
+<span class="fc" id="L83">    ENUM_ATTRIBUTES(&quot;EA&quot;),</span>
+
+<span class="fc" id="L85">    INNER_CLASSES(&quot;IC&quot;),</span>
+<span class="fc" id="L86">    PUBLIC_INNER_CLASSES(&quot;PuIC&quot;),</span>
+<span class="fc" id="L87">    PROTECTED_INNER_CLASSES(&quot;ProIC&quot;),</span>
+<span class="fc" id="L88">    PRIVATE_INNER_CLASSES(&quot;PriIC&quot;),</span>
+<span class="fc" id="L89">    PACKAGE_INNER_CLASSES(&quot;PaIC&quot;),</span>
+<span class="fc" id="L90">    STATIC_INNER_CLASSES(&quot;SIC&quot;),</span>
+<span class="fc" id="L91">    FINAL_INNER_CLASSES(&quot;FIC&quot;),</span>
+<span class="fc" id="L92">    INTERFACE_INNER_CLASSES(&quot;IIC&quot;),</span>
+<span class="fc" id="L93">    ABSTRACT_INNER_CLASSES(&quot;AIC&quot;),</span>
+<span class="fc" id="L94">    SYNTHETIC_INNER_CLASSES(&quot;SynthIC&quot;),</span>
+<span class="fc" id="L95">    ANNOTATION_INNER_CLASSES(&quot;AnnIC&quot;),</span>
+<span class="fc" id="L96">    ENUM_INNER_CLASSES(&quot;EIC&quot;),</span>
+
+<span class="fc" id="L98">    DEPTH_OF_INHERITANCE(&quot;DOI&quot;),</span>
+<span class="fc" id="L99">    SUBCLASSES(&quot;SUB&quot;),</span>
+<span class="fc" id="L100">    CLASS_SLOC(&quot;class SLOC&quot;),</span>
+
+<span class="fc" id="L102">    SLOC(&quot;SLOC&quot;),</span>
+<span class="fc" id="L103">    PARAMETERS(&quot;PARAM&quot;),</span>
+<span class="fc" id="L104">    LOCAL_VARIABLES(&quot;LVAR&quot;),</span>
+
+<span class="fc" id="L106">    INBOUND_INTRA_PACKAGE_DEPENDENCIES(&quot;IIP&quot;),</span>
+<span class="fc" id="L107">    INBOUND_EXTRA_PACKAGE_DEPENDENCIES(&quot;IEP&quot;),</span>
+<span class="fc" id="L108">    OUTBOUND_INTRA_PACKAGE_DEPENDENCIES(&quot;OIP&quot;),</span>
+<span class="fc" id="L109">    OUTBOUND_EXTRA_PACKAGE_DEPENDENCIES(&quot;OEP&quot;),</span>
+
+<span class="fc" id="L111">    INBOUND_INTRA_CLASS_METHOD_DEPENDENCIES(&quot;IICM&quot;),</span>
+<span class="fc" id="L112">    INBOUND_INTRA_PACKAGE_METHOD_DEPENDENCIES(&quot;IIPM&quot;),</span>
+<span class="fc" id="L113">    INBOUND_EXTRA_PACKAGE_METHOD_DEPENDENCIES(&quot;IEPM&quot;),</span>
+<span class="fc" id="L114">    OUTBOUND_INTRA_CLASS_FEATURE_DEPENDENCIES(&quot;OICF&quot;),</span>
+<span class="fc" id="L115">    OUTBOUND_INTRA_PACKAGE_FEATURE_DEPENDENCIES(&quot;OIPF&quot;),</span>
+<span class="fc" id="L116">    OUTBOUND_INTRA_PACKAGE_CLASS_DEPENDENCIES(&quot;OIPC&quot;),</span>
+<span class="fc" id="L117">    OUTBOUND_EXTRA_PACKAGE_FEATURE_DEPENDENCIES(&quot;OEPF&quot;),</span>
+<span class="fc" id="L118">    OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES(&quot;OEPC&quot;),</span>
+
+<span class="fc" id="L120">    GROUP_NAME_CHARACTER_COUNT(&quot;GNCC&quot;),</span>
+<span class="fc" id="L121">    GROUP_NAME_WORD_COUNT(&quot;GNWC&quot;),</span>
+<span class="fc" id="L122">    CLASS_NAME_CHARACTER_COUNT(&quot;CNCC&quot;),</span>
+<span class="fc" id="L123">    CLASS_NAME_WORD_COUNT(&quot;CNWC&quot;),</span>
+<span class="fc" id="L124">    METHOD_NAME_CHARACTER_COUNT(&quot;MNCC&quot;),</span>
+<span class="fc" id="L125">    METHOD_NAME_WORD_COUNT(&quot;MNWC&quot;);</span>
+
+    private final String abbreviation;
+
+<span class="fc" id="L129">    BasicMeasurements(String abbreviation) {</span>
+<span class="fc" id="L130">        this.abbreviation = abbreviation;</span>
+<span class="fc" id="L131">    }</span>
+
+    public String getAbbreviation() {
+<span class="fc" id="L134">        return abbreviation;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

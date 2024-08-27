@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClassReport.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.diff</a> &gt; <span class="el_source">ClassReport.java</span></div><h1>ClassReport.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.diff;
+
+import com.jeantessier.classreader.*;
+import org.apache.oro.text.perl.Perl5Util;
+
+import java.util.*;
+
+public class ClassReport extends Printer implements Comparable&lt;ClassReport&gt;, com.jeantessier.classreader.Visitor {
+<span class="fc" id="L41">    private static final Perl5Util perl = new Perl5Util();</span>
+
+    private ClassDifferences differences;
+
+<span class="fc" id="L45">    private final Collection&lt;FeatureDifferences&gt; removedFields = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L46">    private final Collection&lt;FeatureDifferences&gt; removedConstructors = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L47">    private final Collection&lt;FeatureDifferences&gt; removedMethods = new TreeSet&lt;&gt;();</span>
+
+<span class="fc" id="L49">    private final Collection&lt;FeatureDifferences&gt; deprecatedFields = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L50">    private final Collection&lt;FeatureDifferences&gt; deprecatedConstructors = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L51">    private final Collection&lt;FeatureDifferences&gt; deprecatedMethods = new TreeSet&lt;&gt;();</span>
+
+<span class="fc" id="L53">    private final Collection&lt;FieldDifferences&gt; modifiedFields = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L54">    private final Collection&lt;CodeDifferences&gt; modifiedConstructors = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L55">    private final Collection&lt;CodeDifferences&gt; modifiedMethods = new TreeSet&lt;&gt;();</span>
+
+<span class="fc" id="L57">    private final Collection&lt;FeatureDifferences&gt; undeprecatedFields = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L58">    private final Collection&lt;FeatureDifferences&gt; undeprecatedConstructors = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L59">    private final Collection&lt;FeatureDifferences&gt; undeprecatedMethods = new TreeSet&lt;&gt;();</span>
+
+<span class="fc" id="L61">    private final Collection&lt;FeatureDifferences&gt; newFields = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L62">    private final Collection&lt;FeatureDifferences&gt; newConstructors = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L63">    private final Collection&lt;FeatureDifferences&gt; newMethods = new TreeSet&lt;&gt;();</span>
+
+    public ClassReport() {
+<span class="fc" id="L66">        super();</span>
+<span class="fc" id="L67">    }</span>
+
+    public ClassReport(String indentText) {
+<span class="fc" id="L70">        super(indentText);</span>
+<span class="fc" id="L71">    }</span>
+
+    public void visitClassDifferences(ClassDifferences differences) {
+<span class="fc" id="L74">        this.differences = differences;</span>
+
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        for (Differences featureDifference : differences.getFeatureDifferences()) {</span>
+<span class="fc" id="L77">            featureDifference.accept(this);</span>
+<span class="fc" id="L78">        }</span>
+<span class="fc" id="L79">    }</span>
+
+    public void visitInterfaceDifferences(InterfaceDifferences differences) {
+<span class="fc" id="L82">        this.differences = differences;</span>
+
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        for (Differences featureDifference : differences.getFeatureDifferences()) {</span>
+<span class="fc" id="L85">            featureDifference.accept(this);</span>
+<span class="fc" id="L86">        }</span>
+<span class="fc" id="L87">    }</span>
+
+    public void visitFieldDifferences(FieldDifferences differences) {
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        if (differences.isRemoved()) {</span>
+<span class="fc" id="L91">            removedFields.add(differences);</span>
+        }
+    
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        if (differences.isModified()) {</span>
+<span class="fc" id="L95">            modifiedFields.add(differences);</span>
+        }
+    
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        if (differences.isNew()) {</span>
+<span class="fc" id="L99">            newFields.add(differences);</span>
+        }
+
+<span class="fc bfc" id="L102" title="All 2 branches covered.">        if (isDeprecated()) {</span>
+<span class="fc" id="L103">            deprecatedFields.add(differences);</span>
+        }
+
+<span class="fc bfc" id="L106" title="All 2 branches covered.">        if (isUndeprecated()) {</span>
+<span class="fc" id="L107">            undeprecatedFields.add(differences);</span>
+        }
+<span class="fc" id="L109">    }</span>
+
+    public void visitConstructorDifferences(ConstructorDifferences differences) {
+<span class="fc bfc" id="L112" title="All 2 branches covered.">        if (differences.isRemoved()) {</span>
+<span class="fc" id="L113">            removedConstructors.add(differences);</span>
+        }
+    
+<span class="fc bfc" id="L116" title="All 2 branches covered.">        if (differences.isModified()) {</span>
+<span class="fc" id="L117">            modifiedConstructors.add(differences);</span>
+        }
+    
+<span class="fc bfc" id="L120" title="All 2 branches covered.">        if (differences.isNew()) {</span>
+<span class="fc" id="L121">            newConstructors.add(differences);</span>
+        }
+
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        if (isDeprecated()) {</span>
+<span class="fc" id="L125">            deprecatedConstructors.add(differences);</span>
+        }
+
+<span class="fc bfc" id="L128" title="All 2 branches covered.">        if (isUndeprecated()) {</span>
+<span class="fc" id="L129">            undeprecatedConstructors.add(differences);</span>
+        }
+<span class="fc" id="L131">    }</span>
+
+    public void visitMethodDifferences(MethodDifferences differences) {
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        if (differences.isRemoved()) {</span>
+<span class="fc" id="L135">            removedMethods.add(differences);</span>
+        }
+    
+<span class="fc bfc" id="L138" title="All 2 branches covered.">        if (differences.isModified()) {</span>
+<span class="fc" id="L139">            modifiedMethods.add(differences);</span>
+        }
+    
+<span class="fc bfc" id="L142" title="All 2 branches covered.">        if (differences.isNew()) {</span>
+<span class="fc" id="L143">            newMethods.add(differences);</span>
+        }
+
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        if (isDeprecated()) {</span>
+<span class="fc" id="L147">            deprecatedMethods.add(differences);</span>
+        }
+
+<span class="fc bfc" id="L150" title="All 2 branches covered.">        if (isUndeprecated()) {</span>
+<span class="fc" id="L151">            undeprecatedMethods.add(differences);</span>
+        }
+<span class="fc" id="L153">    }</span>
+
+    public void visitString_info(String_info entry) {
+<span class="fc" id="L156">        entry.getRawValue().accept(this);</span>
+<span class="fc" id="L157">    }</span>
+
+    public void visitInteger_info(Integer_info entry) {
+<span class="fc" id="L160">        append(entry.getValue());</span>
+<span class="fc" id="L161">    }</span>
+
+    public void visitFloat_info(Float_info entry) {
+<span class="fc" id="L164">        append(entry.getValue());</span>
+<span class="fc" id="L165">    }</span>
+
+    public void visitLong_info(Long_info entry) {
+<span class="nc" id="L168">        append(entry.getValue());</span>
+<span class="nc" id="L169">    }</span>
+
+    public void visitDouble_info(Double_info entry) {
+<span class="nc" id="L172">        append(entry.getValue());</span>
+<span class="nc" id="L173">    }</span>
+
+    public void visitUTF8_info(UTF8_info entry) {
+<span class="fc" id="L176">        append(escapeXMLCharactersInAttributeValue(entry.getValue()));</span>
+<span class="fc" id="L177">    }</span>
+
+    public void visitField_info(Field_info entry) {
+<span class="pc bpc" id="L180" title="1 of 2 branches missed.">        if (entry.isPublic())     append(&quot; visibility=\&quot;public\&quot;&quot;);</span>
+<span class="pc bpc" id="L181" title="1 of 2 branches missed.">        if (entry.isProtected())  append(&quot; visibility=\&quot;protected\&quot;&quot;);</span>
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">        if (entry.isPackage())    append(&quot; visibility=\&quot;package\&quot;&quot;);</span>
+<span class="pc bpc" id="L183" title="1 of 2 branches missed.">        if (entry.isPrivate())    append(&quot; visibility=\&quot;private\&quot;&quot;);</span>
+<span class="fc bfc" id="L184" title="All 2 branches covered.">        if (entry.isStatic())     append(&quot; static=\&quot;yes\&quot;&quot;);</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">        if (entry.isFinal())      append(&quot; final=\&quot;yes\&quot;&quot;);</span>
+<span class="pc bpc" id="L186" title="1 of 2 branches missed.">        if (entry.isVolatile())   append(&quot; volatile=\&quot;yes\&quot;&quot;);</span>
+<span class="pc bpc" id="L187" title="1 of 2 branches missed.">        if (entry.isTransient())  append(&quot; transient=\&quot;yes\&quot;&quot;);</span>
+<span class="pc bpc" id="L188" title="1 of 2 branches missed.">        if (entry.isSynthetic())  append(&quot; synthetic=\&quot;yes\&quot;&quot;);</span>
+<span class="pc bpc" id="L189" title="1 of 2 branches missed.">        if (entry.isDeprecated()) append(&quot; deprecated=\&quot;yes\&quot;&quot;);</span>
+
+<span class="fc" id="L191">        append(&quot; type=\&quot;&quot;).append(entry.getType()).append(&quot;\&quot;&quot;);</span>
+<span class="fc" id="L192">        append(&quot; name=\&quot;&quot;).append(entry.getName()).append(&quot;\&quot;&quot;);</span>
+<span class="fc" id="L193">        append(&quot; signature=\&quot;&quot;).append(entry.getSignature()).append(&quot;\&quot;&quot;);</span>
+<span class="fc" id="L194">        append(&quot; full-signature=\&quot;&quot;).append(entry.getFullSignature()).append(&quot;\&quot;&quot;);</span>
+
+<span class="fc bfc" id="L196" title="All 2 branches covered.">        if (entry.getConstantValue() != null) {</span>
+<span class="fc" id="L197">            append(&quot; value=\&quot;&quot;);</span>
+<span class="fc" id="L198">            entry.getConstantValue().accept(this);</span>
+<span class="fc" id="L199">            append(&quot;\&quot;&quot;);</span>
+        }
+<span class="fc" id="L201">    }</span>
+
+    public void visitConstantValue_attribute(ConstantValue_attribute attribute) {
+<span class="fc" id="L204">        attribute.getRawValue().accept(this);</span>
+<span class="fc" id="L205">    }</span>
+
+    public String render() {
+<span class="fc" id="L208">        raiseIndent();</span>
+<span class="fc" id="L209">        raiseIndent();</span>
+
+<span class="fc" id="L211">        indent().append(&quot;&lt;class&gt;&quot;).eol();</span>
+<span class="fc" id="L212">        raiseIndent();</span>
+
+<span class="fc" id="L214">        indent().append(&quot;&lt;name&gt;&quot;).append(differences.getName()).append(&quot;&lt;/name&gt;&quot;).eol();</span>
+
+<span class="fc bfc" id="L216" title="All 2 branches covered.">        if (differences.isDeclarationModified()) {</span>
+<span class="fc" id="L217">            indent().append(&quot;&lt;modified-declaration&gt;&quot;).eol();</span>
+<span class="fc" id="L218">            raiseIndent();</span>
+
+<span class="fc" id="L220">            indent().append(&quot;&lt;old-declaration&quot;).append(breakdownDeclaration(differences.getOldClass())).append(&quot;&gt;&quot;).append(differences.getOldDeclaration()).append(&quot;&lt;/old-declaration&gt;&quot;).eol();</span>
+<span class="fc" id="L221">            indent().append(&quot;&lt;new-declaration&quot;).append(breakdownDeclaration(differences.getNewClass())).append(&quot;&gt;&quot;).append(differences.getNewDeclaration()).append(&quot;&lt;/new-declaration&gt;&quot;).eol();</span>
+
+<span class="fc" id="L223">            lowerIndent();</span>
+<span class="fc" id="L224">            indent().append(&quot;&lt;/modified-declaration&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L227" title="All 2 branches covered.">        if (!removedFields.isEmpty()) {</span>
+<span class="fc" id="L228">            indent().append(&quot;&lt;removed-fields&gt;&quot;).eol();</span>
+<span class="fc" id="L229">            raiseIndent();</span>
+
+<span class="fc bfc" id="L231" title="All 2 branches covered.">            for (FeatureDifferences fd : removedFields) {</span>
+<span class="fc" id="L232">                indent();</span>
+<span class="fc" id="L233">                append(&quot;&lt;declaration&quot;);</span>
+<span class="fc" id="L234">                fd.getOldFeature().accept(this);</span>
+<span class="pc bpc" id="L235" title="1 of 2 branches missed.">                if (fd.isInherited()) {</span>
+<span class="nc" id="L236">                    append(&quot; inherited=\&quot;yes\&quot;&quot;);</span>
+                }
+<span class="fc" id="L238">                append(&quot;&gt;&quot;);</span>
+<span class="fc" id="L239">                append(fd.getOldDeclaration());</span>
+<span class="fc" id="L240">                append(&quot;&lt;/declaration&gt;&quot;);</span>
+<span class="fc" id="L241">                eol();</span>
+<span class="fc" id="L242">            }</span>
+
+<span class="fc" id="L244">            lowerIndent();</span>
+<span class="fc" id="L245">            indent().append(&quot;&lt;/removed-fields&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L248" title="All 2 branches covered.">        if (!removedConstructors.isEmpty()) {</span>
+<span class="fc" id="L249">            indent().append(&quot;&lt;removed-constructors&gt;&quot;).eol();</span>
+<span class="fc" id="L250">            raiseIndent();</span>
+
+<span class="fc bfc" id="L252" title="All 2 branches covered.">            for (FeatureDifferences fd : removedConstructors) {</span>
+<span class="pc bpc" id="L253" title="1 of 2 branches missed.">                indent().append(&quot;&lt;declaration&quot;).append(breakdownDeclaration((Method_info) fd.getOldFeature())).append(fd.isInherited() ? &quot; inherited=\&quot;yes\&quot;&quot; : &quot;&quot;).append(&quot;&gt;&quot;).append(fd.getOldDeclaration()).append(&quot;&lt;/declaration&gt;&quot;).eol();</span>
+<span class="fc" id="L254">            }</span>
+
+<span class="fc" id="L256">            lowerIndent();</span>
+<span class="fc" id="L257">            indent().append(&quot;&lt;/removed-constructors&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L260" title="All 2 branches covered.">        if (!removedMethods.isEmpty()) {</span>
+<span class="fc" id="L261">            indent().append(&quot;&lt;removed-methods&gt;&quot;).eol();</span>
+<span class="fc" id="L262">            raiseIndent();</span>
+
+<span class="fc bfc" id="L264" title="All 2 branches covered.">            for (FeatureDifferences fd : removedMethods) {</span>
+<span class="pc bpc" id="L265" title="1 of 2 branches missed.">                indent().append(&quot;&lt;declaration&quot;).append(breakdownDeclaration((Method_info) fd.getOldFeature())).append(fd.isInherited() ? &quot; inherited=\&quot;yes\&quot;&quot; : &quot;&quot;).append(&quot;&gt;&quot;).append(fd.getOldDeclaration()).append(&quot;&lt;/declaration&gt;&quot;).eol();</span>
+<span class="fc" id="L266">            }</span>
+
+<span class="fc" id="L268">            lowerIndent();</span>
+<span class="fc" id="L269">            indent().append(&quot;&lt;/removed-methods&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L272" title="All 2 branches covered.">        if (!deprecatedFields.isEmpty()) {</span>
+<span class="fc" id="L273">            indent().append(&quot;&lt;deprecated-fields&gt;&quot;).eol();</span>
+<span class="fc" id="L274">            raiseIndent();</span>
+
+<span class="fc bfc" id="L276" title="All 2 branches covered.">            for (FeatureDifferences fd : deprecatedFields) {</span>
+<span class="fc" id="L277">                indent().append(&quot;&lt;declaration&quot;).append(breakdownDeclaration((Field_info) fd.getNewFeature())).append(&quot;&gt;&quot;).append(fd.getOldDeclaration()).append(&quot;&lt;/declaration&gt;&quot;).eol();</span>
+<span class="fc" id="L278">            }</span>
+
+<span class="fc" id="L280">            lowerIndent();</span>
+<span class="fc" id="L281">            indent().append(&quot;&lt;/deprecated-fields&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L284" title="All 2 branches covered.">        if (!deprecatedConstructors.isEmpty()) {</span>
+<span class="fc" id="L285">            indent().append(&quot;&lt;deprecated-constructors&gt;&quot;).eol();</span>
+<span class="fc" id="L286">            raiseIndent();</span>
+
+<span class="fc bfc" id="L288" title="All 2 branches covered.">            for (FeatureDifferences fd : deprecatedConstructors) {</span>
+<span class="fc" id="L289">                indent().append(&quot;&lt;declaration&quot;).append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(&quot;&gt;&quot;).append(fd.getOldDeclaration()).append(&quot;&lt;/declaration&gt;&quot;).eol();</span>
+<span class="fc" id="L290">            }</span>
+
+<span class="fc" id="L292">            lowerIndent();</span>
+<span class="fc" id="L293">            indent().append(&quot;&lt;/deprecated-constructors&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L296" title="All 2 branches covered.">        if (!deprecatedMethods.isEmpty()) {</span>
+<span class="fc" id="L297">            indent().append(&quot;&lt;deprecated-methods&gt;&quot;).eol();</span>
+<span class="fc" id="L298">            raiseIndent();</span>
+
+<span class="fc bfc" id="L300" title="All 2 branches covered.">            for (FeatureDifferences fd : deprecatedMethods) {</span>
+<span class="fc" id="L301">                indent().append(&quot;&lt;declaration&quot;).append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(&quot;&gt;&quot;).append(fd.getOldDeclaration()).append(&quot;&lt;/declaration&gt;&quot;).eol();</span>
+<span class="fc" id="L302">            }</span>
+
+<span class="fc" id="L304">            lowerIndent();</span>
+<span class="fc" id="L305">            indent().append(&quot;&lt;/deprecated-methods&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L308" title="All 2 branches covered.">        if (!modifiedFields.isEmpty()) {</span>
+<span class="fc" id="L309">            indent().append(&quot;&lt;modified-fields&gt;&quot;).eol();</span>
+<span class="fc" id="L310">            raiseIndent();</span>
+
+<span class="fc bfc" id="L312" title="All 2 branches covered.">            for (FieldDifferences fd : modifiedFields) {</span>
+<span class="fc" id="L313">                indent().append(&quot;&lt;feature&gt;&quot;).eol();</span>
+<span class="fc" id="L314">                raiseIndent();</span>
+
+<span class="fc" id="L316">                indent().append(&quot;&lt;name&gt;&quot;).append(fd.getName()).append(&quot;&lt;/name&gt;&quot;).eol();</span>
+
+<span class="fc" id="L318">                indent().append(&quot;&lt;modified-declaration&gt;&quot;).eol();</span>
+<span class="fc" id="L319">                raiseIndent();</span>
+
+<span class="fc" id="L321">                Field_info oldField = (Field_info) fd.getOldFeature();</span>
+<span class="fc" id="L322">                indent();</span>
+<span class="fc" id="L323">                append(&quot;&lt;old-declaration&quot;);</span>
+<span class="fc" id="L324">                oldField.accept(this);</span>
+<span class="fc" id="L325">                append(&quot;&gt;&quot;);</span>
+<span class="fc bfc" id="L326" title="All 2 branches covered.">                if (fd.isConstantValueDifference()) {</span>
+<span class="fc" id="L327">                    append(escapeXMLCharactersInTagContent(oldField.getFullDeclaration()));</span>
+                } else {
+<span class="fc" id="L329">                    append(oldField.getDeclaration());</span>
+                }
+<span class="fc" id="L331">                append(&quot;&lt;/old-declaration&gt;&quot;);</span>
+<span class="fc" id="L332">                eol();</span>
+
+<span class="fc" id="L334">                Field_info newField = (Field_info) fd.getNewFeature();</span>
+<span class="fc" id="L335">                indent();</span>
+<span class="fc" id="L336">                append(&quot;&lt;new-declaration&quot;);</span>
+<span class="fc" id="L337">                newField.accept(this);</span>
+<span class="fc" id="L338">                append(&quot;&gt;&quot;);</span>
+<span class="fc bfc" id="L339" title="All 2 branches covered.">                if (fd.isConstantValueDifference()) {</span>
+<span class="fc" id="L340">                    append(escapeXMLCharactersInTagContent(newField.getFullDeclaration()));</span>
+                } else {
+<span class="fc" id="L342">                    append(newField.getDeclaration());</span>
+                }
+<span class="fc" id="L344">                append(&quot;&lt;/new-declaration&gt;&quot;);</span>
+<span class="fc" id="L345">                eol();</span>
+
+<span class="fc" id="L347">                lowerIndent();</span>
+<span class="fc" id="L348">                indent().append(&quot;&lt;/modified-declaration&gt;&quot;).eol();</span>
+
+<span class="fc" id="L350">                lowerIndent();</span>
+<span class="fc" id="L351">                indent().append(&quot;&lt;/feature&gt;&quot;).eol();</span>
+<span class="fc" id="L352">            }</span>
+
+<span class="fc" id="L354">            lowerIndent();</span>
+<span class="fc" id="L355">            indent().append(&quot;&lt;/modified-fields&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L358" title="All 2 branches covered.">        if (!modifiedConstructors.isEmpty()) {</span>
+<span class="fc" id="L359">            indent().append(&quot;&lt;modified-constructors&gt;&quot;).eol();</span>
+<span class="fc" id="L360">            raiseIndent();</span>
+
+<span class="fc bfc" id="L362" title="All 2 branches covered.">            for (CodeDifferences cd : modifiedConstructors) {</span>
+<span class="fc" id="L363">                indent().append(&quot;&lt;feature&gt;&quot;).eol();</span>
+<span class="fc" id="L364">                raiseIndent();</span>
+
+<span class="fc" id="L366">                indent().append(&quot;&lt;name&gt;&quot;).append(cd.getName()).append(&quot;&lt;/name&gt;&quot;).eol();</span>
+
+<span class="fc bfc" id="L368" title="All 2 branches covered.">                if (!cd.getOldDeclaration().equals(cd.getNewDeclaration())) {</span>
+<span class="fc" id="L369">                    indent().append(&quot;&lt;modified-declaration&gt;&quot;).eol();</span>
+<span class="fc" id="L370">                    raiseIndent();</span>
+<span class="fc" id="L371">                    indent().append(&quot;&lt;old-declaration&quot;).append(breakdownDeclaration((Method_info) cd.getOldFeature())).append(&quot;&gt;&quot;).append(cd.getOldDeclaration()).append(&quot;&lt;/old-declaration&gt;&quot;).eol();</span>
+<span class="fc" id="L372">                    indent().append(&quot;&lt;new-declaration&quot;).append(breakdownDeclaration((Method_info) cd.getNewFeature())).append(&quot;&gt;&quot;).append(cd.getNewDeclaration()).append(&quot;&lt;/new-declaration&gt;&quot;).eol();</span>
+<span class="fc" id="L373">                    lowerIndent();</span>
+<span class="fc" id="L374">                    indent().append(&quot;&lt;/modified-declaration&gt;&quot;).eol();</span>
+                }
+
+<span class="fc bfc" id="L377" title="All 2 branches covered.">                if (cd.isCodeDifference()) {</span>
+<span class="fc" id="L378">                    indent().append(&quot;&lt;modified-code&quot;).append(breakdownDeclaration((Method_info) cd.getNewFeature())).append(&quot;&gt;&quot;).append(cd.getNewDeclaration()).append(&quot;&lt;/modified-code&gt;&quot;).eol();</span>
+                }
+
+<span class="fc" id="L381">                lowerIndent();</span>
+<span class="fc" id="L382">                indent().append(&quot;&lt;/feature&gt;&quot;).eol();</span>
+<span class="fc" id="L383">            }</span>
+
+<span class="fc" id="L385">            lowerIndent();</span>
+<span class="fc" id="L386">            indent().append(&quot;&lt;/modified-constructors&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L389" title="All 2 branches covered.">        if (!modifiedMethods.isEmpty()) {</span>
+<span class="fc" id="L390">            indent().append(&quot;&lt;modified-methods&gt;&quot;).eol();</span>
+<span class="fc" id="L391">            raiseIndent();</span>
+
+<span class="fc bfc" id="L393" title="All 2 branches covered.">            for (CodeDifferences md : modifiedMethods) {</span>
+<span class="fc" id="L394">                indent().append(&quot;&lt;feature&gt;&quot;).eol();</span>
+<span class="fc" id="L395">                raiseIndent();</span>
+
+<span class="fc" id="L397">                indent().append(&quot;&lt;name&gt;&quot;).append(md.getName()).append(&quot;&lt;/name&gt;&quot;).eol();</span>
+
+<span class="fc bfc" id="L399" title="All 2 branches covered.">                if (!md.getOldDeclaration().equals(md.getNewDeclaration())) {</span>
+<span class="fc" id="L400">                    indent().append(&quot;&lt;modified-declaration&gt;&quot;).eol();</span>
+<span class="fc" id="L401">                    raiseIndent();</span>
+<span class="fc" id="L402">                    indent().append(&quot;&lt;old-declaration&quot;).append(breakdownDeclaration((Method_info) md.getOldFeature())).append(&quot;&gt;&quot;).append(md.getOldDeclaration()).append(&quot;&lt;/old-declaration&gt;&quot;).eol();</span>
+<span class="fc" id="L403">                    indent().append(&quot;&lt;new-declaration&quot;).append(breakdownDeclaration((Method_info) md.getNewFeature())).append(&quot;&gt;&quot;).append(md.getNewDeclaration()).append(&quot;&lt;/new-declaration&gt;&quot;).eol();</span>
+<span class="fc" id="L404">                    lowerIndent();</span>
+<span class="fc" id="L405">                    indent().append(&quot;&lt;/modified-declaration&gt;&quot;).eol();</span>
+                }
+
+<span class="fc bfc" id="L408" title="All 2 branches covered.">                if (md.isCodeDifference()) {</span>
+<span class="fc" id="L409">                    indent().append(&quot;&lt;modified-code&quot;).append(breakdownDeclaration((Method_info) md.getNewFeature())).append(&quot;&gt;&quot;).append(md.getNewDeclaration()).append(&quot;&lt;/modified-code&gt;&quot;).eol();</span>
+                }
+
+<span class="fc" id="L412">                lowerIndent();</span>
+<span class="fc" id="L413">                indent().append(&quot;&lt;/feature&gt;&quot;).eol();</span>
+<span class="fc" id="L414">            }</span>
+
+<span class="fc" id="L416">            lowerIndent();</span>
+<span class="fc" id="L417">            indent().append(&quot;&lt;/modified-methods&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L420" title="All 2 branches covered.">        if (!undeprecatedFields.isEmpty()) {</span>
+<span class="fc" id="L421">            indent().append(&quot;&lt;undeprecated-fields&gt;&quot;).eol();</span>
+<span class="fc" id="L422">            raiseIndent();</span>
+
+<span class="fc bfc" id="L424" title="All 2 branches covered.">            for (FeatureDifferences fd : undeprecatedFields) {</span>
+<span class="fc" id="L425">                indent().append(&quot;&lt;declaration&quot;).append(breakdownDeclaration((Field_info) fd.getNewFeature())).append(&quot;&gt;&quot;).append(fd.getOldDeclaration()).append(&quot;&lt;/declaration&gt;&quot;).eol();</span>
+<span class="fc" id="L426">            }</span>
+
+<span class="fc" id="L428">            lowerIndent();</span>
+<span class="fc" id="L429">            indent().append(&quot;&lt;/undeprecated-fields&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L432" title="All 2 branches covered.">        if (!undeprecatedConstructors.isEmpty()) {</span>
+<span class="fc" id="L433">            indent().append(&quot;&lt;undeprecated-constructors&gt;&quot;).eol();</span>
+<span class="fc" id="L434">            raiseIndent();</span>
+
+<span class="fc bfc" id="L436" title="All 2 branches covered.">            for (FeatureDifferences fd : undeprecatedConstructors) {</span>
+<span class="fc" id="L437">                indent().append(&quot;&lt;declaration&quot;).append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(&quot;&gt;&quot;).append(fd.getOldDeclaration()).append(&quot;&lt;/declaration&gt;&quot;).eol();</span>
+<span class="fc" id="L438">            }</span>
+
+<span class="fc" id="L440">            lowerIndent();</span>
+<span class="fc" id="L441">            indent().append(&quot;&lt;/undeprecated-constructors&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L444" title="All 2 branches covered.">        if (!undeprecatedMethods.isEmpty()) {</span>
+<span class="fc" id="L445">            indent().append(&quot;&lt;undeprecated-methods&gt;&quot;).eol();</span>
+<span class="fc" id="L446">            raiseIndent();</span>
+
+<span class="fc bfc" id="L448" title="All 2 branches covered.">            for (FeatureDifferences fd : undeprecatedMethods) {</span>
+<span class="fc" id="L449">                indent().append(&quot;&lt;declaration&quot;).append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(&quot;&gt;&quot;).append(fd.getOldDeclaration()).append(&quot;&lt;/declaration&gt;&quot;).eol();</span>
+<span class="fc" id="L450">            }</span>
+
+<span class="fc" id="L452">            lowerIndent();</span>
+<span class="fc" id="L453">            indent().append(&quot;&lt;/undeprecated-methods&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L456" title="All 2 branches covered.">        if (!newFields.isEmpty()) {</span>
+<span class="fc" id="L457">            indent().append(&quot;&lt;new-fields&gt;&quot;).eol();</span>
+<span class="fc" id="L458">            raiseIndent();</span>
+
+<span class="fc bfc" id="L460" title="All 2 branches covered.">            for (FeatureDifferences fd : newFields) {</span>
+<span class="fc" id="L461">                indent();</span>
+<span class="fc" id="L462">                append(&quot;&lt;declaration&quot;);</span>
+<span class="fc" id="L463">                fd.getNewFeature().accept(this);</span>
+<span class="fc" id="L464">                append(&quot;&gt;&quot;);</span>
+<span class="fc" id="L465">                append(fd.getNewDeclaration());</span>
+<span class="fc" id="L466">                append(&quot;&lt;/declaration&gt;&quot;);</span>
+<span class="fc" id="L467">                eol();</span>
+<span class="fc" id="L468">            }</span>
+
+<span class="fc" id="L470">            lowerIndent();</span>
+<span class="fc" id="L471">            indent().append(&quot;&lt;/new-fields&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L474" title="All 2 branches covered.">        if (!newConstructors.isEmpty()) {</span>
+<span class="fc" id="L475">            indent().append(&quot;&lt;new-constructors&gt;&quot;).eol();</span>
+<span class="fc" id="L476">            raiseIndent();</span>
+
+<span class="fc bfc" id="L478" title="All 2 branches covered.">            for (FeatureDifferences fd : newConstructors) {</span>
+<span class="fc" id="L479">                indent().append(&quot;&lt;declaration&quot;).append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(&quot;&gt;&quot;).append(fd.getNewDeclaration()).append(&quot;&lt;/declaration&gt;&quot;).eol();</span>
+<span class="fc" id="L480">            }</span>
+
+<span class="fc" id="L482">            lowerIndent();</span>
+<span class="fc" id="L483">            indent().append(&quot;&lt;/new-constructors&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L486" title="All 2 branches covered.">        if (!newMethods.isEmpty()) {</span>
+<span class="fc" id="L487">            indent().append(&quot;&lt;new-methods&gt;&quot;).eol();</span>
+<span class="fc" id="L488">            raiseIndent();</span>
+
+<span class="fc bfc" id="L490" title="All 2 branches covered.">            for (FeatureDifferences fd : newMethods) {</span>
+<span class="fc" id="L491">                indent().append(&quot;&lt;declaration&quot;).append(breakdownDeclaration((Method_info) fd.getNewFeature())).append(&quot;&gt;&quot;).append(fd.getNewDeclaration()).append(&quot;&lt;/declaration&gt;&quot;).eol();</span>
+<span class="fc" id="L492">            }</span>
+
+<span class="fc" id="L494">            lowerIndent();</span>
+<span class="fc" id="L495">            indent().append(&quot;&lt;/new-methods&gt;&quot;).eol();</span>
+        }
+
+<span class="fc" id="L498">        lowerIndent();</span>
+<span class="fc" id="L499">        indent().append(&quot;&lt;/class&gt;&quot;).eol();</span>
+
+<span class="fc" id="L501">        lowerIndent();</span>
+<span class="fc" id="L502">        lowerIndent();</span>
+
+<span class="fc" id="L504">        return super.toString();</span>
+    }
+
+    private String breakdownDeclaration(Classfile element) {
+<span class="fc" id="L508">        StringBuilder result = new StringBuilder();</span>
+
+<span class="pc bpc" id="L510" title="1 of 2 branches missed.">        if (element != null) {</span>
+<span class="pc bpc" id="L511" title="1 of 2 branches missed.">            if (element.isPublic())     result.append(&quot; visibility=\&quot;public\&quot;&quot;);</span>
+<span class="pc bpc" id="L512" title="1 of 2 branches missed.">            if (element.isPackage())    result.append(&quot; visibility=\&quot;package\&quot;&quot;);</span>
+<span class="pc bpc" id="L513" title="1 of 2 branches missed.">            if (element.isFinal())      result.append(&quot; final=\&quot;yes\&quot;&quot;);</span>
+<span class="fc bfc" id="L514" title="All 2 branches covered.">            if (element.isSuper())      result.append(&quot; super=\&quot;yes\&quot;&quot;);</span>
+<span class="pc bpc" id="L515" title="1 of 2 branches missed.">            if (element.isSynthetic())  result.append(&quot; synthetic=\&quot;yes\&quot;&quot;);</span>
+<span class="pc bpc" id="L516" title="1 of 2 branches missed.">            if (element.isDeprecated()) result.append(&quot; deprecated=\&quot;yes\&quot;&quot;);</span>
+
+<span class="fc" id="L518">            result.append(&quot; name=\&quot;&quot;).append(element.getClassName()).append(&quot;\&quot;&quot;);</span>
+
+<span class="fc bfc" id="L520" title="All 2 branches covered.">            if (element.isInterface()) {</span>
+<span class="fc" id="L521">                result.append(&quot; interface=\&quot;yes\&quot;&quot;);</span>
+
+<span class="fc" id="L523">                result.append(&quot; extends=\&quot;&quot;);</span>
+<span class="fc" id="L524">                Iterator&lt;? extends Class_info&gt; i = element.getAllInterfaces().iterator();</span>
+<span class="fc bfc" id="L525" title="All 2 branches covered.">                while (i.hasNext()) {</span>
+<span class="fc" id="L526">                    result.append(i.next());</span>
+<span class="pc bpc" id="L527" title="1 of 2 branches missed.">                    if (i.hasNext()) {</span>
+<span class="nc" id="L528">                        result.append(&quot;, &quot;);</span>
+                    }
+                }
+<span class="fc" id="L531">                result.append(&quot;\&quot;&quot;);</span>
+<span class="fc" id="L532">            } else {</span>
+<span class="pc bpc" id="L533" title="1 of 2 branches missed.">                if (element.isAbstract()) result.append(&quot; abstract=\&quot;yes\&quot;&quot;);</span>
+
+<span class="fc" id="L535">                result.append(&quot; extends=\&quot;&quot;).append(element.getSuperclassName()).append(&quot;\&quot;&quot;);</span>
+
+<span class="fc" id="L537">                result.append(&quot; implements=\&quot;&quot;);</span>
+<span class="fc" id="L538">                Iterator&lt;? extends Class_info&gt; i = element.getAllInterfaces().iterator();</span>
+<span class="fc bfc" id="L539" title="All 2 branches covered.">                while (i.hasNext()) {</span>
+<span class="fc" id="L540">                    result.append(i.next());</span>
+<span class="pc bpc" id="L541" title="1 of 2 branches missed.">                    if (i.hasNext()) {</span>
+<span class="nc" id="L542">                        result.append(&quot;, &quot;);</span>
+                    }
+                }
+<span class="fc" id="L545">                result.append(&quot;\&quot;&quot;);</span>
+            }
+        }
+
+<span class="fc" id="L549">        return result.toString();</span>
+    }
+
+    private String breakdownDeclaration(Field_info element) {
+<span class="fc" id="L553">        StringBuilder result = new StringBuilder();</span>
+
+<span class="pc bpc" id="L555" title="1 of 2 branches missed.">        if (element != null) {</span>
+<span class="pc bpc" id="L556" title="1 of 2 branches missed.">            if (element.isPublic())     result.append(&quot; visibility=\&quot;public\&quot;&quot;);</span>
+<span class="pc bpc" id="L557" title="1 of 2 branches missed.">            if (element.isProtected())  result.append(&quot; visibility=\&quot;protected\&quot;&quot;);</span>
+<span class="pc bpc" id="L558" title="1 of 2 branches missed.">            if (element.isPackage())    result.append(&quot; visibility=\&quot;package\&quot;&quot;);</span>
+<span class="pc bpc" id="L559" title="1 of 2 branches missed.">            if (element.isPrivate())    result.append(&quot; visibility=\&quot;private\&quot;&quot;);</span>
+<span class="fc bfc" id="L560" title="All 2 branches covered.">            if (element.isStatic())     result.append(&quot; static=\&quot;yes\&quot;&quot;);</span>
+<span class="fc bfc" id="L561" title="All 2 branches covered.">            if (element.isFinal())      result.append(&quot; final=\&quot;yes\&quot;&quot;);</span>
+<span class="pc bpc" id="L562" title="1 of 2 branches missed.">            if (element.isVolatile())   result.append(&quot; volatile=\&quot;yes\&quot;&quot;);</span>
+<span class="pc bpc" id="L563" title="1 of 2 branches missed.">            if (element.isTransient())  result.append(&quot; transient=\&quot;yes\&quot;&quot;);</span>
+<span class="pc bpc" id="L564" title="1 of 2 branches missed.">            if (element.isSynthetic())  result.append(&quot; synthetic=\&quot;yes\&quot;&quot;);</span>
+<span class="fc bfc" id="L565" title="All 2 branches covered.">            if (element.isDeprecated()) result.append(&quot; deprecated=\&quot;yes\&quot;&quot;);</span>
+
+<span class="fc" id="L567">            result.append(&quot; type=\&quot;&quot;).append(element.getType()).append(&quot;\&quot;&quot;);</span>
+<span class="fc" id="L568">            result.append(&quot; name=\&quot;&quot;).append(element.getName()).append(&quot;\&quot;&quot;);</span>
+<span class="fc" id="L569">            result.append(&quot; signature=\&quot;&quot;).append(element.getSignature()).append(&quot;\&quot;&quot;);</span>
+<span class="fc" id="L570">            result.append(&quot; full-signature=\&quot;&quot;).append(element.getFullSignature()).append(&quot;\&quot;&quot;);</span>
+
+<span class="fc bfc" id="L572" title="All 2 branches covered.">            if (element.getConstantValue() != null) {</span>
+<span class="fc" id="L573">                result.append(&quot; value=\&quot;&quot;).append(element.getConstantValue().getRawValue()).append(&quot;\&quot;&quot;);</span>
+            }
+        }
+
+<span class="fc" id="L577">        return result.toString();</span>
+    }
+
+    private String breakdownDeclaration(Method_info element) {
+<span class="fc" id="L581">        StringBuilder result = new StringBuilder();</span>
+
+<span class="pc bpc" id="L583" title="1 of 2 branches missed.">        if (element != null) {</span>
+<span class="fc bfc" id="L584" title="All 2 branches covered.">            if (element.isPublic())       result.append(&quot; visibility=\&quot;public\&quot;&quot;);</span>
+<span class="pc bpc" id="L585" title="1 of 2 branches missed.">            if (element.isProtected())    result.append(&quot; visibility=\&quot;protected\&quot;&quot;);</span>
+<span class="pc bpc" id="L586" title="1 of 2 branches missed.">            if (element.isPackage())      result.append(&quot; visibility=\&quot;package\&quot;&quot;);</span>
+<span class="fc bfc" id="L587" title="All 2 branches covered.">            if (element.isPrivate())      result.append(&quot; visibility=\&quot;private\&quot;&quot;);</span>
+<span class="pc bpc" id="L588" title="1 of 2 branches missed.">            if (element.isStatic())       result.append(&quot; static=\&quot;yes\&quot;&quot;);</span>
+<span class="fc bfc" id="L589" title="All 2 branches covered.">            if (element.isFinal())        result.append(&quot; final=\&quot;yes\&quot;&quot;);</span>
+<span class="pc bpc" id="L590" title="1 of 2 branches missed.">            if (element.isSynchronized()) result.append(&quot; synchronized=\&quot;yes\&quot;&quot;);</span>
+<span class="pc bpc" id="L591" title="1 of 2 branches missed.">            if (element.isNative())       result.append(&quot; native=\&quot;yes\&quot;&quot;);</span>
+<span class="fc bfc" id="L592" title="All 2 branches covered.">            if (element.isAbstract())     result.append(&quot; abstract=\&quot;yes\&quot;&quot;);</span>
+<span class="pc bpc" id="L593" title="1 of 2 branches missed.">            if (element.isStrict())       result.append(&quot; strict=\&quot;yes\&quot;&quot;);</span>
+<span class="pc bpc" id="L594" title="1 of 2 branches missed.">            if (element.isSynthetic())    result.append(&quot; synthetic=\&quot;yes\&quot;&quot;);</span>
+<span class="fc bfc" id="L595" title="All 2 branches covered.">            if (element.isDeprecated())   result.append(&quot; deprecated=\&quot;yes\&quot;&quot;);</span>
+
+<span class="pc bpc" id="L597" title="1 of 4 branches missed.">            if (!element.getName().equals(&quot;&lt;init&gt;&quot;) &amp;&amp; !element.getName().equals(&quot;&lt;clinit&gt;&quot;)) {</span>
+<span class="fc" id="L598">                result.append(&quot; return-type=\&quot;&quot;).append(element.getReturnType()).append(&quot;\&quot;&quot;);</span>
+            }
+
+<span class="fc" id="L601">            result.append(&quot; signature=\&quot;&quot;).append(element.getSignature()).append(&quot;\&quot;&quot;);</span>
+<span class="fc" id="L602">            result.append(&quot; full-signature=\&quot;&quot;).append(element.getFullSignature()).append(&quot;\&quot;&quot;);</span>
+
+<span class="fc" id="L604">            result.append(&quot; throws=\&quot;&quot;);</span>
+<span class="fc" id="L605">            Iterator&lt;? extends Class_info&gt; i = element.getExceptions().iterator();</span>
+<span class="pc bpc" id="L606" title="1 of 2 branches missed.">            while (i.hasNext()) {</span>
+<span class="nc" id="L607">                result.append(i.next());</span>
+<span class="nc bnc" id="L608" title="All 2 branches missed.">                if (i.hasNext()) {</span>
+<span class="nc" id="L609">                    result.append(&quot;, &quot;);</span>
+                }
+            }
+<span class="fc" id="L612">            result.append(&quot;\&quot;&quot;);</span>
+        }
+
+<span class="fc" id="L615">        return result.toString();</span>
+    }
+
+    private String escapeXMLCharactersInTagContent(String text) {
+<span class="fc" id="L619">        String result = text;</span>
+
+<span class="fc" id="L621">        result = perl.substitute(&quot;s/&amp;/&amp;amp;/g&quot;, result);</span>
+<span class="fc" id="L622">        result = perl.substitute(&quot;s/&lt;/&amp;lt;/g&quot;, result);</span>
+<span class="fc" id="L623">        result = perl.substitute(&quot;s/&gt;/&amp;gt;/g&quot;, result);</span>
+
+<span class="fc" id="L625">        return result;</span>
+    }
+
+    private String escapeXMLCharactersInAttributeValue(String text) {
+<span class="fc" id="L629">        String result = escapeXMLCharactersInTagContent(text);</span>
+
+<span class="fc" id="L631">        result = perl.substitute(&quot;s/\&quot;/&amp;quot;/g&quot;, result);</span>
+<span class="fc" id="L632">        result = perl.substitute(&quot;s/'/&amp;apos;/g&quot;, result);</span>
+
+<span class="fc" id="L634">        return result;</span>
+    }
+
+    public boolean equals(Object object) {
+<span class="nc bnc" id="L638" title="All 2 branches missed.">        if (this == object) {</span>
+<span class="nc" id="L639">            return true;</span>
+        }
+
+<span class="nc bnc" id="L642" title="All 4 branches missed.">        if (object == null || getClass() != object.getClass()) {</span>
+<span class="nc" id="L643">            return false;</span>
+        }
+
+<span class="nc bnc" id="L646" title="All 2 branches missed.">        return compareTo((ClassReport) object) == 0;</span>
+    }
+
+    public int hashCode() {
+<span class="nc" id="L650">        return differences.hashCode();</span>
+    }
+
+    public int compareTo(ClassReport other) {
+<span class="fc bfc" id="L654" title="All 2 branches covered.">        if (this == other) {</span>
+<span class="fc" id="L655">            return 0;</span>
+        }
+
+<span class="pc bpc" id="L658" title="1 of 2 branches missed.">        if (other == null) {</span>
+<span class="nc" id="L659">            throw new ClassCastException(&quot;compareTo: expected a &quot; + getClass().getName() + &quot; but got null&quot;);</span>
+        }
+
+<span class="fc" id="L662">        return differences.compareTo(other.differences);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

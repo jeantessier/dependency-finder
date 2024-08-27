@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InvokeDynamicPrinter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader</a> &gt; <span class="el_source">InvokeDynamicPrinter.java</span></div><h1>InvokeDynamicPrinter.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.classreader;
+
+import org.apache.logging.log4j.*;
+
+import java.io.PrintWriter;
+import java.util.stream.IntStream;
+
+import static java.util.stream.Collectors.*;
+
+public class InvokeDynamicPrinter extends Printer {
+    private Classfile currentClassfile;
+    private Method_info currentMethod;
+    private int currentConstantPoolIndex;
+    private int currentBootstrapMethodIndex;
+
+    public InvokeDynamicPrinter(PrintWriter out) {
+<span class="nc" id="L49">        super(out);</span>
+<span class="nc" id="L50">    }</span>
+
+    public void visitClassfile(Classfile classfile) {
+<span class="nc" id="L53">        LogManager.getLogger(getClass()).debug(&quot;visitClassfile({})&quot;, classfile.getClassName());</span>
+<span class="nc" id="L54">        currentClassfile = classfile;</span>
+<span class="nc" id="L55">        classfile.getAllMethods().forEach(method -&gt; method.accept(this));</span>
+<span class="nc" id="L56">    }</span>
+
+    // ConstantPool
+    public void visitClass_info(Class_info entry) {
+<span class="nc" id="L60">        LogManager.getLogger(getClass()).debug(&quot;visitClass_info({})&quot;, entry.getName());</span>
+<span class="nc" id="L61">        indent().append(currentConstantPoolIndex).append(&quot; : &quot;).append(entry.getClass().getSimpleName()).append(&quot; &quot;).append(entry.getName()).eol();</span>
+
+<span class="nc" id="L63">        raiseIndent();</span>
+<span class="nc" id="L64">        currentConstantPoolIndex = entry.getNameIndex();</span>
+<span class="nc" id="L65">        entry.getRawName().accept(this);</span>
+<span class="nc" id="L66">        lowerIndent();</span>
+<span class="nc" id="L67">    }</span>
+
+    public void visitFieldRef_info(FieldRef_info entry) {
+<span class="nc" id="L70">        LogManager.getLogger(getClass()).debug(&quot;visitFieldRef_info({})&quot;, entry.getFullSignature());</span>
+<span class="nc" id="L71">        indent().append(currentConstantPoolIndex).append(&quot; : &quot;).append(entry.getClass().getSimpleName()).append(&quot; &quot;).append(entry.getFullSignature()).eol();</span>
+
+<span class="nc" id="L73">        raiseIndent();</span>
+<span class="nc" id="L74">        currentConstantPoolIndex = entry.getClassIndex();</span>
+<span class="nc" id="L75">        entry.getRawClass().accept(this);</span>
+<span class="nc" id="L76">        currentConstantPoolIndex = entry.getNameAndTypeIndex();</span>
+<span class="nc" id="L77">        entry.getRawNameAndType().accept(this);</span>
+<span class="nc" id="L78">        lowerIndent();</span>
+<span class="nc" id="L79">    }</span>
+
+    public void visitMethodRef_info(MethodRef_info entry) {
+<span class="nc" id="L82">        LogManager.getLogger(getClass()).debug(&quot;visitMethodRef_info({})&quot;, entry.getFullSignature());</span>
+<span class="nc" id="L83">        indent().append(currentConstantPoolIndex).append(&quot; : &quot;).append(entry.getClass().getSimpleName()).append(&quot; &quot;).append(entry.getFullSignature()).eol();</span>
+
+<span class="nc" id="L85">        raiseIndent();</span>
+<span class="nc" id="L86">        currentConstantPoolIndex = entry.getClassIndex();</span>
+<span class="nc" id="L87">        entry.getRawClass().accept(this);</span>
+<span class="nc" id="L88">        currentConstantPoolIndex = entry.getNameAndTypeIndex();</span>
+<span class="nc" id="L89">        entry.getRawNameAndType().accept(this);</span>
+<span class="nc" id="L90">        lowerIndent();</span>
+<span class="nc" id="L91">    }</span>
+
+    public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
+<span class="nc" id="L94">        LogManager.getLogger(getClass()).debug(&quot;visitInterfaceMethodRef_info({})&quot;, entry.getFullSignature());</span>
+<span class="nc" id="L95">        indent().append(currentConstantPoolIndex).append(&quot; : &quot;).append(entry.getClass().getSimpleName()).append(&quot; &quot;).append(entry.getFullSignature()).eol();</span>
+
+<span class="nc" id="L97">        raiseIndent();</span>
+<span class="nc" id="L98">        currentConstantPoolIndex = entry.getClassIndex();</span>
+<span class="nc" id="L99">        entry.getRawClass().accept(this);</span>
+<span class="nc" id="L100">        currentConstantPoolIndex = entry.getNameAndTypeIndex();</span>
+<span class="nc" id="L101">        entry.getRawNameAndType().accept(this);</span>
+<span class="nc" id="L102">        lowerIndent();</span>
+<span class="nc" id="L103">    }</span>
+
+    public void visitString_info(String_info entry) {
+<span class="nc" id="L106">        LogManager.getLogger(getClass()).debug(&quot;visitString_info({})&quot;, entry.getValue());</span>
+<span class="nc" id="L107">        indent().append(currentConstantPoolIndex).append(&quot; : &quot;).append(entry.getClass().getSimpleName()).append(&quot; \&quot;&quot;).append(entry.getValue()).append(&quot;\&quot;&quot;).eol();</span>
+
+<span class="nc" id="L109">        raiseIndent();</span>
+<span class="nc" id="L110">        currentConstantPoolIndex = entry.getValueIndex();</span>
+<span class="nc" id="L111">        entry.getRawValue().accept(this);</span>
+<span class="nc" id="L112">        lowerIndent();</span>
+<span class="nc" id="L113">    }</span>
+
+    public void visitInteger_info(Integer_info entry) {
+<span class="nc" id="L116">        LogManager.getLogger(getClass()).debug(&quot;visitInteger_info({})&quot;, entry.getValue());</span>
+<span class="nc" id="L117">        indent().append(currentConstantPoolIndex).append(&quot; : &quot;).append(entry.getClass().getSimpleName()).append(&quot; &quot;).append(entry.getValue()).eol();</span>
+<span class="nc" id="L118">    }</span>
+
+    public void visitFloat_info(Float_info entry) {
+<span class="nc" id="L121">        LogManager.getLogger(getClass()).debug(&quot;visitFloat_info({})&quot;, entry.getValue());</span>
+<span class="nc" id="L122">        indent().append(currentConstantPoolIndex).append(&quot; : &quot;).append(entry.getClass().getSimpleName()).append(&quot; &quot;).append(entry.getValue()).eol();</span>
+<span class="nc" id="L123">    }</span>
+
+    public void visitLong_info(Long_info entry) {
+<span class="nc" id="L126">        LogManager.getLogger(getClass()).debug(&quot;visitLong_info({})&quot;, entry.getValue());</span>
+<span class="nc" id="L127">        indent().append(currentConstantPoolIndex).append(&quot; : &quot;).append(entry.getClass().getSimpleName()).append(&quot; &quot;).append(entry.getValue()).eol();</span>
+<span class="nc" id="L128">    }</span>
+
+    public void visitDouble_info(Double_info entry) {
+<span class="nc" id="L131">        LogManager.getLogger(getClass()).debug(&quot;visitDouble_info({})&quot;, entry.getValue());</span>
+<span class="nc" id="L132">        indent().append(currentConstantPoolIndex).append(&quot; : &quot;).append(entry.getClass().getSimpleName()).append(&quot; &quot;).append(entry.getValue()).eol();</span>
+<span class="nc" id="L133">    }</span>
+
+    public void visitNameAndType_info(NameAndType_info entry) {
+<span class="nc" id="L136">        LogManager.getLogger(getClass()).debug(&quot;visitNameAndType_info({} + {})&quot;, entry.getName(), entry.getType());</span>
+<span class="nc" id="L137">        indent().append(currentConstantPoolIndex).append(&quot; : &quot;).append(entry.getClass().getSimpleName()).eol();</span>
+
+<span class="nc" id="L139">        raiseIndent();</span>
+<span class="nc" id="L140">        currentConstantPoolIndex = entry.getNameIndex();</span>
+<span class="nc" id="L141">        entry.getRawName().accept(this);</span>
+<span class="nc" id="L142">        currentConstantPoolIndex = entry.getTypeIndex();</span>
+<span class="nc" id="L143">        entry.getRawType().accept(this);</span>
+<span class="nc" id="L144">        lowerIndent();</span>
+<span class="nc" id="L145">    }</span>
+
+    public void visitUTF8_info(UTF8_info entry) {
+<span class="nc" id="L148">        LogManager.getLogger(getClass()).debug(&quot;visitUTF8_info({})&quot;, entry.getValue());</span>
+<span class="nc" id="L149">        indent().append(currentConstantPoolIndex).append(&quot; : &quot;).append(entry.getClass().getSimpleName()).append(&quot; \&quot;&quot;).append(entry.getValue()).append(&quot;\&quot;&quot;).eol();</span>
+<span class="nc" id="L150">    }</span>
+
+    public void visitMethodHandle_info(MethodHandle_info entry) {
+<span class="nc" id="L153">        LogManager.getLogger(getClass()).debug(&quot;visitMethodHandle_info({} {})&quot;, entry.getReferenceKind().getDescription(), entry.getReference().getFullSignature());</span>
+<span class="nc" id="L154">        indent().append(currentConstantPoolIndex).append(&quot; : &quot;).append(entry.getClass().getSimpleName()).append(&quot; &quot;).append(entry.getReferenceKind().getDescription()).append(&quot;(&quot;).append(entry.getRawReferenceKind()).append(&quot;) &quot;).append(entry.getReference().getFullSignature()).eol();</span>
+
+<span class="nc" id="L156">        raiseIndent();</span>
+<span class="nc" id="L157">        currentConstantPoolIndex = entry.getReferenceIndex();</span>
+<span class="nc" id="L158">        entry.getReference().accept(this);</span>
+<span class="nc" id="L159">        lowerIndent();</span>
+<span class="nc" id="L160">    }</span>
+
+    public void visitMethodType_info(MethodType_info entry) {
+<span class="nc" id="L163">        LogManager.getLogger(getClass()).debug(&quot;visitMethodType_info({})&quot;, entry.getDescriptor());</span>
+<span class="nc" id="L164">        indent().append(currentConstantPoolIndex).append(&quot; : &quot;).append(entry.getClass().getSimpleName()).append(&quot; &quot;).append(entry).eol();</span>
+
+<span class="nc" id="L166">        raiseIndent();</span>
+<span class="nc" id="L167">        currentConstantPoolIndex = entry.getDescriptorIndex();</span>
+<span class="nc" id="L168">        entry.getRawDescriptor().accept(this);</span>
+<span class="nc" id="L169">        lowerIndent();</span>
+<span class="nc" id="L170">    }</span>
+
+    public void visitDynamic_info(Dynamic_info entry) {
+<span class="nc" id="L173">        LogManager.getLogger(getClass()).debug(&quot;visitDynamic_info(bootstrap method #{} + {})&quot;, entry.getBootstrapMethodAttrIndex(), entry.getSignature());</span>
+<span class="nc" id="L174">        indent().append(currentConstantPoolIndex).append(&quot; : &quot;).append(entry.getClass().getSimpleName()).append(&quot; &quot;).append(entry).eol();</span>
+
+<span class="nc" id="L176">        raiseIndent();</span>
+<span class="nc" id="L177">        currentConstantPoolIndex = entry.getNameAndTypeIndex();</span>
+<span class="nc" id="L178">        entry.getRawNameAndType().accept(this);</span>
+
+<span class="nc" id="L180">        currentBootstrapMethodIndex = entry.getBootstrapMethodAttrIndex();</span>
+<span class="nc" id="L181">        var finder = new BootstrapMethodFinder(entry.getBootstrapMethodAttrIndex());</span>
+<span class="nc" id="L182">        currentClassfile.accept(finder);</span>
+<span class="nc" id="L183">        finder.getBootstrapMethod().accept(this);</span>
+<span class="nc" id="L184">        lowerIndent();</span>
+<span class="nc" id="L185">    }</span>
+
+    public void visitInvokeDynamic_info(InvokeDynamic_info entry) {
+<span class="nc" id="L188">        LogManager.getLogger(getClass()).debug(&quot;visitInvokeDynamic_info(bootstrap method #{} + {})&quot;, entry.getBootstrapMethodAttrIndex(), entry.getSignature());</span>
+<span class="nc" id="L189">        indent().append(currentConstantPoolIndex).append(&quot; : &quot;).append(entry.getClass().getSimpleName()).append(&quot; &quot;).append(entry).eol();</span>
+
+<span class="nc" id="L191">        raiseIndent();</span>
+<span class="nc" id="L192">        currentConstantPoolIndex = entry.getNameAndTypeIndex();</span>
+<span class="nc" id="L193">        entry.getRawNameAndType().accept(this);</span>
+
+<span class="nc" id="L195">        currentBootstrapMethodIndex = entry.getBootstrapMethodAttrIndex();</span>
+<span class="nc" id="L196">        var finder = new BootstrapMethodFinder(entry.getBootstrapMethodAttrIndex());</span>
+<span class="nc" id="L197">        currentClassfile.accept(finder);</span>
+<span class="nc" id="L198">        finder.getBootstrapMethod().accept(this);</span>
+<span class="nc" id="L199">        lowerIndent();</span>
+<span class="nc" id="L200">    }</span>
+
+    public void visitModule_info(Module_info entry) {
+<span class="nc" id="L203">        LogManager.getLogger(getClass()).debug(&quot;visitModule_info({})&quot;, entry.getName());</span>
+<span class="nc" id="L204">        indent().append(currentConstantPoolIndex).append(&quot; : &quot;).append(entry.getClass().getSimpleName()).eol();</span>
+
+<span class="nc" id="L206">        raiseIndent();</span>
+<span class="nc" id="L207">        currentConstantPoolIndex = entry.getNameIndex();</span>
+<span class="nc" id="L208">        entry.getRawName().accept(this);</span>
+<span class="nc" id="L209">        lowerIndent();</span>
+<span class="nc" id="L210">    }</span>
+
+    public void visitPackage_info(Package_info entry) {
+<span class="nc" id="L213">        LogManager.getLogger(getClass()).debug(&quot;visitPackage_info({})&quot;, entry.getName());</span>
+<span class="nc" id="L214">        indent().append(currentConstantPoolIndex).append(&quot; : &quot;).append(entry.getClass().getSimpleName()).eol();</span>
+
+<span class="nc" id="L216">        raiseIndent();</span>
+<span class="nc" id="L217">        currentConstantPoolIndex = entry.getNameIndex();</span>
+<span class="nc" id="L218">        entry.getRawName().accept(this);</span>
+<span class="nc" id="L219">        lowerIndent();</span>
+<span class="nc" id="L220">    }</span>
+
+    // Features
+    public void visitMethod_info(Method_info entry) {
+<span class="nc" id="L224">        LogManager.getLogger(getClass()).debug(&quot;visitMethod_info({})&quot;, entry.getFullSignature());</span>
+<span class="nc" id="L225">        currentMethod = entry;</span>
+<span class="nc" id="L226">        super.visitMethod_info(entry);</span>
+<span class="nc" id="L227">    }</span>
+
+    // Attributes
+    public void visitCode_attribute(Code_attribute attribute) {
+<span class="nc" id="L231">        attribute.forEach(instruction -&gt; instruction.accept(this));</span>
+<span class="nc" id="L232">    }</span>
+
+    public void visitBootstrapMethods_attribute(BootstrapMethods_attribute attribute) {
+<span class="nc" id="L235">        LogManager.getLogger(getClass()).debug(&quot;visitBootstrapMethods_attribute(w/ {} method(s))&quot;, attribute.getBootstrapMethods().size());</span>
+        // Do not traverse the BootstrapMethods from the attribute.
+        // Only from the invokedynamic instructions.
+<span class="nc" id="L238">    }</span>
+
+    // Attribute helpers
+    public void visitInstruction(Instruction helper) {
+<span class="nc" id="L242">        LogManager.getLogger(getClass()).debug(&quot;visitInstruction({} : {})&quot;, helper.getStart(), helper.getMnemonic());</span>
+<span class="nc bnc" id="L243" title="All 2 branches missed.">        if (helper.getOpcode() == 0xba /* invokedynamic */) {</span>
+<span class="nc" id="L244">            indent().append(currentMethod.getFullSignature()).eol();</span>
+
+<span class="nc" id="L246">            raiseIndent();</span>
+<span class="nc" id="L247">            indent().append(&quot;pc=&quot;).append(helper.getStart()).append(&quot; : &quot;).append(helper.getMnemonic());</span>
+<span class="nc" id="L248">            var indexedEntry = helper.getIndexedConstantPoolEntry();</span>
+<span class="nc bnc" id="L249" title="All 2 branches missed.">            if (indexedEntry instanceof Dynamic_info dynamic_info) {</span>
+<span class="nc" id="L250">                append(&quot; &quot;).append(dynamic_info.getName());</span>
+<span class="nc bnc" id="L251" title="All 2 branches missed.">            } else if (indexedEntry instanceof InvokeDynamic_info invokeDynamic_info) {</span>
+<span class="nc" id="L252">                append(&quot; &quot;).append(invokeDynamic_info.getName());</span>
+            }
+            // TODO: Replace with type pattern matching in switch expression in Java 21
+            // switch (helper.getIndexedConstantPoolEntry()) {
+            //     case Dynamic_info entry -&gt; append(&quot; &quot;).append(entry.getName());
+            //     case InvokeDynamic_info entry -&gt; append(&quot; &quot;).append(entry.getName());
+            //     default -&gt; append(&quot;&quot;);
+            // }
+<span class="nc" id="L260">            eol();</span>
+
+<span class="nc" id="L262">            raiseIndent();</span>
+<span class="nc" id="L263">            currentConstantPoolIndex = helper.getIndex();</span>
+<span class="nc" id="L264">            helper.getIndexedConstantPoolEntry().accept(this);</span>
+<span class="nc" id="L265">            lowerIndent();</span>
+<span class="nc" id="L266">            lowerIndent();</span>
+
+<span class="nc" id="L268">            eol();</span>
+        }
+<span class="nc" id="L270">    }</span>
+
+    public void visitBootstrapMethod(BootstrapMethod helper) {
+<span class="nc" id="L273">        LogManager.getLogger(getClass()).debug(&quot;visitBootstrapMethod({} w/ [{}])&quot;, () -&gt; helper.getBootstrapMethod().getReference().getFullSignature(), () -&gt; helper.getArgumentIndices().stream().map(String::valueOf).collect(joining(&quot; ,&quot;)));</span>
+<span class="nc" id="L274">        indent().append(currentBootstrapMethodIndex).append(&quot; : BootstrapMethod&quot;).eol();</span>
+
+<span class="nc" id="L276">        raiseIndent();</span>
+<span class="nc" id="L277">        currentConstantPoolIndex = helper.getBootstrapMethodRef();</span>
+<span class="nc" id="L278">        helper.getBootstrapMethod().accept(this);</span>
+
+<span class="nc" id="L280">        var argumentIndices = helper.getArgumentIndices().toArray();</span>
+<span class="nc" id="L281">        IntStream.range(0, argumentIndices.length).forEach(i -&gt; {</span>
+<span class="nc" id="L282">            indent().append(&quot;argument &quot; + i).eol();</span>
+<span class="nc" id="L283">            raiseIndent();</span>
+<span class="nc" id="L284">            var argumentIndex = (int) argumentIndices[i];</span>
+<span class="nc" id="L285">            currentConstantPoolIndex = argumentIndex;</span>
+<span class="nc" id="L286">            currentClassfile.getConstantPool().get(argumentIndex).accept(this);</span>
+<span class="nc" id="L287">            lowerIndent();</span>
+<span class="nc" id="L288">        });</span>
+
+<span class="nc" id="L290">        lowerIndent();</span>
+<span class="nc" id="L291">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

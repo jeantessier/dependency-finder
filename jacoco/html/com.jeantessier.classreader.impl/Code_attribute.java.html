@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Code_attribute.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader.impl</a> &gt; <span class="el_source">Code_attribute.java</span></div><h1>Code_attribute.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.classreader.impl;
+
+import java.io.*;
+import java.util.*;
+import java.util.stream.*;
+
+import org.apache.logging.log4j.*;
+
+import com.jeantessier.classreader.Instruction;
+import com.jeantessier.classreader.LocalVariable;
+import com.jeantessier.classreader.*;
+import com.jeantessier.text.*;
+
+public class Code_attribute extends Attribute_info implements Iterable&lt;Instruction&gt;, com.jeantessier.classreader.Code_attribute {
+    private final int maxStack;
+    private final int maxLocals;
+    private final byte[] code;
+<span class="fc" id="L50">    private final Collection&lt;ExceptionHandler&gt; exceptionHandlers = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L51">    private final Collection&lt;Attribute_info&gt; attributes = new LinkedList&lt;&gt;();</span>
+
+    public Code_attribute(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L54">        super(constantPool, owner);</span>
+
+<span class="fc" id="L56">        int byteCount = in.readInt();</span>
+<span class="fc" id="L57">        LogManager.getLogger(getClass()).debug(&quot;Attribute length: {}&quot;, byteCount);</span>
+
+<span class="fc" id="L59">        maxStack = in.readUnsignedShort();</span>
+<span class="fc" id="L60">        LogManager.getLogger(getClass()).debug(&quot;Code max stack: {}&quot;, maxStack);</span>
+
+<span class="fc" id="L62">        maxLocals = in.readUnsignedShort();</span>
+<span class="fc" id="L63">        LogManager.getLogger(getClass()).debug(&quot;Code max locals: {}&quot;, maxLocals);</span>
+
+<span class="fc" id="L65">        int codeLength = in.readInt();</span>
+<span class="fc" id="L66">        LogManager.getLogger(getClass()).debug(&quot;Code length: {}&quot;, codeLength);</span>
+        
+<span class="fc" id="L68">        code = new byte[codeLength];</span>
+<span class="fc" id="L69">        in.readFully(code);</span>
+<span class="pc" id="L70">        LogManager.getLogger(getClass()).debug(&quot;Read {} byte(s): {}&quot;, () -&gt; codeLength, () -&gt; Hex.toString(code));</span>
+
+<span class="fc" id="L72">        int exceptionTableLength = in.readUnsignedShort();</span>
+<span class="fc" id="L73">        LogManager.getLogger(getClass()).debug(&quot;Reading {} exception handler(s) ...&quot;, exceptionTableLength);</span>
+<span class="fc" id="L74">        IntStream.range (0, exceptionTableLength).forEach(i -&gt; {</span>
+            try {
+<span class="fc" id="L76">                LogManager.getLogger(getClass()).debug(&quot;Exception handler {}:&quot;, i);</span>
+<span class="fc" id="L77">                exceptionHandlers.add(new ExceptionHandler(this, in));</span>
+<span class="nc" id="L78">            } catch (IOException e) {</span>
+<span class="nc" id="L79">                throw new RuntimeException(e);</span>
+<span class="fc" id="L80">            }</span>
+<span class="fc" id="L81">        });</span>
+
+<span class="fc" id="L83">        int attributeCount = in.readUnsignedShort();</span>
+<span class="fc" id="L84">        LogManager.getLogger(getClass()).debug(&quot;Reading {} code attribute(s)&quot;, attributeCount);</span>
+<span class="fc" id="L85">        IntStream.range(0, attributeCount).forEach(i -&gt; {</span>
+            try {
+<span class="fc" id="L87">                LogManager.getLogger(getClass()).debug(&quot;code attribute {}:&quot;, i);</span>
+<span class="fc" id="L88">                attributes.add(attributeFactory.create(getConstantPool(), this, in));</span>
+<span class="nc" id="L89">            } catch (IOException e) {</span>
+<span class="nc" id="L90">                throw new RuntimeException(e);</span>
+<span class="fc" id="L91">            }</span>
+<span class="fc" id="L92">        });</span>
+
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        if (LogManager.getLogger(getClass()).isDebugEnabled()) {</span>
+<span class="nc" id="L95">            LogManager.getLogger(getClass()).debug(&quot;Read instructions(s):&quot;);</span>
+<span class="nc" id="L96">            forEach(this::logInstruction);</span>
+        }
+<span class="fc" id="L98">    }</span>
+
+    public int getMaxStack() {
+<span class="fc" id="L101">        return maxStack;</span>
+    }
+
+    public int getMaxLocals() {
+<span class="fc" id="L105">        return maxLocals;</span>
+    }
+
+    public byte[] getCode() {
+<span class="fc" id="L109">        return code;</span>
+    }
+
+    public Iterator&lt;Instruction&gt; iterator() {
+<span class="fc" id="L113">        return new CodeIterator(this, code);</span>
+    }
+
+    public Spliterator&lt;Instruction&gt; spliterator() {
+<span class="nc" id="L117">        return new CodeSpliterator(this, code);</span>
+    }
+
+    public Stream&lt;Instruction&gt; stream() {
+<span class="nc" id="L121">        return StreamSupport.stream(spliterator(), false);</span>
+    }
+
+    public Collection&lt;ExceptionHandler&gt; getExceptionHandlers() {
+<span class="fc" id="L125">        return exceptionHandlers;</span>
+    }
+
+    public Collection&lt;Attribute_info&gt; getAttributes() {
+<span class="fc" id="L129">        return attributes;</span>
+    }
+
+    public String toString() {
+<span class="nc" id="L133">        return &quot;Code&quot;;</span>
+    }
+
+    public String getAttributeName() {
+<span class="fc" id="L137">        return AttributeType.CODE.getAttributeName();</span>
+    }
+
+    public void accept(Visitor visitor) {
+<span class="fc" id="L141">        visitor.visitCode_attribute(this);</span>
+<span class="fc" id="L142">    }</span>
+
+    private void logInstruction(Instruction instruction) {
+<span class="nc" id="L145">        StringBuilder message = new StringBuilder();</span>
+<span class="nc" id="L146">        message.append(&quot;    &quot;).append(instruction.getStart()).append(&quot;: &quot;).append(instruction);</span>
+<span class="nc" id="L147">        appendIndexedConstantPoolEntry(message, instruction);</span>
+<span class="nc" id="L148">        appendIndexedLocalVariable(message, instruction);</span>
+<span class="nc" id="L149">        appendOffset(message, instruction);</span>
+<span class="nc" id="L150">        appendValue(message, instruction);</span>
+
+<span class="nc" id="L152">        LogManager.getLogger(getClass()).debug(message);</span>
+<span class="nc" id="L153">    }</span>
+
+    private StringBuilder appendIndexedConstantPoolEntry(StringBuilder message, Instruction instruction) {
+<span class="nc bnc" id="L156" title="All 2 branches missed.">        return switch (instruction.getOpcode()) {</span>
+            case 0x12: // ldc
+            case 0x13: // ldc_w
+            case 0x14: // ldc2_w
+            case 0xb2: // getstatic
+            case 0xb3: // putstatic
+            case 0xb4: // getfield
+            case 0xb5: // putfield
+            case 0xb6: // invokevirtual
+            case 0xb7: // invokespecial
+            case 0xb8: // invokestatic
+            case 0xb9: // invokeinterface
+            case 0xbb: // new
+            case 0xbd: // anewarray
+            case 0xc0: // checkcast
+            case 0xc1: // instanceof
+            case 0xc5: // multianewarray
+<span class="nc" id="L173">                yield message.append(&quot; &quot;).append(instruction.getIndex()).append(&quot; (&quot;).append(instruction.getIndexedConstantPoolEntry()).append(&quot;)&quot;);</span>
+            default:
+<span class="nc" id="L175">                yield message;</span>
+        };
+    }
+
+    private StringBuilder appendIndexedLocalVariable(StringBuilder message, Instruction instruction) {
+<span class="nc bnc" id="L180" title="All 3 branches missed.">        return switch (instruction.getOpcode()) {</span>
+            case 0x1a: // iload_0
+            case 0x1e: // lload_0
+            case 0x22: // fload_0
+            case 0x26: // dload_0
+            case 0x2a: // aload_0
+            case 0x3b: // istore_0
+            case 0x3f: // lstore_0
+            case 0x43: // fstore_0
+            case 0x47: // dstore_0
+            case 0x4b: // astore_0
+            case 0x1b: // iload_1
+            case 0x1f: // lload_1
+            case 0x23: // fload_1
+            case 0x27: // dload_1
+            case 0x2b: // aload_1
+            case 0x3c: // istore_1
+            case 0x40: // lstore_1
+            case 0x44: // fstore_1
+            case 0x48: // dstore_1
+            case 0x4c: // astore_1
+            case 0x1c: // iload_2
+            case 0x20: // lload_2
+            case 0x24: // fload_2
+            case 0x28: // dload_2
+            case 0x2c: // aload_2
+            case 0x3d: // istore_2
+            case 0x41: // lstore_2
+            case 0x45: // fstore_2
+            case 0x49: // dstore_2
+            case 0x4d: // astore_2
+            case 0x1d: // iload_3
+            case 0x21: // lload_3
+            case 0x25: // fload_3
+            case 0x29: // dload_3
+            case 0x2d: // aload_3
+            case 0x3e: // istore_3
+            case 0x42: // lstore_3
+            case 0x46: // fstore_3
+            case 0x4a: // dstore_3
+            case 0x4e: // astore_3
+<span class="nc" id="L221">                yield appendLocalVariable(message, instruction.getIndexedLocalVariable());</span>
+            case 0x15: // iload
+            case 0x16: // llload
+            case 0x17: // fload
+            case 0x18: // dload
+            case 0x19: // aload
+            case 0x36: // istore
+            case 0x37: // lstore
+            case 0x38: // fstore
+            case 0x39: // dstore
+            case 0x3a: // astore
+            case 0xa9: // ret
+            case 0x84: // iinc
+            case 0xc4: // wide
+<span class="nc" id="L235">                message.append(&quot; &quot;).append(instruction.getIndex());</span>
+<span class="nc" id="L236">                yield appendLocalVariable(message, instruction.getIndexedLocalVariable());</span>
+            default:
+<span class="nc" id="L238">                yield message;</span>
+        };
+    }
+
+    private StringBuilder appendLocalVariable(StringBuilder message, LocalVariable localVariable) {
+<span class="nc" id="L243">        String name = &quot;n/a&quot;;</span>
+
+<span class="nc bnc" id="L245" title="All 2 branches missed.">        if (localVariable != null) {</span>
+<span class="nc" id="L246">            name = localVariable.toString();</span>
+        }
+
+<span class="nc" id="L249">        return message.append(&quot; (&quot;).append(name).append(&quot;)&quot;);</span>
+    }
+
+    private StringBuilder appendOffset(StringBuilder message, Instruction instruction) {
+<span class="nc bnc" id="L253" title="All 2 branches missed.">        return switch (instruction.getOpcode()) {</span>
+            case 0x99: // ifeq
+            case 0x9a: // ifne
+            case 0x9b: // iflt
+            case 0x9c: // ifge
+            case 0x9d: // ifgt
+            case 0x9e: // ifle
+            case 0x9f: // if_icmpeq
+            case 0xa0: // if_icmpne
+            case 0xa1: // if_icmplt
+            case 0xa2: // if_icmpge
+            case 0xa3: // if_icmpgt
+            case 0xa4: // if_icmple
+            case 0xa5: // if_acmpeq
+            case 0xa6: // if_acmpne
+            case 0xa7: // goto
+            case 0xa8: // jsr
+            case 0xc6: // ifnull
+            case 0xc7: // ifnonnull
+            case 0xc8: // goto_w
+            case 0xc9: // jsr_w
+<span class="nc" id="L274">                yield message.append(String.format(&quot; %+d (to %d)&quot;, instruction.getOffset(), instruction.getStart() + instruction.getOffset()));</span>
+            default:
+<span class="nc" id="L276">                yield message;</span>
+        };
+    }
+
+    private StringBuilder appendValue(StringBuilder message, Instruction instruction) {
+<span class="nc bnc" id="L281" title="All 4 branches missed.">        return switch (instruction.getOpcode()) {</span>
+            case 0x10: // bipush
+            case 0x11: // sipush
+<span class="nc" id="L284">                yield message.append(&quot; &quot;).append(instruction.getValue());</span>
+            case 0x84: // iinc
+<span class="nc" id="L286">                yield message.append(&quot; by &quot;).append(instruction.getValue());</span>
+            case 0xc4: // wide
+<span class="nc bnc" id="L288" title="All 2 branches missed.">                yield instruction.getByte(1) == 0x84 /* iinc */ ? message.append(&quot; by &quot;).append(instruction.getValue()) : message;</span>
+            default:
+<span class="nc" id="L290">                yield message;</span>
+        };
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

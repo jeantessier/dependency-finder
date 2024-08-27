@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListDiff.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependencyfinder.ant</a> &gt; <span class="el_source">ListDiff.java</span></div><h1>ListDiff.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependencyfinder.ant;
+
+import java.io.*;
+import java.util.*;
+
+import org.apache.tools.ant.*;
+
+import com.jeantessier.diff.*;
+
+<span class="fc" id="L42">public class ListDiff extends Task {</span>
+<span class="fc" id="L43">    private String name = &quot;&quot;;</span>
+    private File oldFile;
+    private String oldLabel;
+    private File newFile;
+    private String newLabel;
+<span class="fc" id="L48">    private boolean compress = false;</span>
+<span class="fc" id="L49">    private String encoding = ListDiffPrinter.DEFAULT_ENCODING;</span>
+<span class="fc" id="L50">    private String dtdPrefix = ListDiffPrinter.DEFAULT_DTD_PREFIX;</span>
+<span class="fc" id="L51">    private String indentText = ListDiffPrinter.DEFAULT_INDENT_TEXT;</span>
+    private File destfile;
+
+    public String getName() {
+<span class="nc" id="L55">        return name;</span>
+    }
+    
+    public void setName(String name) {
+<span class="nc" id="L59">        this.name = name;</span>
+<span class="nc" id="L60">    }</span>
+    
+    public File getOld() {
+<span class="fc" id="L63">        return oldFile;</span>
+    }
+    
+    public void setOld(File oldFile) {
+<span class="fc" id="L67">        this.oldFile = oldFile;</span>
+<span class="fc" id="L68">    }</span>
+
+    public String getOldlabel() {
+<span class="fc" id="L71">        return oldLabel;</span>
+    }
+    
+    public void setOldlabel(String oldLabel) {
+<span class="fc" id="L75">        this.oldLabel = oldLabel;</span>
+<span class="fc" id="L76">    }</span>
+    
+    public File getNew() {
+<span class="fc" id="L79">        return newFile;</span>
+    }
+    
+    public void setNew(File newFile) {
+<span class="fc" id="L83">        this.newFile = newFile;</span>
+<span class="fc" id="L84">    }</span>
+
+    public String getNewlabel() {
+<span class="fc" id="L87">        return newLabel;</span>
+    }
+    
+    public void setNewlabel(String newLabel) {
+<span class="fc" id="L91">        this.newLabel = newLabel;</span>
+<span class="fc" id="L92">    }</span>
+
+    public boolean getCompress() {
+<span class="nc" id="L95">        return compress;</span>
+    }
+
+    public void setCompress(boolean compress) {
+<span class="nc" id="L99">        this.compress = compress;</span>
+<span class="nc" id="L100">    }</span>
+    
+    public String getEncoding() {
+<span class="nc" id="L103">        return encoding;</span>
+    }
+    
+    public void setEncoding(String encoding) {
+<span class="nc" id="L107">        this.encoding = encoding;</span>
+<span class="nc" id="L108">    }</span>
+    
+    public String getDtdprefix() {
+<span class="nc" id="L111">        return dtdPrefix;</span>
+    }
+    
+    public void setDtdprefix(String dtdPrefix) {
+<span class="nc" id="L115">        this.dtdPrefix = dtdPrefix;</span>
+<span class="nc" id="L116">    }</span>
+
+    public String getIndenttext() {
+<span class="nc" id="L119">        return indentText;</span>
+    }
+    
+    public void setIndenttext(String indentText) {
+<span class="nc" id="L123">        this.indentText = indentText;</span>
+<span class="nc" id="L124">    }</span>
+
+    public File getDestfile() {
+<span class="fc" id="L127">        return destfile;</span>
+    }
+    
+    public void setDestfile(File destfile) {
+<span class="fc" id="L131">        this.destfile = destfile;</span>
+<span class="fc" id="L132">    }</span>
+
+    // Visible for tests only
+    void validateParameters() throws BuildException {
+<span class="fc bfc" id="L136" title="All 2 branches covered.">        if (getOld() == null) {</span>
+<span class="fc" id="L137">            throw new BuildException(&quot;old must be set!&quot;);</span>
+        }
+
+<span class="fc bfc" id="L140" title="All 2 branches covered.">        if (!getOld().exists()) {</span>
+<span class="fc" id="L141">            throw new BuildException(&quot;old does not exist!&quot;);</span>
+        }
+
+<span class="fc bfc" id="L144" title="All 2 branches covered.">        if (!getOld().isFile()) {</span>
+<span class="fc" id="L145">            throw new BuildException(&quot;old is not a file!&quot;);</span>
+        }
+
+<span class="fc bfc" id="L148" title="All 2 branches covered.">        if (getOldlabel() == null) {</span>
+<span class="fc" id="L149">            setOldlabel(getOld().getPath());</span>
+        }
+
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        if (getNew() == null) {</span>
+<span class="fc" id="L153">            throw new BuildException(&quot;new must be set!&quot;);</span>
+        }
+
+<span class="fc bfc" id="L156" title="All 2 branches covered.">        if (!getNew().exists()) {</span>
+<span class="fc" id="L157">            throw new BuildException(&quot;new does not exist!&quot;);</span>
+        }
+
+<span class="fc bfc" id="L160" title="All 2 branches covered.">        if (!getNew().isFile()) {</span>
+<span class="fc" id="L161">            throw new BuildException(&quot;new is not a file!&quot;);</span>
+        }
+
+<span class="fc bfc" id="L164" title="All 2 branches covered.">        if (getNewlabel() == null) {</span>
+<span class="fc" id="L165">            setNewlabel(getNew().getPath());</span>
+        }
+
+<span class="fc bfc" id="L168" title="All 2 branches covered.">        if (getDestfile() == null) {</span>
+<span class="fc" id="L169">            throw new BuildException(&quot;destfile must be set!&quot;);</span>
+        }
+<span class="fc" id="L171">    }</span>
+    
+    public void execute() throws BuildException {
+<span class="nc" id="L174">        validateParameters();</span>
+
+        try {
+<span class="nc" id="L177">            log(&quot;Loading old list from &quot; + getOld().getAbsolutePath());</span>
+<span class="nc" id="L178">            var oldAPI = readLines(getOld());</span>
+
+<span class="nc" id="L180">            log(&quot;Loading new list from &quot; + getNew().getAbsolutePath());</span>
+<span class="nc" id="L181">            var newAPI = readLines(getNew());</span>
+
+<span class="nc" id="L183">            log(&quot;Comparing old and new lists ...&quot;);</span>
+
+<span class="nc" id="L185">            var printer = new ListDiffPrinter(getCompress(), getIndenttext(), getEncoding(), getDtdprefix());</span>
+<span class="nc" id="L186">            printer.setName(getName());</span>
+<span class="nc" id="L187">            printer.setOldVersion(getOldlabel());</span>
+<span class="nc" id="L188">            printer.setNewVersion(getNewlabel());</span>
+
+<span class="nc" id="L190">            oldAPI.stream()</span>
+<span class="nc bnc" id="L191" title="All 2 branches missed.">                    .filter(name -&gt; !newAPI.contains(name))</span>
+<span class="nc" id="L192">                    .forEach(printer::remove);</span>
+
+<span class="nc" id="L194">            newAPI.stream()</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">                    .filter(name -&gt; !oldAPI.contains(name))</span>
+<span class="nc" id="L196">                    .forEach(printer::add);</span>
+
+<span class="nc" id="L198">            log(&quot;Saving difference report to &quot; + getDestfile().getAbsolutePath());</span>
+
+<span class="nc" id="L200">            try (var out = new PrintWriter(new FileWriter(getDestfile()))) {</span>
+<span class="nc" id="L201">                out.print(printer);</span>
+            }
+<span class="nc" id="L203">        } catch (IOException ex) {</span>
+<span class="nc" id="L204">            throw new BuildException(ex);</span>
+<span class="nc" id="L205">        }</span>
+<span class="nc" id="L206">    }</span>
+
+    private Collection&lt;String&gt; readLines(File file) throws IOException {
+<span class="nc" id="L209">        try (var in = new BufferedReader(new FileReader(file))) {</span>
+<span class="nc" id="L210">            return new TreeSet&lt;&gt;(in.lines().toList());</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

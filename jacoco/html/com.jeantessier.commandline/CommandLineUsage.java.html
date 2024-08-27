@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CommandLineUsage.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.commandline</a> &gt; <span class="el_source">CommandLineUsage.java</span></div><h1>CommandLineUsage.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.commandline;
+
+import java.util.*;
+import java.util.stream.IntStream;
+
+import com.jeantessier.text.*;
+
+/**
+ *  Generates summary information about the command-line specification.
+ */
+public class CommandLineUsage extends Printer {
+    private final String commandName;
+<span class="fc" id="L45">    private final PrinterBuffer extraText = new PrinterBuffer();</span>
+
+<span class="fc" id="L47">    public CommandLineUsage(String commandName) {</span>
+<span class="fc" id="L48">        this.commandName = commandName;</span>
+<span class="fc" id="L49">        raiseIndent();</span>
+<span class="fc" id="L50">    }</span>
+
+    public String toString() {
+<span class="fc" id="L53">        PrinterBuffer buffer = new PrinterBuffer();</span>
+
+<span class="fc" id="L55">        buffer.indent().append(&quot;USAGE:&quot;).eol();</span>
+<span class="fc" id="L56">        buffer.raiseIndent();</span>
+<span class="fc" id="L57">        buffer.indent().append(commandName).eol();</span>
+<span class="fc" id="L58">        buffer.lowerIndent();</span>
+
+<span class="fc" id="L60">        buffer.append(super.toString());</span>
+
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (extraText.length() &gt; 0) {</span>
+<span class="fc" id="L63">            buffer.append(extraText);</span>
+        }
+
+<span class="fc" id="L66">        return buffer.toString();</span>
+    }
+
+    protected Set&lt;String&gt; getSwitchNames(CommandLine commandLine) {
+<span class="fc" id="L70">        return commandLine.getKnownSwitches();</span>
+    }
+
+    public void visitToggleSwitch(ToggleSwitch cls) {
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">        if (cls.isMandatory()) {</span>
+<span class="nc" id="L75">            indent().append(&quot;-&quot;).append(cls.getName()).append(&quot; (defaults to &quot;).append(cls.getDefaultValue()).append(&quot;)&quot;).eol();</span>
+        } else {
+<span class="fc" id="L77">            indent().append(&quot;[-&quot;).append(cls.getName()).append(&quot;] (defaults to &quot;).append(cls.getDefaultValue()).append(&quot;)&quot;).eol();</span>
+        }
+<span class="fc" id="L79">    }</span>
+
+    public void visitSingleValueSwitch(SingleValueSwitch cls) {
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (cls.isMandatory()) {</span>
+<span class="fc" id="L83">            indent().append(&quot;-&quot;).append(cls.getName()).append(&quot; value (defaults to &quot;).append(cls.getDefaultValue()).append(&quot;)&quot;).eol();</span>
+        } else {
+<span class="fc" id="L85">            indent().append(&quot;[-&quot;).append(cls.getName()).append(&quot; value] (defaults to &quot;).append(cls.getDefaultValue()).append(&quot;)&quot;).eol();</span>
+        }
+<span class="fc" id="L87">    }</span>
+
+    public void visitOptionalValueSwitch(OptionalValueSwitch cls) {
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">        if (cls.isMandatory()) {</span>
+<span class="nc" id="L91">            indent().append(&quot;-&quot;).append(cls.getName()).append(&quot; [value] (defaults to &quot;).append(cls.getDefaultValue()).append(&quot;)&quot;).eol();</span>
+        } else {
+<span class="fc" id="L93">            indent().append(&quot;[-&quot;).append(cls.getName()).append(&quot; [value]] (defaults to &quot;).append(cls.getDefaultValue()).append(&quot;)&quot;).eol();</span>
+        }
+<span class="fc" id="L95">    }</span>
+
+    public void visitMultipleValuesSwitch(MultipleValuesSwitch cls) {
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        if (cls.isMandatory()) {</span>
+<span class="fc" id="L99">            indent().append(&quot;(-&quot;).append(cls.getName()).append(&quot; value)+ (defaults to &quot;).append(cls.getDefaultValue()).append(&quot;)&quot;).eol();</span>
+        } else {
+<span class="fc" id="L101">            indent().append(&quot;(-&quot;).append(cls.getName()).append(&quot; value)* (defaults to &quot;).append(cls.getDefaultValue()).append(&quot;)&quot;).eol();</span>
+        }
+<span class="fc" id="L103">    }</span>
+
+    public void visitAliasSwitch(AliasSwitch cls) {
+<span class="fc" id="L106">        indent().append(&quot;[-&quot;).append(cls.getName()).append(&quot;]&quot;).eol();</span>
+
+<span class="fc" id="L108">        extraText.eol();</span>
+<span class="fc" id="L109">        extraText.indent().append(&quot;-&quot;).append(cls.getName()).append(&quot; is shorthand for the combination:&quot;).eol();</span>
+
+<span class="fc" id="L111">        extraText.raiseIndent();</span>
+<span class="fc" id="L112">        cls.getSwitches().stream()</span>
+<span class="fc" id="L113">                .map(CommandLineSwitch::getName)</span>
+<span class="fc" id="L114">                .forEach(name -&gt; extraText.indent().append(&quot;-&quot;).append(name).eol());</span>
+<span class="fc" id="L115">        extraText.lowerIndent();</span>
+<span class="fc" id="L116">    }</span>
+
+    public void visitNullParameterStrategy(NullParameterStrategy strategy) {
+        // Do nothing
+<span class="fc" id="L120">    }</span>
+
+    public void visitCollectingParameterStrategy(CollectingParameterStrategy strategy) {
+<span class="fc" id="L123">        indent().append(&quot;[param ...]&quot;).eol();</span>
+<span class="fc" id="L124">    }</span>
+
+    public void visitAtLeastParameterStrategy(AtLeastParameterStrategy strategy) {
+<span class="fc" id="L127">        IntStream.rangeClosed(1, strategy.getLimit())</span>
+<span class="fc" id="L128">                .forEach(i -&gt; indent().append(&quot;param&quot;).append(i).eol());</span>
+<span class="fc" id="L129">        indent().append(&quot;...&quot;).eol();</span>
+<span class="fc" id="L130">    }</span>
+
+    public void visitExactlyParameterStrategy(ExactlyParameterStrategy strategy) {
+<span class="nc" id="L133">        IntStream.rangeClosed(1, strategy.getLimit())</span>
+<span class="nc" id="L134">                .forEach(i -&gt; indent().append(&quot;param&quot;).append(i).eol());</span>
+<span class="nc" id="L135">    }</span>
+
+    public void visitAtMostParameterStrategy(AtMostParameterStrategy strategy) {
+<span class="nc" id="L138">        indent();</span>
+
+<span class="nc bnc" id="L140" title="All 2 branches missed.">        for (int i=1; i&lt;=strategy.getLimit(); i++) {</span>
+<span class="nc" id="L141">            append(&quot;[param&quot;).append(i);</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">            if (i &lt; strategy.getLimit()) {</span>
+<span class="nc" id="L143">                append(&quot; &quot;);</span>
+            }
+        }
+
+<span class="nc bnc" id="L147" title="All 2 branches missed.">        for (int i=1; i&lt;=strategy.getLimit(); i++) {</span>
+<span class="nc" id="L148">            append(&quot;]&quot;);</span>
+        }
+
+<span class="nc" id="L151">        eol();</span>
+<span class="nc" id="L152">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

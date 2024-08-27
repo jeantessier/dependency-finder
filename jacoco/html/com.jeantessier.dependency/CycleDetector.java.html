@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CycleDetector.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependency</a> &gt; <span class="el_source">CycleDetector.java</span></div><h1>CycleDetector.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependency;
+
+import java.util.*;
+
+import org.apache.logging.log4j.*;
+
+public class CycleDetector extends VisitorBase {
+<span class="fc" id="L40">    private final LinkedList&lt;Node&gt; currentPath = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L41">    private final Collection&lt;Cycle&gt; cycles = new TreeSet&lt;&gt;(new CycleComparator());</span>
+<span class="fc" id="L42">    private int maximumCycleLength = Integer.MAX_VALUE;</span>
+
+    public CycleDetector() {
+<span class="fc" id="L45">        super();</span>
+<span class="fc" id="L46">    }</span>
+
+    public CycleDetector(SelectionCriteria criteria) {
+<span class="fc" id="L49">        super(new SelectiveTraversalStrategy(criteria, new ComprehensiveSelectionCriteria()));</span>
+<span class="fc" id="L50">    }</span>
+
+    public Collection&lt;Cycle&gt; getCycles() {
+<span class="fc" id="L53">        return cycles;</span>
+    }
+
+    public int getMaximumCycleLength() {
+<span class="fc" id="L57">        return maximumCycleLength;</span>
+    }
+
+    public void setMaximumCycleLength(int maximumCycleLength) {
+<span class="fc" id="L61">        this.maximumCycleLength = maximumCycleLength;</span>
+<span class="fc" id="L62">    }</span>
+
+    protected void preprocessPackageNode(PackageNode node) {
+<span class="fc" id="L65">        super.preprocessPackageNode(node);</span>
+
+<span class="fc" id="L67">        pushNodeOnCurrentPath(node);</span>
+<span class="fc" id="L68">    }</span>
+
+    protected void preprocessAfterDependenciesPackageNode(PackageNode node) {
+<span class="fc" id="L71">        super.preprocessAfterDependenciesPackageNode(node);</span>
+
+<span class="fc" id="L73">        popNodeFromCurrentPath(node);</span>
+<span class="fc" id="L74">    }</span>
+
+    public void visitOutboundPackageNode(PackageNode node) {
+<span class="fc" id="L77">        super.visitOutboundPackageNode(node);</span>
+
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">        if (getStrategy().isInFilter(node)) {</span>
+<span class="fc bfc" id="L80" title="All 4 branches covered.">            if (currentPath.getFirst().equals(node) &amp;&amp; currentPath.size() &lt;= getMaximumCycleLength()) {</span>
+<span class="fc" id="L81">                addCycle();</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">            } else if (!currentPath.contains(node)){</span>
+<span class="fc" id="L83">                pushNodeOnCurrentPath(node);</span>
+<span class="fc" id="L84">                traverseOutbound(node.getOutboundDependencies());</span>
+<span class="fc" id="L85">                traverseOutbound(node.getClasses());</span>
+<span class="fc" id="L86">                popNodeFromCurrentPath(node);</span>
+            }
+        }
+<span class="fc" id="L89">    }</span>
+
+    protected void preprocessClassNode(ClassNode node) {
+<span class="fc" id="L92">        super.preprocessClassNode(node);</span>
+
+<span class="fc" id="L94">        pushNodeOnCurrentPath(node);</span>
+<span class="fc" id="L95">    }</span>
+
+    protected void preprocessAfterDependenciesClassNode(ClassNode node) {
+<span class="fc" id="L98">        super.preprocessAfterDependenciesClassNode(node);</span>
+
+<span class="fc" id="L100">        popNodeFromCurrentPath(node);</span>
+<span class="fc" id="L101">    }</span>
+
+    public void visitOutboundClassNode(ClassNode node) {
+<span class="fc" id="L104">        super.visitOutboundClassNode(node);</span>
+
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">        if (getStrategy().isInFilter(node)) {</span>
+<span class="pc bpc" id="L107" title="1 of 4 branches missed.">            if (currentPath.getFirst().equals(node) &amp;&amp; currentPath.size() &lt;= getMaximumCycleLength()) {</span>
+<span class="fc" id="L108">                addCycle();</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">            } else if (!currentPath.contains(node)){</span>
+<span class="fc" id="L110">                pushNodeOnCurrentPath(node);</span>
+<span class="fc" id="L111">                traverseOutbound(node.getOutboundDependencies());</span>
+<span class="fc" id="L112">                traverseOutbound(node.getFeatures());</span>
+<span class="fc" id="L113">                popNodeFromCurrentPath(node);</span>
+            }
+        }
+<span class="fc" id="L116">    }</span>
+
+    protected void preprocessFeatureNode(FeatureNode node) {
+<span class="fc" id="L119">        super.preprocessFeatureNode(node);</span>
+
+<span class="fc" id="L121">        pushNodeOnCurrentPath(node);</span>
+<span class="fc" id="L122">    }</span>
+
+    protected void postprocessFeatureNode(FeatureNode node) {
+<span class="fc" id="L125">        super.postprocessFeatureNode(node);</span>
+
+<span class="fc" id="L127">        popNodeFromCurrentPath(node);</span>
+<span class="fc" id="L128">    }</span>
+
+    public void visitOutboundFeatureNode(FeatureNode node) {
+<span class="fc" id="L131">        super.visitOutboundFeatureNode(node);</span>
+
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">        if (getStrategy().isInFilter(node)) {</span>
+<span class="pc bpc" id="L134" title="1 of 4 branches missed.">            if (currentPath.getFirst().equals(node) &amp;&amp; currentPath.size() &lt;= getMaximumCycleLength()) {</span>
+<span class="fc" id="L135">                addCycle();</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">            } else if (!currentPath.contains(node)){</span>
+<span class="fc" id="L137">                pushNodeOnCurrentPath(node);</span>
+<span class="fc" id="L138">                traverseOutbound(node.getOutboundDependencies());</span>
+<span class="fc" id="L139">                popNodeFromCurrentPath(node);</span>
+            }
+        }
+<span class="fc" id="L142">    }</span>
+
+    private void addCycle() {
+<span class="fc" id="L145">        Cycle cycle = new Cycle(currentPath);</span>
+<span class="fc" id="L146">        cycles.add(cycle);</span>
+<span class="fc" id="L147">        LogManager.getLogger(getClass()).debug(&quot;Found cycle {}&quot;, cycle);</span>
+<span class="fc" id="L148">    }</span>
+
+    private void pushNodeOnCurrentPath(Node node) {
+<span class="fc" id="L151">        currentPath.addLast(node);</span>
+<span class="fc" id="L152">        LogManager.getLogger(getClass()).debug(&quot;Pushed {} on currentPath: {}&quot;, node, currentPath);</span>
+<span class="fc" id="L153">    }</span>
+
+    private void popNodeFromCurrentPath(Node node) {
+<span class="fc" id="L156">        Node poppedNode = currentPath.removeLast();</span>
+<span class="fc" id="L157">        LogManager.getLogger(getClass()).debug(&quot;Popped {} ({}) from currentPath: {}&quot;, node, poppedNode, currentPath);</span>
+<span class="fc" id="L158">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

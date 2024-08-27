@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>XMLSymbolPrinter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader</a> &gt; <span class="el_source">XMLSymbolPrinter.java</span></div><h1>XMLSymbolPrinter.java</h1><pre class="source lang-java linenums">package com.jeantessier.classreader;
+
+import java.io.*;
+import java.util.Map;
+import java.util.stream.*;
+
+public class XMLSymbolPrinter extends SymbolPrinter {
+    public static final String DEFAULT_ENCODING   = &quot;utf-8&quot;;
+    public static final String DEFAULT_DTD_PREFIX = &quot;https://depfind.sourceforge.io/dtd&quot;;
+    public static final String DEFAULT_INDENT_TEXT = &quot;    &quot;;
+
+    private final String encoding;
+    private final String dtdPrefix;
+    private final String indentText;
+
+<span class="nc" id="L16">    private int indentLevel = 0;</span>
+
+    public XMLSymbolPrinter(PrintWriter out, String encoding, String dtdPrefix, String indentText) {
+<span class="nc" id="L19">        super(out);</span>
+<span class="nc" id="L20">        this.encoding = encoding;</span>
+<span class="nc" id="L21">        this.dtdPrefix = dtdPrefix;</span>
+<span class="nc" id="L22">        this.indentText = indentText;</span>
+<span class="nc" id="L23">    }</span>
+
+    public void print(SymbolGatherer gatherer) throws IOException {
+<span class="nc" id="L26">        printHeader(encoding, dtdPrefix);</span>
+
+<span class="nc" id="L28">        indent().append(&quot;&lt;symbols&gt;&quot;).eol();</span>
+<span class="nc" id="L29">        raiseIndent();</span>
+
+<span class="nc" id="L31">        gatherer.stream()</span>
+<span class="nc" id="L32">                .map(this::visitableToRecord)</span>
+<span class="nc" id="L33">                .forEach(this::printRecord);</span>
+
+<span class="nc" id="L35">        lowerIndent();</span>
+<span class="nc" id="L36">        indent().append(&quot;&lt;/symbols&gt;&quot;).eol();</span>
+<span class="nc" id="L37">    }</span>
+
+    private void printHeader(String encoding, String dtdPrefix) {
+<span class="nc" id="L40">        append(&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;&quot;).append(encoding).append(&quot;\&quot; ?&gt;&quot;).eol();</span>
+<span class="nc" id="L41">        eol();</span>
+<span class="nc" id="L42">        append(&quot;&lt;!DOCTYPE symbols SYSTEM \&quot;&quot;).append(dtdPrefix).append(&quot;/symbols.dtd\&quot;&gt;&quot;).eol();</span>
+<span class="nc" id="L43">        eol();</span>
+<span class="nc" id="L44">    }</span>
+
+    private void printRecord(Map&lt;String, ?&gt; record) {
+<span class="nc" id="L47">        var nodeName = record.get(&quot;symbol type&quot;).toString().replaceAll(&quot;\\s+&quot;, &quot;-&quot;);</span>
+
+<span class="nc" id="L49">        indent().append(&quot;&lt;&quot;).append(nodeName).append(&quot;&gt;&quot;).eol();</span>
+<span class="nc" id="L50">        raiseIndent();</span>
+
+<span class="nc" id="L52">        record.entrySet().stream()</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">                .filter(entry -&gt; !entry.getKey().equals(&quot;symbol type&quot;))</span>
+<span class="nc" id="L54">                .forEach(entry -&gt; {</span>
+<span class="nc" id="L55">                    var key = entry.getKey().replaceAll(&quot;\\s+&quot;, &quot;-&quot;);</span>
+
+<span class="nc bnc" id="L57" title="All 2 branches missed.">                    if (entry.getValue() instanceof Stream&lt;?&gt; stream) {</span>
+<span class="nc" id="L58">                        indent().append(&quot;&lt;parameter-types&gt;&quot;).eol();</span>
+<span class="nc" id="L59">                        raiseIndent();</span>
+
+<span class="nc" id="L61">                        stream.forEach(parameterType -&gt; {</span>
+<span class="nc" id="L62">                            indent().append(&quot;&lt;parameter-type&gt;&quot;).append(parameterType).append(&quot;&lt;/parameter-type&gt;&quot;).eol();</span>
+<span class="nc" id="L63">                        });</span>
+
+<span class="nc" id="L65">                        lowerIndent();</span>
+<span class="nc" id="L66">                        indent().append(&quot;&lt;/parameter-types&gt;&quot;).eol();</span>
+                    } else {
+<span class="nc" id="L68">                        indent().append(&quot;&lt;&quot;).append(key).append(&quot;&gt;&quot;).append(entry.getValue()).append(&quot;&lt;/&quot;).append(key).append(&quot;&gt;&quot;).eol();</span>
+                    }
+<span class="nc" id="L70">                });</span>
+
+<span class="nc" id="L72">        lowerIndent();</span>
+<span class="nc" id="L73">        indent().append(&quot;&lt;/&quot;).append(nodeName).append(&quot;&gt;&quot;).eol();</span>
+<span class="nc" id="L74">    }</span>
+
+    private XMLSymbolPrinter append(Object obj) {
+<span class="nc" id="L77">        getOut().print(obj);</span>
+<span class="nc" id="L78">        return this;</span>
+    }
+
+    private XMLSymbolPrinter append(String s) {
+<span class="nc" id="L82">        getOut().print(s);</span>
+<span class="nc" id="L83">        return this;</span>
+    }
+
+    private XMLSymbolPrinter indent() {
+<span class="nc" id="L87">        IntStream.rangeClosed(1, indentLevel).forEach(i -&gt; append(indentText));</span>
+<span class="nc" id="L88">        return this;</span>
+    }
+
+    private void eol() {
+<span class="nc" id="L92">        getOut().println();</span>
+<span class="nc" id="L93">    }</span>
+
+    private void raiseIndent() {
+<span class="nc" id="L96">        indentLevel++;</span>
+<span class="nc" id="L97">    }</span>
+
+    private void lowerIndent() {
+<span class="nc" id="L100">        indentLevel--;</span>
+<span class="nc" id="L101">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

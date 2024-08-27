@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>YAMLSymbolPrinter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader</a> &gt; <span class="el_source">YAMLSymbolPrinter.java</span></div><h1>YAMLSymbolPrinter.java</h1><pre class="source lang-java linenums">package com.jeantessier.classreader;
+
+import java.io.*;
+import java.util.*;
+import java.util.stream.*;
+
+public class YAMLSymbolPrinter extends SymbolPrinter {
+    public static final String DEFAULT_INDENT_TEXT = &quot;    &quot;;
+
+    private final String indentText;
+
+<span class="nc" id="L12">    private int indentLevel = 0;</span>
+
+    public YAMLSymbolPrinter(PrintWriter out, String indentText) {
+<span class="nc" id="L15">        super(out);</span>
+<span class="nc" id="L16">        this.indentText = indentText;</span>
+<span class="nc" id="L17">    }</span>
+
+    public void print(SymbolGatherer gatherer) throws IOException {
+<span class="nc" id="L20">        indent().append(&quot;symbols:&quot;).eol();</span>
+<span class="nc" id="L21">        raiseIndent();</span>
+<span class="nc" id="L22">        gatherer.stream()</span>
+<span class="nc" id="L23">                .map(this::visitableToRecord)</span>
+<span class="nc" id="L24">                .forEach(this::printRecord);</span>
+<span class="nc" id="L25">        lowerIndent();</span>
+<span class="nc" id="L26">    }</span>
+
+    private void printRecord(Map&lt;String, ?&gt; record) {
+<span class="nc" id="L29">        indent().append(&quot;-&quot;).eol();</span>
+<span class="nc" id="L30">        raiseIndent();</span>
+
+<span class="nc" id="L32">        record.forEach((k, value) -&gt; {</span>
+<span class="nc" id="L33">            var key = k.replaceAll(&quot;\\s+&quot;, &quot;-&quot;);</span>
+
+<span class="nc bnc" id="L35" title="All 2 branches missed.">            if (value instanceof Stream&lt;?&gt; stream) {</span>
+<span class="nc" id="L36">                indent().append(key).append(&quot;:&quot;).eol();</span>
+<span class="nc" id="L37">                raiseIndent();</span>
+
+<span class="nc" id="L39">                stream.forEach(parameterType -&gt; {</span>
+<span class="nc" id="L40">                    indent().append(&quot;- &quot;).append(parameterType).eol();</span>
+<span class="nc" id="L41">                });</span>
+
+<span class="nc" id="L43">                lowerIndent();</span>
+            } else {
+<span class="nc" id="L45">                indent().append(key).append(&quot;: &quot;).append(formatText(value.toString())).eol();</span>
+            }
+<span class="nc" id="L47">        });</span>
+
+<span class="nc" id="L49">        lowerIndent();</span>
+<span class="nc" id="L50">    }</span>
+
+    private YAMLSymbolPrinter append(Object obj) {
+<span class="nc" id="L53">        getOut().print(obj);</span>
+<span class="nc" id="L54">        return this;</span>
+    }
+
+    private YAMLSymbolPrinter append(String s) {
+<span class="nc" id="L58">        getOut().print(s);</span>
+<span class="nc" id="L59">        return this;</span>
+    }
+
+    private YAMLSymbolPrinter indent() {
+<span class="nc" id="L63">        IntStream.rangeClosed(1, indentLevel).forEach(i -&gt; append(indentText));</span>
+<span class="nc" id="L64">        return this;</span>
+    }
+
+    private void eol() {
+<span class="nc" id="L68">        getOut().println();</span>
+<span class="nc" id="L69">    }</span>
+
+    private void raiseIndent() {
+<span class="nc" id="L72">        indentLevel++;</span>
+<span class="nc" id="L73">    }</span>
+
+    private void lowerIndent() {
+<span class="nc" id="L76">        indentLevel--;</span>
+<span class="nc" id="L77">    }</span>
+
+    private String formatText(String name) {
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        if (name.isEmpty()) {</span>
+<span class="nc" id="L81">            return &quot;\&quot;\&quot;&quot;;</span>
+        }
+
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (name.contains(&quot;: &quot;)) {</span>
+<span class="nc" id="L85">            return &quot;\&quot;&quot; + name + &quot;\&quot;&quot;;</span>
+        }
+
+<span class="nc" id="L88">        return name;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

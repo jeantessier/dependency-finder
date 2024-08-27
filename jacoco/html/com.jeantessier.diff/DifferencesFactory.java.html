@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DifferencesFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.diff</a> &gt; <span class="el_source">DifferencesFactory.java</span></div><h1>DifferencesFactory.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.diff;
+
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
+
+import org.apache.logging.log4j.*;
+
+import com.jeantessier.classreader.*;
+
+public class DifferencesFactory {
+    private Classfile newClass;
+
+    private final DifferenceStrategy strategy;
+
+    /**
+     * For tests only.
+     */
+    DifferencesFactory() {
+<span class="fc" id="L52">        this(new APIDifferenceStrategy(new CodeDifferenceStrategy()));</span>
+<span class="fc" id="L53">    }</span>
+
+<span class="fc" id="L55">    public DifferencesFactory(DifferenceStrategy strategy) {</span>
+<span class="fc" id="L56">        this.strategy = strategy;</span>
+<span class="fc" id="L57">    }</span>
+
+    public Differences createProjectDifferences(String name, String oldVersion, PackageMapper oldPackages, String newVersion, PackageMapper newPackages) {
+<span class="fc" id="L60">        LogManager.getLogger(getClass()).debug(&quot;Begin {} ({} -&gt; {})&quot;, name, oldVersion, newVersion);</span>
+
+<span class="fc" id="L62">        ProjectDifferences projectDifferences = new ProjectDifferences(name, oldVersion, newVersion);</span>
+
+<span class="fc" id="L64">        LogManager.getLogger(getClass()).debug(&quot;      Collecting packages ...&quot;);</span>
+
+<span class="fc" id="L66">        var packageNames = Stream.concat(</span>
+<span class="fc" id="L67">                oldPackages.getPackageNames().stream(),</span>
+<span class="fc" id="L68">                newPackages.getPackageNames().stream())</span>
+<span class="fc" id="L69">                .distinct()</span>
+<span class="fc" id="L70">                .sorted()</span>
+<span class="fc" id="L71">                .toList();</span>
+
+<span class="fc" id="L73">        LogManager.getLogger(getClass()).debug(&quot;      Diff'ing packages ...&quot;);</span>
+
+<span class="fc" id="L75">        packageNames.forEach(packageName -&gt; {</span>
+<span class="fc" id="L76">            Map&lt;String, Classfile&gt; oldPackage = oldPackages.getPackage(packageName);</span>
+<span class="fc" id="L77">            Map&lt;String, Classfile&gt; newPackage = newPackages.getPackage(packageName);</span>
+
+<span class="fc bfc" id="L79" title="All 2 branches covered.">            if (strategy.isPackageDifferent(oldPackage, newPackage)) {</span>
+<span class="fc" id="L80">                projectDifferences.getPackageDifferences().add(createPackageDifferences(packageName, oldPackage, newPackage));</span>
+            }
+<span class="fc" id="L82">        });</span>
+
+<span class="fc" id="L84">        LogManager.getLogger(getClass()).debug(&quot;End   {} ({} -&gt; {})&quot;, name, oldVersion, newVersion);</span>
+
+<span class="fc" id="L86">        return projectDifferences;</span>
+    }
+
+    public Differences createPackageDifferences(String name, Map&lt;String, Classfile&gt; oldPackage, Map&lt;String, Classfile&gt; newPackage) {
+<span class="fc" id="L90">        LogManager.getLogger(getClass()).debug(&quot;Begin {}&quot;, name);</span>
+
+<span class="fc" id="L92">        PackageDifferences packageDifferences = new PackageDifferences(name, oldPackage, newPackage);</span>
+
+<span class="pc bpc" id="L94" title="2 of 8 branches missed.">        if (oldPackage != null &amp;&amp; !oldPackage.isEmpty() &amp;&amp; newPackage != null &amp;&amp; !newPackage.isEmpty()) {</span>
+<span class="fc" id="L95">            LogManager.getLogger(getClass()).debug(&quot;      Diff'ing classes ...&quot;);</span>
+
+<span class="fc" id="L97">            Stream.concat(</span>
+<span class="fc" id="L98">                    oldPackage.keySet().stream(),</span>
+<span class="fc" id="L99">                    newPackage.keySet().stream())</span>
+<span class="fc" id="L100">                    .distinct()</span>
+<span class="fc" id="L101">                    .forEach(className -&gt; {</span>
+<span class="fc" id="L102">                        Classfile oldClass = oldPackage.get(className);</span>
+<span class="fc" id="L103">                        Classfile newClass = newPackage.get(className);</span>
+
+<span class="fc bfc" id="L105" title="All 2 branches covered.">                        if (strategy.isClassDifferent(oldClass, newClass)) {</span>
+<span class="fc" id="L106">                            packageDifferences.getClassDifferences().add(createClassDifferences(className, oldClass, newClass));</span>
+                        }
+<span class="fc" id="L108">                    });</span>
+
+<span class="pc" id="L110">            LogManager.getLogger(getClass()).debug(&quot;      {} has {} class(es) that changed.&quot;, () -&gt; name, () -&gt; packageDifferences.getClassDifferences().size());</span>
+        }
+
+<span class="fc" id="L113">        LogManager.getLogger(getClass()).debug(&quot;End   {}&quot;, name);</span>
+
+<span class="fc" id="L115">        return packageDifferences;</span>
+    }
+
+    public Differences createClassDifferences(String name, Classfile oldClass, Classfile newClass) {
+<span class="fc" id="L119">        LogManager.getLogger(getClass()).debug(&quot;Begin {}&quot;, name);</span>
+
+        ClassDifferences classDifferences;
+<span class="fc bfc" id="L122" title="All 8 branches covered.">        if (((oldClass != null) &amp;&amp; oldClass.isInterface()) || ((newClass != null) &amp;&amp; newClass.isInterface())) {</span>
+<span class="fc" id="L123">            classDifferences = new InterfaceDifferences(name, oldClass, newClass);</span>
+        } else {
+<span class="fc" id="L125">            classDifferences = new ClassDifferences(name, oldClass, newClass);</span>
+        }
+
+<span class="fc bfc" id="L128" title="All 6 branches covered.">        if (!classDifferences.isRemoved() &amp;&amp; !classDifferences.isNew() &amp;&amp; strategy.isDeclarationModified(oldClass, newClass)) {</span>
+<span class="fc" id="L129">            classDifferences.setDeclarationModified(true);</span>
+        }
+
+<span class="fc" id="L132">        Differences result = classDifferences;</span>
+
+<span class="fc" id="L134">        this.newClass = newClass;</span>
+
+<span class="fc bfc" id="L136" title="All 4 branches covered.">        if (oldClass != null &amp;&amp; newClass != null) {</span>
+<span class="fc" id="L137">            LogManager.getLogger(getClass()).debug(&quot;      Collecting fields ...&quot;);</span>
+
+<span class="fc" id="L139">            Map&lt;String, String&gt; fieldLevel = new TreeMap&lt;&gt;();</span>
+<span class="fc" id="L140">            oldClass.getAllFields().forEach(field -&gt; fieldLevel.put(field.getName(), field.getFullSignature()));</span>
+<span class="fc" id="L141">            newClass.getAllFields().forEach(field -&gt; fieldLevel.put(field.getName(), field.getFullSignature()));</span>
+
+<span class="fc" id="L143">            LogManager.getLogger(getClass()).debug(&quot;      Diff'ing fields ...&quot;);</span>
+
+<span class="fc" id="L145">            fieldLevel.forEach((fieldName, fullSignature) -&gt; {</span>
+<span class="fc" id="L146">                Predicate&lt;Field_info&gt; predicate = field -&gt; field.getSignature().equals(fieldName);</span>
+<span class="fc" id="L147">                Field_info oldField = oldClass.getField(predicate);</span>
+<span class="fc" id="L148">                Field_info newField = newClass.getField(predicate);</span>
+
+<span class="fc bfc" id="L150" title="All 2 branches covered.">                if (strategy.isFieldDifferent(oldField, newField)) {</span>
+<span class="fc" id="L151">                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(fullSignature, oldField, newField));</span>
+                }
+<span class="fc" id="L153">            });</span>
+
+<span class="fc" id="L155">            LogManager.getLogger(getClass()).debug(&quot;      Collecting methods ...&quot;);</span>
+
+<span class="fc" id="L157">            Map&lt;String, String&gt; methodLevel = new TreeMap&lt;&gt;();</span>
+<span class="fc" id="L158">            oldClass.getAllMethods().forEach(method -&gt; methodLevel.put(method.getSignature(), method.getFullSignature()));</span>
+<span class="fc" id="L159">            newClass.getAllMethods().forEach(method -&gt; methodLevel.put(method.getSignature(), method.getFullSignature()));</span>
+
+<span class="fc" id="L161">            LogManager.getLogger(getClass()).debug(&quot;      Diff'ing methods ...&quot;);</span>
+
+<span class="fc" id="L163">            methodLevel.forEach((signature, fullSignature) -&gt; {</span>
+<span class="fc" id="L164">                Predicate&lt;Method_info&gt; predicate = method -&gt; method.getSignature().equals(signature);</span>
+<span class="fc" id="L165">                Method_info oldMethod = oldClass.getMethod(predicate);</span>
+<span class="fc" id="L166">                Method_info newMethod = newClass.getMethod(predicate);</span>
+
+<span class="fc bfc" id="L168" title="All 2 branches covered.">                if (strategy.isMethodDifferent(oldMethod, newMethod)) {</span>
+<span class="fc" id="L169">                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(fullSignature, oldMethod, newMethod));</span>
+                }
+<span class="fc" id="L171">            });</span>
+
+<span class="pc" id="L173">            LogManager.getLogger(getClass()).debug(&quot;{} has {} feature(s) that changed.&quot;, () -&gt; name, () -&gt; classDifferences.getFeatureDifferences().size());</span>
+
+<span class="fc bfc" id="L175" title="All 2 branches covered.">            if (oldClass.isDeprecated() != newClass.isDeprecated()) {</span>
+<span class="fc" id="L176">                result = new DeprecatableDifferences(result, oldClass, newClass);</span>
+            }
+        }
+
+<span class="fc" id="L180">        LogManager.getLogger(getClass()).debug(&quot;End   {}&quot;, name);</span>
+
+<span class="fc" id="L182">        return result;</span>
+    }
+
+    public Differences createFeatureDifferences(String name, Feature_info oldFeature, Feature_info newFeature) {
+<span class="fc" id="L186">        LogManager.getLogger(getClass()).debug(&quot;Begin {}&quot;, name);</span>
+
+        FeatureDifferences featureDifferences;
+<span class="fc bfc" id="L189" title="All 4 branches covered.">        if (oldFeature instanceof Field_info || newFeature instanceof Field_info) {</span>
+<span class="fc" id="L190">            featureDifferences = new FieldDifferences(name, (Field_info) oldFeature, (Field_info) newFeature);</span>
+
+<span class="fc bfc" id="L192" title="All 6 branches covered.">            if (!featureDifferences.isRemoved() &amp;&amp; !featureDifferences.isNew() &amp;&amp; strategy.isConstantValueDifferent(((Field_info) oldFeature).getConstantValue(), ((Field_info) newFeature).getConstantValue())) {</span>
+<span class="fc" id="L193">                ((FieldDifferences) featureDifferences).setConstantValueDifference(true);</span>
+            }
+
+<span class="pc bpc" id="L196" title="1 of 4 branches missed.">            if (featureDifferences.isRemoved() &amp;&amp; newClass.locateField(field -&gt; field.getName().equals(name)) != null) {</span>
+<span class="nc" id="L197">                featureDifferences.setInherited(true);</span>
+            }
+        } else {
+<span class="fc bfc" id="L200" title="All 8 branches covered.">            if (((oldFeature instanceof Method_info) &amp;&amp; ((Method_info) oldFeature).isConstructor()) || ((newFeature instanceof Method_info) &amp;&amp; ((Method_info) newFeature).isConstructor())) {</span>
+<span class="fc" id="L201">                featureDifferences = new ConstructorDifferences(name, (Method_info) oldFeature, (Method_info) newFeature);</span>
+            } else {
+<span class="fc" id="L203">                featureDifferences = new MethodDifferences(name, (Method_info) oldFeature, (Method_info) newFeature);</span>
+            }
+
+<span class="fc bfc" id="L206" title="All 6 branches covered.">            if (!featureDifferences.isRemoved() &amp;&amp; !featureDifferences.isNew() &amp;&amp; strategy.isCodeDifferent(((Method_info) oldFeature).getCode(), ((Method_info) newFeature).getCode())) {</span>
+<span class="fc" id="L207">                ((CodeDifferences) featureDifferences).setCodeDifference(true);</span>
+            }
+
+<span class="fc bfc" id="L210" title="All 2 branches covered.">            if (featureDifferences.isRemoved()) {</span>
+<span class="fc" id="L211">                Method_info attempt = newClass.locateMethod(method -&gt; method.getSignature().equals(name));</span>
+<span class="pc bpc" id="L212" title="3 of 4 branches missed.">                if ((attempt != null) &amp;&amp; (oldFeature.getClassfile().isInterface() == attempt.getClassfile().isInterface())) {</span>
+<span class="nc" id="L213">                    featureDifferences.setInherited(true);</span>
+                }
+            }
+        }
+
+<span class="fc" id="L218">        Differences result = featureDifferences;</span>
+        
+<span class="fc bfc" id="L220" title="All 4 branches covered.">        if (oldFeature != null &amp;&amp; newFeature != null) {</span>
+<span class="fc bfc" id="L221" title="All 2 branches covered.">            if (oldFeature.isDeprecated() != newFeature.isDeprecated()) {</span>
+<span class="fc" id="L222">                result = new DeprecatableDifferences(result, oldFeature, newFeature);</span>
+            }
+        }
+
+<span class="fc" id="L226">        LogManager.getLogger(getClass()).debug(&quot;End   {}&quot;, name);</span>
+
+<span class="fc" id="L228">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

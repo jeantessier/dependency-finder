@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MetricsFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.metrics</a> &gt; <span class="el_source">MetricsFactory.java</span></div><h1>MetricsFactory.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.metrics;
+
+import org.apache.logging.log4j.*;
+import org.apache.oro.text.perl.Perl5Util;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+
+import static java.util.stream.Collectors.toCollection;
+
+public class MetricsFactory {
+<span class="fc" id="L48">    private static final String EOL = System.getProperty(&quot;line.separator&quot;, &quot;\n&quot;);</span>
+
+<span class="fc" id="L50">    private static final Perl5Util perl = new Perl5Util();</span>
+
+    private final String projectName;
+    private final MetricsConfiguration configuration;
+
+<span class="fc" id="L55">    private final Map&lt;String, Metrics&gt; projects = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L56">    private final Map&lt;String, Metrics&gt; groups = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L57">    private final Map&lt;String, Metrics&gt; classes = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L58">    private final Map&lt;String, Metrics&gt; methods = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L60">    private final Map&lt;String, Metrics&gt; includedProjects = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L61">    private final Map&lt;String, Metrics&gt; includedGroups = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L62">    private final Map&lt;String, Metrics&gt; includedClasses = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L63">    private final Map&lt;String, Metrics&gt; includedMethods = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L65">    private final WordCounter counter = new WordCounter();</span>
+    
+<span class="fc" id="L67">    public MetricsFactory(String projectName, MetricsConfiguration configuration) {</span>
+<span class="fc" id="L68">        this.projectName = projectName;</span>
+<span class="fc" id="L69">        this.configuration = configuration;</span>
+<span class="fc" id="L70">    }</span>
+
+    public String getProjectName() {
+<span class="fc" id="L73">        return projectName;</span>
+    }
+
+    public MetricsConfiguration getConfiguration() {
+<span class="fc" id="L77">        return configuration;</span>
+    }
+    
+    public Metrics createProjectMetrics() {
+<span class="fc" id="L81">        return createProjectMetrics(getProjectName());</span>
+    }
+    
+    public Metrics createProjectMetrics(String name) {
+<span class="fc" id="L85">        Metrics result = projects.get(name);</span>
+
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        if (result == null) {</span>
+<span class="fc" id="L88">            result = buildProjectMetrics(name);</span>
+<span class="fc" id="L89">            projects.put(name, result);</span>
+        }
+        
+<span class="fc" id="L92">        return result;</span>
+    }
+
+    private Metrics buildProjectMetrics(String name) {
+<span class="fc" id="L96">        Metrics result = new Metrics(name);</span>
+
+<span class="fc" id="L98">        populateMetrics(result, getConfiguration().getProjectMeasurements());</span>
+        
+<span class="fc" id="L100">        return result;</span>
+    }
+    
+    public void includeProjectMetrics(Metrics metrics) {
+<span class="fc" id="L104">        includedProjects.put(metrics.getName(), metrics);</span>
+<span class="fc" id="L105">    }</span>
+
+    public Collection&lt;String&gt; getProjectNames() {
+<span class="fc" id="L108">        return Collections.unmodifiableCollection(includedProjects.keySet());</span>
+    }
+    
+    public Collection&lt;Metrics&gt; getProjectMetrics() {
+<span class="fc" id="L112">        return Collections.unmodifiableCollection(includedProjects.values());</span>
+    }
+    
+    public Collection&lt;String&gt; getAllProjectNames() {
+<span class="fc" id="L116">        return Collections.unmodifiableCollection(projects.keySet());</span>
+    }
+    
+    public Collection&lt;Metrics&gt; getAllProjectMetrics() {
+<span class="nc" id="L120">        return Collections.unmodifiableCollection(projects.values());</span>
+    }
+
+    public Metrics createGroupMetrics(String name) {
+<span class="fc" id="L124">        Metrics result = groups.get(name);</span>
+
+<span class="fc bfc" id="L126" title="All 2 branches covered.">        if (result == null) {</span>
+<span class="fc" id="L127">            result = buildGroupMetrics(name);</span>
+<span class="fc" id="L128">            groups.put(name, result);</span>
+        }
+        
+<span class="fc" id="L131">        return result;</span>
+    }
+
+    private Metrics buildGroupMetrics(String name) {
+<span class="fc" id="L135">        Metrics projectMetrics = createProjectMetrics();</span>
+<span class="fc" id="L136">        Metrics result = new Metrics(projectMetrics, name);</span>
+
+<span class="fc" id="L138">        populateMetrics(result, getConfiguration().getGroupMeasurements());</span>
+<span class="fc" id="L139">        initializeGroupMetrics(name, result);</span>
+
+<span class="fc" id="L141">        return result;</span>
+    }
+
+    private void initializeGroupMetrics(String packageName, Metrics metrics) {
+<span class="fc" id="L145">        computePackageNameCharacterCount(packageName, metrics);</span>
+<span class="fc" id="L146">        computePackageNameWordCount(packageName, metrics);</span>
+<span class="fc" id="L147">    }</span>
+
+    private void computePackageNameCharacterCount(String packageName, Metrics metrics) {
+<span class="fc" id="L150">        metrics.addToMeasurement(BasicMeasurements.GROUP_NAME_CHARACTER_COUNT, packageName.length());</span>
+<span class="fc" id="L151">    }</span>
+
+    private void computePackageNameWordCount(String packageName, Metrics metrics) {
+<span class="fc" id="L154">        metrics.addToMeasurement(BasicMeasurements.GROUP_NAME_WORD_COUNT, counter.countPackageName(packageName));</span>
+<span class="fc" id="L155">    }</span>
+
+    public void includeGroupMetrics(Metrics metrics) {
+<span class="fc" id="L158">        includedGroups.put(metrics.getName(), metrics);</span>
+<span class="fc" id="L159">        metrics.getParent().addSubMetrics(metrics);</span>
+<span class="fc" id="L160">        includeProjectMetrics(metrics.getParent());</span>
+<span class="fc" id="L161">    }</span>
+
+    public Collection&lt;String&gt; getGroupNames() {
+<span class="fc" id="L164">        return Collections.unmodifiableCollection(includedGroups.keySet());</span>
+    }
+
+    public Collection&lt;Metrics&gt; getGroupMetrics() {
+<span class="fc" id="L168">        return Collections.unmodifiableCollection(includedGroups.values());</span>
+    }
+
+    public Collection&lt;Metrics&gt; getGroupMetrics(String className) {
+<span class="fc" id="L172">        return getConfiguration().getGroups(className).stream()</span>
+<span class="fc" id="L173">                .map(this::createGroupMetrics)</span>
+<span class="fc" id="L174">                .collect(toCollection(HashSet::new));</span>
+    }
+
+    public Collection&lt;String&gt; getAllGroupNames() {
+<span class="fc" id="L178">        return Collections.unmodifiableCollection(groups.keySet());</span>
+    }
+
+    public Collection&lt;Metrics&gt; getAllGroupMetrics() {
+<span class="fc" id="L182">        return Collections.unmodifiableCollection(groups.values());</span>
+    }
+
+    public Metrics createClassMetrics(String name) {
+<span class="fc" id="L186">        Metrics result = classes.get(name);</span>
+
+<span class="fc bfc" id="L188" title="All 2 branches covered.">        if (result == null) {</span>
+<span class="fc" id="L189">            result = buildClassMetrics(name);</span>
+<span class="fc" id="L190">            classes.put(name, result);</span>
+        }
+        
+<span class="fc" id="L193">        return result;</span>
+    }
+
+    private Metrics buildClassMetrics(String name) {
+<span class="fc" id="L197">        String packageName = &quot;&quot;;</span>
+<span class="fc" id="L198">        int pos = name.lastIndexOf('.');</span>
+<span class="fc bfc" id="L199" title="All 2 branches covered.">        if (pos != -1) {</span>
+<span class="fc" id="L200">            packageName = name.substring(0, pos);</span>
+        }
+<span class="fc" id="L202">        String className = name.substring(pos + 1);</span>
+<span class="fc" id="L203">        Metrics packageMetrics = createGroupMetrics(packageName);</span>
+<span class="fc" id="L204">        Metrics result = new Metrics(packageMetrics, name);</span>
+        
+<span class="fc" id="L206">        populateMetrics(result, getConfiguration().getClassMeasurements());</span>
+<span class="fc" id="L207">        initializeClassMetrics(className, result);</span>
+
+<span class="fc" id="L209">        return result;</span>
+    }
+
+    private void initializeClassMetrics(String className, Metrics metrics) {
+<span class="fc" id="L213">        computeClassNameCharacterCount(className, metrics);</span>
+<span class="fc" id="L214">        computeClassNameWordCount(className, metrics);</span>
+<span class="fc" id="L215">    }</span>
+
+    private void computeClassNameCharacterCount(String className, Metrics metrics) {
+<span class="fc" id="L218">        metrics.addToMeasurement(BasicMeasurements.CLASS_NAME_CHARACTER_COUNT, className.length());</span>
+<span class="fc" id="L219">    }</span>
+
+    private void computeClassNameWordCount(String className, Metrics metrics) {
+<span class="fc" id="L222">        metrics.addToMeasurement(BasicMeasurements.CLASS_NAME_WORD_COUNT, counter.countIdentifier(className));</span>
+<span class="fc" id="L223">    }</span>
+
+    public void includeClassMetrics(Metrics metrics) {
+<span class="fc" id="L226">        includedClasses.put(metrics.getName(), metrics);</span>
+<span class="fc" id="L227">        metrics.getParent().addSubMetrics(metrics);</span>
+<span class="fc" id="L228">        includeGroupMetrics(metrics.getParent());</span>
+
+<span class="fc" id="L230">        getConfiguration().getGroups(metrics.getName()).forEach(name -&gt; {</span>
+<span class="fc" id="L231">            Metrics groupMetrics = createGroupMetrics(name);</span>
+<span class="fc" id="L232">            groupMetrics.addSubMetrics(metrics);</span>
+<span class="fc" id="L233">            includeGroupMetrics(groupMetrics);</span>
+<span class="fc" id="L234">        });</span>
+<span class="fc" id="L235">    }</span>
+
+    public Collection&lt;String&gt; getClassNames() {
+<span class="fc" id="L238">        return Collections.unmodifiableCollection(includedClasses.keySet());</span>
+    }
+
+    public Collection&lt;Metrics&gt; getClassMetrics() {
+<span class="fc" id="L242">        return Collections.unmodifiableCollection(includedClasses.values());</span>
+    }
+
+    public Collection&lt;String&gt; getAllClassNames() {
+<span class="fc" id="L246">        return Collections.unmodifiableCollection(classes.keySet());</span>
+    }
+    
+    public Collection&lt;Metrics&gt; getAllClassMetrics() {
+<span class="nc" id="L250">        return Collections.unmodifiableCollection(classes.values());</span>
+    }
+
+    public Metrics createMethodMetrics(String name) {
+<span class="fc" id="L254">        var result = methods.get(name);</span>
+
+<span class="fc bfc" id="L256" title="All 2 branches covered.">        if (result == null) {</span>
+<span class="fc" id="L257">            result = buildMethodMetrics(name);</span>
+<span class="fc" id="L258">            methods.put(name, result);</span>
+        }
+        
+<span class="fc" id="L261">        return result;</span>
+    }
+
+    private Metrics buildMethodMetrics(String name) {
+<span class="fc" id="L265">        String className = &quot;&quot;;</span>
+<span class="fc" id="L266">        String featureName = &quot;&quot;;</span>
+<span class="fc bfc" id="L267" title="All 2 branches covered.">        if (perl.match(&quot;/^(.*)\\.([^\\.]*)\\(.*\\)(: \\S.*)?$/&quot;, name)) {</span>
+<span class="fc" id="L268">            className = perl.group(1);</span>
+<span class="fc" id="L269">            featureName = perl.group(2);</span>
+<span class="fc bfc" id="L270" title="All 2 branches covered.">        } else if (perl.match(&quot;/^(.*)\\.(static) {}(: \\S.*)?$/&quot;, name)) {</span>
+<span class="fc" id="L271">            className = perl.group(1);</span>
+<span class="fc" id="L272">            featureName = perl.group(2);</span>
+<span class="pc bpc" id="L273" title="1 of 2 branches missed.">        } else if (perl.match(&quot;/^(.*)\\.([\\^.]*)$/&quot;, name)) {</span>
+<span class="nc" id="L274">            className = perl.group(1);</span>
+<span class="nc" id="L275">            featureName = perl.group(2);</span>
+        }
+<span class="fc" id="L277">        Metrics classMetrics = createClassMetrics(className);</span>
+<span class="fc" id="L278">        Metrics result = new Metrics(classMetrics, name);</span>
+<span class="fc" id="L279">        classMetrics.addSubMetrics(result);</span>
+
+<span class="fc" id="L281">        populateMetrics(result, getConfiguration().getMethodMeasurements());</span>
+<span class="fc" id="L282">        initializeMethodMetrics(featureName, result);</span>
+
+<span class="fc" id="L284">        return result;</span>
+    }
+
+    private void initializeMethodMetrics(String featureName, Metrics metrics) {
+<span class="fc" id="L288">        computeMethodNameCharacterCount(featureName, metrics);</span>
+<span class="fc" id="L289">        computeMethodNameWordCount(featureName, metrics);</span>
+<span class="fc" id="L290">    }</span>
+
+    private void computeMethodNameCharacterCount(String featureName, Metrics metrics) {
+<span class="fc" id="L293">        metrics.addToMeasurement(BasicMeasurements.METHOD_NAME_CHARACTER_COUNT, featureName.length());</span>
+<span class="fc" id="L294">    }</span>
+
+    private void computeMethodNameWordCount(String featureName, Metrics metrics) {
+<span class="fc" id="L297">        metrics.addToMeasurement(BasicMeasurements.METHOD_NAME_WORD_COUNT, counter.countIdentifier(featureName));</span>
+<span class="fc" id="L298">    }</span>
+
+    public void includeMethodMetrics(Metrics metrics) {
+<span class="fc" id="L301">        includedMethods.put(metrics.getName(), metrics);</span>
+<span class="fc" id="L302">        metrics.getParent().addSubMetrics(metrics);</span>
+<span class="fc" id="L303">        includeClassMetrics(metrics.getParent());</span>
+<span class="fc" id="L304">    }</span>
+    
+    public Collection&lt;String&gt; getMethodNames() {
+<span class="fc" id="L307">        return includedMethods.values().stream()</span>
+<span class="fc" id="L308">                .map(Metrics::getName)</span>
+<span class="fc" id="L309">                .toList();</span>
+    }
+
+    public Collection&lt;Metrics&gt; getMethodMetrics() {
+<span class="fc" id="L313">        return Collections.unmodifiableCollection(includedMethods.values());</span>
+    }
+    
+    public Collection&lt;String&gt; getAllMethodNames() {
+<span class="fc" id="L317">        return methods.values().stream()</span>
+<span class="fc" id="L318">                .map(Metrics::getName)</span>
+<span class="fc" id="L319">                .toList();</span>
+    }
+
+    public Collection&lt;Metrics&gt; getAllMethodMetrics() {
+<span class="nc" id="L323">        return Collections.unmodifiableCollection(methods.values());</span>
+    }
+
+    public void clear() {
+<span class="nc" id="L327">        projects.clear();</span>
+<span class="nc" id="L328">        groups.clear();</span>
+<span class="nc" id="L329">        classes.clear();</span>
+<span class="nc" id="L330">        methods.clear();</span>
+        
+<span class="nc" id="L332">        includedProjects.clear();</span>
+<span class="nc" id="L333">        includedGroups.clear();</span>
+<span class="nc" id="L334">        includedClasses.clear();</span>
+<span class="nc" id="L335">        includedMethods.clear();</span>
+<span class="nc" id="L336">    }</span>
+    
+    private void populateMetrics(Metrics metrics, Collection&lt;MeasurementDescriptor&gt; descriptors) {
+<span class="fc" id="L339">        descriptors.forEach(descriptor -&gt; {</span>
+            try {
+<span class="fc" id="L341">                metrics.track(descriptor.createMeasurement(metrics));</span>
+<span class="nc" id="L342">            } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {</span>
+<span class="nc" id="L343">                LogManager.getLogger(getClass()).warn(&quot;\&quot;{}\&quot; is unable to track \&quot;{}\&quot;&quot;, metrics.getName(), descriptor.getShortName(), ex);</span>
+<span class="fc" id="L344">            }</span>
+<span class="fc" id="L345">        });</span>
+<span class="fc" id="L346">    }</span>
+
+    public String toString() {
+<span class="nc" id="L349">        StringBuilder builder = new StringBuilder();</span>
+
+<span class="nc" id="L351">        builder.append(&quot;Factory for project \&quot;&quot;).append(getProjectName()).append(&quot;\&quot;&quot;).append(EOL);</span>
+
+<span class="nc" id="L353">        builder.append(&quot;projects:&quot;).append(EOL);</span>
+<span class="nc" id="L354">        projects.forEach((name, metrics) -&gt; builder.append(&quot;    &quot;).append(name).append(&quot; -&gt; &quot;).append(metrics.getName()).append(EOL));</span>
+
+<span class="nc" id="L356">        builder.append(&quot;groups:&quot;).append(EOL);</span>
+<span class="nc" id="L357">        groups.forEach((name, metrics) -&gt; builder.append(&quot;    &quot;).append(name).append(&quot; -&gt; &quot;).append(metrics.getName()).append(EOL));</span>
+
+<span class="nc" id="L359">        builder.append(&quot;classes:&quot;).append(EOL);</span>
+<span class="nc" id="L360">        classes.forEach((name, metrics) -&gt; builder.append(&quot;    &quot;).append(name).append(&quot; -&gt; &quot;).append(metrics.getName()).append(EOL));</span>
+
+<span class="nc" id="L362">        builder.append(&quot;methods:&quot;).append(EOL);</span>
+<span class="nc" id="L363">        methods.forEach((name, metrics) -&gt; builder.append(&quot;    &quot;).append(name).append(&quot; -&gt; &quot;).append(metrics.getName()).append(EOL));</span>
+
+<span class="nc" id="L365">        return builder.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>XMLPrinter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependency</a> &gt; <span class="el_source">XMLPrinter.java</span></div><h1>XMLPrinter.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependency;
+
+import java.io.PrintWriter;
+import java.util.Collection;
+
+public class XMLPrinter extends Printer {
+    public static final String DEFAULT_ENCODING   = &quot;utf-8&quot;;
+    public static final String DEFAULT_DTD_PREFIX = &quot;https://depfind.sourceforge.io/dtd&quot;;
+
+<span class="pc" id="L42">    private boolean atTopLevel = false;</span>
+
+    public XMLPrinter(PrintWriter out) {
+<span class="fc" id="L45">        this(out, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);</span>
+<span class="fc" id="L46">    }</span>
+
+    public XMLPrinter(TraversalStrategy strategy, PrintWriter out) {
+<span class="nc" id="L49">        this(strategy, out, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);</span>
+<span class="nc" id="L50">    }</span>
+    
+    public XMLPrinter(PrintWriter out, String encoding, String dtdPrefix) {
+<span class="fc" id="L53">        super(out);</span>
+        
+<span class="fc" id="L55">        appendHeader(encoding, dtdPrefix);</span>
+<span class="fc" id="L56">    }</span>
+    
+    public XMLPrinter(TraversalStrategy strategy, PrintWriter out, String encoding, String dtdPrefix) {
+<span class="nc" id="L59">        super(strategy, out);</span>
+
+<span class="nc" id="L61">        appendHeader(encoding, dtdPrefix);</span>
+<span class="nc" id="L62">    }</span>
+
+    private void appendHeader(String encoding, String dtdPrefix) {
+<span class="fc" id="L65">        append(&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;&quot;).append(encoding).append(&quot;\&quot; ?&gt;&quot;).eol();</span>
+<span class="fc" id="L66">        eol();</span>
+<span class="fc" id="L67">        append(&quot;&lt;!DOCTYPE dependencies SYSTEM \&quot;&quot;).append(dtdPrefix).append(&quot;/dependencies.dtd\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L68">        eol();</span>
+<span class="fc" id="L69">    }</span>
+
+    public void traverseNodes(Collection&lt;? extends Node&gt; nodes) {
+<span class="fc bfc" id="L72" title="All 2 branches covered.">        if (atTopLevel) {</span>
+<span class="fc" id="L73">            super.traverseNodes(nodes);</span>
+        } else {
+<span class="fc" id="L75">            atTopLevel = true;</span>
+<span class="fc" id="L76">            indent().append(&quot;&lt;dependencies&gt;&quot;).eol();</span>
+<span class="fc" id="L77">            raiseIndent();</span>
+<span class="fc" id="L78">            super.traverseNodes(nodes);</span>
+<span class="fc" id="L79">            lowerIndent();</span>
+<span class="fc" id="L80">            indent().append(&quot;&lt;/dependencies&gt;&quot;).eol();</span>
+<span class="fc" id="L81">            atTopLevel = false;</span>
+        }
+<span class="fc" id="L83">    }</span>
+
+    protected void preprocessPackageNode(PackageNode node) {
+<span class="fc" id="L86">        super.preprocessPackageNode(node);</span>
+
+<span class="fc bfc" id="L88" title="All 2 branches covered.">        if (shouldShowPackageNode(node)) {</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">            indent().append(&quot;&lt;package confirmed=\&quot;&quot;).append(node.isConfirmed() ? &quot;yes&quot; : &quot;no&quot;).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L90">            raiseIndent();</span>
+<span class="fc" id="L91">            indent().printScopeNodeName(node).eol();</span>
+        }
+<span class="fc" id="L93">    }</span>
+
+    protected void postprocessPackageNode(PackageNode node) {
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        if (shouldShowPackageNode(node)) {</span>
+<span class="fc" id="L97">            lowerIndent();</span>
+<span class="fc" id="L98">            indent().append(&quot;&lt;/package&gt;&quot;).eol();</span>
+        }
+<span class="fc" id="L100">    }</span>
+
+    public void visitInboundPackageNode(PackageNode node) {
+<span class="fc" id="L103">        printInboundNode(node, &quot;package&quot;);</span>
+<span class="fc" id="L104">    }</span>
+
+    public void visitOutboundPackageNode(PackageNode node) {
+<span class="fc" id="L107">        printOutboundNode(node, &quot;package&quot;);</span>
+<span class="fc" id="L108">    }</span>
+
+    protected void preprocessClassNode(ClassNode node) {
+<span class="fc" id="L111">        super.preprocessClassNode(node);</span>
+
+<span class="fc bfc" id="L113" title="All 2 branches covered.">        if (shouldShowClassNode(node)) {</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">            indent().append(&quot;&lt;class confirmed=\&quot;&quot;).append(node.isConfirmed() ? &quot;yes&quot; : &quot;no&quot;).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L115">            raiseIndent();</span>
+<span class="fc" id="L116">            indent().printScopeNodeName(node).eol();</span>
+        }
+<span class="fc" id="L118">    }</span>
+
+    protected void postprocessClassNode(ClassNode node) {
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        if (shouldShowClassNode(node)) {</span>
+<span class="fc" id="L122">            lowerIndent();</span>
+<span class="fc" id="L123">            indent().append(&quot;&lt;/class&gt;&quot;).eol();</span>
+        }
+<span class="fc" id="L125">    }</span>
+
+    public void visitInboundClassNode(ClassNode node) {
+<span class="fc" id="L128">        printInboundNode(node, &quot;class&quot;);</span>
+<span class="fc" id="L129">    }</span>
+
+    public void visitOutboundClassNode(ClassNode node) {
+<span class="fc" id="L132">        printOutboundNode(node, &quot;class&quot;);</span>
+<span class="fc" id="L133">    }</span>
+
+    protected void preprocessFeatureNode(FeatureNode node) {
+<span class="fc" id="L136">        super.preprocessFeatureNode(node);</span>
+
+<span class="fc bfc" id="L138" title="All 2 branches covered.">        if (shouldShowFeatureNode(node)) {</span>
+<span class="fc bfc" id="L139" title="All 2 branches covered.">            indent().append(&quot;&lt;feature confirmed=\&quot;&quot;).append(node.isConfirmed() ? &quot;yes&quot; : &quot;no&quot;).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L140">            raiseIndent();</span>
+<span class="fc" id="L141">            indent().printScopeNodeName(node).eol();</span>
+        }
+<span class="fc" id="L143">    }</span>
+
+    protected void postprocessFeatureNode(FeatureNode node) {
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        if (shouldShowFeatureNode(node)) {</span>
+<span class="fc" id="L147">            lowerIndent();</span>
+<span class="fc" id="L148">            indent().append(&quot;&lt;/feature&gt;&quot;).eol();</span>
+        }
+<span class="fc" id="L150">    }</span>
+
+    public void visitInboundFeatureNode(FeatureNode node) {
+<span class="fc" id="L153">        printInboundNode(node, &quot;feature&quot;);</span>
+<span class="fc" id="L154">    }</span>
+
+    public void visitOutboundFeatureNode(FeatureNode node) {
+<span class="fc" id="L157">        printOutboundNode(node, &quot;feature&quot;);</span>
+<span class="fc" id="L158">    }</span>
+
+    public void printInboundNode(Node node, String type) {
+<span class="fc bfc" id="L161" title="All 2 branches covered.">        if (isShowInbounds()) {</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">            indent().append(&quot;&lt;inbound type=\&quot;&quot;).append(type).append(&quot;\&quot; confirmed=\&quot;&quot;).append(node.isConfirmed() ? &quot;yes&quot; : &quot;no&quot;).append(&quot;\&quot;&gt;&quot;).printDependencyNodeName(node).append(&quot;&lt;/inbound&gt;&quot;).eol();</span>
+        }
+<span class="fc" id="L164">    }</span>
+
+    public void printOutboundNode(Node node, String type) {
+<span class="fc bfc" id="L167" title="All 2 branches covered.">        if (isShowOutbounds()) {</span>
+<span class="fc bfc" id="L168" title="All 2 branches covered.">            indent().append(&quot;&lt;outbound type=\&quot;&quot;).append(type).append(&quot;\&quot; confirmed=\&quot;&quot;).append(node.isConfirmed() ? &quot;yes&quot; : &quot;no&quot;).append(&quot;\&quot;&gt;&quot;).printDependencyNodeName(node).append(&quot;&lt;/outbound&gt;&quot;).eol();</span>
+        }
+<span class="fc" id="L170">    }</span>
+
+    protected Printer printScopeNodeName(Node node, String name) {
+<span class="fc" id="L173">        append(&quot;&lt;name&gt;&quot;);</span>
+<span class="fc" id="L174">        super.printScopeNodeName(node, name);</span>
+<span class="fc" id="L175">        append(&quot;&lt;/name&gt;&quot;);</span>
+
+<span class="fc" id="L177">        return this;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

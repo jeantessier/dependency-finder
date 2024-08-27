@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TextSymbolPrinter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader</a> &gt; <span class="el_source">TextSymbolPrinter.java</span></div><h1>TextSymbolPrinter.java</h1><pre class="source lang-java linenums">package com.jeantessier.classreader;
+
+import java.io.*;
+
+public class TextSymbolPrinter extends SymbolPrinter {
+    public TextSymbolPrinter(PrintWriter out) {
+<span class="nc" id="L7">        super(out);</span>
+<span class="nc" id="L8">    }</span>
+
+    public void print(SymbolGatherer gatherer) throws IOException {
+<span class="nc" id="L11">        gatherer.stream()</span>
+<span class="nc" id="L12">                .map(Object::toString)</span>
+<span class="nc" id="L13">                .sorted()</span>
+<span class="nc" id="L14">                .distinct()</span>
+<span class="nc" id="L15">                .forEach(getOut()::println);</span>
+<span class="nc" id="L16">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

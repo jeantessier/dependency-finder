@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InnerClass.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader.impl</a> &gt; <span class="el_source">InnerClass.java</span></div><h1>InnerClass.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.classreader.impl;
+
+import java.io.*;
+
+import org.apache.logging.log4j.*;
+
+import com.jeantessier.classreader.*;
+
+public class InnerClass implements com.jeantessier.classreader.InnerClass {
+    private static final int ACC_PUBLIC = 0x0001;
+    private static final int ACC_PRIVATE = 0x0002;
+    private static final int ACC_PROTECTED = 0x0004;
+    private static final int ACC_STATIC = 0x0008;
+    private static final int ACC_FINAL = 0x0010;
+    private static final int ACC_INTERFACE = 0x0200;
+    private static final int ACC_ABSTRACT = 0x0400;
+    private static final int ACC_SYNTHETIC = 0x1000;
+    private static final int ACC_ANNOTATION = 0x2000;
+    private static final int ACC_ENUM = 0x4000;
+
+    private final InnerClasses_attribute innerClasses;
+    private final int innerClassInfoIndex;
+    private final int outerClassInfoIndex;
+    private final int innerNameIndex;
+    private final int accessFlags;
+
+<span class="fc" id="L59">    public InnerClass(InnerClasses_attribute innerClasses, DataInput in) throws IOException {</span>
+<span class="fc" id="L60">        this.innerClasses = innerClasses;</span>
+
+<span class="fc" id="L62">        innerClassInfoIndex = in.readUnsignedShort();</span>
+<span class="fc" id="L63">        LogManager.getLogger(getClass()).debug(&quot;Inner class info index: {} ({})&quot;, innerClassInfoIndex, getInnerClassInfo());</span>
+
+<span class="fc" id="L65">        outerClassInfoIndex = in.readUnsignedShort();</span>
+<span class="fc" id="L66">        LogManager.getLogger(getClass()).debug(&quot;Outer class info index: {} ({})&quot;, outerClassInfoIndex, getOuterClassInfo());</span>
+
+<span class="fc" id="L68">        innerNameIndex = in.readUnsignedShort();</span>
+<span class="fc" id="L69">        LogManager.getLogger(getClass()).debug(&quot;Inner name index: {} ({})&quot;, innerNameIndex, getInnerName());</span>
+
+<span class="fc" id="L71">        accessFlags = in.readUnsignedShort();</span>
+<span class="fc" id="L72">        LogManager.getLogger(getClass()).debug(&quot;Inner class access flags: {}&quot;, accessFlags);</span>
+<span class="fc" id="L73">    }</span>
+
+    public InnerClasses_attribute getInnerClasses() {
+<span class="fc" id="L76">        return innerClasses;</span>
+    }
+
+    public int getInnerClassInfoIndex() {
+<span class="fc" id="L80">        return innerClassInfoIndex;</span>
+    }
+
+    public Class_info getRawInnerClassInfo() {
+<span class="fc" id="L84">        return (Class_info) innerClasses.getConstantPool().get(getInnerClassInfoIndex());</span>
+    }
+
+    public String getInnerClassInfo() {
+<span class="fc" id="L88">        return getRawInnerClassInfo().getName();</span>
+    }
+
+    public boolean hasOuterClassInfo() {
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        return outerClassInfoIndex != 0;</span>
+    }
+
+    public int getOuterClassInfoIndex() {
+<span class="fc" id="L96">        return outerClassInfoIndex;</span>
+    }
+
+    public Class_info getRawOuterClassInfo() {
+<span class="fc" id="L100">        return (Class_info) innerClasses.getConstantPool().get(getOuterClassInfoIndex());</span>
+    }
+
+    public String getOuterClassInfo() {
+<span class="fc" id="L104">        String result = &quot;&quot;;</span>
+
+<span class="fc bfc" id="L106" title="All 2 branches covered.">        if (hasOuterClassInfo()) {</span>
+<span class="fc" id="L107">            result = getRawOuterClassInfo().getName();</span>
+        }
+
+<span class="fc" id="L110">        return result;</span>
+    }
+
+    public boolean hasInnerName() {
+<span class="fc bfc" id="L114" title="All 2 branches covered.">        return innerNameIndex != 0;</span>
+    }
+
+    public int getInnerNameIndex() {
+<span class="fc" id="L118">        return innerNameIndex;</span>
+    }
+
+    public UTF8_info getRawInnerName() {
+<span class="fc" id="L122">        return (UTF8_info) innerClasses.getConstantPool().get(getInnerNameIndex());</span>
+    }
+
+    public String getInnerName() {
+<span class="fc" id="L126">        String result = &quot;&quot;;</span>
+
+<span class="fc bfc" id="L128" title="All 2 branches covered.">        if (hasInnerName()) {</span>
+<span class="fc" id="L129">            result = getRawInnerName().getValue();</span>
+        }
+
+<span class="fc" id="L132">        return result;</span>
+    }
+
+    public int getAccessFlags() {
+<span class="fc" id="L136">        return accessFlags;</span>
+    }
+
+    public boolean isPublic() {
+<span class="pc bpc" id="L140" title="1 of 2 branches missed.">        return (getAccessFlags() &amp; ACC_PUBLIC) != 0;</span>
+    }
+
+    public boolean isProtected() {
+<span class="pc bpc" id="L144" title="1 of 2 branches missed.">        return (getAccessFlags() &amp; ACC_PROTECTED) != 0;</span>
+    }
+
+    public boolean isPrivate() {
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">        return (getAccessFlags() &amp; ACC_PRIVATE) != 0;</span>
+    }
+
+    public boolean isPackage() {
+<span class="nc bnc" id="L152" title="All 2 branches missed.">        return (getAccessFlags() &amp; (ACC_PUBLIC | ACC_PROTECTED | ACC_PRIVATE)) == 0;</span>
+    }
+
+    public boolean isStatic() {
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">        return (getAccessFlags() &amp; ACC_STATIC) != 0;</span>
+    }
+
+    public boolean isFinal() {
+<span class="pc bpc" id="L160" title="1 of 2 branches missed.">        return (getAccessFlags() &amp; ACC_FINAL) != 0;</span>
+    }
+
+    public boolean isInterface() {
+<span class="pc bpc" id="L164" title="1 of 2 branches missed.">        return (getAccessFlags() &amp; ACC_INTERFACE) != 0;</span>
+    }
+
+    public boolean isAbstract() {
+<span class="pc bpc" id="L168" title="1 of 2 branches missed.">        return (getAccessFlags() &amp; ACC_ABSTRACT) != 0;</span>
+    }
+
+    public boolean isSynthetic() {
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">        return (getAccessFlags() &amp; ACC_SYNTHETIC) != 0;</span>
+    }
+
+    public boolean isAnnotation() {
+<span class="pc bpc" id="L176" title="1 of 2 branches missed.">        return (getAccessFlags() &amp; ACC_ANNOTATION) != 0;</span>
+    }
+
+    public boolean isEnum() {
+<span class="fc bfc" id="L180" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_ENUM) != 0;</span>
+    }
+
+    public boolean isMemberClass() {
+<span class="nc" id="L184">        return hasOuterClassInfo();</span>
+    }
+
+    public boolean isAnonymousClass() {
+<span class="nc bnc" id="L188" title="All 2 branches missed.">        return !hasInnerName();</span>
+    }
+
+    public String toString() {
+<span class="fc" id="L192">        return getInnerClassInfo();</span>
+    }
+
+    public void accept(Visitor visitor) {
+<span class="fc" id="L196">        visitor.visitInnerClass(this);</span>
+<span class="fc" id="L197">    }</span>
+
+    public boolean equals(Object object) {
+<span class="pc bpc" id="L200" title="1 of 2 branches missed.">        if (this == object) {</span>
+<span class="fc" id="L201">            return true;</span>
+        }
+
+<span class="nc bnc" id="L204" title="All 4 branches missed.">        if (object == null || getClass() != object.getClass()) {</span>
+<span class="nc" id="L205">            return false;</span>
+        }
+
+<span class="nc bnc" id="L208" title="All 2 branches missed.">        return compareTo((InnerClass) object) == 0;</span>
+    }
+
+    public int hashCode() {
+<span class="nc" id="L212">        return getInnerClassInfo().hashCode();</span>
+    }
+
+    public int compareTo(com.jeantessier.classreader.InnerClass other) {
+<span class="nc bnc" id="L216" title="All 2 branches missed.">        if (this == other) {</span>
+<span class="nc" id="L217">            return 0;</span>
+        }
+
+<span class="nc bnc" id="L220" title="All 2 branches missed.">        if (other == null) {</span>
+<span class="nc" id="L221">            throw new ClassCastException(&quot;compareTo: expected a &quot; + getClass().getName() + &quot; but got null&quot;);</span>
+        }
+
+<span class="nc" id="L224">        int outerClassCompare = getOuterClassInfo().compareTo(other.getOuterClassInfo());</span>
+<span class="nc bnc" id="L225" title="All 2 branches missed.">        if (outerClassCompare != 0) {</span>
+<span class="nc" id="L226">            return outerClassCompare;</span>
+        }
+
+<span class="nc" id="L229">        return getInnerClassInfo().compareTo(other.getInnerClassInfo());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MetricsGatherer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependency</a> &gt; <span class="el_source">MetricsGatherer.java</span></div><h1>MetricsGatherer.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependency;
+
+import java.util.*;
+
+public class MetricsGatherer extends VisitorBase {
+<span class="pc" id="L38">    private final Collection&lt;PackageNode&gt; packages = new LinkedList&lt;&gt;();</span>
+<span class="pc" id="L39">    private final Collection&lt;ClassNode&gt; classes = new LinkedList&lt;&gt;();</span>
+<span class="pc" id="L40">    private final Collection&lt;FeatureNode&gt; features = new LinkedList&lt;&gt;();</span>
+
+<span class="pc" id="L42">    private long nbOutbound = 0;</span>
+<span class="pc" id="L43">    private long nbInbound = 0;</span>
+<span class="pc" id="L44">    private long nbOutboundPackages = 0;</span>
+<span class="pc" id="L45">    private long nbInboundPackages = 0;</span>
+<span class="pc" id="L46">    private long nbOutboundClasses = 0;</span>
+<span class="pc" id="L47">    private long nbInboundClasses = 0;</span>
+<span class="pc" id="L48">    private long nbOutboundFeatures = 0;</span>
+<span class="pc" id="L49">    private long nbInboundFeatures = 0;</span>
+
+<span class="pc" id="L51">    private final Map&lt;Integer, long[]&gt; chartData = new TreeMap&lt;&gt;();</span>
+<span class="pc" id="L52">    private int chartMaximum = 0;</span>
+    public static final int CHART_INDEX           = 0;
+    public static final int CLASSES_PER_PACKAGE   = 1;
+    public static final int FEATURES_PER_CLASS    = 2;
+    public static final int INBOUNDS_PER_PACKAGE  = 3;
+    public static final int OUTBOUNDS_PER_PACKAGE = 4;
+    public static final int INBOUNDS_PER_CLASS    = 5;
+    public static final int OUTBOUNDS_PER_CLASS   = 6;
+    public static final int INBOUNDS_PER_FEATURE  = 7;
+    public static final int OUTBOUNDS_PER_FEATURE = 8;
+    public static final int NB_CHARTS             = 9;
+
+<span class="fc" id="L64">    private static final String[] CHART_NAMES = {&quot;n&quot;,</span>
+                                                 &quot;Classes per Package&quot;,
+                                                 &quot;Features per Class&quot;,
+                                                 &quot;Inbounds per Package&quot;,
+                                                 &quot;Outbounds per Package&quot;,
+                                                 &quot;Inbounds per Class&quot;,
+                                                 &quot;Outbounds per Class&quot;,
+                                                 &quot;Inbounds per Feature&quot;,
+                                                 &quot;Outbounds per Feature&quot;};
+
+    public static int getNbCharts() {
+<span class="nc" id="L75">        return NB_CHARTS;</span>
+    }
+    
+    public static String getChartName(int i) {
+<span class="nc" id="L79">        return CHART_NAMES[i];</span>
+    }
+    
+    public MetricsGatherer() {
+<span class="fc" id="L83">        super();</span>
+<span class="fc" id="L84">    }</span>
+
+    public MetricsGatherer(TraversalStrategy strategy) {
+<span class="nc" id="L87">        super(strategy);</span>
+<span class="nc" id="L88">    }</span>
+
+    public long[] getChartData(int i) {
+<span class="fc" id="L91">        long[] result = chartData.get(i);</span>
+
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        if (result == null) {</span>
+<span class="fc" id="L94">            result = new long[NB_CHARTS];</span>
+<span class="fc" id="L95">            result[CHART_INDEX] = i;</span>
+<span class="fc" id="L96">            chartData.put(i, result);</span>
+
+<span class="fc bfc" id="L98" title="All 2 branches covered.">            if (chartMaximum &lt; i) {</span>
+<span class="fc" id="L99">                chartMaximum = i;</span>
+            }
+        }
+
+<span class="fc" id="L103">        return result;</span>
+    }
+
+    public int getChartMaximum() {
+<span class="nc" id="L107">        return chartMaximum;</span>
+    }
+    
+    public Collection&lt;PackageNode&gt; getPackages() {
+<span class="fc" id="L111">        return packages;</span>
+    }
+
+    public Collection&lt;ClassNode&gt; getClasses() {
+<span class="fc" id="L115">        return classes;</span>
+    }
+
+    public Collection&lt;FeatureNode&gt; getFeatures() {
+<span class="fc" id="L119">        return features;</span>
+    }
+
+    public long getNbOutbound() {
+<span class="fc" id="L123">        return nbOutbound;</span>
+    }
+
+    public long getNbInbound() {
+<span class="fc" id="L127">        return nbInbound;</span>
+    }
+
+    public long getNbOutboundPackages() {
+<span class="fc" id="L131">        return nbOutboundPackages;</span>
+    }
+
+    public long getNbInboundPackages() {
+<span class="fc" id="L135">        return nbInboundPackages;</span>
+    }
+
+    public long getNbOutboundClasses() {
+<span class="fc" id="L139">        return nbOutboundClasses;</span>
+    }
+
+    public long getNbInboundClasses() {
+<span class="fc" id="L143">        return nbInboundClasses;</span>
+    }
+
+    public long getNbOutboundFeatures() {
+<span class="fc" id="L147">        return nbOutboundFeatures;</span>
+    }
+
+    public long getNbInboundFeatures() {
+<span class="fc" id="L151">        return nbInboundFeatures;</span>
+    }
+    
+    public void preprocessPackageNode(PackageNode node) {
+<span class="fc" id="L155">        super.preprocessPackageNode(node);</span>
+
+<span class="fc" id="L157">        packages.add(node);</span>
+
+<span class="fc" id="L159">        getChartData(node.getClasses().size())[CLASSES_PER_PACKAGE]++;</span>
+<span class="fc" id="L160">        getChartData(node.getInboundDependencies().size())[INBOUNDS_PER_PACKAGE]++;</span>
+<span class="fc" id="L161">        getChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_PACKAGE]++;</span>
+<span class="fc" id="L162">    }</span>
+
+    /**
+     *  PackageNode --&amp;gt; CurrentNode()
+     */
+    public void visitInboundPackageNode(PackageNode node) {
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        if (getStrategy().isInFilter(node)) {</span>
+<span class="nc" id="L169">            nbInbound++;</span>
+<span class="nc" id="L170">            nbOutboundPackages++;</span>
+        }
+<span class="nc" id="L172">    }</span>
+
+    /**
+     *  CurrentNode() --&amp;gt; PackageNode
+     */
+    public void visitOutboundPackageNode(PackageNode node) {
+<span class="nc bnc" id="L178" title="All 2 branches missed.">        if (getStrategy().isInFilter(node)) {</span>
+<span class="nc" id="L179">            nbOutbound++;</span>
+<span class="nc" id="L180">            nbInboundPackages++;</span>
+        }
+<span class="nc" id="L182">    }</span>
+
+    public void preprocessClassNode(ClassNode node) {
+<span class="fc" id="L185">        super.preprocessClassNode(node);</span>
+
+<span class="fc" id="L187">        classes.add(node);</span>
+
+<span class="fc" id="L189">        getChartData(node.getFeatures().size())[FEATURES_PER_CLASS]++;</span>
+<span class="fc" id="L190">        getChartData(node.getInboundDependencies().size())[INBOUNDS_PER_CLASS]++;</span>
+<span class="fc" id="L191">        getChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_CLASS]++;</span>
+<span class="fc" id="L192">    }</span>
+
+    /**
+     *  ClassNode --&amp;gt; CurrentNode()
+     */
+    public void visitInboundClassNode(ClassNode node) {
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">        if (getStrategy().isInFilter(node)) {</span>
+<span class="fc" id="L199">            nbInbound++;</span>
+<span class="fc" id="L200">            nbOutboundClasses++;</span>
+        }
+<span class="fc" id="L202">    }</span>
+
+    /**
+     *  CurrentNode() --&amp;gt; ClassNode
+     */
+    public void visitOutboundClassNode(ClassNode node) {
+<span class="pc bpc" id="L208" title="1 of 2 branches missed.">        if (getStrategy().isInFilter(node)) {</span>
+<span class="fc" id="L209">            nbOutbound++;</span>
+<span class="fc" id="L210">            nbInboundClasses++;</span>
+        }
+<span class="fc" id="L212">    }</span>
+
+    public void preprocessFeatureNode(FeatureNode node) {
+<span class="fc" id="L215">        super.preprocessFeatureNode(node);</span>
+
+<span class="fc" id="L217">        features.add(node);</span>
+
+<span class="fc" id="L219">        getChartData(node.getInboundDependencies().size())[INBOUNDS_PER_FEATURE]++;</span>
+<span class="fc" id="L220">        getChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_FEATURE]++;</span>
+<span class="fc" id="L221">    }</span>
+
+    /**
+     *  FeatureNode --&amp;gt; CurrentNode()
+     */
+    public void visitInboundFeatureNode(FeatureNode node) {
+<span class="pc bpc" id="L227" title="1 of 2 branches missed.">        if (getStrategy().isInFilter(node)) {</span>
+<span class="fc" id="L228">            nbInbound++;</span>
+<span class="fc" id="L229">            nbOutboundFeatures++;</span>
+        }
+<span class="fc" id="L231">    }</span>
+
+    /**
+     *  CurrentNode() --&amp;gt; FeatureNode
+     */
+    public void visitOutboundFeatureNode(FeatureNode node) {
+<span class="pc bpc" id="L237" title="1 of 2 branches missed.">        if (getStrategy().isInFilter(node)) {</span>
+<span class="fc" id="L238">            nbOutbound++;</span>
+<span class="fc" id="L239">            nbInboundFeatures++;</span>
+        }
+<span class="fc" id="L241">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

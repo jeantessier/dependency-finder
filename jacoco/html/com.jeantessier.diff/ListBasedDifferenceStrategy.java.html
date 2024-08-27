@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListBasedDifferenceStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.diff</a> &gt; <span class="el_source">ListBasedDifferenceStrategy.java</span></div><h1>ListBasedDifferenceStrategy.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.diff;
+
+import com.jeantessier.classreader.Classfile;
+import com.jeantessier.classreader.Field_info;
+import com.jeantessier.classreader.Method_info;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+
+public class ListBasedDifferenceStrategy extends DifferenceStrategyDecorator {
+<span class="fc" id="L48">    private final Collection&lt;String&gt; allowedElements = new HashSet&lt;&gt;();</span>
+
+    public ListBasedDifferenceStrategy(DifferenceStrategy delegate, String filename) throws IOException {
+<span class="fc" id="L51">        super(delegate);</span>
+
+<span class="nc" id="L53">        load(filename);</span>
+<span class="nc" id="L54">    }</span>
+
+    public ListBasedDifferenceStrategy(DifferenceStrategy delegate, File file) throws IOException {
+<span class="fc" id="L57">        super(delegate);</span>
+
+<span class="nc" id="L59">        load(file);</span>
+<span class="nc" id="L60">    }</span>
+
+    public ListBasedDifferenceStrategy(DifferenceStrategy delegate, BufferedReader in) throws IOException {
+<span class="fc" id="L63">        super(delegate);</span>
+
+<span class="fc" id="L65">        load(in);</span>
+<span class="fc" id="L66">    }</span>
+
+    public void load(String filename) throws IOException {
+<span class="nc" id="L69">        try (BufferedReader in = new BufferedReader(new FileReader(filename))) {</span>
+<span class="nc" id="L70">            load(in);</span>
+        }
+<span class="nc" id="L72">    }</span>
+
+    public void load(File file) throws IOException {
+<span class="nc" id="L75">        try (BufferedReader in = new BufferedReader(new FileReader(file))) {</span>
+<span class="nc" id="L76">            load(in);</span>
+        }
+<span class="nc" id="L78">    }</span>
+
+    public void load(BufferedReader in) throws IOException {
+        String line;
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        while ((line = in.readLine()) != null) {</span>
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">            if (!line.isEmpty()) {</span>
+<span class="fc" id="L84">                line = line.trim();</span>
+<span class="fc" id="L85">                int pos = line.lastIndexOf(&quot; [&quot;);</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">                if (pos != -1) {</span>
+<span class="fc" id="L87">                    allowedElements.add(line.substring(0, pos));</span>
+                } else {
+<span class="fc" id="L89">                    allowedElements.add(line);</span>
+                }
+<span class="fc" id="L91">            }</span>
+        }
+<span class="fc" id="L93">    }</span>
+
+    public boolean isPackageAllowed(String name) {
+<span class="fc" id="L96">        return isAllowed(name);</span>
+    }
+
+    public boolean isClassAllowed(String name) {
+<span class="fc" id="L100">        return isAllowed(name);</span>
+    }
+
+    public boolean isFeatureAllowed(String name) {
+<span class="fc" id="L104">        return isAllowed(name);</span>
+    }
+
+    public boolean isAllowed(String name) {
+<span class="fc" id="L108">        return allowedElements.contains(name);</span>
+    }
+
+    public boolean isPackageDifferent(Map&lt;String, Classfile&gt; oldPackage, Map&lt;String, Classfile&gt; newPackage) {
+<span class="fc bfc" id="L112" title="All 2 branches covered.">        Map&lt;String, Classfile&gt; nonEmptyPackage = oldPackage.isEmpty() ? newPackage : oldPackage;</span>
+<span class="fc" id="L113">        String className = nonEmptyPackage.keySet().iterator().next();</span>
+<span class="fc" id="L114">        String packageName = &quot;&quot;;</span>
+<span class="fc" id="L115">        int pos = className.lastIndexOf('.');</span>
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">        if (pos != -1) {</span>
+<span class="fc" id="L117">            packageName = className.substring(0, pos);</span>
+        }
+
+<span class="fc" id="L120">        boolean result = isPackageAllowed(packageName);</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        if (result) {</span>
+<span class="fc" id="L122">            result = super.isPackageDifferent(oldPackage, newPackage);</span>
+        }
+
+<span class="fc" id="L125">        return result;</span>
+    }
+
+    public boolean isClassDifferent(Classfile oldClass, Classfile newClass) {
+<span class="fc bfc" id="L129" title="All 2 branches covered.">        Classfile classfile = oldClass != null ? oldClass : newClass;</span>
+
+<span class="fc" id="L131">        boolean result = isClassAllowed(classfile.getClassName());</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        if (result) {</span>
+<span class="fc" id="L133">            result = super.isClassDifferent(oldClass, newClass);</span>
+        }
+
+<span class="fc" id="L136">        return result;</span>
+    }
+
+    public boolean isFieldDifferent(Field_info oldField, Field_info newField) {
+<span class="fc bfc" id="L140" title="All 2 branches covered.">        Field_info field = oldField != null ? oldField : newField;</span>
+
+<span class="fc" id="L142">        boolean result = isFeatureAllowed(field.getFullSignature());</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">        if (result) {</span>
+<span class="fc" id="L144">            result = super.isFieldDifferent(oldField, newField);</span>
+        }
+
+<span class="fc" id="L147">        return result;</span>
+    }
+
+    public boolean isMethodDifferent(Method_info oldMethod, Method_info newMethod) {
+<span class="fc bfc" id="L151" title="All 2 branches covered.">        Method_info method = oldMethod != null ? oldMethod : newMethod;</span>
+
+<span class="fc" id="L153">        boolean result = isFeatureAllowed(method.getFullSignature());</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">        if (result) {</span>
+<span class="fc" id="L155">            result = super.isMethodDifferent(oldMethod, newMethod);</span>
+        }
+
+<span class="fc" id="L158">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

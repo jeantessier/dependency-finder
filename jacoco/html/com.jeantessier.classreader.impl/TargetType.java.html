@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TargetType.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader.impl</a> &gt; <span class="el_source">TargetType.java</span></div><h1>TargetType.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.classreader.impl;
+
+import java.io.DataInput;
+import java.io.IOException;
+import java.util.Arrays;
+
+<span class="fc" id="L39">public enum TargetType {</span>
+<span class="fc" id="L40">    PARAMETER_OF_CLASS(com.jeantessier.classreader.TargetType.PARAMETER_OF_CLASS) {</span>
+        public Target_info create(DataInput in) throws IOException {
+<span class="nc" id="L42">            return new TypeParameterTarget(this, in);</span>
+        }
+    },
+
+<span class="fc" id="L46">    PARAMETER_OF_GENERIC_METHOD(com.jeantessier.classreader.TargetType.PARAMETER_OF_GENERIC_METHOD) {</span>
+        public Target_info create(DataInput in) throws IOException {
+<span class="nc" id="L48">            return new TypeParameterTarget(this, in);</span>
+        }
+    },
+
+<span class="fc" id="L52">    EXTENDS_OR_IMPLEMENTS(com.jeantessier.classreader.TargetType.EXTENDS_OR_IMPLEMENTS) {</span>
+        public Target_info create(DataInput in) throws IOException {
+<span class="nc" id="L54">            return new SupertypeTarget(this, in);</span>
+        }
+    },
+
+<span class="fc" id="L58">    BOUND_GENERIC_CLASS(com.jeantessier.classreader.TargetType.BOUND_GENERIC_CLASS) {</span>
+        public Target_info create(DataInput in) throws IOException {
+<span class="nc" id="L60">            return new TypeParameterBoundTarget(this, in);</span>
+        }
+    },
+
+<span class="fc" id="L64">    BOUND_GENERIC_METHOD(com.jeantessier.classreader.TargetType.BOUND_GENERIC_METHOD) {</span>
+        public Target_info create(DataInput in) throws IOException {
+<span class="nc" id="L66">            return new TypeParameterBoundTarget(this, in);</span>
+        }
+    },
+
+<span class="fc" id="L70">    FIELD(com.jeantessier.classreader.TargetType.FIELD) {</span>
+        public Target_info create(DataInput in) throws IOException {
+<span class="fc" id="L72">            return new EmptyTarget(this, in);</span>
+        }
+    },
+
+<span class="fc" id="L76">    RETURN_TYPE(com.jeantessier.classreader.TargetType.RETURN_TYPE) {</span>
+        public Target_info create(DataInput in) throws IOException {
+<span class="nc" id="L78">            return new EmptyTarget(this, in);</span>
+        }
+    },
+
+<span class="fc" id="L82">    RECEIVER(com.jeantessier.classreader.TargetType.RECEIVER) {</span>
+        public Target_info create(DataInput in) throws IOException {
+<span class="nc" id="L84">            return new EmptyTarget(this, in);</span>
+        }
+    },
+
+<span class="fc" id="L88">    FORMAL_PARAMETER_OF_METHOD(com.jeantessier.classreader.TargetType.FORMAL_PARAMETER_OF_METHOD) {</span>
+        public Target_info create(DataInput in) throws IOException {
+<span class="nc" id="L90">            return new FormalParameterTarget(this, in);</span>
+        }
+    },
+
+<span class="fc" id="L94">    THROWS_CLAUSE(com.jeantessier.classreader.TargetType.THROWS_CLAUSE) {</span>
+        public Target_info create(DataInput in) throws IOException {
+<span class="nc" id="L96">            return new ThrowsTarget(this, in);</span>
+        }
+    },
+
+<span class="fc" id="L100">    LOCAL_VARIABLE(com.jeantessier.classreader.TargetType.LOCAL_VARIABLE) {</span>
+        public Target_info create(DataInput in) throws IOException {
+<span class="nc" id="L102">            return new LocalvarTarget(this, in);</span>
+        }
+    },
+
+<span class="fc" id="L106">    RESOURCE_VARIABLE(com.jeantessier.classreader.TargetType.RESOURCE_VARIABLE) {</span>
+        public Target_info create(DataInput in) throws IOException {
+<span class="nc" id="L108">            return new LocalvarTarget(this, in);</span>
+        }
+    },
+
+<span class="fc" id="L112">    EXCEPTION_PARAMETER(com.jeantessier.classreader.TargetType.EXCEPTION_PARAMETER) {</span>
+        public Target_info create(DataInput in) throws IOException {
+<span class="nc" id="L114">            return new CatchTarget(this, in);</span>
+        }
+    },
+
+<span class="fc" id="L118">    INSTANCEOF_EXPRESSION(com.jeantessier.classreader.TargetType.INSTANCEOF_EXPRESSION) {</span>
+        public Target_info create(DataInput in) throws IOException {
+<span class="nc" id="L120">            return new OffsetTarget(this, in);</span>
+        }
+    },
+
+<span class="fc" id="L124">    NEW_EXPRESSION(com.jeantessier.classreader.TargetType.NEW_EXPRESSION) {</span>
+        public Target_info create(DataInput in) throws IOException {
+<span class="nc" id="L126">            return new OffsetTarget(this, in);</span>
+        }
+    },
+
+<span class="fc" id="L130">    METHOD_REFERENCE_USING_NEW(com.jeantessier.classreader.TargetType.METHOD_REFERENCE_USING_NEW) {</span>
+        public Target_info create(DataInput in) throws IOException {
+<span class="nc" id="L132">            return new OffsetTarget(this, in);</span>
+        }
+    },
+
+<span class="fc" id="L136">    METHOD_REFERENCE_USING_IDENTIFIER(com.jeantessier.classreader.TargetType.METHOD_REFERENCE_USING_IDENTIFIER) {</span>
+        public Target_info create(DataInput in) throws IOException {
+<span class="nc" id="L138">            return new OffsetTarget(this, in);</span>
+        }
+    },
+
+<span class="fc" id="L142">    CAST_EXPRESSION(com.jeantessier.classreader.TargetType.CAST_EXPRESSION) {</span>
+        public Target_info create(DataInput in) throws IOException {
+<span class="nc" id="L144">            return new TypeArgumentTarget(this, in);</span>
+        }
+    },
+
+<span class="fc" id="L148">    ARGUMENT_FOR_GENERIC_CONSTRUCTOR(com.jeantessier.classreader.TargetType.ARGUMENT_FOR_GENERIC_CONSTRUCTOR) {</span>
+        public Target_info create(DataInput in) throws IOException {
+<span class="nc" id="L150">            return new TypeArgumentTarget(this, in);</span>
+        }
+    },
+
+<span class="fc" id="L154">    ARGUMENT_FOR_GENERIC_METHOD_INVOCATION(com.jeantessier.classreader.TargetType.ARGUMENT_FOR_GENERIC_METHOD_INVOCATION) {</span>
+        public Target_info create(DataInput in) throws IOException {
+<span class="nc" id="L156">            return new TypeArgumentTarget(this, in);</span>
+        }
+    },
+
+<span class="fc" id="L160">    ARGUMENT_FOR_GENERIC_CONSTRUCTOR_USING_NEW(com.jeantessier.classreader.TargetType.ARGUMENT_FOR_GENERIC_CONSTRUCTOR_USING_NEW) {</span>
+        public Target_info create(DataInput in) throws IOException {
+<span class="nc" id="L162">            return new TypeArgumentTarget(this, in);</span>
+        }
+    },
+
+<span class="fc" id="L166">    ARGUMENT_FOR_GENERIC_METHOD_REFERENCE_USING_IDENTIFIER(com.jeantessier.classreader.TargetType.ARGUMENT_FOR_GENERIC_METHOD_REFERENCE_USING_IDENTIFIER) {</span>
+        public Target_info create(DataInput in) throws IOException {
+<span class="nc" id="L168">            return new TypeArgumentTarget(this, in);</span>
+        }
+    };
+
+    private final com.jeantessier.classreader.TargetType targetType;
+
+<span class="fc" id="L174">    TargetType(com.jeantessier.classreader.TargetType targetType) {</span>
+<span class="fc" id="L175">        this.targetType = targetType;</span>
+<span class="fc" id="L176">    }</span>
+
+    public com.jeantessier.classreader.TargetType getTargetType() {
+<span class="fc" id="L179">        return targetType;</span>
+    }
+
+    public String getHexTargetType() {
+<span class="fc" id="L183">        return getTargetType().getHexTargetType();</span>
+    }
+
+    public String getDescription() {
+<span class="fc" id="L187">        return getTargetType().getDescription();</span>
+    }
+
+    public abstract Target_info create(DataInput in) throws IOException;
+
+    public static TargetType forTargetType(int tag) {
+<span class="fc" id="L193">        return Arrays.stream(values())</span>
+<span class="fc bfc" id="L194" title="All 2 branches covered.">                .filter(value -&gt; value.getTargetType().getTargetType() == tag)</span>
+<span class="fc" id="L195">                .findFirst()</span>
+<span class="fc" id="L196">                .orElse(null);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AccessibilitySymbolGathererStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader</a> &gt; <span class="el_source">AccessibilitySymbolGathererStrategy.java</span></div><h1>AccessibilitySymbolGathererStrategy.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.classreader;
+
+public class AccessibilitySymbolGathererStrategy extends SymbolGathererStrategyDecorator {
+    private final boolean publicAccessibility;
+    private final boolean protectedAccessibility;
+    private final boolean privateAccessibility;
+    private final boolean packageAccessibility;
+
+    public AccessibilitySymbolGathererStrategy(SymbolGathererStrategy delegate, boolean publicAccessibility, boolean protectedAccessibility, boolean privateAccessibility, boolean packageAccessibility) {
+<span class="fc" id="L42">        super(delegate);</span>
+
+<span class="fc" id="L44">        this.publicAccessibility = publicAccessibility;</span>
+<span class="fc" id="L45">        this.protectedAccessibility = protectedAccessibility;</span>
+<span class="fc" id="L46">        this.privateAccessibility = privateAccessibility;</span>
+<span class="fc" id="L47">        this.packageAccessibility = packageAccessibility;</span>
+<span class="fc" id="L48">    }</span>
+
+    public boolean isMatching(Classfile classfile) {
+<span class="fc" id="L51">        boolean result = false;</span>
+
+<span class="fc bfc" id="L53" title="All 8 branches covered.">        if ((publicAccessibility &amp;&amp; classfile.isPublic()) || (packageAccessibility &amp;&amp; classfile.isPackage())) {</span>
+<span class="fc" id="L54">            result = super.isMatching(classfile);</span>
+        }
+
+<span class="fc" id="L57">        return result;</span>
+    }
+
+    public boolean isMatching(Field_info field) {
+<span class="fc" id="L61">        boolean result = false;</span>
+
+<span class="fc bfc" id="L63" title="All 16 branches covered.">        if ((publicAccessibility &amp;&amp; field.isPublic()) || (protectedAccessibility &amp;&amp; field.isProtected()) || (privateAccessibility &amp;&amp; field.isPrivate()) || (packageAccessibility &amp;&amp; field.isPackage())) {</span>
+<span class="fc" id="L64">            result = super.isMatching(field);</span>
+        }
+
+<span class="fc" id="L67">        return result;</span>
+    }
+
+    public boolean isMatching(Method_info method) {
+<span class="fc" id="L71">        boolean result = false;</span>
+
+<span class="fc bfc" id="L73" title="All 16 branches covered.">        if ((publicAccessibility &amp;&amp; method.isPublic()) || (protectedAccessibility &amp;&amp; method.isProtected()) || (privateAccessibility &amp;&amp; method.isPrivate()) || (packageAccessibility &amp;&amp; method.isPackage())) {</span>
+<span class="fc" id="L74">            result = super.isMatching(method);</span>
+        }
+
+<span class="fc" id="L77">        return result;</span>
+    }
+
+    public boolean isMatching(LocalVariable localVariable) {
+<span class="fc" id="L81">        return false;</span>
+    }
+
+    public boolean isMatching(InnerClass innerClass) {
+<span class="fc" id="L85">        boolean result = false;</span>
+
+<span class="fc bfc" id="L87" title="All 16 branches covered.">        if ((publicAccessibility &amp;&amp; innerClass.isPublic()) || (protectedAccessibility &amp;&amp; innerClass.isProtected()) || (privateAccessibility &amp;&amp; innerClass.isPrivate()) || (packageAccessibility &amp;&amp; innerClass.isPackage())) {</span>
+<span class="fc" id="L88">            result = super.isMatching(innerClass    );</span>
+        }
+
+<span class="fc" id="L91">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

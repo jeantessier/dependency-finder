@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Version.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependencyfinder</a> &gt; <span class="el_source">Version.java</span></div><h1>Version.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependencyfinder;
+
+import org.apache.logging.log4j.*;
+
+import java.io.IOException;
+import java.util.jar.Attributes;
+import java.util.jar.JarFile;
+
+public class Version {
+    public static final String DEFAULT_URL              = &quot;https://depfind.sourceforge.io/&quot;;
+    public static final String DEFAULT_TITLE            = &quot;Dependency Finder&quot;;
+    public static final String DEFAULT_VERSION          = &quot;&lt;i&gt;unknown&lt;/i&gt;&quot;;
+    public static final String DEFAULT_VENDOR           = &quot;Jean Tessier&quot;;
+    public static final String DEFAULT_DATE             = &quot;&lt;i&gt;unknown&lt;/i&gt;&quot;;
+    public static final String DEFAULT_COPYRIGHT_HOLDER = &quot;Jean Tessier&quot;;
+    public static final String DEFAULT_COPYRIGHT_DATE   = &quot;2001-2024&quot;;
+
+    private final String resourceURL;
+<span class="fc" id="L51">    private String jarName     = null;</span>
+
+<span class="fc" id="L53">    private Attributes attributes = null;</span>
+    
+<span class="fc" id="L55">    public Version() {</span>
+<span class="fc" id="L56">        resourceURL = getClass().getResource(&quot;Version.class&quot;).toString();</span>
+        
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">        if (resourceURL.startsWith(&quot;jar:file:&quot;)) {</span>
+<span class="fc" id="L59">            jarName = resourceURL.substring(9, resourceURL.indexOf(&quot;.jar!&quot;) + 4);</span>
+
+<span class="fc" id="L61">            try (JarFile jar = new JarFile(jarName)) {</span>
+<span class="fc" id="L62">                attributes = jar.getManifest().getMainAttributes();</span>
+<span class="nc" id="L63">            } catch (IOException ex) {</span>
+<span class="nc" id="L64">                LogManager.getLogger(getClass()).error(&quot;Could not get version information, using defaults&quot;, ex);</span>
+<span class="fc" id="L65">            }</span>
+        }
+<span class="fc" id="L67">    }</span>
+    
+    public String getResourceURL() {
+<span class="nc" id="L70">        return resourceURL;</span>
+    }
+
+    public String getJarName() {
+<span class="nc" id="L74">        return jarName;</span>
+    }
+
+    public String getImplementationURL() {
+<span class="fc" id="L78">        String result = DEFAULT_URL;</span>
+
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">        if (attributes != null) {</span>
+<span class="fc" id="L81">            result = attributes.getValue(&quot;Implementation-URL&quot;);</span>
+        }
+
+<span class="fc" id="L84">        return result;</span>
+    }
+
+    public String getImplementationTitle() {
+<span class="fc" id="L88">        String result = DEFAULT_TITLE;</span>
+
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">        if (attributes != null) {</span>
+<span class="fc" id="L91">            result = attributes.getValue(&quot;Implementation-Title&quot;);</span>
+        }
+
+<span class="fc" id="L94">        return result;</span>
+    }
+
+    public String getImplementationVersion() {
+<span class="fc" id="L98">        String result = DEFAULT_VERSION;</span>
+
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">        if (attributes != null) {</span>
+<span class="fc" id="L101">            result = attributes.getValue(&quot;Implementation-Version&quot;);</span>
+        }
+
+<span class="fc" id="L104">        return result;</span>
+    }
+
+    public String getImplementationVendor() {
+<span class="nc" id="L108">        String result = DEFAULT_VENDOR;</span>
+
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        if (attributes != null) {</span>
+<span class="nc" id="L111">            result = attributes.getValue(&quot;Implementation-Vendor&quot;);</span>
+        }
+
+<span class="nc" id="L114">        return result;</span>
+    }
+
+    public String getImplementationDate() {
+<span class="fc" id="L118">        String result = DEFAULT_DATE;</span>
+
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">        if (attributes != null) {</span>
+<span class="fc" id="L121">            result = attributes.getValue(&quot;Implementation-Date&quot;);</span>
+        }
+
+<span class="fc" id="L124">        return result;</span>
+    }
+
+    public String getSpecificationTitle() {
+<span class="nc" id="L128">        String result = DEFAULT_TITLE;</span>
+
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        if (attributes != null) {</span>
+<span class="nc" id="L131">            result = attributes.getValue(&quot;Specification-Title&quot;);</span>
+        }
+
+<span class="nc" id="L134">        return result;</span>
+    }
+
+    public String getSpecificationVersion() {
+<span class="nc" id="L138">        String result = DEFAULT_VERSION;</span>
+
+<span class="nc bnc" id="L140" title="All 2 branches missed.">        if (attributes != null) {</span>
+<span class="nc" id="L141">            result = attributes.getValue(&quot;Specification-Version&quot;);</span>
+        }
+
+<span class="nc" id="L144">        return result;</span>
+    }
+
+    public String getSpecificationVendor() {
+<span class="nc" id="L148">        String result = DEFAULT_VENDOR;</span>
+
+<span class="nc bnc" id="L150" title="All 2 branches missed.">        if (attributes != null) {</span>
+<span class="nc" id="L151">            result = attributes.getValue(&quot;Specification-Vendor&quot;);</span>
+        }
+
+<span class="nc" id="L154">        return result;</span>
+    }
+
+    public String getSpecificationDate() {
+<span class="nc" id="L158">        String result = DEFAULT_DATE;</span>
+
+<span class="nc bnc" id="L160" title="All 2 branches missed.">        if (attributes != null) {</span>
+<span class="nc" id="L161">            result = attributes.getValue(&quot;Specification-Date&quot;);</span>
+        }
+
+<span class="nc" id="L164">        return result;</span>
+    }
+
+    public String getCopyrightHolder() {
+<span class="fc" id="L168">        String result = DEFAULT_COPYRIGHT_HOLDER;</span>
+
+<span class="pc bpc" id="L170" title="1 of 2 branches missed.">        if (attributes != null) {</span>
+<span class="fc" id="L171">            result = attributes.getValue(&quot;Copyright-Holder&quot;);</span>
+        }
+
+<span class="fc" id="L174">        return result;</span>
+    }
+
+    public String getCopyrightDate() {
+<span class="fc" id="L178">        String result = DEFAULT_COPYRIGHT_DATE;</span>
+
+<span class="pc bpc" id="L180" title="1 of 2 branches missed.">        if (attributes != null) {</span>
+<span class="fc" id="L181">            result = attributes.getValue(&quot;Copyright-Date&quot;);</span>
+        }
+
+<span class="fc" id="L184">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

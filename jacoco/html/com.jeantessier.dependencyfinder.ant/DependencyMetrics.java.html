@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DependencyMetrics.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependencyfinder.ant</a> &gt; <span class="el_source">DependencyMetrics.java</span></div><h1>DependencyMetrics.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependencyfinder.ant;
+
+import java.io.*;
+
+import javax.xml.parsers.*;
+
+import org.apache.tools.ant.*;
+
+import org.xml.sax.*;
+
+import com.jeantessier.dependency.*;
+
+<span class="nc" id="L45">public class DependencyMetrics extends GraphTask {</span>
+<span class="nc" id="L46">    private String  scopeIncludes = &quot;//&quot;;</span>
+<span class="nc" id="L47">    private String  scopeExcludes = &quot;&quot;;</span>
+    private boolean packageScope;
+<span class="nc" id="L49">    private String  packageScopeIncludes = &quot;&quot;;</span>
+<span class="nc" id="L50">    private String  packageScopeExcludes = &quot;&quot;;</span>
+    private boolean classScope;
+<span class="nc" id="L52">    private String  classScopeIncludes = &quot;&quot;;</span>
+<span class="nc" id="L53">    private String  classScopeExcludes = &quot;&quot;;</span>
+    private boolean featureScope;
+<span class="nc" id="L55">    private String  featureScopeIncludes = &quot;&quot;;</span>
+<span class="nc" id="L56">    private String  featureScopeExcludes = &quot;&quot;;</span>
+<span class="nc" id="L57">    private String  filterIncludes = &quot;//&quot;;</span>
+<span class="nc" id="L58">    private String  filterExcludes = &quot;&quot;;</span>
+    private boolean packageFilter;
+<span class="nc" id="L60">    private String  packageFilterIncludes = &quot;&quot;;</span>
+<span class="nc" id="L61">    private String  packageFilterExcludes = &quot;&quot;;</span>
+    private boolean classFilter;
+<span class="nc" id="L63">    private String  classFilterIncludes = &quot;&quot;;</span>
+<span class="nc" id="L64">    private String  classFilterExcludes = &quot;&quot;;</span>
+    private boolean featureFilter;
+<span class="nc" id="L66">    private String  featureFilterIncludes = &quot;&quot;;</span>
+<span class="nc" id="L67">    private String  featureFilterExcludes = &quot;&quot;;</span>
+
+<span class="nc" id="L69">    private boolean list                     = false;</span>
+<span class="nc" id="L70">    private boolean chartClassesPerPackage   = false;</span>
+<span class="nc" id="L71">    private boolean chartFeaturesPerClass    = false;</span>
+<span class="nc" id="L72">    private boolean chartInboundsPerPackage  = false;</span>
+<span class="nc" id="L73">    private boolean chartOutboundsPerPackage = false;</span>
+<span class="nc" id="L74">    private boolean chartInboundsPerClass    = false;</span>
+<span class="nc" id="L75">    private boolean chartOutboundsPerClass   = false;</span>
+<span class="nc" id="L76">    private boolean chartInboundsPerFeature  = false;</span>
+<span class="nc" id="L77">    private boolean chartOutboundsPerFeature = false;</span>
+
+    public String getScopeincludes() {
+<span class="nc" id="L80">        return scopeIncludes;</span>
+    }
+
+    public void setScopeincludes(String scopeIncludes) {
+<span class="nc" id="L84">        this.scopeIncludes = scopeIncludes;</span>
+<span class="nc" id="L85">    }</span>
+    
+    public String getScopeexcludes() {
+<span class="nc" id="L88">        return scopeExcludes;</span>
+    }
+
+    public void setScopeexcludes(String scopeExcludes) {
+<span class="nc" id="L92">        this.scopeExcludes = scopeExcludes;</span>
+<span class="nc" id="L93">    }</span>
+
+    public boolean getPackagescope() {
+<span class="nc" id="L96">        return packageScope;</span>
+    }
+
+    public void setPackagescope(boolean packageScope) {
+<span class="nc" id="L100">        this.packageScope = packageScope;</span>
+<span class="nc" id="L101">    }</span>
+    
+    public String getPackagescopeincludes() {
+<span class="nc" id="L104">        return packageScopeIncludes;</span>
+    }
+
+    public void setPackagescopeincludes(String packageScopeIncludes) {
+<span class="nc" id="L108">        this.packageScopeIncludes = packageScopeIncludes;</span>
+<span class="nc" id="L109">    }</span>
+    
+    public String getPackagescopeexcludes() {
+<span class="nc" id="L112">        return packageScopeExcludes;</span>
+    }
+
+    public void setPackagescopeexcludes(String packageScopeExcludes) {
+<span class="nc" id="L116">        this.packageScopeExcludes = packageScopeExcludes;</span>
+<span class="nc" id="L117">    }</span>
+
+    public boolean getClassscope() {
+<span class="nc" id="L120">        return classScope;</span>
+    }
+
+    public void setClassscope(boolean classScope) {
+<span class="nc" id="L124">        this.classScope = classScope;</span>
+<span class="nc" id="L125">    }</span>
+    
+    public String getClassscopeincludes() {
+<span class="nc" id="L128">        return classScopeIncludes;</span>
+    }
+
+    public void setClassscopeincludes(String classScopeIncludes) {
+<span class="nc" id="L132">        this.classScopeIncludes = classScopeIncludes;</span>
+<span class="nc" id="L133">    }</span>
+    
+    public String getClassscopeexcludes() {
+<span class="nc" id="L136">        return classScopeExcludes;</span>
+    }
+
+    public void setClassscopeexcludes(String classScopeExcludes) {
+<span class="nc" id="L140">        this.classScopeExcludes = classScopeExcludes;</span>
+<span class="nc" id="L141">    }</span>
+
+    public boolean getFeaturescope() {
+<span class="nc" id="L144">        return featureScope;</span>
+    }
+
+    public void setFeaturescope(boolean featureScope) {
+<span class="nc" id="L148">        this.featureScope = featureScope;</span>
+<span class="nc" id="L149">    }</span>
+    
+    public String getFeaturescopeincludes() {
+<span class="nc" id="L152">        return featureScopeIncludes;</span>
+    }
+
+    public void setFeaturescopeincludes(String featureScopeIncludes) {
+<span class="nc" id="L156">        this.featureScopeIncludes = featureScopeIncludes;</span>
+<span class="nc" id="L157">    }</span>
+    
+    public String getFeaturescopeexcludes() {
+<span class="nc" id="L160">        return featureScopeExcludes;</span>
+    }
+
+    public void setFeaturescopeexcludes(String featureScopeExcludes) {
+<span class="nc" id="L164">        this.featureScopeExcludes = featureScopeExcludes;</span>
+<span class="nc" id="L165">    }</span>
+
+    public String getFilterincludes() {
+<span class="nc" id="L168">        return filterIncludes;</span>
+    }
+
+    public void setFilterincludes(String filterIncludes) {
+<span class="nc" id="L172">        this.filterIncludes = filterIncludes;</span>
+<span class="nc" id="L173">    }</span>
+    
+    public String getFilterexcludes() {
+<span class="nc" id="L176">        return filterExcludes;</span>
+    }
+
+    public void setFilterexcludes(String filterExcludes) {
+<span class="nc" id="L180">        this.filterExcludes = filterExcludes;</span>
+<span class="nc" id="L181">    }</span>
+
+    public boolean getPackagefilter() {
+<span class="nc" id="L184">        return packageFilter;</span>
+    }
+
+    public void setPackagefilter(boolean packageFilter) {
+<span class="nc" id="L188">        this.packageFilter = packageFilter;</span>
+<span class="nc" id="L189">    }</span>
+    
+    public String getPackagefilterincludes() {
+<span class="nc" id="L192">        return packageFilterIncludes;</span>
+    }
+
+    public void setPackagefilterincludes(String packageFilterIncludes) {
+<span class="nc" id="L196">        this.packageFilterIncludes = packageFilterIncludes;</span>
+<span class="nc" id="L197">    }</span>
+    
+    public String getPackagefilterexcludes() {
+<span class="nc" id="L200">        return packageFilterExcludes;</span>
+    }
+
+    public void setPackagefilterexcludes(String packageFilterExcludes) {
+<span class="nc" id="L204">        this.packageFilterExcludes = packageFilterExcludes;</span>
+<span class="nc" id="L205">    }</span>
+
+    public boolean getClassfilter() {
+<span class="nc" id="L208">        return classFilter;</span>
+    }
+
+    public void setClassfilter(boolean classFilter) {
+<span class="nc" id="L212">        this.classFilter = classFilter;</span>
+<span class="nc" id="L213">    }</span>
+    
+    public String getClassfilterincludes() {
+<span class="nc" id="L216">        return classFilterIncludes;</span>
+    }
+
+    public void setClassfilterincludes(String classFilterIncludes) {
+<span class="nc" id="L220">        this.classFilterIncludes = classFilterIncludes;</span>
+<span class="nc" id="L221">    }</span>
+    
+    public String getClassfilterexcludes() {
+<span class="nc" id="L224">        return classFilterExcludes;</span>
+    }
+
+    public void setClassfilterexcludes(String classFilterExcludes) {
+<span class="nc" id="L228">        this.classFilterExcludes = classFilterExcludes;</span>
+<span class="nc" id="L229">    }</span>
+
+    public boolean getFeaturefilter() {
+<span class="nc" id="L232">        return featureFilter;</span>
+    }
+
+    public void setFeaturefilter(boolean featureFilter) {
+<span class="nc" id="L236">        this.featureFilter = featureFilter;</span>
+<span class="nc" id="L237">    }</span>
+    
+    public String getFeaturefilterincludes() {
+<span class="nc" id="L240">        return featureFilterIncludes;</span>
+    }
+
+    public void setFeaturefilterincludes(String featureFilterIncludes) {
+<span class="nc" id="L244">        this.featureFilterIncludes = featureFilterIncludes;</span>
+<span class="nc" id="L245">    }</span>
+    
+    public String getFeaturefilterexcludes() {
+<span class="nc" id="L248">        return featureFilterExcludes;</span>
+    }
+
+    public void setFeaturefilterexcludes(String featureFilterExcludes) {
+<span class="nc" id="L252">        this.featureFilterExcludes = featureFilterExcludes;</span>
+<span class="nc" id="L253">    }</span>
+
+    public void setP2p(boolean value) {
+<span class="nc" id="L256">        setPackagescope(value);</span>
+<span class="nc" id="L257">        setPackagefilter(value);</span>
+<span class="nc" id="L258">    }</span>
+    
+    public void setC2p(boolean value) {
+<span class="nc" id="L261">        setClassscope(value);</span>
+<span class="nc" id="L262">        setPackagefilter(value);</span>
+<span class="nc" id="L263">    }</span>
+
+    public void setC2c(boolean value) {
+<span class="nc" id="L266">        setClassscope(value);</span>
+<span class="nc" id="L267">        setClassfilter(value);</span>
+<span class="nc" id="L268">    }</span>
+
+    public void setF2f(boolean value) {
+<span class="nc" id="L271">        setFeaturescope(value);</span>
+<span class="nc" id="L272">        setFeaturefilter(value);</span>
+<span class="nc" id="L273">    }</span>
+
+    public void setIncludes(String value) {
+<span class="nc" id="L276">        setScopeincludes(value);</span>
+<span class="nc" id="L277">        setFilterincludes(value);</span>
+<span class="nc" id="L278">    }</span>
+
+    public void setExcludes(String value) {
+<span class="nc" id="L281">        setScopeexcludes(value);</span>
+<span class="nc" id="L282">        setFilterexcludes(value);</span>
+<span class="nc" id="L283">    }</span>
+
+    public boolean getList() {
+<span class="nc" id="L286">        return list;</span>
+    }
+    
+    public void setList(boolean list) {
+<span class="nc" id="L290">        this.list = list;</span>
+<span class="nc" id="L291">    }</span>
+
+    public boolean getChartclassesperpackage() {
+<span class="nc" id="L294">        return chartClassesPerPackage;</span>
+    }
+    
+    public void setChartclassesperpackage(boolean chartClassesPerPackage) {
+<span class="nc" id="L298">        this.chartClassesPerPackage = chartClassesPerPackage;</span>
+<span class="nc" id="L299">    }</span>
+
+    public boolean getChartfeaturesperclass() {
+<span class="nc" id="L302">        return chartFeaturesPerClass;</span>
+    }
+    
+    public void setChartfeaturesperclass(boolean chartFeaturesPerClass) {
+<span class="nc" id="L306">        this.chartFeaturesPerClass = chartFeaturesPerClass;</span>
+<span class="nc" id="L307">    }</span>
+
+    public boolean getChartinboundsperpackage() {
+<span class="nc" id="L310">        return chartInboundsPerPackage;</span>
+    }
+    
+    public void setChartinboundsperpackage(boolean chartInboundsPerPackage) {
+<span class="nc" id="L314">        this.chartInboundsPerPackage = chartInboundsPerPackage;</span>
+<span class="nc" id="L315">    }</span>
+
+    public boolean getChartoutboundsperpackage() {
+<span class="nc" id="L318">        return chartOutboundsPerPackage;</span>
+    }
+    
+    public void setChartoutboundsperpackage(boolean chartOutboundsPerPackage) {
+<span class="nc" id="L322">        this.chartOutboundsPerPackage = chartOutboundsPerPackage;</span>
+<span class="nc" id="L323">    }</span>
+
+    public boolean getChartinboundsperclass() {
+<span class="nc" id="L326">        return chartInboundsPerClass;</span>
+    }
+    
+    public void setChartinboundsperclass(boolean chartInboundsPerClass) {
+<span class="nc" id="L330">        this.chartInboundsPerClass = chartInboundsPerClass;</span>
+<span class="nc" id="L331">    }</span>
+
+    public boolean getChartoutboundsperclass() {
+<span class="nc" id="L334">        return chartOutboundsPerClass;</span>
+    }
+    
+    public void setChartoutboundsperclass(boolean chartOutboundsPerClass) {
+<span class="nc" id="L338">        this.chartOutboundsPerClass = chartOutboundsPerClass;</span>
+<span class="nc" id="L339">    }</span>
+    
+    public boolean getChartinboundsperfeature() {
+<span class="nc" id="L342">        return chartInboundsPerFeature;</span>
+    }
+    
+    public void setChartinboundsperfeature(boolean chartInboundsPerFeature) {
+<span class="nc" id="L346">        this.chartInboundsPerFeature = chartInboundsPerFeature;</span>
+<span class="nc" id="L347">    }</span>
+
+    public boolean getChartoutboundsperfeature() {
+<span class="nc" id="L350">        return chartOutboundsPerFeature;</span>
+    }
+    
+    public void setChartoutboundsperfeature(boolean chartOutboundsPerFeature) {
+<span class="nc" id="L354">        this.chartOutboundsPerFeature = chartOutboundsPerFeature;</span>
+<span class="nc" id="L355">    }</span>
+
+    public void setChartinbounds(boolean chartInbounds) {
+<span class="nc" id="L358">        setChartinboundsperpackage(chartInbounds);</span>
+<span class="nc" id="L359">        setChartinboundsperclass(chartInbounds);</span>
+<span class="nc" id="L360">        setChartinboundsperfeature(chartInbounds);</span>
+<span class="nc" id="L361">    }</span>
+
+    public void setChartoutbounds(boolean chartOutbounds) {
+<span class="nc" id="L364">        setChartoutboundsperpackage(chartOutbounds);</span>
+<span class="nc" id="L365">        setChartoutboundsperclass(chartOutbounds);</span>
+<span class="nc" id="L366">        setChartoutboundsperfeature(chartOutbounds);</span>
+<span class="nc" id="L367">    }</span>
+
+    public void setChartpackages(boolean chartPackages) {
+<span class="nc" id="L370">        setChartclassesperpackage(chartPackages);</span>
+<span class="nc" id="L371">        setChartinboundsperpackage(chartPackages);</span>
+<span class="nc" id="L372">        setChartoutboundsperpackage(chartPackages);</span>
+<span class="nc" id="L373">    }</span>
+
+    public void setChartclasses(boolean chartClasses) {
+<span class="nc" id="L376">        setChartfeaturesperclass(chartClasses);</span>
+<span class="nc" id="L377">        setChartinboundsperclass(chartClasses);</span>
+<span class="nc" id="L378">        setChartoutboundsperclass(chartClasses);</span>
+<span class="nc" id="L379">    }</span>
+
+    public void setChartfeatures(boolean chartFeatures) {
+<span class="nc" id="L382">        setChartinboundsperfeature(chartFeatures);</span>
+<span class="nc" id="L383">        setChartoutboundsperfeature(chartFeatures);</span>
+<span class="nc" id="L384">    }</span>
+
+    public void setChartall(boolean chartAll) {
+<span class="nc" id="L387">        setChartclassesperpackage(chartAll);</span>
+<span class="nc" id="L388">        setChartfeaturesperclass(chartAll);</span>
+<span class="nc" id="L389">        setChartinboundsperpackage(chartAll);</span>
+<span class="nc" id="L390">        setChartoutboundsperpackage(chartAll);</span>
+<span class="nc" id="L391">        setChartinboundsperclass(chartAll);</span>
+<span class="nc" id="L392">        setChartoutboundsperclass(chartAll);</span>
+<span class="nc" id="L393">        setChartinboundsperfeature(chartAll);</span>
+<span class="nc" id="L394">        setChartoutboundsperfeature(chartAll);</span>
+<span class="nc" id="L395">    }</span>
+
+    public void execute() throws BuildException {
+        // first off, make sure that we've got what we need
+<span class="nc" id="L399">        validateParameters();</span>
+
+<span class="nc" id="L401">        VerboseListener verboseListener = new VerboseListener(this);</span>
+
+        try {
+<span class="nc" id="L404">            NodeFactory factory = new NodeFactory();</span>
+
+<span class="nc bnc" id="L406" title="All 2 branches missed.">            for (String filename : getSrc().list()) {</span>
+<span class="nc" id="L407">                log(&quot;Reading graph from &quot; + filename);</span>
+
+<span class="nc bnc" id="L409" title="All 2 branches missed.">                if (filename.endsWith(&quot;.xml&quot;)) {</span>
+<span class="nc" id="L410">                    NodeLoader loader = new NodeLoader(factory, getValidate());</span>
+<span class="nc" id="L411">                    loader.addDependencyListener(verboseListener);</span>
+<span class="nc" id="L412">                    loader.load(filename);</span>
+                }
+            }
+
+<span class="nc" id="L416">            log(&quot;Saving metrics report to &quot; + getDestfile().getAbsolutePath());</span>
+
+<span class="nc" id="L418">            PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));</span>
+
+<span class="nc" id="L420">            MetricsReport reporter = new MetricsReport(out);</span>
+
+<span class="nc" id="L422">            reporter.setListingElements(getList());</span>
+<span class="nc" id="L423">            reporter.setChartingClassesPerPackage(getChartclassesperpackage());</span>
+<span class="nc" id="L424">            reporter.setChartingFeaturesPerClass(getChartfeaturesperclass());</span>
+<span class="nc" id="L425">            reporter.setChartingInboundsPerPackage(getChartinboundsperpackage());</span>
+<span class="nc" id="L426">            reporter.setChartingOutboundsPerPackage(getChartoutboundsperpackage());</span>
+<span class="nc" id="L427">            reporter.setChartingInboundsPerClass(getChartinboundsperclass());</span>
+<span class="nc" id="L428">            reporter.setChartingOutboundsPerClass(getChartoutboundsperclass());</span>
+<span class="nc" id="L429">            reporter.setChartingInboundsPerFeature(getChartinboundsperfeature());</span>
+<span class="nc" id="L430">            reporter.setChartingOutboundsPerFeature(getChartoutboundsperfeature());</span>
+
+<span class="nc" id="L432">            MetricsGatherer metrics = new MetricsGatherer(getStrategy());</span>
+<span class="nc" id="L433">            metrics.traverseNodes(factory.getPackages().values());</span>
+<span class="nc" id="L434">            reporter.process(metrics);</span>
+
+<span class="nc" id="L436">            out.close();</span>
+<span class="nc" id="L437">        } catch (SAXException | ParserConfigurationException | IOException ex) {</span>
+<span class="nc" id="L438">            throw new BuildException(ex);</span>
+<span class="nc" id="L439">        }</span>
+<span class="nc" id="L440">    }</span>
+
+    private SelectionCriteria getScopeCriteria() throws BuildException {
+<span class="nc" id="L443">        RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();</span>
+
+<span class="nc bnc" id="L445" title="All 6 branches missed.">        if (getPackagescope() || getClassscope() || getFeaturescope()) {</span>
+<span class="nc" id="L446">            result.setMatchingPackages(getPackagescope());</span>
+<span class="nc" id="L447">            result.setMatchingClasses(getClassscope());</span>
+<span class="nc" id="L448">            result.setMatchingFeatures(getFeaturescope());</span>
+        }
+
+<span class="nc" id="L451">        result.setGlobalIncludes(getScopeincludes());</span>
+<span class="nc" id="L452">        result.setGlobalExcludes(getScopeexcludes());</span>
+<span class="nc" id="L453">        result.setPackageIncludes(getPackagescopeincludes());</span>
+<span class="nc" id="L454">        result.setPackageExcludes(getPackagescopeexcludes());</span>
+<span class="nc" id="L455">        result.setClassIncludes(getClassscopeincludes());</span>
+<span class="nc" id="L456">        result.setClassExcludes(getClassscopeexcludes());</span>
+<span class="nc" id="L457">        result.setFeatureIncludes(getFeaturescopeincludes());</span>
+<span class="nc" id="L458">        result.setFeatureExcludes(getFeaturescopeexcludes());</span>
+
+<span class="nc" id="L460">        return result;</span>
+    }
+
+    private SelectionCriteria getFilterCriteria() throws BuildException {
+<span class="nc" id="L464">        RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();</span>
+
+<span class="nc bnc" id="L466" title="All 6 branches missed.">        if (getPackagefilter() || getClassfilter() || getFeaturefilter()) {</span>
+<span class="nc" id="L467">            result.setMatchingPackages(getPackagefilter());</span>
+<span class="nc" id="L468">            result.setMatchingClasses(getClassfilter());</span>
+<span class="nc" id="L469">            result.setMatchingFeatures(getFeaturefilter());</span>
+        }
+
+<span class="nc" id="L472">        result.setGlobalIncludes(getFilterincludes());</span>
+<span class="nc" id="L473">        result.setGlobalExcludes(getFilterexcludes());</span>
+<span class="nc" id="L474">        result.setPackageIncludes(getPackagefilterincludes());</span>
+<span class="nc" id="L475">        result.setPackageExcludes(getPackagefilterexcludes());</span>
+<span class="nc" id="L476">        result.setClassIncludes(getClassfilterincludes());</span>
+<span class="nc" id="L477">        result.setClassExcludes(getClassfilterexcludes());</span>
+<span class="nc" id="L478">        result.setFeatureIncludes(getFeaturefilterincludes());</span>
+<span class="nc" id="L479">        result.setFeatureExcludes(getFeaturefilterexcludes());</span>
+
+<span class="nc" id="L481">        return result;</span>
+    }
+    
+    private TraversalStrategy getStrategy() throws BuildException {
+<span class="nc" id="L485">        return new SelectiveTraversalStrategy(getScopeCriteria(), getFilterCriteria());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

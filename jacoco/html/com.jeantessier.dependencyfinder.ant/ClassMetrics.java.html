@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClassMetrics.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependencyfinder.ant</a> &gt; <span class="el_source">ClassMetrics.java</span></div><h1>ClassMetrics.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependencyfinder.ant;
+
+import java.io.*;
+import java.util.*;
+import java.util.stream.*;
+
+import org.apache.tools.ant.*;
+import org.apache.tools.ant.types.*;
+
+import com.jeantessier.classreader.*;
+
+import static java.util.stream.Collectors.*;
+
+<span class="nc" id="L46">public class ClassMetrics extends Task {</span>
+<span class="nc" id="L47">    private static final String EOL = System.getProperty(&quot;line.separator&quot;, &quot;\n&quot;);</span>
+
+<span class="nc" id="L49">    private boolean list = false;</span>
+<span class="nc" id="L50">    private boolean instructionCounts = false;</span>
+    private File destfile;
+    private PrintWriter out;
+    private Path path;
+
+    public boolean getList() {
+<span class="nc" id="L56">        return list;</span>
+    }
+    
+    public void setList(boolean list) {
+<span class="nc" id="L60">        this.list = list;</span>
+<span class="nc" id="L61">    }</span>
+
+    public boolean getInstructioncounts() {
+<span class="nc" id="L64">        return instructionCounts;</span>
+    }
+    
+    public void setInstructioncounts(boolean instructionCounts) {
+<span class="nc" id="L68">        this.instructionCounts = instructionCounts;</span>
+<span class="nc" id="L69">    }</span>
+
+    public File getDestfile() {
+<span class="nc" id="L72">        return destfile;</span>
+    }
+    
+    public void setDestfile(File destfile) {
+<span class="nc" id="L76">        this.destfile = destfile;</span>
+<span class="nc" id="L77">    }</span>
+    
+    public Path createPath() {
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        if (path == null) {</span>
+<span class="nc" id="L81">            path = new Path(getProject());</span>
+        }
+
+<span class="nc" id="L84">        return path;</span>
+    }
+    
+    public Path getPath() {
+<span class="nc" id="L88">        return path;</span>
+    }
+    
+    public void execute() throws BuildException {
+        // first off, make sure that we've got what we need
+
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        if (getPath() == null) {</span>
+<span class="nc" id="L95">            throw new BuildException(&quot;path must be set!&quot;);</span>
+        }
+
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        if (getDestfile() == null) {</span>
+<span class="nc" id="L99">            throw new BuildException(&quot;destfile must be set!&quot;);</span>
+        }
+
+<span class="nc" id="L102">        log(&quot;Reading classes from path &quot; + getPath());</span>
+
+<span class="nc" id="L104">        VerboseListener verboseListener = new VerboseListener(this);</span>
+
+<span class="nc" id="L106">        MetricsGatherer metrics = new MetricsGatherer();</span>
+
+<span class="nc" id="L108">        ClassfileLoader loader = new TransientClassfileLoader();</span>
+<span class="nc" id="L109">        loader.addLoadListener(verboseListener);</span>
+<span class="nc" id="L110">        loader.addLoadListener(new LoadListenerVisitorAdapter(metrics));</span>
+<span class="nc" id="L111">        loader.load(Arrays.asList(getPath().list()));</span>
+
+<span class="nc" id="L113">        log(&quot;Saving class metrics to &quot; + getDestfile().getAbsolutePath());</span>
+        
+        try {
+<span class="nc" id="L116">            getOut().println(metrics.getClasses().size() + &quot; class(es)&quot;);</span>
+<span class="nc" id="L117">            printCollection(metrics.getClasses());</span>
+            
+<span class="nc" id="L119">            getOut().println(metrics.getInterfaces().size() + &quot; interface(s)&quot;);</span>
+<span class="nc" id="L120">            printCollection(metrics.getInterfaces());</span>
+
+<span class="nc" id="L122">            getOut().println();</span>
+<span class="nc" id="L123">            getOut().println(metrics.getMethods().size() + &quot; method(s) (average &quot; + (metrics.getMethods().size() / (metrics.getClasses().size() + (double) metrics.getInterfaces().size())) + &quot; per class/interface)&quot;);</span>
+<span class="nc" id="L124">            getOut().println(metrics.getFields().size() + &quot; field(s) (average &quot; + (metrics.getFields().size() / (metrics.getClasses().size() + (double) metrics.getInterfaces().size())) + &quot; per class/interface)&quot;);</span>
+<span class="nc" id="L125">            getOut().println();</span>
+            
+<span class="nc" id="L127">            printCFMIC(&quot; synthetic element(s)&quot;, metrics.getSyntheticClasses(), metrics.getSyntheticFields(), metrics.getSyntheticMethods(), metrics.getSyntheticInnerClasses());</span>
+<span class="nc" id="L128">            printCFM(&quot; deprecated element(s)&quot;, metrics.getDeprecatedClasses(), metrics.getDeprecatedFields(), metrics.getDeprecatedMethods());</span>
+<span class="nc" id="L129">            printCFMIC(&quot; public element(s)&quot;, metrics.getPublicClasses(), metrics.getPublicFields(), metrics.getPublicMethods(), metrics.getPublicInnerClasses());</span>
+<span class="nc" id="L130">            printFMIC(&quot; protected element(s)&quot;, metrics.getProtectedFields(), metrics.getProtectedMethods(), metrics.getProtectedInnerClasses());</span>
+<span class="nc" id="L131">            printFMIC(&quot; private element(s)&quot;, metrics.getPrivateFields(), metrics.getPrivateMethods(), metrics.getPrivateInnerClasses());</span>
+<span class="nc" id="L132">            printCFMIC(&quot; package element(s)&quot;, metrics.getPackageClasses(), metrics.getPackageFields(), metrics.getPackageMethods(), metrics.getPackageInnerClasses());</span>
+<span class="nc" id="L133">            printCMIC(&quot; abstract element(s)&quot;, metrics.getAbstractClasses(), metrics.getAbstractMethods(), metrics.getAbstractInnerClasses());</span>
+            
+<span class="nc" id="L135">            printFMIC(&quot; static element(s)&quot;, metrics.getStaticFields(), metrics.getStaticMethods(), metrics.getStaticInnerClasses());</span>
+<span class="nc" id="L136">            printCFMIC(&quot; final element(s)&quot;, metrics.getFinalClasses(), metrics.getFinalFields(), metrics.getFinalMethods(), metrics.getFinalInnerClasses());</span>
+<span class="nc" id="L137">            printCIC(&quot; annotation element(s)&quot;, metrics.getAnnotationClasses(), metrics.getAnnotationInnerClasses());</span>
+<span class="nc" id="L138">            printCFIC(&quot; enum element(s)&quot;, metrics.getEnumClasses(), metrics.getEnumFields(), metrics.getEnumInnerClasses());</span>
+
+<span class="nc" id="L140">            getOut().println(metrics.getSuperClasses().size() + &quot; super class(es)&quot;);</span>
+<span class="nc" id="L141">            printCollection(metrics.getSuperClasses());</span>
+
+<span class="nc" id="L143">            getOut().println(metrics.getModuleClasses().size() + &quot; module class(es)&quot;);</span>
+<span class="nc" id="L144">            printCollection(metrics.getModuleClasses());</span>
+
+<span class="nc" id="L146">            getOut().println(metrics.getSynchronizedMethods().size() + &quot; synchronized method(s)&quot;);</span>
+<span class="nc" id="L147">            printCollection(metrics.getSynchronizedMethods());</span>
+
+<span class="nc" id="L149">            getOut().println(metrics.getNativeMethods().size() + &quot; native method(s)&quot;);</span>
+<span class="nc" id="L150">            printCollection(metrics.getNativeMethods());</span>
+
+<span class="nc" id="L152">            getOut().println(metrics.getBridgeMethods().size() + &quot; bridge method(s)&quot;);</span>
+<span class="nc" id="L153">            printCollection(metrics.getBridgeMethods());</span>
+
+<span class="nc" id="L155">            getOut().println(metrics.getVarargsMethods().size() + &quot; varargs method(s)&quot;);</span>
+<span class="nc" id="L156">            printCollection(metrics.getVarargsMethods());</span>
+
+<span class="nc" id="L158">            getOut().println(metrics.getStrictMethods().size() + &quot; strict method(s)&quot;);</span>
+<span class="nc" id="L159">            printCollection(metrics.getStrictMethods());</span>
+
+<span class="nc" id="L161">            getOut().println(metrics.getVolatileFields().size() + &quot; volatile field(s)&quot;);</span>
+<span class="nc" id="L162">            printCollection(metrics.getVolatileFields());</span>
+            
+<span class="nc" id="L164">            getOut().println(metrics.getTransientFields().size() + &quot; transient field(s)&quot;);</span>
+<span class="nc" id="L165">            printCollection(metrics.getTransientFields());</span>
+
+<span class="nc" id="L167">            getOut().println(metrics.getConstantPoolEntryCounts().values().stream().reduce(0L, Long::sum) + &quot; constant pool entry(ies)&quot;);</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">            if (getList()) {</span>
+<span class="nc" id="L169">                getOut().println(</span>
+<span class="nc" id="L170">                        metrics.getConstantPoolEntryCounts().entrySet().stream()</span>
+<span class="nc" id="L171">                                .map(entry -&gt; String.format(&quot;%12d %s&quot;, entry.getValue(), com.jeantessier.classreader.impl.ConstantPoolEntry.stringValueOf(entry.getKey().byteValue())))</span>
+<span class="nc" id="L172">                                .collect(joining(EOL))</span>
+                );
+            }
+
+<span class="nc" id="L176">            getOut().println(metrics.getAttributeCounts().values().stream().reduce(0L, Long::sum) + &quot; attribute(s)&quot;);</span>
+<span class="nc" id="L177">            getOut().println(</span>
+<span class="nc" id="L178">                    Arrays.stream(AttributeType.values())</span>
+<span class="nc" id="L179">                            .map(AttributeType::getAttributeName)</span>
+<span class="nc" id="L180">                            .map(name -&gt; String.format(&quot;%12d %s attribute(s)&quot;, metrics.getAttributeCounts().get(name), name))</span>
+<span class="nc" id="L181">                            .collect(joining(EOL))</span>
+            );
+
+<span class="nc" id="L184">            getOut().format(&quot;%12d custom attribute(s)%n&quot;, metrics.getCustomAttributes().size());</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">            if (getList()) {</span>
+<span class="nc" id="L186">                getOut().println(</span>
+<span class="nc" id="L187">                        metrics.getCustomAttributes().stream()</span>
+<span class="nc" id="L188">                                .collect(groupingBy(Custom_attribute::getName))</span>
+<span class="nc" id="L189">                                .entrySet().stream()</span>
+<span class="nc" id="L190">                                .flatMap(entry -&gt; Stream.concat(</span>
+<span class="nc" id="L191">                                        Stream.of(String.format(&quot;%16d %s&quot;, entry.getValue().size(), entry.getKey())),</span>
+<span class="nc" id="L192">                                        entry.getValue().stream()</span>
+<span class="nc" id="L193">                                                .collect(groupingBy(attribute -&gt; attribute.getInfo().length))</span>
+<span class="nc" id="L194">                                                .entrySet().stream()</span>
+<span class="nc" id="L195">                                                .sorted(Map.Entry.comparingByKey())</span>
+<span class="nc" id="L196">                                                .map(histoEntry -&gt; String.format(&quot;%20dx %s&quot;, histoEntry.getValue().size(), histoEntry.getKey() + &quot; bytes&quot;))))</span>
+<span class="nc" id="L197">                                .collect(joining(EOL))</span>
+                );
+            }
+
+<span class="nc bnc" id="L201" title="All 2 branches missed.">            if (getInstructioncounts()) {</span>
+<span class="nc" id="L202">                getOut().println();</span>
+<span class="nc" id="L203">                getOut().println(&quot;Instruction counts:&quot;);</span>
+<span class="nc" id="L204">                getOut().println(</span>
+<span class="nc" id="L205">                        IntStream.range(0, 256)</span>
+<span class="nc" id="L206">                                .mapToObj(opcode -&gt; String.format(&quot;        0x%02X %s: %d&quot;, opcode, com.jeantessier.classreader.impl.Instruction.getMnemonic(opcode), metrics.getInstructionCounts()[opcode]))</span>
+<span class="nc" id="L207">                                .collect(joining(EOL))</span>
+                );
+            }
+
+<span class="nc" id="L211">            getOut().close();</span>
+<span class="nc" id="L212">        } catch (IOException ex) {</span>
+<span class="nc" id="L213">            throw new BuildException(ex);</span>
+<span class="nc" id="L214">        }</span>
+<span class="nc" id="L215">    }</span>
+
+    private void printCMIC(String label, Collection&lt;Classfile&gt; classes, Collection&lt;Method_info&gt; methods, Collection&lt;InnerClass&gt; innerClasses) throws IOException {
+<span class="nc" id="L218">        print(label, classes, null, methods, innerClasses);</span>
+<span class="nc" id="L219">    }</span>
+
+    private void printCFMIC(String label, Collection&lt;Classfile&gt; classes, Collection&lt;Field_info&gt; fields, Collection&lt;Method_info&gt; methods, Collection&lt;InnerClass&gt; innerClasses) throws IOException {
+<span class="nc" id="L222">        print(label, classes, fields, methods, innerClasses);</span>
+<span class="nc" id="L223">    }</span>
+
+    private void printCFM(String label, Collection&lt;Classfile&gt; classes, Collection&lt;Field_info&gt; fields, Collection&lt;Method_info&gt; methods) throws IOException {
+<span class="nc" id="L226">        print(label, classes, fields, methods, null);</span>
+<span class="nc" id="L227">    }</span>
+
+    private void printCFIC(String label, Collection&lt;Classfile&gt; classes, Collection&lt;Field_info&gt; fields, Collection&lt;InnerClass&gt; innerClasses) throws IOException {
+<span class="nc" id="L230">        print(label, classes, fields, null, innerClasses);</span>
+<span class="nc" id="L231">    }</span>
+
+    private void printCIC(String label, Collection&lt;Classfile&gt; classes, Collection&lt;InnerClass&gt; innerClasses) throws IOException {
+<span class="nc" id="L234">        print(label, classes, null, null, innerClasses);</span>
+<span class="nc" id="L235">    }</span>
+
+    private void printFMIC(String label, Collection&lt;Field_info&gt; fields, Collection&lt;Method_info&gt; methods, Collection&lt;InnerClass&gt; innerClasses) throws IOException {
+<span class="nc" id="L238">        print(label, null, fields, methods, innerClasses);</span>
+<span class="nc" id="L239">    }</span>
+
+    private void print(String label, Collection&lt;Classfile&gt; classes, Collection&lt;Field_info&gt; fields, Collection&lt;Method_info&gt; methods, Collection&lt;InnerClass&gt; innerClasses) throws IOException {
+<span class="nc bnc" id="L242" title="All 2 branches missed.">        getOut().println(((classes != null ? classes.size() : 0) +</span>
+<span class="nc bnc" id="L243" title="All 2 branches missed.">                (fields != null ? fields.size() : 0) +</span>
+<span class="nc bnc" id="L244" title="All 2 branches missed.">                (methods != null ? methods.size() : 0) +</span>
+<span class="nc bnc" id="L245" title="All 2 branches missed.">                (innerClasses != null ? innerClasses.size() : 0)) + label);</span>
+<span class="nc bnc" id="L246" title="All 2 branches missed.">        if (classes != null) {</span>
+<span class="nc" id="L247">            getOut().println(&quot;    &quot; + classes.size() + &quot; class(es)&quot;);</span>
+<span class="nc" id="L248">            printCollection(classes);</span>
+        }
+
+<span class="nc bnc" id="L251" title="All 2 branches missed.">        if (fields != null) {</span>
+<span class="nc" id="L252">            getOut().println(&quot;    &quot; + fields.size() + &quot; field(s)&quot;);</span>
+<span class="nc" id="L253">            printCollection(fields);</span>
+        }
+
+<span class="nc bnc" id="L256" title="All 2 branches missed.">        if (methods != null) {</span>
+<span class="nc" id="L257">            getOut().println(&quot;    &quot; + methods.size() + &quot; method(s)&quot;);</span>
+<span class="nc" id="L258">            printCollection(methods);</span>
+        }
+
+<span class="nc bnc" id="L261" title="All 2 branches missed.">        if (innerClasses != null) {</span>
+<span class="nc" id="L262">            getOut().println(&quot;    &quot; + innerClasses.size() + &quot; inner class(es)&quot;);</span>
+<span class="nc" id="L263">            printCollection(innerClasses);</span>
+        }
+<span class="nc" id="L265">    }</span>
+
+    private void printCollection(Collection&lt;?&gt; collection) throws IOException {
+<span class="nc bnc" id="L268" title="All 4 branches missed.">        if (getList() &amp;&amp; collection != null) {</span>
+<span class="nc" id="L269">            getOut().println(</span>
+<span class="nc" id="L270">                    collection.stream()</span>
+<span class="nc" id="L271">                            .map(name -&gt; &quot;        &quot; + name)</span>
+<span class="nc" id="L272">                            .collect(joining(EOL))</span>
+            );
+        }
+<span class="nc" id="L275">    }</span>
+
+    private PrintWriter getOut() throws IOException {
+<span class="nc bnc" id="L278" title="All 2 branches missed.">        if (out == null) {</span>
+<span class="nc" id="L279">            startOutput();</span>
+        }
+
+<span class="nc" id="L282">        return out;</span>
+    }
+
+    private void startOutput() throws IOException {
+<span class="nc" id="L286">        out = new PrintWriter(new FileWriter(getDestfile()));</span>
+<span class="nc" id="L287">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

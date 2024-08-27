@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Printer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependency</a> &gt; <span class="el_source">Printer.java</span></div><h1>Printer.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependency;
+
+import java.io.*;
+
+public abstract class Printer extends VisitorBase {
+    public static final String DEFAULT_INDENT_TEXT = &quot;    &quot;;
+
+    private final PrintWriter out;
+
+<span class="fc" id="L42">    private String indentText = DEFAULT_INDENT_TEXT;</span>
+<span class="fc" id="L43">    private int indentLevel = 0;</span>
+<span class="fc" id="L44">    private boolean showInbounds = true;</span>
+<span class="fc" id="L45">    private boolean showOutbounds = true;</span>
+<span class="fc" id="L46">    private boolean showEmptyNodes = true;</span>
+
+    public Printer(PrintWriter out) {
+<span class="fc" id="L49">        this(getDefaultStrategy(), out);</span>
+<span class="fc" id="L50">    }</span>
+
+    public Printer(TraversalStrategy strategy, PrintWriter out) {
+<span class="fc" id="L53">        super(new SortedTraversalStrategy(strategy));</span>
+
+<span class="fc" id="L55">        this.out = out;</span>
+<span class="fc" id="L56">    }</span>
+
+    public String getIndentText() {
+<span class="fc" id="L59">        return indentText;</span>
+    }
+
+    public void setIndentText(String indentText) {
+<span class="nc" id="L63">        this.indentText = indentText;</span>
+<span class="nc" id="L64">    }</span>
+
+    public boolean isShowInbounds() {
+<span class="fc" id="L67">        return showInbounds;</span>
+    }
+
+    public void setShowInbounds(boolean showInbounds) {
+<span class="fc" id="L71">        this.showInbounds = showInbounds;</span>
+<span class="fc" id="L72">    }</span>
+    
+    public boolean isShowOutbounds() {
+<span class="fc" id="L75">        return showOutbounds;</span>
+    }
+
+    public void setShowOutbounds(boolean showOutbounds) {
+<span class="fc" id="L79">        this.showOutbounds = showOutbounds;</span>
+<span class="fc" id="L80">    }</span>
+    
+    public boolean isShowEmptyNodes() {
+<span class="fc" id="L83">        return showEmptyNodes;</span>
+    }
+
+    public void setShowEmptyNodes(boolean showEmptyNodes) {
+<span class="fc" id="L87">        this.showEmptyNodes = showEmptyNodes;</span>
+<span class="fc" id="L88">    }</span>
+    
+    protected Printer append(boolean b) {
+<span class="nc" id="L91">        out.print(b);</span>
+<span class="nc" id="L92">        return this;</span>
+    }
+
+    protected Printer append(char c) {
+<span class="nc" id="L96">        out.print(c);</span>
+<span class="nc" id="L97">        return this;</span>
+    }
+
+    protected Printer append(char[] s) {
+<span class="nc" id="L101">        out.print(s);</span>
+<span class="nc" id="L102">        return this;</span>
+    }
+
+    protected Printer append(double d) {
+<span class="nc" id="L106">        out.print(d);</span>
+<span class="nc" id="L107">        return this;</span>
+    }
+
+    protected Printer append(float f) {
+<span class="nc" id="L111">        out.print(f);</span>
+<span class="nc" id="L112">        return this;</span>
+    }
+
+    protected Printer append(int i) {
+<span class="nc" id="L116">        out.print(i);</span>
+<span class="nc" id="L117">        return this;</span>
+    }
+
+    protected Printer append(long l) {
+<span class="nc" id="L121">        out.print(l);</span>
+<span class="nc" id="L122">        return this;</span>
+    }
+
+    protected Printer append(Object obj) {
+<span class="nc" id="L126">        out.print(obj);</span>
+<span class="nc" id="L127">        return this;</span>
+    }
+
+    protected Printer append(String s) {
+<span class="fc" id="L131">        out.print(s);</span>
+<span class="fc" id="L132">        return this;</span>
+    }
+
+    protected Printer indent() {
+<span class="fc" id="L136">        append(getIndentText().repeat(indentLevel));</span>
+<span class="fc" id="L137">        return this;</span>
+    }
+
+    protected Printer eol() {
+<span class="fc" id="L141">        out.println();</span>
+<span class="fc" id="L142">        return this;</span>
+    }
+
+    protected final Printer printScopeNodeName(Node node) {
+<span class="fc" id="L146">        return printScopeNodeName(node, node.getName());</span>
+    }
+
+    protected Printer printScopeNodeName(Node node, String name) {
+<span class="fc" id="L150">        return printNodeName(node, name);</span>
+    }
+
+    protected final Printer printDependencyNodeName(Node node) {
+<span class="fc" id="L154">        return printDependencyNodeName(node, node.getName());</span>
+    }
+
+    protected Printer printDependencyNodeName(Node node, String name) {
+<span class="fc" id="L158">        return printNodeName(node, name);</span>
+    }
+
+    protected Printer printNodeName(Node node, String name) {
+<span class="fc" id="L162">        return append(name);</span>
+    }
+    
+    protected void raiseIndent() {
+<span class="fc" id="L166">        indentLevel++;</span>
+<span class="fc" id="L167">    }</span>
+
+    protected void lowerIndent() {
+<span class="fc" id="L170">        indentLevel--;</span>
+<span class="fc" id="L171">    }</span>
+
+    protected boolean shouldShowPackageNode(PackageNode node) {
+<span class="fc bfc" id="L174" title="All 4 branches covered.">        return shouldShowNode(node) || node.getClasses().parallelStream().anyMatch(this::shouldShowClassNode);</span>
+    }
+
+    protected boolean shouldShowClassNode(ClassNode node) {
+<span class="fc bfc" id="L178" title="All 4 branches covered.">        return shouldShowNode(node) || node.getFeatures().parallelStream().anyMatch(this::shouldShowFeatureNode);</span>
+    }
+    
+    protected boolean shouldShowFeatureNode(FeatureNode node) {
+<span class="fc" id="L182">        return shouldShowNode(node);</span>
+    }
+    
+    protected boolean shouldShowNode(Node node) {
+<span class="pc bpc" id="L186" title="2 of 10 branches missed.">        return isShowEmptyNodes() || (isShowOutbounds() &amp;&amp; !node.getOutboundDependencies().isEmpty()) || (isShowInbounds() &amp;&amp; !node.getInboundDependencies().isEmpty());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

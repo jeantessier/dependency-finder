@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListSymbols.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependencyfinder.ant</a> &gt; <span class="el_source">ListSymbols.java</span></div><h1>ListSymbols.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependencyfinder.ant;
+
+import com.jeantessier.classreader.*;
+import com.jeantessier.text.RegularExpressionParser;
+import org.apache.logging.log4j.*;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Task;
+import org.apache.tools.ant.types.Path;
+
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+import java.util.stream.*;
+
+<span class="fc" id="L47">public class ListSymbols extends Task {</span>
+<span class="fc" id="L48">    private boolean classes = false;</span>
+<span class="fc" id="L49">    private boolean fields = false;</span>
+<span class="fc" id="L50">    private boolean methods = false;</span>
+<span class="fc" id="L51">    private boolean localVariables = false;</span>
+<span class="fc" id="L52">    private boolean innerClasses = false;</span>
+<span class="fc" id="L53">    private  boolean publicAccessibility = false;</span>
+<span class="fc" id="L54">    private  boolean protectedAccessibility = false;</span>
+<span class="fc" id="L55">    private  boolean privateAccessibility = false;</span>
+<span class="fc" id="L56">    private  boolean packageAccessibility = false;</span>
+<span class="fc" id="L57">    private boolean nonPrivateFields = false;</span>
+<span class="fc" id="L58">    private boolean finalMethodsOrClasses = false;</span>
+<span class="fc" id="L59">    private List&lt;String&gt; includes = Collections.singletonList(&quot;//&quot;);</span>
+    private Path includesList;
+<span class="fc" id="L61">    private List&lt;String&gt; excludes = Collections.emptyList();</span>
+    private Path excludesList;
+    private File destprefix;
+    private Path path;
+<span class="fc" id="L65">    private boolean csv = false;</span>
+<span class="fc" id="L66">    private boolean json = false;</span>
+<span class="fc" id="L67">    private boolean text = false;</span>
+<span class="fc" id="L68">    private boolean xml = false;</span>
+<span class="fc" id="L69">    private boolean yaml = false;</span>
+<span class="fc" id="L70">    private String encoding = XMLSymbolPrinter.DEFAULT_ENCODING;</span>
+<span class="fc" id="L71">    private String dtdPrefix = XMLSymbolPrinter.DEFAULT_DTD_PREFIX;</span>
+<span class="fc" id="L72">    private String indentText = XMLSymbolPrinter.DEFAULT_INDENT_TEXT;</span>
+
+    public boolean getClasses() {
+<span class="fc" id="L75">        return classes;</span>
+    }
+    
+    public void setClasses(boolean classes) {
+<span class="fc" id="L79">        this.classes = classes;</span>
+<span class="fc" id="L80">    }</span>
+
+    public boolean getFields() {
+<span class="fc" id="L83">        return fields;</span>
+    }
+    
+    public void setFields(boolean fields) {
+<span class="fc" id="L87">        this.fields = fields;</span>
+<span class="fc" id="L88">    }</span>
+
+    public boolean getMethods() {
+<span class="fc" id="L91">        return methods;</span>
+    }
+    
+    public void setMethods(boolean methods) {
+<span class="fc" id="L95">        this.methods = methods;</span>
+<span class="fc" id="L96">    }</span>
+
+    public boolean getLocalvariables() {
+<span class="fc" id="L99">        return localVariables;</span>
+    }
+
+    public void setLocalvariables(boolean localVariables) {
+<span class="fc" id="L103">        this.localVariables = localVariables;</span>
+<span class="fc" id="L104">    }</span>
+
+    public boolean getInnerclasses() {
+<span class="fc" id="L107">        return innerClasses;</span>
+    }
+
+    public void setInnerclasses(boolean innerClasses) {
+<span class="fc" id="L111">        this.innerClasses = innerClasses;</span>
+<span class="fc" id="L112">    }</span>
+
+    public boolean getPublicaccessibility() {
+<span class="fc" id="L115">        return publicAccessibility;</span>
+    }
+
+    public void setPublicaccessibility(boolean publicAccessibility) {
+<span class="fc" id="L119">        this.publicAccessibility = publicAccessibility;</span>
+<span class="fc" id="L120">    }</span>
+
+    public boolean getProtectedaccessibility() {
+<span class="fc" id="L123">        return protectedAccessibility;</span>
+    }
+
+    public void setProtectedaccessibility(boolean protectedAccessibility) {
+<span class="fc" id="L127">        this.protectedAccessibility = protectedAccessibility;</span>
+<span class="fc" id="L128">    }</span>
+
+    public boolean getPrivateaccessibility() {
+<span class="fc" id="L131">        return privateAccessibility;</span>
+    }
+
+    public void setPrivateaccessibility(boolean privateAccessibility) {
+<span class="fc" id="L135">        this.privateAccessibility = privateAccessibility;</span>
+<span class="fc" id="L136">    }</span>
+
+    public boolean getPackageaccessibility() {
+<span class="fc" id="L139">        return packageAccessibility;</span>
+    }
+
+    public void setPackageaccessibility(boolean packageAccessibility) {
+<span class="fc" id="L143">        this.packageAccessibility = packageAccessibility;</span>
+<span class="fc" id="L144">    }</span>
+
+    public boolean getNonprivatefields() {
+<span class="fc" id="L147">        return nonPrivateFields;</span>
+    }
+
+    public void setNonprivatefields(boolean nonPrivateFields) {
+<span class="fc" id="L151">        this.nonPrivateFields = nonPrivateFields;</span>
+<span class="fc" id="L152">    }</span>
+
+    public boolean getFinalmethodsorclasses() {
+<span class="fc" id="L155">        return finalMethodsOrClasses;</span>
+    }
+
+    public void setFinalmethodsorclasses(boolean finalMethodsOrClasses) {
+<span class="fc" id="L159">        this.finalMethodsOrClasses = finalMethodsOrClasses;</span>
+<span class="fc" id="L160">    }</span>
+
+    public List&lt;String&gt; getIncludes() {
+<span class="fc" id="L163">        return includes;</span>
+    }
+
+    public void setIncludes(String includes) {
+<span class="fc" id="L167">        this.includes = RegularExpressionParser.parseRE(includes);</span>
+<span class="fc" id="L168">    }</span>
+
+    public Path createIncludeslist() {
+<span class="nc bnc" id="L171" title="All 2 branches missed.">        if (includesList == null) {</span>
+<span class="nc" id="L172">            includesList = new Path(getProject());</span>
+        }
+
+<span class="nc" id="L175">        return includesList;</span>
+    }
+
+    public Path getIncludeslist() {
+<span class="fc" id="L179">        return includesList;</span>
+    }
+
+    public List&lt;String&gt; getExcludes() {
+<span class="fc" id="L183">        return excludes;</span>
+    }
+
+    public void setExcludes(String excludes) {
+<span class="fc" id="L187">        this.excludes = RegularExpressionParser.parseRE(excludes);</span>
+<span class="fc" id="L188">    }</span>
+
+    public Path createExcludeslist() {
+<span class="nc bnc" id="L191" title="All 2 branches missed.">        if (excludesList == null) {</span>
+<span class="nc" id="L192">            excludesList = new Path(getProject());</span>
+        }
+
+<span class="nc" id="L195">        return excludesList;</span>
+    }
+
+    public Path getExcludeslist() {
+<span class="fc" id="L199">        return excludesList;</span>
+    }
+
+    public File getDestprefix() {
+<span class="fc" id="L203">        return destprefix;</span>
+    }
+
+    public void setDestprefix(File destprefix) {
+<span class="fc" id="L207">        this.destprefix = destprefix;</span>
+<span class="fc" id="L208">    }</span>
+
+    public Path createPath() {
+<span class="pc bpc" id="L211" title="1 of 2 branches missed.">        if (path == null) {</span>
+<span class="fc" id="L212">            path = new Path(getProject());</span>
+        }
+
+<span class="fc" id="L215">        return path;</span>
+    }
+
+    public Path getPath() {
+<span class="fc" id="L219">        return path;</span>
+    }
+
+    public boolean getCsv() {
+<span class="nc" id="L223">        return csv;</span>
+    }
+
+    public void setCsv(boolean csv) {
+<span class="nc" id="L227">        this.csv = csv;</span>
+<span class="nc" id="L228">    }</span>
+
+    public boolean getJson() {
+<span class="nc" id="L231">        return json;</span>
+    }
+
+    public void setJson(boolean json) {
+<span class="nc" id="L235">        this.json = json;</span>
+<span class="nc" id="L236">    }</span>
+
+    public boolean getText() {
+<span class="nc" id="L239">        return text;</span>
+    }
+
+    public void setText(boolean text) {
+<span class="nc" id="L243">        this.text = text;</span>
+<span class="nc" id="L244">    }</span>
+
+    public void setTxt(boolean text) {
+<span class="nc" id="L247">        setText(text);</span>
+<span class="nc" id="L248">    }</span>
+
+    public boolean getXml() {
+<span class="nc" id="L251">        return xml;</span>
+    }
+
+    public void setXml(boolean xml) {
+<span class="nc" id="L255">        this.xml = xml;</span>
+<span class="nc" id="L256">    }</span>
+
+    public boolean getYaml() {
+<span class="nc" id="L259">        return yaml;</span>
+    }
+
+    public void setYaml(boolean yaml) {
+<span class="nc" id="L263">        this.yaml = yaml;</span>
+<span class="nc" id="L264">    }</span>
+
+    public void setYml(boolean yaml) {
+<span class="nc" id="L267">        setYaml(yaml);</span>
+<span class="nc" id="L268">    }</span>
+
+    public String getEncoding() {
+<span class="nc" id="L271">        return encoding;</span>
+    }
+
+    public void setEncoding(String encoding) {
+<span class="nc" id="L275">        this.encoding = encoding;</span>
+<span class="nc" id="L276">    }</span>
+
+    public String getDtdprefix() {
+<span class="nc" id="L279">        return dtdPrefix;</span>
+    }
+
+    public void setDtdprefix(String dtdPrefix) {
+<span class="nc" id="L283">        this.dtdPrefix = dtdPrefix;</span>
+<span class="nc" id="L284">    }</span>
+
+    public String getIndenttext() {
+<span class="nc" id="L287">        return indentText;</span>
+    }
+
+    public void setIndenttext(String indentText) {
+<span class="nc" id="L291">        this.indentText = indentText;</span>
+<span class="nc" id="L292">    }</span>
+
+    // Visible for tests only
+    void validateParameters() throws BuildException {
+<span class="fc bfc" id="L296" title="All 2 branches covered.">        if (getPath() == null) {</span>
+<span class="fc" id="L297">            throw new BuildException(&quot;path must be set!&quot;);</span>
+        }
+
+<span class="fc bfc" id="L300" title="All 2 branches covered.">        if (getDestprefix() == null) {</span>
+<span class="fc" id="L301">            throw new BuildException(&quot;destprefix must be set!&quot;);</span>
+        }
+<span class="fc" id="L303">    }</span>
+
+    public void execute() throws BuildException {
+<span class="nc" id="L306">        validateParameters();</span>
+
+<span class="nc" id="L308">        log(&quot;Reading classes from path &quot; + getPath());</span>
+
+<span class="nc" id="L310">        VerboseListener verboseListener = new VerboseListener(this);</span>
+
+<span class="nc" id="L312">        SymbolGatherer gatherer = new SymbolGatherer(createStrategy());</span>
+
+<span class="nc" id="L314">        ClassfileLoader loader = new TransientClassfileLoader();</span>
+<span class="nc" id="L315">        loader.addLoadListener(new LoadListenerVisitorAdapter(gatherer));</span>
+<span class="nc" id="L316">        loader.addLoadListener(verboseListener);</span>
+<span class="nc" id="L317">        loader.load(Arrays.asList(getPath().list()));</span>
+
+<span class="nc bnc" id="L319" title="All 2 branches missed.">        if (getCsv()) {</span>
+<span class="nc" id="L320">            printCSVFiles(gatherer);</span>
+<span class="nc bnc" id="L321" title="All 2 branches missed.">        } else if (getJson()) {</span>
+<span class="nc" id="L322">            printJSONFile(gatherer);</span>
+<span class="nc bnc" id="L323" title="All 2 branches missed.">        } else if (getText()) {</span>
+<span class="nc" id="L324">            printTextFile(gatherer);</span>
+<span class="nc bnc" id="L325" title="All 2 branches missed.">        } else if (getXml()) {</span>
+<span class="nc" id="L326">            printXMLFile(gatherer);</span>
+<span class="nc bnc" id="L327" title="All 2 branches missed.">        } else if (getYaml()) {</span>
+<span class="nc" id="L328">            printYAMLFile(gatherer);</span>
+        }
+<span class="nc" id="L330">    }</span>
+
+    private void printCSVFiles(SymbolGatherer gatherer) throws BuildException {
+<span class="nc" id="L333">        log(&quot;Saving symbols to &quot; + getDestprefix().getAbsolutePath() + &quot;_*.csv&quot;);</span>
+
+        try {
+<span class="nc" id="L336">            new CSVSymbolPrinter(</span>
+                    null,
+<span class="nc" id="L338">                    getClasses(),</span>
+<span class="nc" id="L339">                    getFields(),</span>
+<span class="nc" id="L340">                    getMethods(),</span>
+<span class="nc" id="L341">                    getLocalvariables(),</span>
+<span class="nc" id="L342">                    getInnerclasses(),</span>
+<span class="nc" id="L343">                    Optional.of(getDestprefix().getAbsolutePath())</span>
+<span class="nc" id="L344">            ).print(gatherer);</span>
+<span class="nc" id="L345">        } catch (IOException ex) {</span>
+<span class="nc" id="L346">            throw new BuildException(ex);</span>
+<span class="nc" id="L347">        }</span>
+<span class="nc" id="L348">    }</span>
+
+    private void printJSONFile(SymbolGatherer gatherer) throws BuildException {
+<span class="nc" id="L351">        String filename = getDestprefix().getAbsolutePath() + &quot;.json&quot;;</span>
+<span class="nc" id="L352">        log(&quot;Saving symbols to &quot; + filename);</span>
+
+<span class="nc" id="L354">        try (var out = new PrintWriter(new FileWriter(filename))) {</span>
+<span class="nc" id="L355">            new JSONSymbolPrinter(out).print(gatherer);</span>
+<span class="nc" id="L356">        } catch (IOException ex) {</span>
+<span class="nc" id="L357">            throw new BuildException(ex);</span>
+<span class="nc" id="L358">        }</span>
+<span class="nc" id="L359">    }</span>
+
+    private void printTextFile(SymbolGatherer gatherer) throws BuildException {
+<span class="nc" id="L362">        String filename = getDestprefix().getAbsolutePath() + &quot;.txt&quot;;</span>
+<span class="nc" id="L363">        log(&quot;Saving symbols to &quot; + filename);</span>
+
+<span class="nc" id="L365">        try (var out = new PrintWriter(new FileWriter(filename))) {</span>
+<span class="nc" id="L366">            new TextSymbolPrinter(out).print(gatherer);</span>
+<span class="nc" id="L367">        } catch (IOException ex) {</span>
+<span class="nc" id="L368">            throw new BuildException(ex);</span>
+<span class="nc" id="L369">        }</span>
+<span class="nc" id="L370">    }</span>
+
+    private void printXMLFile(SymbolGatherer gatherer) throws BuildException {
+<span class="nc" id="L373">        String filename = getDestprefix().getAbsolutePath() + &quot;.xml&quot;;</span>
+<span class="nc" id="L374">        log(&quot;Saving symbols to &quot; + filename);</span>
+
+<span class="nc" id="L376">        try (var out = new PrintWriter(new FileWriter(filename))) {</span>
+<span class="nc" id="L377">            new XMLSymbolPrinter(</span>
+                    out,
+<span class="nc" id="L379">                    getEncoding(),</span>
+<span class="nc" id="L380">                    getDtdprefix(),</span>
+<span class="nc" id="L381">                    getIndenttext()</span>
+<span class="nc" id="L382">            ).print(gatherer);</span>
+<span class="nc" id="L383">        } catch (IOException ex) {</span>
+<span class="nc" id="L384">            throw new BuildException(ex);</span>
+<span class="nc" id="L385">        }</span>
+<span class="nc" id="L386">    }</span>
+
+    private void printYAMLFile(SymbolGatherer gatherer) throws BuildException {
+<span class="nc" id="L389">        String filename = getDestprefix().getAbsolutePath() + &quot;.yaml&quot;;</span>
+<span class="nc" id="L390">        log(&quot;Saving symbols to &quot; + filename);</span>
+
+<span class="nc" id="L392">        try (var out = new PrintWriter(new FileWriter(filename))) {</span>
+<span class="nc" id="L393">            new YAMLSymbolPrinter(</span>
+                    out,
+<span class="nc" id="L395">                    getIndenttext()</span>
+<span class="nc" id="L396">            ).print(gatherer);</span>
+<span class="nc" id="L397">        } catch (IOException ex) {</span>
+<span class="nc" id="L398">            throw new BuildException(ex);</span>
+<span class="nc" id="L399">        }</span>
+<span class="nc" id="L400">    }</span>
+
+    // Visible for testing only
+    SymbolGathererStrategy createStrategy() {
+        SymbolGathererStrategy result;
+
+<span class="fc bfc" id="L406" title="All 2 branches covered.">        if (getNonprivatefields()) {</span>
+<span class="fc" id="L407">            result = new NonPrivateFieldSymbolGathererStrategy();</span>
+<span class="fc bfc" id="L408" title="All 2 branches covered.">        } else if (getFinalmethodsorclasses()) {</span>
+<span class="fc" id="L409">            result = new FinalMethodOrClassSymbolGathererStrategy();</span>
+        } else {
+<span class="fc" id="L411">            result = createDefaultSymbolGathererStrategy();</span>
+        }
+
+<span class="fc" id="L414">        result = new FilteringSymbolGathererStrategy(result, getIncludes(), loadCollection(getIncludeslist()), getExcludes(), loadCollection(getExcludeslist()));</span>
+
+<span class="fc bfc" id="L416" title="All 8 branches covered.">        if (getPublicaccessibility() || getProtectedaccessibility() || getPrivateaccessibility() || getPackageaccessibility()) {</span>
+<span class="fc" id="L417">            result = new AccessibilitySymbolGathererStrategy(result, getPublicaccessibility(), getProtectedaccessibility(), getPrivateaccessibility(), getPackageaccessibility());</span>
+        }
+
+<span class="fc" id="L420">        return result;</span>
+    }
+
+    private SymbolGathererStrategy createDefaultSymbolGathererStrategy() {
+<span class="fc" id="L424">        DefaultSymbolGathererStrategy result = new DefaultSymbolGathererStrategy();</span>
+
+        // Since DefaultSymbolGathererStrategy lists everything by default,
+        // we turn them all off if any of the switches are present.
+        // This way, if you pass nothing, you get the default behavior and
+        // the tool shows everything.  If you pass in one or more, you only
+        // see symbols of the kind(s) you specified.
+<span class="fc bfc" id="L431" title="All 10 branches covered.">        if (getClasses() || getFields() || getMethods() || getLocalvariables() || getInnerclasses()) {</span>
+<span class="fc" id="L432">            result.setMatchingClasses(false);</span>
+<span class="fc" id="L433">            result.setMatchingFields(false);</span>
+<span class="fc" id="L434">            result.setMatchingMethods(false);</span>
+<span class="fc" id="L435">            result.setMatchingLocalVariables(false);</span>
+<span class="fc" id="L436">            result.setMatchingInnerClasses(false);</span>
+        }
+
+<span class="fc bfc" id="L439" title="All 2 branches covered.">        if (getClasses()) {</span>
+<span class="fc" id="L440">            result.setMatchingClasses(true);</span>
+        }
+
+<span class="fc bfc" id="L443" title="All 2 branches covered.">        if (getFields()) {</span>
+<span class="fc" id="L444">            result.setMatchingFields(true);</span>
+        }
+
+<span class="fc bfc" id="L447" title="All 2 branches covered.">        if (getMethods()) {</span>
+<span class="fc" id="L448">            result.setMatchingMethods(true);</span>
+        }
+
+<span class="fc bfc" id="L451" title="All 2 branches covered.">        if (getLocalvariables()) {</span>
+<span class="fc" id="L452">            result.setMatchingLocalVariables(true);</span>
+        }
+
+<span class="fc bfc" id="L455" title="All 2 branches covered.">        if (getInnerclasses()) {</span>
+<span class="fc" id="L456">            result.setMatchingInnerClasses(true);</span>
+        }
+
+<span class="fc" id="L459">        return result;</span>
+    }
+
+    private Collection&lt;String&gt; loadCollection(Path path) {
+<span class="fc" id="L463">        Collection&lt;String&gt; result = null;</span>
+
+<span class="pc bpc" id="L465" title="1 of 2 branches missed.">        if (path != null) {</span>
+<span class="nc" id="L466">            result = Arrays.stream(path.list())</span>
+<span class="nc" id="L467">                    .map(Paths::get)</span>
+<span class="nc" id="L468">                    .flatMap(filepath -&gt; {</span>
+                        try {
+<span class="nc" id="L470">                            return Files.lines(filepath);</span>
+<span class="nc" id="L471">                        } catch (IOException ex) {</span>
+<span class="nc" id="L472">                            LogManager.getLogger(getClass()).error(&quot;Couldn't read file {}&quot;, filepath, ex);</span>
+<span class="nc" id="L473">                            return Stream.empty();</span>
+                        }
+<span class="nc" id="L475">                    }).distinct()</span>
+<span class="nc" id="L476">                    .toList();</span>
+        }
+
+<span class="fc" id="L479">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

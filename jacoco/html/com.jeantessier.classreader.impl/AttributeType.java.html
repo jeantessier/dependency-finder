@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AttributeType.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader.impl</a> &gt; <span class="el_source">AttributeType.java</span></div><h1>AttributeType.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.classreader.impl;
+
+import java.io.*;
+import java.util.Arrays;
+
+import com.jeantessier.classreader.*;
+
+<span class="fc" id="L40">public enum AttributeType {</span>
+<span class="fc" id="L41">    CONSTANT_VALUE(com.jeantessier.classreader.AttributeType.CONSTANT_VALUE) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L43">            return new ConstantValue_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L47">    CODE(com.jeantessier.classreader.AttributeType.CODE) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L49">            return new Code_attribute(constantPool, owner, in, attributeFactory);</span>
+        }
+    },
+
+<span class="fc" id="L53">    STACK_MAP_TABLE(com.jeantessier.classreader.AttributeType.STACK_MAP_TABLE) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L55">            return new StackMapTable_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L59">    EXCEPTIONS(com.jeantessier.classreader.AttributeType.EXCEPTIONS) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L61">            return new Exceptions_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L65">    INNER_CLASSES(com.jeantessier.classreader.AttributeType.INNER_CLASSES) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L67">            return new InnerClasses_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L71">    ENCLOSING_METHOD(com.jeantessier.classreader.AttributeType.ENCLOSING_METHOD) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L73">            return new EnclosingMethod_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L77">    SYNTHETIC(com.jeantessier.classreader.AttributeType.SYNTHETIC) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L79">            return new Synthetic_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L83">    SIGNATURE(com.jeantessier.classreader.AttributeType.SIGNATURE) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L85">            return new Signature_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L89">    SOURCE_FILE(com.jeantessier.classreader.AttributeType.SOURCE_FILE) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L91">            return new SourceFile_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L95">    SOURCE_DEBUG_EXTENSION(com.jeantessier.classreader.AttributeType.SOURCE_DEBUG_EXTENSION) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="nc" id="L97">            return new SourceDebugExtension_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L101">    LINE_NUMBER_TABLE(com.jeantessier.classreader.AttributeType.LINE_NUMBER_TABLE) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L103">            return new LineNumberTable_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L107">    LOCAL_VARIABLE_TABLE(com.jeantessier.classreader.AttributeType.LOCAL_VARIABLE_TABLE) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L109">            return new LocalVariableTable_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L113">    LOCAL_VARIABLE_TYPE_TABLE(com.jeantessier.classreader.AttributeType.LOCAL_VARIABLE_TYPE_TABLE) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L115">            return new LocalVariableTypeTable_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L119">    DEPRECATED(com.jeantessier.classreader.AttributeType.DEPRECATED) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L121">            return new Deprecated_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L125">    RUNTIME_VISIBLE_ANNOTATIONS(com.jeantessier.classreader.AttributeType.RUNTIME_VISIBLE_ANNOTATIONS) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L127">            return new RuntimeVisibleAnnotations_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L131">    RUNTIME_INVISIBLE_ANNOTATIONS(com.jeantessier.classreader.AttributeType.RUNTIME_INVISIBLE_ANNOTATIONS) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L133">            return new RuntimeInvisibleAnnotations_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L137">    RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS(com.jeantessier.classreader.AttributeType.RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L139">            return new RuntimeVisibleParameterAnnotations_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L143">    RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS(com.jeantessier.classreader.AttributeType.RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L145">            return new RuntimeInvisibleParameterAnnotations_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L149">    RUNTIME_VISIBLE_TYPE_ANNOTATIONS(com.jeantessier.classreader.AttributeType.RUNTIME_VISIBLE_TYPE_ANNOTATIONS) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="nc" id="L151">            return new RuntimeVisibleTypeAnnotations_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L155">    RUNTIME_INVISIBLE_TYPE_ANNOTATIONS(com.jeantessier.classreader.AttributeType.RUNTIME_INVISIBLE_TYPE_ANNOTATIONS) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="nc" id="L157">            return new RuntimeInvisibleTypeAnnotations_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L161">    ANNOTATION_DEFAULT(com.jeantessier.classreader.AttributeType.ANNOTATION_DEFAULT) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L163">            return new AnnotationDefault_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L167">    BOOTSTRAP_METHODS(com.jeantessier.classreader.AttributeType.BOOTSTRAP_METHODS) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="nc" id="L169">            return new BootstrapMethods_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L173">    METHOD_PARAMETERS(com.jeantessier.classreader.AttributeType.METHOD_PARAMETERS) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="nc" id="L175">            return new MethodParameters_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L179">    MODULE(com.jeantessier.classreader.AttributeType.MODULE) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L181">            return new Module_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L185">    MODULE_PACKAGES(com.jeantessier.classreader.AttributeType.MODULE_PACKAGES) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L187">            return new ModulePackages_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L191">    MODULE_MAIN_CLASS(com.jeantessier.classreader.AttributeType.MODULE_MAIN_CLASS) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L193">            return new ModuleMainClass_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L197">    NEST_HOST(com.jeantessier.classreader.AttributeType.NEST_HOST) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L199">            return new NestHost_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L203">    NEST_MEMBERS(com.jeantessier.classreader.AttributeType.NEST_MEMBERS) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L205">            return new NestMembers_attribute(constantPool, owner, in);</span>
+        }
+    },
+
+<span class="fc" id="L209">    RECORD(com.jeantessier.classreader.AttributeType.RECORD) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L211">            return new Record_attribute(constantPool, owner, in, attributeFactory);</span>
+        }
+    },
+
+<span class="fc" id="L215">    PERMITTED_SUBCLASSES(com.jeantessier.classreader.AttributeType.PERMITTED_SUBCLASSES) {</span>
+        public Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException {
+<span class="fc" id="L217">            return new PermittedSubclasses_attribute(constantPool, owner, in);</span>
+        }
+    };
+
+    private final com.jeantessier.classreader.AttributeType attributeType;
+
+<span class="fc" id="L223">    AttributeType(com.jeantessier.classreader.AttributeType attributeType) {</span>
+<span class="fc" id="L224">        this.attributeType = attributeType;</span>
+<span class="fc" id="L225">    }</span>
+
+    public String getAttributeName() {
+<span class="fc" id="L228">        return attributeType.getAttributeName();</span>
+    }
+
+    public abstract Attribute_info create(ConstantPool constantPool, Visitable owner, DataInput in, AttributeFactory attributeFactory) throws IOException;
+
+    public static AttributeType forName(String attributeName) {
+<span class="fc" id="L234">        return Arrays.stream(values())</span>
+<span class="fc" id="L235">                .filter(attributeType -&gt; attributeType.getAttributeName().equals(attributeName))</span>
+<span class="fc" id="L236">                .findFirst()</span>
+<span class="fc" id="L237">                .orElse(null);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

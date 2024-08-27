@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Report.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.diff</a> &gt; <span class="el_source">Report.java</span></div><h1>Report.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.diff;
+
+import com.jeantessier.classreader.Class_info;
+import com.jeantessier.classreader.Classfile;
+
+import java.util.Collection;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
+
+public class Report extends Printer {
+    public static final String DEFAULT_ENCODING   = &quot;utf-8&quot;;
+    public static final String DEFAULT_DTD_PREFIX = &quot;https://depfind.sourceforge.io/dtd&quot;;
+
+    private String name;
+    private String oldVersion;
+    private String newVersion;
+
+<span class="fc" id="L50">    private final Collection&lt;Differences&gt; removedPackages = new TreeSet&lt;&gt;();</span>
+
+<span class="fc" id="L52">    private final Collection&lt;ClassDifferences&gt; removedInterfaces = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L53">    private final Collection&lt;ClassDifferences&gt; removedClasses = new TreeSet&lt;&gt;();</span>
+
+<span class="fc" id="L55">    private final Collection&lt;ClassDifferences&gt; deprecatedInterfaces = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L56">    private final Collection&lt;ClassDifferences&gt; deprecatedClasses = new TreeSet&lt;&gt;();</span>
+    
+<span class="fc" id="L58">    private final Collection&lt;ClassReport&gt; modifiedInterfaces = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L59">    private final Collection&lt;ClassReport&gt; modifiedClasses = new TreeSet&lt;&gt;();</span>
+
+<span class="fc" id="L61">    private final Collection&lt;ClassDifferences&gt; undeprecatedInterfaces = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L62">    private final Collection&lt;ClassDifferences&gt; undeprecatedClasses = new TreeSet&lt;&gt;();</span>
+    
+<span class="fc" id="L64">    private final Collection&lt;Differences&gt; newPackages = new TreeSet&lt;&gt;();</span>
+
+<span class="fc" id="L66">    private final Collection&lt;ClassDifferences&gt; newInterfaces = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L67">    private final Collection&lt;ClassDifferences&gt; newClasses = new TreeSet&lt;&gt;();</span>
+
+    public Report() {
+<span class="fc" id="L70">        this(DEFAULT_INDENT_TEXT, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);</span>
+<span class="fc" id="L71">    }</span>
+    
+    public Report(String indentText, String encoding, String dtdPrefix) {
+<span class="fc" id="L74">        super(indentText);</span>
+<span class="fc" id="L75">        appendHeader(encoding, dtdPrefix);</span>
+<span class="fc" id="L76">    }</span>
+
+    public void setName(String name) {
+<span class="fc" id="L79">        this.name = name;</span>
+<span class="fc" id="L80">    }</span>
+
+    public void setOldVersion(String oldVersion) {
+<span class="fc" id="L83">        this.oldVersion = oldVersion;</span>
+<span class="fc" id="L84">    }</span>
+
+    public void setNewVersion(String newVersion) {
+<span class="fc" id="L87">        this.newVersion = newVersion;</span>
+<span class="fc" id="L88">    }</span>
+
+    private void appendHeader(String encoding, String dtdPrefix) {
+<span class="fc" id="L91">        append(&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;&quot;).append(encoding).append(&quot;\&quot; ?&gt;&quot;).eol();</span>
+<span class="fc" id="L92">        eol();</span>
+<span class="fc" id="L93">        append(&quot;&lt;!DOCTYPE differences SYSTEM \&quot;&quot;).append(dtdPrefix).append(&quot;/differences.dtd\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L94">        eol();</span>
+<span class="fc" id="L95">    }</span>
+
+    public void visitProjectDifferences(ProjectDifferences differences) {
+<span class="fc" id="L98">        setName(differences.getName());</span>
+<span class="fc" id="L99">        setOldVersion(differences.getOldVersion());</span>
+<span class="fc" id="L100">        setNewVersion(differences.getNewVersion());</span>
+
+<span class="fc" id="L102">        differences.getPackageDifferences().forEach(packageDifference -&gt; packageDifference.accept(this));</span>
+<span class="fc" id="L103">    }</span>
+
+    public void visitPackageDifferences(PackageDifferences differences) {
+<span class="fc bfc" id="L106" title="All 2 branches covered.">        if (differences.isRemoved()) {</span>
+<span class="fc" id="L107">            removedPackages.add(differences);</span>
+        }
+
+<span class="fc" id="L110">        differences.getClassDifferences().forEach(classDifference -&gt; classDifference.accept(this));</span>
+
+<span class="fc bfc" id="L112" title="All 2 branches covered.">        if (differences.isNew()) {</span>
+<span class="fc" id="L113">            newPackages.add(differences);</span>
+        }
+<span class="fc" id="L115">    }</span>
+
+    public void visitClassDifferences(ClassDifferences differences) {
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        if (differences.isRemoved()) {</span>
+<span class="fc" id="L119">            removedClasses.add(differences);</span>
+        }
+    
+<span class="fc bfc" id="L122" title="All 2 branches covered.">        if (differences.isModified()) {</span>
+<span class="fc" id="L123">            ClassReport visitor = new ClassReport(getIndentText());</span>
+<span class="fc" id="L124">            differences.accept(visitor);</span>
+<span class="fc" id="L125">            modifiedClasses.add(visitor);</span>
+        }
+    
+<span class="fc bfc" id="L128" title="All 2 branches covered.">        if (differences.isNew()) {</span>
+<span class="fc" id="L129">            newClasses.add(differences);</span>
+        }
+
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        if (isDeprecated()) {</span>
+<span class="fc" id="L133">            deprecatedClasses.add(differences);</span>
+        }
+
+<span class="fc bfc" id="L136" title="All 2 branches covered.">        if (isUndeprecated()) {</span>
+<span class="fc" id="L137">            undeprecatedClasses.add(differences);</span>
+        }
+<span class="fc" id="L139">    }</span>
+
+    public void visitInterfaceDifferences(InterfaceDifferences differences) {
+<span class="fc bfc" id="L142" title="All 2 branches covered.">        if (differences.isRemoved()) {</span>
+<span class="fc" id="L143">            removedInterfaces.add(differences);</span>
+        }
+    
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        if (differences.isModified()) {</span>
+<span class="fc" id="L147">            ClassReport classReport = new ClassReport(getIndentText());</span>
+<span class="fc" id="L148">            differences.accept(classReport);</span>
+<span class="fc" id="L149">            modifiedInterfaces.add(classReport);</span>
+        }
+    
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        if (differences.isNew()) {</span>
+<span class="fc" id="L153">            newInterfaces.add(differences);</span>
+        }
+
+<span class="fc bfc" id="L156" title="All 2 branches covered.">        if (isDeprecated()) {</span>
+<span class="fc" id="L157">            deprecatedInterfaces.add(differences);</span>
+        }
+
+<span class="fc bfc" id="L160" title="All 2 branches covered.">        if (isUndeprecated()) {</span>
+<span class="fc" id="L161">            undeprecatedInterfaces.add(differences);</span>
+        }
+<span class="fc" id="L163">    }</span>
+
+    public String render() {
+<span class="fc" id="L166">        indent().append(&quot;&lt;differences&gt;&quot;).eol();</span>
+<span class="fc" id="L167">        raiseIndent();</span>
+
+<span class="fc" id="L169">        indent().append(&quot;&lt;name&gt;&quot;).append(name).append(&quot;&lt;/name&gt;&quot;).eol();</span>
+<span class="fc" id="L170">        indent().append(&quot;&lt;old&gt;&quot;).append(oldVersion).append(&quot;&lt;/old&gt;&quot;).eol();</span>
+<span class="fc" id="L171">        indent().append(&quot;&lt;new&gt;&quot;).append(newVersion).append(&quot;&lt;/new&gt;&quot;).eol();</span>
+    
+<span class="fc bfc" id="L173" title="All 2 branches covered.">        if (!removedPackages.isEmpty()) {</span>
+<span class="fc" id="L174">            indent().append(&quot;&lt;removed-packages&gt;&quot;).eol();</span>
+<span class="fc" id="L175">            raiseIndent();</span>
+
+<span class="fc" id="L177">            removedPackages.forEach(removedPackage -&gt; {</span>
+<span class="fc" id="L178">                indent().append(&quot;&lt;name&gt;&quot;).append(removedPackage).append(&quot;&lt;/name&gt;&quot;).eol();</span>
+<span class="fc" id="L179">            });</span>
+
+<span class="fc" id="L181">            lowerIndent();</span>
+<span class="fc" id="L182">            indent().append(&quot;&lt;/removed-packages&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L185" title="All 2 branches covered.">        if (!removedInterfaces.isEmpty()) {</span>
+<span class="fc" id="L186">            indent().append(&quot;&lt;removed-interfaces&gt;&quot;).eol();</span>
+<span class="fc" id="L187">            raiseIndent();</span>
+
+<span class="fc" id="L189">            removedInterfaces.forEach(cd -&gt; {</span>
+<span class="fc" id="L190">                indent().append(&quot;&lt;name&quot;).append(breakdownDeclaration(cd.getOldClass())).append(&quot;&gt;&quot;).append(cd).append(&quot;&lt;/name&gt;&quot;).eol();</span>
+<span class="fc" id="L191">            });</span>
+
+<span class="fc" id="L193">            lowerIndent();</span>
+<span class="fc" id="L194">            indent().append(&quot;&lt;/removed-interfaces&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L197" title="All 2 branches covered.">        if (!removedClasses.isEmpty()) {</span>
+<span class="fc" id="L198">            indent().append(&quot;&lt;removed-classes&gt;&quot;).eol();</span>
+<span class="fc" id="L199">            raiseIndent();</span>
+
+<span class="fc" id="L201">            removedClasses.forEach(cd -&gt; {</span>
+<span class="fc" id="L202">                indent().append(&quot;&lt;name&quot;).append(breakdownDeclaration(cd.getOldClass())).append(&quot;&gt;&quot;).append(cd).append(&quot;&lt;/name&gt;&quot;).eol();</span>
+<span class="fc" id="L203">            });</span>
+
+<span class="fc" id="L205">            lowerIndent();</span>
+<span class="fc" id="L206">            indent().append(&quot;&lt;/removed-classes&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L209" title="All 2 branches covered.">        if (!deprecatedInterfaces.isEmpty()) {</span>
+<span class="fc" id="L210">            indent().append(&quot;&lt;deprecated-interfaces&gt;&quot;).eol();</span>
+<span class="fc" id="L211">            raiseIndent();</span>
+
+<span class="fc" id="L213">            deprecatedInterfaces.forEach(cd -&gt; {</span>
+<span class="fc" id="L214">                indent().append(&quot;&lt;name&quot;).append(breakdownDeclaration(cd.getNewClass())).append(&quot;&gt;&quot;).append(cd).append(&quot;&lt;/name&gt;&quot;).eol();</span>
+<span class="fc" id="L215">            });</span>
+
+<span class="fc" id="L217">            lowerIndent();</span>
+<span class="fc" id="L218">            indent().append(&quot;&lt;/deprecated-interfaces&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L221" title="All 2 branches covered.">        if (!deprecatedClasses.isEmpty()) {</span>
+<span class="fc" id="L222">            indent().append(&quot;&lt;deprecated-classes&gt;&quot;).eol();</span>
+<span class="fc" id="L223">            raiseIndent();</span>
+
+<span class="fc" id="L225">            deprecatedClasses.forEach(cd -&gt; {</span>
+<span class="fc" id="L226">                indent().append(&quot;&lt;name&quot;).append(breakdownDeclaration(cd.getNewClass())).append(&quot;&gt;&quot;).append(cd).append(&quot;&lt;/name&gt;&quot;).eol();</span>
+<span class="fc" id="L227">            });</span>
+
+<span class="fc" id="L229">            lowerIndent();</span>
+<span class="fc" id="L230">            indent().append(&quot;&lt;/deprecated-classes&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L233" title="All 2 branches covered.">        if (!modifiedInterfaces.isEmpty()) {</span>
+<span class="fc" id="L234">            indent().append(&quot;&lt;modified-interfaces&gt;&quot;).eol();</span>
+<span class="fc" id="L235">            raiseIndent();</span>
+
+<span class="fc" id="L237">            modifiedInterfaces.forEach(modifiedInterface -&gt; {</span>
+<span class="fc" id="L238">                append(modifiedInterface.render());</span>
+<span class="fc" id="L239">            });</span>
+
+<span class="fc" id="L241">            lowerIndent();</span>
+<span class="fc" id="L242">            indent().append(&quot;&lt;/modified-interfaces&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L245" title="All 2 branches covered.">        if (!modifiedClasses.isEmpty()) {</span>
+<span class="fc" id="L246">            indent().append(&quot;&lt;modified-classes&gt;&quot;).eol();</span>
+<span class="fc" id="L247">            raiseIndent();</span>
+
+<span class="fc" id="L249">            modifiedClasses.forEach(modifiedClass -&gt; {</span>
+<span class="fc" id="L250">                append(modifiedClass.render());</span>
+<span class="fc" id="L251">            });</span>
+
+<span class="fc" id="L253">            lowerIndent();</span>
+<span class="fc" id="L254">            indent().append(&quot;&lt;/modified-classes&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L257" title="All 2 branches covered.">        if (!undeprecatedInterfaces.isEmpty()) {</span>
+<span class="fc" id="L258">            indent().append(&quot;&lt;undeprecated-interfaces&gt;&quot;).eol();</span>
+<span class="fc" id="L259">            raiseIndent();</span>
+
+<span class="fc" id="L261">            undeprecatedClasses.forEach(cd -&gt; {</span>
+<span class="fc" id="L262">                indent().append(&quot;&lt;name&quot;).append(breakdownDeclaration(cd.getNewClass())).append(&quot;&gt;&quot;).append(cd).append(&quot;&lt;/name&gt;&quot;).eol();</span>
+<span class="fc" id="L263">            });</span>
+
+<span class="fc" id="L265">            lowerIndent();</span>
+<span class="fc" id="L266">            indent().append(&quot;&lt;/undeprecated-interfaces&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L269" title="All 2 branches covered.">        if (!undeprecatedClasses.isEmpty()) {</span>
+<span class="fc" id="L270">            indent().append(&quot;&lt;undeprecated-classes&gt;&quot;).eol();</span>
+<span class="fc" id="L271">            raiseIndent();</span>
+
+<span class="fc" id="L273">            undeprecatedClasses.forEach(cd -&gt; {</span>
+<span class="fc" id="L274">                indent().append(&quot;&lt;name&quot;).append(breakdownDeclaration(cd.getNewClass())).append(&quot;&gt;&quot;).append(cd).append(&quot;&lt;/name&gt;&quot;).eol();</span>
+<span class="fc" id="L275">            });</span>
+
+<span class="fc" id="L277">            lowerIndent();</span>
+<span class="fc" id="L278">            indent().append(&quot;&lt;/undeprecated-classes&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L281" title="All 2 branches covered.">        if (!newPackages.isEmpty()) {</span>
+<span class="fc" id="L282">            indent().append(&quot;&lt;new-packages&gt;&quot;).eol();</span>
+<span class="fc" id="L283">            raiseIndent();</span>
+
+<span class="fc" id="L285">            newPackages.forEach(newPackage -&gt; {</span>
+<span class="fc" id="L286">                indent().append(&quot;&lt;name&gt;&quot;).append(newPackage).append(&quot;&lt;/name&gt;&quot;).eol();</span>
+<span class="fc" id="L287">            });</span>
+
+<span class="fc" id="L289">            lowerIndent();</span>
+<span class="fc" id="L290">            indent().append(&quot;&lt;/new-packages&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L293" title="All 2 branches covered.">        if (!newInterfaces.isEmpty()) {</span>
+<span class="fc" id="L294">            indent().append(&quot;&lt;new-interfaces&gt;&quot;).eol();</span>
+<span class="fc" id="L295">            raiseIndent();</span>
+
+<span class="fc" id="L297">            newInterfaces.forEach(cd -&gt; {</span>
+<span class="fc" id="L298">                indent().append(&quot;&lt;name&quot;).append(breakdownDeclaration(cd.getNewClass())).append(&quot;&gt;&quot;).append(cd).append(&quot;&lt;/name&gt;&quot;).eol();</span>
+<span class="fc" id="L299">            });</span>
+
+<span class="fc" id="L301">            lowerIndent();</span>
+<span class="fc" id="L302">            indent().append(&quot;&lt;/new-interfaces&gt;&quot;).eol();</span>
+        }
+
+<span class="fc bfc" id="L305" title="All 2 branches covered.">        if (!newClasses.isEmpty()) {</span>
+<span class="fc" id="L306">            indent().append(&quot;&lt;new-classes&gt;&quot;).eol();</span>
+<span class="fc" id="L307">            raiseIndent();</span>
+
+<span class="fc" id="L309">            newClasses.forEach(cd -&gt; {</span>
+<span class="fc" id="L310">                indent().append(&quot;&lt;name&quot;).append(breakdownDeclaration(cd.getNewClass())).append(&quot;&gt;&quot;).append(cd).append(&quot;&lt;/name&gt;&quot;).eol();</span>
+<span class="fc" id="L311">            });</span>
+
+<span class="fc" id="L313">            lowerIndent();</span>
+<span class="fc" id="L314">            indent().append(&quot;&lt;/new-classes&gt;&quot;).eol();</span>
+        }
+
+<span class="fc" id="L317">        lowerIndent();</span>
+<span class="fc" id="L318">        indent().append(&quot;&lt;/differences&gt;&quot;).eol();</span>
+
+<span class="fc" id="L320">        return super.toString();</span>
+    }
+
+    private String breakdownDeclaration(Classfile element) {
+<span class="fc" id="L324">        StringBuilder result = new StringBuilder();</span>
+
+<span class="pc bpc" id="L326" title="1 of 2 branches missed.">        if (element != null) {</span>
+<span class="pc bpc" id="L327" title="1 of 2 branches missed.">            if (element.isPublic())     result.append(&quot; visibility=\&quot;public\&quot;&quot;);</span>
+<span class="pc bpc" id="L328" title="1 of 2 branches missed.">            if (element.isPackage())    result.append(&quot; visibility=\&quot;package\&quot;&quot;);</span>
+<span class="pc bpc" id="L329" title="1 of 2 branches missed.">            if (element.isFinal())      result.append(&quot; final=\&quot;yes\&quot;&quot;);</span>
+<span class="fc bfc" id="L330" title="All 2 branches covered.">            if (element.isSuper())      result.append(&quot; super=\&quot;yes\&quot;&quot;);</span>
+<span class="pc bpc" id="L331" title="1 of 2 branches missed.">            if (element.isSynthetic())  result.append(&quot; synthetic=\&quot;yes\&quot;&quot;);</span>
+<span class="fc bfc" id="L332" title="All 2 branches covered.">            if (element.isDeprecated()) result.append(&quot; deprecated=\&quot;yes\&quot;&quot;);</span>
+
+<span class="fc" id="L334">            result.append(&quot; name=\&quot;&quot;).append(element.getClassName()).append(&quot;\&quot;&quot;);</span>
+
+<span class="fc bfc" id="L336" title="All 2 branches covered.">            if (element.isInterface()) {</span>
+<span class="fc" id="L337">                result.append(&quot; interface=\&quot;yes\&quot;&quot;);</span>
+        
+<span class="fc" id="L339">                result.append(&quot; extends=\&quot;&quot;).append(interfacesFor(element)).append(&quot;\&quot;&quot;);</span>
+            } else {
+<span class="pc bpc" id="L341" title="1 of 2 branches missed.">                if (element.isAbstract()) result.append(&quot; abstract=\&quot;yes\&quot;&quot;);</span>
+        
+<span class="fc" id="L343">                result.append(&quot; extends=\&quot;&quot;).append(element.getSuperclassName()).append(&quot;\&quot;&quot;);</span>
+        
+<span class="fc" id="L345">                result.append(&quot; implements=\&quot;&quot;).append(interfacesFor(element)).append(&quot;\&quot;&quot;);</span>
+            }
+        }
+
+<span class="fc" id="L349">        return result.toString();</span>
+    }
+
+    private String interfacesFor(Classfile classfile) {
+<span class="fc" id="L353">        return classfile.getAllInterfaces().stream()</span>
+<span class="fc" id="L354">                .map(Class_info::getName)</span>
+<span class="fc" id="L355">                .collect(Collectors.joining(&quot;, &quot;));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

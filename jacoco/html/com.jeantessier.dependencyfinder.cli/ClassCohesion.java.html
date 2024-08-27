@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClassCohesion.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependencyfinder.cli</a> &gt; <span class="el_source">ClassCohesion.java</span></div><h1>ClassCohesion.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependencyfinder.cli;
+
+import com.jeantessier.commandline.CommandLineException;
+import com.jeantessier.dependency.ClassNode;
+import com.jeantessier.dependency.FeatureNode;
+import com.jeantessier.dependency.LCOM4Gatherer;
+import com.jeantessier.dependency.Node;
+import org.apache.logging.log4j.*;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
+
+import static java.util.stream.Collectors.*;
+
+<span class="fc" id="L49">public class ClassCohesion extends DependencyGraphCommand {</span>
+<span class="fc" id="L50">    private static final String EOL = System.getProperty(&quot;line.separator&quot;, &quot;\n&quot;);</span>
+
+    private static final String DEFAULT_ENCODING = &quot;utf-8&quot;;
+    private static final String DEFAULT_DTD_PREFIX = &quot;https://depfind.sourceforge.io/dtd&quot;;
+    private static final String DEFAULT_INDENT_TEXT = &quot;    &quot;;
+
+    protected void populateCommandLineSwitches()  {
+<span class="fc" id="L57">        super.populateCommandLineSwitches();</span>
+<span class="fc" id="L58">        populateCommandLineSwitchesForXMLOutput(DEFAULT_ENCODING, DEFAULT_DTD_PREFIX, DEFAULT_INDENT_TEXT);</span>
+
+<span class="fc" id="L60">        getCommandLine().addToggleSwitch(&quot;csv&quot;);</span>
+<span class="fc" id="L61">        getCommandLine().addToggleSwitch(&quot;json&quot;);</span>
+<span class="fc" id="L62">        getCommandLine().addToggleSwitch(&quot;text&quot;);</span>
+<span class="fc" id="L63">        getCommandLine().addToggleSwitch(&quot;txt&quot;);</span>
+<span class="fc" id="L64">        getCommandLine().addToggleSwitch(&quot;xml&quot;);</span>
+<span class="fc" id="L65">        getCommandLine().addToggleSwitch(&quot;yaml&quot;);</span>
+<span class="fc" id="L66">        getCommandLine().addToggleSwitch(&quot;yml&quot;);</span>
+<span class="fc" id="L67">        getCommandLine().addToggleSwitch(&quot;list&quot;);</span>
+<span class="fc" id="L68">    }</span>
+
+    protected Collection&lt;CommandLineException&gt; parseCommandLine(String[] args) {
+<span class="fc" id="L71">        var exceptions = super.parseCommandLine(args);</span>
+<span class="fc" id="L72">        int modeSwitch = 0;</span>
+
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (getCommandLine().getToggleSwitch(&quot;csv&quot;)) {</span>
+<span class="fc" id="L75">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;json&quot;)) {</span>
+<span class="nc" id="L78">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;text&quot;)) {</span>
+<span class="nc" id="L81">            modeSwitch++;</span>
+        }
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        if (getCommandLine().getToggleSwitch(&quot;txt&quot;)) {</span>
+<span class="fc" id="L84">            modeSwitch++;</span>
+        }
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        if (getCommandLine().getToggleSwitch(&quot;xml&quot;)) {</span>
+<span class="fc" id="L87">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;yaml&quot;)) {</span>
+<span class="nc" id="L90">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;yml&quot;)) {</span>
+<span class="nc" id="L93">            modeSwitch++;</span>
+        }
+<span class="fc bfc" id="L95" title="All 2 branches covered.">        if (modeSwitch != 1) {</span>
+<span class="fc" id="L96">            exceptions.add(new CommandLineException(&quot;Must have one and only one of -csv, -json, -text, -txt, -xml, -yaml, or -yml&quot;));</span>
+        }
+
+<span class="fc" id="L99">        return exceptions;</span>
+    }
+
+    public void doProcessing() throws Exception {
+<span class="nc" id="L103">        var gatherer = new LCOM4Gatherer();</span>
+
+<span class="nc" id="L105">        LogManager.getLogger(OOMetrics.class).debug(&quot;Reading classes and computing metrics as we go ...&quot;);</span>
+<span class="nc" id="L106">        getVerboseListener().print(&quot;Reading classes and computing metrics as we go ...&quot;);</span>
+<span class="nc" id="L107">        gatherer.traverseNodes(loadGraph().getPackages().values());</span>
+
+<span class="nc" id="L109">        LogManager.getLogger(OOMetrics.class).debug(&quot;Printing results ...&quot;);</span>
+<span class="nc" id="L110">        getVerboseListener().print(&quot;Printing results ...&quot;);</span>
+
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        if (getCommandLine().isPresent(&quot;csv&quot;)) {</span>
+<span class="nc" id="L113">            printCSVFiles(gatherer.getResults());</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        } else if (getCommandLine().isPresent(&quot;json&quot;)) {</span>
+<span class="nc" id="L115">             printJSONFile(gatherer.getResults());</span>
+<span class="nc bnc" id="L116" title="All 4 branches missed.">        } else if (getCommandLine().isPresent(&quot;text&quot;) || getCommandLine().isPresent(&quot;txt&quot;)) {</span>
+<span class="nc" id="L117">            printTextFile(gatherer.getResults());</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        } else if (getCommandLine().isPresent(&quot;xml&quot;)) {</span>
+<span class="nc" id="L119">            printXMLFile(gatherer.getResults());</span>
+<span class="nc bnc" id="L120" title="All 4 branches missed.">        } else if (getCommandLine().isPresent(&quot;yaml&quot;) || getCommandLine().isPresent(&quot;yml&quot;)) {</span>
+<span class="nc" id="L121">             printYAMLFile(gatherer.getResults());</span>
+        }
+
+<span class="nc" id="L124">        LogManager.getLogger(OOMetrics.class).debug(&quot;Done.&quot;);</span>
+<span class="nc" id="L125">    }</span>
+
+    private void printCSVFiles(Map&lt;ClassNode, Collection&lt;Collection&lt;FeatureNode&gt;&gt;&gt; results) throws IOException {
+<span class="nc" id="L128">        getOut().println(&quot;class, LCOM4&quot;);</span>
+<span class="nc" id="L129">        getOut().println(results.entrySet().stream()</span>
+<span class="nc" id="L130">                .map(entry -&gt; entry.getKey().getName() + &quot;, &quot; + entry.getValue().size())</span>
+<span class="nc" id="L131">                .collect(joining(EOL)));</span>
+<span class="nc" id="L132">    }</span>
+
+    private void printJSONFile(Map&lt;ClassNode, Collection&lt;Collection&lt;FeatureNode&gt;&gt;&gt; results) throws IOException {
+<span class="nc" id="L135">        getOut().print(&quot;[&quot;);</span>
+<span class="nc" id="L136">        getOut().print(results.entrySet().stream()</span>
+<span class="nc" id="L137">                .map(entry -&gt; entryToJSON(entry.getKey(), entry.getValue()))</span>
+<span class="nc" id="L138">                .collect(joining(&quot;, &quot;)));</span>
+<span class="nc" id="L139">        getOut().println(&quot;]&quot;);</span>
+<span class="nc" id="L140">    }</span>
+
+    private String entryToJSON(ClassNode classNode, Collection&lt;Collection&lt;FeatureNode&gt;&gt; components) {
+<span class="nc" id="L143">        var builder = new StringBuilder();</span>
+
+<span class="nc" id="L145">        builder.append(&quot;{\&quot;class\&quot;: \&quot;&quot;).append(classNode.getName()).append(&quot;\&quot;&quot;);</span>
+<span class="nc" id="L146">        builder.append(&quot;, \&quot;LCOM4\&quot;: &quot;).append(components.size());</span>
+
+<span class="nc bnc" id="L148" title="All 4 branches missed.">        if (components.size() &gt; 1 &amp;&amp; getCommandLine().isPresent(&quot;list&quot;)) {</span>
+<span class="nc" id="L149">            builder.append(&quot;, \&quot;components\&quot;: [&quot;);</span>
+<span class="nc" id="L150">            builder.append(componentsToJSON(components));</span>
+<span class="nc" id="L151">            builder.append(&quot;]&quot;);</span>
+        }
+<span class="nc" id="L153">        builder.append(&quot;}&quot;);</span>
+
+<span class="nc" id="L155">        return builder.toString();</span>
+    }
+
+    private String componentsToJSON(Collection&lt;Collection&lt;FeatureNode&gt;&gt; components) {
+<span class="nc" id="L159">        return components.stream()</span>
+<span class="nc" id="L160">                .map(this::componentToJSON)</span>
+<span class="nc" id="L161">                .map(component -&gt; &quot;[&quot; + component + &quot;]&quot;)</span>
+<span class="nc" id="L162">                .collect(joining(&quot;, &quot;));</span>
+    }
+
+    private String componentToJSON(Collection&lt;FeatureNode&gt; nodes) {
+<span class="nc" id="L166">        return nodes.stream()</span>
+<span class="nc" id="L167">                .map(Node::getName)</span>
+<span class="nc" id="L168">                .map(name -&gt; &quot;\&quot;&quot; + name + &quot;\&quot;&quot;)</span>
+<span class="nc" id="L169">                .collect(joining(&quot;, &quot;));</span>
+    }
+
+    private void printTextFile(Map&lt;ClassNode, Collection&lt;Collection&lt;FeatureNode&gt;&gt;&gt; results) throws IOException {
+<span class="nc" id="L173">        getOut().println(results.entrySet().stream()</span>
+<span class="nc" id="L174">                .flatMap(entry -&gt; entryToText(entry.getKey(), entry.getValue()))</span>
+<span class="nc" id="L175">                .collect(joining(EOL)));</span>
+<span class="nc" id="L176">    }</span>
+
+    private Stream&lt;String&gt; entryToText(ClassNode classNode, Collection&lt;Collection&lt;FeatureNode&gt;&gt; components) {
+<span class="nc" id="L179">        return Stream.concat(</span>
+<span class="nc" id="L180">                Stream.of(classNode.getName() + &quot;: &quot; + components.size()),</span>
+<span class="nc" id="L181">                componentsToText(components)</span>
+        );
+    }
+
+    private Stream&lt;String&gt; componentsToText(Collection&lt;Collection&lt;FeatureNode&gt;&gt; components) {
+<span class="nc bnc" id="L186" title="All 4 branches missed.">        if (components.size() &gt; 1 &amp;&amp; getCommandLine().isPresent(&quot;list&quot;)) {</span>
+<span class="nc" id="L187">            return Stream.concat(</span>
+<span class="nc" id="L188">                    Stream.of(getTextSeparator()),</span>
+<span class="nc" id="L189">                    components.stream()</span>
+<span class="nc" id="L190">                            .flatMap(component -&gt; Stream.concat(</span>
+<span class="nc" id="L191">                                    componentToText(component),</span>
+<span class="nc" id="L192">                                    Stream.of(getTextSeparator())</span>
+                            ))
+            );
+        } else {
+<span class="nc" id="L196">            return Stream.empty();</span>
+        }
+    }
+
+    private Stream&lt;String&gt; componentToText(Collection&lt;FeatureNode&gt; nodes) {
+<span class="nc" id="L201">        return nodes.stream()</span>
+<span class="nc" id="L202">                .map(feature -&gt; feature.getName().substring(feature.getClassNode().getName().length() + 1))</span>
+<span class="nc" id="L203">                .map(name -&gt; getIndentText() + name);</span>
+    }
+
+    private String getTextSeparator() {
+<span class="nc" id="L207">        return getIndentText() + &quot;--------&quot;;</span>
+    }
+
+    private void printXMLFile(Map&lt;ClassNode, Collection&lt;Collection&lt;FeatureNode&gt;&gt;&gt; results) throws IOException {
+<span class="nc" id="L211">        getOut().println(&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;&quot; + getEncoding() + &quot;\&quot; ?&gt;&quot;);</span>
+<span class="nc" id="L212">        getOut().println();</span>
+<span class="nc" id="L213">        getOut().println(&quot;&lt;!DOCTYPE classes SYSTEM \&quot;&quot; + getDTDPrefix() + &quot;/cohesion.dtd\&quot;&gt;&quot;);</span>
+<span class="nc" id="L214">        getOut().println();</span>
+<span class="nc" id="L215">        getOut().println(&quot;&lt;classes&gt;&quot;);</span>
+<span class="nc" id="L216">        getOut().println(results.entrySet().stream()</span>
+<span class="nc" id="L217">                .flatMap(entry -&gt; entryToXML(entry.getKey(), entry.getValue()))</span>
+<span class="nc" id="L218">                .collect(joining(EOL)));</span>
+<span class="nc" id="L219">        getOut().println(&quot;&lt;/classes&gt;&quot;);</span>
+<span class="nc" id="L220">    }</span>
+
+    private Stream&lt;String&gt; entryToXML(ClassNode classNode, Collection&lt;Collection&lt;FeatureNode&gt;&gt; components) {
+<span class="nc bnc" id="L223" title="All 4 branches missed.">            if (components.size() &gt; 1 &amp;&amp; getCommandLine().isPresent(&quot;list&quot;)) {</span>
+<span class="nc" id="L224">                return Stream.of(</span>
+<span class="nc" id="L225">                            Stream.of(getIndentText() + &quot;&lt;class name=\&quot;&quot; + classNode.getName() + &quot;\&quot; lcom4=\&quot;&quot; + components.size() + &quot;\&quot;&gt;&quot;),</span>
+<span class="nc" id="L226">                            componentsToXML(components),</span>
+<span class="nc" id="L227">                            Stream.of(getIndentText() + &quot;&lt;/class&gt;&quot;)</span>
+                        )
+<span class="nc" id="L229">                        .flatMap(Function.identity());</span>
+            } else {
+<span class="nc" id="L231">                return Stream.of(getIndentText() + &quot;&lt;class name=\&quot;&quot; + classNode.getName() + &quot;\&quot; lcom4=\&quot;&quot; + components.size() + &quot;\&quot;/&gt;&quot;);</span>
+            }
+    }
+
+    private Stream&lt;String&gt; componentsToXML(Collection&lt;Collection&lt;FeatureNode&gt;&gt; components) {
+<span class="nc" id="L236">        return components.stream()</span>
+<span class="nc" id="L237">                .flatMap(component -&gt; Stream.of(</span>
+<span class="nc" id="L238">                        Stream.of(getIndentText().repeat(2) + &quot;&lt;component&gt;&quot;),</span>
+<span class="nc" id="L239">                        componentToXML(component),</span>
+<span class="nc" id="L240">                        Stream.of(getIndentText().repeat(2) + &quot;&lt;/component&gt;&quot;)</span>
+                )
+<span class="nc" id="L242">                .flatMap(Function.identity()));</span>
+    }
+
+    private Stream&lt;String&gt; componentToXML(Collection&lt;FeatureNode&gt; nodes) {
+<span class="nc" id="L246">        return nodes.stream()</span>
+<span class="nc" id="L247">                .map(Node::getName)</span>
+<span class="nc" id="L248">                .map(name -&gt; getIndentText().repeat(3) + &quot;&lt;feature name=\&quot;&quot; + name + &quot;\&quot;/&gt;&quot;);</span>
+    }
+
+    private void printYAMLFile(Map&lt;ClassNode, Collection&lt;Collection&lt;FeatureNode&gt;&gt;&gt; results) throws IOException {
+<span class="nc" id="L252">        getOut().println(results.entrySet().stream()</span>
+<span class="nc" id="L253">                .flatMap(entry -&gt; entryToYAML(entry.getKey(), entry.getValue()))</span>
+<span class="nc" id="L254">                .collect(joining(EOL)));</span>
+<span class="nc" id="L255">    }</span>
+
+    private Stream&lt;String&gt; entryToYAML(ClassNode classNode, Collection&lt;Collection&lt;FeatureNode&gt;&gt; components) {
+<span class="nc" id="L258">        return Stream.concat(</span>
+<span class="nc" id="L259">                Stream.of(</span>
+                        &quot;-&quot;,
+<span class="nc" id="L261">                        getIndentText().repeat(1) + &quot;name: &quot; + classNode.getName(),</span>
+<span class="nc" id="L262">                        getIndentText().repeat(1) + &quot;lcom4: &quot; + components.size()</span>
+                ),
+<span class="nc" id="L264">                componentsToYAML(components)</span>
+        );
+    }
+
+    private Stream&lt;String&gt; componentsToYAML(Collection&lt;Collection&lt;FeatureNode&gt;&gt; components) {
+<span class="nc bnc" id="L269" title="All 4 branches missed.">        if (components.size() &gt; 1 &amp;&amp; getCommandLine().isPresent(&quot;list&quot;)) {</span>
+<span class="nc" id="L270">            return Stream.concat(</span>
+<span class="nc" id="L271">                    Stream.of(getIndentText().repeat(1) + &quot;components:&quot;),</span>
+<span class="nc" id="L272">                    components.stream()</span>
+<span class="nc" id="L273">                            .flatMap(this::componentToYAML));</span>
+        } else {
+<span class="nc" id="L275">            return Stream.empty();</span>
+        }
+    }
+
+    private Stream&lt;String&gt; componentToYAML(Collection&lt;FeatureNode&gt; nodes) {
+<span class="nc" id="L280">        return Stream.concat(</span>
+<span class="nc" id="L281">                Stream.of(getIndentText().repeat(2) + &quot;-&quot;),</span>
+<span class="nc" id="L282">                nodes.stream()</span>
+<span class="nc" id="L283">                        .map(Node::getName)</span>
+<span class="nc" id="L284">                        .map(name -&gt; getIndentText().repeat(3) + &quot;- &quot; + name));</span>
+    }
+
+    private String getEncoding() {
+<span class="nc" id="L288">        return getCommandLine().getSingleSwitch(&quot;encoding&quot;);</span>
+    }
+
+    private String getDTDPrefix() {
+<span class="nc" id="L292">        return getCommandLine().getSingleSwitch(&quot;dtd-prefix&quot;);</span>
+    }
+
+    private String getIndentText() {
+<span class="nc" id="L296">        return getCommandLine().getSingleSwitch(&quot;indent-text&quot;);</span>
+    }
+
+    public static void main(String[] args) throws Exception {
+<span class="nc" id="L300">        new ClassCohesion().run(args);</span>
+<span class="nc" id="L301">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

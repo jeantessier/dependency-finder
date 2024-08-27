@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Command.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependencyfinder.cli</a> &gt; <span class="el_source">Command.java</span></div><h1>Command.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependencyfinder.cli;
+
+import com.jeantessier.commandline.CollectingParameterStrategy;
+import com.jeantessier.commandline.CommandLine;
+import com.jeantessier.commandline.CommandLineException;
+import com.jeantessier.commandline.CommandLineUsage;
+import com.jeantessier.commandline.ParameterStrategy;
+import com.jeantessier.commandline.Printer;
+import com.jeantessier.commandline.TextPrinter;
+import com.jeantessier.dependency.CollectionSelectionCriteria;
+import com.jeantessier.dependency.ComprehensiveSelectionCriteria;
+import com.jeantessier.dependency.NullSelectionCriteria;
+import com.jeantessier.dependency.RegularExpressionSelectionCriteria;
+import com.jeantessier.dependency.SelectionCriteria;
+import com.jeantessier.dependencyfinder.Version;
+import org.apache.logging.log4j.*;
+
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+import java.util.stream.*;
+
+<span class="fc" id="L55">public abstract class Command {</span>
+    public static final String DEFAULT_LOGFILE = &quot;System.out&quot;;
+    public static final String DEFAULT_INCLUDES = &quot;//&quot;;
+
+    private CommandLine commandLine;
+    private CommandLineUsage commandLineUsage;
+
+    private Date startTime;
+    private VerboseListener verboseListener;
+    private PrintWriter out;
+
+    public String getName() {
+<span class="fc" id="L67">        return getClass().getSimpleName();</span>
+    }
+
+    private void resetCommandLine() {
+<span class="fc" id="L71">        commandLine = new CommandLine(getParameterStrategy());</span>
+<span class="fc" id="L72">        populateCommandLineSwitches();</span>
+<span class="fc" id="L73">    }</span>
+
+    protected ParameterStrategy getParameterStrategy() {
+<span class="fc" id="L76">        return new CollectingParameterStrategy();</span>
+    }
+
+    protected CommandLine getCommandLine() {
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        if (commandLine == null) {</span>
+<span class="fc" id="L81">            resetCommandLine();</span>
+        }
+
+<span class="fc" id="L84">        return commandLine;</span>
+    }
+
+    public CommandLineUsage getCommandLineUsage() {
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">        if (commandLineUsage == null) {</span>
+<span class="fc" id="L89">            commandLineUsage = new CommandLineUsage(getName());</span>
+<span class="fc" id="L90">            getCommandLine().accept(commandLineUsage);</span>
+        }
+
+<span class="fc" id="L93">        return commandLineUsage;</span>
+    }
+
+    protected VerboseListener getVerboseListener() {
+<span class="nc" id="L97">        return verboseListener;</span>
+    }
+
+    public void run(String[] args) throws Exception {
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        if (validateCommandLine(args, System.err)) {</span>
+<span class="fc" id="L102">            process();</span>
+        } else {
+<span class="nc" id="L104">            System.exit(1);</span>
+        }
+<span class="fc" id="L106">    }</span>
+
+    protected void populateCommandLineSwitches() {
+<span class="fc" id="L109">        getCommandLine().addToggleSwitch(&quot;echo&quot;);</span>
+<span class="fc" id="L110">        getCommandLine().addToggleSwitch(&quot;help&quot;);</span>
+<span class="fc" id="L111">        getCommandLine().addSingleValueSwitch(&quot;out&quot;);</span>
+<span class="fc" id="L112">        getCommandLine().addToggleSwitch(&quot;time&quot;);</span>
+<span class="fc" id="L113">        getCommandLine().addOptionalValueSwitch(&quot;verbose&quot;, DEFAULT_LOGFILE);</span>
+<span class="fc" id="L114">        getCommandLine().addToggleSwitch(&quot;version&quot;);</span>
+<span class="fc" id="L115">    }</span>
+
+    protected void populateCommandLineSwitchesForXMLOutput(String defaultEncoding, String defaultDTDPrefix, String defaultIndentText) {
+<span class="fc" id="L118">        getCommandLine().addSingleValueSwitch(&quot;encoding&quot;, defaultEncoding);</span>
+<span class="fc" id="L119">        getCommandLine().addSingleValueSwitch(&quot;dtd-prefix&quot;, defaultDTDPrefix);</span>
+<span class="fc" id="L120">        getCommandLine().addSingleValueSwitch(&quot;indent-text&quot;, defaultIndentText);</span>
+<span class="fc" id="L121">    }</span>
+
+    protected Collection&lt;CommandLineException&gt; parseCommandLine(String[] args) {
+<span class="fc" id="L124">        resetCommandLine();</span>
+<span class="fc" id="L125">        return getCommandLine().parse(args);</span>
+    }
+
+    protected boolean validateCommandLine(String[] args, PrintStream out) {
+<span class="fc" id="L129">        boolean result = true;</span>
+
+<span class="fc" id="L131">        Collection&lt;CommandLineException&gt; exceptions = parseCommandLine(args);</span>
+
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        if (getCommandLine().getToggleSwitch(&quot;version&quot;)) {</span>
+<span class="fc" id="L134">            showVersion(out);</span>
+<span class="fc" id="L135">            result = false;</span>
+        }
+
+<span class="fc bfc" id="L138" title="All 2 branches covered.">        if (getCommandLine().getToggleSwitch(&quot;help&quot;)) {</span>
+<span class="fc" id="L139">            showError(out);</span>
+<span class="fc" id="L140">            result = false;</span>
+        }
+
+<span class="fc bfc" id="L143" title="All 2 branches covered.">        if (getCommandLine().getToggleSwitch(&quot;echo&quot;)) {</span>
+<span class="fc" id="L144">            echo(out);</span>
+<span class="fc" id="L145">            result = false;</span>
+        }
+
+<span class="fc bfc" id="L148" title="All 2 branches covered.">        if (result) {</span>
+<span class="fc" id="L149">            exceptions.forEach(exception -&gt; LogManager.getLogger(getClass()).error(exception));</span>
+<span class="fc" id="L150">            result = exceptions.isEmpty();</span>
+        }
+
+<span class="fc" id="L153">        return result;</span>
+    }
+
+    protected Collection&lt;CommandLineException&gt; validateCommandLineForScoping() {
+<span class="fc" id="L157">        Collection&lt;CommandLineException&gt; exceptions = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L159" title="All 4 branches covered.">        if (hasScopeRegularExpressionSwitches() &amp;&amp; hasScopeListSwitches()) {</span>
+<span class="fc" id="L160">            exceptions.add(new CommandLineException(&quot;You can use switches for regular expressions or lists for scope, but not at the same time&quot;));</span>
+        }
+
+<span class="fc" id="L163">        return exceptions;</span>
+    }
+
+    protected Collection&lt;CommandLineException&gt; validateCommandLineForFiltering() {
+<span class="fc" id="L167">        Collection&lt;CommandLineException&gt; exceptions = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L169" title="All 4 branches covered.">        if (hasFilterRegularExpressionSwitches() &amp;&amp; hasFilterListSwitches()) {</span>
+<span class="fc" id="L170">            exceptions.add(new CommandLineException(&quot;You can use switches for regular expressions or lists for filter, but not at the same time&quot;));</span>
+        }
+
+<span class="fc" id="L173">        return exceptions;</span>
+    }
+
+    private void process() throws Exception {
+<span class="fc" id="L177">        startProcessing();</span>
+<span class="fc" id="L178">        doProcessing();</span>
+<span class="fc" id="L179">        stopProcessing();</span>
+<span class="fc" id="L180">    }</span>
+
+    private void startProcessing() throws IOException {
+<span class="fc" id="L183">        startVerboseListener();</span>
+        // Output is started lazily the first time it is requested.
+<span class="fc" id="L185">        startTimer();</span>
+<span class="fc" id="L186">    }</span>
+
+    protected abstract void doProcessing() throws Exception;
+
+    private void stopProcessing() {
+<span class="fc" id="L191">        stopTimer();</span>
+<span class="fc" id="L192">        stopOutput();</span>
+<span class="fc" id="L193">        stopVerboseListener();</span>
+<span class="fc" id="L194">    }</span>
+
+    private void startVerboseListener() throws IOException {
+<span class="fc" id="L197">        verboseListener = new VerboseListener();</span>
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">        if (commandLine.isPresent(&quot;verbose&quot;)) {</span>
+<span class="nc bnc" id="L199" title="All 2 branches missed.">            if (DEFAULT_LOGFILE.equals(commandLine.getOptionalSwitch(&quot;verbose&quot;))) {</span>
+<span class="nc" id="L200">                verboseListener.setWriter(new OutputStreamWriter(System.out));</span>
+            } else {
+<span class="nc" id="L202">                verboseListener.setWriter(new FileWriter(commandLine.getOptionalSwitch(&quot;verbose&quot;)));</span>
+            }
+        }
+<span class="fc" id="L205">    }</span>
+
+    private void stopVerboseListener() {
+<span class="fc" id="L208">        verboseListener.close();</span>
+<span class="fc" id="L209">    }</span>
+
+    private void startTimer() {
+<span class="fc" id="L212">        startTime = new Date();</span>
+<span class="fc" id="L213">    }</span>
+
+    private void stopTimer() {
+<span class="pc bpc" id="L216" title="1 of 2 branches missed.">        if (commandLine.getToggleSwitch(&quot;time&quot;)) {</span>
+<span class="nc" id="L217">            Date end = new Date();</span>
+<span class="nc" id="L218">            System.err.println(getClass().getName() + &quot;: &quot; + ((end.getTime() - (double) startTime.getTime()) / 1000) + &quot; secs.&quot;);</span>
+        }
+<span class="fc" id="L220">    }</span>
+
+    private void startOutput() throws IOException {
+<span class="pc bpc" id="L223" title="1 of 2 branches missed.">        if (getCommandLine().isPresent(&quot;out&quot;)) {</span>
+<span class="fc" id="L224">            out = new PrintWriter(new FileWriter(getCommandLine().getSingleSwitch(&quot;out&quot;)));</span>
+        } else {
+<span class="nc" id="L226">            out = new PrintWriter(new OutputStreamWriter(System.out));</span>
+        }
+<span class="fc" id="L228">    }</span>
+
+    private void stopOutput() {
+<span class="fc bfc" id="L231" title="All 2 branches covered.">        if (out != null) {</span>
+<span class="fc" id="L232">            out.close();</span>
+        }
+<span class="fc" id="L234">    }</span>
+
+    protected void echo() {
+<span class="nc" id="L237">        echo(System.err);</span>
+<span class="nc" id="L238">    }</span>
+
+    protected void echo(PrintStream out) {
+<span class="fc" id="L241">        Printer printer = new TextPrinter(getClass().getSimpleName());</span>
+<span class="fc" id="L242">        getCommandLine().accept(printer);</span>
+<span class="fc" id="L243">        out.println(printer);</span>
+<span class="fc" id="L244">    }</span>
+
+    protected void showError() {
+<span class="nc" id="L247">        showError(System.err);</span>
+<span class="nc" id="L248">    }</span>
+
+    protected void showError(PrintStream out) {
+<span class="fc" id="L251">        out.println(getCommandLineUsage());</span>
+<span class="fc" id="L252">        showSpecificUsage(out);</span>
+<span class="fc" id="L253">    }</span>
+
+    protected void showError(String msg) {
+<span class="nc" id="L256">        showError(System.err, msg);</span>
+<span class="nc" id="L257">    }</span>
+
+    protected void showError(PrintStream out, String msg) {
+<span class="nc" id="L260">        out.println(msg);</span>
+<span class="nc" id="L261">        showError(out);</span>
+<span class="nc" id="L262">    }</span>
+
+    protected abstract void showSpecificUsage(PrintStream out);
+
+    protected void showVersion() {
+<span class="nc" id="L267">        showVersion(System.err);</span>
+<span class="nc" id="L268">    }</span>
+
+    protected void showVersion(PrintStream out) {
+<span class="fc" id="L271">        Version version = new Version();</span>
+
+<span class="fc" id="L273">        out.print(version.getImplementationTitle());</span>
+<span class="fc" id="L274">        out.print(&quot; &quot;);</span>
+<span class="fc" id="L275">        out.print(version.getImplementationVersion());</span>
+<span class="fc" id="L276">        out.print(&quot; (c) &quot;);</span>
+<span class="fc" id="L277">        out.print(version.getCopyrightDate());</span>
+<span class="fc" id="L278">        out.print(&quot; &quot;);</span>
+<span class="fc" id="L279">        out.print(version.getCopyrightHolder());</span>
+<span class="fc" id="L280">        out.println();</span>
+
+<span class="fc" id="L282">        out.print(version.getImplementationURL());</span>
+<span class="fc" id="L283">        out.println();</span>
+
+<span class="fc" id="L285">        out.print(&quot;Compiled on &quot;);</span>
+<span class="fc" id="L286">        out.print(version.getImplementationDate());</span>
+<span class="fc" id="L287">        out.println();</span>
+<span class="fc" id="L288">    }</span>
+
+    protected void populateCommandLineSwitchesForScoping() {
+<span class="fc" id="L291">        populateRegularExpressionCommandLineSwitches(&quot;scope&quot;, true, DEFAULT_INCLUDES);</span>
+<span class="fc" id="L292">        populateListCommandLineSwitches(&quot;scope&quot;);</span>
+<span class="fc" id="L293">    }</span>
+
+    protected void populateCommandLineSwitchesForFiltering() {
+<span class="fc" id="L296">        populateRegularExpressionCommandLineSwitches(&quot;filter&quot;, true, DEFAULT_INCLUDES);</span>
+<span class="fc" id="L297">        populateListCommandLineSwitches(&quot;filter&quot;);</span>
+<span class="fc" id="L298">    }</span>
+
+    protected void populateCommandLineSwitchesForStartCondition() {
+<span class="fc" id="L301">        populateRegularExpressionCommandLineSwitches(&quot;start&quot;, false, DEFAULT_INCLUDES);</span>
+<span class="fc" id="L302">        populateListCommandLineSwitches(&quot;start&quot;);</span>
+<span class="fc" id="L303">    }</span>
+
+    protected void populateCommandLineSwitchesForStopCondition() {
+<span class="fc" id="L306">        populateRegularExpressionCommandLineSwitches(&quot;stop&quot;, false, null);</span>
+<span class="fc" id="L307">        populateListCommandLineSwitches(&quot;stop&quot;);</span>
+<span class="fc" id="L308">    }</span>
+
+    protected void populateRegularExpressionCommandLineSwitches(String name, boolean addToggles, String defaultIncludes) {
+<span class="fc bfc" id="L311" title="All 2 branches covered.">        if (defaultIncludes != null) {</span>
+<span class="fc" id="L312">            getCommandLine().addMultipleValuesSwitch(name + &quot;-includes&quot;, defaultIncludes);</span>
+        } else {
+<span class="fc" id="L314">            getCommandLine().addMultipleValuesSwitch(name + &quot;-includes&quot;);</span>
+        }
+<span class="fc" id="L316">        getCommandLine().addMultipleValuesSwitch(name + &quot;-excludes&quot;);</span>
+<span class="fc" id="L317">        getCommandLine().addMultipleValuesSwitch(&quot;package-&quot; + name + &quot;-includes&quot;);</span>
+<span class="fc" id="L318">        getCommandLine().addMultipleValuesSwitch(&quot;package-&quot; + name + &quot;-excludes&quot;);</span>
+<span class="fc" id="L319">        getCommandLine().addMultipleValuesSwitch(&quot;class-&quot; + name + &quot;-includes&quot;);</span>
+<span class="fc" id="L320">        getCommandLine().addMultipleValuesSwitch(&quot;class-&quot; + name + &quot;-excludes&quot;);</span>
+<span class="fc" id="L321">        getCommandLine().addMultipleValuesSwitch(&quot;feature-&quot; + name + &quot;-includes&quot;);</span>
+<span class="fc" id="L322">        getCommandLine().addMultipleValuesSwitch(&quot;feature-&quot; + name + &quot;-excludes&quot;);</span>
+
+<span class="fc bfc" id="L324" title="All 2 branches covered.">        if (addToggles) {</span>
+<span class="fc" id="L325">            getCommandLine().addToggleSwitch(&quot;package-&quot; + name);</span>
+<span class="fc" id="L326">            getCommandLine().addToggleSwitch(&quot;class-&quot; + name);</span>
+<span class="fc" id="L327">            getCommandLine().addToggleSwitch(&quot;feature-&quot; + name);</span>
+        }
+<span class="fc" id="L329">    }</span>
+
+    protected void populateListCommandLineSwitches(String name) {
+<span class="fc" id="L332">        getCommandLine().addMultipleValuesSwitch(name + &quot;-includes-list&quot;);</span>
+<span class="fc" id="L333">        getCommandLine().addMultipleValuesSwitch(name + &quot;-excludes-list&quot;);</span>
+<span class="fc" id="L334">    }</span>
+
+    protected SelectionCriteria getScopeCriteria() {
+<span class="nc" id="L337">        return getSelectionCriteria(&quot;scope&quot;, new ComprehensiveSelectionCriteria());</span>
+    }
+
+    protected SelectionCriteria getFilterCriteria() {
+<span class="nc" id="L341">        return getSelectionCriteria(&quot;filter&quot;, new ComprehensiveSelectionCriteria());</span>
+    }
+
+    protected SelectionCriteria getStartCriteria() {
+<span class="nc" id="L345">        return getSelectionCriteria(&quot;start&quot;, new ComprehensiveSelectionCriteria());</span>
+    }
+
+    protected SelectionCriteria getStopCriteria() {
+<span class="nc" id="L349">        return getSelectionCriteria(&quot;stop&quot;, new NullSelectionCriteria());</span>
+    }
+
+    protected SelectionCriteria getSelectionCriteria(String name, SelectionCriteria defaultSelectionCriteria) {
+<span class="nc" id="L353">        SelectionCriteria result = defaultSelectionCriteria;</span>
+
+<span class="nc bnc" id="L355" title="All 2 branches missed.">        if (hasRegularExpressionSwitches(name)) {</span>
+<span class="nc" id="L356">            RegularExpressionSelectionCriteria regularExpressionFilterCriteria = new RegularExpressionSelectionCriteria();</span>
+
+<span class="nc bnc" id="L358" title="All 6 branches missed.">            if (getCommandLine().isPresent(&quot;package-&quot; + name) || getCommandLine().isPresent(&quot;class-&quot; + name) || getCommandLine().isPresent(&quot;feature-&quot; + name)) {</span>
+<span class="nc" id="L359">                regularExpressionFilterCriteria.setMatchingPackages(getCommandLine().getToggleSwitch(&quot;package-&quot; + name));</span>
+<span class="nc" id="L360">                regularExpressionFilterCriteria.setMatchingClasses(getCommandLine().getToggleSwitch(&quot;class-&quot; + name));</span>
+<span class="nc" id="L361">                regularExpressionFilterCriteria.setMatchingFeatures(getCommandLine().getToggleSwitch(&quot;feature-&quot; + name));</span>
+            }
+
+<span class="nc bnc" id="L364" title="All 8 branches missed.">            if (getCommandLine().isPresent(name + &quot;-includes&quot;) || (!getCommandLine().isPresent(&quot;package-&quot; + name + &quot;-includes&quot;) &amp;&amp; !getCommandLine().isPresent(&quot;class-&quot; + name + &quot;-includes&quot;) &amp;&amp; !getCommandLine().isPresent(&quot;feature-&quot; + name + &quot;-includes&quot;))) {</span>
+                // Only use the default if nothing else has been specified.
+<span class="nc" id="L366">                regularExpressionFilterCriteria.setGlobalIncludes(getCommandLine().getMultipleSwitch(name + &quot;-includes&quot;));</span>
+            }
+<span class="nc" id="L368">            regularExpressionFilterCriteria.setGlobalExcludes(getCommandLine().getMultipleSwitch(name + &quot;-excludes&quot;));</span>
+<span class="nc" id="L369">            regularExpressionFilterCriteria.setPackageIncludes(getCommandLine().getMultipleSwitch(&quot;package-&quot; + name + &quot;-includes&quot;));</span>
+<span class="nc" id="L370">            regularExpressionFilterCriteria.setPackageExcludes(getCommandLine().getMultipleSwitch(&quot;package-&quot; + name + &quot;-excludes&quot;));</span>
+<span class="nc" id="L371">            regularExpressionFilterCriteria.setClassIncludes(getCommandLine().getMultipleSwitch(&quot;class-&quot; + name + &quot;-includes&quot;));</span>
+<span class="nc" id="L372">            regularExpressionFilterCriteria.setClassExcludes(getCommandLine().getMultipleSwitch(&quot;class-&quot; + name + &quot;-excludes&quot;));</span>
+<span class="nc" id="L373">            regularExpressionFilterCriteria.setFeatureIncludes(getCommandLine().getMultipleSwitch(&quot;feature-&quot; + name + &quot;-includes&quot;));</span>
+<span class="nc" id="L374">            regularExpressionFilterCriteria.setFeatureExcludes(getCommandLine().getMultipleSwitch(&quot;feature-&quot; + name + &quot;-excludes&quot;));</span>
+
+<span class="nc" id="L376">            result = regularExpressionFilterCriteria;</span>
+<span class="nc bnc" id="L377" title="All 2 branches missed.">        } else if (hasListSwitches(name)) {</span>
+<span class="nc" id="L378">            result = createCollectionSelectionCriteria(getCommandLine().getMultipleSwitch(name + &quot;-includes-list&quot;), getCommandLine().getMultipleSwitch(name + &quot;-excludes-list&quot;));</span>
+        }
+        
+<span class="nc" id="L381">        return result;</span>
+    }
+
+    protected boolean hasScopeRegularExpressionSwitches() {
+<span class="fc" id="L385">        return hasRegularExpressionSwitches(&quot;scope&quot;);</span>
+    }
+
+    protected boolean hasFilterRegularExpressionSwitches() {
+<span class="fc" id="L389">        return hasRegularExpressionSwitches(&quot;filter&quot;);</span>
+    }
+
+    protected boolean hasRegularExpressionSwitches(String name) {
+<span class="fc" id="L393">        Collection&lt;String&gt; switches = getCommandLine().getPresentSwitches();</span>
+
+<span class="fc" id="L395">        return</span>
+<span class="fc bfc" id="L396" title="All 2 branches covered.">            switches.contains(name + &quot;-includes&quot;) ||</span>
+<span class="fc bfc" id="L397" title="All 2 branches covered.">            switches.contains(name + &quot;-excludes&quot;) ||</span>
+<span class="fc bfc" id="L398" title="All 2 branches covered.">            switches.contains(&quot;package-&quot; + name) ||</span>
+<span class="pc bpc" id="L399" title="1 of 2 branches missed.">            switches.contains(&quot;package-&quot; + name + &quot;-includes&quot;) ||</span>
+<span class="pc bpc" id="L400" title="1 of 2 branches missed.">            switches.contains(&quot;package-&quot; + name + &quot;-excludes&quot;) ||</span>
+<span class="pc bpc" id="L401" title="1 of 2 branches missed.">            switches.contains(&quot;class-&quot; + name) ||</span>
+<span class="pc bpc" id="L402" title="1 of 2 branches missed.">            switches.contains(&quot;class-&quot; + name + &quot;-includes&quot;) ||</span>
+<span class="pc bpc" id="L403" title="1 of 2 branches missed.">            switches.contains(&quot;class-&quot; + name + &quot;-excludes&quot;) ||</span>
+<span class="pc bpc" id="L404" title="1 of 2 branches missed.">            switches.contains(&quot;feature-&quot; + name) ||</span>
+<span class="pc bpc" id="L405" title="1 of 2 branches missed.">            switches.contains(&quot;feature-&quot; + name + &quot;-includes&quot;) ||</span>
+<span class="pc bpc" id="L406" title="1 of 2 branches missed.">            switches.contains(&quot;feature-&quot; + name + &quot;-excludes&quot;);</span>
+    }
+
+    protected boolean hasScopeListSwitches() {
+<span class="fc" id="L410">        return hasListSwitches(&quot;scope&quot;);</span>
+    }
+
+    protected boolean hasFilterListSwitches() {
+<span class="fc" id="L414">        return hasListSwitches(&quot;filter&quot;);</span>
+    }
+
+    protected boolean hasListSwitches(String name) {
+<span class="fc" id="L418">        Collection&lt;String&gt; switches = getCommandLine().getPresentSwitches();</span>
+
+<span class="fc" id="L420">        return</span>
+<span class="fc bfc" id="L421" title="All 2 branches covered.">            switches.contains(name + &quot;-includes-list&quot;) ||</span>
+<span class="pc bpc" id="L422" title="1 of 2 branches missed.">            switches.contains(name + &quot;-excludes-list&quot;);</span>
+    }
+
+    protected CollectionSelectionCriteria createCollectionSelectionCriteria(Collection&lt;String&gt; includes, Collection&lt;String&gt; excludes) {
+<span class="nc" id="L426">        return new CollectionSelectionCriteria(loadCollection(includes), loadCollection(excludes));</span>
+    }
+
+    protected Collection&lt;String&gt; loadCollection(Collection&lt;String&gt; filenames) {
+<span class="nc" id="L430">        return filenames.stream()</span>
+<span class="nc" id="L431">                .map(Paths::get)</span>
+<span class="nc" id="L432">                .flatMap(path -&gt; {</span>
+                    try {
+<span class="nc" id="L434">                        return Files.lines(path);</span>
+<span class="nc" id="L435">                    } catch (IOException ex) {</span>
+<span class="nc" id="L436">                        LogManager.getLogger(getClass()).error(&quot;Couldn't read file {}&quot;, path, ex);</span>
+<span class="nc" id="L437">                        return Stream.empty();</span>
+                    }
+<span class="nc" id="L439">                }).distinct()</span>
+<span class="nc" id="L440">                .toList();</span>
+    }
+
+    protected PrintWriter getOut() throws IOException {
+<span class="pc bpc" id="L444" title="1 of 2 branches missed.">        if (out == null) {</span>
+<span class="fc" id="L445">            startOutput();</span>
+        }
+
+<span class="fc" id="L448">        return out;</span>
+    }
+
+    protected void setOut(PrintWriter out) {
+<span class="nc" id="L452">        this.out = out;</span>
+<span class="nc" id="L453">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

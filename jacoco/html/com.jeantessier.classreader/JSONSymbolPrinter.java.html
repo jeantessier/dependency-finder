@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JSONSymbolPrinter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader</a> &gt; <span class="el_source">JSONSymbolPrinter.java</span></div><h1>JSONSymbolPrinter.java</h1><pre class="source lang-java linenums">package com.jeantessier.classreader;
+
+import java.io.*;
+import java.util.*;
+import java.util.stream.*;
+
+import static java.util.stream.Collectors.*;
+
+public class JSONSymbolPrinter extends SymbolPrinter {
+    public JSONSymbolPrinter(PrintWriter out) {
+<span class="nc" id="L11">        super(out);</span>
+<span class="nc" id="L12">    }</span>
+
+    public void print(SymbolGatherer gatherer) throws IOException {
+<span class="nc" id="L15">        var output = &quot;[&quot; +</span>
+<span class="nc" id="L16">                gatherer.stream()</span>
+<span class="nc" id="L17">                        .map(this::visitableToRecord)</span>
+<span class="nc" id="L18">                        .map(this::recordToJSON)</span>
+<span class="nc" id="L19">                                .collect(joining(&quot;,&quot;)) +</span>
+        &quot;]&quot;;
+<span class="nc" id="L21">        getOut().println(output);</span>
+<span class="nc" id="L22">    }</span>
+
+    private String recordToJSON(Map&lt;String, ?&gt; record) {
+<span class="nc" id="L25">        return &quot;{&quot; +</span>
+<span class="nc" id="L26">                record.entrySet().stream()</span>
+<span class="nc" id="L27">                        .map(entry -&gt; {</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">                            if  (entry.getValue() instanceof Stream&lt;?&gt; stream) {</span>
+<span class="nc" id="L29">                                return &quot;\&quot;&quot; + entry.getKey() + &quot;\&quot;:[&quot; + format(stream) + &quot;]&quot;;</span>
+                            } else {
+<span class="nc" id="L31">                                return &quot;\&quot;&quot; + entry.getKey() + &quot;\&quot;: \&quot;&quot; + entry.getValue() + &quot;\&quot;&quot;;</span>
+                            }
+                        })
+<span class="nc" id="L34">                        .collect(joining(&quot;, &quot;))</span>
+                +
+                &quot;}&quot;;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Printer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.diff</a> &gt; <span class="el_source">Printer.java</span></div><h1>Printer.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.diff;
+
+import com.jeantessier.text.*;
+
+public class Printer extends VisitorBase {
+    public static final String DEFAULT_INDENT_TEXT = PrinterBuffer.DEFAULT_INDENT_TEXT;
+
+    private final PrinterBuffer buffer;
+
+    public Printer() {
+<span class="fc" id="L43">        this(new PrinterBuffer());</span>
+<span class="fc" id="L44">    }</span>
+
+    public Printer(String indentText) {
+<span class="fc" id="L47">        this(new PrinterBuffer(indentText));</span>
+<span class="fc" id="L48">    }</span>
+
+<span class="fc" id="L50">    private Printer(PrinterBuffer buffer) {</span>
+<span class="fc" id="L51">        this.buffer = buffer;</span>
+<span class="fc" id="L52">    }</span>
+
+    public String getIndentText() {
+<span class="fc" id="L55">        return buffer.getIndentText();</span>
+    }
+
+    protected Printer append(boolean b) {
+<span class="nc" id="L59">        buffer.append(b);</span>
+<span class="nc" id="L60">        return this;</span>
+    }
+
+    protected Printer append(char c) {
+<span class="nc" id="L64">        buffer.append(c);</span>
+<span class="nc" id="L65">        return this;</span>
+    }
+
+    protected Printer append(char[] str) {
+<span class="nc" id="L69">        buffer.append(str);</span>
+<span class="nc" id="L70">        return this;</span>
+    }
+
+    protected Printer append(char[] str, int offset, int len) {
+<span class="nc" id="L74">        buffer.append(str, offset, len);</span>
+<span class="nc" id="L75">        return this;</span>
+    }
+
+    protected Printer append(double d) {
+<span class="nc" id="L79">        buffer.append(d);</span>
+<span class="nc" id="L80">        return this;</span>
+    }
+
+    protected Printer append(float f) {
+<span class="fc" id="L84">        buffer.append(f);</span>
+<span class="fc" id="L85">        return this;</span>
+    }
+
+    protected Printer append(int i) {
+<span class="fc" id="L89">        buffer.append(i);</span>
+<span class="fc" id="L90">        return this;</span>
+    }
+
+    protected Printer append(long l) {
+<span class="nc" id="L94">        buffer.append(l);</span>
+<span class="nc" id="L95">        return this;</span>
+    }
+
+    protected Printer append(Object obj) {
+<span class="fc" id="L99">        buffer.append(obj);</span>
+<span class="fc" id="L100">        return this;</span>
+    }
+
+    protected Printer append(String str) {
+<span class="fc" id="L104">        buffer.append(str);</span>
+<span class="fc" id="L105">        return this;</span>
+    }
+
+    protected Printer indent() {
+<span class="fc" id="L109">        buffer.indent();</span>
+<span class="fc" id="L110">        return this;</span>
+    }
+
+    protected Printer eol() {
+<span class="fc" id="L114">        buffer.eol();</span>
+<span class="fc" id="L115">        return this;</span>
+    }
+
+    protected void raiseIndent() {
+<span class="fc" id="L119">        buffer.raiseIndent();</span>
+<span class="fc" id="L120">    }</span>
+
+    protected void lowerIndent() {
+<span class="fc" id="L123">        buffer.lowerIndent();</span>
+<span class="fc" id="L124">    }</span>
+
+    public String toString() {
+<span class="fc" id="L127">        return buffer.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

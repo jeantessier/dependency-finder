@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RegularExpressionSelectionCriteria.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependency</a> &gt; <span class="el_source">RegularExpressionSelectionCriteria.java</span></div><h1>RegularExpressionSelectionCriteria.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependency;
+
+import java.util.*;
+
+import org.apache.oro.text.perl.*;
+import org.apache.oro.text.*;
+
+import com.jeantessier.text.*;
+
+public class RegularExpressionSelectionCriteria implements SelectionCriteria {
+<span class="fc" id="L43">    private static final Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());</span>
+
+<span class="fc" id="L45">    private List&lt;String&gt; globalIncludes = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L46">    private List&lt;String&gt; globalExcludes = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L47">    private boolean matchingPackages = true;</span>
+<span class="fc" id="L48">    private List&lt;String&gt; packageIncludes = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L49">    private List&lt;String&gt; packageExcludes = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L50">    private boolean matchingClasses  = true;</span>
+<span class="fc" id="L51">    private List&lt;String&gt; classIncludes = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L52">    private List&lt;String&gt; classExcludes = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L53">    private boolean matchingFeatures = true;</span>
+<span class="fc" id="L54">    private List&lt;String&gt; featureIncludes = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L55">    private List&lt;String&gt; featureExcludes = new LinkedList&lt;&gt;();</span>
+    
+<span class="fc" id="L57">    public RegularExpressionSelectionCriteria() {</span>
+        // Do nothing
+<span class="fc" id="L59">    }</span>
+
+<span class="fc" id="L61">    public RegularExpressionSelectionCriteria(String initialGlobalIncludes) {</span>
+<span class="fc" id="L62">        setGlobalIncludes(initialGlobalIncludes);</span>
+<span class="fc" id="L63">    }</span>
+
+    public List&lt;String&gt; getGlobalIncludes() {
+<span class="fc" id="L66">        return globalIncludes;</span>
+    }
+
+    public void setGlobalIncludes(String globalIncludes) {
+<span class="fc" id="L70">        setGlobalIncludes(RegularExpressionParser.parseRE(globalIncludes));</span>
+<span class="fc" id="L71">    }</span>
+    
+    public void setGlobalIncludes(List&lt;String&gt; globalIncludes) {
+<span class="fc" id="L74">        this.globalIncludes = globalIncludes;</span>
+<span class="fc" id="L75">    }</span>
+
+    public List&lt;String&gt; getGlobalExcludes() {
+<span class="fc" id="L78">        return globalExcludes;</span>
+    }
+
+    public void setGlobalExcludes(String globalExcludes) {
+<span class="fc" id="L82">        setGlobalExcludes(RegularExpressionParser.parseRE(globalExcludes));</span>
+<span class="fc" id="L83">    }</span>
+
+    public void setGlobalExcludes(List&lt;String&gt; globalExcludes) {
+<span class="fc" id="L86">        this.globalExcludes = globalExcludes;</span>
+<span class="fc" id="L87">    }</span>
+
+    public boolean isMatchingPackages() {
+<span class="fc" id="L90">        return matchingPackages;</span>
+    }
+
+    public void setMatchingPackages(boolean matchingPackages) {
+<span class="fc" id="L94">        this.matchingPackages = matchingPackages;</span>
+<span class="fc" id="L95">    }</span>
+
+    public List&lt;String&gt; getPackageIncludes() {
+<span class="fc" id="L98">        return packageIncludes;</span>
+    }
+
+    public void setPackageIncludes(String packageIncludes) {
+<span class="nc" id="L102">        setPackageIncludes(RegularExpressionParser.parseRE(packageIncludes));</span>
+<span class="nc" id="L103">    }</span>
+
+    public void setPackageIncludes(List&lt;String&gt; packageIncludes) {
+<span class="nc" id="L106">        this.packageIncludes = packageIncludes;</span>
+<span class="nc" id="L107">    }</span>
+
+    public List&lt;String&gt; getPackageExcludes() {
+<span class="fc" id="L110">        return packageExcludes;</span>
+    }
+
+    public void setPackageExcludes(String packageExcludes) {
+<span class="nc" id="L114">        setPackageExcludes(RegularExpressionParser.parseRE(packageExcludes));</span>
+<span class="nc" id="L115">    }</span>
+
+    public void setPackageExcludes(List&lt;String&gt; packageExcludes) {
+<span class="nc" id="L118">        this.packageExcludes = packageExcludes;</span>
+<span class="nc" id="L119">    }</span>
+
+    public boolean isMatchingClasses() {
+<span class="fc" id="L122">        return matchingClasses;</span>
+    }
+
+    public void setMatchingClasses(boolean matchingClasses) {
+<span class="fc" id="L126">        this.matchingClasses = matchingClasses;</span>
+<span class="fc" id="L127">    }</span>
+
+    public List&lt;String&gt; getClassIncludes() {
+<span class="fc" id="L130">        return classIncludes;</span>
+    }
+
+    public void setClassIncludes(String classIncludes) {
+<span class="nc" id="L134">        setClassIncludes(RegularExpressionParser.parseRE(classIncludes));</span>
+<span class="nc" id="L135">    }</span>
+
+    public void setClassIncludes(List&lt;String&gt; classIncludes) {
+<span class="nc" id="L138">        this.classIncludes = classIncludes;</span>
+<span class="nc" id="L139">    }</span>
+
+    public List&lt;String&gt; getClassExcludes() {
+<span class="fc" id="L142">        return classExcludes;</span>
+    }
+
+    public void setClassExcludes(String classExcludes) {
+<span class="nc" id="L146">        setClassExcludes(RegularExpressionParser.parseRE(classExcludes));</span>
+<span class="nc" id="L147">    }</span>
+
+    public void setClassExcludes(List&lt;String&gt; classExcludes) {
+<span class="nc" id="L150">        this.classExcludes = classExcludes;</span>
+<span class="nc" id="L151">    }</span>
+
+    public boolean isMatchingFeatures() {
+<span class="fc" id="L154">        return matchingFeatures;</span>
+    }
+
+    public void setMatchingFeatures(boolean matchingFeatures) {
+<span class="fc" id="L158">        this.matchingFeatures = matchingFeatures;</span>
+<span class="fc" id="L159">    }</span>
+
+    public List&lt;String&gt; getFeatureIncludes() {
+<span class="fc" id="L162">        return featureIncludes;</span>
+    }
+
+    public void setFeatureIncludes(String featureIncludes) {
+<span class="nc" id="L166">        setFeatureIncludes(RegularExpressionParser.parseRE(featureIncludes));</span>
+<span class="nc" id="L167">    }</span>
+
+    public void setFeatureIncludes(List&lt;String&gt; featureIncludes) {
+<span class="nc" id="L170">        this.featureIncludes = featureIncludes;</span>
+<span class="nc" id="L171">    }</span>
+
+    public List&lt;String&gt; getFeatureExcludes() {
+<span class="fc" id="L174">        return featureExcludes;</span>
+    }
+
+    public void setFeatureExcludes(String featureExcludes) {
+<span class="nc" id="L178">        setFeatureExcludes(RegularExpressionParser.parseRE(featureExcludes));</span>
+<span class="nc" id="L179">    }</span>
+
+    public void setFeatureExcludes(List&lt;String&gt; featureExcludes) {
+<span class="nc" id="L182">        this.featureExcludes = featureExcludes;</span>
+<span class="nc" id="L183">    }</span>
+
+    public boolean matches(PackageNode node) {
+<span class="fc bfc" id="L186" title="All 4 branches covered.">        return isMatchingPackages() &amp;&amp; matchesPackageName(node.getName());</span>
+    }
+    
+    public boolean matches(ClassNode node) {
+<span class="fc bfc" id="L190" title="All 4 branches covered.">        return isMatchingClasses() &amp;&amp; matchesClassName(node.getName());</span>
+    }
+    
+    public boolean matches(FeatureNode node) {
+<span class="fc bfc" id="L194" title="All 4 branches covered.">        return isMatchingFeatures() &amp;&amp; matchesFeatureName(node.getName());</span>
+    }
+
+    public boolean matchesPackageName(String name) {
+<span class="fc bfc" id="L198" title="All 2 branches covered.">        return matches(getGlobalIncludes(), getPackageIncludes(), name) &amp;&amp;</span>
+<span class="fc bfc" id="L199" title="All 2 branches covered.">            !matches(getGlobalExcludes(), getPackageExcludes(), name);</span>
+    }
+
+    public boolean matchesClassName(String name) {
+<span class="fc bfc" id="L203" title="All 2 branches covered.">        return matches(getGlobalIncludes(), getClassIncludes(), name) &amp;&amp;</span>
+<span class="fc bfc" id="L204" title="All 2 branches covered.">            !matches(getGlobalExcludes(), getClassExcludes(), name);</span>
+    }
+
+    public boolean matchesFeatureName(String name) {
+<span class="fc bfc" id="L208" title="All 2 branches covered.">        return matches(getGlobalIncludes(), getFeatureIncludes(), name) &amp;&amp;</span>
+<span class="fc bfc" id="L209" title="All 2 branches covered.">            !matches(getGlobalExcludes(), getFeatureExcludes(), name);</span>
+    }
+
+    private boolean matches(List&lt;String&gt; globalRegularExpressions, List&lt;String&gt; regularExpressions, String name) {
+<span class="fc" id="L213">        boolean  found = false;</span>
+        Iterator&lt;String&gt; i;
+
+<span class="fc" id="L216">        i = globalRegularExpressions.iterator();</span>
+<span class="fc bfc" id="L217" title="All 4 branches covered.">        while (!found &amp;&amp; i.hasNext()) {</span>
+<span class="fc" id="L218">            String regex = i.next();</span>
+            try {
+<span class="fc" id="L220">                found = perl.match(regex, name);</span>
+<span class="nc" id="L221">            } catch (MalformedCachePatternException ex) {</span>
+<span class="nc" id="L222">                throw new MatchException(regex, ex);</span>
+<span class="fc" id="L223">            }</span>
+<span class="fc" id="L224">        }</span>
+
+<span class="fc" id="L226">        i = regularExpressions.iterator();</span>
+<span class="pc bpc" id="L227" title="1 of 4 branches missed.">        while (!found &amp;&amp; i.hasNext()) {</span>
+<span class="nc" id="L228">            String regex = i.next();</span>
+            try {
+<span class="nc" id="L230">                found = perl.match(regex, name);</span>
+<span class="nc" id="L231">            } catch (MalformedCachePatternException ex) {</span>
+<span class="nc" id="L232">                throw new MatchException(regex, ex);</span>
+<span class="nc" id="L233">            }</span>
+<span class="nc" id="L234">        }</span>
+
+<span class="fc" id="L236">        return found;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

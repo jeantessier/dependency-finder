@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MetricsConfigurationHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.metrics</a> &gt; <span class="el_source">MetricsConfigurationHandler.java</span></div><h1>MetricsConfigurationHandler.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.metrics;
+
+import org.apache.logging.log4j.*;
+import org.xml.sax.*;
+import org.xml.sax.helpers.*;
+
+public class MetricsConfigurationHandler extends DefaultHandler {
+    private static final int PROJECT = 0;
+    private static final int GROUP   = 1;
+    private static final int CLASS   = 2;
+    private static final int METHOD  = 3;
+    
+    private MetricsConfiguration  configuration;
+    private int                   section;
+    private MeasurementDescriptor descriptor;
+    private String                name;
+    private String                pattern;
+    
+<span class="fc" id="L51">    private StringBuffer currentName = new StringBuffer();</span>
+
+    public MetricsConfigurationHandler() {
+<span class="fc" id="L54">        this(new MetricsConfiguration());</span>
+<span class="fc" id="L55">    }</span>
+
+<span class="fc" id="L57">    public MetricsConfigurationHandler(MetricsConfiguration configuration) {</span>
+<span class="fc" id="L58">        this.configuration = configuration;</span>
+<span class="fc" id="L59">    }</span>
+
+    public MetricsConfiguration getMetricsConfiguration() {
+<span class="fc" id="L62">        return configuration;</span>
+    }
+    
+    public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
+<span class="fc" id="L66">        LogManager.getLogger(getClass()).debug(&quot;startElement qName = {}&quot;, qName);</span>
+
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        for (int i=0; i&lt;atts.getLength(); i++) {</span>
+<span class="fc" id="L69">            LogManager.getLogger(getClass()).debug(&quot;    {}: {}&quot;, atts.getQName(i), atts.getValue(i));</span>
+        }
+
+<span class="fc" id="L72">        currentName.delete(0, currentName.length());</span>
+
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (qName.equals(&quot;project-measurements&quot;)) {</span>
+<span class="fc" id="L75">            section = PROJECT;</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        } else if (qName.equals(&quot;group-measurements&quot;)) {</span>
+<span class="fc" id="L77">            section = GROUP;</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        } else if (qName.equals(&quot;class-measurements&quot;)) {</span>
+<span class="fc" id="L79">            section = CLASS;</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        } else if (qName.equals(&quot;method-measurements&quot;)) {</span>
+<span class="fc" id="L81">            section = METHOD;</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        } else if (qName.equals(&quot;measurement&quot;)) {</span>
+<span class="fc" id="L83">            descriptor = new MeasurementDescriptor();</span>
+
+<span class="fc bfc" id="L85" title="All 2 branches covered.">            if (atts.getValue(&quot;visible&quot;) != null) {</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">                descriptor.setVisible(&quot;true&quot;.equalsIgnoreCase(atts.getValue(&quot;visible&quot;)) ||</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">                                   &quot;yes&quot;.equalsIgnoreCase(atts.getValue(&quot;visible&quot;)) ||</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">                                   &quot;on&quot;.equalsIgnoreCase(atts.getValue(&quot;visible&quot;)));</span>
+            }
+
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">            if (atts.getValue(&quot;cached&quot;) != null) {</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">                descriptor.setCached(&quot;true&quot;.equalsIgnoreCase(atts.getValue(&quot;cached&quot;)) ||</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">                                   &quot;yes&quot;.equalsIgnoreCase(atts.getValue(&quot;cached&quot;)) ||</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">                                   &quot;on&quot;.equalsIgnoreCase(atts.getValue(&quot;cached&quot;)));</span>
+            }
+            
+<span class="pc bpc" id="L97" title="1 of 5 branches missed.">            switch (section) {</span>
+                case PROJECT:
+<span class="fc" id="L99">                    configuration.addProjectMeasurement(descriptor);</span>
+<span class="fc" id="L100">                    break;</span>
+                case GROUP:
+<span class="fc" id="L102">                    configuration.addGroupMeasurement(descriptor);</span>
+<span class="fc" id="L103">                    break;</span>
+                case CLASS:
+<span class="fc" id="L105">                    configuration.addClassMeasurement(descriptor);</span>
+<span class="fc" id="L106">                    break;</span>
+                case METHOD:
+<span class="fc" id="L108">                    configuration.addMethodMeasurement(descriptor);</span>
+                    break;
+            }
+        }
+<span class="fc" id="L112">    }</span>
+
+    public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        if (qName.equals(&quot;short-name&quot;)) {</span>
+<span class="fc" id="L116">            descriptor.setShortName(currentName.toString().trim());</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">        } else if (qName.equals(&quot;long-name&quot;)) {</span>
+<span class="fc" id="L118">            descriptor.setLongName(currentName.toString().trim());</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">        } else if (qName.equals(&quot;class&quot;)) {</span>
+            try {
+<span class="fc" id="L121">                descriptor.getClassForByName(currentName.toString().trim());</span>
+<span class="nc" id="L122">            } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L123">                throw new SAXException(&quot;Class not found: &quot; + currentName.toString().trim());</span>
+<span class="fc" id="L124">            }</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">        } else if (qName.equals(&quot;init&quot;)) {</span>
+<span class="fc" id="L126">            descriptor.setInitText(currentName.toString().trim());</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">        } else if (qName.equals(&quot;lower-threshold&quot;)) {</span>
+<span class="fc" id="L128">            descriptor.setLowerThreshold(Double.valueOf(currentName.toString()));</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">        } else if (qName.equals(&quot;upper-threshold&quot;)) {</span>
+<span class="fc" id="L130">            descriptor.setUpperThreshold(Double.valueOf(currentName.toString()));</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">        } else if (qName.equals(&quot;name&quot;)) {</span>
+<span class="fc" id="L132">            name = currentName.toString().trim();</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        } else if (qName.equals(&quot;pattern&quot;)) {</span>
+<span class="fc" id="L134">            pattern = currentName.toString().trim();</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">        } else if (qName.equals(&quot;group-definition&quot;)) {</span>
+<span class="fc" id="L136">            configuration.addGroupDefinition(name, pattern);</span>
+        }
+        
+<span class="pc" id="L139">        LogManager.getLogger(getClass()).debug(&quot;endElement qName = {} (\&quot;{}\&quot;)&quot;, () -&gt; qName, () -&gt; currentName.toString().trim());</span>
+<span class="fc" id="L140">    }</span>
+
+    public void characters(char[] ch, int start, int length) throws SAXException {
+<span class="fc" id="L143">        currentName.append(ch, start, length);</span>
+<span class="pc" id="L144">        LogManager.getLogger(getClass()).debug(&quot;characters: \&quot;{}\&quot;&quot;, () -&gt; new String(ch, start, length));</span>
+<span class="fc" id="L145">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SymbolPrinter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader</a> &gt; <span class="el_source">SymbolPrinter.java</span></div><h1>SymbolPrinter.java</h1><pre class="source lang-java linenums">package com.jeantessier.classreader;
+
+import java.io.*;
+import java.util.*;
+import java.util.stream.*;
+
+public abstract class SymbolPrinter {
+<span class="nc" id="L8">    private static final Map&lt;Class&lt;? extends Visitable&gt;, Collection&lt;String&gt;&gt; HEADERS = Map.of(</span>
+<span class="nc" id="L9">            Classfile.class, List.of(&quot;symbol type&quot;, &quot;symbol&quot;, &quot;simple name&quot;),</span>
+<span class="nc" id="L10">            Field_info.class, List.of(&quot;symbol type&quot;, &quot;symbol&quot;, &quot;class&quot;, &quot;name&quot;, &quot;type&quot;),</span>
+<span class="nc" id="L11">            Method_info.class, List.of(&quot;symbol type&quot;, &quot;symbol&quot;, &quot;class&quot;, &quot;name&quot;, &quot;signature&quot;, &quot;return type&quot;, &quot;parameter types&quot;),</span>
+<span class="nc" id="L12">            LocalVariable.class, List.of(&quot;symbol type&quot;, &quot;symbol&quot;, &quot;method&quot;, &quot;name&quot;, &quot;type&quot;),</span>
+<span class="nc" id="L13">            InnerClass.class, List.of(&quot;symbol type&quot;, &quot;symbol&quot;, &quot;outer class&quot;, &quot;inner name&quot;)</span>
+    );
+
+    private final PrintWriter out;
+
+<span class="nc" id="L18">    public SymbolPrinter(PrintWriter out) {</span>
+<span class="nc" id="L19">        this.out = out;</span>
+<span class="nc" id="L20">    }</span>
+
+    public PrintWriter getOut() {
+<span class="nc" id="L23">        return out;</span>
+    }
+
+    public abstract void print(SymbolGatherer gatherer) throws IOException;
+
+    protected Stream&lt;String&gt; getHeadersFor(Class&lt;? extends Visitable&gt; visitableClass) {
+<span class="nc bnc" id="L29" title="All 2 branches missed.">        if (Classfile.class.isAssignableFrom(visitableClass)) {</span>
+<span class="nc" id="L30">            return HEADERS.get(Classfile.class).stream();</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        } else if (Field_info.class.isAssignableFrom(visitableClass)) {</span>
+<span class="nc" id="L32">            return HEADERS.get(Field_info.class).stream();</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        } else if (Method_info.class.isAssignableFrom(visitableClass)) {</span>
+<span class="nc" id="L34">            return HEADERS.get(Method_info.class).stream();</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        } else if (LocalVariable.class.isAssignableFrom(visitableClass)) {</span>
+<span class="nc" id="L36">            return HEADERS.get(LocalVariable.class).stream();</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        } else if (InnerClass.class.isAssignableFrom(visitableClass)) {</span>
+<span class="nc" id="L38">            return HEADERS.get(InnerClass.class).stream();</span>
+        } else {
+<span class="nc" id="L40">            return Stream.empty();</span>
+        }
+    }
+
+    protected Stream&lt;String&gt; getHeadersFor(Visitable visitable) {
+<span class="nc" id="L45">        return getHeadersFor(visitable.getClass());</span>
+    }
+
+    protected Stream&lt;?&gt; getValuesFor(Visitable visitable) {
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        if (visitable instanceof Classfile classfile) {</span>
+<span class="nc" id="L50">            return Stream.of(</span>
+                    &quot;class name&quot;,
+                    classfile,
+<span class="nc" id="L53">                    classfile.getSimpleName()</span>
+            );
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        } else if (visitable instanceof Field_info field) {</span>
+<span class="nc" id="L56">            return Stream.of(</span>
+                    &quot;field name&quot;,
+                    field,
+<span class="nc" id="L59">                    field.getClassfile(),</span>
+<span class="nc" id="L60">                    field.getName(),</span>
+<span class="nc" id="L61">                    field.getType()</span>
+            );
+<span class="nc bnc" id="L63" title="All 2 branches missed.">        } else if (visitable instanceof Method_info method) {</span>
+<span class="nc" id="L64">            return Stream.of(</span>
+                    &quot;method name&quot;,
+                    method,
+<span class="nc" id="L67">                    method.getClassfile(),</span>
+<span class="nc" id="L68">                    method.getName(),</span>
+<span class="nc" id="L69">                    method.getSignature(),</span>
+<span class="nc" id="L70">                    method.getReturnType(),</span>
+<span class="nc" id="L71">                    method.getParameterTypes()</span>
+            );
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        } else if (visitable instanceof LocalVariable localVariable) {</span>
+<span class="nc" id="L74">            return Stream.of(</span>
+                    &quot;local variable name&quot;,
+                    localVariable,
+<span class="nc" id="L77">                    localVariable.getMethod(),</span>
+<span class="nc" id="L78">                    localVariable.getName(),</span>
+<span class="nc" id="L79">                    localVariable.getType()</span>
+            );
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        } else if (visitable instanceof InnerClass innerClass) {</span>
+<span class="nc" id="L82">            return Stream.of(</span>
+                    &quot;inner class name&quot;,
+                    innerClass,
+<span class="nc" id="L85">                    innerClass.getOuterClassInfo(),</span>
+<span class="nc" id="L86">                    innerClass.getInnerName()</span>
+            );
+        } else {
+<span class="nc" id="L89">            return Stream.empty();</span>
+        }
+    }
+
+    protected Map&lt;String, ?&gt; visitableToRecord(Visitable visitable) {
+<span class="nc" id="L94">        Map&lt;String, ? super Object&gt; result = new LinkedHashMap&lt;&gt;();</span>
+
+<span class="nc" id="L96">        List&lt;String&gt; headers = getHeadersFor(visitable).toList();</span>
+<span class="nc" id="L97">        List&lt;?&gt; values = getValuesFor(visitable).toList();</span>
+
+<span class="nc" id="L99">        IntStream.range(0, headers.size())</span>
+<span class="nc" id="L100">                .forEach(i -&gt; result.put(headers.get(i), values.get(i)));</span>
+
+<span class="nc" id="L102">        return result;</span>
+    }
+
+    protected String format(Stream&lt;?&gt; stream) {
+<span class="nc" id="L106">        return stream</span>
+<span class="nc" id="L107">                .map(entry -&gt; &quot;\&quot;&quot; + entry + &quot;\&quot;&quot;)</span>
+<span class="nc" id="L108">                .collect(Collectors.joining(&quot;, &quot;));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
