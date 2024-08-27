@@ -1,0 +1,10 @@
+I fixed =ListSymbols= to include the return type of methods, so I can use its
+output in =-includes-list= type of switches.  The method nodes in dependency
+graphs include the return type, so list elements need it too so they can match
+nodes.
+
+I added [[https://www.jacoco.org/][JaCoCo]] coverage report to the website.
+I just copied it into Git.  This is simpler, for now, than figuring out how to
+do partial deployments in GitHub Pages.
+
+I'm not thrilled that there is 0% code coverage for symbol printers.
