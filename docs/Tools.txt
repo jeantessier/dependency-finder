@@ -10865,7 +10865,7 @@ alphabetical order.
 <div class="lowlight">
 
     test
-    test.main(java.lang.String[])
+    test.main(java.lang.String[]): void
     test.main(java.lang.String[]): void: args
     test.main(java.lang.String[]): void: c
     test.main(java.lang.String[]): void: ex

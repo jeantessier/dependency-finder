@@ -5175,7 +5175,7 @@ later to narrow this list down to the symbols that _S_ actually uses.
 
 <div class="highlight">
 
-    $ ListSymbols -out *_L_.symbols.txt*
+    $ ListSymbols *-txt* -out *_L_.symbols.txt*
                   -classes
                   -methods
                   -fields

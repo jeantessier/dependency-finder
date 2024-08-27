@@ -1122,94 +1122,26 @@ branch of the repository that has been tagged appropriately.
 
 ---+++ Computing Code Coverage
 
-You can compute code coverage metrics using a number of tools.  Below
-are some of the more popular ones.
-
----++++ Emma
-
-You can use [[http://emma.sourceforge.net/][Emma]] and the build file in
-=build.emma.xml=.
-
-Before you can run Emma, you need to set the following environment variable in
-addition to those for testing and compiling Dependency Finder:
-
-    * =EMMA_HOME= to your Emma installation
+You can compute code coverage metrics using
+[[https://www.jacoco.org/][JaCoCo]].
 
 To run the tests and generate code coverage reports:
 
-    =ant -f build.emma.xml=
+    =./gradlew testCodeCoverageReport=
+
+To view the results, open
+=code-coverage-report/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml=.
 
 To publish the results:
 
     1 =ssh ${USER},depfind@shell.sourceforge.net create=
-    1 =ssh ${USER},depfind@shell.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/emma=
-    1 =scp -r reports/emma ${USER},depfind@shell.sourceforge.net:/home/groups/d/de/depfind/htdocs=
+    1 =ssh ${USER},depfind@shell.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/jacoco=
+    1 =scp -r code-coverage-report/build/reports/jacoco/testCodeCoverageReport ${USER},depfind@shell.sourceforge.net:/home/groups/d/de/depfind/jacoco=
     1 =ssh ${USER},depfind@shell.sourceforge.net shutdown=
 
 Or use an archive:
 
-    1 Archive the =reports/emma= directory
-    1 Use =scp= to transfer the archive to SourceForge
-    1 Use =ssh= to login to SourceForge
-    1 Extract the archive in the root of the website
-
----++++ Clover
-
-You can use [[http://www.cenqua.com/clover/][Clover]] and the build file in
-=build.clover.xml=.
-
-Before you can run Clover, you need to set the following environment variable in
-addition to those for testing and compiling Dependency Finder:
-
-    * =CLOVER_HOME= to your Clover installation
-
-You will also need to put =clover.jar= and =clover.license= on Ant's
-=CLASSPATH=.  For this, you can either set the =CLASSPATH= environment
-variable, or with Ant 1.6 and above, you can copy =clover.jar= and
-=clover.license= to =${user.home}/.ant/lib= (see above).
-
-To run the tests and generate code coverage reports:
-
-    =ant -f build.clover.xml=
-
-To publish the results:
-
-    1 =ssh ${USER},depfind@shell.sourceforge.net create=
-    1 =ssh ${USER},depfind@shell.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/clover=
-    1 =scp -r reports/clover ${USER},depfind@shell.sourceforge.net:/home/groups/d/de/depfind/htdocs=
-    1 =ssh ${USER},depfind@shell.sourceforge.net shutdown=
-
-Or use an archive:
-
-    1 Archive the =reports/clover/html= directory
-    1 Use =scp= to transfer the archive to SourceForge
-    1 Use =ssh= to login to SourceForge
-    1 Extract the archive in the root of the website
-
----++++ Cobertura
-
-You can use [[http://cobertura.sourceforge.net/][Cobertura]] and the build file
-in =build.cobertura.xml=.
-
-Before you can run Cobertura, you need to set the following environment variable
-in addition to those for testing and compiling Dependency Finder:
-
-    * =COBERTURA_HOME= to your Cobertura installation
-
-To run the tests and generate code coverage reports:
-
-    =ant -f build.cobertura.xml=
-
-To publish the results:
-
-    1 =ssh ${USER},depfind@shell.sourceforge.net create=
-    1 =ssh ${USER},depfind@shell.sourceforge.net rm -fR /home/groups/d/de/depfind/htdocs/cobertura=
-    1 =scp -r reports/cobertura ${USER},depfind@shell.sourceforge.net:/home/groups/d/de/depfind/htdocs=
-    1 =ssh ${USER},depfind@shell.sourceforge.net shutdown=
-
-Or use an archive:
-
-    1 Archive the =reports/cobertura= directory
+    1 Archive the =code-coverage-report/build/reports/jacoco/testCodeCoverageReport= directory
     1 Use =scp= to transfer the archive to SourceForge
     1 Use =ssh= to login to SourceForge
     1 Extract the archive in the root of the website
