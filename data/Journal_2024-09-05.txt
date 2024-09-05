@@ -1,0 +1,5 @@
+Released version =1.4.0=, with:
+
+    * better handling of bridge methods
+    * unique name of method includes its return type
+    * =ListSymbols= can output CSV, YAML, JSON, and XML
