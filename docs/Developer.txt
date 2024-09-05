@@ -1112,7 +1112,7 @@ branch of the repository that has been tagged appropriately.
 
     1 =git tag -m "Tagging the <VERSION /> release of Dependency Finder" <VERSION />=
     1 =git push --tags= (a workflow on GitHub will create the release there)
-    1 =ant -Drelease=<VERSION /> docs=
+    1 =ant -Drelease%3D<VERSION /> docs=
     1 =cp docs/{Manual,Tools,Developer}.html ../website=
     1 =cp -R docs/images/* ../website/images=
     1 =gh release download --pattern '*' --dir /tmp= (copies the release files to =/tmp=)
