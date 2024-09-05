@@ -75,22 +75,21 @@ should not report any changes?
 
 But, there is a public method that has disappeared.  Does it not matter?
 
-I changed =DifferencesFactor= to compare methods by their _unique name_
-instead of their _signature_.  Now, the report simply shows the method that
-has disappeared, the one with the return type that is different from that in
-the interface.
+I tried to modify =DifferencesFactor= to compare methods by their _unique name_
+instead of their _signature_.  It would report the mismatched signature as
+having been removed, and the matching signature has having a code change.  But
+distinguishing methods based on their unique name makes it impossible to track
+changes to a method's return type.  Instead, it looks like one method was
+removed and another method was added.
 
-    *Removed Methods:*
-        public com.acme.impl.Foo buildFrom(java.lang.String)
+So, I will keep distinguishing methods based on their signature.  For our
+example, the default report will show no changes, just like the client code
+perceives.  If =JarJarDiff= has the =-code= switch, it will report a change of
+the return type, which is not untrue.
 
-If you use the =code= level of differences, it will report
-that method that matches the interface definition has had a code change.
-
-    *Removed Methods:*
-        public com.acme.impl.Foo buildFrom(java.lang.String)
-    &nbsp;
     *Method Changes:*
-        *code*:public org.ietf.foo.Foo buildFrom(java.lang.String)
+        *old*:public com.acme.impl.Foo buildFrom(java.lang.String)
+        *new*:public org.ietf.foo.Foo buildFrom(java.lang.String)
 
 Two months ago, I wasn't sure how to interpret and report on this code change.
 By looking at it from the perspective of the calling client code, it was
