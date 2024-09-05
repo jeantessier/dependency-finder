@@ -1,0 +1,97 @@
+Looping back on the discussion on bridge methods and code differences I brought
+up on [[2024-07-04]], imagine the following interfaces:
+
+    package org.ietf.foo;
+    &nbsp;
+    public interface Foo {}
+    &nbsp;
+    public interface FooBuilder {
+        Foo buildFrom(String name);
+    }
+
+And the initial implementation below.  They chose to name their classes exactly
+like the interface they implement, _because reasons_.
+
+    package com.acme.impl;
+    &nbsp;
+    public class Foo implements org.ietf.foo.Foo {}
+    &nbsp;
+    public class FooBuilder implements org.ietf.foo.FooBuilder {
+        public *Foo* buildFrom(String name) {
+            return new Foo();
+        }
+    }
+
+The =Foo= in the method's return type is really a =*com.acme.impl*.Foo=.
+The type is congruent with the interface definition, so there is no problem.
+The compiler creates a bridge method of _bridge_ the difference, and everyone
+is happy.
+
+Let's say the developers decide to remove the ambiguity, and write a new
+version.
+
+    package com.acme.impl;
+    &nbsp;
+    public class Foo implements org.ietf.foo.Foo {}
+    &nbsp;
+    public class FooBuilder implements org.ietf.foo.FooBuilder {
+        public *org.ietf.foo.Foo* buildFrom(String name) {
+            return new Foo();
+        }
+    }
+
+It is a little bit more verbose, but removes the need for the bridge method.
+What should =JarJarDiff= say in its reports about the changes from the initial
+version to the new version, if anything?
+
+The initial version has three method symbols.
+
+    * =com.acme.impl.FooBuilder.FooBuilder()=
+    * =com.acme.impl.FooBuilder.buildFrom(java.lang.String): org.ietf.foo.Foo= (the bridge method, calls the other symbol)
+    * =com.acme.impl.FooBuilder.buildFrom(java.lang.String): com.acme.impl.Foo= (the implementation from source code)
+
+The call graph for some hypothetical client code that calls =buildFrom()= looks
+like this.
+
+    Client.main(java.lang.String[]): void
+        --> com.acme.impl.FooBuilder.buildFrom(java.lang.String): org.ietf.foo.Foo
+            --> com.acme.impl.FooBuilder.buildFrom(java.lang.String): com.acme.impl.Foo
+
+The new version has only two method symbols.
+
+    * =com.acme.impl.FooBuilder.FooBuilder()=
+    * =com.acme.impl.FooBuilder.buildFrom(java.lang.String): org.ietf.foo.Foo= (the implementation from source code)
+
+And a more compact call graph.
+
+    Client.main(java.lang.String[]): void
+        --> com.acme.impl.FooBuilder.buildFrom(java.lang.String): org.ietf.foo.Foo
+
+From the client's perspective, nothing has changed.  It calls an interface
+method, and what happens after that is not the client's concern.  Whether it is
+a bridge method that then calls an implementation, or that implementation
+itself, is completely hidden from the client.  Therefore, maybe =JarJarDiff=
+should not report any changes?
+
+But, there is a public method that has disappeared.  Does it not matter?
+
+I changed =DifferencesFactor= to compare methods by their _unique name_
+instead of their _signature_.  Now, the report simply shows the method that
+has disappeared, the one with the return type that is different from that in
+the interface.
+
+    *Removed Methods:*
+        public com.acme.impl.Foo buildFrom(java.lang.String)
+
+If you use the =code= level of differences, it will report
+that method that matches the interface definition has had a code change.
+
+    *Removed Methods:*
+        public com.acme.impl.Foo buildFrom(java.lang.String)
+    &nbsp;
+    *Method Changes:*
+        *code*:public org.ietf.foo.Foo buildFrom(java.lang.String)
+
+Two months ago, I wasn't sure how to interpret and report on this code change.
+By looking at it from the perspective of the calling client code, it was
+instantly clear what I needed to do.

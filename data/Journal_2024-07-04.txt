@@ -4,7 +4,7 @@ signature or the removal of a method?
 For example, imagine we have an API package defining interfaces for a =Foo=
 abstraction and its factory =FooBuilder=.
 
-    package standard.api.definition;
+    package org.ietf.foo;
     &nbsp;
     public interface Foo {}
     &nbsp;
@@ -15,21 +15,21 @@ abstraction and its factory =FooBuilder=.
 If we can implement these interfaces in a separate implementation package, we
 can match the names of the classes to the interfaces they implement.
 
-    package specific.implementation;
+    package com.acme.impl;
     &nbsp;
-    public class Foo implements standard.api.definition.Foo {}
+    public class Foo implements org.ietf.foo.Foo {}
     &nbsp;
-    public class FooBuilder implements standard.api.definition.FooBuilder {
+    public class FooBuilder implements org.ietf.foo.FooBuilder {
         public *Foo* buildFrom(String name) {
             return new Foo();
         }
     }
 
 Since there are no =import= statements, the implementation of =buildFrom()= has
-a return type of =specific.implementation.Foo=.  Since it is a subtype of the
-=Foo= interface, it satisfies the contract of =buildFrom()= from the
-=FooBuilder= interface.  But the compiler will create a _bridge method_ with
-the correct return type and have it call our implementation.
+a return type of =com.acme.impl.Foo=.  Since it is a subtype of the =Foo=
+interface, it satisfies the contract of =buildFrom()= from the =FooBuilder=
+interface.  But the compiler will create a _bridge method_ with the correct
+return type and have it call our implementation.
 
 [[../images/FooWithoutBridgeMethod.png]]
 
@@ -38,12 +38,12 @@ correct exact return type.  It makes the implementation more verbose and
 potentially harder to read, though.  Which is why we were using the form with
 the bridge method in the first place.
 
-    package specific.implementation;
+    package com.acme.impl;
     &nbsp;
-    public class Foo implements standard.api.definition.Foo {}
+    public class Foo implements org.ietf.foo.Foo {}
     &nbsp;
-    public class FooBuilder implements standard.api.definition.FooBuilder {
-        public *standard.api.definition.Foo* buildFrom(String name) {
+    public class FooBuilder implements org.ietf.foo.FooBuilder {
+        public *org.ietf.foo.Foo* buildFrom(String name) {
             return new Foo();
         }
     }
@@ -56,8 +56,8 @@ If I run both versions through =JarJarDiff= while it is using method
 _signatures_ to analyze differences, it reports:
 
     *Method Changes:*
-        *old*:public specific.implementation.Foo buildFrom(java.lang.String)
-        *new*:public standard.api.definition.Foo buildFrom(java.lang.String)
+        *old*:public com.acme.impl.Foo buildFrom(java.lang.String)
+        *new*:public org.ietf.foo.Foo buildFrom(java.lang.String)
 
 That is, it completely ignores the bridge method and compares the change in
 the implementations of the interface.
@@ -66,7 +66,7 @@ But when I modify =JarJarDiff= to use methods' _unique name_ instead, it
 reports:
 
     *Removed Methods:*
-        public specific.implementation.Foo buildFrom(java.lang.String)
+        public com.acme.impl.Foo buildFrom(java.lang.String)
 
 The bridge method is matched to the new implementation, and the old
 implementation has nothing to compare it against.
