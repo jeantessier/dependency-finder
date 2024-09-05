@@ -155,18 +155,18 @@ public class DifferencesFactory {
             LogManager.getLogger(getClass()).debug("      Collecting methods ...");
 
             Map<String, String> methodLevel = new TreeMap<>();
-            oldClass.getAllMethods().forEach(method -> methodLevel.put(method.getSignature(), method.getFullSignature()));
-            newClass.getAllMethods().forEach(method -> methodLevel.put(method.getSignature(), method.getFullSignature()));
+            oldClass.getAllMethods().forEach(method -> methodLevel.put(method.getUniqueName(), method.getFullUniqueName()));
+            newClass.getAllMethods().forEach(method -> methodLevel.put(method.getUniqueName(), method.getFullUniqueName()));
 
             LogManager.getLogger(getClass()).debug("      Diff'ing methods ...");
 
-            methodLevel.forEach((signature, fullSignature) -> {
-                Predicate<Method_info> predicate = method -> method.getSignature().equals(signature);
+            methodLevel.forEach((uniqueName, fullUniqueName) -> {
+                Predicate<Method_info> predicate = method -> method.getUniqueName().equals(uniqueName);
                 Method_info oldMethod = oldClass.getMethod(predicate);
                 Method_info newMethod = newClass.getMethod(predicate);
 
                 if (strategy.isMethodDifferent(oldMethod, newMethod)) {
-                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(fullSignature, oldMethod, newMethod));
+                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(fullUniqueName, oldMethod, newMethod));
                 }
             });
 

@@ -81,8 +81,8 @@ public abstract class DiffCommand extends Command {
     }
 
     protected DifferencesFactory getDifferencesFactory() throws IOException {
-        DifferenceStrategy baseStrategy = getBaseStrategy(getCommandLine().getToggleSwitch("code"));
-        DifferenceStrategy strategy = getStrategy(getCommandLine().getSingleSwitch("level"), baseStrategy);
+        var baseStrategy = getBaseStrategy(getCommandLine().getToggleSwitch("code"));
+        var strategy = getStrategy(getCommandLine().getSingleSwitch("level"), baseStrategy);
 
         if (getCommandLine().isPresent("filter")) {
             strategy = new ListBasedDifferenceStrategy(strategy, getCommandLine().getSingleSwitch("filter"));
@@ -92,41 +92,25 @@ public abstract class DiffCommand extends Command {
     }
 
     private DifferenceStrategy getBaseStrategy(boolean useCode) {
-        DifferenceStrategy result;
-
-        if (useCode) {
-            result = new CodeDifferenceStrategy();
-        } else {
-            result = new NoDifferenceStrategy();
-        }
-
-        return result;
+        return useCode ? new CodeDifferenceStrategy() : new NoDifferenceStrategy();
     }
 
     private DifferenceStrategy getStrategy(String level, DifferenceStrategy baseStrategy) {
-        DifferenceStrategy result;
-
-        if (API_STRATEGY.equals(level)) {
-            result = new APIDifferenceStrategy(baseStrategy);
-        } else if (INCOMPATIBLE_STRATEGY.equals(level)) {
-            result = new IncompatibleDifferenceStrategy(baseStrategy);
-        } else {
-            try {
+        return switch (level) {
+            case API_STRATEGY -> new APIDifferenceStrategy(baseStrategy);
+            case INCOMPATIBLE_STRATEGY -> new IncompatibleDifferenceStrategy(baseStrategy);
+            default -> {
                 try {
-                    result = (DifferenceStrategy) Class.forName(level).getConstructor(DifferenceStrategy.class).newInstance(baseStrategy);
-                } catch (NoSuchMethodException ex) {
-                    result = (DifferenceStrategy) Class.forName(level).getDeclaredConstructor().newInstance();
+                    try {
+                        yield (DifferenceStrategy) Class.forName(level).getConstructor(DifferenceStrategy.class).newInstance(baseStrategy);
+                    } catch (NoSuchMethodException ex) {
+                        yield (DifferenceStrategy) Class.forName(level).getDeclaredConstructor().newInstance();
+                    }
+                } catch (ReflectiveOperationException | ClassCastException ex) {
+                    LogManager.getLogger(getClass()).error("Unknown level \"{}\", using default level \"{}\"", level, DEFAULT_LEVEL, ex);
+                    yield getStrategy(DEFAULT_LEVEL, baseStrategy);
                 }
-            } catch (ReflectiveOperationException | ClassCastException ex) {
-                LogManager.getLogger(getClass()).error("Unknown level \"{}\", using default level \"{}\"", level, DEFAULT_LEVEL, ex);
-                result = getDefaultStrategy(baseStrategy);
             }
-        }
-
-        return result;
-    }
-
-    private DifferenceStrategy getDefaultStrategy(DifferenceStrategy strategy) {
-        return new APIDifferenceStrategy(strategy);
+        };
     }
 }
