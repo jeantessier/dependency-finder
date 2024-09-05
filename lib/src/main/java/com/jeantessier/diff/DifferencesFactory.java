@@ -137,18 +137,18 @@ public class DifferencesFactory {
             LogManager.getLogger(getClass()).debug("      Collecting fields ...");
 
             Map<String, String> fieldLevel = new TreeMap<>();
-            oldClass.getAllFields().forEach(field -> fieldLevel.put(field.getUniqueName(), field.getFullUniqueName()));
-            newClass.getAllFields().forEach(field -> fieldLevel.put(field.getUniqueName(), field.getFullUniqueName()));
+            oldClass.getAllFields().forEach(field -> fieldLevel.put(field.getName(), field.getFullSignature()));
+            newClass.getAllFields().forEach(field -> fieldLevel.put(field.getName(), field.getFullSignature()));
 
             LogManager.getLogger(getClass()).debug("      Diff'ing fields ...");
 
-            fieldLevel.forEach((uniqueName, fullUniqueName) -> {
-                Predicate<Field_info> predicate = field -> field.getUniqueName().equals(uniqueName);
+            fieldLevel.forEach((fieldName, fullSignature) -> {
+                Predicate<Field_info> predicate = field -> field.getSignature().equals(fieldName);
                 Field_info oldField = oldClass.getField(predicate);
                 Field_info newField = newClass.getField(predicate);
 
                 if (strategy.isFieldDifferent(oldField, newField)) {
-                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(fullUniqueName, oldField, newField));
+                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(fullSignature, oldField, newField));
                 }
             });
 
