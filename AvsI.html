@@ -3,17 +3,17 @@
 <html lang="en">
 
 <head>
-<link rel="stylesheet" type="text/css" href="style.css" />
-<title>Dependency Finder - A vs. I Graphs</title>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-SHFGYZT6JY"></script>
-<script>
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <title>Dependency Finder - A vs. I Graphs</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SHFGYZT6JY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-	gtag('config', 'G-SHFGYZT6JY');
-</script>
+        gtag('config', 'G-SHFGYZT6JY');
+    </script>
 </head>
 
 <body bgcolor="#ffffff">
@@ -69,20 +69,20 @@ inspection.</p>
 
 <blockquote>
 <pre>
-OOMetrics -configuration etc\MartinConfig.xml -csv -groups -out depfind lib\DependencyFinder.jar
-OOMetrics -configuration etc\MartinConfig.xml -xml -groups -out depfind lib\DependencyFinder.jar
+OOMetrics -configuration etc/MartinConfig.xml -csv -groups -out depfind lib/DependencyFinder.jar
+OOMetrics -configuration etc/MartinConfig.xml -xml -groups -out depfind lib/DependencyFinder.jar
 
-OOMetrics -configuration etc\MartinConfig.xml -csv -groups -out oro     lib\jakarta-oro.jar
-OOMetrics -configuration etc\MartinConfig.xml -xml -groups -out oro     lib\jakarta-oro.jar
+OOMetrics -configuration etc/MartinConfig.xml -csv -groups -out oro     lib/jakarta-oro.jar
+OOMetrics -configuration etc/MartinConfig.xml -xml -groups -out oro     lib/jakarta-oro.jar
 
-OOMetrics -configuration etc\MartinConfig.xml -csv -groups -out log4j   lib\log4j.jar
-OOMetrics -configuration etc\MartinConfig.xml -xml -groups -out log4j   lib\log4j.jar
+OOMetrics -configuration etc/MartinConfig.xml -csv -groups -out log4j   lib/log4j.jar
+OOMetrics -configuration etc/MartinConfig.xml -xml -groups -out log4j   lib/log4j.jar
 
-OOMetrics -configuration etc\MartinConfig.xml -csv -groups -out xerces  lib\xmlParserAPIs.jar lib\xercesImpl.jar
-OOMetrics -configuration etc\MartinConfig.xml -xml -groups -out xerces  lib\xmlParserAPIs.jar lib\xercesImpl.jar
+OOMetrics -configuration etc/MartinConfig.xml -csv -groups -out xerces  lib/xmlParserAPIs.jar lib/xercesImpl.jar
+OOMetrics -configuration etc/MartinConfig.xml -xml -groups -out xerces  lib/xmlParserAPIs.jar lib/xercesImpl.jar
 
-OOMetrics -configuration etc\MartinConfig.xml -csv -groups -out xalan   lib\xml-apis.jar      lib\xalan.jar
-OOMetrics -configuration etc\MartinConfig.xml -xml -groups -out xalan   lib\xml-apis.jar      lib\xalan.jar
+OOMetrics -configuration etc/MartinConfig.xml -csv -groups -out xalan   lib/xml-apis.jar      lib/xalan.jar
+OOMetrics -configuration etc/MartinConfig.xml -xml -groups -out xalan   lib/xml-apis.jar      lib/xalan.jar
 </pre>
 </blockquote>
 
@@ -99,40 +99,40 @@ distribution graph.  Jakarta-ORO and Log4J are good examples of this.</p>
 
 <table>
     <tr>
-	<td align="center"><b></b></td>
-	<td align="center"><b>A vs. I Graph</b></td>
-	<td align="center"><b>D'</b></td>
-	<td align="center"><b>Distribution of D'</b></td>
+        <td align="center"><b></b></td>
+        <td align="center"><b>A vs. I Graph</b></td>
+        <td align="center"><b>D'</b></td>
+        <td align="center"><b>Distribution of D'</b></td>
     </tr>
     <tr>
-	<td align="center"><font size="1">Dependency Finder</font></td>
-	<td><img src="images/DependencyFinderAvsI.gif"         alt="A vs. I graph for Dependency Finder" /></td>
-	<td><img src="images/DependencyFinderDs.gif"           alt="Values of D' for Dependency Finder" /></td>
-	<td><img src="images/DependencyFinderDistribution.gif" alt="Distribution of D' for Dependency Finder" /></td>
+        <td align="center"><font size="1">Dependency Finder</font></td>
+        <td><img src="images/DependencyFinderAvsI.gif" alt="A vs. I graph for Dependency Finder"/></td>
+        <td><img src="images/DependencyFinderDs.gif" alt="Values of D' for Dependency Finder"/></td>
+        <td><img src="images/DependencyFinderDistribution.gif" alt="Distribution of D' for Dependency Finder"/></td>
     </tr>
     <tr>
-	<td align="center"><font size="1">Jakarta-ORO</font></td>
-	<td><img src="images/OROAvsI.gif"         alt="A vs. I graph for Jakarta-ORO" /></td>
-	<td><img src="images/ORODs.gif"           alt="Values of D' for Jakarta-ORO" /></td>
-	<td><img src="images/ORODistribution.gif" alt="Distribution of D' for Jakarta-ORO" /></td>
+        <td align="center"><font size="1">Jakarta-ORO</font></td>
+        <td><img src="images/OROAvsI.gif" alt="A vs. I graph for Jakarta-ORO"/></td>
+        <td><img src="images/ORODs.gif" alt="Values of D' for Jakarta-ORO"/></td>
+        <td><img src="images/ORODistribution.gif" alt="Distribution of D' for Jakarta-ORO"/></td>
     </tr>
     <tr>
-	<td align="center"><font size="1">Log4J</font></td>
-	<td><img src="images/Log4JAvsI.gif"         alt="A vs. I graph for Log4J" /></td>
-	<td><img src="images/Log4JDs.gif"           alt="Values of D' for Log4J" /></td>
-	<td><img src="images/Log4JDistribution.gif" alt="Distribution of D' for Log4J" /></td>
+        <td align="center"><font size="1">Log4J</font></td>
+        <td><img src="images/Log4JAvsI.gif" alt="A vs. I graph for Log4J"/></td>
+        <td><img src="images/Log4JDs.gif" alt="Values of D' for Log4J"/></td>
+        <td><img src="images/Log4JDistribution.gif" alt="Distribution of D' for Log4J"/></td>
     </tr>
     <tr>
-	<td align="center"><font size="1">Xerces</font></td>
-	<td><img src="images/XercesAvsI.gif"         alt="A vs. I graph for Xerces" /></td>
-	<td><img src="images/XercesDs.gif"           alt="Values of D' for Xerces" /></td>
-	<td><img src="images/XercesDistribution.gif" alt="Distribution of D' for Xerces" /></td>
+        <td align="center"><font size="1">Xerces</font></td>
+        <td><img src="images/XercesAvsI.gif" alt="A vs. I graph for Xerces"/></td>
+        <td><img src="images/XercesDs.gif" alt="Values of D' for Xerces"/></td>
+        <td><img src="images/XercesDistribution.gif" alt="Distribution of D' for Xerces"/></td>
     </tr>
     <tr>
-	<td align="center"><font size="1">Xalan</font></td>
-	<td><img src="images/XalanAvsI.gif"         alt="A vs. I graph for Xalan" /></td>
-	<td><img src="images/XalanDs.gif"           alt="Values of D' for Xalan" /></td>
-	<td><img src="images/XalanDistribution.gif" alt="Distribution of D' for Xalan" /></td>
+        <td align="center"><font size="1">Xalan</font></td>
+        <td><img src="images/XalanAvsI.gif" alt="A vs. I graph for Xalan"/></td>
+        <td><img src="images/XalanDs.gif" alt="Values of D' for Xalan"/></td>
+        <td><img src="images/XalanDistribution.gif" alt="Distribution of D' for Xalan"/></td>
     </tr>
 </table>
 
