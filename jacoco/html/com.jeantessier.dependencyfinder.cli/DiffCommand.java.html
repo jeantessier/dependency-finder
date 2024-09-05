@@ -81,8 +81,8 @@ import com.jeantessier.diff.*;
     }
 
     protected DifferencesFactory getDifferencesFactory() throws IOException {
-<span class="nc" id="L84">        DifferenceStrategy baseStrategy = getBaseStrategy(getCommandLine().getToggleSwitch(&quot;code&quot;));</span>
-<span class="nc" id="L85">        DifferenceStrategy strategy = getStrategy(getCommandLine().getSingleSwitch(&quot;level&quot;), baseStrategy);</span>
+<span class="nc" id="L84">        var baseStrategy = getBaseStrategy(getCommandLine().getToggleSwitch(&quot;code&quot;));</span>
+<span class="nc" id="L85">        var strategy = getStrategy(getCommandLine().getSingleSwitch(&quot;level&quot;), baseStrategy);</span>
 
 <span class="nc bnc" id="L87" title="All 2 branches missed.">        if (getCommandLine().isPresent(&quot;filter&quot;)) {</span>
 <span class="nc" id="L88">            strategy = new ListBasedDifferenceStrategy(strategy, getCommandLine().getSingleSwitch(&quot;filter&quot;));</span>
@@ -92,42 +92,26 @@ import com.jeantessier.diff.*;
     }
 
     private DifferenceStrategy getBaseStrategy(boolean useCode) {
-        DifferenceStrategy result;
-
-<span class="nc bnc" id="L97" title="All 2 branches missed.">        if (useCode) {</span>
-<span class="nc" id="L98">            result = new CodeDifferenceStrategy();</span>
-        } else {
-<span class="nc" id="L100">            result = new NoDifferenceStrategy();</span>
-        }
-
-<span class="nc" id="L103">        return result;</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        return useCode ? new CodeDifferenceStrategy() : new NoDifferenceStrategy();</span>
     }
 
     private DifferenceStrategy getStrategy(String level, DifferenceStrategy baseStrategy) {
-        DifferenceStrategy result;
-
-<span class="nc bnc" id="L109" title="All 2 branches missed.">        if (API_STRATEGY.equals(level)) {</span>
-<span class="nc" id="L110">            result = new APIDifferenceStrategy(baseStrategy);</span>
-<span class="nc bnc" id="L111" title="All 2 branches missed.">        } else if (INCOMPATIBLE_STRATEGY.equals(level)) {</span>
-<span class="nc" id="L112">            result = new IncompatibleDifferenceStrategy(baseStrategy);</span>
-        } else {
-            try {
+<span class="nc bnc" id="L99" title="All 3 branches missed.">        return switch (level) {</span>
+<span class="nc" id="L100">            case API_STRATEGY -&gt; new APIDifferenceStrategy(baseStrategy);</span>
+<span class="nc" id="L101">            case INCOMPATIBLE_STRATEGY -&gt; new IncompatibleDifferenceStrategy(baseStrategy);</span>
+            default -&gt; {
                 try {
-<span class="nc" id="L116">                    result = (DifferenceStrategy) Class.forName(level).getConstructor(DifferenceStrategy.class).newInstance(baseStrategy);</span>
-<span class="nc" id="L117">                } catch (NoSuchMethodException ex) {</span>
-<span class="nc" id="L118">                    result = (DifferenceStrategy) Class.forName(level).getDeclaredConstructor().newInstance();</span>
-<span class="nc" id="L119">                }</span>
-<span class="nc" id="L120">            } catch (ReflectiveOperationException | ClassCastException ex) {</span>
-<span class="nc" id="L121">                LogManager.getLogger(getClass()).error(&quot;Unknown level \&quot;{}\&quot;, using default level \&quot;{}\&quot;&quot;, level, DEFAULT_LEVEL, ex);</span>
-<span class="nc" id="L122">                result = getDefaultStrategy(baseStrategy);</span>
-<span class="nc" id="L123">            }</span>
-        }
-
-<span class="nc" id="L126">        return result;</span>
-    }
-
-    private DifferenceStrategy getDefaultStrategy(DifferenceStrategy strategy) {
-<span class="nc" id="L130">        return new APIDifferenceStrategy(strategy);</span>
+                    try {
+<span class="nc" id="L105">                        yield (DifferenceStrategy) Class.forName(level).getConstructor(DifferenceStrategy.class).newInstance(baseStrategy);</span>
+<span class="nc" id="L106">                    } catch (NoSuchMethodException ex) {</span>
+<span class="nc" id="L107">                        yield (DifferenceStrategy) Class.forName(level).getDeclaredConstructor().newInstance();</span>
+                    }
+<span class="nc" id="L109">                } catch (ReflectiveOperationException | ClassCastException ex) {</span>
+<span class="nc" id="L110">                    LogManager.getLogger(getClass()).error(&quot;Unknown level \&quot;{}\&quot;, using default level \&quot;{}\&quot;&quot;, level, DEFAULT_LEVEL, ex);</span>
+<span class="nc" id="L111">                    yield getStrategy(DEFAULT_LEVEL, baseStrategy);</span>
+                }
+            }
+        };
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

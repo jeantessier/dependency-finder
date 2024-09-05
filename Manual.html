@@ -25,7 +25,7 @@
 <h1>The Dependency Finder User Manual</h1>
 
 <p>
-For Dependency Finder version 1.3.1.
+For Dependency Finder version 1.4.0.
 </p>
 
 <p>
@@ -278,7 +278,7 @@ application to keep the data in memory and play with it a while.
 
 <p>
 Dependency Finder comes as a ZIP file that includes everything you need to run
-it.  The file is named <code>DependencyFinder-1.3.1.bin.zip</code>.
+it.  The file is named <code>DependencyFinder-1.4.0.bin.zip</code>.
 </p>
 
 <a name="Step1:JavaVirtualMachine"></a>
@@ -309,13 +309,13 @@ create and edit variables.
 
 <p>
 Extract the ZIP file to some directory you like.  The extraction will create a
-subdirectory named "DependencyFinder-1.3.1" that is the root of the
+subdirectory named "DependencyFinder-1.4.0" that is the root of the
 package.
 </p>
 
 <p>
 For example, if you extract it to <code>C:\</code>, you will end up with a directory
-called <code>C:\DependencyFinder-1.3.2\</code>.
+called <code>C:\DependencyFinder-1.4.0\</code>.
 </p>
 
 <a name="Step3:EnvironmentVariables"></a>
@@ -334,7 +334,7 @@ For example, if you extracted the ZIP file in <code>C:\</code>
 </p>
 
 <pre>
-    SET DEPENDENCYFINDER_HOME=C:\DependencyFinder-1.3.1
+    SET DEPENDENCYFINDER_HOME=C:\DependencyFinder-1.4.0
 </pre>
 
 <p>
@@ -355,7 +355,7 @@ For example, if you extracted the ZIP file in <code>C:\</code>
 </p>
 
 <pre>
-    SET PATH=C:\DependencyFinder-1.3.1\bin;%PATH%
+    SET PATH=C:\DependencyFinder-1.4.0\bin;%PATH%
 </pre>
 
 <a name="Step5:Reboot"></a>
@@ -414,8 +414,8 @@ everything you need to run it.  The files are:
 </p>
 
 <ul>
-<li><code>DependencyFinder-1.3.1.bin.tar.gz</code></li>
-<li><code>DependencyFinder-1.3.1.bin.tar.bz2</code></li>
+<li><code>DependencyFinder-1.4.0.bin.tar.gz</code></li>
+<li><code>DependencyFinder-1.4.0.bin.tar.bz2</code></li>
 </ul>
 
 <p>
@@ -483,7 +483,7 @@ subdirectory named "DependencyFinder" that is the root of the package.
 </p>
 
 <pre>
-    $ tar xvzf DependencyFinder-1.3.1.bin.tar.gz
+    $ tar xvzf DependencyFinder-1.4.0.bin.tar.gz
 </pre>
 
 <p>
@@ -491,12 +491,12 @@ or
 </p>
 
 <pre>
-    $ bunzip2 DependencyFinder-1.3.1.bin.tar.bz2 | tar xvf -
+    $ bunzip2 DependencyFinder-1.4.0.bin.tar.bz2 | tar xvf -
 </pre>
 
 <p>
 For example, if you extract it to <code>$HOME</code>, you will end up with a directory
-called <code>$HOME/DependencyFinder-1.3.2</code>.
+called <code>$HOME/DependencyFinder-1.4.0</code>.
 </p>
 
 <a name="Step3:EnvironmentVariablesX"></a>
@@ -524,7 +524,7 @@ For sh:
 </p>
 
 <pre>
-    DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-1.3.1
+    DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-1.4.0
     export DEPENDENCYFINDER_HOME
     DEPENDENCYFINDER_OPTS=-Xmx128m
     export DEPENDENCYFINDER_OPTS
@@ -535,7 +535,7 @@ For bash:
 </p>
 
 <pre>
-    export DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-1.3.1
+    export DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-1.4.0
     export DEPENDENCYFINDER_OPTS=-Xmx128m
 </pre>
 
@@ -548,7 +548,7 @@ For csh or tcsh:
 </p>
 
 <pre>
-    setenv DEPENDENCYFINDER_HOME $HOME/DependencyFinder-1.3.1
+    setenv DEPENDENCYFINDER_HOME $HOME/DependencyFinder-1.4.0
     setenv DEPENDENCYFINDER_OPTS -Xmx128m
 </pre>
 
@@ -630,7 +630,7 @@ For instance, using Tomcat on Windows, you can do the following:
 </pre>
 
 <pre>
-    $ cp DependencyFinder-1.3.1.war ${CATALINA_HOME}/webapps
+    $ cp DependencyFinder-1.4.0.war ${CATALINA_HOME}/webapps
 </pre>
 
 <pre>
@@ -751,7 +751,7 @@ may allow you to simply restart the web application itself.
 </pre>
 
 <pre>
-    $ vi ${CATALINA_HOME}/webapps/DependencyFinder-1.3.1/WEB-INF/web.xml
+    $ vi ${CATALINA_HOME}/webapps/DependencyFinder-1.4.0/WEB-INF/web.xml
 </pre>
 
 <pre>
@@ -1685,17 +1685,17 @@ Here is another, slightly more complex example:
             --> ParentClass
             ChildClass()
                 --> ParentClass.ParentClass()
-            a() *
-                <-- ChildClass.b()
-            b()
-                --> ChildClass.a() *
+            a(): void *
+                <-- ChildClass.b(): void
+            b(): void
+                --> ChildClass.a(): void *
         ParentClass
             <-- ChildClass
             --> java.lang.Object *
             ParentClass()
                 <-- ChildClass.ChildClass()
                 --> java.lang.Object.Object() *
-            a()
+            a(): void
     java.lang *
         Object *
             <-- ParentClass
@@ -1763,8 +1763,8 @@ Here is what the dependency graph would look like, using the JDK 1.3 compiler.
             --> MiddleClass
             ChildClass()
                 --> MiddleClass.MiddleClass()
-            <b>b()</b>
-                <b>--> ParentClass.a()</b>
+            <b>b(): void</b>
+                <b>--> ParentClass.a(): void</b>
         MiddleClass
             <-- ChildClass
             --> ParentClass
@@ -1778,8 +1778,8 @@ Here is what the dependency graph would look like, using the JDK 1.3 compiler.
             ParentClass()
                 <-- MiddleClass.ChildClass()
                 --> java.lang.Object.Object() *
-            <b>a()</b>
-                <b><-- ChildClass.b()</b>
+            <b>a(): void</b>
+                <b><-- ChildClass.b(): void</b>
     java.lang *
         Object *
             <-- ParentClass
@@ -2089,29 +2089,29 @@ Here is the raw output dependency graph.
     &nbsp;
         test
             --> java.lang.Object *
-            main(java.lang.String[])
+            main(java.lang.String[]): void
                 --> java.lang.Object *
                 --> java.lang.Object.Object() *
                 --> java.lang.String *
-                --> java.util.Collections.singleton(java.lang.Object) *
+                --> java.util.Collections.singleton(java.lang.Object): java.util.Set *
                 --> java.util.Set *
             test()
                 --> java.lang.Object.Object() *
     java.lang *
         Object *
             <-- test
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
             Object() *
-                <-- test.main(java.lang.String[])
+                <-- test.main(java.lang.String[]): void
                 <-- test.test()
         String *
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
     java.util *
         Collections *
-            singleton(java.lang.Object) *
-                <-- test.main(java.lang.String[])
+            singleton(java.lang.Object): java.util.Set *
+                <-- test.main(java.lang.String[]): void
         Set *
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
 </pre>
 
 </div>
@@ -3221,18 +3221,18 @@ with the following tools:
     java.lang *
         java.lang.Object *
             <-- test
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
             java.lang.Object.Object() *
-                <-- test.main(java.lang.String[])
+                <-- test.main(java.lang.String[]): void
                 <-- test.test()
         java.lang.String *
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
     java.util *
         java.util.Collections *
-            java.util.Collections.singleton(java.lang.Object) *
-                <-- test.main(java.lang.String[])
+            java.util.Collections.singleton(java.lang.Object): java.util.Set *
+                <-- test.main(java.lang.String[]): void
         java.util.Set *
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
 </pre>
 
 </div>
@@ -3264,23 +3264,23 @@ If you only want to remove outbound dependencies and keep empty nodes, use:
 <pre>
     &nbsp;
         test
-            test.main(java.lang.String[])
+            test.main(java.lang.String[]): void
             test.test()
     java.lang *
         java.lang.Object *
             <-- test
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
             java.lang.Object.Object() *
-                <-- test.main(java.lang.String[])
+                <-- test.main(java.lang.String[]): void
                 <-- test.test()
         java.lang.String *
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
     java.util *
         java.util.Collections *
-            java.util.Collections.singleton(java.lang.Object) *
-                <-- test.main(java.lang.String[])
+            java.util.Collections.singleton(java.lang.Object): java.util.Set *
+                <-- test.main(java.lang.String[]): void
         java.util.Set *
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
 </pre>
 
 </div>
@@ -3352,11 +3352,11 @@ following tools:
     &nbsp;
         test
             --> java.lang.Object *
-            test.main(java.lang.String[])
+            test.main(java.lang.String[]): void
                 --> java.lang.Object *
                 --> java.lang.Object.Object() *
                 --> java.lang.String *
-                --> java.util.Collections.singleton(java.lang.Object) *
+                --> java.util.Collections.singleton(java.lang.Object): java.util.Set *
                 --> java.util.Set *
             test.test()
                 --> java.lang.Object.Object() *
@@ -3392,11 +3392,11 @@ If you only want to remove inbound dependencies and keep empty nodes, use:
     &nbsp;
         test
             --> java.lang.Object *
-            test.main(java.lang.String[])
+            test.main(java.lang.String[]): void
                 --> java.lang.Object *
                 --> java.lang.Object.Object() *
                 --> java.lang.String *
-                --> java.util.Collections.singleton(java.lang.Object) *
+                --> java.util.Collections.singleton(java.lang.Object): java.util.Set *
                 --> java.util.Set *
             test.test()
                 --> java.lang.Object.Object() *
@@ -3406,7 +3406,7 @@ If you only want to remove inbound dependencies and keep empty nodes, use:
         java.lang.String *
     java.util *
         java.util.Collections *
-            java.util.Collections.singleton(java.lang.Object) *
+            java.util.Collections.singleton(java.lang.Object): java.util.Set *
         java.util.Set *
 </pre>
 
@@ -3469,29 +3469,29 @@ navigation.
     &nbsp;
         test
             --> java.lang.Object *
-            test.main(java.lang.String[])
+            test.main(java.lang.String[]): void
                 --> java.lang.Object *
                 --> java.lang.Object.Object() *
                 --> java.lang.String *
-                --> java.util.Collections.singleton(java.lang.Object) *
+                --> java.util.Collections.singleton(java.lang.Object): java.util.Set *
                 --> java.util.Set *
             test.test()
                 --> java.lang.Object.Object() *
     java.lang *
         java.lang.Object *
             <-- test
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
             java.lang.Object.Object() *
-                <-- test.main(java.lang.String[])
+                <-- test.main(java.lang.String[]): void
                 <-- test.test()
         java.lang.String *
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
     java.util *
         java.util.Collections *
-            java.util.Collections.singleton(java.lang.Object) *
-                <-- test.main(java.lang.String[])
+            java.util.Collections.singleton(java.lang.Object): java.util.Set *
+                <-- test.main(java.lang.String[]): void
         java.util.Set *
-            <-- test.main(java.lang.String[])
+            <-- test.main(java.lang.String[]): void
 </pre>
 
 </div>
@@ -4526,8 +4526,12 @@ of software.  Dependency Finder recognizes four sizes of <i>chunks</i>:
     <dd>These metrics apply to individual classes.  They are named with the
     fully qualified name of the class.</dd>
     <dt>Method</dt>
-    <dd>These metrics apply to individual methods within
-    a class.</dd>
+    <dd>These metrics apply to individual methods within a class.  They are
+    named after the fully qualified signature of the method.  But, some
+    synthetic methods have the same signature as existing methods (e.g.,
+    some bridge methods), so we append the return type to the signature to
+    create a unique name.  For instance, <code>java.lang.Class.getName()</code> becomes
+    <code>java.lang.Class.getName(): java.lang.String</code></dd>
 </dl>
 </blockquote>
 
@@ -4774,7 +4778,7 @@ class="highlight">
 </td></tr><tr><td valign="top">
 
 <pre>
-    p.A.a(B)
+    p.A.a(B): void
         OIPC: 1
             p.B
 </pre>
@@ -4784,7 +4788,7 @@ class="highlight">
 <pre>
     p.B
         IIPM: 1
-            p.A.a(B)
+            p.A.a(B): void
 </pre>
 
 </td></tr><tr><td colspan="3">
@@ -4834,7 +4838,7 @@ class="highlight">
 </td></tr><tr><td valign="top">
 
 <pre>
-    a.A.a(B)
+    a.A.a(B): void
         OEPC: 1
             p.B
 </pre>
@@ -4844,7 +4848,7 @@ class="highlight">
 <pre>
     b.B
         IEPM: 1
-            a.A.a(B)
+            a.A.a(B): void
 </pre>
 
 </td></tr><tr><td colspan="3">
@@ -5005,17 +5009,17 @@ class="highlight">
 </td></tr><tr><td valign="top">
 
 <pre>
-    p.C.a()
+    p.C.a(): void
         OICF: 1
-            p.C.b()
+            p.C.b(): void
 </pre>
 
 </td><td valign="top">
 
 <pre>
-    p.C.b()
+    p.C.b(): void
         IICM: 1
-            p.C.a()
+            p.C.a(): void
 </pre>
 
 </td></tr><tr><td colspan="3">
@@ -5064,17 +5068,17 @@ class="highlight">
 </td></tr><tr><td valign="top">
 
 <pre>
-    p.A.a()
+    p.A.a(): void
         OIPF: 1
-            p.B.b()
+            p.B.b(): void
 </pre>
 
 </td><td valign="top">
 
 <pre>
-    p.B.b()
+    p.B.b(): void
         IIPM: 1
-            p.A.a()
+            p.A.a(): void
 </pre>
 
 </td></tr><tr><td colspan="3">
@@ -5127,17 +5131,17 @@ class="highlight">
 </td></tr><tr><td valign="top">
 
 <pre>
-    a.A.a()
+    a.A.a(): void
         OEPF: 1
-            b.B.b()
+            b.B.b(): void
 </pre>
 
 </td><td valign="top">
 
 <pre>
-    b.B.b()
+    b.B.b(): void
         IEPM: 1
-            a.A.a()
+            a.A.a(): void
 </pre>
 
 </td></tr></table>
@@ -5168,6 +5172,9 @@ The current types of measurement are as follow:
     <dt><code>RatioMeasurement</code></dt>
     <dd>Divides one measurement (base) by another (divider).  Both
     must be in the same context.</dd>
+    <dt><code>SingleValueMeasurement</code></dt>
+    <dd>A simple value holder, it stores the latest value that was
+    put in it.  If you try to add a non-number, it does nothing.</dd>
     <dt><code>StatisticalMeasurement</code></dt>
     <dd>Computes the statistical properties of a given measurement
     across the submetrics of the measurement's context.  Given a
@@ -5182,7 +5189,21 @@ The current types of measurement are as follow:
         <li>maximum value</li>
         <li>sum</li>
         <li>number of data points</li>
-    </ul></dd>
+    </ul>
+    <p>A quick note regarding the median value.  If the number of data
+    points is odd, we can sort them and return the single value in the
+    middle.  For the dataset <code>[1, 2, <b>3</b>, 4, 5]</code>, the median is <code>3</code>.
+    But if the number of data points is even, there is no single value
+    in the middle.  Instead, we return the average of the two values in
+    the middle of the sorted dataset.  For the dataset
+    <code>[1, 2, <b>3, 4</b>, 5, 6]</code>, the median is the average of <code>3</code> and <code>4</code>, so
+    the median value is <code>3.5</code>.  This matches the definition of
+    <a href="https://en.wikipedia.org/wiki/Median#Finite_set_of_numbers">median</a>
+    on Wikipedia.</p>
+    <p>You can also pull specific percentile values by specifying them as part
+    of the configuration.  <code>p50</code> is akin to he median.  <code>p100</code> is the maximum
+    value.</p>
+    </dd>
     <dt><code>SubMetricsAccumulatorMeasurement</code></dt>
     <dd>Aggregates lists from measurements in submetrics of the current
     context.  It uses Perl regular expressions to filter list elements.</dd>
@@ -5479,30 +5500,34 @@ You must specify an output mode with one of these switches.
 <blockquote>
 <dl>
     <dt><code>-csv</code></dt>
-    <dd>Writes each section in its own CSV file, perfect for loading in
-    Google Docs or Microsoft Excel and for charting.</dd>
+    <dd>Writes each requested section in its own CSV file, perfect for loading
+    in Google Docs or Microsoft Excel, and for charting.</dd>
+    <dt><code>-json</code></dt>
+    <dd>Writes a single JSON report with all the requested sections.</dd>
+    <dt><code>-text</code></dt>
     <dt><code>-txt</code></dt>
-    <dd>Writes a single text report with all requested sections.</dd>
+    <dd>Writes a single text report with all the requested sections.</dd>
     <dt><code>-xml</code></dt>
-    <dd>Writes a single XML report with all requested sections.</dd>
+    <dd>Writes a single XML report with all the requested sections.</dd>
+    <dt><code>-yaml</code></dt>
+    <dt><code>-yml</code></dt>
+    <dd>Writes a single YAML report with all the requested sections.</dd>
 </dl>
 </blockquote>
 
 <p>
-You can specify an output file with the <code>-out</code> switch.  But in this case,
-the switch only provides a prefix for the output files.  <code>OOMetrics</code> will
-add the appropriate suffix, depending on the output mode.  For text and
-XML output, it writes only one file with the total report.  For CSV output,
-however, it writes one file per selected section; each filename starts
-with the prefix you specify, followed by either "<code>_project</code>",
-"<code>_groups</code>", "<code>_classes</code>", or "<code>_methods</code>" according to the section,
-and ends with the "<code>.csv</code>" suffix.
+You can specify an output file with the <code>-out</code> switch.  For text, JSON, XML,
+and YAML output, it writes a single file with the total report.  For CSV
+output, however, the <code>-out</code> switch provides a prefix and <code>OOMetrics</code> will
+write one file per selected level and append either "<code>_project.csv</code>",
+"<code>_groups.csv</code>", "<code>_classes.csv</code>", or "<code>_methods.csv</code>", according to the
+level.
 </p>
 
 <div class="highlight">
 
 <pre>
-    $ OOMetrics -out df
+    $ OOMetrics -out df.txt
                 -txt
                 ${DEPENDENCYFINDER_HOME}/lib/DependencyFinder.jar
 </pre>
@@ -5518,6 +5543,17 @@ metrics and produce a report.  You need to associate the class to a tag using
 Ant's <code>&lt;taskdef&gt;</code> task.  You also need to tell Ant where to find the
 Dependency Finder classes.  There is a special
 <a href="tasks/index.html">help page</a> on how to do this.
+</p>
+
+<p>
+You can specify an output file with the <code>destprefix</code> attribute.  Here, the
+attribute only provides a prefix for the output files.  <code>OOMetrics</code> will
+add the appropriate suffix, depending on the output mode.  For text, JSON, XML,
+and YAML output, it writes only one file with the total report.  For CSV output,
+however, it writes one file per selected section; each filename starts
+with the prefix you specify, followed by either "<code>_project.csv</code>",
+"<code>_groups.csv</code>", "<code>_classes.csv</code>", or "<code>_methods.csv</code>", according to the
+level.
 </p>
 
 <div class="highlight">
@@ -6595,10 +6631,10 @@ later to narrow this list down to the symbols that <i>S</i> actually uses.
 <div class="highlight">
 
 <pre>
-    $ ListSymbols -out <b><i>L</i>.symbols.txt</b>
-                  -class-names
-                  -method-names
-                  -field-names
+    $ ListSymbols <b>-txt</b> -out <b><i>L</i>.symbols.txt</b>
+                  -classes
+                  -methods
+                  -fields
                   <i>L</i>
 </pre>
 
