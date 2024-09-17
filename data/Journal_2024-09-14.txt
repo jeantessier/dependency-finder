@@ -1,0 +1,24 @@
+Someone on Mastodon asked a
+[[https://techhub.social/@paintgoblin@warhammer.social/113136435478210877][question about identically named methods]],
+but with different return types.  This is a good example of _bridge methods_.
+It is very timely that I recently learned about these.
+
+I came up with a nice little example to illustrate.
+
+    public interface Shape {}
+    &nbsp;
+    public interface Factory {
+        Shape create();
+    }
+    &nbsp;
+    public class Circle implements Shape {}
+    &nbsp;
+    public class CircleFactory implements Factory {
+        public Circle create() {
+            return new Circle();
+        }
+    }
+
+Now, =CircleFactory= has two =create()= methods: one is a bridge method that
+returns a =Shape=, and the other is the method from the source that returns a
+=Circle=.
