@@ -1,3 +1,8 @@
-Tried to add a =getSignatureDeclaration()= method to =Method_info=.  The goal
+[[https://blogs.oracle.com/java/post/the-arrival-of-java-23][Java 23]] is out.
+I looked at the
+[[https://docs.oracle.com/javase/specs/index.html][JVM specification]], and I
+couldn't find any changes to the =.class= file format.  Good.
+
+I tried to add a =getSignatureDeclaration()= method to =Method_info=.  The goal
 is to walk up the class hierarchy to locate the declaration of a given method.
 I don't really like the name, but I can't think of a better one for now.
