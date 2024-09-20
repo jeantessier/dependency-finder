@@ -38,6 +38,7 @@ import org.jmock.integration.junit4.*;
 import org.junit.*;
 
 import java.io.*;
+import java.util.function.*;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
@@ -84,6 +85,32 @@ public class TestMethod_info {
 
         Method_info sut = new Method_info(mockClassfile, mockIn);
         assertThat("declaration", sut.getDeclaration(), is("static {}"));
+    }
+
+    @Test
+    public void testLocateMethodDeclaration() throws IOException {
+        final Classfile mockClassfile = context.mock(Classfile.class);
+
+        context.checking(new Expectations() {{
+            allowing (mockClassfile).getConstantPool();
+                will(returnValue(mockConstantPool));
+        }});
+
+        expectReadU2(TEST_ACCESS_FLAG);
+        expectReadU2(TEST_NAME_INDEX);
+        expectLookupUtf8(TEST_NAME_INDEX, "foo", "name");
+        expectReadU2(TEST_SIGNATURE_INDEX);
+        expectLookupUtf8(TEST_SIGNATURE_INDEX, "()V", "signature");
+        expectReadU2(TEST_NB_ATTRIBUTES);
+
+        Method_info sut = new Method_info(mockClassfile, mockIn);
+
+        context.checking(new Expectations() {{
+            oneOf (mockClassfile).locateMethodDeclaration(with(any(Predicate.class)));
+                will(returnValue(sut));
+        }});
+
+        assertThat("signature declaration", sut.locateMethodDeclaration(), is(sut));
     }
 
     protected void expectReadU2(final int i) throws IOException {

@@ -326,6 +326,27 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         return null;
     }
 
+    public com.jeantessier.classreader.Method_info locateMethodDeclaration(Predicate<com.jeantessier.classreader.Method_info> filter) {
+        var method = Stream.concat(
+                getAllInterfaces().stream().map(com.jeantessier.classreader.Class_info::getName),
+                Stream.of(getSuperclassName()))
+                .map(className -> getLoader().getClassfile(className))
+                .filter(Objects::nonNull)
+                .map(classfile -> classfile.locateMethodDeclaration(filter))
+                .filter(Objects::nonNull)
+                .findAny()
+                .orElse(null);
+
+        if (method != null) {
+            return method;
+        }
+
+        return getAllMethods().parallelStream()
+                .filter(filter)
+                .findAny()
+                .orElse(null);
+    }
+
     public Collection<Attribute_info> getAttributes() {
         return attributes;
     }

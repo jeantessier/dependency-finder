@@ -50,4 +50,6 @@ public interface Method_info extends Feature_info, Comparable<Method_info> {
     Stream<String> getParameterTypes();
     String getReturnType();
     Code_attribute getCode();
+
+    Method_info locateMethodDeclaration();
 }
