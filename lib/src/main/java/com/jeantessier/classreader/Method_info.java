@@ -51,5 +51,5 @@ public interface Method_info extends Feature_info, Comparable<Method_info> {
     String getReturnType();
     Code_attribute getCode();
 
-    Method_info locateMethodDeclaration();
+    Collection<? extends Method_info> locateMethodDeclarations();
 }

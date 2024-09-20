@@ -67,7 +67,7 @@ public interface Classfile extends Deprecatable, Visitable, Comparable<Classfile
     Collection<? extends Method_info> getAllMethods();
     Method_info getMethod(Predicate<Method_info> filter);
     Method_info locateMethod(Predicate<Method_info> filter);
-    Method_info locateMethodDeclaration(Predicate<Method_info> filter);
+    Collection<? extends Method_info> locateMethodDeclarations(Predicate<Method_info> filter);
 
     Collection<? extends Attribute_info> getAttributes();
 

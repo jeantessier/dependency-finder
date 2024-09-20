@@ -38,6 +38,7 @@ import org.jmock.integration.junit4.*;
 import org.junit.*;
 
 import java.io.*;
+import java.util.*;
 import java.util.function.*;
 
 import static org.hamcrest.MatcherAssert.*;
@@ -88,7 +89,7 @@ public class TestMethod_info {
     }
 
     @Test
-    public void testLocateMethodDeclaration() throws IOException {
+    public void testLocateMethodDeclarations_delegatesToClassfile() throws IOException {
         final Classfile mockClassfile = context.mock(Classfile.class);
 
         context.checking(new Expectations() {{
@@ -104,13 +105,14 @@ public class TestMethod_info {
         expectReadU2(TEST_NB_ATTRIBUTES);
 
         Method_info sut = new Method_info(mockClassfile, mockIn);
+        Collection<Method_info> expectedDeclarations = Collections.singleton(sut);
 
         context.checking(new Expectations() {{
-            oneOf (mockClassfile).locateMethodDeclaration(with(any(Predicate.class)));
-                will(returnValue(sut));
+            oneOf (mockClassfile).locateMethodDeclarations(with(any(Predicate.class)));
+                will(returnValue(expectedDeclarations));
         }});
 
-        assertThat("signature declaration", sut.locateMethodDeclaration(), is(sut));
+        assertThat("method expectedDeclarations", sut.locateMethodDeclarations(), is(expectedDeclarations));
     }
 
     protected void expectReadU2(final int i) throws IOException {

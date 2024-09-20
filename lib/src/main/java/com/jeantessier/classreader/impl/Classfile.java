@@ -326,25 +326,24 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         return null;
     }
 
-    public com.jeantessier.classreader.Method_info locateMethodDeclaration(Predicate<com.jeantessier.classreader.Method_info> filter) {
-        var method = Stream.concat(
-                getAllInterfaces().stream().map(com.jeantessier.classreader.Class_info::getName),
-                Stream.of(getSuperclassName()))
+    public Collection<? extends com.jeantessier.classreader.Method_info> locateMethodDeclarations(Predicate<com.jeantessier.classreader.Method_info> filter) {
+        var declarations = Stream.concat(
+                    getAllInterfaces().stream().map(com.jeantessier.classreader.Class_info::getName),
+                    Stream.of(getSuperclassName())
+                )
                 .map(className -> getLoader().getClassfile(className))
                 .filter(Objects::nonNull)
-                .map(classfile -> classfile.locateMethodDeclaration(filter))
+                .flatMap(classfile -> classfile.locateMethodDeclarations(filter).stream())
                 .filter(Objects::nonNull)
-                .findAny()
-                .orElse(null);
+                .toList();
 
-        if (method != null) {
-            return method;
+        if (!declarations.isEmpty()) {
+            return declarations;
         }
 
-        return getAllMethods().parallelStream()
+        return getAllMethods().stream()
                 .filter(filter)
-                .findAny()
-                .orElse(null);
+                .toList();
     }
 
     public Collection<Attribute_info> getAttributes() {

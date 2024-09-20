@@ -168,8 +168,8 @@ public class Method_info extends Feature_info implements com.jeantessier.classre
         return finder.getCode();
     }
 
-    public com.jeantessier.classreader.Method_info locateMethodDeclaration() {
-        return getClassfile().locateMethodDeclaration(methodInfo ->
+    public Collection<? extends com.jeantessier.classreader.Method_info> locateMethodDeclarations() {
+        return getClassfile().locateMethodDeclarations(methodInfo ->
                 methodInfo.getSignature().equals(getSignature()) && methodInfo.getReturnType().equals(getReturnType())
         );
     }
