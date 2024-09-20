@@ -1,0 +1,56 @@
+@startuml
+
+skin rose
+skinparam style strictuml
+skinparam backgroundColor transparent
+
+hide <<interface>> fields
+
+set separator none
+
+package java.io {
+
+    interface AutoCloseable <<interface>> {
+        close()
+    }
+
+    interface Closeable <<interface>> {
+        close()
+    }
+    AutoCloseable <|-- Closeable
+
+    interface Readable <<interface>> {
+        read(buffer)
+    }
+
+    abstract Reader {
+        close() {abstract}
+        read()
+        read(buffer)
+        read(buffer, offset, length) {abstract}
+    }
+    Closeable <|.. Reader
+    Readable <|.. Reader
+
+    class InputStreamReader {
+        close()
+        read()
+        read(buffer, offset, length)
+    }
+    Reader <|-- InputStreamReader
+
+    class FileReader
+    InputStreamReader <|-- FileReader
+
+}
+
+package com.acme.foo {
+
+    class FooReader {
+        close()
+    }
+    FileReader <|-- FooReader
+
+}
+
+@enduml

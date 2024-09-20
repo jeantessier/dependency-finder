@@ -1,0 +1,28 @@
+Finished =getSignatureDeclaration()= by adding a method on =Classfile= to walk
+the class hierarchy.
+
+One issue that comes up is what to do when the same method is declared in
+multiple interfaces.
+
+In the following example, the method =m()= is declared in both =SuperInterface=
+and =OtherInterface=.
+
+[[../images/DeepMethodDeclarationHierarchy.png]]
+
+Which one should I pick when trying to locate the declaration of
+=ConcreteClass.m()=?  Should I always return a list of all candidates?  Even if
+most of the time, it will have only one element?
+
+A second issue comes up when a method comes from an ancestor that Dependency
+Finder has not parsed.  Take the following example that extends =java.io=
+classes.
+
+[[../images/CloseMethodDeclarationHierarchy.png]]
+
+If Dependency Finder only sees the =com.acme.foo= package and not the =java.io=
+package, then it will think the =close()= method was declared in =FooReader=,
+and it won't even see the =read()= methods.
+<label for%3D"mn-2024-09-18-unconfirmed-dependency" class%3D"margin-toggle">&#8853;</label>
+<input type%3D"checkbox" id%3D"mn-2024-09-18-unconfirmed-dependency" class%3D"margin-toggle"/>
+<span class%3D"marginnote">Maybe as _unconfirmed_ nodes in a dependency
+graph.</span>

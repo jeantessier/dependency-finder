@@ -1,0 +1,32 @@
+@startuml
+
+skin rose
+skinparam style strictuml
+skinparam backgroundColor transparent
+
+hide <<interface>> fields
+
+interface SuperInterface <<interface>> {
+    m()
+}
+
+interface MiddleInterface <<interface>>
+SuperInterface <|-- MiddleInterface
+
+interface OtherInterface <<interface>> {
+    m()
+}
+
+abstract AbstractBaseClass
+MiddleInterface <|.. AbstractBaseClass
+OtherInterface <|.. AbstractBaseClass
+
+class ConcreteClass {
+    m()
+}
+AbstractBaseClass <|-- ConcreteClass
+
+class ConcreteSubclass
+ConcreteClass <|-- ConcreteSubclass
+
+@enduml

@@ -1,0 +1,3 @@
+Tried to add a =getSignatureDeclaration()= method to =Method_info=.  The goal
+is to walk up the class hierarchy to locate the declaration of a given method.
+I don't really like the name, but I can't think of a better one for now.

@@ -1,0 +1,34 @@
+@startuml
+
+skin rose
+skinparam style strictuml
+skinparam backgroundColor transparent
+
+hide <<interface>> fields
+
+set separator none
+
+package java.util {
+
+    interface Enumeration<E> <<interface>> {
+        nextElement(): E
+    }
+
+}
+
+package com.acme.foo {
+
+    class Foo
+
+    class FooEnumeration {
+        nextElement(): Object {bridge}
+        nextElement(): Foo
+    }
+    Enumeration <|.. FooEnumeration
+    FooEnumeration .> Foo
+
+    hide Foo empty members
+
+}
+
+@enduml

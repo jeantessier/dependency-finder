@@ -1,0 +1,23 @@
+I want to rename =getSignatureDeclaration()= to =locateMethodDeclaration()=.
+This will draw a parallel with the existing =locateMethod()=.  It also links
+the _caveats_ that applies to both methods: they can only locate methods and
+declarations in classes that were loaded by a Dependency Finder
+=ClassfileLoader=.
+
+Actually, by the same loader as the one that loaded the current classfile.
+
+Actually, only if it is an =AggregatingClassfileLoader=.
+
+The following example shows a bridge method when implementing
+=Enumeration&lt;E&gt;=.
+
+[[../images/EnumerationImplementationWithBridgeMethod.png]]
+
+The declaration for the bridge method would be
+=java.util.*Enumeration*.nextElement(): *Object*=.  The declaration for the
+method with the actual implementation would be the method itself.
+<label for%3D"mn-2024-09-19-follow-signature" class%3D"margin-toggle">&#8853;</label>
+<input type%3D"checkbox" id%3D"mn-2024-09-19-follow-signature" class%3D"margin-toggle"/>
+<span class%3D"marginnote">We could try to match the signature of the bridge
+method to that of the implementation method, but such a match would only work
+when the methods differ only in their return type.</span>
