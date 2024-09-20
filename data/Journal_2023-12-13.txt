@@ -1,9 +1,9 @@
 Fixed Ant targets for Tomcat 7+.  I have an experimental branch from
 [[2011-05-19]] that was trying to do that too.  I had noted back then that
-HttpUnit tests wasn't able to launch the webapp.
+HttpUnit tests were not able to launch the webapp.
 
-Fixed webapp descriptor location in =:webapp= subproject.  Gradle expects all
-webapp-related files to be under =src/main/webapp=.
+Fixed webapp descriptor location in the =:webapp= subproject.  Gradle expects
+all webapp-related files to be under =src/main/webapp=.
 
 Fixed location of javadocs and GUI resources in =:lib= subproject.  Gradle
 expects all non-Java files to be under =src/main/resources=.
