@@ -65,3 +65,12 @@ java {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+// Suppress javadoc warnings about missing documentation comments.
+tasks {
+    javadoc {
+        options {
+            (this as CoreJavadocOptions).addBooleanOption("Xdoclint:none", true)
+        }
+    }
+}
