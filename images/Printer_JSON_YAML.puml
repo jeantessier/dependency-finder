@@ -55,7 +55,7 @@ package com.jeantessier.dependency {
     class dependency.XMLPrinter as "XMLPrinter"
     dependency.Printer <|-- dependency.XMLPrinter
 
-    class classreader.JSONPrinter as "JSONPrinter" as "JSONPrinter" #lightgreen
+    class dependency.JSONPrinter as "JSONPrinter" #lightgreen
     dependency.Printer <|-- dependency.JSONPrinter
     dependency.HTMLPrinter -[hidden]-> dependency.JSONPrinter
 
