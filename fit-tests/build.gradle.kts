@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("jvm-test-suite")
     id("jacoco")
 }
 
@@ -10,21 +11,26 @@ repositories {
 dependencies {
     implementation(project(":lib"))
     implementation(libs.fitlibrary)
+}
 
-    testImplementation(libs.junit.jupiter)
-    testImplementation(libs.oro)
+testing {
+    suites {
+        val test by getting(JvmTestSuite::class) {
+            useJUnitJupiter()
 
-    testImplementation(project("metrics"))
+            dependencies {
+                runtimeOnly("org.junit.vintage:junit-vintage-engine")
 
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+                implementation(libs.oro)
+
+                implementation(project("metrics"))
+            }
+        }
+    }
 }
 
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
 }

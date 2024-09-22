@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("jvm-test-suite")
     id("jacoco")
 }
 
@@ -15,12 +16,6 @@ dependencies {
 
     runtimeOnly(libs.log4j.core)
     runtimeOnly(libs.saxon.he)
-
-    testImplementation(libs.junit.jupiter)
-    testImplementation(libs.bundles.jmock)
-    testImplementation(libs.ant)
-
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
 }
 
 java {
@@ -62,8 +57,25 @@ java {
     }
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
+testing {
+    suites {
+        val test by getting(JvmTestSuite::class) {
+            useJUnitJupiter()
+
+            dependencies {
+                runtimeOnly("org.junit.vintage:junit-vintage-engine")
+
+                // jMock
+                implementation(libs.byte.buddy)
+                implementation(libs.jmock.junit3)
+                implementation(libs.jmock.junit4)
+                implementation(libs.jmock.imposters)
+
+                // Ant
+                implementation(libs.ant)
+            }
+        }
+    }
 }
 
 // Suppress javadoc warnings about missing documentation comments.
