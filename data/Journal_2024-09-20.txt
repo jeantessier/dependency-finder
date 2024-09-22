@@ -1,0 +1,3 @@
+Crazy thought: could I replace =:webapp= with a microservice with a React
+frontend?  Should I?  I could write the microservice with Micronaut.  I would
+need a =JSONPrinter= for dependency graphs.
