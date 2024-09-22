@@ -1,0 +1,4 @@
+I was reading up on [[https://declarative.gradle.org/][Declarative Gradle]],
+and I found a deprecation warning in build scans.  So, I converted all the
+build configurations to the new
+[[https://docs.gradle.org/8.10.1/userguide/jvm_test_suite_plugin.html][Test Suite plugin]].
