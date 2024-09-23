@@ -334,7 +334,6 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
                 .map(className -> getLoader().getClassfile(className))
                 .filter(Objects::nonNull)
                 .flatMap(classfile -> classfile.locateMethodDeclarations(filter).stream())
-                .filter(Objects::nonNull)
                 .toList();
 
         if (!declarations.isEmpty()) {
