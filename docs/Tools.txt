@@ -10318,7 +10318,10 @@ Lists all symbols it could find, based on parameters.
 
     ListSymbols
         [-classes]
+        [-csv]
+        [-dtd-prefix uri]
         [-echo]
+        [-encoding name]
         [-excludes value]*
         [-excludes-list filename]*
         [-fields]
@@ -10326,7 +10329,9 @@ Lists all symbols it could find, based on parameters.
         [-help]
         [-includes value]*
         [-includes-list filename]*
+        [-indent-text text]
         [-inner-classes]
+        [-json]
         [-local-variables]
         [-methods]
         [-non-private-fields]
@@ -10340,6 +10345,9 @@ Lists all symbols it could find, based on parameters.
         [-txt]
         [-verbose [filename]]
         [-version]
+        [-xml]
+        [-yaml]
+        [-yml]
         [filename ...]
 
 ---+++ Description
@@ -12103,10 +12111,10 @@ generates up to four files, one for each group of metrics:
    * _prefix_%5Fclasses.csv
    * _prefix_%5Fmethods.csv
 
-With =-json=, =-xml=, =-yaml=, or =-yml=, it converts the entire metrics
-structure into a single document.  With =-xml=, the XML document follows the
-=[[https://depfind.sourceforge.io/dtd/metrics.dtd][metrics]]= DTD.  You can use
-=-out filename= to save the output to a file.
+With =-json=, =-text=, =-txt=, =-xml=, =-yaml=, or =-yml=, it converts the
+entire metrics structure into a single document.  With =-xml=, the XML document
+follows the =[[https://depfind.sourceforge.io/dtd/metrics.dtd][metrics]]= DTD.
+You can use =-out filename= to save the output to a file.
 
 </blockquote>
 
