@@ -13070,7 +13070,10 @@ Lists all symbols it could find, based on parameters.
 <pre>
     ListSymbols
         [-classes]
+        [-csv]
+        [-dtd-prefix uri]
         [-echo]
+        [-encoding name]
         [-excludes value]*
         [-excludes-list filename]*
         [-fields]
@@ -13078,7 +13081,9 @@ Lists all symbols it could find, based on parameters.
         [-help]
         [-includes value]*
         [-includes-list filename]*
+        [-indent-text text]
         [-inner-classes]
+        [-json]
         [-local-variables]
         [-methods]
         [-non-private-fields]
@@ -13092,6 +13097,9 @@ Lists all symbols it could find, based on parameters.
         [-txt]
         [-verbose [filename]]
         [-version]
+        [-xml]
+        [-yaml]
+        [-yml]
         [filename ...]
 </pre>
 
@@ -15306,10 +15314,10 @@ generates up to four files, one for each group of metrics:
 </ul>
 
 <p>
-With <code>-json</code>, <code>-xml</code>, <code>-yaml</code>, or <code>-yml</code>, it converts the entire metrics
-structure into a single document.  With <code>-xml</code>, the XML document follows the
-<code><a href="https://depfind.sourceforge.io/dtd/metrics.dtd">metrics</a></code> DTD.  You can use
-<code>-out filename</code> to save the output to a file.
+With <code>-json</code>, <code>-text</code>, <code>-txt</code>, <code>-xml</code>, <code>-yaml</code>, or <code>-yml</code>, it converts the
+entire metrics structure into a single document.  With <code>-xml</code>, the XML document
+follows the <code><a href="https://depfind.sourceforge.io/dtd/metrics.dtd">metrics</a></code> DTD.
+You can use <code>-out filename</code> to save the output to a file.
 </p>
 
 </blockquote>
