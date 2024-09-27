@@ -1,0 +1,43 @@
+dependencies:
+    - type: package
+      confirmed: false
+      name: empty
+      outbound: []
+      inbound: []
+      classes:
+        - type: class
+          confirmed: false
+          name: empty.Empty
+          outbound: []
+          inbound: []
+          features: []
+    - type: package
+      confirmed: false
+      name: inbound
+      outbound: []
+      inbound: []
+      classes:
+        - type: class
+          confirmed: false
+          name: inbound.Inbound
+          outbound: []
+          inbound:
+            - type: class
+              confirmed: false
+              name: outbound.Outbound
+          features: []
+    - type: package
+      confirmed: false
+      name: outbound
+      outbound: []
+      inbound: []
+      classes:
+        - type: class
+          confirmed: false
+          name: outbound.Outbound
+          outbound:
+            - type: class
+              confirmed: false
+              name: inbound.Inbound
+          inbound: []
+          features: []

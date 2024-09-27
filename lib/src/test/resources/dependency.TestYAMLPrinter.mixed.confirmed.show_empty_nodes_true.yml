@@ -1,0 +1,59 @@
+dependencies:
+    - type: package
+      confirmed: true
+      name: empty
+      outbound: []
+      inbound: []
+      classes:
+        - type: class
+          confirmed: true
+          name: empty.Empty
+          outbound: []
+          inbound: []
+          features: []
+    - type: package
+      confirmed: true
+      name: inbound
+      outbound: []
+      inbound: []
+      classes:
+        - type: class
+          confirmed: true
+          name: inbound.Inbound
+          outbound: []
+          inbound:
+            - type: class
+              confirmed: true
+              name: outbound.Outbound
+          features:
+            - type: feature
+              confirmed: true
+              name: inbound.Inbound.inbound()
+              outbound: []
+              inbound:
+                - type: feature
+                  confirmed: true
+                  name: outbound.Outbound.outbound()
+    - type: package
+      confirmed: true
+      name: outbound
+      outbound: []
+      inbound: []
+      classes:
+        - type: class
+          confirmed: true
+          name: outbound.Outbound
+          outbound:
+            - type: class
+              confirmed: true
+              name: inbound.Inbound
+          inbound: []
+          features:
+            - type: feature
+              confirmed: true
+              name: outbound.Outbound.outbound()
+              outbound:
+                - type: feature
+                  confirmed: true
+                  name: inbound.Inbound.inbound()
+              inbound: []

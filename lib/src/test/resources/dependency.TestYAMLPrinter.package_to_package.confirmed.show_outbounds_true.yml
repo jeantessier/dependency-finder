@@ -1,0 +1,22 @@
+dependencies:
+    - type: package
+      confirmed: true
+      name: empty
+      outbound: []
+      inbound: []
+      classes: []
+    - type: package
+      confirmed: true
+      name: inbound
+      outbound: []
+      inbound: []
+      classes: []
+    - type: package
+      confirmed: true
+      name: outbound
+      outbound:
+        - type: package
+          confirmed: true
+          name: inbound
+      inbound: []
+      classes: []

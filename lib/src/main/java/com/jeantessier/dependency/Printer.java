@@ -86,7 +86,19 @@ public abstract class Printer extends VisitorBase {
     public void setShowEmptyNodes(boolean showEmptyNodes) {
         this.showEmptyNodes = showEmptyNodes;
     }
-    
+
+    public void visitPackageNode(PackageNode node) {
+        if (shouldShowPackageNode(node)) {
+            super.visitPackageNode(node);
+        }
+    }
+
+//    public void visitClassNode(ClassNode node) {
+//        if (shouldShowClassNode(node)) {
+//            super.visitClassNode(node);
+//        }
+//    }
+
     protected Printer append(boolean b) {
         out.print(b);
         return this;
@@ -171,13 +183,21 @@ public abstract class Printer extends VisitorBase {
     }
 
     protected boolean shouldShowPackageNode(PackageNode node) {
-        return shouldShowNode(node) || node.getClasses().parallelStream().anyMatch(this::shouldShowClassNode);
+        return shouldShowNode(node) || hasVisibleClasses(node);
+    }
+
+    protected boolean hasVisibleClasses(PackageNode node) {
+        return node.getClasses().parallelStream().anyMatch(this::shouldShowClassNode);
     }
 
     protected boolean shouldShowClassNode(ClassNode node) {
-        return shouldShowNode(node) || node.getFeatures().parallelStream().anyMatch(this::shouldShowFeatureNode);
+        return shouldShowNode(node) || hasVisibleFeatures(node);
     }
-    
+
+    protected boolean hasVisibleFeatures(ClassNode node) {
+        return node.getFeatures().parallelStream().anyMatch(this::shouldShowFeatureNode);
+    }
+
     protected boolean shouldShowFeatureNode(FeatureNode node) {
         return shouldShowNode(node);
     }
