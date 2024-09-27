@@ -1,0 +1,12 @@
+inbound
+    <-- outbound
+    Inbound
+        <-- outbound.Outbound
+        inbound()
+            <-- outbound.Outbound.outbound()
+outbound
+    --> inbound
+    Outbound
+        --> inbound.Inbound
+        outbound()
+            --> inbound.Inbound.inbound()
