@@ -32,1065 +32,122 @@
 
 package com.jeantessier.dependency;
 
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
+
 import java.io.*;
+import java.nio.file.*;
+import java.util.stream.*;
 
-public class TestHTMLPrinter extends TestHTMLPrinterBase {
-    private HTMLPrinter visitor;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+public class TestHTMLPrinter extends TestPrinterBase {
+    private static final String PREFIX = "prefix (";
+    private static final String SUFFIX = ") suffix";
+    private static final String FORMAT = PREFIX + "%s" + SUFFIX;
 
-        visitor = new HTMLPrinter(new PrintWriter(out), FORMAT);
+    private final HTMLPrinter visitor = new HTMLPrinter(new PrintWriter(out), FORMAT);
+
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                arguments("inferred inbound package-to-package", DependencyGraph.PACKAGE_TO_PACKAGE, false, true, false, true, "dependency.TestHTMLPrinter.package_to_package.inferred.show_inbounds_true.html"),
+                arguments("confirmed inbound package-to-package", DependencyGraph.PACKAGE_TO_PACKAGE, true, true, false, true, "dependency.TestHTMLPrinter.package_to_package.confirmed.show_inbounds_true.html"),
+                arguments("inferred inbound package-to-package", DependencyGraph.PACKAGE_TO_PACKAGE, false, false, false, true, "dependency.TestHTMLPrinter.package_to_package.inferred.show_inbounds_false.html"),
+                arguments("confirmed inbound package-to-package", DependencyGraph.PACKAGE_TO_PACKAGE, true, false, false, true, "dependency.TestHTMLPrinter.package_to_package.confirmed.show_inbounds_false.html"),
+                arguments("inferred outbound package-to-package", DependencyGraph.PACKAGE_TO_PACKAGE, false, false, true, true, "dependency.TestHTMLPrinter.package_to_package.inferred.show_outbounds_true.html"),
+                arguments("confirmed outbound package-to-package", DependencyGraph.PACKAGE_TO_PACKAGE, true, false, true, true, "dependency.TestHTMLPrinter.package_to_package.confirmed.show_outbounds_true.html"),
+                arguments("inferred outbound package-to-package", DependencyGraph.PACKAGE_TO_PACKAGE, false, false, false, true, "dependency.TestHTMLPrinter.package_to_package.inferred.show_outbounds_false.html"),
+                arguments("confirmed outbound package-to-package", DependencyGraph.PACKAGE_TO_PACKAGE, true, false, false, true, "dependency.TestHTMLPrinter.package_to_package.confirmed.show_outbounds_false.html"),
+
+                arguments("inferred package-to-package", DependencyGraph.PACKAGE_TO_PACKAGE, false, true, true, true, "dependency.TestHTMLPrinter.package_to_package.inferred.show_empty_nodes_true.html"),
+                arguments("confirmed package-to-package", DependencyGraph.PACKAGE_TO_PACKAGE, true, true, true, true, "dependency.TestHTMLPrinter.package_to_package.confirmed.show_empty_nodes_true.html"),
+                arguments("inferred package-to-package", DependencyGraph.PACKAGE_TO_PACKAGE, false, true, true, false, "dependency.TestHTMLPrinter.package_to_package.inferred.show_empty_nodes_false.html"),
+                arguments("confirmed package-to-package", DependencyGraph.PACKAGE_TO_PACKAGE, true, true, true, false, "dependency.TestHTMLPrinter.package_to_package.confirmed.show_empty_nodes_false.html"),
+
+                arguments("inferred inbound class-to-class", DependencyGraph.CLASS_TO_CLASS, false, true, false, true, "dependency.TestHTMLPrinter.class_to_class.inferred.show_inbounds_true.html"),
+                arguments("confirmed inbound class-to-class", DependencyGraph.CLASS_TO_CLASS, true, true, false, true, "dependency.TestHTMLPrinter.class_to_class.confirmed.show_inbounds_true.html"),
+                arguments("inferred inbound class-to-class", DependencyGraph.CLASS_TO_CLASS, false, false, false, true, "dependency.TestHTMLPrinter.class_to_class.inferred.show_inbounds_false.html"),
+                arguments("confirmed inbound class-to-class", DependencyGraph.CLASS_TO_CLASS, true, false, false, true, "dependency.TestHTMLPrinter.class_to_class.confirmed.show_inbounds_false.html"),
+                arguments("inferred outbound class-to-class", DependencyGraph.CLASS_TO_CLASS, false, false, true, true, "dependency.TestHTMLPrinter.class_to_class.inferred.show_outbounds_true.html"),
+                arguments("confirmed outbound class-to-class", DependencyGraph.CLASS_TO_CLASS, true, false, true, true, "dependency.TestHTMLPrinter.class_to_class.confirmed.show_outbounds_true.html"),
+                arguments("inferred outbound class-to-class", DependencyGraph.CLASS_TO_CLASS, false, false, false, true, "dependency.TestHTMLPrinter.class_to_class.inferred.show_outbounds_false.html"),
+                arguments("confirmed outbound class-to-class", DependencyGraph.CLASS_TO_CLASS, true, false, false, true, "dependency.TestHTMLPrinter.class_to_class.confirmed.show_outbounds_false.html"),
+
+                arguments("inferred class-to-class", DependencyGraph.CLASS_TO_CLASS, false, true, true, true, "dependency.TestHTMLPrinter.class_to_class.inferred.show_empty_nodes_true.html"),
+                arguments("confirmed class-to-class", DependencyGraph.CLASS_TO_CLASS, true, true, true, true, "dependency.TestHTMLPrinter.class_to_class.confirmed.show_empty_nodes_true.html"),
+                arguments("inferred class-to-class", DependencyGraph.CLASS_TO_CLASS, false, true, true, false, "dependency.TestHTMLPrinter.class_to_class.inferred.show_empty_nodes_false.html"),
+                arguments("confirmed class-to-class", DependencyGraph.CLASS_TO_CLASS, true, true, true, false, "dependency.TestHTMLPrinter.class_to_class.confirmed.show_empty_nodes_false.html"),
+
+                arguments("inferred inbound feature-to-feature", DependencyGraph.FEATURE_TO_FEATURE, false, true, false, true, "dependency.TestHTMLPrinter.feature_to_feature.inferred.show_inbounds_true.html"),
+                arguments("confirmed inbound feature-to-feature", DependencyGraph.FEATURE_TO_FEATURE, true, true, false, true, "dependency.TestHTMLPrinter.feature_to_feature.confirmed.show_inbounds_true.html"),
+                arguments("inferred inbound feature-to-feature", DependencyGraph.FEATURE_TO_FEATURE, false, false, false, true, "dependency.TestHTMLPrinter.feature_to_feature.inferred.show_inbounds_false.html"),
+                arguments("confirmed inbound feature-to-feature", DependencyGraph.FEATURE_TO_FEATURE, true, false, false, true, "dependency.TestHTMLPrinter.feature_to_feature.confirmed.show_inbounds_false.html"),
+                arguments("inferred outbound feature-to-feature", DependencyGraph.FEATURE_TO_FEATURE, false, false, true, true, "dependency.TestHTMLPrinter.feature_to_feature.inferred.show_outbounds_true.html"),
+                arguments("confirmed outbound feature-to-feature", DependencyGraph.FEATURE_TO_FEATURE, true, false, true, true, "dependency.TestHTMLPrinter.feature_to_feature.confirmed.show_outbounds_true.html"),
+                arguments("inferred outbound feature-to-feature", DependencyGraph.FEATURE_TO_FEATURE, false, false, false, true, "dependency.TestHTMLPrinter.feature_to_feature.inferred.show_outbounds_false.html"),
+                arguments("confirmed outbound feature-to-feature", DependencyGraph.FEATURE_TO_FEATURE, true, false, false, true, "dependency.TestHTMLPrinter.feature_to_feature.confirmed.show_outbounds_false.html"),
+
+                arguments("inferred feature-to-feature", DependencyGraph.FEATURE_TO_FEATURE, false, true, true, true, "dependency.TestHTMLPrinter.feature_to_feature.inferred.show_empty_nodes_true.html"),
+                arguments("confirmed feature-to-feature", DependencyGraph.FEATURE_TO_FEATURE, true, true, true, true, "dependency.TestHTMLPrinter.feature_to_feature.confirmed.show_empty_nodes_true.html"),
+                arguments("inferred feature-to-feature", DependencyGraph.FEATURE_TO_FEATURE, false, true, true, false, "dependency.TestHTMLPrinter.feature_to_feature.inferred.show_empty_nodes_false.html"),
+                arguments("confirmed feature-to-feature", DependencyGraph.FEATURE_TO_FEATURE, true, true, true, false, "dependency.TestHTMLPrinter.feature_to_feature.confirmed.show_empty_nodes_false.html"),
+
+                arguments("inferred mixed", DependencyGraph.MIXED, false, true, true, true, "dependency.TestHTMLPrinter.mixed.inferred.show_empty_nodes_true.html"),
+                arguments("confirmed mixed", DependencyGraph.MIXED, true, true, true, true, "dependency.TestHTMLPrinter.mixed.confirmed.show_empty_nodes_true.html"),
+                arguments("inferred mixed", DependencyGraph.MIXED, false, true, true, false, "dependency.TestHTMLPrinter.mixed.inferred.show_empty_nodes_false.html"),
+                arguments("confirmed mixed", DependencyGraph.MIXED, true, true, true, false, "dependency.TestHTMLPrinter.mixed.confirmed.show_empty_nodes_false.html"),
+
+                arguments("inferred all", DependencyGraph.ALL, false, true, true, true, "dependency.TestHTMLPrinter.all.inferred.show_empty_nodes_true.html"),
+                arguments("confirmed all", DependencyGraph.ALL, true, true, true, true, "dependency.TestHTMLPrinter.all.confirmed.show_empty_nodes_true.html"),
+                arguments("inferred all", DependencyGraph.ALL, false, true, true, false, "dependency.TestHTMLPrinter.all.inferred.show_empty_nodes_false.html"),
+                arguments("confirmed all", DependencyGraph.ALL, true, true, true, false, "dependency.TestHTMLPrinter.all.confirmed.show_empty_nodes_false.html"),
+
+                arguments("bidirectional", DependencyGraph.BIDIRECTIONAL, true, true, true, true, "dependency.TestHTMLPrinter.bidirectional.confirmed.html"),
+
+                arguments("inner classes", DependencyGraph.INNER_CLASSES, true, true, true, true, "dependency.TestHTMLPrinter.inner_classes.confirmed.html")
+        );
     }
 
-    public void testShowInboundsPackageTrueWithInferred() throws IOException {
-        factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
-        factory.createPackage("empty");
+    @DisplayName("dependencies as text")
+    @ParameterizedTest(name = "when the input is {0} should be ''{6}''")
+    @MethodSource("dataProvider")
+    void generateReportAndCompareToFile(String variation, DependencyGraph dependencyGraph, boolean confirmed, boolean showInbounds, boolean showOutbounds, boolean showEmptyNodes, String expectedOutput) throws IOException {
+        // Given
+        dependencyGraph.create(factory, confirmed);
 
-        visitor.setShowInbounds(true);
-        visitor.setShowOutbounds(false);
+        // And
+        visitor.setShowInbounds(showInbounds);
+        visitor.setShowOutbounds(showOutbounds);
+        visitor.setShowEmptyNodes(showEmptyNodes);
 
+        // When
         visitor.traverseNodes(factory.getPackages().values());
 
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a> *</span>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
+        // Then
+        var expectedReport = Files.readString(REPORTS_DIR.resolve(expectedOutput));
+        var actualReport = out.toString();
+        assertEquals(expectedReport, actualReport, expectedOutput);
     }
 
-    public void testShowInboundsPackageTrueWithConfirmed() throws IOException {
-        factory.createPackage("outbound", true).addDependency(factory.createPackage("inbound", true));
-        factory.createPackage("empty", true);
-
-        visitor.setShowInbounds(true);
-        visitor.setShowOutbounds(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowInboundsPackageFalseWithInferred() throws IOException {
-        factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
-        factory.createPackage("empty");
-
-        visitor.setShowInbounds(false);
-        visitor.setShowOutbounds(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a> *</span>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowInboundsPackageFalseWithConfirmed() throws IOException {
-        factory.createPackage("outbound", true).addDependency(factory.createPackage("inbound", true));
-        factory.createPackage("empty", true);
-
-        visitor.setShowInbounds(false);
-        visitor.setShowOutbounds(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowInboundsClassTrueWithInferred() throws IOException {
-        factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
-        factory.createClass("empty.Empty");
-
-        visitor.setShowInbounds(true);
-        visitor.setShowOutbounds(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a> *</span>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowInboundsClassTrueWithConfirmed() throws IOException {
-        factory.createClass("outbound.Outbound", true).addDependency(factory.createClass("inbound.Inbound", true));
-        factory.createClass("empty.Empty", true);
-
-        visitor.setShowInbounds(true);
-        visitor.setShowOutbounds(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowInboundsClassFalseWithInferred() throws IOException {
-        factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
-        factory.createClass("empty.Empty");
-
-        visitor.setShowInbounds(false);
-        visitor.setShowOutbounds(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a> *</span>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowInboundsClassFalseWithConfirmed() throws IOException {
-        factory.createClass("outbound.Outbound", true).addDependency(factory.createClass("inbound.Inbound", true));
-        factory.createClass("empty.Empty", true);
-
-        visitor.setShowInbounds(false);
-        visitor.setShowOutbounds(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowInboundsInnerClass() throws IOException {
-        factory.createClass("outbound.Outbound$Outbound", true).addDependency(factory.createClass("inbound.Inbound$Inbound", true));
-        factory.createClass("empty.Empty$Empty", true);
-
-        visitor.setShowInbounds(true);
-        visitor.setShowOutbounds(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty\\$Empty" + SUFFIX + "\" id=\"empty.Empty$Empty\">Empty$Empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound\\$Inbound" + SUFFIX + "\" id=\"inbound.Inbound$Inbound\">Inbound$Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound\\$Outbound" + SUFFIX + "\" id=\"inbound.Inbound$Inbound_from_outbound.Outbound$Outbound\">outbound.Outbound$Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound\\$Outbound" + SUFFIX + "\" id=\"outbound.Outbound$Outbound\">Outbound$Outbound</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowInboundsFeatureTrueWithInferred() throws IOException {
-        factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
-        factory.createFeature("empty.Empty.empty()");
-
-        visitor.setShowInbounds(true);
-        visitor.setShowOutbounds(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty.empty\\(\\)" + SUFFIX + "\" id=\"empty.Empty.empty()\">empty()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()\">inbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()\">outbound()</a> *</span>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowInboundsFeatureTrueWithConfirmed() throws IOException {
-        factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
-        factory.createFeature("empty.Empty.empty()", true);
-
-        visitor.setShowInbounds(true);
-        visitor.setShowOutbounds(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "empty.Empty.empty\\(\\)" + SUFFIX + "\" id=\"empty.Empty.empty()\">empty()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()\">inbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()\">outbound()</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowInboundsFeatureFalseWithInferred() throws IOException {
-        factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
-        factory.createFeature("empty.Empty.empty()");
-
-        visitor.setShowInbounds(false);
-        visitor.setShowOutbounds(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty.empty\\(\\)" + SUFFIX + "\" id=\"empty.Empty.empty()\">empty()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()\">inbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()\">outbound()</a> *</span>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowInboundsFeatureFalseWithConfirmed() throws IOException {
-        factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
-        factory.createFeature("empty.Empty.empty()", true);
-
-        visitor.setShowInbounds(false);
-        visitor.setShowOutbounds(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "empty.Empty.empty\\(\\)" + SUFFIX + "\" id=\"empty.Empty.empty()\">empty()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()\">inbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()\">outbound()</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowInboundsInnerClassFeature() throws IOException {
-        factory.createFeature("outbound.Outbound$Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound$Inbound.inbound()", true));
-        factory.createFeature("empty.Empty$Empty.empty()", true);
-
-        visitor.setShowInbounds(true);
-        visitor.setShowOutbounds(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty\\$Empty" + SUFFIX + "\" id=\"empty.Empty$Empty\">Empty$Empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "empty.Empty\\$Empty.empty\\(\\)" + SUFFIX + "\" id=\"empty.Empty$Empty.empty()\">empty()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound\\$Inbound" + SUFFIX + "\" id=\"inbound.Inbound$Inbound\">Inbound$Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound\\$Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound$Inbound.inbound()\">inbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound\\$Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound$Inbound.inbound()_from_outbound.Outbound$Outbound.outbound()\">outbound.Outbound$Outbound.outbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound\\$Outbound" + SUFFIX + "\" id=\"outbound.Outbound$Outbound\">Outbound$Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound\\$Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound$Outbound.outbound()\">outbound()</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowOutboundsPackageTrueWithInferred() throws IOException {
-        factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
-        factory.createPackage("empty");
-
-        visitor.setShowInbounds(false);
-        visitor.setShowOutbounds(true);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_to_inbound\">inbound</a> *</span>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowOutboundsPackageTrueWithConfirmed() throws IOException {
-        factory.createPackage("outbound", true).addDependency(factory.createPackage("inbound", true));
-        factory.createPackage("empty", true);
-
-        visitor.setShowInbounds(false);
-        visitor.setShowOutbounds(true);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_to_inbound\">inbound</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowOutboundsPackageFalseWithInferred() throws IOException {
-        factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
-        factory.createPackage("empty");
-
-        visitor.setShowInbounds(false);
-        visitor.setShowOutbounds(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a> *</span>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowOutboundsPackageFalseWithConfirmed() throws IOException {
-        factory.createPackage("outbound", true).addDependency(factory.createPackage("inbound", true));
-        factory.createPackage("empty", true);
-
-        visitor.setShowInbounds(false);
-        visitor.setShowOutbounds(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowOutboundsClassTrueWithInferred() throws IOException {
-        factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
-        factory.createClass("empty.Empty");
-
-        visitor.setShowInbounds(false);
-        visitor.setShowOutbounds(true);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a> *</span>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowOutboundsClassTrueWithConfirmed() throws IOException {
-        factory.createClass("outbound.Outbound", true).addDependency(factory.createClass("inbound.Inbound", true));
-        factory.createClass("empty.Empty", true);
-
-        visitor.setShowInbounds(false);
-        visitor.setShowOutbounds(true);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowOutboundsClassFalseWithInferred() throws IOException {
-        factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
-        factory.createClass("empty.Empty");
-
-        visitor.setShowInbounds(false);
-        visitor.setShowOutbounds(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a> *</span>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowOutboundsClassFalseWithConfirmed() throws IOException {
-        factory.createClass("outbound.Outbound", true).addDependency(factory.createClass("inbound.Inbound", true));
-        factory.createClass("empty.Empty", true);
-
-        visitor.setShowInbounds(false);
-        visitor.setShowOutbounds(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowOutboundsInnerClass() throws IOException {
-        factory.createClass("outbound.Outbound$Outbound", true).addDependency(factory.createClass("inbound.Inbound$Inbound", true));
-        factory.createClass("empty.Empty$Empty", true);
-
-        visitor.setShowInbounds(false);
-        visitor.setShowOutbounds(true);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty\\$Empty" + SUFFIX + "\" id=\"empty.Empty$Empty\">Empty$Empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound\\$Inbound" + SUFFIX + "\" id=\"inbound.Inbound$Inbound\">Inbound$Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound\\$Outbound" + SUFFIX + "\" id=\"outbound.Outbound$Outbound\">Outbound$Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound\\$Inbound" + SUFFIX + "\" id=\"outbound.Outbound$Outbound_to_inbound.Inbound$Inbound\">inbound.Inbound$Inbound</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowOutboundsFeatureTrueWithInferred() throws IOException {
-        factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
-        factory.createFeature("empty.Empty.empty()");
-
-        visitor.setShowInbounds(false);
-        visitor.setShowOutbounds(true);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty.empty\\(\\)" + SUFFIX + "\" id=\"empty.Empty.empty()\">empty()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()\">inbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()\">outbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a> *</span>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowOutboundsFeatureTrueWithConfirmed() throws IOException {
-        factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
-        factory.createFeature("empty.Empty.empty()", true);
-
-        visitor.setShowInbounds(false);
-        visitor.setShowOutbounds(true);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "empty.Empty.empty\\(\\)" + SUFFIX + "\" id=\"empty.Empty.empty()\">empty()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()\">inbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()\">outbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowOutboundsFeatureFalseWithInferred() throws IOException {
-        factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
-        factory.createFeature("empty.Empty.empty()");
-
-        visitor.setShowInbounds(false);
-        visitor.setShowOutbounds(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty.empty\\(\\)" + SUFFIX + "\" id=\"empty.Empty.empty()\">empty()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()\">inbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()\">outbound()</a> *</span>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowOutboundsFeatureFalseWithConfirmed() throws IOException {
-        factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
-        factory.createFeature("empty.Empty.empty()", true);
-
-        visitor.setShowInbounds(false);
-        visitor.setShowOutbounds(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "empty.Empty.empty\\(\\)" + SUFFIX + "\" id=\"empty.Empty.empty()\">empty()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()\">inbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()\">outbound()</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowOutboundsInnerClassFeature() throws IOException {
-        factory.createFeature("outbound.Outbound$Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound$Inbound.inbound()", true));
-        factory.createFeature("empty.Empty$Empty.empty()", true);
-
-        visitor.setShowInbounds(false);
-        visitor.setShowOutbounds(true);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty\\$Empty" + SUFFIX + "\" id=\"empty.Empty$Empty\">Empty$Empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "empty.Empty\\$Empty.empty\\(\\)" + SUFFIX + "\" id=\"empty.Empty$Empty.empty()\">empty()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound\\$Inbound" + SUFFIX + "\" id=\"inbound.Inbound$Inbound\">Inbound$Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound\\$Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound$Inbound.inbound()\">inbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound\\$Outbound" + SUFFIX + "\" id=\"outbound.Outbound$Outbound\">Outbound$Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound\\$Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound$Outbound.outbound()\">outbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound\\$Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound$Outbound.outbound()_to_inbound.Inbound$Inbound.inbound()\">inbound.Inbound$Inbound.inbound()</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowEmptyPackageTrueWithInferred() throws IOException {
-        factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
-        factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
-        factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
-        factory.createPackage("empty");
-
-        visitor.setShowEmptyNodes(true);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()\">inbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_to_inbound\">inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()\">outbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a> *</span>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testSetFlagInferredToFalse() throws IOException {
-        factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
-        factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
-        factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
-        factory.createPackage("empty");
-
+    @Test
+    void hideInferredMarkWhenRenderingInferredNodes() throws IOException {
+        // Given a dependency graph with inferred nodes
+        DependencyGraph.ALL.create(factory, false);
+
+        // And
+        var expectedOutput = "dependency.TestHTMLPrinter.all.confirmed.show_empty_nodes_true.html";
+
+        // And a printer that does not distinguish inferred nodes
         visitor.setShowInferred(false);
 
+        // When
         visitor.traverseNodes(factory.getPackages().values());
 
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()\">inbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_to_inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()\">outbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowEmptyPackageTrueWithConfirmed() throws IOException {
-        factory.createPackage("outbound", true).addDependency(factory.createPackage("inbound", true));
-        factory.createClass("outbound.Outbound", true).addDependency(factory.createClass("inbound.Inbound", true));
-        factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
-        factory.createPackage("empty", true);
-
-        visitor.setShowEmptyNodes(true);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()\">inbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_to_inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()\">outbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowEmptyPackageFalseWithInferred() throws IOException {
-        factory.createPackage("outbound").addDependency(factory.createPackage("inbound"));
-        factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
-        factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
-        factory.createPackage("empty");
-
-        visitor.setShowEmptyNodes(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()\">inbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_to_inbound\">inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()\">outbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a> *</span>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowEmptyPackageFalseWithConfirmed() throws IOException {
-        factory.createPackage("outbound", true).addDependency(factory.createPackage("inbound", true));
-        factory.createClass("outbound.Outbound", true).addDependency(factory.createClass("inbound.Inbound", true));
-        factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
-        factory.createPackage("empty", true);
-
-        visitor.setShowEmptyNodes(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()\">inbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_to_inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()\">outbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowEmptyClassTrueWithInferred() throws IOException {
-        factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
-        factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
-        factory.createClass("empty.Empty");
-
-        visitor.setShowEmptyNodes(true);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()\">inbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()\">outbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a> *</span>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowEmptyClassTrueWithConfirmed() throws IOException {
-        factory.createClass("outbound.Outbound", true).addDependency(factory.createClass("inbound.Inbound", true));
-        factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
-        factory.createClass("empty.Empty", true);
-
-        visitor.setShowEmptyNodes(true);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()\">inbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()\">outbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowEmptyClassFalseWithInferred() throws IOException {
-        factory.createClass("outbound.Outbound").addDependency(factory.createClass("inbound.Inbound"));
-        factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
-        factory.createClass("empty.Empty");
-
-        visitor.setShowEmptyNodes(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()\">inbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()\">outbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a> *</span>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowEmptyClassFalseWithConfirmed() throws IOException {
-        factory.createClass("outbound.Outbound", true).addDependency(factory.createClass("inbound.Inbound", true));
-        factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
-        factory.createClass("empty.Empty", true);
-
-        visitor.setShowEmptyNodes(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_from_outbound.Outbound\">outbound.Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()\">inbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_to_inbound.Inbound\">inbound.Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()\">outbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowEmptyFeatureTrueWithInferred() throws IOException {
-        factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
-        factory.createFeature("empty.Empty.empty()");
-
-        visitor.setShowEmptyNodes(true);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "empty.Empty.empty\\(\\)" + SUFFIX + "\" id=\"empty.Empty.empty()\">empty()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()\">inbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()\">outbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a> *</span>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowEmptyFeatureTrueWithConfirmed() throws IOException {
-        factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
-        factory.createFeature("empty.Empty.empty()", true);
-
-        visitor.setShowEmptyNodes(true);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty" + SUFFIX + "\" id=\"empty.Empty\">Empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "empty.Empty.empty\\(\\)" + SUFFIX + "\" id=\"empty.Empty.empty()\">empty()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()\">inbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()\">outbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowEmptyFeatureFalseWithInferred() throws IOException {
-        factory.createFeature("outbound.Outbound.outbound()").addDependency(factory.createFeature("inbound.Inbound.inbound()"));
-        factory.createFeature("empty.Empty.empty()");
-
-        visitor.setShowEmptyNodes(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()\">inbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">&lt;-- <a class=\"inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <span class=\"inferred\"><a class=\"scope inferred\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()\">outbound()</a> *</span>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            <span class=\"inferred\">--&gt; <a class=\"inferred\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a> *</span>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowEmptyFeatureFalseWithConfirmed() throws IOException {
-        factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
-        factory.createFeature("empty.Empty.empty()", true);
-
-        visitor.setShowEmptyNodes(false);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()\">inbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_from_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()\">outbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_to_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowInnerClass() throws IOException {
-        factory.createPackage("outbound", true).addDependency(factory.createPackage("inbound", true));
-        factory.createClass("outbound.Outbound$Outbound", true).addDependency(factory.createClass("inbound.Inbound$Inbound", true));
-        factory.createFeature("outbound.Outbound$Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound$Inbound.inbound()", true));
-        factory.createFeature("empty.Empty$Empty.empty()", true);
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "empty" + SUFFIX + "\" id=\"empty\">empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "empty.Empty\\$Empty" + SUFFIX + "\" id=\"empty.Empty$Empty\">Empty$Empty</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "empty.Empty\\$Empty.empty\\(\\)" + SUFFIX + "\" id=\"empty.Empty$Empty.empty()\">empty()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    &lt;-- <a href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_from_outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound\\$Inbound" + SUFFIX + "\" id=\"inbound.Inbound$Inbound\">Inbound$Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-- <a href=\"" + PREFIX + "outbound.Outbound\\$Outbound" + SUFFIX + "\" id=\"inbound.Inbound$Inbound_from_outbound.Outbound$Outbound\">outbound.Outbound$Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound\\$Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound$Inbound.inbound()\">inbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-- <a href=\"" + PREFIX + "outbound.Outbound\\$Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound$Inbound.inbound()_from_outbound.Outbound$Outbound.outbound()\">outbound.Outbound$Outbound.outbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_to_inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound\\$Outbound" + SUFFIX + "\" id=\"outbound.Outbound$Outbound\">Outbound$Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "inbound.Inbound\\$Inbound" + SUFFIX + "\" id=\"outbound.Outbound$Outbound_to_inbound.Inbound$Inbound\">inbound.Inbound$Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound\\$Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound$Outbound.outbound()\">outbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "inbound.Inbound\\$Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound$Outbound.outbound()_to_inbound.Inbound$Inbound.inbound()\">inbound.Inbound$Inbound.inbound()</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
-    }
-
-    public void testShowBidirectionalDependencies() throws IOException {
-        factory.createPackage("outbound", true).addDependency(factory.createPackage("inbound", true));
-        factory.createClass("outbound.Outbound", true).addDependency(factory.createClass("inbound.Inbound", true));
-        factory.createFeature("outbound.Outbound.outbound()", true).addDependency(factory.createFeature("inbound.Inbound.inbound()", true));
-        factory.createPackage("inbound", true).addDependency(factory.createPackage("outbound", true));
-        factory.createClass("inbound.Inbound", true).addDependency(factory.createClass("outbound.Outbound", true));
-        factory.createFeature("inbound.Inbound.inbound()", true).addDependency(factory.createFeature("outbound.Outbound.outbound()", true));
-
-        visitor.traverseNodes(factory.getPackages().values());
-
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
-
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    &lt;-&gt; <a href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"inbound_bidirectional_outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"inbound.Inbound\">Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-&gt; <a href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"inbound.Inbound_bidirectional_outbound.Outbound\">outbound.Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()\">inbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-&gt; <a href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"inbound.Inbound.inbound()_bidirectional_outbound.Outbound.outbound()\">outbound.Outbound.outbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "outbound" + SUFFIX + "\" id=\"outbound\">outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    &lt;-&gt; <a href=\"" + PREFIX + "inbound" + SUFFIX + "\" id=\"outbound_bidirectional_inbound\">inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound" + SUFFIX + "\" id=\"outbound.Outbound\">Outbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        &lt;-&gt; <a href=\"" + PREFIX + "inbound.Inbound" + SUFFIX + "\" id=\"outbound.Outbound_bidirectional_inbound.Inbound\">inbound.Inbound</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <a class=\"scope\" href=\"" + PREFIX + "outbound.Outbound.outbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()\">outbound()</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            &lt;-&gt; <a href=\"" + PREFIX + "inbound.Inbound.inbound\\(\\)" + SUFFIX + "\" id=\"outbound.Outbound.outbound()_bidirectional_inbound.Inbound.inbound()\">inbound.Inbound.inbound()</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
+        // Then the report should be identical to one for confirmed nodes
+        var expectedReport = Files.readString(REPORTS_DIR.resolve(expectedOutput));
+        var actualReport = out.toString();
+        assertEquals(expectedReport, actualReport, expectedOutput);
     }
 }

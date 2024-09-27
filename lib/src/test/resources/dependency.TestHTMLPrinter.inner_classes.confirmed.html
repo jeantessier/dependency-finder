@@ -1,0 +1,15 @@
+<a class="scope" href="prefix (empty) suffix" id="empty">empty</a>
+    <a class="scope" href="prefix (empty.Empty\$Empty) suffix" id="empty.Empty$Empty">Empty$Empty</a>
+        <a class="scope" href="prefix (empty.Empty\$Empty.empty\(\)) suffix" id="empty.Empty$Empty.empty()">empty()</a>
+<a class="scope" href="prefix (inbound) suffix" id="inbound">inbound</a>
+    &lt;-- <a href="prefix (outbound) suffix" id="inbound_from_outbound">outbound</a>
+    <a class="scope" href="prefix (inbound.Inbound\$Inbound) suffix" id="inbound.Inbound$Inbound">Inbound$Inbound</a>
+        &lt;-- <a href="prefix (outbound.Outbound\$Outbound) suffix" id="inbound.Inbound$Inbound_from_outbound.Outbound$Outbound">outbound.Outbound$Outbound</a>
+        <a class="scope" href="prefix (inbound.Inbound\$Inbound.inbound\(\)) suffix" id="inbound.Inbound$Inbound.inbound()">inbound()</a>
+            &lt;-- <a href="prefix (outbound.Outbound\$Outbound.outbound\(\)) suffix" id="inbound.Inbound$Inbound.inbound()_from_outbound.Outbound$Outbound.outbound()">outbound.Outbound$Outbound.outbound()</a>
+<a class="scope" href="prefix (outbound) suffix" id="outbound">outbound</a>
+    --&gt; <a href="prefix (inbound) suffix" id="outbound_to_inbound">inbound</a>
+    <a class="scope" href="prefix (outbound.Outbound\$Outbound) suffix" id="outbound.Outbound$Outbound">Outbound$Outbound</a>
+        --&gt; <a href="prefix (inbound.Inbound\$Inbound) suffix" id="outbound.Outbound$Outbound_to_inbound.Inbound$Inbound">inbound.Inbound$Inbound</a>
+        <a class="scope" href="prefix (outbound.Outbound\$Outbound.outbound\(\)) suffix" id="outbound.Outbound$Outbound.outbound()">outbound()</a>
+            --&gt; <a href="prefix (inbound.Inbound\$Inbound.inbound\(\)) suffix" id="outbound.Outbound$Outbound.outbound()_to_inbound.Inbound$Inbound.inbound()">inbound.Inbound$Inbound.inbound()</a>
