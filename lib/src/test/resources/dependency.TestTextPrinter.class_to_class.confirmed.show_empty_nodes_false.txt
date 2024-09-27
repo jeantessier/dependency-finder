@@ -1,0 +1,6 @@
+inbound
+    Inbound
+        <-- outbound.Outbound
+outbound
+    Outbound
+        --> inbound.Inbound

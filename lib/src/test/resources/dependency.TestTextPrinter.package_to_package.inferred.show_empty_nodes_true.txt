@@ -1,0 +1,5 @@
+empty *
+inbound *
+    <-- outbound *
+outbound *
+    --> inbound *

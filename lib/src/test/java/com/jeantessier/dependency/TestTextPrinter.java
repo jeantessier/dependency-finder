@@ -99,6 +99,11 @@ public class TestTextPrinter {
                 arguments("inferred outbound package-to-package", DependencyGraph.PACKAGE_TO_PACKAGE, false, false, false, true, "dependency.TestTextPrinter.package_to_package.inferred.show_outbounds_false.txt"),
                 arguments("confirmed outbound package-to-package", DependencyGraph.PACKAGE_TO_PACKAGE, true, false, false, true, "dependency.TestTextPrinter.package_to_package.confirmed.show_outbounds_false.txt"),
 
+                arguments("inferred package-to-package", DependencyGraph.PACKAGE_TO_PACKAGE, false, true, true, true, "dependency.TestTextPrinter.package_to_package.inferred.show_empty_nodes_true.txt"),
+                arguments("confirmed package-to-package", DependencyGraph.PACKAGE_TO_PACKAGE, true, true, true, true, "dependency.TestTextPrinter.package_to_package.confirmed.show_empty_nodes_true.txt"),
+                arguments("inferred package-to-package", DependencyGraph.PACKAGE_TO_PACKAGE, false, true, true, false, "dependency.TestTextPrinter.package_to_package.inferred.show_empty_nodes_false.txt"),
+                arguments("confirmed package-to-package", DependencyGraph.PACKAGE_TO_PACKAGE, true, true, true, false, "dependency.TestTextPrinter.package_to_package.confirmed.show_empty_nodes_false.txt"),
+
                 arguments("inferred inbound class-to-class", DependencyGraph.CLASS_TO_CLASS, false, true, false, true, "dependency.TestTextPrinter.class_to_class.inferred.show_inbounds_true.txt"),
                 arguments("confirmed inbound class-to-class", DependencyGraph.CLASS_TO_CLASS, true, true, false, true, "dependency.TestTextPrinter.class_to_class.confirmed.show_inbounds_true.txt"),
                 arguments("inferred inbound class-to-class", DependencyGraph.CLASS_TO_CLASS, false, false, false, true, "dependency.TestTextPrinter.class_to_class.inferred.show_inbounds_false.txt"),
@@ -107,6 +112,11 @@ public class TestTextPrinter {
                 arguments("confirmed outbound class-to-class", DependencyGraph.CLASS_TO_CLASS, true, false, true, true, "dependency.TestTextPrinter.class_to_class.confirmed.show_outbounds_true.txt"),
                 arguments("inferred outbound class-to-class", DependencyGraph.CLASS_TO_CLASS, false, false, false, true, "dependency.TestTextPrinter.class_to_class.inferred.show_outbounds_false.txt"),
                 arguments("confirmed outbound class-to-class", DependencyGraph.CLASS_TO_CLASS, true, false, false, true, "dependency.TestTextPrinter.class_to_class.confirmed.show_outbounds_false.txt"),
+
+                arguments("inferred class-to-class", DependencyGraph.CLASS_TO_CLASS, false, true, true, true, "dependency.TestTextPrinter.class_to_class.inferred.show_empty_nodes_true.txt"),
+                arguments("confirmed class-to-class", DependencyGraph.CLASS_TO_CLASS, true, true, true, true, "dependency.TestTextPrinter.class_to_class.confirmed.show_empty_nodes_true.txt"),
+                arguments("inferred class-to-class", DependencyGraph.CLASS_TO_CLASS, false, true, true, false, "dependency.TestTextPrinter.class_to_class.inferred.show_empty_nodes_false.txt"),
+                arguments("confirmed class-to-class", DependencyGraph.CLASS_TO_CLASS, true, true, true, false, "dependency.TestTextPrinter.class_to_class.confirmed.show_empty_nodes_false.txt"),
 
                 arguments("inferred inbound feature-to-feature", DependencyGraph.FEATURE_TO_FEATURE, false, true, false, true, "dependency.TestTextPrinter.feature_to_feature.inferred.show_inbounds_true.txt"),
                 arguments("confirmed inbound feature-to-feature", DependencyGraph.FEATURE_TO_FEATURE, true, true, false, true, "dependency.TestTextPrinter.feature_to_feature.confirmed.show_inbounds_true.txt"),
