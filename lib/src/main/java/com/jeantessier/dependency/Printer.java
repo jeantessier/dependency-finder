@@ -93,11 +93,17 @@ public abstract class Printer extends VisitorBase {
         }
     }
 
-//    public void visitClassNode(ClassNode node) {
-//        if (shouldShowClassNode(node)) {
-//            super.visitClassNode(node);
-//        }
-//    }
+    public void visitClassNode(ClassNode node) {
+        if (shouldShowClassNode(node)) {
+            super.visitClassNode(node);
+        }
+    }
+
+    public void visitFeatureNode(FeatureNode node) {
+        if (shouldShowFeatureNode(node)) {
+            super.visitFeatureNode(node);
+        }
+    }
 
     protected Printer append(boolean b) {
         out.print(b);
