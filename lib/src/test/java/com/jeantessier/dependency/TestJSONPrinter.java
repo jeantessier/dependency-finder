@@ -104,7 +104,7 @@ public class TestJSONPrinter extends TestPrinterBase {
         );
     }
 
-    @DisplayName("dependencies as XML")
+    @DisplayName("dependencies as JSON")
     @ParameterizedTest(name = "when the input is {0} should be ''{6}''")
     @MethodSource("dataProvider")
     void generateReportAndCompareToFile(String variation, DependencyGraph dependencyGraph, boolean confirmed, boolean showInbounds, boolean showOutbounds, boolean showEmptyNodes, String expectedOutput) throws IOException {

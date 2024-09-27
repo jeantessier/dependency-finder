@@ -60,18 +60,18 @@ public class JSONPrinter extends Printer {
     }
 
     private String printDependencyNode(Node node) {
-        if (node instanceof PackageNode packageNode) {
-            return printDependency("package", packageNode);
-        } else if (node instanceof ClassNode classNode) {
-            return printDependency("class", classNode);
-        } else if (node instanceof FeatureNode featureNode) {
-            return printDependency("feature", featureNode);
+        if (node instanceof PackageNode) {
+            return printDependency(node, "package");
+        } else if (node instanceof ClassNode) {
+            return printDependency(node, "class");
+        } else if (node instanceof FeatureNode) {
+            return printDependency(node, "feature");
         } else {
             throw new IllegalArgumentException("Unknown node type: " + node.getClass());
         }
     }
 
-    private String printDependency(String type, Node node) {
+    private String printDependency(Node node, String type) {
         return "{\"type\":\"" + type + "\",\"confirmed\":\"" + node.isConfirmed() + "\",\"name\":\"" + node.getName() + "\"}";
     }
 }
