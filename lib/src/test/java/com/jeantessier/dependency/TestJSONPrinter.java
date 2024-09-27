@@ -122,6 +122,6 @@ public class TestJSONPrinter extends TestPrinterBase {
         // Then
         var expectedReport = Files.readString(REPORTS_DIR.resolve(expectedOutput));
         var actualReport = out.toString();
-        assertEquals(expectedReport, actualReport);
+        assertEquals(expectedReport, actualReport, expectedOutput);
     }
 }
