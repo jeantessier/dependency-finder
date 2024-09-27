@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE dependencies SYSTEM "./etc/dependencies.dtd">
+
+<dependencies>
+    <package confirmed="yes">
+        <name>empty</name>
+        <class confirmed="yes">
+            <name>empty.Empty</name>
+        </class>
+    </package>
+    <package confirmed="yes">
+        <name>inbound</name>
+        <class confirmed="yes">
+            <name>inbound.Inbound</name>
+            <inbound type="class" confirmed="yes">outbound.Outbound</inbound>
+            <feature confirmed="yes">
+                <name>inbound.Inbound.inbound()</name>
+                <inbound type="feature" confirmed="yes">outbound.Outbound.outbound()</inbound>
+            </feature>
+        </class>
+    </package>
+    <package confirmed="yes">
+        <name>outbound</name>
+        <class confirmed="yes">
+            <name>outbound.Outbound</name>
+            <outbound type="class" confirmed="yes">inbound.Inbound</outbound>
+            <feature confirmed="yes">
+                <name>outbound.Outbound.outbound()</name>
+                <outbound type="feature" confirmed="yes">inbound.Inbound.inbound()</outbound>
+            </feature>
+        </class>
+    </package>
+</dependencies>

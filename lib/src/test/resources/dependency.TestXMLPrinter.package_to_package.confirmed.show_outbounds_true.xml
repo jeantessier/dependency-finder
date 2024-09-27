@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE dependencies SYSTEM "./etc/dependencies.dtd">
+
+<dependencies>
+    <package confirmed="yes">
+        <name>empty</name>
+    </package>
+    <package confirmed="yes">
+        <name>inbound</name>
+    </package>
+    <package confirmed="yes">
+        <name>outbound</name>
+        <outbound type="package" confirmed="yes">inbound</outbound>
+    </package>
+</dependencies>
