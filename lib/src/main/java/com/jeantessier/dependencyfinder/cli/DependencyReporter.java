@@ -64,10 +64,19 @@ public class DependencyReporter extends DependencyGraphCommand {
         getCommandLine().addToggleSwitch("show-outbounds");
         getCommandLine().addToggleSwitch("show-empty-nodes");
 
+        getCommandLine().addToggleSwitch("html");
+        getCommandLine().addToggleSwitch("json");
+        getCommandLine().addToggleSwitch("text");
+        getCommandLine().addToggleSwitch("txt");
         getCommandLine().addToggleSwitch("xml");
+        getCommandLine().addToggleSwitch("yaml");
+        getCommandLine().addToggleSwitch("yml");
+
         getCommandLine().addToggleSwitch("minimize");
         getCommandLine().addToggleSwitch("maximize");
         getCommandLine().addToggleSwitch("copy-only");
+
+        getCommandLine().addSingleValueSwitch("url-format", HTMLPrinter.DEFAULT_URL_FORMAT);
     }
 
     protected Collection<CommandLineException> parseCommandLine(String[] args) {
@@ -78,6 +87,33 @@ public class DependencyReporter extends DependencyGraphCommand {
 
         if (getCommandLine().getToggleSwitch("maximize") && getCommandLine().getToggleSwitch("minimize")) {
             exceptions.add(new CommandLineException("Only one of -maximize or -minimize is allowed"));
+        }
+
+        int modeSwitch = 0;
+
+        if (getCommandLine().getToggleSwitch("html")) {
+            modeSwitch++;
+        }
+        if (getCommandLine().getToggleSwitch("json")) {
+            modeSwitch++;
+        }
+        if (getCommandLine().getToggleSwitch("text")) {
+            modeSwitch++;
+        }
+        if (getCommandLine().getToggleSwitch("txt")) {
+            modeSwitch++;
+        }
+        if (getCommandLine().getToggleSwitch("xml")) {
+            modeSwitch++;
+        }
+        if (getCommandLine().getToggleSwitch("yaml")) {
+            modeSwitch++;
+        }
+        if (getCommandLine().getToggleSwitch("yml")) {
+            modeSwitch++;
+        }
+        if (modeSwitch > 1) {
+            exceptions.add(new CommandLineException("Must have at most one of -html, -json, -text, -txt, -xml, -yml, or -yaml"));
         }
 
         return exceptions;
@@ -98,8 +134,14 @@ public class DependencyReporter extends DependencyGraphCommand {
         getVerboseListener().print("Printing the graph ...");
 
         Printer printer;
-        if (getCommandLine().isPresent("xml")) {
+        if (getCommandLine().isPresent("html")) {
+            printer = new HTMLPrinter(getOut(), getCommandLine().getSingleSwitch("url-format"));
+        } else if (getCommandLine().isPresent("json")) {
+            printer = new JSONPrinter(getOut());
+        } else if (getCommandLine().isPresent("xml")) {
             printer = new XMLPrinter(getOut(), getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
+        } else if (getCommandLine().isPresent("yaml") || getCommandLine().isPresent("yml")) {
+            printer = new YAMLPrinter(getOut());
         } else {
             printer = new TextPrinter(getOut());
         }

@@ -32,21 +32,7 @@
 
 package com.jeantessier.dependencyfinder.ant;
 
-import com.jeantessier.dependency.CollectionSelectionCriteria;
-import com.jeantessier.dependency.ComprehensiveSelectionCriteria;
-import com.jeantessier.dependency.GraphCopier;
-import com.jeantessier.dependency.GraphSummarizer;
-import com.jeantessier.dependency.LinkMaximizer;
-import com.jeantessier.dependency.LinkMinimizer;
-import com.jeantessier.dependency.NodeLoader;
-import com.jeantessier.dependency.PackageNode;
-import com.jeantessier.dependency.Printer;
-import com.jeantessier.dependency.RegularExpressionSelectionCriteria;
-import com.jeantessier.dependency.SelectionCriteria;
-import com.jeantessier.dependency.SelectiveTraversalStrategy;
-import com.jeantessier.dependency.TextPrinter;
-import com.jeantessier.dependency.TraversalStrategy;
-import com.jeantessier.dependency.XMLPrinter;
+import com.jeantessier.dependency.*;
 import org.apache.logging.log4j.*;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Path;
@@ -91,10 +77,18 @@ public class DependencyReporter extends GraphTask {
     private boolean showOutbounds = false;
     private boolean showEmptyNodes = false;
 
+    private boolean html = false;
+    private boolean json = false;
+    private boolean text = false;
+    private boolean xml = false;
+    private boolean yaml = false;
+
     private boolean minimize = false;
     private boolean maximize = false;
     private boolean copyOnly = false;
-    private boolean xml = false;
+
+    private String urlFormat = HTMLPrinter.DEFAULT_URL_FORMAT;
+
     private String encoding = XMLPrinter.DEFAULT_ENCODING;
     private String dtdPrefix = XMLPrinter.DEFAULT_DTD_PREFIX;
     private String indentText;
@@ -383,6 +377,54 @@ public class DependencyReporter extends GraphTask {
         setShowemptynodes(showAll);
     }
 
+    public boolean getHtml() {
+        return html;
+    }
+
+    public void setHtml(boolean html) {
+        this.html = html;
+    }
+
+    public boolean getJson() {
+        return json;
+    }
+
+    public void setJson(boolean json) {
+        this.json = json;
+    }
+
+    public boolean getText() {
+        return text;
+    }
+
+    public void setText(boolean text) {
+        this.text = text;
+    }
+
+    public void setTxt(boolean text) {
+        setText(text);
+    }
+
+    public boolean getXml() {
+        return xml;
+    }
+
+    public void setXml(boolean xml) {
+        this.xml = xml;
+    }
+
+    public boolean getYaml() {
+        return yaml;
+    }
+
+    public void setYaml(boolean yaml) {
+        this.yaml = yaml;
+    }
+
+    public void setYml(boolean yaml) {
+        setYaml(yaml);
+    }
+
     public boolean getMinimize() {
         return minimize;
     }
@@ -407,12 +449,12 @@ public class DependencyReporter extends GraphTask {
         this.copyOnly = copyOnly;
     }
 
-    public boolean getXml() {
-        return xml;
+    public String getUrlFormat() {
+        return urlFormat;
     }
 
-    public void setXml(boolean xml) {
-        this.xml = xml;
+    public void setUrlFormat(String urlFormat) {
+        this.urlFormat = urlFormat;
     }
 
     public String getEncoding() {
@@ -492,8 +534,14 @@ public class DependencyReporter extends GraphTask {
             PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
 
             Printer printer;
-            if (getXml()) {
+            if (getHtml()) {
+                printer = new HTMLPrinter(out, getUrlFormat());
+            } else if (getJson()) {
+                printer = new JSONPrinter(out);
+            } else if (getXml()) {
                 printer = new XMLPrinter(out, getEncoding(), getDtdprefix());
+            } else if (getYaml()) {
+                printer = new YAMLPrinter(out);
             } else {
                 printer = new TextPrinter(out);
             }

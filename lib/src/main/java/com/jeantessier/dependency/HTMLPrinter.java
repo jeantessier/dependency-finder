@@ -36,6 +36,8 @@ import java.io.*;
 import java.util.*;
 
 public class HTMLPrinter extends TextPrinter {
+    public static final String DEFAULT_URL_FORMAT = "#%s";
+
     private static final String FROM = "&lt;--";
     private static final String TO = "--&gt;";
     private static final String BIDIRECTIONAL = "&lt;-&gt;";
