@@ -1,0 +1,4 @@
+Finished work on printers in =com.jeantessier.dependency=.  I can now generate
+HTML (partial), JSON, text, XML, and YAML directly from inside the application.
+For JSON and YAML, I tried to make the direct output match the output from the
+corresponding XSLT stylesheets as best I could.

@@ -1,0 +1,10 @@
+Experimented with [[https://micronaut.io/][Micronaut]] to see how I could add
+the JAR files for Dependency Finder to a Micronaut app and call its classes
+from the application.  I managed to wire together a simple =/version= endpoint
+that returns data from the =Version= bean inside Dependency Finder.  I could
+create controllers that rough match the JSP pages in =:webapp=.  I'll have to
+figure out how to move a Micronaut app from a top-level Gradle project to a
+subproject in Dependency Finder.
+
+I have an XSLT stylesheet to convert dependency graphs from XML to JSON.  But,
+I don't have a way to generate JSON directly from within the application.

@@ -1,0 +1,7 @@
+Refactored tests for printers in =com.jeantessier.dependency=.  Instead of
+using complicated line-matching logic in ad hoc tests, I switched to external
+files that contain the expected outputs.  The files have proper extensions so
+tools can help with the editing.  And, I can use parameterized tests to match
+test setups to expected output files.  I got through text and XML outputs,
+and did JSON output, too.  I also want to do YAML and HTML, for to have the
+coverage.
