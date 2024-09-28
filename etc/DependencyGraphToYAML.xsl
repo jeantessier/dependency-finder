@@ -51,17 +51,17 @@
       outbound:</xsl:text><xsl:if test="not(outbound)"><xsl:text> []</xsl:text></xsl:if>
         <xsl:for-each select="outbound">
             <xsl:text>
-          - type: </xsl:text><xsl:value-of select="@type"/><xsl:text>
-            confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
-            name: </xsl:text><xsl:value-of select="."/>
+        - type: </xsl:text><xsl:value-of select="@type"/><xsl:text>
+          confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
+          name: </xsl:text><xsl:value-of select="."/>
         </xsl:for-each>
         <xsl:text>
       inbound:</xsl:text><xsl:if test="not(inbound)"><xsl:text> []</xsl:text></xsl:if>
         <xsl:for-each select="inbound">
             <xsl:text>
-          - type: </xsl:text><xsl:value-of select="@type"/><xsl:text>
-            confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
-            name: </xsl:text><xsl:value-of select="."/>
+        - type: </xsl:text><xsl:value-of select="@type"/><xsl:text>
+          confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
+          name: </xsl:text><xsl:value-of select="."/>
         </xsl:for-each>
         <xsl:text>
       classes:</xsl:text><xsl:if test="not(class)"><xsl:text> []</xsl:text></xsl:if>
@@ -70,48 +70,48 @@
   
     <xsl:template match="class">
         <xsl:text>
-          - type: class
-            confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
-            name: </xsl:text><xsl:value-of select="name"/><xsl:text>
-            outbound:</xsl:text><xsl:if test="not(outbound)"><xsl:text> []</xsl:text></xsl:if>
+        - type: class
+          confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
+          name: </xsl:text><xsl:value-of select="name"/><xsl:text>
+          outbound:</xsl:text><xsl:if test="not(outbound)"><xsl:text> []</xsl:text></xsl:if>
         <xsl:for-each select="outbound">
             <xsl:text>
-                - type: </xsl:text><xsl:value-of select="@type"/><xsl:text>
-                  confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
-                  name: </xsl:text><xsl:value-of select="."/>
+            - type: </xsl:text><xsl:value-of select="@type"/><xsl:text>
+              confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
+              name: </xsl:text><xsl:value-of select="."/>
         </xsl:for-each>
         <xsl:text>
-            inbound:</xsl:text><xsl:if test="not(inbound)"><xsl:text> []</xsl:text></xsl:if>
+          inbound:</xsl:text><xsl:if test="not(inbound)"><xsl:text> []</xsl:text></xsl:if>
         <xsl:for-each select="inbound">
             <xsl:text>
-                - type: </xsl:text><xsl:value-of select="@type"/><xsl:text>
-                  confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
-                  name: </xsl:text><xsl:value-of select="."/>
+            - type: </xsl:text><xsl:value-of select="@type"/><xsl:text>
+              confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
+              name: </xsl:text><xsl:value-of select="."/>
         </xsl:for-each>
         <xsl:text>
-            features:</xsl:text>
+          features:</xsl:text>
         <xsl:apply-templates select="feature"/><xsl:if test="not(feature)"><xsl:text> []</xsl:text></xsl:if>
     </xsl:template>
   
     <xsl:template match="feature">
         <xsl:text>
-                - type: feature
-                  confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
-                  name: </xsl:text><xsl:value-of select="name"/><xsl:text>
-                  outbound:</xsl:text><xsl:if test="not(outbound)"><xsl:text> []</xsl:text></xsl:if>
+            - type: feature
+              confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
+              name: </xsl:text><xsl:value-of select="name"/><xsl:text>
+              outbound:</xsl:text><xsl:if test="not(outbound)"><xsl:text> []</xsl:text></xsl:if>
         <xsl:for-each select="outbound">
             <xsl:text>
-                      - type: </xsl:text><xsl:value-of select="@type"/><xsl:text>
-                        confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
-                        name: </xsl:text><xsl:value-of select="."/>
+                - type: </xsl:text><xsl:value-of select="@type"/><xsl:text>
+                  confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
+                  name: </xsl:text><xsl:value-of select="."/>
         </xsl:for-each>
         <xsl:text>
-                  inbound:</xsl:text><xsl:if test="not(inbound)"><xsl:text> []</xsl:text></xsl:if>
+              inbound:</xsl:text><xsl:if test="not(inbound)"><xsl:text> []</xsl:text></xsl:if>
         <xsl:for-each select="inbound">
             <xsl:text>
-                      - type: </xsl:text><xsl:value-of select="@type"/><xsl:text>
-                        confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
-                        name: </xsl:text><xsl:value-of select="."/>
+                - type: </xsl:text><xsl:value-of select="@type"/><xsl:text>
+                  confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
+                  name: </xsl:text><xsl:value-of select="."/>
         </xsl:for-each>
     </xsl:template>
   
