@@ -35,7 +35,7 @@ tasks.jar {
                 "Implementation-Title" to "Dependency Finder",
                 "Implementation-Version" to version,
                 "Implementation-Date" to releaseDate,
-                "Implementation-URL" to "https://depfind.sourceforge.io/",
+                "Implementation-URL" to "https://jeantessier.github.io/dependency-finder/",
                 "Copyright-Holder" to "Jean Tessier",
                 "Copyright-Date" to "2001-2024",
                 "Compiler-Vendor" to System.getProperty("java.vendor"),
