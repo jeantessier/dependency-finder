@@ -1,0 +1,11 @@
+More experimenting with [[https://micronaut.io/][Micronaut]] and
+[[https://nextjs.org/][Next.js]].
+
+I also read an
+[[https://www.unlogged.io/post/class-file-api-not-your-everyday-java-api][article]]
+on the new
+[[https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/classfile/package-summary.html][Class-File API]]
+that started previewing in Java 22.  It includes features to read =.class=
+files, similar to my =com.jeantessier.classreader= package.  The Class-File API
+also includes features to generate =.class= files and manipulate code, which I
+don't do.

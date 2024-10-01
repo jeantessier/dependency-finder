@@ -1,0 +1,5 @@
+More experimenting with [[https://micronaut.io/][Micronaut]].  I managed to
+extract and load graphs, and issue simple queries.
+
+I google'd how to do React in 2024, and [[https://nextjs.org/][Next.js]] came
+on top.  So, I'm making my way through the tutorial.
