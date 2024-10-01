@@ -9,3 +9,4 @@ services:
           - 8080:8080
         volumes:
           - ./lib/DependencyFinder.jar:/code/DependencyFinder.jar:ro
+          - ./df.xml:/code/df.xml:ro
