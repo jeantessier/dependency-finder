@@ -1,0 +1,14 @@
+My experimentation with [[https://nextjs.org/][Next.js]] is not going well.  It
+looks like Next.js wants both a server-side component and a client-side
+component.  It requires something like a Node server running to serve the app.
+I'm already toying with a Micronaut app to interact with the graph, I don't
+need yet another one just to mediate with the frontend.  I have built<label for%3D"sn-2024-10-02-create-react-app" class%3D"margin-toggle sidenote-number"></label>
+<input type%3D"checkbox" id%3D"sn-2024-10-02-create-react-app" class%3D"margin-toggle">
+<span class%3D"sidenote">I used =[[https://create-react-app.dev/][create-react-app]]=,
+which is no longer the popular, hip way to setup a React project.  It is while
+searching for a replacement that I found Next.js.</span> React apps that deploy
+as static assets and call to a backend to get their data.  I was hoping Next.js
+could give me something just like that.  There is a way to compile the app to a
+static version, but routing gets very limited.  I couldn't do what they call
+_dynamic routing_ in a static version, but I might be able to make it work with
+=extract= and =query= pages, and the like.
