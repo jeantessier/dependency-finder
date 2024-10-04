@@ -1,0 +1,13 @@
+I tried to do static exports of my [[https://nextjs.org/][Next.js]] project,
+but it seems to be losing the CSS styling.
+
+I looked for more alternatives to
+=[[https://create-react-app.dev/][create-react-app]]= in 2024.  One Reddit user
+recommended using [[https://vite.dev/][Vite]] instead.  The Vite documentation
+describes how to add
+[[https://github.com/remix-run/react-router][React Router]], which is what I
+have been using on other React projects.  It also described using
+[[https://www.npmjs.com/package/swr][SWR]] for fetching data.  I managed to
+create a =/extract= route that fetches source and filter information from the
+=/extract= endpoint on the Dependency Finder service.  But when I build the
+project to generate static assets, the page does not render for some reason.
