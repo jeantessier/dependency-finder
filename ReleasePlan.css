@@ -1,0 +1,48 @@
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 0;
+    padding: 0.1rem;
+    margin: 0;
+}
+
+.lowlight {
+    padding: 0.1rem 0.5rem
+}
+
+.feature {
+    padding-left: 0.5rem;
+    padding-right: 1.5rem;
+}
+
+.status {
+    padding: 0 0.5rem;
+}
+
+.status.done {
+    background:  rgb(0, 238, 0);
+    color:       white;
+    font-weight: bold;
+    text-align:  center;
+}
+
+.status.in-progress {
+    background:  gold;
+    color:       white;
+    font-weight: bold;
+    text-align:  center;
+}
+
+.status.not-started {
+    background:  red;
+    color:       white;
+    font-weight: bold;
+    text-align:  center;
+}
+
+.status.canceled {
+    text-align: center;
+    font-size: smaller;
+}
