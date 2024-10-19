@@ -1,0 +1,2 @@
+Fixed the =update= checkbox on the =/extract= page.  Also, added title and logo
+in the browser tabs.

@@ -1,0 +1,13 @@
+More tinkering with my React-based experiment.  I added the =/load= page to
+load a pre-extracted dependency graph instead of creating one from compiled
+Java code.  This got me to create a shared =&lt;Stats&gt;= component for both
+pages.
+
+I wired the forms to actually trigger the corresponding actions on the
+Micronaut service.  It even forces a refresh of the =&lt;Stats&gt;= component
+with updated data from the service.
+
+I tried adding =dotenv= so I could put the service URL in a =.env= file.  After
+getting it all setup, I found out Vite already includes =dotenv=, complete with
+a =.env.local= file that is already being ignored by Git.  So, I reverted my
+=dotenv= work in favor of the "standard" one.

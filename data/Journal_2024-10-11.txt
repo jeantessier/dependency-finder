@@ -1,0 +1,1 @@
+Figured out how to log requests in Micronaut for my React-based experiment.
