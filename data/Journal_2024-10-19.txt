@@ -1,0 +1,9 @@
+Copied the compiled React app to a static assets folder<label for%3D"sn-2024-10-19-micronaut-static-assets" class%3D"margin-toggle sidenote-number"></label>
+<input type%3D"checkbox" id%3D"sn-2024-10-19-micronaut-static-assets" class%3D"margin-toggle">
+<span class%3D"sidenote">There is an example in the
+[[https://guides.micronaut.io/latest/micronaut-static-resources-gradle-java.html#assets][Micronaut guides]].
+It sets up a rather convoluted sample app with a messaging service, but you can
+tease out the crux of how to do static assets if you squint.</span> under
+Micronaut.  With a single server running the Micronaut app, I can get to the
+React app's home page and its =extract= and =load= pages to trigger the
+matching =extract= and =load= endpoints in the Micronaut app.

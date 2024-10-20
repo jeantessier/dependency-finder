@@ -1,2 +1,5 @@
 Fixed the =update= checkbox on the =/extract= page.  Also, added title and logo
 in the browser tabs.
+
+And now, when I build the React app to static assets, it all works just fine.
+I don't know what I did that made it work, but it is nice.
