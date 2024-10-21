@@ -40,15 +40,15 @@ public class JSONPrinter extends Printer {
     }
 
     private String printPackageNode(PackageNode packageNode) {
-        return "{\"type\":\"package\",\"confirmed\":\"" + packageNode.isConfirmed() + "\",\"name\":\"" + packageNode.getName() + "\",\"outbound\":" + (isShowOutbounds() ? printDependencyNodes(packageNode.getOutboundDependencies()) : "[]") + ",\"inbound\":" + (isShowInbounds() ? printDependencyNodes(packageNode.getInboundDependencies()) : "[]") + ",\"classes\":" + printNodes(packageNode.getClasses()) + "}";
+        return "{\"type\":\"package\",\"confirmed\":" + packageNode.isConfirmed() + ",\"name\":\"" + packageNode.getName() + "\",\"outbound\":" + (isShowOutbounds() ? printDependencyNodes(packageNode.getOutboundDependencies()) : "[]") + ",\"inbound\":" + (isShowInbounds() ? printDependencyNodes(packageNode.getInboundDependencies()) : "[]") + ",\"classes\":" + printNodes(packageNode.getClasses()) + "}";
     }
 
     private String printClassNode(ClassNode classNode) {
-        return "{\"type\":\"class\",\"confirmed\":\"" + classNode.isConfirmed() + "\",\"name\":\"" + classNode.getName() + "\",\"outbound\":" + (isShowOutbounds() ? printDependencyNodes(classNode.getOutboundDependencies()) : "[]") + ",\"inbound\":" + (isShowInbounds() ? printDependencyNodes(classNode.getInboundDependencies()) : "[]") + ",\"features\":" + printNodes(classNode.getFeatures()) + "}";
+        return "{\"type\":\"class\",\"confirmed\":" + classNode.isConfirmed() + ",\"name\":\"" + classNode.getName() + "\",\"outbound\":" + (isShowOutbounds() ? printDependencyNodes(classNode.getOutboundDependencies()) : "[]") + ",\"inbound\":" + (isShowInbounds() ? printDependencyNodes(classNode.getInboundDependencies()) : "[]") + ",\"features\":" + printNodes(classNode.getFeatures()) + "}";
     }
 
     private String printFeatureNode(FeatureNode featureNode) {
-        return "{\"type\":\"feature\",\"confirmed\":\"" + featureNode.isConfirmed() + "\",\"name\":\"" + featureNode.getName() + "\",\"outbound\":" + (isShowOutbounds() ? printDependencyNodes(featureNode.getOutboundDependencies()) : "[]") + ",\"inbound\":" + (isShowInbounds() ? printDependencyNodes(featureNode.getInboundDependencies()) : "[]") + "}";
+        return "{\"type\":\"feature\",\"confirmed\":" + featureNode.isConfirmed() + ",\"name\":\"" + featureNode.getName() + "\",\"outbound\":" + (isShowOutbounds() ? printDependencyNodes(featureNode.getOutboundDependencies()) : "[]") + ",\"inbound\":" + (isShowInbounds() ? printDependencyNodes(featureNode.getInboundDependencies()) : "[]") + "}";
     }
 
     public String printDependencyNodes(Collection<? extends Node> nodes) {
@@ -72,6 +72,6 @@ public class JSONPrinter extends Printer {
     }
 
     private String printDependency(Node node, String type) {
-        return "{\"type\":\"" + type + "\",\"confirmed\":\"" + node.isConfirmed() + "\",\"name\":\"" + node.getName() + "\"}";
+        return "{\"type\":\"" + type + "\",\"confirmed\":" + node.isConfirmed() + ",\"name\":\"" + node.getName() + "\"}";
     }
 }

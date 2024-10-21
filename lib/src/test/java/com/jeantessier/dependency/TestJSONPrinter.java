@@ -118,6 +118,7 @@ public class TestJSONPrinter extends TestPrinterBase {
 
         // When
         visitor.traverseNodes(factory.getPackages().values());
+        visitor.eol();
 
         // Then
         var expectedReport = Files.readString(REPORTS_DIR.resolve(expectedOutput));
