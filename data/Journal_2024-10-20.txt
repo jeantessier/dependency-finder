@@ -1,9 +1,14 @@
-Found a "bug" in =com.jeantessier.dependency.JSONPrinter=.  It rendered boolean
-values for confirmed nodes as the strings ="true"= and ="false"=, instead of
-the raw boolean values =true= and =false= that are allowed in JSON.  I had to
-fix quite a few test data templates.  The templates didn't end with a newline
-character because I compared them to the printer's output, which doesn't have
-one either.  But IntelliJ IDEA decided to add a newline on each file that I
-touched, out of the goodness of its heart.  I would have been tedious to open
-each file in another editor, just to remove a newline.  So, I adjusted the test
-to add a newline to the printer's output instead.
+Added a fully functional =/query= page to my React app.  You can specify scope
+and filter criteria, run the query, and view the results.  It doesn't do graph
+surfing or set query string search parameters, yet.  And, I don't know if I
+will get to the Advanced Query page.  I might do closures and metrics first.
+
+I found a "bug" in =com.jeantessier.dependency.JSONPrinter=.  It rendered
+boolean values for confirmed nodes as the strings ="true"= and ="false"=,
+instead of the raw boolean values =true= and =false= that are allowed in JSON.
+I had to fix quite a few test data templates.  The templates didn't end with a
+newline character because I compared them to the printer's output, which
+doesn't have one either.  But IntelliJ IDEA decided to add a newline on each
+file that I touched, out of the goodness of its heart.  I would have been
+tedious to open each file in another editor, just to remove a newline.  So, I
+adjusted the test to add a newline to the printer's output instead.
