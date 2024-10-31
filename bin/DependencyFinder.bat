@@ -65,11 +65,16 @@ goto setupArgs
 rem This label provides a place for the argument list loop to break out
 rem and for NT handling to skip to.
 
+set DEPENDENCYFINDER_CLASSPATH=
+
+SETLOCAL ENABLEDELAYEDEXPANSION
+for %%j in (%DEPENDENCYFINDER_HOME%\lib\*.jar) do set DEPENDENCYFINDER_CLASSPATH=!DEPENDENCYFINDER_CLASSPATH!;%%j
+
 if "%DEPENDENCYFINDER_CONSOLE%"=="" goto noConsole
-"%JAVA_HOME%\bin\java" %DEPENDENCYFINDER_OPTS% -classpath "%DEPENDENCYFINDER_HOME%\classes;%DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar;%DEPENDENCYFINDER_HOME%\lib\jakarta-oro.jar;%DEPENDENCYFINDER_HOME%\lib\log4j.jar" com.jeantessier.dependencyfinder.gui.DependencyFinder %DEPENDENCYFINDER_CMD_LINE_ARGS%
+"%JAVA_HOME%\bin\java" %DEPENDENCYFINDER_OPTS% -classpath "%DEPENDENCYFINDER_HOME%\classes;%DEPENDENCYFINDER_CLASSPATH%" com.jeantessier.dependencyfinder.gui.DependencyFinder %DEPENDENCYFINDER_CMD_LINE_ARGS%
 goto doneRun
 :noConsole
-start "Dependency Finder" "%JAVA_HOME%\bin\javaw" %DEPENDENCYFINDER_OPTS% -classpath "%DEPENDENCYFINDER_HOME%\classes;%DEPENDENCYFINDER_HOME%\lib\DependencyFinder.jar;%DEPENDENCYFINDER_HOME%\lib\jakarta-oro.jar;%DEPENDENCYFINDER_HOME%\lib\log4j.jar" com.jeantessier.dependencyfinder.gui.DependencyFinder %DEPENDENCYFINDER_CMD_LINE_ARGS%
+start "Dependency Finder" "%JAVA_HOME%\bin\javaw" %DEPENDENCYFINDER_OPTS% -classpath "%DEPENDENCYFINDER_HOME%\classes;%DEPENDENCYFINDER_CLASSPATH%" com.jeantessier.dependencyfinder.gui.DependencyFinder %DEPENDENCYFINDER_CMD_LINE_ARGS%
 :doneRun
 
 if not "%OS%"=="Windows_NT" goto mainEnd
