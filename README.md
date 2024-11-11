@@ -25,4 +25,4 @@ A list of the tools and their usage is on the [Tools page](http://dependencyfind
 
 These documents are also available online at:
 
-> http://dependencyfinder.jeantessier.com/
+> [dependencyfinder.jeantessier.com](http://dependencyfinder.jeantessier.com/)
