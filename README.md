@@ -19,10 +19,10 @@ the relevant binary `.jar` files.
 Installation and Tools
 ----------------------
 
-Installation instructions are included in `docs/Manual.html`.
+Installation instructions are included in the [User Manual](http://dependencyfinder.jeantessier.com/Manual.html).
 
-A list of the tools and their usage is in `docs/Tools.html`.
+A list of the tools and their usage is on the [Tools page](http://dependencyfinder.jeantessier.com/Tools.html).
 
 These documents are also available online at:
 
-> https://depfind.sourceforge.io/
+> http://dependencyfinder.jeantessier.com/
