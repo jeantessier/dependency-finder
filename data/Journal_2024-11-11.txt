@@ -1,0 +1,5 @@
+Dependency Finder received PR
+[[https://github.com/jeantessier/dependency-finder/pull/13][#13]] from
+[[https://github.com/GenZmeY][GenZmeY]] that fixes the Windows scripts.  I
+haven't had access to a Windows machine for years, so I didn't have a way to
+test them.  Thank you, GenZmeY!
