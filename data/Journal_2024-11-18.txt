@@ -1,0 +1,2 @@
+I'm reformating the =/query= page of my React app using
+[[https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Grids][Grid Layout]].

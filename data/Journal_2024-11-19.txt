@@ -1,0 +1,5 @@
+Finished reformating the =/query= page of my React app using
+[[https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Grids][Grid Layout]].
+I was able to get rid of =&lt;blockquote&gt;= tags and replace them by
+=&lt;div&gt;= tags with CSS classes.  I used the =ch= unit to re-create the
+indentation from =&lt;blockquote&gt;=.
