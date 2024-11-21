@@ -3,4 +3,4 @@ concrete nodes in the dependency graph.  =NodeFactory= now
 has versions of its =createX()= methods that take a boolean
 parameter to mark nodes as concrete.  The default is for them to be
 marked as referenced only.  Marking a node as concrete makes its
-ancestors concrete, but not its sibblings nor descendants.
+ancestors concrete, but not its siblings nor descendants.

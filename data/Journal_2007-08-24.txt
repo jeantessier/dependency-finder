@@ -3,7 +3,7 @@ did for =ClassReport=.  Again, I am still not completely satisfied with it, but
 it will do as a stop-gap measure.
 
 I also took care of escaping special characters in =&lt;modified-fields&gt;=
-tags.  This introduced an interesting twitst.  When the value is changed,
+tags.  This introduced an interesting twist.  When the value is changed,
 =ClassReport= includes it in the content of the tag where it may need to be
 escaped too.  But in tag content, I don't need to escape '"' or '''.  In fact,
 the content is more human-readable if I don't.  So I split

@@ -6,7 +6,7 @@ of abstract base classes in the =dependency=, =diff=, and =metrics= packages.
 I also converted more =for()= loops to the Stream API, and even wrote a custom
 =Spliterator= for use in =DescriptorHelper=.
 
-I realized that after I started processig =StackMapTable_attribute= for
+I realized that after I started processing =StackMapTable_attribute= for
 dependencies, I inadvertently introduced dependencies on arrays of primitive
 types.  A stack frame might reference a local =byte[]= with the descriptor
 "=[B=" and reference it via a =Class_info= in the constant pool.  The

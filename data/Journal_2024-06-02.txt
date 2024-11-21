@@ -1,6 +1,6 @@
 Refactored =StatisticalMeasurement= to add percentiles.  The statistics that it
 exposes are minimum, median, and maximum.  But this does not tell us how far
-outliers are from the other results.  For that, it would be helpul to have
+outliers are from the other results.  For that, it would be helpful to have
 values line the 90<sup>th</sup> percentile or the 99<sup>th</sup> percentile.
 And maybe even the 1<sup>st</sup> and 10<sup>th</sup> percentile for the lower
 end of the range.  Maybe, once I have a percentile function, I can replace

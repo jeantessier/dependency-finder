@@ -1,6 +1,6 @@
 Found a bug with OOMetricsGUI where the names of packages, classes, and
 features are all prefixed with "com.jeantessier.metrics.Metrics".  It turns out
-the cell renderer from Swing calls =toString()= on the object being redered, in
+the cell renderer from Swing calls =toString()= on the object being rendered, in
 my case they are =Metrics= objects and their =toString()= method adds a lot of
 debug information to the string.  I modified =OOMetricsTableModel= to insert
 only the name of the =Metrics= in the first column instead of the =Metrics=

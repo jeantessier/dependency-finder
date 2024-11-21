@@ -18,7 +18,7 @@ Brought the =ListSymbols= Ant task to feature parity with its CLI version.
 
 Started to create tests for the Ant version of =ListSymbols=, but the Ant code
 is not very testable.  The Ant tasks have many trivial accessors that I do not
-want to waste time testing.  The interesting business logic is embeded in the
+want to waste time testing.  The interesting business logic is embedded in the
 =execute()= method and I have to pull it out before I can write tests against
 it.
 

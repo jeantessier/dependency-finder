@@ -1,1 +1,1 @@
-Last tests for =IncompatibleDifferenceStragegy=.
+Last tests for =IncompatibleDifferenceStrategy=.

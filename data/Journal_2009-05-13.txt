@@ -9,7 +9,7 @@ but I'm tempted to collect dependencies from attributes such as:
     * =InnerClasses_attribute=
     * =Signature_attribute=
 
-=EnclosingMethod_attribute= is particularily interesting because it would be
+=EnclosingMethod_attribute= is particularly interesting because it would be
 the first time we have an explicit dependency going from a class to a feature.
 
 I also noticed that =com.jeantessier.metrics.MetricsGatherer= only looks for a
@@ -22,7 +22,7 @@ I have been doing a lot of thinking about large projects that run out of memory
 to hold the dependency graph.  In one case, I have a very large JAR file with
 all the project classes in it and even if I give =DependencyExtractor= over
 1.5GB of memory, it still runs out.  I could add scoping to the extractor, but
-this feels like piling too many responsabilities on one tool, espcially when it
+this feels like piling too many responsibilities on one tool, specially when it
 is already the purview of =DependencyReporter=.  I could partition the graph
 across many machines.  I can already merge graphs, so the client could ask all
 partitions (in parallel) and merge the results together.  But now I'm facing

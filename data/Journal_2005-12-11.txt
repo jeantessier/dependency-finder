@@ -1,4 +1,4 @@
-Tech docs to describe the =ClassfileLoder= hierarchy.
+Tech docs to describe the =ClassfileLoader= hierarchy.
 
 Came up with a new subclass of =DoFixture= to help me
 test dependency graphs as part of Fit tables.

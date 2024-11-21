@@ -4,6 +4,6 @@ And even better, =TestAll= has both of these, so all I need to do to find an
 example is analyze =TestAll=.
 
 I did a quick spike to try to track annotations as part of
-=com.jeantessier.classreader.MetricsGatherer=.  Early results are promissing,
-but this was just a spike so I will have to trown away that code and redo it
+=com.jeantessier.classreader.MetricsGatherer=.  Early results are promising,
+but this was just a spike so I will have to throw away that code and redo it
 properly, test-first.

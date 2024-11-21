@@ -87,7 +87,7 @@ in the declaration of the implementation method.
     }
 
 But this may be impractical if package names are long, or if the result is
-one method with a very long declation when all the other methods oin the class
+one method with a very long declaration when all the other methods in the class
 are much more concise.
 
 Sometimes, it is inevitable.  Consider the following interface and its
@@ -128,7 +128,7 @@ signature.  For example:
     * =FeatureNode= in a dependency graph
     * method-related differences
     * method-related metrics
-    * =Classfile.getMethod(String)= will return the first method witha a matching signature, but it searches the methods in a indeterminate order.
+    * =Classfile.getMethod(String)= will return the first method with a matching signature, but it searches the methods in an indeterminate order.
 
 Depending on the case, two methods with the same signatures may end up merged
 together (this is the case in dependency graphs), or one method may completely

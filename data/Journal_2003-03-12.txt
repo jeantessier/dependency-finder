@@ -37,7 +37,7 @@ with it.
 <blockquote>
 <em>I'm not too happy with the way the sequence diagrams came out
 too, but that's the fault of the tool I've been using.  And even the
-class diagram has undesireable artifacts.  I have no budget for this
+class diagram has undesirable artifacts.  I have no budget for this
 project, so I could not use the one I would have really wanted.  And
 the one I ended up using was quicker to use than a plain drawing
 editor.</em>

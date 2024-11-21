@@ -8,7 +8,7 @@ fetching them by hand and hard-checking them in Git.  As a result, I had to
 rework the launching script to dynamically build a =CLASSPATH= from the list of
 JAR files in =lib/=.
 
-I don't know how to do that under Windows, so all the Windows lanching scripts
+I don't know how to do that under Windows, so all the Windows launching scripts
 are broken at the moment.
 
 I removed the scripts to run JUnit since I run JUnit through Gradle, now.

@@ -1,5 +1,5 @@
 Spiked to try out SLOC2, based on the minimum and maximum line numbers in a
-method and in a class.  Runnning it on Dependency Finder, it yields extimates
+method and in a class.  Running it on Dependency Finder, it yields estimates
 that are about 60% higher than SLOC.  This is due in part to blank lines and
 comments, which it counts.  Interestingly, it finds nothing for interfaces and
 abstract methods.

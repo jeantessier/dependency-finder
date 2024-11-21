@@ -24,6 +24,5 @@ find dependencies on non-private fields.
     $ ListSymbols -non-private-field-names -out names.txt [JARs ...]
     $ DependencyReporter -scope-includes-list names.txt -class-filter -show-inbounds -show-empty-nodes df.xml
 
-I could then use these results to track where one class acceses the fields of
+I could then use these results to track where one class accesses the fields of
 another class and replace them with accessors.
- 

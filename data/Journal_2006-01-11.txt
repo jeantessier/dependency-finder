@@ -1,7 +1,7 @@
 Played a bit with [[http://www.opensymphony.com/webwork/][WebWork]].  I have
 been toying with the idea of rewriting the webapp using WebWork, but since it
 is merging with Struts now, I'm not so sure anymore.  I don't want the webapp
-to bloat just because it needs a whole bunch of infrastructure JARs.  ALready,
+to bloat just because it needs a whole bunch of infrastructure JARs.  Already,
 the default type of WebWork webapp requires 1MB of JARs before you've even
 started doing anything.
 

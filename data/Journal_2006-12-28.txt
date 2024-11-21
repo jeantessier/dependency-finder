@@ -14,5 +14,5 @@ instead of =StringBuffer=.
 
 Figured out how to exclude sample classes that are only test data from Emma
 reports.  I cleaned up =build.emma.xml= and the procedure for running the
-coverage report to make it much simpler.  I no longer need to inovke a separate
+coverage report to make it much simpler.  I no longer need to invoke a separate
 target from =build.text.xml= to generate the rest of the test data.

@@ -1,4 +1,4 @@
-Reworked the entire =DifferenceStragegy= hierarchy.  For
+Reworked the entire =DifferenceStrategy= hierarchy.  For
 a short time, I considered using a chain of responsibility pattern,
 but setting it up in a flexible way, from the command-line, was just
 too complicated.  So I will stay with decorators and some limited

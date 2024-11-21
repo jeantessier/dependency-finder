@@ -15,7 +15,7 @@ green.
 
 Bear in mind, these are only the public interfaces in
 =com.jeantessier.classreader= that will be visible to other callers.  There will
-also be implentation classes in =com.jeantessier.classreader.impl= and
+also be implementation classes in =com.jeantessier.classreader.impl= and
 additional support classes, like factories for the =Target=, =StackMapFrame=,
 and =VerificationType_info= hierarchies.  It will also impact implementation of
 the =Visitor= interface.

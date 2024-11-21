@@ -4,7 +4,7 @@ In one case, the compiler was optimizing away the unused variable =c= in the
 sample =test= class.  I figured a way to tweak the code so the compiler would
 keep the variable by declaring it in an enclosing scope.
 
-Tests for =CodeDependencyCollector= were testing filtering by excuding
+Tests for =CodeDependencyCollector= were testing filtering by excluding
 =/java.lang/= and making sure =java.lang= entities were absent from the
 dependency graph.  But after I added inheritance data to the graph, it became
 impossible to avoid =java.lang.Object= since =test= derives from it.  So I

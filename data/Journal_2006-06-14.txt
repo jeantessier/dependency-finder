@@ -10,7 +10,7 @@ I was discussing the =com.jeantessier.dependency.Visitor= hierarchy with a
 colleague and complained about the complicated contract for children of
 =VisitorBase=, especially for the printers.  During the discussion, it dawned
 on me that I could try composition instead of inheritance.  The visitors would
-delegate traversal to a stragegy, the way they do now, but they could also
+delegate traversal to a strategy, the way they do now, but they could also
 delegate processing of each node to another collaborator.  The contract with
 the _processor_ would still be fairly complex to preserve flexibility, but
 might be easier to manage.

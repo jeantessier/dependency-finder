@@ -13,7 +13,7 @@ them just fine using introspection on my classes.
 
 I tried FitLibraryRunner20060110 because there was an incompatibility between
 FitLibraryForFit15Feb2005 and the latest fit-java-1.1.  I was able to do a
-small change to FitLibrary and recompile it againt Fit 1.1, but I'm not sure
+small change to FitLibrary and recompile it against Fit 1.1, but I'm not sure
 how the versioning of FitLibrary works.  The new FitLibraryRunner20060110 has
 all the Fit classes inside of it, so I only need one JAR file.  But it seems
 some of the semantics have changed along the way and I haven't seen any

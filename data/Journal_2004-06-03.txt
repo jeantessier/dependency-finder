@@ -1,8 +1,8 @@
-As I was tryin to explain scoping and filtering to someone, I came
+As I was trying to explain scoping and filtering to someone, I came
 upon a new way of explaining it.  The graph really has two dimensions:
-aggregation betweeen packages, classes, and features, and dependencies
+aggregation between packages, classes, and features, and dependencies
 between the nodes as a separate dimension.  Scoping select specific
-nodes along the aggregation dimention, while filtering selects
+nodes along the aggregation dimension, while filtering selects
 specific dependencies along the other dimension.  Maybe that will make
 it a little easier for people to understand what I mean and how to use
 regular expressions in either context.

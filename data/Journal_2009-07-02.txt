@@ -18,5 +18,5 @@ project.
 
 Removed dependencies on =toString()= when getting the names of elements of
 =Classfile=.  It is much better to be explicit about which piece of data is
-needed rather than rely on what an object's string represenation is.  Also, it
+needed rather than rely on what an object's string representation is.  Also, it
 is impossible to mock =toString()= using jMock.

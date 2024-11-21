@@ -16,6 +16,6 @@ declaration.  I still need to work out =try {=
 lines.
 
 I got feedback regarding =ListDiff= and
-=PublisedDiffToHTML.xsl=.  I need to do more
+=PublishedDiffToHTML.xsl=.  I need to do more
 testing to make sure that they compute differences
 correctly.

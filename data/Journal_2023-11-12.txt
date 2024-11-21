@@ -1,4 +1,4 @@
-Wrote =InvodeDynamicFinder=, a tool to show the object graph rooted at
+Wrote =InvokeDynamicFinder=, a tool to show the object graph rooted at
 =invokedynamic= instructions.  It helps me see better the variations in
 callsites, so I can better determine if =CodeDependencyCollector= is doing a
 good enough job or not.

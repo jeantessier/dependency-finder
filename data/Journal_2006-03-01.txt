@@ -19,11 +19,11 @@ I also take this knowledge into account when comparing instructions in
 =Instruction.equals()= and in computing =Instruction.hashCode()=.  If the
 instruction actually refers to a =ConstantPoolEntry=, =equals()= and
 =hashCode()= will use the entry's =equals()= and =hashCode()= as part of their
-computation.  Otherwise, they just do a byte-to-byte comparision of the
+computation.  Otherwise, they just do a byte-to-byte comparison of the
 instruction's data.
 
 With these new tools, I revisited the case a user had brought to my attention
-on [[2006-02-21]].  At the time, =JarJarDiff= only did byte-to-byte comparision
+on [[2006-02-21]].  At the time, =JarJarDiff= only did byte-to-byte comparison
 when checking for code changes in methods.  The user complained that they had
 changed only one method but =JarJarDiff= was flagging them all as different
 after a recompile.  It turns out the constant pool was reordered between the two

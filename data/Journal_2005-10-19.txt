@@ -1,4 +1,4 @@
-I'm going to make =IncompatibleDifferenceStragegy= a
+I'm going to make =IncompatibleDifferenceStrategy= a
 subclass of =DifferenceStrategyDecorator=.
 
 I read that JDK 1.5 has JMX instrumentation to help with profiling.

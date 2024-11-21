@@ -25,4 +25,4 @@ this specific analysis.
 
 See also
 [[http://www.cs.sunysb.edu/~algorith/files/graph-partition.shtml][graph partition algorithms]]
-at [[http://www.cs.sunysb.edu/~algorith/][The Stony Brook Algoritm Repository]].
+at [[http://www.cs.sunysb.edu/~algorith/][The Stony Brook Algorithm Repository]].

@@ -1,7 +1,7 @@
 Worked on =JarClassfileLoader= to handle multi-release JAR files and only load
 a single version of a class, potentially based on a target JDK.  The changes
 removed any commonality there was between =ZipClassfileLoader= and
-=JarClassfileLoader=, so I made them sibbling classes instead of one inheriting
+=JarClassfileLoader=, so I made them sibling classes instead of one inheriting
 from the other.  When loading a JAR file from an =InputStream=, I copy it to a
 temporary file so I can better use the Streams API to sort and filter entries.
 

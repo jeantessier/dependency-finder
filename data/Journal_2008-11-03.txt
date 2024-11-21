@@ -19,4 +19,4 @@ But after trying it out on some sample code, I realized that it
 hampers usability, so I will have to put them back in.  I also removed
 dependence on the behavior of =toString()= in a few places.
 
-Addded =AnnotationDefault_attribute=.
+Added =AnnotationDefault_attribute=.

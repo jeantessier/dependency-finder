@@ -34,4 +34,4 @@ spite of what the documentation says), not on a whole codebase.  The
 result is an invalid XML document with repeated DOCTYPE and no root
 tag.  I'll try to fix that tomorrow.
 
-Ran this journal throught a spelling checker.
+Ran this journal through a spelling checker.

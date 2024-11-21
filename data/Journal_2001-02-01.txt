@@ -15,7 +15,7 @@ I must parse deeper in the =.class=
 file to extract field and method entries and
 get the references I need from there.
 
-I must also make sure that I capture dependences
+I must also make sure that I capture dependencies
 from local variables in methods!
 
 Fran&ccedil;ois is looking for a JAR

@@ -12,7 +12,7 @@ introduced a different meaning to the word _signature_: the generic information
 around a class, field, or method declaration.  Java in general uses the work
 _descriptor_ to refer to the combination of return type and parameter types of
 a method.  The object model in =com.jeantessier.classreader= uses _signature_
-in the OO sense and builds it from the method's name and decriptor information.
+in the OO sense and builds it from the method's name and descriptor information.
 But I feel this may get confusing as I expose the Java 1.5 =Signature_info=
 data.  I am debating whether I should rename all my =*Signature= methods to
 =*Descriptor= instead; maybe even going as far as leaving the method name out

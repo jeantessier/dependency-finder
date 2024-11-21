@@ -20,7 +20,7 @@ of the classes in the JAR appeared corrupted and broke the whole
 =ClassfileLoaderEventSource= so it can skip single,
 malformed classes without aborting everything.  It turns out they used
 an obfuscator and it added a text file with a =.class=
-extension, fooling Dependency Finder ginto trying to parse it like a
+extension, fooling Dependency Finder into trying to parse it like a
 regular =.class= file with bytecode in it.
 
 I gave a shot at [[http://sourceforge.net/tracker/index.php?func%3Ddetail&aid%3D825582&group_id%3D43305&atid%3D435887][Feature Request 825582]],
@@ -28,5 +28,5 @@ the one about the pattern cache for =Perl5Util=.  I tried
 to build a cache based on a simple =HashMap= with
 "unlimited" capacity, but when I use it in
 =SelectiveTraversalStrategy=, I get a bunch of
-=OutOfmemoryError= even from seemingly unrelated areas of
+=OutOfMemoryError= even from seemingly unrelated areas of
 the code.  More later...

@@ -6,5 +6,5 @@ names.
 I might have to start creating metrics for individual fields.  That might be
 quite a bit of work.
 
-Cleaned up =MaximumCapacityPatternCache= and its tests to remove unsued imports
+Cleaned up =MaximumCapacityPatternCache= and its tests to remove unused imports
 and use specialized version of collections.

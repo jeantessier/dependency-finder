@@ -1,7 +1,7 @@
 Removed all support for serialization of the dependency graph.  I
 was never able to deserialize the graphs anyway.  I was semi-useful for
 guesstimating the size of the graph, but =DependencyMetrics=
-is much better for that.  Serialiazed objects are not forward-
+is much better for that.  Serialized objects are not forward-
 compatible anyway, so they do not make a good mechanism for
 persistence.
 

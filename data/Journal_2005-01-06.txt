@@ -1,2 +1,2 @@
 Started putting support in =NodeFactory= to remove nodes.
-I still need to handle the dependendcies themselves.
+I still need to handle the dependencies themselves.

@@ -1,9 +1,9 @@
 Changed dependencies on =java.io.DataInputStream= to =java.io.DataInput=
 instead.
 
-Looked at =Classfile.locateMethod()= and I found something that seemd strange at
+Looked at =Classfile.locateMethod()= and I found something that seemed strange at
 first glance: it will return a method defined on the class regardless of its
-access priviledge, but will only return one that is inherited if it is public or
+access privilege, but will only return one that is inherited if it is public or
 protected.  This makes sense, since otherwise it would not be inherited.  But it
 is missing the case of a package-level method from a superclass or interface in
 the same package.  The expected behavior is not documented and there are no

@@ -3,7 +3,7 @@ their package.  They could use such a tool to narrow down the exposed interface
 of a library.  I started thinking how I could do this using Dependency Finder.
 One problem is that most tools don't record the access level of programming
 elements.  =JarJarDiff= does it, but it doesn't know about dependencies.
-=OOMetrics= keeps a count by access level, but does not keep track of the acces
+=OOMetrics= keeps a count by access level, but does not keep track of the access
 level of individual methods.  One possibility would be to get a list of public
 and protected methods, maybe with =ListSymbols=, and pass them to =OOMetrics=
 somehow.  The =-scope-includes-list= switch to =OOMetrics= controls which

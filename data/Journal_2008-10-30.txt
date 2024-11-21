@@ -12,7 +12,7 @@ Added some tests for some structures that were not covered before:
     * =InterfaceMethodRef_info=
     * =Deprecated_attribute=
     * =Synthetic_attribute=
-    * =SourceDebugExtenstion_attribute=
+    * =SourceDebugExtension_attribute=
 
 [[http://jmock.org/][jMock]] is really helping create a stage where I can
 exercise the classes very easily.

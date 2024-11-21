@@ -4,7 +4,7 @@ needed.  Here's my recipe.
 
 Suppose you want to package the tools for the CLI together with all the classes
 they require, but no other.  First, get the total dependency graph for all the
-JAR files in =lib/= and save the graph somewhere convinient:
+JAR files in =lib/= and save the graph somewhere convenient:
 
     =DependencyExtractor -xml -out dependencies.xml *lib*=
 

@@ -1,5 +1,5 @@
 A short while ago, someone filed a bug against =JarJarDiff= because it doesn't
-encode special characters in its XML output, like '&lt;' embeded in string values.
+encode special characters in its XML output, like '&lt;' embedded in string values.
 I got a case of that today as I was comparing two versions of a library and one
 of the strings contained a non-ASCII character that was not getting escaped.
 

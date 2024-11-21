@@ -15,7 +15,7 @@ For example, take this simple dependency graph:
                 <-- p1.C1.f1
 
 
-Using edges to represent containement, I get this picture:
+Using edges to represent containment, I get this picture:
 
 [[../images/p1.C1.f1%5Fp2.C2.f2%5Fedges.jpg]]
 
@@ -37,4 +37,4 @@ able to put together an XSL stylesheet to do just that.
 I also realized I did not document =DependencyGraphToGraphML= nor
 =DependencyGraphToyEd= on the Tools page.  So I took care of it at the same time
 as I documented the new stylesheet for unconfirmed symbols:
-=DepedencyGraphToUnconfirmedFullyQualifiedNames=.
+=DependencyGraphToUnconfirmedFullyQualifiedNames=.

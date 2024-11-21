@@ -1,3 +1,3 @@
 Found
 [[http://www.java.net/][java.net]] and took
-initial steps to have Dependnecy Finder listed there too.
+initial steps to have Dependency Finder listed there too.
