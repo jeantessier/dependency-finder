@@ -4579,7 +4579,7 @@ the report.
 
 </div>
 
----++++ Controling the Level of Reporting
+---++++ Controlling the Level of Reporting
 
 You can control what kind of changes are in the report with the =-level=
 switch.
