@@ -1,8 +1,7 @@
 package com.jeantessier.metrics;
 
 import com.jeantessier.classreader.*;
-import org.junit.*;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.*;
 
 import java.io.PrintWriter;
 import java.nio.file.*;
@@ -21,7 +20,6 @@ public class TestPrinterVisibilityBase {
     protected Collection<Metrics> classMetrics;
     protected Collection<Metrics> methodMetrics;
 
-    @Before
     @BeforeEach
     public void loadTestData() throws Exception {
         configuration = new MetricsConfigurationLoader().load(CONFIGURATION_FILENAME);
