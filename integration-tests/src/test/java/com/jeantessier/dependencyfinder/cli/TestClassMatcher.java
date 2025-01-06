@@ -37,11 +37,15 @@ import java.nio.file.*;
 import java.util.*;
 
 import org.jmock.*;
-import org.jmock.integration.junit3.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
 
 import com.jeantessier.classreader.*;
 
-public class TestClassMatcher extends MockObjectTestCase {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestClassMatcher {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
     public static final String TEST_CLASS    = "test";
     public static final String TEST_FILENAME = CLASSES_DIR.resolve(TEST_CLASS + ".class").toString();
@@ -51,7 +55,11 @@ public class TestClassMatcher extends MockObjectTestCase {
     public static final String TWOLEVEL_JAR = TEST_DIR.resolve("twolevel.jar").toString();
     private static final String TEST_ARCHIVE = Paths.get("jarjardiff/new/build/libs/new.jar").toString();
 
-    public void testReadsGroupNameFromEndClassfileEvent() {
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery();
+
+    @Test
+    void testReadsGroupNameFromEndClassfileEvent() {
         ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.emptyList());
 
         String groupName1 = "groupName1";
@@ -59,9 +67,9 @@ public class TestClassMatcher extends MockObjectTestCase {
         String groupName2 = "groupName2";
         String filename2 = "filename2";
 
-        final Classfile mockClassfile = mock(Classfile.class);
+        final Classfile mockClassfile = context.mock(Classfile.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockClassfile).getClassName();
         }});
 
@@ -74,41 +82,44 @@ public class TestClassMatcher extends MockObjectTestCase {
         matcher.endGroup(new LoadEvent(this, groupName1, null, null));
         matcher.endSession(new LoadEvent(this, null, null, null));
 
-        assertEquals("Number of results", 1, matcher.getResults().size());
+        assertEquals(1, matcher.getResults().size(), "Number of results");
         for (List<String> results : matcher.getResults().values()) {
-            assertEquals("number results", 1, results.size());
-            assertEquals("value", groupName2, results.get(0));
+            assertEquals(1, results.size(), "number results");
+            assertEquals(groupName2, results.get(0), "value");
         }
     }
 
-    public void testMatchNone() {
+    @Test
+    void testMatchNone() {
         ClassMatcher matcher = new ClassMatcher(Collections.emptyList(), Collections.emptyList());
         
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(TEST_FILENAME));
 
-        assertEquals("Number of results", 0, matcher.getResults().size());
+        assertEquals(0, matcher.getResults().size(), "Number of results");
     }
     
-    public void testMatchClassfile() {
+    @Test
+    void testMatchClassfile() {
         ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.emptyList());
         
         ClassfileLoader loader = new TransientClassfileLoader();
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(TEST_FILENAME));
 
-        assertEquals("Number of results", 1, matcher.getResults().size());
-        assertEquals("key", TEST_CLASS, matcher.getResults().keySet().iterator().next());
+        assertEquals(1, matcher.getResults().size(), "Number of results");
+        assertEquals(TEST_CLASS, matcher.getResults().keySet().iterator().next(), "key");
         for (List<String> results : matcher.getResults().values()) {
-            assertEquals("number results", 1, results.size());
-            assertEquals("value", TEST_FILENAME, results.get(0));
+            assertEquals(1, results.size(), "number results");
+            assertEquals(TEST_FILENAME, results.get(0), "value");
         }
     }
 
-    public void testOneLevelJar() {
+    @Test
+    void testOneLevelJar() {
         File file = new File(ONELEVEL_JAR);
-        assertTrue(file + " missing", file.exists());
+        assertTrue(file.exists(), file + " missing");
         
         ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.emptyList());
 
@@ -116,16 +127,17 @@ public class TestClassMatcher extends MockObjectTestCase {
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(file.getPath()));
 
-        assertEquals("Number of results", 14, matcher.getResults().size());
+        assertEquals(14, matcher.getResults().size(), "Number of results");
         for (List<String> results : matcher.getResults().values()) {
-            assertEquals("number results", 1, results.size());
-            assertEquals("value", file.getPath(), results.get(0));
+            assertEquals(1, results.size(), "number results");
+            assertEquals(file.getPath(), results.get(0), "value");
         }
     }
 
-    public void testTwoLevelJar() {
+    @Test
+    void testTwoLevelJar() {
         File file = new File(TWOLEVEL_JAR);
-        assertTrue(file + " missing", file.exists());
+        assertTrue(file.exists(), file + " missing");
         
         ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.emptyList());
 
@@ -133,16 +145,17 @@ public class TestClassMatcher extends MockObjectTestCase {
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(file.getPath()));
 
-        assertEquals("Number of results", 14, matcher.getResults().size());
+        assertEquals(14, matcher.getResults().size(), "Number of results");
         for (List<String> results : matcher.getResults().values()) {
-            assertEquals("number results", 1, results.size());
-            assertEquals("value", "onelevel.zip", results.get(0));
+            assertEquals(1, results.size(), "number results");
+            assertEquals("onelevel.zip", results.get(0), "value");
         }
     }
     
-    public void testMatchDirectory() {
+    @Test
+    void testMatchDirectory() {
         File dir = new File(TEST_ARCHIVE);
-        assertTrue(dir + " missing", dir.exists());
+        assertTrue(dir.exists(), dir + " missing");
 
         ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.emptyList());
         
@@ -150,16 +163,17 @@ public class TestClassMatcher extends MockObjectTestCase {
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(dir.getPath()));
 
-        assertEquals("Number of results", 14, matcher.getResults().size());
+        assertEquals(14, matcher.getResults().size(), "Number of results");
         for (List<String> results : matcher.getResults().values()) {
-            assertEquals("number results", 1, results.size());
-            assertEquals("value", dir.getPath(), results.get(0));
+            assertEquals(1, results.size(), "number results");
+            assertEquals(dir.getPath(), results.get(0), "value");
         }
     }
     
-    public void testIncludes() {
+    @Test
+    void testIncludes() {
         File dir = new File(TEST_ARCHIVE);
-        assertTrue(dir + " missing", dir.exists());
+        assertTrue(dir.exists(), dir + " missing");
 
         ClassMatcher matcher = new ClassMatcher(Collections.singletonList("/modified/i"), Collections.emptyList());
         
@@ -167,16 +181,17 @@ public class TestClassMatcher extends MockObjectTestCase {
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(dir.getPath()));
 
-        assertEquals("Number of results", 13, matcher.getResults().size());
+        assertEquals(13, matcher.getResults().size(), "Number of results");
         for (List<String> results : matcher.getResults().values()) {
-            assertEquals("number results", 1, results.size());
-            assertEquals("value", dir.getPath(), results.get(0));
+            assertEquals(1, results.size(), "number results");
+            assertEquals(dir.getPath(), results.get(0), "value");
         }
     }
     
-    public void testExcludes() {
+    @Test
+    void testExcludes() {
         File dir = new File(TEST_ARCHIVE);
-        assertTrue(dir + " missing", dir.exists());
+        assertTrue(dir.exists(), dir + " missing");
 
         ClassMatcher matcher = new ClassMatcher(Collections.singletonList("//"), Collections.singletonList("/modified/i"));
         
@@ -184,18 +199,19 @@ public class TestClassMatcher extends MockObjectTestCase {
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(dir.getPath()));
 
-        assertEquals("Number of results", 1, matcher.getResults().size());
+        assertEquals(1, matcher.getResults().size(), "Number of results");
         for (List<String> results : matcher.getResults().values()) {
-            assertEquals("number results", 1, results.size());
-            assertEquals("value", dir.getPath(), results.get(0));
+            assertEquals(1, results.size(), "number results");
+            assertEquals(dir.getPath(), results.get(0), "value");
         }
     }
 
-    public void testMultiples() {
+    @Test
+    void testMultiples() {
         File file1 = new File(ONELEVEL_ZIP);
         File file2 = new File(ONELEVEL_JAR);
-        assertTrue(file1 + " missing", file1.exists());
-        assertTrue(file2 + " missing", file2.exists());
+        assertTrue(file1.exists(), file1 + " missing");
+        assertTrue(file2.exists(), file2 + " missing");
 
         Collection<String> filenames = new ArrayList<>();
         filenames.add(file1.getPath());
@@ -207,11 +223,11 @@ public class TestClassMatcher extends MockObjectTestCase {
         loader.addLoadListener(matcher);
         loader.load(filenames);
 
-        assertEquals("Number of results", 14, matcher.getResults().size());
+        assertEquals(14, matcher.getResults().size(), "Number of results");
         for (List<String> results : matcher.getResults().values()) {
-            assertEquals("number results", 2, results.size());
-            assertEquals("value", file1.getPath(), results.get(0));
-            assertEquals("value", file2.getPath(), results.get(1));
+            assertEquals(2, results.size(), "number results");
+            assertEquals(file1.getPath(), results.get(0), "value");
+            assertEquals(file2.getPath(), results.get(1), "value");
         }
     }
 }

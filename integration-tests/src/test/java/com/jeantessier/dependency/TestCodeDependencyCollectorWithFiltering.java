@@ -35,20 +35,21 @@ package com.jeantessier.dependency;
 import java.nio.file.*;
 import java.util.*;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.*;
 
-public class TestCodeDependencyCollectorWithFiltering extends TestCase {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestCodeDependencyCollectorWithFiltering {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
     public static final String TEST_CLASS    = "test";
     public static final String TEST_FILENAME = CLASSES_DIR.resolve(TEST_CLASS + ".class").toString();
 
-    private NodeFactory factory;
+    private final NodeFactory factory = new NodeFactory();
 
-    protected void setUp() throws Exception {
-        factory = new NodeFactory();
-
+    @BeforeEach
+    void setUp() {
         var filterCriteria = new RegularExpressionSelectionCriteria("//");
         filterCriteria.setGlobalExcludes("/java.util/");
 
@@ -57,7 +58,8 @@ public class TestCodeDependencyCollectorWithFiltering extends TestCase {
         loader.load(Collections.singleton(TEST_FILENAME));
     }
 
-    public void testPackages() {
+    @Test
+    void testPackages() {
         assertNodes(
                 Map.of(
                         "", true,
@@ -68,7 +70,8 @@ public class TestCodeDependencyCollectorWithFiltering extends TestCase {
         );
     }
 
-    public void testClasses() {
+    @Test
+    void testClasses() {
         assertNodes(
                 Map.of(
                         "test", true,
@@ -82,7 +85,8 @@ public class TestCodeDependencyCollectorWithFiltering extends TestCase {
         );
     }
 
-    public void testFeatures() {
+    @Test
+    void testFeatures() {
         assertNodes(
                 Map.of(
                         "test.main(java.lang.String[]): void", true,
@@ -96,12 +100,12 @@ public class TestCodeDependencyCollectorWithFiltering extends TestCase {
     }
 
     private void assertNodes(Map<String, Boolean> expectations, Map<String, ? extends Node> nodes) {
-        assertEquals("nb nodes", expectations.size(), nodes.size());
+        assertEquals(expectations.size(), nodes.size(), "nb nodes");
 
         expectations.forEach((name, expectedConfirmed) -> {
             var node = nodes.get(name);
-            assertNotNull(name + " missing from " + nodes.keySet(), node);
-            assertEquals(name + " concrete", (boolean) expectedConfirmed, node.isConfirmed());
+            assertNotNull(node, name + " missing from " + nodes.keySet());
+            assertEquals(expectedConfirmed, node.isConfirmed(), name + " concrete");
         });
     }
 }

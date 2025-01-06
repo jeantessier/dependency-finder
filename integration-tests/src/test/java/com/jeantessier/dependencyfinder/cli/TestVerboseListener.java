@@ -38,40 +38,39 @@ import java.util.*;
 
 import javax.xml.parsers.*;
 
-import junit.framework.*;
-
+import org.junit.jupiter.api.*;
 import org.xml.sax.*;
 
 import com.jeantessier.classreader.*;
 import com.jeantessier.dependency.*;
 import com.jeantessier.metrics.*;
 
-public class TestVerboseListener extends TestCase {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestVerboseListener {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
-    public static final String TEST_CLASS    = "test";
+    public static final String TEST_CLASS = "test";
     public static final String TEST_FILENAME = CLASSES_DIR.resolve(TEST_CLASS + ".class").toString();
     
-    private StringWriter writer;
-    private VerboseListener listener;
+    private final StringWriter writer = new StringWriter();
+    private final VerboseListener listener = new VerboseListener();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        writer = new StringWriter();
-        listener = new VerboseListener();
-
+    @BeforeEach
+    void setUp() {
         listener.setWriter(writer);
     }
     
-    public void testLoadListener() {
+    @Test
+    void testLoadListener() {
         AggregatingClassfileLoader loader = new AggregatingClassfileLoader();
         loader.addLoadListener(listener);
         loader.load(Collections.singleton(TEST_FILENAME));
 
-        assertFalse("Wrote nothing", writer.toString().isEmpty());
+        assertFalse(writer.toString().isEmpty(), "Wrote nothing");
     }
     
-    public void testDependencyListener() {
+    @Test
+    void testDependencyListener() {
         AggregatingClassfileLoader loader = new AggregatingClassfileLoader();
         loader.load(Collections.singleton(TEST_FILENAME));
 
@@ -79,10 +78,11 @@ public class TestVerboseListener extends TestCase {
         collector.addDependencyListener(listener);
         loader.getClassfile(TEST_CLASS).accept(collector);
 
-        assertFalse("Wrote nothing", writer.toString().isEmpty());
+        assertFalse(writer.toString().isEmpty(), "Wrote nothing");
     }
     
-    public void testMetricsListener() throws IOException, SAXException, ParserConfigurationException {
+    @Test
+    void testMetricsListener() throws IOException, SAXException, ParserConfigurationException {
         AggregatingClassfileLoader loader = new AggregatingClassfileLoader();
         loader.load(Collections.singleton(TEST_FILENAME));
 
@@ -91,10 +91,11 @@ public class TestVerboseListener extends TestCase {
         gatherer.addMetricsListener(listener);
         loader.getClassfile(TEST_CLASS).accept(gatherer);
 
-        assertFalse("Wrote nothing", writer.toString().isEmpty());
+        assertFalse(writer.toString().isEmpty(), "Wrote nothing");
     }
 
-    public void testPrintWriter() {
+    @Test
+    void testPrintWriter() {
         String testText = "foobar";
         
         listener.print(testText);
