@@ -32,113 +32,99 @@
 
 package com.jeantessier.metrics;
 
-import com.jeantessier.classreader.AggregatingClassfileLoader;
-import com.jeantessier.classreader.ClassfileLoader;
-import junit.framework.TestCase;
-
 import java.nio.file.*;
 import java.util.*;
 
-public class TestMetricsGathererEvents extends TestCase implements MetricsListener {
+import org.jmock.*;
+import org.jmock.api.*;
+import org.jmock.junit5.*;
+import org.jmock.lib.action.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
+
+import com.jeantessier.classreader.AggregatingClassfileLoader;
+import com.jeantessier.classreader.ClassfileLoader;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class TestMetricsGathererEvents {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
-    public static final String TEST_CLASS    = "test";
+    public static final String TEST_CLASS = "test";
     public static final String TEST_FILENAME = CLASSES_DIR.resolve(TEST_CLASS + ".class").toString();
     public static final String TEST_DIRNAME  = CLASSES_DIR.resolve("testpackage").toString();
     public static final String OTHER_DIRNAME = CLASSES_DIR.resolve("otherpackage").toString();
 
-    private ClassfileLoader loader;
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery();
+
+    private final ClassfileLoader loader = new AggregatingClassfileLoader();
+    private final MetricsListener mockListener = context.mock(MetricsListener.class);
+
     private MetricsGatherer gatherer;
 
-    private LinkedList<MetricsEvent> beginSessionEvents;
-    private LinkedList<MetricsEvent> beginClassEvents;
-    private LinkedList<MetricsEvent> beginMethodEvents;
-    private LinkedList<MetricsEvent> endMethodEvents;
-    private LinkedList<MetricsEvent> endClassEvents;
-    private LinkedList<MetricsEvent> endSessionEvents;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-        
-        loader = new AggregatingClassfileLoader();
-
+    @BeforeEach
+    void setUp() throws Exception {
         MetricsFactory factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).load(Paths.get("../etc/MetricsConfig.xml").toString()));
         gatherer = new MetricsGatherer(factory);
-        gatherer.addMetricsListener(this);
-
-        beginSessionEvents = new LinkedList<>();
-        beginClassEvents = new LinkedList<>();
-        beginMethodEvents = new LinkedList<>();
-        endMethodEvents = new LinkedList<>();
-        endClassEvents = new LinkedList<>();
-        endSessionEvents = new LinkedList<>();
+        gatherer.addMetricsListener(mockListener);
     }
     
-    public void testEvents() {
+    @Test
+    void testEvents() {
         loader.load(Collections.singleton(TEST_FILENAME));
 
+        context.checking(new Expectations() {{
+            exactly(1).of (mockListener).beginSession(with(any(MetricsEvent.class)));
+            exactly(1).of (mockListener).beginClass(with(any(MetricsEvent.class)));
+                will(new CustomAction("make sure it was for TEST_CLASS") {
+                    public Object invoke(Invocation invocation) {
+                        assertEquals(TEST_CLASS, ((MetricsEvent) invocation.getParameter(0)).getClassfile().getClassName());
+                        return null;
+                    }
+                });
+            exactly(2).of (mockListener).beginMethod(with(any(MetricsEvent.class)));
+            exactly(2).of (mockListener).endMethod(with(any(MetricsEvent.class)));
+            exactly(1).of (mockListener).endClass(with(any(MetricsEvent.class)));
+                will(new CustomAction("make sure it was for TEST_CLASS") {
+                    public Object invoke(Invocation invocation) {
+                        assertEquals(TEST_CLASS, ((MetricsEvent) invocation.getParameter(0)).getClassfile().getClassName());
+                        return null;
+                    }
+                });
+            exactly(1).of (mockListener).endSession(with(any(MetricsEvent.class)));
+        }});
+
         gatherer.visitClassfiles(loader.getAllClassfiles());
-
-        assertEquals("Begin Session",  1, beginSessionEvents.size());
-        assertEquals("Begin Class",    1, beginClassEvents.size());
-        assertEquals("Begin Method",   2, beginMethodEvents.size());
-        assertEquals("End Method",     2, endMethodEvents.size());
-        assertEquals("End Class",      1, endClassEvents.size());
-        assertEquals("End Session",    1, endSessionEvents.size());
-
-        assertEquals(loader.getClassfile(TEST_CLASS), beginClassEvents.getLast().getClassfile());
-        assertEquals(loader.getClassfile(TEST_CLASS), endClassEvents.getLast().getClassfile());
     }
     
-    public void testMultipleEvents() {
+    @Test
+    void testMultipleEvents() {
         Collection<String> dirs = new ArrayList<>();
         dirs.add(TEST_DIRNAME);
         dirs.add(OTHER_DIRNAME);
         loader.load(dirs);
 
-        gatherer.visitClassfiles(loader.getAllClassfiles());
+        context.checking(new Expectations() {{
+            exactly(1).of (mockListener).beginSession(with(any(MetricsEvent.class)));
+            exactly(9).of (mockListener).beginClass(with(any(MetricsEvent.class)));
+            exactly(16).of (mockListener).beginMethod(with(any(MetricsEvent.class)));
+            exactly(16).of (mockListener).endMethod(with(any(MetricsEvent.class)));
+            exactly(9).of (mockListener).endClass(with(any(MetricsEvent.class)));
+            exactly(1).of (mockListener).endSession(with(any(MetricsEvent.class)));
+        }});
 
-        assertEquals("Begin Session",  1, beginSessionEvents.size());
-        assertEquals("Begin Class",    9, beginClassEvents.size());
-        assertEquals("Begin Method",  16, beginMethodEvents.size());
-        assertEquals("End Method",    16, endMethodEvents.size());
-        assertEquals("End Class",      9, endClassEvents.size());
-        assertEquals("End Session",    1, endSessionEvents.size());
+        gatherer.visitClassfiles(loader.getAllClassfiles());
     }
     
-    public void testEventsWithNothing() {
+    @Test
+    void testEventsWithNothing() {
         loader.load(Collections.emptySet());
 
-        gatherer.visitClassfiles(loader.getAllClassfiles());
+        context.checking(new Expectations() {{
+            oneOf (mockListener).beginSession(with(any(MetricsEvent.class)));
+            oneOf (mockListener).endSession(with(any(MetricsEvent.class)));
+        }});
 
-        assertEquals("Begin Session",  1, beginSessionEvents.size());
-        assertEquals("Begin Class",    0, beginClassEvents.size());
-        assertEquals("Begin Method",   0, beginMethodEvents.size());
-        assertEquals("End Method",     0, endMethodEvents.size());
-        assertEquals("End Class",      0, endClassEvents.size());
-        assertEquals("End Session",    1, endSessionEvents.size());
-    }
-    
-    public void beginSession(MetricsEvent event) {
-        beginSessionEvents.add(event);
-    }
-    
-    public void beginClass(MetricsEvent event) {
-        beginClassEvents.add(event);
-    }
-    
-    public void beginMethod(MetricsEvent event) {
-        beginMethodEvents.add(event);
-    }
-    
-    public void endMethod(MetricsEvent event) {
-        endMethodEvents.add(event);
-    }
-    
-    public void endClass(MetricsEvent event) {
-        endClassEvents.add(event);
-    }
-    
-    public void endSession(MetricsEvent event) {
-        endSessionEvents.add(event);
+        gatherer.visitClassfiles(loader.getAllClassfiles());
     }
 }

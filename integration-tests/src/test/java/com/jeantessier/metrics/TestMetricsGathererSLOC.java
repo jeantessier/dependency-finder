@@ -32,22 +32,21 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
-
 import java.nio.file.*;
 import java.util.*;
 
+import org.junit.jupiter.api.*;
+
 import com.jeantessier.classreader.*;
 
-public class TestMetricsGathererSLOC extends TestCase {
+public class TestMetricsGathererSLOC {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
     public static final String TEST_DIRNAME = CLASSES_DIR.resolve("sloc").toString();
 
     private MetricsFactory factory;
     
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).load(Paths.get("../etc/MetricsConfig.xml").toString()));
 
         ClassfileLoader loader = new AggregatingClassfileLoader();
@@ -60,67 +59,83 @@ public class TestMetricsGathererSLOC extends TestCase {
         }
     }
 
-    public void test_sloc_TestInterface() {
-        assertEquals(BasicMeasurements.SLOC, 3, factory.createClassMetrics("sloc.TestInterface").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
-        assertEquals("M", 2, factory.createClassMetrics("sloc.TestInterface").getMeasurement("M").getValue().intValue());
-        assertEquals("AM", 2, factory.createClassMetrics("sloc.TestInterface").getMeasurement("AM").getValue().intValue());
-        assertEquals("SynthM", 0, factory.createClassMetrics("sloc.TestInterface").getMeasurement("SynthM").getValue().intValue());
+    @Test
+    void test_sloc_TestInterface() {
+        assertEquals(3, factory.createClassMetrics("sloc.TestInterface"), BasicMeasurements.SLOC);
+        assertEquals(2, factory.createClassMetrics("sloc.TestInterface"), BasicMeasurements.METHODS);
+        assertEquals(2, factory.createClassMetrics("sloc.TestInterface"), BasicMeasurements.ABSTRACT_METHODS);
+        assertEquals(0, factory.createClassMetrics("sloc.TestInterface"), BasicMeasurements.SYNTHETIC_METHODS);
     }
     
-    public void test_sloc_TestInterface_method1() {
-        assertEquals(BasicMeasurements.SLOC, 1, factory.createMethodMetrics("sloc.TestInterface.method1(): void").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+    @Test
+    void test_sloc_TestInterface_method1() {
+        assertEquals(1, factory.createMethodMetrics("sloc.TestInterface.method1(): void"), BasicMeasurements.SLOC);
     }
     
-    public void test_sloc_TestInterface_method2() {
-        assertEquals(BasicMeasurements.SLOC, 1, factory.createMethodMetrics("sloc.TestInterface.method2(): void").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+    @Test
+    void test_sloc_TestInterface_method2() {
+        assertEquals(1, factory.createMethodMetrics("sloc.TestInterface.method2(): void"), BasicMeasurements.SLOC);
     }
     
-    public void test_sloc_TestAbstractClass() {
-        assertEquals(BasicMeasurements.SLOC, 15, factory.createClassMetrics("sloc.TestAbstractClass").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
-        assertEquals("M", 2, factory.createClassMetrics("sloc.TestAbstractClass").getMeasurement("M").getValue().intValue());
-        assertEquals("AM", 0, factory.createClassMetrics("sloc.TestAbstractClass").getMeasurement("AM").getValue().intValue());
-        assertEquals("SynthM", 0, factory.createClassMetrics("sloc.TestAbstractClass").getMeasurement("SynthM").getValue().intValue());
+    @Test
+    void test_sloc_TestAbstractClass() {
+        assertEquals(15, factory.createClassMetrics("sloc.TestAbstractClass"), BasicMeasurements.SLOC);
+        assertEquals(2, factory.createClassMetrics("sloc.TestAbstractClass"), BasicMeasurements.METHODS);
+        assertEquals(0, factory.createClassMetrics("sloc.TestAbstractClass"), BasicMeasurements.ABSTRACT_METHODS);
+        assertEquals(0, factory.createClassMetrics("sloc.TestAbstractClass"), BasicMeasurements.SYNTHETIC_METHODS);
     }
     
-    public void test_sloc_TestAbstractClass_method1() {
-        assertEquals(BasicMeasurements.SLOC, 13, factory.createMethodMetrics("sloc.TestAbstractClass.method1(): void").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+    @Test
+    void test_sloc_TestAbstractClass_method1() {
+        assertEquals(13, factory.createMethodMetrics("sloc.TestAbstractClass.method1(): void"), BasicMeasurements.SLOC);
     }
     
-    public void test_sloc_TestAbstractClass_method2() {
-        assertEquals(BasicMeasurements.SLOC, 0, factory.createMethodMetrics("sloc.TestAbstractClass.method2(): void").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+    @Test
+    void test_sloc_TestAbstractClass_method2() {
+        assertEquals(0, factory.createMethodMetrics("sloc.TestAbstractClass.method2(): void"), BasicMeasurements.SLOC);
     }
     
-    public void test_sloc_TestSuperClass() {
-        assertEquals(BasicMeasurements.SLOC, 2, factory.createClassMetrics("sloc.TestSuperClass").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
-        assertEquals("M", 1, factory.createClassMetrics("sloc.TestSuperClass").getMeasurement("M").getValue().intValue());
-        assertEquals("ABSM", 0, factory.createClassMetrics("sloc.TestSuperClass").getMeasurement("ABSM").getValue().intValue());
-        assertEquals("SYNTHM", 0, factory.createClassMetrics("sloc.TestSuperClass").getMeasurement("SYNTHM").getValue().intValue());
+    @Test
+    void test_sloc_TestSuperClass() {
+        assertEquals(2, factory.createClassMetrics("sloc.TestSuperClass"), BasicMeasurements.SLOC);
+        assertEquals(1, factory.createClassMetrics("sloc.TestSuperClass"), BasicMeasurements.METHODS);
+        assertEquals(0, factory.createClassMetrics("sloc.TestSuperClass"), BasicMeasurements.ABSTRACT_METHODS);
+        assertEquals(0, factory.createClassMetrics("sloc.TestSuperClass"), BasicMeasurements.SYNTHETIC_METHODS);
     }
     
-    public void test_sloc_TestClass() {
-        assertEquals(BasicMeasurements.SLOC, 4, factory.createClassMetrics("sloc.TestClass").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
-        assertEquals("M", 2, factory.createClassMetrics("sloc.TestClass").getMeasurement("M").getValue().intValue());
-        assertEquals("ABSM", 0, factory.createClassMetrics("sloc.TestClass").getMeasurement("ABSM").getValue().intValue());
-        assertEquals("SYNTHM", 0, factory.createClassMetrics("sloc.TestClass").getMeasurement("SYNTHM").getValue().intValue());
+    @Test
+    void test_sloc_TestClass() {
+        assertEquals(4, factory.createClassMetrics("sloc.TestClass"), BasicMeasurements.SLOC);
+        assertEquals(2, factory.createClassMetrics("sloc.TestClass"), BasicMeasurements.METHODS);
+        assertEquals(0, factory.createClassMetrics("sloc.TestClass"), BasicMeasurements.ABSTRACT_METHODS);
+        assertEquals(0, factory.createClassMetrics("sloc.TestClass"), BasicMeasurements.SYNTHETIC_METHODS);
     }
     
-    public void test_sloc_TestClass_method1() {
-        assertEquals(BasicMeasurements.SLOC, 0, factory.createMethodMetrics("sloc.TestClass.method1(): void").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+    @Test
+    void test_sloc_TestClass_method1() {
+        assertEquals(0, factory.createMethodMetrics("sloc.TestClass.method1(): void"), BasicMeasurements.SLOC);
     }
     
-    public void test_sloc_TestClass_method2() {
-        assertEquals(BasicMeasurements.SLOC, 2, factory.createMethodMetrics("sloc.TestClass.method2(): void").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+    @Test
+    void test_sloc_TestClass_method2() {
+        assertEquals(2, factory.createMethodMetrics("sloc.TestClass.method2(): void"), BasicMeasurements.SLOC);
     }
 
-    public void test_sloc() {
-        assertEquals(BasicMeasurements.SLOC, 24, factory.createGroupMetrics("sloc").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+    @Test
+    void test_sloc() {
+        assertEquals(24, factory.createGroupMetrics("sloc"), BasicMeasurements.SLOC);
     }
 
-    public void testProject() {
-        assertEquals(BasicMeasurements.SLOC, 24, factory.createProjectMetrics("test").getMeasurement(BasicMeasurements.SLOC).getValue().intValue());
+    @Test
+    void testProject() {
+        assertEquals(24, factory.createProjectMetrics("test"), BasicMeasurements.SLOC);
     }
 
-    private void assertEquals(BasicMeasurements message, int expectedValue, int actualValue) {
-        assertEquals(message.getAbbreviation(), expectedValue, actualValue);
+    private void assertEquals(int expectedValue, Metrics metrics, BasicMeasurements measurement) {
+        assertEquals(expectedValue, metrics.getMeasurement(measurement), measurement.getAbbreviation());
+    }
+
+    private void assertEquals(int expectedValue, Measurement actualMeasurement, String message) {
+        Assertions.assertEquals(expectedValue, actualMeasurement.getValue().intValue(), message);
     }
 }
