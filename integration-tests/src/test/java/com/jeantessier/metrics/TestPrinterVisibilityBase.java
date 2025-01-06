@@ -2,7 +2,9 @@ package com.jeantessier.metrics;
 
 import com.jeantessier.classreader.*;
 import org.junit.*;
+import org.junit.jupiter.api.BeforeEach;
 
+import java.io.PrintWriter;
 import java.nio.file.*;
 import java.util.*;
 
@@ -20,6 +22,7 @@ public class TestPrinterVisibilityBase {
     protected Collection<Metrics> methodMetrics;
 
     @Before
+    @BeforeEach
     public void loadTestData() throws Exception {
         configuration = new MetricsConfigurationLoader().load(CONFIGURATION_FILENAME);
 
@@ -35,5 +38,31 @@ public class TestPrinterVisibilityBase {
         groupMetrics = factory.getGroupMetrics();
         classMetrics = factory.getClassMetrics();
         methodMetrics = factory.getMethodMetrics();
+    }
+
+    protected Printer createPrinter(Class<? extends Printer> printerClass, PrintWriter out, boolean expandCollectionMeasurements, boolean showEmptyMetrics, boolean showHiddenMeasurements) throws Exception {
+        return configurePrinter(
+                printerClass.getConstructor(out.getClass(), configuration.getClass()).newInstance(out, configuration),
+                expandCollectionMeasurements,
+                showEmptyMetrics,
+                showHiddenMeasurements
+        );
+    }
+
+    protected Printer createPrinter(Class<? extends Printer> printerClass, PrintWriter out, List<MeasurementDescriptor> descriptors, boolean expandCollectionMeasurements, boolean showEmptyMetrics, boolean showHiddenMeasurements) throws Exception {
+        return configurePrinter(
+                printerClass.getConstructor(out.getClass(), List.class).newInstance(out, descriptors),
+                expandCollectionMeasurements,
+                showEmptyMetrics,
+                showHiddenMeasurements
+        );
+    }
+
+    private Printer configurePrinter(Printer printer, boolean expandCollectionMeasurements, boolean showEmptyMetrics, boolean showHiddenMeasurements) {
+        printer.setExpandCollectionMeasurements(expandCollectionMeasurements);
+        printer.setShowEmptyMetrics(showEmptyMetrics);
+        printer.setShowHiddenMeasurements(showHiddenMeasurements);
+
+        return printer;
     }
 }

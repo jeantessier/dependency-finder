@@ -1,57 +1,37 @@
 package com.jeantessier.metrics;
 
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
 import java.io.*;
 import java.nio.file.*;
+import java.util.stream.*;
 
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
 
-@RunWith(Parameterized.class)
 public class TestXMLPrinterVisibility extends TestPrinterVisibilityBase {
-    @Parameters(name="generate a report with {0}")
-    public static Object[][] data() {
-        return new Object[][] {
-                {"standard options", XMLPrinter.class, false, false, false, "martin.metrics.xml"},
-                {"expand option", XMLPrinter.class, true, false, false, "martin.metrics.expand.xml"},
-                {"show-empty-metrics option", XMLPrinter.class, false, true, false, "martin.metrics.show-empty-metrics.xml"},
-                {"show-hidden-measurements option", XMLPrinter.class, false, false, true, "martin.metrics.show-hidden-measurements.xml"},
-                {"expand and show-hidden-measurements options", XMLPrinter.class, true, false, true, "martin.metrics.expand.show-hidden-measurements.xml"},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                arguments("standard options", XMLPrinter.class, false, false, false, "martin.metrics.xml"),
+                arguments("expand option", XMLPrinter.class, true, false, false, "martin.metrics.expand.xml"),
+                arguments("show-empty-metrics option", XMLPrinter.class, false, true, false, "martin.metrics.show-empty-metrics.xml"),
+                arguments("show-hidden-measurements option", XMLPrinter.class, false, false, true, "martin.metrics.show-hidden-measurements.xml"),
+                arguments("expand and show-hidden-measurements options", XMLPrinter.class, true, false, true, "martin.metrics.expand.show-hidden-measurements.xml")
+        );
     }
 
-    @Parameter(0)
-    public String variation;
-
-    @Parameter(1)
-    public Class<? extends Printer> printerClass;
-
-    @Parameter(2)
-    public boolean expandCollectionMeasurements;
-
-    @Parameter(3)
-    public boolean showEmptyMetrics;
-
-    @Parameter(4)
-    public boolean showHiddenMeasurements;
-
-    @Parameter(5)
-    public String expectedOutput;
-
-    @Test
-    public void generateReportAndCompareToFile() throws Exception {
+    @DisplayName("report")
+    @ParameterizedTest(name = "generate a report with {0} and compare to {5}")
+    @MethodSource("dataProvider")
+    void generateReportAndCompareToFile(String variation, Class<? extends Printer> printerClass, boolean expandCollectionMeasurements, boolean showEmptyMetrics, boolean showHiddenMeasurements, String expectedOutput) throws Exception {
         // Given
         var buffer = new StringWriter();
         var out = new PrintWriter(buffer);
 
         // and
-        var printer = printerClass.getConstructor(out.getClass(), configuration.getClass()).newInstance(out, configuration);
-        printer.setExpandCollectionMeasurements(expandCollectionMeasurements);
-        printer.setShowEmptyMetrics(showEmptyMetrics);
-        printer.setShowHiddenMeasurements(showHiddenMeasurements);
+        var printer = createPrinter(printerClass, out, expandCollectionMeasurements, showEmptyMetrics, showHiddenMeasurements);
 
         // When
         printer.visitMetrics(projectMetrics);

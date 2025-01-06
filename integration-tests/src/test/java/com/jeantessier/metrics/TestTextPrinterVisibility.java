@@ -1,130 +1,109 @@
 package com.jeantessier.metrics;
 
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
 import java.io.*;
 import java.nio.file.*;
-import java.util.*;
+import java.util.stream.*;
 
 import static java.util.stream.Collectors.*;
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
 
-@RunWith(Parameterized.class)
 public class TestTextPrinterVisibility extends TestPrinterVisibilityBase {
-    @Parameters(name="generate a report with {0}")
-    public static Object[][] data() {
-        return new Object[][] {
-                {"standard options", TextPrinter.class, false, false, false, "martin.metrics"},
-                {"expand option", TextPrinter.class, true, false, false, "martin.metrics.expand"},
-                {"show-empty-metrics option", TextPrinter.class, false, true, false, "martin.metrics.show-empty-metrics"},
-                {"show-hidden-measurements option", TextPrinter.class, false, false, true, "martin.metrics.show-hidden-measurements"},
-                {"expand and show-hidden-measurements options", TextPrinter.class, true, false, true, "martin.metrics.expand.show-hidden-measurements"},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                arguments("standard options", TextPrinter.class, false, false, false, "martin.metrics"),
+                arguments("expand option", TextPrinter.class, true, false, false, "martin.metrics.expand"),
+                arguments("show-empty-metrics option", TextPrinter.class, false, true, false, "martin.metrics.show-empty-metrics"),
+                arguments("show-hidden-measurements option", TextPrinter.class, false, false, true, "martin.metrics.show-hidden-measurements"),
+                arguments("expand and show-hidden-measurements options", TextPrinter.class, true, false, true, "martin.metrics.expand.show-hidden-measurements")
+        );
     }
 
-    @Parameter(0)
-    public String variation;
-
-    @Parameter(1)
-    public Class<? extends Printer> printerClass;
-
-    @Parameter(2)
-    public boolean expandCollectionMeasurements;
-
-    @Parameter(3)
-    public boolean showEmptyMetrics;
-
-    @Parameter(4)
-    public boolean showHiddenMeasurements;
-
-    @Parameter(5)
-    public String expectedOutput;
-
-    @Test
-    public void generateProjectReportAndCompareToFile() throws Exception {
+    @DisplayName("project-level report")
+    @ParameterizedTest(name = "generate a project-level report with {0} and compare to {5}")
+    @MethodSource("dataProvider")
+    void generateProjectReportAndCompareToFile(String variation, Class<? extends Printer> printerClass, boolean expandCollectionMeasurements, boolean showEmptyMetrics, boolean showHiddenMeasurements, String expectedOutput) throws Exception {
         // Given
         var buffer = new StringWriter();
         var out = new PrintWriter(buffer);
 
         // and
-        var printer = createPrinter(out, configuration.getProjectMeasurements());
+        var printer = createPrinter(printerClass, out, configuration.getProjectMeasurements(), expandCollectionMeasurements, showEmptyMetrics, showHiddenMeasurements);
 
         // When
         printer.visitMetrics(projectMetrics);
 
         // Then
-        var expectedReport = readExpectedReport("project");
+        var expectedReport = readExpectedReport("project", expectedOutput);
         var actualReport = buffer.toString();
         assertEquals(expectedReport, actualReport);
     }
 
-    @Test
-    public void generateGroupReportAndCompareToFile() throws Exception {
+    @DisplayName("group-level report")
+    @ParameterizedTest(name = "generate a group-level report with {0} and compare to {5}")
+    @MethodSource("dataProvider")
+    void generateGroupReportAndCompareToFile(String variation, Class<? extends Printer> printerClass, boolean expandCollectionMeasurements, boolean showEmptyMetrics, boolean showHiddenMeasurements, String expectedOutput) throws Exception {
         // Given
         var buffer = new StringWriter();
         var out = new PrintWriter(buffer);
 
         // and
-        var printer = createPrinter(out, configuration.getGroupMeasurements());
+        var printer = createPrinter(printerClass, out, configuration.getGroupMeasurements(), expandCollectionMeasurements, showEmptyMetrics, showHiddenMeasurements);
 
         // When
         printer.visitMetrics(groupMetrics);
 
         // Then
-        var expectedReport = readExpectedReport("groups");
+        var expectedReport = readExpectedReport("groups", expectedOutput);
         var actualReport = buffer.toString();
         assertEquals(expectedReport, actualReport);
     }
 
-    @Test
-    public void generateClassReportAndCompareToFile() throws Exception {
+    @DisplayName("class-level report")
+    @ParameterizedTest(name = "generate a class-level report with {0} and compare to {5}")
+    @MethodSource("dataProvider")
+    void generateClassReportAndCompareToFile(String variation, Class<? extends Printer> printerClass, boolean expandCollectionMeasurements, boolean showEmptyMetrics, boolean showHiddenMeasurements, String expectedOutput) throws Exception {
         // Given
         var buffer = new StringWriter();
         var out = new PrintWriter(buffer);
 
         // and
-        var printer = createPrinter(out, configuration.getClassMeasurements());
+        var printer = createPrinter(printerClass, out, configuration.getClassMeasurements(), expandCollectionMeasurements, showEmptyMetrics, showHiddenMeasurements);
 
         // When
         printer.visitMetrics(classMetrics);
 
         // Then
-        var expectedReport = readExpectedReport("classes");
+        var expectedReport = readExpectedReport("classes", expectedOutput);
         var actualReport = buffer.toString();
         assertEquals(expectedReport, actualReport);
     }
 
-    @Test
-    public void generateMethodReportAndCompareToFile() throws Exception {
+    @DisplayName("method-level report")
+    @ParameterizedTest(name = "generate a method-level report with {0} and compare to {5}")
+    @MethodSource("dataProvider")
+    void generateMethodReportAndCompareToFile(String variation, Class<? extends Printer> printerClass, boolean expandCollectionMeasurements, boolean showEmptyMetrics, boolean showHiddenMeasurements, String expectedOutput) throws Exception {
         // Given
         var buffer = new StringWriter();
         var out = new PrintWriter(buffer);
 
         // and
-        var printer = createPrinter(out, configuration.getMethodMeasurements());
+        var printer = createPrinter(printerClass, out, configuration.getMethodMeasurements(), expandCollectionMeasurements, showEmptyMetrics, showHiddenMeasurements);
 
         // When
         printer.visitMetrics(methodMetrics);
 
         // Then
-        var expectedReport = readExpectedReport("methods");
+        var expectedReport = readExpectedReport("methods", expectedOutput);
         var actualReport = buffer.toString();
         assertEquals(expectedReport, actualReport);
     }
 
-    private Printer createPrinter(PrintWriter out, List<MeasurementDescriptor> descriptors) throws Exception {
-        var printer = printerClass.getConstructor(out.getClass(), List.class).newInstance(out, descriptors);
-        printer.setExpandCollectionMeasurements(expandCollectionMeasurements);
-        printer.setShowEmptyMetrics(showEmptyMetrics);
-        printer.setShowHiddenMeasurements(showHiddenMeasurements);
-
-        return printer;
-    }
-
-    private String readExpectedReport(String section) throws IOException {
+    private String readExpectedReport(String section, String expectedOutput) throws IOException {
         try (var stream = Files.lines(REPORTS_DIR.resolve(expectedOutput + "_" + section + ".txt"))) {
             return stream
                     .skip(2) // The first two lines come from OOMetrics, not the printer

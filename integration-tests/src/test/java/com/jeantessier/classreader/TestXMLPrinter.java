@@ -33,23 +33,22 @@
 package com.jeantessier.classreader;
 
 import org.apache.oro.text.perl.Perl5Util;
-import org.jmock.Expectations;
-import org.jmock.integration.junit3.MockObjectTestCase;
-import org.w3c.dom.NodeList;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.XMLReader;
+import org.jmock.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
+import org.w3c.dom.*;
+import org.xml.sax.*;
 
-import javax.xml.parsers.SAXParserFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathFactory;
+import javax.xml.parsers.*;
+import javax.xml.xpath.*;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
-public class TestXMLPrinter extends MockObjectTestCase {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestXMLPrinter {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
     private static final String TEST_CLASS = "test";
     public static final String TEST_FILENAME = CLASSES_DIR.resolve(TEST_CLASS + ".class").toString();
@@ -61,35 +60,31 @@ public class TestXMLPrinter extends MockObjectTestCase {
     private static final String ANNOTATION_TYPE = "foobar";
     private static final String ELEMENT_NAME = "foo";
 
-    private ClassfileLoader loader;
-    private StringWriter buffer;
-    private Visitor printer;
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery();
+    
+    private final ClassfileLoader loader = new AggregatingClassfileLoader();
+    private StringWriter buffer = new StringWriter();
+    private Visitor printer = new XMLPrinter(new PrintWriter(buffer), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
     private XMLReader reader;
-    private ErrorHandler errorHandler;
+    private final ErrorHandler errorHandler = context.mock(ErrorHandler.class);
 
-    private Perl5Util perl;
+    private final Perl5Util perl = new Perl5Util();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        loader = new AggregatingClassfileLoader();
-
-        buffer = new StringWriter();
-        printer = new XMLPrinter(new PrintWriter(buffer), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+    @BeforeEach
+    void setUp() throws Exception {
         reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
 
         boolean validate = Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE");
         reader.setFeature("http://xml.org/sax/features/validation", validate);
         reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", validate);
 
-        errorHandler = mock(ErrorHandler.class);
         reader.setErrorHandler(errorHandler);
-
-        perl = new Perl5Util();
     }
-    
-    public void testDefaultDTDPrefix() throws Exception {
-        checking(new Expectations() {{
+
+    @Test
+    void testDefaultDTDPrefix() throws Exception {
+        context.checking(new Expectations() {{
             oneOf (errorHandler).fatalError(with(any(SAXParseException.class)));
         }});
 
@@ -97,8 +92,8 @@ public class TestXMLPrinter extends MockObjectTestCase {
         printer = new XMLPrinter(new PrintWriter(buffer));
 
         String xmlDocument = buffer.toString();
-        assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
-        assertTrue("DTD \"" + perl.group(1) + "\" does not have prefix \"" + XMLPrinter.DEFAULT_DTD_PREFIX + "\"", perl.group(1).startsWith(XMLPrinter.DEFAULT_DTD_PREFIX));
+        assertTrue(perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument), xmlDocument + "Missing DTD");
+        assertTrue(perl.group(1).startsWith(XMLPrinter.DEFAULT_DTD_PREFIX), "DTD \"" + perl.group(1) + "\" does not have prefix \"" + XMLPrinter.DEFAULT_DTD_PREFIX + "\"");
         
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));
@@ -108,8 +103,9 @@ public class TestXMLPrinter extends MockObjectTestCase {
         }
     }
     
-    public void testSpecificDTDPrefix() throws Exception {
-        checking(new Expectations() {{
+    @Test
+    void testSpecificDTDPrefix() throws Exception {
+        context.checking(new Expectations() {{
             oneOf (errorHandler).fatalError(with(any(SAXParseException.class)));
         }});
 
@@ -117,8 +113,8 @@ public class TestXMLPrinter extends MockObjectTestCase {
         printer = new XMLPrinter(new PrintWriter(buffer), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
         String xmlDocument = buffer.toString();
-        assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
-        assertTrue("DTD \"" + perl.group(1) + "\" does not have prefix \"./etc\"", perl.group(1).startsWith(SPECIFIC_DTD_PREFIX));
+        assertTrue(perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument), xmlDocument + "Missing DTD");
+        assertTrue(perl.group(1).startsWith(SPECIFIC_DTD_PREFIX), "DTD \"" + perl.group(1) + "\" does not have prefix \"./etc\"");
         
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));
@@ -128,8 +124,9 @@ public class TestXMLPrinter extends MockObjectTestCase {
         }
     }
 
-    public void testDefaultEncoding() throws Exception {
-        checking(new Expectations() {{
+    @Test
+    void testDefaultEncoding() throws Exception {
+        context.checking(new Expectations() {{
             oneOf (errorHandler).fatalError(with(any(SAXParseException.class)));
         }});
 
@@ -137,8 +134,8 @@ public class TestXMLPrinter extends MockObjectTestCase {
         printer = new XMLPrinter(new PrintWriter(buffer));
 
         String xmlDocument = buffer.toString();
-        assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
-        assertEquals("Encoding", XMLPrinter.DEFAULT_ENCODING, perl.group(1));
+        assertTrue(perl.match("/encoding=\"([^\"]*)\"/", xmlDocument), xmlDocument + "Missing encoding");
+        assertEquals(XMLPrinter.DEFAULT_ENCODING, perl.group(1), "Encoding");
         
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));
@@ -148,8 +145,9 @@ public class TestXMLPrinter extends MockObjectTestCase {
         }
     }
 
-    public void testSpecificEncoding() throws Exception {
-        checking(new Expectations() {{
+    @Test
+    void testSpecificEncoding() throws Exception {
+        context.checking(new Expectations() {{
             oneOf (errorHandler).fatalError(with(any(SAXParseException.class)));
         }});
 
@@ -157,8 +155,8 @@ public class TestXMLPrinter extends MockObjectTestCase {
         printer = new XMLPrinter(new PrintWriter(buffer), SPECIFIC_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
 
         String xmlDocument = buffer.toString();
-        assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
-        assertEquals("Encoding", SPECIFIC_ENCODING, perl.group(1));
+        assertTrue(perl.match("/encoding=\"([^\"]*)\"/", xmlDocument), xmlDocument + "Missing encoding");
+        assertEquals(SPECIFIC_ENCODING, perl.group(1), "Encoding");
         
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));
@@ -168,7 +166,8 @@ public class TestXMLPrinter extends MockObjectTestCase {
         }
     }
 
-    public void testSingleClassfile() throws Exception {
+    @Test
+    void testSingleClassfile() throws Exception {
         loader.load(Collections.singleton(TEST_FILENAME));
 
         loader.getClassfile(TEST_CLASS).accept(printer);
@@ -177,14 +176,16 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "classfile[this-class='" + TEST_CLASS + "']", 1);
     }
 
-    public void testZeroClassfile() throws Exception {
+    @Test
+    void testZeroClassfile() throws Exception {
         printer.visitClassfiles(Collections.emptyList());
 
         String xmlDocument = buffer.toString();
         assertXPathCount(xmlDocument, "*/classfile[this-class='" + TEST_CLASS + "']", 0);
     }
 
-    public void testOneClassfile() throws Exception {
+    @Test
+    void testOneClassfile() throws Exception {
         loader.load(Collections.singleton(TEST_FILENAME));
 
         printer.visitClassfiles(loader.getAllClassfiles());
@@ -193,7 +194,8 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "*/classfile", loader.getAllClassfiles().size());
     }
 
-    public void testMultipleClassfiles() throws Exception {
+    @Test
+    void testMultipleClassfiles() throws Exception {
         loader.load(Collections.singleton(TEST_DIRECTORY));
 
         printer.visitClassfiles(loader.getAllClassfiles());
@@ -202,10 +204,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "*/classfile", loader.getAllClassfiles().size());
     }
 
-    public void testNonPublicClassfile() throws Exception {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testNonPublicClassfile() throws Exception {
+        final Classfile mockClassfile = context.mock(Classfile.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockClassfile).isPublic();
                 will(returnValue(false));
             ignoring(mockClassfile);
@@ -217,10 +220,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "classfile/public", 0);
     }
 
-    public void testPublicClassfile() throws Exception {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testPublicClassfile() throws Exception {
+        final Classfile mockClassfile = context.mock(Classfile.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockClassfile).isPublic(); will(returnValue(true));
             ignoring (mockClassfile);
         }});
@@ -231,10 +235,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "classfile/public", 1);
     }
 
-    public void testNonFinalClassfile() throws Exception {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testNonFinalClassfile() throws Exception {
+        final Classfile mockClassfile = context.mock(Classfile.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockClassfile).isFinal(); will(returnValue(false));
             ignoring (mockClassfile);
         }});
@@ -245,10 +250,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "classfile/final", 0);
     }
 
-    public void testFinalClassfile() throws Exception {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testFinalClassfile() throws Exception {
+        final Classfile mockClassfile = context.mock(Classfile.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockClassfile).isFinal(); will(returnValue(true));
             ignoring (mockClassfile);
         }});
@@ -259,10 +265,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "classfile/final", 1);
     }
 
-    public void testNonSuperClassfile() throws Exception {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testNonSuperClassfile() throws Exception {
+        final Classfile mockClassfile = context.mock(Classfile.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockClassfile).isSuper(); will(returnValue(false));
             ignoring (mockClassfile);
         }});
@@ -273,10 +280,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "classfile/super", 0);
     }
 
-    public void testSuperClassfile() throws Exception {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testSuperClassfile() throws Exception {
+        final Classfile mockClassfile = context.mock(Classfile.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockClassfile).isSuper(); will(returnValue(true));
             ignoring (mockClassfile);
         }});
@@ -287,10 +295,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "classfile/super", 1);
     }
 
-    public void testNonInterfaceClassfile() throws Exception {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testNonInterfaceClassfile() throws Exception {
+        final Classfile mockClassfile = context.mock(Classfile.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockClassfile).isInterface(); will(returnValue(false));
             ignoring (mockClassfile);
         }});
@@ -301,10 +310,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "classfile/is-interface", 0);
     }
 
-    public void testInterfaceClassfile() throws Exception {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testInterfaceClassfile() throws Exception {
+        final Classfile mockClassfile = context.mock(Classfile.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockClassfile).isInterface(); will(returnValue(true));
             ignoring (mockClassfile);
         }});
@@ -315,10 +325,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "classfile/is-interface", 1);
     }
 
-    public void testNonAbstractClassfile() throws Exception {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testNonAbstractClassfile() throws Exception {
+        final Classfile mockClassfile = context.mock(Classfile.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockClassfile).isAbstract(); will(returnValue(false));
             ignoring (mockClassfile);
         }});
@@ -329,10 +340,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "classfile/abstract", 0);
     }
 
-    public void testAbstractClassfile() throws Exception {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testAbstractClassfile() throws Exception {
+        final Classfile mockClassfile = context.mock(Classfile.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockClassfile).isAbstract(); will(returnValue(true));
             ignoring (mockClassfile);
         }});
@@ -343,10 +355,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "classfile/abstract", 1);
     }
 
-    public void testNonSyntheticClassfile() throws Exception {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testNonSyntheticClassfile() throws Exception {
+        final Classfile mockClassfile = context.mock(Classfile.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockClassfile).isSynthetic(); will(returnValue(false));
             ignoring (mockClassfile);
         }});
@@ -357,10 +370,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "classfile/synthetic", 0);
     }
 
-    public void testSyntheticClassfile() throws Exception {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testSyntheticClassfile() throws Exception {
+        final Classfile mockClassfile = context.mock(Classfile.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockClassfile).isSynthetic(); will(returnValue(true));
             ignoring (mockClassfile);
         }});
@@ -371,10 +385,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "classfile/synthetic", 1);
     }
 
-    public void testNonAnnotationClassfile() throws Exception {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testNonAnnotationClassfile() throws Exception {
+        final Classfile mockClassfile = context.mock(Classfile.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockClassfile).isAnnotation(); will(returnValue(false));
             ignoring (mockClassfile);
         }});
@@ -385,10 +400,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "classfile/is-annotation", 0);
     }
 
-    public void testAnnotationClassfile() throws Exception {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testAnnotationClassfile() throws Exception {
+        final Classfile mockClassfile = context.mock(Classfile.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockClassfile).isAnnotation(); will(returnValue(true));
             ignoring (mockClassfile);
         }});
@@ -399,10 +415,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "classfile/is-annotation", 1);
     }
 
-    public void testNonEnumClassfile() throws Exception {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testNonEnumClassfile() throws Exception {
+        final Classfile mockClassfile = context.mock(Classfile.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockClassfile).isEnum(); will(returnValue(false));
             ignoring (mockClassfile);
         }});
@@ -413,10 +430,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "classfile/enum", 0);
     }
 
-    public void testEnumClassfile() throws Exception {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testEnumClassfile() throws Exception {
+        final Classfile mockClassfile = context.mock(Classfile.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockClassfile).isEnum(); will(returnValue(true));
             ignoring (mockClassfile);
         }});
@@ -427,10 +445,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "classfile/enum", 1);
     }
 
-    public void testNonModuleClassfile() throws Exception {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testNonModuleClassfile() throws Exception {
+        final Classfile mockClassfile = context.mock(Classfile.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockClassfile).isModule(); will(returnValue(false));
             ignoring (mockClassfile);
         }});
@@ -441,10 +460,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "classfile/module", 0);
     }
 
-    public void testModuleClassfile() throws Exception {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testModuleClassfile() throws Exception {
+        final Classfile mockClassfile = context.mock(Classfile.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockClassfile).isModule(); will(returnValue(true));
             ignoring (mockClassfile);
         }});
@@ -455,10 +475,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "classfile/is-module", 1);
     }
 
-    public void testNonPublicField() throws Exception {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testNonPublicField() throws Exception {
+        final Field_info mockField = context.mock(Field_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockField).isPublic(); will(returnValue(false));
             ignoring (mockField);
         }});
@@ -469,10 +490,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "field-info/public", 0);
     }
 
-    public void testPublicField() throws Exception {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testPublicField() throws Exception {
+        final Field_info mockField = context.mock(Field_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockField).isPublic(); will(returnValue(true));
             ignoring (mockField);
         }});
@@ -483,10 +505,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "field-info/public", 1);
     }
 
-    public void testNonProtectedField() throws Exception {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testNonProtectedField() throws Exception {
+        final Field_info mockField = context.mock(Field_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockField).isProtected(); will(returnValue(false));
             ignoring (mockField);
         }});
@@ -497,10 +520,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "field-info/protected", 0);
     }
 
-    public void testProtectedField() throws Exception {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testProtectedField() throws Exception {
+        final Field_info mockField = context.mock(Field_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockField).isProtected(); will(returnValue(true));
             ignoring (mockField);
         }});
@@ -511,10 +535,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "field-info/protected", 1);
     }
 
-    public void testNonPrivateField() throws Exception {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testNonPrivateField() throws Exception {
+        final Field_info mockField = context.mock(Field_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockField).isPrivate(); will(returnValue(false));
             ignoring (mockField);
         }});
@@ -525,10 +550,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "field-info/private", 0);
     }
 
-    public void testPrivateField() throws Exception {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testPrivateField() throws Exception {
+        final Field_info mockField = context.mock(Field_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockField).isPrivate(); will(returnValue(true));
             ignoring (mockField);
         }});
@@ -539,10 +565,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "field-info/private", 1);
     }
 
-    public void testNonStaticField() throws Exception {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testNonStaticField() throws Exception {
+        final Field_info mockField = context.mock(Field_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockField).isStatic(); will(returnValue(false));
             ignoring (mockField);
         }});
@@ -553,10 +580,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "field-info/static", 0);
     }
 
-    public void testStaticField() throws Exception {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testStaticField() throws Exception {
+        final Field_info mockField = context.mock(Field_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockField).isStatic(); will(returnValue(true));
             ignoring (mockField);
         }});
@@ -567,10 +595,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "field-info/static", 1);
     }
 
-    public void testNonFinalField() throws Exception {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testNonFinalField() throws Exception {
+        final Field_info mockField = context.mock(Field_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockField).isFinal(); will(returnValue(false));
             ignoring (mockField);
         }});
@@ -581,10 +610,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "field-info/final", 0);
     }
 
-    public void testFinalField() throws Exception {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testFinalField() throws Exception {
+        final Field_info mockField = context.mock(Field_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockField).isFinal(); will(returnValue(true));
             ignoring (mockField);
         }});
@@ -595,10 +625,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "field-info/final", 1);
     }
 
-    public void testNonVolatileField() throws Exception {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testNonVolatileField() throws Exception {
+        final Field_info mockField = context.mock(Field_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockField).isVolatile(); will(returnValue(false));
             ignoring (mockField);
         }});
@@ -609,10 +640,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "field-info/volatile", 0);
     }
 
-    public void testVolatileField() throws Exception {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testVolatileField() throws Exception {
+        final Field_info mockField = context.mock(Field_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockField).isVolatile(); will(returnValue(true));
             ignoring (mockField);
         }});
@@ -623,10 +655,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "field-info/volatile", 1);
     }
 
-    public void testNonTransientField() throws Exception {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testNonTransientField() throws Exception {
+        final Field_info mockField = context.mock(Field_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockField).isTransient(); will(returnValue(false));
             ignoring (mockField);
         }});
@@ -637,10 +670,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "field-info/transient", 0);
     }
 
-    public void testTransientField() throws Exception {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testTransientField() throws Exception {
+        final Field_info mockField = context.mock(Field_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockField).isTransient(); will(returnValue(true));
             ignoring (mockField);
         }});
@@ -651,10 +685,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "field-info/transient", 1);
     }
 
-    public void testNonSyntheticField() throws Exception {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testNonSyntheticField() throws Exception {
+        final Field_info mockField = context.mock(Field_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockField).isSynthetic(); will(returnValue(false));
             ignoring (mockField);
         }});
@@ -665,10 +700,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "field-info/synthetic", 0);
     }
 
-    public void testSyntheticField() throws Exception {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testSyntheticField() throws Exception {
+        final Field_info mockField = context.mock(Field_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockField).isSynthetic(); will(returnValue(true));
             ignoring (mockField);
         }});
@@ -679,10 +715,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "field-info/synthetic", 1);
     }
 
-    public void testNonEnumField() throws Exception {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testNonEnumField() throws Exception {
+        final Field_info mockField = context.mock(Field_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockField).isEnum(); will(returnValue(false));
             ignoring (mockField);
         }});
@@ -693,10 +730,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "field-info/enum", 0);
     }
 
-    public void testEnumField() throws Exception {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testEnumField() throws Exception {
+        final Field_info mockField = context.mock(Field_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockField).isEnum(); will(returnValue(true));
             ignoring (mockField);
         }});
@@ -707,10 +745,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "field-info/enum", 1);
     }
 
-    public void testNonPublicMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testNonPublicMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isPublic(); will(returnValue(false));
             ignoring (mockMethod);
         }});
@@ -721,10 +760,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/public", 0);
     }
 
-    public void testPublicMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testPublicMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isPublic(); will(returnValue(true));
             ignoring (mockMethod);
         }});
@@ -735,10 +775,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/public", 1);
     }
 
-    public void testNonPrivateMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testNonPrivateMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isPrivate(); will(returnValue(false));
             ignoring (mockMethod);
         }});
@@ -749,10 +790,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/private", 0);
     }
 
-    public void testPrivateMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testPrivateMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isPrivate(); will(returnValue(true));
             ignoring (mockMethod);
         }});
@@ -763,10 +805,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/private", 1);
     }
 
-    public void testNonProtectedMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testNonProtectedMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isProtected(); will(returnValue(false));
             ignoring (mockMethod);
         }});
@@ -777,10 +820,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/protected", 0);
     }
 
-    public void testProtectedMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testProtectedMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isProtected(); will(returnValue(true));
             ignoring (mockMethod);
         }});
@@ -791,10 +835,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/protected", 1);
     }
 
-    public void testNonStaticMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testNonStaticMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isStatic(); will(returnValue(false));
             ignoring (mockMethod);
         }});
@@ -805,10 +850,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/static", 0);
     }
 
-    public void testStaticMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testStaticMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isStatic(); will(returnValue(true));
             ignoring (mockMethod);
         }});
@@ -819,10 +865,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/static", 1);
     }
 
-    public void testNonFinalMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testNonFinalMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isFinal(); will(returnValue(false));
             ignoring (mockMethod);
         }});
@@ -833,10 +880,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/final", 0);
     }
 
-    public void testFinalMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testFinalMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isFinal(); will(returnValue(true));
             ignoring (mockMethod);
         }});
@@ -847,10 +895,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/final", 1);
     }
 
-    public void testNonSynchronizedMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testNonSynchronizedMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isSynchronized(); will(returnValue(false));
             ignoring (mockMethod);
         }});
@@ -861,10 +910,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/synchronized", 0);
     }
 
-    public void testSynchronizedMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testSynchronizedMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isSynchronized(); will(returnValue(true));
             ignoring (mockMethod);
         }});
@@ -875,10 +925,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/synchronized", 1);
     }
 
-    public void testNonBridgeMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testNonBridgeMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isBridge(); will(returnValue(false));
             ignoring (mockMethod);
         }});
@@ -889,10 +940,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/bridge", 0);
     }
 
-    public void testBridgeMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testBridgeMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isBridge(); will(returnValue(true));
             ignoring (mockMethod);
         }});
@@ -903,10 +955,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/bridge", 1);
     }
 
-    public void testNonVarargsMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testNonVarargsMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isVarargs(); will(returnValue(false));
             ignoring (mockMethod);
         }});
@@ -917,10 +970,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/varargs", 0);
     }
 
-    public void testVarargsMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testVarargsMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isVarargs(); will(returnValue(true));
             ignoring (mockMethod);
         }});
@@ -931,10 +985,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/varargs", 1);
     }
 
-    public void testNonNativeMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testNonNativeMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isNative(); will(returnValue(false));
             ignoring (mockMethod);
         }});
@@ -945,10 +1000,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/native", 0);
     }
 
-    public void testNativeMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testNativeMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isNative(); will(returnValue(true));
             ignoring (mockMethod);
         }});
@@ -959,10 +1015,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/native", 1);
     }
 
-    public void testNonAbstractMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testNonAbstractMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isAbstract(); will(returnValue(false));
             ignoring (mockMethod);
         }});
@@ -973,10 +1030,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/abstract", 0);
     }
 
-    public void testAbstractMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testAbstractMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isAbstract(); will(returnValue(true));
             ignoring (mockMethod);
         }});
@@ -987,10 +1045,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/abstract", 1);
     }
 
-    public void testNonStrictMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testNonStrictMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isStrict(); will(returnValue(false));
             ignoring (mockMethod);
         }});
@@ -1001,10 +1060,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/strict", 0);
     }
 
-    public void testStrictMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testStrictMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isStrict(); will(returnValue(true));
             ignoring (mockMethod);
         }});
@@ -1015,10 +1075,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/strict", 1);
     }
 
-    public void testNonSyntheticMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testNonSyntheticMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isSynthetic(); will(returnValue(false));
             ignoring (mockMethod);
         }});
@@ -1029,10 +1090,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/synthetic", 0);
     }
 
-    public void testSyntheticMethod() throws Exception {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testSyntheticMethod() throws Exception {
+        final Method_info mockMethod = context.mock(Method_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockMethod).isSynthetic(); will(returnValue(true));
             ignoring (mockMethod);
         }});
@@ -1043,10 +1105,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-info/synthetic", 1);
     }
 
-    public void testNonPublicInnerClass() throws Exception {
-        final InnerClass mockInnerClass = mock(InnerClass.class);
+    @Test
+    void testNonPublicInnerClass() throws Exception {
+        final InnerClass mockInnerClass = context.mock(InnerClass.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockInnerClass).isPublic(); will(returnValue(false));
             ignoring (mockInnerClass);
         }});
@@ -1057,10 +1120,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "inner-class/public", 0);
     }
 
-    public void testPublicInnerClass() throws Exception {
-        final InnerClass mockInnerClass = mock(InnerClass.class);
+    @Test
+    void testPublicInnerClass() throws Exception {
+        final InnerClass mockInnerClass = context.mock(InnerClass.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockInnerClass).isPublic(); will(returnValue(true));
             ignoring (mockInnerClass);
         }});
@@ -1071,10 +1135,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "inner-class/public", 1);
     }
 
-    public void testNonPrivateInnerClass() throws Exception {
-        final InnerClass mockInnerClass = mock(InnerClass.class);
+    @Test
+    void testNonPrivateInnerClass() throws Exception {
+        final InnerClass mockInnerClass = context.mock(InnerClass.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockInnerClass).isPrivate(); will(returnValue(false));
             ignoring (mockInnerClass);
         }});
@@ -1085,10 +1150,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "inner-class/private", 0);
     }
 
-    public void testPrivateInnerClass() throws Exception {
-        final InnerClass mockInnerClass = mock(InnerClass.class);
+    @Test
+    void testPrivateInnerClass() throws Exception {
+        final InnerClass mockInnerClass = context.mock(InnerClass.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockInnerClass).isPrivate(); will(returnValue(true));
             ignoring (mockInnerClass);
         }});
@@ -1099,10 +1165,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "inner-class/private", 1);
     }
 
-    public void testNonProtectedInnerClass() throws Exception {
-        final InnerClass mockInnerClass = mock(InnerClass.class);
+    @Test
+    void testNonProtectedInnerClass() throws Exception {
+        final InnerClass mockInnerClass = context.mock(InnerClass.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockInnerClass).isProtected(); will(returnValue(false));
             ignoring (mockInnerClass);
         }});
@@ -1113,10 +1180,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "inner-class/protected", 0);
     }
 
-    public void testProtectedInnerClass() throws Exception {
-        final InnerClass mockInnerClass = mock(InnerClass.class);
+    @Test
+    void testProtectedInnerClass() throws Exception {
+        final InnerClass mockInnerClass = context.mock(InnerClass.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockInnerClass).isProtected(); will(returnValue(true));
             ignoring (mockInnerClass);
         }});
@@ -1127,10 +1195,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "inner-class/protected", 1);
     }
 
-    public void testNonStaticInnerClass() throws Exception {
-        final InnerClass mockInnerClass = mock(InnerClass.class);
+    @Test
+    void testNonStaticInnerClass() throws Exception {
+        final InnerClass mockInnerClass = context.mock(InnerClass.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockInnerClass).isStatic(); will(returnValue(false));
             ignoring (mockInnerClass);
         }});
@@ -1141,10 +1210,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "inner-class/static", 0);
     }
 
-    public void testStaticInnerClass() throws Exception {
-        final InnerClass mockInnerClass = mock(InnerClass.class);
+    @Test
+    void testStaticInnerClass() throws Exception {
+        final InnerClass mockInnerClass = context.mock(InnerClass.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockInnerClass).isStatic(); will(returnValue(true));
             ignoring (mockInnerClass);
         }});
@@ -1155,10 +1225,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "inner-class/static", 1);
     }
 
-    public void testNonFinalInnerClass() throws Exception {
-        final InnerClass mockInnerClass = mock(InnerClass.class);
+    @Test
+    void testNonFinalInnerClass() throws Exception {
+        final InnerClass mockInnerClass = context.mock(InnerClass.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockInnerClass).isFinal(); will(returnValue(false));
             ignoring (mockInnerClass);
         }});
@@ -1169,10 +1240,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "inner-class/final", 0);
     }
 
-    public void testFinalInnerClass() throws Exception {
-        final InnerClass mockInnerClass = mock(InnerClass.class);
+    @Test
+    void testFinalInnerClass() throws Exception {
+        final InnerClass mockInnerClass = context.mock(InnerClass.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockInnerClass).isFinal(); will(returnValue(true));
             ignoring (mockInnerClass);
         }});
@@ -1183,10 +1255,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "inner-class/final", 1);
     }
 
-    public void testNonInterfaceInnerClass() throws Exception {
-        final InnerClass mockInnerClass = mock(InnerClass.class);
+    @Test
+    void testNonInterfaceInnerClass() throws Exception {
+        final InnerClass mockInnerClass = context.mock(InnerClass.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockInnerClass).isInterface(); will(returnValue(false));
             ignoring (mockInnerClass);
         }});
@@ -1197,10 +1270,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "inner-class/is-interface", 0);
     }
 
-    public void testInterfaceInnerClass() throws Exception {
-        final InnerClass mockInnerClass = mock(InnerClass.class);
+    @Test
+    void testInterfaceInnerClass() throws Exception {
+        final InnerClass mockInnerClass = context.mock(InnerClass.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockInnerClass).isInterface(); will(returnValue(true));
             ignoring (mockInnerClass);
         }});
@@ -1211,10 +1285,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "inner-class/is-interface", 1);
     }
 
-    public void testNonAbstractInnerClass() throws Exception {
-        final InnerClass mockInnerClass = mock(InnerClass.class);
+    @Test
+    void testNonAbstractInnerClass() throws Exception {
+        final InnerClass mockInnerClass = context.mock(InnerClass.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockInnerClass).isAbstract(); will(returnValue(false));
             ignoring (mockInnerClass);
         }});
@@ -1225,10 +1300,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "inner-class/abstract", 0);
     }
 
-    public void testAbstractInnerClass() throws Exception {
-        final InnerClass mockInnerClass = mock(InnerClass.class);
+    @Test
+    void testAbstractInnerClass() throws Exception {
+        final InnerClass mockInnerClass = context.mock(InnerClass.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockInnerClass).isAbstract(); will(returnValue(true));
             ignoring (mockInnerClass);
         }});
@@ -1239,10 +1315,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "inner-class/abstract", 1);
     }
 
-    public void testNonSyntheticInnerClass() throws Exception {
-        final InnerClass mockInnerClass = mock(InnerClass.class);
+    @Test
+    void testNonSyntheticInnerClass() throws Exception {
+        final InnerClass mockInnerClass = context.mock(InnerClass.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockInnerClass).isSynthetic(); will(returnValue(false));
             ignoring (mockInnerClass);
         }});
@@ -1253,10 +1330,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "inner-class/synthetic", 0);
     }
 
-    public void testSyntheticInnerClass() throws Exception {
-        final InnerClass mockInnerClass = mock(InnerClass.class);
+    @Test
+    void testSyntheticInnerClass() throws Exception {
+        final InnerClass mockInnerClass = context.mock(InnerClass.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockInnerClass).isSynthetic(); will(returnValue(true));
             ignoring (mockInnerClass);
         }});
@@ -1267,10 +1345,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "inner-class/synthetic", 1);
     }
 
-    public void testNonAnnotationInnerClass() throws Exception {
-        final InnerClass mockInnerClass = mock(InnerClass.class);
+    @Test
+    void testNonAnnotationInnerClass() throws Exception {
+        final InnerClass mockInnerClass = context.mock(InnerClass.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockInnerClass).isAnnotation(); will(returnValue(false));
             ignoring (mockInnerClass);
         }});
@@ -1281,10 +1360,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "inner-class/is-annotation", 0);
     }
 
-    public void testAnnotationInnerClass() throws Exception {
-        final InnerClass mockInnerClass = mock(InnerClass.class);
+    @Test
+    void testAnnotationInnerClass() throws Exception {
+        final InnerClass mockInnerClass = context.mock(InnerClass.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockInnerClass).isAnnotation(); will(returnValue(true));
             ignoring (mockInnerClass);
         }});
@@ -1295,10 +1375,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "inner-class/is-annotation", 1);
     }
 
-    public void testNonEnumInnerClass() throws Exception {
-        final InnerClass mockInnerClass = mock(InnerClass.class);
+    @Test
+    void testNonEnumInnerClass() throws Exception {
+        final InnerClass mockInnerClass = context.mock(InnerClass.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockInnerClass).isEnum(); will(returnValue(false));
             ignoring (mockInnerClass);
         }});
@@ -1309,10 +1390,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "inner-class/enum", 0);
     }
 
-    public void testEnumInnerClass() throws Exception {
-        final InnerClass mockInnerClass = mock(InnerClass.class);
+    @Test
+    void testEnumInnerClass() throws Exception {
+        final InnerClass mockInnerClass = context.mock(InnerClass.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockInnerClass).isEnum(); will(returnValue(true));
             ignoring (mockInnerClass);
         }});
@@ -1323,12 +1405,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "inner-class/enum", 1);
     }
 
-    public void testVisitEnclosingMethod_noMethod() throws Exception {
-        final EnclosingMethod_attribute mockEnclosingMethod = mock(EnclosingMethod_attribute.class);
+    @Test
+    void testVisitEnclosingMethod_noMethod() throws Exception {
+        final EnclosingMethod_attribute mockEnclosingMethod = context.mock(EnclosingMethod_attribute.class);
         final int classIndex = 123;
-        final Class_info mockClassInfo = mock(Class_info.class);
+        final Class_info mockClassInfo = context.mock(Class_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockEnclosingMethod).getClassIndex();
                 will(returnValue(classIndex));
             oneOf (mockEnclosingMethod).getRawClassInfo();
@@ -1345,13 +1428,14 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "enclosing-method-attribute/method", 1);
     }
 
-    public void testVisitEnclosingMethod_regularMethod() throws Exception {
-        final EnclosingMethod_attribute mockEnclosingMethod = mock(EnclosingMethod_attribute.class);
+    @Test
+    void testVisitEnclosingMethod_regularMethod() throws Exception {
+        final EnclosingMethod_attribute mockEnclosingMethod = context.mock(EnclosingMethod_attribute.class);
         final int classIndex = 123;
-        final Class_info mockClassInfo = mock(Class_info.class);
-        final NameAndType_info mockNameAndType = mock(NameAndType_info.class);
+        final Class_info mockClassInfo = context.mock(Class_info.class);
+        final NameAndType_info mockNameAndType = context.mock(NameAndType_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockEnclosingMethod).getClassIndex();
                 will(returnValue(classIndex));
             oneOf (mockEnclosingMethod).getRawClassInfo();
@@ -1375,13 +1459,14 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "enclosing-method-attribute/method", "void testMethod()");
     }
 
-    public void testVisitEnclosingMethod_constructor() throws Exception {
-        final EnclosingMethod_attribute mockEnclosingMethod = mock(EnclosingMethod_attribute.class);
+    @Test
+    void testVisitEnclosingMethod_constructor() throws Exception {
+        final EnclosingMethod_attribute mockEnclosingMethod = context.mock(EnclosingMethod_attribute.class);
         final int classIndex = 123;
-        final Class_info mockClassInfo = mock(Class_info.class);
-        final NameAndType_info mockNameAndType = mock(NameAndType_info.class);
+        final Class_info mockClassInfo = context.mock(Class_info.class);
+        final NameAndType_info mockNameAndType = context.mock(NameAndType_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockEnclosingMethod).getClassIndex();
                 will(returnValue(classIndex));
             oneOf (mockEnclosingMethod).getRawClassInfo();
@@ -1407,10 +1492,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "enclosing-method-attribute/method", "TestClass()");
     }
 
-    public void testVisitLocalVariable() throws Exception {
-        final LocalVariable localVariable = mock(LocalVariable.class);
+    @Test
+    void testVisitLocalVariable() throws Exception {
+        final LocalVariable localVariable = context.mock(LocalVariable.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (localVariable).getStartPC();
             oneOf (localVariable).getLength();
             oneOf (localVariable).getRawName();
@@ -1429,10 +1515,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "local-variable/@index", 1);
     }
 
-    public void testVisitLocalVariableType() throws Exception {
-        final LocalVariableType localVariableType = mock(LocalVariableType.class);
+    @Test
+    void testVisitLocalVariableType() throws Exception {
+        final LocalVariableType localVariableType = context.mock(LocalVariableType.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (localVariableType).getStartPC();
             oneOf (localVariableType).getLength();
             oneOf (localVariableType).getRawName();
@@ -1450,12 +1537,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "local-variable-type/@index", 1);
     }
 
-    public void testVisitBootstrapMethod_noArguments() throws Exception {
-        final BootstrapMethod bootstrapMethod = mock(BootstrapMethod.class);
+    @Test
+    void testVisitBootstrapMethod_noArguments() throws Exception {
+        final BootstrapMethod bootstrapMethod = context.mock(BootstrapMethod.class);
         final int bootstrapMethodRef = 123;
-        final MethodHandle_info methodHandle = mock(MethodHandle_info.class);
+        final MethodHandle_info methodHandle = context.mock(MethodHandle_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (bootstrapMethod).getBootstrapMethodRef();
                 will(returnValue(bootstrapMethodRef));
             oneOf (bootstrapMethod).getBootstrapMethod();
@@ -1477,14 +1565,15 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "bootstrap-method/arguments/argument/@index", 0);
     }
 
-    public void testVisitBootstrapMethod_oneArgument() throws Exception {
-        final BootstrapMethod bootstrapMethod = mock(BootstrapMethod.class);
+    @Test
+    void testVisitBootstrapMethod_oneArgument() throws Exception {
+        final BootstrapMethod bootstrapMethod = context.mock(BootstrapMethod.class);
         final int bootstrapMethodRef = 123;
-        final MethodHandle_info methodHandle = mock(MethodHandle_info.class);
+        final MethodHandle_info methodHandle = context.mock(MethodHandle_info.class);
         final int argumentIndex = 456;
-        final ConstantPoolEntry argument = mock(ConstantPoolEntry.class);
+        final ConstantPoolEntry argument = context.mock(ConstantPoolEntry.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (bootstrapMethod).getBootstrapMethodRef();
                 will(returnValue(bootstrapMethodRef));
             oneOf (bootstrapMethod).getBootstrapMethod();
@@ -1510,16 +1599,17 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "bootstrap-method/arguments/argument/@index", String.valueOf(argumentIndex));
     }
 
-    public void testVisitBootstrapMethod_multipleArguments() throws Exception {
-        final BootstrapMethod bootstrapMethod = mock(BootstrapMethod.class);
+    @Test
+    void testVisitBootstrapMethod_multipleArguments() throws Exception {
+        final BootstrapMethod bootstrapMethod = context.mock(BootstrapMethod.class);
         final int bootstrapMethodRef = 123;
-        final MethodHandle_info methodHandle = mock(MethodHandle_info.class);
+        final MethodHandle_info methodHandle = context.mock(MethodHandle_info.class);
         final int firstArgumentIndex = 456;
-        final ConstantPoolEntry firstArgument = mock(ConstantPoolEntry.class, "first argument");
+        final ConstantPoolEntry firstArgument = context.mock(ConstantPoolEntry.class, "first argument");
         final int secondArgumentIndex = 789;
-        final ConstantPoolEntry secondArgument = mock(ConstantPoolEntry.class, "second argument");
+        final ConstantPoolEntry secondArgument = context.mock(ConstantPoolEntry.class, "second argument");
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (bootstrapMethod).getBootstrapMethodRef();
                 will(returnValue(bootstrapMethodRef));
             oneOf (bootstrapMethod).getBootstrapMethod();
@@ -1546,10 +1636,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "bootstrap-method/arguments/argument/@index", 2);
     }
 
-    public void testVisitRuntimeVisibleAnnotations_attribute_WithoutAnnotations() throws Exception {
-        final RuntimeVisibleAnnotations_attribute runtimeVisibleAnnotations = mock(RuntimeVisibleAnnotations_attribute.class);
+    @Test
+    void testVisitRuntimeVisibleAnnotations_attribute_WithoutAnnotations() throws Exception {
+        final RuntimeVisibleAnnotations_attribute runtimeVisibleAnnotations = context.mock(RuntimeVisibleAnnotations_attribute.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (runtimeVisibleAnnotations).getAnnotations();
         }});
 
@@ -1559,11 +1650,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "runtime-visible-annotations-attribute/annotations", 1);
     }
 
-    public void testVisitRuntimeVisibleAnnotations_attribute_WithAnAnnotation() throws Exception {
-        final RuntimeVisibleAnnotations_attribute runtimeVisibleAnnotations = mock(RuntimeVisibleAnnotations_attribute.class);
-        final Annotation annotation = mock(Annotation.class);
+    @Test
+    void testVisitRuntimeVisibleAnnotations_attribute_WithAnAnnotation() throws Exception {
+        final RuntimeVisibleAnnotations_attribute runtimeVisibleAnnotations = context.mock(RuntimeVisibleAnnotations_attribute.class);
+        final Annotation annotation = context.mock(Annotation.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (runtimeVisibleAnnotations).getAnnotations();
                 will(returnValue(Collections.singleton(annotation)));
             oneOf (annotation).accept(printer);
@@ -1575,10 +1667,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "runtime-visible-annotations-attribute/annotations", 1);
     }
 
-    public void testVisitRuntimeInvisibleAnnotations_attribute_WithoutAnnotations() throws Exception {
-        final RuntimeInvisibleAnnotations_attribute runtimeInvisibleAnnotations = mock(RuntimeInvisibleAnnotations_attribute.class);
+    @Test
+    void testVisitRuntimeInvisibleAnnotations_attribute_WithoutAnnotations() throws Exception {
+        final RuntimeInvisibleAnnotations_attribute runtimeInvisibleAnnotations = context.mock(RuntimeInvisibleAnnotations_attribute.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (runtimeInvisibleAnnotations).getAnnotations();
         }});
 
@@ -1588,11 +1681,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "runtime-invisible-annotations-attribute/annotations", 1);
     }
 
-    public void testVisitRuntimeInvisibleAnnotations_attribute_WithAnAnnotation() throws Exception {
-        final RuntimeInvisibleAnnotations_attribute runtimeInvisibleAnnotations = mock(RuntimeInvisibleAnnotations_attribute.class);
-        final Annotation annotation = mock(Annotation.class);
+    @Test
+    void testVisitRuntimeInvisibleAnnotations_attribute_WithAnAnnotation() throws Exception {
+        final RuntimeInvisibleAnnotations_attribute runtimeInvisibleAnnotations = context.mock(RuntimeInvisibleAnnotations_attribute.class);
+        final Annotation annotation = context.mock(Annotation.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (runtimeInvisibleAnnotations).getAnnotations();
                 will(returnValue(Collections.singleton(annotation)));
             oneOf (annotation).accept(printer);
@@ -1604,10 +1698,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "runtime-invisible-annotations-attribute/annotations", 1);
     }
 
-    public void testVisitRuntimeVisibleParameterAnnotations_attribute_WithoutParameterAnnotations() throws Exception {
-        final RuntimeVisibleParameterAnnotations_attribute runtimeVisibleParameterAnnotations = mock(RuntimeVisibleParameterAnnotations_attribute.class);
+    @Test
+    void testVisitRuntimeVisibleParameterAnnotations_attribute_WithoutParameterAnnotations() throws Exception {
+        final RuntimeVisibleParameterAnnotations_attribute runtimeVisibleParameterAnnotations = context.mock(RuntimeVisibleParameterAnnotations_attribute.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (runtimeVisibleParameterAnnotations).getParameterAnnotations();
         }});
 
@@ -1617,11 +1712,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "runtime-visible-parameter-annotations-attribute/parameter-annotations", 1);
     }
 
-    public void testVisitRuntimeVisibleParameterAnnotations_attribute_WithAParameterAnnotation() throws Exception {
-        final RuntimeVisibleParameterAnnotations_attribute runtimeVisibleParameterAnnotations = mock(RuntimeVisibleParameterAnnotations_attribute.class);
-        final ParameterAnnotation parameterAnnotation = mock(ParameterAnnotation.class);
+    @Test
+    void testVisitRuntimeVisibleParameterAnnotations_attribute_WithAParameterAnnotation() throws Exception {
+        final RuntimeVisibleParameterAnnotations_attribute runtimeVisibleParameterAnnotations = context.mock(RuntimeVisibleParameterAnnotations_attribute.class);
+        final ParameterAnnotation parameterAnnotation = context.mock(ParameterAnnotation.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (runtimeVisibleParameterAnnotations).getParameterAnnotations();
                 will(returnValue(Collections.singletonList(parameterAnnotation)));
             oneOf (parameterAnnotation).accept(printer);
@@ -1633,10 +1729,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "runtime-visible-parameter-annotations-attribute/parameter-annotations", 1);
     }
 
-    public void testVisitRuntimeInvisibleParameterAnnotations_attribute_WithoutParameterAnnotations() throws Exception {
-        final RuntimeInvisibleParameterAnnotations_attribute runtimeInvisibleParameterAnnotations = mock(RuntimeInvisibleParameterAnnotations_attribute.class);
+    @Test
+    void testVisitRuntimeInvisibleParameterAnnotations_attribute_WithoutParameterAnnotations() throws Exception {
+        final RuntimeInvisibleParameterAnnotations_attribute runtimeInvisibleParameterAnnotations = context.mock(RuntimeInvisibleParameterAnnotations_attribute.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (runtimeInvisibleParameterAnnotations).getParameterAnnotations();
         }});
 
@@ -1646,11 +1743,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "runtime-invisible-parameter-annotations-attribute/parameter-annotations", 1);
     }
 
-    public void testVisitRuntimeInvisibleParameterAnnotations_attribute_WithAParameterAnnotation() throws Exception {
-        final RuntimeInvisibleParameterAnnotations_attribute runtimeInvisibleParameterAnnotations = mock(RuntimeInvisibleParameterAnnotations_attribute.class);
-        final ParameterAnnotation parameterAnnotation = mock(ParameterAnnotation.class);
+    @Test
+    void testVisitRuntimeInvisibleParameterAnnotations_attribute_WithAParameterAnnotation() throws Exception {
+        final RuntimeInvisibleParameterAnnotations_attribute runtimeInvisibleParameterAnnotations = context.mock(RuntimeInvisibleParameterAnnotations_attribute.class);
+        final ParameterAnnotation parameterAnnotation = context.mock(ParameterAnnotation.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (runtimeInvisibleParameterAnnotations).getParameterAnnotations();
                 will(returnValue(Collections.singletonList(parameterAnnotation)));
             oneOf (parameterAnnotation).accept(printer);
@@ -1662,10 +1760,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "runtime-invisible-parameter-annotations-attribute/parameter-annotations", 1);
     }
 
-    public void testVisitRuntimeVisibleTypeAnnotations_attribute_WithoutAnnotations() throws Exception {
-        final RuntimeVisibleTypeAnnotations_attribute attribute = mock(RuntimeVisibleTypeAnnotations_attribute.class);
+    @Test
+    void testVisitRuntimeVisibleTypeAnnotations_attribute_WithoutAnnotations() throws Exception {
+        final RuntimeVisibleTypeAnnotations_attribute attribute = context.mock(RuntimeVisibleTypeAnnotations_attribute.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (attribute).getTypeAnnotations();
         }});
 
@@ -1676,11 +1775,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "runtime-visible-type-annotations-attribute/type-annotations", 1);
     }
 
-    public void testVisitRuntimeVisibleTypeAnnotations_attribute_WithAnAnnotation() throws Exception {
-        final RuntimeVisibleTypeAnnotations_attribute attribute = mock(RuntimeVisibleTypeAnnotations_attribute.class);
-        final TypeAnnotation typeAnnotation = mock(TypeAnnotation.class);
+    @Test
+    void testVisitRuntimeVisibleTypeAnnotations_attribute_WithAnAnnotation() throws Exception {
+        final RuntimeVisibleTypeAnnotations_attribute attribute = context.mock(RuntimeVisibleTypeAnnotations_attribute.class);
+        final TypeAnnotation typeAnnotation = context.mock(TypeAnnotation.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (attribute).getTypeAnnotations();
                 will(returnValue(Collections.singletonList(typeAnnotation)));
             oneOf (typeAnnotation).accept(printer);
@@ -1693,10 +1793,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "runtime-visible-type-annotations-attribute/type-annotations", 1);
     }
 
-    public void testVisitRuntimeInvisibleTypeAnnotations_attribute_WithoutParameterAnnotations() throws Exception {
-        final RuntimeInvisibleTypeAnnotations_attribute attribute = mock(RuntimeInvisibleTypeAnnotations_attribute.class);
+    @Test
+    void testVisitRuntimeInvisibleTypeAnnotations_attribute_WithoutParameterAnnotations() throws Exception {
+        final RuntimeInvisibleTypeAnnotations_attribute attribute = context.mock(RuntimeInvisibleTypeAnnotations_attribute.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (attribute).getTypeAnnotations();
         }});
 
@@ -1707,11 +1808,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "runtime-invisible-type-annotations-attribute/type-annotations", 1);
     }
 
-    public void testVisitRuntimeInvisibleTypeAnnotations_attribute_WithAParameterAnnotation() throws Exception {
-        final RuntimeInvisibleTypeAnnotations_attribute attribute = mock(RuntimeInvisibleTypeAnnotations_attribute.class);
-        final TypeAnnotation typeAnnotation = mock(TypeAnnotation.class);
+    @Test
+    void testVisitRuntimeInvisibleTypeAnnotations_attribute_WithAParameterAnnotation() throws Exception {
+        final RuntimeInvisibleTypeAnnotations_attribute attribute = context.mock(RuntimeInvisibleTypeAnnotations_attribute.class);
+        final TypeAnnotation typeAnnotation = context.mock(TypeAnnotation.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (attribute).getTypeAnnotations();
                 will(returnValue(Collections.singletonList(typeAnnotation)));
             oneOf (typeAnnotation).accept(printer);
@@ -1724,11 +1826,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "runtime-invisible-type-annotations-attribute/type-annotations", 1);
     }
 
-    public void testVisitAnnotationDefault_attribute() throws Exception {
-        final AnnotationDefault_attribute annotationDefault = mock(AnnotationDefault_attribute.class);
-        final ElementValue elementValue = mock(ElementValue.class);
+    @Test
+    void testVisitAnnotationDefault_attribute() throws Exception {
+        final AnnotationDefault_attribute annotationDefault = context.mock(AnnotationDefault_attribute.class);
+        final ElementValue elementValue = context.mock(ElementValue.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (annotationDefault).getElemementValue();
                 will(returnValue(elementValue));
             oneOf (elementValue).accept(printer);
@@ -1740,10 +1843,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "annotation-default-attribute", 1);
     }
 
-    public void testVisitStackMapTable_attribute_noStackMapFrames() throws Exception {
-        final StackMapTable_attribute stackMapTable = mock(StackMapTable_attribute.class);
+    @Test
+    void testVisitStackMapTable_attribute_noStackMapFrames() throws Exception {
+        final StackMapTable_attribute stackMapTable = context.mock(StackMapTable_attribute.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (stackMapTable).getEntries();
                 will(returnValue(Collections.emptyList()));
         }});
@@ -1754,11 +1858,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "stack-map-table-attribute", 1);
     }
 
-    public void testVisitStackMapTable_attribute_oneStackMapFrame() throws Exception {
-        final StackMapTable_attribute stackMapTable = mock(StackMapTable_attribute.class);
-        final StackMapFrame stackMapFrame = mock(StackMapFrame.class);
+    @Test
+    void testVisitStackMapTable_attribute_oneStackMapFrame() throws Exception {
+        final StackMapTable_attribute stackMapTable = context.mock(StackMapTable_attribute.class);
+        final StackMapFrame stackMapFrame = context.mock(StackMapFrame.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (stackMapTable).getEntries();
                 will(returnValue(Collections.singleton(stackMapFrame)));
             oneOf (stackMapFrame).accept(printer);
@@ -1770,10 +1875,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "stack-map-table-attribute", 1);
     }
 
-    public void testVisitBootstrapMethods_attribute_noBootstrapMethods() throws Exception {
-        final BootstrapMethods_attribute bootstrapMethods = mock(BootstrapMethods_attribute.class);
+    @Test
+    void testVisitBootstrapMethods_attribute_noBootstrapMethods() throws Exception {
+        final BootstrapMethods_attribute bootstrapMethods = context.mock(BootstrapMethods_attribute.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast (1).of (bootstrapMethods).getBootstrapMethods();
                 will(returnValue(Collections.emptyList()));
         }});
@@ -1784,11 +1890,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "bootstrap-methods-attribute", 1);
     }
 
-    public void testVisitBootstrapMethods_attribute_oneBootstrapMethod() throws Exception {
-        final BootstrapMethods_attribute bootstrapMethods = mock(BootstrapMethods_attribute.class);
-        final BootstrapMethod bootstrapMethod = mock(BootstrapMethod.class);
+    @Test
+    void testVisitBootstrapMethods_attribute_oneBootstrapMethod() throws Exception {
+        final BootstrapMethods_attribute bootstrapMethods = context.mock(BootstrapMethods_attribute.class);
+        final BootstrapMethod bootstrapMethod = context.mock(BootstrapMethod.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast (1).of (bootstrapMethods).getBootstrapMethods();
                 will(returnValue(Collections.singleton(bootstrapMethod)));
             oneOf (bootstrapMethod).accept(printer);
@@ -1800,10 +1907,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "bootstrap-methods-attribute", 1);
     }
 
-    public void testVisitMethodParameters_attribute_noMethodParameters() throws Exception {
-        final MethodParameters_attribute attribute = mock(MethodParameters_attribute.class);
+    @Test
+    void testVisitMethodParameters_attribute_noMethodParameters() throws Exception {
+        final MethodParameters_attribute attribute = context.mock(MethodParameters_attribute.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast (1).of (attribute).getMethodParameters();
                 will(returnValue(Collections.emptyList()));
         }});
@@ -1814,11 +1922,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-parameters-attribute", 1);
     }
 
-    public void testVisitMethodParameters_attribute_oneMethodParameter() throws Exception {
-        final MethodParameters_attribute attribute = mock(MethodParameters_attribute.class);
-        final MethodParameter methodParameter = mock(MethodParameter.class);
+    @Test
+    void testVisitMethodParameters_attribute_oneMethodParameter() throws Exception {
+        final MethodParameters_attribute attribute = context.mock(MethodParameters_attribute.class);
+        final MethodParameter methodParameter = context.mock(MethodParameter.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast (1).of (attribute).getMethodParameters();
                 will(returnValue(Collections.singleton(methodParameter)));
             oneOf (methodParameter).accept(printer);
@@ -1830,13 +1939,14 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-parameters-attribute", 1);
     }
 
-    public void testVisitMethodParameter_withAllSubElements() throws Exception {
-        final MethodParameter methodParameter = mock(MethodParameter.class);
+    @Test
+    void testVisitMethodParameter_withAllSubElements() throws Exception {
+        final MethodParameter methodParameter = context.mock(MethodParameter.class);
         final int accessFlags = 123;
         final String expectedAccessFlags = "00000000 01111011"; // 123 in binary
-        final UTF8_info mockUtf8_info = mock(UTF8_info.class);
+        final UTF8_info mockUtf8_info = context.mock(UTF8_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (methodParameter).hasName();
                 will(returnValue(true));
             oneOf (methodParameter).getRawName();
@@ -1864,12 +1974,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-parameter/mandated", 1);
     }
 
-    public void testVisitMethodParameter_noSubElements() throws Exception {
-        final MethodParameter methodParameter = mock(MethodParameter.class);
+    @Test
+    void testVisitMethodParameter_noSubElements() throws Exception {
+        final MethodParameter methodParameter = context.mock(MethodParameter.class);
         final int accessFlags = 0;
         final String expectedAccessFlags = "00000000 00000000";
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (methodParameter).hasName();
                 will(returnValue(false));
             oneOf (methodParameter).getAccessFlags();
@@ -1894,16 +2005,17 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "method-parameter/mandated", 0);
     }
 
-    public void testVisitModule_attributeWithVersion() throws Exception {
-        final Module_attribute attribute = mock(Module_attribute.class);
+    @Test
+    void testVisitModule_attributeWithVersion() throws Exception {
+        final Module_attribute attribute = context.mock(Module_attribute.class);
         final int moduleNameIndex = 123;
-        final Module_info mockModule = mock(Module_info.class);
+        final Module_info mockModule = context.mock(Module_info.class);
         final int moduleFlags = 456;
         final String expectedModuleFlags = "00000001 11001000"; // 456 in binary
         final int moduleVersionIndex = 789;
-        final UTF8_info moduleVersion = mock(UTF8_info.class);
+        final UTF8_info moduleVersion = context.mock(UTF8_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (attribute).getModuleNameIndex();
                 will(returnValue(moduleNameIndex));
             oneOf (attribute).getRawModuleName();
@@ -1958,13 +2070,14 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "module-attribute/module-provides", 0);
     }
 
-    public void testVisitModule_attributeWithoutVersion() throws Exception {
-        final Module_attribute attribute = mock(Module_attribute.class);
+    @Test
+    void testVisitModule_attributeWithoutVersion() throws Exception {
+        final Module_attribute attribute = context.mock(Module_attribute.class);
         final int moduleNameIndex = 123;
-        final Module_info mockModule = mock(Module_info.class);
+        final Module_info mockModule = context.mock(Module_info.class);
         final int moduleFlags = 456;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (attribute).getModuleNameIndex();
                 will(returnValue(moduleNameIndex));
             oneOf (attribute).getRawModuleName();
@@ -1999,14 +2112,15 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "module-attribute/version", 0);
     }
 
-    public void testVisitModule_attributeWithRequires() throws Exception {
-        final Module_attribute attribute = mock(Module_attribute.class);
+    @Test
+    void testVisitModule_attributeWithRequires() throws Exception {
+        final Module_attribute attribute = context.mock(Module_attribute.class);
         final int moduleNameIndex = 123;
-        final Module_info mockModule = mock(Module_info.class);
+        final Module_info mockModule = context.mock(Module_info.class);
         final int moduleFlags = 456;
-        final ModuleRequires mockRequires = mock(ModuleRequires.class);
+        final ModuleRequires mockRequires = context.mock(ModuleRequires.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (attribute).getModuleNameIndex();
                 will(returnValue(moduleNameIndex));
             oneOf (attribute).getRawModuleName();
@@ -2046,16 +2160,17 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "module-attribute/module-provides", 0);
     }
 
-    public void testVisitModuleRequiresWithVersion() throws Exception {
-        final ModuleRequires moduleRequires = mock(ModuleRequires.class);
+    @Test
+    void testVisitModuleRequiresWithVersion() throws Exception {
+        final ModuleRequires moduleRequires = context.mock(ModuleRequires.class);
         final int requiresIndex = 123;
-        final Module_info requires = mock(Module_info.class);
+        final Module_info requires = context.mock(Module_info.class);
         final int requiresFlags = 456;
         final String expectedRequiresFlags = "00000001 11001000"; // 456 in binary
         final int requiresVersionIndex = 789;
-        final UTF8_info requiresVersion = mock(UTF8_info.class);
+        final UTF8_info requiresVersion = context.mock(UTF8_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (moduleRequires).getRequiresIndex();
                 will(returnValue(requiresIndex));
             oneOf (moduleRequires).getRawRequires();
@@ -2098,13 +2213,14 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "module-requires/mandated", 1);
     }
 
-    public void testVisitModuleRequiresWithoutVersion() throws Exception {
-        final ModuleRequires moduleRequires = mock(ModuleRequires.class);
+    @Test
+    void testVisitModuleRequiresWithoutVersion() throws Exception {
+        final ModuleRequires moduleRequires = context.mock(ModuleRequires.class);
         final int requiresIndex = 123;
-        final Module_info requires = mock(Module_info.class);
+        final Module_info requires = context.mock(Module_info.class);
         final int requiresFlags = 456;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (moduleRequires).getRequiresIndex();
                 will(returnValue(requiresIndex));
             oneOf (moduleRequires).getRawRequires();
@@ -2131,14 +2247,15 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "module-requires/version", 0);
     }
 
-    public void testVisitModule_attributeWithExports() throws Exception {
-        final Module_attribute attribute = mock(Module_attribute.class);
+    @Test
+    void testVisitModule_attributeWithExports() throws Exception {
+        final Module_attribute attribute = context.mock(Module_attribute.class);
         final int moduleNameIndex = 123;
-        final Module_info mockModule = mock(Module_info.class);
+        final Module_info mockModule = context.mock(Module_info.class);
         final int moduleFlags = 456;
-        final ModuleExports mockExports = mock(ModuleExports.class);
+        final ModuleExports mockExports = context.mock(ModuleExports.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (attribute).getModuleNameIndex();
                 will(returnValue(moduleNameIndex));
             oneOf (attribute).getRawModuleName();
@@ -2178,14 +2295,15 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "module-attribute/module-provides", 0);
     }
 
-    public void testVisitModuleExportsWithoutExportsTos() throws Exception {
-        final ModuleExports moduleExports = mock(ModuleExports.class);
+    @Test
+    void testVisitModuleExportsWithoutExportsTos() throws Exception {
+        final ModuleExports moduleExports = context.mock(ModuleExports.class);
         final int exportsIndex = 123;
-        final Package_info exports = mock(Package_info.class);
+        final Package_info exports = context.mock(Package_info.class);
         final int exportsFlags = 456;
         final String expectedRequiresFlags = "00000001 11001000"; // 456 in binary
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (moduleExports).getExportsIndex();
                 will(returnValue(exportsIndex));
             oneOf (moduleExports).getRawExports();
@@ -2214,14 +2332,15 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "module-exports/mandated", 1);
     }
 
-    public void testVisitModuleExportsWithExportsTos() throws Exception {
-        final ModuleExports moduleExports = mock(ModuleExports.class);
+    @Test
+    void testVisitModuleExportsWithExportsTos() throws Exception {
+        final ModuleExports moduleExports = context.mock(ModuleExports.class);
         final int exportsIndex = 123;
-        final Package_info exports = mock(Package_info.class);
+        final Package_info exports = context.mock(Package_info.class);
         final int exportsFlags = 456;
-        final ModuleExportsTo mockExportsTo = mock(ModuleExportsTo.class);
+        final ModuleExportsTo mockExportsTo = context.mock(ModuleExportsTo.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (moduleExports).getExportsIndex();
                 will(returnValue(exportsIndex));
             oneOf (moduleExports).getRawExports();
@@ -2244,12 +2363,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "module-exports", 1);
     }
 
-    public void testVisitModuleExportsTo() throws Exception {
-        final ModuleExportsTo moduleExportsTo = mock(ModuleExportsTo.class);
+    @Test
+    void testVisitModuleExportsTo() throws Exception {
+        final ModuleExportsTo moduleExportsTo = context.mock(ModuleExportsTo.class);
         final int exportsToIndex = 123;
-        final Module_info exportsTo = mock(Module_info.class);
+        final Module_info exportsTo = context.mock(Module_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (moduleExportsTo).getExportsToIndex();
                 will(returnValue(exportsToIndex));
             oneOf (moduleExportsTo).getRawExportsTo();
@@ -2266,14 +2386,15 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "module-exports-to/module/@index", String.valueOf(exportsToIndex));
     }
 
-    public void testVisitModule_attributeWithOpens() throws Exception {
-        final Module_attribute attribute = mock(Module_attribute.class);
+    @Test
+    void testVisitModule_attributeWithOpens() throws Exception {
+        final Module_attribute attribute = context.mock(Module_attribute.class);
         final int moduleNameIndex = 123;
-        final Module_info mockModule = mock(Module_info.class);
+        final Module_info mockModule = context.mock(Module_info.class);
         final int moduleFlags = 456;
-        final ModuleOpens mockOpens = mock(ModuleOpens.class);
+        final ModuleOpens mockOpens = context.mock(ModuleOpens.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (attribute).getModuleNameIndex();
                 will(returnValue(moduleNameIndex));
             oneOf (attribute).getRawModuleName();
@@ -2313,14 +2434,15 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "module-attribute/module-provides", 0);
     }
 
-    public void testVisitModuleOpensWithoutOpensTos() throws Exception {
-        final ModuleOpens moduleOpens = mock(ModuleOpens.class);
+    @Test
+    void testVisitModuleOpensWithoutOpensTos() throws Exception {
+        final ModuleOpens moduleOpens = context.mock(ModuleOpens.class);
         final int opensIndex = 123;
-        final Package_info opens = mock(Package_info.class);
+        final Package_info opens = context.mock(Package_info.class);
         final int opensFlags = 456;
         final String expectedRequiresFlags = "00000001 11001000"; // 456 in binary
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (moduleOpens).getOpensIndex();
                 will(returnValue(opensIndex));
             oneOf (moduleOpens).getRawOpens();
@@ -2349,14 +2471,15 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "module-opens/mandated", 1);
     }
 
-    public void testVisitModuleOpensWithOpensTos() throws Exception {
-        final ModuleOpens moduleOpens = mock(ModuleOpens.class);
+    @Test
+    void testVisitModuleOpensWithOpensTos() throws Exception {
+        final ModuleOpens moduleOpens = context.mock(ModuleOpens.class);
         final int opensIndex = 123;
-        final Package_info opens = mock(Package_info.class);
+        final Package_info opens = context.mock(Package_info.class);
         final int opensFlags = 456;
-        final ModuleOpensTo mockOpensTo = mock(ModuleOpensTo.class);
+        final ModuleOpensTo mockOpensTo = context.mock(ModuleOpensTo.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (moduleOpens).getOpensIndex();
                 will(returnValue(opensIndex));
             oneOf (moduleOpens).getRawOpens();
@@ -2379,12 +2502,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "module-opens", 1);
     }
 
-    public void testVisitModuleOpensTo() throws Exception {
-        final ModuleOpensTo moduleOpensTo = mock(ModuleOpensTo.class);
+    @Test
+    void testVisitModuleOpensTo() throws Exception {
+        final ModuleOpensTo moduleOpensTo = context.mock(ModuleOpensTo.class);
         final int opensToIndex = 123;
-        final Module_info opensTo = mock(Module_info.class);
+        final Module_info opensTo = context.mock(Module_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (moduleOpensTo).getOpensToIndex();
                 will(returnValue(opensToIndex));
             oneOf (moduleOpensTo).getRawOpensTo();
@@ -2401,14 +2525,15 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "module-opens-to/module/@index", String.valueOf(opensToIndex));
     }
 
-    public void testVisitModule_attributeWithUses() throws Exception {
-        final Module_attribute attribute = mock(Module_attribute.class);
+    @Test
+    void testVisitModule_attributeWithUses() throws Exception {
+        final Module_attribute attribute = context.mock(Module_attribute.class);
         final int moduleNameIndex = 123;
-        final Module_info mockModule = mock(Module_info.class);
+        final Module_info mockModule = context.mock(Module_info.class);
         final int moduleFlags = 456;
-        final ModuleUses mockUses = mock(ModuleUses.class);
+        final ModuleUses mockUses = context.mock(ModuleUses.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (attribute).getModuleNameIndex();
                 will(returnValue(moduleNameIndex));
             oneOf (attribute).getRawModuleName();
@@ -2448,12 +2573,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "module-attribute/module-provides", 0);
     }
 
-    public void testVisitModuleUses() throws Exception {
-        final ModuleUses moduleUses = mock(ModuleUses.class);
+    @Test
+    void testVisitModuleUses() throws Exception {
+        final ModuleUses moduleUses = context.mock(ModuleUses.class);
         final int usesIndex = 123;
-        final Class_info uses = mock(Class_info.class);
+        final Class_info uses = context.mock(Class_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (moduleUses).getUsesIndex();
                 will(returnValue(usesIndex));
             oneOf (moduleUses).getRawUses();
@@ -2470,14 +2596,15 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "module-uses/class/@index", String.valueOf(usesIndex));
     }
 
-    public void testVisitModule_attributeWithProvides() throws Exception {
-        final Module_attribute attribute = mock(Module_attribute.class);
+    @Test
+    void testVisitModule_attributeWithProvides() throws Exception {
+        final Module_attribute attribute = context.mock(Module_attribute.class);
         final int moduleNameIndex = 123;
-        final Module_info mockModule = mock(Module_info.class);
+        final Module_info mockModule = context.mock(Module_info.class);
         final int moduleFlags = 456;
-        final ModuleProvides mockProvides = mock(ModuleProvides.class);
+        final ModuleProvides mockProvides = context.mock(ModuleProvides.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (attribute).getModuleNameIndex();
                 will(returnValue(moduleNameIndex));
             oneOf (attribute).getRawModuleName();
@@ -2517,12 +2644,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "module-attribute/module-provides", 0);
     }
 
-    public void testVisitModuleProvidesWithoutProvidesWiths() throws Exception {
-        final ModuleProvides moduleProvides = mock(ModuleProvides.class);
+    @Test
+    void testVisitModuleProvidesWithoutProvidesWiths() throws Exception {
+        final ModuleProvides moduleProvides = context.mock(ModuleProvides.class);
         final int providesIndex = 123;
-        final Class_info provides = mock(Class_info.class);
+        final Class_info provides = context.mock(Class_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (moduleProvides).getProvidesIndex();
                 will(returnValue(providesIndex));
             oneOf (moduleProvides).getRawProvides();
@@ -2541,13 +2669,14 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "module-provides/class/@index", String.valueOf(providesIndex));
     }
 
-    public void testVisitModuleProvidesWithProvidesWiths() throws Exception {
-        final ModuleProvides moduleProvides = mock(ModuleProvides.class);
+    @Test
+    void testVisitModuleProvidesWithProvidesWiths() throws Exception {
+        final ModuleProvides moduleProvides = context.mock(ModuleProvides.class);
         final int providesIndex = 123;
-        final Class_info provides = mock(Class_info.class);
-        final ModuleProvidesWith mockProvidesWith = mock(ModuleProvidesWith.class);
+        final Class_info provides = context.mock(Class_info.class);
+        final ModuleProvidesWith mockProvidesWith = context.mock(ModuleProvidesWith.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (moduleProvides).getProvidesIndex();
                 will(returnValue(providesIndex));
             oneOf (moduleProvides).getRawProvides();
@@ -2564,12 +2693,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "module-provides", 1);
     }
 
-    public void testVisitModuleProvidesWith() throws Exception {
-        final ModuleProvidesWith moduleProvidesWith = mock(ModuleProvidesWith.class);
+    @Test
+    void testVisitModuleProvidesWith() throws Exception {
+        final ModuleProvidesWith moduleProvidesWith = context.mock(ModuleProvidesWith.class);
         final int providesWithIndex = 123;
-        final Class_info providesWith = mock(Class_info.class);
+        final Class_info providesWith = context.mock(Class_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (moduleProvidesWith).getProvidesWithIndex();
                 will(returnValue(providesWithIndex));
             oneOf (moduleProvidesWith).getRawProvidesWith();
@@ -2586,10 +2716,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "module-provides-with/class/@index", String.valueOf(providesWithIndex));
     }
 
-    public void testVisitModulePackages_attribute() throws Exception {
-        final ModulePackages_attribute attribute = mock(ModulePackages_attribute.class);
+    @Test
+    void testVisitModulePackages_attribute() throws Exception {
+        final ModulePackages_attribute attribute = context.mock(ModulePackages_attribute.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (attribute).getPackages();
                 will(returnValue(Collections.emptyList()));
         }});
@@ -2600,11 +2731,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "module-packages-attribute", 1);
     }
 
-    public void testVisitModulePackages_attributeWithModulePackage() throws Exception {
-        final ModulePackages_attribute attribute = mock(ModulePackages_attribute.class);
-        final ModulePackage mockPackage = mock(ModulePackage.class);
+    @Test
+    void testVisitModulePackages_attributeWithModulePackage() throws Exception {
+        final ModulePackages_attribute attribute = context.mock(ModulePackages_attribute.class);
+        final ModulePackage mockPackage = context.mock(ModulePackage.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast (1).of (attribute).getPackages();
                 will(returnValue(Collections.singleton(mockPackage)));
             oneOf (mockPackage).accept(printer);
@@ -2616,12 +2748,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "module-packages-attribute", 1);
     }
 
-    public void testVisitModulePackage() throws Exception {
-        final ModulePackage modulePackage = mock(ModulePackage.class);
+    @Test
+    void testVisitModulePackage() throws Exception {
+        final ModulePackage modulePackage = context.mock(ModulePackage.class);
         final int packageIndex = 123;
-        final Package_info mockPackage = mock(Package_info.class);
+        final Package_info mockPackage = context.mock(Package_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (modulePackage).getPackageIndex();
                 will(returnValue(packageIndex));
             oneOf (modulePackage).getRawPackage();
@@ -2637,12 +2770,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "package/@index", String.valueOf(packageIndex));
     }
 
-    public void testVisitModuleMainClass_attribute() throws Exception {
-        final ModuleMainClass_attribute attribute = mock(ModuleMainClass_attribute.class);
+    @Test
+    void testVisitModuleMainClass_attribute() throws Exception {
+        final ModuleMainClass_attribute attribute = context.mock(ModuleMainClass_attribute.class);
         final int mainClassIndex = 123;
-        final Class_info mockClass = mock(Class_info.class);
+        final Class_info mockClass = context.mock(Class_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (attribute).getMainClassIndex();
                 will(returnValue(mainClassIndex));
             atLeast(1).of (attribute).getRawMainClass();
@@ -2658,12 +2792,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "module-main-class-attribute/@index", String.valueOf(mainClassIndex));
     }
 
-    public void testVisitNestHost_attribute() throws Exception {
-        final NestHost_attribute attribute = mock(NestHost_attribute.class);
+    @Test
+    void testVisitNestHost_attribute() throws Exception {
+        final NestHost_attribute attribute = context.mock(NestHost_attribute.class);
         final int hostClassIndex = 123;
-        final Class_info mockClass = mock(Class_info.class);
+        final Class_info mockClass = context.mock(Class_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (attribute).getHostClassIndex();
                 will(returnValue(hostClassIndex));
             atLeast(1).of (attribute).getRawHostClass();
@@ -2679,10 +2814,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "nest-host-attribute/@index", String.valueOf(hostClassIndex));
     }
 
-    public void testVisitNestMembers_attribute() throws Exception {
-        final NestMembers_attribute attribute = mock(NestMembers_attribute.class);
+    @Test
+    void testVisitNestMembers_attribute() throws Exception {
+        final NestMembers_attribute attribute = context.mock(NestMembers_attribute.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (attribute).getMembers();
                 will(returnValue(Collections.emptyList()));
         }});
@@ -2693,11 +2829,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "nest-members-attribute", 1);
     }
 
-    public void testVisitNestMembers_attributeWithNestMember() throws Exception {
-        final NestMembers_attribute attribute = mock(NestMembers_attribute.class);
-        final NestMember mockMember = mock(NestMember.class);
+    @Test
+    void testVisitNestMembers_attributeWithNestMember() throws Exception {
+        final NestMembers_attribute attribute = context.mock(NestMembers_attribute.class);
+        final NestMember mockMember = context.mock(NestMember.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast (1).of (attribute).getMembers();
                 will(returnValue(Collections.singleton(mockMember)));
             oneOf (mockMember).accept(printer);
@@ -2709,12 +2846,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "nest-members-attribute", 1);
     }
 
-    public void testVisitNestMember() throws Exception {
-        final NestMember nestMember = mock(NestMember.class);
+    @Test
+    void testVisitNestMember() throws Exception {
+        final NestMember nestMember = context.mock(NestMember.class);
         final int memberClassIndex = 123;
-        final Class_info mockMemberClass = mock(Class_info.class);
+        final Class_info mockMemberClass = context.mock(Class_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (nestMember).getMemberClassIndex();
                 will(returnValue(memberClassIndex));
             oneOf (nestMember).getRawMemberClass();
@@ -2730,10 +2868,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "class/@index", String.valueOf(memberClassIndex));
     }
 
-    public void testVisitRecord_attribute() throws Exception {
-        final Record_attribute attribute = mock(Record_attribute.class);
+    @Test
+    void testVisitRecord_attribute() throws Exception {
+        final Record_attribute attribute = context.mock(Record_attribute.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (attribute).getRecordComponents();
                 will(returnValue(Collections.emptyList()));
         }});
@@ -2744,11 +2883,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "record-attribute", 1);
     }
 
-    public void testVisitRecord_attribute_attributeWithRecordComponent() throws Exception {
-        final Record_attribute attribute = mock(Record_attribute.class);
-        final RecordComponent_info mockRecordComponent = mock(RecordComponent_info.class);
+    @Test
+    void testVisitRecord_attribute_attributeWithRecordComponent() throws Exception {
+        final Record_attribute attribute = context.mock(Record_attribute.class);
+        final RecordComponent_info mockRecordComponent = context.mock(RecordComponent_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast (1).of (attribute).getRecordComponents();
                 will(returnValue(Collections.singleton(mockRecordComponent)));
             oneOf (mockRecordComponent).accept(printer);
@@ -2760,14 +2900,15 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "record-attribute", 1);
     }
 
-    public void testVisitRecordComponent_info() throws Exception {
-        final RecordComponent_info recordComponent = mock(RecordComponent_info.class);
+    @Test
+    void testVisitRecordComponent_info() throws Exception {
+        final RecordComponent_info recordComponent = context.mock(RecordComponent_info.class);
         final int nameIndex = 123;
-        final UTF8_info name = mock(UTF8_info.class, "name");
+        final UTF8_info name = context.mock(UTF8_info.class, "name");
         final int descriptorIndex = 456;
         final String type = "abc";
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (recordComponent).getNameIndex();
                 will(returnValue(nameIndex));
             oneOf (recordComponent).getRawName();
@@ -2794,15 +2935,16 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "record-component/attributes", 1);
     }
 
-    public void testVisitRecordComponent_infoWithAttributes() throws Exception {
-        final RecordComponent_info recordComponent = mock(RecordComponent_info.class);
+    @Test
+    void testVisitRecordComponent_infoWithAttributes() throws Exception {
+        final RecordComponent_info recordComponent = context.mock(RecordComponent_info.class);
         final int nameIndex = 123;
-        final UTF8_info name = mock(UTF8_info.class, "name");
+        final UTF8_info name = context.mock(UTF8_info.class, "name");
         final int descriptorIndex = 456;
         final String type = "abc";
-        final Attribute_info mockAttribute = mock(Attribute_info.class);
+        final Attribute_info mockAttribute = context.mock(Attribute_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (recordComponent).getNameIndex();
                 will(returnValue(nameIndex));
             oneOf (recordComponent).getRawName();
@@ -2830,10 +2972,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "record-component/attributes", 1);
     }
 
-    public void testVisitPermittedSubclasses_attribute() throws Exception {
-        final PermittedSubclasses_attribute attribute = mock(PermittedSubclasses_attribute.class);
+    @Test
+    void testVisitPermittedSubclasses_attribute() throws Exception {
+        final PermittedSubclasses_attribute attribute = context.mock(PermittedSubclasses_attribute.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (attribute).getSubclasses();
             will(returnValue(Collections.emptyList()));
         }});
@@ -2844,11 +2987,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "permitted-subclasses-attribute", 1);
     }
 
-    public void testVisitPermittedSubclasses_attributeWithNestMember() throws Exception {
-        final PermittedSubclasses_attribute attribute = mock(PermittedSubclasses_attribute.class);
-        final PermittedSubclass mockSubclass = mock(PermittedSubclass.class);
+    @Test
+    void testVisitPermittedSubclasses_attributeWithNestMember() throws Exception {
+        final PermittedSubclasses_attribute attribute = context.mock(PermittedSubclasses_attribute.class);
+        final PermittedSubclass mockSubclass = context.mock(PermittedSubclass.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast (1).of (attribute).getSubclasses();
             will(returnValue(Collections.singleton(mockSubclass)));
             oneOf (mockSubclass).accept(printer);
@@ -2860,12 +3004,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "permitted-subclasses-attribute", 1);
     }
 
-    public void testVisitPermittedSubclass() throws Exception {
-        final PermittedSubclass permittedSubclass = mock(PermittedSubclass.class);
+    @Test
+    void testVisitPermittedSubclass() throws Exception {
+        final PermittedSubclass permittedSubclass = context.mock(PermittedSubclass.class);
         final int subclassIndex = 123;
-        final Class_info mockSubclass = mock(Class_info.class);
+        final Class_info mockSubclass = context.mock(Class_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (permittedSubclass).getSubclassIndex();
             will(returnValue(subclassIndex));
             oneOf (permittedSubclass).getRawSubclass();
@@ -2881,10 +3026,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "class/@index", String.valueOf(subclassIndex));
     }
 
-    public void testVisitAnnotation_WithoutElementValuePairs() throws Exception {
-        final Annotation annotation = mock(Annotation.class);
+    @Test
+    void testVisitAnnotation_WithoutElementValuePairs() throws Exception {
+        final Annotation annotation = context.mock(Annotation.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (annotation).getType();
                 will(returnValue(ANNOTATION_TYPE));
             atLeast(1).of (annotation).getElementValuePairs();
@@ -2898,11 +3044,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "annotation/element-value-pairs", 1);
     }
 
-    public void testVisitAnnotation_WithAnElementValuePair() throws Exception {
-        final Annotation annotation = mock(Annotation.class);
-        final ElementValuePair elementValuePair = mock(ElementValuePair.class);
+    @Test
+    void testVisitAnnotation_WithAnElementValuePair() throws Exception {
+        final Annotation annotation = context.mock(Annotation.class);
+        final ElementValuePair elementValuePair = context.mock(ElementValuePair.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (annotation).getType();
                 will(returnValue(ANNOTATION_TYPE));
             atLeast(1).of (annotation).getElementValuePairs();
@@ -2918,10 +3065,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "annotation/element-value-pairs", 1);
     }
 
-    public void testVisitParameterAnnotation_WithoutAnnotations() throws Exception {
-        final ParameterAnnotation parameterAnnotation = mock(ParameterAnnotation.class);
+    @Test
+    void testVisitParameterAnnotation_WithoutAnnotations() throws Exception {
+        final ParameterAnnotation parameterAnnotation = context.mock(ParameterAnnotation.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (parameterAnnotation).getAnnotations();
         }});
 
@@ -2932,11 +3080,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "parameter-annotation/annotations", 1);
     }
 
-    public void testVisitParameterAnnotation_WithAnAnnotation() throws Exception {
-        final ParameterAnnotation parameterAnnotation = mock(ParameterAnnotation.class);
-        final Annotation annotation = mock(Annotation.class);
+    @Test
+    void testVisitParameterAnnotation_WithAnAnnotation() throws Exception {
+        final ParameterAnnotation parameterAnnotation = context.mock(ParameterAnnotation.class);
+        final Annotation annotation = context.mock(Annotation.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             atLeast(1).of (parameterAnnotation).getAnnotations();
                 will(returnValue(Collections.singleton(annotation)));
             oneOf (annotation).accept(printer);
@@ -2949,12 +3098,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "parameter-annotation/annotations", 1);
     }
 
-    public void testVisitTypeAnnotation_WithoutAnnotations() throws Exception {
-        final TypeAnnotation typeAnnotation = mock(TypeAnnotation.class);
-        final Target_info mockTarget = mock(Target_info.class);
-        final TypePath mockTypePath = mock(TypePath.class);
+    @Test
+    void testVisitTypeAnnotation_WithoutAnnotations() throws Exception {
+        final TypeAnnotation typeAnnotation = context.mock(TypeAnnotation.class);
+        final Target_info mockTarget = context.mock(Target_info.class);
+        final TypePath mockTypePath = context.mock(TypePath.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (typeAnnotation).getTarget();
                 will(returnValue(mockTarget));
             oneOf (mockTarget).accept(printer);
@@ -2973,13 +3123,14 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "type-annotation/element-value-pairs", 1);
     }
 
-    public void testVisitTypeAnnotation_WithAnElementValuePair() throws Exception {
-        final TypeAnnotation typeAnnotation = mock(TypeAnnotation.class);
-        final Target_info mockTarget = mock(Target_info.class);
-        final TypePath mockTypePath = mock(TypePath.class);
-        final ElementValuePair mockElementValuePair = mock(ElementValuePair.class);
+    @Test
+    void testVisitTypeAnnotation_WithAnElementValuePair() throws Exception {
+        final TypeAnnotation typeAnnotation = context.mock(TypeAnnotation.class);
+        final Target_info mockTarget = context.mock(Target_info.class);
+        final TypePath mockTypePath = context.mock(TypePath.class);
+        final ElementValuePair mockElementValuePair = context.mock(ElementValuePair.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (typeAnnotation).getTarget();
                 will(returnValue(mockTarget));
             oneOf (mockTarget).accept(printer);
@@ -2999,12 +3150,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "type-annotation/element-value-pairs", 1);
     }
 
-    public void testVisitTypeParameterTarget() throws Exception {
-        final TypeParameterTarget target = mock(TypeParameterTarget.class);
+    @Test
+    void testVisitTypeParameterTarget() throws Exception {
+        final TypeParameterTarget target = context.mock(TypeParameterTarget.class);
         final String hexTargetType = "0xABCD";
         final int typeParameterIndex = 123;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (target).getHexTargetType();
                 will(returnValue(hexTargetType));
             oneOf (target).getTypeParameterIndex();
@@ -3021,12 +3173,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "type-parameter-target/type-parameter-index", String.valueOf(typeParameterIndex));
     }
 
-    public void testVisitSupertypeTarget() throws Exception {
-        final SupertypeTarget target = mock(SupertypeTarget.class);
+    @Test
+    void testVisitSupertypeTarget() throws Exception {
+        final SupertypeTarget target = context.mock(SupertypeTarget.class);
         final String hexTargetType = "0xABCD";
         final int supertypeIndex = 123;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (target).getHexTargetType();
                 will(returnValue(hexTargetType));
             oneOf (target).getSupertypeIndex();
@@ -3043,13 +3196,14 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "supertype-target/supertype-index", String.valueOf(supertypeIndex));
     }
 
-    public void testVisitTypeParameterBoundTarget() throws Exception {
-        final TypeParameterBoundTarget target = mock(TypeParameterBoundTarget.class);
+    @Test
+    void testVisitTypeParameterBoundTarget() throws Exception {
+        final TypeParameterBoundTarget target = context.mock(TypeParameterBoundTarget.class);
         final String hexTargetType = "0xABCD";
         final int typeParameterIndex = 123;
         final int boundIndex = 456;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (target).getHexTargetType();
                 will(returnValue(hexTargetType));
             oneOf (target).getTypeParameterIndex();
@@ -3070,11 +3224,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "type-parameter-bound-target/bound-index", String.valueOf(boundIndex));
     }
 
-    public void testVisitEmptyTarget() throws Exception {
-        final EmptyTarget target = mock(EmptyTarget.class);
+    @Test
+    void testVisitEmptyTarget() throws Exception {
+        final EmptyTarget target = context.mock(EmptyTarget.class);
         final String hexTargetType = "0xABCD";
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (target).getHexTargetType();
                 will(returnValue(hexTargetType));
         }});
@@ -3087,12 +3242,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "empty-target/@target-type", hexTargetType);
     }
 
-    public void testVisitFormalParameterTarget() throws Exception {
-        final FormalParameterTarget target = mock(FormalParameterTarget.class);
+    @Test
+    void testVisitFormalParameterTarget() throws Exception {
+        final FormalParameterTarget target = context.mock(FormalParameterTarget.class);
         final String hexTargetType = "0xABCD";
         final int formalParameterIndex = 123;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (target).getHexTargetType();
                 will(returnValue(hexTargetType));
             oneOf (target).getFormalParameterIndex();
@@ -3109,12 +3265,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "formal-parameter-target/formal-parameter-index", String.valueOf(formalParameterIndex));
     }
 
-    public void testVisitThrowsTarget() throws Exception {
-        final ThrowsTarget target = mock(ThrowsTarget.class);
+    @Test
+    void testVisitThrowsTarget() throws Exception {
+        final ThrowsTarget target = context.mock(ThrowsTarget.class);
         final String hexTargetType = "0xABCD";
         final int throwsTypeIndex = 123;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (target).getHexTargetType();
                 will(returnValue(hexTargetType));
             oneOf (target).getThrowsTypeIndex();
@@ -3131,11 +3288,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "throws-target/throws-type-index", String.valueOf(throwsTypeIndex));
     }
 
-    public void testVisitLocalvarTarget_noEntries() throws Exception {
-        final LocalvarTarget target = mock(LocalvarTarget.class);
+    @Test
+    void testVisitLocalvarTarget_noEntries() throws Exception {
+        final LocalvarTarget target = context.mock(LocalvarTarget.class);
         final String hexTargetType = "0xABCD";
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (target).getHexTargetType();
                 will(returnValue(hexTargetType));
             atLeast(1).of (target).getTable();
@@ -3150,12 +3308,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "localvar-target/@target-type", hexTargetType);
     }
 
-    public void testVisitLocalvarTarget_oneEntry() throws Exception {
-        final LocalvarTarget target = mock(LocalvarTarget.class);
+    @Test
+    void testVisitLocalvarTarget_oneEntry() throws Exception {
+        final LocalvarTarget target = context.mock(LocalvarTarget.class);
         final String hexTargetType = "0xABCD";
-        final LocalvarTableEntry mockLocalvarTableEntry = mock(LocalvarTableEntry.class);
+        final LocalvarTableEntry mockLocalvarTableEntry = context.mock(LocalvarTableEntry.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (target).getHexTargetType();
                 will(returnValue(hexTargetType));
             atLeast(1).of (target).getTable();
@@ -3171,12 +3330,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "localvar-target/@target-type", hexTargetType);
     }
 
-    public void testVisitCatchTarget() throws Exception {
-        final CatchTarget target = mock(CatchTarget.class);
+    @Test
+    void testVisitCatchTarget() throws Exception {
+        final CatchTarget target = context.mock(CatchTarget.class);
         final String hexTargetType = "0xABCD";
         final int exceptionTableIndex = 123;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (target).getHexTargetType();
                 will(returnValue(hexTargetType));
             oneOf (target).getExceptionTableIndex();
@@ -3193,12 +3353,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "catch-target/exception-table-index", String.valueOf(exceptionTableIndex));
     }
 
-    public void testVisitOffsetTarget() throws Exception {
-        final OffsetTarget target = mock(OffsetTarget.class);
+    @Test
+    void testVisitOffsetTarget() throws Exception {
+        final OffsetTarget target = context.mock(OffsetTarget.class);
         final String hexTargetType = "0xABCD";
         final int offset = 123;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (target).getHexTargetType();
                 will(returnValue(hexTargetType));
             oneOf (target).getOffset();
@@ -3215,13 +3376,14 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "offset-target/offset", String.valueOf(offset));
     }
 
-    public void testVisitTypeArgumentTarget() throws Exception {
-        final TypeArgumentTarget target = mock(TypeArgumentTarget.class);
+    @Test
+    void testVisitTypeArgumentTarget() throws Exception {
+        final TypeArgumentTarget target = context.mock(TypeArgumentTarget.class);
         final String hexTargetType = "0xABCD";
         final int offset = 123;
         final int typeArgumentIndex = 456;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (target).getHexTargetType();
                 will(returnValue(hexTargetType));
             oneOf (target).getOffset();
@@ -3242,12 +3404,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "type-argument-target/type-argument-index", String.valueOf(typeArgumentIndex));
     }
 
-    public void testVisitTypePathEntry() throws Exception {
-        final TypePathEntry entry = mock(TypePathEntry.class);
+    @Test
+    void testVisitTypePathEntry() throws Exception {
+        final TypePathEntry entry = context.mock(TypePathEntry.class);
         final TypePathKind typePathKind = TypePathKind.DEEPER_IN_NESTED_TYPE;
         final int typeArgumentIndex = 456;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (entry).getTypePathKind();
                 will(returnValue(typePathKind));
             oneOf (entry).getTypeArgumentIndex();
@@ -3264,11 +3427,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "type-path/type-argument-index", String.valueOf(typeArgumentIndex));
     }
 
-    public void testVisitElementValuePair() throws Exception {
-        final ElementValuePair elementValuePair = mock(ElementValuePair.class);
-        final ElementValue elementValue = mock(ElementValue.class);
+    @Test
+    void testVisitElementValuePair() throws Exception {
+        final ElementValuePair elementValuePair = context.mock(ElementValuePair.class);
+        final ElementValue elementValue = context.mock(ElementValue.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (elementValuePair).getElementName();
                 will(returnValue(ELEMENT_NAME));
             oneOf (elementValuePair).getElementValue();
@@ -3283,11 +3447,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "element-value-pair/element-name", ELEMENT_NAME);
     }
 
-    public void testVisitByteConstantElementValue() throws Exception {
-        final ByteConstantElementValue constantElementValue = mock(ByteConstantElementValue.class);
-        final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
+    @Test
+    void testVisitByteConstantElementValue() throws Exception {
+        final ByteConstantElementValue constantElementValue = context.mock(ByteConstantElementValue.class);
+        final ConstantPoolEntry constantPoolEntry = context.mock(ConstantPoolEntry.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (constantElementValue).getTag();
                 will(returnValue(ElementValueType.BYTE.getTag()));
             oneOf (constantElementValue).getRawConstValue();
@@ -3302,11 +3467,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "byte-element-value/@tag", String.valueOf(ElementValueType.BYTE.getTag()));
     }
 
-    public void testVisitCharConstantElementValue() throws Exception {
-        final CharConstantElementValue constantElementValue = mock(CharConstantElementValue.class);
-        final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
+    @Test
+    void testVisitCharConstantElementValue() throws Exception {
+        final CharConstantElementValue constantElementValue = context.mock(CharConstantElementValue.class);
+        final ConstantPoolEntry constantPoolEntry = context.mock(ConstantPoolEntry.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (constantElementValue).getTag();
                 will(returnValue(ElementValueType.CHAR.getTag()));
             oneOf (constantElementValue).getRawConstValue();
@@ -3321,11 +3487,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "char-element-value/@tag", String.valueOf(ElementValueType.CHAR.getTag()));
     }
 
-    public void testVisitDoubleConstantElementValue() throws Exception {
-        final DoubleConstantElementValue constantElementValue = mock(DoubleConstantElementValue.class);
-        final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
+    @Test
+    void testVisitDoubleConstantElementValue() throws Exception {
+        final DoubleConstantElementValue constantElementValue = context.mock(DoubleConstantElementValue.class);
+        final ConstantPoolEntry constantPoolEntry = context.mock(ConstantPoolEntry.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (constantElementValue).getTag();
                 will(returnValue(ElementValueType.DOUBLE.getTag()));
             oneOf (constantElementValue).getRawConstValue();
@@ -3340,11 +3507,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "double-element-value/@tag", String.valueOf(ElementValueType.DOUBLE.getTag()));
     }
 
-    public void testVisitFloatConstantElementValue() throws Exception {
-        final FloatConstantElementValue constantElementValue = mock(FloatConstantElementValue.class);
-        final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
+    @Test
+    void testVisitFloatConstantElementValue() throws Exception {
+        final FloatConstantElementValue constantElementValue = context.mock(FloatConstantElementValue.class);
+        final ConstantPoolEntry constantPoolEntry = context.mock(ConstantPoolEntry.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (constantElementValue).getTag();
                 will(returnValue(ElementValueType.FLOAT.getTag()));
             oneOf (constantElementValue).getRawConstValue();
@@ -3359,11 +3527,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "float-element-value/@tag", String.valueOf(ElementValueType.FLOAT.getTag()));
     }
 
-    public void testVisitIntegerConstantElementValue() throws Exception {
-        final IntegerConstantElementValue constantElementValue = mock(IntegerConstantElementValue.class);
-        final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
+    @Test
+    void testVisitIntegerConstantElementValue() throws Exception {
+        final IntegerConstantElementValue constantElementValue = context.mock(IntegerConstantElementValue.class);
+        final ConstantPoolEntry constantPoolEntry = context.mock(ConstantPoolEntry.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (constantElementValue).getTag();
                 will(returnValue(ElementValueType.INTEGER.getTag()));
             oneOf (constantElementValue).getRawConstValue();
@@ -3378,11 +3547,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "integer-element-value/@tag", String.valueOf(ElementValueType.INTEGER.getTag()));
     }
 
-    public void testVisitLongConstantElementValue() throws Exception {
-        final LongConstantElementValue constantElementValue = mock(LongConstantElementValue.class);
-        final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
+    @Test
+    void testVisitLongConstantElementValue() throws Exception {
+        final LongConstantElementValue constantElementValue = context.mock(LongConstantElementValue.class);
+        final ConstantPoolEntry constantPoolEntry = context.mock(ConstantPoolEntry.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (constantElementValue).getTag();
                 will(returnValue(ElementValueType.LONG.getTag()));
             oneOf (constantElementValue).getRawConstValue();
@@ -3397,11 +3567,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "long-element-value/@tag", String.valueOf(ElementValueType.LONG.getTag()));
     }
 
-    public void testVisitShortConstantElementValue() throws Exception {
-        final ShortConstantElementValue constantElementValue = mock(ShortConstantElementValue.class);
-        final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
+    @Test
+    void testVisitShortConstantElementValue() throws Exception {
+        final ShortConstantElementValue constantElementValue = context.mock(ShortConstantElementValue.class);
+        final ConstantPoolEntry constantPoolEntry = context.mock(ConstantPoolEntry.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (constantElementValue).getTag();
                 will(returnValue(ElementValueType.SHORT.getTag()));
             oneOf (constantElementValue).getRawConstValue();
@@ -3416,11 +3587,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "short-element-value/@tag", String.valueOf(ElementValueType.SHORT.getTag()));
     }
 
-    public void testVisitBooleanConstantElementValue() throws Exception {
-        final BooleanConstantElementValue constantElementValue = mock(BooleanConstantElementValue.class);
-        final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
+    @Test
+    void testVisitBooleanConstantElementValue() throws Exception {
+        final BooleanConstantElementValue constantElementValue = context.mock(BooleanConstantElementValue.class);
+        final ConstantPoolEntry constantPoolEntry = context.mock(ConstantPoolEntry.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (constantElementValue).getTag();
                 will(returnValue(ElementValueType.BOOLEAN.getTag()));
             oneOf (constantElementValue).getRawConstValue();
@@ -3435,11 +3607,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "boolean-element-value/@tag", String.valueOf(ElementValueType.BOOLEAN.getTag()));
     }
 
-    public void testVisitStringConstantElementValue() throws Exception {
-        final StringConstantElementValue constantElementValue = mock(StringConstantElementValue.class);
-        final ConstantPoolEntry constantPoolEntry = mock(ConstantPoolEntry.class);
+    @Test
+    void testVisitStringConstantElementValue() throws Exception {
+        final StringConstantElementValue constantElementValue = context.mock(StringConstantElementValue.class);
+        final ConstantPoolEntry constantPoolEntry = context.mock(ConstantPoolEntry.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (constantElementValue).getTag();
                 will(returnValue(ElementValueType.STRING.getTag()));
             oneOf (constantElementValue).getRawConstValue();
@@ -3454,11 +3627,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "string-element-value/@tag", String.valueOf(ElementValueType.STRING.getTag()));
     }
 
-    public void testVisitEnumElementValue() throws Exception {
-        final EnumElementValue enumElementValue = mock(EnumElementValue.class);
+    @Test
+    void testVisitEnumElementValue() throws Exception {
+        final EnumElementValue enumElementValue = context.mock(EnumElementValue.class);
         final String constName = "BAR";
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (enumElementValue).getTag();
                 will(returnValue(ElementValueType.ENUM.getTag()));
             oneOf (enumElementValue).getTypeName();
@@ -3474,10 +3648,11 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "enum-element-value/@tag", String.valueOf(ElementValueType.ENUM.getTag()));
     }
 
-    public void testVisitClassElementValue() throws Exception {
-        final ClassElementValue classElementValue = mock(ClassElementValue.class);
+    @Test
+    void testVisitClassElementValue() throws Exception {
+        final ClassElementValue classElementValue = context.mock(ClassElementValue.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (classElementValue).getTag();
                 will(returnValue(ElementValueType.CLASS.getTag()));
             oneOf (classElementValue).getClassInfo();
@@ -3491,11 +3666,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "class-element-value/@tag", String.valueOf(ElementValueType.CLASS.getTag()));
     }
 
-    public void testVisitAnnotationElementValue() throws Exception {
-        final AnnotationElementValue annotationElementValue = mock(AnnotationElementValue.class);
-        final Annotation annotation = mock(Annotation.class);
+    @Test
+    void testVisitAnnotationElementValue() throws Exception {
+        final AnnotationElementValue annotationElementValue = context.mock(AnnotationElementValue.class);
+        final Annotation annotation = context.mock(Annotation.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (annotationElementValue).getTag();
                 will(returnValue(ElementValueType.ANNOTATION.getTag()));
             oneOf (annotationElementValue).getAnnotation();
@@ -3510,11 +3686,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "annotation-element-value/@tag", String.valueOf(ElementValueType.ANNOTATION.getTag()));
     }
 
-    public void testVisitArrayElementValue() throws Exception {
-        final ArrayElementValue arrayElementValue = mock(ArrayElementValue.class);
-        final ElementValue elementValue = mock(ElementValue.class);
+    @Test
+    void testVisitArrayElementValue() throws Exception {
+        final ArrayElementValue arrayElementValue = context.mock(ArrayElementValue.class);
+        final ElementValue elementValue = context.mock(ElementValue.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (arrayElementValue).getTag();
                 will(returnValue(ElementValueType.ARRAY.getTag()));
             atLeast(1).of (arrayElementValue).getValues();
@@ -3529,13 +3706,14 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "array-element-value/@tag", String.valueOf(ElementValueType.ARRAY.getTag()));
     }
 
-    public void testVisitLocalvarTableEntry() throws Exception {
-        final LocalvarTableEntry entry = mock(LocalvarTableEntry.class);
+    @Test
+    void testVisitLocalvarTableEntry() throws Exception {
+        final LocalvarTableEntry entry = context.mock(LocalvarTableEntry.class);
         final int startPc = 123;
         final int length = 456;
         final int index = 789;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (entry).getStartPc();
             will(returnValue(startPc));
             oneOf (entry).getLength();
@@ -3556,11 +3734,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "localvar/@index", String.valueOf(index));
     }
 
-    public void testVisitSameFrame() throws Exception {
-        final SameFrame mockStackMapFrame = mock(SameFrame.class);
+    @Test
+    void testVisitSameFrame() throws Exception {
+        final SameFrame mockStackMapFrame = context.mock(SameFrame.class);
         final int frameType = 123;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockStackMapFrame).getFrameType();
                 will(returnValue(frameType));
         }});
@@ -3572,12 +3751,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "same-frame/@frame-type", String.valueOf(frameType));
     }
 
-    public void testVisitSameLocals1StackItemFrame() throws Exception {
-        final SameLocals1StackItemFrame mockStackMapFrame = mock(SameLocals1StackItemFrame.class);
+    @Test
+    void testVisitSameLocals1StackItemFrame() throws Exception {
+        final SameLocals1StackItemFrame mockStackMapFrame = context.mock(SameLocals1StackItemFrame.class);
         final int frameType = 123;
-        final VerificationTypeInfo mockStack = mock(VerificationTypeInfo.class);
+        final VerificationTypeInfo mockStack = context.mock(VerificationTypeInfo.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockStackMapFrame).getFrameType();
                 will(returnValue(frameType));
             oneOf (mockStackMapFrame).getStack();
@@ -3593,13 +3773,14 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "same-locals-1-stack-item-frame/stack", 1);
     }
 
-    public void testVisitSameLocals1StackItemFrameExtended() throws Exception {
-        final SameLocals1StackItemFrameExtended mockStackMapFrame = mock(SameLocals1StackItemFrameExtended.class);
+    @Test
+    void testVisitSameLocals1StackItemFrameExtended() throws Exception {
+        final SameLocals1StackItemFrameExtended mockStackMapFrame = context.mock(SameLocals1StackItemFrameExtended.class);
         final int frameType = 123;
         final int offsetDelta = 456;
-        final VerificationTypeInfo mockStack = mock(VerificationTypeInfo.class);
+        final VerificationTypeInfo mockStack = context.mock(VerificationTypeInfo.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockStackMapFrame).getFrameType();
                 will(returnValue(frameType));
             oneOf (mockStackMapFrame).getOffsetDelta();
@@ -3618,12 +3799,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "same-locals-1-stack-item-frame-extended/stack", 1);
     }
 
-    public void testVisitChopFrame() throws Exception {
-        final ChopFrame mockStackMapFrame = mock(ChopFrame.class);
+    @Test
+    void testVisitChopFrame() throws Exception {
+        final ChopFrame mockStackMapFrame = context.mock(ChopFrame.class);
         final int frameType = 123;
         final int offsetDelta = 456;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockStackMapFrame).getFrameType();
                 will(returnValue(frameType));
             oneOf (mockStackMapFrame).getOffsetDelta();
@@ -3638,12 +3820,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "chop-frame/@offset-delta", String.valueOf(offsetDelta));
     }
 
-    public void testVisitSameFrameExtended() throws Exception {
-        final SameFrameExtended mockStackMapFrame = mock(SameFrameExtended.class);
+    @Test
+    void testVisitSameFrameExtended() throws Exception {
+        final SameFrameExtended mockStackMapFrame = context.mock(SameFrameExtended.class);
         final int frameType = 123;
         final int offsetDelta = 456;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockStackMapFrame).getFrameType();
                 will(returnValue(frameType));
             oneOf (mockStackMapFrame).getOffsetDelta();
@@ -3658,14 +3841,15 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "same-frame-extended/@offset-delta", String.valueOf(offsetDelta));
     }
 
-    public void testVisitAppendFrame() throws Exception {
-        final AppendFrame mockStackMapFrame = mock(AppendFrame.class);
+    @Test
+    void testVisitAppendFrame() throws Exception {
+        final AppendFrame mockStackMapFrame = context.mock(AppendFrame.class);
         final int frameType = 123;
         final int offsetDelta = 456;
-        final VerificationTypeInfo mockLocal1 = mock(VerificationTypeInfo.class, "first local");
-        final VerificationTypeInfo mockLocal2 = mock(VerificationTypeInfo.class, "second local");
+        final VerificationTypeInfo mockLocal1 = context.mock(VerificationTypeInfo.class, "first local");
+        final VerificationTypeInfo mockLocal2 = context.mock(VerificationTypeInfo.class, "second local");
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockStackMapFrame).getFrameType();
                 will(returnValue(frameType));
             oneOf (mockStackMapFrame).getOffsetDelta();
@@ -3685,16 +3869,17 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "append-frame/locals", 1);
     }
 
-    public void testVisitFullFrame() throws Exception {
-        final FullFrame mockStackMapFrame = mock(FullFrame.class);
+    @Test
+    void testVisitFullFrame() throws Exception {
+        final FullFrame mockStackMapFrame = context.mock(FullFrame.class);
         final int frameType = 123;
         final int offsetDelta = 456;
-        final VerificationTypeInfo mockLocal1 = mock(VerificationTypeInfo.class, "first local");
-        final VerificationTypeInfo mockLocal2 = mock(VerificationTypeInfo.class, "second local");
-        final VerificationTypeInfo mockStack1 = mock(VerificationTypeInfo.class, "first stack");
-        final VerificationTypeInfo mockStack2 = mock(VerificationTypeInfo.class, "second stack");
+        final VerificationTypeInfo mockLocal1 = context.mock(VerificationTypeInfo.class, "first local");
+        final VerificationTypeInfo mockLocal2 = context.mock(VerificationTypeInfo.class, "second local");
+        final VerificationTypeInfo mockStack1 = context.mock(VerificationTypeInfo.class, "first stack");
+        final VerificationTypeInfo mockStack2 = context.mock(VerificationTypeInfo.class, "second stack");
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockStackMapFrame).getFrameType();
                 will(returnValue(frameType));
             oneOf (mockStackMapFrame).getOffsetDelta();
@@ -3719,11 +3904,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathCount(xmlDocument, "full-frame/stack", 1);
     }
 
-    public void testVisitTopVariableInfo() throws Exception {
-        final TopVariableInfo mockTopVariableInfo = mock(TopVariableInfo.class);
+    @Test
+    void testVisitTopVariableInfo() throws Exception {
+        final TopVariableInfo mockTopVariableInfo = context.mock(TopVariableInfo.class);
         final int tag = 123;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockTopVariableInfo).getTag();
                 will(returnValue(tag));
         }});
@@ -3735,11 +3921,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "top-variable-info/@tag", String.valueOf(tag));
     }
 
-    public void testVisitIntegerVariableInfo() throws Exception {
-        final IntegerVariableInfo mockIntegerVariableInfo = mock(IntegerVariableInfo.class);
+    @Test
+    void testVisitIntegerVariableInfo() throws Exception {
+        final IntegerVariableInfo mockIntegerVariableInfo = context.mock(IntegerVariableInfo.class);
         final int tag = 123;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockIntegerVariableInfo).getTag();
                 will(returnValue(tag));
         }});
@@ -3751,11 +3938,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "integer-variable-info/@tag", String.valueOf(tag));
     }
 
-    public void testVisitFloatVariableInfo() throws Exception {
-        final FloatVariableInfo mockFloatVariableInfo = mock(FloatVariableInfo.class);
+    @Test
+    void testVisitFloatVariableInfo() throws Exception {
+        final FloatVariableInfo mockFloatVariableInfo = context.mock(FloatVariableInfo.class);
         final int tag = 123;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockFloatVariableInfo).getTag();
                 will(returnValue(tag));
         }});
@@ -3767,11 +3955,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "float-variable-info/@tag", String.valueOf(tag));
     }
 
-    public void testVisitLongVariableInfo() throws Exception {
-        final LongVariableInfo mockLongVariableInfo = mock(LongVariableInfo.class);
+    @Test
+    void testVisitLongVariableInfo() throws Exception {
+        final LongVariableInfo mockLongVariableInfo = context.mock(LongVariableInfo.class);
         final int tag = 123;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockLongVariableInfo).getTag();
                 will(returnValue(tag));
         }});
@@ -3783,11 +3972,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "long-variable-info/@tag", String.valueOf(tag));
     }
 
-    public void testVisitDoubleVariableInfo() throws Exception {
-        final DoubleVariableInfo mockDoubleVariableInfo = mock(DoubleVariableInfo.class);
+    @Test
+    void testVisitDoubleVariableInfo() throws Exception {
+        final DoubleVariableInfo mockDoubleVariableInfo = context.mock(DoubleVariableInfo.class);
         final int tag = 123;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockDoubleVariableInfo).getTag();
                 will(returnValue(tag));
         }});
@@ -3799,11 +3989,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "double-variable-info/@tag", String.valueOf(tag));
     }
 
-    public void testVisitNullVariableInfo() throws Exception {
-        final NullVariableInfo mockNullVariableInfo = mock(NullVariableInfo.class);
+    @Test
+    void testVisitNullVariableInfo() throws Exception {
+        final NullVariableInfo mockNullVariableInfo = context.mock(NullVariableInfo.class);
         final int tag = 123;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockNullVariableInfo).getTag();
                 will(returnValue(tag));
         }});
@@ -3815,11 +4006,12 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "null-variable-info/@tag", String.valueOf(tag));
     }
 
-    public void testVisitUninitializedThisVariableInfo() throws Exception {
-        final UninitializedThisVariableInfo mockUninitializedThisVariableInfo = mock(UninitializedThisVariableInfo.class);
+    @Test
+    void testVisitUninitializedThisVariableInfo() throws Exception {
+        final UninitializedThisVariableInfo mockUninitializedThisVariableInfo = context.mock(UninitializedThisVariableInfo.class);
         final int tag = 123;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockUninitializedThisVariableInfo).getTag();
                 will(returnValue(tag));
         }});
@@ -3831,12 +4023,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "uninitialized-this-variable-info/@tag", String.valueOf(tag));
     }
 
-    public void testVisitObjectVariableInfo() throws Exception {
-        final ObjectVariableInfo mockObjectVariableInfo = mock(ObjectVariableInfo.class);
+    @Test
+    void testVisitObjectVariableInfo() throws Exception {
+        final ObjectVariableInfo mockObjectVariableInfo = context.mock(ObjectVariableInfo.class);
         final int tag = 123;
-        final Class_info mockClassInfo = mock(Class_info.class);
+        final Class_info mockClassInfo = context.mock(Class_info.class);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockObjectVariableInfo).getTag();
                 will(returnValue(tag));
             oneOf (mockObjectVariableInfo).getClassInfo();
@@ -3851,12 +4044,13 @@ public class TestXMLPrinter extends MockObjectTestCase {
         assertXPathText(xmlDocument, "object-variable-info/@tag", String.valueOf(tag));
     }
 
-    public void testVisitUninitializedVariableInfo() throws Exception {
-        final UninitializedVariableInfo mockUninitializedVariableInfo = mock(UninitializedVariableInfo.class);
+    @Test
+    void testVisitUninitializedVariableInfo() throws Exception {
+        final UninitializedVariableInfo mockUninitializedVariableInfo = context.mock(UninitializedVariableInfo.class);
         final int tag = 123;
         final int offset = 456;
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (mockUninitializedVariableInfo).getTag();
                 will(returnValue(tag));
             oneOf (mockUninitializedVariableInfo).getOffset();
@@ -3877,7 +4071,7 @@ public class TestXMLPrinter extends MockObjectTestCase {
 
         NodeList nodeList = (NodeList) xPath.evaluate(xPathExpression, in, XPathConstants.NODESET);
         int actualCount = nodeList.getLength();
-        assertEquals("XPath \"" + xPathExpression + "\" in \n" + xmlDocument, expectedCount, actualCount);
+        assertEquals(expectedCount, actualCount, "XPath \"" + xPathExpression + "\" in \n" + xmlDocument);
     }
 
     private void assertXPathText(String xmlDocument, String xPathExpression, String expectedText) throws Exception {
@@ -3885,6 +4079,6 @@ public class TestXMLPrinter extends MockObjectTestCase {
         InputSource in = new InputSource(new StringReader(xmlDocument));
 
         String actualText = (String) xPath.evaluate(xPathExpression, in, XPathConstants.STRING);
-        assertEquals("XPath \"" + xPathExpression + "\" in \n" + xmlDocument, expectedText, actualText);
+        assertEquals(expectedText, actualText, "XPath \"" + xPathExpression + "\" in \n" + xmlDocument);
     }
 }

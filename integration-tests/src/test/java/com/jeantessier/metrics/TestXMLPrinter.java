@@ -36,34 +36,31 @@ import com.jeantessier.classreader.AggregatingClassfileLoader;
 import com.jeantessier.classreader.ClassfileLoader;
 import org.apache.oro.text.perl.Perl5Util;
 import org.jmock.Expectations;
-import org.jmock.integration.junit3.MockObjectTestCase;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
 import org.w3c.dom.NodeList;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.XMLReader;
+import org.xml.sax.*;
 
 import javax.xml.parsers.SAXParserFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathFactory;
-import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Collections;
+import javax.xml.xpath.*;
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
 
-public class TestXMLPrinter extends MockObjectTestCase {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestXMLPrinter {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
-    public static final String TEST_CLASS    = "test";
+    public static final String TEST_CLASS = "test";
     public static final String TEST_FILENAME = CLASSES_DIR.resolve(TEST_CLASS + ".class").toString();
     private static final String CONFIGURATION_FILENAME = Paths.get("../etc/MetricsConfig.xml").toString();
 
     private static final String SPECIFIC_ENCODING = "iso-latin-1";
     private static final String SPECIFIC_DTD_PREFIX = "../etc";
+    
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery();
     
     private StringWriter buffer;
     private MetricsConfiguration configuration;
@@ -72,7 +69,8 @@ public class TestXMLPrinter extends MockObjectTestCase {
 
     private Perl5Util perl;
 
-    protected void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         buffer = new StringWriter();
         configuration = new MetricsConfigurationLoader().load(CONFIGURATION_FILENAME);
 
@@ -82,89 +80,94 @@ public class TestXMLPrinter extends MockObjectTestCase {
         reader.setFeature("http://xml.org/sax/features/validation", validate);
         reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", validate);
 
-        errorHandler = mock(ErrorHandler.class);
+        errorHandler = context.mock(ErrorHandler.class);
         reader.setErrorHandler(errorHandler);
 
         perl = new Perl5Util();
     }
 
-    public void testDefaultDTDPrefix() throws Exception {
-        checking(new Expectations() {{
+    @Test
+    void testDefaultDTDPrefix() throws Exception {
+        context.checking(new Expectations() {{
             oneOf (errorHandler).fatalError(with(any(SAXParseException.class)));
         }});
 
         XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration);
 
         String xmlDocument = buffer.toString();
-        assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
-        assertTrue("DTD \"" + perl.group(1) + "\" does not have prefix \"" + XMLPrinter.DEFAULT_DTD_PREFIX + "\"", perl.group(1).startsWith(XMLPrinter.DEFAULT_DTD_PREFIX));
+        assertTrue(perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument), xmlDocument + "Missing DTD");
+        assertTrue(perl.group(1).startsWith(XMLPrinter.DEFAULT_DTD_PREFIX), "DTD \"" + perl.group(1) + "\" does not have prefix \"" + XMLPrinter.DEFAULT_DTD_PREFIX + "\"");
         
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));
-            fail("Parsed non-existant document\n" + xmlDocument);
+            fail("Parsed non-existent document\n" + xmlDocument);
         } catch (SAXException ex) {
             // Ignore
         }
     }
     
-    public void testSpecificDTDPrefix() throws Exception {
-        checking(new Expectations() {{
+    @Test
+    void testSpecificDTDPrefix() throws Exception {
+        context.checking(new Expectations() {{
             oneOf (errorHandler).fatalError(with(any(SAXParseException.class)));
         }});
 
         XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration, XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
         String xmlDocument = buffer.toString();
-        assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
-        assertTrue("DTD \"" + perl.group(1) + "\" does not have prefix \"./etc\"", perl.group(1).startsWith(SPECIFIC_DTD_PREFIX));
+        assertTrue(perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument), xmlDocument + "Missing DTD");
+        assertTrue(perl.group(1).startsWith(SPECIFIC_DTD_PREFIX), "DTD \"" + perl.group(1) + "\" does not have prefix \"./etc\"");
         
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));
-            fail("Parsed non-existant document\n" + xmlDocument);
+            fail("Parsed non-existent document\n" + xmlDocument);
         } catch (SAXException ex) {
             // Ignore
         }
     }
 
-    public void testDefaultEncoding() throws Exception {
-        checking(new Expectations() {{
+    @Test
+    void testDefaultEncoding() throws Exception {
+        context.checking(new Expectations() {{
             oneOf (errorHandler).fatalError(with(any(SAXParseException.class)));
         }});
 
         XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration);
 
         String xmlDocument = buffer.toString();
-        assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
-        assertEquals("Encoding", XMLPrinter.DEFAULT_ENCODING, perl.group(1));
+        assertTrue(perl.match("/encoding=\"([^\"]*)\"/", xmlDocument), xmlDocument + "Missing encoding");
+        assertEquals(XMLPrinter.DEFAULT_ENCODING, perl.group(1), "Encoding");
         
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));
-            fail("Parsed non-existant document\n" + xmlDocument);
+            fail("Parsed non-existent document\n" + xmlDocument);
         } catch (SAXException ex) {
             // Ignore
         }
     }
 
-    public void testSpecificEncoding() throws Exception {
-        checking(new Expectations() {{
+    @Test
+    void testSpecificEncoding() throws Exception {
+        context.checking(new Expectations() {{
             oneOf (errorHandler).fatalError(with(any(SAXParseException.class)));
         }});
 
         XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration, SPECIFIC_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
 
         String xmlDocument = buffer.toString();
-        assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
-        assertEquals("Encoding", SPECIFIC_ENCODING, perl.group(1));
+        assertTrue(perl.match("/encoding=\"([^\"]*)\"/", xmlDocument), xmlDocument + "Missing encoding");
+        assertEquals(SPECIFIC_ENCODING, perl.group(1), "Encoding");
         
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));
-            fail("Parsed non-existant document\n" + xmlDocument);
+            fail("Parsed non-existent document\n" + xmlDocument);
         } catch (SAXException ex) {
             // Ignore
         }
     }
 
-    public void testOneClass() throws Exception {
+    @Test
+    void testOneClass() throws Exception {
         MetricsFactory factory = new MetricsFactory("test", configuration);
 
         ClassfileLoader loader = new AggregatingClassfileLoader();
@@ -184,6 +187,6 @@ public class TestXMLPrinter extends MockObjectTestCase {
         InputSource in = new InputSource(new StringReader(xmlDocument));
 
         NodeList nodeList = (NodeList) xPath.evaluate(xPathExpression, in, XPathConstants.NODESET);
-        assertEquals("XPath \"" + xPathExpression + "\" in \n" + xmlDocument, i, nodeList.getLength());
+        assertEquals(i, nodeList.getLength(), "XPath \"" + xPathExpression + "\" in \n" + xmlDocument);
     }
 }

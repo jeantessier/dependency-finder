@@ -35,62 +35,65 @@ package com.jeantessier.classreader;
 import java.nio.file.*;
 
 import org.jmock.*;
-import org.jmock.integration.junit3.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
 
-public class TestMonitor extends MockObjectTestCase {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestMonitor {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
-    public static final String TEST_CLASS    = "test";
+    public static final String TEST_CLASS = "test";
     public static final String TEST_FILENAME = CLASSES_DIR.resolve(TEST_CLASS + ".class").toString();
     
-    private Visitor addVisitor;
-    private RemoveVisitor removeVisitor;
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery();
+    
+    private final Visitor addVisitor = context.mock(Visitor.class);
+    private final RemoveVisitor removeVisitor = context.mock(RemoveVisitor.class);
 
-    private Monitor monitor;
+    private final Monitor monitor = new Monitor(addVisitor, removeVisitor);
 
     private Classfile testClassfile;
     
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        addVisitor = mock(Visitor.class);
-        removeVisitor = mock(RemoveVisitor.class);
-
-        monitor = new Monitor(addVisitor, removeVisitor);
-
+    @BeforeEach
+    void setUp() throws Exception {
         ClassfileLoader loader = new AggregatingClassfileLoader();
         loader.load(TEST_FILENAME);
         testClassfile = loader.getClassfile(TEST_CLASS);
     }
 
-    public void testFileTracking() {
+    @Test
+    void testFileTracking() {
         monitor.beginSession(new LoadEvent(this, null, null, null));
         monitor.beginGroup(new LoadEvent(this, null, null, null));
 
-        assertEquals("previous", 0, monitor.previousFiles.size());
-        assertEquals("current", 0, monitor.currentFiles.size());
+        assertEquals(0, monitor.previousFiles.size(), "previous");
+        assertEquals(0, monitor.currentFiles.size(), "current");
         
         monitor.beginFile(new LoadEvent(this, null, TEST_FILENAME, null));
         
-        assertEquals("previous", 0, monitor.previousFiles.size());
-        assertEquals("current", 1, monitor.currentFiles.size());
-        assertTrue("TEST_FILENAME not in current", monitor.currentFiles.contains(TEST_FILENAME));
+        assertEquals(0, monitor.previousFiles.size(), "previous");
+        assertEquals(1, monitor.currentFiles.size(), "current");
+        assertTrue(monitor.currentFiles.contains(TEST_FILENAME), "TEST_FILENAME not in current");
         
         monitor.endFile(new LoadEvent(this, null, TEST_FILENAME, null));
         
-        assertEquals("previous", 0, monitor.previousFiles.size());
-        assertEquals("current", 1, monitor.currentFiles.size());
-        assertTrue("TEST_FILENAME not in current", monitor.currentFiles.contains(TEST_FILENAME));
+        assertEquals(0, monitor.previousFiles.size(), "previous");
+        assertEquals(1, monitor.currentFiles.size(), "current");
+        assertTrue(monitor.currentFiles.contains(TEST_FILENAME), "TEST_FILENAME not in current");
         
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
         
-        assertEquals("previous", 1, monitor.previousFiles.size());
-        assertTrue("TEST_FILENAME not in previous", monitor.previousFiles.contains(TEST_FILENAME));
-        assertEquals("current", 0, monitor.currentFiles.size());
+        assertEquals(1, monitor.previousFiles.size(), "previous");
+        assertTrue(monitor.previousFiles.contains(TEST_FILENAME), "TEST_FILENAME not in previous");
+        assertEquals(0, monitor.currentFiles.size(), "current");
     }
 
-    public void testFileTrackingAcrossSessions() {
-        checking(new Expectations() {{
+    @Test
+    void testFileTrackingAcrossSessions() {
+        context.checking(new Expectations() {{
             oneOf (addVisitor).visitClassfile(testClassfile);
         }});
 
@@ -103,11 +106,11 @@ public class TestMonitor extends MockObjectTestCase {
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
         
-        assertEquals("previous", 1, monitor.previousFiles.size());
-        assertTrue("TEST_FILENAME not in previous", monitor.previousFiles.contains(TEST_FILENAME));
-        assertEquals("current", 0, monitor.currentFiles.size());
+        assertEquals(1, monitor.previousFiles.size(), "previous");
+        assertTrue(monitor.previousFiles.contains(TEST_FILENAME), "TEST_FILENAME not in previous");
+        assertEquals(0, monitor.currentFiles.size(), "current");
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (removeVisitor).removeClass(TEST_CLASS);
             oneOf (addVisitor).visitClassfile(testClassfile);
         }});
@@ -117,34 +120,35 @@ public class TestMonitor extends MockObjectTestCase {
         monitor.beginFile(new LoadEvent(this, null, TEST_FILENAME, null));
         monitor.beginClassfile(new LoadEvent(this, null, TEST_FILENAME, null));
 
-        assertEquals("previous", 1, monitor.previousFiles.size());
-        assertTrue("TEST_FILENAME not in previous", monitor.previousFiles.contains(TEST_FILENAME));
-        assertEquals("current", 1, monitor.currentFiles.size());
-        assertTrue("TEST_FILENAME not in current", monitor.currentFiles.contains(TEST_FILENAME));
+        assertEquals(1, monitor.previousFiles.size(), "previous");
+        assertTrue(monitor.previousFiles.contains(TEST_FILENAME), "TEST_FILENAME not in previous");
+        assertEquals(1, monitor.currentFiles.size(), "current");
+        assertTrue(monitor.currentFiles.contains(TEST_FILENAME), "TEST_FILENAME not in current");
 
         monitor.endClassfile(new LoadEvent(this, null, TEST_FILENAME, testClassfile));
 
-        assertEquals("previous", 1, monitor.previousFiles.size());
-        assertTrue("TEST_FILENAME not in previous", monitor.previousFiles.contains(TEST_FILENAME));
-        assertEquals("current", 1, monitor.currentFiles.size());
-        assertTrue("TEST_FILENAME not in current", monitor.currentFiles.contains(TEST_FILENAME));
+        assertEquals(1, monitor.previousFiles.size(), "previous");
+        assertTrue(monitor.previousFiles.contains(TEST_FILENAME), "TEST_FILENAME not in previous");
+        assertEquals(1, monitor.currentFiles.size(), "current");
+        assertTrue(monitor.currentFiles.contains(TEST_FILENAME), "TEST_FILENAME not in current");
 
         monitor.endFile(new LoadEvent(this, null, TEST_FILENAME, null));
 
-        assertEquals("previous", 0, monitor.previousFiles.size());
-        assertEquals("current", 1, monitor.currentFiles.size());
-        assertTrue("TEST_FILENAME not in current", monitor.currentFiles.contains(TEST_FILENAME));
+        assertEquals(0, monitor.previousFiles.size(), "previous");
+        assertEquals(1, monitor.currentFiles.size(), "current");
+        assertTrue(monitor.currentFiles.contains(TEST_FILENAME), "TEST_FILENAME not in current");
 
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
         
-        assertEquals("previous", 1, monitor.previousFiles.size());
-        assertTrue("TEST_FILENAME not in previous", monitor.previousFiles.contains(TEST_FILENAME));
-        assertEquals("current", 0, monitor.currentFiles.size());
+        assertEquals(1, monitor.previousFiles.size(), "previous");
+        assertTrue(monitor.previousFiles.contains(TEST_FILENAME), "TEST_FILENAME not in previous");
+        assertEquals(0, monitor.currentFiles.size(), "current");
     }
 
-    public void testFileTrackingWithSkippedFile() {
-        checking(new Expectations() {{
+    @Test
+    void testFileTrackingWithSkippedFile() {
+        context.checking(new Expectations() {{
             oneOf (addVisitor).visitClassfile(testClassfile);
         }});
 
@@ -157,35 +161,36 @@ public class TestMonitor extends MockObjectTestCase {
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
         
-        assertEquals("previous", 1, monitor.previousFiles.size());
-        assertTrue("TEST_FILENAME not in previous", monitor.previousFiles.contains(TEST_FILENAME));
-        assertEquals("current", 0, monitor.currentFiles.size());
+        assertEquals(1, monitor.previousFiles.size(), "previous");
+        assertTrue(monitor.previousFiles.contains(TEST_FILENAME), "TEST_FILENAME not in previous");
+        assertEquals(0, monitor.currentFiles.size(), "current");
         
         monitor.beginSession(new LoadEvent(this, null, null, null));
         monitor.beginGroup(new LoadEvent(this, null, null, null));
         monitor.beginFile(new LoadEvent(this, null, TEST_FILENAME, null));
 
-        assertEquals("previous", 1, monitor.previousFiles.size());
-        assertTrue("TEST_FILENAME not in previous", monitor.previousFiles.contains(TEST_FILENAME));
-        assertEquals("current", 1, monitor.currentFiles.size());
-        assertTrue("TEST_FILENAME not in current", monitor.currentFiles.contains(TEST_FILENAME));
+        assertEquals(1, monitor.previousFiles.size(), "previous");
+        assertTrue(monitor.previousFiles.contains(TEST_FILENAME), "TEST_FILENAME not in previous");
+        assertEquals(1, monitor.currentFiles.size(), "current");
+        assertTrue(monitor.currentFiles.contains(TEST_FILENAME), "TEST_FILENAME not in current");
 
         monitor.endFile(new LoadEvent(this, null, TEST_FILENAME, null));
 
-        assertEquals("previous", 0, monitor.previousFiles.size());
-        assertEquals("current", 1, monitor.currentFiles.size());
-        assertTrue("TEST_FILENAME not in current", monitor.currentFiles.contains(TEST_FILENAME));
+        assertEquals(0, monitor.previousFiles.size(), "previous");
+        assertEquals(1, monitor.currentFiles.size(), "current");
+        assertTrue(monitor.currentFiles.contains(TEST_FILENAME), "TEST_FILENAME not in current");
 
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
         
-        assertEquals("previous", 1, monitor.previousFiles.size());
-        assertTrue("TEST_FILENAME not in previous", monitor.previousFiles.contains(TEST_FILENAME));
-        assertEquals("current", 0, monitor.currentFiles.size());
+        assertEquals(1, monitor.previousFiles.size(), "previous");
+        assertTrue(monitor.previousFiles.contains(TEST_FILENAME), "TEST_FILENAME not in previous");
+        assertEquals(0, monitor.currentFiles.size(), "current");
     }
 
-    public void testFileTrackingWithMissingFile() {
-        checking(new Expectations() {{
+    @Test
+    void testFileTrackingWithMissingFile() {
+        context.checking(new Expectations() {{
             oneOf (addVisitor).visitClassfile(testClassfile);
         }});
 
@@ -198,30 +203,31 @@ public class TestMonitor extends MockObjectTestCase {
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
         
-        assertEquals("previous", 1, monitor.previousFiles.size());
-        assertTrue("TEST_FILENAME not in previous", monitor.previousFiles.contains(TEST_FILENAME));
-        assertEquals("current", 0, monitor.currentFiles.size());
+        assertEquals(1, monitor.previousFiles.size(), "previous");
+        assertTrue(monitor.previousFiles.contains(TEST_FILENAME), "TEST_FILENAME not in previous");
+        assertEquals(0, monitor.currentFiles.size(), "current");
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (removeVisitor).removeClass(TEST_CLASS);
         }});
 
         monitor.beginSession(new LoadEvent(this, null, null, null));
         monitor.beginGroup(new LoadEvent(this, null, null, null));
         
-        assertEquals("previous", 1, monitor.previousFiles.size());
-        assertTrue("TEST_FILENAME not in previous", monitor.previousFiles.contains(TEST_FILENAME));
-        assertEquals("current", 0, monitor.currentFiles.size());
+        assertEquals(1, monitor.previousFiles.size(), "previous");
+        assertTrue(monitor.previousFiles.contains(TEST_FILENAME), "TEST_FILENAME not in previous");
+        assertEquals(0, monitor.currentFiles.size(), "current");
 
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
         
-        assertEquals("previous", 0, monitor.previousFiles.size());
-        assertEquals("current", 0, monitor.currentFiles.size());
+        assertEquals(0, monitor.previousFiles.size(), "previous");
+        assertEquals(0, monitor.currentFiles.size(), "current");
     }
     
-    public void testNewClassfile() {
-        checking(new Expectations() {{
+    @Test
+    void testNewClassfile() {
+        context.checking(new Expectations() {{
             oneOf (addVisitor).visitClassfile(testClassfile);
         }});
 
@@ -232,8 +238,9 @@ public class TestMonitor extends MockObjectTestCase {
         monitor.endClassfile(new LoadEvent(this, null, TEST_FILENAME, testClassfile));
     }
 
-    public void testRepeatInSession() {
-        checking(new Expectations() {{
+    @Test
+    void testRepeatInSession() {
+        context.checking(new Expectations() {{
             oneOf (addVisitor).visitClassfile(testClassfile);
         }});
 
@@ -248,7 +255,7 @@ public class TestMonitor extends MockObjectTestCase {
         monitor.endFile(new LoadEvent(this, null, TEST_FILENAME, null));
         monitor.endGroup(new LoadEvent(this, null, null, null));
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (addVisitor).visitClassfile(testClassfile);
         }});
 
@@ -264,8 +271,9 @@ public class TestMonitor extends MockObjectTestCase {
         monitor.endSession(new LoadEvent(this, null, null, null));
     }
 
-    public void testRepeatInGroup() {
-        checking(new Expectations() {{
+    @Test
+    void testRepeatInGroup() {
+        context.checking(new Expectations() {{
             oneOf (addVisitor).visitClassfile(testClassfile);
         }});
 
@@ -279,7 +287,7 @@ public class TestMonitor extends MockObjectTestCase {
         monitor.endClassfile(new LoadEvent(this, null, TEST_FILENAME, testClassfile));
         monitor.endFile(new LoadEvent(this, null, TEST_FILENAME, null));
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (addVisitor).visitClassfile(testClassfile);
         }});
 
@@ -294,8 +302,9 @@ public class TestMonitor extends MockObjectTestCase {
         monitor.endSession(new LoadEvent(this, null, null, null));
     }
 
-    public void testRepeatAcrossSessions() {
-        checking(new Expectations() {{
+    @Test
+    void testRepeatAcrossSessions() {
+        context.checking(new Expectations() {{
             oneOf (addVisitor).visitClassfile(testClassfile);
         }});
 
@@ -308,7 +317,7 @@ public class TestMonitor extends MockObjectTestCase {
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (removeVisitor).removeClass(TEST_CLASS);
             oneOf (addVisitor).visitClassfile(testClassfile);
         }});
@@ -323,8 +332,9 @@ public class TestMonitor extends MockObjectTestCase {
         monitor.endSession(new LoadEvent(this, null, null, null));
     }
 
-    public void testRemoval() {
-        checking(new Expectations() {{
+    @Test
+    void testRemoval() {
+        context.checking(new Expectations() {{
             oneOf (addVisitor).visitClassfile(testClassfile);
         }});
 
@@ -337,7 +347,7 @@ public class TestMonitor extends MockObjectTestCase {
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (removeVisitor).removeClass(TEST_CLASS);
         }});
 
@@ -347,8 +357,9 @@ public class TestMonitor extends MockObjectTestCase {
         monitor.endSession(new LoadEvent(this, null, null, null));
     }
 
-    public void testSkip() {
-        checking(new Expectations() {{
+    @Test
+    void testSkip() {
+        context.checking(new Expectations() {{
             oneOf (addVisitor).visitClassfile(testClassfile);
         }});
 
@@ -369,10 +380,11 @@ public class TestMonitor extends MockObjectTestCase {
         monitor.endSession(new LoadEvent(this, null, null, null));
     }
 
-    public void testOpenSession() {
+    @Test
+    void testOpenSession() {
         monitor.setClosedSession(false);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (addVisitor).visitClassfile(testClassfile);
         }});
 
@@ -391,10 +403,11 @@ public class TestMonitor extends MockObjectTestCase {
         monitor.endSession(new LoadEvent(this, null, null, null));
     }
 
-    public void testExtractAgainInOpenSession() {
+    @Test
+    void testExtractAgainInOpenSession() {
         monitor.setClosedSession(false);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (addVisitor).visitClassfile(testClassfile);
         }});
 
@@ -407,7 +420,7 @@ public class TestMonitor extends MockObjectTestCase {
         monitor.endGroup(new LoadEvent(this, null, null, null));
         monitor.endSession(new LoadEvent(this, null, null, null));
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (addVisitor).visitClassfile(testClassfile);
         }});
 
@@ -421,10 +434,11 @@ public class TestMonitor extends MockObjectTestCase {
         monitor.endSession(new LoadEvent(this, null, null, null));
     }
 
-    public void testReloadAfterClosingSessionSession() {
+    @Test
+    void testReloadAfterClosingSessionSession() {
         monitor.setClosedSession(false);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (addVisitor).visitClassfile(testClassfile);
         }});
 
@@ -439,7 +453,7 @@ public class TestMonitor extends MockObjectTestCase {
 
         monitor.setClosedSession(true);
 
-        checking(new Expectations() {{
+        context.checking(new Expectations() {{
             oneOf (removeVisitor).removeClass(TEST_CLASS);
             oneOf (addVisitor).visitClassfile(testClassfile);
         }});

@@ -1,57 +1,37 @@
 package com.jeantessier.metrics;
 
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
 import java.io.*;
 import java.nio.file.*;
+import java.util.stream.*;
 
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
 
-@RunWith(Parameterized.class)
 public class TestYAMLPrinterVisibility extends TestPrinterVisibilityBase {
-    @Parameters(name="generate a report with {0}")
-    public static Object[][] data() {
-        return new Object[][] {
-                {"standard options", YAMLPrinter.class, false, false, false, "martin.metrics.yml"},
-                {"expand option", YAMLPrinter.class, true, false, false, "martin.metrics.expand.yml"},
-                {"show-empty-metrics option", YAMLPrinter.class, false, true, false, "martin.metrics.show-empty-metrics.yml"},
-                {"show-hidden-measurements option", YAMLPrinter.class, false, false, true, "martin.metrics.show-hidden-measurements.yml"},
-                {"expand and show-hidden-measurements options", YAMLPrinter.class, true, false, true, "martin.metrics.expand.show-hidden-measurements.yml"},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                arguments("standard options", YAMLPrinter.class, false, false, false, "martin.metrics.yml"),
+                arguments("expand option", YAMLPrinter.class, true, false, false, "martin.metrics.expand.yml"),
+                arguments("show-empty-metrics option", YAMLPrinter.class, false, true, false, "martin.metrics.show-empty-metrics.yml"),
+                arguments("show-hidden-measurements option", YAMLPrinter.class, false, false, true, "martin.metrics.show-hidden-measurements.yml"),
+                arguments("expand and show-hidden-measurements options", YAMLPrinter.class, true, false, true, "martin.metrics.expand.show-hidden-measurements.yml")
+        );
     }
 
-    @Parameter(0)
-    public String variation;
-
-    @Parameter(1)
-    public Class<? extends Printer> printerClass;
-
-    @Parameter(2)
-    public boolean expandCollectionMeasurements;
-
-    @Parameter(3)
-    public boolean showEmptyMetrics;
-
-    @Parameter(4)
-    public boolean showHiddenMeasurements;
-
-    @Parameter(5)
-    public String expectedOutput;
-
-    @Test
-    public void generateReportAndCompareToFile() throws Exception {
+    @DisplayName("report")
+    @ParameterizedTest(name = "generate a report with {0} and compare to {5}")
+    @MethodSource("dataProvider")
+    void generateReportAndCompareToFile(String variation, Class<? extends Printer> printerClass, boolean expandCollectionMeasurements, boolean showEmptyMetrics, boolean showHiddenMeasurements, String expectedOutput) throws Exception {
         // Given
         var buffer = new StringWriter();
         var out = new PrintWriter(buffer);
 
         // and
-        var printer = printerClass.getConstructor(out.getClass(), configuration.getClass()).newInstance(out, configuration);
-        printer.setExpandCollectionMeasurements(expandCollectionMeasurements);
-        printer.setShowEmptyMetrics(showEmptyMetrics);
-        printer.setShowHiddenMeasurements(showHiddenMeasurements);
+        var printer = createPrinter(printerClass, out, expandCollectionMeasurements, showEmptyMetrics, showHiddenMeasurements);
 
         // When
         printer.visitMetrics(projectMetrics);
