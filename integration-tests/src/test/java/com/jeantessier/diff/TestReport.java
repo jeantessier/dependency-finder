@@ -38,7 +38,7 @@ import java.util.*;
 import javax.xml.parsers.*;
 import javax.xml.xpath.*;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
 import org.apache.oro.text.perl.*;
 import org.w3c.dom.*;
@@ -46,7 +46,9 @@ import org.xml.sax.*;
 
 import com.jeantessier.classreader.*;
 
-public class TestReport extends TestCase implements ErrorHandler {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestReport {
     private static final String SPECIFIC_ENCODING   = "iso-latin-1";
     private static final String SPECIFIC_DTD_PREFIX = "../etc";
 
@@ -57,25 +59,24 @@ public class TestReport extends TestCase implements ErrorHandler {
     private static final Path NEW_PUBLISHED_CLASSPATH = Paths.get("jarjardiff/new-published/build/classes/java/main");
 
     private XMLReader reader;
-    private Perl5Util perl;
+    private final Perl5Util perl = new Perl5Util();
 
-    protected void setUp() throws Exception {
-	boolean validate = Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE");
+    @BeforeEach
+    void setUp() throws Exception {
+        boolean validate = Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE");
 
         reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
         reader.setFeature("http://xml.org/sax/features/validation", validate);
         reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", validate);
-        reader.setErrorHandler(this);
-
-        perl = new Perl5Util();
     }
 
-    public void testDefaultDTDPrefix() {
+    @Test
+    void testDefaultDTDPrefix() {
         Report report = new Report();
 
         String xmlDocument = report.render();
-        assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
-        assertTrue("DTD \"" + perl.group(1) + "\" does not have prefix \"" + Report.DEFAULT_DTD_PREFIX + "\"", perl.group(1).startsWith(Report.DEFAULT_DTD_PREFIX));
+        assertTrue(perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument), xmlDocument + "Missing DTD");
+        assertTrue(perl.group(1).startsWith(Report.DEFAULT_DTD_PREFIX), "DTD \"" + perl.group(1) + "\" does not have prefix \"" + Report.DEFAULT_DTD_PREFIX + "\"");
         
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));
@@ -85,13 +86,14 @@ public class TestReport extends TestCase implements ErrorHandler {
             fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
         }
     }
-    
-    public void testSpecificDTDPrefix() {
+
+    @Test
+    void testSpecificDTDPrefix() {
         Report report = new Report(Report.DEFAULT_INDENT_TEXT, Report.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
         String xmlDocument = report.render();
-        assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
-        assertTrue("DTD \"" + perl.group(1) + "\" does not have prefix \"./etc\"", perl.group(1).startsWith(SPECIFIC_DTD_PREFIX));
+        assertTrue(perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument), xmlDocument + "Missing DTD");
+        assertTrue(perl.group(1).startsWith(SPECIFIC_DTD_PREFIX), "DTD \"" + perl.group(1) + "\" does not have prefix \"./etc\"");
         
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));
@@ -102,12 +104,13 @@ public class TestReport extends TestCase implements ErrorHandler {
         }
     }
 
-    public void testDefaultEncoding() {
+    @Test
+    void testDefaultEncoding() {
         Report report = new Report();
 
         String xmlDocument = report.render();
-        assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
-        assertEquals("Encoding", Report.DEFAULT_ENCODING, perl.group(1));
+        assertTrue(perl.match("/encoding=\"([^\"]*)\"/", xmlDocument), xmlDocument + "Missing encoding");
+        assertEquals(Report.DEFAULT_ENCODING, perl.group(1), "Encoding");
         
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));
@@ -118,12 +121,13 @@ public class TestReport extends TestCase implements ErrorHandler {
         }
     }
 
-    public void testSpecificEncoding() {
+    @Test
+    void testSpecificEncoding() {
         Report report = new Report(Report.DEFAULT_INDENT_TEXT, SPECIFIC_ENCODING, Report.DEFAULT_DTD_PREFIX);
 
         String xmlDocument = report.render();
-        assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
-        assertEquals("Encoding", SPECIFIC_ENCODING, perl.group(1));
+        assertTrue(perl.match("/encoding=\"([^\"]*)\"/", xmlDocument), xmlDocument + "Missing encoding");
+        assertEquals(SPECIFIC_ENCODING, perl.group(1), "Encoding");
         
         try {
             reader.parse(new InputSource(new StringReader(xmlDocument)));
@@ -134,7 +138,8 @@ public class TestReport extends TestCase implements ErrorHandler {
         }
     }
 
-    public void testContent() throws Exception {
+    @Test
+    void testContent() throws Exception {
         PackageMapper oldPackages = new PackageMapper();
         ClassfileLoader oldJar = new AggregatingClassfileLoader();
         oldJar.addLoadListener(oldPackages);
@@ -165,12 +170,13 @@ public class TestReport extends TestCase implements ErrorHandler {
         InputSource in = new InputSource(new StringReader(xmlDocument));
         Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(in);
 
-        assertNotNull("//differences", xPath.evaluate("//differences", doc));
-        assertNotNull("*/old[text()='old']", xPath.evaluate("*/old[text()='old']", doc));
-        assertEquals("*/modified-classes/class", 3, ((NodeList) xPath.evaluate("*/modified-classes/class", doc, XPathConstants.NODESET)).getLength());
+        assertNotNull(xPath.evaluate("//differences", doc), "//differences");
+        assertNotNull(xPath.evaluate("*/old[text()='old']", doc), "*/old[text()='old']");
+        assertEquals(3, ((NodeList) xPath.evaluate("*/modified-classes/class", doc, XPathConstants.NODESET)).getLength(), "*/modified-classes/class");
     }
 
-    public void testIncompatibleContent() throws Exception {
+    @Test
+    void testIncompatibleContent() throws Exception {
         PackageMapper oldPackages = new PackageMapper();
         ClassfileLoader oldJar = new AggregatingClassfileLoader();
         oldJar.addLoadListener(oldPackages);
@@ -201,23 +207,11 @@ public class TestReport extends TestCase implements ErrorHandler {
         InputSource in  = new InputSource(new StringReader(xmlDocument));
         Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(in);
 
-        assertNotNull("//differences", xPath.evaluate("//differences", doc));
-        assertNotNull("*/old[text()='old']", xPath.evaluate("*/old[text()='old']", doc));
-        assertEquals("*/modified-classes/class", 1, ((NodeList) xPath.evaluate("*/modified-classes/class", doc, XPathConstants.NODESET)).getLength());
-        assertEquals("*/modified-classes/class/modified-declaration", "", xPath.evaluate("*/modified-classes/class/modified-declaration", doc));
-        assertEquals("*/modified-classes/class/modified-methods/feature", 1, ((NodeList) xPath.evaluate("*/modified-classes/class/modified-methods/feature", doc, XPathConstants.NODESET)).getLength());
-        assertNotNull("*/modified-classes/class/modified-methods/feature/modified-declaration", xPath.evaluate("*/modified-classes/class/modified-methods/feature/modified-declaration", doc));
-    }
-
-    public void error(SAXParseException ex) {
-        // Ignore
-    }
-
-    public void fatalError(SAXParseException ex) {
-        // Ignore
-    }
-
-    public void warning(SAXParseException ex) {
-        // Ignore
+        assertNotNull(xPath.evaluate("//differences", doc), "//differences");
+        assertNotNull(xPath.evaluate("*/old[text()='old']", doc), "*/old[text()='old']");
+        assertEquals(1, ((NodeList) xPath.evaluate("*/modified-classes/class", doc, XPathConstants.NODESET)).getLength(), "*/modified-classes/class");
+        assertEquals("", xPath.evaluate("*/modified-classes/class/modified-declaration", doc), "*/modified-classes/class/modified-declaration");
+        assertEquals(1, ((NodeList) xPath.evaluate("*/modified-classes/class/modified-methods/feature", doc, XPathConstants.NODESET)).getLength(), "*/modified-classes/class/modified-methods/feature");
+        assertNotNull(xPath.evaluate("*/modified-classes/class/modified-methods/feature/modified-declaration", doc), "*/modified-classes/class/modified-methods/feature/modified-declaration");
     }
 }

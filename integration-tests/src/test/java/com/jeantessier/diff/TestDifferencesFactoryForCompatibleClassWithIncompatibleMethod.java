@@ -35,48 +35,33 @@ package com.jeantessier.diff;
 import java.nio.file.*;
 import java.util.*;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.*;
 
-/**
- * 
- */
-public class TestDifferencesFactoryForCompatibleClassWithIncompatibleMethod extends TestCase {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestDifferencesFactoryForCompatibleClassWithIncompatibleMethod {
     public static final String OLD_PUBLISHED_CLASSPATH = Paths.get("jarjardiff/old-published/build/libs/old-published.jar").toString();
     public static final String NEW_PUBLISHED_CLASSPATH = Paths.get("jarjardiff/new-published/build/libs/new-published.jar").toString();
 
-    private ClassfileLoader oldPublishedJar;
-    private ClassfileLoader newPublishedJar;
+    private final DifferencesFactory factory = new DifferencesFactory(new IncompatibleDifferenceStrategy(new NoDifferenceStrategy()));
+    private final ClassfileLoader oldLoader = new AggregatingClassfileLoader();
+    private final ClassfileLoader newLoader = new AggregatingClassfileLoader();
 
-    private DifferencesFactory factory;
-
-    public ClassfileLoader getOldPublishedJar() {
-        return oldPublishedJar;
+    @BeforeEach
+    void setUp() {
+        oldLoader.load(Collections.singleton(OLD_PUBLISHED_CLASSPATH));
+        newLoader.load(Collections.singleton(NEW_PUBLISHED_CLASSPATH));
     }
 
-    public ClassfileLoader getNewPublishedJar() {
-        return newPublishedJar;
-    }
-
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        oldPublishedJar = new AggregatingClassfileLoader();
-        oldPublishedJar.load(Collections.singleton(OLD_PUBLISHED_CLASSPATH));
-
-        newPublishedJar = new AggregatingClassfileLoader();
-        newPublishedJar.load(Collections.singleton(NEW_PUBLISHED_CLASSPATH));
-
-        factory = new DifferencesFactory(new IncompatibleDifferenceStrategy(new NoDifferenceStrategy()));
-    }
-
-    public void testCompatibleClassWithIncompatibleMethod() {
+    @Test
+    void testCompatibleClassWithIncompatibleMethod() {
         String className = "ModifiedPackage.CompatibleClass";
-        Classfile oldClass = getOldPublishedJar().getClassfile(className);
-        Classfile newClass = getNewPublishedJar().getClassfile(className);
+        Classfile oldClass = oldLoader.getClassfile(className);
+        Classfile newClass = newLoader.getClassfile(className);
 
-        ClassDifferences classDifferences = (ClassDifferences) factory.createClassDifferences(className, oldClass, newClass);
+        var classDifferences = (ClassDifferences) factory.createClassDifferences(className, oldClass, newClass);
         assertFalse(classDifferences.isDeclarationModified());
         assertTrue(classDifferences.isModified());
 
