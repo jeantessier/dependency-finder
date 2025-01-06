@@ -1,0 +1,16 @@
+Started converting some JUnit 3 tests to JUnit Jupiter.  I started with
+integration tests, since there are not as many of those.  I'm hoping I can
+eventually remove dependencies on JUnit 3 and 4 completely, but that might
+take a while.
+
+I'm still using jMock, but I don't have access to =MockObjectTestCase= anymore.
+I managed to add =mock()= and =checking()= methods to one base class so I
+wouldn't have to edit too many tests.  I guess I could write my own
+=MockObjectTestCase= class, maybe as a temporary stopgap.
+
+I am keeping =setUp()= methods as =setUp()=, but with the =@BeforeEach=
+annotation from JUnit Jupiter.  I need to be careful when a test class
+hierarchy needs setup at multiple levels.  I got burned because the subclasses
+were overriding their superclass's =setUp()= and it wasn't being called by
+JUnit as a result.  I will be using more descriptive names in superclasses
+going forward.
