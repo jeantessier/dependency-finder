@@ -40,7 +40,7 @@ import org.xml.sax.*;
 
 import com.jeantessier.classreader.*;
 
-public class TestClassReport extends TestDifferencesFactoryBase implements ErrorHandler {
+public class TestClassReport extends TestDifferencesFactoryBase {
     private static final String MODIFIED_CLASS_NAME = "ModifiedPackage.ModifiedClass";
 
     private Classfile oldClassfile;
@@ -48,7 +48,7 @@ public class TestClassReport extends TestDifferencesFactoryBase implements Error
 
     private ClassDifferences classDifferences;
 
-    private ClassReport classReport;
+    private final ClassReport classReport = new ClassReport();
 
     private XMLReader reader;
 
@@ -60,14 +60,7 @@ public class TestClassReport extends TestDifferencesFactoryBase implements Error
 
         classDifferences = new ClassDifferences(MODIFIED_CLASS_NAME, oldClassfile, newClassfile);
 
-        classReport = new ClassReport();
-
-        boolean validate = Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE");
-
         reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
-        reader.setFeature("http://xml.org/sax/features/validation", validate);
-        reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", validate);
-        reader.setErrorHandler(this);
     }
 
     public void testXmlEscapingRemovedLessThanFieldValue() throws Exception {
@@ -269,17 +262,5 @@ public class TestClassReport extends TestDifferencesFactoryBase implements Error
         String xPathExpression = "*/" + nodeName + "[@name='" + nameAttribute + "']/@value";
         String result = xPath.evaluate(xPathExpression, in);
         assertEquals("XPath \"" + xPathExpression + "\" in \n" + xmlDocument, valueAttribute, result);
-    }
-
-    public void error(SAXParseException ex) {
-        // Ignore
-    }
-
-    public void fatalError(SAXParseException ex) {
-        // Ignore
-    }
-
-    public void warning(SAXParseException ex) {
-        // Ignore
     }
 }
