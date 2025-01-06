@@ -32,28 +32,14 @@
 
 package com.jeantessier.diff;
 
-import java.nio.file.*;
-import java.util.*;
-
 import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestDeprecatableDifferences {
-    public static final String OLD_CLASSPATH = Paths.get("jarjardiff/old/build/libs/old.jar").toString();
-    public static final String NEW_CLASSPATH = Paths.get("jarjardiff/new/build/libs/new.jar").toString();
-
+public class TestDeprecatableDifferences extends TestDifferencesFactoryBase {
     private final DifferencesFactory factory = new DifferencesFactory();
-    private final ClassfileLoader oldLoader = new AggregatingClassfileLoader();
-    private final ClassfileLoader newLoader = new AggregatingClassfileLoader();
-
-    @BeforeEach
-    void setUp() {
-        oldLoader.load(Collections.singleton(OLD_CLASSPATH));
-        newLoader.load(Collections.singleton(NEW_CLASSPATH));
-    }
 
     @Test
     void testNotDeprecatedNotDeprecatedDifferent() {

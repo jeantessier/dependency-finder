@@ -33,12 +33,14 @@
 package com.jeantessier.diff;
 
 import java.io.*;
-import javax.xml.parsers.*;
 import javax.xml.xpath.*;
 
+import org.junit.jupiter.api.*;
 import org.xml.sax.*;
 
 import com.jeantessier.classreader.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestClassReport extends TestDifferencesFactoryBase {
     private static final String MODIFIED_CLASS_NAME = "ModifiedPackage.ModifiedClass";
@@ -50,20 +52,16 @@ public class TestClassReport extends TestDifferencesFactoryBase {
 
     private final ClassReport classReport = new ClassReport();
 
-    private XMLReader reader;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        oldClassfile = getOldJar().getClassfile(MODIFIED_CLASS_NAME);
-        newClassfile = getNewJar().getClassfile(MODIFIED_CLASS_NAME);
+    @BeforeEach
+    void setUp() {
+        oldClassfile = oldLoader.getClassfile(MODIFIED_CLASS_NAME);
+        newClassfile = newLoader.getClassfile(MODIFIED_CLASS_NAME);
 
         classDifferences = new ClassDifferences(MODIFIED_CLASS_NAME, oldClassfile, newClassfile);
-
-        reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
     }
 
-    public void testXmlEscapingRemovedLessThanFieldValue() throws Exception {
+    @Test
+    void testXmlEscapingRemovedLessThanFieldValue() throws Exception {
         String name = "REMOVED_LESS_THAN_STRING";
         addRemovedFieldDifferences(name);
 
@@ -72,7 +70,8 @@ public class TestClassReport extends TestDifferencesFactoryBase {
         assertAttributeValue("removed-fields/declaration", name, "<");
     }
 
-    public void testXmlEscapingRemovedAmpersandFieldValue() throws Exception {
+    @Test
+    void testXmlEscapingRemovedAmpersandFieldValue() throws Exception {
         String name = "REMOVED_AMPERSAND_STRING";
         addRemovedFieldDifferences(name);
 
@@ -81,7 +80,8 @@ public class TestClassReport extends TestDifferencesFactoryBase {
         assertAttributeValue("removed-fields/declaration", name, "&");
     }
 
-    public void testXmlEscapingRemovedGreaterThanFieldValue() throws Exception {
+    @Test
+    void testXmlEscapingRemovedGreaterThanFieldValue() throws Exception {
         String name = "REMOVED_GREATER_THAN_STRING";
         addRemovedFieldDifferences(name);
 
@@ -90,7 +90,8 @@ public class TestClassReport extends TestDifferencesFactoryBase {
         assertAttributeValue("removed-fields/declaration", name, ">");
     }
 
-    public void testXmlEscapingRemovedQuoteFieldValue() throws Exception {
+    @Test
+    void testXmlEscapingRemovedQuoteFieldValue() throws Exception {
         String name = "REMOVED_QUOTE_STRING";
         addRemovedFieldDifferences(name);
 
@@ -99,7 +100,8 @@ public class TestClassReport extends TestDifferencesFactoryBase {
         assertAttributeValue("removed-fields/declaration", name, "\"");
     }
 
-    public void testXmlEscapingRemovedApostropheFieldValue() throws Exception {
+    @Test
+    void testXmlEscapingRemovedApostropheFieldValue() throws Exception {
         String name = "REMOVED_APOSTROPHE_STRING";
         addRemovedFieldDifferences(name);
 
@@ -108,7 +110,8 @@ public class TestClassReport extends TestDifferencesFactoryBase {
         assertAttributeValue("removed-fields/declaration", name, "'");
     }
 
-    public void testXmlEscapingRemovedNonAsciiFieldValue() throws Exception {
+    @Test
+    void testXmlEscapingRemovedNonAsciiFieldValue() throws Exception {
         String name = "REMOVED_NON_ASCII_STRING";
         addRemovedFieldDifferences(name);
 
@@ -117,7 +120,8 @@ public class TestClassReport extends TestDifferencesFactoryBase {
         assertAttributeValue("removed-fields/declaration", name, "\u00A5");
     }
 
-    public void testXmlEscapingModifiedLessThanFieldValue() throws Exception {
+    @Test
+    void testXmlEscapingModifiedLessThanFieldValue() throws Exception {
         String name = "MODIFIED_LESS_THAN_STRING";
         addModifiedFieldDifferences(name);
 
@@ -126,7 +130,8 @@ public class TestClassReport extends TestDifferencesFactoryBase {
         assertAttributeValue("modified-fields/feature/modified-declaration/new-declaration", name, "<");
     }
 
-    public void testXmlEscapingModifiedAmpersandFieldValue() throws Exception {
+    @Test
+    void testXmlEscapingModifiedAmpersandFieldValue() throws Exception {
         String name = "MODIFIED_AMPERSAND_STRING";
         addModifiedFieldDifferences(name);
 
@@ -135,7 +140,8 @@ public class TestClassReport extends TestDifferencesFactoryBase {
         assertAttributeValue("modified-fields/feature/modified-declaration/new-declaration", name, "&");
     }
 
-    public void testXmlEscapingModifiedGreaterThanFieldValue() throws Exception {
+    @Test
+    void testXmlEscapingModifiedGreaterThanFieldValue() throws Exception {
         String name = "MODIFIED_GREATER_THAN_STRING";
         addModifiedFieldDifferences(name);
 
@@ -144,7 +150,8 @@ public class TestClassReport extends TestDifferencesFactoryBase {
         assertAttributeValue("modified-fields/feature/modified-declaration/new-declaration", name, ">");
     }
 
-    public void testXmlEscapingModifiedQuoteFieldValue() throws Exception {
+    @Test
+    void testXmlEscapingModifiedQuoteFieldValue() throws Exception {
         String name = "MODIFIED_QUOTE_STRING";
         addModifiedFieldDifferences(name);
 
@@ -153,7 +160,8 @@ public class TestClassReport extends TestDifferencesFactoryBase {
         assertAttributeValue("modified-fields/feature/modified-declaration/new-declaration", name, "\"");
     }
 
-    public void testXmlEscapingModifiedApostropheFieldValue() throws Exception {
+    @Test
+    void testXmlEscapingModifiedApostropheFieldValue() throws Exception {
         String name = "MODIFIED_APOSTROPHE_STRING";
         addModifiedFieldDifferences(name);
 
@@ -162,7 +170,8 @@ public class TestClassReport extends TestDifferencesFactoryBase {
         assertAttributeValue("modified-fields/feature/modified-declaration/new-declaration", name, "'");
     }
 
-    public void testXmlEscapingModifiedNonAsciiFieldValue() throws Exception {
+    @Test
+    void testXmlEscapingModifiedNonAsciiFieldValue() throws Exception {
         String name = "MODIFIED_NON_ASCII_STRING";
         addModifiedFieldDifferences(name);
 
@@ -171,7 +180,8 @@ public class TestClassReport extends TestDifferencesFactoryBase {
         assertAttributeValue("modified-fields/feature/modified-declaration/new-declaration", name, "\u00A5");
     }
 
-    public void testXmlEscapingNewLessThanFieldValue() throws Exception {
+    @Test
+    void testXmlEscapingNewLessThanFieldValue() throws Exception {
         String name = "NEW_LESS_THAN_STRING";
         addNewFieldDifferences(name);
 
@@ -180,7 +190,8 @@ public class TestClassReport extends TestDifferencesFactoryBase {
         assertAttributeValue("new-fields/declaration", name, "<");
     }
 
-    public void testXmlEscapingNewAmpersandFieldValue() throws Exception {
+    @Test
+    void testXmlEscapingNewAmpersandFieldValue() throws Exception {
         String name = "NEW_AMPERSAND_STRING";
         addNewFieldDifferences(name);
 
@@ -189,7 +200,8 @@ public class TestClassReport extends TestDifferencesFactoryBase {
         assertAttributeValue("new-fields/declaration", name, "&");
     }
 
-    public void testXmlEscapingNewGreaterThanFieldValue() throws Exception {
+    @Test
+    void testXmlEscapingNewGreaterThanFieldValue() throws Exception {
         String name = "NEW_GREATER_THAN_STRING";
         addNewFieldDifferences(name);
 
@@ -198,7 +210,8 @@ public class TestClassReport extends TestDifferencesFactoryBase {
         assertAttributeValue("new-fields/declaration", name, ">");
     }
 
-    public void testXmlEscapingNewQuoteFieldValue() throws Exception {
+    @Test
+    void testXmlEscapingNewQuoteFieldValue() throws Exception {
         String name = "NEW_QUOTE_STRING";
         addNewFieldDifferences(name);
 
@@ -207,7 +220,8 @@ public class TestClassReport extends TestDifferencesFactoryBase {
         assertAttributeValue("new-fields/declaration", name, "\"");
     }
 
-    public void testXmlEscapingNewApostropheFieldValue() throws Exception {
+    @Test
+    void testXmlEscapingNewApostropheFieldValue() throws Exception {
         String name = "NEW_APOSTROPHE_STRING";
         addNewFieldDifferences(name);
 
@@ -216,7 +230,8 @@ public class TestClassReport extends TestDifferencesFactoryBase {
         assertAttributeValue("new-fields/declaration", name, "'");
     }
 
-    public void testXmlEscapingNewNonAsciiFieldValue() throws Exception {
+    @Test
+    void testXmlEscapingNewNonAsciiFieldValue() throws Exception {
         String name = "NEW_NON_ASCII_STRING";
         addNewFieldDifferences(name);
 
@@ -248,19 +263,11 @@ public class TestClassReport extends TestDifferencesFactoryBase {
     private void assertAttributeValue(String nodeName, String nameAttribute, String valueAttribute) throws Exception {
         String xmlDocument = classReport.render();
 
-        try {
-            reader.parse(new InputSource(new StringReader(xmlDocument)));
-        } catch (SAXException ex) {
-            fail("Could not parse XML Document: " + ex.getMessage() + "\n" + xmlDocument);
-        } catch (IOException ex) {
-            fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
-        }
-
         XPath xPath = XPathFactory.newInstance().newXPath();
         InputSource in = new InputSource(new StringReader(xmlDocument));
 
         String xPathExpression = "*/" + nodeName + "[@name='" + nameAttribute + "']/@value";
         String result = xPath.evaluate(xPathExpression, in);
-        assertEquals("XPath \"" + xPathExpression + "\" in \n" + xmlDocument, valueAttribute, result);
+        assertEquals(valueAttribute, result, "XPath \"" + xPathExpression + "\" in \n" + xmlDocument);
     }
 }

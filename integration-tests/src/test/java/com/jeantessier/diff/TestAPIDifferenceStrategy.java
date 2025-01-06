@@ -36,19 +36,16 @@ import java.util.*;
 
 import com.jeantessier.classreader.*;
 import org.jmock.*;
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
-    private DifferenceStrategy mockStrategy;
-    private APIDifferenceStrategy strategy;
+    private final DifferenceStrategy mockStrategy = mock(DifferenceStrategy.class);
+    private final APIDifferenceStrategy strategy = new APIDifferenceStrategy(mockStrategy);
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        mockStrategy = mock(DifferenceStrategy.class);
-        strategy = new APIDifferenceStrategy(mockStrategy);
-    }
-
-    public void testUnmodifiedConstantValue() {
+    @Test
+    void testUnmodifiedConstantValue() {
         ConstantValue_attribute oldValue = findField("UnmodifiedPackage.UnmodifiedInterface.unmodifiedField", getOldPackages()).getConstantValue();
         ConstantValue_attribute newValue = findField("UnmodifiedPackage.UnmodifiedInterface.unmodifiedField", getNewPackages()).getConstantValue();
 
@@ -59,7 +56,8 @@ public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
         assertFalse(strategy.isConstantValueDifferent(oldValue, newValue));
     }
 
-    public void testRemovedConstantValue() {
+    @Test
+    void testRemovedConstantValue() {
         ConstantValue_attribute oldValue = findField("ModifiedPackage.ModifiedInterface.removedField", getOldPackages()).getConstantValue();
         ConstantValue_attribute newValue = null;
 
@@ -70,7 +68,8 @@ public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
         assertFalse(strategy.isConstantValueDifferent(oldValue, newValue));
     }
 
-    public void testModifiedConstantValue() {
+    @Test
+    void testModifiedConstantValue() {
         ConstantValue_attribute oldValue = findField("ModifiedPackage.ModifiedInterface.modifiedValueField", getOldPackages()).getConstantValue();
         ConstantValue_attribute newValue = findField("ModifiedPackage.ModifiedInterface.modifiedValueField", getNewPackages()).getConstantValue();
 
@@ -81,7 +80,8 @@ public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
         assertFalse(strategy.isConstantValueDifferent(oldValue, newValue));
     }
 
-    public void testNewConstantValue() {
+    @Test
+    void testNewConstantValue() {
         ConstantValue_attribute oldValue = null;
         ConstantValue_attribute newValue = findField("ModifiedPackage.ModifiedInterface.newField", getNewPackages()).getConstantValue();
 
@@ -92,7 +92,8 @@ public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
         assertFalse(strategy.isConstantValueDifferent(oldValue, newValue));
     }
 
-    public void testUnmodifiedField() {
+    @Test
+    void testUnmodifiedField() {
         Field_info oldFeature = findField("UnmodifiedPackage.UnmodifiedClass.unmodifiedField", getOldPackages());
         Field_info newFeature = findField("UnmodifiedPackage.UnmodifiedClass.unmodifiedField", getNewPackages());
 
@@ -103,21 +104,24 @@ public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
         assertFalse(strategy.isFieldDifferent(oldFeature, newFeature));
     }
 
-    public void testRemovedField() {
+    @Test
+    void testRemovedField() {
         Field_info oldFeature = findField("ModifiedPackage.ModifiedClass.removedField", getOldPackages());
         Field_info newFeature = findField("ModifiedPackage.ModifiedClass.removedField", getNewPackages());
 
         assertTrue(strategy.isFieldDifferent(oldFeature, newFeature));
     }
 
-    public void testModifiedField() {
+    @Test
+    void testModifiedField() {
         Field_info oldFeature = findField("ModifiedPackage.ModifiedClass.modifiedField", getOldPackages());
         Field_info newFeature = findField("ModifiedPackage.ModifiedClass.modifiedField", getNewPackages());
 
         assertTrue(strategy.isFieldDifferent(oldFeature, newFeature));
     }
 
-    public void testModifiedValueField() {
+    @Test
+    void testModifiedValueField() {
         Field_info oldFeature = findField("ModifiedPackage.ModifiedInterface.modifiedValueField", getOldPackages());
         Field_info newFeature = findField("ModifiedPackage.ModifiedInterface.modifiedValueField", getNewPackages());
 
@@ -128,28 +132,32 @@ public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
         assertFalse(strategy.isFieldDifferent(oldFeature, newFeature));
     }
 
-    public void testDeprecatedField() {
+    @Test
+    void testDeprecatedField() {
         Field_info oldFeature = findField("ModifiedPackage.ModifiedInterface.deprecatedField", getOldPackages());
         Field_info newFeature = findField("ModifiedPackage.ModifiedInterface.deprecatedField", getNewPackages());
 
         assertTrue(strategy.isFieldDifferent(oldFeature, newFeature));
     }
 
-    public void testUndeprecatedField() {
+    @Test
+    void testUndeprecatedField() {
         Field_info oldFeature = findField("ModifiedPackage.ModifiedInterface.undeprecatedField", getOldPackages());
         Field_info newFeature = findField("ModifiedPackage.ModifiedInterface.undeprecatedField", getNewPackages());
 
         assertTrue(strategy.isFieldDifferent(oldFeature, newFeature));
     }
 
-    public void testNewField() {
+    @Test
+    void testNewField() {
         Field_info oldFeature = findField("ModifiedPackage.ModifiedClass.newField", getOldPackages());
         Field_info newFeature = findField("ModifiedPackage.ModifiedClass.newField", getNewPackages());
 
         assertTrue(strategy.isFieldDifferent(oldFeature, newFeature));
     }
 
-    public void testUnmodifiedCode() {
+    @Test
+    void testUnmodifiedCode() {
         Code_attribute oldCode = findMethod("UnmodifiedPackage.UnmodifiedClass.unmodifiedMethod()", getOldPackages()).getCode();
         Code_attribute newCode = findMethod("UnmodifiedPackage.UnmodifiedClass.unmodifiedMethod()", getNewPackages()).getCode();
 
@@ -160,7 +168,8 @@ public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
         assertFalse(strategy.isCodeDifferent(oldCode, newCode));
     }
 
-    public void testModifiedCode() {
+    @Test
+    void testModifiedCode() {
         Code_attribute oldCode = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getOldPackages()).getCode();
         Code_attribute newCode = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getNewPackages()).getCode();
 
@@ -171,7 +180,8 @@ public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
         assertFalse(strategy.isCodeDifferent(oldCode, newCode));
     }
 
-    public void testUnmodifiedConstructor() {
+    @Test
+    void testUnmodifiedConstructor() {
         Method_info oldMethod = findMethod("UnmodifiedPackage.UnmodifiedClass.UnmodifiedClass()", getOldPackages());
         Method_info newMethod = findMethod("UnmodifiedPackage.UnmodifiedClass.UnmodifiedClass()", getNewPackages());
 
@@ -182,21 +192,24 @@ public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
-    public void testRemovedConstructor() {
+    @Test
+    void testRemovedConstructor() {
         Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.ModifiedClass()", getOldPackages());
         Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.ModifiedClass()", getNewPackages());
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
-    public void testModifiedConstructor() {
+    @Test
+    void testModifiedConstructor() {
         Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.ModifiedClass(int, int, int)", getOldPackages());
         Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.ModifiedClass(int, int, int)", getNewPackages());
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
-    public void testModifiedCodeConstructor() {
+    @Test
+    void testModifiedCodeConstructor() {
         Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.ModifiedClass(float)", getOldPackages());
         Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.ModifiedClass(float)", getNewPackages());
 
@@ -207,28 +220,32 @@ public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
-    public void testDeprecatedConstructor() {
+    @Test
+    void testDeprecatedConstructor() {
         Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.ModifiedClass(int)", getOldPackages());
         Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.ModifiedClass(int)", getNewPackages());
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
-    public void testUndeprecatedConstructor() {
+    @Test
+    void testUndeprecatedConstructor() {
         Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.ModifiedClass(int, int, int, int, int)", getOldPackages());
         Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.ModifiedClass(int, int, int, int, int)", getNewPackages());
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
-    public void testNewConstructor() {
+    @Test
+    void testNewConstructor() {
         Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.ModifiedClass(int, int, int, int, int, int)", getOldPackages());
         Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.ModifiedClass(int, int, int, int, int, int)", getNewPackages());
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
-    public void testUnmodifiedMethod() {
+    @Test
+    void testUnmodifiedMethod() {
         Method_info oldMethod = findMethod("UnmodifiedPackage.UnmodifiedClass.unmodifiedMethod()", getOldPackages());
         Method_info newMethod = findMethod("UnmodifiedPackage.UnmodifiedClass.unmodifiedMethod()", getNewPackages());
 
@@ -239,21 +256,24 @@ public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
-    public void testRemovedMethod() {
+    @Test
+    void testRemovedMethod() {
         Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.removedMethod()", getOldPackages());
         Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.removedMethod()", getNewPackages());
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
-    public void testModifiedMethod() {
+    @Test
+    void testModifiedMethod() {
         Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedMethod()", getOldPackages());
         Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedMethod()", getNewPackages());
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
-    public void testModifiedCodeMethod() {
+    @Test
+    void testModifiedCodeMethod() {
         Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getOldPackages());
         Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getNewPackages());
 
@@ -264,28 +284,32 @@ public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
         assertFalse(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
-    public void testDeprecatedMethod() {
+    @Test
+    void testDeprecatedMethod() {
         Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.deprecatedMethod()", getOldPackages());
         Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.deprecatedMethod()", getNewPackages());
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
-    public void testUndeprecatedMethod() {
+    @Test
+    void testUndeprecatedMethod() {
         Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.undeprecatedMethod()", getOldPackages());
         Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.undeprecatedMethod()", getNewPackages());
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
-    public void testNewMethod() {
+    @Test
+    void testNewMethod() {
         Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.newMethod()", getOldPackages());
         Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.newMethod()", getNewPackages());
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
-    public void testUnmodifiedInterface() {
+    @Test
+    void testUnmodifiedInterface() {
         Classfile oldClass = findClass("UnmodifiedPackage.UnmodifiedInterface", getOldPackages());
         Classfile newClass = findClass("UnmodifiedPackage.UnmodifiedInterface", getNewPackages());
 
@@ -297,35 +321,40 @@ public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
         assertFalse(strategy.isClassDifferent(oldClass, newClass));
     }
 
-    public void testRemovedInterface() {
+    @Test
+    void testRemovedInterface() {
         Classfile oldClass = findClass("ModifiedPackage.RemovedInterface", getOldPackages());
         Classfile newClass = findClass("ModifiedPackage.RemovedInterface", getNewPackages());
 
         assertTrue(strategy.isClassDifferent(oldClass, newClass));
     }
 
-    public void testModifiedDeclarationInterface() {
+    @Test
+    void testModifiedDeclarationInterface() {
         Classfile oldClass = findClass("ModifiedPackage.ModifiedDeclarationInterface", getOldPackages());
         Classfile newClass = findClass("ModifiedPackage.ModifiedDeclarationInterface", getNewPackages());
 
         assertTrue(strategy.isClassDifferent(oldClass, newClass));
     }
 
-    public void testModifiedInterface() {
+    @Test
+    void testModifiedInterface() {
         Classfile oldClass = findClass("ModifiedPackage.ModifiedInterface", getOldPackages());
         Classfile newClass = findClass("ModifiedPackage.ModifiedInterface", getNewPackages());
 
         assertTrue(strategy.isClassDifferent(oldClass, newClass));
     }
 
-    public void testNewInterface() {
+    @Test
+    void testNewInterface() {
         Classfile oldClass = findClass("ModifiedPackage.NewInterface", getOldPackages());
         Classfile newClass = findClass("ModifiedPackage.NewInterface", getNewPackages());
 
         assertTrue(strategy.isClassDifferent(oldClass, newClass));
     }
 
-    public void testUnmodifiedClass() {
+    @Test
+    void testUnmodifiedClass() {
         Classfile oldClass = findClass("UnmodifiedPackage.UnmodifiedClass", getOldPackages());
         Classfile newClass = findClass("UnmodifiedPackage.UnmodifiedClass", getNewPackages());
 
@@ -338,35 +367,40 @@ public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
         assertFalse(strategy.isClassDifferent(oldClass, newClass));
     }
 
-    public void testRemovedClass() {
+    @Test
+    void testRemovedClass() {
         Classfile oldClass = findClass("ModifiedPackage.RemovedClass", getOldPackages());
         Classfile newClass = findClass("ModifiedPackage.RemovedClass", getNewPackages());
 
         assertTrue(strategy.isClassDifferent(oldClass, newClass));
     }
 
-    public void testModifiedDeclarationClass() {
+    @Test
+    void testModifiedDeclarationClass() {
         Classfile oldClass = findClass("ModifiedPackage.ModifiedDeclarationClass", getOldPackages());
         Classfile newClass = findClass("ModifiedPackage.ModifiedDeclarationClass", getNewPackages());
 
         assertTrue(strategy.isClassDifferent(oldClass, newClass));
     }
 
-    public void testModifiedClass() {
+    @Test
+    void testModifiedClass() {
         Classfile oldClass = findClass("ModifiedPackage.ModifiedClass", getOldPackages());
         Classfile newClass = findClass("ModifiedPackage.ModifiedClass", getNewPackages());
 
         assertTrue(strategy.isClassDifferent(oldClass, newClass));
     }
 
-    public void testNewClass() {
+    @Test
+    void testNewClass() {
         Classfile oldClass = findClass("ModifiedPackage.NewClass", getOldPackages());
         Classfile newClass = findClass("ModifiedPackage.NewClass", getNewPackages());
 
         assertTrue(strategy.isClassDifferent(oldClass, newClass));
     }
 
-    public void testUnmodifiedPackage() {
+    @Test
+    void testUnmodifiedPackage() {
         var oldPackage = Map.of(
                 "UnmodifiedPackage.UnmodifiedClass", findClass("UnmodifiedPackage.UnmodifiedClass", getOldPackages()),
                 "UnmodifiedPackage.UnmodifiedInterface", findClass("UnmodifiedPackage.UnmodifiedInterface", getOldPackages())
@@ -386,7 +420,8 @@ public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
         assertFalse(strategy.isPackageDifferent(oldPackage, newPackage));
     }
 
-    public void testRemovedPackage() {
+    @Test
+    void testRemovedPackage() {
         var oldPackage = Map.of(
                 "RemovedPackage.RemovedClass", findClass("RemovedPackage.RemovedClass", getOldPackages())
         );
@@ -395,7 +430,8 @@ public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
         assertTrue(strategy.isPackageDifferent(oldPackage, newPackage));
     }
 
-    public void testModifiedPackage() {
+    @Test
+    void testModifiedPackage() {
         var oldPackage = Map.of(
                 "UnmodifiedPackage.UnmodifiedClass", findClass("UnmodifiedPackage.UnmodifiedClass", getOldPackages()),
                 "UnmodifiedPackage.UnmodifiedInterface", findClass("UnmodifiedPackage.UnmodifiedInterface", getOldPackages())
@@ -407,7 +443,8 @@ public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
         assertTrue(strategy.isPackageDifferent(oldPackage, newPackage));
     }
 
-    public void testModifiedCodePackage() {
+    @Test
+    void testModifiedCodePackage() {
         var oldPackage = Map.of(
                 "ModifiedPackage.ModifiedClass", findClass("ModifiedPackage.ModifiedClass", getOldPackages())
         );
@@ -418,7 +455,8 @@ public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
         assertTrue(strategy.isPackageDifferent(oldPackage, newPackage));
     }
 
-    public void testNewPackage() {
+    @Test
+    void testNewPackage() {
         var oldPackage = Collections.<String, Classfile>emptyMap();
         var newPackage = Map.of(
                 "NewPackage.NewClass", findClass("NewPackage.NewClass", getNewPackages())

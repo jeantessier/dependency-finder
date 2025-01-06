@@ -32,32 +32,34 @@
 
 package com.jeantessier.diff;
 
-import org.jmock.*;
-
 import java.io.*;
 
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestDifferencesFactoryWithFilter extends TestDifferencesFactoryBase {
-    private StringBuffer buffer;
-    private DifferenceStrategy mockStrategy;
+    private final StringBuffer buffer = new StringBuffer();
+    private final DifferenceStrategy mockStrategy = mock(DifferenceStrategy.class);
     private ListBasedDifferenceStrategy strategy;
     private DifferencesFactory factory;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        buffer = new StringBuffer();
-        mockStrategy = mock(DifferenceStrategy.class);
+    @BeforeEach
+    void setUp() throws Exception {
         strategy = new ListBasedDifferenceStrategy(mockStrategy, new BufferedReader(new StringReader("")));
         factory = new DifferencesFactory(strategy);
     }
 
-    public void testEmptyFilter() throws IOException {
+    @Test
+    void testEmptyFilter() throws IOException {
         ProjectDifferences differences = getDifferences();
 
-        assertTrue("IsEmpty()", differences.getPackageDifferences().isEmpty());
+        assertTrue(differences.getPackageDifferences().isEmpty());
     }
 
-    public void testFilter() throws IOException {
+    @Test
+    void testFilter() throws IOException {
         buffer.append("ModifiedPackage\n");
         buffer.append("ModifiedPackage.ModifiedClass\n");
         buffer.append("ModifiedPackage.ModifiedClass.modifiedField\n");
@@ -78,13 +80,13 @@ public class TestDifferencesFactoryWithFilter extends TestDifferencesFactoryBase
         }});
 
         ProjectDifferences differences = getDifferences();
-        assertEquals("Nb packages", 1, differences.getPackageDifferences().size());
+        assertEquals(1, differences.getPackageDifferences().size(), "Nb packages");
 
         PackageDifferences modifiedPackage = (PackageDifferences) find("ModifiedPackage", differences.getPackageDifferences());
-        assertEquals("Nb classes",  1, modifiedPackage.getClassDifferences().size());
+        assertEquals(1, modifiedPackage.getClassDifferences().size(), "Nb classes");
 
         ClassDifferences modifiedClass = (ClassDifferences) find("ModifiedPackage.ModifiedClass", modifiedPackage.getClassDifferences());
-        assertEquals("Nb features",  2, modifiedClass.getFeatureDifferences().size());
+        assertEquals(2, modifiedClass.getFeatureDifferences().size(), "Nb features");
     }
 
     private ProjectDifferences getDifferences() throws IOException {

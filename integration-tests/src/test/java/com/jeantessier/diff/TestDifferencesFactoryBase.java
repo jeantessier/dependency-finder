@@ -35,64 +35,59 @@ package com.jeantessier.diff;
 import java.nio.file.*;
 import java.util.*;
 
-import com.jeantessier.classreader.*;
 import org.jmock.imposters.*;
-import org.jmock.integration.junit3.*;
+import org.jmock.internal.ExpectationBuilder;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
 
-public abstract class TestDifferencesFactoryBase extends MockObjectTestCase {
+import com.jeantessier.classreader.*;
+
+public abstract class TestDifferencesFactoryBase {
     public static final String OLD_CLASSPATH = Paths.get("jarjardiff/old/build/libs/old.jar").toString();
     public static final String NEW_CLASSPATH = Paths.get("jarjardiff/new/build/libs/new.jar").toString();
 
-    private static PackageMapper oldPackages;
-    private static PackageMapper newPackages;
+    private final PackageMapper oldPackages = new PackageMapper();
+    private final PackageMapper newPackages = new PackageMapper();
 
-    private static ClassfileLoader oldJar;
-    private static ClassfileLoader newJar;
+    protected final ClassfileLoader oldLoader = new AggregatingClassfileLoader();
+    protected final ClassfileLoader newLoader = new AggregatingClassfileLoader();
 
-    protected static PackageMapper getOldPackages() {
-        if (oldPackages == null) {
-            oldPackages = new PackageMapper();
-        }
-
+    protected PackageMapper getOldPackages() {
         return oldPackages;
     }
 
-    protected static PackageMapper getNewPackages() {
-        if (newPackages == null) {
-            newPackages = new PackageMapper();
-        }
-
+    protected PackageMapper getNewPackages() {
         return newPackages;
     }
 
-    protected static ClassfileLoader getOldJar() {
-        if (oldJar == null) {
-            oldJar = new AggregatingClassfileLoader();
-            oldJar.addLoadListener(getOldPackages());
-            oldJar.load(Collections.singleton(OLD_CLASSPATH));
-        }
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery();
 
-        return oldJar;
+    @BeforeEach
+    void setImposterizer() {
+        context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }
 
-    protected static ClassfileLoader getNewJar() {
-        if (newJar == null) {
-            newJar = new AggregatingClassfileLoader();
-            newJar.addLoadListener(getNewPackages());
-            newJar.load(Collections.singleton(NEW_CLASSPATH));
-        }
+    @BeforeEach
+    void loadClassfiles() {
+        oldLoader.addLoadListener(getOldPackages());
+        oldLoader.load(Collections.singleton(OLD_CLASSPATH));
 
-        return newJar;
+        newLoader.addLoadListener(getNewPackages());
+        newLoader.load(Collections.singleton(NEW_CLASSPATH));
     }
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected <T> T mock(Class<T> typeToMock) {
+        return context.mock(typeToMock);
+    }
 
-        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
+    protected <T> T mock(Class<T> typeToMock, String name) {
+        return context.mock(typeToMock, name);
+    }
 
-        // Make sure classes are loaded
-        getOldJar();
-        getNewJar();
+    protected void checking(ExpectationBuilder expectations) {
+        context.checking(expectations);
     }
 
     protected Map<String, Classfile> findPackage(String name, PackageMapper packages) {
@@ -116,6 +111,18 @@ public abstract class TestDifferencesFactoryBase extends MockObjectTestCase {
         String className = name.substring(0, pos);
         Classfile classfile = findClass(className, packages);
         return classfile.getMethod(method -> method.getSignature().equals(name.substring(pos + 1)));
+    }
+
+    protected <T extends FeatureDifferences> T findFeatureDifferences(DifferencesFactory factory, String className, String featureName) {
+        Classfile oldClass = oldLoader.getClassfile(className);
+        Classfile newClass = newLoader.getClassfile(className);
+
+        var classDifferences = (ClassDifferences) factory.createClassDifferences(className, oldClass, newClass);
+
+        return (T) classDifferences.getFeatureDifferences().stream()
+                .filter(feature -> feature.getName().equals(featureName))
+                .findAny()
+                .orElseThrow(() -> new NoSuchElementException(featureName + " not found"));
     }
 
     protected Differences find(String name, Collection<Differences> differences) {

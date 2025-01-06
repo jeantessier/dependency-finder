@@ -35,19 +35,18 @@ package com.jeantessier.diff;
 import java.io.*;
 import java.util.*;
 
-import com.jeantessier.classreader.*;
 import org.jmock.*;
+import org.junit.jupiter.api.*;
+
+import com.jeantessier.classreader.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase {
-    private DifferenceStrategy mockStrategy;
+    private final DifferenceStrategy mockStrategy = mock(DifferenceStrategy.class);
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        mockStrategy = mock(DifferenceStrategy.class);
-    }
-
-    public void testNullFile() throws IOException {
+    @Test
+    void testNullFile() throws IOException {
         try {
             new ListBasedDifferenceStrategy(mockStrategy, (BufferedReader) null);
             fail("Created validator with null");
@@ -56,7 +55,8 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
         }
     }
 
-    public void testMissingFile1() {
+    @Test
+    void testMissingFile1() {
         try {
             new ListBasedDifferenceStrategy(mockStrategy, "no such file");
             fail("Created validator with missing file");
@@ -65,9 +65,10 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
         }
     }
 
-    public void testMissingFile2() {
+    @Test
+    void testMissingFile2() {
         File file = new File("no such file");
-        assertFalse("File exists", file.exists());
+        assertFalse(file.exists(), "File exists");
 
         try {
             new ListBasedDifferenceStrategy(mockStrategy, file);
@@ -77,7 +78,8 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
         }
     }
 
-    public void testIsPackageDifferentNotInList() throws IOException {
+    @Test
+    void testIsPackageDifferentNotInList() throws IOException {
         var oldPackage = Map.of(
                 "ModifiedPackage.ModifiedClass", findClass("ModifiedPackage.ModifiedClass", getOldPackages())
         );
@@ -89,7 +91,8 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
         strategy.isPackageDifferent(oldPackage, newPackage);
     }
 
-    public void testIsClassDifferentNotInList() throws IOException {
+    @Test
+    void testIsClassDifferentNotInList() throws IOException {
         Classfile oldClass = findClass("ModifiedPackage.ModifiedClass", getOldPackages());
         Classfile newClass = findClass("ModifiedPackage.ModifiedClass", getNewPackages());
 
@@ -97,7 +100,8 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
         strategy.isClassDifferent(oldClass, newClass);
     }
 
-    public void testIsFieldDifferentNotInList() throws IOException {
+    @Test
+    void testIsFieldDifferentNotInList() throws IOException {
         Field_info oldField = findField("ModifiedPackage.ModifiedClass.modifiedField", getOldPackages());
         Field_info newField = findField("ModifiedPackage.ModifiedClass.modifiedField", getNewPackages());
 
@@ -105,7 +109,8 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
         strategy.isFieldDifferent(oldField, newField);
     }
 
-    public void testIsMethodDifferentNotInList() throws IOException {
+    @Test
+    void testIsMethodDifferentNotInList() throws IOException {
         Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedMethod()", getOldPackages());
         Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedMethod()", getNewPackages());
 
@@ -113,7 +118,8 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
         strategy.isMethodDifferent(oldMethod, newMethod);
     }
 
-    public void testIsCodeMethodDifferentNotInList() throws IOException {
+    @Test
+    void testIsCodeMethodDifferentNotInList() throws IOException {
         Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getOldPackages());
         Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getNewPackages());
 
@@ -121,7 +127,8 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
         strategy.isMethodDifferent(oldMethod, newMethod);
     }
 
-    public void testIsCodeDifferentNotInList() throws IOException {
+    @Test
+    void testIsCodeDifferentNotInList() throws IOException {
         Code_attribute oldCode = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getOldPackages()).getCode();
         Code_attribute newCode = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getNewPackages()).getCode();
 
@@ -133,7 +140,8 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
         strategy.isCodeDifferent(oldCode, newCode);
     }
 
-    public void testIsPackageDifferentInList() throws IOException {
+    @Test
+    void testIsPackageDifferentInList() throws IOException {
         var oldPackage = Map.of(
                 "ModifiedPackage.ModifiedClass", findClass("ModifiedPackage.ModifiedClass", getOldPackages())
         );
@@ -149,7 +157,8 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
         strategy.isPackageDifferent(oldPackage, newPackage);
     }
 
-    public void testIsClassDifferentInList() throws IOException {
+    @Test
+    void testIsClassDifferentInList() throws IOException {
         Classfile oldClass = findClass("ModifiedPackage.ModifiedClass", getOldPackages());
         Classfile newClass = findClass("ModifiedPackage.ModifiedClass", getNewPackages());
 
@@ -161,7 +170,8 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
         strategy.isClassDifferent(oldClass, newClass);
     }
 
-    public void testIsFieldDifferentInList() throws IOException {
+    @Test
+    void testIsFieldDifferentInList() throws IOException {
         Field_info oldField = findField("ModifiedPackage.ModifiedClass.modifiedField", getOldPackages());
         Field_info newField = findField("ModifiedPackage.ModifiedClass.modifiedField", getNewPackages());
 
@@ -173,7 +183,8 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
         strategy.isFieldDifferent(oldField, newField);
     }
 
-    public void testIsMethodDifferentInList() throws IOException {
+    @Test
+    void testIsMethodDifferentInList() throws IOException {
         Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedMethod()", getOldPackages());
         Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedMethod()", getNewPackages());
 
@@ -185,7 +196,8 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
         strategy.isMethodDifferent(oldMethod, newMethod);
     }
 
-    public void testIsCodeMethodDifferentInList() throws IOException {
+    @Test
+    void testIsCodeMethodDifferentInList() throws IOException {
         Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getOldPackages());
         Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getNewPackages());
 
@@ -197,7 +209,8 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
         strategy.isMethodDifferent(oldMethod, newMethod);
     }
 
-    public void testIsCodeDifferentInList() throws IOException {
+    @Test
+    void testIsCodeDifferentInList() throws IOException {
         Code_attribute oldCode = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getOldPackages()).getCode();
         Code_attribute newCode = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getNewPackages()).getCode();
 
@@ -209,7 +222,8 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
         strategy.isCodeDifferent(oldCode, newCode);
     }
 
-    public void testIsPackageDifferentInListWithSuffix() throws IOException {
+    @Test
+    void testIsPackageDifferentInListWithSuffix() throws IOException {
         var oldPackage = Map.of(
                 "ModifiedPackage.ModifiedClass", findClass("ModifiedPackage.ModifiedClass", getOldPackages())
         );
@@ -225,7 +239,8 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
         strategy.isPackageDifferent(oldPackage, newPackage);
     }
 
-    public void testIsClassDifferentInListWithSuffix() throws IOException {
+    @Test
+    void testIsClassDifferentInListWithSuffix() throws IOException {
         Classfile oldClass = findClass("ModifiedPackage.ModifiedClass", getOldPackages());
         Classfile newClass = findClass("ModifiedPackage.ModifiedClass", getNewPackages());
 
@@ -237,7 +252,8 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
         strategy.isClassDifferent(oldClass, newClass);
     }
 
-    public void testIsFieldDifferentInListWithSuffix() throws IOException {
+    @Test
+    void testIsFieldDifferentInListWithSuffix() throws IOException {
         Field_info oldField = findField("ModifiedPackage.ModifiedClass.modifiedField", getOldPackages());
         Field_info newField = findField("ModifiedPackage.ModifiedClass.modifiedField", getNewPackages());
 
@@ -249,7 +265,8 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
         strategy.isFieldDifferent(oldField, newField);
     }
 
-    public void testIsMethodDifferentInListWithSuffix() throws IOException {
+    @Test
+    void testIsMethodDifferentInListWithSuffix() throws IOException {
         Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedMethod()", getOldPackages());
         Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedMethod()", getNewPackages());
 
@@ -261,7 +278,8 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
         strategy.isMethodDifferent(oldMethod, newMethod);
     }
 
-    public void testIsCodeMethodDifferentInListWithSuffix() throws IOException {
+    @Test
+    void testIsCodeMethodDifferentInListWithSuffix() throws IOException {
         Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getOldPackages());
         Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getNewPackages());
 
@@ -273,7 +291,8 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
         strategy.isMethodDifferent(oldMethod, newMethod);
     }
 
-    public void testIsCodeDifferentInListWithSuffix() throws IOException {
+    @Test
+    void testIsCodeDifferentInListWithSuffix() throws IOException {
         Code_attribute oldCode = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getOldPackages()).getCode();
         Code_attribute newCode = findMethod("ModifiedPackage.ModifiedClass.modifiedCodeMethod()", getNewPackages()).getCode();
 
@@ -285,7 +304,8 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
         strategy.isCodeDifferent(oldCode, newCode);
     }
 
-    public void testIsConstantValueDifferent() throws IOException {
+    @Test
+    void testIsConstantValueDifferent() throws IOException {
         ConstantValue_attribute oldConstantValue = findField("ModifiedPackage.ModifiedInterface.modifiedValueField", getOldPackages()).getConstantValue();
         ConstantValue_attribute newConstantValue = findField("ModifiedPackage.ModifiedInterface.modifiedValueField", getNewPackages()).getConstantValue();
 
@@ -297,7 +317,8 @@ public class TestListBasedDifferenceStrategy extends TestDifferencesFactoryBase 
         strategy.isConstantValueDifferent(oldConstantValue, newConstantValue);
     }
 
-    public void testMerge() throws IOException {
+    @Test
+    void testMerge() throws IOException {
         var oldPackage1 = Map.of(
                 "ModifiedPackage.ModifiedClass", findClass("ModifiedPackage.ModifiedClass", getOldPackages())
         );

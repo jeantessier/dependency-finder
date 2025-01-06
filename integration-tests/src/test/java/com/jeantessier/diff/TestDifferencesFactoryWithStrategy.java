@@ -34,25 +34,22 @@ package com.jeantessier.diff;
 
 import java.util.*;
 
-import com.jeantessier.classreader.*;
 import org.jmock.*;
+import org.junit.jupiter.api.*;
+
+import com.jeantessier.classreader.*;
 
 public class TestDifferencesFactoryWithStrategy extends TestDifferencesFactoryBase {
-    private DifferenceStrategy mockStrategy;
-    private DifferencesFactory factory;
+    private final DifferenceStrategy mockStrategy = mock(DifferenceStrategy.class);
+    private final DifferencesFactory factory = new DifferencesFactory(mockStrategy);
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        mockStrategy = mock(DifferenceStrategy.class);
-        factory  = new DifferencesFactory(mockStrategy);
-    }
-
-    public void testEmptyProject()  {
+    @Test
+    void testEmptyProject()  {
         factory.createProjectDifferences("test", "old", new PackageMapper(), "new", new PackageMapper());
     }
 
-    public void testStrategy() {
+    @Test
+    void testStrategy() {
         checking(new Expectations() {{
             exactly(4).of (mockStrategy).isPackageDifferent(with(any(Map.class)), with(any(Map.class)));
                 will(returnValue(true));

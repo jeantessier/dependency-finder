@@ -32,118 +32,72 @@
 
 package com.jeantessier.diff;
 
-import com.jeantessier.classreader.*;
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestDifferencesFactoryWithAPIAndCodeDifferenceStrategy extends TestDifferencesFactoryBase {
-    private DifferencesFactory factory;
+    private final DifferencesFactory factory = new DifferencesFactory(new APIDifferenceStrategy(new CodeDifferenceStrategy()));
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        factory = new DifferencesFactory(new APIDifferenceStrategy(new CodeDifferenceStrategy()));
-    }
-
-    public void testFieldDeclarationDifference() {
+    @Test
+    void testFieldDeclarationDifference() {
         String className = "ModifiedPackage.ModifiedInterface";
-        Classfile oldClass = getOldJar().getClassfile(className);
-        Classfile newClass = getNewJar().getClassfile(className);
+        String fieldName = className + ".modifiedField";
 
-        ClassDifferences classDifferences = (ClassDifferences) factory.createClassDifferences(className, oldClass, newClass);
-
-        FieldDifferences fieldDifferences = null;
-        for (Differences differences : classDifferences.getFeatureDifferences()) {
-            if (differences.getName().equals(className + ".modifiedField")) {
-                fieldDifferences = (FieldDifferences) differences;
-            }
-        }
+        var fieldDifferences = findFeatureDifferences(factory, className, fieldName);
 
         assertEquals("public static final int modifiedField", fieldDifferences.getOldDeclaration());
         assertEquals("public static final float modifiedField", fieldDifferences.getNewDeclaration());
     }
 
-    public void testFieldConstantValueDifference() {
+    @Test
+    void testFieldConstantValueDifference() {
         String className = "ModifiedPackage.ModifiedInterface";
-        Classfile oldClass = getOldJar().getClassfile(className);
-        Classfile newClass = getNewJar().getClassfile(className);
+        String fieldName = className + ".modifiedValueField";
 
-        ClassDifferences classDifferences = (ClassDifferences) factory.createClassDifferences(className, oldClass, newClass);
-
-        FieldDifferences fieldDifferences = null;
-        for (Differences differences : classDifferences.getFeatureDifferences()) {
-            if (differences.getName().equals(className + ".modifiedValueField")) {
-                fieldDifferences = (FieldDifferences) differences;
-            }
-        }
+        FieldDifferences fieldDifferences = findFeatureDifferences(factory, className, fieldName);
 
         assertTrue(fieldDifferences.isConstantValueDifference());
         assertEquals("public static final int modifiedValueField", fieldDifferences.getOldDeclaration());
         assertEquals("public static final int modifiedValueField", fieldDifferences.getNewDeclaration());
     }
 
-    public void testConstructorDifference() {
+    @Test
+    void testConstructorDifference() {
         String className = "ModifiedPackage.ModifiedClass";
-        Classfile oldClass = getOldJar().getClassfile(className);
-        Classfile newClass = getNewJar().getClassfile(className);
+        String constructorName = className + ".ModifiedClass(int, int, int)";
 
-        ClassDifferences classDifferences = (ClassDifferences) factory.createClassDifferences(className, oldClass, newClass);
-
-        ConstructorDifferences constructorDifferences = null;
-        for (Differences differences : classDifferences.getFeatureDifferences()) {
-            if (differences.getName().equals(className + ".ModifiedClass(int, int, int)")) {
-                constructorDifferences = (ConstructorDifferences) differences;
-            }
-        }
+        ConstructorDifferences constructorDifferences = findFeatureDifferences(factory, className, constructorName);
 
         assertFalse(constructorDifferences.isCodeDifference());
     }
 
-    public void testConstructorCodeDifference() {
+    @Test
+    void testConstructorCodeDifference() {
         String className = "ModifiedPackage.ModifiedClass";
-        Classfile oldClass = getOldJar().getClassfile(className);
-        Classfile newClass = getNewJar().getClassfile(className);
+        String constructorName = className + ".ModifiedClass(float)";
 
-        ClassDifferences classDifferences = (ClassDifferences) factory.createClassDifferences(className, oldClass, newClass);
-
-        ConstructorDifferences constructorDifferences = null;
-        for (Differences differences : classDifferences.getFeatureDifferences()) {
-            if (differences.getName().equals(className + ".ModifiedClass(float)")) {
-                constructorDifferences = (ConstructorDifferences) differences;
-            }
-        }
+        ConstructorDifferences constructorDifferences = findFeatureDifferences(factory, className, constructorName);
 
         assertTrue(constructorDifferences.isCodeDifference());
     }
 
-    public void testMethodDifference() {
+    @Test
+    void testMethodDifference() {
         String className = "ModifiedPackage.ModifiedClass";
-        Classfile oldClass = getOldJar().getClassfile(className);
-        Classfile newClass = getNewJar().getClassfile(className);
+        String methodName = className + ".modifiedMethod()";
 
-        ClassDifferences classDifferences = (ClassDifferences) factory.createClassDifferences(className, oldClass, newClass);
-
-        MethodDifferences methodDifferences = null;
-        for (Differences differences : classDifferences.getFeatureDifferences()) {
-            if (differences.getName().equals(className + ".modifiedMethod()")) {
-                methodDifferences = (MethodDifferences) differences;
-            }
-        }
+        MethodDifferences methodDifferences = findFeatureDifferences(factory, className, methodName);
 
         assertTrue(methodDifferences.isCodeDifference());
     }
 
-    public void testMethodCodeDifference() {
+    @Test
+    void testMethodCodeDifference() {
         String className = "ModifiedPackage.ModifiedClass";
-        Classfile oldClass = getOldJar().getClassfile(className);
-        Classfile newClass = getNewJar().getClassfile(className);
+        String methodName = className + ".modifiedCodeMethod()";
 
-        ClassDifferences classDifferences = (ClassDifferences) factory.createClassDifferences(className, oldClass, newClass);
-
-        MethodDifferences methodDifferences = null;
-        for (Differences differences : classDifferences.getFeatureDifferences()) {
-            if (differences.getName().equals(className + ".modifiedCodeMethod()")) {
-                methodDifferences = (MethodDifferences) differences;
-            }
-        }
+        MethodDifferences methodDifferences = findFeatureDifferences(factory, className, methodName);
 
         assertTrue(methodDifferences.isCodeDifference());
     }

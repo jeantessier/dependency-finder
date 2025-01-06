@@ -50,7 +50,7 @@ public class TestDifferencesFactoryForCompatibleClassWithIncompatibleMethod {
     private final ClassfileLoader newLoader = new AggregatingClassfileLoader();
 
     @BeforeEach
-    void setUp() {
+    void loadClassfiles() {
         oldLoader.load(Collections.singleton(OLD_PUBLISHED_CLASSPATH));
         newLoader.load(Collections.singleton(NEW_PUBLISHED_CLASSPATH));
     }
