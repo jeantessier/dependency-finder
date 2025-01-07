@@ -32,86 +32,97 @@
 
 package com.jeantessier.dependency;
 
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import java.util.stream.*;
 
-@RunWith(Parameterized.class)
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
+
 public class TestOrCompositeSelectionCriteria extends CompositeSelectionCriteriaTestBase {
-    @Parameters(name="OrCompositeSelectionCriteria with {0} subcriteria should return {2}")
-    public static Object[][] data() {
-        return new Object[][] {
-                {"empty", new Boolean[] {}, true},
-                {"single false", new Boolean[] {false}, false},
-                {"single true", new Boolean[] {true}, true},
-                {"multiple false false", new Boolean[] {false, false}, false},
-                {"multiple false true", new Boolean[] {false, true}, true},
-                {"multiple true false", new Boolean[] {true, false}, true},
-                {"multiple true true", new Boolean[] {true, true}, true},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                arguments("empty", new Boolean[] {}, true),
+                arguments("single false", new Boolean[] {false}, false),
+                arguments("single true", new Boolean[] {true}, true),
+                arguments("multiple false false", new Boolean[] {false, false}, false),
+                arguments("multiple false true", new Boolean[] {false, true}, true),
+                arguments("multiple true false", new Boolean[] {true, false}, true),
+                arguments("multiple true true", new Boolean[] {true, true}, true)
+        );
     }
 
-    @Parameter(0)
-    public String label;
-
-    @Parameter(1)
-    public Boolean[] subcriteria;
-
-    @Parameter(2)
-    public boolean expectedValue;
-
-    private SelectionCriteria sut;
-
-    @Before
-    public void setUp() {
-        sut = new OrCompositeSelectionCriteria(build(subcriteria));
+    @DisplayName("isMatchingPackages")
+    @ParameterizedTest(name="with {0} subcriteria should return {2}")
+    @MethodSource("dataProvider")
+    public void testIsMatchingPackages(String variation, Boolean[] subcriteria, boolean expectedValue) {
+        var sut = new OrCompositeSelectionCriteria(build(subcriteria));
+        assertEquals(expectedValue, sut.isMatchingPackages(), "a");
     }
 
-    @Test
-    public void testIsMatchingPackages() {
-        assertEquals("a", expectedValue, sut.isMatchingPackages());
+    @DisplayName("isMatchingClasses")
+    @ParameterizedTest(name="with {0} subcriteria should return {2}")
+    @MethodSource("dataProvider")
+    public void testIsMatchingClasses(String variation, Boolean[] subcriteria, boolean expectedValue) {
+        var sut = new OrCompositeSelectionCriteria(build(subcriteria));
+        assertEquals(expectedValue, sut.isMatchingClasses(), "a.A");
     }
 
-    @Test
-    public void testIsMatchingClasses() {
-        assertEquals("a", expectedValue, sut.isMatchingClasses());
+    @DisplayName("isMatchingFeatures")
+    @ParameterizedTest(name="with {0} subcriteria should return {2}")
+    @MethodSource("dataProvider")
+    public void testIsMatchingFeatures(String variation, Boolean[] subcriteria, boolean expectedValue) {
+        var sut = new OrCompositeSelectionCriteria(build(subcriteria));
+        assertEquals(expectedValue, sut.isMatchingFeatures(), "a.A.a");
     }
 
-    @Test
-    public void testIsMatchingFeatures() {
-        assertEquals("a", expectedValue, sut.isMatchingFeatures());
+    @DisplayName("matches with PackageNode")
+    @ParameterizedTest(name="with {0} subcriteria should return {2}")
+    @MethodSource("dataProvider")
+    public void testMatchesWithPackageNode(String variation, Boolean[] subcriteria, boolean expectedValue) {
+        var sut = new OrCompositeSelectionCriteria(build(subcriteria));
+        assertEquals(expectedValue, sut.matches(context.mock(PackageNode.class)), "a");
     }
 
-    @Test
-    public void testMatchesWithPackageNode() {
-        assertEquals("a", expectedValue, sut.matches(context.mock(PackageNode.class)));
+    @DisplayName("matches with ClassNode")
+    @ParameterizedTest(name="with {0} subcriteria should return {2}")
+    @MethodSource("dataProvider")
+    public void testMatchesWithClassNode(String variation, Boolean[] subcriteria, boolean expectedValue) {
+        var sut = new OrCompositeSelectionCriteria(build(subcriteria));
+        assertEquals(expectedValue, sut.matches(context.mock(ClassNode.class)), "a.A");
     }
 
-    @Test
-    public void testMatchesWithClassNode() {
-        assertEquals("a.A", expectedValue, sut.matches(context.mock(ClassNode.class)));
+    @DisplayName("matches with FeatureNode")
+    @ParameterizedTest(name="with {0} subcriteria should return {2}")
+    @MethodSource("dataProvider")
+    public void testMatchesWithFeatureNode(String variation, Boolean[] subcriteria, boolean expectedValue) {
+        var sut = new OrCompositeSelectionCriteria(build(subcriteria));
+        assertEquals(expectedValue, sut.matches(context.mock(FeatureNode.class)), "a.A.a");
     }
 
-    @Test
-    public void testMatchesWithFeatureNode() {
-        assertEquals("a.A.a", expectedValue, sut.matches(context.mock(FeatureNode.class)));
+    @DisplayName("matches with package name")
+    @ParameterizedTest(name="with {0} subcriteria should return {2}")
+    @MethodSource("dataProvider")
+    public void testMatchesPackageName(String variation, Boolean[] subcriteria, boolean expectedValue) {
+        var sut = new OrCompositeSelectionCriteria(build(subcriteria));
+        assertEquals(expectedValue, sut.matchesPackageName("a"), "a");
     }
 
-    @Test
-    public void testMatchesPackageName() {
-        assertEquals("a", expectedValue, sut.matchesPackageName("a"));
+    @DisplayName("matches with class name")
+    @ParameterizedTest(name="with {0} subcriteria should return {2}")
+    @MethodSource("dataProvider")
+    public void testMatchesClassName(String variation, Boolean[] subcriteria, boolean expectedValue) {
+        var sut = new OrCompositeSelectionCriteria(build(subcriteria));
+        assertEquals(expectedValue, sut.matchesClassName("a.A"), "a.A");
     }
 
-    @Test
-    public void testMatchesClassName() {
-        assertEquals("a", expectedValue, sut.matchesClassName("a.A"));
-    }
-
-    @Test
-    public void testMatchesFeatureName() {
-        assertEquals("a", expectedValue, sut.matchesFeatureName("a.A.a"));
+    @DisplayName("matches with feature name")
+    @ParameterizedTest(name="with {0} subcriteria should return {2}")
+    @MethodSource("dataProvider")
+    public void testMatchesFeatureName(String variation, Boolean[] subcriteria, boolean expectedValue) {
+        var sut = new OrCompositeSelectionCriteria(build(subcriteria));
+        assertEquals(expectedValue, sut.matchesFeatureName("a.A.a"), "a.A.a");
     }
 }

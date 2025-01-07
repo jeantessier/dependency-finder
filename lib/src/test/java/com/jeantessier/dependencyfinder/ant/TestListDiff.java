@@ -34,32 +34,31 @@ package com.jeantessier.dependencyfinder.ant;
 
 import java.io.*;
 
-import junit.framework.*;
-
 import org.apache.tools.ant.*;
+import org.junit.jupiter.api.*;
 
-public class TestListDiff extends TestCase {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestListDiff {
     private File existingOldFile;
     private File existingNewFile;
     private File existingDir;
     private File nonExistingFile;
 
-    private ListDiff sut;
+    private final ListDiff sut = new ListDiff();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        existingOldFile = File.createTempFile(getName(), "old");
+    @BeforeEach
+    void setUp() throws IOException {
+        existingOldFile = File.createTempFile("test", "old");
         existingOldFile.deleteOnExit();
-        existingNewFile = File.createTempFile(getName(), "new");
+        existingNewFile = File.createTempFile("test", "new");
         existingNewFile.deleteOnExit();
         existingDir = existingOldFile.getParentFile();
         nonExistingFile = new File("DoesNotExist");
-
-        sut = new ListDiff();
     }
 
-    public void testAllMandatoryParameters() throws Exception {
+    @Test
+    void testAllMandatoryParameters() {
         sut.setOld(existingOldFile);
         sut.setNew(existingNewFile);
         sut.setDestfile(nonExistingFile);
@@ -67,38 +66,42 @@ public class TestListDiff extends TestCase {
         sut.validateParameters();
     }
 
-    public void testOldNotSet() {
+    @Test
+    void testOldNotSet() {
         try {
             sut.validateParameters();
             fail("executed without old being set");
         } catch (BuildException ex) {
-            assertEquals("Wrong message", "old must be set!", ex.getMessage());
+            assertEquals("old must be set!", ex.getMessage(), "Wrong message");
         }
     }
 
-    public void testOldDoesNotExist() {
+    @Test
+    void testOldDoesNotExist() {
         sut.setOld(nonExistingFile);
 
         try {
             sut.validateParameters();
             fail("executed without old being set");
         } catch (BuildException ex) {
-            assertEquals("Wrong message", "old does not exist!", ex.getMessage());
+            assertEquals("old does not exist!", ex.getMessage(), "Wrong message");
         }
     }
 
-    public void testOldNotAFile() {
+    @Test
+    void testOldNotAFile() {
         sut.setOld(existingDir);
 
         try {
             sut.validateParameters();
             fail("executed without old being set");
         } catch (BuildException ex) {
-            assertEquals("Wrong message", "old is not a file!", ex.getMessage());
+            assertEquals("old is not a file!", ex.getMessage(), "Wrong message");
         }
     }
 
-    public void testOldLabel() {
+    @Test
+    void testOldLabel() {
         sut.setOld(existingOldFile);
         sut.setNew(existingNewFile);
         sut.setDestfile(nonExistingFile);
@@ -110,27 +113,30 @@ public class TestListDiff extends TestCase {
         assertEquals(expectedOldLabel, sut.getOldlabel());
     }
 
-    public void testOldLabelNotSet() {
+    @Test
+    void testOldLabelNotSet() {
         sut.setOld(existingOldFile);
         sut.setNew(existingNewFile);
         sut.setDestfile(nonExistingFile);
 
         sut.validateParameters();
-        assertEquals("default old label", sut.getOld().getPath(), sut.getOldlabel());
+        assertEquals(sut.getOld().getPath(), sut.getOldlabel(), "default old label");
     }
 
-    public void testNewNotSet() {
+    @Test
+    void testNewNotSet() {
         sut.setOld(existingOldFile);
 
         try {
             sut.validateParameters();
             fail("executed without old being set");
         } catch (BuildException ex) {
-            assertEquals("Wrong message", "new must be set!", ex.getMessage());
+            assertEquals("new must be set!", ex.getMessage(), "Wrong message");
         }
     }
 
-    public void testNewDoesNotExist() {
+    @Test
+    void testNewDoesNotExist() {
         sut.setOld(existingOldFile);
         sut.setNew(nonExistingFile);
 
@@ -138,11 +144,12 @@ public class TestListDiff extends TestCase {
             sut.validateParameters();
             fail("executed without old being set");
         } catch (BuildException ex) {
-            assertEquals("Wrong message", "new does not exist!", ex.getMessage());
+            assertEquals("new does not exist!", ex.getMessage(), "Wrong message");
         }
     }
 
-    public void testNewNotAFile() {
+    @Test
+    void testNewNotAFile() {
         sut.setOld(existingOldFile);
         sut.setNew(existingDir);
 
@@ -150,11 +157,12 @@ public class TestListDiff extends TestCase {
             sut.validateParameters();
             fail("executed without old being set");
         } catch (BuildException ex) {
-            assertEquals("Wrong message", "new is not a file!", ex.getMessage());
+            assertEquals("new is not a file!", ex.getMessage(), "Wrong message");
         }
     }
 
-    public void testNewLabel() {
+    @Test
+    void testNewLabel() {
         sut.setOld(existingOldFile);
         sut.setNew(existingNewFile);
         sut.setDestfile(nonExistingFile);
@@ -166,16 +174,18 @@ public class TestListDiff extends TestCase {
         assertEquals(expectedNewLabel, sut.getNewlabel());
     }
 
-    public void testNewLabelNotSet() {
+    @Test
+    void testNewLabelNotSet() {
         sut.setOld(existingOldFile);
         sut.setNew(existingNewFile);
         sut.setDestfile(nonExistingFile);
 
         sut.validateParameters();
-        assertEquals("default new label", sut.getNew().getPath(), sut.getNewlabel());
+        assertEquals(sut.getNew().getPath(), sut.getNewlabel(), "default new label");
     }
 
-    public void testMissingDestfile() {
+    @Test
+    void testMissingDestfile() {
         sut.setOld(existingOldFile);
         sut.setNew(existingNewFile);
 
@@ -183,7 +193,7 @@ public class TestListDiff extends TestCase {
             sut.validateParameters();
             fail("executed without destfile being set");
         } catch (BuildException ex) {
-            assertEquals("Wrong message", "destfile must be set!", ex.getMessage());
+            assertEquals("destfile must be set!", ex.getMessage(), "Wrong message");
         }
     }
 }

@@ -32,6 +32,14 @@
 
 package com.jeantessier.dependencyfinder.ant;
 
+import org.apache.tools.ant.BuildException;
+import org.jmock.Expectations;
+import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.util.List;
+
+import com.jeantessier.MockObjectTestCase;
 import com.jeantessier.classreader.AccessibilitySymbolGathererStrategy;
 import com.jeantessier.classreader.Classfile;
 import com.jeantessier.classreader.DefaultSymbolGathererStrategy;
@@ -44,140 +52,134 @@ import com.jeantessier.classreader.Method_info;
 import com.jeantessier.classreader.NonPrivateFieldSymbolGathererStrategy;
 import com.jeantessier.classreader.SymbolGathererStrategy;
 import com.jeantessier.classreader.SymbolGathererStrategyDecorator;
-import org.apache.tools.ant.BuildException;
-import org.jmock.Expectations;
-import org.jmock.integration.junit3.MockObjectTestCase;
 
-import java.io.File;
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestListSymbols extends MockObjectTestCase {
-    private Classfile mockClassfile;
-    private Field_info mockField;
-    private Method_info mockMethod;
-    private LocalVariable mockLocalVariable;
-    private InnerClass mockInnerClass;
+    private final Classfile mockClassfile = mock(Classfile.class);
+    private final Field_info mockField = mock(Field_info.class);
+    private final Method_info mockMethod = mock(Method_info.class);
+    private final LocalVariable mockLocalVariable = mock(LocalVariable.class);
+    private final InnerClass mockInnerClass = mock(InnerClass.class);
 
-    private ListSymbols sut;
+    private final ListSymbols sut = new ListSymbols();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        mockClassfile = mock(Classfile.class);
-        mockField = mock(Field_info.class);
-        mockMethod = mock(Method_info.class);
-        mockLocalVariable = mock(LocalVariable.class);
-        mockInnerClass = mock(InnerClass.class);
-
-        sut = new ListSymbols();
-    }
-
-    public void testAllMandatoryParameters() {
+    @Test
+    void testAllMandatoryParameters() {
         sut.createPath();
         sut.setDestprefix(new File("foobar"));
 
         sut.validateParameters();
     }
 
-    public void testPathNotSet() {
+    @Test
+    void testPathNotSet() {
         try {
             sut.validateParameters();
             fail("executed without path being set");
         } catch (BuildException ex) {
-            assertEquals("Wrong message", "path must be set!", ex.getMessage());
+            assertEquals("path must be set!", ex.getMessage(), "Wrong message");
         }
     }
 
-    public void testMissingDestprefix() {
+    @Test
+    void testMissingDestprefix() {
         sut.createPath();
 
         try {
             sut.validateParameters();
             fail("executed without destprefix being set");
         } catch (BuildException ex) {
-            assertEquals("Wrong message", "destprefix must be set!", ex.getMessage());
+            assertEquals("destprefix must be set!", ex.getMessage(), "Wrong message");
         }
     }
 
-    public void testCreateStrategy_default() {
+    @Test
+    void testCreateStrategy_default() {
         FilteringSymbolGathererStrategy strategy = (FilteringSymbolGathererStrategy) sut.createStrategy();
-        assertEquals("strategy class", FilteringSymbolGathererStrategy.class, strategy.getClass());
+        assertEquals(FilteringSymbolGathererStrategy.class, strategy.getClass(), "strategy class");
         List<String> includes = strategy.getIncludes();
-        assertEquals("filter includes", 1, includes.size());
-        assertEquals("filter includes", "//", includes.get(0));
+        assertEquals(1, includes.size(), "filter includes");
+        assertEquals("//", includes.get(0), "filter includes");
         List<String> excludes = strategy.getExcludes();
-        assertEquals("filter excludes", 0, excludes.size());
+        assertEquals(0, excludes.size(), "filter excludes");
 
         SymbolGathererStrategy delegateStrategy = strategy.getDelegate();
-        assertEquals("delegate strategy class", DefaultSymbolGathererStrategy.class, delegateStrategy.getClass());
-        assertTrue("classes", delegateStrategy.isMatching(mockClassfile));
-        assertTrue("fields", delegateStrategy.isMatching(mockField));
-        assertTrue("methods", delegateStrategy.isMatching(mockMethod));
-        assertTrue("local variables", delegateStrategy.isMatching(mockLocalVariable));
-        assertTrue("inner classes", delegateStrategy.isMatching(mockInnerClass));
+        assertEquals(DefaultSymbolGathererStrategy.class, delegateStrategy.getClass(), "delegate strategy class");
+        assertTrue(delegateStrategy.isMatching(mockClassfile), "classes");
+        assertTrue(delegateStrategy.isMatching(mockField), "fields");
+        assertTrue(delegateStrategy.isMatching(mockMethod), "methods");
+        assertTrue(delegateStrategy.isMatching(mockLocalVariable), "local variables");
+        assertTrue(delegateStrategy.isMatching(mockInnerClass), "inner classes");
     }
 
-    public void testCreateStrategy_classnames() {
+    @Test
+    void testCreateStrategy_classnames() {
         sut.setClasses(true);
 
         SymbolGathererStrategy strategy = ((SymbolGathererStrategyDecorator) sut.createStrategy()).getDelegate();
-        assertEquals("strategy class", DefaultSymbolGathererStrategy.class, strategy.getClass());
-        assertTrue("classes", strategy.isMatching(mockClassfile));
-        assertFalse("fields", strategy.isMatching(mockField));
-        assertFalse("methods", strategy.isMatching(mockMethod));
-        assertFalse("local variables", strategy.isMatching(mockLocalVariable));
-        assertFalse("inner classes", strategy.isMatching(mockInnerClass));
+        assertEquals(DefaultSymbolGathererStrategy.class, strategy.getClass(), "strategy class");
+        assertTrue(strategy.isMatching(mockClassfile), "classes");
+        assertFalse(strategy.isMatching(mockField), "fields");
+        assertFalse(strategy.isMatching(mockMethod), "methods");
+        assertFalse(strategy.isMatching(mockLocalVariable), "local variables");
+        assertFalse(strategy.isMatching(mockInnerClass), "inner classes");
     }
 
-    public void testCreateStrategy_fieldnames() {
+    @Test
+    void testCreateStrategy_fieldnames() {
         sut.setFields(true);
 
         SymbolGathererStrategy strategy = ((SymbolGathererStrategyDecorator) sut.createStrategy()).getDelegate();
-        assertEquals("strategy class", DefaultSymbolGathererStrategy.class, strategy.getClass());
-        assertFalse("classes", strategy.isMatching(mockClassfile));
-        assertTrue("fields", strategy.isMatching(mockField));
-        assertFalse("methods", strategy.isMatching(mockMethod));
-        assertFalse("local variables", strategy.isMatching(mockLocalVariable));
-        assertFalse("inner classes", strategy.isMatching(mockInnerClass));
+        assertEquals(DefaultSymbolGathererStrategy.class, strategy.getClass(), "strategy class");
+        assertFalse(strategy.isMatching(mockClassfile), "classes");
+        assertTrue(strategy.isMatching(mockField), "fields");
+        assertFalse(strategy.isMatching(mockMethod), "methods");
+        assertFalse(strategy.isMatching(mockLocalVariable), "local variables");
+        assertFalse(strategy.isMatching(mockInnerClass), "inner classes");
     }
 
-    public void testCreateStrategy_methodnames() {
+    @Test
+    void testCreateStrategy_methodnames() {
         sut.setMethods(true);
 
         SymbolGathererStrategy strategy = ((SymbolGathererStrategyDecorator) sut.createStrategy()).getDelegate();
-        assertEquals("strategy class", DefaultSymbolGathererStrategy.class, strategy.getClass());
-        assertFalse("classes", strategy.isMatching(mockClassfile));
-        assertFalse("fields", strategy.isMatching(mockField));
-        assertTrue("methods", strategy.isMatching(mockMethod));
-        assertFalse("local variables", strategy.isMatching(mockLocalVariable));
-        assertFalse("inner classes", strategy.isMatching(mockInnerClass));
+        assertEquals(DefaultSymbolGathererStrategy.class, strategy.getClass(), "strategy class");
+        assertFalse(strategy.isMatching(mockClassfile), "classes");
+        assertFalse(strategy.isMatching(mockField), "fields");
+        assertTrue(strategy.isMatching(mockMethod), "methods");
+        assertFalse(strategy.isMatching(mockLocalVariable), "local variables");
+        assertFalse(strategy.isMatching(mockInnerClass), "inner classes");
     }
 
-    public void testCreateStrategy_localnames() {
+    @Test
+    void testCreateStrategy_localnames() {
         sut.setLocalvariables(true);
 
         SymbolGathererStrategy strategy = ((SymbolGathererStrategyDecorator) sut.createStrategy()).getDelegate();
-        assertEquals("strategy class", DefaultSymbolGathererStrategy.class, strategy.getClass());
-        assertFalse("classes", strategy.isMatching(mockClassfile));
-        assertFalse("fields", strategy.isMatching(mockField));
-        assertFalse("methods", strategy.isMatching(mockMethod));
-        assertTrue("local variables", strategy.isMatching(mockLocalVariable));
-        assertFalse("inner classes", strategy.isMatching(mockInnerClass));
+        assertEquals(DefaultSymbolGathererStrategy.class, strategy.getClass(), "strategy class");
+        assertFalse(strategy.isMatching(mockClassfile), "classes");
+        assertFalse(strategy.isMatching(mockField), "fields");
+        assertFalse(strategy.isMatching(mockMethod), "methods");
+        assertTrue(strategy.isMatching(mockLocalVariable), "local variables");
+        assertFalse(strategy.isMatching(mockInnerClass), "inner classes");
     }
 
-    public void testCreateStrategy_innerclassnames() {
+    @Test
+    void testCreateStrategy_innerclassnames() {
         sut.setInnerclasses(true);
 
         SymbolGathererStrategy strategy = ((SymbolGathererStrategyDecorator) sut.createStrategy()).getDelegate();
-        assertEquals("strategy class", DefaultSymbolGathererStrategy.class, strategy.getClass());
-        assertFalse("classes", strategy.isMatching(mockClassfile));
-        assertFalse("fields", strategy.isMatching(mockField));
-        assertFalse("methods", strategy.isMatching(mockMethod));
-        assertFalse("local variables", strategy.isMatching(mockLocalVariable));
-        assertTrue("inner classes", strategy.isMatching(mockInnerClass));
+        assertEquals(DefaultSymbolGathererStrategy.class, strategy.getClass(), "strategy class");
+        assertFalse(strategy.isMatching(mockClassfile), "classes");
+        assertFalse(strategy.isMatching(mockField), "fields");
+        assertFalse(strategy.isMatching(mockMethod), "methods");
+        assertFalse(strategy.isMatching(mockLocalVariable), "local variables");
+        assertTrue(strategy.isMatching(mockInnerClass), "inner classes");
     }
 
-    public void testCreateStrategy_publicaccessibility() {
+    @Test
+    void testCreateStrategy_publicaccessibility() {
         sut.setPublicaccessibility(true);
 
         checking(new Expectations() {{
@@ -208,19 +210,20 @@ public class TestListSymbols extends MockObjectTestCase {
         }});
 
         SymbolGathererStrategy strategy = sut.createStrategy();
-        assertEquals("strategy class", AccessibilitySymbolGathererStrategy.class, strategy.getClass());
-        assertTrue("public class", strategy.isMatching(mockClassfile));
-        assertFalse("non-public class", strategy.isMatching(mockClassfile));
-        assertTrue("public field", strategy.isMatching(mockField));
-        assertFalse("non-public field", strategy.isMatching(mockField));
-        assertTrue("public method", strategy.isMatching(mockMethod));
-        assertFalse("non-public method", strategy.isMatching(mockMethod));
-        assertFalse("local variable", strategy.isMatching(mockLocalVariable));
-        assertTrue("public inner class", strategy.isMatching(mockInnerClass));
-        assertFalse("non-public inner class", strategy.isMatching(mockInnerClass));
+        assertEquals(AccessibilitySymbolGathererStrategy.class, strategy.getClass(), "strategy class");
+        assertTrue(strategy.isMatching(mockClassfile), "public class");
+        assertFalse(strategy.isMatching(mockClassfile), "non-public class");
+        assertTrue(strategy.isMatching(mockField), "public field");
+        assertFalse(strategy.isMatching(mockField), "non-public field");
+        assertTrue(strategy.isMatching(mockMethod), "public method");
+        assertFalse(strategy.isMatching(mockMethod), "non-public method");
+        assertFalse(strategy.isMatching(mockLocalVariable), "local variable");
+        assertTrue(strategy.isMatching(mockInnerClass), "public inner class");
+        assertFalse(strategy.isMatching(mockInnerClass), "non-public inner class");
     }
 
-    public void testCreateStrategy_protectedaccessibility() {
+    @Test
+    void testCreateStrategy_protectedaccessibility() {
         sut.setProtectedaccessibility(true);
 
         checking(new Expectations() {{
@@ -245,18 +248,19 @@ public class TestListSymbols extends MockObjectTestCase {
         }});
 
         SymbolGathererStrategy strategy = sut.createStrategy();
-        assertEquals("strategy class", AccessibilitySymbolGathererStrategy.class, strategy.getClass());
-        assertFalse("class", strategy.isMatching(mockClassfile));
-        assertTrue("protected field", strategy.isMatching(mockField));
-        assertFalse("non-protected field", strategy.isMatching(mockField));
-        assertTrue("protected method", strategy.isMatching(mockMethod));
-        assertFalse("non-protected method", strategy.isMatching(mockMethod));
-        assertFalse("local variable", strategy.isMatching(mockLocalVariable));
-        assertTrue("protected inner class", strategy.isMatching(mockInnerClass));
-        assertFalse("non-protected inner class", strategy.isMatching(mockInnerClass));
+        assertEquals(AccessibilitySymbolGathererStrategy.class, strategy.getClass(), "strategy class");
+        assertFalse(strategy.isMatching(mockClassfile), "class");
+        assertTrue(strategy.isMatching(mockField), "protected field");
+        assertFalse(strategy.isMatching(mockField), "non-protected field");
+        assertTrue(strategy.isMatching(mockMethod), "protected method");
+        assertFalse(strategy.isMatching(mockMethod), "non-protected method");
+        assertFalse(strategy.isMatching(mockLocalVariable), "local variable");
+        assertTrue(strategy.isMatching(mockInnerClass), "protected inner class");
+        assertFalse(strategy.isMatching(mockInnerClass), "non-protected inner class");
     }
 
-    public void testCreateStrategy_privateaccessibility() {
+    @Test
+    void testCreateStrategy_privateaccessibility() {
         sut.setPrivateaccessibility(true);
 
         checking(new Expectations() {{
@@ -281,18 +285,19 @@ public class TestListSymbols extends MockObjectTestCase {
         }});
 
         SymbolGathererStrategy strategy = sut.createStrategy();
-        assertEquals("strategy class", AccessibilitySymbolGathererStrategy.class, strategy.getClass());
-        assertFalse("class", strategy.isMatching(mockClassfile));
-        assertTrue("private field", strategy.isMatching(mockField));
-        assertFalse("non-private field", strategy.isMatching(mockField));
-        assertTrue("private method", strategy.isMatching(mockMethod));
-        assertFalse("non-private method", strategy.isMatching(mockMethod));
-        assertFalse("local variable", strategy.isMatching(mockLocalVariable));
-        assertTrue("private inner class", strategy.isMatching(mockInnerClass));
-        assertFalse("non-private inner class", strategy.isMatching(mockInnerClass));
+        assertEquals(AccessibilitySymbolGathererStrategy.class, strategy.getClass(), "strategy class");
+        assertFalse(strategy.isMatching(mockClassfile), "class");
+        assertTrue(strategy.isMatching(mockField), "private field");
+        assertFalse(strategy.isMatching(mockField), "non-private field");
+        assertTrue(strategy.isMatching(mockMethod), "private method");
+        assertFalse(strategy.isMatching(mockMethod), "non-private method");
+        assertFalse(strategy.isMatching(mockLocalVariable), "local variable");
+        assertTrue(strategy.isMatching(mockInnerClass), "private inner class");
+        assertFalse(strategy.isMatching(mockInnerClass), "non-private inner class");
     }
 
-    public void testCreateStrategy_packageaccessibility() {
+    @Test
+    void testCreateStrategy_packageaccessibility() {
         sut.setPackageaccessibility(true);
 
         checking(new Expectations() {{
@@ -323,71 +328,77 @@ public class TestListSymbols extends MockObjectTestCase {
         }});
 
         SymbolGathererStrategy strategy = sut.createStrategy();
-        assertEquals("strategy class", AccessibilitySymbolGathererStrategy.class, strategy.getClass());
-        assertTrue("package class", strategy.isMatching(mockClassfile));
-        assertFalse("non-package class", strategy.isMatching(mockClassfile));
-        assertTrue("package field", strategy.isMatching(mockField));
-        assertFalse("non-package field", strategy.isMatching(mockField));
-        assertTrue("package method", strategy.isMatching(mockMethod));
-        assertFalse("non-package method", strategy.isMatching(mockMethod));
-        assertFalse("local variable", strategy.isMatching(mockLocalVariable));
-        assertTrue("package inner class", strategy.isMatching(mockInnerClass));
-        assertFalse("non-package inner class", strategy.isMatching(mockInnerClass));
+        assertEquals(AccessibilitySymbolGathererStrategy.class, strategy.getClass(), "strategy class");
+        assertTrue(strategy.isMatching(mockClassfile), "package class");
+        assertFalse(strategy.isMatching(mockClassfile), "non-package class");
+        assertTrue(strategy.isMatching(mockField), "package field");
+        assertFalse(strategy.isMatching(mockField), "non-package field");
+        assertTrue(strategy.isMatching(mockMethod), "package method");
+        assertFalse(strategy.isMatching(mockMethod), "non-package method");
+        assertFalse(strategy.isMatching(mockLocalVariable), "local variable");
+        assertTrue(strategy.isMatching(mockInnerClass), "package inner class");
+        assertFalse(strategy.isMatching(mockInnerClass), "non-package inner class");
     }
 
-    public void testCreateStrategy_nonprivatefieldnames() {
+    @Test
+    void testCreateStrategy_nonprivatefieldnames() {
         sut.setNonprivatefields(true);
 
         SymbolGathererStrategy strategy = ((SymbolGathererStrategyDecorator) sut.createStrategy()).getDelegate();
-        assertEquals("strategy class", NonPrivateFieldSymbolGathererStrategy.class, strategy.getClass());
+        assertEquals(NonPrivateFieldSymbolGathererStrategy.class, strategy.getClass(), "strategy class");
     }
 
-    public void testCreateStrategy_finalmethodorclassnames() {
+    @Test
+    void testCreateStrategy_finalmethodorclassnames() {
         sut.setFinalmethodsorclasses(true);
 
         SymbolGathererStrategy strategy = ((SymbolGathererStrategyDecorator) sut.createStrategy()).getDelegate();
-        assertEquals("strategy class", FinalMethodOrClassSymbolGathererStrategy.class, strategy.getClass());
+        assertEquals(FinalMethodOrClassSymbolGathererStrategy.class, strategy.getClass(), "strategy class");
     }
 
-    public void testCreateStrategy_singleincludes() {
+    @Test
+    void testCreateStrategy_singleincludes() {
         sut.setIncludes("/some/");
 
         FilteringSymbolGathererStrategy strategy = (FilteringSymbolGathererStrategy) sut.createStrategy();
-        assertEquals("strategy class", FilteringSymbolGathererStrategy.class, strategy.getClass());
+        assertEquals(FilteringSymbolGathererStrategy.class, strategy.getClass(), "strategy class");
         List<String> includes = strategy.getIncludes();
-        assertEquals("filter includes", 1, includes.size());
-        assertEquals("filter includes", "/some/", includes.get(0));
+        assertEquals(1, includes.size(), "filter includes");
+        assertEquals("/some/", includes.get(0), "filter includes");
     }
 
-    public void testCreateStrategy_multipleincludes() {
+    @Test
+    void testCreateStrategy_multipleincludes() {
         sut.setIncludes("/some/, /other/");
 
         FilteringSymbolGathererStrategy strategy = (FilteringSymbolGathererStrategy) sut.createStrategy();
-        assertEquals("strategy class", FilteringSymbolGathererStrategy.class, strategy.getClass());
+        assertEquals(FilteringSymbolGathererStrategy.class, strategy.getClass(), "strategy class");
         List<String> includes = strategy.getIncludes();
-        assertEquals("filter includes", 2, includes.size());
-        assertEquals("filter includes", "/some/", includes.get(0));
-        assertEquals("filter includes", "/other/", includes.get(1));
+        assertEquals(2, includes.size(), "filter includes");
+        assertEquals("/some/", includes.get(0), "filter includes");
+        assertEquals("/other/", includes.get(1), "filter includes");
     }
 
-    public void testCreateStrategy_singleexcludes() {
+    @Test
+    void testCreateStrategy_singleexcludes() {
         sut.setExcludes("/some/");
 
         FilteringSymbolGathererStrategy strategy = (FilteringSymbolGathererStrategy) sut.createStrategy();
-        assertEquals("strategy class", FilteringSymbolGathererStrategy.class, strategy.getClass());
+        assertEquals(FilteringSymbolGathererStrategy.class, strategy.getClass(), "strategy class");
         List<String> excludes = strategy.getExcludes();
-        assertEquals("filter excludes", 1, excludes.size());
-        assertEquals("filter excludes", "/some/", excludes.get(0));
+        assertEquals(1, excludes.size(), "filter excludes");
+        assertEquals("/some/", excludes.get(0), "filter excludes");
     }
 
-    public void testCreateStrategy_multipleexcludes() {
+    @Test
+    void testCreateStrategy_multipleexcludes() {
         sut.setExcludes("/some/, /other/");
 
         FilteringSymbolGathererStrategy strategy = (FilteringSymbolGathererStrategy) sut.createStrategy();
-        assertEquals("strategy class", FilteringSymbolGathererStrategy.class, strategy.getClass());
+        assertEquals(FilteringSymbolGathererStrategy.class, strategy.getClass(), "strategy class");
         List<String> excludes = strategy.getExcludes();
-        assertEquals("filter excludes", 2, excludes.size());
-        assertEquals("filter excludes", "/some/", excludes.get(0));
-        assertEquals("filter excludes", "/other/", excludes.get(1));
+        assertEquals(2, excludes.size(), "filter excludes");
+        assertEquals("/some/", excludes.get(0), "filter excludes");
+        assertEquals("/other/", excludes.get(1), "filter excludes");
     }
 }

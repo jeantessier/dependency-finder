@@ -32,13 +32,14 @@
 
 package com.jeantessier.dependency;
 
-import com.jeantessier.classreader.*;
-import org.jmock.Expectations;
-import org.jmock.api.Action;
-import org.jmock.imposters.ByteBuddyClassImposteriser;
-import org.jmock.integration.junit3.MockObjectTestCase;
+import org.jmock.*;
+import org.jmock.api.*;
+import org.junit.jupiter.api.*;
 
 import java.util.*;
+
+import com.jeantessier.MockObjectTestCase;
+import com.jeantessier.classreader.*;
 
 import static org.jmock.lib.script.ScriptedAction.perform;
 
@@ -55,11 +56,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
 
     private CodeDependencyCollector sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
-
+    @BeforeEach
+    void setUp() {
         mockFactory = mock(NodeFactory.class);
         mockClassfile = mock(Classfile.class);
         mockClassNode = mock(ClassNode.class, "testclass");
@@ -67,7 +65,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         sut = new CodeDependencyCollector(mockFactory);
     }
 
-    public void testVisitClass_info_exceptions() {
+    @Test
+    void testVisitClass_info_exceptions() {
         final Class_info mockException = mock(Class_info.class);
         final UTF8_info mockRawName = mock(UTF8_info.class);
         final ClassNode mockExceptionNode = mock(ClassNode.class);
@@ -88,7 +87,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         sut.visitClass_info(mockException);
     }
 
-    public void testVisitClass_info_arrayOfPrimitives() {
+    @Test
+    void testVisitClass_info_arrayOfPrimitives() {
         final Class_info mockClass_info = mock(Class_info.class);
         final UTF8_info mockUTF8_info = mock(UTF8_info.class);
         final String rawName = "[B";
@@ -107,7 +107,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         sut.visitClass_info(mockClass_info);
     }
 
-    public void testVisitClassfile_withoutSuperclass() {
+    @Test
+    void testVisitClassfile_withoutSuperclass() {
         expectClassNodeForClassname();
 
         checking(new Expectations() {{
@@ -127,7 +128,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_withSuperclass() {
+    @Test
+    void testVisitClassfile_withSuperclass() {
         final Class_info mockRawSuperclass = mock(Class_info.class);
         final ClassNode mockSuperclassNode = mock(ClassNode.class, "superclass");
 
@@ -157,7 +159,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_withInterface() {
+    @Test
+    void testVisitClassfile_withInterface() {
         final Class_info mockInterface = mock(Class_info.class);
         final ClassNode mockInterfaceNode = mock(ClassNode.class, "interface");
 
@@ -189,7 +192,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_fireEvents() {
+    @Test
+    void testVisitClassfile_fireEvents() {
         final DependencyListener mockListener = mock(DependencyListener.class);
 
         expectClassNodeForClassname();
@@ -217,7 +221,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitExceptionHandler_finally() {
+    @Test
+    void testVisitExceptionHandler_finally() {
         final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
 
         checking(new Expectations() {{
@@ -228,7 +233,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         sut.visitExceptionHandler(mockExceptionHandler);
     }
 
-    public void testVisitExceptionHandler_catch() {
+    @Test
+    void testVisitExceptionHandler_catch() {
         final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
         final Class_info mockCatchType = mock(Class_info.class);
 
@@ -243,7 +249,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         sut.visitExceptionHandler(mockExceptionHandler);
     }
 
-    public void testVisitAnnotation() {
+    @Test
+    void testVisitAnnotation() {
         final Annotation mockAnnotation = mock(Annotation.class);
         final ClassNode mockDependableClassNode = mock(ClassNode.class, "dependable");
 
@@ -261,7 +268,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         sut.visitAnnotation(mockAnnotation);
     }
 
-    public void testVisitEnumElementValue() {
+    @Test
+    void testVisitEnumElementValue() {
         final EnumElementValue mockEnumElementValue = mock(EnumElementValue.class);
         final FeatureNode mockDependableFeatureNode = mock(FeatureNode.class, "dependable.CONSTANT");
 
@@ -279,7 +287,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         sut.visitEnumElementValue(mockEnumElementValue);
     }
 
-    public void testVisitClassElementValue() {
+    @Test
+    void testVisitClassElementValue() {
         final ClassElementValue mockClassElementValue = mock(ClassElementValue.class);
         final ClassNode mockDependableClassNode = mock(ClassNode.class, "dependable");
 
@@ -295,7 +304,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         sut.visitClassElementValue(mockClassElementValue);
     }
 
-    public void testVisitClassAnnotations() {
+    @Test
+    void testVisitClassAnnotations() {
         expectClassNodeForClassname();
 
         checking(new Expectations() {{
@@ -305,7 +315,8 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
         sut.visitClassfileAttributes(mockClassfile);
     }
 
-    public void testVisitInstruction_invokedynamic() {
+    @Test
+    void testVisitInstruction_invokedynamic() {
         final Instruction mockInstruction = mock(Instruction.class);
         final ConstantPoolEntry mockConstantPoolEntry = mock(ConstantPoolEntry.class);
 
@@ -332,10 +343,10 @@ public class TestCodeDependencyCollectorUsingMocks extends MockObjectTestCase {
     private Action createEventCheckingAction(final String expectedClassName) {
         return
             perform(
-                "junit.framework.Assert.assertEquals(\"source\", sut, $0.getSource());" +
-                "junit.framework.Assert.assertEquals(\"classname\", expectedClassName, $0.getClassName());" +
-                "junit.framework.Assert.assertNull(\"dependent\", $0.getDependent());" +
-                "junit.framework.Assert.assertNull(\"dependable\", $0.getDependable())")
+                "org.junit.jupiter.api.Assertions.assertEquals(sut, $0.getSource(), \"source\");" +
+                "org.junit.jupiter.api.Assertions.assertEquals(expectedClassName, $0.getClassName(), \"classname\");" +
+                "org.junit.jupiter.api.Assertions.assertNull($0.getDependent(), \"dependent\");" +
+                "org.junit.jupiter.api.Assertions.assertNull($0.getDependable(), \"dependable\")")
                 .where("sut", sut)
                 .where("expectedClassName", expectedClassName);
     }

@@ -34,14 +34,14 @@ package com.jeantessier.dependency;
 
 import org.jmock.*;
 import org.jmock.imposters.*;
-import org.jmock.integration.junit4.*;
-import org.junit.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
 import java.util.*;
 
 public class CompositeSelectionCriteriaTestBase {
-    @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery() {{
         setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }};
 

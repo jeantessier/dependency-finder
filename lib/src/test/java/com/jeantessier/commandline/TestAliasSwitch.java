@@ -32,68 +32,70 @@
 
 package com.jeantessier.commandline;
 
-import org.jmock.integration.junit3.*;
 import org.jmock.*;
+import org.junit.jupiter.api.*;
+
+import com.jeantessier.MockObjectTestCase;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestAliasSwitch extends MockObjectTestCase {
     private static final String SWITCH_NAME = "switch";
     private static final String SWITCH_VALUE = "value";
 
-    private CommandLineSwitch switch1;
-    private CommandLineSwitch switch2;
+    private final CommandLineSwitch switch1 = new SingleValueSwitch("switch1");
+    private final CommandLineSwitch switch2 = new OptionalValueSwitch("switch2");
 
-    private AliasSwitch aliasSwitch;
+    private AliasSwitch aliasSwitch = new AliasSwitch(SWITCH_NAME, switch1, switch2);
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        switch1 = new SingleValueSwitch("switch1");
-        switch2 = new OptionalValueSwitch("switch2");
-
-        aliasSwitch = new AliasSwitch(SWITCH_NAME, switch1, switch2);
-    }
-    
-    public void testConstructor() {
-        assertEquals("Name", SWITCH_NAME, aliasSwitch.getName());
-        assertEquals("Nb switches", 2, aliasSwitch.getSwitches().size());
-        assertTrue("Missing switch1", aliasSwitch.getSwitches().contains(switch1));
-        assertTrue("Missing switch2", aliasSwitch.getSwitches().contains(switch2));
+    @Test
+    void testConstructor() {
+        assertEquals(SWITCH_NAME, aliasSwitch.getName(), "Name");
+        assertEquals(2, aliasSwitch.getSwitches().size(), "Nb switches");
+        assertTrue(aliasSwitch.getSwitches().contains(switch1), "Missing switch1");
+        assertTrue(aliasSwitch.getSwitches().contains(switch2), "Missing switch2");
     }
 
-    public void testSetValueToNull() {
+    @Test
+    void testSetValueToNull() {
         aliasSwitch.setValue(null);
-        assertEquals("Switch1 not default value", switch1.getDefaultValue(), switch1.getValue());
-        assertEquals("Switch2 not default value", switch2.getDefaultValue(), switch2.getValue());
+        assertEquals(switch1.getDefaultValue(), switch1.getValue(), "Switch1 not default value");
+        assertEquals(switch2.getDefaultValue(), switch2.getValue(), "Switch2 not default value");
     }
 
-    public void testSetValueToValue() {
+    @Test
+    void testSetValueToValue() {
         aliasSwitch.setValue(SWITCH_VALUE);
-        assertEquals("Switch1 not new value", SWITCH_VALUE, switch1.getValue());
-        assertEquals("Switch2 not new value", SWITCH_VALUE, switch2.getValue());
+        assertEquals(SWITCH_VALUE, switch1.getValue(), "Switch1 not new value");
+        assertEquals(SWITCH_VALUE, switch2.getValue(), "Switch2 not new value");
     }
 
-    public void testIsPresent() {
+    @Test
+    void testIsPresent() {
         aliasSwitch.setValue(SWITCH_VALUE);
-        assertTrue("Switch1 not present", switch1.isPresent());
-        assertTrue("Switch2 not present", switch2.isPresent());
-        assertTrue("Not present", aliasSwitch.isPresent());
+        assertTrue(switch1.isPresent(), "Switch1 not present");
+        assertTrue(switch2.isPresent(), "Switch2 not present");
+        assertTrue(aliasSwitch.isPresent(), "Not present");
     }
 
-    public void testIsPresentWithNoSwitches() {
+    @Test
+    void testIsPresentWithNoSwitches() {
         aliasSwitch = new AliasSwitch(SWITCH_NAME);
         aliasSwitch.setValue(SWITCH_VALUE);
-        assertFalse("Present", aliasSwitch.isPresent());
+        assertFalse(aliasSwitch.isPresent(), "Present");
     }
 
-    public void testParseNull() throws CommandLineException {
+    @Test
+    void testParseNull() throws CommandLineException {
         aliasSwitch = new AliasSwitch(SWITCH_NAME, switch2);
         int step = aliasSwitch.parse(null);
-        assertEquals("step", 1, step);
-        assertFalse("Switch1 was set", switch1.isPresent());
-        assertEquals("Switch2 not default value", switch2.getDefaultValue(), switch2.getValue());
+        assertEquals(1, step, "step");
+        assertFalse(switch1.isPresent(), "Switch1 was set");
+        assertEquals(switch2.getDefaultValue(), switch2.getValue(), "Switch2 not default value");
     }
 
-    public void testParseNullWithError() throws CommandLineException {
+    @Test
+    void testParseNullWithError() throws CommandLineException {
         try {
             aliasSwitch.parse(null);
             fail("Alias with SingleValueSwitch parsed null");
@@ -102,26 +104,30 @@ public class TestAliasSwitch extends MockObjectTestCase {
         }
     }
 
-    public void testParseValue() throws CommandLineException {
+    @Test
+    void testParseValue() throws CommandLineException {
         int step = aliasSwitch.parse(SWITCH_VALUE);
-        assertEquals("step", 2, step);
-        assertEquals("Switch1 not new value", SWITCH_VALUE, switch1.getValue());
-        assertEquals("Switch2 not new value", SWITCH_VALUE, switch2.getValue());
+        assertEquals(2, step, "step");
+        assertEquals(SWITCH_VALUE, switch1.getValue(), "Switch1 not new value");
+        assertEquals(SWITCH_VALUE, switch2.getValue(), "Switch2 not new value");
     }
 
-    public void testParseNullWithNoSwitches() throws CommandLineException {
+    @Test
+    void testParseNullWithNoSwitches() throws CommandLineException {
         aliasSwitch = new AliasSwitch(SWITCH_NAME);
         int step = aliasSwitch.parse(null);
-        assertEquals("step", 1, step);
+        assertEquals(1, step, "step");
     }
 
-    public void testParseValueWithNoSwitches() throws CommandLineException {
+    @Test
+    void testParseValueWithNoSwitches() throws CommandLineException {
         aliasSwitch = new AliasSwitch(SWITCH_NAME);
         int step = aliasSwitch.parse(SWITCH_VALUE);
-        assertEquals("step", 1, step);
+        assertEquals(1, step, "step");
     }
 
-    public void testAccept() {
+    @Test
+    void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{

@@ -32,16 +32,19 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.jmock.*;
+import org.jmock.api.*;
+import org.jmock.lib.action.*;
+import org.junit.jupiter.api.*;
+
+import java.util.*;
+
+import com.jeantessier.MockObjectTestCase;
 import com.jeantessier.classreader.BootstrapMethodFinder;
 import com.jeantessier.classreader.LocalVariableFinder;
 import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
-import org.jmock.api.*;
-import org.jmock.imposters.ByteBuddyClassImposteriser;
-import org.jmock.integration.junit3.MockObjectTestCase;
-import org.jmock.lib.action.*;
 
-import java.util.Collections;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestInstruction extends MockObjectTestCase {
     private static final byte ICONST_0_INSTRUCTION = (byte) 0x03;
@@ -56,28 +59,28 @@ public class TestInstruction extends MockObjectTestCase {
 
     private Code_attribute mockCode_attribute;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
-
+    @BeforeEach
+    void setUp() {
         mockCode_attribute = mock(Code_attribute.class);
     }
 
-    public void testEquals_Same() {
+    @Test
+    void testEquals_Same() {
         Instruction sut = new Instruction(mockCode_attribute, null, 0);
-        assertTrue(sut.equals(sut));
+        assertEquals(sut, sut);
     }
 
-    public void testEquals_DifferentClasses() {
+    @Test
+    void testEquals_DifferentClasses() {
         Instruction sut = new Instruction(mockCode_attribute, null, 0);
         Object other = new Object();
 
-        assertFalse(sut.equals(other));
-        assertFalse(other.equals(sut));
+        assertNotEquals(sut, other);
+        assertNotEquals(other, sut);
     }
 
-    public void testEquals_Identical() {
+    @Test
+    void testEquals_Identical() {
         final ConstantPool mockConstantPool = mock(ConstantPool.class);
         final ConstantPoolEntry mockEntry = mock(ConstantPoolEntry.class);
 
@@ -93,22 +96,24 @@ public class TestInstruction extends MockObjectTestCase {
                 will(returnValue(mockEntry));
         }});
 
-        assertTrue(sut.equals(other));
-        assertTrue(other.equals(sut));
+        assertEquals(sut, other);
+        assertEquals(other, sut);
     }
 
-    public void testEquals_DifferentOpCode() {
+    @Test
+    void testEquals_DifferentOpCode() {
         byte[] code1 = new byte[] {(byte) 0xAC};
         byte[] code2 = new byte[] {(byte) 0xAD};
 
         Instruction sut = new Instruction(mockCode_attribute, code1, 0);
         Instruction other = new Instruction(mockCode_attribute, code2, 0);
 
-        assertFalse("different opcode", sut.equals(other));
-        assertFalse("different opcode", other.equals(sut));
+        assertNotEquals(sut, other, "different opcode");
+        assertNotEquals(other, sut, "different opcode");
     }
 
-    public void testEquals_Offset() {
+    @Test
+    void testEquals_Offset() {
         final ConstantPool mockConstantPool = mock(ConstantPool.class);
         final ConstantPoolEntry mockEntry = mock(ConstantPoolEntry.class);
 
@@ -126,11 +131,12 @@ public class TestInstruction extends MockObjectTestCase {
                 will(returnValue(mockEntry));
         }});
 
-        assertTrue(sut.equals(other));
-        assertTrue(other.equals(sut));
+        assertEquals(sut, other);
+        assertEquals(other, sut);
     }
 
-    public void testEquals_DifferentIndex_SameValue() {
+    @Test
+    void testEquals_DifferentIndex_SameValue() {
         final ConstantPool mockConstantPool = mock(ConstantPool.class);
         final ConstantPoolEntry mockEntry = mock(ConstantPoolEntry.class);
 
@@ -149,11 +155,12 @@ public class TestInstruction extends MockObjectTestCase {
                 will(returnValue(mockEntry));
         }});
 
-        assertTrue(sut.equals(other));
-        assertTrue(other.equals(sut));
+        assertEquals(sut, other);
+        assertEquals(other, sut);
     }
 
-    public void testEquals_DifferentIndex_DifferentValue() {
+    @Test
+    void testEquals_DifferentIndex_DifferentValue() {
         final ConstantPool mockConstantPool = mock(ConstantPool.class);
         final ConstantPoolEntry mockEntry1 = mock(ConstantPoolEntry.class, "SUT entry");
         final ConstantPoolEntry mockEntry2 = mock(ConstantPoolEntry.class, "other entry");
@@ -173,11 +180,12 @@ public class TestInstruction extends MockObjectTestCase {
                 will(returnValue(mockEntry2));
         }});
 
-        assertFalse(sut.equals(other));
-        assertFalse(other.equals(sut));
+        assertNotEquals(sut, other);
+        assertNotEquals(other, sut);
     }
 
-    public void testEquals_DifferentCode_attribute() {
+    @Test
+    void testEquals_DifferentCode_attribute() {
         final ConstantPool mockConstantPool1 = mock(ConstantPool.class, "SUT constant pool");
         final ConstantPool mockConstantPool2 = mock(ConstantPool.class, "other constant pool");
         final ConstantPoolEntry mockEntry1 = mock(ConstantPoolEntry.class, "SUT entry");
@@ -200,11 +208,12 @@ public class TestInstruction extends MockObjectTestCase {
         Instruction sut = new Instruction(mockCode_attribute, code, 0);
         Instruction other = new Instruction(otherCode_attribute, code, 0);
 
-        assertFalse(sut.equals(other));
-        assertFalse(other.equals(sut));
+        assertNotEquals(sut, other);
+        assertNotEquals(other, sut);
     }
 
-    public void testGetIndexedConstantPoolEntry() {
+    @Test
+    void testGetIndexedConstantPoolEntry() {
         final ConstantPool mockConstantPool = mock(ConstantPool.class);
         final ConstantPoolEntry mockEntry = mock(ConstantPoolEntry.class);
 
@@ -222,7 +231,8 @@ public class TestInstruction extends MockObjectTestCase {
         assertSame(mockEntry, actualEntry);
     }
 
-    public void testGetIndexedLocalVariable_NotMatchingIndex() {
+    @Test
+    void testGetIndexedLocalVariable_NotMatchingIndex() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
@@ -240,7 +250,8 @@ public class TestInstruction extends MockObjectTestCase {
         assertNull(actualLocalVariable);
     }
 
-    public void testGetIndexedLocalVariable_LoadInstructionInsideMatchingIndexMatchingPcRange() {
+    @Test
+    void testGetIndexedLocalVariable_LoadInstructionInsideMatchingIndexMatchingPcRange() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         final byte[] bytecode = {ILOAD_INSTRUCTION, INDEX};
@@ -262,7 +273,8 @@ public class TestInstruction extends MockObjectTestCase {
         assertSame(mockLocalVariable, actualLocalVariable);
     }
 
-    public void testGetIndexedLocalVariable_LoadInstructionImmediatelyBeforePcRange() {
+    @Test
+    void testGetIndexedLocalVariable_LoadInstructionImmediatelyBeforePcRange() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         final byte[] bytecode = {ILOAD_INSTRUCTION, INDEX};
@@ -282,7 +294,8 @@ public class TestInstruction extends MockObjectTestCase {
         assertNull(actualLocalVariable);
     }
 
-    public void testGetIndexedLocalVariable_StoreInstructionInsidePcRange() {
+    @Test
+    void testGetIndexedLocalVariable_StoreInstructionInsidePcRange() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         final byte[] bytecode = {ISTORE_INSTRUCTION, INDEX};
@@ -304,7 +317,8 @@ public class TestInstruction extends MockObjectTestCase {
         assertSame(mockLocalVariable, actualLocalVariable);
     }
 
-    public void testGetIndexedLocalVariable_StoreInstructionImmediatelyBeforePcRange() {
+    @Test
+    void testGetIndexedLocalVariable_StoreInstructionImmediatelyBeforePcRange() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         final byte[] bytecode = {ISTORE_INSTRUCTION, INDEX};
@@ -326,7 +340,8 @@ public class TestInstruction extends MockObjectTestCase {
         assertSame(mockLocalVariable, actualLocalVariable);
     }
 
-    public void testGetIndexedLocalVariable_WideLoadInstructionInsideMatchingIndexMatchingPcRange() {
+    @Test
+    void testGetIndexedLocalVariable_WideLoadInstructionInsideMatchingIndexMatchingPcRange() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         final byte[] bytecode = {WIDE_INSTRUCTION, ILOAD_INSTRUCTION, 0x00, INDEX};
@@ -348,7 +363,8 @@ public class TestInstruction extends MockObjectTestCase {
         assertSame(mockLocalVariable, actualLocalVariable);
     }
 
-    public void testGetIndexedLocalVariable_WideLoadInstructionImmediatelyBeforePcRange() {
+    @Test
+    void testGetIndexedLocalVariable_WideLoadInstructionImmediatelyBeforePcRange() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         final byte[] bytecode = {WIDE_INSTRUCTION, ILOAD_INSTRUCTION, 0x00, INDEX};
@@ -368,7 +384,8 @@ public class TestInstruction extends MockObjectTestCase {
         assertNull(actualLocalVariable);
     }
 
-    public void testGetIndexedLocalVariable_WideStoreInstructionInsidePcRange() {
+    @Test
+    void testGetIndexedLocalVariable_WideStoreInstructionInsidePcRange() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         final byte[] bytecode = {WIDE_INSTRUCTION, ISTORE_INSTRUCTION, 0x00, INDEX};
@@ -390,7 +407,8 @@ public class TestInstruction extends MockObjectTestCase {
         assertSame(mockLocalVariable, actualLocalVariable);
     }
 
-    public void testGetIndexedLocalVariable_WideStoreInstructionImmediatelyBeforePcRange() {
+    @Test
+    void testGetIndexedLocalVariable_WideStoreInstructionImmediatelyBeforePcRange() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         final byte[] bytecode = {WIDE_INSTRUCTION, ISTORE_INSTRUCTION, 0x00, INDEX};
@@ -412,7 +430,8 @@ public class TestInstruction extends MockObjectTestCase {
         assertSame(mockLocalVariable, actualLocalVariable);
     }
 
-    public void testGetIndexedLocalVariable_WrongOpCode() {
+    @Test
+    void testGetIndexedLocalVariable_WrongOpCode() {
         byte[] bytecode = {ICONST_0_INSTRUCTION};
 
         Instruction sut = new Instruction(mockCode_attribute, bytecode, 0);
@@ -421,16 +440,18 @@ public class TestInstruction extends MockObjectTestCase {
         assertNull(actualLocalVariable);
     }
 
-    public void testGetDynamicConstantPoolEntries_withNonDynamicInstruction() {
+    @Test
+    void testGetDynamicConstantPoolEntries_withNonDynamicInstruction() {
         byte[] bytecode = new byte[] {ICONST_0_INSTRUCTION};
 
         Instruction sut = new Instruction(mockCode_attribute, bytecode, 0);
 
         var entries = sut.getDynamicConstantPoolEntries();
-        assertTrue("empty", entries.isEmpty());
+        assertTrue(entries.isEmpty(), "empty");
     }
 
-    public void testGetDynamicConstantPoolEntries_withNonDynamicConstantPoolEntry() {
+    @Test
+    void testGetDynamicConstantPoolEntries_withNonDynamicConstantPoolEntry() {
         final ConstantPool mockConstantPool = mock(ConstantPool.class);
         final ConstantPoolEntry mockEntry = mock(ConstantPoolEntry.class);
 
@@ -446,10 +467,11 @@ public class TestInstruction extends MockObjectTestCase {
         Instruction sut = new Instruction(mockCode_attribute, bytecode, 0);
 
         var entries = sut.getDynamicConstantPoolEntries();
-        assertTrue("empty", entries.isEmpty());
+        assertTrue(entries.isEmpty(), "empty");
     }
 
-    public void testGetDynamicConstantPoolEntries_withDynamic_info() {
+    @Test
+    void testGetDynamicConstantPoolEntries_withDynamic_info() {
         final Classfile mockClassfile = mock(Classfile.class);
         final ConstantPool mockConstantPool = mock(ConstantPool.class);
         final Dynamic_info mockEntry = mock(Dynamic_info.class);
@@ -485,11 +507,12 @@ public class TestInstruction extends MockObjectTestCase {
         Instruction sut = new Instruction(mockCode_attribute, bytecode, 0);
 
         var entries = sut.getDynamicConstantPoolEntries();
-        assertEquals("size", 1, entries.size());
-        assertSame("reference entry", mockReference, entries.stream().findFirst().orElseThrow());
+        assertEquals(1, entries.size(), "size");
+        assertSame(mockReference, entries.stream().findFirst().orElseThrow(), "reference entry");
     }
 
-    public void testGetDynamicConstantPoolEntries_withInvokeDynamic_info() {
+    @Test
+    void testGetDynamicConstantPoolEntries_withInvokeDynamic_info() {
         final Classfile mockClassfile = mock(Classfile.class);
         final ConstantPool mockConstantPool = mock(ConstantPool.class);
         final InvokeDynamic_info mockEntry = mock(InvokeDynamic_info.class);
@@ -525,13 +548,13 @@ public class TestInstruction extends MockObjectTestCase {
         Instruction sut = new Instruction(mockCode_attribute, bytecode, 0);
 
         var entries = sut.getDynamicConstantPoolEntries();
-        assertEquals("size", 1, entries.size());
-        assertSame("reference entry", mockReference, entries.stream().findFirst().orElseThrow());
+        assertEquals(1, entries.size(), "size");
+        assertSame(mockReference, entries.stream().findFirst().orElseThrow(), "reference entry");
     }
 
     private Action visitLocalVariable(final LocalVariable localVariable) {
         return new CustomAction("Visit local variable") {
-            public Object invoke(Invocation invocation) throws Throwable {
+            public Object invoke(Invocation invocation) {
                 ((Visitor) invocation.getParameter(0)).visitLocalVariable(localVariable);
                 return null;
             }

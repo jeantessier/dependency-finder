@@ -32,24 +32,18 @@
 
 package com.jeantessier.dependency;
 
-import org.jmock.Expectations;
-import org.jmock.imposters.ByteBuddyClassImposteriser;
-import org.jmock.integration.junit3.MockObjectTestCase;
+import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import java.util.*;
 
+import com.jeantessier.MockObjectTestCase;
+
 public class TestFeatureResolver extends MockObjectTestCase {
-    private FeatureResolver sut;
+    private final FeatureResolver sut = new FeatureResolver();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
-
-        sut = new FeatureResolver();
-    }
-
-    public void testTraverseNodes() {
+    @Test
+    void testTraverseNodes() {
         final Node mockNode1 = mock(Node.class, "node1");
         final Node mockNode2 = mock(Node.class, "node2");
 
@@ -65,7 +59,8 @@ public class TestFeatureResolver extends MockObjectTestCase {
         sut.traverseNodes(nodes);
     }
 
-    public void testVisitPackageNode() {
+    @Test
+    void testVisitPackageNode() {
         final PackageNode mockPackageNode = mock(PackageNode.class);
         final ClassNode mockClassNode1 = mock(ClassNode.class, "class1");
         final ClassNode mockClassNode2 = mock(ClassNode.class, "class2");
@@ -84,17 +79,20 @@ public class TestFeatureResolver extends MockObjectTestCase {
         sut.visitPackageNode(mockPackageNode);
     }
 
-    public void testVisitInboundPackageNode() {
+    @Test
+    void testVisitInboundPackageNode() {
         final PackageNode mockPackageNode = mock(PackageNode.class);
         sut.visitInboundPackageNode(mockPackageNode);
     }
 
-    public void testVisitOutboundPackageNode() {
+    @Test
+    void testVisitOutboundPackageNode() {
         final PackageNode mockPackageNode = mock(PackageNode.class);
         sut.visitOutboundPackageNode(mockPackageNode);
     }
 
-    public void testVisitClassNode() {
+    @Test
+    void testVisitClassNode() {
         final ClassNode mockClassNode = mock(ClassNode.class);
         final FeatureNode mockFeatureNode1 = mock(FeatureNode.class, "feature1");
         final FeatureNode mockFeatureNode2 = mock(FeatureNode.class, "feature2");
@@ -113,17 +111,20 @@ public class TestFeatureResolver extends MockObjectTestCase {
         sut.visitClassNode(mockClassNode);
     }
 
-    public void testVisitInboundClassNode() {
+    @Test
+    void testVisitInboundClassNode() {
         final ClassNode mockClassNode = mock(ClassNode.class);
         sut.visitInboundClassNode(mockClassNode);
     }
 
-    public void testVisitOutboundClassNode() {
+    @Test
+    void testVisitOutboundClassNode() {
         final ClassNode mockClassNode = mock(ClassNode.class);
         sut.visitOutboundClassNode(mockClassNode);
     }
 
-    public void testVisitFeatureNode() {
+    @Test
+    void testVisitFeatureNode() {
         final String TARGET_SIMPLE_NAME = "target()";
         final String CHILD_NAME = "Child";
         final String CHILD_TARGET_NAME = CHILD_NAME + "." + TARGET_SIMPLE_NAME;
@@ -150,12 +151,14 @@ public class TestFeatureResolver extends MockObjectTestCase {
         sut.visitFeatureNode(mockChildTarget);
     }
 
-    public void testVisitInboundFeatureNode() {
+    @Test
+    void testVisitInboundFeatureNode() {
         final FeatureNode mockFeatureNode = mock(FeatureNode.class);
         sut.visitInboundFeatureNode(mockFeatureNode);
     }
 
-    public void testVisitOutboundFeatureNode() {
+    @Test
+    void testVisitOutboundFeatureNode() {
         final FeatureNode mockFeatureNode = mock(FeatureNode.class);
         sut.visitOutboundFeatureNode(mockFeatureNode);
     }

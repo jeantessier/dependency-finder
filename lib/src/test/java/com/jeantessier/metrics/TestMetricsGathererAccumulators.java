@@ -32,12 +32,15 @@
 
 package com.jeantessier.metrics;
 
-import com.jeantessier.classreader.*;
 import org.jmock.Expectations;
-import org.jmock.imposters.ByteBuddyClassImposteriser;
-import org.jmock.integration.junit3.MockObjectTestCase;
+import org.junit.jupiter.api.*;
+
+import com.jeantessier.classreader.*;
+import com.jeantessier.MockObjectTestCase;
 
 import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestMetricsGathererAccumulators extends MockObjectTestCase {
     private static final String PACKAGE_NAME = "test.package";
@@ -48,13 +51,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
     private static final String INNER_CLASS_NAME = CLASS_NAME + "$InnerClass";
     private static final String ANONYMOUS_INNER_CLASS_NAME = CLASS_NAME + "$1";
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
-    }
-
-    public void testVisitClassfile_public() {
+    @Test
+    void testVisitClassfile_public() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Classfile mockClassfile = mock(Classfile.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "project");
@@ -122,7 +120,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_package() {
+    @Test
+    void testVisitClassfile_package() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Classfile mockClassfile = mock(Classfile.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "project");
@@ -185,7 +184,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_final() {
+    @Test
+    void testVisitClassfile_final() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Classfile mockClassfile = mock(Classfile.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "project");
@@ -255,7 +255,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_super() {
+    @Test
+    void testVisitClassfile_super() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Classfile mockClassfile = mock(Classfile.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "project");
@@ -325,7 +326,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_interface() {
+    @Test
+    void testVisitClassfile_interface() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Classfile mockClassfile = mock(Classfile.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "project");
@@ -390,7 +392,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_abstract() {
+    @Test
+    void testVisitClassfile_abstract() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Classfile mockClassfile = mock(Classfile.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "project");
@@ -455,7 +458,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_synthetic_withSyntheticAttribute() {
+    @Test
+    void testVisitClassfile_synthetic_withSyntheticAttribute() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Classfile mockClassfile = mock(Classfile.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "project");
@@ -524,7 +528,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_synthetic_withoutSyntheticAttribute() {
+    @Test
+    void testVisitClassfile_synthetic_withoutSyntheticAttribute() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Classfile mockClassfile = mock(Classfile.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "project");
@@ -587,7 +592,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_annotation() {
+    @Test
+    void testVisitClassfile_annotation() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Classfile mockClassfile = mock(Classfile.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "project");
@@ -652,7 +658,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_enum() {
+    @Test
+    void testVisitClassfile_enum() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Classfile mockClassfile = mock(Classfile.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "project");
@@ -717,7 +724,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_module() {
+    @Test
+    void testVisitClassfile_module() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Classfile mockClassfile = mock(Classfile.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "project");
@@ -782,7 +790,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClassfile_deprecated() {
+    @Test
+    void testVisitClassfile_deprecated() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Classfile mockClassfile = mock(Classfile.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "project");
@@ -847,7 +856,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitField_info_public() {
+    @Test
+    void testVisitField_info_public() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -882,7 +892,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitField_info_protected() {
+    @Test
+    void testVisitField_info_protected() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -917,7 +928,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitField_info_private() {
+    @Test
+    void testVisitField_info_private() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -952,7 +964,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitField_info_package() {
+    @Test
+    void testVisitField_info_package() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -987,7 +1000,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitField_info_final() {
+    @Test
+    void testVisitField_info_final() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1023,7 +1037,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitField_info_deprecated() {
+    @Test
+    void testVisitField_info_deprecated() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1059,7 +1074,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitField_info_synthetic_withSyntheticAttribute() {
+    @Test
+    void testVisitField_info_synthetic_withSyntheticAttribute() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1102,7 +1118,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitField_info_synthetic_withoutSyntheticAttribute() {
+    @Test
+    void testVisitField_info_synthetic_withoutSyntheticAttribute() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1138,7 +1155,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitField_info_static() {
+    @Test
+    void testVisitField_info_static() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1174,7 +1192,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitField_info_transient() {
+    @Test
+    void testVisitField_info_transient() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1210,7 +1229,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitField_info_volatile() {
+    @Test
+    void testVisitField_info_volatile() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1246,7 +1266,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitField_info_enum() {
+    @Test
+    void testVisitField_info_enum() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Field_info mockField = mock(Field_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1282,7 +1303,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitMethod_info_public() {
+    @Test
+    void testVisitMethod_info_public() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1327,7 +1349,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_protected() {
+    @Test
+    void testVisitMethod_info_protected() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1372,7 +1395,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_private() {
+    @Test
+    void testVisitMethod_info_private() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1417,7 +1441,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_package() {
+    @Test
+    void testVisitMethod_info_package() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1462,7 +1487,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_final() {
+    @Test
+    void testVisitMethod_info_final() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1508,7 +1534,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_abstract() {
+    @Test
+    void testVisitMethod_info_abstract() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1554,7 +1581,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_deprecated() {
+    @Test
+    void testVisitMethod_info_deprecated() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1600,7 +1628,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_synthetic_withSyntheticAttribute() {
+    @Test
+    void testVisitMethod_info_synthetic_withSyntheticAttribute() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1653,7 +1682,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_synthetic_withoutSyntheticAttribute() {
+    @Test
+    void testVisitMethod_info_synthetic_withoutSyntheticAttribute() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1699,7 +1729,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_static() {
+    @Test
+    void testVisitMethod_info_static() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1745,7 +1776,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_synchronized() {
+    @Test
+    void testVisitMethod_info_synchronized() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1791,7 +1823,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_bridge() {
+    @Test
+    void testVisitMethod_info_bridge() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1837,7 +1870,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_varars() {
+    @Test
+    void testVisitMethod_info_varars() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1883,7 +1917,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_native() {
+    @Test
+    void testVisitMethod_info_native() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1929,7 +1964,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_strict() {
+    @Test
+    void testVisitMethod_info_strict() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -1975,7 +2011,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitMethod_info_parameters() {
+    @Test
+    void testVisitMethod_info_parameters() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final Method_info mockMethod = mock(Method_info.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -2022,7 +2059,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testIsInnerClassOfCurrentClass_NamedInnerClass_OfCurrentClass() {
+    @Test
+    void testIsInnerClassOfCurrentClass_NamedInnerClass_OfCurrentClass() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -2039,10 +2077,11 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
-        assertEquals("return value", true, sut.isInnerClassOfCurrentClass(mockInnerClass));
+        assertTrue(sut.isInnerClassOfCurrentClass(mockInnerClass), "return value");
     }
 
-    public void testIsInnerClassOfCurrentClass_NamedInnerClass_OfOtherClass() {
+    @Test
+    void testIsInnerClassOfCurrentClass_NamedInnerClass_OfOtherClass() {
         final String otherClassName = "otherpackage.OtherClass";
 
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
@@ -2061,10 +2100,11 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
-        assertEquals("return value", false, sut.isInnerClassOfCurrentClass(mockInnerClass));
+        assertFalse(sut.isInnerClassOfCurrentClass(mockInnerClass), "return value");
     }
 
-    public void testIsInnerClassOfCurrentClass_AnonymousInnerClass_OfCurrentClass() {
+    @Test
+    void testIsInnerClassOfCurrentClass_AnonymousInnerClass_OfCurrentClass() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockMetrics = mock(Metrics.class);
@@ -2081,10 +2121,11 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
-        assertEquals("return value", true, sut.isInnerClassOfCurrentClass(mockInnerClass));
+        assertTrue(sut.isInnerClassOfCurrentClass(mockInnerClass), "return value");
     }
 
-    public void testIsInnerClassOfCurrentClass_AnonymousInnerClass_OfOtherClass() {
+    @Test
+    void testIsInnerClassOfCurrentClass_AnonymousInnerClass_OfOtherClass() {
         final String otherInnerClassName = "otherpackage.OtherClass$1";
 
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
@@ -2103,10 +2144,11 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
         sut.setCurrentClass(mockMetrics);
-        assertEquals("return value", false, sut.isInnerClassOfCurrentClass(mockInnerClass));
+        assertFalse(sut.isInnerClassOfCurrentClass(mockInnerClass), "return value");
     }
 
-    public void testVisitInnerClass_public() {
+    @Test
+    void testVisitInnerClass_public() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
@@ -2155,7 +2197,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitInnerClass(mockInnerClass);
     }
 
-    public void testVisitInnerClass_protected() {
+    @Test
+    void testVisitInnerClass_protected() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
@@ -2204,7 +2247,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitInnerClass(mockInnerClass);
     }
 
-    public void testVisitInnerClass_private() {
+    @Test
+    void testVisitInnerClass_private() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
@@ -2250,7 +2294,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitInnerClass(mockInnerClass);
     }
 
-    public void testVisitInnerClass_package() {
+    @Test
+    void testVisitInnerClass_package() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
@@ -2296,7 +2341,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitInnerClass(mockInnerClass);
     }
 
-    public void testVisitInnerClass_static() {
+    @Test
+    void testVisitInnerClass_static() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
@@ -2345,7 +2391,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitInnerClass(mockInnerClass);
     }
 
-    public void testVisitInnerClass_final() {
+    @Test
+    void testVisitInnerClass_final() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
@@ -2394,7 +2441,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitInnerClass(mockInnerClass);
     }
 
-    public void testVisitInnerClass_interface() {
+    @Test
+    void testVisitInnerClass_interface() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
@@ -2443,7 +2491,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitInnerClass(mockInnerClass);
     }
 
-    public void testVisitInnerClass_abstract() {
+    @Test
+    void testVisitInnerClass_abstract() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
@@ -2492,7 +2541,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitInnerClass(mockInnerClass);
     }
 
-    public void testVisitInnerClass_synthetic() {
+    @Test
+    void testVisitInnerClass_synthetic() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
@@ -2541,7 +2591,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitInnerClass(mockInnerClass);
     }
 
-    public void testVisitInnerClass_annotation() {
+    @Test
+    void testVisitInnerClass_annotation() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
@@ -2590,7 +2641,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitInnerClass(mockInnerClass);
     }
 
-    public void testVisitInnerClass_enum() {
+    @Test
+    void testVisitInnerClass_enum() {
         final MetricsFactory mockFactory = mock(MetricsFactory.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
         final Metrics mockProjectMetrics = mock(Metrics.class, "currentProject");
@@ -2639,7 +2691,8 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
         sut.visitInnerClass(mockInnerClass);
     }
 
-    public void testVisitLocalVariable() {
+    @Test
+    void testVisitLocalVariable() {
         final String localVariableName = "localVariableName";
 
         final MetricsFactory mockFactory = mock(MetricsFactory.class);

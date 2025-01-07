@@ -32,18 +32,18 @@
 
 package com.jeantessier.classreader;
 
-import org.jmock.Expectations;
-import org.jmock.integration.junit4.JUnitRuleMockery;
-import org.junit.Rule;
-import org.junit.Test;
+import org.jmock.*;
+import org.jmock.junit5.JUnit5Mockery;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.jmock.Expectations.aNull;
 
 public class TestSignatureFinder {
-    @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery();
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery();
 
     @Test
     public void testVisitCode_attribute() {

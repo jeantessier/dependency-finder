@@ -34,20 +34,16 @@ package com.jeantessier.dependencyfinder.ant;
 
 import java.io.*;
 
-import junit.framework.*;
-
 import org.apache.tools.ant.*;
+import org.junit.jupiter.api.*;
 
-public class TestJarJarDiff extends TestCase {
-    private JarJarDiff sut;
+import static org.junit.jupiter.api.Assertions.*;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+public class TestJarJarDiff {
+    private final JarJarDiff sut = new JarJarDiff();
 
-        sut = new JarJarDiff();
-    }
-
-    public void testAllMandatoryParameters() {
+    @Test
+    void testAllMandatoryParameters() {
         sut.createOld();
         sut.createNew();
         sut.setDestfile(new File("foobar"));
@@ -55,16 +51,18 @@ public class TestJarJarDiff extends TestCase {
         sut.validateParameters();
     }
 
-    public void testOldNotSet() {
+    @Test
+    void testOldNotSet() {
         try {
             sut.validateParameters();
             fail("executed without old being set");
         } catch (BuildException ex) {
-            assertEquals("Wrong message", "old must be set!", ex.getMessage());
+            assertEquals("old must be set!", ex.getMessage(), "Wrong message");
         }
     }
 
-    public void testOldLabel() {
+    @Test
+    void testOldLabel() {
         sut.createOld();
         sut.createNew();
         sut.setDestfile(new File("foobar"));
@@ -76,27 +74,30 @@ public class TestJarJarDiff extends TestCase {
         assertEquals(expectedOldLabel, sut.getOldlabel());
     }
 
-    public void testOldLabelNotSet() {
+    @Test
+    void testOldLabelNotSet() {
         sut.createOld();
         sut.createNew();
         sut.setDestfile(new File("foobar"));
 
         sut.validateParameters();
-        assertEquals("default old label", sut.getOld().toString(), sut.getOldlabel());
+        assertEquals(sut.getOld().toString(), sut.getOldlabel(), "default old label");
     }
 
-    public void testNewNotSet() {
+    @Test
+    void testNewNotSet() {
         sut.createOld();
 
         try {
             sut.validateParameters();
             fail("executed without old being set");
         } catch (BuildException ex) {
-            assertEquals("Wrong message", "new must be set!", ex.getMessage());
+            assertEquals("new must be set!", ex.getMessage(), "Wrong message");
         }
     }
 
-    public void testNewLabel() {
+    @Test
+    void testNewLabel() {
         sut.createOld();
         sut.createNew();
         sut.setDestfile(new File("foobar"));
@@ -108,16 +109,18 @@ public class TestJarJarDiff extends TestCase {
         assertEquals(expectedNewLabel, sut.getNewlabel());
     }
 
-    public void testNewLabelNotSet() {
+    @Test
+    void testNewLabelNotSet() {
         sut.createOld();
         sut.createNew();
         sut.setDestfile(new File("foobar"));
 
         sut.validateParameters();
-        assertEquals("default new label", sut.getNew().toString(), sut.getNewlabel());
+        assertEquals(sut.getNew().toString(), sut.getNewlabel(), "default new label");
     }
 
-    public void testMissingDestfile() {
+    @Test
+    void testMissingDestfile() {
         sut.createOld();
         sut.createNew();
 
@@ -125,7 +128,7 @@ public class TestJarJarDiff extends TestCase {
             sut.validateParameters();
             fail("executed without destfile being set");
         } catch (BuildException ex) {
-            assertEquals("Wrong message", "destfile must be set!", ex.getMessage());
+            assertEquals("destfile must be set!", ex.getMessage(), "Wrong message");
         }
     }
 }

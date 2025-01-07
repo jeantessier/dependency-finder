@@ -62,12 +62,9 @@ public abstract class TestDifferencesFactoryBase {
     }
 
     @RegisterExtension
-    JUnit5Mockery context = new JUnit5Mockery();
-
-    @BeforeEach
-    void setImposterizer() {
-        context.setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
-    }
+    JUnit5Mockery context = new JUnit5Mockery() {{
+        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
+    }};
 
     @BeforeEach
     void loadClassfiles() {
