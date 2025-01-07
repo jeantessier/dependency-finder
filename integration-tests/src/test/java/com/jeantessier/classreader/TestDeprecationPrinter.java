@@ -36,7 +36,7 @@ import org.junit.jupiter.api.*;
 
 import java.io.*;
 import java.nio.file.*;
-import java.util.*;
+import java.util.stream.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -54,25 +54,27 @@ public class TestDeprecationPrinter {
     
     @Test
     void testOneNonDeprecatedClass() {
+        var expectedLines = Stream.<String>empty();
+
         loader.getClassfile("NewPackage.NewClass").accept(printer);
 
-        assertEquals("", writer.toString(), "No deprecation");
+        assertLinesMatch(expectedLines, writer.toString().lines());
     }
     
     @Test
     void testOneDeprecatedClass() {
-        var expectedLines = List.of(
+        var expectedLines = Stream.of(
                 "ModifiedPackage.DeprecatedInterface"
         );
 
         loader.getClassfile("ModifiedPackage.DeprecatedInterface").accept(printer);
 
-        assertLinesMatch(expectedLines, parse(writer.toString()));
+        assertLinesMatch(expectedLines, writer.toString().lines());
     }
     
     @Test
     void testDeprecatedMethods() {
-        var expectedLines = List.of(
+        var expectedLines = Stream.of(
                 "ModifiedPackage.ModifiedClass.deprecatedField",
                 "ModifiedPackage.ModifiedClass.ModifiedClass(int)",
                 "ModifiedPackage.ModifiedClass.deprecatedMethod()"
@@ -80,12 +82,12 @@ public class TestDeprecationPrinter {
 
         loader.getClassfile("ModifiedPackage.ModifiedClass").accept(printer);
 
-        assertLinesMatch(expectedLines, parse(writer.toString()));
+        assertLinesMatch(expectedLines, writer.toString().lines());
     }
     
     @Test
     void testListenerBehavior() {
-        var expectedLines = List.of(
+        var expectedLines = Stream.of(
                 "ModifiedPackage.DeprecatedClass",
                 "ModifiedPackage.DeprecatedClass.DeprecatedClass()",
                 "ModifiedPackage.DeprecatedInterface",
@@ -100,10 +102,6 @@ public class TestDeprecationPrinter {
         loader.addLoadListener(new LoadListenerVisitorAdapter(printer));
         loader.load(NEW_CLASSPATH);
 
-        assertLinesMatch(expectedLines, parse(writer.toString()));
-    }
-
-    private List<String> parse(String text) {
-        return List.of(text.split("\n"));
+        assertLinesMatch(expectedLines, writer.toString().lines());
     }
 }
