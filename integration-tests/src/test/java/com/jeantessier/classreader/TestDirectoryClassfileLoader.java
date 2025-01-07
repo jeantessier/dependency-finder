@@ -32,106 +32,141 @@
 
 package com.jeantessier.classreader;
 
+import org.jmock.*;
+import org.jmock.api.*;
+import org.jmock.junit5.*;
+import org.jmock.lib.action.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
+
 import java.io.*;
 import java.nio.file.*;
 
-public class TestDirectoryClassfileLoader extends TestClassfileLoaderBase {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestDirectoryClassfileLoader {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
-    public static final String TEST_CLASS = "test";
-    public static final String TEST_FILENAME = CLASSES_DIR.resolve(TEST_CLASS + ".class").toString();
-    public static final String BOGUS_TEST_FILENAME = CLASSES_DIR.resolve("bogus").resolve(TEST_CLASS + ".class").toString();
-    public static final String TEST_DIRNAME = CLASSES_DIR.resolve("testpackage").toString();
-    public static final String OTHER_DIRNAME = CLASSES_DIR.resolve("otherpackage").toString();
+    private static final String TEST_CLASS = "test";
+    private static final String TEST_FILENAME = CLASSES_DIR.resolve(TEST_CLASS + ".class").toString();
+    private static final String BOGUS_TEST_FILENAME = CLASSES_DIR.resolve("bogus").resolve(TEST_CLASS + ".class").toString();
+    private static final String TEST_DIRNAME = CLASSES_DIR.resolve("testpackage").toString();
+    private static final String OTHER_DIRNAME = CLASSES_DIR.resolve("otherpackage").toString();
+
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery();
+
+    private final LoadListener mockListener = context.mock(LoadListener.class);
     
     private ClassfileLoader loader;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() {
         ClassfileLoader eventSource = new TransientClassfileLoader();
-        eventSource.addLoadListener(this);
+        eventSource.addLoadListener(mockListener);
         loader = new DirectoryClassfileLoader(eventSource);
     }
 
-    public void testLoadClassFile() {
+    @Test
+    void testLoadClassFile() {
+        context.checking(new Expectations() {{
+            exactly(0).of (mockListener).beginSession(with(any(LoadEvent.class)));
+            exactly(1).of (mockListener).beginGroup(with(any(LoadEvent.class)));
+            exactly(1).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(1).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(1).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+                will(new CustomAction("confirm details of LoadEvent") {
+                    public Object invoke(Invocation invocation) {
+                        assertEquals(TEST_FILENAME, ((LoadEvent) invocation.getParameter(0)).getGroupName());
+                        assertNotNull(((LoadEvent) invocation.getParameter(0)).getClassfile(), "Classfile");
+                        return null;
+                    }
+                });
+            exactly(1).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(1).of (mockListener).endGroup(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).endSession(with(any(LoadEvent.class)));
+        }});
+
         loader.load(TEST_FILENAME);
-
-        assertEquals("Begin Session",   0, getBeginSessionEvents().size());
-        assertEquals("Begin Group",     1, getBeginGroupEvents().size());
-        assertEquals("Begin File",      1, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 1, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   1, getEndClassfileEvents().size());
-        assertEquals("End File",        1, getEndFileEvents().size());
-        assertEquals("End Group",       1, getEndGroupEvents().size());
-        assertEquals("End Session",     0, getEndSessionEvents().size());
-
-        assertEquals(TEST_FILENAME, getEndClassfileEvents().getLast().getGroupName());
-        assertNotNull("Classfile", getEndClassfileEvents().getLast().getClassfile());
     }
 
-    public void testLoadClassInputStream() throws IOException {
+    @Test
+    void testLoadClassInputStream() throws IOException {
+        context.checking(new Expectations() {{
+            exactly(0).of (mockListener).beginSession(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).beginGroup(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).endGroup(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).endSession(with(any(LoadEvent.class)));
+        }});
+
         loader.load(TEST_FILENAME, new FileInputStream(TEST_FILENAME));
-
-        assertEquals("Begin Session",   0, getBeginSessionEvents().size());
-        assertEquals("Begin Group",     0, getBeginGroupEvents().size());
-        assertEquals("Begin File",      0, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 0, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   0, getEndClassfileEvents().size());
-        assertEquals("End File",        0, getEndFileEvents().size());
-        assertEquals("End Group",       0, getEndGroupEvents().size());
-        assertEquals("End Session",     0, getEndSessionEvents().size());
     }
 
-    public void testLoadBogusFile() {
+    @Test
+    void testLoadBogusFile() {
+        context.checking(new Expectations() {{
+            exactly(0).of (mockListener).beginSession(with(any(LoadEvent.class)));
+            exactly(1).of (mockListener).beginGroup(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(1).of (mockListener).endGroup(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).endSession(with(any(LoadEvent.class)));
+        }});
+
         loader.load(BOGUS_TEST_FILENAME);
-
-        assertEquals("Begin Session",   0, getBeginSessionEvents().size());
-        assertEquals("Begin Group",     1, getBeginGroupEvents().size());
-        assertEquals("Begin File",      0, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 0, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   0, getEndClassfileEvents().size());
-        assertEquals("End File",        0, getEndFileEvents().size());
-        assertEquals("End Group",       1, getEndGroupEvents().size());
-        assertEquals("End Session",     0, getEndSessionEvents().size());
     }
 
-    public void testLoadBogusInputStream() throws IOException {
+    @Test
+    void testLoadBogusInputStream() throws IOException {
+        context.checking(new Expectations() {{
+            exactly(0).of (mockListener).beginSession(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).beginGroup(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).endGroup(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).endSession(with(any(LoadEvent.class)));
+        }});
+
         loader.load(BOGUS_TEST_FILENAME, new FileInputStream(TEST_FILENAME));
-
-        assertEquals("Begin Session",   0, getBeginSessionEvents().size());
-        assertEquals("Begin Group",     0, getBeginGroupEvents().size());
-        assertEquals("Begin File",      0, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 0, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   0, getEndClassfileEvents().size());
-        assertEquals("End File",        0, getEndFileEvents().size());
-        assertEquals("End Group",       0, getEndGroupEvents().size());
-        assertEquals("End Session",     0, getEndSessionEvents().size());
     }
 
-    public void testLoadDirectory() {
-        loader.load(TEST_DIRNAME);
+    @Test
+    void testLoadDirectory() {
+        context.checking(new Expectations() {{
+            exactly(0).of (mockListener).beginSession(with(any(LoadEvent.class)));
+            exactly(1).of (mockListener).beginGroup(with(any(LoadEvent.class)));
+            exactly(7).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(6).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(6).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(7).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(1).of (mockListener).endGroup(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).endSession(with(any(LoadEvent.class)));
+        }});
 
-        assertEquals("Begin Session",   0, getBeginSessionEvents().size());
-        assertEquals("Begin Group",     1, getBeginGroupEvents().size());
-        assertEquals("Begin File",      7, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 6, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   6, getEndClassfileEvents().size());
-        assertEquals("End File",        7, getEndFileEvents().size());
-        assertEquals("End Group",       1, getEndGroupEvents().size());
-        assertEquals("End Session",     0, getEndSessionEvents().size());
+        loader.load(TEST_DIRNAME);
     }
     
-    public void testMultipleDirectories() {
+    @Test
+    void testMultipleDirectories() {
+        context.checking(new Expectations() {{
+            exactly(0).of (mockListener).beginSession(with(any(LoadEvent.class)));
+            exactly(2).of (mockListener).beginGroup(with(any(LoadEvent.class)));
+            exactly(11).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(9).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(9).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(11).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(2).of (mockListener).endGroup(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).endSession(with(any(LoadEvent.class)));
+        }});
+
         loader.load(TEST_DIRNAME);
         loader.load(OTHER_DIRNAME);
-
-        assertEquals("Begin Session",    0, getBeginSessionEvents().size());
-        assertEquals("Begin Group",      2, getBeginGroupEvents().size());
-        assertEquals("Begin File",      11, getBeginFileEvents().size());
-        assertEquals("Begin Classfile",  9, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",    9, getEndClassfileEvents().size());
-        assertEquals("End File",        11, getEndFileEvents().size());
-        assertEquals("End Group",        2, getEndGroupEvents().size());
-        assertEquals("End Session",      0, getEndSessionEvents().size());
     }
 }

@@ -32,32 +32,37 @@
 
 package com.jeantessier.classreader;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.jar.Attributes;
-import java.util.jar.JarEntry;
-import java.util.jar.JarOutputStream;
-import java.util.jar.Manifest;
+import org.jmock.*;
+import org.jmock.api.*;
+import org.jmock.junit5.*;
+import org.jmock.lib.action.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
 
-public class TestJarClassfileWithMultiReleaseJarFileLoader extends TestClassfileLoaderBase {
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+import java.util.jar.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestJarClassfileWithMultiReleaseJarFileLoader {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
-    public static final String TEST_CLASS = "test";
-    public static final String TEST_FILENAME = CLASSES_DIR.resolve(TEST_CLASS + ".class").toString();
+    private static final String TEST_CLASS = "test";
+    private static final String TEST_FILENAME = CLASSES_DIR.resolve(TEST_CLASS + ".class").toString();
 
-    public static final List<String> TARGET_JDK_VERSIONS = List.of("22", "21", "17", "9");
+    private static final List<String> TARGET_JDK_VERSIONS = List.of("22", "21", "17", "9");
+
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery();
+
+    private final LoadListener mockListener = context.mock(LoadListener.class);
 
     private String multiReleaseJarFileName;
     private final List<String> expectedFilenames = new ArrayList<>();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws IOException {
         var multiReleaseJarFile = File.createTempFile("multi-release-jar-file", ".jar");
         multiReleaseJarFile.deleteOnExit();
 
@@ -97,49 +102,90 @@ public class TestJarClassfileWithMultiReleaseJarFileLoader extends TestClassfile
         }
     }
 
-    public void testNoTargetJDK_loadsHighestVersionAvailable() {
+    @Test
+    void testNoTargetJDK_loadsHighestVersionAvailable() {
         ClassfileLoader eventSource = new TransientClassfileLoader();
-        eventSource.addLoadListener(this);
+        eventSource.addLoadListener(mockListener);
         var loader = new JarClassfileLoader(eventSource);
 
-        loader.load(multiReleaseJarFileName);
+        setExpectations("META-INF/versions/22/test.class");
 
-        assertEvents("META-INF/versions/22/test.class");
+        loader.load(multiReleaseJarFileName);
     }
 
-    public void testWithTargetJDK_loadsUpToThatVersion() {
+    @Test
+    void testWithTargetJDK_loadsUpToThatVersion() {
         ClassfileLoader eventSource = new TransientClassfileLoader();
-        eventSource.addLoadListener(this);
+        eventSource.addLoadListener(mockListener);
         var loader = new JarClassfileLoader(eventSource, 19);
 
-        loader.load(multiReleaseJarFileName);
+        setExpectations("META-INF/versions/17/test.class");
 
-        assertEvents("META-INF/versions/17/test.class");
+        loader.load(multiReleaseJarFileName);
     }
 
-    public void testWithAbsentTargetJDK_loadsDefaultVersion() {
+    @Test
+    void testWithAbsentTargetJDK_loadsDefaultVersion() {
         ClassfileLoader eventSource = new TransientClassfileLoader();
-        eventSource.addLoadListener(this);
+        eventSource.addLoadListener(mockListener);
         var loader = new JarClassfileLoader(eventSource, 8);
 
-        loader.load(multiReleaseJarFileName);
+        setExpectations("test.class");
 
-        assertEvents("test.class");
+        loader.load(multiReleaseJarFileName);
     }
 
-    private void assertEvents(String expectedClassfileFilename) {
-        assertEquals("Begin Session", 0, getBeginSessionEvents().size());
-        assertEquals("End Session", 0, getEndSessionEvents().size());
+    private void setExpectations(String expectedClassfileFilename) {
+        var expectedBeginFileNames = expectedFilenames.iterator();
+        var expectedEndFileNames = expectedFilenames.iterator();
 
-        assertEquals("Group names", List.of(multiReleaseJarFileName), getBeginGroupEvents().stream().map(LoadEvent::getGroupName).toList());
-        assertEquals("Group sizes", List.of(expectedFilenames.size()), getBeginGroupEvents().stream().map(LoadEvent::getSize).toList());
-        assertEquals("Group names", List.of(multiReleaseJarFileName), getEndGroupEvents().stream().map(LoadEvent::getGroupName).toList());
-
-        assertEquals("File names", expectedFilenames, getBeginFileEvents().stream().map(LoadEvent::getFilename).toList());
-        assertEquals("File names", expectedFilenames, getEndFileEvents().stream().map(LoadEvent::getFilename).toList());
-
-        assertEquals("Classfile filename", List.of(expectedClassfileFilename), getBeginClassfileEvents().stream().map(LoadEvent::getFilename).toList());
-        assertEquals("Classfile filename", List.of(expectedClassfileFilename), getEndClassfileEvents().stream().map(LoadEvent::getFilename).toList());
-        assertEquals("Classfine name", List.of(TEST_CLASS), getEndClassfileEvents().stream().map(event -> event.getClassfile().getClassName()).toList());
+        context.checking(new Expectations() {{
+            exactly(0).of (mockListener).beginSession(with(any(LoadEvent.class)));
+            exactly(1).of (mockListener).beginGroup(with(any(LoadEvent.class)));
+                will(new CustomAction("check the group's metadata") {
+                    public Object invoke(Invocation invocation) {
+                        assertEquals(multiReleaseJarFileName, ((LoadEvent) invocation.getParameter(0)).getGroupName());
+                        assertEquals(expectedFilenames.size(), ((LoadEvent) invocation.getParameter(0)).getSize());
+                        return null;
+                    }
+                });
+            exactly(11).of (mockListener).beginFile(with(any(LoadEvent.class)));
+                will(new CustomAction("check the file's metadata") {
+                    public Object invoke(Invocation invocation) {
+                        assertEquals(expectedBeginFileNames.next(), ((LoadEvent) invocation.getParameter(0)).getFilename());
+                        return null;
+                    }
+                });
+            exactly(1).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+                will(new CustomAction("check the group's metadata") {
+                    public Object invoke(Invocation invocation) {
+                        assertEquals(expectedClassfileFilename, ((LoadEvent) invocation.getParameter(0)).getFilename());
+                        return null;
+                    }
+                });
+            exactly(1).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+                will(new CustomAction("check the group's metadata") {
+                    public Object invoke(Invocation invocation) {
+                        assertEquals(expectedClassfileFilename, ((LoadEvent) invocation.getParameter(0)).getFilename());
+                        assertEquals(TEST_CLASS, ((LoadEvent) invocation.getParameter(0)).getClassfile().getClassName());
+                        return null;
+                    }
+                });
+            exactly(11).of (mockListener).endFile(with(any(LoadEvent.class)));
+                will(new CustomAction("check the file's metadata") {
+                    public Object invoke(Invocation invocation) {
+                        assertEquals(expectedEndFileNames.next(), ((LoadEvent) invocation.getParameter(0)).getFilename());
+                        return null;
+                    }
+                });
+            exactly(1).of (mockListener).endGroup(with(any(LoadEvent.class)));
+                will(new CustomAction("check the group's metadata") {
+                    public Object invoke(Invocation invocation) {
+                        assertEquals(multiReleaseJarFileName, ((LoadEvent) invocation.getParameter(0)).getGroupName());
+                        return null;
+                    }
+                });
+            exactly(0).of (mockListener).endSession(with(any(LoadEvent.class)));
+        }});
     }
 }

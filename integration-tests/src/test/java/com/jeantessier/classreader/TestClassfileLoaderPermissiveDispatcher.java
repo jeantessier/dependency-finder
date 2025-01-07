@@ -32,137 +32,195 @@
 
 package com.jeantessier.classreader;
 
+import org.jmock.*;
+import org.jmock.api.*;
+import org.jmock.junit5.*;
+import org.jmock.lib.action.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
+
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
-public class TestClassfileLoaderPermissiveDispatcher extends TestClassfileLoaderBase {
-    public static final String TEST_FILENAME = Paths.get("build/classes/java/main/test.class").toString();
+import static org.junit.jupiter.api.Assertions.*;
 
-    private ClassfileLoader loader;
+public class TestClassfileLoaderPermissiveDispatcher {
+    private static final String TEST_FILENAME = Paths.get("build/classes/java/main/test.class").toString();
+    private static final Path TEST_DIR = Paths.get("jarjardiff/old/build/archives");
+    private static final String ONELEVEL_JAR = TEST_DIR.resolve("onelevel.jar").toString();
+    private static final String ONELEVEL_MISC = TEST_DIR.resolve("onelevel.mis").toString();
+    private static final String ONELEVEL_ZIP = TEST_DIR.resolve("onelevel.zip").toString();
+    private static final String TWOLEVEL_JAR = TEST_DIR.resolve("twolevel.jar").toString();
+    private static final String TWOLEVEL_MISC = TEST_DIR.resolve("twolevel.mis").toString();
+    private static final String TWOLEVEL_ZIP = TEST_DIR.resolve("twolevel.zip").toString();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-        
-        loader = new TransientClassfileLoader(new PermissiveDispatcher());
-        loader.addLoadListener(this);
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery();
+
+    private final LoadListener mockListener = context.mock(LoadListener.class);
+
+    private final ClassfileLoader loader = new TransientClassfileLoader(new PermissiveDispatcher());
+
+    @BeforeEach
+    void setUp() {
+        loader.addLoadListener(mockListener);
     }
 
-    public void testOneFile() {
+    @Test
+    void testOneFile() {
         String filename = TEST_FILENAME;
-        assertTrue(filename + " missing", new File(filename).exists());
-        
+        assertTrue(new File(filename).exists(), filename + " missing");
+
+        var expectedGroupSizes = List.of(1).iterator();
+
+        context.checking(new Expectations() {{
+            exactly(1).of (mockListener).beginSession(with(any(LoadEvent.class)));
+            exactly(1).of (mockListener).beginGroup(with(any(LoadEvent.class)));
+                will(new CustomAction("check the group's size") {
+                    public Object invoke(Invocation invocation) {
+                        assertEquals(expectedGroupSizes.next(), ((LoadEvent) invocation.getParameter(0)).getSize());
+                        return null;
+                    }
+                });
+            exactly(1).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(1).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(1).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(1).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(1).of (mockListener).endGroup(with(any(LoadEvent.class)));
+            exactly(1).of (mockListener).endSession(with(any(LoadEvent.class)));
+        }});
+
         loader.load(Collections.singleton(filename));
-
-        assertEquals("Begin Session",   1, getBeginSessionEvents().size());
-        assertEquals("Begin Group",     1, getBeginGroupEvents().size());
-        assertEquals("Begin File",      1, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 1, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   1, getEndClassfileEvents().size());
-        assertEquals("End File",        1, getEndFileEvents().size());
-        assertEquals("End Group",       1, getEndGroupEvents().size());
-        assertEquals("End Session",     1, getEndSessionEvents().size());
-
-        assertEquals("Group size", 1, getBeginGroupEvents().getFirst().getSize());
     }
 
-    public void testOneLevelZip() {
+    @Test
+    void testOneLevelZip() {
         String filename = ONELEVEL_ZIP;
-        assertTrue(filename + " missing", new File(filename).exists());
-        
+        assertTrue(new File(filename).exists(), filename + " missing");
+
+        var expectedGroupSizes = List.of(32, -1).iterator();
+
+        context.checking(new Expectations() {{
+            exactly(1).of (mockListener).beginSession(with(any(LoadEvent.class)));
+            exactly(2).of (mockListener).beginGroup(with(any(LoadEvent.class)));
+                will(new CustomAction("check the group's size") {
+                    public Object invoke(Invocation invocation) {
+                        assertEquals(expectedGroupSizes.next(), ((LoadEvent) invocation.getParameter(0)).getSize());
+                        return null;
+                    }
+                });
+            exactly(32).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(14).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(14).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(32).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(2).of (mockListener).endGroup(with(any(LoadEvent.class)));
+            exactly(1).of (mockListener).endSession(with(any(LoadEvent.class)));
+        }});
+
         loader.load(Collections.singleton(filename));
-
-        assertEquals("Begin Session",    1, getBeginSessionEvents().size());
-        assertEquals("Begin Group",      2, getBeginGroupEvents().size());
-        assertEquals("Begin File",      32, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 14, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   14, getEndClassfileEvents().size());
-        assertEquals("End File",        32, getEndFileEvents().size());
-        assertEquals("End Group",        2, getEndGroupEvents().size());
-        assertEquals("End Session",      1, getEndSessionEvents().size());
-
-        assertEquals("Group size", 32, getBeginGroupEvents().getFirst().getSize());
     }
 
-    public void testOneLevelJar() {
+    @Test
+    void testOneLevelJar() {
         String filename = ONELEVEL_JAR;
-        assertTrue(filename + " missing", new File(filename).exists());
-        
+        assertTrue(new File(filename).exists(), filename + " missing");
+
+        var expectedGroupSizes = List.of(34, -1).iterator();
+
+        context.checking(new Expectations() {{
+            exactly(1).of (mockListener).beginSession(with(any(LoadEvent.class)));
+            exactly(2).of (mockListener).beginGroup(with(any(LoadEvent.class)));
+                will(new CustomAction("check the group's size") {
+                    public Object invoke(Invocation invocation) {
+                        assertEquals(expectedGroupSizes.next(), ((LoadEvent) invocation.getParameter(0)).getSize());
+                        return null;
+                    }
+                });
+            exactly(34).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(14).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(14).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(34).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(2).of (mockListener).endGroup(with(any(LoadEvent.class)));
+            exactly(1).of (mockListener).endSession(with(any(LoadEvent.class)));
+        }});
+
         loader.load(Collections.singleton(filename));
-
-        assertEquals("Begin Session",    1, getBeginSessionEvents().size());
-        assertEquals("Begin Group",      2, getBeginGroupEvents().size());
-        assertEquals("Begin File",      34, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 14, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   14, getEndClassfileEvents().size());
-        assertEquals("End File",        34, getEndFileEvents().size());
-        assertEquals("End Group",        2, getEndGroupEvents().size());
-        assertEquals("End Session",      1, getEndSessionEvents().size());
-
-        assertEquals("Group size", 34, getBeginGroupEvents().getFirst().getSize());
     }
-    
-    public void testOneLevelMiscellaneous() {
+
+    @Test
+    void testOneLevelMiscellaneous() {
         String filename = ONELEVEL_MISC;
-        assertTrue(filename + " missing", new File(filename).exists());
-        
-        loader.load(Collections.singleton(filename));
+        assertTrue(new File(filename).exists(), filename + " missing");
 
-        assertEquals("Begin Session",    1, getBeginSessionEvents().size());
-        assertEquals("Begin Group",      2, getBeginGroupEvents().size());
-        assertEquals("Begin File",      32, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 14, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   14, getEndClassfileEvents().size());
-        assertEquals("End File",        32, getEndFileEvents().size());
-        assertEquals("End Group",        2, getEndGroupEvents().size());
-        assertEquals("End Session",      1, getEndSessionEvents().size());
+        context.checking(new Expectations() {{
+            exactly(1).of (mockListener).beginSession(with(any(LoadEvent.class)));
+            exactly(2).of (mockListener).beginGroup(with(any(LoadEvent.class)));
+            exactly(32).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(14).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(14).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(32).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(2).of (mockListener).endGroup(with(any(LoadEvent.class)));
+            exactly(1).of (mockListener).endSession(with(any(LoadEvent.class)));
+        }});
+
+        loader.load(Collections.singleton(filename));
     }
 
-    public void testTwoLevelZip() {
+    @Test
+    void testTwoLevelZip() {
         String filename = TWOLEVEL_ZIP;
-        assertTrue(filename + " missing", new File(filename).exists());
-        
-        loader.load(Collections.singleton(filename));
+        assertTrue(new File(filename).exists(), filename + " missing");
 
-        assertEquals("Begin Session",    1, getBeginSessionEvents().size());
-        assertEquals("Begin Group",      3, getBeginGroupEvents().size());
-        assertEquals("Begin File",      33, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 14, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   14, getEndClassfileEvents().size());
-        assertEquals("End File",        33, getEndFileEvents().size());
-        assertEquals("End Group",        3, getEndGroupEvents().size());
-        assertEquals("End Session",      1, getEndSessionEvents().size());
+        context.checking(new Expectations() {{
+            exactly(1).of (mockListener).beginSession(with(any(LoadEvent.class)));
+            exactly(3).of (mockListener).beginGroup(with(any(LoadEvent.class)));
+            exactly(33).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(14).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(14).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(33).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(3).of (mockListener).endGroup(with(any(LoadEvent.class)));
+            exactly(1).of (mockListener).endSession(with(any(LoadEvent.class)));
+        }});
+
+        loader.load(Collections.singleton(filename));
     }
 
-    public void testTwoLevelJar() {
+    @Test
+    void testTwoLevelJar() {
         String filename = TWOLEVEL_JAR;
-        assertTrue(filename + " missing", new File(filename).exists());
-        
-        loader.load(Collections.singleton(filename));
+        assertTrue(new File(filename).exists(), filename + " missing");
 
-        assertEquals("Begin Session",    1, getBeginSessionEvents().size());
-        assertEquals("Begin Group",      3, getBeginGroupEvents().size());
-        assertEquals("Begin File",      35, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 14, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   14, getEndClassfileEvents().size());
-        assertEquals("End File",        35, getEndFileEvents().size());
-        assertEquals("End Group",        3, getEndGroupEvents().size());
-        assertEquals("End Session",      1, getEndSessionEvents().size());
+        context.checking(new Expectations() {{
+            exactly(1).of (mockListener).beginSession(with(any(LoadEvent.class)));
+            exactly(3).of (mockListener).beginGroup(with(any(LoadEvent.class)));
+            exactly(35).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(14).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(14).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(35).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(3).of (mockListener).endGroup(with(any(LoadEvent.class)));
+            exactly(1).of (mockListener).endSession(with(any(LoadEvent.class)));
+        }});
+
+        loader.load(Collections.singleton(filename));
     }
-    
-    public void testTwoLevelMiscellaneous() {
-        String filename = TWOLEVEL_MISC;
-        assertTrue(filename + " missing", new File(filename).exists());
-        
-        loader.load(Collections.singleton(filename));
 
-        assertEquals("Begin Session",    1, getBeginSessionEvents().size());
-        assertEquals("Begin Group",      3, getBeginGroupEvents().size());
-        assertEquals("Begin File",      33, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 14, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   14, getEndClassfileEvents().size());
-        assertEquals("End File",        33, getEndFileEvents().size());
-        assertEquals("End Group",        3, getEndGroupEvents().size());
-        assertEquals("End Session",      1, getEndSessionEvents().size());
+    @Test
+    void testTwoLevelMiscellaneous() {
+        String filename = TWOLEVEL_MISC;
+        assertTrue(new File(filename).exists(), filename + " missing");
+
+        context.checking(new Expectations() {{
+            exactly(1).of (mockListener).beginSession(with(any(LoadEvent.class)));
+            exactly(3).of (mockListener).beginGroup(with(any(LoadEvent.class)));
+            exactly(33).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(14).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(14).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(33).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(3).of (mockListener).endGroup(with(any(LoadEvent.class)));
+            exactly(1).of (mockListener).endSession(with(any(LoadEvent.class)));
+        }});
+
+        loader.load(Collections.singleton(filename));
     }
 }

@@ -32,88 +32,143 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
+import org.jmock.*;
+import org.jmock.api.*;
+import org.jmock.junit5.*;
+import org.jmock.lib.action.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
 
-public class TestJarClassfileLoader extends TestClassfileLoaderBase {
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestJarClassfileLoader  {
+    private static final Path TEST_DIR = Paths.get("jarjardiff/old/build/archives");
+    private static final String ONELEVEL_JAR = TEST_DIR.resolve("onelevel.jar").toString();
+    private static final String ONELEVEL_MISC = TEST_DIR.resolve("onelevel.mis").toString();
+
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery();
+
+    private final LoadListener mockListener = context.mock(LoadListener.class);
+
     private ClassfileLoader loader;
     
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() {
         ClassfileLoader eventSource = new TransientClassfileLoader();
-        eventSource.addLoadListener(this);
+        eventSource.addLoadListener(mockListener);
         loader = new JarClassfileLoader(eventSource);
     }
 
-    public void testLoadFile() {
+    @Test
+    void testLoadFile() {
         String filename = ONELEVEL_JAR;
-        assertTrue(filename + " missing", new File(filename).exists());
-        
+        assertTrue(new File(filename).exists(), filename + " missing");
+
+        var expectedGroupSizes = List.of(34, -1).iterator();
+
+        context.checking(new Expectations() {{
+            exactly(0).of (mockListener).beginSession(with(any(LoadEvent.class)));
+            exactly(2).of (mockListener).beginGroup(with(any(LoadEvent.class)));
+                will(new CustomAction("check the group's size") {
+                    public Object invoke(Invocation invocation) {
+                        assertEquals(expectedGroupSizes.next(), ((LoadEvent) invocation.getParameter(0)).getSize());
+                        return null;
+                    }
+                });
+            exactly(34).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(14).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(14).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(34).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(2).of (mockListener).endGroup(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).endSession(with(any(LoadEvent.class)));
+        }});
+
         loader.load(filename);
-
-        assertEquals("Begin Session",    0, getBeginSessionEvents().size());
-        assertEquals("Begin Group",      2, getBeginGroupEvents().size());
-        assertEquals("Begin File",      34, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 14, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   14, getEndClassfileEvents().size());
-        assertEquals("End File",        34, getEndFileEvents().size());
-        assertEquals("End Group",        2, getEndGroupEvents().size());
-        assertEquals("End Session",      0, getEndSessionEvents().size());
-
-        assertEquals("Group size", 34, getBeginGroupEvents().getFirst().getSize());
     }
 
-    public void testLoadWrongFile() {
+    @Test
+    void testLoadWrongFile() {
         String filename = ONELEVEL_MISC;
-        assertTrue(filename + " missing", new File(filename).exists());
-        
+        assertTrue(new File(filename).exists(), filename + " missing");
+
+        var expectedGroupSizes = List.of(32, -1).iterator();
+
+        context.checking(new Expectations() {{
+            exactly(0).of (mockListener).beginSession(with(any(LoadEvent.class)));
+            exactly(2).of (mockListener).beginGroup(with(any(LoadEvent.class)));
+                will(new CustomAction("check the group's size") {
+                    public Object invoke(Invocation invocation) {
+                        assertEquals(expectedGroupSizes.next(), ((LoadEvent) invocation.getParameter(0)).getSize());
+                        return null;
+                    }
+                });
+            exactly(32).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(14).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(14).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(32).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(2).of (mockListener).endGroup(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).endSession(with(any(LoadEvent.class)));
+        }});
+
         loader.load(filename);
-
-        assertEquals("Begin Session",    0, getBeginSessionEvents().size());
-        assertEquals("Begin Group",      2, getBeginGroupEvents().size());
-        assertEquals("Begin File",      32, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 14, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   14, getEndClassfileEvents().size());
-        assertEquals("End File",        32, getEndFileEvents().size());
-        assertEquals("End Group",        2, getEndGroupEvents().size());
-        assertEquals("End Session",      0, getEndSessionEvents().size());
-
-        assertEquals("Group size", 32, getBeginGroupEvents().getFirst().getSize());
     }
 
-    public void testLoadInputStream() throws IOException {
+    @Test
+    void testLoadInputStream() throws IOException {
         String filename = ONELEVEL_JAR;
-        assertTrue(filename + " missing", new File(filename).exists());
-        
+        assertTrue(new File(filename).exists(), filename + " missing");
+
+        var expectedGroupSizes = List.of(34, -1).iterator();
+
+        context.checking(new Expectations() {{
+            exactly(0).of (mockListener).beginSession(with(any(LoadEvent.class)));
+            exactly(2).of (mockListener).beginGroup(with(any(LoadEvent.class)));
+                will(new CustomAction("check the group's size") {
+                    public Object invoke(Invocation invocation) {
+                        assertEquals(expectedGroupSizes.next(), ((LoadEvent) invocation.getParameter(0)).getSize());
+                        return null;
+                    }
+                });
+            exactly(34).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(14).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(14).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(34).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(2).of (mockListener).endGroup(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).endSession(with(any(LoadEvent.class)));
+        }});
+
         loader.load(filename, new FileInputStream(filename));
-
-        assertEquals("Begin Session",    0, getBeginSessionEvents().size());
-        assertEquals("Begin Group",      2, getBeginGroupEvents().size());
-        assertEquals("Begin File",      34, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 14, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   14, getEndClassfileEvents().size());
-        assertEquals("End File",        34, getEndFileEvents().size());
-        assertEquals("End Group",        2, getEndGroupEvents().size());
-        assertEquals("End Session",      0, getEndSessionEvents().size());
-
-        assertEquals("Group size", 34, getBeginGroupEvents().getFirst().getSize());
     }
 
-    public void testLoadWrongInputStream() throws IOException {
+    @Test
+    void testLoadWrongInputStream() throws IOException {
         String filename = ONELEVEL_MISC;
-        assertTrue(filename + " missing", new File(filename).exists());
-        
+        assertTrue(new File(filename).exists(), filename + " missing");
+
+        var expectedGroupSizes = List.of(32, -1).iterator();
+
+        context.checking(new Expectations() {{
+            exactly(0).of (mockListener).beginSession(with(any(LoadEvent.class)));
+            exactly(2).of (mockListener).beginGroup(with(any(LoadEvent.class)));
+                will(new CustomAction("check the group's size") {
+                    public Object invoke(Invocation invocation) {
+                        assertEquals(expectedGroupSizes.next(), ((LoadEvent) invocation.getParameter(0)).getSize());
+                        return null;
+                    }
+                });
+            exactly(32).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(14).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(14).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(32).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(2).of (mockListener).endGroup(with(any(LoadEvent.class)));
+            exactly(0).of (mockListener).endSession(with(any(LoadEvent.class)));
+        }});
+
         loader.load(filename, new FileInputStream(filename));
-
-        assertEquals("Begin Session",    0, getBeginSessionEvents().size());
-        assertEquals("Begin Group",      2, getBeginGroupEvents().size());
-        assertEquals("Begin File",      32, getBeginFileEvents().size());
-        assertEquals("Begin Classfile", 14, getBeginClassfileEvents().size());
-        assertEquals("End Classfile",   14, getEndClassfileEvents().size());
-        assertEquals("End File",        32, getEndFileEvents().size());
-        assertEquals("End Group",        2, getEndGroupEvents().size());
-        assertEquals("End Session",      0, getEndSessionEvents().size());
-
-        assertEquals("Group size", 32, getBeginGroupEvents().getFirst().getSize());
     }
 }
