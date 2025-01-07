@@ -32,73 +32,78 @@
 
 package com.jeantessier.classreader;
 
+import org.junit.jupiter.api.*;
+
 import java.io.*;
-
-import junit.framework.*;
-
 import java.nio.file.*;
 import java.util.*;
 
-public class TestDeprecationPrinter extends TestCase {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestDeprecationPrinter {
     private static final String NEW_CLASSPATH = Paths.get("jarjardiff/new/build/libs/new.jar").toString();
 
-    private ClassfileLoader    loader;
-    private StringWriter       writer;
-    private DeprecationPrinter printer;
+    private ClassfileLoader loader = new AggregatingClassfileLoader();
+    private final StringWriter writer = new StringWriter();
+    private final DeprecationPrinter printer = new DeprecationPrinter(new PrintWriter(writer));
     
-    protected void setUp() throws Exception {
-        loader = new AggregatingClassfileLoader();
+    @BeforeEach
+    void setUp() {
         loader.load(NEW_CLASSPATH);
-
-        writer  = new StringWriter();
-        printer = new DeprecationPrinter(new PrintWriter(writer));
     }
     
-    public void testOneNonDeprecatedClass() {
+    @Test
+    void testOneNonDeprecatedClass() {
         loader.getClassfile("NewPackage.NewClass").accept(printer);
 
-        assertEquals("No deprecation", "", writer.toString());
+        assertEquals("", writer.toString(), "No deprecation");
     }
     
-    public void testOneDeprecatedClass() throws IOException {
+    @Test
+    void testOneDeprecatedClass() {
+        var expectedLines = List.of(
+                "ModifiedPackage.DeprecatedInterface"
+        );
+
         loader.getClassfile("ModifiedPackage.DeprecatedInterface").accept(printer);
 
-        var entries = parse(writer.toString());
-        
-        assertTrue("Deprecated class", entries.contains("ModifiedPackage.DeprecatedInterface"));
-        assertEquals("Deprecated class", 1, entries.size());
+        assertLinesMatch(expectedLines, parse(writer.toString()));
     }
     
-    public void testDeprecatedMethods() throws IOException {
+    @Test
+    void testDeprecatedMethods() {
+        var expectedLines = List.of(
+                "ModifiedPackage.ModifiedClass.deprecatedField",
+                "ModifiedPackage.ModifiedClass.ModifiedClass(int)",
+                "ModifiedPackage.ModifiedClass.deprecatedMethod()"
+        );
+
         loader.getClassfile("ModifiedPackage.ModifiedClass").accept(printer);
 
-        var entries = parse(writer.toString());
-        
-        assertTrue("Deprecated field",       entries.contains("ModifiedPackage.ModifiedClass.deprecatedField"));
-        assertTrue("Deprecated constructor", entries.contains("ModifiedPackage.ModifiedClass.ModifiedClass(int)"));
-        assertTrue("Deprecated method",      entries.contains("ModifiedPackage.ModifiedClass.deprecatedMethod()"));
-        assertEquals("Modified class", 3, entries.size());
+        assertLinesMatch(expectedLines, parse(writer.toString()));
     }
     
-    public void testListenerBehavior() throws IOException {
+    @Test
+    void testListenerBehavior() {
+        var expectedLines = List.of(
+                "ModifiedPackage.DeprecatedClass",
+                "ModifiedPackage.DeprecatedClass.DeprecatedClass()",
+                "ModifiedPackage.DeprecatedInterface",
+                "ModifiedPackage.ModifiedClass.deprecatedField",
+                "ModifiedPackage.ModifiedClass.ModifiedClass(int)",
+                "ModifiedPackage.ModifiedClass.deprecatedMethod()",
+                "ModifiedPackage.ModifiedInterface.deprecatedField",
+                "ModifiedPackage.ModifiedInterface.deprecatedMethod()"
+        );
+
         loader = new TransientClassfileLoader();
         loader.addLoadListener(new LoadListenerVisitorAdapter(printer));
         loader.load(NEW_CLASSPATH);
 
-        var entries = parse(writer.toString());
-        
-        assertTrue("Deprecated class",       entries.contains("ModifiedPackage.DeprecatedClass"));
-        assertTrue("Deprecated interface",   entries.contains("ModifiedPackage.DeprecatedInterface"));
-        assertTrue("Deprecated field",       entries.contains("ModifiedPackage.ModifiedClass.deprecatedField"));
-        assertTrue("Deprecated field",       entries.contains("ModifiedPackage.ModifiedInterface.deprecatedField"));
-        assertTrue("Deprecated constructor", entries.contains("ModifiedPackage.DeprecatedClass.DeprecatedClass()"));
-        assertTrue("Deprecated constructor", entries.contains("ModifiedPackage.ModifiedClass.ModifiedClass(int)"));
-        assertTrue("Deprecated method",      entries.contains("ModifiedPackage.ModifiedClass.deprecatedMethod()"));
-        assertTrue("Deprecated method",      entries.contains("ModifiedPackage.ModifiedInterface.deprecatedMethod()"));
-        assertEquals("Classpath " + entries, 8, entries.size());
+        assertLinesMatch(expectedLines, parse(writer.toString()));
     }
 
-    private Collection<String> parse(String text) {
-        return Set.of(text.split("\n"));
+    private List<String> parse(String text) {
+        return List.of(text.split("\n"));
     }
 }

@@ -32,35 +32,33 @@
 
 package com.jeantessier.classreader;
 
+import org.junit.jupiter.api.*;
+
 import java.nio.file.*;
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestAggregatingClassfileLoaderWithModifiedOnlyDispatcher extends TestCase {
+public class TestAggregatingClassfileLoaderWithModifiedOnlyDispatcher {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
     public static final String TEST_CLASS = "test";
     public static final String TEST_DIR = CLASSES_DIR.resolve("testpackage").toString();
     public static final String TEST_FILENAME = CLASSES_DIR.resolve(TEST_CLASS + ".class").toString();
     
-    private AggregatingClassfileLoader loader;
+    private final AggregatingClassfileLoader loader = new AggregatingClassfileLoader(new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER));
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        loader = new AggregatingClassfileLoader(new ModifiedOnlyDispatcher(ClassfileLoaderEventSource.DEFAULT_DISPATCHER));
-    }
-
-    public void testDirectory() {
+    @Test
+    void testDirectory() {
         loader.load(Collections.singleton(TEST_DIR));
 
-        assertEquals("Nb Classfiles", 6, loader.getAllClassNames().size());
+        assertEquals(6, loader.getAllClassNames().size(), "Nb Classfiles");
     }
     
-    public void testClassfile() {
+    @Test
+    void testClassfile() {
         loader.load(Collections.singleton(TEST_FILENAME));
 
-        assertEquals("Nb Classfiles", 1, loader.getAllClassNames().size());
-        assertNotNull("No Classfile from " + TEST_FILENAME, loader.getClassfile(TEST_CLASS));
+        assertEquals(1, loader.getAllClassNames().size(), "Nb Classfiles");
+        assertNotNull(loader.getClassfile(TEST_CLASS), "No Classfile from " + TEST_FILENAME);
     }
 }

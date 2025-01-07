@@ -32,91 +32,94 @@
 
 package com.jeantessier.classreader;
 
+import org.junit.jupiter.api.*;
+
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestClassfileScanner extends TestCase {
+public class TestClassfileScanner {
     private static final Path TEST_DIR = Paths.get("jarjardiff/old/build/archives");
-    public static final String TEST_FILENAME = Paths.get("build/classes/java/main/test.class").toString();
+    private static final String TEST_FILENAME = Paths.get("build/classes/java/main/test.class").toString();
 
-    private ClassfileScanner scanner;
+    private final ClassfileScanner scanner = new ClassfileScanner();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-        
-        scanner = new ClassfileScanner();
-    }
-
-    public void testOneFile() {
+    @Test
+    void testOneFile() {
         String filename = TEST_FILENAME;
-        assertTrue(filename + " missing", new File(filename).exists());
+        assertTrue(new File(filename).exists(), filename + " missing");
         
         scanner.load(Collections.singleton(filename));
 
-        assertEquals("Number of files", 1, scanner.getNbFiles());
-        assertEquals("Number of classes", 1, scanner.getNbClasses());
+        assertEquals(1, scanner.getNbFiles(), "Number of files");
+        assertEquals(1, scanner.getNbClasses(), "Number of classes");
     }
 
-    public void testOneLevelZip() {
+    @Test
+    void testOneLevelZip() {
         String filename = TEST_DIR.resolve("onelevel.zip").toString();
-        assertTrue(filename + " missing", new File(filename).exists());
+        assertTrue(new File(filename).exists(), filename + " missing");
         
         scanner.load(Collections.singleton(filename));
 
-        assertEquals("Number of files",   32, scanner.getNbFiles());
-        assertEquals("Number of classes", 14, scanner.getNbClasses());
+        assertEquals(32, scanner.getNbFiles(), "Number of files");
+        assertEquals(14, scanner.getNbClasses(), "Number of classes");
     }
 
-    public void testOneLevelJar() {
+    @Test
+    void testOneLevelJar() {
         String filename = TEST_DIR.resolve("onelevel.jar").toString();
-        assertTrue(filename + " missing", new File(filename).exists());
+        assertTrue(new File(filename).exists(), filename + " missing");
         
         scanner.load(Collections.singleton(filename));
 
-        assertEquals("Number of files",   34, scanner.getNbFiles());
-        assertEquals("Number of classes", 14, scanner.getNbClasses());
+        assertEquals(34, scanner.getNbFiles(), "Number of files");
+        assertEquals(14, scanner.getNbClasses(), "Number of classes");
     }
     
-    public void testOneLevelMiscellaneous() {
+    @Test
+    void testOneLevelMiscellaneous() {
         String filename = TEST_DIR.resolve("onelevel.mis").toString();
-        assertTrue(filename + " missing", new File(filename).exists());
+        assertTrue(new File(filename).exists(), filename + " missing");
         
         scanner.load(Collections.singleton(filename));
 
-        assertEquals("Number of files",   32, scanner.getNbFiles());
-        assertEquals("Number of classes", 14, scanner.getNbClasses());
+        assertEquals(32, scanner.getNbFiles(), "Number of files");
+        assertEquals(14, scanner.getNbClasses(), "Number of classes");
     }
 
-    public void testTwoLevelZip() {
+    @Test
+    void testTwoLevelZip() {
         String filename = TEST_DIR.resolve("twolevel.zip").toString();
-        assertTrue(filename + " missing", new File(filename).exists());
+        assertTrue(new File(filename).exists(), filename + " missing");
         
         scanner.load(Collections.singleton(filename));
 
-        assertEquals("Number of files",   33, scanner.getNbFiles());
-        assertEquals("Number of classes", 14, scanner.getNbClasses());
+        assertEquals(33, scanner.getNbFiles(), "Number of files");
+        assertEquals(14, scanner.getNbClasses(), "Number of classes");
     }
 
-    public void testTwoLevelJar() {
+    @Test
+    void testTwoLevelJar() {
         String filename = TEST_DIR.resolve("twolevel.jar").toString();
-        assertTrue(filename + " missing", new File(filename).exists());
+        assertTrue(new File(filename).exists(), filename + " missing");
         
         scanner.load(Collections.singleton(filename));
 
-        assertEquals("Number of files",   35, scanner.getNbFiles());
-        assertEquals("Number of classes", 14, scanner.getNbClasses());
+        assertEquals(35, scanner.getNbFiles(), "Number of files");
+        assertEquals(14, scanner.getNbClasses(), "Number of classes");
     }
     
-    public void testTwoLevelMiscellaneous() {
+    @Test
+    void testTwoLevelMiscellaneous() {
         String filename = TEST_DIR.resolve("twolevel.mis").toString();
-        assertTrue(filename + " missing", new File(filename).exists());
+        assertTrue(new File(filename).exists(), filename + " missing");
         
         scanner.load(Collections.singleton(filename));
 
-        assertEquals("Number of files",   33, scanner.getNbFiles());
-        assertEquals("Number of classes", 14, scanner.getNbClasses());
+        assertEquals(33, scanner.getNbFiles(), "Number of files");
+        assertEquals(14, scanner.getNbClasses(), "Number of classes");
     }
 }

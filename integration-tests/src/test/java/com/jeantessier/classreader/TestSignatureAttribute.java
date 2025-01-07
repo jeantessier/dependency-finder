@@ -32,109 +32,101 @@
 
 package com.jeantessier.classreader;
 
+import org.junit.jupiter.api.*;
+
 import java.nio.file.*;
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestSignatureAttribute extends TestCase {
+public class TestSignatureAttribute {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
-    public static final String TEST_GENERIC_CLASS_CLASS = "testgenericclass";
-    public static final String TEST_GENERIC_METHODS_CLASS = "testgenericmethods";
-    public static final String TEST_GENERIC_CLASS_FILENAME = CLASSES_DIR.resolve(TEST_GENERIC_CLASS_CLASS + ".class").toString();
-    public static final String TEST_GENERIC_METHODS_FILENAME = CLASSES_DIR.resolve(TEST_GENERIC_METHODS_CLASS + ".class").toString();
+    private static final String TEST_GENERIC_CLASS_CLASS = "testgenericclass";
+    private static final String TEST_GENERIC_METHODS_CLASS = "testgenericmethods";
+    private static final String TEST_GENERIC_CLASS_FILENAME = CLASSES_DIR.resolve(TEST_GENERIC_CLASS_CLASS + ".class").toString();
+    private static final String TEST_GENERIC_METHODS_FILENAME = CLASSES_DIR.resolve(TEST_GENERIC_METHODS_CLASS + ".class").toString();
 
-    private ClassfileLoader loader;
+    private final ClassfileLoader loader = new AggregatingClassfileLoader();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        loader = new AggregatingClassfileLoader();
-
+    @BeforeEach
+    void setUp() throws Exception {
         loader.load(Collections.singleton(TEST_GENERIC_CLASS_FILENAME));
         loader.load(Collections.singleton(TEST_GENERIC_METHODS_FILENAME));
     }
 
-    public void testClassDoesNotHaveSignatureAttribute() {
+    @Test
+    void testClassDoesNotHaveSignatureAttribute() {
         Classfile nonGenericClass = loader.getClassfile(TEST_GENERIC_METHODS_CLASS);
 
-        Signature_attribute signatureAttribute = findSingleSignatureAttribute(nonGenericClass.getAttributes());
-        assertNull("Found Signature attribute: " + signatureAttribute, signatureAttribute);
-        assertFalse("Classfile with Signature attribute is not generic", nonGenericClass.isGeneric());
+        assertThrows(Throwable.class, () -> findSingleSignatureAttribute(nonGenericClass.getAttributes()));
+        assertFalse(nonGenericClass.isGeneric(), "Classfile without Signature attribute should not be generic");
     }
 
-    public void testClassHasSignatureAttribute() {
+    @Test
+    void testClassHasSignatureAttribute() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_CLASS_CLASS);
 
         Signature_attribute signatureAttribute = findSingleSignatureAttribute(genericClass.getAttributes());
-        assertNotNull("Signature attribute missing", signatureAttribute);
-        assertEquals("Signature", "<T:Ljava/lang/Object;>Ljava/lang/Object;", signatureAttribute.getSignature());
-        assertTrue("Classfile with Signature attribute is not generic", genericClass.isGeneric());
+        assertEquals("<T:Ljava/lang/Object;>Ljava/lang/Object;", signatureAttribute.getSignature(), "Signature");
+        assertTrue(genericClass.isGeneric(), "Classfile with Signature attribute is not generic");
     }
 
-    public void testConstructorHasSignatureAttribute() {
+    @Test
+    void testConstructorHasSignatureAttribute() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_CLASS_CLASS);
         Method_info method = genericClass.getMethod(m -> m.getSignature().equals(TEST_GENERIC_CLASS_CLASS + "(java.lang.Object)"));
 
         Signature_attribute signatureAttribute = findSingleSignatureAttribute(method.getAttributes());
-        assertNotNull("Signature attribute missing", signatureAttribute);
-        assertEquals("Signature", "(TT;)V", signatureAttribute.getSignature());
-        assertTrue("Method with Signature attribute is not generic", method.isGeneric());
+        assertEquals("(TT;)V", signatureAttribute.getSignature(), "Signature");
+        assertTrue(method.isGeneric(), "Method with Signature attribute is not generic");
     }
 
-    public void testGenericConstructorHasSignatureAttribute() {
+    @Test
+    void testGenericConstructorHasSignatureAttribute() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_METHODS_CLASS);
         Method_info method = genericClass.getMethod(m -> m.getSignature().equals(TEST_GENERIC_METHODS_CLASS + "(java.lang.Object)"));
 
         Signature_attribute signatureAttribute = findSingleSignatureAttribute(method.getAttributes());
-        assertNotNull("Signature attribute missing", signatureAttribute);
-        assertEquals("Signature", "<T:Ljava/lang/Object;>(TT;)V", signatureAttribute.getSignature());
-        assertTrue("Method with Signature attribute is not generic", method.isGeneric());
+        assertEquals("<T:Ljava/lang/Object;>(TT;)V", signatureAttribute.getSignature(), "Signature");
+        assertTrue(method.isGeneric(), "Method with Signature attribute is not generic");
     }
 
-    public void testMethodHasSignatureAttribute() {
+    @Test
+    void testMethodHasSignatureAttribute() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_CLASS_CLASS);
         Method_info method = genericClass.getMethod(m -> m.getSignature().equals("testmethod(java.lang.Object)"));
 
         Signature_attribute signatureAttribute = findSingleSignatureAttribute(method.getAttributes());
-        assertNotNull("Signature attribute missing", signatureAttribute);
-        assertEquals("Signature", "(TT;)TT;", signatureAttribute.getSignature());
-        assertTrue("Method with Signature attribute is not generic", method.isGeneric());
+        assertEquals("(TT;)TT;", signatureAttribute.getSignature(), "Signature");
+        assertTrue(method.isGeneric(), "Method with Signature attribute is not generic");
     }
 
-    public void testGenericMethodHasSignatureAttribute() {
+    @Test
+    void testGenericMethodHasSignatureAttribute() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_METHODS_CLASS);
         Method_info method = genericClass.getMethod(m -> m.getSignature().equals("testmethod(java.lang.Object)"));
 
         Signature_attribute signatureAttribute = findSingleSignatureAttribute(method.getAttributes());
-        assertNotNull("Signature attribute missing", signatureAttribute);
-        assertEquals("Signature", "<T:Ljava/lang/Object;>(TT;)TT;", signatureAttribute.getSignature());
-        assertTrue("Method with Signature attribute is not generic", method.isGeneric());
+        assertEquals("<T:Ljava/lang/Object;>(TT;)TT;", signatureAttribute.getSignature(), "Signature");
+        assertTrue(method.isGeneric(), "Method with Signature attribute is not generic");
     }
 
-    public void testFieldHasSignatureAttribute() {
+    @Test
+    void testFieldHasSignatureAttribute() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_CLASS_CLASS);
         Field_info field = genericClass.getField(f -> f.getName().equals("testfield"));
 
         Signature_attribute signatureAttribute = findSingleSignatureAttribute(field.getAttributes());
-        assertNotNull("Signature attribute missing", signatureAttribute);
-        assertEquals("Signature", "TT;", signatureAttribute.getSignature());
-        assertTrue("Field with Signature attribute is not generic", field.isGeneric());
+        assertEquals("TT;", signatureAttribute.getSignature(), "Signature");
+        assertTrue(field.isGeneric(), "Field with Signature attribute is not generic");
     }
 
     private Signature_attribute findSingleSignatureAttribute(Collection<? extends Attribute_info> attributes) {
-        Signature_attribute result = null;
+        assertEquals(1, attributes.stream().filter(attribute -> attribute instanceof Signature_attribute).count(), "There should be only one Signature attribute");
 
-        for (Attribute_info attribute : attributes) {
-            if (attribute instanceof Signature_attribute) {
-                if (result == null) {
-                    result = (Signature_attribute) attribute;
-                } else {
-                    fail("Multiple Signature attributes");
-                }
-            }
-        }
-
-        return result;
+        return (Signature_attribute) attributes.stream()
+                .filter(attribute -> attribute instanceof Signature_attribute)
+                .findAny()
+                .orElseThrow(() -> new RuntimeException("Signature attribute missing"));
     }
 }

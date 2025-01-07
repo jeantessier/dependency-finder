@@ -32,12 +32,14 @@
 
 package com.jeantessier.classreader;
 
+import org.junit.jupiter.api.*;
+
 import java.nio.file.*;
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestEnum extends TestCase {
+public class TestEnum {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
     public static final String TEST_CLASS = "test";
     public static final String TEST_ENUM_CLASS = "testenum";
@@ -48,46 +50,41 @@ public class TestEnum extends TestCase {
     public static final String TEST_ENUM_VALUE1_FILENAME = CLASSES_DIR.resolve(TEST_ENUM_VALUE1_CLASS + ".class").toString();
     public static final String TEST_ENUM_VALUE2_FILENAME = CLASSES_DIR.resolve(TEST_ENUM_VALUE2_CLASS + ".class").toString();
 
-    private ClassfileLoader loader;
+    private final ClassfileLoader loader = new AggregatingClassfileLoader();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        loader   = new AggregatingClassfileLoader();
-
+    @BeforeEach
+    void setUp() {
         loader.load(Collections.singleton(TEST_FILENAME));
         loader.load(Collections.singleton(TEST_ENUM_FILENAME));
         loader.load(Collections.singleton(TEST_ENUM_VALUE1_FILENAME));
         loader.load(Collections.singleton(TEST_ENUM_VALUE2_FILENAME));
     }
 
-    public void testClassfileIsEnum() {
-        assertTrue(TEST_CLASS, !loader.getClassfile(TEST_CLASS).isEnum());
-        assertTrue(TEST_ENUM_CLASS, loader.getClassfile(TEST_ENUM_CLASS).isEnum());
-        assertTrue("testenum.VALUE1", loader.getClassfile(TEST_ENUM_VALUE1_CLASS).isEnum());
-        assertTrue("testenum.VALUE2", loader.getClassfile(TEST_ENUM_VALUE2_CLASS).isEnum());
+    @Test
+    void testClassfileIsEnum() {
+        assertFalse(loader.getClassfile(TEST_CLASS).isEnum(), TEST_CLASS);
+        assertTrue(loader.getClassfile(TEST_ENUM_CLASS).isEnum(), TEST_ENUM_CLASS);
+        assertTrue(loader.getClassfile(TEST_ENUM_VALUE1_CLASS).isEnum(), "testenum.VALUE1");
+        assertTrue(loader.getClassfile(TEST_ENUM_VALUE2_CLASS).isEnum(), "testenum.VALUE2");
     }
 
-    public void testFieldIsEnum() {
+    @Test
+    void testFieldIsEnum() {
         Classfile testenum = loader.getClassfile(TEST_ENUM_CLASS);
 
-        assertTrue(TEST_ENUM_CLASS + ".$VALUES", !testenum.getField(f -> f.getName().equals("$VALUES")).isEnum());
-        assertTrue(TEST_ENUM_CLASS + ".VALUE1", testenum.getField(f -> f.getName().equals("VALUE1")).isEnum());
+        assertFalse(testenum.getField(f -> f.getName().equals("$VALUES")).isEnum(), TEST_ENUM_CLASS + ".$VALUES");
+        assertTrue(testenum.getField(f -> f.getName().equals("VALUE1")).isEnum(), TEST_ENUM_CLASS + ".VALUE1");
     }
 
-    public void testInnerClassIsEnum() {
+    @Test
+    void testInnerClassIsEnum() {
         Classfile testenum = loader.getClassfile(TEST_ENUM_CLASS);
 
-        boolean found = false;
-        for (Attribute_info attribute : testenum.getAttributes()) {
-            if (attribute instanceof InnerClasses_attribute) {
-                found = true;
-                for (InnerClass innerClass : ((InnerClasses_attribute) attribute).getInnerClasses()) {
-                    assertTrue(innerClass.getInnerClassInfo(), innerClass.isEnum());
-                }
-            }
-        }
+        var innerClasses_attribute = (InnerClasses_attribute) testenum.getAttributes().stream()
+                .filter(attribute -> attribute instanceof InnerClasses_attribute)
+                .findAny()
+                .orElseThrow(() -> new RuntimeException("Did not find any InnerClass structures in " + TEST_ENUM_CLASS));
 
-        assertTrue("Did not find any InnerClass structures in " + TEST_ENUM_CLASS, found);
+        assertTrue(innerClasses_attribute.getInnerClasses().stream().allMatch(InnerClass::isEnum), "there are non-enum inner classes");
     }
 }

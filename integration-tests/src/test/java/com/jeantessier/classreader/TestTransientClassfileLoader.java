@@ -32,45 +32,34 @@
 
 package com.jeantessier.classreader;
 
+import org.junit.jupiter.api.*;
+
 import java.io.*;
 import java.nio.file.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestTransientClassfileLoader extends TestCase {
+public class TestTransientClassfileLoader {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
     public static final String TEST_CLASS    = "test";
     public static final String TEST_FILENAME = CLASSES_DIR.resolve(TEST_CLASS + ".class").toString();
     
-    private TransientClassfileLoader loader;
+    private final TransientClassfileLoader loader = new TransientClassfileLoader();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        loader = new TransientClassfileLoader();
-    }
-
-    public void testCreate() {
-        assertEquals("Different number of class names",
-                     0,
-                     loader.getAllClassNames().size());
-        assertNull(TEST_CLASS + " should have been null",
-                   loader.getClassfile(TEST_CLASS));
+    @Test
+    void testCreate() {
+        assertEquals(0, loader.getAllClassNames().size(), "Different number of class names");
+        assertNull(loader.getClassfile(TEST_CLASS), TEST_CLASS + " should have been null");
     }
     
-    public void testStart() throws IOException {
-        assertEquals("Different number of class names",
-                     0,
-                     loader.getAllClassNames().size());
-        assertNull(TEST_CLASS + " should have been null",
-                   loader.getClassfile(TEST_CLASS));
+    @Test
+    void testStart() throws IOException {
+        assertEquals(0, loader.getAllClassNames().size(), "Different number of class names");
+        assertNull(loader.getClassfile(TEST_CLASS), TEST_CLASS + " should have been null");
 
         loader.load(new DataInputStream(new FileInputStream(TEST_FILENAME)));
         
-        assertEquals("Different number of class names",
-                     0,
-                     loader.getAllClassNames().size());
-        assertNull(TEST_CLASS + " should have remained null",
-                   loader.getClassfile(TEST_CLASS));
+        assertEquals(0, loader.getAllClassNames().size(), "Different number of class names");
+        assertNull(loader.getClassfile(TEST_CLASS), TEST_CLASS + " should have remained null");
     }
 }

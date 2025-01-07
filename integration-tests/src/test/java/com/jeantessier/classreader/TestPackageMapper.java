@@ -32,12 +32,14 @@
 
 package com.jeantessier.classreader;
 
+import org.junit.jupiter.api.*;
+
 import java.nio.file.*;
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestPackageMapper extends TestCase {
+public class TestPackageMapper {
     private static final Path TEST_CLASSPATH = Paths.get("jarjardiff/old/build/classes/java/main");
     private static final String TEST_PACKAGENAME1 = "ModifiedPackage";
     private static final String TEST_FILENAME1 = TEST_CLASSPATH.resolve(TEST_PACKAGENAME1 + "/ModifiedClass.class").toString();
@@ -48,99 +50,105 @@ public class TestPackageMapper extends TestCase {
     private static final String TEST_FILENAME3 = TEST_CLASSPATH.resolve(TEST_PACKAGENAME3 + "/UnmodifiedClass.class").toString();
     private static final String TEST_CLASSNAME3 = TEST_PACKAGENAME3 + ".UnmodifiedClass";
 
-    private PackageMapper mapper;
+    private final PackageMapper mapper = new PackageMapper();
 
-    private ClassfileLoader loader;
+    private final ClassfileLoader loader = new AggregatingClassfileLoader();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        mapper = new PackageMapper();
-
-        loader = new AggregatingClassfileLoader();
+    @BeforeEach
+    void setUp() {
         loader.load(List.of(TEST_FILENAME1, TEST_FILENAME2, TEST_FILENAME3));
     }
 
-    public void testBeginSession() {
+    @Test
+    void testBeginSession() {
         mapper.beginSession(new LoadEvent(loader, null, null, null));
 
-        assertEquals("Nb package names", 0, mapper.getPackageNames().size());
+        assertEquals(0, mapper.getPackageNames().size(), "Nb package names");
     }
 
-    public void testBeginGroup() {
+    @Test
+    void testBeginGroup() {
         mapper.beginGroup(new LoadEvent(loader, TEST_CLASSPATH.toString(), null, null));
 
-        assertEquals("Nb package names", 0, mapper.getPackageNames().size());
+        assertEquals(0, mapper.getPackageNames().size(), "Nb package names");
     }
 
-    public void testBeginFile() {
+    @Test
+    void testBeginFile() {
         mapper.beginFile(new LoadEvent(loader, TEST_CLASSPATH.toString(), TEST_FILENAME1, null));
 
-        assertEquals("Nb package names", 0, mapper.getPackageNames().size());
+        assertEquals(0, mapper.getPackageNames().size(), "Nb package names");
     }
 
-    public void testBeginClassfile() {
+    @Test
+    void testBeginClassfile() {
         mapper.beginClassfile(new LoadEvent(loader, TEST_CLASSPATH.toString(), TEST_FILENAME1, null));
 
-        assertEquals("Nb package names", 0, mapper.getPackageNames().size());
+        assertEquals(0, mapper.getPackageNames().size(), "Nb package names");
     }
 
-    public void testOneClassfile() {
+    @Test
+    void testOneClassfile() {
         Classfile classfile = loader.getClassfile(TEST_CLASSNAME1);
 
         mapper.endClassfile(new LoadEvent(loader, TEST_CLASSPATH.toString(), TEST_FILENAME1, classfile));
 
-        assertEquals("Nb package names", 1, mapper.getPackageNames().size());
-        assertTrue(TEST_PACKAGENAME1 + " not in " + mapper.getPackageNames(), mapper.getPackageNames().contains(TEST_PACKAGENAME1));
-        assertEquals("Nb classes in " + TEST_PACKAGENAME1, 1, mapper.getPackage(TEST_PACKAGENAME1).size());
-        assertSame(TEST_CLASSNAME1, classfile, mapper.getPackage(TEST_PACKAGENAME1).get(TEST_CLASSNAME1));
+        assertEquals(1, mapper.getPackageNames().size(), "Nb package names");
+        assertTrue(mapper.getPackageNames().contains(TEST_PACKAGENAME1), TEST_PACKAGENAME1 + " not in " + mapper.getPackageNames());
+        assertEquals(1, mapper.getPackage(TEST_PACKAGENAME1).size(), "Nb classes in " + TEST_PACKAGENAME1);
+        assertSame(classfile, mapper.getPackage(TEST_PACKAGENAME1).get(TEST_CLASSNAME1), TEST_CLASSNAME1);
     }
 
-    public void testTwoClassfilesInSamePackages() {
+    @Test
+    void testTwoClassfilesInSamePackages() {
         Classfile classfile1 = loader.getClassfile(TEST_CLASSNAME1);
         Classfile classfile2 = loader.getClassfile(TEST_CLASSNAME2);
 
         mapper.endClassfile(new LoadEvent(loader, TEST_CLASSPATH.toString(), TEST_FILENAME1, classfile1));
         mapper.endClassfile(new LoadEvent(loader, TEST_CLASSPATH.toString(), TEST_FILENAME2, classfile2));
 
-        assertEquals("Nb package names", 1, mapper.getPackageNames().size());
-        assertTrue(TEST_PACKAGENAME1, mapper.getPackageNames().contains(TEST_PACKAGENAME1));
-        assertEquals("Nb classes in " + TEST_PACKAGENAME1, 2, mapper.getPackage(TEST_PACKAGENAME1).size());
-        assertSame(TEST_CLASSNAME1, classfile1, mapper.getPackage(TEST_PACKAGENAME1).get(TEST_CLASSNAME1));
-        assertSame(TEST_CLASSNAME2, classfile2, mapper.getPackage(TEST_PACKAGENAME1).get(TEST_CLASSNAME2));
+        assertEquals(1, mapper.getPackageNames().size(), "Nb package names");
+        assertTrue(mapper.getPackageNames().contains(TEST_PACKAGENAME1), TEST_PACKAGENAME1);
+        assertEquals(2, mapper.getPackage(TEST_PACKAGENAME1).size(), "Nb classes in " + TEST_PACKAGENAME1);
+        assertSame(classfile1, mapper.getPackage(TEST_PACKAGENAME1).get(TEST_CLASSNAME1), TEST_CLASSNAME1);
+        assertSame(classfile2, mapper.getPackage(TEST_PACKAGENAME1).get(TEST_CLASSNAME2), TEST_CLASSNAME2);
     }
 
-    public void testTwoClassfilesInDifferentPackages() {
+    @Test
+    void testTwoClassfilesInDifferentPackages() {
         Classfile classfile1 = loader.getClassfile(TEST_CLASSNAME1);
         Classfile classfile3 = loader.getClassfile(TEST_CLASSNAME3);
 
         mapper.endClassfile(new LoadEvent(loader, TEST_CLASSPATH.toString(), TEST_FILENAME1, classfile1));
         mapper.endClassfile(new LoadEvent(loader, TEST_CLASSPATH.toString(), TEST_FILENAME3, classfile3));
 
-        assertEquals("Nb package names", 2, mapper.getPackageNames().size());
-        assertTrue(TEST_PACKAGENAME1, mapper.getPackageNames().contains(TEST_PACKAGENAME1));
-        assertTrue(TEST_PACKAGENAME3, mapper.getPackageNames().contains(TEST_PACKAGENAME3));
-        assertEquals("Nb classes in " + TEST_PACKAGENAME1, 1, mapper.getPackage(TEST_PACKAGENAME1).size());
-        assertSame(TEST_CLASSNAME1, classfile1, mapper.getPackage(TEST_PACKAGENAME1).get(TEST_CLASSNAME1));
-        assertEquals("Nb classes in " + TEST_PACKAGENAME3, 1, mapper.getPackage(TEST_PACKAGENAME3).size());
-        assertSame(TEST_CLASSNAME3, classfile3, mapper.getPackage(TEST_PACKAGENAME3).get(TEST_CLASSNAME3));
+        assertEquals(2, mapper.getPackageNames().size(), "Nb package names");
+        assertTrue(mapper.getPackageNames().contains(TEST_PACKAGENAME1), TEST_PACKAGENAME1);
+        assertTrue(mapper.getPackageNames().contains(TEST_PACKAGENAME3), TEST_PACKAGENAME3);
+        assertEquals(1, mapper.getPackage(TEST_PACKAGENAME1).size(), "Nb classes in " + TEST_PACKAGENAME1);
+        assertSame(classfile1, mapper.getPackage(TEST_PACKAGENAME1).get(TEST_CLASSNAME1), TEST_CLASSNAME1);
+        assertEquals(1, mapper.getPackage(TEST_PACKAGENAME3).size(), "Nb classes in " + TEST_PACKAGENAME3);
+        assertSame(classfile3, mapper.getPackage(TEST_PACKAGENAME3).get(TEST_CLASSNAME3), TEST_CLASSNAME3);
     }
 
-    public void testEndFile() {
+    @Test
+    void testEndFile() {
         mapper.endFile(new LoadEvent(loader, TEST_CLASSPATH.toString(), TEST_FILENAME1, null));
 
-        assertEquals("Nb package names", 0, mapper.getPackageNames().size());
+        assertEquals(0, mapper.getPackageNames().size(), "Nb package names");
     }
 
-    public void testEndGroup() {
+    @Test
+    void testEndGroup() {
         mapper.endGroup(new LoadEvent(loader, TEST_CLASSPATH.toString(), null, null));
 
-        assertEquals("Nb package names", 0, mapper.getPackageNames().size());
+        assertEquals(0, mapper.getPackageNames().size(), "Nb package names");
     }
 
-    public void testSession() {
+    @Test
+    void testEndSession() {
         mapper.endSession(new LoadEvent(loader, null, null, null));
 
-        assertEquals("Nb package names", 0, mapper.getPackageNames().size());
+        assertEquals(0, mapper.getPackageNames().size(), "Nb package names");
     }
 }

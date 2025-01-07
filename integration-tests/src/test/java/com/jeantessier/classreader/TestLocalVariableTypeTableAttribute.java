@@ -32,12 +32,14 @@
 
 package com.jeantessier.classreader;
 
+import org.junit.jupiter.api.*;
+
 import java.nio.file.*;
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestLocalVariableTypeTableAttribute extends TestCase {
+public class TestLocalVariableTypeTableAttribute {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
     public static final String TEST_CLASS = "test";
     public static final String TEST_GENERIC_CLASS_CLASS = "testgenericclass";
@@ -46,98 +48,91 @@ public class TestLocalVariableTypeTableAttribute extends TestCase {
     public static final String TEST_GENERIC_CLASS_FILENAME = CLASSES_DIR.resolve(TEST_GENERIC_CLASS_CLASS + ".class").toString();
     public static final String TEST_GENERIC_METHODS_FILENAME = CLASSES_DIR.resolve(TEST_GENERIC_METHODS_CLASS + ".class").toString();
 
-    private ClassfileLoader loader;
+    private final ClassfileLoader loader = new AggregatingClassfileLoader();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        loader = new AggregatingClassfileLoader();
-
+    @BeforeEach
+    void setUp() {
         loader.load(Collections.singleton(TEST_FILENAME));
         loader.load(Collections.singleton(TEST_GENERIC_CLASS_FILENAME));
         loader.load(Collections.singleton(TEST_GENERIC_METHODS_FILENAME));
     }
 
-    public void testConstructorHasLocalVariableTypeTableAttribute() {
+    @Test
+    void testConstructorHasLocalVariableTypeTableAttribute() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_CLASS_CLASS);
         Method_info method = genericClass.getMethod(m -> m.getSignature().equals(TEST_GENERIC_CLASS_CLASS + "(java.lang.Object)"));
         Code_attribute code = method.getCode();
 
-        LocalVariableTypeTable_attribute localVariableTypeTableAttribute = findLastLocalVariableTypeTableAttribute(code.getAttributes());
-        assertNotNull("LocalVariableTypeTable attribute missing", localVariableTypeTableAttribute);
+        assertDoesNotThrow(() -> findLastLocalVariableTypeTableAttribute(code.getAttributes()));
     }
 
-    public void testGenericConstructorHasLocalVariableTypeTableAttribute() {
+    @Test
+    void testGenericConstructorHasLocalVariableTypeTableAttribute() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_METHODS_CLASS);
         Method_info method = genericClass.getMethod(m -> m.getSignature().equals(TEST_GENERIC_METHODS_CLASS + "(java.lang.Object)"));
         Code_attribute code = method.getCode();
 
-        LocalVariableTypeTable_attribute localVariableTypeTableAttribute = findLastLocalVariableTypeTableAttribute(code.getAttributes());
-        assertNotNull("LocalVariableTypeTable attribute missing", localVariableTypeTableAttribute);
+        assertDoesNotThrow(() -> findLastLocalVariableTypeTableAttribute(code.getAttributes()));
     }
 
-    public void testNonGenericMethodDoesNotHaveLocalVariableTypeTableAttribute() {
+    @Test
+    void testNonGenericMethodDoesNotHaveLocalVariableTypeTableAttribute() {
         Classfile nonGenericClass = loader.getClassfile(TEST_CLASS);
         Method_info method = nonGenericClass.getMethod(m -> m.getSignature().equals("main(java.lang.String[])"));
         Code_attribute code = method.getCode();
 
-        LocalVariableTypeTable_attribute localVariableTypeTableAttribute = findLastLocalVariableTypeTableAttribute(code.getAttributes());
-        assertNull("LocalVariableTypeTable attribute missing", localVariableTypeTableAttribute);
+        assertThrows(RuntimeException.class, () -> findLastLocalVariableTypeTableAttribute(code.getAttributes()));
     }
 
-    public void testNonGenericMethodUsingGenericsHasLocalVariableTypeTableAttribute() {
+    @Test
+    void testNonGenericMethodUsingGenericsHasLocalVariableTypeTableAttribute() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_METHODS_CLASS);
         Method_info method = genericClass.getMethod(m -> m.getSignature().equals("testregularmethod(java.lang.Class)"));
         Code_attribute code = method.getCode();
 
-        LocalVariableTypeTable_attribute localVariableTypeTableAttribute = findLastLocalVariableTypeTableAttribute(code.getAttributes());
-        assertNotNull("LocalVariableTypeTable attribute missing", localVariableTypeTableAttribute);
+        assertDoesNotThrow(() -> findLastLocalVariableTypeTableAttribute(code.getAttributes()));
     }
 
-    public void testMethodHasLocalVariableTypeTableAttribute() {
+    @Test
+    void testMethodHasLocalVariableTypeTableAttribute() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_CLASS_CLASS);
         Method_info method = genericClass.getMethod(m -> m.getSignature().equals("testmethod(java.lang.Object)"));
         Code_attribute code = method.getCode();
 
-        LocalVariableTypeTable_attribute localVariableTypeTableAttribute = findLastLocalVariableTypeTableAttribute(code.getAttributes());
-        assertNotNull("LocalVariableTypeTable attribute missing", localVariableTypeTableAttribute);
+        assertDoesNotThrow(() -> findLastLocalVariableTypeTableAttribute(code.getAttributes()));
     }
 
-    public void testGenericMethodHasLocalVariableTypeTableAttribute() {
+    @Test
+    void testGenericMethodHasLocalVariableTypeTableAttribute() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_METHODS_CLASS);
         Method_info method = genericClass.getMethod(m -> m.getSignature().equals("testmethod(java.lang.Object)"));
         Code_attribute code = method.getCode();
 
-        LocalVariableTypeTable_attribute localVariableTypeTableAttribute = findLastLocalVariableTypeTableAttribute(code.getAttributes());
-        assertNotNull("LocalVariableTypeTable attribute missing", localVariableTypeTableAttribute);
+        assertDoesNotThrow(() -> findLastLocalVariableTypeTableAttribute(code.getAttributes()));
     }
 
-    public void testLocalVariableType() {
+    @Test
+    void testLocalVariableType() {
         Classfile genericClass = loader.getClassfile(TEST_GENERIC_CLASS_CLASS);
         Method_info method = genericClass.getMethod(m -> m.getSignature().equals(TEST_GENERIC_CLASS_CLASS + "(java.lang.Object)"));
         Code_attribute code = method.getCode();
 
         LocalVariableTypeTable_attribute localVariableTypeTableAttribute = findLastLocalVariableTypeTableAttribute(code.getAttributes());
-        assertNotNull("LocalVariableTypeTable attribute missing", localVariableTypeTableAttribute);
-        assertEquals("Nb LocalVariableType", 2, localVariableTypeTableAttribute.getLocalVariableTypes().size());
+        assertNotNull(localVariableTypeTableAttribute, "LocalVariableTypeTable attribute missing");
+        assertEquals(2, localVariableTypeTableAttribute.getLocalVariableTypes().size(), "Nb LocalVariableType");
 
         LocalVariableType localVariableType = localVariableTypeTableAttribute.getLocalVariableTypes().iterator().next();
-        assertEquals("start pc", 0, localVariableType.getStartPC());
-        assertEquals("length", 5, localVariableType.getLength());
-        assertEquals("name", "this", localVariableType.getName());
-        assertEquals("signature", "Ltestgenericclass<TT;>;", localVariableType.getSignature());
-        assertEquals("index", 0, localVariableType.getIndex());
+        assertEquals(0, localVariableType.getStartPC(), "start pc");
+        assertEquals(5, localVariableType.getLength(), "length");
+        assertEquals("this", localVariableType.getName(), "name");
+        assertEquals("Ltestgenericclass<TT;>;", localVariableType.getSignature(), "signature");
+        assertEquals(0, localVariableType.getIndex(), "index");
     }
 
     private LocalVariableTypeTable_attribute findLastLocalVariableTypeTableAttribute(Collection<? extends Attribute_info> attributes) {
-        LocalVariableTypeTable_attribute result = null;
-
-        for (Attribute_info attribute : attributes) {
-            if (attribute instanceof LocalVariableTypeTable_attribute) {
-                result = (LocalVariableTypeTable_attribute) attribute;
-            }
-        }
-
-        return result;
+        return (LocalVariableTypeTable_attribute) attributes.stream()
+                .filter(attribute -> attribute instanceof LocalVariableTypeTable_attribute)
+                .findAny()
+                .orElseThrow(() -> new RuntimeException("LocalVariableTypeTable attribute missing"));
     }
 }

@@ -32,35 +32,40 @@
 
 package com.jeantessier.classreader;
 
+import org.junit.jupiter.api.*;
+
 import java.nio.file.*;
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestClassfile extends TestCase {
-    private ClassfileLoader loader;
+public class TestClassfile {
+    private final ClassfileLoader loader = new AggregatingClassfileLoader();
 
-    protected void setUp() throws Exception {
-        loader = new AggregatingClassfileLoader();
+    @BeforeEach
+    void setUp() {
         loader.load(Collections.singleton(Paths.get("jarjardiff/new/build/classes/java/main").toString()));
     }
 
-    public void testDeprecated() {
-        assertTrue("ModifiedPackage.DeprecatedClass", loader.getClassfile("ModifiedPackage.DeprecatedClass").isDeprecated());
-        assertFalse("ModifiedPackage.UndeprecatedClass", loader.getClassfile("ModifiedPackage.UndeprecatedClass").isDeprecated());
+    @Test
+    void testDeprecated() {
+        assertTrue(loader.getClassfile("ModifiedPackage.DeprecatedClass").isDeprecated(), "ModifiedPackage.DeprecatedClass");
+        assertFalse(loader.getClassfile("ModifiedPackage.UndeprecatedClass").isDeprecated(), "ModifiedPackage.UndeprecatedClass");
     }
 
-    public void testGetCode() {
+    @Test
+    void testGetCode() {
         Classfile classfile1 = loader.getClassfile("UnmodifiedPackage.UnmodifiedClass");
-        assertNotNull("UnmodifiedPackage.UnmodifiedClass.unmodifiedMethod()", classfile1.getMethod(m -> m.getSignature().equals("unmodifiedMethod()")).getCode());
+        assertNotNull(classfile1.getMethod(m -> m.getSignature().equals("unmodifiedMethod()")).getCode(), "UnmodifiedPackage.UnmodifiedClass.unmodifiedMethod()");
         Classfile classfile = loader.getClassfile("UnmodifiedPackage.UnmodifiedInterface");
-        assertNull("UnmodifiedPackage.UnmodifiedInterface.unmodifiedMethod()", classfile.getMethod(m -> m.getSignature().equals("unmodifiedMethod()")).getCode());
+        assertNull(classfile.getMethod(m -> m.getSignature().equals("unmodifiedMethod()")).getCode(), "UnmodifiedPackage.UnmodifiedInterface.unmodifiedMethod()");
     }
 
-    public void testGetConstantValue() {
+    @Test
+    void testGetConstantValue() {
         Classfile classfile1 = loader.getClassfile("UnmodifiedPackage.UnmodifiedClass");
-        assertNull("UnmodifiedPackage.UnmodifiedClass.unmodifiedField", classfile1.getField(f -> f.getName().equals("unmodifiedField")).getConstantValue());
+        assertNull(classfile1.getField(f -> f.getName().equals("unmodifiedField")).getConstantValue(), "UnmodifiedPackage.UnmodifiedClass.unmodifiedField");
         Classfile classfile = loader.getClassfile("UnmodifiedPackage.UnmodifiedInterface");
-        assertNotNull("UnmodifiedPackage.UnmodifiedInterface.unmodifiedField", classfile.getField(f -> f.getName().equals("unmodifiedField")).getConstantValue());
+        assertNotNull(classfile.getField(f -> f.getName().equals("unmodifiedField")).getConstantValue(), "UnmodifiedPackage.UnmodifiedInterface.unmodifiedField");
     }
 }

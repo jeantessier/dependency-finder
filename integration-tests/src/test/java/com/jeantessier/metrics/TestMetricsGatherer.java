@@ -35,17 +35,17 @@ package com.jeantessier.metrics;
 import com.jeantessier.classreader.AggregatingClassfileLoader;
 import com.jeantessier.classreader.Classfile;
 import com.jeantessier.classreader.ClassfileLoader;
-import org.junit.*;
-import org.xml.sax.SAXException;
+import org.junit.jupiter.api.*;
+import org.xml.sax.*;
 
-import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.*;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestMetricsGatherer {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
@@ -55,7 +55,7 @@ public class TestMetricsGatherer {
     private MetricsFactory factory;
     private Classfile classfile;
 
-    @Before
+    @BeforeEach
     public void loadTestData() throws IOException, ParserConfigurationException, SAXException {
         factory = new MetricsFactory("test", new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).load(Paths.get("../etc/MetricsConfig.xml").toString()));
 
@@ -230,7 +230,7 @@ public class TestMetricsGatherer {
     }
 
     private void assertMeasurementIsNaN(Metrics metrics, String abbreviation) {
-        assertTrue(abbreviation, Double.isNaN(metrics.getMeasurement(abbreviation).getValue().doubleValue()));
+        assertTrue(Double.isNaN(metrics.getMeasurement(abbreviation).getValue().doubleValue()), abbreviation);
     }
 
     private void assertMeasurementIsEmpty(Metrics metrics, BasicMeasurements measurement) {
@@ -238,6 +238,6 @@ public class TestMetricsGatherer {
     }
 
     private void assertMeasurementIsEmpty(Metrics metrics, String abbreviation) {
-        assertTrue(abbreviation + " should have been ignored", metrics.getMeasurement(abbreviation).isEmpty());
+        assertTrue(metrics.getMeasurement(abbreviation).isEmpty(), abbreviation + " should have been ignored");
     }
 }

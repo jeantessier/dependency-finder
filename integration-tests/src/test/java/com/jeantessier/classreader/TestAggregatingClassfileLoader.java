@@ -32,54 +32,43 @@
 
 package com.jeantessier.classreader;
 
+import org.junit.jupiter.api.*;
+
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestAggregatingClassfileLoader extends TestCase {
+public class TestAggregatingClassfileLoader {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
-    public static final String TEST_CLASS    = "test";
-    public static final String TEST_FILENAME = CLASSES_DIR.resolve(TEST_CLASS + ".class").toString();
+    private static final String TEST_CLASS = "test";
+    private static final String TEST_FILENAME = CLASSES_DIR.resolve(TEST_CLASS + ".class").toString();
     
-    private AggregatingClassfileLoader loader;
+    private final AggregatingClassfileLoader loader = new AggregatingClassfileLoader();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        loader = new AggregatingClassfileLoader();
-    }
-
-    public void testCreate() {
-        assertEquals("Different number of class names",
-                     0,
-                     loader.getAllClassNames().size());
-        assertNull(TEST_CLASS + " should have been null",
-                   loader.getClassfile(TEST_CLASS));
+    @Test
+    void testCreate() {
+        assertEquals(0, loader.getAllClassNames().size(), "Different number of class names");
+        assertNull(loader.getClassfile(TEST_CLASS), TEST_CLASS + " should have been null");
     }
     
-    public void testStart() throws IOException {
-        assertEquals("Different number of class names",
-                     0,
-                     loader.getAllClassNames().size());
-        assertNull(TEST_CLASS + " should have been null",
-                   loader.getClassfile(TEST_CLASS));
+    @Test
+    void testStart() throws IOException {
+        assertEquals(0, loader.getAllClassNames().size(), "Different number of class names");
+        assertNull(loader.getClassfile(TEST_CLASS), TEST_CLASS + " should have been null");
 
         loader.load(new DataInputStream(new FileInputStream(TEST_FILENAME)));
         
-        assertEquals("Different number of class names",
-                     1,
-                     loader.getAllClassNames().size());
-        assertTrue("Missing class name \"" + TEST_CLASS + "\"",
-                   loader.getAllClassNames().contains(TEST_CLASS));
-        assertNotNull(TEST_CLASS + " should not have been null",
-                      loader.getClassfile(TEST_CLASS));
+        assertEquals(1, loader.getAllClassNames().size(), "Different number of class names");
+        assertTrue(loader.getAllClassNames().contains(TEST_CLASS), "Missing class name \"" + TEST_CLASS + "\"");
+        assertNotNull(loader.getClassfile(TEST_CLASS), TEST_CLASS + " should not have been null");
     }
 
-    public void testClassfile() {
+    @Test
+    void testClassfile() {
         loader.load(Collections.singleton(TEST_FILENAME));
 
-        assertNotNull("No Classfile from " + TEST_FILENAME, loader.getClassfile(TEST_CLASS));
+        assertNotNull(loader.getClassfile(TEST_CLASS), "No Classfile from " + TEST_FILENAME);
     }
 }

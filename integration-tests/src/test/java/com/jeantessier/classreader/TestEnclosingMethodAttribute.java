@@ -32,48 +32,42 @@
 
 package com.jeantessier.classreader;
 
+import org.junit.jupiter.api.*;
+
 import java.nio.file.*;
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestEnclosingMethodAttribute extends TestCase {
+public class TestEnclosingMethodAttribute {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
     public static final String TEST_ENUM_CLASS = "testenum";
     public static final String TEST_ENUM_VALUE1_CLASS = "testenum$1";
     public static final String TEST_ENUM_FILENAME = CLASSES_DIR.resolve(TEST_ENUM_CLASS + ".class").toString();
     public static final String TEST_ENUM_VALUE1_FILENAME = CLASSES_DIR.resolve(TEST_ENUM_VALUE1_CLASS + ".class").toString();
 
-    private ClassfileLoader loader;
+    private final ClassfileLoader loader = new AggregatingClassfileLoader();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        loader = new AggregatingClassfileLoader();
-
+    @BeforeEach
+    void setUp() {
         loader.load(Collections.singleton(TEST_ENUM_FILENAME));
         loader.load(Collections.singleton(TEST_ENUM_VALUE1_FILENAME));
     }
 
-    public void testDoesNotHaveEnclosingMethodAttribute() {
+    @Test
+    void testDoesNotHaveEnclosingMethodAttribute() {
         Classfile enumClass = loader.getClassfile(TEST_ENUM_CLASS);
 
-        for (Attribute_info attribute : enumClass.getAttributes()) {
-            assertFalse("EnclosingMethod attribute present", attribute instanceof EnclosingMethod_attribute);
-        }
+        assertFalse(enumClass.getAttributes().stream().anyMatch(attribute -> attribute instanceof EnclosingMethod_attribute), "EnclosingMethod attribute present");
     }
 
-    public void testHasEnclosingMethodAttribute() {
+    @Test
+    void testHasEnclosingMethodAttribute() {
         Classfile enumValue1Class = loader.getClassfile(TEST_ENUM_VALUE1_CLASS);
 
-        EnclosingMethod_attribute enclosingMethodAttribute = null;
-        for (Attribute_info attribute : enumValue1Class.getAttributes()) {
-            if (attribute instanceof EnclosingMethod_attribute) {
-                enclosingMethodAttribute = (EnclosingMethod_attribute) attribute;
-
-            }
-        }
-
-        assertNotNull("EnclosingMethod attribute missing", enclosingMethodAttribute);
+        enumValue1Class.getAttributes().stream()
+                .filter(attribute -> attribute instanceof EnclosingMethod_attribute)
+                .findAny()
+                .orElseThrow(() -> new RuntimeException("EnclosingMethod attribute missing"));
     }
 }

@@ -32,29 +32,30 @@
 
 package com.jeantessier.classreader;
 
+import org.junit.jupiter.api.*;
+
 import java.nio.file.*;
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestVarargs extends TestCase {
+public class TestVarargs {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
     public static final String TEST_VARARGS_CLASS = "testvarargs";
     public static final String TEST_VARARGS_FILENAME = CLASSES_DIR.resolve(TEST_VARARGS_CLASS + ".class").toString();
 
-    private ClassfileLoader loader;
+    private final ClassfileLoader loader = new AggregatingClassfileLoader();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        loader   = new AggregatingClassfileLoader();
+    @BeforeEach
+    void setUp() {
         loader.load(Collections.singleton(TEST_VARARGS_FILENAME));
     }
 
-    public void testMethodIsVarargs() {
+    @Test
+    void testMethodIsVarargs() {
         Classfile testenum = loader.getClassfile(TEST_VARARGS_CLASS);
 
-        assertTrue(TEST_VARARGS_CLASS + ".varargsmethod", testenum.getMethod(m -> m.getSignature().equals("varargsmethod(java.lang.Object[])")).isVarargs());
-        assertFalse(TEST_VARARGS_CLASS + ".nonvarargsmethod", testenum.getMethod(m -> m.getSignature().equals("nonvarargsmethod(java.lang.Object[])")).isVarargs());
+        assertTrue(testenum.getMethod(m -> m.getSignature().equals("varargsmethod(java.lang.Object[])")).isVarargs(), TEST_VARARGS_CLASS + ".varargsmethod");
+        assertFalse(testenum.getMethod(m -> m.getSignature().equals("nonvarargsmethod(java.lang.Object[])")).isVarargs(), TEST_VARARGS_CLASS + ".nonvarargsmethod");
     }
 }

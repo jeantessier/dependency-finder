@@ -32,31 +32,31 @@
 
 package com.jeantessier.classreader;
 
+import org.junit.jupiter.api.*;
+
 import java.nio.file.*;
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestAnnotation extends TestCase {
+public class TestAnnotation {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
-    public static final String TEST_CLASS = "test";
-    public static final String TEST_ANNOTATION_CLASS = "testannotation";
-    public static final String TEST_FILENAME = CLASSES_DIR.resolve(TEST_CLASS + ".class").toString();
-    public static final String TEST_ANNOTATION_FILENAME = CLASSES_DIR.resolve(TEST_ANNOTATION_CLASS + ".class").toString();
+    private static final String TEST_CLASS = "test";
+    private static final String TEST_ANNOTATION_CLASS = "testannotation";
+    private static final String TEST_FILENAME = CLASSES_DIR.resolve(TEST_CLASS + ".class").toString();
+    private static final String TEST_ANNOTATION_FILENAME = CLASSES_DIR.resolve(TEST_ANNOTATION_CLASS + ".class").toString();
 
-    private ClassfileLoader loader;
+    private final ClassfileLoader loader = new AggregatingClassfileLoader();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        loader   = new AggregatingClassfileLoader();
-
+    @BeforeEach
+    void setUp() {
         loader.load(Collections.singleton(TEST_FILENAME));
         loader.load(Collections.singleton(TEST_ANNOTATION_FILENAME));
     }
 
-    public void testIsEnum() {
-        assertTrue(TEST_CLASS, !loader.getClassfile(TEST_CLASS).isAnnotation());
-        assertTrue(TEST_ANNOTATION_CLASS, loader.getClassfile(TEST_ANNOTATION_CLASS).isAnnotation());
+    @Test
+    void testIsEnum() {
+        assertFalse(loader.getClassfile(TEST_CLASS).isAnnotation(), TEST_CLASS);
+        assertTrue(loader.getClassfile(TEST_ANNOTATION_CLASS).isAnnotation(), TEST_ANNOTATION_CLASS);
     }
 }

@@ -32,134 +32,159 @@
 
 package com.jeantessier.classreader;
 
-import junit.framework.TestCase;
+
+import org.junit.jupiter.api.*;
 
 import java.nio.file.*;
 import java.util.*;
+import java.util.stream.*;
 
-public class TestSymbolGatherer extends TestCase {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestSymbolGatherer {
     private static final Path CLASSES_DIR = Paths.get("build/classes/java/main");
     public static final String TEST_CLASS = "test";
     public static final String TEST_FILENAME = CLASSES_DIR.resolve(TEST_CLASS + ".class").toString();
     public static final String INNER_TEST_CLASS = "test$InnerClass";
     public static final String INNER_TEST_FILENAME = CLASSES_DIR.resolve(INNER_TEST_CLASS + ".class").toString();
 
-    private DefaultSymbolGathererStrategy strategy;
-    private SymbolGatherer gatherer;
-    private ClassfileLoader loader;
+    private final DefaultSymbolGathererStrategy strategy = new DefaultSymbolGathererStrategy();
+    private final SymbolGatherer gatherer = new SymbolGatherer(strategy);
+    private final ClassfileLoader loader = new AggregatingClassfileLoader();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        strategy = new DefaultSymbolGathererStrategy();
-        gatherer = new SymbolGatherer(strategy);
-        loader = new AggregatingClassfileLoader();
+    @BeforeEach
+    void setUp() {
         loader.addLoadListener(new LoadListenerVisitorAdapter(gatherer));
     }
 
-    public void testEmpty() {
+    @Test
+    void testEmpty() {
+        var expectedSymbols = Stream.<String>empty();
+
         loader.load(Collections.emptyList());
 
-        assertEquals("Different number of symbols", 0, gatherer.stream().count());
+        assertLinesMatch(expectedSymbols, gatherer.stream().map(Object::toString), "Gathered symbols");
     }
     
-    public void testOnOneClass() {
+    @Test
+    void testOnOneClass() {
+        var expectedSymbols = Stream.of(
+                "test.test()",
+                "test.test(): this",
+                "test.main(java.lang.String[]): void",
+                "test.main(java.lang.String[]): void: c",
+                "test.main(java.lang.String[]): void: ex",
+                "test.main(java.lang.String[]): void: args",
+                "test"
+        );
+
         loader.load(Collections.singleton(TEST_FILENAME));
 
-        assertTrue("Missing test class name from " + getGatheredSymbols(), getGatheredSymbols().contains("test"));
-        assertTrue("Missing test.main() method from " + getGatheredSymbols(), getGatheredSymbols().contains("test.main(java.lang.String[]): void"));
-        assertTrue("Missing args parameter from " + getGatheredSymbols(), getGatheredSymbols().contains("test.main(java.lang.String[]): void: args"));
-        assertTrue("Missing c local variable from " + getGatheredSymbols(), getGatheredSymbols().contains("test.main(java.lang.String[]): void: c"));
-        assertTrue("Missing ex local variable from " + getGatheredSymbols(), getGatheredSymbols().contains("test.main(java.lang.String[]): void: ex"));
-        assertTrue("Missing test.test() method from " + getGatheredSymbols(), getGatheredSymbols().contains("test.test()"));
-        assertTrue("Missing this parameter from " + getGatheredSymbols(), getGatheredSymbols().contains("test.test(): this"));
-        assertEquals("Different number of symbols in " + getGatheredSymbols(), 7, gatherer.stream().count());
+        assertLinesMatch(expectedSymbols, gatherer.stream().map(Object::toString), "Gathered symbols");
     }
 
-    public void testOnOneInnerClass() {
+    @Test
+    void testOnOneInnerClass() {
+        var expectedSymbols = Stream.of(
+                "test$InnerClass.innerField",
+                "test$InnerClass.test$InnerClass()",
+                "test$InnerClass.test$InnerClass(): this",
+                "test$InnerClass"
+        );
+
         loader.load(Collections.singleton(INNER_TEST_FILENAME));
 
-        assertTrue("Missing test$InnerClass class name from " + getGatheredSymbols(), getGatheredSymbols().contains("test$InnerClass"));
-        assertTrue("Missing test$InnerClass.innerField field from " + getGatheredSymbols(), getGatheredSymbols().contains("test$InnerClass.innerField"));
-        assertTrue("Missing test$InnerClass.test$InnerClass() method from " + getGatheredSymbols(), getGatheredSymbols().contains("test$InnerClass.test$InnerClass()"));
-        assertTrue("Missing this parameter from " + getGatheredSymbols(), getGatheredSymbols().contains("test$InnerClass.test$InnerClass(): this"));
-        assertEquals("Different number of symbols in " + getGatheredSymbols(), 4, gatherer.stream().count());
+        assertLinesMatch(expectedSymbols, gatherer.stream().map(Object::toString), "Gathered symbols");
     }
 
-    public void testClassNamesOnly() {
+    @Test
+    void testClassNamesOnly() {
         strategy.setMatchingClasses(true);
         strategy.setMatchingFields(false);
         strategy.setMatchingMethods(false);
         strategy.setMatchingLocalVariables(false);
         strategy.setMatchingInnerClasses(false);
 
+        var expectedSymbols = Stream.of(
+                "test"
+        );
+
         loader.load(Arrays.asList(TEST_FILENAME, INNER_TEST_FILENAME));
 
-        assertTrue("Missing test class name from " + getGatheredSymbols(), getGatheredSymbols().contains("test"));
-        assertEquals("Different number of symbols in " + getGatheredSymbols(), 1, gatherer.stream().count());
+        assertLinesMatch(expectedSymbols, gatherer.stream().map(Object::toString), "Gathered symbols");
     }
 
-    public void testFieldNamesOnly() {
+    @Test
+    void testFieldNamesOnly() {
         strategy.setMatchingClasses(false);
         strategy.setMatchingFields(true);
         strategy.setMatchingMethods(false);
         strategy.setMatchingLocalVariables(false);
         strategy.setMatchingInnerClasses(false);
 
+        var expectedSymbols = Stream.of(
+                "test$InnerClass.innerField"
+        );
+
         loader.load(Arrays.asList(TEST_FILENAME, INNER_TEST_FILENAME));
 
-        assertTrue("Missing test$InnerClass.innerField field from " + getGatheredSymbols(), getGatheredSymbols().contains("test$InnerClass.innerField"));
-        assertEquals("Different number of symbols in " + getGatheredSymbols(), 1, gatherer.stream().count());
+        assertLinesMatch(expectedSymbols, gatherer.stream().map(Object::toString), "Gathered symbols");
     }
 
-    public void testMethodNamesOnly() {
+    @Test
+    void testMethodNamesOnly() {
         strategy.setMatchingClasses(false);
         strategy.setMatchingFields(false);
         strategy.setMatchingMethods(true);
         strategy.setMatchingLocalVariables(false);
         strategy.setMatchingInnerClasses(false);
 
+        var expectedSymbols = Stream.of(
+                "test.test()",
+                "test.main(java.lang.String[]): void",
+                "test$InnerClass.test$InnerClass()"
+        );
+
         loader.load(Arrays.asList(TEST_FILENAME, INNER_TEST_FILENAME));
 
-        assertTrue("Missing test$InnerClass.test$InnerClass() method from " + getGatheredSymbols(), getGatheredSymbols().contains("test$InnerClass.test$InnerClass()"));
-        assertTrue("Missing test.main() method from " + getGatheredSymbols(), getGatheredSymbols().contains("test.main(java.lang.String[]): void"));
-        assertTrue("Missing test.test() method from " + getGatheredSymbols(), getGatheredSymbols().contains("test.test()"));
-        assertEquals("Different number of symbols in " + getGatheredSymbols(), 3, gatherer.stream().count());
+        assertLinesMatch(expectedSymbols, gatherer.stream().map(Object::toString), "Gathered symbols");
     }
 
-    public void testLocalNamesOnly() {
+    @Test
+    void testLocalNamesOnly() {
         strategy.setMatchingClasses(false);
         strategy.setMatchingFields(false);
         strategy.setMatchingMethods(false);
         strategy.setMatchingLocalVariables(true);
         strategy.setMatchingInnerClasses(false);
 
+        var expectedSymbols = Stream.of(
+                "test.test(): this",
+                "test.main(java.lang.String[]): void: c",
+                "test.main(java.lang.String[]): void: ex",
+                "test.main(java.lang.String[]): void: args",
+                "test$InnerClass.test$InnerClass(): this"
+        );
+
         loader.load(Arrays.asList(TEST_FILENAME, INNER_TEST_FILENAME));
 
-        assertTrue("Missing this parameter from " + getGatheredSymbols(), getGatheredSymbols().contains("test$InnerClass.test$InnerClass(): this"));
-        assertTrue("Missing args parameter from " + getGatheredSymbols(), getGatheredSymbols().contains("test.main(java.lang.String[]): void: args"));
-        assertTrue("Missing c local variable from " + getGatheredSymbols(), getGatheredSymbols().contains("test.main(java.lang.String[]): void: c"));
-        assertTrue("Missing ex local variable from " + getGatheredSymbols(), getGatheredSymbols().contains("test.main(java.lang.String[]): void: ex"));
-        assertTrue("Missing this parameter from " + getGatheredSymbols(), getGatheredSymbols().contains("test.test(): this"));
-        assertEquals("Different number of symbols in " + getGatheredSymbols(), 5, gatherer.stream().count());
+        assertLinesMatch(expectedSymbols, gatherer.stream().map(Object::toString), "Gathered symbols");
     }
 
-    public void testInnerClassNamesOnly() {
+    @Test
+    void testInnerClassNamesOnly() {
         strategy.setMatchingClasses(false);
         strategy.setMatchingFields(false);
         strategy.setMatchingMethods(false);
         strategy.setMatchingLocalVariables(false);
         strategy.setMatchingInnerClasses(true);
 
+        var expectedSymbols = Stream.of(
+                "test$InnerClass"
+        );
+
         loader.load(Arrays.asList(TEST_FILENAME, INNER_TEST_FILENAME));
 
-        assertTrue("Missing test$InnerClass class name from " + getGatheredSymbols(), getGatheredSymbols().contains("test$InnerClass"));
-        assertEquals("Different number of symbols in " + getGatheredSymbols(), 1, gatherer.stream().count());
-    }
-
-    private Collection<String> getGatheredSymbols() {
-        return gatherer.stream()
-                .map(Object::toString)
-                .toList();
+        assertLinesMatch(expectedSymbols, gatherer.stream().map(Object::toString), "Gathered symbols");
     }
 }
