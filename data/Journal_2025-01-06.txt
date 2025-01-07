@@ -1,1 +1,8 @@
 Finished converting all the integration tests to JUnit Jupiter.
+
+I started converting some unit tests, too.  I created the class
+=com.jeantessier.MockObjectTestCase= as an almost drop-in replacement for the
+one from jMock for Junit 3.  It saves me from having to edit all the calls
+to =mock()= and =checking()=, but the name is ugly.  I still have to edit all
+the assertions, mostly to put the error message as the last parameter.  It's
+tedious work.
