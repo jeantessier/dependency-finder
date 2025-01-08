@@ -4,6 +4,7 @@ import org.junit.jupiter.api.*;
 
 import java.io.*;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.*;
 
 import static java.util.stream.Collectors.*;
@@ -121,25 +122,28 @@ public class TestCSVPrinter {
         // and
         var expectedLongNames =
                 Stream
-                        .concat(
+                        .of(
                                 Stream.of("name"),
                                 Collections.nCopies(numStandardSubnames, longName).stream())
+                        .flatMap(Function.identity())
                         .map(this::formatName)
                         .collect(joining(", "));
 
         var expectedShortNames =
                 Stream
-                        .concat(
+                        .of(
                                 Stream.of(""),
                                 Collections.nCopies(numStandardSubnames, shortName).stream())
+                        .flatMap(Function.identity())
                         .map(this::formatName)
                         .collect(joining(", "));
 
         var expectedSubnames =
                 Stream
-                        .concat(
+                        .of(
                                 Stream.of(""),
                                 standardSubnames.stream())
+                        .flatMap(Function.identity())
                         .map(this::formatName)
                         .collect(joining(", "));
 
@@ -185,27 +189,29 @@ public class TestCSVPrinter {
         // and
         var expectedLongNames =
                 Stream
-                        .concat(
+                        .of(
                                 Stream.of("name"),
                                 Collections.nCopies(numStandardSubnames + numPercentiles, longName).stream())
+                        .flatMap(Function.identity())
                         .map(this::formatName)
                         .collect(joining(", "));
 
         var expectedShortNames =
                 Stream
-                        .concat(
+                        .of(
                                 Stream.of(""),
                                 Collections.nCopies(numStandardSubnames + numPercentiles, shortName).stream())
+                        .flatMap(Function.identity())
                         .map(this::formatName)
                         .collect(joining(", "));
 
         var expectedSubnames =
                 Stream
-                        .concat(
+                        .of(
                                 Stream.of(""),
-                                Stream.concat(
-                                        standardSubnames.stream().map(this::formatName),
-                                        percentiles.stream().map(this::formatPercentile)))
+                                standardSubnames.stream().map(this::formatName),
+                                percentiles.stream().map(this::formatPercentile))
+                        .flatMap(Function.identity())
                         .collect(joining(", "));
 
         // and
@@ -290,9 +296,10 @@ public class TestCSVPrinter {
         // and
         var measurementLine =
                 Stream
-                        .concat(
+                        .of(
                                 Stream.of(metricsName).map(this::formatName),
                                 Stream.of(measurementValue).map(this::formatValue))
+                        .flatMap(Function.identity())
                         .collect(joining(", "));
 
         // and
@@ -336,11 +343,11 @@ public class TestCSVPrinter {
         // and
         var measurementLine =
                 Stream
-                        .concat(
+                        .of(
                                 Stream.of(metricsName).map(this::formatName),
-                                Stream.concat(
-                                        Collections.nCopies(numStandardSubnames - 1, Float.NaN).stream().map(this::formatValue),
-                                        IntStream.of(0).mapToObj(String::valueOf)))
+                                Collections.nCopies(numStandardSubnames - 1, Float.NaN).stream().map(this::formatValue),
+                                IntStream.of(0).mapToObj(String::valueOf))
+                        .flatMap(Function.identity())
                         .collect(joining(", "));
 
         // and
@@ -392,13 +399,12 @@ public class TestCSVPrinter {
         // and
         var measurementLine =
                 Stream
-                        .concat(
+                        .of(
                                 Stream.of(metricsName).map(this::formatName),
-                                Stream.concat(
-                                        Collections.nCopies(numStandardSubnames - 1, Float.NaN).stream().map(this::formatValue),
-                                        Stream.concat(
-                                                IntStream.of(0).mapToObj(String::valueOf),
-                                                Collections.nCopies(numPercentiles, Float.NaN).stream().map(this::formatValue))))
+                                Collections.nCopies(numStandardSubnames - 1, Float.NaN).stream().map(this::formatValue),
+                                IntStream.of(0).mapToObj(String::valueOf),
+                                Collections.nCopies(numPercentiles, Float.NaN).stream().map(this::formatValue))
+                        .flatMap(Function.identity())
                         .collect(joining(", "));
 
         // and
