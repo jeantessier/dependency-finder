@@ -1,0 +1,5 @@
+Started converting some of the unit tests to JUnit Jupiter.
+
+I really like =assertLinesMatch()= for comparing text that spans multiple
+lines.  I got creative with =Stream.of()= and =flatMap()= to build the expected
+output for some printers.
