@@ -32,27 +32,20 @@
 
 package com.jeantessier.commandline;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestNullParameterStrategy extends TestCase {
-    private ParameterStrategy strategy;
+import static org.junit.jupiter.api.Assertions.*;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+public class TestNullParameterStrategy {
+    private final ParameterStrategy strategy = new NullParameterStrategy();
 
-        strategy = new NullParameterStrategy();
+    @Test
+    void testAccept() {
+        assertThrows(CommandLineException.class, () -> strategy.accept("value"));
     }
 
-    public void testAccept() throws CommandLineException {
-        try {
-            strategy.accept("value");
-            fail("Strategy accepted a value");
-        } catch (CommandLineException ex) {
-            // Expected
-        }
-    }
-
-    public void testValidate() throws CommandLineException {
+    @Test
+    void testValidate() {
         strategy.validate();
     }
 }

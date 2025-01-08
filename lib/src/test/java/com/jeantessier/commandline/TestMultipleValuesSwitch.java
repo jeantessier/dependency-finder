@@ -32,40 +32,28 @@
 
 package com.jeantessier.commandline;
 
+import org.junit.jupiter.api.*;
+
 import java.util.*;
+import java.util.stream.Stream;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestMultipleValuesSwitch extends TestCase {
+public class TestMultipleValuesSwitch {
     private static final String DEFAULT_VALUE1 = "default value 1";
     private static final String DEFAULT_VALUE2 = "default value 2";
-    private static final List<String> DEFAULT_VALUE = new ArrayList<String>();
+    private static final List<String> DEFAULT_VALUE = List.of(DEFAULT_VALUE1, DEFAULT_VALUE2);
 
     private static final String EXPECTED_VALUE1 = "expected value 1";
     private static final String EXPECTED_VALUE2 = "expected value 2";
-    private static final List<String> EXPECTED_VALUE = new ArrayList<String>();
+    private static final List<String> EXPECTED_VALUE = List.of(EXPECTED_VALUE1, EXPECTED_VALUE2);
 
-    private static final List<String> NULL_VALUE = new ArrayList<String>();
+    private static final List<String> NULL_VALUE = Stream.of((String) null).toList();
 
-    static {
-        DEFAULT_VALUE.add(DEFAULT_VALUE1);
-        DEFAULT_VALUE.add(DEFAULT_VALUE2);
+    private MultipleValuesSwitch commandLineSwitch = new MultipleValuesSwitch("switch", DEFAULT_VALUE);
 
-        EXPECTED_VALUE.add(EXPECTED_VALUE1);
-        EXPECTED_VALUE.add(EXPECTED_VALUE2);
-
-        NULL_VALUE.add(null);
-    }
-
-    private MultipleValuesSwitch commandLineSwitch;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        commandLineSwitch = new MultipleValuesSwitch("switch", DEFAULT_VALUE);
-    }
-
-    public void testSetToNull() {
+    @Test
+    void testSetToNull() {
         assertFalse(commandLineSwitch.isPresent());
         assertEquals(DEFAULT_VALUE, commandLineSwitch.getValue());
         commandLineSwitch.setValue(null);
@@ -73,7 +61,8 @@ public class TestMultipleValuesSwitch extends TestCase {
         assertEquals(NULL_VALUE, commandLineSwitch.getValue());
     }
 
-    public void testSetToObject() {
+    @Test
+    void testSetToObject() {
         assertFalse(commandLineSwitch.isPresent());
         assertEquals(DEFAULT_VALUE, commandLineSwitch.getValue());
         commandLineSwitch.setValue(EXPECTED_VALUE1);
@@ -82,16 +71,13 @@ public class TestMultipleValuesSwitch extends TestCase {
         assertEquals(EXPECTED_VALUE, commandLineSwitch.getValue());
     }
 
-    public void testParseNull() throws CommandLineException {
-        try {
-            commandLineSwitch.parse(null);
-            fail("Parsed without a value");
-        } catch (CommandLineException e) {
-            // Expected
-        }
+    @Test
+    void testParseNull() {
+        assertThrows(CommandLineException.class, () -> commandLineSwitch.parse(null));
     }
 
-    public void testParseEmptyString() throws CommandLineException {
+    @Test
+    void testParseEmptyString() {
         assertFalse(commandLineSwitch.isPresent());
         assertEquals(DEFAULT_VALUE, commandLineSwitch.getValue());
         commandLineSwitch.parse("");
@@ -99,7 +85,8 @@ public class TestMultipleValuesSwitch extends TestCase {
         assertEquals(Collections.singletonList(""), commandLineSwitch.getValue());
     }
 
-    public void testParseString() throws CommandLineException {
+    @Test
+    void testParseString() {
         assertFalse(commandLineSwitch.isPresent());
         assertEquals(DEFAULT_VALUE, commandLineSwitch.getValue());
         commandLineSwitch.parse(EXPECTED_VALUE1);
@@ -108,21 +95,19 @@ public class TestMultipleValuesSwitch extends TestCase {
         assertEquals(EXPECTED_VALUE, commandLineSwitch.getValue());
     }
 
-    public void testValidateWhenNotMandatory() throws CommandLineException {
+    @Test
+    void testValidateWhenNotMandatory() {
         commandLineSwitch.validate();
         commandLineSwitch.parse(EXPECTED_VALUE1);
         commandLineSwitch.parse(EXPECTED_VALUE2);
         commandLineSwitch.validate();
     }
 
-    public void testValidateWhenMandatory() throws CommandLineException {
+    @Test
+    void testValidateWhenMandatory() {
         commandLineSwitch = new MultipleValuesSwitch("switch", "default", true);
-        try {
-            commandLineSwitch.validate();
-            fail("Missing mandatory switch should not validate.");
-        } catch (CommandLineException e) {
-            // Expected
-        }
+        assertThrows(CommandLineException.class, () -> commandLineSwitch.validate());
+
         commandLineSwitch.parse(EXPECTED_VALUE1);
         commandLineSwitch.parse(EXPECTED_VALUE2);
         commandLineSwitch.validate();

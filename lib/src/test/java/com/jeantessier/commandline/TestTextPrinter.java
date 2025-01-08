@@ -32,162 +32,261 @@
 
 package com.jeantessier.commandline;
 
-import java.io.*;
+import org.junit.jupiter.api.*;
 
-import junit.framework.*;
+import java.util.*;
+import java.util.stream.*;
 
-public class TestTextPrinter extends TestCase {
-    private CommandLine commandLine;
-    private TextPrinter printer;
+import static org.junit.jupiter.api.Assertions.*;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+public class TestTextPrinter {
+    private final Random random = new Random();
+    private final String commandName = "command " + random.nextInt(1_000);
+    private final CommandLine commandLine = new CommandLine(false);
 
-        commandLine = new CommandLine(false);
-        printer = new TextPrinter(getName());
-    }
+    private final TextPrinter printer = new TextPrinter(commandName);
 
-    public void testNoArgs() throws CommandLineException, IOException {
+    @Test
+    void testNoArgs() {
+        // Given
         commandLine.addToggleSwitch("switch1");
         commandLine.addToggleSwitch("switch2");
+
+        // and
         commandLine.parse(new String[0]);
+
+        // and
+        var expectedLines = Stream.of(
+                commandName
+        );
+
+        // When
         commandLine.accept(printer);
 
-        BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
-        int i = 1;
-        assertEquals("line " + i++, getName(), in.readLine());
-        assertEquals("line " + i++, null, in.readLine());
+        // Then
+        assertLinesMatch(expectedLines, printer.toString().lines());
     }
 
-    public void testPartialSwitches() throws CommandLineException, IOException {
+    @Test
+    void testPartialSwitches() {
+        // Given
         commandLine.addToggleSwitch("switch1");
         commandLine.addToggleSwitch("switch2");
+
+        // and
         commandLine.parse(new String[] {"-switch1"});
+
+        // and
+        var expectedLines = Stream.of(
+                commandName,
+                "    -switch1"
+        );
+
+        // When
         commandLine.accept(printer);
 
-        BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
-        int i = 1;
-        assertEquals("line " + i++, getName(), in.readLine());
-        assertEquals("line " + i++, "    -switch1", in.readLine());
-        assertEquals("line " + i++, null, in.readLine());
+        // Then
+        assertLinesMatch(expectedLines, printer.toString().lines());
     }
 
-    public void testToggleSwitch() throws CommandLineException, IOException {
-        commandLine.addToggleSwitch("switch1");
-        commandLine.parse(new String[] {"-switch1"});
+    @Test
+    void testToggleSwitch() {
+        // Given
+        commandLine.addToggleSwitch("switch");
+
+        // and
+        commandLine.parse(new String[] {"-switch"});
+
+        // and
+        var expectedLines = Stream.of(
+                commandName,
+                "    -switch"
+        );
+
+        // When
         commandLine.accept(printer);
 
-        BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
-        int i = 1;
-        assertEquals("line " + i++, getName(), in.readLine());
-        assertEquals("line " + i++, "    -switch1", in.readLine());
-        assertEquals("line " + i++, null, in.readLine());
+        // Then
+        assertLinesMatch(expectedLines, printer.toString().lines());
     }
 
-    public void testSingleValueSwitch() throws CommandLineException, IOException {
-        commandLine.addSingleValueSwitch("switch1");
-        commandLine.parse(new String[] {"-switch1", "value"});
+    @Test
+    void testSingleValueSwitch() {
+        // Given
+        commandLine.addSingleValueSwitch("switch");
+
+        // and
+        commandLine.parse(new String[] {"-switch", "value"});
+
+        // and
+        var expectedLines = Stream.of(
+                commandName,
+                "    -switch value"
+        );
+
+        // When
         commandLine.accept(printer);
 
-        BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
-        int i = 1;
-        assertEquals("line " + i++, getName(), in.readLine());
-        assertEquals("line " + i++, "    -switch1 value", in.readLine());
-        assertEquals("line " + i++, null, in.readLine());
+        // Then
+        assertLinesMatch(expectedLines, printer.toString().lines());
     }
 
-    public void testOptionalValueSwitchWithNoValue() throws CommandLineException, IOException {
-        commandLine.addOptionalValueSwitch("switch1");
-        commandLine.parse(new String[] {"-switch1"});
+    @Test
+    void testOptionalValueSwitchWithNoValue() {
+        // Given
+        commandLine.addOptionalValueSwitch("switch");
+
+        // and
+        commandLine.parse(new String[] {"-switch"});
+
+        // and
+        var expectedLines = Stream.of(
+                commandName,
+                "    -switch"
+        );
+
+        // When
         commandLine.accept(printer);
 
-        BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
-        int i = 1;
-        assertEquals("line " + i++, getName(), in.readLine());
-        assertEquals("line " + i++, "    -switch1", in.readLine());
-        assertEquals("line " + i++, null, in.readLine());
+        // Then
+        assertLinesMatch(expectedLines, printer.toString().lines());
     }
 
-    public void testOptionalValueSwitchWithOneValue() throws CommandLineException, IOException {
-        commandLine.addOptionalValueSwitch("switch1");
-        commandLine.parse(new String[] {"-switch1", "value"});
+    @Test
+    void testOptionalValueSwitchWithOneValue() {
+        // Given
+        commandLine.addOptionalValueSwitch("switch");
+
+        // and
+        commandLine.parse(new String[] {"-switch", "value"});
+
+        // and
+        var expectedLines = Stream.of(
+                commandName,
+                "    -switch value"
+        );
+
+        // When
         commandLine.accept(printer);
 
-        BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
-        int i = 1;
-        assertEquals("line " + i++, getName(), in.readLine());
-        assertEquals("line " + i++, "    -switch1 value", in.readLine());
-        assertEquals("line " + i++, null, in.readLine());
+        // Then
+        assertLinesMatch(expectedLines, printer.toString().lines());
     }
 
-    public void testMultipleValuesSwitchWithOneValue() throws CommandLineException, IOException {
-        commandLine.addMultipleValuesSwitch("switch1");
-        commandLine.parse(new String[] {"-switch1", "value"});
+    @Test
+    void testMultipleValuesSwitchWithOneValue() {
+        // Given
+        commandLine.addMultipleValuesSwitch("switch");
+
+        // and
+        commandLine.parse(new String[] {"-switch", "value"});
+
+        // and
+        var expectedLines = Stream.of(
+                commandName,
+                "    -switch value"
+        );
+
+        // When
         commandLine.accept(printer);
 
-        BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
-        int i = 1;
-        assertEquals("line " + i++, getName(), in.readLine());
-        assertEquals("line " + i++, "    -switch1 value", in.readLine());
-        assertEquals("line " + i++, null, in.readLine());
+        // Then
+        assertLinesMatch(expectedLines, printer.toString().lines());
     }
 
-    public void testMultipleValuesSwitchWithMultipleValues() throws CommandLineException, IOException {
-        commandLine.addMultipleValuesSwitch("switch1");
-        commandLine.parse(new String[] {"-switch1", "value1", "-switch1", "value2"});
+    @Test
+    void testMultipleValuesSwitchWithMultipleValues() {
+        // Given
+        commandLine.addMultipleValuesSwitch("switch");
+
+        // and
+        commandLine.parse(new String[] {"-switch", "value1", "-switch", "value2"});
+
+        // and
+        var expectedLines = Stream.of(
+                commandName,
+                "    -switch value1",
+                "    -switch value2"
+        );
+
+        // When
         commandLine.accept(printer);
 
-        BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
-        int i = 1;
-        assertEquals("line " + i++, getName(), in.readLine());
-        assertEquals("line " + i++, "    -switch1 value1", in.readLine());
-        assertEquals("line " + i++, "    -switch1 value2", in.readLine());
-        assertEquals("line " + i++, null, in.readLine());
+        // Then
+        assertLinesMatch(expectedLines, printer.toString().lines());
     }
 
-    public void testUnknownSwitch() throws CommandLineException, IOException {
-        commandLine.parse(new String[] {"-switch1"});
+    @Test
+    void testUnknownSwitch() {
+        // Given
+        commandLine.parse(new String[] {"-switch"});
+
+        // and
+        var expectedLines = Stream.of(
+                commandName,
+                "    -switch"
+        );
+
+        // When
         commandLine.accept(printer);
 
-        BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
-        int i = 1;
-        assertEquals("line " + i++, getName(), in.readLine());
-        assertEquals("line " + i++, "    -switch1", in.readLine());
-        assertEquals("line " + i++, null, in.readLine());
+        // Then
+        assertLinesMatch(expectedLines, printer.toString().lines());
     }
 
-    public void testOneParameter() throws CommandLineException, IOException {
+    @Test
+    void testOneParameter() {
+        // Given
         commandLine.parse(new String[] {"param"});
+
+        // and
+        var expectedLines = Stream.of(
+                commandName,
+                "    param"
+        );
+
+        // When
         commandLine.accept(printer);
 
-        BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
-        int i = 1;
-        assertEquals("line " + i++, getName(), in.readLine());
-        assertEquals("line " + i++, "    param", in.readLine());
-        assertEquals("line " + i++, null, in.readLine());
+        // Then
+        assertLinesMatch(expectedLines, printer.toString().lines());
     }
 
-    public void testMultipleParameter() throws CommandLineException, IOException {
+    @Test
+    void testMultipleParameter() {
+        // Given
         commandLine.parse(new String[] {"param1", "param2"});
+
+        // and
+        var expectedLines = Stream.of(
+                commandName,
+                "    param1",
+                "    param2"
+        );
+
+        // When
         commandLine.accept(printer);
 
-        BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
-        int i = 1;
-        assertEquals("line " + i++, getName(), in.readLine());
-        assertEquals("line " + i++, "    param1", in.readLine());
-        assertEquals("line " + i++, "    param2", in.readLine());
-        assertEquals("line " + i++, null, in.readLine());
+        // Then
+        assertLinesMatch(expectedLines, printer.toString().lines());
     }
 
-    public void testSingleValueSwitchAndParameter() throws CommandLineException, IOException {
+    @Test
+    void testSingleValueSwitchAndParameter() {
+        // Given
         commandLine.parse(new String[] {"-switch", "value", "param"});
+
+        // and
+        var expectedLines = Stream.of(
+                commandName,
+                "    -switch value",
+                "    param"
+        );
+
+        // When
         commandLine.accept(printer);
 
-        BufferedReader in = new BufferedReader(new StringReader(printer.toString()));
-        int i = 1;
-        assertEquals("line " + i++, getName(), in.readLine());
-        assertEquals("line " + i++, "    -switch value", in.readLine());
-        assertEquals("line " + i++, "    param", in.readLine());
-        assertEquals("line " + i++, null, in.readLine());
+        // Then
+        assertLinesMatch(expectedLines, printer.toString().lines());
     }
 }

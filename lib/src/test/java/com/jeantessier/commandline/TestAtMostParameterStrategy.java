@@ -32,32 +32,27 @@
 
 package com.jeantessier.commandline;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestAtMostParameterStrategy extends TestCase {
-    private ParameterStrategy strategy;
+import static org.junit.jupiter.api.Assertions.*;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+public class TestAtMostParameterStrategy {
+    private final ParameterStrategy strategy = new AtMostParameterStrategy(1);
 
-        strategy = new AtMostParameterStrategy(1);
-    }
-
-    public void testAccept() throws CommandLineException {
+    @Test
+    void testAccept() {
         assertEquals(1, strategy.accept("value"));
     }
 
-    public void testOverload() throws CommandLineException {
+    @Test
+    void testOverload() {
         strategy.accept("value1");
-        try {
-            strategy.accept("value2");
-            fail("Strategy accepted too many values");
-        } catch (CommandLineException ex) {
-            // Expected
-        }
+
+        assertThrows(CommandLineException.class, () -> strategy.accept("value2"));
     }
     
-    public void testValidate() throws CommandLineException {
+    @Test
+    void testValidate() {
         strategy.validate();
         strategy.accept("value1");
         strategy.validate();

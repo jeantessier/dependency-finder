@@ -32,46 +32,33 @@
 
 package com.jeantessier.commandline;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestExactlyParameterStrategy extends TestCase {
-    private ParameterStrategy strategy;
+import static org.junit.jupiter.api.Assertions.*;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+public class TestExactlyParameterStrategy {
+    private final ParameterStrategy strategy = new ExactlyParameterStrategy(2);
 
-        strategy = new ExactlyParameterStrategy(2);
-    }
-
-    public void testAccept() throws CommandLineException {
+    @Test
+    void testAccept() {
         assertEquals(1, strategy.accept("value"));
     }
 
-    public void testOverload() throws CommandLineException {
+    @Test
+    void testOverload() {
         strategy.accept("value1");
         strategy.accept("value2");
-        try {
-            strategy.accept("value3");
-            fail("Strategy accepted too many values");
-        } catch (CommandLineException ex) {
-            // Expected
-        }
+
+        assertThrows(CommandLineException.class, () -> strategy.accept("value3"));
     }
 
-    public void testValidate() throws CommandLineException {
-        try {
-            strategy.validate();
-            fail("Strategy accepted too many values");
-        } catch (CommandLineException e) {
-            // Expected
-        }
+    @Test
+    void testValidate() {
+        assertThrows(CommandLineException.class, strategy::validate);
+
         strategy.accept("value1");
-        try {
-            strategy.validate();
-            fail("Strategy accepted too many values");
-        } catch (CommandLineException e) {
-            // Expected
-        }
+        assertThrows(CommandLineException.class, strategy::validate);
+
         strategy.accept("value2");
         strategy.validate();
     }

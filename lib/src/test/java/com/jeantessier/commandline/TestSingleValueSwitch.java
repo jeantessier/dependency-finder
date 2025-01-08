@@ -32,21 +32,18 @@
 
 package com.jeantessier.commandline;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestSingleValueSwitch extends TestCase {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestSingleValueSwitch {
     private static final String DEFAULT_VALUE = "default value";
-
-    private SingleValueSwitch commandLineSwitch;
     private static final String EXPECTED_VALUE = "expected value";
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    private SingleValueSwitch commandLineSwitch = new SingleValueSwitch("switch", DEFAULT_VALUE);
 
-        commandLineSwitch = new SingleValueSwitch("switch", DEFAULT_VALUE);
-    }
-
-    public void testSetToNull() {
+    @Test
+    void testSetToNull() {
         assertFalse(commandLineSwitch.isPresent());
         assertEquals(DEFAULT_VALUE, commandLineSwitch.getValue());
         commandLineSwitch.setValue(null);
@@ -54,7 +51,8 @@ public class TestSingleValueSwitch extends TestCase {
         assertEquals(DEFAULT_VALUE, commandLineSwitch.getValue());
     }
 
-    public void testSetToObject() {
+    @Test
+    void testSetToObject() {
         assertFalse(commandLineSwitch.isPresent());
         assertEquals(DEFAULT_VALUE, commandLineSwitch.getValue());
         commandLineSwitch.setValue(EXPECTED_VALUE);
@@ -62,16 +60,13 @@ public class TestSingleValueSwitch extends TestCase {
         assertEquals(EXPECTED_VALUE, commandLineSwitch.getValue());
     }
 
-    public void testParseNull() throws CommandLineException {
-        try {
-            commandLineSwitch.parse(null);
-            fail("Parsed without a value");
-        } catch (CommandLineException e) {
-            // Expected
-        }
+    @Test
+    void testParseNull() {
+        assertThrows(CommandLineException.class, () -> commandLineSwitch.parse(null));
     }
 
-    public void testParseEmptyString() throws CommandLineException {
+    @Test
+    void testParseEmptyString() {
         assertFalse(commandLineSwitch.isPresent());
         assertEquals(DEFAULT_VALUE, commandLineSwitch.getValue());
         commandLineSwitch.parse("");
@@ -79,7 +74,8 @@ public class TestSingleValueSwitch extends TestCase {
         assertEquals("", commandLineSwitch.getValue());
     }
 
-    public void testParseString() throws CommandLineException {
+    @Test
+    void testParseString() {
         assertFalse(commandLineSwitch.isPresent());
         assertEquals(DEFAULT_VALUE, commandLineSwitch.getValue());
         commandLineSwitch.parse(EXPECTED_VALUE);
@@ -87,20 +83,18 @@ public class TestSingleValueSwitch extends TestCase {
         assertEquals(EXPECTED_VALUE, commandLineSwitch.getValue());
     }
 
-    public void testValidateWhenNotMandatory() throws CommandLineException {
+    @Test
+    void testValidateWhenNotMandatory() {
         commandLineSwitch.validate();
         commandLineSwitch.parse(EXPECTED_VALUE);
         commandLineSwitch.validate();
     }
 
-    public void testValidateWhenMandatory() throws CommandLineException {
+    @Test
+    void testValidateWhenMandatory() {
         commandLineSwitch = new SingleValueSwitch("switch", "default", true);
-        try {
-            commandLineSwitch.validate();
-            fail("Missing mandatory switch should not validate.");
-        } catch (CommandLineException e) {
-            // Expected
-        }
+        assertThrows(CommandLineException.class, () -> commandLineSwitch.validate());
+
         commandLineSwitch.parse(EXPECTED_VALUE);
         commandLineSwitch.validate();
     }

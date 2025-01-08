@@ -32,18 +32,15 @@
 
 package com.jeantessier.commandline;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestToggleSwitch extends TestCase {
-    private ToggleSwitch commandLineSwitch;
+import static org.junit.jupiter.api.Assertions.*;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+public class TestToggleSwitch {
+    private ToggleSwitch commandLineSwitch = new ToggleSwitch("switch");
 
-        commandLineSwitch = new ToggleSwitch("switch");
-    }
-
-    public void testSetToNull() {
+    @Test
+    void testSetToNull() {
         assertFalse(commandLineSwitch.isPresent());
         assertEquals(false, commandLineSwitch.getValue());
         commandLineSwitch.setValue(null);
@@ -51,7 +48,8 @@ public class TestToggleSwitch extends TestCase {
         assertEquals(false, commandLineSwitch.getValue());
     }
 
-    public void testSetToObject() {
+    @Test
+    void testSetToObject() {
         assertFalse(commandLineSwitch.isPresent());
         assertEquals(false, commandLineSwitch.getValue());
         Object expectedValue = new Object();
@@ -60,7 +58,8 @@ public class TestToggleSwitch extends TestCase {
         assertEquals(expectedValue, commandLineSwitch.getValue());
     }
 
-    public void testParseNull() throws CommandLineException {
+    @Test
+    void testParseNull() {
         assertFalse(commandLineSwitch.isPresent());
         assertEquals(false, commandLineSwitch.getValue());
         commandLineSwitch.parse(null);
@@ -68,7 +67,8 @@ public class TestToggleSwitch extends TestCase {
         assertEquals(true, commandLineSwitch.getValue());
     }
 
-    public void testParseEmptyString() throws CommandLineException {
+    @Test
+    void testParseEmptyString() {
         assertFalse(commandLineSwitch.isPresent());
         assertEquals(false, commandLineSwitch.getValue());
         commandLineSwitch.parse("");
@@ -76,7 +76,8 @@ public class TestToggleSwitch extends TestCase {
         assertEquals(true, commandLineSwitch.getValue());
     }
 
-    public void testParseString() throws CommandLineException {
+    @Test
+    void testParseString() {
         assertFalse(commandLineSwitch.isPresent());
         assertEquals(false, commandLineSwitch.getValue());
         commandLineSwitch.parse("foobar");
@@ -84,20 +85,18 @@ public class TestToggleSwitch extends TestCase {
         assertEquals(true, commandLineSwitch.getValue());
     }
 
-    public void testValidateWhenNotMandatory() throws CommandLineException {
+    @Test
+    void testValidateWhenNotMandatory() {
         commandLineSwitch.validate();
         commandLineSwitch.parse(null);
         commandLineSwitch.validate();
     }
 
-    public void testValidateWhenMandatory() throws CommandLineException {
+    @Test
+    void testValidateWhenMandatory() {
         commandLineSwitch = new ToggleSwitch("switch", false, true);
-        try {
-            commandLineSwitch.validate();
-            fail("Missing mandatory switch should not validate.");
-        } catch (CommandLineException e) {
-            // Expected
-        }
+        assertThrows(CommandLineException.class, () -> commandLineSwitch.validate());
+
         commandLineSwitch.parse(null);
         commandLineSwitch.validate();
     }

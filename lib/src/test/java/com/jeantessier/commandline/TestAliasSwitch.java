@@ -86,7 +86,7 @@ public class TestAliasSwitch extends MockObjectTestCase {
     }
 
     @Test
-    void testParseNull() throws CommandLineException {
+    void testParseNull() {
         aliasSwitch = new AliasSwitch(SWITCH_NAME, switch2);
         int step = aliasSwitch.parse(null);
         assertEquals(1, step, "step");
@@ -95,17 +95,12 @@ public class TestAliasSwitch extends MockObjectTestCase {
     }
 
     @Test
-    void testParseNullWithError() throws CommandLineException {
-        try {
-            aliasSwitch.parse(null);
-            fail("Alias with SingleValueSwitch parsed null");
-        } catch (CommandLineException e) {
-            // Expected
-        }
+    void testParseNullWithError() {
+        assertThrows(CommandLineException.class, () -> aliasSwitch.parse(null));
     }
 
     @Test
-    void testParseValue() throws CommandLineException {
+    void testParseValue() {
         int step = aliasSwitch.parse(SWITCH_VALUE);
         assertEquals(2, step, "step");
         assertEquals(SWITCH_VALUE, switch1.getValue(), "Switch1 not new value");
@@ -113,14 +108,14 @@ public class TestAliasSwitch extends MockObjectTestCase {
     }
 
     @Test
-    void testParseNullWithNoSwitches() throws CommandLineException {
+    void testParseNullWithNoSwitches() {
         aliasSwitch = new AliasSwitch(SWITCH_NAME);
         int step = aliasSwitch.parse(null);
         assertEquals(1, step, "step");
     }
 
     @Test
-    void testParseValueWithNoSwitches() throws CommandLineException {
+    void testParseValueWithNoSwitches() {
         aliasSwitch = new AliasSwitch(SWITCH_NAME);
         int step = aliasSwitch.parse(SWITCH_VALUE);
         assertEquals(1, step, "step");

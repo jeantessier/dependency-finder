@@ -32,46 +32,73 @@
 
 package com.jeantessier.commandline;
 
-import java.io.*;
+import org.junit.jupiter.api.*;
 
-import junit.framework.*;
+import java.util.*;
+import java.util.stream.*;
 
-public class TestCommandLineUsage extends TestCase {
-    public void testToggleSwitch() throws CommandLineException, IOException {
-        CommandLine commandLine = new CommandLine(new NullParameterStrategy());
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestCommandLineUsage {
+    private final Random random = new Random();
+
+    @Test
+    void testToggleSwitch() {
+        // Given
+        var commandName = "command" + random.nextInt(1_000);
+
+        // and
+        var commandLine = new CommandLine(new NullParameterStrategy());
         commandLine.addToggleSwitch("switch");
 
-        CommandLineUsage commandLineUsage = new CommandLineUsage(getName());
-        commandLine.accept(commandLineUsage);
+        // and
+        var commandLineUsage = new CommandLineUsage(commandName);
 
-        BufferedReader in = new BufferedReader(new StringReader(commandLineUsage.toString()));
-        int i = 1;
-        assertEquals("line " + i++, "USAGE:", in.readLine());
-        assertEquals("line " + i++, "    " + getName(), in.readLine());
-        assertEquals("line " + i++, "        [-switch] (defaults to false)", in.readLine());
-        assertEquals("line " + i++, null, in.readLine());
+        // and
+        var expectedLines = Stream.of(
+                "USAGE:",
+                "    " + commandName,
+                "        [-switch] (defaults to false)"
+        );
+
+        // When
+        commandLine.accept(commandLineUsage);
+        
+        // Then
+        assertLinesMatch(expectedLines, commandLineUsage.toString().lines());
     }
 
-    public void testAliasSwitch() throws CommandLineException, IOException {
-        CommandLine commandLine = new CommandLine(new NullParameterStrategy());
+    @Test
+    void testAliasSwitch() {
+        // Given
+        var commandName = "command" + random.nextInt(1_000);
+
+        // and
+        var commandLine = new CommandLine(new NullParameterStrategy());
         commandLine.addToggleSwitch("toggle1");
         commandLine.addToggleSwitch("toggle2");
         commandLine.addAliasSwitch("alias", "toggle1", "toggle2");
 
-        CommandLineUsage commandLineUsage = new CommandLineUsage(getName());
+        // and
+        var commandLineUsage = new CommandLineUsage(commandName);
+
+        // and
+        var expectedLines = Stream.of(
+                "USAGE:",
+                "    " + commandName,
+                "        [-alias]",
+                "        [-toggle1] (defaults to false)",
+                "        [-toggle2] (defaults to false)",
+                "",
+                "-alias is shorthand for the combination:",
+                "    -toggle1",
+                "    -toggle2"
+        );
+
+        // When
         commandLine.accept(commandLineUsage);
 
-        BufferedReader in = new BufferedReader(new StringReader(commandLineUsage.toString()));
-        int i = 1;
-        assertEquals("line " + i++, "USAGE:", in.readLine());
-        assertEquals("line " + i++, "    " + getName(), in.readLine());
-        assertEquals("line " + i++, "        [-alias]", in.readLine());
-        assertEquals("line " + i++, "        [-toggle1] (defaults to false)", in.readLine());
-        assertEquals("line " + i++, "        [-toggle2] (defaults to false)", in.readLine());
-        assertEquals("line " + i++, "", in.readLine());
-        assertEquals("line " + i++, "-alias is shorthand for the combination:", in.readLine());
-        assertEquals("line " + i++, "    -toggle1", in.readLine());
-        assertEquals("line " + i++, "    -toggle2", in.readLine());
-        assertEquals("line " + i++, null, in.readLine());
+        // Then
+        assertLinesMatch(expectedLines, commandLineUsage.toString().lines());
     }
 }

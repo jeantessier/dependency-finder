@@ -32,27 +32,25 @@
 
 package com.jeantessier.commandline;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestCollectingParameterStrategy extends TestCase {
-    private ParameterStrategy strategy;
+import static org.junit.jupiter.api.Assertions.*;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+public class TestCollectingParameterStrategy {
+    private final ParameterStrategy strategy = new CollectingParameterStrategy();
 
-        strategy = new CollectingParameterStrategy();
-    }
-
-    public void testAccept() throws CommandLineException {
+    @Test
+    void testAccept() {
         String value1 = "value1";
         String value2 = "value2";
         assertEquals(1, strategy.accept(value1));
         assertEquals(1, strategy.accept(value2));
-        assertSame("Returned different value", value1, strategy.getParameters().get(0));
-        assertSame("Returned different value", value2, strategy.getParameters().get(1));
+        assertSame(value1, strategy.getParameters().get(0), "Returned different value");
+        assertSame(value2, strategy.getParameters().get(1), "Returned different value");
     }
 
-    public void testValidate() throws CommandLineException {
+    @Test
+    void testValidate() {
         strategy.validate();
         strategy.accept("value");
         strategy.validate();

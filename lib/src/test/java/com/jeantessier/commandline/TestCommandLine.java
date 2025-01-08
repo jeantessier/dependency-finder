@@ -32,92 +32,92 @@
 
 package com.jeantessier.commandline;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestCommandLine extends TestCase {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestCommandLine {
     private static final String SWITCH_NAME = "switch";
     private static final String SWITCH_DEFAULT_VALUE = "default value";
     private static final String SWITCH_VALUE = "value";
 
-    private CommandLine commandLine;
+    private final CommandLine commandLine = new CommandLine();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        commandLine = new CommandLine();
-    }
-
-    public void testAddToggleSwitch() {
+    @Test
+    void testAddToggleSwitch() {
         CommandLineSwitch cls = commandLine.addToggleSwitch(SWITCH_NAME);
-        assertTrue("Wrong type", cls instanceof ToggleSwitch);
-        assertEquals("name", SWITCH_NAME, cls.getName());
-        assertFalse("is present", cls.isPresent());
+        assertInstanceOf(ToggleSwitch.class, cls, "Wrong type");
+        assertEquals(SWITCH_NAME, cls.getName(), "name");
+        assertFalse(cls.isPresent(), "is present");
     }
 
-    public void addAliasSwitch() throws CommandLineException {
+    @Test
+    void addAliasSwitch() {
         ToggleSwitch toggle1 = commandLine.addToggleSwitch("toggle1");
         ToggleSwitch toggle2 = commandLine.addToggleSwitch("toggle2");
 
-        AliasSwitch aliasSwitch = commandLine.addAliasSwitch(SWITCH_NAME, "toogle1", "toggle2");
-        assertEquals("Nb switches", 2, aliasSwitch.getSwitches().size());
-        assertTrue("Missing toggle1", aliasSwitch.getSwitches().contains(toggle1));
-        assertTrue("Missing toggle2", aliasSwitch.getSwitches().contains(toggle2));
+        AliasSwitch aliasSwitch = commandLine.addAliasSwitch(SWITCH_NAME, "toggle1", "toggle2");
+        assertEquals(2, aliasSwitch.getSwitches().size(), "Nb switches");
+        assertTrue(aliasSwitch.getSwitches().contains(toggle1), "Missing toggle1");
+        assertTrue(aliasSwitch.getSwitches().contains(toggle2), "Missing toggle2");
     }
 
-    public void testAddAliasForNonExistingSwitch() {
-        try {
-            commandLine.addAliasSwitch(SWITCH_NAME, "foobar");
-            fail("Added alias to non-existing switch");
-        } catch (IllegalArgumentException e) {
-            // Expected
-        }
+    @Test
+    void testAddAliasForNonExistingSwitch() {
+        assertThrows(IllegalArgumentException.class, () -> commandLine.addAliasSwitch(SWITCH_NAME, "foobar"));
     }
 
-    public void testParseToggleSwitchTwice() throws CommandLineException {
+    @Test
+    void testParseToggleSwitchTwice() {
         commandLine.addToggleSwitch(SWITCH_NAME);
         String cls = "-" + SWITCH_NAME;
         commandLine.parse(new String[] {cls, cls});
-        assertTrue("Missing switch", commandLine.isPresent(SWITCH_NAME));
+        assertTrue(commandLine.isPresent(SWITCH_NAME), "Missing switch");
     }
 
-    public void testParseSingleValueSwitchTwice() throws CommandLineException {
+    @Test
+    void testParseSingleValueSwitchTwice() {
         commandLine.addSingleValueSwitch(SWITCH_NAME);
         String cls = "-" + SWITCH_NAME;
         commandLine.parse(new String[] {cls, SWITCH_VALUE, cls, SWITCH_VALUE});
-        assertTrue("Missing switch", commandLine.isPresent(SWITCH_NAME));
-        assertEquals("Single value switch value", SWITCH_VALUE, commandLine.getSingleSwitch(SWITCH_NAME));
+        assertTrue(commandLine.isPresent(SWITCH_NAME), "Missing switch");
+        assertEquals(SWITCH_VALUE, commandLine.getSingleSwitch(SWITCH_NAME), "Single value switch value");
     }
 
-    public void testParseOptionalValueSwitchTwice() throws CommandLineException {
+    @Test
+    void testParseOptionalValueSwitchTwice() {
         commandLine.addOptionalValueSwitch(SWITCH_NAME, SWITCH_DEFAULT_VALUE);
         String cls = "-" + SWITCH_NAME;
         commandLine.parse(new String[] {cls, SWITCH_VALUE, cls});
-        assertTrue("Missing switch", commandLine.isPresent(SWITCH_NAME));
-        assertEquals("Optional value switch value", SWITCH_DEFAULT_VALUE, commandLine.getOptionalSwitch(SWITCH_NAME));
+        assertTrue(commandLine.isPresent(SWITCH_NAME), "Missing switch");
+        assertEquals(SWITCH_DEFAULT_VALUE, commandLine.getOptionalSwitch(SWITCH_NAME), "Optional value switch value");
     }
 
-    public void testParseMultipleValueSwitchTwice() throws CommandLineException {
+    @Test
+    void testParseMultipleValueSwitchTwice() {
         commandLine.addMultipleValuesSwitch(SWITCH_NAME, SWITCH_DEFAULT_VALUE);
         String cls = "-" + SWITCH_NAME;
         commandLine.parse(new String[] {cls, SWITCH_VALUE, cls, SWITCH_VALUE});
-        assertTrue("Missing switch", commandLine.isPresent(SWITCH_NAME));
-        assertEquals("Multiple value switch value size", 2, commandLine.getMultipleSwitch(SWITCH_NAME).size());
-        assertEquals("Multiple value switch value 0", SWITCH_VALUE, commandLine.getMultipleSwitch(SWITCH_NAME).get(0));
-        assertEquals("Multiple value switch value 1", SWITCH_VALUE, commandLine.getMultipleSwitch(SWITCH_NAME).get(1));
+        assertTrue(commandLine.isPresent(SWITCH_NAME), "Missing switch");
+        assertEquals(2, commandLine.getMultipleSwitch(SWITCH_NAME).size(), "Multiple value switch value size");
+        assertEquals(SWITCH_VALUE, commandLine.getMultipleSwitch(SWITCH_NAME).get(0), "Multiple value switch value 0");
+        assertEquals(SWITCH_VALUE, commandLine.getMultipleSwitch(SWITCH_NAME).get(1), "Multiple value switch value 1");
     }
 
-    public void testParseAliasSwitch() throws CommandLineException {
+    @Test
+    void testParseAliasSwitch() {
         commandLine.addToggleSwitch("toggle1");
         commandLine.addToggleSwitch("toggle2");
         commandLine.addAliasSwitch(SWITCH_NAME, "toggle1", "toggle2");
 
         String cls = "-" + SWITCH_NAME;
         commandLine.parse(new String[] {cls});
-        assertTrue("Missing toggle1", commandLine.isPresent("toggle1"));
-        assertTrue("Missing toggle2", commandLine.isPresent("toggle2"));
+        assertTrue(commandLine.isPresent("toggle1"), "Missing toggle1");
+        assertTrue(commandLine.isPresent("toggle2"), "Missing toggle2");
     }
 
-    public void testParseMissingValueFollowedBySwitch() throws CommandLineException {
+    @Test
+    void testParseMissingValueFollowedBySwitch() {
         commandLine.addSingleValueSwitch(SWITCH_NAME);
 
         String cls = "-" + SWITCH_NAME;
