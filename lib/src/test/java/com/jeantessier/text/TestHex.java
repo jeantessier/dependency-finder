@@ -32,39 +32,37 @@
 
 package com.jeantessier.text;
 
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import java.util.stream.*;
 
-@RunWith(Parameterized.class)
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
+
 public class TestHex {
-    @Parameters(name="Hex string with {0}")
-    public static Object[][] data() {
-        return new Object[][] {
-            {"empty", new byte[0], ""},
-            {"one byte", new byte[] {0}, "00"},
-            {"four bits", new byte[] {7}, "07"},
-            {"use capitals", new byte[] {10}, "0A"},
-            {"eight bits", new byte[] {(byte) 255}, "FF"},
-            {"two bytes", new byte[] {0, 1}, "0001"},
-            {"default group size", new byte[] {1, 2, 3, 4, 5, 6}, "01020304 0506"},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+            arguments("empty", new byte[0], ""),
+            arguments("one byte", new byte[] {0}, "00"),
+            arguments("four bits", new byte[] {7}, "07"),
+            arguments("use capitals", new byte[] {10}, "0A"),
+            arguments("eight bits", new byte[] {(byte) 255}, "FF"),
+            arguments("two bytes", new byte[] {0, 1}, "0001"),
+            arguments("default group size", new byte[] {1, 2, 3, 4, 5, 6}, "01020304 0506")
+        );
     }
 
-    @Parameter(0)
-    public String label;
-
-    @Parameter(1)
-    public byte[] bytes;
-
-    @Parameter(2)
-    public String expectedResult;
+    @DisplayName("Hex")
+    @ParameterizedTest(name="when the input is {0} {1} should be ''{2}''")
+    @MethodSource("dataProvider")
+    void test(String variation, byte[] bytes, String expectedResult) {
+        assertEquals(expectedResult, Hex.toString(bytes), variation);
+    }
 
     @Test
-    public void test() {
-        assertEquals(label, expectedResult, Hex.toString(bytes));
+    void testNullToString() {
+        assertThrows(NullPointerException.class, () -> Hex.toString(null));
     }
 }

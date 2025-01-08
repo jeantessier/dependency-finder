@@ -1,15 +1,13 @@
 package com.jeantessier.metrics;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.IntStream;
+import java.util.stream.*;
 
-import static java.util.stream.Collectors.joining;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertEquals;
+import static java.util.stream.Collectors.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestTextPrinter {
     private final Random random = new Random();
@@ -26,12 +24,14 @@ public class TestTextPrinter {
         var metricsName = "metrics name " + random.nextInt(1_000);
         var metrics = new Metrics(metricsName);
 
+        // and
+        var expectedLines = Stream.<String>empty();
+
         // When
         printer.visitMetrics(Collections.singleton(metrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator();
-        assertThat("End of report", lines.hasNext(), is(false));
+        assertLinesMatch(expectedLines, buffer.toString().lines());
     }
 
     @Test
@@ -62,12 +62,14 @@ public class TestTextPrinter {
         var measurementValue = random.nextInt(1_000);
         metrics.addToMeasurement(shortName, measurementValue);
 
+        // and
+        var expectedLines = Stream.<String>empty();
+
         // When
         printer.visitMetrics(Collections.singleton(metrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator();
-        assertThat("End of report", lines.hasNext(), is(false));
+        assertLinesMatch(expectedLines, buffer.toString().lines());
     }
 
     @Test
@@ -97,16 +99,18 @@ public class TestTextPrinter {
         var measurementValue = random.nextInt(1_000);
         metrics.addToMeasurement(shortName, measurementValue);
 
+        // and
+        var expectedLines = Stream.of(
+                metricsName,
+                "    " + longName + " (" + shortName + "): " + measurementValue,
+                ""
+        );
+
         // When
         printer.visitMetrics(Collections.singleton(metrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator();
-        var i = 0;
-        assertEquals("Line " + ++i, metricsName, lines.next());
-        assertEquals("Line " + ++i, "    " + longName + " (" + shortName + "): " + measurementValue, lines.next());
-        assertEquals("Line " + ++i, "", lines.next());
-        assertThat("End of report", lines.hasNext(), is(false));
+        assertLinesMatch(expectedLines, buffer.toString().lines());
     }
 
     @Test
@@ -135,16 +139,18 @@ public class TestTextPrinter {
         var metrics = new Metrics(metricsName);
         metrics.track(descriptor.createMeasurement(metrics));
 
+        // and
+        var expectedLines = Stream.of(
+                metricsName,
+                "    " + longName + " (" + shortName + "): NaN [NaN NaN/NaN NaN NaN NaN (0)]",
+                ""
+        );
+
         // When
         printer.visitMetrics(Collections.singleton(metrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator();
-        var i = 0;
-        assertEquals("Line " + ++i, metricsName, lines.next());
-        assertEquals("Line " + ++i, "    " + longName + " (" + shortName + "): NaN [NaN NaN/NaN NaN NaN NaN (0)]", lines.next());
-        assertEquals("Line " + ++i, "", lines.next());
-        assertThat("End of report", lines.hasNext(), is(false));
+        assertLinesMatch(expectedLines, buffer.toString().lines());
     }
 
     @Test
@@ -181,20 +187,22 @@ public class TestTextPrinter {
         var metrics = new Metrics(metricsName);
         metrics.track(descriptor.createMeasurement(metrics));
 
-        // When
-        printer.visitMetrics(Collections.singleton(metrics));
-
-        // Then
+        // and
         var expectedPercentiles = percentiles.stream()
                 .map(percentile -> "p" + percentile + ":NaN")
                 .collect(joining(" "));
 
         // and
-        var lines = buffer.toString().lines().iterator();
-        var i = 0;
-        assertEquals("Line " + ++i, metricsName, lines.next());
-        assertEquals("Line " + ++i, "    " + longName + " (" + shortName + "): NaN [NaN NaN/NaN NaN NaN NaN (0)] " + expectedPercentiles, lines.next());
-        assertEquals("Line " + ++i, "", lines.next());
-        assertThat("End of report", lines.hasNext(), is(false));
+        var expectedLines = Stream.of(
+                metricsName,
+                "    " + longName + " (" + shortName + "): NaN [NaN NaN/NaN NaN NaN NaN (0)] " + expectedPercentiles,
+                ""
+        );
+
+        // When
+        printer.visitMetrics(Collections.singleton(metrics));
+
+        // Then
+        assertLinesMatch(expectedLines, buffer.toString().lines());
     }
 }

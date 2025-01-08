@@ -1,13 +1,14 @@
 package com.jeantessier.metrics;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 
 import java.io.*;
 import java.util.*;
+import java.util.function.*;
 import java.util.stream.*;
 
 import static java.util.stream.Collectors.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestJSONPrinter {
     private final Random random = new Random();
@@ -26,14 +27,16 @@ public class TestJSONPrinter {
         var metricsName = "metrics name " + random.nextInt(1_000);
         var metrics = new Metrics(metricsName);
 
+        // and
+        var expectedLines = Stream.of(
+                "[]"
+        );
+
         // When
         printer.visitMetrics(Collections.singleton(metrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator();
-        var i = 0;
-        assertEquals("Line " + ++i, "[]", lines.next());
-        assertFalse("End of report", lines.hasNext());
+        assertLinesMatch(expectedLines, buffer.toString().lines());
     }
 
     @Test
@@ -112,14 +115,16 @@ public class TestJSONPrinter {
         var methodMeasurementValue = random.nextInt(1_000);
         methodMetrics.addToMeasurement(methodShortName, methodMeasurementValue);
 
+        // and
+        var expectedLines = Stream.of(
+                "[]"
+        );
+
         // When
         printer.visitMetrics(Collections.singleton(projectMetrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator();
-        var i = 0;
-        assertEquals("Line " + ++i, "[]", lines.next());
-        assertFalse("End of report", lines.hasNext());
+        assertLinesMatch(expectedLines, buffer.toString().lines());
     }
 
     @Test
@@ -197,61 +202,63 @@ public class TestJSONPrinter {
         var methodMeasurementValue = random.nextInt(1_000);
         methodMetrics.addToMeasurement(methodShortName, methodMeasurementValue);
 
+        // and
+        var expectedLines = Stream.of(
+                "[",
+                "    {",
+                "        \"name\": \"" + projectMetricsName + "\",",
+                "        \"measurements\": [",
+                "            {",
+                "                \"short-name\": \"" + projectShortName + "\",",
+                "                \"long-name\": \"" + projectLongName + "\",",
+                "                \"value\": " + projectMeasurementValue + ".0",
+                "            }",
+                "        ],",
+                "        \"groups\": [",
+                "            {",
+                "                \"name\": \"" + groupMetricsName + "\",",
+                "                \"measurements\": [",
+                "                    {",
+                "                        \"short-name\": \"" + groupShortName + "\",",
+                "                        \"long-name\": \"" + groupLongName + "\",",
+                "                        \"value\": " + groupMeasurementValue + ".0",
+                "                    }",
+                "                ],",
+                "                \"classes\": [",
+                "                    {",
+                "                        \"name\": \"" + classMetricsName + "\",",
+                "                        \"measurements\": [",
+                "                            {",
+                "                                \"short-name\": \"" + classShortName + "\",",
+                "                                \"long-name\": \"" + classLongName + "\",",
+                "                                \"value\": " + classMeasurementValue + ".0",
+                "                            }",
+                "                        ],",
+                "                        \"methods\": [",
+                "                            {",
+                "                                \"name\": \"" + methodMetricsName + "\",",
+                "                                \"measurements\": [",
+                "                                    {",
+                "                                        \"short-name\": \"" + methodShortName + "\",",
+                "                                        \"long-name\": \"" + methodLongName + "\",",
+                "                                        \"value\": " + methodMeasurementValue + ".0",
+                "                                    }",
+                "                                ]",
+                "                            }",
+                "                        ]",
+                "                    }",
+                "                ]",
+                "            }",
+                "        ]",
+                "    }",
+                "]"
+        );
+
         // When
         printer.visitMetrics(Collections.singleton(projectMetrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator();
-        var i = 0;
-        assertEquals("Line " + ++i, "[", lines.next());
-        assertEquals("Line " + ++i, "    {", lines.next());
-        assertEquals("Line " + ++i, "        \"name\": \"" + projectMetricsName + "\",", lines.next());
-        assertEquals("Line " + ++i, "        \"measurements\": [", lines.next());
-        assertEquals("Line " + ++i, "            {", lines.next());
-        assertEquals("Line " + ++i, "                \"short-name\": \"" + projectShortName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                \"long-name\": \"" + projectLongName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                \"value\": " + projectMeasurementValue + ".0", lines.next());
-        assertEquals("Line " + ++i, "            }", lines.next());
-        assertEquals("Line " + ++i, "        ],", lines.next());
-        assertEquals("Line " + ++i, "        \"groups\": [", lines.next());
-        assertEquals("Line " + ++i, "            {", lines.next());
-        assertEquals("Line " + ++i, "                \"name\": \"" + groupMetricsName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                \"measurements\": [", lines.next());
-        assertEquals("Line " + ++i, "                    {", lines.next());
-        assertEquals("Line " + ++i, "                        \"short-name\": \"" + groupShortName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                        \"long-name\": \"" + groupLongName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                        \"value\": " + groupMeasurementValue + ".0", lines.next());
-        assertEquals("Line " + ++i, "                    }", lines.next());
-        assertEquals("Line " + ++i, "                ],", lines.next());
-        assertEquals("Line " + ++i, "                \"classes\": [", lines.next());
-        assertEquals("Line " + ++i, "                    {", lines.next());
-        assertEquals("Line " + ++i, "                        \"name\": \"" + classMetricsName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                        \"measurements\": [", lines.next());
-        assertEquals("Line " + ++i, "                            {", lines.next());
-        assertEquals("Line " + ++i, "                                \"short-name\": \"" + classShortName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                                \"long-name\": \"" + classLongName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                                \"value\": " + classMeasurementValue + ".0", lines.next());
-        assertEquals("Line " + ++i, "                            }", lines.next());
-        assertEquals("Line " + ++i, "                        ],", lines.next());
-        assertEquals("Line " + ++i, "                        \"methods\": [", lines.next());
-        assertEquals("Line " + ++i, "                            {", lines.next());
-        assertEquals("Line " + ++i, "                                \"name\": \"" + methodMetricsName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                                \"measurements\": [", lines.next());
-        assertEquals("Line " + ++i, "                                    {", lines.next());
-        assertEquals("Line " + ++i, "                                        \"short-name\": \"" + methodShortName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                                        \"long-name\": \"" + methodLongName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                                        \"value\": " + methodMeasurementValue + ".0", lines.next());
-        assertEquals("Line " + ++i, "                                    }", lines.next());
-        assertEquals("Line " + ++i, "                                ]", lines.next());
-        assertEquals("Line " + ++i, "                            }", lines.next());
-        assertEquals("Line " + ++i, "                        ]", lines.next());
-        assertEquals("Line " + ++i, "                    }", lines.next());
-        assertEquals("Line " + ++i, "                ]", lines.next());
-        assertEquals("Line " + ++i, "            }", lines.next());
-        assertEquals("Line " + ++i, "        ]", lines.next());
-        assertEquals("Line " + ++i, "    }", lines.next());
-        assertEquals("Line " + ++i, "]", lines.next());
-        assertFalse("End of report", lines.hasNext());
+        assertLinesMatch(expectedLines, buffer.toString().lines());
     }
 
     @Test
@@ -329,82 +336,84 @@ public class TestJSONPrinter {
         var methodMeasurementValue = random.nextInt(1_000);
         methodMetrics.addToMeasurement(methodShortName, methodMeasurementValue);
 
+        // and
+        var expectedLines = Stream.of(
+                "[",
+                "    {",
+                "        \"name\": \"" + projectMetricsName + "\",",
+                "        \"measurements\": [",
+                "            {",
+                "                \"short-name\": \"" + projectShortName + "\",",
+                "                \"long-name\": \"" + projectLongName + "\",",
+                "                \"value\": " + methodMeasurementValue + ".0,",
+                "                \"minimum\": " + methodMeasurementValue + ".0,",
+                "                \"median\": " + methodMeasurementValue + ".0,",
+                "                \"average\": " + methodMeasurementValue + ".0,",
+                "                \"standard-deviation\": 0.0,",
+                "                \"maximum\": " + methodMeasurementValue + ".0,",
+                "                \"sum\": " + methodMeasurementValue + ".0,",
+                "                \"nb-data-points\": 1",
+                "            }",
+                "        ],",
+                "        \"groups\": [",
+                "            {",
+                "                \"name\": \"" + groupMetricsName + "\",",
+                "                \"measurements\": [",
+                "                    {",
+                "                        \"short-name\": \"" + groupShortName + "\",",
+                "                        \"long-name\": \"" + groupLongName + "\",",
+                "                        \"value\": " + methodMeasurementValue + ".0,",
+                "                        \"minimum\": " + methodMeasurementValue + ".0,",
+                "                        \"median\": " + methodMeasurementValue + ".0,",
+                "                        \"average\": " + methodMeasurementValue + ".0,",
+                "                        \"standard-deviation\": 0.0,",
+                "                        \"maximum\": " + methodMeasurementValue + ".0,",
+                "                        \"sum\": " + methodMeasurementValue + ".0,",
+                "                        \"nb-data-points\": 1",
+                "                    }",
+                "                ],",
+                "                \"classes\": [",
+                "                    {",
+                "                        \"name\": \"" + classMetricsName + "\",",
+                "                        \"measurements\": [",
+                "                            {",
+                "                                \"short-name\": \"" + classShortName + "\",",
+                "                                \"long-name\": \"" + classLongName + "\",",
+                "                                \"value\": " + methodMeasurementValue + ".0,",
+                "                                \"minimum\": " + methodMeasurementValue + ".0,",
+                "                                \"median\": " + methodMeasurementValue + ".0,",
+                "                                \"average\": " + methodMeasurementValue + ".0,",
+                "                                \"standard-deviation\": 0.0,",
+                "                                \"maximum\": " + methodMeasurementValue + ".0,",
+                "                                \"sum\": " + methodMeasurementValue + ".0,",
+                "                                \"nb-data-points\": 1",
+                "                            }",
+                "                        ],",
+                "                        \"methods\": [",
+                "                            {",
+                "                                \"name\": \"" + methodMetricsName + "\",",
+                "                                \"measurements\": [",
+                "                                    {",
+                "                                        \"short-name\": \"" + methodShortName + "\",",
+                "                                        \"long-name\": \"" + methodLongName + "\",",
+                "                                        \"value\": " + methodMeasurementValue + ".0",
+                "                                    }",
+                "                                ]",
+                "                            }",
+                "                        ]",
+                "                    }",
+                "                ]",
+                "            }",
+                "        ]",
+                "    }",
+                "]"
+        );
+
         // When
         printer.visitMetrics(Collections.singleton(projectMetrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator();
-        var i = 0;
-        assertEquals("Line " + ++i, "[", lines.next());
-        assertEquals("Line " + ++i, "    {", lines.next());
-        assertEquals("Line " + ++i, "        \"name\": \"" + projectMetricsName + "\",", lines.next());
-        assertEquals("Line " + ++i, "        \"measurements\": [", lines.next());
-        assertEquals("Line " + ++i, "            {", lines.next());
-        assertEquals("Line " + ++i, "                \"short-name\": \"" + projectShortName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                \"long-name\": \"" + projectLongName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                \"value\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                \"minimum\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                \"median\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                \"average\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                \"standard-deviation\": 0.0,", lines.next());
-        assertEquals("Line " + ++i, "                \"maximum\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                \"sum\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                \"nb-data-points\": 1", lines.next());
-        assertEquals("Line " + ++i, "            }", lines.next());
-        assertEquals("Line " + ++i, "        ],", lines.next());
-        assertEquals("Line " + ++i, "        \"groups\": [", lines.next());
-        assertEquals("Line " + ++i, "            {", lines.next());
-        assertEquals("Line " + ++i, "                \"name\": \"" + groupMetricsName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                \"measurements\": [", lines.next());
-        assertEquals("Line " + ++i, "                    {", lines.next());
-        assertEquals("Line " + ++i, "                        \"short-name\": \"" + groupShortName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                        \"long-name\": \"" + groupLongName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                        \"value\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                        \"minimum\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                        \"median\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                        \"average\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                        \"standard-deviation\": 0.0,", lines.next());
-        assertEquals("Line " + ++i, "                        \"maximum\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                        \"sum\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                        \"nb-data-points\": 1", lines.next());
-        assertEquals("Line " + ++i, "                    }", lines.next());
-        assertEquals("Line " + ++i, "                ],", lines.next());
-        assertEquals("Line " + ++i, "                \"classes\": [", lines.next());
-        assertEquals("Line " + ++i, "                    {", lines.next());
-        assertEquals("Line " + ++i, "                        \"name\": \"" + classMetricsName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                        \"measurements\": [", lines.next());
-        assertEquals("Line " + ++i, "                            {", lines.next());
-        assertEquals("Line " + ++i, "                                \"short-name\": \"" + classShortName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                                \"long-name\": \"" + classLongName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                                \"value\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                                \"minimum\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                                \"median\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                                \"average\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                                \"standard-deviation\": 0.0,", lines.next());
-        assertEquals("Line " + ++i, "                                \"maximum\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                                \"sum\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                                \"nb-data-points\": 1", lines.next());
-        assertEquals("Line " + ++i, "                            }", lines.next());
-        assertEquals("Line " + ++i, "                        ],", lines.next());
-        assertEquals("Line " + ++i, "                        \"methods\": [", lines.next());
-        assertEquals("Line " + ++i, "                            {", lines.next());
-        assertEquals("Line " + ++i, "                                \"name\": \"" + methodMetricsName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                                \"measurements\": [", lines.next());
-        assertEquals("Line " + ++i, "                                    {", lines.next());
-        assertEquals("Line " + ++i, "                                        \"short-name\": \"" + methodShortName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                                        \"long-name\": \"" + methodLongName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                                        \"value\": " + methodMeasurementValue + ".0", lines.next());
-        assertEquals("Line " + ++i, "                                    }", lines.next());
-        assertEquals("Line " + ++i, "                                ]", lines.next());
-        assertEquals("Line " + ++i, "                            }", lines.next());
-        assertEquals("Line " + ++i, "                        ]", lines.next());
-        assertEquals("Line " + ++i, "                    }", lines.next());
-        assertEquals("Line " + ++i, "                ]", lines.next());
-        assertEquals("Line " + ++i, "            }", lines.next());
-        assertEquals("Line " + ++i, "        ]", lines.next());
-        assertEquals("Line " + ++i, "    }", lines.next());
-        assertEquals("Line " + ++i, "]", lines.next());
-        assertFalse("End of report", lines.hasNext());
+        assertLinesMatch(expectedLines, buffer.toString().lines());
     }
 
     @Test
@@ -490,121 +499,115 @@ public class TestJSONPrinter {
         var methodMeasurementValue = random.nextInt(1_000);
         methodMetrics.addToMeasurement(methodShortName, methodMeasurementValue);
 
+        // and
+        var expectedLines = Stream.of(
+                Stream.of(
+                        "[",
+                        "    {",
+                        "        \"name\": \"" + projectMetricsName + "\",",
+                        "        \"measurements\": [",
+                        "            {",
+                        "                \"short-name\": \"" + projectShortName + "\",",
+                        "                \"long-name\": \"" + projectLongName + "\",",
+                        "                \"value\": " + methodMeasurementValue + ".0,",
+                        "                \"minimum\": " + methodMeasurementValue + ".0,",
+                        "                \"median\": " + methodMeasurementValue + ".0,",
+                        "                \"average\": " + methodMeasurementValue + ".0,",
+                        "                \"standard-deviation\": 0.0,",
+                        "                \"maximum\": " + methodMeasurementValue + ".0,",
+                        "                \"sum\": " + methodMeasurementValue + ".0,",
+                        "                \"nb-data-points\": 1,",
+                        "                \"percentiles\": {"
+                ),
+
+                percentiles.stream()
+                        .map(percentile -> "                    \"p" + percentile + "\": " + methodMeasurementValue + ".0")
+                        .collect(joining(",\n"))
+                        .lines(),
+
+                Stream.of(
+                        "                }",
+                        "            }",
+                        "        ],",
+                        "        \"groups\": [",
+                        "            {",
+                        "                \"name\": \"" + groupMetricsName + "\",",
+                        "                \"measurements\": [",
+                        "                    {",
+                        "                        \"short-name\": \"" + groupShortName + "\",",
+                        "                        \"long-name\": \"" + groupLongName + "\",",
+                        "                        \"value\": " + methodMeasurementValue + ".0,",
+                        "                        \"minimum\": " + methodMeasurementValue + ".0,",
+                        "                        \"median\": " + methodMeasurementValue + ".0,",
+                        "                        \"average\": " + methodMeasurementValue + ".0,",
+                        "                        \"standard-deviation\": 0.0,",
+                        "                        \"maximum\": " + methodMeasurementValue + ".0,",
+                        "                        \"sum\": " + methodMeasurementValue + ".0,",
+                        "                        \"nb-data-points\": 1,",
+                        "                        \"percentiles\": {"
+                ),
+
+                percentiles.stream()
+                        .map(percentile -> "                            \"p" + percentile + "\": " + methodMeasurementValue + ".0")
+                        .collect(joining(",\n"))
+                        .lines(),
+
+                Stream.of(
+                        "                        }",
+                        "                    }",
+                        "                ],",
+                        "                \"classes\": [",
+                        "                    {",
+                        "                        \"name\": \"" + classMetricsName + "\",",
+                        "                        \"measurements\": [",
+                        "                            {",
+                        "                                \"short-name\": \"" + classShortName + "\",",
+                        "                                \"long-name\": \"" + classLongName + "\",",
+                        "                                \"value\": " + methodMeasurementValue + ".0,",
+                        "                                \"minimum\": " + methodMeasurementValue + ".0,",
+                        "                                \"median\": " + methodMeasurementValue + ".0,",
+                        "                                \"average\": " + methodMeasurementValue + ".0,",
+                        "                                \"standard-deviation\": 0.0,",
+                        "                                \"maximum\": " + methodMeasurementValue + ".0,",
+                        "                                \"sum\": " + methodMeasurementValue + ".0,",
+                        "                                \"nb-data-points\": 1,",
+                        "                                \"percentiles\": {"
+                ),
+
+                percentiles.stream()
+                        .map(percentile -> "                                    \"p" + percentile + "\": " + methodMeasurementValue + ".0")
+                        .collect(joining(",\n"))
+                        .lines(),
+
+                Stream.of(
+                        "                                }",
+                        "                            }",
+                        "                        ],",
+                        "                        \"methods\": [",
+                        "                            {",
+                        "                                \"name\": \"" + methodMetricsName + "\",",
+                        "                                \"measurements\": [",
+                        "                                    {",
+                        "                                        \"short-name\": \"" + methodShortName + "\",",
+                        "                                        \"long-name\": \"" + methodLongName + "\",",
+                        "                                        \"value\": " + methodMeasurementValue + ".0",
+                        "                                    }",
+                        "                                ]",
+                        "                            }",
+                        "                        ]",
+                        "                    }",
+                        "                ]",
+                        "            }",
+                        "        ]",
+                        "    }",
+                        "]"
+                )
+        ).flatMap(Function.identity());
+
         // When
         printer.visitMetrics(Collections.singleton(projectMetrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator();
-        var i = 0;
-        Iterator<Integer> it;
-        assertEquals("Line " + ++i, "[", lines.next());
-        assertEquals("Line " + ++i, "    {", lines.next());
-        assertEquals("Line " + ++i, "        \"name\": \"" + projectMetricsName + "\",", lines.next());
-        assertEquals("Line " + ++i, "        \"measurements\": [", lines.next());
-        assertEquals("Line " + ++i, "            {", lines.next());
-        assertEquals("Line " + ++i, "                \"short-name\": \"" + projectShortName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                \"long-name\": \"" + projectLongName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                \"value\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                \"minimum\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                \"median\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                \"average\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                \"standard-deviation\": 0.0,", lines.next());
-        assertEquals("Line " + ++i, "                \"maximum\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                \"sum\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                \"nb-data-points\": 1,", lines.next());
-        assertEquals("Line " + ++i, "                \"percentiles\": {", lines.next());
-
-        it = percentiles.iterator();
-        while (it.hasNext()) {
-            var percentile = it.next();
-            if (it.hasNext()) {
-                assertEquals("Line " + ++i, "                    \"p" + percentile + "\": " + methodMeasurementValue + ".0,", lines.next());
-            } else {
-                assertEquals("Line " + ++i, "                    \"p" + percentile + "\": " + methodMeasurementValue + ".0", lines.next());
-            }
-        }
-
-        assertEquals("Line " + ++i, "                }", lines.next());
-        assertEquals("Line " + ++i, "            }", lines.next());
-        assertEquals("Line " + ++i, "        ],", lines.next());
-        assertEquals("Line " + ++i, "        \"groups\": [", lines.next());
-        assertEquals("Line " + ++i, "            {", lines.next());
-        assertEquals("Line " + ++i, "                \"name\": \"" + groupMetricsName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                \"measurements\": [", lines.next());
-        assertEquals("Line " + ++i, "                    {", lines.next());
-        assertEquals("Line " + ++i, "                        \"short-name\": \"" + groupShortName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                        \"long-name\": \"" + groupLongName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                        \"value\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                        \"minimum\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                        \"median\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                        \"average\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                        \"standard-deviation\": 0.0,", lines.next());
-        assertEquals("Line " + ++i, "                        \"maximum\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                        \"sum\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                        \"nb-data-points\": 1,", lines.next());
-        assertEquals("Line " + ++i, "                        \"percentiles\": {", lines.next());
-
-        it = percentiles.iterator();
-        while (it.hasNext()) {
-            var percentile = it.next();
-            if (it.hasNext()) {
-                assertEquals("Line " + ++i, "                            \"p" + percentile + "\": " + methodMeasurementValue + ".0,", lines.next());
-            } else {
-                assertEquals("Line " + ++i, "                            \"p" + percentile + "\": " + methodMeasurementValue + ".0", lines.next());
-            }
-        }
-
-        assertEquals("Line " + ++i, "                        }", lines.next());
-        assertEquals("Line " + ++i, "                    }", lines.next());
-        assertEquals("Line " + ++i, "                ],", lines.next());
-        assertEquals("Line " + ++i, "                \"classes\": [", lines.next());
-        assertEquals("Line " + ++i, "                    {", lines.next());
-        assertEquals("Line " + ++i, "                        \"name\": \"" + classMetricsName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                        \"measurements\": [", lines.next());
-        assertEquals("Line " + ++i, "                            {", lines.next());
-        assertEquals("Line " + ++i, "                                \"short-name\": \"" + classShortName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                                \"long-name\": \"" + classLongName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                                \"value\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                                \"minimum\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                                \"median\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                                \"average\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                                \"standard-deviation\": 0.0,", lines.next());
-        assertEquals("Line " + ++i, "                                \"maximum\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                                \"sum\": " + methodMeasurementValue + ".0,", lines.next());
-        assertEquals("Line " + ++i, "                                \"nb-data-points\": 1,", lines.next());
-        assertEquals("Line " + ++i, "                                \"percentiles\": {", lines.next());
-
-        it = percentiles.iterator();
-        while (it.hasNext()) {
-            var percentile = it.next();
-            if (it.hasNext()) {
-                assertEquals("Line " + ++i, "                                    \"p" + percentile + "\": " + methodMeasurementValue + ".0,", lines.next());
-            } else {
-                assertEquals("Line " + ++i, "                                    \"p" + percentile + "\": " + methodMeasurementValue + ".0", lines.next());
-            }
-        }
-
-        assertEquals("Line " + ++i, "                                }", lines.next());
-        assertEquals("Line " + ++i, "                            }", lines.next());
-        assertEquals("Line " + ++i, "                        ],", lines.next());
-        assertEquals("Line " + ++i, "                        \"methods\": [", lines.next());
-        assertEquals("Line " + ++i, "                            {", lines.next());
-        assertEquals("Line " + ++i, "                                \"name\": \"" + methodMetricsName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                                \"measurements\": [", lines.next());
-        assertEquals("Line " + ++i, "                                    {", lines.next());
-        assertEquals("Line " + ++i, "                                        \"short-name\": \"" + methodShortName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                                        \"long-name\": \"" + methodLongName + "\",", lines.next());
-        assertEquals("Line " + ++i, "                                        \"value\": " + methodMeasurementValue + ".0", lines.next());
-        assertEquals("Line " + ++i, "                                    }", lines.next());
-        assertEquals("Line " + ++i, "                                ]", lines.next());
-        assertEquals("Line " + ++i, "                            }", lines.next());
-        assertEquals("Line " + ++i, "                        ]", lines.next());
-        assertEquals("Line " + ++i, "                    }", lines.next());
-        assertEquals("Line " + ++i, "                ]", lines.next());
-        assertEquals("Line " + ++i, "            }", lines.next());
-        assertEquals("Line " + ++i, "        ]", lines.next());
-        assertEquals("Line " + ++i, "    }", lines.next());
-        assertEquals("Line " + ++i, "]", lines.next());
-        assertFalse("End of report", lines.hasNext());
+        assertLinesMatch(expectedLines, buffer.toString().lines());
     }
 }

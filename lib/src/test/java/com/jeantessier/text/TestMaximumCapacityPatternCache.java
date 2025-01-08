@@ -32,97 +32,84 @@
 
 package com.jeantessier.text;
 
-import junit.framework.*;
-
 import org.apache.oro.text.*;
 import org.apache.oro.text.regex.*;
+import org.junit.jupiter.api.*;
 
-public class TestMaximumCapacityPatternCache extends TestCase {
-    private PatternCache cache;
+import static org.junit.jupiter.api.Assertions.*;
 
-    protected void setUp() throws Exception {
-        cache = new MaximumCapacityPatternCache();
-    }
+public class TestMaximumCapacityPatternCache {
+    private final PatternCache cache = new MaximumCapacityPatternCache();
 
-    public void testCapacity() {
+    @Test
+    void testCapacity() {
         assertEquals(20, cache.capacity());
     }
 
-    public void testSize() throws MalformedPatternException {
-        assertEquals("empty", 0, cache.size());
+    @Test
+    void testSize() throws MalformedPatternException {
+        assertEquals(0, cache.size(), "empty");
 
         cache.addPattern("/foo/");
 
-        assertEquals("add one", 1, cache.size());
+        assertEquals(1, cache.size(), "add one");
 
         cache.addPattern("/foo/");
 
-        assertEquals("add same again", 1, cache.size());
+        assertEquals(1, cache.size(), "add same again");
 
         cache.addPattern("/bar/");
 
-        assertEquals("add another", 2, cache.size());
+        assertEquals(2, cache.size(), "add another");
     }
 
-    public void testAddPattern() throws MalformedPatternException {
+    @Test
+    void testAddPattern() throws MalformedPatternException {
         Object pattern1 = cache.addPattern("/foo/");
-        assertNotNull("add returns null", pattern1);
+        assertNotNull(pattern1, "add returns null");
 
         Object pattern2 = cache.addPattern("/foo/");
-        assertSame("add twice returns different", pattern1, pattern2);
+        assertSame(pattern1, pattern2, "add twice returns different");
     }
 
-    public void testAddPatternWithOption() throws MalformedPatternException {
+    @Test
+    void testAddPatternWithOption() throws MalformedPatternException {
         Object pattern = cache.addPattern("/foo/", Perl5Compiler.CASE_INSENSITIVE_MASK);
-        assertNotNull("add returns null", pattern);
+        assertNotNull(pattern, "add returns null");
     }
 
-    public void testAddMalformedPattern() {
-        try {
-            cache.addPattern("foo(");
-            fail("Added a malformed pattern");
-        } catch (MalformedPatternException e) {
-            // expected
-        }
+    @Test
+    void testAddMalformedPattern() {
+        assertThrows(MalformedPatternException.class, () -> cache.addPattern("foo("));
     }
 
-    public void testAddMalformedPatternWithOption() {
-        try {
-            cache.addPattern("foo(", Perl5Compiler.CASE_INSENSITIVE_MASK);
-            fail("Added a malformed pattern");
-        } catch (MalformedPatternException e) {
-            // expected
-        }
+    @Test
+    void testAddMalformedPatternWithOption() {
+        assertThrows(MalformedPatternException.class, () -> cache.addPattern("foo(", Perl5Compiler.CASE_INSENSITIVE_MASK));
     }
 
-    public void testGetPattern() throws MalformedCachePatternException {
+    @Test
+    void testGetPattern() throws MalformedCachePatternException {
         Object pattern1 = cache.getPattern("/foo/");
-        assertNotNull("get returns null", pattern1);
+        assertNotNull(pattern1, "get returns null");
 
         Object pattern2 = cache.getPattern("/foo/");
-        assertSame("get twice returns different", pattern1, pattern2);
+        assertSame(pattern1, pattern2, "get twice returns different");
     }
 
-    public void testGetPatternWithOption() throws MalformedCachePatternException {
+    @Test
+    void testGetPatternWithOption() throws MalformedCachePatternException {
         Object pattern = cache.getPattern("/foo/", Perl5Compiler.CASE_INSENSITIVE_MASK);
-        assertNotNull("get returns null", pattern);
+        assertNotNull(pattern, "get returns null");
     }
 
-    public void testGetMalformedPattern() throws MalformedCachePatternException {
-        try {
-            cache.getPattern("foo(");
-            fail("Got malformed pattern");
-        } catch (MalformedCachePatternException e) {
-            // Expected
-        }
+    @Test
+    void testGetMalformedPattern() {
+        assertThrows(MalformedCachePatternException.class, () -> cache.getPattern("foo("));
     }
 
-    public void testGetMalformedPatternWithOption() throws MalformedCachePatternException {
-        try {
-            cache.getPattern("foo(", Perl5Compiler.CASE_INSENSITIVE_MASK);
-            fail("Got malformed pattern");
-        } catch (MalformedCachePatternException e) {
-            // Expected
-        }
+    @Test
+    void testGetMalformedPatternWithOption() {
+        assertThrows(MalformedCachePatternException.class, () -> cache.getPattern("foo(", Perl5Compiler.CASE_INSENSITIVE_MASK));
     }
 }

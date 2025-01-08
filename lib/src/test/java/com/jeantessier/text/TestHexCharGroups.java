@@ -32,36 +32,29 @@
 
 package com.jeantessier.text;
 
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import java.util.stream.*;
 
-@RunWith(Parameterized.class)
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
+
 public class TestHexCharGroups {
-    @Parameters(name="Hex string with group size {1}")
-    public static Object[][] data() {
-        return new Object[][] {
-            {new byte[] {1, 2, 3, 4, 5, 6}, 2, "01 02 03 04 05 06"},
-            {new byte[] {1, 2, 3, 4, 5, 6}, 3, "010 203 040 506"},
-            {new byte[] {1, 2, 3, 4, 5, 6}, 8, "01020304 0506"},
-            {new byte[] {1, 2, 3, 4}, 8, "01020304"},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+            arguments(new byte[] {1, 2, 3, 4, 5, 6}, 2, "01 02 03 04 05 06"),
+            arguments(new byte[] {1, 2, 3, 4, 5, 6}, 3, "010 203 040 506"),
+            arguments(new byte[] {1, 2, 3, 4, 5, 6}, 8, "01020304 0506"),
+            arguments(new byte[] {1, 2, 3, 4}, 8, "01020304")
+        );
     }
 
-    @Parameter(0)
-    public byte[] bytes;
-
-    @Parameter(1)
-    public int charGroupSize;
-
-    @Parameter(2)
-    public String expectedResult;
-
-    @Test
-    public void test() {
-        assertEquals("group size " + charGroupSize, expectedResult, Hex.toString(bytes, charGroupSize));
+    @DisplayName("Hex char groups")
+    @ParameterizedTest(name="when the group size is {1}")
+    @MethodSource("dataProvider")
+    void test(byte[] bytes, int charGroupSize, String expectedResult) {
+        assertEquals(expectedResult, Hex.toString(bytes, charGroupSize), "group size " + charGroupSize);
     }
 }

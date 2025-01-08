@@ -32,39 +32,44 @@
 
 package com.jeantessier.text;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestPrinterBuffer extends TestCase {
-    public void testAppendReturnsSelf() {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestPrinterBuffer {
+    @Test
+    void testAppendReturnsSelf() {
         var buffer = new PrinterBuffer();
 
-        assertSame("boolean", buffer, buffer.append(true));
-        assertSame("int", buffer, buffer.append(1));
-        assertSame("long", buffer, buffer.append(1L));
-        assertSame("float", buffer, buffer.append(1F));
-        assertSame("double", buffer, buffer.append(1D));
-        assertSame("char", buffer, buffer.append('c'));
-        assertSame("char[]", buffer, buffer.append("string".toCharArray(), 0, 1));
-        assertSame("char[]", buffer, buffer.append("string".toCharArray()));
-        assertSame("String", buffer, buffer.append("string"));
+        assertSame(buffer, buffer.append(true), "boolean");
+        assertSame(buffer, buffer.append(1), "int");
+        assertSame(buffer, buffer.append(1L), "long");
+        assertSame(buffer, buffer.append(1F), "float");
+        assertSame(buffer, buffer.append(1D), "double");
+        assertSame(buffer, buffer.append('c'), "char");
+        assertSame(buffer, buffer.append("string".toCharArray(), 0, 1), "char[]");
+        assertSame(buffer, buffer.append("string".toCharArray()), "char[]");
+        assertSame(buffer, buffer.append("string"), "String");
     }
 
-    public void testCustomIndentText() {
+    @Test
+    void testCustomIndentText() {
         String expectedText = "****";
         var buffer = new PrinterBuffer(expectedText);
 
         buffer.raiseIndent();
         buffer.indent();
-        assertEquals("Indent text", expectedText, buffer.toString());
+        assertEquals(expectedText, buffer.toString(), "Indent text");
     }
     
-    public void testRaiseIndent() {
+    @Test
+    void testRaiseIndent() {
         String expectedText = "*";
         var buffer = new PrinterBuffer(expectedText);
 
         buffer.raiseIndent();
         buffer.raiseIndent();
         buffer.indent();
-        assertEquals("Indent text", expectedText + expectedText, buffer.toString());
+        assertEquals(expectedText + expectedText, buffer.toString(), "Indent text");
     }
 }

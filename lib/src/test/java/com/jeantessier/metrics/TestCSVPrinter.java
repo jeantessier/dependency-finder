@@ -1,15 +1,13 @@
 package com.jeantessier.metrics;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 
 import java.io.*;
 import java.util.*;
 import java.util.stream.*;
 
 import static java.util.stream.Collectors.*;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestCSVPrinter {
     private final Random random = new Random();
@@ -23,15 +21,22 @@ public class TestCSVPrinter {
     @Test
     public void testHeaders_NoDescriptors() {
         // Given
+        var expectedLongNames = Stream.of("name").map(this::formatName).collect(joining(", "));
+        var expectedShortNames = Stream.of("").map(this::formatName).collect(joining(", "));
+        var expectedSubnames = Stream.of("").map(this::formatName).collect(joining(", "));
+
+        // and
+        var expectedHeaders = Stream.of(
+                expectedLongNames,
+                expectedShortNames,
+                expectedSubnames
+        );
 
         // When
         new CSVPrinter(new PrintWriter(buffer), descriptors).visitMetrics(Collections.emptyList());
 
         // Then
-        var lines = buffer.toString().lines().iterator();
-        assertEquals("Long names", "\"name\"", lines.next());
-        assertEquals("Short names", "", lines.next());
-        assertEquals("Stats subnames", "", lines.next());
+        assertLinesMatch(expectedHeaders, buffer.toString().lines());
     }
 
     @Test
@@ -43,14 +48,23 @@ public class TestCSVPrinter {
         // and
         descriptors.add(descriptor);
 
+        // and
+        var expectedLongNames = Stream.of("name").map(this::formatName).collect(joining(", "));
+        var expectedShortNames = Stream.of("").map(this::formatName).collect(joining(", "));
+        var expectedSubnames = Stream.of("").map(this::formatName).collect(joining(", "));
+
+        // and
+        var expectedHeaders = Stream.of(
+                expectedLongNames,
+                expectedShortNames,
+                expectedSubnames
+        );
+
         // When
         new CSVPrinter(new PrintWriter(buffer), descriptors).visitMetrics(Collections.emptyList());
 
         // Then
-        var lines = buffer.toString().lines().iterator();
-        assertEquals("Long names", "\"name\"", lines.next());
-        assertEquals("Short names", "", lines.next());
-        assertEquals("Stats subnames", "", lines.next());
+        assertLinesMatch(expectedHeaders, buffer.toString().lines());
     }
 
     @Test
@@ -68,14 +82,23 @@ public class TestCSVPrinter {
         // and
         descriptors.add(descriptor);
 
+        // and
+        var expectedLongNames = Stream.of("name", longName).map(this::formatName).collect(joining(", "));
+        var expectedShortNames = Stream.of("", shortName).map(this::formatName).collect(joining(", "));
+        var expectedSubnames = Stream.of("", "").map(this::formatName).collect(joining(", "));
+
+        // and
+        var expectedHeaders = Stream.of(
+                expectedLongNames,
+                expectedShortNames,
+                expectedSubnames
+        );
+
         // When
         new CSVPrinter(new PrintWriter(buffer), descriptors).visitMetrics(Collections.emptyList());
 
         // Then
-        var lines = buffer.toString().lines().iterator();
-        assertEquals("Long names", "\"name\", \"" + longName + "\"", lines.next());
-        assertEquals("Short names", ", \"" + shortName + "\"", lines.next());
-        assertEquals("Stats subnames", ", ", lines.next());
+        assertLinesMatch(expectedHeaders, buffer.toString().lines());
     }
 
     @Test
@@ -95,19 +118,43 @@ public class TestCSVPrinter {
         // and
         descriptors.add(descriptor);
 
+        // and
+        var expectedLongNames =
+                Stream
+                        .concat(
+                                Stream.of("name"),
+                                Collections.nCopies(numStandardSubnames, longName).stream())
+                        .map(this::formatName)
+                        .collect(joining(", "));
+
+        var expectedShortNames =
+                Stream
+                        .concat(
+                                Stream.of(""),
+                                Collections.nCopies(numStandardSubnames, shortName).stream())
+                        .map(this::formatName)
+                        .collect(joining(", "));
+
+        var expectedSubnames =
+                Stream
+                        .concat(
+                                Stream.of(""),
+                                standardSubnames.stream())
+                        .map(this::formatName)
+                        .collect(joining(", "));
+
+        // and
+        var expectedHeaders = Stream.of(
+                expectedLongNames,
+                expectedShortNames,
+                expectedSubnames
+        );
+
         // When
         new CSVPrinter(new PrintWriter(buffer), descriptors).visitMetrics(Collections.emptyList());
 
         // Then
-        var expectedSubnames = standardSubnames.stream()
-                .map(s -> "\"" + s + "\"")
-                .collect(joining(", "));
-
-        // and
-        var lines = buffer.toString().lines().iterator();
-        assertThat("Long names", lines.next(), matchesRegex("\"name\"(, \"" + longName + "\"){" + numStandardSubnames + "}"));
-        assertThat("Short names", lines.next(), matchesRegex("(, \"" + shortName + "\"){" + numStandardSubnames + "}"));
-        assertThat("Stats subnames", lines.next(), is(", " + expectedSubnames));
+        assertLinesMatch(expectedHeaders, buffer.toString().lines());
     }
 
     @Test
@@ -135,22 +182,44 @@ public class TestCSVPrinter {
         // and
         descriptors.add(descriptor);
 
+        // and
+        var expectedLongNames =
+                Stream
+                        .concat(
+                                Stream.of("name"),
+                                Collections.nCopies(numStandardSubnames + numPercentiles, longName).stream())
+                        .map(this::formatName)
+                        .collect(joining(", "));
+
+        var expectedShortNames =
+                Stream
+                        .concat(
+                                Stream.of(""),
+                                Collections.nCopies(numStandardSubnames + numPercentiles, shortName).stream())
+                        .map(this::formatName)
+                        .collect(joining(", "));
+
+        var expectedSubnames =
+                Stream
+                        .concat(
+                                Stream.of(""),
+                                Stream.concat(
+                                        standardSubnames.stream().map(this::formatName),
+                                        percentiles.stream().map(this::formatPercentile)))
+                        .collect(joining(", "));
+
+        // and
+        var expectedHeaders = Stream.of(
+                expectedLongNames,
+                expectedShortNames,
+                expectedSubnames
+        );
+
         // When
         new CSVPrinter(new PrintWriter(buffer), descriptors).visitMetrics(Collections.emptyList());
 
         // Then
-        var expectedSubnames = standardSubnames.stream()
-                .map(s -> "\"" + s + "\"")
-                .collect(joining(", "));
-        var expectedPercentiles = percentiles.stream()
-                .map(percentile -> "\"p" + percentile + "\"")
-                .collect(joining(", "));
-
-        // and
-        var lines = buffer.toString().lines().iterator();
-        assertThat("Long names", lines.next(), matchesRegex("\"name\"(, \"" + longName + "\"){" + (numStandardSubnames + numPercentiles) + "}"));
-        assertThat("Short names", lines.next(), matchesRegex("(, \"" + shortName + "\"){" + (numStandardSubnames + numPercentiles) + "}"));
-        assertThat("Stats subnames", lines.next(), is(", " + expectedSubnames + ", " + expectedPercentiles));
+        assertLinesMatch(expectedHeaders, buffer.toString().lines());
     }
 
     @Test
@@ -181,12 +250,14 @@ public class TestCSVPrinter {
         var measurementValue = random.nextInt(1_000);
         metrics.addToMeasurement(shortName, measurementValue);
 
+        // and
+        var expectedLines = Stream.<String>empty();
+
         // When
         printer.visitMetrics(Collections.singleton(metrics));
 
         // Then
-        var lines = buffer.toString().lines().skip(3).iterator(); // Skipping the headers
-        assertThat("End of report", lines.hasNext(), is(false));
+        assertLinesMatch(expectedLines, buffer.toString().lines().skip(3)); // Skipping the headers
     }
 
     @Test
@@ -216,13 +287,24 @@ public class TestCSVPrinter {
         var measurementValue = random.nextInt(1_000);
         metrics.addToMeasurement(shortName, measurementValue);
 
+        // and
+        var measurementLine =
+                Stream
+                        .concat(
+                                Stream.of(metricsName).map(this::formatName),
+                                Stream.of(measurementValue).map(this::formatValue))
+                        .collect(joining(", "));
+
+        // and
+        var expectedLines = Stream.of(
+                measurementLine
+        );
+
         // When
         printer.visitMetrics(Collections.singleton(metrics));
 
         // Then
-        var lines = buffer.toString().lines().skip(3).iterator(); // Skipping the headers
-        assertEquals("Report", "\"" + metricsName + "\", " + measurementValue + ".0", lines.next());
-        assertThat("End of report", lines.hasNext(), is(false));
+        assertLinesMatch(expectedLines, buffer.toString().lines().skip(3)); // Skipping the headers
     }
 
     @Test
@@ -251,13 +333,26 @@ public class TestCSVPrinter {
         var metrics = new Metrics(metricsName);
         metrics.track(descriptor.createMeasurement(metrics));
 
+        // and
+        var measurementLine =
+                Stream
+                        .concat(
+                                Stream.of(metricsName).map(this::formatName),
+                                Stream.concat(
+                                        Collections.nCopies(numStandardSubnames - 1, Float.NaN).stream().map(this::formatValue),
+                                        IntStream.of(0).mapToObj(String::valueOf)))
+                        .collect(joining(", "));
+
+        // and
+        var expectedLines = Stream.of(
+                measurementLine
+        );
+
         // When
         printer.visitMetrics(Collections.singleton(metrics));
 
         // Then
-        var lines = buffer.toString().lines().skip(3).iterator(); // Skipping the headers
-        assertThat("Report", lines.next(), matchesRegex("\"" + metricsName + "\"(, NaN){" + (numStandardSubnames - 1) + "}, 0"));
-        assertThat("End of report", lines.hasNext(), is(false));
+        assertLinesMatch(expectedLines, buffer.toString().lines().skip(3)); // Skipping the headers
     }
 
     @Test
@@ -294,12 +389,43 @@ public class TestCSVPrinter {
         var metrics = new Metrics(metricsName);
         metrics.track(descriptor.createMeasurement(metrics));
 
+        // and
+        var measurementLine =
+                Stream
+                        .concat(
+                                Stream.of(metricsName).map(this::formatName),
+                                Stream.concat(
+                                        Collections.nCopies(numStandardSubnames - 1, Float.NaN).stream().map(this::formatValue),
+                                        Stream.concat(
+                                                IntStream.of(0).mapToObj(String::valueOf),
+                                                Collections.nCopies(numPercentiles, Float.NaN).stream().map(this::formatValue))))
+                        .collect(joining(", "));
+
+        // and
+        var expectedLines = Stream.of(
+                measurementLine
+        );
+
         // When
         printer.visitMetrics(Collections.singleton(metrics));
 
         // Then
-        var lines = buffer.toString().lines().skip(3).iterator(); // Skipping the headers
-        assertThat("Report", lines.next(), matchesRegex("\"" + metricsName + "\"(, NaN){" + (numStandardSubnames - 1) + "}, 0(, NaN){" + numPercentiles + "}"));
-        assertThat("End of report", lines.hasNext(), is(false));
+        assertLinesMatch(expectedLines, buffer.toString().lines().skip(3)); // Skipping the headers
+    }
+
+    private String formatName(String s) {
+        return s.isEmpty() ? "" : "\"" + s + "\"";
+    }
+
+    private String formatPercentile(Integer n) {
+        return "\"p" + n + "\"";
+    }
+
+    private String formatValue(Integer n) {
+        return formatValue((float) n);
+    }
+
+    private String formatValue(Float f) {
+        return String.format("%.1f", f);
     }
 }

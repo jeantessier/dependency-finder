@@ -32,55 +32,74 @@
 
 package com.jeantessier.metrics;
 
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
 import java.util.stream.*;
 
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
 
-@RunWith(Parameterized.class)
 public class TestStatisticalMeasurementPercentile {
-    @Parameters(name="StatisticalMeasurement with {0} dataset of size {1}")
-    public static Object[][] data() {
-        return new Object[][]{
-                {"Single", 1, 1, 1, 1, 1, 1, 1},
-                {"Tiny", 3, 1, 1, 2, 3, 3, 3},
-                {"Small", 10, 1, 1, 5, 9, 10, 10},
-                {"Large", 1_000, 10, 100, 500, 900, 990, 1_000},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                arguments("Single", 1, 1, 1, 1, 1, 1, 1),
+                arguments("Tiny", 3, 1, 1, 2, 3, 3, 3),
+                arguments("Small", 10, 1, 1, 5, 9, 10, 10),
+                arguments("Large", 1_000, 10, 100, 500, 900, 990, 1_000)
+        );
+    }
+
+    @DisplayName("P1")
+    @ParameterizedTest(name="P1 with {0} dataset of size {1} is {2}")
+    @MethodSource("dataProvider")
+    void p1(String variation, int sampleSize, double expectedP1, double expectedP10, double expectedP50, double expectedP90, double expectedP99, double expectedP100) {
+        var measurement = buildMeasurement(sampleSize);
+        assertEquals(expectedP1, measurement.getPercentile(1), 0.01, "p1");
+    }
+
+    @DisplayName("P10")
+    @ParameterizedTest(name="P10 with {0} dataset of size {1} is {3}")
+    @MethodSource("dataProvider")
+    void p10(String variation, int sampleSize, double expectedP1, double expectedP10, double expectedP50, double expectedP90, double expectedP99, double expectedP100) {
+        var measurement = buildMeasurement(sampleSize);
+        assertEquals(expectedP10, measurement.getPercentile(10), 0.01, "p10");
+    }
+
+    @DisplayName("P50")
+    @ParameterizedTest(name="P50 with {0} dataset of size {1} is {4}")
+    @MethodSource("dataProvider")
+    void p50(String variation, int sampleSize, double expectedP1, double expectedP10, double expectedP50, double expectedP90, double expectedP99, double expectedP100) {
+        var measurement = buildMeasurement(sampleSize);
+        assertEquals(expectedP50, measurement.getPercentile(50), 0.01, "p50");
+    }
+
+    @DisplayName("P90")
+    @ParameterizedTest(name="P90 with {0} dataset of size {1} is {5}")
+    @MethodSource("dataProvider")
+    void p90(String variation, int sampleSize, double expectedP1, double expectedP10, double expectedP50, double expectedP90, double expectedP99, double expectedP100) {
+        var measurement = buildMeasurement(sampleSize);
+        assertEquals(expectedP90, measurement.getPercentile(90), 0.01, "p90");
+    }
+
+    @DisplayName("P99")
+    @ParameterizedTest(name="P99 with {0} dataset of size {1} is {6}")
+    @MethodSource("dataProvider")
+    void p99(String variation, int sampleSize, double expectedP1, double expectedP10, double expectedP50, double expectedP90, double expectedP99, double expectedP100) {
+        var measurement = buildMeasurement(sampleSize);
+        assertEquals(expectedP99, measurement.getPercentile(99), 0.01, "p99");
+    }
+
+    @DisplayName("P100")
+    @ParameterizedTest(name="P100 with {0} dataset of size {1} is {7}")
+    @MethodSource("dataProvider")
+    void p100(String variation, int sampleSize, double expectedP1, double expectedP10, double expectedP50, double expectedP90, double expectedP99, double expectedP100) {
+        var measurement = buildMeasurement(sampleSize);
+        assertEquals(expectedP100, measurement.getPercentile(100), 0.01, "p100");
     }
     
-    @Parameter(0)
-    public String label;
-    
-    @Parameter(1)
-    public int sampleSize;
-
-    @Parameter(2)
-    public double expectedP1;
-
-    @Parameter(3)
-    public double expectedP10;
-
-    @Parameter(4)
-    public double expectedP50;
-
-    @Parameter(5)
-    public double expectedP90;
-
-    @Parameter(6)
-    public double expectedP99;
-
-    @Parameter(7)
-    public double expectedP100;
-    
-    private StatisticalMeasurement measurement;
-
-    @Before
-    public void setUp() {
+    private StatisticalMeasurement buildMeasurement(int sampleSize) {
         var metrics = new Metrics("foo");
         IntStream.rangeClosed(1, sampleSize).forEach(n ->
                 metrics.addSubMetrics(new Metrics("m" + n)
@@ -88,36 +107,6 @@ public class TestStatisticalMeasurementPercentile {
                         .addToMeasurement("bar", n))
         );
 
-        measurement = new StatisticalMeasurement(null, metrics, "bar");
-    }
-
-    @Test
-    public void p1() {
-        assertEquals("p1", expectedP1, measurement.getPercentile(1), 0.01);
-    }
-
-    @Test
-    public void p10() {
-        assertEquals("p10", expectedP10, measurement.getPercentile(10), 0.01);
-    }
-
-    @Test
-    public void p50() {
-        assertEquals("p50", expectedP50, measurement.getPercentile(50), 0.01);
-    }
-
-    @Test
-    public void p90() {
-        assertEquals("p90", expectedP90, measurement.getPercentile(90), 0.01);
-    }
-
-    @Test
-    public void p99() {
-        assertEquals("p99", expectedP99, measurement.getPercentile(99), 0.01);
-    }
-
-    @Test
-    public void p100() {
-        assertEquals("p100", expectedP100, measurement.getPercentile(100), 0.01);
+        return new StatisticalMeasurement(null, metrics, "bar");
     }
 }

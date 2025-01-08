@@ -32,54 +32,43 @@
 
 package com.jeantessier.text;
 
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
+
 import java.util.*;
 import java.util.stream.*;
 
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
 
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
-
-@RunWith(Parameterized.class)
 public class TestRegularExpressionParser {
-    @Parameters(name="Parse {0}")
-    public static Object[][] data() {
-        return new Object[][] {
-                {"normal RE", "/test/", List.of("/test/")},
-                {"multiple matches", "/test/g", List.of("/test/g")},
-                {"ignore case", "/test/i", List.of("/test/i")},
-                {"multiline", "/test/m", List.of("/test/m")},
-                {"multiple modifiers", "/test/gim", List.of("/test/gim")},
-                {"unknown modifier", "/test/a", List.of("/test/")},
-                {"broken RE", "/test", List.of("/test")},
-                {"multiple REs", "/test1/,/test2/", List.of("/test1/", "/test2/")},
-                {"multiple REs with space", "/test1/, /test2/", List.of("/test1/", "/test2/")},
-                {"multiple REs with spaces", " /test1/, /test2/ ", List.of("/test1/", "/test2/")},
-                {"embedded separator", "/test1\\/test2/", List.of("/test1\\/test2/")},
-                {"custom separator", "m=test=", List.of("m=test=")},
-                {"false start", "m", Collections.emptyList()},
-                {"not an RE", "test", Collections.emptyList()},
-                {"empty string", "", Collections.emptyList()},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                arguments("normal RE", "/test/", List.of("/test/")),
+                arguments("multiple matches", "/test/g", List.of("/test/g")),
+                arguments("ignore case", "/test/i", List.of("/test/i")),
+                arguments("multiline", "/test/m", List.of("/test/m")),
+                arguments("multiple modifiers", "/test/gim", List.of("/test/gim")),
+                arguments("unknown modifier", "/test/a", List.of("/test/")),
+                arguments("broken RE", "/test", List.of("/test")),
+                arguments("multiple REs", "/test1/,/test2/", List.of("/test1/", "/test2/")),
+                arguments("multiple REs with space", "/test1/, /test2/", List.of("/test1/", "/test2/")),
+                arguments("multiple REs with spaces", " /test1/, /test2/ ", List.of("/test1/", "/test2/")),
+                arguments("embedded separator", "/test1\\/test2/", List.of("/test1\\/test2/")),
+                arguments("custom separator", "m=test=", List.of("m=test=")),
+                arguments("false start", "m", Collections.emptyList()),
+                arguments("not an RE", "test", Collections.emptyList()),
+                arguments("empty string", "", Collections.emptyList())
+        );
     }
 
-    @Parameter(0)
-    public String label;
-
-    @Parameter(1)
-    public String inputs;
-
-    @Parameter(2)
-    public List<String> expected;
-
-    @Test
-    public void test() {
+    @DisplayName("RegularExpressionParser")
+    @ParameterizedTest(name="when the input is {0}")
+    @MethodSource("dataProvider")
+    void test(String variation, String inputs, List<String> expected) {
         var actual = RegularExpressionParser.parseRE(inputs);
 
-        assertEquals("size", expected.size(), actual.size());
-        IntStream.range(0, expected.size()).forEach(i ->
-            assertEquals("entry " + i, expected.get(i), actual.get(i)));
+        assertLinesMatch(expected, actual);
     }
 }

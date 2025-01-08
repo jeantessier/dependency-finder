@@ -56,6 +56,14 @@ public class ListDiffPrinter {
     private final Collection<String> removed = new TreeSet<>();
     private final Collection<String> added = new TreeSet<>();
 
+    public ListDiffPrinter() {
+        this(DEFAULT_COMPRESS, DEFAULT_INDENT_TEXT, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);
+    }
+
+    public ListDiffPrinter(boolean compress) {
+        this(compress, DEFAULT_INDENT_TEXT, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);
+    }
+
     public ListDiffPrinter(boolean compress, String indentText, String encoding, String dtdPrefix) {
         this.buffer = new PrinterBuffer(indentText);
         this.compress = compress;

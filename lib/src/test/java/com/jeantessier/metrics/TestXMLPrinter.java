@@ -1,15 +1,14 @@
 package com.jeantessier.metrics;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 
 import java.io.*;
 import java.util.*;
+import java.util.function.*;
 import java.util.stream.*;
 
 import static java.util.stream.Collectors.*;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestXMLPrinter {
     private final Random random = new Random();
@@ -28,19 +27,21 @@ public class TestXMLPrinter {
         var metricsName = "metrics name " + random.nextInt(1_000);
         var metrics = new Metrics(metricsName);
 
+        // and
+        var expectedLines = Stream.of(
+                "<?xml version=\"1.0\" encoding=\"utf-8\" ?>",
+                "",
+                "<!DOCTYPE metrics SYSTEM \"https://depfind.sourceforge.io/dtd/metrics.dtd\">",
+                "",
+                "<metrics>",
+                "</metrics>"
+        );
+
         // When
         printer.visitMetrics(Collections.singleton(metrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator();
-        var i = 0;
-        assertEquals("Line " + ++i, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", lines.next());
-        assertEquals("Line " + ++i, "", lines.next());
-        assertEquals("Line " + ++i, "<!DOCTYPE metrics SYSTEM \"https://depfind.sourceforge.io/dtd/metrics.dtd\">", lines.next());
-        assertEquals("Line " + ++i, "", lines.next());
-        assertEquals("Line " + ++i, "<metrics>", lines.next());
-        assertEquals("Line " + ++i, "</metrics>", lines.next());
-        assertThat("End of report", lines.hasNext(), is(false));
+        assertLinesMatch(expectedLines, buffer.toString().lines());
     }
 
     @Test
@@ -119,19 +120,21 @@ public class TestXMLPrinter {
         var methodMeasurementValue = random.nextInt(1_000);
         methodMetrics.addToMeasurement(methodShortName, methodMeasurementValue);
 
+        // and
+        var expectedLines = Stream.of(
+                "<?xml version=\"1.0\" encoding=\"utf-8\" ?>",
+                "",
+                "<!DOCTYPE metrics SYSTEM \"https://depfind.sourceforge.io/dtd/metrics.dtd\">",
+                "",
+                "<metrics>",
+                "</metrics>"
+        );
+
         // When
         printer.visitMetrics(Collections.singleton(projectMetrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator();
-        var i = 0;
-        assertEquals("Line " + ++i, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", lines.next());
-        assertEquals("Line " + ++i, "", lines.next());
-        assertEquals("Line " + ++i, "<!DOCTYPE metrics SYSTEM \"https://depfind.sourceforge.io/dtd/metrics.dtd\">", lines.next());
-        assertEquals("Line " + ++i, "", lines.next());
-        assertEquals("Line " + ++i, "<metrics>", lines.next());
-        assertEquals("Line " + ++i, "</metrics>", lines.next());
-        assertThat("End of report", lines.hasNext(), is(false));
+        assertLinesMatch(expectedLines, buffer.toString().lines());
     }
 
     @Test
@@ -209,51 +212,53 @@ public class TestXMLPrinter {
         var methodMeasurementValue = random.nextInt(1_000);
         methodMetrics.addToMeasurement(methodShortName, methodMeasurementValue);
 
+        // and
+        var expectedLines = Stream.of(
+                "<?xml version=\"1.0\" encoding=\"utf-8\" ?>",
+                "",
+                "<!DOCTYPE metrics SYSTEM \"https://depfind.sourceforge.io/dtd/metrics.dtd\">",
+                "",
+                "<metrics>",
+                "    <project>",
+                "        <name>" + projectMetricsName + "</name>",
+                "        <measurement>",
+                "            <short-name>" + projectShortName + "</short-name>",
+                "            <long-name>" + projectLongName + "</long-name>",
+                "            <value>" + projectMeasurementValue + ".0</value>",
+                "        </measurement>",
+                "        <group>",
+                "            <name>" + groupMetricsName + "</name>",
+                "            <measurement>",
+                "                <short-name>" + groupShortName + "</short-name>",
+                "                <long-name>" + groupLongName + "</long-name>",
+                "                <value>" + groupMeasurementValue + ".0</value>",
+                "            </measurement>",
+                "            <class>",
+                "                <name>" + classMetricsName + "</name>",
+                "                <measurement>",
+                "                    <short-name>" + classShortName + "</short-name>",
+                "                    <long-name>" + classLongName + "</long-name>",
+                "                    <value>" + classMeasurementValue + ".0</value>",
+                "                </measurement>",
+                "                <method>",
+                "                    <name>" + methodMetricsName + "</name>",
+                "                    <measurement>",
+                "                        <short-name>" + methodShortName + "</short-name>",
+                "                        <long-name>" + methodLongName + "</long-name>",
+                "                        <value>" + methodMeasurementValue + ".0</value>",
+                "                    </measurement>",
+                "                </method>",
+                "            </class>",
+                "        </group>",
+                "    </project>",
+                "</metrics>"
+        );
+
         // When
         printer.visitMetrics(Collections.singleton(projectMetrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator();
-        var i = 0;
-        assertEquals("Line " + ++i, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", lines.next());
-        assertEquals("Line " + ++i, "", lines.next());
-        assertEquals("Line " + ++i, "<!DOCTYPE metrics SYSTEM \"https://depfind.sourceforge.io/dtd/metrics.dtd\">", lines.next());
-        assertEquals("Line " + ++i, "", lines.next());
-        assertEquals("Line " + ++i, "<metrics>", lines.next());
-        assertEquals("Line " + ++i, "    <project>", lines.next());
-        assertEquals("Line " + ++i, "        <name>" + projectMetricsName + "</name>", lines.next());
-        assertEquals("Line " + ++i, "        <measurement>", lines.next());
-        assertEquals("Line " + ++i, "            <short-name>" + projectShortName + "</short-name>", lines.next());
-        assertEquals("Line " + ++i, "            <long-name>" + projectLongName + "</long-name>", lines.next());
-        assertEquals("Line " + ++i, "            <value>" + projectMeasurementValue + ".0</value>", lines.next());
-        assertEquals("Line " + ++i, "        </measurement>", lines.next());
-        assertEquals("Line " + ++i, "        <group>", lines.next());
-        assertEquals("Line " + ++i, "            <name>" + groupMetricsName + "</name>", lines.next());
-        assertEquals("Line " + ++i, "            <measurement>", lines.next());
-        assertEquals("Line " + ++i, "                <short-name>" + groupShortName + "</short-name>", lines.next());
-        assertEquals("Line " + ++i, "                <long-name>" + groupLongName + "</long-name>", lines.next());
-        assertEquals("Line " + ++i, "                <value>" + groupMeasurementValue + ".0</value>", lines.next());
-        assertEquals("Line " + ++i, "            </measurement>", lines.next());
-        assertEquals("Line " + ++i, "            <class>", lines.next());
-        assertEquals("Line " + ++i, "                <name>" + classMetricsName + "</name>", lines.next());
-        assertEquals("Line " + ++i, "                <measurement>", lines.next());
-        assertEquals("Line " + ++i, "                    <short-name>" + classShortName + "</short-name>", lines.next());
-        assertEquals("Line " + ++i, "                    <long-name>" + classLongName + "</long-name>", lines.next());
-        assertEquals("Line " + ++i, "                    <value>" + classMeasurementValue + ".0</value>", lines.next());
-        assertEquals("Line " + ++i, "                </measurement>", lines.next());
-        assertEquals("Line " + ++i, "                <method>", lines.next());
-        assertEquals("Line " + ++i, "                    <name>" + methodMetricsName + "</name>", lines.next());
-        assertEquals("Line " + ++i, "                    <measurement>", lines.next());
-        assertEquals("Line " + ++i, "                        <short-name>" + methodShortName + "</short-name>", lines.next());
-        assertEquals("Line " + ++i, "                        <long-name>" + methodLongName + "</long-name>", lines.next());
-        assertEquals("Line " + ++i, "                        <value>" + methodMeasurementValue + ".0</value>", lines.next());
-        assertEquals("Line " + ++i, "                    </measurement>", lines.next());
-        assertEquals("Line " + ++i, "                </method>", lines.next());
-        assertEquals("Line " + ++i, "            </class>", lines.next());
-        assertEquals("Line " + ++i, "        </group>", lines.next());
-        assertEquals("Line " + ++i, "    </project>", lines.next());
-        assertEquals("Line " + ++i, "</metrics>", lines.next());
-        assertThat("End of report", lines.hasNext(), is(false));
+        assertLinesMatch(expectedLines, buffer.toString().lines());
     }
 
     @Test
@@ -331,72 +336,74 @@ public class TestXMLPrinter {
         var methodMeasurementValue = random.nextInt(1_000);
         methodMetrics.addToMeasurement(methodShortName, methodMeasurementValue);
 
+        // and
+        var expectedLines = Stream.of(
+                "<?xml version=\"1.0\" encoding=\"utf-8\" ?>",
+                "",
+                "<!DOCTYPE metrics SYSTEM \"https://depfind.sourceforge.io/dtd/metrics.dtd\">",
+                "",
+                "<metrics>",
+                "    <project>",
+                "        <name>" + projectMetricsName + "</name>",
+                "        <measurement>",
+                "            <short-name>" + projectShortName + "</short-name>",
+                "            <long-name>" + projectLongName + "</long-name>",
+                "            <value>" + methodMeasurementValue + ".0</value>",
+                "            <minimum>" + methodMeasurementValue + ".0</minimum>",
+                "            <median>" + methodMeasurementValue + ".0</median>",
+                "            <average>" + methodMeasurementValue + ".0</average>",
+                "            <standard-deviation>0.0</standard-deviation>",
+                "            <maximum>" + methodMeasurementValue + ".0</maximum>",
+                "            <sum>" + methodMeasurementValue + ".0</sum>",
+                "            <nb-data-points>1</nb-data-points>",
+                "        </measurement>",
+                "        <group>",
+                "            <name>" + groupMetricsName + "</name>",
+                "            <measurement>",
+                "                <short-name>" + groupShortName + "</short-name>",
+                "                <long-name>" + groupLongName + "</long-name>",
+                "                <value>" + methodMeasurementValue + ".0</value>",
+                "                <minimum>" + methodMeasurementValue + ".0</minimum>",
+                "                <median>" + methodMeasurementValue + ".0</median>",
+                "                <average>" + methodMeasurementValue + ".0</average>",
+                "                <standard-deviation>0.0</standard-deviation>",
+                "                <maximum>" + methodMeasurementValue + ".0</maximum>",
+                "                <sum>" + methodMeasurementValue + ".0</sum>",
+                "                <nb-data-points>1</nb-data-points>",
+                "            </measurement>",
+                "            <class>",
+                "                <name>" + classMetricsName + "</name>",
+                "                <measurement>",
+                "                    <short-name>" + classShortName + "</short-name>",
+                "                    <long-name>" + classLongName + "</long-name>",
+                "                    <value>" + methodMeasurementValue + ".0</value>",
+                "                    <minimum>" + methodMeasurementValue + ".0</minimum>",
+                "                    <median>" + methodMeasurementValue + ".0</median>",
+                "                    <average>" + methodMeasurementValue + ".0</average>",
+                "                    <standard-deviation>0.0</standard-deviation>",
+                "                    <maximum>" + methodMeasurementValue + ".0</maximum>",
+                "                    <sum>" + methodMeasurementValue + ".0</sum>",
+                "                    <nb-data-points>1</nb-data-points>",
+                "                </measurement>",
+                "                <method>",
+                "                    <name>" + methodMetricsName + "</name>",
+                "                    <measurement>",
+                "                        <short-name>" + methodShortName + "</short-name>",
+                "                        <long-name>" + methodLongName + "</long-name>",
+                "                        <value>" + methodMeasurementValue + ".0</value>",
+                "                    </measurement>",
+                "                </method>",
+                "            </class>",
+                "        </group>",
+                "    </project>",
+                "</metrics>"
+        );
+
         // When
         printer.visitMetrics(Collections.singleton(projectMetrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator();
-        var i = 0;
-        assertEquals("Line " + ++i, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", lines.next());
-        assertEquals("Line " + ++i, "", lines.next());
-        assertEquals("Line " + ++i, "<!DOCTYPE metrics SYSTEM \"https://depfind.sourceforge.io/dtd/metrics.dtd\">", lines.next());
-        assertEquals("Line " + ++i, "", lines.next());
-        assertEquals("Line " + ++i, "<metrics>", lines.next());
-        assertEquals("Line " + ++i, "    <project>", lines.next());
-        assertEquals("Line " + ++i, "        <name>" + projectMetricsName + "</name>", lines.next());
-        assertEquals("Line " + ++i, "        <measurement>", lines.next());
-        assertEquals("Line " + ++i, "            <short-name>" + projectShortName + "</short-name>", lines.next());
-        assertEquals("Line " + ++i, "            <long-name>" + projectLongName + "</long-name>", lines.next());
-        assertEquals("Line " + ++i, "            <value>" + methodMeasurementValue + ".0</value>", lines.next());
-        assertEquals("Line " + ++i, "            <minimum>" + methodMeasurementValue + ".0</minimum>", lines.next());
-        assertEquals("Line " + ++i, "            <median>" + methodMeasurementValue + ".0</median>", lines.next());
-        assertEquals("Line " + ++i, "            <average>" + methodMeasurementValue + ".0</average>", lines.next());
-        assertEquals("Line " + ++i, "            <standard-deviation>0.0</standard-deviation>", lines.next());
-        assertEquals("Line " + ++i, "            <maximum>" + methodMeasurementValue + ".0</maximum>", lines.next());
-        assertEquals("Line " + ++i, "            <sum>" + methodMeasurementValue + ".0</sum>", lines.next());
-        assertEquals("Line " + ++i, "            <nb-data-points>1</nb-data-points>", lines.next());
-        assertEquals("Line " + ++i, "        </measurement>", lines.next());
-        assertEquals("Line " + ++i, "        <group>", lines.next());
-        assertEquals("Line " + ++i, "            <name>" + groupMetricsName + "</name>", lines.next());
-        assertEquals("Line " + ++i, "            <measurement>", lines.next());
-        assertEquals("Line " + ++i, "                <short-name>" + groupShortName + "</short-name>", lines.next());
-        assertEquals("Line " + ++i, "                <long-name>" + groupLongName + "</long-name>", lines.next());
-        assertEquals("Line " + ++i, "                <value>" + methodMeasurementValue + ".0</value>", lines.next());
-        assertEquals("Line " + ++i, "                <minimum>" + methodMeasurementValue + ".0</minimum>", lines.next());
-        assertEquals("Line " + ++i, "                <median>" + methodMeasurementValue + ".0</median>", lines.next());
-        assertEquals("Line " + ++i, "                <average>" + methodMeasurementValue + ".0</average>", lines.next());
-        assertEquals("Line " + ++i, "                <standard-deviation>0.0</standard-deviation>", lines.next());
-        assertEquals("Line " + ++i, "                <maximum>" + methodMeasurementValue + ".0</maximum>", lines.next());
-        assertEquals("Line " + ++i, "                <sum>" + methodMeasurementValue + ".0</sum>", lines.next());
-        assertEquals("Line " + ++i, "                <nb-data-points>1</nb-data-points>", lines.next());
-        assertEquals("Line " + ++i, "            </measurement>", lines.next());
-        assertEquals("Line " + ++i, "            <class>", lines.next());
-        assertEquals("Line " + ++i, "                <name>" + classMetricsName + "</name>", lines.next());
-        assertEquals("Line " + ++i, "                <measurement>", lines.next());
-        assertEquals("Line " + ++i, "                    <short-name>" + classShortName + "</short-name>", lines.next());
-        assertEquals("Line " + ++i, "                    <long-name>" + classLongName + "</long-name>", lines.next());
-        assertEquals("Line " + ++i, "                    <value>" + methodMeasurementValue + ".0</value>", lines.next());
-        assertEquals("Line " + ++i, "                    <minimum>" + methodMeasurementValue + ".0</minimum>", lines.next());
-        assertEquals("Line " + ++i, "                    <median>" + methodMeasurementValue + ".0</median>", lines.next());
-        assertEquals("Line " + ++i, "                    <average>" + methodMeasurementValue + ".0</average>", lines.next());
-        assertEquals("Line " + ++i, "                    <standard-deviation>0.0</standard-deviation>", lines.next());
-        assertEquals("Line " + ++i, "                    <maximum>" + methodMeasurementValue + ".0</maximum>", lines.next());
-        assertEquals("Line " + ++i, "                    <sum>" + methodMeasurementValue + ".0</sum>", lines.next());
-        assertEquals("Line " + ++i, "                    <nb-data-points>1</nb-data-points>", lines.next());
-        assertEquals("Line " + ++i, "                </measurement>", lines.next());
-        assertEquals("Line " + ++i, "                <method>", lines.next());
-        assertEquals("Line " + ++i, "                    <name>" + methodMetricsName + "</name>", lines.next());
-        assertEquals("Line " + ++i, "                    <measurement>", lines.next());
-        assertEquals("Line " + ++i, "                        <short-name>" + methodShortName + "</short-name>", lines.next());
-        assertEquals("Line " + ++i, "                        <long-name>" + methodLongName + "</long-name>", lines.next());
-        assertEquals("Line " + ++i, "                        <value>" + methodMeasurementValue + ".0</value>", lines.next());
-        assertEquals("Line " + ++i, "                    </measurement>", lines.next());
-        assertEquals("Line " + ++i, "                </method>", lines.next());
-        assertEquals("Line " + ++i, "            </class>", lines.next());
-        assertEquals("Line " + ++i, "        </group>", lines.next());
-        assertEquals("Line " + ++i, "    </project>", lines.next());
-        assertEquals("Line " + ++i, "</metrics>", lines.next());
-        assertThat("End of report", lines.hasNext(), is(false));
+        assertLinesMatch(expectedLines, buffer.toString().lines());
     }
 
     @Test
@@ -482,80 +489,90 @@ public class TestXMLPrinter {
         var methodMeasurementValue = random.nextInt(1_000);
         methodMetrics.addToMeasurement(methodShortName, methodMeasurementValue);
 
+        // and
+        var expectedLines = Stream.of(
+                Stream.of(
+                        "<?xml version=\"1.0\" encoding=\"utf-8\" ?>",
+                        "",
+                        "<!DOCTYPE metrics SYSTEM \"https://depfind.sourceforge.io/dtd/metrics.dtd\">",
+                        "",
+                        "<metrics>",
+                        "    <project>",
+                        "        <name>" + projectMetricsName + "</name>",
+                        "        <measurement>",
+                        "            <short-name>" + projectShortName + "</short-name>",
+                        "            <long-name>" + projectLongName + "</long-name>",
+                        "            <value>" + methodMeasurementValue + ".0</value>",
+                        "            <minimum>" + methodMeasurementValue + ".0</minimum>",
+                        "            <median>" + methodMeasurementValue + ".0</median>",
+                        "            <average>" + methodMeasurementValue + ".0</average>",
+                        "            <standard-deviation>0.0</standard-deviation>",
+                        "            <maximum>" + methodMeasurementValue + ".0</maximum>",
+                        "            <sum>" + methodMeasurementValue + ".0</sum>",
+                        "            <nb-data-points>1</nb-data-points>"
+                ),
+
+                percentiles.stream().map(percentile -> "            <percentile p-value=\"" + percentile + "\">" + methodMeasurementValue + ".0</percentile>"),
+
+                Stream.of(
+                        "        </measurement>",
+                        "        <group>",
+                        "            <name>" + groupMetricsName + "</name>",
+                        "            <measurement>",
+                        "                <short-name>" + groupShortName + "</short-name>",
+                        "                <long-name>" + groupLongName + "</long-name>",
+                        "                <value>" + methodMeasurementValue + ".0</value>",
+                        "                <minimum>" + methodMeasurementValue + ".0</minimum>",
+                        "                <median>" + methodMeasurementValue + ".0</median>",
+                        "                <average>" + methodMeasurementValue + ".0</average>",
+                        "                <standard-deviation>0.0</standard-deviation>",
+                        "                <maximum>" + methodMeasurementValue + ".0</maximum>",
+                        "                <sum>" + methodMeasurementValue + ".0</sum>",
+                        "                <nb-data-points>1</nb-data-points>"
+                ),
+
+                percentiles.stream().map(percentile -> "                <percentile p-value=\"" + percentile + "\">" + methodMeasurementValue + ".0</percentile>"),
+
+                Stream.of(
+                        "            </measurement>",
+                        "            <class>",
+                        "                <name>" + classMetricsName + "</name>",
+                        "                <measurement>",
+                        "                    <short-name>" + classShortName + "</short-name>",
+                        "                    <long-name>" + classLongName + "</long-name>",
+                        "                    <value>" + methodMeasurementValue + ".0</value>",
+                        "                    <minimum>" + methodMeasurementValue + ".0</minimum>",
+                        "                    <median>" + methodMeasurementValue + ".0</median>",
+                        "                    <average>" + methodMeasurementValue + ".0</average>",
+                        "                    <standard-deviation>0.0</standard-deviation>",
+                        "                    <maximum>" + methodMeasurementValue + ".0</maximum>",
+                        "                    <sum>" + methodMeasurementValue + ".0</sum>",
+                        "                    <nb-data-points>1</nb-data-points>"
+                ),
+
+                percentiles.stream().map(percentile -> "                    <percentile p-value=\"" + percentile + "\">" + methodMeasurementValue + ".0</percentile>"),
+
+                Stream.of(
+                        "                </measurement>",
+                        "                <method>",
+                        "                    <name>" + methodMetricsName + "</name>",
+                        "                    <measurement>",
+                        "                        <short-name>" + methodShortName + "</short-name>",
+                        "                        <long-name>" + methodLongName + "</long-name>",
+                        "                        <value>" + methodMeasurementValue + ".0</value>",
+                        "                    </measurement>",
+                        "                </method>",
+                        "            </class>",
+                        "        </group>",
+                        "    </project>",
+                        "</metrics>"
+                )
+        ).flatMap(Function.identity());
+
         // When
         printer.visitMetrics(Collections.singleton(projectMetrics));
 
         // Then
-        var lines = buffer.toString().lines().iterator();
-        var i = 0;
-        assertEquals("Line " + ++i, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", lines.next());
-        assertEquals("Line " + ++i, "", lines.next());
-        assertEquals("Line " + ++i, "<!DOCTYPE metrics SYSTEM \"https://depfind.sourceforge.io/dtd/metrics.dtd\">", lines.next());
-        assertEquals("Line " + ++i, "", lines.next());
-        assertEquals("Line " + ++i, "<metrics>", lines.next());
-        assertEquals("Line " + ++i, "    <project>", lines.next());
-        assertEquals("Line " + ++i, "        <name>" + projectMetricsName + "</name>", lines.next());
-        assertEquals("Line " + ++i, "        <measurement>", lines.next());
-        assertEquals("Line " + ++i, "            <short-name>" + projectShortName + "</short-name>", lines.next());
-        assertEquals("Line " + ++i, "            <long-name>" + projectLongName + "</long-name>", lines.next());
-        assertEquals("Line " + ++i, "            <value>" + methodMeasurementValue + ".0</value>", lines.next());
-        assertEquals("Line " + ++i, "            <minimum>" + methodMeasurementValue + ".0</minimum>", lines.next());
-        assertEquals("Line " + ++i, "            <median>" + methodMeasurementValue + ".0</median>", lines.next());
-        assertEquals("Line " + ++i, "            <average>" + methodMeasurementValue + ".0</average>", lines.next());
-        assertEquals("Line " + ++i, "            <standard-deviation>0.0</standard-deviation>", lines.next());
-        assertEquals("Line " + ++i, "            <maximum>" + methodMeasurementValue + ".0</maximum>", lines.next());
-        assertEquals("Line " + ++i, "            <sum>" + methodMeasurementValue + ".0</sum>", lines.next());
-        assertEquals("Line " + ++i, "            <nb-data-points>1</nb-data-points>", lines.next());
-
-        percentiles.forEach(percentile -> assertEquals("Line ?", "            <percentile p-value=\"" + percentile + "\">" + methodMeasurementValue + ".0</percentile>", lines.next()));
-
-        assertEquals("Line " + ++i, "        </measurement>", lines.next());
-        assertEquals("Line " + ++i, "        <group>", lines.next());
-        assertEquals("Line " + ++i, "            <name>" + groupMetricsName + "</name>", lines.next());
-        assertEquals("Line " + ++i, "            <measurement>", lines.next());
-        assertEquals("Line " + ++i, "                <short-name>" + groupShortName + "</short-name>", lines.next());
-        assertEquals("Line " + ++i, "                <long-name>" + groupLongName + "</long-name>", lines.next());
-        assertEquals("Line " + ++i, "                <value>" + methodMeasurementValue + ".0</value>", lines.next());
-        assertEquals("Line " + ++i, "                <minimum>" + methodMeasurementValue + ".0</minimum>", lines.next());
-        assertEquals("Line " + ++i, "                <median>" + methodMeasurementValue + ".0</median>", lines.next());
-        assertEquals("Line " + ++i, "                <average>" + methodMeasurementValue + ".0</average>", lines.next());
-        assertEquals("Line " + ++i, "                <standard-deviation>0.0</standard-deviation>", lines.next());
-        assertEquals("Line " + ++i, "                <maximum>" + methodMeasurementValue + ".0</maximum>", lines.next());
-        assertEquals("Line " + ++i, "                <sum>" + methodMeasurementValue + ".0</sum>", lines.next());
-        assertEquals("Line " + ++i, "                <nb-data-points>1</nb-data-points>", lines.next());
-
-        percentiles.forEach(percentile -> assertEquals("Line ?", "                <percentile p-value=\"" + percentile + "\">" + methodMeasurementValue + ".0</percentile>", lines.next()));
-
-        assertEquals("Line " + ++i, "            </measurement>", lines.next());
-        assertEquals("Line " + ++i, "            <class>", lines.next());
-        assertEquals("Line " + ++i, "                <name>" + classMetricsName + "</name>", lines.next());
-        assertEquals("Line " + ++i, "                <measurement>", lines.next());
-        assertEquals("Line " + ++i, "                    <short-name>" + classShortName + "</short-name>", lines.next());
-        assertEquals("Line " + ++i, "                    <long-name>" + classLongName + "</long-name>", lines.next());
-        assertEquals("Line " + ++i, "                    <value>" + methodMeasurementValue + ".0</value>", lines.next());
-        assertEquals("Line " + ++i, "                    <minimum>" + methodMeasurementValue + ".0</minimum>", lines.next());
-        assertEquals("Line " + ++i, "                    <median>" + methodMeasurementValue + ".0</median>", lines.next());
-        assertEquals("Line " + ++i, "                    <average>" + methodMeasurementValue + ".0</average>", lines.next());
-        assertEquals("Line " + ++i, "                    <standard-deviation>0.0</standard-deviation>", lines.next());
-        assertEquals("Line " + ++i, "                    <maximum>" + methodMeasurementValue + ".0</maximum>", lines.next());
-        assertEquals("Line " + ++i, "                    <sum>" + methodMeasurementValue + ".0</sum>", lines.next());
-        assertEquals("Line " + ++i, "                    <nb-data-points>1</nb-data-points>", lines.next());
-
-        percentiles.forEach(percentile -> assertEquals("Line ?", "                    <percentile p-value=\"" + percentile + "\">" + methodMeasurementValue + ".0</percentile>", lines.next()));
-
-        assertEquals("Line " + ++i, "                </measurement>", lines.next());
-        assertEquals("Line " + ++i, "                <method>", lines.next());
-        assertEquals("Line " + ++i, "                    <name>" + methodMetricsName + "</name>", lines.next());
-        assertEquals("Line " + ++i, "                    <measurement>", lines.next());
-        assertEquals("Line " + ++i, "                        <short-name>" + methodShortName + "</short-name>", lines.next());
-        assertEquals("Line " + ++i, "                        <long-name>" + methodLongName + "</long-name>", lines.next());
-        assertEquals("Line " + ++i, "                        <value>" + methodMeasurementValue + ".0</value>", lines.next());
-        assertEquals("Line " + ++i, "                    </measurement>", lines.next());
-        assertEquals("Line " + ++i, "                </method>", lines.next());
-        assertEquals("Line " + ++i, "            </class>", lines.next());
-        assertEquals("Line " + ++i, "        </group>", lines.next());
-        assertEquals("Line " + ++i, "    </project>", lines.next());
-        assertEquals("Line " + ++i, "</metrics>", lines.next());
-        assertThat("End of report", lines.hasNext(), is(false));
+        assertLinesMatch(expectedLines, buffer.toString().lines());
     }
 }
