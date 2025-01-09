@@ -32,19 +32,25 @@
 
 package com.jeantessier.dependencyfinder.cli;
 
+import org.junit.jupiter.api.*;
+
 import java.io.*;
+import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestCommand extends TestCase {
+public class TestCommand {
     private File outFile;
     private String[] args;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @BeforeEach
+    void setUp() throws Exception {
+        var random = new Random();
+        var tempName = "temp" + random.nextInt(1_000);
 
-        outFile = File.createTempFile(getName(), "");
-        assertTrue("Temp file " + outFile + " not deleted", outFile.delete());
+        outFile = File.createTempFile(tempName, "");
+        outFile.deleteOnExit();
+        assertTrue(outFile.delete(), "Temp file " + outFile + " could not be deleted");
 
         args = new String[] {
                 "-out",
@@ -52,15 +58,8 @@ public class TestCommand extends TestCase {
         };
     }
 
-    protected void tearDown() throws Exception {
-        if (outFile.exists()) {
-            outFile.delete();
-        }
-
-        super.tearDown();
-    }
-
-    public void testOutNotCreatedIfNotAccessed() throws Exception {
+    @Test
+    void testOutNotCreatedIfNotAccessed() throws Exception {
         Command sut = new Command() {
             protected void doProcessing() throws Exception {
                 // Do Nothing
@@ -71,12 +70,13 @@ public class TestCommand extends TestCase {
             }
         };
 
-        assertFalse("Output file " + outFile + " exists before test", outFile.exists());
+        assertFalse(outFile.exists(), "Output file " + outFile + " exists before test");
         sut.run(args);
-        assertFalse("Output file " + outFile + " exists after test", outFile.exists());
+        assertFalse(outFile.exists(), "Output file " + outFile + " exists after test");
     }
 
-    public void testOutCreatedAfterAccess() throws Exception {
+    @Test
+    void testOutCreatedAfterAccess() throws Exception {
         Command sut = new Command() {
             protected void doProcessing() throws Exception {
                 getOut();
@@ -87,8 +87,8 @@ public class TestCommand extends TestCase {
             }
         };
 
-        assertFalse("Output file " + outFile + " exists before test", outFile.exists());
+        assertFalse(outFile.exists(), "Output file " + outFile + " exists before test");
         sut.run(args);
-        assertTrue("Output file " + outFile + " does not exist after test", outFile.exists());
+        assertTrue(outFile.exists(), "Output file " + outFile + " does not exist after test");
     }
 }
