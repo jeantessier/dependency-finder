@@ -32,106 +32,119 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
 import java.nio.file.*;
 
-public class TestMetricsFactory extends TestCase {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestMetricsFactory {
     private MetricsConfiguration configuration;
     private MetricsFactory factory;
 
-    protected void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         configuration = new MetricsConfigurationLoader(Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE")).load(Paths.get("../etc/MetricsConfig.xml").toString());
         factory = new MetricsFactory("test", configuration);
     }
     
-    public void testCreateProjectMetrics() {
+    @Test
+    void testCreateProjectMetrics() {
         Metrics m1 = factory.createProjectMetrics("foo");
         assertNotNull(m1);
-        assertEquals("New metrics name", "foo", m1.getName());
+        assertEquals("foo", m1.getName(), "New metrics name");
 
         Metrics m2 = factory.createProjectMetrics("foo");
         assertSame(m1, m2);
-        assertEquals("project measurements", configuration.getProjectMeasurements().size(), m1.getMeasurementNames().size());
+        assertEquals(configuration.getProjectMeasurements().size(), m1.getMeasurementNames().size(), "project measurements");
     }
             
-    public void testIncludeProjectMetrics() {
+    @Test
+    void testIncludeProjectMetrics() {
         Metrics m1 = factory.createProjectMetrics("foo");
 
-        assertFalse("ProjectMetrics() contains external metrics", factory.getProjectMetrics().contains(m1));
+        assertFalse(factory.getProjectMetrics().contains(m1), "ProjectMetrics() contains external metrics");
 
         factory.includeProjectMetrics(m1);
 
-        assertTrue("ProjectMetrics() does not contain internal metrics", factory.getProjectMetrics().contains(m1));
+        assertTrue(factory.getProjectMetrics().contains(m1), "ProjectMetrics() does not contain internal metrics");
     }
     
-    public void testCreateGroupMetrics() {
+    @Test
+    void testCreateGroupMetrics() {
         Metrics m1 = factory.createGroupMetrics("foo");
         assertNotNull(m1);
-        assertEquals("New metrics name", "foo", m1.getName());
+        assertEquals("foo", m1.getName(), "New metrics name");
 
         Metrics m2 = factory.createGroupMetrics("foo");
         assertSame(m1, m2);
-        assertEquals("group measurements", configuration.getGroupMeasurements().size(), m1.getMeasurementNames().size());
+        assertEquals(configuration.getGroupMeasurements().size(), m1.getMeasurementNames().size(), "group measurements");
     }
             
-    public void testIncludeGroupMetrics() {
+    @Test
+    void testIncludeGroupMetrics() {
         Metrics m1 = factory.createGroupMetrics("foo");
 
-        assertFalse("GroupMetrics() contains external metrics", factory.getGroupMetrics().contains(m1));
+        assertFalse(factory.getGroupMetrics().contains(m1), "GroupMetrics() contains external metrics");
 
         factory.includeGroupMetrics(m1);
 
-        assertTrue("GroupMetrics() does not contain internal metrics", factory.getGroupMetrics().contains(m1));
+        assertTrue(factory.getGroupMetrics().contains(m1), "GroupMetrics() does not contain internal metrics");
     }
 
-    public void testCreateClassMetrics() {
+    @Test
+    void testCreateClassMetrics() {
         Metrics m1 = factory.createClassMetrics("foo");
         assertNotNull(m1);
-        assertEquals("New metrics name", "foo", m1.getName());
+        assertEquals("foo", m1.getName(), "New metrics name");
 
         Metrics m2 = factory.createClassMetrics("foo");
         assertSame(m1, m2);
-        assertEquals("class measurements", configuration.getClassMeasurements().size(), m1.getMeasurementNames().size());
+        assertEquals(configuration.getClassMeasurements().size(), m1.getMeasurementNames().size(), "class measurements");
     }
         
-    public void testIncludeClassMetrics() {
+    @Test
+    void testIncludeClassMetrics() {
         Metrics m1 = factory.createClassMetrics("foo");
 
-        assertFalse("ClassMetrics() contains external metrics", factory.getClassMetrics().contains(m1));
+        assertFalse(factory.getClassMetrics().contains(m1), "ClassMetrics() contains external metrics");
 
         factory.includeClassMetrics(m1);
 
-        assertTrue("ClassMetrics() does not contain internal metrics", factory.getClassMetrics().contains(m1));
+        assertTrue(factory.getClassMetrics().contains(m1), "ClassMetrics() does not contain internal metrics");
     }
 
-    public void testCreateMethodMetrics() {
+    @Test
+    void testCreateMethodMetrics() {
         Metrics m1 = factory.createMethodMetrics("foo(): bar");
         assertNotNull(m1);
-        assertEquals("New metrics name", "foo(): bar", m1.getName());
+        assertEquals("foo(): bar", m1.getName(), "New metrics name");
 
         Metrics m2 = factory.createMethodMetrics("foo(): bar");
         assertSame(m1, m2);
-        assertEquals("method measurements", configuration.getMethodMeasurements().size(), m1.getMeasurementNames().size());
+        assertEquals(configuration.getMethodMeasurements().size(), m1.getMeasurementNames().size(), "method measurements");
     }
     
-    public void testIncludeMethodMetrics() {
+    @Test
+    void testIncludeMethodMetrics() {
         Metrics m1 = factory.createMethodMetrics("foo(): bar");
 
-        assertFalse("MethodMetrics() contains external metrics", factory.getMethodMetrics().contains(m1));
+        assertFalse(factory.getMethodMetrics().contains(m1), "MethodMetrics() contains external metrics");
 
         factory.includeMethodMetrics(m1);
 
-        assertTrue("MethodMetrics() does not contain internal metrics", factory.getMethodMetrics().contains(m1));
+        assertTrue(factory.getMethodMetrics().contains(m1), "MethodMetrics() does not contain internal metrics");
     }
     
-    public void testCreateStaticInitializerMetrics() {
+    @Test
+    void testCreateStaticInitializerMetrics() {
         Metrics m = factory.createMethodMetrics("foo.static {}: void");
 
-        assertEquals("class name", "foo", m.getParent().getName());
+        assertEquals("foo", m.getParent().getName(), "class name");
     }
 
-    public void testCreateStructure() {
+    @Test
+    void testCreateStructure() {
         Metrics methodMetrics  = factory.createMethodMetrics("a.A.a(): a.A");
         Metrics classMetrics   = factory.createClassMetrics("a.A");
         Metrics packageMetrics = factory.createGroupMetrics("a");
@@ -144,7 +157,8 @@ public class TestMetricsFactory extends TestCase {
         assertTrue(classMetrics.getSubMetrics().contains(methodMetrics));
     }
 
-    public void testGroupDefinitionsWithInternal() {
+    @Test
+    void testGroupDefinitionsWithInternal() {
         configuration.addGroupDefinition("foo", "/foo/");
         configuration.addGroupDefinition("bar", "/bar/");
         configuration.addGroupDefinition("baz", "/baz/");
@@ -152,51 +166,53 @@ public class TestMetricsFactory extends TestCase {
         Metrics metrics = factory.createClassMetrics("com.foobar.Foobar");
         factory.includeClassMetrics(metrics);
 
-        assertEquals("Number of groups",     3, factory.getGroupMetrics().size());
-        assertEquals("Number of all groups", 3, factory.getAllGroupMetrics().size());
+        assertEquals(3, factory.getGroupMetrics().size(), "Number of groups");
+        assertEquals(3, factory.getAllGroupMetrics().size(), "Number of all groups");
 
-        assertTrue("Group foo missing",        factory.getAllGroupNames().contains("foo"));
-        assertTrue("Group bar missing",        factory.getAllGroupNames().contains("bar"));
-        assertFalse("Group baz present",       factory.getAllGroupNames().contains("baz"));
-        assertTrue("Group com.foobar missing", factory.getAllGroupNames().contains("com.foobar"));
+        assertTrue(factory.getAllGroupNames().contains("foo"), "Group foo missing");
+        assertTrue(factory.getAllGroupNames().contains("bar"), "Group bar missing");
+        assertFalse(factory.getAllGroupNames().contains("baz"), "Group baz present");
+        assertTrue(factory.getAllGroupNames().contains("com.foobar"), "Group com.foobar missing");
 
-        assertTrue("Group foo missing",        factory.getGroupNames().contains("foo"));
-        assertTrue("Group bar missing",        factory.getGroupNames().contains("bar"));
-        assertFalse("Group baz present",       factory.getGroupNames().contains("baz"));
-        assertTrue("Group com.foobar missing", factory.getGroupNames().contains("com.foobar"));
+        assertTrue(factory.getGroupNames().contains("foo"), "Group foo missing");
+        assertTrue(factory.getGroupNames().contains("bar"), "Group bar missing");
+        assertFalse(factory.getGroupNames().contains("baz"), "Group baz present");
+        assertTrue(factory.getGroupNames().contains("com.foobar"), "Group com.foobar missing");
 
-        assertTrue("Not in foo",        factory.createGroupMetrics("foo").getSubMetrics().contains(metrics));
-        assertTrue("Not in bar",        factory.createGroupMetrics("bar").getSubMetrics().contains(metrics));
-        assertFalse("In baz",           factory.createGroupMetrics("baz").getSubMetrics().contains(metrics));
-        assertTrue("Not in com.foobar", factory.createGroupMetrics("com.foobar").getSubMetrics().contains(metrics));
+        assertTrue(factory.createGroupMetrics("foo").getSubMetrics().contains(metrics), "Not in foo");
+        assertTrue(factory.createGroupMetrics("bar").getSubMetrics().contains(metrics), "Not in bar");
+        assertFalse(factory.createGroupMetrics("baz").getSubMetrics().contains(metrics), "In baz");
+        assertTrue(factory.createGroupMetrics("com.foobar").getSubMetrics().contains(metrics), "Not in com.foobar");
 
-        assertEquals("Wrong parent", factory.createGroupMetrics("com.foobar"), metrics.getParent());
+        assertEquals(factory.createGroupMetrics("com.foobar"), metrics.getParent(), "Wrong parent");
     }
 
-    public void testGroupDefinitionsWithExternal() {
+    @Test
+    void testGroupDefinitionsWithExternal() {
         configuration.addGroupDefinition("foo", "/foo/");
         configuration.addGroupDefinition("bar", "/bar/");
         configuration.addGroupDefinition("baz", "/baz/");
 
         Metrics metrics = factory.createClassMetrics("com.foobar.Foobar");
 
-        assertEquals("Number of groups",     0, factory.getGroupMetrics().size());
-        assertEquals("Number of all groups", 1, factory.getAllGroupMetrics().size());
+        assertEquals(0, factory.getGroupMetrics().size(), "Number of groups");
+        assertEquals(1, factory.getAllGroupMetrics().size(), "Number of all groups");
 
-        assertFalse("Group foo present",       factory.getAllGroupNames().contains("foo"));
-        assertFalse("Group bar present",       factory.getAllGroupNames().contains("bar"));
-        assertFalse("Group baz present",       factory.getAllGroupNames().contains("baz"));
-        assertTrue("Group com.foobar missing", factory.getAllGroupNames().contains("com.foobar"));
+        assertFalse(factory.getAllGroupNames().contains("foo"), "Group foo present");
+        assertFalse(factory.getAllGroupNames().contains("bar"), "Group bar present");
+        assertFalse(factory.getAllGroupNames().contains("baz"), "Group baz present");
+        assertTrue(factory.getAllGroupNames().contains("com.foobar"), "Group com.foobar missing");
 
-        assertFalse("In foo",        factory.createGroupMetrics("foo").getSubMetrics().contains(metrics));
-        assertFalse("In bar",        factory.createGroupMetrics("bar").getSubMetrics().contains(metrics));
-        assertFalse("In baz",        factory.createGroupMetrics("baz").getSubMetrics().contains(metrics));
-        assertFalse("In com.foobar", factory.createGroupMetrics("com.foobar").getSubMetrics().contains(metrics));
+        assertFalse(factory.createGroupMetrics("foo").getSubMetrics().contains(metrics), "In foo");
+        assertFalse(factory.createGroupMetrics("bar").getSubMetrics().contains(metrics), "In bar");
+        assertFalse(factory.createGroupMetrics("baz").getSubMetrics().contains(metrics), "In baz");
+        assertFalse(factory.createGroupMetrics("com.foobar").getSubMetrics().contains(metrics), "In com.foobar");
 
-        assertEquals("Wrong parent", factory.createGroupMetrics("com.foobar"), metrics.getParent());
+        assertEquals(factory.createGroupMetrics("com.foobar"), metrics.getParent(), "Wrong parent");
     }
 
-    public void testGroupDefinitionsWithBoth() {
+    @Test
+    void testGroupDefinitionsWithBoth() {
         configuration.addGroupDefinition("foo", "/foo/");
         configuration.addGroupDefinition("baz", "/baz/");
 
@@ -205,31 +221,31 @@ public class TestMetricsFactory extends TestCase {
 
         factory.includeClassMetrics(fooMetrics);
 
-        assertEquals("Number of groups",     2, factory.getGroupMetrics().size());
+        assertEquals(2, factory.getGroupMetrics().size(), "Number of groups");
 
-        assertTrue("Group foo missing",      factory.getGroupNames().contains("foo"));
-        assertFalse("Group baz present",     factory.getGroupNames().contains("baz"));
-        assertTrue("Group com.foo missing",  factory.getGroupNames().contains("com.foo"));
-        assertFalse("Group com.baz missing", factory.getGroupNames().contains("com.baz"));
+        assertTrue(factory.getGroupNames().contains("foo"), "Group foo missing");
+        assertFalse(factory.getGroupNames().contains("baz"), "Group baz present");
+        assertTrue(factory.getGroupNames().contains("com.foo"), "Group com.foo missing");
+        assertFalse(factory.getGroupNames().contains("com.baz"), "Group com.baz missing");
 
-        assertTrue("Not in foo",     factory.createGroupMetrics("foo").getSubMetrics().contains(fooMetrics));
-        assertTrue("Not in com.foo", factory.createGroupMetrics("com.foo").getSubMetrics().contains(fooMetrics));
+        assertTrue(factory.createGroupMetrics("foo").getSubMetrics().contains(fooMetrics), "Not in foo");
+        assertTrue(factory.createGroupMetrics("com.foo").getSubMetrics().contains(fooMetrics), "Not in com.foo");
 
-        assertEquals("foo.size()",     1, factory.createGroupMetrics("foo").getSubMetrics().size());
-        assertEquals("com.foo.size()", 1, factory.createGroupMetrics("com.foo").getSubMetrics().size());
+        assertEquals(1, factory.createGroupMetrics("foo").getSubMetrics().size(), "foo.size()");
+        assertEquals(1, factory.createGroupMetrics("com.foo").getSubMetrics().size(), "com.foo.size()");
 
-        assertEquals("Number of all groups", 3, factory.getAllGroupMetrics().size());
+        assertEquals(3, factory.getAllGroupMetrics().size(), "Number of all groups");
 
-        assertTrue("Group foo missing",     factory.getAllGroupNames().contains("foo"));
-        assertFalse("Group baz present",    factory.getAllGroupNames().contains("baz"));
-        assertTrue("Group com.foo missing", factory.getAllGroupNames().contains("com.foo"));
-        assertTrue("Group com.baz missing", factory.getAllGroupNames().contains("com.baz"));
+        assertTrue(factory.getAllGroupNames().contains("foo"), "Group foo missing");
+        assertFalse(factory.getAllGroupNames().contains("baz"), "Group baz present");
+        assertTrue(factory.getAllGroupNames().contains("com.foo"), "Group com.foo missing");
+        assertTrue(factory.getAllGroupNames().contains("com.baz"), "Group com.baz missing");
 
-        assertFalse("In com.baz", factory.createGroupMetrics("com.baz").getSubMetrics().contains(foobazMetrics));
+        assertFalse(factory.createGroupMetrics("com.baz").getSubMetrics().contains(foobazMetrics), "In com.baz");
         
-        assertEquals("com.baz.size()", 0, factory.createGroupMetrics("com.baz").getSubMetrics().size());
+        assertEquals(0, factory.createGroupMetrics("com.baz").getSubMetrics().size(), "com.baz.size()");
 
-        assertEquals("Wrong parent", factory.createGroupMetrics("com.foo"), fooMetrics.getParent());
-        assertEquals("Wrong parent", factory.createGroupMetrics("com.baz"), foobazMetrics.getParent());
+        assertEquals(factory.createGroupMetrics("com.foo"), fooMetrics.getParent(), "Wrong parent");
+        assertEquals(factory.createGroupMetrics("com.baz"), foobazMetrics.getParent(), "Wrong parent");
     }
 }

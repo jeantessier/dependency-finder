@@ -32,35 +32,28 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestStatisticalMeasurementWithDispose extends TestCase {
-    private Metrics m1;
-    private Metrics m2;
-    private Metrics m3;
-    private Metrics m4;
-    private Metrics m5;
-    private Metrics m6;
+import static org.junit.jupiter.api.Assertions.*;
 
-    private Metrics c1;
-    private Metrics c2;
+public class TestStatisticalMeasurementWithDispose {
+    private final Metrics m1 = new Metrics("m1");
+    private final Metrics m2 = new Metrics("m2");
+    private final Metrics m3 = new Metrics("m3");
+    private final Metrics m4 = new Metrics("m4");
+    private final Metrics m5 = new Metrics("m5");
+    private final Metrics m6 = new Metrics("m6");
 
-    private Metrics g;
+    private final Metrics c1 = new Metrics("c1");
+    private final Metrics c2 = new Metrics("c2");
 
-    private MeasurementDescriptor descriptor;
+    private final Metrics g = new Metrics("g");
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    private final MeasurementDescriptor descriptor = new MeasurementDescriptor();
 
-        descriptor = new MeasurementDescriptor();
+    @BeforeEach
+    void setUp() {
         descriptor.setShortName("bar");
-
-        m1 = new Metrics("m1");
-        m2 = new Metrics("m2");
-        m3 = new Metrics("m3");
-        m4 = new Metrics("m4");
-        m5 = new Metrics("m5");
-        m6 = new Metrics("m6");
 
         m1.track("bar", new CounterMeasurement(null, null, null));
         m2.track("bar", new CounterMeasurement(null, null, null));
@@ -76,9 +69,6 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
         m5.addToMeasurement("bar", 5);
         m6.addToMeasurement("bar", 6);
 
-        c1 = new Metrics("c1");
-        c2 = new Metrics("c2");
-
         c1.track("bar", new StatisticalMeasurement(descriptor, c1, "bar"));
         c2.track("bar", new StatisticalMeasurement(descriptor, c2, "bar"));
 
@@ -89,117 +79,124 @@ public class TestStatisticalMeasurementWithDispose extends TestCase {
         c2.addSubMetrics(m5);
         c2.addSubMetrics(m6);
 
-        g = new Metrics("g");
-
         g.addSubMetrics(c1);
         g.addSubMetrics(c2);
     }
 
-    public void testDefault() {
+    @Test
+    void testDefault() {
         StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar");
 
-        assertEquals("size "               + sm,  6,    sm.getNbDataPoints());
-        assertEquals("Minimum "            + sm,  1.0,  sm.getMinimum(), 0.01);
-        assertEquals("Median "             + sm,  3.5,  sm.getMedian(),  0.01);
-        assertEquals("Average "            + sm,  3.5,  sm.getAverage(), 0.01);
-        assertEquals("Standard Deviation " + sm,  1.71, sm.getStandardDeviation(),  0.01);
-        assertEquals("Maximum "            + sm,  6.0,  sm.getMaximum(), 0.01);
-        assertEquals("Sum "                + sm, 21.0,  sm.getSum(),     0.01);
+        assertEquals(6, sm.getNbDataPoints(), "size " + sm);
+        assertEquals(1.0,  sm.getMinimum(), 0.01, "Minimum " + sm);
+        assertEquals(3.5,  sm.getMedian(), 0.01, "Median " + sm);
+        assertEquals(3.5,  sm.getAverage(), 0.01, "Average " + sm);
+        assertEquals(1.71, sm.getStandardDeviation(), 0.01, "Standard Deviation " + sm);
+        assertEquals(6.0,  sm.getMaximum(), 0.01, "Maximum " + sm);
+        assertEquals(21.0,  sm.getSum(), 0.01, "Sum " + sm);
     }
 
-    public void testIgnore() {
+    @Test
+    void testIgnore() {
         StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_IGNORE");
 
-        assertEquals("size "               + sm,  6,    sm.getNbDataPoints());
-        assertEquals("Minimum "            + sm,  1.0,  sm.getMinimum(), 0.01);
-        assertEquals("Median "             + sm,  3.5,  sm.getMedian(),  0.01);
-        assertEquals("Average "            + sm,  3.5,  sm.getAverage(), 0.01);
-        assertEquals("Standard Deviation " + sm,  1.71, sm.getStandardDeviation(),  0.01);
-        assertEquals("Maximum "            + sm,  6.0,  sm.getMaximum(), 0.01);
-        assertEquals("Sum "                + sm, 21.0,  sm.getSum(),     0.01);
+        assertEquals(6, sm.getNbDataPoints(), "size " + sm);
+        assertEquals(1.0,  sm.getMinimum(), 0.01, "Minimum " + sm);
+        assertEquals(3.5,  sm.getMedian(), 0.01, "Median " + sm);
+        assertEquals(3.5,  sm.getAverage(), 0.01, "Average " + sm);
+        assertEquals(1.71, sm.getStandardDeviation(), 0.01, "Standard Deviation " + sm);
+        assertEquals(6.0,  sm.getMaximum(), 0.01, "Maximum " + sm);
+        assertEquals(21.0,  sm.getSum(), 0.01, "Sum " + sm);
     }
 
-    public void testMinimum() {
+    @Test
+    void testMinimum() {
         StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_MINIMUM");
 
-        assertEquals("size "               + sm, 2,   sm.getNbDataPoints());
-        assertEquals("Minimum "            + sm, 1.0, sm.getMinimum(), 0.01);
-        assertEquals("Median "             + sm, 2.0, sm.getMedian(),  0.01);
-        assertEquals("Average "            + sm, 2.0, sm.getAverage(), 0.01);
-        assertEquals("Standard Deviation " + sm, 1.0, sm.getStandardDeviation(),  0.01);
-        assertEquals("Maximum "            + sm, 3.0, sm.getMaximum(), 0.01);
-        assertEquals("Sum "                + sm, 4.0, sm.getSum(),     0.01);
+        assertEquals(2, sm.getNbDataPoints(), "size " + sm);
+        assertEquals(1.0, sm.getMinimum(), 0.01, "Minimum " + sm);
+        assertEquals(2.0, sm.getMedian(), 0.01, "Median " + sm);
+        assertEquals(2.0, sm.getAverage(), 0.01, "Average " + sm);
+        assertEquals(1.0, sm.getStandardDeviation(), 0.01, "Standard Deviation " + sm);
+        assertEquals(3.0, sm.getMaximum(), 0.01, "Maximum " + sm);
+        assertEquals(4.0, sm.getSum(), 0.01, "Sum " + sm);
     }
 
-    public void testMedian() {
+    @Test
+    void testMedian() {
         StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_MEDIAN");
 
-        assertEquals("size "               + sm, 2,   sm.getNbDataPoints());
-        assertEquals("Minimum "            + sm, 1.5, sm.getMinimum(), 0.01);
-        assertEquals("Median "             + sm, 3.0, sm.getMedian(),  0.01);
-        assertEquals("Average "            + sm, 3.0, sm.getAverage(), 0.01);
-        assertEquals("Standard Deviation " + sm, 1.5, sm.getStandardDeviation(),  0.01);
-        assertEquals("Maximum "            + sm, 4.5, sm.getMaximum(), 0.01);
-        assertEquals("Sum "                + sm, 6.0, sm.getSum(),     0.01);
+        assertEquals(2, sm.getNbDataPoints(), "size " + sm);
+        assertEquals(1.5, sm.getMinimum(), 0.01, "Minimum " + sm);
+        assertEquals(3.0, sm.getMedian(), 0.01, "Median " + sm);
+        assertEquals(3.0, sm.getAverage(), 0.01, "Average " + sm);
+        assertEquals(1.5, sm.getStandardDeviation(), 0.01, "Standard Deviation " + sm);
+        assertEquals(4.5, sm.getMaximum(), 0.01, "Maximum " + sm);
+        assertEquals(6.0, sm.getSum(), 0.01, "Sum " + sm);
     }
 
-    public void testAverage() {
+    @Test
+    void testAverage() {
         StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_AVERAGE");
 
-        assertEquals("size "               + sm, 2,   sm.getNbDataPoints());
-        assertEquals("Minimum "            + sm, 1.5, sm.getMinimum(), 0.01);
-        assertEquals("Median "             + sm, 3.0, sm.getMedian(),  0.01);
-        assertEquals("Average "            + sm, 3.0, sm.getAverage(), 0.01);
-        assertEquals("Standard Deviation " + sm, 1.5, sm.getStandardDeviation(),  0.01);
-        assertEquals("Maximum "            + sm, 4.5, sm.getMaximum(), 0.01);
-        assertEquals("Sum "                + sm, 6.0, sm.getSum(),     0.01);
+        assertEquals(2, sm.getNbDataPoints(), "size " + sm);
+        assertEquals(1.5, sm.getMinimum(), 0.01, "Minimum " + sm);
+        assertEquals(3.0, sm.getMedian(), 0.01, "Median " + sm);
+        assertEquals(3.0, sm.getAverage(), 0.01, "Average " + sm);
+        assertEquals(1.5, sm.getStandardDeviation(), 0.01, "Standard Deviation " + sm);
+        assertEquals(4.5, sm.getMaximum(), 0.01, "Maximum " + sm);
+        assertEquals(6.0, sm.getSum(), 0.01, "Sum " + sm);
     }
 
-    public void testStandardDeviation() {
+    @Test
+    void testStandardDeviation() {
         StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_STANDARD_DEVIATION");
 
-        assertEquals("size "               + sm, 2,    sm.getNbDataPoints());
-        assertEquals("Minimum "            + sm, 0.5,  sm.getMinimum(),            0.01);
-        assertEquals("Median "             + sm, 0.81, sm.getMedian(),             0.01);
-        assertEquals("Average "            + sm, 0.81, sm.getAverage(),            0.01);
-        assertEquals("Standard Deviation " + sm, 0.31, sm.getStandardDeviation(),  0.01);
-        assertEquals("Maximum "            + sm, 1.12, sm.getMaximum(),            0.01);
-        assertEquals("Sum "                + sm, 1.62, sm.getSum(),                0.01);
+        assertEquals(2, sm.getNbDataPoints(), "size " + sm);
+        assertEquals(0.5,  sm.getMinimum(), 0.01, "Minimum " + sm);
+        assertEquals(0.81, sm.getMedian(), 0.01, "Median " + sm);
+        assertEquals(0.81, sm.getAverage(), 0.01, "Average " + sm);
+        assertEquals(0.31, sm.getStandardDeviation(), 0.01, "Standard Deviation " + sm);
+        assertEquals(1.12, sm.getMaximum(), 0.01, "Maximum " + sm);
+        assertEquals(1.62, sm.getSum(), 0.01, "Sum " + sm);
     }
 
-    public void testMaximum() {
+    @Test
+    void testMaximum() {
         StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_MAXIMUM");
 
-        assertEquals("size "               + sm, 2,   sm.getNbDataPoints());
-        assertEquals("Minimum "            + sm, 2.0, sm.getMinimum(), 0.01);
-        assertEquals("Median "             + sm, 4.0, sm.getMedian(),  0.01);
-        assertEquals("Average "            + sm, 4.0, sm.getAverage(), 0.01);
-        assertEquals("Standard Deviation " + sm, 2.0, sm.getStandardDeviation(),  0.01);
-        assertEquals("Maximum "            + sm, 6.0, sm.getMaximum(), 0.01);
-        assertEquals("Sum "                + sm, 8.0, sm.getSum(),     0.01);
+        assertEquals(2, sm.getNbDataPoints(), "size " + sm);
+        assertEquals(2.0, sm.getMinimum(), 0.01, "Minimum " + sm);
+        assertEquals(4.0, sm.getMedian(), 0.01, "Median " + sm);
+        assertEquals(4.0, sm.getAverage(), 0.01, "Average " + sm);
+        assertEquals(2.0, sm.getStandardDeviation(), 0.01, "Standard Deviation " + sm);
+        assertEquals(6.0, sm.getMaximum(), 0.01, "Maximum " + sm);
+        assertEquals(8.0, sm.getSum(), 0.01, "Sum " + sm);
     }
 
-    public void testSum() {
+    @Test
+    void testSum() {
         StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_SUM");
 
-        assertEquals("size "               + sm,  2,   sm.getNbDataPoints());
-        assertEquals("Minimum "            + sm,  3.0, sm.getMinimum(), 0.01);
-        assertEquals("Median "             + sm, 10.5, sm.getMedian(),  0.01);
-        assertEquals("Average "            + sm, 10.5, sm.getAverage(), 0.01);
-        assertEquals("Standard Deviation " + sm,  7.5, sm.getStandardDeviation(),  0.01);
-        assertEquals("Maximum "            + sm, 18.0, sm.getMaximum(), 0.01);
-        assertEquals("Sum "                + sm, 21.0, sm.getSum(),     0.01);
+        assertEquals(2, sm.getNbDataPoints(), "size " + sm);
+        assertEquals(3.0, sm.getMinimum(), 0.01, "Minimum " + sm);
+        assertEquals(10.5, sm.getMedian(), 0.01, "Median " + sm);
+        assertEquals(10.5, sm.getAverage(), 0.01, "Average " + sm);
+        assertEquals(7.5, sm.getStandardDeviation(), 0.01, "Standard Deviation " + sm);
+        assertEquals(18.0, sm.getMaximum(), 0.01, "Maximum " + sm);
+        assertEquals(21.0, sm.getSum(), 0.01, "Sum " + sm);
     }
 
-    public void testNbDataPoints() {
+    @Test
+    void testNbDataPoints() {
         StatisticalMeasurement sm = new StatisticalMeasurement(descriptor, g, "bar DISPOSE_NB_DATA_POINTS");
 
-        assertEquals("size "               + sm, 2,   sm.getNbDataPoints());
-        assertEquals("Minimum "            + sm, 2.0, sm.getMinimum(), 0.01);
-        assertEquals("Median "             + sm, 3.0, sm.getMedian(),  0.01);
-        assertEquals("Average "            + sm, 3.0, sm.getAverage(), 0.01);
-        assertEquals("Standard Deviation " + sm, 1.0, sm.getStandardDeviation(),  0.01);
-        assertEquals("Maximum "            + sm, 4.0, sm.getMaximum(), 0.01);
-        assertEquals("Sum "                + sm, 6.0, sm.getSum(),     0.01);
+        assertEquals(2, sm.getNbDataPoints(), "size " + sm);
+        assertEquals(2.0, sm.getMinimum(), 0.01, "Minimum " + sm);
+        assertEquals(3.0, sm.getMedian(), 0.01, "Median " + sm);
+        assertEquals(3.0, sm.getAverage(), 0.01, "Average " + sm);
+        assertEquals(1.0, sm.getStandardDeviation(), 0.01, "Standard Deviation " + sm);
+        assertEquals(4.0, sm.getMaximum(), 0.01, "Maximum " + sm);
+        assertEquals(6.0, sm.getSum(), 0.01, "Sum " + sm);
     }
 }

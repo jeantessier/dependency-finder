@@ -32,32 +32,30 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestStatisticalMeasurementEmpty extends TestCase {
-    private StatisticalMeasurement measurement;
-    private Metrics                metrics;
+import static org.junit.jupiter.api.Assertions.*;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+public class TestStatisticalMeasurementEmpty {
+    private final Metrics metrics = new Metrics("foo");
 
-        metrics = new Metrics("foo");
-        measurement = new StatisticalMeasurement(null, metrics, "bar");
-    }
+    private final StatisticalMeasurement measurement = new StatisticalMeasurement(null, metrics, "bar");
     
-    public void testDirect() {
+    @Test
+    void testDirect() {
         Metrics m = new Metrics("m");
         m.track("bar", new CounterMeasurement(null, null, null));
         metrics.addSubMetrics(m);
 
-        assertTrue("Before AddToMeasurement()", measurement.isEmpty());
+        assertTrue(measurement.isEmpty(), "Before AddToMeasurement()");
         
         m.addToMeasurement("bar", 1);
 
-        assertFalse("After AddToMeasurement()", !measurement.isEmpty());
+        assertFalse(!measurement.isEmpty(), "After AddToMeasurement()");
     }
 
-    public void testIndirect() {
+    @Test
+    void testIndirect() {
         Metrics m = new Metrics("m");
         metrics.addSubMetrics(m);
 
@@ -65,14 +63,15 @@ public class TestStatisticalMeasurementEmpty extends TestCase {
         sm.track("bar", new CounterMeasurement(null, null, null));
         m.addSubMetrics(sm);
 
-        assertTrue("Before AddToMeasurement()", measurement.isEmpty());
+        assertTrue(measurement.isEmpty(), "Before AddToMeasurement()");
         
         sm.addToMeasurement("bar", 1);
 
-        assertFalse("After AddToMeasurement()", !measurement.isEmpty());
+        assertFalse(!measurement.isEmpty(), "After AddToMeasurement()");
     }
 
-    public void testViaStatisticalMeasurement() {
+    @Test
+    void testViaStatisticalMeasurement() {
         Metrics m = new Metrics("m");
         m.track("bar", new StatisticalMeasurement(null, m, "bar"));
         metrics.addSubMetrics(m);
@@ -81,10 +80,10 @@ public class TestStatisticalMeasurementEmpty extends TestCase {
         sm.track("bar", new CounterMeasurement(null, null, null));
         m.addSubMetrics(sm);
 
-        assertTrue("Before AddToMeasurement()", measurement.isEmpty());
+        assertTrue(measurement.isEmpty(), "Before AddToMeasurement()");
         
         sm.addToMeasurement("bar", 1);
 
-        assertFalse("After AddToMeasurement()", !measurement.isEmpty());
+        assertFalse(!measurement.isEmpty(), "After AddToMeasurement()");
     }
 }

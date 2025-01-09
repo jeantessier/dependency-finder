@@ -32,10 +32,13 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.*;
 
-public class TestMetrics extends TestCase {
-    public void testCreate() {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestMetrics {
+    @Test
+    void testCreate() {
         Metrics metrics = new Metrics("test");
 
         assertEquals("test", metrics.getName());
@@ -44,7 +47,8 @@ public class TestMetrics extends TestCase {
         assertTrue(metrics.getSubMetrics().isEmpty());
     }
 
-    public void testTrack() throws Exception {
+    @Test
+    void testTrack() throws Exception {
         Metrics metrics = new Metrics("test");
 
         metrics.track("test1", new CounterMeasurement(null, null, null));
@@ -63,7 +67,8 @@ public class TestMetrics extends TestCase {
         assertEquals(0, metrics.getMeasurement("test2").getValue().intValue());
     }
 
-    public void testAddToMeasurement() {
+    @Test
+    void testAddToMeasurement() {
         Metrics metrics = new Metrics("test");
 
         Measurement m0 = new CounterMeasurement(null, null, null);
@@ -113,7 +118,8 @@ public class TestMetrics extends TestCase {
         assertEquals(5.5, metrics.getMeasurement("test2").getValue().doubleValue(), 0.01);
     }
 
-    public void testAddSubMetrics() {
+    @Test
+    void testAddSubMetrics() {
         Metrics metrics = new Metrics("test");
 
         metrics.addSubMetrics(new Metrics("a"));
@@ -122,7 +128,8 @@ public class TestMetrics extends TestCase {
         assertEquals(2, metrics.getSubMetrics().size());
     }
 
-    public void testMetricsInSubMetrics() {
+    @Test
+    void testMetricsInSubMetrics() {
         Metrics metrics = new Metrics("test");
 
         Metrics a = new Metrics("test.a");
@@ -273,7 +280,8 @@ public class TestMetrics extends TestCase {
         assertEquals(3.0, metrics.getMeasurement("1111").getValue().doubleValue(), 0.01);
     }
 
-    public void testInRange() throws Exception {
+    @Test
+    void testInRange() throws Exception {
         Metrics metrics = new Metrics("test");
 
         assertTrue(metrics.isInRange());
@@ -300,10 +308,11 @@ public class TestMetrics extends TestCase {
         assertFalse(metrics.isInRange());
     }
 
-    public void testEmptyWithOneNonEmptyMeasurement() throws Exception {
+    @Test
+    void testEmptyWithOneNonEmptyMeasurement() throws Exception {
         Metrics metrics = new Metrics("test");
 
-        assertTrue("Before Track(foo)", metrics.isEmpty());
+        assertTrue(metrics.isEmpty(), "Before Track(foo)");
 
         MeasurementDescriptor descriptor1 = new MeasurementDescriptor();
         descriptor1.setShortName("foo");
@@ -312,7 +321,7 @@ public class TestMetrics extends TestCase {
 
         metrics.track(descriptor1.createMeasurement(metrics));
 
-        assertTrue("After Track(foo)", metrics.isEmpty());
+        assertTrue(metrics.isEmpty(), "After Track(foo)");
         
         MeasurementDescriptor descriptor2 = new MeasurementDescriptor();
         descriptor2.setShortName("bar");
@@ -321,17 +330,18 @@ public class TestMetrics extends TestCase {
 
         metrics.track(descriptor2.createMeasurement(metrics));
 
-        assertTrue("After Track(bar)", metrics.isEmpty());
+        assertTrue(metrics.isEmpty(), "After Track(bar)");
         
         metrics.addToMeasurement("foo", 2);
 
-        assertFalse("After Add()", metrics.isEmpty());
+        assertFalse(metrics.isEmpty(), "After Add()");
     }
 
-    public void testEmptyWithOtherNonEmptyMeasurement() throws Exception {
+    @Test
+    void testEmptyWithOtherNonEmptyMeasurement() throws Exception {
         Metrics metrics = new Metrics("test");
 
-        assertTrue("Before Track(foo)", metrics.isEmpty());
+        assertTrue(metrics.isEmpty(), "Before Track(foo)");
 
         MeasurementDescriptor descriptor1 = new MeasurementDescriptor();
         descriptor1.setShortName("foo");
@@ -340,7 +350,7 @@ public class TestMetrics extends TestCase {
 
         metrics.track(descriptor1.createMeasurement(metrics));
 
-        assertTrue("After Track(foo)", metrics.isEmpty());
+        assertTrue(metrics.isEmpty(), "After Track(foo)");
         
         MeasurementDescriptor descriptor2 = new MeasurementDescriptor();
         descriptor2.setShortName("bar");
@@ -349,17 +359,18 @@ public class TestMetrics extends TestCase {
 
         metrics.track(descriptor2.createMeasurement(metrics));
 
-        assertTrue("After Track(bar)", metrics.isEmpty());
+        assertTrue(metrics.isEmpty(), "After Track(bar)");
         
         metrics.addToMeasurement("bar", 2);
 
-        assertFalse("After Add()", metrics.isEmpty());
+        assertFalse(metrics.isEmpty(), "After Add()");
     }
 
-    public void testEmptyWithOneNonVisibleNonEmptyMeasurement() throws Exception {
+    @Test
+    void testEmptyWithOneNonVisibleNonEmptyMeasurement() throws Exception {
         Metrics metrics = new Metrics("test");
 
-        assertTrue("Before Track(foo)", metrics.isEmpty());
+        assertTrue(metrics.isEmpty(), "Before Track(foo)");
 
         MeasurementDescriptor descriptor1 = new MeasurementDescriptor();
         descriptor1.setShortName("foo");
@@ -369,7 +380,7 @@ public class TestMetrics extends TestCase {
 
         metrics.track(descriptor1.createMeasurement(metrics));
 
-        assertTrue("After Track(foo)", metrics.isEmpty());
+        assertTrue(metrics.isEmpty(), "After Track(foo)");
         
         MeasurementDescriptor descriptor2 = new MeasurementDescriptor();
         descriptor2.setShortName("bar");
@@ -378,14 +389,15 @@ public class TestMetrics extends TestCase {
 
         metrics.track(descriptor2.createMeasurement(metrics));
 
-        assertTrue("After Track(bar)", metrics.isEmpty());
+        assertTrue(metrics.isEmpty(), "After Track(bar)");
         
         metrics.addToMeasurement("foo", 2);
 
-        assertTrue("After Add()", metrics.isEmpty());
+        assertTrue(metrics.isEmpty(), "After Add()");
     }
 
-    public void testEmptyWithOneNonEmptySubMetrics() throws Exception {
+    @Test
+    void testEmptyWithOneNonEmptySubMetrics() throws Exception {
         Metrics metrics = new Metrics("test");
         Metrics submetrics1 = new Metrics("submetrics1");
         Metrics submetrics2 = new Metrics("submetrics2");
@@ -401,18 +413,19 @@ public class TestMetrics extends TestCase {
         submetrics1.track(descriptor.createMeasurement(submetrics1));
         submetrics2.track(descriptor.createMeasurement(submetrics2));
 
-        assertTrue("Before Add() to submetrics1", submetrics1.isEmpty());
-        assertTrue("Before Add() to submetrics1", submetrics2.isEmpty());
-        assertTrue("Before Add() to submetrics1", metrics.isEmpty());
+        assertTrue(submetrics1.isEmpty(), "Before Add() to submetrics1");
+        assertTrue(submetrics2.isEmpty(), "Before Add() to submetrics1");
+        assertTrue(metrics.isEmpty(), "Before Add() to submetrics1");
         
         submetrics1.addToMeasurement("foo", 2);
 
-        assertFalse("After Add() to submetrics1", submetrics1.isEmpty());
-        assertTrue("After Add() to submetrics1", submetrics2.isEmpty());
-        assertFalse("After Add() to submetrics1", metrics.isEmpty());
+        assertFalse(submetrics1.isEmpty(), "After Add() to submetrics1");
+        assertTrue(submetrics2.isEmpty(), "After Add() to submetrics1");
+        assertFalse(metrics.isEmpty(), "After Add() to submetrics1");
     }
 
-    public void testEmptyWithOtherNonEmptySubMetrics() throws Exception {
+    @Test
+    void testEmptyWithOtherNonEmptySubMetrics() throws Exception {
         Metrics metrics = new Metrics("test");
         Metrics submetrics1 = new Metrics("submetrics1");
         Metrics submetrics2 = new Metrics("submetrics2");
@@ -428,14 +441,14 @@ public class TestMetrics extends TestCase {
         submetrics1.track(descriptor.createMeasurement(submetrics1));
         submetrics2.track(descriptor.createMeasurement(submetrics2));
 
-        assertTrue("Before Add() to submetrics1", submetrics1.isEmpty());
-        assertTrue("Before Add() to submetrics1", submetrics2.isEmpty());
-        assertTrue("Before Add() to submetrics2", metrics.isEmpty());
+        assertTrue(submetrics1.isEmpty(), "Before Add() to submetrics1");
+        assertTrue(submetrics2.isEmpty(), "Before Add() to submetrics1");
+        assertTrue(metrics.isEmpty(), "Before Add() to submetrics2");
         
         submetrics2.addToMeasurement("foo", 2);
 
-        assertTrue("After Add() to submetrics1", submetrics1.isEmpty());
-        assertFalse("After Add() to submetrics1", submetrics2.isEmpty());
-        assertFalse("After Add() to submetrics2", metrics.isEmpty());
+        assertTrue(submetrics1.isEmpty(), "After Add() to submetrics1");
+        assertFalse(submetrics2.isEmpty(), "After Add() to submetrics1");
+        assertFalse(metrics.isEmpty(), "After Add() to submetrics2");
     }
 }

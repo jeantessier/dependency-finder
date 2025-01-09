@@ -32,25 +32,21 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.TestCase;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
+import org.junit.jupiter.api.*;
+import org.xml.sax.*;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
+import javax.xml.parsers.*;
+import java.io.*;
 
-public class TestMetricsConfigurationLoader extends TestCase {
-    private MetricsConfiguration       configuration;
-    private MetricsConfigurationLoader loader;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestMetricsConfigurationLoader {
+    private final MetricsConfiguration configuration= new MetricsConfiguration();
+
+    private final MetricsConfigurationLoader loader = new MetricsConfigurationLoader(configuration, Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE"));
     
-    protected void setUp() throws Exception {
-        configuration = new MetricsConfiguration();
-        loader        = new MetricsConfigurationLoader(configuration, Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE"));
-    }
-    
-    public void testEmptyFile() throws IOException, SAXException, ParserConfigurationException {
+    @Test
+    void testEmptyFile() throws IOException, SAXException, ParserConfigurationException {
         Reader in = new StringReader("");
 
         try {
@@ -60,25 +56,27 @@ public class TestMetricsConfigurationLoader extends TestCase {
             // Ignore
         }
 
-        assertEquals("ProjectMeasurements", 0, configuration.getProjectMeasurements().size());
-        assertEquals("GroupMeasurements",   0, configuration.getGroupMeasurements().size());
-        assertEquals("ClassMeasurements",   0, configuration.getClassMeasurements().size());
-        assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
+        assertEquals(0, configuration.getProjectMeasurements().size(), "ProjectMeasurements");
+        assertEquals(0, configuration.getGroupMeasurements().size(), "GroupMeasurements");
+        assertEquals(0, configuration.getClassMeasurements().size(), "ClassMeasurements");
+        assertEquals(0, configuration.getMethodMeasurements().size(), "MethodMeasurements");
     }
 
-    public void testEmptyDocument() throws IOException, SAXException, ParserConfigurationException {
+    @Test
+    void testEmptyDocument() throws IOException, SAXException, ParserConfigurationException {
         Reader in = new StringReader("<metrics-configuration/>");
 
         MetricsConfiguration configuration2 = loader.load(in);
         assertSame(configuration, configuration2);
 
-        assertEquals("ProjectMeasurements", 0, configuration.getProjectMeasurements().size());
-        assertEquals("GroupMeasurements",   0, configuration.getGroupMeasurements().size());
-        assertEquals("ClassMeasurements",   0, configuration.getClassMeasurements().size());
-        assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
+        assertEquals(0, configuration.getProjectMeasurements().size(), "ProjectMeasurements");
+        assertEquals(0, configuration.getGroupMeasurements().size(), "GroupMeasurements");
+        assertEquals(0, configuration.getClassMeasurements().size(), "ClassMeasurements");
+        assertEquals(0, configuration.getMethodMeasurements().size(), "MethodMeasurements");
     }
 
-    public void testNonWellFormedDocument() throws IOException, SAXException, ParserConfigurationException {
+    @Test
+    void testNonWellFormedDocument() throws IOException, SAXException, ParserConfigurationException {
         Reader in = new StringReader("<metrics-configuration>");
 
         try {
@@ -88,13 +86,14 @@ public class TestMetricsConfigurationLoader extends TestCase {
             // Ignore
         }
 
-        assertEquals("ProjectMeasurements", 0, configuration.getProjectMeasurements().size());
-        assertEquals("GroupMeasurements",   0, configuration.getGroupMeasurements().size());
-        assertEquals("ClassMeasurements",   0, configuration.getClassMeasurements().size());
-        assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
+        assertEquals(0, configuration.getProjectMeasurements().size(), "ProjectMeasurements");
+        assertEquals(0, configuration.getGroupMeasurements().size(), "GroupMeasurements");
+        assertEquals(0, configuration.getClassMeasurements().size(), "ClassMeasurements");
+        assertEquals(0, configuration.getMethodMeasurements().size(), "MethodMeasurements");
     }
 
-    public void testValidation() throws IOException, SAXException, ParserConfigurationException {
+    @Test
+    void testValidation() throws IOException, SAXException, ParserConfigurationException {
         StringBuilder document = new StringBuilder();
 
         document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
@@ -110,13 +109,14 @@ public class TestMetricsConfigurationLoader extends TestCase {
         MetricsConfiguration configuration2 = loader.load(in);
         assertSame(configuration, configuration2);
 
-        assertEquals("ProjectMeasurements", 0, configuration.getProjectMeasurements().size());
-        assertEquals("GroupMeasurements",   0, configuration.getGroupMeasurements().size());
-        assertEquals("ClassMeasurements",   0, configuration.getClassMeasurements().size());
-        assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
+        assertEquals(0, configuration.getProjectMeasurements().size(), "ProjectMeasurements");
+        assertEquals(0, configuration.getGroupMeasurements().size(), "GroupMeasurements");
+        assertEquals(0, configuration.getClassMeasurements().size(), "ClassMeasurements");
+        assertEquals(0, configuration.getMethodMeasurements().size(), "MethodMeasurements");
     }
 
-    public void testPackageMeasurement() throws IOException, SAXException, ParserConfigurationException {
+    @Test
+    void testPackageMeasurement() throws IOException, SAXException, ParserConfigurationException {
         StringBuilder document = new StringBuilder();
 
         document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
@@ -142,21 +142,22 @@ public class TestMetricsConfigurationLoader extends TestCase {
         MetricsConfiguration configuration2 = loader.load(in);
         assertSame(configuration, configuration2);
 
-        assertEquals("ProjectMeasurements", 1, configuration.getProjectMeasurements().size());
-        assertEquals("GroupMeasurements",   0, configuration.getGroupMeasurements().size());
-        assertEquals("ClassMeasurements",   0, configuration.getClassMeasurements().size());
-        assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
+        assertEquals(1, configuration.getProjectMeasurements().size(), "ProjectMeasurements");
+        assertEquals(0, configuration.getGroupMeasurements().size(), "GroupMeasurements");
+        assertEquals(0, configuration.getClassMeasurements().size(), "ClassMeasurements");
+        assertEquals(0, configuration.getMethodMeasurements().size(), "MethodMeasurements");
 
         MeasurementDescriptor descriptor = configuration.getProjectMeasurements().get(0);
         assertEquals("SLOC", descriptor.getShortName());
         assertEquals("Single Lines of Code", descriptor.getLongName());
         assertEquals(com.jeantessier.metrics.StatisticalMeasurement.class, descriptor.getClassFor());
         assertEquals("SLOC\n                DISPOSE_SUM", descriptor.getInitText());
-        assertNull("descriptor.LowerThreshold()", descriptor.getLowerThreshold());
-        assertNull("descriptor.UpperThreshold()", descriptor.getUpperThreshold());
+        assertNull(descriptor.getLowerThreshold(), "descriptor.LowerThreshold()");
+        assertNull(descriptor.getUpperThreshold(), "descriptor.UpperThreshold()");
     }
 
-    public void testGroupMeasurement() throws IOException, SAXException, ParserConfigurationException {
+    @Test
+    void testGroupMeasurement() throws IOException, SAXException, ParserConfigurationException {
         StringBuilder document = new StringBuilder();
 
         document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
@@ -182,21 +183,22 @@ public class TestMetricsConfigurationLoader extends TestCase {
         MetricsConfiguration configuration2 = loader.load(in);
         assertSame(configuration, configuration2);
 
-        assertEquals("ProjectMeasurements", 0, configuration.getProjectMeasurements().size());
-        assertEquals("GroupMeasurements",   1, configuration.getGroupMeasurements().size());
-        assertEquals("ClassMeasurements",   0, configuration.getClassMeasurements().size());
-        assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
+        assertEquals(0, configuration.getProjectMeasurements().size(), "ProjectMeasurements");
+        assertEquals(1, configuration.getGroupMeasurements().size(), "GroupMeasurements");
+        assertEquals(0, configuration.getClassMeasurements().size(), "ClassMeasurements");
+        assertEquals(0, configuration.getMethodMeasurements().size(), "MethodMeasurements");
 
         MeasurementDescriptor descriptor = configuration.getGroupMeasurements().get(0);
         assertEquals("SLOC", descriptor.getShortName());
         assertEquals("Single Lines of Code", descriptor.getLongName());
         assertEquals(com.jeantessier.metrics.StatisticalMeasurement.class, descriptor.getClassFor());
         assertEquals("SLOC\n                DISPOSE_SUM", descriptor.getInitText());
-        assertNull("descriptor.LowerThreshold()", descriptor.getLowerThreshold());
-        assertNull("descriptor.UpperThreshold()", descriptor.getUpperThreshold());
+        assertNull(descriptor.getLowerThreshold(), "descriptor.LowerThreshold()");
+        assertNull(descriptor.getUpperThreshold(), "descriptor.UpperThreshold()");
     }
 
-    public void testClassMeasurement() throws IOException, SAXException, ParserConfigurationException {
+    @Test
+    void testClassMeasurement() throws IOException, SAXException, ParserConfigurationException {
         StringBuilder document = new StringBuilder();
 
         document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
@@ -221,21 +223,22 @@ public class TestMetricsConfigurationLoader extends TestCase {
         MetricsConfiguration configuration2 = loader.load(in);
         assertSame(configuration, configuration2);
 
-        assertEquals("ProjectMeasurements", 0, configuration.getProjectMeasurements().size());
-        assertEquals("GroupMeasurements",   0, configuration.getGroupMeasurements().size());
-        assertEquals("ClassMeasurements",   1, configuration.getClassMeasurements().size());
-        assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
+        assertEquals(0, configuration.getProjectMeasurements().size(), "ProjectMeasurements");
+        assertEquals(0, configuration.getGroupMeasurements().size(), "GroupMeasurements");
+        assertEquals(1, configuration.getClassMeasurements().size(), "ClassMeasurements");
+        assertEquals(0, configuration.getMethodMeasurements().size(), "MethodMeasurements");
 
         MeasurementDescriptor descriptor = configuration.getClassMeasurements().get(0);
         assertEquals("SLOC", descriptor.getShortName());
         assertEquals("Single Lines of Code", descriptor.getLongName());
         assertEquals(com.jeantessier.metrics.StatisticalMeasurement.class, descriptor.getClassFor());
         assertEquals("SLOC", descriptor.getInitText());
-        assertNull("descriptor.LowerThreshold()", descriptor.getLowerThreshold());
-        assertNull("descriptor.UpperThreshold()", descriptor.getUpperThreshold());
+        assertNull(descriptor.getLowerThreshold(), "descriptor.LowerThreshold()");
+        assertNull(descriptor.getUpperThreshold(), "descriptor.UpperThreshold()");
     }
 
-    public void testMethodMeasurement() throws IOException, SAXException, ParserConfigurationException {
+    @Test
+    void testMethodMeasurement() throws IOException, SAXException, ParserConfigurationException {
         StringBuilder document = new StringBuilder();
 
         document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
@@ -258,21 +261,22 @@ public class TestMetricsConfigurationLoader extends TestCase {
         MetricsConfiguration configuration2 = loader.load(in);
         assertSame(configuration, configuration2);
 
-        assertEquals("ProjectMeasurements", 0, configuration.getProjectMeasurements().size());
-        assertEquals("GroupMeasurements",   0, configuration.getGroupMeasurements().size());
-        assertEquals("ClassMeasurements",   0, configuration.getClassMeasurements().size());
-        assertEquals("MethodMeasurements",  1, configuration.getMethodMeasurements().size());
+        assertEquals(0, configuration.getProjectMeasurements().size(), "ProjectMeasurements");
+        assertEquals(0, configuration.getGroupMeasurements().size(), "GroupMeasurements");
+        assertEquals(0, configuration.getClassMeasurements().size(), "ClassMeasurements");
+        assertEquals(1, configuration.getMethodMeasurements().size(), "MethodMeasurements");
 
         MeasurementDescriptor descriptor = configuration.getMethodMeasurements().get(0);
         assertEquals("SLOC", descriptor.getShortName());
         assertEquals("Single Lines of Code", descriptor.getLongName());
         assertEquals(com.jeantessier.metrics.CounterMeasurement.class, descriptor.getClassFor());
-        assertNull("descriptor.Init()", descriptor.getInitText());
-        assertNull("descriptor.LowerThreshold()", descriptor.getLowerThreshold());
-        assertEquals("descriptor.UpperThreshold()", 50, descriptor.getUpperThreshold(), 0.01);
+        assertNull(descriptor.getInitText(), "descriptor.Init()");
+        assertNull(descriptor.getLowerThreshold(), "descriptor.LowerThreshold()");
+        assertEquals(50, descriptor.getUpperThreshold(), 0.01, "descriptor.UpperThreshold()");
     }
 
-    public void testGroupDefinitions() throws IOException, SAXException, ParserConfigurationException {
+    @Test
+    void testGroupDefinitions() throws IOException, SAXException, ParserConfigurationException {
         StringBuilder document = new StringBuilder();
 
         document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
@@ -294,13 +298,13 @@ public class TestMetricsConfigurationLoader extends TestCase {
         MetricsConfiguration configuration2 = loader.load(in);
         assertSame(configuration, configuration2);
 
-        assertEquals("ProjectMeasurements", 0, configuration.getProjectMeasurements().size());
-        assertEquals("GroupMeasurements",   0, configuration.getGroupMeasurements().size());
-        assertEquals("ClassMeasurements",   0, configuration.getClassMeasurements().size());
-        assertEquals("MethodMeasurements",  0, configuration.getMethodMeasurements().size());
+        assertEquals(0, configuration.getProjectMeasurements().size(), "ProjectMeasurements");
+        assertEquals(0, configuration.getGroupMeasurements().size(), "GroupMeasurements");
+        assertEquals(0, configuration.getClassMeasurements().size(), "ClassMeasurements");
+        assertEquals(0, configuration.getMethodMeasurements().size(), "MethodMeasurements");
 
-        assertEquals("groups for foobar",                  0, configuration.getGroups("foobar").size());
-        assertEquals("groups for com.jeantessier.metrics", 1, configuration.getGroups("com.jeantessier.metrics").size());
+        assertEquals(0, configuration.getGroups("foobar").size(), "groups for foobar");
+        assertEquals(1, configuration.getGroups("com.jeantessier.metrics").size(), "groups for com.jeantessier.metrics");
         assertEquals("Jean Tessier", configuration.getGroups("com.jeantessier.metrics").iterator().next());
     }
 }

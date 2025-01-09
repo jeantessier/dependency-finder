@@ -32,40 +32,32 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestStatisticalMeasurementWithMetrics extends TestCase {
-    private Metrics m1;
-    private Metrics m2;
-    private Metrics m3;
-    private Metrics m4;
-    private Metrics m5;
-    private Metrics m6;
-    private Metrics m7;
-    private Metrics m8;
+import static org.junit.jupiter.api.Assertions.*;
 
-    private Metrics c1;
-    private Metrics c2;
-    private Metrics c3;
-    private Metrics c4;
+public class TestStatisticalMeasurementWithMetrics {
+    private final Metrics m1 = new Metrics("a.A.a");
+    private final Metrics m2 = new Metrics("a.A.b");
+    private final Metrics m3 = new Metrics("a.B.a");
+    private final Metrics m4 = new Metrics("a.B.b");
+    private final Metrics m5 = new Metrics("b.A.a");
+    private final Metrics m6 = new Metrics("b.A.b");
+    private final Metrics m7 = new Metrics("b.B.a");
+    private final Metrics m8 = new Metrics("b.B.b");
 
-    private Metrics g1;
-    private Metrics g2;
+    private final Metrics c1 = new Metrics("a.A");
+    private final Metrics c2 = new Metrics("a.B");
+    private final Metrics c3 = new Metrics("b.A");
+    private final Metrics c4 = new Metrics("b.B");
 
-    private Metrics p;
+    private final Metrics g1 = new Metrics("a");
+    private final Metrics g2 = new Metrics("b");
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    private final Metrics p = new Metrics("test");
 
-        m1 = new Metrics("a.A.a");
-        m2 = new Metrics("a.A.b");
-        m3 = new Metrics("a.B.a");
-        m4 = new Metrics("a.B.b");
-        m5 = new Metrics("b.A.a");
-        m6 = new Metrics("b.A.b");
-        m7 = new Metrics("b.B.a");
-        m8 = new Metrics("b.B.b");
-
+    @BeforeEach
+    void setUp() {
         m1.track("001", new CounterMeasurement(null, null, null));
         m1.track("011", new CounterMeasurement(null, null, null));
         m1.track("101", new CounterMeasurement(null, null, null));
@@ -132,11 +124,6 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
         m8.addToMeasurement("101", 1);
         m8.addToMeasurement("111", 1);
     
-        c1 = new Metrics("a.A");
-        c2 = new Metrics("a.B");
-        c3 = new Metrics("b.A");
-        c4 = new Metrics("b.B");
-
         c1.track("010", new CounterMeasurement(null, null, null));
         c1.track("011", new CounterMeasurement(null, null, null));
         c1.track("110", new CounterMeasurement(null, null, null));
@@ -180,9 +167,6 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
         c4.addSubMetrics(m7);
         c4.addSubMetrics(m8);
 
-        g1 = new Metrics("a");
-        g2 = new Metrics("b");
-
         g1.track("100", new CounterMeasurement(null, null, null));
         g1.track("101", new CounterMeasurement(null, null, null));
         g1.track("110", new CounterMeasurement(null, null, null));
@@ -206,13 +190,12 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
         g2.addSubMetrics(c3);
         g2.addSubMetrics(c4);
 
-        p = new Metrics("test");
-        
         p.addSubMetrics(g1);
         p.addSubMetrics(g2);
     }
 
-    public void testProject() {
+    @Test
+    void testProject() {
         StatisticalMeasurement m000 = new StatisticalMeasurement(null, p, "000");
         StatisticalMeasurement m001 = new StatisticalMeasurement(null, p, "001");
         StatisticalMeasurement m010 = new StatisticalMeasurement(null, p, "010");
@@ -222,17 +205,18 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
         StatisticalMeasurement m110 = new StatisticalMeasurement(null, p, "110");
         StatisticalMeasurement m111 = new StatisticalMeasurement(null, p, "111");
 
-        assertEquals("000", 0, m000.getNbDataPoints());
-        assertEquals("001", 8, m001.getNbDataPoints());
-        assertEquals("010", 4, m010.getNbDataPoints());
-        assertEquals("011", 4, m011.getNbDataPoints());
-        assertEquals("100", 2, m100.getNbDataPoints());
-        assertEquals("101", 2, m101.getNbDataPoints());
-        assertEquals("110", 2, m110.getNbDataPoints());
-        assertEquals("111", 2, m111.getNbDataPoints());
+        assertEquals(0, m000.getNbDataPoints(), "000");
+        assertEquals(8, m001.getNbDataPoints(), "001");
+        assertEquals(4, m010.getNbDataPoints(), "010");
+        assertEquals(4, m011.getNbDataPoints(), "011");
+        assertEquals(2, m100.getNbDataPoints(), "100");
+        assertEquals(2, m101.getNbDataPoints(), "101");
+        assertEquals(2, m110.getNbDataPoints(), "110");
+        assertEquals(2, m111.getNbDataPoints(), "111");
     }
 
-    public void testGroup() {
+    @Test
+    void testGroup() {
         StatisticalMeasurement m000 = new StatisticalMeasurement(null, g1, "000");
         StatisticalMeasurement m001 = new StatisticalMeasurement(null, g1, "001");
         StatisticalMeasurement m010 = new StatisticalMeasurement(null, g1, "010");
@@ -242,17 +226,18 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
         StatisticalMeasurement m110 = new StatisticalMeasurement(null, g1, "110");
         StatisticalMeasurement m111 = new StatisticalMeasurement(null, g1, "111");
 
-        assertEquals("000", 0, m000.getNbDataPoints());
-        assertEquals("001", 4, m001.getNbDataPoints());
-        assertEquals("010", 2, m010.getNbDataPoints());
-        assertEquals("011", 2, m011.getNbDataPoints());
-        assertEquals("100", 0, m100.getNbDataPoints());
-        assertEquals("101", 4, m101.getNbDataPoints());
-        assertEquals("110", 2, m110.getNbDataPoints());
-        assertEquals("111", 2, m111.getNbDataPoints());
+        assertEquals(0, m000.getNbDataPoints(), "000");
+        assertEquals(4, m001.getNbDataPoints(), "001");
+        assertEquals(2, m010.getNbDataPoints(), "010");
+        assertEquals(2, m011.getNbDataPoints(), "011");
+        assertEquals(0, m100.getNbDataPoints(), "100");
+        assertEquals(4, m101.getNbDataPoints(), "101");
+        assertEquals(2, m110.getNbDataPoints(), "110");
+        assertEquals(2, m111.getNbDataPoints(), "111");
     }
 
-    public void testClass() {
+    @Test
+    void testClass() {
         StatisticalMeasurement m000 = new StatisticalMeasurement(null, c1, "000");
         StatisticalMeasurement m001 = new StatisticalMeasurement(null, c1, "001");
         StatisticalMeasurement m010 = new StatisticalMeasurement(null, c1, "010");
@@ -262,17 +247,18 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
         StatisticalMeasurement m110 = new StatisticalMeasurement(null, c1, "110");
         StatisticalMeasurement m111 = new StatisticalMeasurement(null, c1, "111");
 
-        assertEquals("000", 0, m000.getNbDataPoints());
-        assertEquals("001", 2, m001.getNbDataPoints());
-        assertEquals("010", 0, m010.getNbDataPoints());
-        assertEquals("011", 2, m011.getNbDataPoints());
-        assertEquals("100", 0, m100.getNbDataPoints());
-        assertEquals("101", 2, m101.getNbDataPoints());
-        assertEquals("110", 0, m110.getNbDataPoints());
-        assertEquals("111", 2, m111.getNbDataPoints());
+        assertEquals(0, m000.getNbDataPoints(), "000");
+        assertEquals(2, m001.getNbDataPoints(), "001");
+        assertEquals(0, m010.getNbDataPoints(), "010");
+        assertEquals(2, m011.getNbDataPoints(), "011");
+        assertEquals(0, m100.getNbDataPoints(), "100");
+        assertEquals(2, m101.getNbDataPoints(), "101");
+        assertEquals(0, m110.getNbDataPoints(), "110");
+        assertEquals(2, m111.getNbDataPoints(), "111");
     }
 
-    public void testMethod() {
+    @Test
+    void testMethod() {
         StatisticalMeasurement m000 = new StatisticalMeasurement(null, m1, "000");
         StatisticalMeasurement m001 = new StatisticalMeasurement(null, m1, "001");
         StatisticalMeasurement m010 = new StatisticalMeasurement(null, m1, "010");
@@ -282,17 +268,18 @@ public class TestStatisticalMeasurementWithMetrics extends TestCase {
         StatisticalMeasurement m110 = new StatisticalMeasurement(null, m1, "110");
         StatisticalMeasurement m111 = new StatisticalMeasurement(null, m1, "111");
 
-        assertEquals("000", 0, m000.getNbDataPoints());
-        assertEquals("001", 0, m001.getNbDataPoints());
-        assertEquals("010", 0, m010.getNbDataPoints());
-        assertEquals("011", 0, m011.getNbDataPoints());
-        assertEquals("100", 0, m100.getNbDataPoints());
-        assertEquals("101", 0, m101.getNbDataPoints());
-        assertEquals("110", 0, m110.getNbDataPoints());
-        assertEquals("111", 0, m111.getNbDataPoints());
+        assertEquals(0, m000.getNbDataPoints(), "000");
+        assertEquals(0, m001.getNbDataPoints(), "001");
+        assertEquals(0, m010.getNbDataPoints(), "010");
+        assertEquals(0, m011.getNbDataPoints(), "011");
+        assertEquals(0, m100.getNbDataPoints(), "100");
+        assertEquals(0, m101.getNbDataPoints(), "101");
+        assertEquals(0, m110.getNbDataPoints(), "110");
+        assertEquals(0, m111.getNbDataPoints(), "111");
     }
 
-    public void testIrregular() {
+    @Test
+    void testIrregular() {
         Metrics m11 = new Metrics("m11");
         Metrics m12 = new Metrics("m12");
         Metrics m21 = new Metrics("m21");
