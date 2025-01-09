@@ -64,7 +64,8 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
     private static final String EQUALS = "==";
     private static final String NOT_EQUALS = "!=";
 
-    private static final String OPERATORS_REGULAR_EXPRESSION =
+    // Visible for tests
+    static final String OPERATORS_REGULAR_EXPRESSION =
         "/" +
         "(" + LESSER_THAN_OR_EQUAL + ")|" +
         "(" + LESSER_THAN + ")|" +

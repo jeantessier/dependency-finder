@@ -32,25 +32,32 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.TestCase;
+import org.jmock.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
 
-public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
-    private MeasurementDescriptor descriptor;
-    private Metrics metrics;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestSumMeasurement {
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery();
+
+    private final Metrics metrics = new Metrics("foobar");
+    private final MeasurementDescriptor descriptor = new MeasurementDescriptor();
+
     private SumMeasurement measurement;
-    private Measurement visited;
-    
-    protected void setUp() {
-        descriptor = new MeasurementDescriptor();
+
+    @BeforeEach
+    void setUp() {
         descriptor.setShortName("foo");
         descriptor.setLongName("FOO");
         descriptor.setClassFor(SumMeasurement.class);
         descriptor.setCached(false);
-
-        metrics = new Metrics("foobar");
     }
 
-    public void testMeasurementDescriptor() throws Exception {
+    @Test
+    void testMeasurementDescriptor() throws Exception {
         measurement = (SumMeasurement) descriptor.createMeasurement();
         
         assertNotNull(measurement.getDescriptor());
@@ -59,7 +66,8 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         assertEquals("FOO", measurement.getLongName());
     }
 
-    public void testCreateFromMeasurementDescriptor() throws Exception {
+    @Test
+    void testCreateFromMeasurementDescriptor() throws Exception {
         measurement = (SumMeasurement) descriptor.createMeasurement();
         
         assertNotNull(measurement);
@@ -70,13 +78,15 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         assertEquals("FOO", measurement.getLongName());
     }
 
-    public void testCreateDefault() {
+    @Test
+    void testCreateDefault() {
         measurement = new SumMeasurement(descriptor, null,  null);
 
         assertEquals(0, measurement.getValue().doubleValue(), 0.01);
     }
 
-    public void testEmptyInitText() throws Exception {
+    @Test
+    void testEmptyInitText() throws Exception {
         descriptor.setInitText("");
 
         measurement = (SumMeasurement) descriptor.createMeasurement();
@@ -84,7 +94,8 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         assertEquals(0, measurement.getValue().doubleValue(), 0.01);
     }
 
-    public void testEmptyLineInitText() throws Exception {
+    @Test
+    void testEmptyLineInitText() throws Exception {
         descriptor.setInitText("\n");
 
         measurement = (SumMeasurement) descriptor.createMeasurement();
@@ -92,7 +103,8 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         assertEquals(0, measurement.getValue().doubleValue(), 0.01);
     }
 
-    public void testDashInitText() throws Exception {
+    @Test
+    void testDashInitText() throws Exception {
         descriptor.setInitText("-");
 
         measurement = (SumMeasurement) descriptor.createMeasurement();
@@ -100,7 +112,8 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         assertEquals(0, measurement.getValue().doubleValue(), 0.01);
     }
 
-    public void testConstant() throws Exception {
+    @Test
+    void testConstant() throws Exception {
         descriptor.setInitText("2");
 
         measurement = (SumMeasurement) descriptor.createMeasurement();
@@ -108,7 +121,8 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         assertEquals(2, measurement.getValue().doubleValue(), 0.01);
     }
 
-    public void testConstantAndEmptyLine() throws Exception {
+    @Test
+    void testConstantAndEmptyLine() throws Exception {
         descriptor.setInitText("\n2\n");
 
         measurement = (SumMeasurement) descriptor.createMeasurement();
@@ -116,7 +130,8 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         assertEquals(2, measurement.getValue().doubleValue(), 0.01);
     }
 
-    public void testAddition() throws Exception {
+    @Test
+    void testAddition() throws Exception {
         descriptor.setInitText("1\n1");
 
         measurement = (SumMeasurement) descriptor.createMeasurement();
@@ -124,7 +139,8 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         assertEquals(2, measurement.getValue().doubleValue(), 0.01);
     }
 
-    public void testNegative() throws Exception {
+    @Test
+    void testNegative() throws Exception {
         descriptor.setInitText("-2");
 
         measurement = (SumMeasurement) descriptor.createMeasurement();
@@ -132,7 +148,8 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         assertEquals(-2, measurement.getValue().doubleValue(), 0.01);
     }
 
-    public void testSubstraction() throws Exception {
+    @Test
+    void testSubtraction() throws Exception {
         descriptor.setInitText("2\n-1");
 
         measurement = (SumMeasurement) descriptor.createMeasurement();
@@ -146,7 +163,8 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         assertEquals(-1, measurement.getValue().doubleValue(), 0.01);
     }
 
-    public void testSubMeasurement() throws Exception {
+    @Test
+    void testSubMeasurement() throws Exception {
         descriptor.setInitText("bar");
 
         metrics.track("bar", new CounterMeasurement(null, metrics, "2"));
@@ -156,7 +174,8 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         assertEquals(2, measurement.getValue().doubleValue(), 0.01);
     }
 
-    public void testStatisticalMeasurement() throws Exception {
+    @Test
+    void testStatisticalMeasurement() throws Exception {
         descriptor.setInitText("bar DISPOSE_SUM");
 
         metrics.track("bar", new StatisticalMeasurement(null, metrics, "bar"));
@@ -170,7 +189,8 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         assertEquals(2, measurement.getValue().doubleValue(), 0.01);
     }
 
-    public void testAddMeasurements() throws Exception {
+    @Test
+    void testAddMeasurements() throws Exception {
         descriptor.setInitText("bar\nbaz");
 
         metrics.track("bar", new CounterMeasurement(null, metrics, "1"));
@@ -181,7 +201,8 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         assertEquals(2, measurement.getValue().doubleValue(), 0.01);
     }
 
-    public void testSubstractMeasurements() throws Exception {
+    @Test
+    void testSubtractMeasurements() throws Exception {
         descriptor.setInitText("bar\n-baz");
 
         metrics.track("bar", new CounterMeasurement(null, metrics, "1"));
@@ -192,7 +213,8 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         assertEquals(-1, measurement.getValue().doubleValue(), 0.01);
     }
 
-    public void testInUndefinedRange() throws Exception {
+    @Test
+    void testInUndefinedRange() throws Exception {
         descriptor.setInitText("bar");
 
         metrics.track("bar", new CounterMeasurement(null, null, null));
@@ -210,7 +232,8 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         assertTrue(measurement.isInRange());
     }
 
-    public void testInOpenRange() throws Exception {
+    @Test
+    void testInOpenRange() throws Exception {
         descriptor.setInitText("bar");
 
         metrics.track("bar", new CounterMeasurement(null, null, null));
@@ -228,7 +251,8 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         assertTrue(measurement.isInRange());
     }
 
-    public void testInLowerBoundRange() throws Exception {
+    @Test
+    void testInLowerBoundRange() throws Exception {
         descriptor.setInitText("bar");
         descriptor.setLowerThreshold(1.0);
 
@@ -237,7 +261,7 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
 
         assertEquals(0, measurement.getValue().intValue());
-        assertTrue(!measurement.isInRange());
+        assertFalse(measurement.isInRange());
 
         metrics.addToMeasurement("bar", 1);
 
@@ -250,7 +274,8 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         assertTrue(measurement.isInRange());
     }
 
-    public void testInUpperBoundRange() throws Exception {
+    @Test
+    void testInUpperBoundRange() throws Exception {
         descriptor.setInitText("bar");
         descriptor.setUpperThreshold(1.5);
 
@@ -265,11 +290,12 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         assertTrue(measurement.isInRange());
 
         metrics.addToMeasurement("bar", 1);
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
     }
 
-    public void testInBoundRange() throws Exception {
+    @Test
+    void testInBoundRange() throws Exception {
         descriptor.setInitText("bar");
         descriptor.setLowerThreshold(1.0);
         descriptor.setUpperThreshold(1.5);
@@ -277,19 +303,20 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         metrics.track("bar", new CounterMeasurement(null, null, null));
 
         measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
 
         metrics.addToMeasurement("bar", 1);
         
         assertTrue(measurement.isInRange());
 
         metrics.addToMeasurement("bar", 1);
-        
-        assertTrue(!measurement.isInRange());
+
+        assertFalse(measurement.isInRange());
     }
 
-    public void testCachedValue() throws Exception {
+    @Test
+    void testCachedValue() throws Exception {
         descriptor.setInitText("bar");
         descriptor.setCached(true);
 
@@ -304,33 +331,40 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
         assertEquals(0, measurement.getValue().doubleValue(), 0.01);
     }
     
-    public void testAccept() {
+    @Test
+    void testAccept() {
         measurement = new SumMeasurement(null, null, null);
 
-        visited = null;
-        measurement.accept(this);
-        assertSame(measurement, visited);
+        var visitor = context.mock(MeasurementVisitor.class);
+
+        context.checking(new Expectations() {{
+            oneOf (visitor).visitSumMeasurement(measurement);
+        }});
+
+        measurement.accept(visitor);
     }
 
-    public void testEmptyWithOneMeasurement() throws Exception {
+    @Test
+    void testEmptyWithOneMeasurement() throws Exception {
         descriptor.setInitText("bar");
 
         metrics.track("bar", new CounterMeasurement(null, null, null));
 
         measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
         
-        assertTrue("Before Add()", measurement.isEmpty());
+        assertTrue(measurement.isEmpty(), "Before Add()");
 
         metrics.addToMeasurement("bar", 1);
         
-        assertFalse("After Add(1)", measurement.isEmpty());
+        assertFalse(measurement.isEmpty(), "After Add(1)");
 
         metrics.addToMeasurement("bar", -1);
 
-        assertFalse("After Add(-1)", measurement.isEmpty());
+        assertFalse(measurement.isEmpty(), "After Add(-1)");
     }
 
-    public void testEmptyWithTwoMeasurements() throws Exception {
+    @Test
+    void testEmptyWithTwoMeasurements() throws Exception {
         descriptor.setInitText("bar\nbaz");
 
         metrics.track("bar", new CounterMeasurement(null, null, null));
@@ -338,32 +372,29 @@ public class TestSumMeasurement extends TestCase implements MeasurementVisitor {
 
         measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
 
-        assertTrue("bar is not empty", metrics.getMeasurement("bar").isEmpty());
-        assertTrue("baz is not empty", metrics.getMeasurement("baz").isEmpty());
-        assertTrue("Before Add()", measurement.isEmpty());
+        assertTrue(metrics.getMeasurement("bar").isEmpty(), "bar is not empty");
+        assertTrue(metrics.getMeasurement("baz").isEmpty(), "baz is not empty");
+        assertTrue(measurement.isEmpty(), "Before Add()");
 
         metrics.addToMeasurement("bar", 1);
         
-        assertFalse("bar is empty", metrics.getMeasurement("bar").isEmpty());
-        assertTrue("baz is not empty", metrics.getMeasurement("baz").isEmpty());
-        assertFalse("After Add(1)", measurement.isEmpty());
+        assertFalse(metrics.getMeasurement("bar").isEmpty(), "bar is empty");
+        assertTrue(metrics.getMeasurement("baz").isEmpty(), "baz is not empty");
+        assertFalse(measurement.isEmpty(), "After Add(1)");
 
         metrics.addToMeasurement("bar", -1);
 
-        assertFalse("bar is empty", metrics.getMeasurement("bar").isEmpty());
-        assertTrue("baz is not empty", metrics.getMeasurement("baz").isEmpty());
-        assertFalse("After Add(-1)", measurement.isEmpty());
+        assertFalse(metrics.getMeasurement("bar").isEmpty(), "bar is empty");
+        assertTrue(metrics.getMeasurement("baz").isEmpty(), "baz is not empty");
+        assertFalse(measurement.isEmpty(), "After Add(-1)");
     }
 
-    public void testEmptyWithConstant() throws Exception {
+    @Test
+    void testEmptyWithConstant() throws Exception {
         descriptor.setInitText("2");
 
         measurement = (SumMeasurement) descriptor.createMeasurement(metrics);
 
-        assertTrue("with constants", measurement.isEmpty());
-    }
-
-    public void visitSumMeasurement(SumMeasurement measurement) {
-        visited = measurement;
+        assertTrue(measurement.isEmpty(), "with constants");
     }
 }

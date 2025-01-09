@@ -32,17 +32,21 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.TestCase;
+import org.jmock.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
 
-public class TestCounterMeasurement extends TestCase implements MeasurementVisitor {
-    private CounterMeasurement measurement;
-    private Measurement visited;
-    
-    protected void setUp() {
-        measurement = new CounterMeasurement(null, null, null);
-    }
+import static org.junit.jupiter.api.Assertions.*;
 
-    public void testMeasurementDescriptor() throws Exception {
+public class TestCounterMeasurement {
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery();
+
+    private CounterMeasurement measurement = new CounterMeasurement(null, null, null);
+
+    @Test
+    void testMeasurementDescriptor() throws Exception {
         MeasurementDescriptor descriptor = new MeasurementDescriptor();
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
@@ -56,7 +60,8 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
         assertEquals("bar", measurement.getLongName());
     }
 
-    public void testCreateFromMeasurementDescriptor() throws Exception {
+    @Test
+    void testCreateFromMeasurementDescriptor() throws Exception {
         MeasurementDescriptor descriptor = new MeasurementDescriptor();
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
@@ -72,7 +77,8 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
         assertEquals("bar", measurement.getLongName());
     }
     
-    public void testCreateNumber() {
+    @Test
+    void testCreateNumber() {
         measurement = new CounterMeasurement(null, null, "2");
         assertEquals(2.0, measurement.getValue().doubleValue(), 0.01);
 
@@ -86,7 +92,8 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
         assertEquals(2.0, measurement.getValue().doubleValue(), 0.01);
     }
     
-    public void testCreateInvalid() {
+    @Test
+    void testCreateInvalid() {
         measurement = new CounterMeasurement(null, null, null);
         assertEquals(0.0, measurement.getValue().doubleValue(), 0.01);
 
@@ -94,11 +101,13 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
         assertEquals(0.0, measurement.getValue().doubleValue(), 0.01);
     }
 
-    public void testCreateDefault() {
+    @Test
+    void testCreateDefault() {
         assertEquals(0.0, measurement.getValue().doubleValue(), 0.01);
     }
     
-    public void testAddObject() {
+    @Test
+    void testAddObject() {
         measurement.add(new Object());
 
         assertEquals(1, measurement.getValue().intValue());
@@ -111,7 +120,8 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
         assertEquals(2, measurement.getValue().doubleValue(), 0.01);
     }
     
-    public void testAddNumber() {
+    @Test
+    void testAddNumber() {
         measurement.add(Double.valueOf(1));
 
         assertEquals(1, measurement.getValue().intValue());
@@ -124,7 +134,8 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
         assertEquals(1.5, measurement.getValue().doubleValue(), 0.01);
     }
     
-    public void testAddInt() {
+    @Test
+    void testAddInt() {
         measurement.add(1);
 
         assertEquals(1, measurement.getValue().intValue());
@@ -138,7 +149,8 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
         assertEquals(3, measurement.getValue().intValue());
     }
     
-    public void testAddFloat() {
+    @Test
+    void testAddFloat() {
         measurement.add(1.0);
 
         assertEquals(1, measurement.getValue().intValue());
@@ -152,7 +164,8 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
         assertEquals(1, measurement.getValue().intValue());
     }
 
-    public void testSubstract() {
+    @Test
+    void testSubstract() {
         measurement.add(-1);
 
         assertEquals(-1, measurement.getValue().intValue());
@@ -169,7 +182,8 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
         assertEquals(-0.5, measurement.getValue().doubleValue(), 0.01);
     }
 
-    public void testInUndefinedRange() {
+    @Test
+    void testInUndefinedRange() {
         assertTrue(measurement.isInRange());
 
         measurement.add(1);
@@ -181,7 +195,8 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
         assertTrue(measurement.isInRange());
     }
 
-    public void testInOpenRange() throws Exception {
+    @Test
+    void testInOpenRange() throws Exception {
         MeasurementDescriptor descriptor = new MeasurementDescriptor();
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
@@ -200,7 +215,8 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
         assertTrue(measurement.isInRange());
     }
 
-    public void testInLowerBoundRange() throws Exception {
+    @Test
+    void testInLowerBoundRange() throws Exception {
         MeasurementDescriptor descriptor = new MeasurementDescriptor();
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
@@ -220,7 +236,8 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
         assertTrue(measurement.isInRange());
     }
 
-    public void testInUpperBoundRange() throws Exception {
+    @Test
+    void testInUpperBoundRange() throws Exception {
         MeasurementDescriptor descriptor = new MeasurementDescriptor();
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
@@ -240,7 +257,8 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
         assertFalse(measurement.isInRange());
     }
 
-    public void testInBoundRange() throws Exception {
+    @Test
+    void testInBoundRange() throws Exception {
         MeasurementDescriptor descriptor = new MeasurementDescriptor();
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
@@ -261,25 +279,27 @@ public class TestCounterMeasurement extends TestCase implements MeasurementVisit
         assertFalse(measurement.isInRange());
     }
 
-    public void testAccept() {
-        visited = null;
-        measurement.accept(this);
-        assertSame(measurement, visited);
+    @Test
+    void testAccept() {
+        var visitor = context.mock(MeasurementVisitor.class);
+
+        context.checking(new Expectations() {{
+            oneOf (visitor).visitCounterMeasurement(measurement);
+        }});
+
+        measurement.accept(visitor);
     }
 
-    public void testEmpty() throws Exception {
-        assertTrue("Before Add()", measurement.isEmpty());
+    @Test
+    void testEmpty() {
+        assertTrue(measurement.isEmpty(), "Before Add()");
 
         measurement.add(1);
         
-        assertFalse("After Add(1)", measurement.isEmpty());
+        assertFalse(measurement.isEmpty(), "After Add(1)");
 
         measurement.add(-1);
         
-        assertFalse("After Add(-1)", measurement.isEmpty());
-    }
-
-    public void visitCounterMeasurement(CounterMeasurement measurement) {
-        visited = measurement;
+        assertFalse(measurement.isEmpty(), "After Add(-1)");
     }
 }

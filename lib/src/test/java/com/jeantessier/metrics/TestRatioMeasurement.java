@@ -32,27 +32,30 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.TestCase;
+import org.jmock.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
 
-public class TestRatioMeasurement extends TestCase implements MeasurementVisitor {
-    private MeasurementDescriptor descriptor;
-    private RatioMeasurement measurement;
-    private Metrics metrics;
-    private Measurement visited;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestRatioMeasurement {
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery();
     
-    private Measurement m1;
-    private Measurement m2;
+    private final Metrics metrics = new Metrics("foobar");
+    private final MeasurementDescriptor descriptor = new MeasurementDescriptor();
 
-    protected void setUp() throws Exception {
-        metrics = new Metrics("foobar");
+    private final Measurement m1 = new CounterMeasurement(null, metrics, null);
+    private final Measurement m2 = new CounterMeasurement(null, metrics, null);
 
-        m1 = new CounterMeasurement(null, metrics, null);
-        m2 = new CounterMeasurement(null, metrics, null);
+    private RatioMeasurement measurement;
 
+    @BeforeEach
+    void setUp() {
         metrics.track("base", m1);
         metrics.track("divider", m2);
 
-        descriptor = new MeasurementDescriptor();
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
         descriptor.setClassFor(RatioMeasurement.class);
@@ -60,7 +63,8 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
         descriptor.setCached(false);
     }
 
-    public void testMeasurementDescriptor() {
+    @Test
+    void testMeasurementDescriptor() {
         measurement = new RatioMeasurement(descriptor, metrics, "base\ndivider");
         
         assertNotNull(measurement.getDescriptor());
@@ -69,7 +73,8 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
         assertEquals("bar", measurement.getLongName());
     }
 
-    public void testCreateFromMeasurementDescriptor() throws Exception {
+    @Test
+    void testCreateFromMeasurementDescriptor() throws Exception {
         descriptor.setInitText(null);
 
         measurement = (RatioMeasurement) descriptor.createMeasurement();
@@ -86,7 +91,8 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
         assertTrue(Double.isNaN(measurement.getValue().doubleValue()));
     }
     
-    public void testCreateAndInitFromMeasurementDescriptor() throws Exception {
+    @Test
+    void testCreateAndInitFromMeasurementDescriptor() throws Exception {
         measurement = (RatioMeasurement) descriptor.createMeasurement();
         
         assertNotNull(measurement);
@@ -101,7 +107,8 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
         assertTrue(Double.isNaN(measurement.getValue().doubleValue()));
     }
 
-    public void testCreate() {
+    @Test
+    void testCreate() {
         measurement = new RatioMeasurement(null, null, null);
         
         assertNull(measurement.getBaseName());
@@ -152,7 +159,8 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
         assertEquals(StatisticalMeasurement.DISPOSE_AVERAGE, measurement.getDividerDispose());
     }
 
-    public void testStatistical() {
+    @Test
+    void testStatistical() {
         Metrics c  = new Metrics("foobar");
         Metrics m1 = new Metrics("foo");
         Metrics m2 = new Metrics("bar");
@@ -183,7 +191,8 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
         assertEquals(1.0, measurement.getValue().doubleValue(), 0.01);
     }
     
-    public void testNormal() throws Exception {
+    @Test
+    void testNormal() throws Exception {
         measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
         
         m1.add(10);
@@ -200,35 +209,38 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
         assertEquals(20 / 2, measurement.getValue().intValue());
     }
     
-    public void testDevideByZero() throws Exception {
+    @Test
+    void testDivideByZero() throws Exception {
         measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
         
-        assertTrue("0/0 not NaN", Double.isNaN(measurement.getValue().doubleValue()));
+        assertTrue(Double.isNaN(measurement.getValue().doubleValue()), "0/0 not NaN");
 
         m1.add(1);
 
-        assertTrue("1/0 not infitity", Double.isInfinite(measurement.getValue().doubleValue()));
+        assertTrue(Double.isInfinite(measurement.getValue().doubleValue()), "1/0 not infinity");
 
         m1.add(-2);
 
-        assertTrue("-1/0 not infitity", Double.isInfinite(measurement.getValue().doubleValue()));
+        assertTrue(Double.isInfinite(measurement.getValue().doubleValue()), "-1/0 not infinity");
     }
     
-    public void testZeroDevidedBy() throws Exception {
+    @Test
+    void testZeroDividedBy() throws Exception {
         measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
         
-        assertTrue("0/0 not NaN", Double.isNaN(measurement.getValue().doubleValue()));
+        assertTrue(Double.isNaN(measurement.getValue().doubleValue()), "0/0 not NaN");
 
         m2.add(1);
 
-        assertEquals("0/1 not zero", 0.0, measurement.getValue().doubleValue(), 0.01);
+        assertEquals(0.0, measurement.getValue().doubleValue(), 0.01, "0/1 not zero");
 
         m2.add(-2);
 
-        assertEquals("0/-1 not zero", 0.0, measurement.getValue().doubleValue(), 0.01);
+        assertEquals(0.0, measurement.getValue().doubleValue(), 0.01, "0/-1 not zero");
     }
 
-    public void testInUndefinedRange() throws Exception {
+    @Test
+    void testInUndefinedRange() throws Exception {
         measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
         
         m2.add(1);
@@ -244,7 +256,8 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
         assertTrue(measurement.isInRange());
     }
 
-    public void testInOpenRange() throws Exception {
+    @Test
+    void testInOpenRange() throws Exception {
         measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
         
         m2.add(1);
@@ -260,7 +273,8 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
         assertTrue(measurement.isInRange());
     }
 
-    public void testInLowerBoundRange() throws Exception {
+    @Test
+    void testInLowerBoundRange() throws Exception {
         descriptor.setLowerThreshold(1.0);
 
         measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
@@ -278,7 +292,8 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
         assertTrue(measurement.isInRange());
     }
 
-    public void testInUpperBoundRange() throws Exception {
+    @Test
+    void testInUpperBoundRange() throws Exception {
         descriptor.setUpperThreshold(1.5);
 
         measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
@@ -296,7 +311,8 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
         assertFalse(measurement.isInRange());
     }
 
-    public void testInBoundRange() throws Exception {
+    @Test
+    void testInBoundRange() throws Exception {
         descriptor.setLowerThreshold(1.0);
         descriptor.setUpperThreshold(1.5);
 
@@ -315,59 +331,62 @@ public class TestRatioMeasurement extends TestCase implements MeasurementVisitor
         assertFalse(measurement.isInRange());
     }
 
-    public void testCachedValue() throws Exception {
+    @Test
+    void testCachedValue() throws Exception {
         descriptor.setCached(true);
 
         measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
         
-        assertTrue("0/0 not NaN", Double.isNaN(measurement.getValue().doubleValue()));
+        assertTrue(Double.isNaN(measurement.getValue().doubleValue()), "0/0 not NaN");
 
         m2.add(1);
         
-        assertTrue("cached 0/0 not NaN", Double.isNaN(measurement.getValue().doubleValue()));
+        assertTrue(Double.isNaN(measurement.getValue().doubleValue()), "cached 0/0 not NaN");
     }
 
-    public void testAccept() throws Exception {
+    @Test
+    void testAccept() throws Exception {
         measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
         
-        visited = null;
-        measurement.accept(this);
-        assertSame(measurement, visited);
+        var visitor = context.mock(MeasurementVisitor.class);
+        
+        context.checking(new Expectations() {{
+            oneOf (visitor).visitRatioMeasurement(measurement);
+        }});
+        
+        measurement.accept(visitor);
     }
 
-    public void testEmpty() throws Exception {
+    @Test
+    void testEmpty() throws Exception {
         measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
 
-        assertEquals("base == 0", 0, m1.getValue().intValue());
-        assertEquals("divider == 0", 0, m2.getValue().intValue());
-        assertTrue("0/0", measurement.isEmpty());
+        assertEquals(0, m1.getValue().intValue(), "base == 0");
+        assertEquals(0, m2.getValue().intValue(), "divider == 0");
+        assertTrue(measurement.isEmpty(), "0/0");
 
         m1.add(1);
 
-        assertEquals("base != 1", 1, m1.getValue().intValue());
-        assertEquals("divider != 0", 0, m2.getValue().intValue());
-        assertTrue("1/0", measurement.isEmpty());
+        assertEquals(1, m1.getValue().intValue(), "base != 1");
+        assertEquals(0, m2.getValue().intValue(), "divider != 0");
+        assertTrue(measurement.isEmpty(), "1/0");
 
         m2.add(1);
 
-        assertEquals("base != 1", 1, m1.getValue().intValue());
-        assertEquals("divider != 1", 1, m2.getValue().intValue());
-        assertFalse("1/1", measurement.isEmpty());
+        assertEquals(1, m1.getValue().intValue(), "base != 1");
+        assertEquals(1, m2.getValue().intValue(), "divider != 1");
+        assertFalse(measurement.isEmpty(), "1/1");
 
         m1.add(-1);
 
-        assertEquals("base != 0", 0, m1.getValue().intValue());
-        assertEquals("divider != 1", 1, m2.getValue().intValue());
-        assertFalse("0/1", measurement.isEmpty());
+        assertEquals(0, m1.getValue().intValue(), "base != 0");
+        assertEquals(1, m2.getValue().intValue(), "divider != 1");
+        assertFalse(measurement.isEmpty(), "0/1");
 
         m2.add(-1);
 
-        assertEquals("base != 0", 0, m1.getValue().intValue());
-        assertEquals("divider != 0", 0, m2.getValue().intValue());
-        assertTrue("0/0", measurement.isEmpty());
-    }
-
-    public void visitRatioMeasurement(RatioMeasurement measurement) {
-        visited = measurement;
+        assertEquals(0, m1.getValue().intValue(), "base != 0");
+        assertEquals(0, m2.getValue().intValue(), "divider != 0");
+        assertTrue(measurement.isEmpty(), "0/0");
     }
 }

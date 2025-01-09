@@ -32,61 +32,56 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestMeasurementDescriptor extends TestCase {
-    private MeasurementDescriptor descriptor;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestMeasurementDescriptor {
+    private final MeasurementDescriptor descriptor = new MeasurementDescriptor();
     
-    protected void setUp() {
-        descriptor = new MeasurementDescriptor();
-    }
-    
-    public void testCreate() {
-        assertNull("descriptor.ShortName() not initialized to null", descriptor.getShortName());
-        assertNull("descriptor.LongName() not initialized to null", descriptor.getLongName());
-        assertNull("descriptor.Class() not initialized to null", descriptor.getClassFor());
+    @Test
+    void testCreate() {
+        assertNull(descriptor.getShortName());
+        assertNull(descriptor.getLongName());
+        assertNull(descriptor.getClassFor());
     }
 
-    public void testShortName() {
-        assertNull("descriptor.ShortName() not initialized to null", descriptor.getShortName());
+    @Test
+    void testShortName() {
+        assertNull(descriptor.getShortName());
         descriptor.setShortName("foo");
-        assertEquals("descriptor.ShortName()", "foo", descriptor.getShortName());
+        assertEquals("foo", descriptor.getShortName());
     }
     
-    public void testLongName() {
-        assertNull("descriptor.LongName() not initialized to null", descriptor.getLongName());
+    @Test
+    void testLongName() {
+        assertNull(descriptor.getLongName());
         descriptor.setLongName("bar");
-        assertEquals("descriptor.LongName()", "bar", descriptor.getLongName());
+        assertEquals("bar", descriptor.getLongName());
     }
 
-    public void testNonExistingClass() {
-        assertNull("descriptor.Class() not initialized to null", descriptor.getClassFor());
-        try {
-            descriptor.getClassForByName("nop such class");
-            fail("set class to non-existing class");
-        } catch (ClassNotFoundException ex) {
-            // Do nothing
-        }
+    @Test
+    void testNonExistingClass() {
+        assertNull(descriptor.getClassFor());
+        assertThrows(ClassNotFoundException.class, () -> descriptor.getClassForByName("no such class"));
     }
 
-    public void testNullClass() {
-        assertNull("descriptor.Class() not initialized to null", descriptor.getClassFor());
-        try {
-            descriptor.setClassFor(null);
-            fail("set class to null");
-        } catch (IllegalArgumentException ex) {
-            // Do nothing
-        }
+    @Test
+    void testNullClass() {
+        assertNull(descriptor.getClassFor());
+        assertThrows(IllegalArgumentException.class, () -> descriptor.setClassFor(null));
     }
     
-    public void testClass() {
-        assertNull("descriptor.Class() not initialized to null", descriptor.getClassFor());
-        descriptor.setClassFor(com.jeantessier.metrics.CounterMeasurement.class);
-        assertEquals("descriptor.Class()", com.jeantessier.metrics.CounterMeasurement.class, descriptor.getClassFor());
+    @Test
+    void testClass() {
+        assertNull(descriptor.getClassFor());
+        descriptor.setClassFor(CounterMeasurement.class);
+        assertEquals(CounterMeasurement.class, descriptor.getClassFor());
     }
 
-    public void testClassByName() throws ClassNotFoundException {
-        descriptor.getClassForByName(com.jeantessier.metrics.CounterMeasurement.class.getName());
-        assertEquals("descriptor.Class()", com.jeantessier.metrics.CounterMeasurement.class, descriptor.getClassFor());
+    @Test
+    void testClassByName() throws ClassNotFoundException {
+        descriptor.getClassForByName(CounterMeasurement.class.getName());
+        assertEquals(CounterMeasurement.class, descriptor.getClassFor());
     }
 }

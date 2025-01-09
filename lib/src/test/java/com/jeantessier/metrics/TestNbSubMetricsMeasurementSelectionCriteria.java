@@ -32,31 +32,30 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.TestCase;
 import org.apache.oro.text.perl.Perl5Util;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.*;
 
-public class TestNbSubMetricsMeasurementSelectionCriteria extends TestCase {
-    private Metrics metrics;
-    private MeasurementDescriptor descriptor;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
 
-    private Metrics m1;
-    private Metrics m2;
-    private Metrics m3;
-    private Metrics m4;
-    private Metrics m5;
-    private Metrics m6;
+public class TestNbSubMetricsMeasurementSelectionCriteria {
+    private final Metrics metrics = new Metrics("metrics");
+    private final MeasurementDescriptor descriptor = new MeasurementDescriptor();
+
+    private final Metrics m1 = new Metrics("m1");
+    private final Metrics m2 = new Metrics("m2");
+    private final Metrics m3 = new Metrics("m3");
+    private final Metrics m4 = new Metrics("m4");
+    private final Metrics m5 = new Metrics("m5");
+    private final Metrics m6 = new Metrics("m6");
     
-    protected void setUp() throws Exception {
-        m1 = new Metrics("m1");
-        m2 = new Metrics("m2");
-        m3 = new Metrics("m3");
-        m4 = new Metrics("m4");
-        m5 = new Metrics("m5");
-        m6 = new Metrics("m6");
-        
+    @BeforeEach
+    void setUp() throws Exception {
         MeasurementDescriptor present = new MeasurementDescriptor();
         present.setShortName("P");
         present.setLongName("present");
@@ -85,8 +84,6 @@ public class TestNbSubMetricsMeasurementSelectionCriteria extends TestCase {
         m6.track(counter.createMeasurement(m6));
         m6.addToMeasurement("C", 4);
 
-        metrics = new Metrics("metrics");
-        
         metrics.addSubMetrics(m1);
         metrics.addSubMetrics(m2);
         metrics.addSubMetrics(m3);
@@ -94,124 +91,112 @@ public class TestNbSubMetricsMeasurementSelectionCriteria extends TestCase {
         metrics.addSubMetrics(m5);
         metrics.addSubMetrics(m6);
 
-        descriptor = new MeasurementDescriptor();
         descriptor.setShortName("Nb");
         descriptor.setLongName("Number");
         descriptor.setClassFor(NbSubMetricsMeasurement.class);
     }
 
-    public void testDefault() throws Exception {
+    @Test
+    void testDefault() throws Exception {
         NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals("default", 6, measurement.getValue().intValue());
+        assertEquals(6, measurement.getValue().intValue(), "default");
     }
 
-    public void testPresence() throws Exception {
+    @Test
+    void testPresence() throws Exception {
         descriptor.setInitText("P");
 
         NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals("presence", 2, measurement.getValue().intValue());
+        assertEquals(2, measurement.getValue().intValue(), "presence");
     }
 
-    public void testLesserThan() throws Exception {
+    @Test
+    void testLesserThan() throws Exception {
         descriptor.setInitText("C < 3");
 
         NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals("lesser than", 3, measurement.getValue().intValue());
+        assertEquals(3, measurement.getValue().intValue(), "lesser than");
     }
 
-    public void testLesserThanOrEqual() throws Exception {
+    @Test
+    void testLesserThanOrEqual() throws Exception {
         descriptor.setInitText("C <= 3");
 
         NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals("lesser than or equal", 4, measurement.getValue().intValue());
+        assertEquals(4, measurement.getValue().intValue(), "lesser than or equal");
     }
 
-    public void testGreaterThan() throws Exception {
+    @Test
+    void testGreaterThan() throws Exception {
         descriptor.setInitText("C > 1");
 
         NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals("greater than", 3, measurement.getValue().intValue());
+        assertEquals(3, measurement.getValue().intValue(), "greater than");
     }
 
-    public void testGreaterThanOrEqual() throws Exception {
+    @Test
+    void testGreaterThanOrEqual() throws Exception {
         descriptor.setInitText("C >= 1");
 
         NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals("greater than or equal", 4, measurement.getValue().intValue());
+        assertEquals(4, measurement.getValue().intValue(), "greater than or equal");
     }
 
-    public void testEqual() throws Exception {
+    @Test
+    void testEqual() throws Exception {
         descriptor.setInitText("C == 1");
 
         NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals("equal", 1, measurement.getValue().intValue());
+        assertEquals(1, measurement.getValue().intValue(), "equal");
     }
 
-    public void testNotEqual() throws Exception {
+    @Test
+    void testNotEqual() throws Exception {
         descriptor.setInitText("C != 1");
 
         NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals("not equal", 4, measurement.getValue().intValue());
+        assertEquals(4, measurement.getValue().intValue(), "not equal");
     }
 
-    public void testAnd() throws Exception {
+    @Test
+    void testAnd() throws Exception {
         descriptor.setInitText("1 <= C <= 3");
 
         NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals("and", 3, measurement.getValue().intValue());
+        assertEquals(3, measurement.getValue().intValue(), "and");
     }
 
-    public void testOr() throws Exception {
+    @Test
+    void testOr() throws Exception {
         descriptor.setInitText("C == 1\nC == 2");
 
         NbSubMetricsMeasurement measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        assertEquals("or", 2, measurement.getValue().intValue());
+        assertEquals(2, measurement.getValue().intValue(), "or");
     }
 
-    public void testSplit() {
-        String operators = "/(<)|(<=)|(>)|(>=)|(==)|(!=)/";
-        Perl5Util perl = new org.apache.oro.text.perl.Perl5Util();
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                arguments("empty string", "", List.of()),
+                arguments("single name", "P", List.of("P")),
+                arguments("binary expression", "P > 0", List.of("P ", ">", " 0")),
+                arguments("trinary expression", "1 < P < 3", List.of("1 ", "<", " P ", "<", " 3")),
+                arguments("trinary expression with DISPOSE", "1 < P DISPOSE_MEAN < 3", List.of("1 ", "<", " P DISPOSE_MEAN ", "<", " 3"))
+        );
+    }
 
-        List<String> list = new ArrayList<>();
-        String       str;
+    @DisplayName("testSplit")
+    @ParameterizedTest(name="with {0} should return {2}")
+    @MethodSource("dataProvider")
+    void testSplit(String variation, String term, List<String> expectedTokens) {
+        // Given
+        var perl = new Perl5Util();
+        var operators = NbSubMetricsMeasurement.OPERATORS_REGULAR_EXPRESSION;
 
-        list.clear();
-        str = "";
-        perl.split(list, operators, str);
-        assertEquals("split(\"" + str + "\") expected [] but was " + list, 0, list.size());
+        // When
+        var actualTokens = new ArrayList<String>();
+        perl.split(actualTokens, operators, term);
 
-        list.clear();
-        str = "P";
-        perl.split(list, operators, str);
-        assertEquals("split(\"" + str + "\") expected [\"P\"] but was " + list, 1, list.size());
-        assertEquals("split(\"" + str + "\") expected [\"P\"] but was " + list, str, list.get(0));
-
-        list.clear();
-        str = "P > 0";
-        perl.split(list, operators, str);
-        assertEquals("split(\"" + str + "\") expected [\"P \", \">\", \" 0\"] but was " + list, 3, list.size());
-        assertEquals("split(\"" + str + "\") expected [\"P \", \">\", \" 0\"] but was " + list, "P ", list.get(0));
-        assertEquals("split(\"" + str + "\") expected [\"P \", \">\", \" 0\"] but was " + list, ">", list.get(1));
-        assertEquals("split(\"" + str + "\") expected [\"P \", \">\", \" 0\"] but was " + list, " 0", list.get(2));
-
-        list.clear();
-        str = "1 < P < 3";
-        perl.split(list, operators, str);
-        assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P \", \"<\", \" 3\"] but was " + list, 5, list.size());
-        assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P \", \"<\", \" 3\"] but was " + list, "1 ", list.get(0));
-        assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P \", \"<\", \" 3\"] but was " + list, "<", list.get(1));
-        assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P \", \"<\", \" 3\"] but was " + list, " P ", list.get(2));
-        assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P \", \"<\", \" 3\"] but was " + list, "<", list.get(3));
-        assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P \", \"<\", \" 3\"] but was " + list, " 3", list.get(4));
-
-        list.clear();
-        str = "1 < P DISPOSE_MEAN < 3";
-        perl.split(list, operators, str);
-        assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P DISPOSE_MEAN \", \"<\", \" 3\"] but was " + list, 5, list.size());
-        assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P DISPOSE_MEAN \", \"<\", \" 3\"] but was " + list, "1 ", list.get(0));
-        assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P DISPOSE_MEAN \", \"<\", \" 3\"] but was " + list, "<", list.get(1));
-        assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P DISPOSE_MEAN \", \"<\", \" 3\"] but was " + list, " P DISPOSE_MEAN ", list.get(2));
-        assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P DISPOSE_MEAN \", \"<\", \" 3\"] but was " + list, "<", list.get(3));
-        assertEquals("split(\"" + str + "\") expected [\"1 \", \"<\", \" P DISPOSE_MEAN \", \"<\", \" 3\"] but was " + list, " 3", list.get(4));
+        // Then
+        assertLinesMatch(expectedTokens, actualTokens);
     }
 }

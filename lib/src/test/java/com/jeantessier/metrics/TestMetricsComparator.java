@@ -32,57 +32,61 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestMetricsComparator extends TestCase {
-    public void testSortOn() {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestMetricsComparator {
+    @Test
+    void testSortOn() {
         MetricsComparator c = new MetricsComparator("foo", StatisticalMeasurement.DISPOSE_IGNORE);
 
-        assertEquals("c.Name()", "foo", c.getName());
-        assertEquals("c.Direction()", MetricsComparator.ASCENDING, c.getDirection());
+        assertEquals("foo", c.getName(), "name");
+        assertEquals(MetricsComparator.ASCENDING, c.getDirection(), "direction");
 
         c.sortOn("foo", StatisticalMeasurement.DISPOSE_IGNORE);
         
-        assertEquals("c.Name()", "foo", c.getName());
-        assertEquals("c.Direction()", MetricsComparator.DESCENDING, c.getDirection());
+        assertEquals("foo", c.getName(), "name");
+        assertEquals(MetricsComparator.DESCENDING, c.getDirection(), "direction");
         
         c.sortOn("foo", StatisticalMeasurement.DISPOSE_IGNORE);
         
-        assertEquals("c.Name()", "foo", c.getName());
-        assertEquals("c.Direction()", MetricsComparator.ASCENDING, c.getDirection());
+        assertEquals("foo", c.getName(), "name");
+        assertEquals(MetricsComparator.ASCENDING, c.getDirection(), "direction");
 
         c.sortOn("bar", StatisticalMeasurement.DISPOSE_IGNORE);
 
-        assertEquals("c.Name()", "bar", c.getName());
-        assertEquals("c.Direction()", MetricsComparator.ASCENDING, c.getDirection());
+        assertEquals("bar", c.getName(), "name");
+        assertEquals(MetricsComparator.ASCENDING, c.getDirection(), "direction");
 
         c.sortOn("bar", StatisticalMeasurement.DISPOSE_IGNORE);
 
-        assertEquals("c.Name()", "bar", c.getName());
-        assertEquals("c.Direction()", MetricsComparator.DESCENDING, c.getDirection());
+        assertEquals("bar", c.getName(), "name");
+        assertEquals(MetricsComparator.DESCENDING, c.getDirection(), "direction");
 
         c.sortOn("baz", StatisticalMeasurement.DISPOSE_IGNORE);
 
-        assertEquals("c.Name()", "baz", c.getName());
-        assertEquals("c.Direction()", MetricsComparator.ASCENDING, c.getDirection());
+        assertEquals("baz", c.getName(), "name");
+        assertEquals(MetricsComparator.ASCENDING, c.getDirection(), "direction");
 
         c.sortOn("foobar", StatisticalMeasurement.DISPOSE_IGNORE);
 
-        assertEquals("c.Name()", "foobar", c.getName());
-        assertEquals("c.Direction()", MetricsComparator.ASCENDING, c.getDirection());
+        assertEquals("foobar", c.getName(), "name");
+        assertEquals(MetricsComparator.ASCENDING, c.getDirection(), "direction");
 
         c.sortOn("foobar", StatisticalMeasurement.DISPOSE_IGNORE);
 
-        assertEquals("c.Name()", "foobar", c.getName());
-        assertEquals("c.Direction()", MetricsComparator.DESCENDING, c.getDirection());
+        assertEquals("foobar", c.getName(), "name");
+        assertEquals(MetricsComparator.DESCENDING, c.getDirection(), "direction");
 
         c.sortOn("foobar", StatisticalMeasurement.DISPOSE_MINIMUM);
 
-        assertEquals("c.Name()", "foobar", c.getName());
-        assertEquals("c.Direction()", MetricsComparator.ASCENDING, c.getDirection());
+        assertEquals("foobar", c.getName(), "name");
+        assertEquals(MetricsComparator.ASCENDING, c.getDirection(), "direction");
     }
     
-    public void testCompareTo() {
+    @Test
+    void testCompareTo() {
         Metrics m1 = new Metrics("m1");
         Metrics m2 = new Metrics("m2");
 
@@ -117,7 +121,8 @@ public class TestMetricsComparator extends TestCase {
         assertTrue(c3.compare(m1, m2) < 0);
     }
     
-    public void testCompareNaN() {
+    @Test
+    void testCompareNaN() {
         Metrics m1 = new Metrics("m1");
         Metrics m2 = new Metrics("m2");
 

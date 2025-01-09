@@ -32,50 +32,42 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestWordCounter extends TestCase {
-    private WordCounter counter;
+import static org.junit.jupiter.api.Assertions.*;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+public class TestWordCounter {
+    private final WordCounter counter = new WordCounter();
 
-        counter = new WordCounter();
+    @Test
+    void testNullPackageName() {
+        assertThrows(NullPointerException.class, () -> counter.countPackageName(null));
     }
 
-    public void testNullPackageName() {
-        try {
-            counter.countPackageName(null);
-            fail("Computed word count on package name null");
-        } catch (NullPointerException e) {
-            // Expected
-        }
+    @Test
+    void testEmptyPackageName() {
+        assertEquals(0, counter.countPackageName(""), "empty");
     }
 
-    public void testEmptyPackageName() {
-        assertEquals("empty", 0, counter.countPackageName(""));
+    @Test
+    void testOneCharPackageName() {
+        assertEquals(1, counter.countPackageName("p"), "p");
+        assertEquals(1, counter.countPackageName("P"), "P");
     }
 
-    public void testOneCharPackageName() {
-        assertEquals("p", 1, counter.countPackageName("p"));
-        assertEquals("P", 1, counter.countPackageName("P"));
+    @Test
+    void testNullIdentifier() {
+        assertThrows(NullPointerException.class, () -> counter.countIdentifier(null));
     }
 
-    public void testNullIdentifier() {
-        try {
-            counter.countIdentifier(null);
-            fail("Computed word count on identifier null");
-        } catch (NullPointerException e) {
-            // Expected
-        }
+    @Test
+    void testEmptyIdentifier() {
+        assertEquals(0, counter.countIdentifier(""), "empty");
     }
 
-    public void testEmptyIdentifier() {
-        assertEquals("empty", 0, counter.countIdentifier(""));
-    }
-
-    public void testOneCharIdentifier() {
-        assertEquals("p", 1, counter.countIdentifier("p"));
-        assertEquals("P", 1, counter.countIdentifier("P"));
+    @Test
+    void testOneCharIdentifier() {
+        assertEquals(1, counter.countIdentifier("p"), "p");
+        assertEquals(1, counter.countIdentifier("P"), "P");
     }
 }

@@ -32,25 +32,32 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.TestCase;
+import org.jmock.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
 
-public class TestNbSubMetricsMeasurement extends TestCase implements MeasurementVisitor {
-    private MeasurementDescriptor descriptor;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestNbSubMetricsMeasurement {
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery();
+
+    private final Metrics metrics = new Metrics("foo");
+    private final MeasurementDescriptor descriptor = new MeasurementDescriptor();
+
     private NbSubMetricsMeasurement measurement;
-    private Metrics metrics;
-    private Measurement visited;
     
-    protected void setUp() {
-        metrics = new Metrics("foo");
-
-        descriptor = new MeasurementDescriptor();
+    @BeforeEach
+    void setUp() {
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
         descriptor.setClassFor(NbSubMetricsMeasurement.class);
         descriptor.setCached(false);
     }
 
-    public void testCreateFromMeasurementDescriptor() throws Exception {
+    @Test
+    void testCreateFromMeasurementDescriptor() throws Exception {
         measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement();
         
         assertNotNull(measurement);
@@ -61,7 +68,8 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
         assertEquals("bar", measurement.getLongName());
     }
 
-    public void testAddSubMetrics() throws Exception {
+    @Test
+    void testAddSubMetrics() throws Exception {
         measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 
         assertEquals(0, measurement.getValue().intValue());
@@ -87,7 +95,8 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
         assertEquals(2, measurement.getValue().intValue());
     }
 
-    public void testInUndefinedRange() throws Exception {
+    @Test
+    void testInUndefinedRange() throws Exception {
         measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
         
         assertTrue(measurement.isInRange());
@@ -102,7 +111,8 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
         assertTrue(measurement.isInRange());
     }
 
-    public void testInOpenRange() throws Exception {
+    @Test
+    void testInOpenRange() throws Exception {
         measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
         
         assertTrue(measurement.isInRange());
@@ -117,7 +127,8 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
         assertTrue(measurement.isInRange());
     }
 
-    public void testInLowerBoundRange() throws Exception {
+    @Test
+    void testInLowerBoundRange() throws Exception {
         descriptor.setLowerThreshold(1.0);
 
         measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
@@ -134,7 +145,8 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
         assertTrue(measurement.isInRange());
     }
 
-    public void testInUpperBoundRange() throws Exception {
+    @Test
+    void testInUpperBoundRange() throws Exception {
         descriptor.setUpperThreshold(1.5);
 
         measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
@@ -151,7 +163,8 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
         assertFalse(measurement.isInRange());
     }
 
-    public void testInBoundRange() throws Exception {
+    @Test
+    void testInBoundRange() throws Exception {
         descriptor.setLowerThreshold(1.0);
         descriptor.setUpperThreshold(1.5);
 
@@ -169,39 +182,42 @@ public class TestNbSubMetricsMeasurement extends TestCase implements Measurement
         assertFalse(measurement.isInRange());
     }
 
-    public void testCachedValue() throws Exception {
+    @Test
+    void testCachedValue() throws Exception {
         descriptor.setCached(true);
 
         measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 
-        assertEquals("empty metrics", 0, measurement.getValue().intValue());
+        assertEquals(0, measurement.getValue().intValue(), "empty metrics");
         
         metrics.addSubMetrics(new Metrics("foo"));
         metrics.addSubMetrics(new Metrics("bar"));
         metrics.addSubMetrics(new Metrics("baz"));
 
-        assertEquals("empty metrics", 0, measurement.getValue().intValue());
+        assertEquals(0, measurement.getValue().intValue(), "empty metrics");
     }
 
-    public void testAccept() throws Exception {
+    @Test
+    void testAccept() throws Exception {
         measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
-        
-        visited = null;
-        measurement.accept(this);
-        assertSame(measurement, visited);
+
+        var visitor = context.mock(MeasurementVisitor.class);
+
+        context.checking(new Expectations() {{
+            oneOf (visitor).visitNbSubMetricsMeasurement(measurement);
+        }});
+
+        measurement.accept(visitor);
     }
 
-    public void testEmpty() throws Exception {
+    @Test
+    void testEmpty() throws Exception {
         measurement = (NbSubMetricsMeasurement) descriptor.createMeasurement(metrics);
 
-        assertTrue("Before AddSubMetrics()", measurement.isEmpty());
+        assertTrue(measurement.isEmpty(), "Before AddSubMetrics()");
         
         metrics.addSubMetrics(new Metrics("foo"));
 
-        assertFalse("After AddSubMetrics()", measurement.isEmpty());
-    }
-
-    public void visitNbSubMetricsMeasurement(NbSubMetricsMeasurement measurement) {
-        visited = measurement;
+        assertFalse(measurement.isEmpty(), "After AddSubMetrics()");
     }
 }

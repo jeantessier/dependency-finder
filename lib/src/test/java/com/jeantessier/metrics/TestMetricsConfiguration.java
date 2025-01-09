@@ -32,34 +32,32 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.*;
 
-import java.util.Collection;
+import java.util.*;
 
-public class TestMetricsConfiguration extends TestCase {
-    private MetricsConfiguration config;
-    private MeasurementDescriptor d1;
-    private MeasurementDescriptor d2;
-    
-    protected void setUp() {
-        config = new MetricsConfiguration();
+import static org.junit.jupiter.api.Assertions.*;
 
-        d1 = new MeasurementDescriptor();
-        d2 = new MeasurementDescriptor();
-    }
-    
-    public void testCreate() {
-        assertNotNull("ProjectMeasurements is null",  config.getProjectMeasurements());
-        assertTrue("ProjectMeasurements is not emty", config.getProjectMeasurements().isEmpty());
-        assertNotNull("GroupMeasurements is null",    config.getGroupMeasurements());
-        assertTrue("GroupMeasurements is not emty",   config.getGroupMeasurements().isEmpty());
-        assertNotNull("ClassMeasurements is null",    config.getClassMeasurements());
-        assertTrue("ClassMeasurements is not emty",   config.getClassMeasurements().isEmpty());
-        assertNotNull("MethodMeasurements is null",   config.getMethodMeasurements());
-        assertTrue("MethodMeasurements is not emty",  config.getMethodMeasurements().isEmpty());
+public class TestMetricsConfiguration {
+    private final MeasurementDescriptor d1 = new MeasurementDescriptor();
+    private final MeasurementDescriptor d2 = new MeasurementDescriptor();
+
+    private final MetricsConfiguration config = new MetricsConfiguration();
+
+    @Test
+    void testCreate() {
+        assertNotNull(config.getProjectMeasurements(), "ProjectMeasurements is null");
+        assertTrue(config.getProjectMeasurements().isEmpty(), "ProjectMeasurements is not emty");
+        assertNotNull(config.getGroupMeasurements(), "GroupMeasurements is null");
+        assertTrue(config.getGroupMeasurements().isEmpty(), "GroupMeasurements is not emty");
+        assertNotNull(config.getClassMeasurements(), "ClassMeasurements is null");
+        assertTrue(config.getClassMeasurements().isEmpty(), "ClassMeasurements is not emty");
+        assertNotNull(config.getMethodMeasurements(), "MethodMeasurements is null");
+        assertTrue(config.getMethodMeasurements().isEmpty(), "MethodMeasurements is not emty");
     }
 
-    public void testAddProjectMeasurement() {
+    @Test
+    void testAddProjectMeasurement() {
         assertEquals(0, config.getProjectMeasurements().size());
 
         config.addProjectMeasurement(d1);
@@ -74,7 +72,8 @@ public class TestMetricsConfiguration extends TestCase {
         assertEquals(d2, config.getProjectMeasurements().get(1));
     }
 
-    public void testAddGroupMeasurement() {
+    @Test
+    void testAddGroupMeasurement() {
         assertEquals(0, config.getGroupMeasurements().size());
 
         config.addGroupMeasurement(d1);
@@ -89,7 +88,8 @@ public class TestMetricsConfiguration extends TestCase {
         assertEquals(d2, config.getGroupMeasurements().get(1));
     }
 
-    public void testAddClassMeasurement() {
+    @Test
+    void testAddClassMeasurement() {
         assertEquals(0, config.getClassMeasurements().size());
 
         config.addClassMeasurement(d1);
@@ -104,7 +104,8 @@ public class TestMetricsConfiguration extends TestCase {
         assertEquals(d2, config.getClassMeasurements().get(1));
     }
 
-    public void testAddMethodMeasurement() {
+    @Test
+    void testAddMethodMeasurement() {
         assertEquals(0, config.getMethodMeasurements().size());
 
         config.addMethodMeasurement(d1);
@@ -119,7 +120,8 @@ public class TestMetricsConfiguration extends TestCase {
         assertEquals(d2, config.getMethodMeasurements().get(1));
     }
 
-    public void testGroupDefinitions() {
+    @Test
+    void testGroupDefinitions() {
         Collection<String> groups;
 
         groups = config.getGroups("foobar");
@@ -143,7 +145,8 @@ public class TestMetricsConfiguration extends TestCase {
         assertTrue(groups.contains("bar"));
     }
 
-    public void testGroupDefinitionsWithMultipleREs() {
+    @Test
+    void testGroupDefinitionsWithMultipleREs() {
         Collection<String> groups;
 
         groups = config.getGroups("foobar");

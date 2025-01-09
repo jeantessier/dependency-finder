@@ -32,17 +32,21 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.TestCase;
+import org.jmock.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
 
-public class TestNameListMeasurement extends TestCase implements MeasurementVisitor {
-    private NameListMeasurement measurement;
-    private Measurement visited;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestNameListMeasurement {
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery();
     
-    protected void setUp() {
-        measurement = new NameListMeasurement(null, null, null);
-    }
-
-    public void testMeasurementDescriptor() throws Exception {
+    private NameListMeasurement measurement = new NameListMeasurement(null, null, null);
+    
+    @Test
+    void testMeasurementDescriptor() throws Exception {
         MeasurementDescriptor descriptor = new MeasurementDescriptor();
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
@@ -56,7 +60,8 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
         assertEquals("bar", measurement.getLongName());
     }
 
-    public void testCreateFromMeasurementDescriptor() throws Exception {
+    @Test
+    void testCreateFromMeasurementDescriptor() throws Exception {
         MeasurementDescriptor descriptor = new MeasurementDescriptor();
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
@@ -72,7 +77,8 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
         assertEquals("bar", measurement.getLongName());
     }
 
-    public void testCreateSet() {
+    @Test
+    void testCreateSet() {
         measurement = new NameListMeasurement(null, null, "SET");
 
         measurement.add("abc");
@@ -81,7 +87,8 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
         assertEquals(1, measurement.getValue().intValue());
     }
     
-    public void testCreateList() {
+    @Test
+    void testCreateList() {
         measurement = new NameListMeasurement(null, null, "LIST");
 
         measurement.add("abc");
@@ -90,107 +97,109 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
         assertEquals(2, measurement.getValue().intValue());
     }
 
-    public void testCreateDefault() {
+    @Test
+    void testCreateDefault() {
         measurement.add("abc");
         measurement.add("abc");
 
         assertEquals(1, measurement.getValue().intValue());
     }
 
-    public void testAddObject() {
+    @Test
+    void testAddObject() {
         Object o = new Object();
 
-        assertEquals("zero", 0, measurement.getValue().intValue());
-        assertEquals("zero", 0.0, measurement.getValue().doubleValue(), 0.01);
-        assertEquals("zero", 0, measurement.getValue().intValue());
-        assertEquals("zero", 0, measurement.getValues().size());
-        assertTrue("zero", measurement.isEmpty());
+        assertEquals(0, measurement.getValue().intValue(), "zero");
+        assertEquals(0.0, measurement.getValue().doubleValue(), 0.01, "zero");
+        assertEquals(0, measurement.getValue().intValue(), "zero");
+        assertEquals(0, measurement.getValues().size(), "zero");
+        assertTrue(measurement.isEmpty(), "zero");
 
         measurement.add(o);
 
-        assertEquals("one", 0, measurement.getValue().intValue());
-        assertEquals("one", 0.0, measurement.getValue().doubleValue(), 0.01);
-        assertEquals("one", 0, measurement.getValue().intValue());
-        assertEquals("zero", 0, measurement.getValues().size());
-        assertTrue("zero", measurement.isEmpty());
+        assertEquals(0, measurement.getValue().intValue(), "one");
+        assertEquals(0.0, measurement.getValue().doubleValue(), 0.01, "one");
+        assertEquals(0, measurement.getValue().intValue(), "one");
+        assertEquals(0, measurement.getValues().size(), "zero");
+        assertTrue(measurement.isEmpty(), "zero");
     }
 
-    public void testAddString() {
+    @Test
+    void testAddString() {
         String s1 = "foo";
         String s2 = "bar";
 
-        assertEquals("zero", 0, measurement.getValue().intValue());
-        assertEquals("zero", 0.0, measurement.getValue().doubleValue(), 0.01);
-        assertEquals("zero", 0, measurement.getValue().intValue());
+        assertEquals(0, measurement.getValue().intValue(), "zero");
+        assertEquals(0.0, measurement.getValue().doubleValue(), 0.01, "zero");
+        assertEquals(0, measurement.getValue().intValue(), "zero");
 
         measurement.add(s1);
-        assertEquals("one", 1, measurement.getValue().intValue());
-        assertEquals("one", 1.0, measurement.getValue().doubleValue(), 0.01);
-        assertEquals("one", 1, measurement.getValue().intValue());
+        assertEquals(1, measurement.getValue().intValue(), "one");
+        assertEquals(1.0, measurement.getValue().doubleValue(), 0.01, "one");
+        assertEquals(1, measurement.getValue().intValue(), "one");
 
         measurement.add(s2);
-        assertEquals("two", 2, measurement.getValue().intValue());
-        assertEquals("two", 2.0, measurement.getValue().doubleValue(), 0.01);
-        assertEquals("two", 2, measurement.getValue().intValue());
+        assertEquals(2, measurement.getValue().intValue(), "two");
+        assertEquals(2.0, measurement.getValue().doubleValue(), 0.01, "two");
+        assertEquals(2, measurement.getValue().intValue(), "two");
 
         measurement.add(s1);
-        assertEquals("three", 2, measurement.getValue().intValue());
-        assertEquals("three", 2.0, measurement.getValue().doubleValue(), 0.01);
-        assertEquals("three", 2, measurement.getValue().intValue());
+        assertEquals(2, measurement.getValue().intValue(), "three");
+        assertEquals(2.0, measurement.getValue().doubleValue(), 0.01, "three");
+        assertEquals(2, measurement.getValue().intValue(), "three");
     }
 
-    public void testValues() {
+    @Test
+    void testValues() {
         String s1 = "foo";
         String s2 = "bar";
 
         measurement.add(s1);
         measurement.add(s2);
 
-        assertEquals("size", 2, measurement.getValues().size());
-        assertTrue("Missing s1", measurement.getValues().contains(s1));
-        assertTrue("Missing s2", measurement.getValues().contains(s2));
+        assertEquals(2, measurement.getValues().size(), "size");
+        assertTrue(measurement.getValues().contains(s1), "Missing s1");
+        assertTrue(measurement.getValues().contains(s2), "Missing s2");
 
-        try {
-            measurement.getValues().add(s2);
-            fail("Was allowed to modify the Values() collection");
-        } catch (UnsupportedOperationException ex) {
-            // Ignore
-        }
+        assertThrows(UnsupportedOperationException.class, () -> measurement.getValues().remove(s2));
     }
 
-    public void testAddInt() {
-        assertEquals("zero", 0, measurement.getValue().intValue());
-        assertEquals("zero", 0.0, measurement.getValue().doubleValue(), 0.01);
-        assertEquals("zero", 0, measurement.getValue().intValue());
+    @Test
+    void testAddInt() {
+        assertEquals(0, measurement.getValue().intValue(), "zero");
+        assertEquals(0.0, measurement.getValue().doubleValue(), 0.01, "zero");
+        assertEquals(0, measurement.getValue().intValue(), "zero");
 
         measurement.add(1);
-        assertEquals("one", 0, measurement.getValue().intValue());
-        assertEquals("one", 0.0, measurement.getValue().doubleValue(), 0.01);
-        assertEquals("one", 0, measurement.getValue().intValue());
+        assertEquals(0, measurement.getValue().intValue(), "one");
+        assertEquals(0.0, measurement.getValue().doubleValue(), 0.01, "one");
+        assertEquals(0, measurement.getValue().intValue(), "one");
 
         measurement.add(1);
-        assertEquals("two", 0, measurement.getValue().intValue());
-        assertEquals("two", 0.0, measurement.getValue().doubleValue(), 0.01);
-        assertEquals("two", 0, measurement.getValue().intValue());
+        assertEquals(0, measurement.getValue().intValue(), "two");
+        assertEquals(0.0, measurement.getValue().doubleValue(), 0.01, "two");
+        assertEquals(0, measurement.getValue().intValue(), "two");
     }
 
-    public void testAddFloat() {
-        assertEquals("zero", 0, measurement.getValue().intValue());
-        assertEquals("zero", 0.0, measurement.getValue().doubleValue(), 0.01);
-        assertEquals("zero", 0, measurement.getValue().intValue());
+    @Test
+    void testAddFloat() {
+        assertEquals(0, measurement.getValue().intValue(), "zero");
+        assertEquals(0.0, measurement.getValue().doubleValue(), 0.01, "zero");
+        assertEquals(0, measurement.getValue().intValue(), "zero");
 
         measurement.add(1.0);
-        assertEquals("one", 0, measurement.getValue().intValue());
-        assertEquals("one", 0.0, measurement.getValue().doubleValue(), 0.01);
-        assertEquals("one", 0, measurement.getValue().intValue());
+        assertEquals(0, measurement.getValue().intValue(), "one");
+        assertEquals(0.0, measurement.getValue().doubleValue(), 0.01, "one");
+        assertEquals(0, measurement.getValue().intValue(), "one");
 
         measurement.add(1.0);
-        assertEquals("two", 0, measurement.getValue().intValue());
-        assertEquals("two", 0.0, measurement.getValue().doubleValue(), 0.01);
-        assertEquals("two", 0, measurement.getValue().intValue());
+        assertEquals(0, measurement.getValue().intValue(), "two");
+        assertEquals(0.0, measurement.getValue().doubleValue(), 0.01, "two");
+        assertEquals(0, measurement.getValue().intValue(), "two");
     }
 
-    public void testInUndefinedRange() {
+    @Test
+    void testInUndefinedRange() {
         assertTrue(measurement.isInRange());
 
         measurement.add("foo");
@@ -203,7 +212,8 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
         assertTrue(measurement.isInRange());
     }
 
-    public void testInOpenRange() throws Exception {
+    @Test
+    void testInOpenRange() throws Exception {
         MeasurementDescriptor descriptor = new MeasurementDescriptor();
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
@@ -223,7 +233,8 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
         assertTrue(measurement.isInRange());
     }
 
-    public void testInLowerBoundRange() throws Exception {
+    @Test
+    void testInLowerBoundRange() throws Exception {
         MeasurementDescriptor descriptor = new MeasurementDescriptor();
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
@@ -244,7 +255,8 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
         assertTrue(measurement.isInRange());
     }
 
-    public void testInUpperBoundRange() throws Exception {
+    @Test
+    void testInUpperBoundRange() throws Exception {
         MeasurementDescriptor descriptor = new MeasurementDescriptor();
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
@@ -265,7 +277,8 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
         assertFalse(measurement.isInRange());
     }
 
-    public void testInBoundRange() throws Exception {
+    @Test
+    void testInBoundRange() throws Exception {
         MeasurementDescriptor descriptor = new MeasurementDescriptor();
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
@@ -287,13 +300,19 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
         assertFalse(measurement.isInRange());
     }
 
-    public void testAccept() {
-        visited = null;
-        measurement.accept(this);
-        assertSame(measurement, visited);
+    @Test
+    void testAccept() {
+        var visitor = context.mock(MeasurementVisitor.class);
+        
+        context.checking(new Expectations() {{
+            oneOf (visitor).visitNameListMeasurement(measurement);
+        }});
+        
+        measurement.accept(visitor);
     }
 
-    public void testEmpty() throws Exception {
+    @Test
+    void testEmpty() throws Exception {
         MeasurementDescriptor descriptor = new MeasurementDescriptor();
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
@@ -301,14 +320,10 @@ public class TestNameListMeasurement extends TestCase implements MeasurementVisi
 
         measurement = (NameListMeasurement) descriptor.createMeasurement();
         
-        assertTrue("Before Add()", measurement.isEmpty());
+        assertTrue(measurement.isEmpty(), "Before Add()");
 
         measurement.add("foo");
 
-        assertFalse("After Add()", measurement.isEmpty());
-    }
-
-    public void visitNameListMeasurement(NameListMeasurement measurement) {
-        visited = measurement;
+        assertFalse(measurement.isEmpty(), "After Add()");
     }
 }

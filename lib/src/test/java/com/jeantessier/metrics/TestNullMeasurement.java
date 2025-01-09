@@ -32,39 +32,45 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
 
-public class TestNullMeasurement extends TestCase implements MeasurementVisitor {
-    private NullMeasurement measurement;
-    private Measurement visited;
-    
-    protected void setUp() {
-        measurement = new NullMeasurement();
-    }
-    
-    public void testMeasurementDescriptor() {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestNullMeasurement {
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery();
+
+    private final NullMeasurement measurement = new NullMeasurement();
+
+    @Test
+    void testMeasurementDescriptor() {
         assertNull(measurement.getDescriptor());
         assertNull(measurement.getShortName());
         assertNull(measurement.getLongName());
     }
 
-    public void testAdd() {
+    @Test
+    void testAdd() {
         measurement.add(null);
         measurement.add(new Object());
         measurement.add(measurement);
     }
 
-    public void testEmpty() {
-        assertTrue("Before Add()", measurement.isEmpty());
+    @Test
+    void testEmpty() {
+        assertTrue(measurement.isEmpty(), "Before Add()");
 
         measurement.add(new Object());
 
-        assertTrue("After Add()", measurement.isEmpty());
+        assertTrue(measurement.isEmpty(), "After Add()");
     }
 
-    public void testAccept() {
-        visited = null;
-        measurement.accept(this);
-        assertNull(visited);
+    @Test
+    void testAccept() {
+        var visitor = context.mock(MeasurementVisitor.class);
+
+        measurement.accept(visitor);
     }
 }

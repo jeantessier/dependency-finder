@@ -32,38 +32,40 @@
 
 package com.jeantessier.metrics;
 
-import junit.framework.*;
+import org.jmock.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
 
-public class TestSubMetricsAccumulatorMeasurement extends TestCase implements MeasurementVisitor {
-    private MeasurementDescriptor descriptor;
-    private AccumulatorMeasurement measurement;
-    private Metrics metrics;
-    private Measurement visited;
+import static org.junit.jupiter.api.Assertions.*;
 
-    private MeasurementDescriptor nameList;
-    private MeasurementDescriptor numberList;
-    private MeasurementDescriptor counter;
+public class TestSubMetricsAccumulatorMeasurement {
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery();
+    
+    private final Metrics metrics = new Metrics("metrics");
+    private final MeasurementDescriptor descriptor = new MeasurementDescriptor();
 
-    private Metrics m1;
-    private Metrics m2;
-    private Metrics m3;
+    private final MeasurementDescriptor nameList = new MeasurementDescriptor();
+    private final MeasurementDescriptor numberList = new MeasurementDescriptor();
+    private final MeasurementDescriptor counter = new MeasurementDescriptor();
 
-    protected void setUp() throws Exception {
-        m1 = new Metrics("m1");
-        m2 = new Metrics("m2");
-        m3 = new Metrics("m3");
+    private final Metrics m1 = new Metrics("m1");
+    private final Metrics m2 = new Metrics("m2");
+    private final Metrics m3 = new Metrics("m3");
 
-        nameList = new MeasurementDescriptor();
+    private SubMetricsAccumulatorMeasurement measurement;
+
+    @BeforeEach
+    void setUp() throws Exception {
         nameList.setShortName("NL");
         nameList.setLongName("name list");
         nameList.setClassFor(NameListMeasurement.class);
 
-        numberList = new MeasurementDescriptor();
         numberList.setShortName("NbL");
         numberList.setLongName("number list");
         numberList.setClassFor(NameListMeasurement.class);
 
-        counter = new MeasurementDescriptor();
         counter.setShortName("NL");
         counter.setLongName("counter");
         counter.setClassFor(CounterMeasurement.class);
@@ -89,17 +91,15 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
         m3.track(counter.createMeasurement(m3));
         m3.addToMeasurement("NL", 1);
 
-        metrics = new Metrics("metrics");
-
-        descriptor = new MeasurementDescriptor();
         descriptor.setShortName("foo");
         descriptor.setLongName("bar");
         descriptor.setClassFor(SubMetricsAccumulatorMeasurement.class);
         descriptor.setCached(false);
     }
 
-    public void testCreateFromMeasurementDescriptor() throws Exception {
-        measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
+    @Test
+    void testCreateFromMeasurementDescriptor() throws Exception {
+        measurement = (SubMetricsAccumulatorMeasurement) descriptor.createMeasurement(metrics);
 
         assertNotNull(measurement);
         assertEquals(descriptor, measurement.getDescriptor());
@@ -109,8 +109,9 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
         assertEquals("bar", measurement.getLongName());
     }
 
-    public void testNullInit() throws Exception {
-        measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
+    @Test
+    void testNullInit() throws Exception {
+        measurement = (SubMetricsAccumulatorMeasurement) descriptor.createMeasurement(metrics);
         assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
@@ -122,10 +123,11 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
         assertTrue(measurement.getValues().isEmpty());
     }
 
-    public void testEmptyInit() throws Exception {
+    @Test
+    void testEmptyInit() throws Exception {
         descriptor.setInitText("");
 
-        measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
+        measurement = (SubMetricsAccumulatorMeasurement) descriptor.createMeasurement(metrics);
         assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
@@ -137,10 +139,11 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
         assertTrue(measurement.getValues().isEmpty());
     }
 
-    public void testRawValues() throws Exception {
+    @Test
+    void testRawValues() throws Exception {
         descriptor.setInitText("NL");
 
-        measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
+        measurement = (SubMetricsAccumulatorMeasurement) descriptor.createMeasurement(metrics);
         assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
@@ -149,17 +152,18 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
         metrics.addSubMetrics(m3);
 
         assertEquals(4, measurement.getValue().intValue());
-        assertTrue("\"abc\" not in " + measurement.getValues(), measurement.getValues().contains("abc"));
-        assertTrue("\"def\" not in " + measurement.getValues(), measurement.getValues().contains("def"));
-        assertTrue("\"ghi\" not in " + measurement.getValues(), measurement.getValues().contains("ghi"));
-        assertTrue("\"jkl\" not in " + measurement.getValues(), measurement.getValues().contains("jkl"));
+        assertTrue(measurement.getValues().contains("abc"), "\"abc\" not in " + measurement.getValues());
+        assertTrue(measurement.getValues().contains("def"), "\"def\" not in " + measurement.getValues());
+        assertTrue(measurement.getValues().contains("ghi"), "\"ghi\" not in " + measurement.getValues());
+        assertTrue(measurement.getValues().contains("jkl"), "\"jkl\" not in " + measurement.getValues());
     }
 
-    public void testCachedValues() throws Exception {
+    @Test
+    void testCachedValues() throws Exception {
         descriptor.setInitText("NL");
         descriptor.setCached(true);
 
-        measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
+        measurement = (SubMetricsAccumulatorMeasurement) descriptor.createMeasurement(metrics);
         assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
@@ -171,10 +175,11 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
         assertTrue(measurement.getValues().isEmpty());
     }
 
-    public void testSingleFiltered() throws Exception {
+    @Test
+    void testSingleFiltered() throws Exception {
         descriptor.setInitText("NL /a/");
 
-        measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
+        measurement = (SubMetricsAccumulatorMeasurement) descriptor.createMeasurement(metrics);
         assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
@@ -183,13 +188,14 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
         metrics.addSubMetrics(m3);
 
         assertEquals(1, measurement.getValue().intValue());
-        assertTrue("\"abc\" not in " + measurement.getValues(), measurement.getValues().contains("abc"));
+        assertTrue(measurement.getValues().contains("abc"), "\"abc\" not in " + measurement.getValues());
     }
 
-    public void testMultiFilterFiltered() throws Exception {
+    @Test
+    void testMultiFilterFiltered() throws Exception {
         descriptor.setInitText("NL /a/\nNL /k/");
 
-        measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
+        measurement = (SubMetricsAccumulatorMeasurement) descriptor.createMeasurement(metrics);
         assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
@@ -198,14 +204,15 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
         metrics.addSubMetrics(m3);
 
         assertEquals(2, measurement.getValue().intValue());
-        assertTrue("\"abc\" not in " + measurement.getValues(), measurement.getValues().contains("abc"));
-        assertTrue("\"jkl\" not in " + measurement.getValues(), measurement.getValues().contains("jkl"));
+        assertTrue(measurement.getValues().contains("abc"), "\"abc\" not in " + measurement.getValues());
+        assertTrue(measurement.getValues().contains("jkl"), "\"jkl\" not in " + measurement.getValues());
     }
 
-    public void testModifiedValues() throws Exception {
+    @Test
+    void testModifiedValues() throws Exception {
         descriptor.setInitText("NL /(a)/");
 
-        measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
+        measurement = (SubMetricsAccumulatorMeasurement) descriptor.createMeasurement(metrics);
         assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
@@ -214,13 +221,14 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
         metrics.addSubMetrics(m3);
 
         assertEquals(1, measurement.getValue().intValue());
-        assertTrue("\"a\" not in " + measurement.getValues(), measurement.getValues().contains("a"));
+        assertTrue(measurement.getValues().contains("a"), "\"a\" not in " + measurement.getValues());
     }
 
-    public void testMultiMeasurements() throws Exception {
+    @Test
+    void testMultiMeasurements() throws Exception {
         descriptor.setInitText("NL /a/\nNbL /2/");
 
-        measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
+        measurement = (SubMetricsAccumulatorMeasurement) descriptor.createMeasurement(metrics);
         assertEquals(0, measurement.getValue().intValue());
         assertTrue(measurement.getValues().isEmpty());
 
@@ -229,37 +237,39 @@ public class TestSubMetricsAccumulatorMeasurement extends TestCase implements Me
         metrics.addSubMetrics(m3);
 
         assertEquals(3, measurement.getValue().intValue());
-        assertTrue("\"abc\" not in " + measurement.getValues(), measurement.getValues().contains("abc"));
-        assertTrue("\"123\" not in " + measurement.getValues(), measurement.getValues().contains("123"));
-        assertTrue("\"248\" not in " + measurement.getValues(), measurement.getValues().contains("248"));
+        assertTrue(measurement.getValues().contains("abc"), "\"abc\" not in " + measurement.getValues());
+        assertTrue(measurement.getValues().contains("123"), "\"123\" not in " + measurement.getValues());
+        assertTrue(measurement.getValues().contains("248"), "\"248\" not in " + measurement.getValues());
     }
 
-    public void testAccept() throws Exception {
-        measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
+    @Test
+    void testAccept() throws Exception {
+        measurement = (SubMetricsAccumulatorMeasurement) descriptor.createMeasurement(metrics);
 
-        visited = null;
-        measurement.accept(this);
-        assertSame(measurement, visited);
+        var visitor = context.mock(MeasurementVisitor.class);
+
+        context.checking(new Expectations() {{
+            oneOf (visitor).visitSubMetricsAccumulatorMeasurement(measurement);
+        }});
+
+        measurement.accept(visitor);
     }
 
-    public void testEmpty() throws Exception {
+    @Test
+    void testEmpty() throws Exception {
         descriptor.setInitText("NL");
 
-        measurement = (AccumulatorMeasurement) descriptor.createMeasurement(metrics);
+        measurement = (SubMetricsAccumulatorMeasurement) descriptor.createMeasurement(metrics);
         metrics.track(nameList.createMeasurement(metrics));
 
         Metrics submetrics = new Metrics("submetrics");
         submetrics.track(nameList.createMeasurement(submetrics));
         metrics.addSubMetrics(submetrics);
         
-        assertTrue("Before Add()", measurement.isEmpty());
+        assertTrue(measurement.isEmpty(), "Before Add()");
 
         submetrics.addToMeasurement("NL", "foo");
 
-        assertFalse("After Add()", measurement.isEmpty());
-    }
-
-    public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
-        visited = measurement;
+        assertFalse(measurement.isEmpty(), "After Add()");
     }
 }
